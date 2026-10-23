@@ -19,6 +19,10 @@
   "scripts": {
     "lint": "tsc --noEmit && eslint ."
   },
+  "dependencies": {
+    "@bxel/document": "workspace:*",
+    "zod": "^4.0.0"
+  },
   "devDependencies": {
     "@drizztdourden08/brock-lint-config": "^0.68.6",
     "@types/node": "catalog:",

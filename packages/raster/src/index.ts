@@ -1,11 +1,17 @@
 /* @layer core @kind barrel */
 export type * from './brush.type';
 export type * from './buffer.type';
+export type * from './commands/schema/pixels-options.type';
 export type * from './fill.type';
 export type * from './geometry.type';
 export type * from './paint.type';
 export type * from './symmetry.type';
 export { brushStamp } from './brush-stamp';
+export { rasterCommands } from './commands/raster-commands';
+export { pixelsEraseSchema } from './commands/schema/pixels-erase-schema';
+export { pixelsFillSchema } from './commands/schema/pixels-fill-schema';
+export { pixelsPaintSchema } from './commands/schema/pixels-paint-schema';
+export { pixelsShapeSchema } from './commands/schema/pixels-shape-schema';
 export { drawShape } from './draw-shape';
 export { ellipseFill } from './ellipse-fill';
 export { ellipseOutline } from './ellipse-outline';
