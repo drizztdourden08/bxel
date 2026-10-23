@@ -13,6 +13,8 @@ import { appWidgetKits } from '../.brock/widget-kits';
 import { appReview } from '../.brock/review';
 import { appTitleBar } from '../.brock/title-bar';
 import { appTours } from '../.brock/tours';
+import { FILE_COMMANDS } from './files/file-commands.constants';
+import { FILE_MENU } from './files/file-menu.constants';
 import { SETTINGS } from './main.constants';
 import { product } from './product';
 import type { AppSettings } from './settings.type';
@@ -34,6 +36,8 @@ createRoot(root).render(
       review={appReview}
       titleBar={appTitleBar}
       tours={appTours}
+      commands={FILE_COMMANDS}
+      menu={FILE_MENU}
     />
   </StrictMode>,
 );
