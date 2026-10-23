@@ -34,3 +34,4 @@ release/
 **/public/logos/mark.svg
 
 .mcp.json
+!apps/desktop/.brock/
