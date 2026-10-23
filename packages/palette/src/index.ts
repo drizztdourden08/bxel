@@ -19,6 +19,7 @@ export { mapToPalette } from './map-to-palette';
 export type * from './palette-map.type';
 export type * from './palette-report.type';
 export { paletteCommands } from './commands/palette-commands';
+export { PALETTE_COMMAND_NAME } from './commands/palette-command-name.constants';
 export { parseHex } from './parse-hex';
 export type * from './remap.type';
 export { REMAP_SIZE } from './remap-size.constants';
