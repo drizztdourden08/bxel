@@ -14,6 +14,7 @@ type EngineOptions = {
   readonly ids: IdSource;
   readonly commands: readonly CommandDef[];
   readonly limits?: HistoryLimits;
+  readonly unsaved?: boolean;
 };
 
 type Engine = {

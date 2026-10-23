@@ -17,7 +17,7 @@ const createEngine = (options: EngineOptions): Engine => {
     revision: options.state.revision,
     project: options.state.project,
     ids: options.ids,
-    history: emptyHistory(),
+    history: options.unsaved === true ? { ...emptyHistory(), savedCursor: null } : emptyHistory(),
     nextEntryId: 1,
   };
   return {

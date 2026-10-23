@@ -2,6 +2,7 @@
 import { Flex } from '@drizztdourden08/tessera';
 import { EditorCanvas } from '../EditorCanvas';
 import { EditorStatus } from '../EditorStatus';
+import { RecoveryDialog } from '../RecoveryDialog';
 import { ToolRail } from '../ToolRail';
 import { useEditorKeys } from './behavior/useEditorKeys';
 import './EditorScreen.css';
@@ -15,6 +16,7 @@ const EditorScreen = () => {
         <EditorCanvas />
       </Flex>
       <EditorStatus />
+      <RecoveryDialog />
     </Flex>
   );
 };

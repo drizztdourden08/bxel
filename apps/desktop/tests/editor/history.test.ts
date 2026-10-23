@@ -65,8 +65,9 @@ describe('undo and redo', () => {
 
   it('names the title bar items by what is left to do', () => {
     expect(historyItem('undo', true)).toMatchObject({ label: 'Undo', icon: 'undo-2', shortcut: 'Ctrl+Z' });
-    expect(historyItem('undo', false).label).toBe('Nothing to undo');
+    expect(historyItem('undo', false)).toMatchObject({ label: 'Nothing to undo', disabled: true });
+    expect(historyItem('undo', true).disabled).toBe(false);
     expect(historyItem('redo', true)).toMatchObject({ label: 'Redo', icon: 'redo-2' });
-    expect(historyItem('redo', false).label).toBe('Nothing to redo');
+    expect(historyItem('redo', false)).toMatchObject({ label: 'Nothing to redo', disabled: true });
   });
 });

@@ -50,6 +50,13 @@ const memoryDocuments = (): Memory => {
         return Promise.resolve();
       },
       writeText: () => Promise.reject(new Error('Text writes are not used')),
+      recent: () => Promise.resolve([]),
+      clearRecent: () => Promise.resolve(),
+      openRecent: (path) => Promise.resolve(path),
+      snapshot: () => Promise.resolve(),
+      recoverable: () => Promise.resolve([]),
+      restoreSnapshot: () => Promise.resolve(null),
+      discardSnapshot: () => Promise.resolve(),
     },
   };
   return memory;

@@ -11,6 +11,7 @@ const historyItem = (direction: HistoryDirection, available: boolean): TitleBarB
     label: available ? item.ready : item.empty,
     icon: item.icon,
     shortcut: item.shortcut,
+    disabled: !available,
     onSelect: () => stepHistory(direction),
   };
 };

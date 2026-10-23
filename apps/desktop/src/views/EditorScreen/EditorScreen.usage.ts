@@ -14,6 +14,7 @@ const usage = {
   rules: [
     'The screen takes no props and owns the layout and the key handling only.',
     'The palette is a widget docked beside it, not a part of this screen.',
+    'It also hosts the start-up question about unsaved work, which draws over the editor only when recovery copies exist.',
     'It handles Ctrl+Z, Ctrl+Y and Ctrl+Shift+Z itself so no toast listener takes them.',
   ],
   a11y: [

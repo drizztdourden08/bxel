@@ -25,8 +25,8 @@ const createDocumentHost = (options: DocumentHostOptions = {}): DocumentHost => 
       if (!created.ok) return { ok: false, error: created.error };
       return { ok: true, documentId: attachEngine(store, created.state) };
     },
-    open: ({ project, readOnly }) =>
-      attachEngine(store, { documentId: store.ids.next('doc') as DocumentId, revision: 1, project, readOnly }),
+    open: ({ project, readOnly, unsaved }) =>
+      attachEngine(store, { documentId: store.ids.next('doc') as DocumentId, revision: 1, project, readOnly }, unsaved === true),
     close: (documentId) => closeEntry(store, documentId),
     list: () => [...store.entries.keys()],
     view: (documentId) => store.entries.get(documentId)?.view ?? null,

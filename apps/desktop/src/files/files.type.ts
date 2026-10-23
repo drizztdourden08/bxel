@@ -34,6 +34,11 @@ type FileActionKind = FileAction['kind'];
 
 type FileBusy = 'saving' | 'opening' | 'exporting';
 
+type RecentActions = {
+  readonly open: (path: string) => void;
+  readonly clear: () => void;
+};
+
 type ReadResult = { readonly report: LoadReport } | { readonly message: string };
 
-export type { FileAction, FileActionKind, FileBusy, FileKit, FileOutcome, PathBook, ReadResult };
+export type { FileAction, FileActionKind, FileBusy, FileKit, FileOutcome, PathBook, ReadResult, RecentActions };

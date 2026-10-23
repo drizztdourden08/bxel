@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { toast } from '@drizztdourden08/brock-react';
+import { toast, useRecentDocumentsStore } from '@drizztdourden08/brock-react';
 import { useDocumentStore } from '../stores/useDocumentStore';
 import { useFileStore } from '../stores/useFileStore';
 import { failed } from './failed';
@@ -8,6 +8,7 @@ import { BUSY_OF, FILE_TEXT } from './files.constants';
 import type { FileAction, FileOutcome } from './files.type';
 import { performAction } from './perform-action';
 import { reasonOf } from './reason-of';
+import { recordsRecent } from './records-recent';
 import { reportOutcome } from './report-outcome';
 
 const attempt = async (action: FileAction): Promise<FileOutcome> => {
@@ -28,7 +29,9 @@ const runFileAction = async (action: FileAction): Promise<void> => {
   }
   files.setBusy(BUSY_OF[action.kind]);
   try {
-    reportOutcome(await attempt(action), action);
+    const outcome = await attempt(action);
+    reportOutcome(outcome, action);
+    if (recordsRecent(action, outcome)) void useRecentDocumentsStore.getState().refresh();
   } finally {
     files.setBusy(null);
   }
