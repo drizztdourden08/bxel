@@ -23,6 +23,9 @@
     "duplicates": "jscpd ."
   },
   "dependencies": {
+    "@bxel/document": "workspace:*",
+    "@bxel/palette": "workspace:*",
+    "@bxel/raster": "workspace:*",
     "@drizztdourden08/brock-core": "^0.68.6",
     "@drizztdourden08/brock-electron": "^0.68.6",
     "@drizztdourden08/brock-react": "^0.68.6",
