@@ -1,0 +1,10 @@
+/* @layer core @kind logic */
+import type { CommandDef } from './command-def.type';
+import { pixelsPatch } from './pixels/pixels-patch';
+import { projectUpdate } from './project/project-update';
+import { spriteCreate } from './sprite/sprite-create';
+import { spriteUpdate } from './sprite/sprite-update';
+
+const documentCommands: readonly CommandDef[] = [projectUpdate, spriteCreate, spriteUpdate, pixelsPatch];
+
+export { documentCommands };
