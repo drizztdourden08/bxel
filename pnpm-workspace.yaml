@@ -1,0 +1,29 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+  - 'tooling/*'
+catalog:
+  '@drizztdourden08/tessera': ^0.46.1
+  '@electron-toolkit/utils': ^4.0.0
+  '@types/node': ^24.19.0
+  '@types/react': ^19.2.15
+  '@types/react-dom': ^19.2.3
+  '@vitejs/plugin-react': ^5.2.0
+  electron: ^42.2.0
+  electron-builder: ^26.8.1
+  electron-vite: ^5.0.0
+  eslint: ^10.4.0
+  jscpd: ^4.0.5
+  knip: ^5.65.0
+  markdownlint-cli2: ^0.22.1
+  react: ^19.2.6
+  react-dom: ^19.2.6
+  stylelint: ^17.13.0
+  stylelint-config-standard: ^40.0.0
+  typescript: ^6.0.3
+  velopack: ^1.2.158
+  vite: ^7.3.3
+  zustand: ^5.0.13
+onlyBuiltDependencies:
+  - electron
+  - esbuild

@@ -1,0 +1,29 @@
+{
+  "name": "bxel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@drizztdourden08/brock-lint-config": "^0.68.6",
+    "@drizztdourden08/brock-build": "^0.68.6",
+    "@drizztdourden08/brock-thread": "^0.68.6",
+    "knip": "^5.65.0",
+    "jscpd": "^4.0.5"
+  },
+  "scripts": {
+    "lint": "eslint . && stylelint \"**/*.css\" --ignore-path .gitignore --allow-empty-input && brock prose && brock knip && jscpd .",
+    "lint:md": "markdownlint-cli2",
+    "structure": "brock structure --check",
+    "prose": "brock prose",
+    "deadcode": "brock knip",
+    "duplicates": "jscpd .",
+    "postinstall": "node bin/bxel.mjs --link"
+  },
+  "brock": {
+    "version": "0.68.6"
+  },
+  "packageManager": "pnpm@10.17.0",
+  "bin": {
+    "bxel": "./bin/bxel.mjs"
+  }
+}
