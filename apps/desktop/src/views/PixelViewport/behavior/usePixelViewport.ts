@@ -1,0 +1,37 @@
+/* @layer renderer-app @kind hook */
+import { useMemo, useRef } from 'react';
+import { PIXEL_GRID_FROM, PIXEL_ZOOM_STEPS } from '../PixelViewport.constants';
+import type { PixelViewportProps } from '../PixelViewport.type';
+import type { ViewportModel } from './viewport.type';
+import { fitZoom } from './fit-zoom';
+import { useBoxSize } from './useBoxSize';
+import { useFrame } from './useFrame';
+import { useViewportHandle } from './useViewportHandle';
+import { useViewportInput } from './useViewportInput';
+import { useViewState } from './useViewState';
+import { useWheel } from './useWheel';
+import { useZoomAnnounce } from './useZoomAnnounce';
+import { zoomLevels } from './zoom-levels';
+
+const usePixelViewport = (props: PixelViewportProps): ViewportModel => {
+  const { width, height, zoomSteps = PIXEL_ZOOM_STEPS, grid = true, gridFrom = PIXEL_GRID_FROM, wheel = 'zoom' } = props;
+  const rootRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const box = useBoxSize(rootRef);
+  const image = useMemo(() => ({ width: Math.max(1, width), height: Math.max(1, height) }), [width, height]);
+  const fit = fitZoom(image, box);
+  const levels = useMemo(() => zoomLevels(zoomSteps, fit), [zoomSteps, fit]);
+  const view = useViewState({ image, box, levels, zoom: props.zoom, pan: props.pan, onZoomChange: props.onZoomChange, onPanChange: props.onPanChange });
+  const parts = { rootRef, canvasRef, view, box, image };
+  const redraw = useFrame(rootRef, canvasRef, { target: view.target, box, image, draw: props.draw, source: props.source, gridFrom: grid ? gridFrom : null });
+  useWheel(rootRef, view, box, wheel);
+  useViewportHandle(props.ref, parts, redraw);
+  return {
+    rootRef,
+    canvasRef,
+    handlers: useViewportInput(parts, props),
+    announcement: useZoomAnnounce(rootRef, view.target.zoom),
+  };
+};
+
+export { usePixelViewport };

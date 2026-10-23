@@ -1,0 +1,45 @@
+/* @layer renderer-app @kind style */
+.pixel-viewport {
+  position: relative;
+  overflow: hidden;
+  min-block-size: var(--size-128);
+  border-radius: var(--radius-md);
+  background: var(--c-sunken);
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+.pixel-viewport:focus-visible {
+  outline: var(--border-width-thick) solid var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thick));
+}
+
+.pixel-viewport[data-grab] {
+  cursor: grab;
+}
+
+.pixel-viewport[data-panning] {
+  cursor: grabbing;
+}
+
+.pixel-viewport__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  image-rendering: pixelated;
+}
+
+.pixel-viewport__status {
+  position: absolute;
+  inline-size: var(--size-1);
+  block-size: var(--size-1);
+  margin: calc(-1 * var(--size-1));
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
