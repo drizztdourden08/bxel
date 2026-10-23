@@ -1,0 +1,28 @@
+{
+  "name": "@bxel/palette",
+  "version": "0.1.0",
+  "description": "Bxel's palette engine: colour counting, extraction, nearest and ordered-dither mapping, remap tables and usage reports.",
+  "type": "module",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=24"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "lint": "tsc --noEmit && eslint ."
+  },
+  "devDependencies": {
+    "@drizztdourden08/brock-lint-config": "^0.68.6",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}
