@@ -3,7 +3,8 @@ import { defineScreens } from '@drizztdourden08/brock-react';
 
 export default defineScreens({
   buckets: [
-    { id: 'game', title: 'Game', icon: 'gamepad-2', menu: 'entry' },
+    { id: 'app', title: 'App', icon: 'settings', menu: 'entry' },
   ],
-  home: 'game',
+  home: 'app',
+  settings: { bucket: 'app', page: 'general' },
 });

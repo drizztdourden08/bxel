@@ -2,22 +2,16 @@
 import { buildScreenTree, lazyComponent } from '@drizztdourden08/brock-react';
 import config from '../src/screens/screens.config';
 import { searchIndex } from './search';
+import AppGeneralSettings, { meta as appGeneralSettingsMeta } from '../src/screens/app/general.settings';
+import { meta as appStoragePageMeta } from '../src/screens/app/storage.page';
 import { meta as creditsCardMeta } from '../src/screens/credits.card';
-import { meta as gameControlsCustomMeta } from '../src/screens/game/controls.custom';
-import GameGeneralSettings, { meta as gameGeneralSettingsMeta } from '../src/screens/game/general.settings';
-import { meta as gameHomeHeroMeta } from '../src/screens/game/home.hero';
-import { meta as gameSavesNewSubMeta } from '../src/screens/game/saves/new.sub';
-import { meta as gameSavesPageMeta } from '../src/screens/game/saves.page';
-import { meta as gameStoragePageMeta } from '../src/screens/game/storage.page';
+import { meta as editorBaseMeta } from '../src/screens/editor.base';
 
 const screenTree = buildScreenTree(config, [
+  { kind: 'settings', bucket: 'app', id: 'general', sections: AppGeneralSettings, meta: appGeneralSettingsMeta },
+  { kind: 'page', bucket: 'app', id: 'storage', component: lazyComponent(() => import('../src/screens/app/storage.page')), meta: appStoragePageMeta },
   { kind: 'card', id: 'credits', component: lazyComponent(() => import('../src/screens/credits.card')), meta: creditsCardMeta },
-  { kind: 'custom', bucket: 'game', id: 'controls', component: lazyComponent(() => import('../src/screens/game/controls.custom')), meta: gameControlsCustomMeta },
-  { kind: 'settings', bucket: 'game', id: 'general', sections: GameGeneralSettings, meta: gameGeneralSettingsMeta },
-  { kind: 'hero', bucket: 'game', id: 'home', component: lazyComponent(() => import('../src/screens/game/home.hero')), meta: gameHomeHeroMeta },
-  { kind: 'sub', bucket: 'game', page: 'saves', id: 'new', component: lazyComponent(() => import('../src/screens/game/saves/new.sub')), meta: gameSavesNewSubMeta },
-  { kind: 'page', bucket: 'game', id: 'saves', component: lazyComponent(() => import('../src/screens/game/saves.page')), meta: gameSavesPageMeta },
-  { kind: 'page', bucket: 'game', id: 'storage', component: lazyComponent(() => import('../src/screens/game/storage.page')), meta: gameStoragePageMeta },
+  { kind: 'base', id: 'editor', component: lazyComponent(() => import('../src/screens/editor.base')), meta: editorBaseMeta },
 ], searchIndex);
 
 export { screenTree };

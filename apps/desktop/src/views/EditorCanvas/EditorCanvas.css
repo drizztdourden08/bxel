@@ -1,0 +1,11 @@
+/* @layer renderer-app @kind style */
+.editor-canvas {
+  display: flex;
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 0;
+}
+
+.editor-canvas__viewport {
+  flex: 1;
+}

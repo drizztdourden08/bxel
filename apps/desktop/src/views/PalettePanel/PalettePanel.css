@@ -1,0 +1,4 @@
+/* @layer renderer-app @kind style */
+.palette-panel__swatch {
+  --swatch-size: var(--size-40);
+}

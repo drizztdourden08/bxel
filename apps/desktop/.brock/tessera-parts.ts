@@ -5,7 +5,12 @@ declare module '@drizztdourden08/tessera' {
   interface TesseraApps {
     'bxel': {
       parts:
-        | 'PixelViewport';
+        | 'EditorCanvas'
+        | 'EditorScreen'
+        | 'EditorStatus'
+        | 'PalettePanel'
+        | 'PixelViewport'
+        | 'ToolRail';
     };
   }
 }
