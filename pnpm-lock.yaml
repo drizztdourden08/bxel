@@ -203,6 +203,25 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
+  packages/formats:
+    dependencies:
+      fflate:
+        specifier: ^0.8.3
+        version: 0.8.3
+    devDependencies:
+      '@drizztdourden08/brock-lint-config':
+        specifier: ^0.68.6
+        version: 0.68.6(@types/node@24.19.2)(eslint@10.13.0(jiti@2.7.0))(markdownlint-cli2@0.22.1)(stylelint@17.16.0(typescript@6.0.3))(typescript@6.0.3)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.19.2
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(jiti@2.7.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+
   packages/palette:
     dependencies:
       '@bxel/document':
@@ -425,11 +444,6 @@ packages:
       eslint: ^10.0.0
       markdownlint-cli2: ^0.22.0
       stylelint: ^17.0.0
-    peerDependenciesMeta:
-      markdownlint-cli2:
-        optional: true
-      stylelint:
-        optional: true
 
   '@drizztdourden08/brock-react@0.68.6':
     resolution: {integrity: sha512-r1wRDvK4/UMVnr7mDGT4yHzd35Fi96fVrkUNGCnlNFz3yyyuWu3Oafyxo7Cs+b2Ph9nOm40Y4q6my6+iAOz38A==, tarball: https://npm.pkg.github.com/download/@drizztdourden08/brock-react/0.68.6/5e2fa43a23299340e9ce03b4ca24856df5e07574}
@@ -461,11 +475,6 @@ packages:
       eslint: ^10.0.0
       stylelint: ^17.0.0
       typescript: ^6.0.0
-    peerDependenciesMeta:
-      stylelint:
-        optional: true
-      typescript:
-        optional: true
 
   '@drizztdourden08/tessera@0.46.4':
     resolution: {integrity: sha512-vn/12icJlpTeLL8cHNcGmTyUrOrAhVTidxU4Gdm9oVX9MkgAjY7B2mBchn5acG/NGAoZw6OzPyw3fBxyEIYJ5Q==, tarball: https://npm.pkg.github.com/download/@drizztdourden08/tessera/0.46.4/e46c24523dcf5f8894c92e050ea1de16dd09bcb6}
@@ -3988,7 +3997,6 @@ snapshots:
     dependencies:
       '@drizztdourden08/standards': 0.11.0(@types/node@24.19.2)(eslint@10.13.0(jiti@2.7.0))(stylelint@17.16.0(typescript@6.0.3))(typescript@6.0.3)
       eslint: 10.13.0(jiti@2.7.0)
-    optionalDependencies:
       markdownlint-cli2: 0.22.1
       stylelint: 17.16.0(typescript@6.0.3)
     transitivePeerDependencies:
@@ -4035,11 +4043,10 @@ snapshots:
       jscpd: 4.3.0
       knip: 5.88.1(@types/node@24.19.2)(typescript@6.0.3)
       markdownlint-cli2: 0.22.1
-      stylelint-config-standard: 40.0.0(stylelint@17.16.0(typescript@6.0.3))
-      typescript-eslint: 8.72.0(eslint@10.13.0(jiti@2.7.0))(typescript@6.0.3)
-    optionalDependencies:
       stylelint: 17.16.0(typescript@6.0.3)
+      stylelint-config-standard: 40.0.0(stylelint@17.16.0(typescript@6.0.3))
       typescript: 6.0.3
+      typescript-eslint: 8.72.0(eslint@10.13.0(jiti@2.7.0))(typescript@6.0.3)
     transitivePeerDependencies:
       - '@types/node'
       - supports-color
@@ -5854,7 +5861,7 @@ snapshots:
       es6-error: 4.1.1
       matcher: 3.0.0
       roarr: 2.15.4
-      semver: 7.7.4
+      semver: 7.8.5
       serialize-error: 7.0.1
     optional: true
 
@@ -6679,11 +6686,11 @@ snapshots:
 
   node-abi@4.39.0:
     dependencies:
-      semver: 7.7.4
+      semver: 7.8.5
 
   node-api-version@0.2.1:
     dependencies:
-      semver: 7.7.4
+      semver: 7.8.5
 
   node-gyp@12.4.0:
     dependencies:
@@ -6692,7 +6699,7 @@ snapshots:
       graceful-fs: 4.2.11
       nopt: 9.0.0
       proc-log: 6.1.0
-      semver: 7.7.4
+      semver: 7.8.5
       tar: 7.5.22
       tinyglobby: 0.2.17
       undici: 6.29.1
