@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { drawShape } from '../../packages/raster/src/index';
-import type { Point } from '../../packages/raster/src/index';
+import { drawShape } from '@bxel/raster';
+import type { Point } from '@bxel/raster';
 import { blankBuffer } from './blank-buffer';
 import { toRows } from './to-rows';
 

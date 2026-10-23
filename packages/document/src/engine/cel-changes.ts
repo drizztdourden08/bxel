@@ -6,7 +6,7 @@ import type { Cel, Sprite } from '../model/sprite.type';
 import { diffBounds } from '../pixels/diff-bounds';
 
 const changedRect = (prior: Cel | undefined, cel: Cel, sprite: Sprite): Rect | null => {
-  if (!prior || prior.pixels.length !== cel.pixels.length) {
+  if (prior?.pixels.length !== cel.pixels.length) {
     return { x: 0, y: 0, width: sprite.width, height: sprite.height };
   }
   if (prior.pixels === cel.pixels) return null;

@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { brushStamp } from '../../packages/raster/src/index';
-import type { BrushShape } from '../../packages/raster/src/index';
+import { brushStamp } from '@bxel/raster';
+import type { BrushShape } from '@bxel/raster';
 import { toRows } from './to-rows';
 
 const render = (shape: BrushShape, size: number): string[] => {

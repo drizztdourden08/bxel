@@ -1,5 +1,5 @@
 /* @layer tests @kind logic */
-import type { BufferView } from '../../packages/raster/src/index';
+import type { BufferView } from '@bxel/raster';
 
 const fromRows = (rows: readonly string[]): BufferView => {
   const width = rows[0]?.length ?? 0;

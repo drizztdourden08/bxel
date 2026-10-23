@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { pixelPerfect, strokePoints } from '../../packages/raster/src/index';
-import type { Point } from '../../packages/raster/src/index';
+import { pixelPerfect, strokePoints } from '@bxel/raster';
+import type { Point } from '@bxel/raster';
 import { plotPoints } from './plot-points';
 
 const at = (x: number, y: number): Point => ({ x, y });

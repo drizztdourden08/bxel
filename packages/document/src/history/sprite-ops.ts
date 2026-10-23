@@ -15,7 +15,7 @@ const celOps = (before: Sprite, after: Sprite): UndoOp[] => {
   for (const id of ids) {
     const prior = before.cels[id as CelId];
     const current = after.cels[id as CelId];
-    const changed = prior === undefined || current === undefined || prior.pixels.length !== current.pixels.length;
+    const changed = prior?.pixels.length !== current?.pixels.length;
     if (changed) ops.push({ kind: 'entity', path: `${CEL_PREFIX}${after.id}:${id}`, before: prior, after: current });
   }
   return ops;

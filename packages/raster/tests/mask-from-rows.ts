@@ -1,5 +1,5 @@
 /* @layer tests @kind logic */
-import type { MaskView } from '../../packages/raster/src/index';
+import type { MaskView } from '@bxel/raster';
 
 const maskFromRows = (rows: readonly string[]): MaskView => {
   const width = rows[0]?.length ?? 0;

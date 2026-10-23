@@ -66,7 +66,9 @@ describe('geometry tables on a 3 x 2 sprite', () => {
     expect(flipPivot(flipPivot(pivot, size, 'vertical'), size, 'vertical')).toEqual(pivot);
     expect(turnPivot(turnPivot(pivot, size, 'half'), size, 'half')).toEqual(pivot);
   });
+});
 
+describe('geometry buffers and rectangles', () => {
   it('moves a buffer to the turned layout without losing a pixel', () => {
     const source = Uint8Array.from([1, 2, 3, 4, 5, 6]);
     const target = new Uint8Array(6);

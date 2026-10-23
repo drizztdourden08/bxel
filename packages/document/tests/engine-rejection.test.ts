@@ -59,7 +59,9 @@ describe('rejection without mutation', () => {
     expect(error.code).toBe('UNKNOWN_COMMAND');
     expect(error.path).toBe('steps.0.name');
   });
+});
 
+describe('rejection of bad options and targets', () => {
   it('points at the bad option path', () => {
     const step: CommandStep = {
       ...patchStep(6),

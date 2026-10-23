@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { paintStroke } from '../../packages/raster/src/index';
-import type { Brush, Point } from '../../packages/raster/src/index';
+import { paintStroke } from '@bxel/raster';
+import type { Brush, Point } from '@bxel/raster';
 import { blankBuffer } from './blank-buffer';
 import { fromRows } from './from-rows';
 import { maskFromRows } from './mask-from-rows';

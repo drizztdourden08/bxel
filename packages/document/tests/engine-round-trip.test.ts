@@ -73,7 +73,7 @@ describe('project.create', () => {
     expect(state.project.sprites[0]?.pivot).toEqual({ x2: 8, y2: 8 });
     expect(state.documentId).toBe('doc_000009');
     const first = state.project.banks[0]?.slots[1];
-    expect(first && first.kind === 'color' ? first.rgb : null).toBe('#140b26');
+    expect(first?.kind === 'color' ? first.rgb : null).toBe('#140b26');
   });
 
   it('labels slot 0 Background in an opaque bank', () => {
@@ -82,11 +82,11 @@ describe('project.create', () => {
     expect(result.ok).toBe(true);
     if (!result.ok) return;
     const slot = result.state.project.banks[0]?.slots[0];
-    expect(slot && slot.kind === 'color' ? slot.name : null).toBe('Night');
+    expect(slot?.kind === 'color' ? slot.name : null).toBe('Night');
     const unnamed = { ...options, bank: { ...options.bank, transparent: false, colors: [{ rgb: '#000000' }] } };
     const second = projectCreate({ options: unnamed, ids: counterIdSource() });
     const background = second.ok ? second.state.project.banks[0]?.slots[0] : undefined;
-    expect(background && background.kind === 'color' ? background.name : null).toBe('Background');
+    expect(background?.kind === 'color' ? background.name : null).toBe('Background');
   });
 
   it('rejects bad input with the contract codes and consumes no ids', () => {

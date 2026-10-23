@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { BAYER_MATRICES } from './bayer-matrices.data';
+import { BAYER_MATRICES } from './bayer-matrices';
 import { DITHER_SPREAD_DEFAULT } from './dither-spread.constants';
 import type { DitherOptions, DitherPlan } from './palette-map.type';
 

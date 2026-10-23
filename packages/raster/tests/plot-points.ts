@@ -1,5 +1,5 @@
 /* @layer tests @kind logic */
-import type { Point } from '../../packages/raster/src/index';
+import type { Point } from '@bxel/raster';
 import { blankBuffer } from './blank-buffer';
 import { toRows } from './to-rows';
 

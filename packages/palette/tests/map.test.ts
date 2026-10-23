@@ -50,7 +50,9 @@ describe('mapToPalette', () => {
     ]);
     expect([...mapToPalette(image, { palette, transparent: false }).pixels]).toEqual([0, 4]);
   });
+});
 
+describe('mapToPalette thresholds and edge cases', () => {
   it('applies the alpha threshold', () => {
     const image = makeImage(2, [
       [255, 0, 0, 127],

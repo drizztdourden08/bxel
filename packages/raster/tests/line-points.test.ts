@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { linePoints } from '../../packages/raster/src/index';
-import type { Point } from '../../packages/raster/src/index';
+import { linePoints } from '@bxel/raster';
+import type { Point } from '@bxel/raster';
 import { plotPoints } from './plot-points';
 
 type LineCase = { readonly name: string; readonly from: Point; readonly to: Point; readonly rows: readonly string[] };
@@ -39,7 +39,7 @@ describe('line points', () => {
     expect(plotPoints(backward, 7, 3)).toEqual(['11.....', '..111..', '.....11']);
   });
 
-  test('no gaps: every step moves at most one pixel on each axis, in any direction', () => {
+  test('every line from the centre has the right length and end points', () => {
     for (let x = 0; x <= 12; x++) {
       for (let y = 0; y <= 12; y++) {
         const points = linePoints({ from: { x: 6, y: 6 }, to: { x, y } });
@@ -49,6 +49,9 @@ describe('line points', () => {
         expect(points.at(-1)).toEqual({ x, y });
       }
     }
+  });
+
+  test('no gaps: every step moves at most one pixel on each axis', () => {
     const steps = linePoints({ from: { x: 1, y: 9 }, to: { x: 40, y: 3 } });
     for (let i = 1; i < steps.length; i++) {
       expect(Math.abs((steps[i]?.x ?? 0) - (steps[i - 1]?.x ?? 0))).toBeLessThanOrEqual(1);

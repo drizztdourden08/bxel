@@ -1,16 +1,18 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { strokePoints } from '../../packages/raster/src/index';
+import { strokePoints } from '@bxel/raster';
 import { plotPoints } from './plot-points';
+
+const POLYLINE = [
+  { x: 0, y: 0 },
+  { x: 3, y: 0 },
+  { x: 3, y: 4 },
+  { x: 7, y: 1 },
+];
 
 describe('stroke points', () => {
   test('a polyline is interpolated with no gaps', () => {
-    const path = strokePoints([
-      { x: 0, y: 0 },
-      { x: 3, y: 0 },
-      { x: 3, y: 4 },
-      { x: 7, y: 1 },
-    ]);
+    const path = strokePoints(POLYLINE);
     expect(plotPoints(path, 8, 6)).toEqual([
       '1111....',
       '...1...1',
@@ -22,12 +24,7 @@ describe('stroke points', () => {
   });
 
   test('a joint between two segments is not repeated', () => {
-    const path = strokePoints([
-      { x: 0, y: 0 },
-      { x: 3, y: 0 },
-      { x: 3, y: 4 },
-      { x: 7, y: 1 },
-    ]);
+    const path = strokePoints(POLYLINE);
     expect(path).toHaveLength(12);
     for (let i = 1; i < path.length; i++) {
       expect(path[i]).not.toEqual(path[i - 1]);

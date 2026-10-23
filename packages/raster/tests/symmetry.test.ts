@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { mirrorPoints, paintStroke } from '../../packages/raster/src/index';
-import type { BrushShape, Point, Symmetry } from '../../packages/raster/src/index';
+import { mirrorPoints, paintStroke } from '@bxel/raster';
+import type { BrushShape, Point, Symmetry } from '@bxel/raster';
 import { blankBuffer } from './blank-buffer';
 import { isMirrored } from './is-mirrored';
 import { toRows } from './to-rows';

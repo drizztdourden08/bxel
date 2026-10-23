@@ -1,4 +1,4 @@
 {
   "extends": "@drizztdourden08/brock-lint-config/tsconfig/node.json",
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "tests/**/*"]
 }

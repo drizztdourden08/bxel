@@ -27,7 +27,8 @@ describe('snapshot safety', () => {
     const first = engine.state().project.sprites.flatMap((sprite) => Object.values(sprite.cels));
     engine.execute(request([patchStep(6)]));
     const second = engine.state().project.sprites.flatMap((sprite) => Object.values(sprite.cels));
-    const reused = second.filter((cel) => first.some((old) => old.pixels === cel.pixels));
+    const firstBuffers = new Set(first.map((cel) => cel.pixels));
+    const reused = second.filter((cel) => firstBuffers.has(cel.pixels));
     expect(reused).toHaveLength(1);
   });
 });

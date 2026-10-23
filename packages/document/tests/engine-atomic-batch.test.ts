@@ -46,7 +46,9 @@ describe('atomic batch', () => {
     expect(heartB?.layers.find((layer) => layer.name === 'Ink')?.cels).toEqual({});
     expect(Object.keys(heartB?.cels ?? {})).toHaveLength(1);
   });
+});
 
+describe('history navigation', () => {
   it('reports nothing to undo or redo and stale expectations', () => {
     const { engine } = heartEngine();
     const empty = engine.undo(undoRequest(1));

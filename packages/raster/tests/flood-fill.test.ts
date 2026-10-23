@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { floodFill } from '../../packages/raster/src/index';
-import type { Connectivity, Point, Rect } from '../../packages/raster/src/index';
+import { floodFill } from '@bxel/raster';
+import type { Connectivity, Point, Rect } from '@bxel/raster';
 import { blankBuffer } from './blank-buffer';
 import { fromRows } from './from-rows';
 import { toRows } from './to-rows';
