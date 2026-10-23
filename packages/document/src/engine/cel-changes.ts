@@ -4,9 +4,11 @@ import type { Rect } from '../model/geometry.type';
 import type { FrameId } from '../model/ids.type';
 import type { Cel, Sprite } from '../model/sprite.type';
 import { diffBounds } from '../pixels/diff-bounds';
+import { emptyCel } from '../pixels/empty-cel';
 
 const changedRect = (prior: Cel | undefined, cel: Cel, sprite: Sprite): Rect | null => {
-  if (prior?.pixels.length !== cel.pixels.length) {
+  if (!prior) return diffBounds(emptyCel(sprite), cel.pixels, sprite.width);
+  if (prior.pixels.length !== cel.pixels.length) {
     return { x: 0, y: 0, width: sprite.width, height: sprite.height };
   }
   if (prior.pixels === cel.pixels) return null;

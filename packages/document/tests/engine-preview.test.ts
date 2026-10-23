@@ -58,11 +58,8 @@ describe('preview', () => {
     const preview = okOf(engine.execute(request(createAndPaint, { mode: 'preview', previewPixels: 64 })));
     expect(preview.preview?.truncated).toBe(false);
     const cel = preview.preview?.cels[0];
-    expect(cel?.rect).toEqual({ x: 0, y: 0, width: 4, height: 4 });
-    const expected = new Array<number>(16).fill(0);
-    expected[5] = 3;
-    expected[6] = 4;
-    expect(Array.from(cel?.pixels ?? [])).toEqual(expected);
+    expect(cel?.rect).toEqual({ x: 1, y: 1, width: 2, height: 1 });
+    expect(Array.from(cel?.pixels ?? [])).toEqual([3, 4]);
     const tight = okOf(engine.execute(request(createAndPaint, { mode: 'preview', previewPixels: 1 })));
     expect(tight.preview?.truncated).toBe(true);
   });
