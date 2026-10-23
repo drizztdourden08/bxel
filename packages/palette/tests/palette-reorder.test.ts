@@ -18,10 +18,11 @@ describe('palette.reorder', () => {
     const rig = makeRig();
     const before = rgbaOf(rig);
     const bytesBefore = celBytes(currentSprite(rig));
-    succeed(reorder(rig, reverseTail(rig)));
+    const order = reverseTail(rig);
+    succeed(reorder(rig, order));
     expect(rgbaOf(rig)).toEqual(before);
     expect(celBytes(currentSprite(rig))).not.toEqual(bytesBefore);
-    expect(currentBank(rig).slots.map((slot) => slot.id)).toEqual(reverseTail(rig));
+    expect(currentBank(rig).slots.map((slot) => slot.id)).toEqual(order);
   });
 
   it('remaps through one table so slot 1 and slot 4 trade places', () => {

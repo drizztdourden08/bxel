@@ -46,6 +46,7 @@ const succeed = (result: TransactionResult): TransactionResult => {
 
 const makeRig = (rigOptions: RigOptions = {}): Rig => {
   const { transparent = true, cap = 8 } = rigOptions;
+  const slotCount = colors.length + (transparent ? 1 : 0);
   const ids = counterIdSource();
   const created = projectCreate({
     options: {
@@ -65,7 +66,7 @@ const makeRig = (rigOptions: RigOptions = {}): Rig => {
       {
         name: 'pixels.patch',
         targets: { sprites: [sprite.id], layers: { by: 'all' }, frames: { by: 'all' } },
-        options: { rect: { x: 0, y: 0, width: 4, height: 4 }, pixels: heroPixels },
+        options: { rect: { x: 0, y: 0, width: 4, height: 4 }, pixels: heroPixels.map((value) => Math.min(value, slotCount - 1)) },
       },
     ]),
   );

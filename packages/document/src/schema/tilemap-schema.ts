@@ -4,8 +4,8 @@ import { ID_PREFIX } from '../ids/id-prefix.constants';
 import type { MapLayerId, TilemapId, TilesetId } from '../model/ids.type';
 import { brandedIdSchema } from './branded-id-schema';
 import { nameSchema } from './name-schema';
+import { MAX_MAP_SIDE } from './tilemap-schema.constants';
 
-const MAX_MAP_SIDE = 8192;
 const sideSchema = z.number().int().min(1).max(MAX_MAP_SIDE);
 
 const mapLayerSchema = z.object({

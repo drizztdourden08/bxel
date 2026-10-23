@@ -1,9 +1,8 @@
 /* @layer core @kind logic */
 import type { Project } from '../model/project.type';
 import { cellsToBytes } from './cells-to-bytes';
+import type { Blob } from './collect-blobs.type';
 import { entryPaths } from './entry-paths';
-
-type Blob = readonly [string, Uint8Array];
 
 const byPath = ([left]: Blob, [right]: Blob): number => (left < right ? -1 : 1);
 

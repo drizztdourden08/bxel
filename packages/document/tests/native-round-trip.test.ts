@@ -70,6 +70,9 @@ describe('native container round trip', () => {
     expect(later).not.toEqual(encodeHeart(state));
   });
 
+});
+
+describe('native container layout', () => {
   it('keeps the entry order fixed with mimetype stored first and the preview stored', () => {
     const methods = new Map<string, number>();
     const files = unzipSync(encodeHeart(), {
@@ -118,6 +121,9 @@ describe('native container round trip', () => {
     expect(report.manifest?.preview).toBeNull();
   });
 
+});
+
+describe('native container variants', () => {
   it('round trips a tilemap layer through its little-endian word file', () => {
     const base = heartState();
     const state: DocumentState = { ...base, project: withTilemap(base.project) };

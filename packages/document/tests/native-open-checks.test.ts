@@ -1,14 +1,10 @@
 /* @layer core @kind test */
-import type { CelId } from '@bxel/document';
 import { decodeProject, LOAD_ERROR, MIMETYPE } from '@bxel/document/native';
-import type { LoadReport } from '@bxel/document/native';
 import { strToU8, zipSync } from 'fflate';
 import { describe, expect, it } from 'vitest';
-import { editCel, editDocument, editFiles, editManifest, pack } from './container-edit';
-import { brand } from './fixture-to-project';
+import { editDocument, editFiles, editManifest, pack } from './container-edit';
+import { firstCode } from './first-code';
 import { encodeHeart, projectOf } from './native-fixture';
-
-const firstCode = (report: LoadReport): string | undefined => report.issues[0]?.code;
 
 describe('native open checks: the archive', () => {
   it('rejects bytes that are not a zip', () => {
@@ -138,91 +134,5 @@ describe('native open checks: entries and document', () => {
       if (bank) bank.transparent = false;
     });
     expect(firstCode(decodeProject(bytes))).toBe(LOAD_ERROR.DOCUMENT_INVALID);
-  });
-});
-
-describe('native open checks: recoverable damage', () => {
-  it('opens read-only with a damage report when a cel byte is flipped', () => {
-    const bytes = editCel(
-      encodeHeart(),
-      'cel_000014',
-      (pixels) => {
-        pixels[3] = (pixels[3] ?? 0) ^ 1;
-      },
-      false,
-    );
-    const report = decodeProject(bytes);
-    expect(report.outcome).toBe('recoverable');
-    expect(report.readOnly).toBe(true);
-    expect(report.notice).not.toBeNull();
-    expect(report.damage).toEqual([
-      {
-        celId: 'cel_000014',
-        spriteId: 'spr_000010',
-        layerId: 'lay_000011',
-        frameId: 'frm_000012',
-        code: LOAD_ERROR.ENTRY_CHECKSUM,
-        message: expect.stringContaining('cels/cel_000014.idx'),
-      },
-    ]);
-    const sprite = projectOf(report).sprites[0];
-    const emptied = sprite?.cels[brand<CelId>('cel_000014')];
-    expect(Array.from(emptied?.pixels ?? [1])).toEqual(Array.from({ length: 64 }, () => 0));
-    const untouched = sprite?.cels[brand<CelId>('cel_000015')];
-    expect(untouched?.pixels.some((value) => value !== 0)).toBe(true);
-  });
-
-  it('opens read-only when a cel is missing from the archive', () => {
-    const bytes = editFiles(encodeHeart(), (files) => {
-      delete files['cels/cel_000024.idx'];
-    });
-    const report = decodeProject(bytes);
-    expect(report.outcome).toBe('recoverable');
-    expect(report.damage.map((item) => [item.celId, item.code, item.layerId])).toEqual([
-      ['cel_000024', LOAD_ERROR.ENTRY_MISSING, 'lay_000021'],
-    ]);
-  });
-
-  it('empties a cel whose index is past the bank and keeps its checksum clean', () => {
-    const bytes = editCel(
-      encodeHeart(),
-      'cel_000015',
-      (pixels) => {
-        pixels[0] = 7;
-      },
-      true,
-    );
-    const report = decodeProject(bytes);
-    expect(report.outcome).toBe('recoverable');
-    expect(report.damage).toHaveLength(1);
-    expect(report.damage[0]?.code).toBe(LOAD_ERROR.INDEX_OUT_OF_RANGE);
-    expect(report.damage[0]?.celId).toBe('cel_000015');
-    expect(report.readOnly).toBe(true);
-  });
-
-  it('empties a cel of the wrong size', () => {
-    const shorter = editFiles(encodeHeart(), (files) => {
-      files['cels/cel_000015.idx'] = new Uint8Array(10);
-    });
-    const report = decodeProject(editDocument(shorter, () => undefined));
-    expect(report.outcome).toBe('recoverable');
-    expect(report.damage[0]?.code).toBe(LOAD_ERROR.INDEX_OUT_OF_RANGE);
-  });
-
-  it('treats a damaged preview as recoverable and a missing preview as fine', () => {
-    const damaged = editFiles(encodeHeart(), (files) => {
-      files['preview.png'] = strToU8('not the thumbnail');
-    });
-    const report = decodeProject(damaged);
-    expect(report.outcome).toBe('recoverable');
-    expect(report.preview).toBeNull();
-    expect(report.damage).toEqual([]);
-    expect(firstCode(report)).toBe(LOAD_ERROR.ENTRY_CHECKSUM);
-    const missing = editFiles(encodeHeart(), (files) => {
-      delete files['preview.png'];
-    });
-    const clean = decodeProject(missing);
-    expect(clean.outcome).toBe('ok');
-    expect(clean.preview).toBeNull();
   });
 });

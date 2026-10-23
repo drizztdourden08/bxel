@@ -23,6 +23,13 @@ const celRows = (project: Project, spriteId: SpriteId, celId: CelId): string[] =
   return toRows({ pixels: cel.pixels, width: sprite.width, height: sprite.height });
 };
 
+const createdCelRows = (project: Project, spriteId: SpriteId): string[] => {
+  const cels = Object.values(findSprite(project, spriteId)?.cels ?? {});
+  const [only] = cels;
+  if (!only || cels.length !== 1) throw new Error(`sprite ${spriteId} should hold exactly one cel, found ${cels.length}`);
+  return celRows(project, spriteId, only.id);
+};
+
 const expectUntouched = (engine: Engine, project: Project): void => {
   expect(engine.state().project).toBe(project);
   expect(engine.state().revision).toBe(1);
@@ -32,4 +39,4 @@ const expectUntouched = (engine: Engine, project: Project): void => {
 const projectBytes = (project: Project): string[] =>
   project.sprites.flatMap((sprite) => Object.values(sprite.cels).map((cel) => `${cel.id}:${cel.pixels.join(',')}`));
 
-export { celRows, errorOf, expectUntouched, okOf, projectBytes };
+export { celRows, createdCelRows, errorOf, expectUntouched, okOf, projectBytes };

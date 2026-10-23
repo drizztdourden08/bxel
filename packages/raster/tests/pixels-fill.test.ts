@@ -1,9 +1,9 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { heartIds, heartProject } from './heart-project';
 import { maskFromRows } from './mask-from-rows';
+import { expectLockedInk } from './expect-locked-ink';
 import { pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
-import { celRows, errorOf, expectUntouched, okOf } from './result-checks';
+import { createdCelRows, celRows, errorOf, expectUntouched, okOf } from './result-checks';
 import { emptyProject, rowsIds, rowsProject } from './rows-project';
 
 const fillRequest = (options: Record<string, unknown>) =>
@@ -35,7 +35,7 @@ describe('pixels.fill', () => {
     const engine = pixelEngine(emptyProject(3, 3));
     const result = okOf(engine.execute(fillRequest({})));
     expect(result.changes.sprites[0]?.cels[0]?.rect).toEqual({ x: 0, y: 0, width: 3, height: 3 });
-    expect(celRows(engine.state().project, rowsIds.sprite, rowsIds.cel)).toEqual(['222', '222', '222']);
+    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual(['222', '222', '222']);
   });
 
   test('is a no-op when the seed already holds the index', () => {
@@ -62,11 +62,6 @@ describe('pixels.fill rejections', () => {
   });
 
   test('fails on a locked layer named by id', () => {
-    const engine = pixelEngine(heartProject());
-    const before = engine.state().project;
-    const scope = scopeOf([heartIds.heartB], { by: 'ids', ids: [heartIds.ink] });
-    const error = errorOf(engine.execute(request([stepOf('pixels.fill', scope, { x: 0, y: 0, index: 2 })])));
-    expect(error.code).toBe('LAYER_LOCKED');
-    expectUntouched(engine, before);
+    expectLockedInk('pixels.fill', { x: 0, y: 0, index: 2 });
   });
 });

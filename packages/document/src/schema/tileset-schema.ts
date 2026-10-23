@@ -5,8 +5,8 @@ import type { BankId, SpriteId, TileId, TilesetId } from '../model/ids.type';
 import { MAX_SPRITE_SIZE, MIN_SPRITE_SIZE } from '../model/limits.constants';
 import { brandedIdSchema } from './branded-id-schema';
 import { nameSchema } from './name-schema';
+import { MAX_TILE_KEY } from './tileset-schema.constants';
 
-const MAX_TILE_KEY = 0x0fffffff;
 const sizeSchema = z.number().int().min(MIN_SPRITE_SIZE).max(MAX_SPRITE_SIZE);
 
 const tileSchema = z.object({

@@ -1,5 +1,5 @@
 /* @layer tests @kind test */
-import type { TargetScope } from '@bxel/document';
+import type { TargetScope, TransactionOk } from '@bxel/document';
 import { describe, expect, test } from 'vitest';
 import { heartIds, heartProject } from './heart-project';
 import { documentId, pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
@@ -8,6 +8,8 @@ import { celRows, errorOf, expectUntouched, okOf } from './result-checks';
 const BOTH = [heartIds.heart, heartIds.heartB];
 const BODY: TargetScope['layers'] = { by: 'names', names: ['Body'] };
 const MARK = { x: 2, y: 2, width: 2, height: 1 };
+
+const celRects = (result: TransactionOk) => result.changes.sprites.flatMap((sprite) => sprite.cels.map((cel) => cel.rect));
 
 const markStep = (index = 6) =>
   stepOf(
@@ -24,7 +26,7 @@ describe('pixels.paint on the heart pair', () => {
     expect(result.baseRevision).toBe(1);
     expect(result.revision).toBe(2);
     expect(result.changes.sprites.map((sprite) => sprite.id)).toEqual(BOTH);
-    expect(result.changes.sprites.flatMap((sprite) => sprite.cels.map((cel) => cel.rect))).toEqual([MARK, MARK]);
+    expect(celRects(result)).toEqual([MARK, MARK]);
     const after = engine.state().project;
     expect(celRows(after, heartIds.heart, heartIds.cel)[2]).toBe('13663341');
     expect(celRows(after, heartIds.heartB, heartIds.celB)[2]).toBe('15665541');
@@ -59,7 +61,7 @@ describe('pixels.paint on the heart pair', () => {
     const scope = scopeOf([heartIds.heartB]);
     const result = okOf(engine.execute(request([stepOf('pixels.paint', scope, { index: 1, points: [{ x: 0, y: 0 }] })])));
     expect(result.warnings.map((warning) => [warning.code, warning.step])).toEqual([['LAYER_LOCKED', 0]]);
-    expect(celRows(engine.state().project, heartIds.heartB, heartIds.celB)[0]).toBe('11100110');
+    expect(celRows(engine.state().project, heartIds.heartB, heartIds.celB)[0]).toBe('111..11.');
   });
 
   test('fails with a target error when no editable cel matches', () => {

@@ -1,6 +1,6 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { heartIds, heartProject } from './heart-project';
+import { expectLockedInk } from './expect-locked-ink';
 import { pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
 import { celRows, errorOf, expectUntouched, okOf } from './result-checks';
 import { emptyProject, rowsIds, rowsProject } from './rows-project';
@@ -36,11 +36,6 @@ describe('pixels.erase', () => {
   });
 
   test('fails on a locked layer named by id', () => {
-    const engine = pixelEngine(heartProject());
-    const before = engine.state().project;
-    const scope = scopeOf([heartIds.heartB], { by: 'ids', ids: [heartIds.ink] });
-    const error = errorOf(engine.execute(request([stepOf('pixels.erase', scope, { points: [{ x: 0, y: 0 }] })])));
-    expect(error.code).toBe('LAYER_LOCKED');
-    expectUntouched(engine, before);
+    expectLockedInk('pixels.erase', { points: [{ x: 0, y: 0 }] });
   });
 });

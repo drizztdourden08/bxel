@@ -1,10 +1,5 @@
 /* @layer core @kind logic */
-import { CRC32_TABLE } from './crc32-table';
-
-const TABLE = Uint32Array.from(CRC32_TABLE);
-const INITIAL = 0xffffffff;
-const LOW_BYTE = 0xff;
-const HEX_DIGITS = 8;
+import { HEX_DIGITS, INITIAL, LOW_BYTE, TABLE } from './crc32.constants';
 
 const crc32 = (bytes: Uint8Array): string => {
   let crc = INITIAL;

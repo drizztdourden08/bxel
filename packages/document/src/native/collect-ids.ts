@@ -1,7 +1,6 @@
 /* @layer core @kind logic */
+import type { IdSite } from './collect-ids.type';
 import type { DocumentJson, SpriteJson } from './document-json.type';
-
-type IdSite = { readonly id: string; readonly path: string };
 
 const at = (id: string, path: string): IdSite => ({ id, path });
 

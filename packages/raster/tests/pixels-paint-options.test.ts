@@ -5,7 +5,7 @@ import { brand } from './brand';
 import { buildProject } from './build-project';
 import { maskFromRows } from './mask-from-rows';
 import { pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
-import { celRows, errorOf, okOf } from './result-checks';
+import { createdCelRows, errorOf, okOf } from './result-checks';
 import { emptyProject, rowsIds } from './rows-project';
 
 const SCOPE = scopeOf([rowsIds.sprite]);
@@ -18,7 +18,7 @@ describe('pixels.paint options', () => {
     const result = okOf(engine.execute(paint({ points: [{ x: -3, y: -3 }, { x: 1, y: 1 }] })));
     const rect = result.changes.sprites[0]?.cels[0]?.rect;
     expect(rect).toEqual({ x: 0, y: 0, width: 2, height: 2 });
-    expect(celRows(engine.state().project, rowsIds.sprite, rowsIds.cel)).toEqual(['1...', '.1..', '....', '....']);
+    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual(['1...', '.1..', '....', '....']);
   });
 
   test('is a no-op, with no new cel, when every pixel is outside', () => {
@@ -33,7 +33,7 @@ describe('pixels.paint options', () => {
   test('mirrors the stroke across doubled-integer axes', () => {
     const engine = pixelEngine(emptyProject(8, 8));
     okOf(engine.execute(paint({ points: [{ x: 1, y: 1 }], symmetry: { x2: 8, y2: 8 } })));
-    expect(celRows(engine.state().project, rowsIds.sprite, rowsIds.cel)).toEqual([
+    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual([
       '........',
       '.1....1.',
       '........',
@@ -49,7 +49,7 @@ describe('pixels.paint options', () => {
     const engine = pixelEngine(emptyProject(4, 4));
     const mask = maskFromRows(['##..', '##..', '##..', '##..']);
     okOf(engine.execute(paint({ points: [{ x: 0, y: 1 }, { x: 3, y: 1 }], mask })));
-    expect(celRows(engine.state().project, rowsIds.sprite, rowsIds.cel)).toEqual(['....', '11..', '....', '....']);
+    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual(['....', '11..', '....', '....']);
   });
 
   test('fails INCOMPATIBLE_TARGETS and names the sprite whose size the mask does not fit', () => {

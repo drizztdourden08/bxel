@@ -1,11 +1,10 @@
 /* @layer core @kind logic */
 import { entryPaths } from './entry-paths';
+import { RECOVERABLE_NOTICE } from './finish-report.constants';
 import type { DamagedCel, LoadIssue, LoadReport } from './load-report.type';
 import { makeIssue } from './make-issue';
 import { previewIssue } from './preview-issue';
 import type { ReportParts } from './report-parts.type';
-
-const RECOVERABLE_NOTICE = 'Some pixels are damaged. The document opens read-only; Save As keeps a recovered copy.';
 
 const damageIssue = (damage: DamagedCel): LoadIssue =>
   makeIssue(damage.code, damage.message, entryPaths.cel(damage.celId));

@@ -4,7 +4,7 @@ import type { ShapeKind } from '@bxel/raster';
 import { describe, expect, test } from 'vitest';
 import { blankBuffer } from './blank-buffer';
 import { pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
-import { celRows, errorOf, okOf } from './result-checks';
+import { createdCelRows, errorOf, okOf } from './result-checks';
 import { emptyProject, rowsIds } from './rows-project';
 import { toRows } from './to-rows';
 
@@ -17,7 +17,7 @@ const shapeRequest = (options: Record<string, unknown>) =>
 const drawn = (shape: ShapeKind, filled: boolean): string[] => {
   const engine = pixelEngine(emptyProject(8, 6));
   okOf(engine.execute(shapeRequest({ shape, filled })));
-  return celRows(engine.state().project, rowsIds.sprite, rowsIds.cel);
+  return createdCelRows(engine.state().project, rowsIds.sprite);
 };
 
 const direct = (shape: ShapeKind, filled: boolean): string[] => {
@@ -48,7 +48,7 @@ describe('pixels.shape', () => {
   test('clips a shape that leaves the sprite', () => {
     const engine = pixelEngine(emptyProject(4, 4));
     okOf(engine.execute(shapeRequest({ shape: 'rect', filled: true, from: { x: -2, y: -2 }, to: { x: 1, y: 1 } })));
-    expect(celRows(engine.state().project, rowsIds.sprite, rowsIds.cel)).toEqual(['22..', '22..', '....', '....']);
+    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual(['22..', '22..', '....', '....']);
   });
 
   test('rejects an unknown shape and an index at the palette size', () => {

@@ -2,20 +2,24 @@
 import { crc32 } from '@bxel/document/native';
 import { strFromU8, strToU8, unzipSync, zipSync } from 'fflate';
 import type { Zippable } from 'fflate';
+import { z } from 'zod';
 
 type Files = Record<string, Uint8Array>;
 
-type EditableManifest = {
-  format: string;
-  formatVersion: number;
-  minReaderVersion: number;
-  entries: { path: string; length: number; crc32: string }[];
-};
+const manifestSchema = z.looseObject({
+  format: z.string(),
+  formatVersion: z.number(),
+  minReaderVersion: z.number(),
+  entries: z.array(z.looseObject({ path: z.string(), length: z.number(), crc32: z.string() })),
+});
 
-type EditableDocument = {
-  sprites: { id: string; bankId: string; width: number }[];
-  banks: { transparent: boolean }[];
-};
+const documentSchema = z.looseObject({
+  sprites: z.array(z.looseObject({ id: z.string(), bankId: z.string(), width: z.number() })),
+  banks: z.array(z.looseObject({ transparent: z.boolean() })),
+});
+
+type EditableManifest = z.infer<typeof manifestSchema>;
+type EditableDocument = z.infer<typeof documentSchema>;
 
 const unpack = (bytes: Uint8Array): Files => unzipSync(bytes);
 
@@ -25,14 +29,15 @@ const pack = (files: Files): Uint8Array => {
   return zipSync(zippable);
 };
 
-const readJson = <T>(files: Files, path: string): T => JSON.parse(strFromU8(files[path] ?? new Uint8Array()));
+const readJson = <S extends z.ZodType>(files: Files, path: string, schema: S): z.infer<S> =>
+  schema.parse(JSON.parse(strFromU8(files[path] ?? new Uint8Array())));
 
 const writeJson = (files: Files, path: string, value: unknown): void => {
   files[path] = strToU8(JSON.stringify(value));
 };
 
 const refreshManifest = (files: Files): void => {
-  const manifest = readJson<EditableManifest>(files, 'manifest.json');
+  const manifest = readJson(files, 'manifest.json', manifestSchema);
   for (const entry of manifest.entries) {
     const data = files[entry.path];
     if (!data) continue;
@@ -50,7 +55,7 @@ const editFiles = (bytes: Uint8Array, edit: (files: Files) => void): Uint8Array 
 
 const editDocument = (bytes: Uint8Array, edit: (document: EditableDocument) => void): Uint8Array =>
   editFiles(bytes, (files) => {
-    const document = readJson<EditableDocument>(files, 'document.json');
+    const document = readJson(files, 'document.json', documentSchema);
     edit(document);
     writeJson(files, 'document.json', document);
     refreshManifest(files);
@@ -58,7 +63,7 @@ const editDocument = (bytes: Uint8Array, edit: (document: EditableDocument) => v
 
 const editManifest = (bytes: Uint8Array, edit: (manifest: EditableManifest) => void): Uint8Array =>
   editFiles(bytes, (files) => {
-    const manifest = readJson<EditableManifest>(files, 'manifest.json');
+    const manifest = readJson(files, 'manifest.json', manifestSchema);
     edit(manifest);
     writeJson(files, 'manifest.json', manifest);
   });
