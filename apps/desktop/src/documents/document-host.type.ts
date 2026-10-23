@@ -37,6 +37,7 @@ type CreateOutcome =
 type OpenRequest = {
   readonly project: Project;
   readonly readOnly: boolean;
+  readonly unsaved?: boolean;
 };
 
 type DocumentHostOptions = {

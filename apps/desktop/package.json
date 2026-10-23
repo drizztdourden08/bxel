@@ -27,10 +27,10 @@
     "@bxel/formats": "workspace:*",
     "@bxel/palette": "workspace:*",
     "@bxel/raster": "workspace:*",
-    "@drizztdourden08/brock-core": "^0.76.0",
-    "@drizztdourden08/brock-electron": "^0.76.0",
-    "@drizztdourden08/brock-react": "^0.76.0",
-    "@drizztdourden08/brock-updater": "^0.76.0",
+    "@drizztdourden08/brock-core": "^0.77.0",
+    "@drizztdourden08/brock-electron": "^0.77.0",
+    "@drizztdourden08/brock-react": "^0.77.0",
+    "@drizztdourden08/brock-updater": "^0.77.0",
     "@drizztdourden08/tessera": "catalog:",
     "@electron-toolkit/utils": "catalog:",
     "react": "catalog:",
@@ -39,9 +39,9 @@
     "zustand": "catalog:"
   },
   "devDependencies": {
-    "@drizztdourden08/brock-build": "^0.76.0",
-    "@drizztdourden08/brock-lint-config": "^0.76.0",
-    "@drizztdourden08/brock-thread": "^0.76.0",
+    "@drizztdourden08/brock-build": "^0.77.0",
+    "@drizztdourden08/brock-lint-config": "^0.77.0",
+    "@drizztdourden08/brock-thread": "^0.77.0",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -59,7 +59,7 @@
     "vite": "catalog:"
   },
   "brock": {
-    "version": "0.76.0",
+    "version": "0.77.0",
     "tessera": "0.52.0"
   }
 }

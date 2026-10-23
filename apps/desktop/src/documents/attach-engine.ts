@@ -7,8 +7,8 @@ import { openEvent } from './open-event';
 import { publishChange } from './publish-change';
 import { publishEvent } from './publish-event';
 
-const attachEngine = (store: HostStore, state: DocumentState): DocumentId => {
-  const engine = createEngine({ state, ids: store.ids.fork(), commands: store.commands, limits: store.limits });
+const attachEngine = (store: HostStore, state: DocumentState, unsaved = false): DocumentId => {
+  const engine = createEngine({ state, ids: store.ids.fork(), commands: store.commands, limits: store.limits, unsaved });
   const opened = openEvent(state);
   const entry: HostEntry = {
     engine,

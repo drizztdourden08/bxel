@@ -10,6 +10,7 @@ declare module '@drizztdourden08/tessera' {
         | 'EditorStatus'
         | 'PalettePanel'
         | 'PixelViewport'
+        | 'RecoveryDialog'
         | 'ToolRail';
     };
   }

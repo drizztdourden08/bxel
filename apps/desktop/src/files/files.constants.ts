@@ -35,6 +35,10 @@ const FILE_TEXT = {
   noDocument:'Open or create a project first.',
   nothingToExport: 'This project has no sprite frame to export.',
   readOnly: 'This project opens read-only.',
+  recentLabel: 'Open recent',
+  recentNone: 'No recent projects',
+  recentClear: 'Clear recent projects',
+  recentMissing: 'That project no longer exists. It was removed from the recent list.',
   unavailable: 'File access is not available here.',
   notBxel: 'Bxel opens .bxel project files.',
   unknownReason: 'The cause is unknown',
@@ -60,6 +64,8 @@ const FILE_COMMAND = {
   export: 'export.open',
 } as const;
 
+const RECENT_ACTIONS: readonly FileActionKind[] = ['open', 'openPath', 'save', 'saveAs'];
+
 const REASON_PREFIX = /^Error invoking remote method '[^']*': (Error: )?/;
 
 const PATH_SEPARATOR = /[\\/]/;
@@ -78,5 +84,6 @@ export {
   NOTICE_VARIANT,
   PATH_SEPARATOR,
   PNG_FILTERS,
+  RECENT_ACTIONS,
   REASON_PREFIX,
 };

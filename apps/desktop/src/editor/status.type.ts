@@ -7,6 +7,7 @@ interface StatusInput {
   zoom: number;
   colour: PaletteSlot | null;
   clean: boolean;
+  recovered: boolean;
 }
 
 export type { StatusInput };

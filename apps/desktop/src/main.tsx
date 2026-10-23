@@ -14,16 +14,18 @@ import { appReview } from '../.brock/review';
 import { appTitleBar } from '../.brock/title-bar';
 import { appTours } from '../.brock/tours';
 import { FILE_COMMANDS } from './files/file-commands.constants';
-import { FILE_MENU } from './files/file-menu.constants';
+import { useFileMenu } from './hooks/useFileMenu';
 import { SETTINGS } from './main.constants';
 import { product } from './product';
+import { closeGuard } from './recovery/close-guard';
 import type { AppSettings } from './settings.type';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('index.html has no #root element');
 
-createRoot(root).render(
-  <StrictMode>
+const App = () => {
+  const menu = useFileMenu();
+  return (
     <BrockApp<AppSettings>
       product={product}
       settings={SETTINGS}
@@ -37,7 +39,14 @@ createRoot(root).render(
       titleBar={appTitleBar}
       tours={appTours}
       commands={FILE_COMMANDS}
-      menu={FILE_MENU}
+      menu={menu}
+      beforeQuit={closeGuard}
     />
+  );
+};
+
+createRoot(root).render(
+  <StrictMode>
+    <App />
   </StrictMode>,
 );
