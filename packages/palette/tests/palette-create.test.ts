@@ -1,19 +1,12 @@
 /* @layer tests @kind test */
 import { describe, expect, it } from 'vitest';
 import { undoLast } from './import-helpers';
-import { execute, makeRig, snapshotProject, step, succeed } from './palette-engine';
+import { execute, makeRig, rejectionCode, snapshotProject, step, succeed } from './palette-engine';
 import type { Rig } from './palette-engine';
 
 const create = (rig: Rig, options: object) => execute(rig, [step('palette.create', options)]);
 
-const codeOf = (rig: Rig, options: object): string | null => {
-  const revision = rig.engine.state().revision;
-  const snapshot = snapshotProject(rig.engine.state().project);
-  const result = create(rig, options);
-  expect(rig.engine.state().revision).toBe(revision);
-  expect(snapshotProject(rig.engine.state().project)).toBe(snapshot);
-  return result.ok ? null : result.error.code;
-};
+const codeOf = (rig: Rig, options: object): string | null => rejectionCode(rig, () => create(rig, options));
 
 const base = { name: 'Made', cap: 16, transparent: true, colors: ['#FF0000', '#00ff00'] };
 
@@ -59,6 +52,9 @@ describe('palette.create', () => {
     expect(snapshotProject(rig.engine.state().project)).toBe(snapshot);
   });
 
+});
+
+describe('palette.create rejections', () => {
   it('rejects a cap outside 1 to 256', () => {
     const rig = makeRig();
     expect(codeOf(rig, { ...base, cap: 0 })).toBe('CAP_OUT_OF_RANGE');

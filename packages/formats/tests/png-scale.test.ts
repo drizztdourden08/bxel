@@ -1,5 +1,13 @@
 /* @layer tests @kind test */
-import { thumbnailFactor, thumbnailRgba, upscaleIndexed, upscaleRgba } from '@bxel/formats';
+import {
+  downscaleRgba,
+  thumbnailFactor,
+  thumbnailRgba,
+  thumbnailStep,
+  upscaleIndexed,
+  upscaleRgba,
+} from '@bxel/formats';
+import type { RgbaImage } from '@bxel/formats';
 import { describe, expect, it } from 'vitest';
 
 const image = {
@@ -77,5 +85,78 @@ describe('thumbnails', () => {
 
   it('accepts a smaller maximum side', () => {
     expect(thumbnailFactor(10, 10, 64)).toBe(6);
+  });
+});
+
+describe('downscaleRgba', () => {
+  const grid = (width: number, height: number): RgbaImage => {
+    const data = new Uint8ClampedArray(width * height * 4);
+    for (let i = 0; i < width * height; i += 1) data.set([i % 251, 7, 9, 255], i * 4);
+    return { data, width, height };
+  };
+
+  it('takes every step-th pixel, starting at the top left', () => {
+    const scaled = downscaleRgba(grid(5, 3), 2);
+    expect(scaled.width).toBe(3);
+    expect(scaled.height).toBe(2);
+    expect(reds(scaled.data)).toEqual([0, 2, 4, 10, 12, 14]);
+  });
+
+  it('keeps the image at step 1 and clamps a bad step to 1', () => {
+    expect(Array.from(downscaleRgba(image, 1).data)).toEqual(Array.from(image.data));
+    expect(downscaleRgba(image, 0).width).toBe(2);
+    expect(downscaleRgba(image, Number.NaN).width).toBe(2);
+  });
+
+  it('never invents a colour', () => {
+    const source = grid(64, 64);
+    const kept = new Set(reds(source.data));
+    expect(reds(downscaleRgba(source, 3).data).every((value) => kept.has(value))).toBe(true);
+  });
+});
+
+describe('thumbnail downscaling', () => {
+  it.each([
+    [256, 256, 1],
+    [257, 10, 2],
+    [300, 100, 2],
+    [512, 512, 2],
+    [513, 20, 3],
+    [4096, 4096, 16],
+    [100, 700, 3],
+  ])('uses step from %i by %i', (width, height, step) => {
+    expect(thumbnailStep(width, height)).toBe(step);
+  });
+
+  it('fits a wide sprite to at most 256 pixels on the long side', () => {
+    const thumb = thumbnailRgba({ data: new Uint8ClampedArray(300 * 100 * 4), width: 300, height: 100 });
+    expect([thumb.width, thumb.height]).toEqual([150, 50]);
+    expect(thumb.data).toHaveLength(150 * 50 * 4);
+  });
+
+  it('fits the largest allowed source and a tall one', () => {
+    const big = thumbnailRgba({ data: new Uint8ClampedArray(4096 * 4096 * 4), width: 4096, height: 4096 });
+    expect([big.width, big.height]).toEqual([256, 256]);
+    const tall = thumbnailRgba({ data: new Uint8ClampedArray(3 * 1000 * 4), width: 3, height: 1000 });
+    expect([tall.width, tall.height]).toEqual([1, 250]);
+  });
+
+  it('samples source pixels without blurring', () => {
+    const width = 600;
+    const data = new Uint8ClampedArray(width * 2 * 4);
+    for (let i = 0; i < width * 2; i += 1) data.set([i % 2 === 0 ? 200 : 10, 0, 0, 255], i * 4);
+    const thumb = thumbnailRgba({ data, width, height: 2 });
+    expect([thumb.width, thumb.height]).toEqual([200, 1]);
+    expect(new Set(reds(thumb.data))).toEqual(new Set([200, 10]));
+  });
+
+  it('keeps upscaling small sources with whole-number factors', () => {
+    const thumb = thumbnailRgba({ data: new Uint8ClampedArray(100 * 20 * 4), width: 100, height: 20 });
+    expect([thumb.width, thumb.height]).toEqual([200, 40]);
+  });
+
+  it('honours a smaller maximum side when downscaling', () => {
+    const thumb = thumbnailRgba({ data: new Uint8ClampedArray(100 * 40 * 4), width: 100, height: 40 }, 32);
+    expect([thumb.width, thumb.height]).toEqual([25, 10]);
   });
 });

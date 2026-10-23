@@ -33,7 +33,7 @@ const expected = (image: IndexedImage): number[] =>
     Array.from(image.palette.subarray(index * 4, index * 4 + 4)),
   );
 
-describe('encodePngIndexed', () => {
+describe('encodePngIndexed round trips', () => {
   it.each([
     [1, 1],
     [2, 1],
@@ -59,6 +59,9 @@ describe('encodePngIndexed', () => {
     expect(expectDecoded(bytes).data).toEqual(expected(image));
   });
 
+});
+
+describe('encodePngIndexed transparency and rejections', () => {
   it('writes tRNS for a transparent entry 0 and decodes the alpha', () => {
     const image = makeIndexed(4, 6, 4, 0);
     const bytes = encodeOk(image);

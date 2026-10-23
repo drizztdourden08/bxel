@@ -19,8 +19,10 @@ export type {
   PngFilterType,
   RgbaImage,
 } from './png.type';
+export { downscaleRgba } from './downscale-rgba';
 export { thumbnailFactor } from './thumbnail-factor';
 export { thumbnailRgba } from './thumbnail-rgba';
+export { thumbnailStep } from './thumbnail-step';
 export { upscaleIndexed } from './upscale-indexed';
 export { upscaleRgba } from './upscale-rgba';
 export { writePngChunk } from './write-png-chunk';

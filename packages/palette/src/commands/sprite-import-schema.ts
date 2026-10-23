@@ -6,7 +6,7 @@ import { DITHER_NAMES, IMPORT_MAPPING_DEFAULT } from './import-mapping.constants
 const imageSchema = z.strictObject({
   width: z.number().int(),
   height: z.number().int(),
-  rgba: z.instanceof(Uint8Array),
+  rgba: z.union([z.instanceof(Uint8Array), z.instanceof(Uint8ClampedArray)]),
 });
 
 const bankSchema = z.union([

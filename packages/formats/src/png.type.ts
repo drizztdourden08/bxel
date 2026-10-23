@@ -5,7 +5,7 @@ import type { PNG_FILTER } from './png-filter.constants';
 type PixelBytes = Uint8Array | Uint8ClampedArray;
 
 type RgbaImage = {
-  readonly data: PixelBytes;
+  readonly data: Uint8ClampedArray;
   readonly width: number;
   readonly height: number;
 };
@@ -23,6 +23,15 @@ type PngFilterType = (typeof PNG_FILTER)[keyof typeof PNG_FILTER];
 
 type PngEncodeOptions = {
   readonly filter?: PngFilterType | 'adaptive';
+};
+
+type PngParts = {
+  readonly width: number;
+  readonly height: number;
+  readonly bitDepth: number;
+  readonly colorType: number;
+  readonly extra: readonly Uint8Array[];
+  readonly filtered: Uint8Array;
 };
 
 type PngFailure = {
@@ -51,5 +60,6 @@ export type {
   PngErrorCode,
   PngFailure,
   PngFilterType,
+  PngParts,
   RgbaImage,
 };

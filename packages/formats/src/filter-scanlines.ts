@@ -1,18 +1,15 @@
 /* @layer core @kind logic */
 import { filterRow } from './filter-row';
+import { PNG_FILTER_ORDER } from './png-filter-order.constants';
 import { PNG_FILTER } from './png-filter.constants';
 import type { PixelBytes, PngFilterType } from './png.type';
-import type { RowGeometry } from './scanline.type';
+import type { FilteredRow, RowGeometry } from './scanline.type';
 import { scoreRow } from './score-row';
-
-type FilteredRow = { readonly type: PngFilterType; readonly bytes: Uint8Array };
-
-const CANDIDATES: readonly PngFilterType[] = Object.values(PNG_FILTER);
 
 const bestRow = (src: PixelBytes, geometry: RowGeometry, row: number): FilteredRow => {
   let best: FilteredRow = { type: PNG_FILTER.NONE, bytes: filterRow(src, geometry, row, 0) };
   let bestScore = scoreRow(best.bytes);
-  for (const type of CANDIDATES.slice(1)) {
+  for (const type of PNG_FILTER_ORDER.slice(1)) {
     const bytes = filterRow(src, geometry, row, type);
     const score = scoreRow(bytes);
     if (score < bestScore) {

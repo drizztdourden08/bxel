@@ -7,7 +7,7 @@ import { expectDecoded } from './expect-decoded';
 const chunk = (type: string, ...data: number[]): Uint8Array =>
   writePngChunk(type, new Uint8Array(data));
 
-describe('decodePng hand built files', () => {
+describe('decodePng gray bit depths', () => {
   it('decodes every filter type', () => {
     const bytes = buildRawPng({
       width: 2,
@@ -54,6 +54,9 @@ describe('decodePng hand built files', () => {
     expect(expectDecoded(bytes).data.filter((_, i) => i % 4 === 0)).toEqual([0, 255, 85]);
   });
 
+});
+
+describe('decodePng gray, alpha and rgb', () => {
   it('reduces 16 bit gray to the high byte', () => {
     const bytes = buildRawPng({
       width: 2,
@@ -107,6 +110,9 @@ describe('decodePng hand built files', () => {
     expect(expectDecoded(sixteen).data).toEqual([1, 3, 5, 255]);
   });
 
+});
+
+describe('decodePng transparency, rgba and indexed', () => {
   it('applies tRNS to rgb', () => {
     const bytes = buildRawPng({
       width: 2,

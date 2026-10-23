@@ -12,6 +12,7 @@ import type {
   TransactionResult,
 } from '@bxel/document';
 import { paletteCommands } from '@bxel/palette';
+import { expect } from 'vitest';
 
 type Rig = { readonly engine: Engine; readonly spriteId: SpriteId; readonly bankId: BankId };
 
@@ -96,11 +97,32 @@ const celBytes = (sprite: Sprite): number[] => Object.values(sprite.cels).flatMa
 const snapshotProject = (project: Project): string =>
   JSON.stringify(project, (_key, value: unknown) => (value instanceof Uint8Array ? Buffer.from(value).toString('hex') : value));
 
+const rejectionCode = (rig: Rig, run: () => TransactionResult): string | null => {
+  const revision = rig.engine.state().revision;
+  const snapshot = snapshotProject(rig.engine.state().project);
+  const result = run();
+  expect(rig.engine.state().revision).toBe(revision);
+  expect(snapshotProject(rig.engine.state().project)).toBe(snapshot);
+  return result.ok ? null : result.error.code;
+};
+
 const slotId = (rig: Rig, index: number): string => {
   const slot = currentBank(rig).slots[index];
   if (!slot) throw new Error(`slot ${index} is missing`);
   return slot.id;
 };
 
-export { celBytes, currentBank, currentSprite, execute, firstFrame, makeRig, slotId, snapshotProject, step, succeed };
+export {
+  celBytes,
+  currentBank,
+  currentSprite,
+  execute,
+  firstFrame,
+  makeRig,
+  rejectionCode,
+  slotId,
+  snapshotProject,
+  step,
+  succeed,
+};
 export type { Rig };

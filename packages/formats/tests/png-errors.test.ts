@@ -25,7 +25,7 @@ const codeOf = (bytes: Uint8Array): string => {
   return result.ok ? 'OK' : result.code;
 };
 
-describe('decodePng errors', () => {
+describe('decodePng damaged files', () => {
   it('rejects a bad signature', () => {
     const bytes = validPng();
     bytes[1] = 0;
@@ -56,6 +56,9 @@ describe('decodePng errors', () => {
     }
   });
 
+});
+
+describe('decodePng unsupported and oversize files', () => {
   it('reports Adam7 as unsupported', () => {
     const bytes = buildRawPng({
       width: 1,
@@ -110,6 +113,9 @@ describe('decodePng errors', () => {
     expect(codeOf(bytes)).toBe(PNG_ERROR_CODE.PNG_TRUNCATED);
   });
 
+});
+
+describe('decodePng invalid data', () => {
   it('rejects zero size, bad depth and bad colour type', () => {
     const base = { height: 1, scanlines: [0, 1] };
     const zero = buildRawPng({ ...base, width: 0, colorType: 0, bitDepth: 8 });
@@ -159,6 +165,9 @@ describe('decodePng errors', () => {
     expect(codeOf(bytes)).toBe(PNG_ERROR_CODE.PNG_TRUNCATED);
   });
 
+});
+
+describe('decodePng on flipped bits', () => {
   it('never throws when any single bit of a valid file is flipped', () => {
     const indexed = encodePngIndexed({
       indices: new Uint8Array([0, 1, 1, 0]),

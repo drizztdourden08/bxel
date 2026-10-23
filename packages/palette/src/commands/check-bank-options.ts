@@ -1,10 +1,7 @@
 /* @layer core @kind logic */
 import { checkName, ERROR_CODE, fail, MAX_BANK_CAP, MIN_BANK_CAP } from '@bxel/document';
-import type { Rgb } from '@bxel/document';
 import { checkColor } from './check-color';
-import type { PaletteCreateOptions } from './palette-create.type';
-
-type CheckedBank = { readonly name: string; readonly colors: readonly Rgb[] };
+import type { CheckedBank, PaletteCreateOptions } from './palette-create.type';
 
 const checkBankOptions = (options: PaletteCreateOptions): CheckedBank => {
   const name = checkName(options.name);

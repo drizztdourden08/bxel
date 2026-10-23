@@ -1,5 +1,5 @@
 /* @layer core @kind types */
-import type { PixelBytes } from './png.type';
+import type { PixelBytes, PngFilterType } from './png.type';
 
 type RowGeometry = {
   readonly stride: number;
@@ -21,4 +21,6 @@ type ScaleGrid = {
   readonly channels: number;
 };
 
-export type { RowGeometry, RowView, ScaleGrid };
+type FilteredRow = { readonly type: PngFilterType; readonly bytes: Uint8Array };
+
+export type { FilteredRow, RowGeometry, RowView, ScaleGrid };

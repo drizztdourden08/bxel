@@ -3,21 +3,15 @@ import { describe, expect, it } from 'vitest';
 import { createBank, firstCelPixels, importOptions, importStep, spriteNamed } from './import-helpers';
 import { makeImage } from './make-image';
 import { makeNoiseImage } from './make-noise-image';
-import { currentBank, execute, makeRig, snapshotProject, succeed } from './palette-engine';
+import { currentBank, execute, makeRig, rejectionCode, succeed } from './palette-engine';
 import type { Rig } from './palette-engine';
 
 const purple = (alpha: number) => [75, 31, 160, alpha] as const;
 
 const bankOf = (rig: Rig) => ({ bankId: rig.bankId });
 
-const importCode = (rig: Rig, options: object): string | null => {
-  const revision = rig.engine.state().revision;
-  const snapshot = snapshotProject(rig.engine.state().project);
-  const result = execute(rig, [importStep(options)]);
-  expect(rig.engine.state().revision).toBe(revision);
-  expect(snapshotProject(rig.engine.state().project)).toBe(snapshot);
-  return result.ok ? null : result.error.code;
-};
+const importCode = (rig: Rig, options: object): string | null =>
+  rejectionCode(rig, () => execute(rig, [importStep(options)]));
 
 describe('sprite.import into an existing bank', () => {
   it('maps every pixel to an existing index for every dither mode and adds no colour', () => {

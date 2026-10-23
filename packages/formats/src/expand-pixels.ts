@@ -1,24 +1,11 @@
 /* @layer core @kind logic */
-import { grayAlphaWriter } from './gray-alpha-writer';
-import { grayWriter } from './gray-writer';
-import { indexedWriter } from './indexed-writer';
-import { PNG_COLOR_TYPE } from './png-color-type.constants';
-import type { ExpandContext, PixelWriter } from './png-decode.type';
-import { rgbaWriter } from './rgba-writer';
-import { rgbWriter } from './rgb-writer';
+import { PIXEL_WRITERS } from './pixel-writers.constants';
+import type { ExpandContext } from './png-decode.type';
 import { rowStride } from './row-stride';
-
-const WRITERS: Readonly<Record<number, (context: ExpandContext) => PixelWriter>> = {
-  [PNG_COLOR_TYPE.GRAY]: grayWriter,
-  [PNG_COLOR_TYPE.RGB]: rgbWriter,
-  [PNG_COLOR_TYPE.INDEXED]: indexedWriter,
-  [PNG_COLOR_TYPE.GRAY_ALPHA]: grayAlphaWriter,
-  [PNG_COLOR_TYPE.RGBA]: rgbaWriter,
-};
 
 const expandPixels = (context: ExpandContext): Uint8ClampedArray | undefined => {
   const { width, height, colorType, bitsPerPixel } = context.header;
-  const write = WRITERS[colorType]?.(context);
+  const write = PIXEL_WRITERS[colorType]?.(context);
   if (!write) return undefined;
   const stride = rowStride(width, bitsPerPixel);
   const out = new Uint8ClampedArray(width * height * 4);

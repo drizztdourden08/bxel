@@ -1,8 +1,8 @@
 /* @layer core @kind logic */
-const BITS_PER_BYTE = 8;
-const WIDE_DEPTH = 16;
+import { PNG_SAMPLE } from './png-sample.constants';
 
 const readSample = (data: Uint8Array, rowStart: number, index: number, depth: number): number => {
+  const { BITS_PER_BYTE, WIDE_DEPTH } = PNG_SAMPLE;
   if (depth === WIDE_DEPTH) {
     const at = rowStart + index * 2;
     return ((data[at] ?? 0) << BITS_PER_BYTE) | (data[at + 1] ?? 0);

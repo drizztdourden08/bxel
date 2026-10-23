@@ -3,10 +3,9 @@ import { crc32 } from './crc32';
 import type { RawChunk } from './png-decode.type';
 import { PNG_ERROR_CODE } from './png-error.constants';
 import { pngFail } from './png-fail';
+import { PNG_LAYOUT } from './png-layout.constants';
 import type { PngFailure } from './png.type';
 import { readU32 } from './read-u32';
-
-const CHUNK_OVERHEAD = 12;
 
 const typeOf = (bytes: Uint8Array, offset: number): string =>
   String.fromCharCode(
@@ -17,7 +16,7 @@ const typeOf = (bytes: Uint8Array, offset: number): string =>
   );
 
 const readPngChunk = (bytes: Uint8Array, offset: number): RawChunk | PngFailure => {
-  if (offset + CHUNK_OVERHEAD > bytes.length) {
+  if (offset + PNG_LAYOUT.CHUNK_OVERHEAD > bytes.length) {
     return pngFail(PNG_ERROR_CODE.PNG_TRUNCATED, 'File ends before the next chunk is complete');
   }
   const length = readU32(bytes, offset);

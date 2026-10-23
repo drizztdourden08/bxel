@@ -1,18 +1,11 @@
 /* @layer tests @kind test */
 import { describe, expect, it } from 'vitest';
-import { currentBank, execute, makeRig, snapshotProject, step, succeed } from './palette-engine';
+import { currentBank, execute, makeRig, rejectionCode, step, succeed } from './palette-engine';
 import type { Rig } from './palette-engine';
 
 const resize = (rig: Rig, cap: number) => execute(rig, [step('palette.resize', { bankId: rig.bankId, cap })]);
 
-const codeOf = (rig: Rig, cap: number): string | null => {
-  const revision = rig.engine.state().revision;
-  const snapshot = snapshotProject(rig.engine.state().project);
-  const result = resize(rig, cap);
-  expect(rig.engine.state().revision).toBe(revision);
-  expect(snapshotProject(rig.engine.state().project)).toBe(snapshot);
-  return result.ok ? null : result.error.code;
-};
+const codeOf = (rig: Rig, cap: number): string | null => rejectionCode(rig, () => resize(rig, cap));
 
 describe('palette.resize', () => {
   it('grows the cap to 256', () => {
