@@ -32,3 +32,5 @@ release/
 **/public/logos/icon-bot.ico
 **/public/logos/icon-bot-256.png
 **/public/logos/mark.svg
+
+.mcp.json
