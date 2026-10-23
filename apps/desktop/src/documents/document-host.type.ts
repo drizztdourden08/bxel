@@ -76,13 +76,10 @@ type HostStore = {
 };
 
 export type {
-  CreateOutcome,
   DocumentHost,
   DocumentHostOptions,
   DocumentView,
   HostChange,
-  HostChangeListener,
   HostEntry,
   HostStore,
-  OpenRequest,
 };

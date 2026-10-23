@@ -57,7 +57,7 @@ const collect = (host: DocumentHost): DocumentEvent[] => {
 
 const newHost = (): DocumentHost => createDocumentHost({ ids: counterIdSource() });
 
-describe('DocumentHost', () => {
+describe('DocumentHost lifecycle', () => {
   it('opens a project as a clean document at revision 1 and publishes open once', () => {
     const host = newHost();
     const events = collect(host);
@@ -70,6 +70,9 @@ describe('DocumentHost', () => {
     expect(events.map((event) => event.kind)).toEqual(['open']);
   });
 
+});
+
+describe('DocumentHost transactions', () => {
   it('tracks revision and dirty state through commit, undo, redo and save', () => {
     const host = newHost();
     const documentId = openOne(host, 'first');
@@ -88,6 +91,9 @@ describe('DocumentHost', () => {
     expect(host.view(documentId)?.clean).toBe(false);
   });
 
+});
+
+describe('DocumentHost events', () => {
   it('publishes one event per change and none for a preview', () => {
     const host = newHost();
     const documentId = openOne(host, 'first');
@@ -114,6 +120,9 @@ describe('DocumentHost', () => {
     expect(seen).toEqual([2]);
   });
 
+});
+
+describe('DocumentHost rejections', () => {
   it('changes nothing for a stale transaction', () => {
     const host = newHost();
     const documentId = openOne(host, 'first');
@@ -126,6 +135,9 @@ describe('DocumentHost', () => {
     expect(events).toHaveLength(0);
   });
 
+});
+
+describe('DocumentHost independence', () => {
   it('keeps two documents independent', () => {
     const host = newHost();
     const first = openOne(host, 'first');
@@ -143,6 +155,9 @@ describe('DocumentHost', () => {
     expect(host.view(first)).toBeNull();
   });
 
+});
+
+describe('DocumentHost missing documents', () => {
   it('answers DOCUMENT_NOT_FOUND for a document that is not open', () => {
     const host = newHost();
     const documentId = openOne(host, 'first');
