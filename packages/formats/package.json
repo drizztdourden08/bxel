@@ -1,0 +1,31 @@
+{
+  "name": "@bxel/formats",
+  "version": "0.1.0",
+  "description": "Bxel's pure file format adapters: deterministic PNG encode and decode, integer upscale and thumbnails.",
+  "type": "module",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=24"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "lint": "tsc --noEmit && eslint ."
+  },
+  "dependencies": {
+    "fflate": "^0.8.3"
+  },
+  "devDependencies": {
+    "@drizztdourden08/brock-lint-config": "^0.68.6",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}
