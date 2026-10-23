@@ -41,7 +41,7 @@ const buildSprite = (spec: SpriteSpec): Sprite => ({
   bankId: BANK_ID,
   width: spec.width,
   height: spec.height,
-  pivot: { x2: spec.width, y2: spec.height },
+  pivot: spec.pivot ?? { x2: spec.width, y2: spec.height },
   layers: spec.layers.map(buildLayer),
   frames: spec.frames.map((id) => ({ id: brand<FrameId>(id), durationMs: 100 })),
   tags: [],
