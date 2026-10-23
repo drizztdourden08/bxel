@@ -4,7 +4,13 @@ import type {} from '@drizztdourden08/tessera';
 declare module '@drizztdourden08/tessera' {
   interface TesseraApps {
     'bxel': {
-      parts: never;
+      parts:
+        | 'EditorCanvas'
+        | 'EditorScreen'
+        | 'EditorStatus'
+        | 'PalettePanel'
+        | 'PixelViewport'
+        | 'ToolRail';
     };
   }
 }

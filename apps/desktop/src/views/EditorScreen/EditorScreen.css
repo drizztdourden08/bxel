@@ -1,0 +1,12 @@
+/* @layer renderer-app @kind style */
+.editor-screen {
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 0;
+}
+
+.editor-screen__body {
+  flex: 1;
+  min-block-size: 0;
+  padding: var(--space-sm);
+}

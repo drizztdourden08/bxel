@@ -2,8 +2,8 @@
 import { defineLayoutPreset } from '@drizztdourden08/brock-react';
 
 const layout = defineLayoutPreset({
-  rows: [['main', 'notes']],
-  widths: [[0.76, 0.24]],
+  rows: [['main', 'palette']],
+  widths: [[0.8, 0.2]],
 });
 
 export default layout;
