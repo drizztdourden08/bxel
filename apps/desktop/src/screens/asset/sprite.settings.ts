@@ -57,14 +57,14 @@ const sections: Section[] = [
     items: [
       {
         key: 'sprite.gridWidth',
-        label: 'Pixel grid width',
+        label: 'Pixel grid across',
         description: 'Pixels between grid lines across. 1 draws a line between every pixel.',
         hint: 'Saved with the sprite. A new sprite takes it from the defaults.',
         control: { kind: 'number', min: 1, max: 2048, step: 1, unit: 'px' },
       },
       {
         key: 'sprite.gridHeight',
-        label: 'Pixel grid height',
+        label: 'Pixel grid down',
         description: 'Pixels between grid lines down.',
         hint: 'Saved with the sprite.',
         control: { kind: 'number', min: 1, max: 2048, step: 1, unit: 'px' },

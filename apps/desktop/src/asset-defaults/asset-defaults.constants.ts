@@ -15,6 +15,8 @@ const APP_ASSET_DEFAULTS: AssetDefaults = {
   pixelGrid: { width: 1, height: 1 },
 };
 
+const GRID_LABELS = { width: 'Cell across', height: 'Cell down' } as const;
+
 const CHOICE_MARK = { preset: 'preset', file: 'file' } as const;
 
 const CHOICE_SEPARATOR = '|';
@@ -42,4 +44,4 @@ const DEFAULTS_TEXT = {
   fileGroup: 'Palette files of the project',
 } as const;
 
-export { APP_ASSET_DEFAULTS, CHOICE_MARK, CHOICE_SEPARATOR, DEFAULT_RANGES, DEFAULTS_TEXT };
+export { APP_ASSET_DEFAULTS, CHOICE_MARK, GRID_LABELS, CHOICE_SEPARATOR, DEFAULT_RANGES, DEFAULTS_TEXT };

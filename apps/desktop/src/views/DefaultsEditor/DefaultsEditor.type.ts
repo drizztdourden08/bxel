@@ -20,4 +20,11 @@ interface NumberFieldProps {
 
 type SizeValue = { readonly width: number; readonly height: number };
 
-export type { DefaultsEditorProps, NumberFieldProps, SizeValue };
+interface SizeEditorProps {
+  value: unknown;
+  fallback?: SizeValue;
+  labels?: { readonly width: string; readonly height: string };
+  onChange: (value: unknown) => void;
+}
+
+export type { DefaultsEditorProps, NumberFieldProps, SizeEditorProps, SizeValue };
