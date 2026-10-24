@@ -32,6 +32,8 @@ type ProjectPort = {
 
 type ProjectOutcome = { readonly ok: true } | { readonly ok: false; readonly message: string };
 
+type UnpackOutcome = { readonly ok: true; readonly root: string } | { readonly ok: false; readonly message: string };
+
 type AccessTarget = Pick<RecentProject, 'projectId' | 'rootRealPath'>;
 
 type ProjectTask = (documents: DocumentsPort) => Promise<ProjectOutcome | null>;
@@ -77,4 +79,5 @@ export type {
   ProjectPort,
   ProjectSettings,
   ProjectTask,
+  UnpackOutcome,
 };

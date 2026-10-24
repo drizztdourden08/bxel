@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { Artwork, AssetKind } from '@bxel/document';
+import type { Artwork, AssetContent, AssetKind } from '@bxel/document';
 import { encodePalette, encodeSheet, encodeSprite, encodeTilemap, encodeTileset } from '@bxel/document/native';
 import type { Clock } from '@bxel/document/native';
 import { NATIVE_ASSET_EXTENSIONS } from '@bxel/project';
@@ -42,6 +42,14 @@ const ROLE_OF_KIND: Readonly<Partial<Record<AssetKind, FolderRole>>> = {
   tilemap: 'tilemaps',
 };
 
+const CONTENT_OF_KIND: Readonly<Partial<Record<AssetKind, keyof AssetContent>>> = {
+  sprite: 'sprites',
+  sheet: 'sheets',
+  palette: 'banks',
+  tileset: 'tilesets',
+  tilemap: 'tilemaps',
+};
+
 const SAVE_ORDER: readonly AssetKind[] = ['palette', 'sprite', 'tileset', 'sheet', 'tilemap'];
 
 const ASSET_KINDS: readonly string[] = ['sprite', 'sheet', 'palette', 'tileset', 'tilemap'];
@@ -70,7 +78,7 @@ const WORKSPACE_TEXT = {
   loading: (done: number, total: number): string => `Opening assets ${done} of ${total}`,
   loadingLabel: 'Opening the project',
   tabsLabel: 'Open assets',
-  capped: (total: number, max: number): string => `The project holds ${total} assets. Bxel opened the first ${max}.`,
+  capped: (total: number, max: number): string => `The project holds ${total} assets. Bxel opened the first ${max}. The rest open from the Assets list when you pick them.`,
   skipped: (count: number): string => (count === 1 ? 'One file could not be read and was left out.' : `${count} files could not be read and were left out.`),
   rekeyed: (count: number): string => (count === 1 ? 'One copied file had the same ids as another and was given new ones.' : `${count} copied files had the same ids as others and were given new ones.`),
   trashTitle: 'Move deleted assets to the trash?',
@@ -111,6 +119,7 @@ export {
   ASSET_FILE_LABEL,
   ASSETS_OF,
   BXEL_ENDING,
+  CONTENT_OF_KIND,
   DECODE_ORDER,
   HASH_CLOCK,
   KEY_SEPARATOR,

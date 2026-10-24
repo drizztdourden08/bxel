@@ -3,6 +3,7 @@ import { Flex, Icon, IconButton, Text } from '@drizztdourden08/tessera';
 import { ACCESS_LABEL, PANEL_TEXT } from '../../../project/project.constants';
 import type { OpenProject } from '../../../project/project.type';
 import type { PanelPartProps } from '../ProjectPanel.type';
+import { AddAssetMenu } from './AddAssetMenu';
 
 const ProjectHeader = ({ model, project }: PanelPartProps & { readonly project: OpenProject }) => (
   <Flex justify="between" align="center" gap="sm">
@@ -13,9 +14,7 @@ const ProjectHeader = ({ model, project }: PanelPartProps & { readonly project: 
       </Text>
     </Flex>
     <Flex gap="xs">
-      <IconButton label={PANEL_TEXT.newFile} size="sm" onClick={model.startNaming}>
-        <Icon name="plus" />
-      </IconButton>
+      <AddAssetMenu model={model} />
       <IconButton label={PANEL_TEXT.newFolder} size="sm" onClick={model.startFolder}>
         <Icon name="folder" />
       </IconButton>

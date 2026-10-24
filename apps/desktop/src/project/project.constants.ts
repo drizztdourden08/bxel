@@ -11,6 +11,7 @@ const PROJECT_COMMAND = {
   close: 'project.close',
   panel: 'project.panel',
   settings: 'project.settings',
+  pack: 'project.pack',
 } as const;
 
 const PROJECT_FILE_EXTENSION = 'bxproject';
@@ -82,7 +83,7 @@ const PROJECT_TEXT = {
   done: 'Done',
   migrated: 'Updated the project file to the new format.',
   newSprite: 'New sprite',
-  packed: 'This project file is packed for sharing. Unpack it into a folder first.',
+  packed: 'This project file is packed for sharing. Open the file itself to unpack it into a folder.',
 } as const;
 
 const SIZE_UNITS = { step: 1024, wholeFrom: 10, names: ['B', 'KB', 'MB', 'GB'] } as const;

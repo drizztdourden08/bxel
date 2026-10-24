@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { RecentProject } from '@bxel/project';
 import type { MenuEntry, MenuItem } from '@drizztdourden08/brock-react';
+import { PACK_TEXT } from '../project/pack.constants';
 import { PROJECT_COMMAND, PROJECT_TEXT } from '../project/project.constants';
 import { menuItem } from './menu-item';
 
@@ -25,6 +26,7 @@ const projectMenu = (recent: readonly RecentProject[], isOpen: boolean, open: (r
     'separator',
     menuItem(PROJECT_COMMAND.panel, PROJECT_TEXT.showPanel),
     menuItem(PROJECT_COMMAND.settings, PROJECT_TEXT.settings, { disabled: !isOpen }),
+    menuItem(PROJECT_COMMAND.pack, PACK_TEXT.menu, { disabled: !isOpen }),
     menuItem(PROJECT_COMMAND.close, PROJECT_TEXT.closeProject, { disabled: !isOpen }),
   ],
 });
