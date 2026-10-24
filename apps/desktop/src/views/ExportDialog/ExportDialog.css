@@ -1,0 +1,22 @@
+/* @layer renderer-app @kind style */
+.export-dialog__body {
+  align-items: flex-start;
+}
+
+.export-dialog__fields {
+  flex: 1 1 var(--size-384);
+  min-inline-size: var(--size-256);
+}
+
+.export-dialog__preview {
+  flex: 0 0 var(--size-256);
+  max-inline-size: var(--size-256);
+  padding: var(--space-sm);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+}
+
+.export-dialog__image {
+  max-block-size: var(--size-256);
+  max-inline-size: 100%;
+}

@@ -17,7 +17,7 @@ const fileMenu = (recent: MenuItem): MenuEntry[] => [
       { key: 'file-new', label: 'New...', command: DIALOG_COMMAND.newFile },
       { key: 'file-new-sprite', label: 'New sprite...', command: DIALOG_COMMAND.newSprite },
       { key: 'file-import', label: 'Import image...', command: DIALOG_COMMAND.importImage },
-      { key: 'file-export', label: 'Export PNG...', command: FILE_COMMAND.export },
+      { key: 'file-export', label: 'Export...', command: FILE_COMMAND.export },
     ],
   },
 ];
