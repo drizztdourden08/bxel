@@ -1,21 +1,18 @@
 /* @layer renderer-app @kind test */
 import type { Artwork, DocumentId } from '@bxel/document';
-import { splitIntoAssets } from '@bxel/document';
 import { createFolderId } from '@bxel/project';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
-import { encodeAsset } from '../../src/workspace/encode-asset';
-import { sampleArtwork } from '../workspace/workspace-harness';
+import { sampleArtwork, writeProjectAssets } from '../workspace/workspace-harness';
 import { key } from './disk-paths';
 import type { Disk } from './memory-disk';
 import { manifestOf, ROOT } from './project-harness';
-import { fieldOf, grantOf, rowsOf, toolRig } from './project-tool-rig';
+import { fieldOf, rowsOf, toolRig } from './project-tool-rig';
 import type { ToolRig } from './project-tool-rig';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('./project-mocks')).brockReactMock());
 
 const SHARED = 'C:/Art/Shared';
-const clock = (): number => 1_700_000_000_000;
 
 let current: ToolRig;
 let artwork: Artwork;
@@ -33,14 +30,7 @@ const visibleSprite = () => {
 };
 
 const seed = (disk: Disk): void => {
-  const plan = splitIntoAssets(artwork);
-  const paths = new Map<string, string>(plan.files.map((file) => [file.key.id, `${ROOT}/${file.path}`] as const));
-  paths.set(hiddenSprite().id, `${SHARED}/hidden.bxsprite`);
-  for (const file of plan.files) {
-    const path = paths.get(file.key.id) ?? '';
-    disk.dirs.add(path.slice(0, path.lastIndexOf('/')));
-    disk.files.set(path, encodeAsset(artwork, file.key, paths, { preview: null, clock }));
-  }
+  writeProjectAssets(disk, ROOT, artwork, new Map([[hiddenSprite().id, `${SHARED}/hidden.bxsprite`]]));
   disk.dirs.add(SHARED);
   disk.granted.add(key(SHARED));
 };
@@ -134,7 +124,7 @@ describe('a project whose every folder is hidden', () => {
   });
 
   it('shows the assistant no document at all', async () => {
-    const listed = await current.run('list_documents', {}, [grantOf(current.projectId, 'edit')]);
+    const listed = await current.run('list_documents', {}, current.grants('edit'));
     expect(rowsOf(listed, 'documents')).toEqual([]);
     const doc = await current.run('get_document', { documentId: documentId(), spriteOffset: 0, spriteLimit: 50 }, current.grants('edit'));
     expect(doc).toMatchObject({ ok: false, error: { code: 'DOCUMENT_NOT_FOUND' } });

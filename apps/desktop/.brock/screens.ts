@@ -24,6 +24,7 @@ import { meta as creditsCardMeta } from '../src/screens/credits.card';
 import { meta as editorBaseMeta } from '../src/screens/editor.base';
 import ProjectAssistantSettings, { meta as projectAssistantSettingsMeta } from '../src/screens/project/assistant.settings';
 import ProjectDefaultsSettings, { meta as projectDefaultsSettingsMeta } from '../src/screens/project/defaults.settings';
+import ProjectExportSettings, { meta as projectExportSettingsMeta } from '../src/screens/project/export.settings';
 import ProjectFoldersSettings, { meta as projectFoldersSettingsMeta } from '../src/screens/project/folders.settings';
 import ProjectGeneralSettings, { meta as projectGeneralSettingsMeta } from '../src/screens/project/general.settings';
 import { meta as projectNoneCustomMeta } from '../src/screens/project/none.custom';
@@ -52,6 +53,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'base', id: 'editor', component: lazyComponent(() => import('../src/screens/editor.base')), meta: editorBaseMeta },
   { kind: 'settings', bucket: 'project', id: 'assistant', sections: ProjectAssistantSettings, meta: projectAssistantSettingsMeta },
   { kind: 'settings', bucket: 'project', id: 'defaults', sections: ProjectDefaultsSettings, meta: projectDefaultsSettingsMeta },
+  { kind: 'settings', bucket: 'project', id: 'export', sections: ProjectExportSettings, meta: projectExportSettingsMeta },
   { kind: 'settings', bucket: 'project', id: 'folders', sections: ProjectFoldersSettings, meta: projectFoldersSettingsMeta },
   { kind: 'settings', bucket: 'project', id: 'general', sections: ProjectGeneralSettings, meta: projectGeneralSettingsMeta },
   { kind: 'custom', bucket: 'project', id: 'none', component: lazyComponent(() => import('../src/screens/project/none.custom')), meta: projectNoneCustomMeta },

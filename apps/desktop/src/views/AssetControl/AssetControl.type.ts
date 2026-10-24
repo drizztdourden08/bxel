@@ -69,4 +69,4 @@ interface PresetListModel {
   run: (name: string) => void;
 }
 
-export type { AssetControlProps, BankControlModel, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowModel, PresetRowProps, ReportControlModel, SetLoaderModel, SnapRowModel };
+export type { AssetControlProps, BankControlModel, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowProps, ReportControlModel, SetLoaderModel, SnapRowModel };

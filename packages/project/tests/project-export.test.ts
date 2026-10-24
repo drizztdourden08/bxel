@@ -41,10 +41,7 @@ describe('the export settings of a project', () => {
   });
 
   it.each(JUNK)('refuse %s', (_label, settings) => {
-    const manifest = JSON.parse(must(writeProjectDocument(sampleDocument()))) as Record<string, unknown>;
-    manifest['export'] = settings;
-    const parsed = parseProjectDocument(JSON.stringify(manifest));
-    expect(parsed.ok).toBe(false);
-    if (!parsed.ok) expect(parsed.code).toBe(PROJECT_ERROR_CODE.MANIFEST_INVALID);
+    const manifest = { ...JSON.parse(must(writeProjectDocument(sampleDocument()))), export: settings } as object;
+    expect(parseProjectDocument(JSON.stringify(manifest))).toMatchObject({ ok: false, code: PROJECT_ERROR_CODE.MANIFEST_INVALID });
   });
 });

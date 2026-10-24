@@ -1,12 +1,13 @@
 /* @layer core @kind test */
 import { sliceAsset } from '@bxel/document';
+import type { Engine } from '@bxel/document';
 import { decodeSprite } from '@bxel/document/native';
 import { describe, expect, it } from 'vitest';
-import { heartEngine } from './heart-engine';
 import { encodeSlice } from './asset-bytes';
+import { heartEngine } from './heart-engine';
 import { apply, expectUndoRedo, HEART, onSprites, plain, rejection } from './sheet-engine';
 
-const sprite = (engine: ReturnType<typeof heartEngine>['engine']) => engine.state().artwork.sprites.find((each) => each.id === HEART);
+const sprite = (engine: Engine) => engine.state().artwork.sprites.find((each) => each.id === HEART);
 
 const update = (options: unknown) => onSprites('sprite.update', options, [HEART]);
 
