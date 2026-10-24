@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind test */
-import { createElement } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { modeOf } from '../../src/editor/selection/mode-of';
 import { SELECT_MODES } from '../../src/editor/selection/selection.constants';
@@ -10,15 +9,13 @@ import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
 import { TOOL_ICONS } from '../../src/icons/tool-icons.constants';
 import { MAP_TOOLS } from '../../src/tilemap/map-tools.constants';
 import { railItems } from '../../src/views/ToolRail/behavior/rail-items';
-import { MapToolButton } from '../../src/views/ToolRail/sub-components/MapToolButton';
 import type { RailItemContext } from '../../src/views/ToolRail/ToolRail.type';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import { COMMON_ROWS, TOOL_ROWS } from '../../src/views/EditorStatus/EditorStatus.constants';
 import { LAYER_ACTIONS } from '../../src/views/LayersPanel/LayersPanel.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
-import { TRANSFORM_ACTIONS } from '../../src/views/TransformPanel/TransformPanel.constants';
+import { TRANSFORM_ACTIONS } from '../../src/views/CanvasToolbar/sub-components/TransformMenu.constants';
 import { allHints } from './all-hints';
-import { render } from './hint-harness';
 
 vi.mock('@drizztdourden08/brock-react', async () => {
   const base = (await import('../keymap/brock-react-mock')).brockReactMock();
@@ -53,16 +50,16 @@ describe('the hint texts', () => {
 
 describe('the tool rail', () => {
   it('names a tool button with the tool alone and puts the key in the hint', () => {
-    for (const def of MAP_TOOLS) {
-      const html = render(createElement(MapToolButton, { def, active: false, onSelect: () => undefined }));
-      expect(html).toContain(`aria-label="${def.label}"`);
-      expect(html).not.toContain(`${def.label}  `);
-    }
+    const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
+    const context: RailItemContext = { defs: MAP_TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
+    const toggles = railItems(context).filter((item) => item.kind === 'toggle');
+    expect(toggles.map((item) => item.label)).toEqual(MAP_TOOLS.map((def) => def.label));
+    for (const item of toggles) expect(item.label).not.toMatch(/[()+]/);
   });
 
   it('lists every tool of the editor as a toggle named with the tool alone', () => {
     const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
-    const context: RailItemContext = { tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
+    const context: RailItemContext = { defs: TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
     const toggles = railItems(context).filter((item) => item.kind === 'toggle');
     expect(toggles.map((item) => item.label).sort()).toEqual(TOOLS.map((def) => def.label).sort());
   });

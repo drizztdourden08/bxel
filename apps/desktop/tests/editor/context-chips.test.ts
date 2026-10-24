@@ -8,7 +8,7 @@ import { PIXEL_ICON_SIZE, PIXEL_ICONS } from '../../src/icons/pixel-icon.constan
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useToolStore } from '../../src/stores/useToolStore';
-import { scopeChipList } from '../../src/views/ContextBar/behavior/scope-chip-list';
+import { scopeChipList } from '../../src/views/ScopeBar/behavior/scope-chip-list';
 
 const live = (): EditorTarget => {
   const target = currentTarget();
@@ -27,7 +27,7 @@ beforeEach(() => {
   createDefaultArtwork(useDocumentStore.getState().host);
 });
 
-describe('the scope chips of the context bar', () => {
+describe('the scope chips of the scope bar', () => {
   it('lists the sprite, layer and frame chips in order', () => {
     expect(scopeChipList(live()).map((chip) => chip.key)).toEqual(['sprite', 'layer', 'frame']);
   });

@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { flatIndices } from './support/flat-indices';
 import { MARKS, MARKS_SIDE } from './support/marks.constants';
+import { pickTransform } from './support/pick-transform';
 import { openTransformRig } from './support/open-transform-rig';
 import { readSaved } from './support/read-saved';
 import { saveFile } from './support/save-file';
@@ -16,7 +17,7 @@ describe('check 4: an arbitrary angle rotation', () => {
 
   test('commits nearest neighbour pixels with no new colours', async () => {
     const { session, original, shown, shownNow } = rig();
-    await session.page.getByRole('region', { name: 'Transform' }).getByRole('button', { name: 'Rotate...', exact: true }).click();
+    await pickTransform(session, 'Rotate...');
     const dialog = session.page.getByRole('dialog', { name: 'Rotate' });
     await dialog.getByRole('spinbutton', { name: 'Angle in degrees' }).fill('90');
     await dialog.getByRole('button', { name: 'Preview on canvas' }).click();
