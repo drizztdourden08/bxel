@@ -25,6 +25,7 @@ const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   mapFormat: 'bxel',
   folder: '',
   fileName: '',
+  pathTemplate: '',
 };
 
 const EXPORT_LIMITS = {

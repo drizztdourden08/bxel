@@ -10,7 +10,7 @@ const planAnimation = (parts: PlanParts): PlannedFile[] => {
   const { targets, settings, base } = parts;
   const { scale, animation } = settings;
   return targets.map((target, spriteIndex) => {
-    const name = `${fileLabel(base, target, targets.length, null)}.${animation === 'gif' ? 'gif' : 'png'}`;
+    const name = `${fileLabel({ base, target, count: targets.length, extra: null, template: settings.pathTemplate })}.${animation === 'gif' ? 'gif' : 'png'}`;
     const width = target.sprite.width * scale;
     const height = target.sprite.height * scale;
     return {

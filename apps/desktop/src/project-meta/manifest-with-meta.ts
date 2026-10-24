@@ -38,6 +38,7 @@ const manifestWithMeta = (manifest: ProjectDocument, source: MetaSource): Projec
   ...coverOf(source, manifest),
   folders: manifest.folders,
   defaults: { ...keptDefaults(manifest.defaults), ...paletteOf(source, manifest.defaults), ...platformOf(source.artwork, manifest.defaults) },
+  ...(manifest.export === undefined ? {} : { export: manifest.export }),
   assistant: manifest.assistant,
 });
 

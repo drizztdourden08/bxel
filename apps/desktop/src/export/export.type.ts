@@ -41,6 +41,7 @@ type ExportSettings = {
   readonly mapFormat: MapFormat;
   readonly folder: string;
   readonly fileName: string;
+  readonly pathTemplate: string;
 };
 
 type ExportOpen = {
@@ -158,6 +159,14 @@ type MapPick = {
   readonly tileset: Tileset;
 };
 
+type LabelParts = {
+  readonly base: string;
+  readonly target: Target;
+  readonly count: number;
+  readonly extra: string | null;
+  readonly template: string;
+};
+
 type PlanParts = {
   readonly targets: readonly Target[];
   readonly settings: ExportSettings;
@@ -183,6 +192,7 @@ export type {
   ExportSink,
   FrameChoice,
   IndexedStatus,
+  LabelParts,
   LayerChoice,
   LayoutChoice,
   MadeEntry,

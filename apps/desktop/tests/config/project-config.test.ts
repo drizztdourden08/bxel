@@ -47,6 +47,21 @@ describe('the project defaults', () => {
     expect(held.disk.files.has(`${ROOT}/sprites/big.bxsprite`)).toBe(true);
   });
 
+  it('carry a pixel grid that a new sprite is saved with, and a plain default leaves the sprite without one', async () => {
+    const { held, documentId } = await openedProject();
+    const host = useDocumentStore.getState().host;
+    const plain = initialForm(memoryOf(resolveDefaults(appAssetDefaults(undefined), manifest()?.defaults ?? {})), []);
+    expect(createAsset(host, documentId, { ...plain, name: 'flat' }).ok).toBe(true);
+    expect(liveArtwork(documentId).sprites.find((each) => each.name === 'flat')?.pixelGrid).toBeUndefined();
+    await PROJECT_SOURCE.set('project.default.pixelGrid', { width: 8, height: 8 });
+    await PROJECT_SOURCE.flush();
+    expect(savedManifest(held).defaults.pixelGrid).toEqual({ width: 8, height: 8 });
+    const defaults = resolveDefaults(appAssetDefaults(undefined), manifest()?.defaults ?? {});
+    expect(createAsset(host, documentId, { ...initialForm(memoryOf(defaults), []), name: 'gridded' }).ok).toBe(true);
+    expect(liveArtwork(documentId).sprites.find((each) => each.name === 'gridded')?.pixelGrid).toEqual({ width: 8, height: 8 });
+    expect(liveArtwork(documentId).sprites.find((each) => each.name === 'flat')?.pixelGrid).toBeUndefined();
+  });
+
   it('go back to the app default when reset', async () => {
     const { held } = await openedProject();
     await PROJECT_SOURCE.set('project.default.colorLimit', 8);

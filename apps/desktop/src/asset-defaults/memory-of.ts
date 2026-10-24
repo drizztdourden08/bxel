@@ -9,6 +9,7 @@ const memoryOf = (defaults: AssetDefaults): CreationMemory => ({
   limit: defaults.colorLimit,
   transparent: defaults.transparent,
   frameMs: defaults.frameDurationMs,
+  pixelGrid: defaults.pixelGrid,
   presetId: defaults.palette.kind === 'preset' ? defaults.palette.presetId : PRESET_DEFAULT,
   ...(defaults.platformId === null ? {} : { platformId: defaults.platformId }),
 });

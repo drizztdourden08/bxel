@@ -11,6 +11,7 @@ import {
 import { brandedIdSchema } from './branded-id-schema';
 import { nameSchema } from './name-schema';
 import { pivotSchema } from './pivot-schema';
+import { pixelGridSchema } from './pixel-grid-schema';
 import { platformIdSchema } from './platform-id-schema';
 import { rectSchema } from './rect-schema';
 import { tagColourSchema } from './tag-colour-schema';
@@ -60,6 +61,7 @@ const spriteShellSchema = z.object({
   pivot: pivotSchema,
   platformId: platformIdSchema.optional(),
   platformStrict: z.boolean().optional(),
+  pixelGrid: pixelGridSchema.optional(),
   layers: z.array(layerSchema),
   frames: z.array(frameSchema),
   tags: z.array(tagSchema),

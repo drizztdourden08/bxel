@@ -9,6 +9,7 @@ const withCover = (manifest: ProjectDocument, cover: ProjectCover | null): Proje
   ...(cover === null ? {} : { cover }),
   folders: manifest.folders,
   defaults: manifest.defaults,
+  ...(manifest.export === undefined ? {} : { export: manifest.export }),
   assistant: manifest.assistant,
 });
 

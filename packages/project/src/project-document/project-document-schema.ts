@@ -8,6 +8,7 @@ import { isValidSegment } from '../paths/is-valid-segment';
 import { PATH_LIMITS } from '../paths/path.constants';
 import { checkProjectDocument } from './check-project-document';
 import { documentFolderSchema } from './document-folder-schema';
+import { exportSchema } from './export-schema';
 import { locationPathSchema } from './location-path-schema';
 import { PROJECT_DOCUMENT_VERSION } from './project-document.constants';
 
@@ -25,6 +26,7 @@ const projectDocumentSchema = z
     cover: z.strictObject({ folderId: folderIdSchema, path: locationPathSchema(false) }).optional(),
     folders: z.array(documentFolderSchema).min(1).max(PATH_LIMITS.maxFolders),
     defaults: defaultsSchema.default({}),
+    export: exportSchema.optional(),
     assistant: z.strictObject({
       access: z.enum(ACCESS_LEVELS),
       folders: z.array(folderIdSchema).optional(),

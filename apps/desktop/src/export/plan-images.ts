@@ -10,6 +10,7 @@ const imagesOf = (target: Target, kind: ExportKind): Target['frames'] =>
 
 const planImages = (parts: PlanParts): PlannedFile[] => {
   const { targets, settings, base, map } = parts;
+  const template = settings.pathTemplate;
   const { scale } = settings;
   const files: PlannedFile[] = [];
   for (const [spriteIndex, target] of targets.entries()) {
@@ -18,7 +19,7 @@ const planImages = (parts: PlanParts): PlannedFile[] => {
     const height = target.sprite.height * scale;
     for (const frame of frames) {
       const number = frames.length > 1 ? String(target.sprite.frames.findIndex((each) => each.id === frame.id)) : null;
-      const name = `${fileLabel(base, target, targets.length, number)}.png`;
+      const name = `${fileLabel({ base, target, count: targets.length, extra: number, template })}.png`;
       files.push({
         name,
         detail: EXPORT_TEXT.imageDetail(name, width, height),

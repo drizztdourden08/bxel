@@ -1,7 +1,5 @@
 /* @layer core @kind logic */
 import {
-  assertNameFree,
-  checkName,
   defineCommand,
   ERROR_CODE,
   fail,
@@ -11,11 +9,11 @@ import {
   updateArtwork,
   updateSprite,
 } from '@bxel/document';
+import { bankCopyName } from './bank-copy-name';
 import { bankSprites } from './bank-sprites';
 import { copyBank } from './copy-bank';
 import { PALETTE_COMMAND_NAME } from './palette-command-name.constants';
 import { paletteDetachSchema } from './palette-detach-schema';
-import { uniqueBankName } from './unique-bank-name';
 
 const paletteDetach = defineCommand({
   name: PALETTE_COMMAND_NAME.paletteDetach,
@@ -31,12 +29,7 @@ const paletteDetach = defineCommand({
         details: [{ spriteId, layerId: null, frameId: null, reason: 'the palette is not shared' }],
       });
     }
-    const name = input.options.name === undefined ? uniqueBankName(draft.artwork, bank.name) : checkName(input.options.name);
-    assertNameFree(
-      draft.artwork.banks.map((other) => other.name),
-      name,
-    );
-    const copy = copyBank(draft.ids, bank, name);
+    const copy = copyBank(draft.ids, bank, bankCopyName(draft, bank, input.options.name));
     updateArtwork(draft, (artwork) => ({ ...artwork, banks: [...artwork.banks, copy] }));
     updateSprite(draft, spriteId, (current) => ({ ...current, bankId: copy.id }));
     registerRef(draft, input.ref, copy.id);

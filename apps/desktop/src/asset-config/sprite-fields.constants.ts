@@ -7,6 +7,8 @@ import { spritesTarget } from '../sheet/sprites-target';
 import { ASSET_LABEL } from './asset-config.constants';
 import type { AssetFields, AssetFocus, AssetOutcome } from './asset-config.type';
 import { focusAssetOf } from './focus-asset-of';
+import { gridEdit } from './grid-edit';
+import type { GridCell } from './grid-edit.type';
 import { runField } from './run-field';
 
 const spriteOf = (focus: AssetFocus) => focusAssetOf(focus, 'sprite');
@@ -40,6 +42,12 @@ const pivotTo = (focus: AssetFocus, at: { x2?: number | null; y2?: number | null
   return runField(focus, ASSET_LABEL.pivot, [stepFor(focus, COMMAND_NAME.spriteUpdate, { pivot })]);
 };
 
+const gridTo = (focus: AssetFocus, cell: GridCell): AssetOutcome => {
+  const sprite = spriteOf(focus);
+  const pixelGrid = sprite ? gridEdit(sprite, cell) : undefined;
+  return pixelGrid === undefined ? null : runField(focus, ASSET_LABEL.pixelGrid, [stepFor(focus, COMMAND_NAME.spriteUpdate, { pixelGrid })]);
+};
+
 const frameTime = (focus: AssetFocus, value: unknown): AssetOutcome => {
   const sprite = spriteOf(focus);
   const durationMs = whole(value);
@@ -56,6 +64,8 @@ const SPRITE_FIELDS: AssetFields = {
   'sprite.height': { read: (focus) => spriteOf(focus)?.height ?? 0, write: (focus, value) => resizeTo(focus, { width: null, height: whole(value) }), buffered: true },
   'sprite.pivotX': { read: (focus) => (spriteOf(focus)?.pivot.x2 ?? 0) / 2, write: (focus, value) => pivotTo(focus, { x2: half(value) }), buffered: true },
   'sprite.pivotY': { read: (focus) => (spriteOf(focus)?.pivot.y2 ?? 0) / 2, write: (focus, value) => pivotTo(focus, { y2: half(value) }), buffered: true },
+  'sprite.gridWidth': { read: (focus) => spriteOf(focus)?.pixelGrid?.width ?? 1, write: (focus, value) => gridTo(focus, { width: whole(value) }), buffered: true },
+  'sprite.gridHeight': { read: (focus) => spriteOf(focus)?.pixelGrid?.height ?? 1, write: (focus, value) => gridTo(focus, { height: whole(value) }), buffered: true },
   'sprite.frameMs': { read: (focus) => spriteOf(focus)?.frames[0]?.durationMs ?? 0, write: frameTime, buffered: true },
 };
 

@@ -1,5 +1,5 @@
 /* @layer core @kind types */
-import type { Pivot2, Rect } from './geometry.type';
+import type { Pivot2, Rect, Size } from './geometry.type';
 import type { BankId, CelId, FrameId, LayerId, SliceId, SpriteId, TagId } from './ids.type';
 
 type SpriteRole = 'sprite' | 'tile';
@@ -45,6 +45,7 @@ type Sprite = {
   readonly pivot: Pivot2;
   readonly platformId?: string;
   readonly platformStrict?: boolean;
+  readonly pixelGrid?: Size;
   readonly layers: readonly Layer[];
   readonly frames: readonly Frame[];
   readonly tags: readonly Tag[];

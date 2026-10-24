@@ -5,14 +5,19 @@ import { celChanges } from './cel-changes';
 
 const structureKeys = ['width', 'height', 'layers', 'frames', 'tags', 'slices'] as const;
 
+const optionsChanged = (before: Sprite, after: Sprite): boolean =>
+  before.platformId !== after.platformId ||
+  before.platformStrict !== after.platformStrict ||
+  before.pixelGrid?.width !== after.pixelGrid?.width ||
+  before.pixelGrid?.height !== after.pixelGrid?.height;
+
 const metaChanged = (before: Sprite, after: Sprite): boolean =>
   before.name !== after.name ||
   before.role !== after.role ||
   before.bankId !== after.bankId ||
   before.pivot.x2 !== after.pivot.x2 ||
   before.pivot.y2 !== after.pivot.y2 ||
-  before.platformId !== after.platformId ||
-  before.platformStrict !== after.platformStrict;
+  optionsChanged(before, after);
 
 const structureChanged = (before: Sprite, after: Sprite): boolean =>
   structureKeys.some((key) => before[key] !== after[key]);

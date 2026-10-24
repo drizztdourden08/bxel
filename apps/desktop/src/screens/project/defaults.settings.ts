@@ -22,6 +22,7 @@ const sections: Section[] = [
       { key: 'project.default.palette', label: 'Palette', description: 'The palette a new sprite starts with.', hint: 'A palette file of the project is shared by every sprite that uses it.' },
       { key: 'project.default.transparent', label: 'Transparent slot', description: 'Slot 0 of a new palette is transparent.' },
       { key: 'project.default.frameDurationMs', label: 'Frame time', description: 'How long a new frame shows.' },
+      { key: 'project.default.pixelGrid', label: 'Pixel grid', description: 'The grid cell a new sprite is saved with.', hint: '1 by 1 draws a line between every pixel. A sprite keeps its own grid.' },
     ],
   },
   {

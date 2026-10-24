@@ -25,7 +25,7 @@ const createSpriteInFile = (host: DocumentHost, documentId: DocumentId, draft: S
   if (!view) return { ok: false, message: NEW_TEXT.noFile };
   const name = draft.name.trim();
   const size = { width: draft.width, height: draft.height };
-  const steps = spriteSteps({ names: [name], size, bankId: view.state.artwork.defaultBankId, fillSlot: null, existingId: null });
+  const steps = spriteSteps({ names: [name], size, bankId: view.state.artwork.defaultBankId, fillSlot: null, existingId: null, pixelGrid: draft.pixelGrid });
   const done = runSteps(host, documentId, NEW_LABEL.sprite, [...steps, ...joinSheet(host, documentId)]);
   if (!done.ok) return { ok: false, message: done.error.message };
   const made = done.created[NEW_REF] as SpriteId | undefined;

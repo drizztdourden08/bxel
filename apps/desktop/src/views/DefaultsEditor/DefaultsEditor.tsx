@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind component */
+import { APP_ASSET_DEFAULTS, GRID_LABELS } from '../../asset-defaults/asset-defaults.constants';
 import type { DefaultsEditorProps } from './DefaultsEditor.type';
 import { NumberEditor } from './sub-components/NumberEditor';
 import { PaletteEditor } from './sub-components/PaletteEditor';
@@ -21,7 +22,7 @@ const DefaultsEditor = ({ field, value, files, onChange }: DefaultsEditorProps) 
     case 'transparent':
       return <ToggleEditor field={field} value={value} onChange={onChange} />;
     case 'pixelGrid':
-      return null;
+      return <SizeEditor value={value} fallback={APP_ASSET_DEFAULTS.pixelGrid} labels={GRID_LABELS} onChange={onChange} />;
   }
 };
 

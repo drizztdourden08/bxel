@@ -32,9 +32,9 @@ const sampleArtwork = (): Artwork => {
   return artwork;
 };
 
-const writeProjectAssets = (disk: Disk, root: string, artwork: Artwork): ReadonlyMap<string, string> => {
+const writeProjectAssets = (disk: Disk, root: string, artwork: Artwork, moved: ReadonlyMap<string, string> = new Map()): ReadonlyMap<string, string> => {
   const plan = splitIntoAssets(artwork);
-  const paths = new Map(plan.files.map((file) => [file.key.id, `${root}/${file.path}`] as const));
+  const paths = new Map(plan.files.map((file) => [file.key.id, moved.get(file.key.id) ?? `${root}/${file.path}`] as const));
   for (const file of plan.files) {
     const path = paths.get(file.key.id) ?? '';
     disk.dirs.add(path.slice(0, path.lastIndexOf('/')));

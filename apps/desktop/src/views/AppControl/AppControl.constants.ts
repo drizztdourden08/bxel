@@ -9,6 +9,7 @@ const APP_CONTROL_FIELDS: readonly string[] = [
   'app.default.platformStrict',
   'app.default.transparent',
   'app.default.frameDurationMs',
+  'app.default.pixelGrid',
 ];
 
 export { APP_CONTROL_FIELDS, DEFAULT_PREFIX };

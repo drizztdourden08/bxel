@@ -28,7 +28,7 @@ const spriteCreate = defineCommand({
     requireBank(draft.artwork, bankId);
     if (options.pivot) checkPivot(options.pivot, options);
     const sprite = buildSprite({ ids: draft.ids, name, width: options.width, height: options.height, bankId, pivot: options.pivot ?? null });
-    addSprite(draft, sprite);
+    addSprite(draft, options.pixelGrid ? { ...sprite, pixelGrid: options.pixelGrid } : sprite);
     registerRef(draft, input.ref, sprite.id);
   },
 });

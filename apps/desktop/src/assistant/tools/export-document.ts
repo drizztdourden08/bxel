@@ -8,6 +8,7 @@ import type { ToolContext, ToolHandler } from '../assistant.type';
 import { checkRevision } from './check-revision';
 import { exportTarget } from './export-target';
 import { framePng } from './frame-png';
+import { hiddenAssets } from './hidden-assets';
 import { indexHash } from './index-hash';
 import { reply } from './reply';
 import { spriteFrame } from './sprite-frame';
@@ -29,7 +30,7 @@ const exportDocument: ToolHandler = async (input, context) => {
   if (stale) return reply(stale);
   const target = await exportTarget(job, context);
   if (!target.ok) return reply(target);
-  const found = spriteFrame(view.state.artwork, target.value.source.spriteId, target.value.source.frameId);
+  const found = spriteFrame(view.state.artwork, target.value.source.spriteId, target.value.source.frameId, hiddenAssets(context, job.documentId));
   if (!found.ok) return reply(found);
   const png = framePng(found.value, job.scale);
   if (!png.ok) return reply(png);

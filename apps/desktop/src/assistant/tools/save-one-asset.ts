@@ -7,6 +7,7 @@ import { assetKeys } from '../../workspace/asset-keys';
 import { saveTab } from '../../workspace/save-tab';
 import { tabOf } from '../../workspace/tab-of';
 import type { ToolContext } from '../assistant.type';
+import { hiddenAssets } from './hidden-assets';
 import { reply } from './reply';
 import type { AssetInput } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
@@ -14,7 +15,8 @@ import { toolKit } from './tool-kit';
 
 const saveOneAsset = async (context: ToolContext, documentId: DocumentId, asset: AssetInput): Promise<ToolReply | string> => {
   const artwork = context.host.view(documentId)?.state.artwork;
-  const key = artwork ? assetKeys(artwork).find((each) => each.kind === asset.kind && each.id === asset.id) : undefined;
+  const hidden = hiddenAssets(context, documentId);
+  const key = artwork ? assetKeys(artwork).find((each) => each.kind === asset.kind && each.id === asset.id && !hidden.has(each.id)) : undefined;
   if (!key) return reply(hiddenFailure('document'));
   if (!useWorkspaceStore.getState().workspaces[documentId]?.paths.has(key.id)) {
     return reply(mcpFailure(MCP_ERROR_CODE.NEEDS_FILE_NAME, TOOL_TEXT.needsName, { path: 'asset' }));

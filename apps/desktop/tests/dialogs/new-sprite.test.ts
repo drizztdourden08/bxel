@@ -2,6 +2,7 @@
 import { flattenFrame } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { PALETTE_TEXT } from '../../src/editor/palette-text.constants';
+import { createAsset } from '../../src/new-sprite/create-asset';
 import { createNewFile } from '../../src/new-sprite/create-new-file';
 import { createSpriteInFile } from '../../src/new-sprite/create-sprite-in-file';
 import { hasErrors } from '../../src/new-sprite/has-errors';
@@ -132,6 +133,24 @@ describe('creating a new file', () => {
     useCreateDialogStore.getState().hide();
     expect(useCreateDialogStore.getState().mode).toBe('closed');
     expect(host.list()).toHaveLength(0);
+  });
+});
+
+describe('naming a new sheet', () => {
+  it('names the new sheet Sheet 1 in a new file', () => {
+    const host = newHost();
+    const outcome = createNewFile(host, patchForm(blank(), { kind: 'sheet', name: 'cap', columns: 2, rows: 1, cellWidth: 8, cellHeight: 8 }));
+    expect(outcome.ok).toBe(true);
+    const sheets = outcome.ok ? host.view(outcome.documentId)?.state.artwork.sheets.map((sheet) => sheet.name) : [];
+    expect(sheets).toEqual(['Sheet 1']);
+  });
+
+  it('numbers the sheets Sheet 1, Sheet 2 and so on', () => {
+    const { host, documentId } = hostWithFile();
+    const form = patchForm(blank(), { kind: 'sheet', name: 'cap', columns: 2, rows: 1, cellWidth: 8, cellHeight: 8 });
+    expect(createAsset(host, documentId, form).ok).toBe(true);
+    expect(createAsset(host, documentId, { ...form, name: 'hat' }).ok).toBe(true);
+    expect(host.view(documentId)?.state.artwork.sheets.map((sheet) => sheet.name)).toEqual(['Sheet 1', 'Sheet 2']);
   });
 });
 

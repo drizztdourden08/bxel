@@ -3,6 +3,7 @@ import { hiddenFailure } from '@bxel/mcp';
 import { sheetExtent, sheetSizes } from '@bxel/document';
 import type { Artwork, PaletteBank, Sheet } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
+import { hiddenAssets } from './hidden-assets';
 import { reply } from './reply';
 import { spriteSummary } from './sprite-summary';
 import type { GetDocumentInput } from './tool-input.type';
@@ -28,7 +29,9 @@ const getDocument: ToolHandler = (input, context) => {
   const view = viewFor(context, documentId);
   if (!view) return reply(hiddenFailure('document'));
   const { artwork, revision } = view.state;
-  const sprites = artwork.sprites.slice(spriteOffset, spriteOffset + spriteLimit);
+  const hidden = hiddenAssets(context, documentId);
+  const seen = artwork.sprites.filter((sprite) => !hidden.has(sprite.id));
+  const sprites = seen.slice(spriteOffset, spriteOffset + spriteLimit);
   return reply({
     ok: true,
     documentId,
@@ -37,11 +40,11 @@ const getDocument: ToolHandler = (input, context) => {
     canUndo: view.canUndo,
     canRedo: view.canRedo,
     undoIsOwn: view.newest?.actor === context.call.session.sessionId,
-    banks: artwork.banks.map(bankSummary),
+    banks: artwork.banks.filter((bank) => !hidden.has(bank.id)).map(bankSummary),
     sprites: sprites.map(spriteSummary),
-    spritesTotal: artwork.sprites.length,
-    truncated: spriteOffset + sprites.length < artwork.sprites.length,
-    sheets: artwork.sheets.map(sheetSummary(artwork)),
+    spritesTotal: seen.length,
+    truncated: spriteOffset + sprites.length < seen.length,
+    sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork)),
   });
 };
 

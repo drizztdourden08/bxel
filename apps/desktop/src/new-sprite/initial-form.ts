@@ -16,6 +16,7 @@ const memoryForm = (memory: CreationMemory, taken: readonly string[]): CreationF
       height: memory.height,
       limit: memory.limit,
       frameMs: memory.frameMs ?? NEW_FORM_BASE.frameMs,
+      pixelGrid: memory.pixelGrid ?? NEW_FORM_BASE.pixelGrid,
       transparent: memory.transparent,
       background: memory.transparent ? 'transparent' : 'opaque',
       source: { kind: 'preset', presetId: memory.presetId, file: null },

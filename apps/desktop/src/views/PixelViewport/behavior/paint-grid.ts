@@ -22,7 +22,7 @@ const paintGrid = (ctx: CanvasRenderingContext2D, placed: PlacedImage, image: Im
     ctx.moveTo(x, top);
     ctx.lineTo(x, bottom);
   });
-  linesOf({ start: placed.y, scale: placed.scale, every: line.every, count: image.height, room: canvas.height }).forEach((y) => {
+  linesOf({ start: placed.y, scale: placed.scale, every: line.everyY ?? line.every, count: image.height, room: canvas.height }).forEach((y) => {
     ctx.moveTo(left, y);
     ctx.lineTo(right, y);
   });

@@ -52,6 +52,22 @@ describe('the value source over pivot, frame time and platform', () => {
     expect(sprite.frames.every((frame) => frame.durationMs === 250)).toBe(true);
   });
 
+  it('stores a pixel grid on the sprite, keeps one cell when the other changes, and clears it at 1 by 1', async () => {
+    const { documentId } = await openedProject();
+    expect([ASSET_SOURCE.get('sprite.gridWidth'), ASSET_SOURCE.get('sprite.gridHeight')]).toEqual([1, 1]);
+    await ASSET_SOURCE.set('sprite.gridWidth', 8);
+    await ASSET_SOURCE.flush();
+    expect(firstSprite(documentId).pixelGrid).toEqual({ width: 8, height: 1 });
+    await ASSET_SOURCE.set('sprite.gridHeight', 4);
+    await ASSET_SOURCE.flush();
+    expect(firstSprite(documentId).pixelGrid).toEqual({ width: 8, height: 4 });
+    undoOnce(documentId);
+    expect(firstSprite(documentId).pixelGrid).toEqual({ width: 8, height: 1 });
+    await ASSET_SOURCE.set('sprite.gridWidth', 1);
+    await ASSET_SOURCE.flush();
+    expect(firstSprite(documentId).pixelGrid).toBeUndefined();
+  });
+
   it('ignores a half typed number', async () => {
     const { documentId } = await openedProject();
     const before = firstSprite(documentId).width;

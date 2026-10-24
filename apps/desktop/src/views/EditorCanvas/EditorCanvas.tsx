@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { useRef } from 'react';
 import { Box, EmptyState } from '@drizztdourden08/tessera';
-import { useCanvasLook } from '../../canvas-look/useCanvasLook';
+import { useSpriteLook } from '../../canvas-look/useSpriteLook';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { usePendingStore } from '../../stores/usePendingStore';
 import { useToolStore } from '../../stores/useToolStore';
@@ -35,7 +35,7 @@ const EditorCanvas = () => {
   const rulers = useViewStore((state) => state.rulers);
   const tiled = useViewStore((state) => state.tiled);
   const outcome = usePendingStore((state) => state.outcome);
-  const look = useCanvasLook();
+  const look = useSpriteLook(target);
   const committed = useCommittedImage(target);
   const floating = usePendingImage(outcome);
   const tools = useCanvasTools(viewport);
