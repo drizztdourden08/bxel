@@ -2,6 +2,7 @@
 import type { DocumentId } from '@bxel/document';
 import { CANCELLED } from '../files/files.constants';
 import type { FileKit, FileOutcome } from '../files/files.type';
+import { manifestWithMeta } from '../project-meta/manifest-with-meta';
 import { saveManifest } from '../project/save-manifest';
 import { useProjectStore } from '../stores/useProjectStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
@@ -15,9 +16,13 @@ import { workspaceTarget } from './workspace-target';
 import type { DirtyKeys, Workspace } from './workspace.type';
 import { writeAssets } from './write-assets';
 
-const saveProjectFile = async (documentId: DocumentId, workspace: Workspace, keys: DirtyKeys): Promise<number> => {
+const saveProjectFile = async (kit: FileKit, documentId: DocumentId, workspace: Workspace, keys: DirtyKeys): Promise<number> => {
   const { project } = useProjectStore.getState();
-  if (keys.project === null || workspace.kind !== 'project' || !project || !(await saveManifest(project.manifest)).ok) return 0;
+  const artwork = kit.host.view(documentId)?.state.artwork;
+  if (keys.project === null || workspace.kind !== 'project' || !project || !artwork) return 0;
+  const paths = useWorkspaceStore.getState().workspaces[documentId]?.paths ?? workspace.paths;
+  const next = manifestWithMeta(project.manifest, { artwork, paths, folders: project.folders });
+  if (!(await saveManifest(next)).ok) return 0;
   const id = keyId(keys.project);
   useWorkspaceStore.getState().patch(documentId, (each) => ({ ...each, dirty: new Set([...each.dirty].filter((key) => key !== id)) }));
   return 1;
@@ -36,7 +41,7 @@ const saveWorkspace = async (kit: FileKit, documentId: DocumentId): Promise<File
   const fresh = useWorkspaceStore.getState().workspaces[documentId] ?? target.workspace;
   const keys = dirtyKeys(fresh, kit.host.view(documentId)?.state.artwork ?? target.view.state.artwork);
   const written = await writeAssets(kit, documentId, keys.live);
-  const project = await saveProjectFile(documentId, fresh, keys);
+  const project = await saveProjectFile(kit, documentId, fresh, keys);
   settleEngine(kit.host, documentId);
   const saved = written.length + project;
   const path = fresh.projectFile ?? written[0]?.path ?? '';

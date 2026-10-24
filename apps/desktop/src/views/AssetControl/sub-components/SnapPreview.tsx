@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Button, ColorSwatch, Flex, Grid, Span, Stack, Text } from '@drizztdourden08/tessera';
 import { SNAP_PREVIEW_LIMIT, SNAP_TEXT } from '../../../platform-preset/snap-platform.constants';
-import type { SnapRowModel } from '../PaletteSettings.type';
+import type { SnapRowModel } from '../AssetControl.type';
 
 const SnapPreview = ({ row }: { row: SnapRowModel }) => {
   const shown = row.changes.slice(0, SNAP_PREVIEW_LIMIT);

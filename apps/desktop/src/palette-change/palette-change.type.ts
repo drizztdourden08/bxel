@@ -1,16 +1,20 @@
 /* @layer renderer-app @kind types */
-import type { BankId, DocumentId, PaletteBank, Sprite } from '@bxel/document';
+import type { BankId, DocumentId, PaletteBank, Sprite, SpriteId } from '@bxel/document';
 import type { RgbaImage } from '@bxel/formats';
 
 type ChangeKind = 'delete' | 'merge' | 'limit';
 
+type RequestKind = ChangeKind | 'switch';
+
 interface ChangeRequest {
-  kind: ChangeKind;
+  kind: RequestKind;
   documentId: DocumentId;
   bankId: BankId;
   swatch: number;
   other: number | null;
   cap: number;
+  spriteId?: SpriteId;
+  toBankId?: BankId;
 }
 
 interface AffectedSprite {
@@ -65,4 +69,4 @@ type ChangeOutcome = { ok: true } | { ok: false; message: string };
 
 type ProposeResult = { ok: true; request: ChangeRequest } | { ok: false; message: string };
 
-export type { AffectedSprite, ChangeKind, ChangeOutcome, ChangePicture, ChangePreview, ChangeRequest, PictureInput, ProposeResult, SpriteUse, SwatchChoice, ToolColours };
+export type { AffectedSprite, ChangeKind, ChangeOutcome, ChangePicture, ChangePreview, ChangeRequest, PictureInput, ProposeResult, RequestKind, SpriteUse, SwatchChoice, ToolColours };

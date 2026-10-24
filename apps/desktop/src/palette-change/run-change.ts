@@ -10,13 +10,14 @@ const runChange = (host: DocumentHost, request: ChangeRequest, mode: Transaction
   const view = host.view(request.documentId);
   const bank = view ? findBank(view.state.artwork, request.bankId) : undefined;
   if (!view || !bank) return { ok: false, message: CHANGE_TEXT.noFile };
+  const dest = request.toBankId === undefined ? undefined : findBank(view.state.artwork, request.toBankId);
   const result = host.execute({
     documentId: request.documentId,
     baseRevision: view.state.revision,
     mode,
     origin: 'ui',
     label: CHANGE_LABEL[request.kind],
-    steps: changeSteps(bank, request),
+    steps: changeSteps(bank, request, dest),
     previewPixels: 0,
   });
   return result.ok ? { ok: true } : { ok: false, message: result.error.message };

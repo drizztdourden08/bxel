@@ -2,7 +2,7 @@
 import type { ScreenMeta, SearchEntrySeed } from '@drizztdourden08/brock-react';
 import { SwatchSetEditor } from '../../views/SwatchSetEditor';
 
-const meta: ScreenMeta = { title: 'Swatch sets', showHeader: true, icon: 'palette', order: 4, keywords: ['palette', 'colors', 'library', 'import', 'preset', 'swatches'] };
+const meta: ScreenMeta = { title: 'Palette library', showHeader: true, icon: 'palette', order: 4, keywords: ['palette', 'colors', 'library', 'import', 'preset', 'swatches'] };
 
 const searchEntries: SearchEntrySeed[] = [
   { label: 'Swatch set library', keywords: ['palette', 'colors', 'import', 'gpl', 'preset', 'project'] },

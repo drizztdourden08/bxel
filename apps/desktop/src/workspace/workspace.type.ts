@@ -96,6 +96,8 @@ type SeededWorkspace = { readonly seed: WorkspaceSeed; readonly merged: MergedWo
 
 type Progress = (done: number, total: number) => void;
 
+type AssetPick = { readonly path: string; readonly granted: boolean };
+
 type OpenTab = { readonly id: string; readonly documentId: DocumentId; readonly key: AssetKey };
 
 type NamedAsset = { readonly id: string; readonly name: string };
@@ -105,6 +107,7 @@ type Encoder = (slice: AssetSlice, preview: Uint8Array | null, clock: Clock) => 
 export type {
   ActiveAsset,
   AssetDirs,
+  AssetPick,
   AssetFile,
   DecodedFile,
   DirtyKeys,

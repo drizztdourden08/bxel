@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useCallback, useState } from 'react';
+import { openProjectSettings } from '../../../config-entry/open-project-settings';
 import { closeProject } from '../../../project/close-project';
 import { folderDir } from '../../../project/folder-dir';
 import { grantProjectFolder } from '../../../project/grant-project-folder';
@@ -46,7 +47,7 @@ const useProjectPanel = (): ProjectPanelModel => {
     openProject: () => void openProject(),
     openRecent: (root) => void openProject(root),
     removeRecent: (entry) => void removeRecentProject(entry),
-    openSettings: () => useProjectStore.getState().showSettings(true),
+    openSettings: () => openProjectSettings(),
     closeProject: () => void closeProject(),
   };
 };

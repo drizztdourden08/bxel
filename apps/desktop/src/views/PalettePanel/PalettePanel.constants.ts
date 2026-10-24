@@ -16,6 +16,11 @@ const PALETTE_PANEL_TEXT = {
 
 const SWATCH_MIN_WIDTH = 24;
 
+const CONFIG_HINT: HintSpec = {
+  name: 'Palette settings',
+  description: 'Open the Asset settings on the palette: choose the palette, load a swatch set and set the platform rules for this file.',
+};
+
 const HELD_CHIPS: readonly HeldChipDef[] = [
   { slot: 'foreground', position: 1, draw: { mouse: 'left' }, pick: { mouse: 'left' } },
   { slot: 'background', position: 2, draw: { mouse: 'right' }, pick: { mouse: 'right' } },
@@ -46,4 +51,4 @@ const chipHint = (chip: HeldChipDef): HintSpec => ({
   ],
 });
 
-export { chipHint, HELD_CHIPS, PALETTE_PANEL_TEXT, SWATCH_MIN_WIDTH, swatchHint };
+export { chipHint, CONFIG_HINT, HELD_CHIPS, PALETTE_PANEL_TEXT, SWATCH_MIN_WIDTH, swatchHint };

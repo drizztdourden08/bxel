@@ -16,4 +16,9 @@ interface SnapPlan {
 
 type SnapOutcome = { ok: true; moved: number } | { ok: false; message: string };
 
-export type { SnapChange, SnapOutcome, SnapPlan };
+interface SnapScope {
+  platformId?: string;
+  bankIds?: ReadonlySet<string>;
+}
+
+export type { SnapChange, SnapOutcome, SnapPlan, SnapScope };

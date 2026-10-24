@@ -65,7 +65,7 @@ describe('open recent menu', () => {
 
   it('sits under File right after Open', () => {
     const { handlers } = actions();
-    const [file] = fileMenu(recentMenuItem([], handlers));
+    const [file] = fileMenu(recentMenuItem([], handlers), 'Asset settings...');
     const keys = file !== undefined && file !== 'separator' ? (file.children ?? []).map((child) => (child === 'separator' ? child : child.key)) : [];
     expect(keys.slice(1, 4)).toEqual(['file-open', 'file-open-recent', 'file-save']);
   });

@@ -58,6 +58,8 @@ const HASH_CLOCK: Clock = () => 0;
 
 const NAME_FALLBACK = 'asset';
 
+const GRANT_LEVELS = 2;
+
 const BXEL_ENDING = /\.(?:bxsprite|bxsheet|bxpalette|bxtiles|bxmap|bxproject|bxel)$/i;
 
 const NO_BANK_ID = 'bnk_000000';
@@ -112,6 +114,7 @@ export {
   ASSETS_OF,
   BXEL_ENDING,
   DECODE_ORDER,
+  GRANT_LEVELS,
   HASH_CLOCK,
   KEY_SEPARATOR,
   MAX_STEP_NAMES,

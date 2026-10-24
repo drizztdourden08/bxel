@@ -9,6 +9,7 @@ import { activeTarget } from '../../src/editor/active-target';
 import { commitRequest } from '../../src/editor/commit-request';
 import type { FileKit, PathBook } from '../../src/files/files.type';
 import { quietDocuments } from '../project/quiet-documents';
+import { documentPicker } from './document-picker';
 
 type Memory = {
   readonly port: DocumentsPort;
@@ -41,8 +42,8 @@ const memoryDocuments = (): Memory => {
     picks: { open: null, saveAs: null },
     failWrites: false,
     port: {
-      open: () => Promise.resolve(memory.picks.open),
-      saveAs: () => Promise.resolve(memory.picks.saveAs),
+      open: documentPicker(() => memory.picks.open),
+      saveAs: documentPicker(() => memory.picks.saveAs),
       openFolder: () => Promise.resolve(null),
       list: () => Promise.resolve({ entries: [], truncated: false }),
       read: (path) => {

@@ -26,13 +26,13 @@ const keysOf = (item: MenuEntry | undefined): string[] =>
 
 describe('the file menu', () => {
   it('leads with New, Open, Open recent, Save, Save as, Save all and Export', () => {
-    const [file] = fileMenu(recentMenuItem([], { open: () => undefined, clear: () => undefined }));
+    const [file] = fileMenu(recentMenuItem([], { open: () => undefined, clear: () => undefined }), 'Sprite settings...');
     expect(keysOf(file).slice(0, 7)).toEqual(['file-new', 'file-open', 'file-open-recent', 'file-save', 'file-save-as', 'file-save-all', 'file-export']);
   });
 
-  it('keeps the less used sprite and import entries after a separator', () => {
-    const [file] = fileMenu(recentMenuItem([], { open: () => undefined, clear: () => undefined }));
-    expect(keysOf(file).slice(7)).toEqual(['separator', 'file-new-sprite', 'file-import']);
+  it('puts the settings entry before the separator that keeps the less used sprite and import entries', () => {
+    const [file] = fileMenu(recentMenuItem([], { open: () => undefined, clear: () => undefined }), 'Sprite settings...');
+    expect(keysOf(file).slice(7)).toEqual(['file-settings', 'separator', 'file-new-sprite', 'file-import']);
   });
 });
 

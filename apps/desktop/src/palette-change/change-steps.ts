@@ -3,8 +3,10 @@ import { COMMAND_NAME } from '@bxel/document';
 import type { CommandStep, PaletteBank } from '@bxel/document';
 import { PALETTE_COMMAND_NAME } from '@bxel/palette';
 import type { ChangeRequest } from './palette-change.type';
+import { switchSteps } from './switch-steps';
 
-const changeSteps = (bank: PaletteBank, request: ChangeRequest): CommandStep[] => {
+const changeSteps = (bank: PaletteBank, request: ChangeRequest, dest?: PaletteBank): CommandStep[] => {
+  if (request.kind === 'switch') return switchSteps(bank, request, dest);
   if (request.kind === 'limit') {
     return [{ name: COMMAND_NAME.paletteResize, targets: null, options: { bankId: bank.id, cap: request.cap } }];
   }
