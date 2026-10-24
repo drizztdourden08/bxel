@@ -11,6 +11,7 @@ const fatalAssetReport = (issues: readonly LoadIssue[]): AssetReport => ({
   preview: null,
   issues,
   damage: [],
+  mapDamage: [],
   missingLinks: [],
 });
 

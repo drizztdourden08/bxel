@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import type { DocumentJson } from './document-json.type';
+import type { ExternalIds } from './external-ids.type';
 import type { KnownIds } from './known-ids.type';
 import type { LoadIssue } from './load-report.type';
 import { missingReference } from './missing-reference';
@@ -34,16 +35,22 @@ const tilemapIssues = (document: DocumentJson, known: KnownIds): readonly LoadIs
     missingReference(known.tilesets, tilemap.tilesetId, 'tileset', `$.tilemaps[${index}].tilesetId`),
   );
 
-const checkReferences = (document: DocumentJson): readonly LoadIssue[] => {
-  const known: KnownIds = {
-    banks: new Set(document.banks.map((bank) => bank.id)),
-    sprites: new Set(document.sprites.map((sprite) => sprite.id)),
-    sheets: new Set(document.sheets.map((sheet) => sheet.id)),
-    tilesets: new Set(document.tilesets.map((tileset) => tileset.id)),
-  };
+const knownIds = (document: DocumentJson, external: ExternalIds | undefined): KnownIds => ({
+  banks: new Set([...document.banks.map((bank) => bank.id), ...(external?.banks ?? [])]),
+  sprites: new Set([...document.sprites.map((sprite) => sprite.id), ...(external?.sprites ?? [])]),
+  sheets: new Set(document.sheets.map((sheet) => sheet.id)),
+  tilesets: new Set([...document.tilesets.map((tileset) => tileset.id), ...(external?.tilesets ?? [])]),
+});
+
+const rootIssues = (document: DocumentJson, known: KnownIds): readonly LoadIssue[] => [
+  ...missingReference(known.banks, document.defaultBankId, 'bank', '$.defaultBankId'),
+  ...missingReference(known.sprites, document.coverSpriteId, 'sprite', '$.coverSpriteId'),
+];
+
+const checkReferences = (document: DocumentJson, external?: ExternalIds): readonly LoadIssue[] => {
+  const known = knownIds(document, external);
   return [
-    ...missingReference(known.banks, document.defaultBankId, 'bank', '$.defaultBankId'),
-    ...missingReference(known.sprites, document.coverSpriteId, 'sprite', '$.coverSpriteId'),
+    ...(external === undefined ? rootIssues(document, known) : []),
     ...sheetIssues(document, known),
     ...presetIssues(document, known),
     ...tilesetIssues(document, known),

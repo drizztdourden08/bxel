@@ -1,6 +1,6 @@
 /* @layer core @kind types */
 import type { AssetRef, AssetSlice } from '../../model/asset.type';
-import type { DamagedCel, LoadIssue, LoadOutcome } from '../load-report.type';
+import type { DamagedCel, DamagedMapLayer, LoadIssue, LoadOutcome } from '../load-report.type';
 import type { AssetManifest } from './asset-manifest.type';
 
 type AssetReport = {
@@ -12,6 +12,7 @@ type AssetReport = {
   readonly preview: Uint8Array | null;
   readonly issues: readonly LoadIssue[];
   readonly damage: readonly DamagedCel[];
+  readonly mapDamage: readonly DamagedMapLayer[];
   readonly missingLinks: readonly AssetRef[];
 };
 

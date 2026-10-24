@@ -1,17 +1,11 @@
 /* @layer core @kind logic */
 import type { BuiltArtwork } from './built-artwork.type';
-import { entryPaths } from './entry-paths';
+import { damageIssue } from './damage-issue';
 import { RECOVERABLE_NOTICE } from './finish-report.constants';
-import type { DamagedCel, DamagedMapLayer, LoadIssue, LoadReport } from './load-report.type';
-import { makeIssue } from './make-issue';
+import type { LoadReport } from './load-report.type';
+import { mapDamageIssue } from './map-damage-issue';
 import { previewIssue } from './preview-issue';
 import type { ReportParts } from './report-parts.type';
-
-const damageIssue = (damage: DamagedCel): LoadIssue =>
-  makeIssue(damage.code, damage.message, entryPaths.cel(damage.celId));
-
-const mapDamageIssue = (damage: DamagedMapLayer): LoadIssue =>
-  makeIssue(damage.code, damage.message, entryPaths.tilemapLayer(damage.layerId));
 
 const hasDamage = (built: BuiltArtwork): boolean => built.damage.length > 0 || built.mapDamage.length > 0;
 
