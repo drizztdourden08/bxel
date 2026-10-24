@@ -44,6 +44,8 @@ const memoryDocuments = (): Memory => {
     port: {
       open: () => Promise.resolve(memory.picks.open),
       saveAs: () => Promise.resolve(memory.picks.saveAs),
+      openFolder: () => Promise.resolve(null),
+      list: () => Promise.resolve({ entries: [], truncated: false }),
       read: (path) => {
         const bytes = files.get(path);
         return bytes ? Promise.resolve(bytes) : Promise.reject(new Error(`No file at ${path}`));

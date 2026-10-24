@@ -13,6 +13,7 @@ import { appWidgetKits } from '../.brock/widget-kits';
 import { appReview } from '../.brock/review';
 import { appTitleBar } from '../.brock/title-bar';
 import { appTours } from '../.brock/tours';
+import { appStartupPrompts } from '../.brock/startup';
 import { APP_COMMANDS } from './keymap/app-commands.constants';
 import { useAppMenu } from './hooks/useAppMenu';
 import { SETTINGS } from './main.constants';
@@ -41,6 +42,7 @@ const App = () => {
       commands={APP_COMMANDS}
       menu={menu}
       onBeforeQuit={closeGuard}
+      startupPrompts={appStartupPrompts}
     />
   );
 };
