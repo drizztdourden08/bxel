@@ -44,7 +44,13 @@ type LinkedSlice = { readonly found: DecodedFile | null; readonly relinked: bool
 
 type DecodeResult = { readonly report: AssetReport; readonly relinked: boolean };
 
-type Decoder = (file: AssetFile, pool: readonly DecodedFile[]) => DecodeResult;
+type DecodedPool = {
+  readonly all: DecodedFile[];
+  readonly byPath: Map<string, DecodedFile>;
+  readonly byId: Map<string, DecodedFile>;
+};
+
+type Decoder = (file: AssetFile, pool: DecodedPool) => DecodeResult;
 
 type FileReport = { readonly path: string; readonly report: AssetReport };
 
@@ -110,6 +116,7 @@ export type {
   AssetPick,
   AssetFile,
   DecodedFile,
+  DecodedPool,
   DirtyKeys,
   DecodedFiles,
   Decoder,

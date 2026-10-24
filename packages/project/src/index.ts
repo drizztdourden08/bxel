@@ -46,6 +46,7 @@ export { checkRelPath } from './paths/check-rel-path';
 export { checkWriteTarget } from './paths/check-write-target';
 export { isInside } from './paths/is-inside';
 export { isReservedFile } from './paths/is-reserved-file';
+export { comparablePath } from './paths/comparable-path';
 export { isSamePath } from './paths/is-same-path';
 export { joinInside } from './paths/join-inside';
 export { normalizeAbsolute } from './paths/normalize-absolute';

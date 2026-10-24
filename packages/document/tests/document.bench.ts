@@ -13,6 +13,12 @@ const layeredBank = layered.artwork.banks[0];
 const firstFrame = layeredSprite?.frames[0]?.id;
 if (!layeredSprite || !layeredBank || !firstFrame) throw new Error('the layered fixture is incomplete');
 
+const huge = benchArtwork([{ index: 2, side: 2048, layers: 2, frames: 1 }]);
+const hugeSprite = huge.artwork.sprites[0];
+const hugeBank = huge.artwork.banks[0];
+const hugeFrame = hugeSprite?.frames[0]?.id;
+if (!hugeSprite || !hugeBank || !hugeFrame) throw new Error('the large fixture is incomplete');
+
 const library = benchArtwork(Array.from({ length: 200 }, (_, at) => ({ index: at + 1, side: 64, layers: 1, frames: 4 })));
 const container = encodeArtwork(library, null, clock);
 
@@ -22,6 +28,15 @@ describe('document reads, 512 sprite with 8 layers', () => {
   }, HEAVY);
   bench('frameToRgba (target 16 ms)', () => {
     frameToRgba(layeredSprite, layeredBank, firstFrame);
+  }, HEAVY);
+});
+
+describe('document reads, 2048 sprite with 2 layers', () => {
+  bench('flattenFrame (target 20 ms)', () => {
+    flattenFrame(hugeSprite, hugeFrame);
+  }, HEAVY);
+  bench('frameToRgba (target 40 ms)', () => {
+    frameToRgba(hugeSprite, hugeBank, hugeFrame);
   }, HEAVY);
 });
 

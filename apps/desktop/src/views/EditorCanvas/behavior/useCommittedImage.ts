@@ -7,7 +7,8 @@ const useCommittedImage = (target: EditorTarget | null): ImageData | null =>
   useMemo(() => {
     if (!target) return null;
     const { sprite, bank, frameId } = target;
-    return new ImageData(Uint8ClampedArray.from(frameToRgba(sprite, bank, frameId)), sprite.width, sprite.height);
+    const rgba = frameToRgba(sprite, bank, frameId);
+    return new ImageData(new Uint8ClampedArray(rgba.buffer, rgba.byteOffset, rgba.length), sprite.width, sprite.height);
   }, [target]);
 
 export { useCommittedImage };

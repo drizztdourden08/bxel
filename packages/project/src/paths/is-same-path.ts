@@ -1,11 +1,9 @@
 /* @layer core @kind logic */
-import { normalizeAbsolute } from './normalize-absolute';
-import { pathKey } from './path-key';
+import { comparablePath } from './comparable-path';
 
 const isSamePath = (first: string, second: string): boolean => {
-  const left = normalizeAbsolute(first);
-  const right = normalizeAbsolute(second);
-  return left !== undefined && right !== undefined && pathKey(left) === pathKey(right);
+  const left = comparablePath(first);
+  return left !== undefined && left === comparablePath(second);
 };
 
 export { isSamePath };

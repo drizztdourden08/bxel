@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { flattenFrame } from '@bxel/document';
+import { trackPixels } from '../canvas-dirty/track-pixels';
 import { bankTable } from './bank-table';
 import { CHANNELS } from './bank-table.constants';
 import type { EditorTarget, Overlay } from './editor.type';
@@ -13,12 +14,13 @@ const createOverlay = (target: EditorTarget): Overlay => {
     width: sprite.width,
     height: sprite.height,
     base,
-    indices: Uint8Array.from(base),
+    indices: base.slice(),
     rgba: new Uint8ClampedArray(sprite.width * sprite.height * CHANNELS),
     table: bankTable(bank),
     dirty: null,
     mask: selectionMask(target),
   };
+  trackPixels(overlay.rgba);
   refreshRect(overlay, { x: 0, y: 0, width: sprite.width, height: sprite.height });
   return overlay;
 };

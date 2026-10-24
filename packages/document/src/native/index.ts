@@ -6,6 +6,7 @@ export type * from './manifest.type';
 export type * from './migrations/migration.type';
 export { FORMAT_VERSION, MIMETYPE } from './container.constants';
 export { crc32 } from './crc32';
+export { assetDigest } from './v2/asset-digest';
 export { decodeArtwork } from './decode-artwork';
 export { encodeArtwork } from './encode-artwork';
 export { LOAD_ERROR } from './load-error.constants';
