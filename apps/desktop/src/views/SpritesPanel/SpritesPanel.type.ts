@@ -125,6 +125,7 @@ interface ActionsMenuProps {
 }
 
 interface ManagerToolbarProps {
+  open: (dialog: ManagerDialog) => void;
   model: ManagerModel;
   groups: readonly MenuGroup[];
 }
@@ -146,6 +147,11 @@ interface KeyShape {
 
 type SpriteKeyHandler = (event: KeyboardEvent<HTMLElement>) => void;
 
+interface KeyHandlers {
+  begin: (spriteId: SpriteId) => void;
+  open: (dialog: ManagerDialog) => void;
+}
+
 type KeyAction = () => void;
 
 export type {
@@ -153,6 +159,7 @@ export type {
   ActionsMenuProps,
   FilterActions,
   KeyAction,
+  KeyHandlers,
   KeyShape,
   ListColumn,
   ListHeadCellProps,

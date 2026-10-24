@@ -2,6 +2,8 @@
 import type { ComponentType } from 'react';
 import type { ManagerDialog } from '../../../../sheet-manager/manager.type';
 import type { ManagerModelProps } from '../../SpritesPanel.type';
+import { DeleteDialog } from './sub-components/DeleteDialog';
+import { DuplicateDialog } from './sub-components/DuplicateDialog';
 import { MergeDialog } from './sub-components/MergeDialog';
 import { PivotDialog } from './sub-components/PivotDialog';
 import { RenameDialog } from './sub-components/RenameDialog';
@@ -11,6 +13,8 @@ import { SplitDialog } from './sub-components/SplitDialog';
 
 const DIALOG_VIEWS: Readonly<Record<Exclude<ManagerDialog, null>, ComponentType<ManagerModelProps>>> = {
   rename: RenameDialog,
+  duplicate: DuplicateDialog,
+  delete: DeleteDialog,
   pivot: PivotDialog,
   resize: ResizeDialog,
   merge: MergeDialog,

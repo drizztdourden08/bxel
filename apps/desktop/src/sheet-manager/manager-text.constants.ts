@@ -44,7 +44,6 @@ const MANAGER_TEXT = {
   renameMany: 'Rename sprites',
   duplicate: 'Duplicate sprite',
   remove: 'Delete sprite',
-  cancelRemove: 'Keep the sprites',
   earlier: 'Move earlier',
   later: 'Move later',
   toTop: 'Move to start',

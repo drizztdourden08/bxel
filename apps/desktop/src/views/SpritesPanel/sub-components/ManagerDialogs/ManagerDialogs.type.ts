@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { ReactNode } from 'react';
 import type { Sprite } from '@bxel/document';
+import type { DeleteImpact } from '../../../../sheet-manager/delete.type';
 import type { PivotMode, RenamePlan, RenameSpec, ResizeSpec } from '../../../../sheet-manager/manager.type';
 
 interface RenameForm {
@@ -65,14 +66,21 @@ interface NumberPairProps {
   step: number;
 }
 
+interface DeleteRowsProps {
+  impacts: readonly DeleteImpact[];
+}
+
 interface DialogFrameProps {
   title: string;
   canApply: boolean;
   onApply: () => void;
+  applyLabel?: string;
+  danger?: boolean;
   children: ReactNode;
 }
 
 export type {
+  DeleteRowsProps,
   DialogFrameProps,
   NumberPairProps,
   PivotFieldsProps,

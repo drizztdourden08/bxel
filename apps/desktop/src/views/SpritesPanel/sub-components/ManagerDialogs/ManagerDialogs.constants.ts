@@ -1,11 +1,14 @@
 /* @layer renderer-app @kind constants */
 import { COMPOSE_TEXT } from '../../../../sheet-manager/compose-text.constants';
+import { COPY_TEXT } from '../../../../sheet-manager/copy-text.constants';
 import { DEFAULT_PATTERN, FIRST_NUMBER } from '../../../../sheet-manager/manager.constants';
 import type { RenameSpec } from '../../../../sheet-manager/manager.type';
 import { DIALOG_TEXT } from '../../../../sheet-manager/manager-text.constants';
 import type { PivotFormState } from './ManagerDialogs.type';
 
 const RENAME_START: RenameSpec = { pattern: DEFAULT_PATTERN, find: '', replace: '', start: FIRST_NUMBER };
+
+const DUPLICATE_START: RenameSpec = { pattern: `{name}${COPY_TEXT.suffix}`, find: '', replace: '', start: FIRST_NUMBER };
 
 const PIVOT_START: PivotFormState = { kind: 'preset', preset: 'center', x: 0, y: 0 };
 
@@ -22,4 +25,4 @@ const SLICE_KINDS = [
 
 const PREVIEW_ROWS = 8;
 
-export { PIVOT_KINDS, PIVOT_START, PREVIEW_ROWS, RENAME_START, SLICE_KINDS };
+export { DUPLICATE_START, PIVOT_KINDS, PIVOT_START, PREVIEW_ROWS, RENAME_START, SLICE_KINDS };
