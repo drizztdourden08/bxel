@@ -4,22 +4,21 @@ import { POLL_MS } from './e2e.constants';
 import type { Session } from './e2e.type';
 import { runMenu } from './run-menu';
 
-const linkFolderInUi = async (session: Session, project: string, folder: string): Promise<void> => {
+const REMOVE = /^Remove the linked folder/;
+
+const linkFolderInUi = async (session: Session, folder: string): Promise<void> => {
   await runMenu(session, [/^Project/, /^Project settings/]);
-  const dialog = session.page.getByRole('dialog', { name: `Project settings: ${project}` });
-  await dialog.waitFor();
+  await session.page.getByText('Folders', { exact: true }).first().click();
   await answerDialogs(session, { open: folder, save: null });
-  await dialog.getByRole('button', { name: 'Add a linked folder...' }).click();
-  await dialog.getByRole('button', { name: /^Remove the linked folder/ }).waitFor({ timeout: POLL_MS });
+  await session.page.getByRole('button', { name: 'Add a linked folder...' }).click();
+  await session.page.getByRole('button', { name: REMOVE }).waitFor({ timeout: POLL_MS });
 };
 
-const unlinkFolderInUi = async (session: Session, project: string): Promise<void> => {
-  const dialog = session.page.getByRole('dialog', { name: `Project settings: ${project}` });
-  const remove = dialog.getByRole('button', { name: /^Remove the linked folder/ });
+const unlinkFolderInUi = async (session: Session): Promise<void> => {
+  const remove = session.page.getByRole('button', { name: REMOVE });
   await remove.click();
   await remove.waitFor({ state: 'detached', timeout: POLL_MS });
-  await dialog.getByRole('button', { name: 'Done' }).click();
-  await dialog.waitFor({ state: 'detached' });
+  await session.page.keyboard.press('Escape');
 };
 
 export { linkFolderInUi, unlinkFolderInUi };

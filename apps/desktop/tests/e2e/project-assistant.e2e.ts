@@ -158,10 +158,10 @@ const linked = async (rig: ProjectRig): Promise<void> => {
   const shared = await mkdtemp(join(dirname(rig.projectDir), 'bxel-e2e-linked-'));
   try {
     await grant(rig, 'Read and edit');
-    await linkFolderInUi(rig.session, NAME, shared);
+    await linkFolderInUi(rig.session, shared);
     expect((await manifestOnDisk(rig)).folders[1]?.path).toMatch(/^\.\.\/bxel-e2e-linked-/);
     expect((await places(rig)).projects[0]?.folders).toHaveLength(2);
-    await unlinkFolderInUi(rig.session, NAME);
+    await unlinkFolderInUi(rig.session);
     expect((await manifestOnDisk(rig)).folders).toHaveLength(1);
   } finally {
     await rm(shared, { recursive: true, force: true });
