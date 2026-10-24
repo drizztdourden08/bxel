@@ -18,4 +18,13 @@ type DialogAnswers = { readonly open: string | null; readonly save: string | nul
 
 type Swatches = readonly (string | null)[];
 
-export type { Cell, CellMapper, DialogAnswers, Session, SpriteSize, Swatches };
+type CanvasLayout = {
+  readonly key: string;
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+  readonly zoom: number;
+};
+
+export type { CanvasLayout, Cell, CellMapper, DialogAnswers, Session, SpriteSize, Swatches };

@@ -17,16 +17,16 @@ const mark = (y: number) => [{ x: 2, y }, { x: 3, y }, { x: 4, y }];
 
 describe('check 8: damaged input and failed writes change nothing', () => {
   const rig = useRig(openSpriteRig);
-  const painted = async () => [...await rig().shown()].filter((index) => index !== 0).length;
+  const painted = async () => [...await rig().shownNow()].filter((index) => index !== 0).length;
 
   test('a stroke on a locked layer is refused and nothing is painted', async () => {
-    const { session, map } = rig();
+    const { session, remap } = rig();
     await toggleLayer(session, 'Layer 1', 'Locked');
-    await drawStroke(session, map, mark(3));
+    await drawStroke(session, await remap(), mark(3));
     await waitText(session, /Layer Layer 1 is locked/);
     expect(await painted()).toBe(0);
     await toggleLayer(session, 'Layer 1', 'Locked');
-    await drawStroke(session, map, mark(3));
+    await drawStroke(session, await remap(), mark(3));
     expect(await painted()).toBe(3);
   });
 
