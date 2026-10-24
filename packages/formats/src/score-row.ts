@@ -1,10 +1,12 @@
 /* @layer core @kind logic */
-import { PNG_FILTER_SCORE } from './png-filter-score.constants';
+import { PNG_FILTER_COST } from './png-filter-score.constants';
 
 const scoreRow = (bytes: Uint8Array): number => {
+  const cost = PNG_FILTER_COST;
   let sum = 0;
-  for (const byte of bytes) {
-    sum += byte < PNG_FILTER_SCORE.SIGNED_MIDPOINT ? byte : PNG_FILTER_SCORE.BYTE_RANGE - byte;
+  const count = bytes.length;
+  for (let i = 0; i < count; i += 1) {
+    sum += cost[bytes[i] ?? 0] ?? 0;
   }
   return sum;
 };

@@ -12,7 +12,9 @@ const checkIndexedImage = (image: IndexedImage): PngFailure | undefined => {
   if (!Number.isInteger(entries) || entries < 1 || entries > PNG_LIMITS.PALETTE_MAX_ENTRIES) {
     return pngFail(PNG_ERROR_CODE.PNG_INVALID_INPUT, 'Palette must hold 1 to 256 RGBA entries');
   }
-  for (const index of image.indices) {
+  const count = image.indices.length;
+  for (let at = 0; at < count; at += 1) {
+    const index = image.indices[at] ?? 0;
     if (index >= entries) {
       return pngFail(PNG_ERROR_CODE.PNG_INVALID_INPUT, `Index ${index} is outside the palette`);
     }

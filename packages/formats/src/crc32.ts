@@ -6,7 +6,11 @@ const step = (crc: number, nibble: number): number =>
 
 const crc32 = (bytes: Uint8Array): number => {
   let crc = 0xffffffff;
-  for (const byte of bytes) crc = step(step(crc, byte), byte >>> 4);
+  const count = bytes.length;
+  for (let at = 0; at < count; at += 1) {
+    const byte = bytes[at] ?? 0;
+    crc = step(step(crc, byte), byte >>> 4);
+  }
   return (crc ^ 0xffffffff) >>> 0;
 };
 

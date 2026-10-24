@@ -6,4 +6,7 @@ export default defineConfig({
     include: ['packages/*/tests/**/*.test.ts', 'apps/*/tests/**/*.test.ts'],
     passWithNoTests: true,
   },
+  benchmark: {
+    include: ['packages/*/tests/**/*.bench.ts'],
+  },
 });

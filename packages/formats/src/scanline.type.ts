@@ -7,10 +7,17 @@ type RowGeometry = {
   readonly height: number;
 };
 
-type RowView = {
-  readonly buf: PixelBytes;
-  readonly start: number;
-  readonly prevStart: number;
+type FilterLanes = {
+  readonly cur: PixelBytes;
+  readonly up: PixelBytes;
+  readonly out: Uint8Array;
+  readonly bpp: number;
+};
+
+type UnfilterLanes = {
+  readonly raw: PixelBytes;
+  readonly up: PixelBytes;
+  readonly out: Uint8Array;
   readonly bpp: number;
 };
 
@@ -23,4 +30,4 @@ type ScaleGrid = {
 
 type FilteredRow = { readonly type: PngFilterType; readonly bytes: Uint8Array };
 
-export type { FilteredRow, RowGeometry, RowView, ScaleGrid };
+export type { FilteredRow, FilterLanes, RowGeometry, ScaleGrid, UnfilterLanes };

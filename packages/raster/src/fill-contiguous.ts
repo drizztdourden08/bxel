@@ -2,6 +2,7 @@
 import type { Bounds } from './bounds.type';
 import { boundsToRect } from './bounds-to-rect';
 import { createBounds } from './create-bounds';
+import { SHORT_RUN } from './fill.constants';
 import type { FillPlan } from './fill.type';
 import type { Rect, Span } from './geometry.type';
 import { growBounds } from './grow-bounds';
@@ -12,7 +13,7 @@ const isOpen = (plan: FillPlan, x: number, y: number): boolean => {
   if (x < 0 || y < 0 || x >= target.width || y >= target.height) {
     return false;
   }
-  return target.pixels[y * target.width + x] === plan.match && maskAllows(plan.mask, x, y);
+  return target.pixels[y * target.width + x] === plan.match && (plan.mask === null || maskAllows(plan.mask, x, y));
 };
 
 const findRun = (plan: FillPlan, x: number, y: number): Span => {
@@ -29,7 +30,14 @@ const findRun = (plan: FillPlan, x: number, y: number): Span => {
 
 const paintRun = (plan: FillPlan, bounds: Bounds, run: Span): void => {
   const row = run.y * plan.target.width;
-  plan.target.pixels.fill(plan.index, row + run.x0, row + run.x1 + 1);
+  const { pixels } = plan.target;
+  if (run.x1 - run.x0 < SHORT_RUN) {
+    for (let x = row + run.x0; x <= row + run.x1; x++) {
+      pixels[x] = plan.index;
+    }
+  } else {
+    pixels.fill(plan.index, row + run.x0, row + run.x1 + 1);
+  }
   growBounds(bounds, run.x0, run.y);
   growBounds(bounds, run.x1, run.y);
 };
