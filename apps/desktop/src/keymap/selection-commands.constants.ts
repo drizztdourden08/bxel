@@ -2,6 +2,7 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { layersFocused } from '../editor/focus/layers-focused';
 import { spritesFocused } from '../editor/focus/sprites-focused';
+import { timelineFocused } from '../editor/focus/timeline-focused';
 import { cancelPreview } from '../editor/pending/cancel-preview';
 import { hasPreview } from '../editor/pending/has-preview';
 import { clearSelection } from '../editor/selection/clear-selection';
@@ -40,7 +41,7 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     group,
     chord: 'Delete',
     whileTyping: false,
-    when: () => hasActiveDocument() && !layersFocused() && !spritesFocused(),
+    when: () => hasActiveDocument() && !layersFocused() && !spritesFocused() && !timelineFocused(),
     run: deleteSelection,
   },
 ];
