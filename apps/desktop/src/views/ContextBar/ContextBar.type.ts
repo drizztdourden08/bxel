@@ -21,4 +21,4 @@ interface ScopeChipProps {
   chip: ScopeChipView;
 }
 
-export type { OptionKind, ScopeChipKey, ScopeChipProps, ScopeChipView, ScopeMenusProps };
+export type { OptionKind, ScopeChipProps, ScopeChipView, ScopeMenusProps };

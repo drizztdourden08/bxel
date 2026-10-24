@@ -26,6 +26,8 @@ const portWith = (path: string | null, files: Record<string, Uint8Array>): Docum
   return {
     open: () => Promise.resolve(path),
     saveAs: missing,
+    openFolder: () => Promise.resolve(null),
+    list: () => Promise.resolve({ entries: [], truncated: false }),
     read: (target) => {
       const found = files[target];
       return found ? Promise.resolve(found) : Promise.reject(new Error('missing'));

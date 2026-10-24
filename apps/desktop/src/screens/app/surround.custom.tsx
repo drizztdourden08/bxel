@@ -2,7 +2,7 @@
 import type { ScreenMeta, SearchEntrySeed } from '@drizztdourden08/brock-react';
 import { SurroundEditor } from '../../views/SurroundEditor';
 
-const meta: ScreenMeta = { title: 'Canvas surround', icon: 'pencil', order: 3, keywords: ['pattern', 'background', 'stripes', 'custom', 'preview'] };
+const meta: ScreenMeta = { title: 'Canvas surround', showHeader: true, icon: 'pencil', order: 3, keywords: ['pattern', 'background', 'stripes', 'custom', 'preview'] };
 
 const searchEntries: SearchEntrySeed[] = [
   { label: 'Custom surround pattern', keywords: ['pattern', 'background', 'stripes', 'sixteen', 'preview', 'editor'] },

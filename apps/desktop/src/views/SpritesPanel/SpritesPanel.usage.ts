@@ -8,7 +8,7 @@ const usage = {
     'Several sprites are picked at once for a group edit, a shared stroke, a layout change or a batch rename.',
   ],
   avoidWhen: [
-    { case: 'Items of a list are put in order but only one is picked.', use: 'ReorderList' },
+    { case: 'The user picks and orders the layers of one sprite instead of the sprites of a file.', use: 'LayersPanel' },
     { case: 'A table of frames by layers shows the cels.', use: 'DataTable' },
   ],
   rules: [
