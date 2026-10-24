@@ -9,9 +9,11 @@ import type {
   TrustLevel,
   WriteScope,
 } from '@bxel/mcp';
+import type { ProjectGrant } from '@bxel/project';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
 import type { DocumentHost } from '../documents/document-host.type';
 import type { PathBook } from '../files/files.type';
+import type { OpenProject, ProjectFolderState } from '../project/project.type';
 
 interface AssistantSettings {
   assistantAccess: boolean;
@@ -22,6 +24,7 @@ interface AssistantSettings {
   assistantSee: SeeScope;
   assistantWrite: WriteScope;
   assistantFolder: string;
+  assistantProjects: readonly ProjectGrant[];
 }
 
 type ClientConfig = {
@@ -60,8 +63,26 @@ type ToolContext = {
   readonly paths: PathBook;
 };
 
+type GrantedProject = {
+  readonly project: OpenProject;
+  readonly access: 'read' | 'edit';
+};
+
+type FoundFolder = GrantedProject & { readonly folder: ProjectFolderState };
+
 type ToolHandler = (input: unknown, context: ToolContext) => ToolReply | Promise<ToolReply>;
 
 type ToolHandlers = Readonly<Partial<Record<ToolName, ToolHandler>>>;
 
-export type { ActivityEntry, AssistantSettings, AssistantSetup, ClientConfig, SettingsPort, ToolContext, ToolHandler, ToolHandlers };
+export type {
+  ActivityEntry,
+  AssistantSettings,
+  AssistantSetup,
+  ClientConfig,
+  FoundFolder,
+  GrantedProject,
+  SettingsPort,
+  ToolContext,
+  ToolHandler,
+  ToolHandlers,
+};

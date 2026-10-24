@@ -67,9 +67,26 @@ type ExportInput = DocumentInput & {
 
 type CloseInput = DocumentInput & { readonly discard: boolean };
 
+type ProjectLocation = {
+  readonly projectId: string;
+  readonly folderId: string;
+  readonly path: string;
+};
+
 type OpenInput = {
-  readonly file: { readonly recentId: string } | { readonly projectId: string };
+  readonly file: { readonly recentId: string } | ProjectLocation;
   readonly activate: boolean;
+};
+
+type OpenTarget = { readonly path: string; readonly viaRecent: boolean };
+
+type ListFilesInput = {
+  readonly projectId: string;
+  readonly folderId: string;
+  readonly path?: string;
+  readonly kinds: readonly ('bxel' | 'image' | 'palette' | 'sheet_json' | 'other')[];
+  readonly offset: number;
+  readonly limit: number;
 };
 
 export type {
@@ -79,7 +96,10 @@ export type {
   ExportTarget,
   FramePng,
   GetDocumentInput,
+  ListFilesInput,
   OpenInput,
+  OpenTarget,
+  ProjectLocation,
   ReadPaletteInput,
   ReadPixelsInput,
   RenderInput,

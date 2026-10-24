@@ -17,7 +17,7 @@ const entryOf = (context: ToolContext, documentId: DocumentId) => {
       documentId,
       name: view.state.artwork.name,
       fileName: path === undefined ? null : fileName(path),
-      place: placeOf(path, context.call.folder),
+      place: placeOf(context, path),
       revision: view.state.revision,
       dirty: !view.clean,
       readOnly: view.state.readOnly,

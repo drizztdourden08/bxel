@@ -12,7 +12,7 @@ const folderPath = z.strictObject({ folderId: FOLDER_ID_SCHEMA, path: REL_PATH_S
 const listPlacesTool = defineTool(TOOL_NAME.listPlaces, {
   title: 'List places',
   description:
-    'Where the assistant can look: granted projects with their folders, the recent files and the assistant folder. Anything outside the "assistant can see" setting is left out.',
+    'Where the assistant can look: granted projects with their folders, the recent files and the assistant folder. Anything outside the "assistant can see" setting is left out. A project shows only while the owner has it open. newFiles and exports are null when they are the folder root.',
   input: NO_INPUT_SCHEMA,
   output: withFailure({
     projects: z.array(

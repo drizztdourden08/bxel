@@ -8,6 +8,7 @@ import type { DocumentHost } from '../../src/documents/document-host.type';
 import { activeTarget } from '../../src/editor/active-target';
 import { commitRequest } from '../../src/editor/commit-request';
 import type { FileKit, PathBook } from '../../src/files/files.type';
+import { quietDocuments } from '../project/quiet-documents';
 
 type Memory = {
   readonly port: DocumentsPort;
@@ -60,13 +61,9 @@ const memoryDocuments = (): Memory => {
         return Promise.resolve();
       },
       writeText: () => Promise.reject(new Error('Text writes are not used')),
+      ...quietDocuments,
       recent: () => Promise.resolve(recent),
-      clearRecent: () => Promise.resolve(),
       openRecent: (path) => Promise.resolve(path),
-      snapshot: () => Promise.resolve(),
-      recoverable: () => Promise.resolve([]),
-      restoreSnapshot: () => Promise.resolve(null),
-      discardSnapshot: () => Promise.resolve(),
     },
   };
   return memory;

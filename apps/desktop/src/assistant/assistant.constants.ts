@@ -11,6 +11,7 @@ const ASSISTANT_DEFAULTS: AssistantSettings = {
   assistantSee: DEFAULT_SCOPE_SETTINGS.see,
   assistantWrite: DEFAULT_SCOPE_SETTINGS.write,
   assistantFolder: '',
+  assistantProjects: [],
 };
 
 const ACTIVITY_MAX = 500;

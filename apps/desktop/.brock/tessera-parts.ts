@@ -5,8 +5,10 @@ declare module '@drizztdourden08/tessera' {
   interface TesseraApps {
     'bxel': {
       parts:
+        | 'ActionHint'
         | 'ApplyBar'
         | 'AssistantPanel'
+        | 'AssistantProjects'
         | 'CanvasRuler'
         | 'ContextBar'
         | 'CreateDialog'
@@ -15,6 +17,7 @@ declare module '@drizztdourden08/tessera' {
         | 'EditorScreen'
         | 'EditorStatus'
         | 'ExportDialog'
+        | 'HintedSegments'
         | 'ImagePreview'
         | 'ImportWizard'
         | 'LayersPanel'
@@ -26,6 +29,8 @@ declare module '@drizztdourden08/tessera' {
         | 'PixelIcon'
         | 'PixelViewport'
         | 'PlatformFindings'
+        | 'ProjectCreateDialog'
+        | 'ProjectPanel'
         | 'RecoveryDialog'
         | 'SheetCanvas'
         | 'SpritesPanel'

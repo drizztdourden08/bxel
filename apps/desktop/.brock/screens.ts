@@ -3,6 +3,7 @@ import { buildScreenTree, lazyComponent } from '@drizztdourden08/brock-react';
 import config from '../src/screens/screens.config';
 import { searchIndex } from './search';
 import { meta as appAssistantProgramsCustomMeta } from '../src/screens/app/assistant-programs.custom';
+import { meta as appAssistantProjectsCustomMeta } from '../src/screens/app/assistant-projects.custom';
 import AppAssistantSettings, { meta as appAssistantSettingsMeta } from '../src/screens/app/assistant.settings';
 import AppCanvasSettings, { meta as appCanvasSettingsMeta } from '../src/screens/app/canvas.settings';
 import AppGeneralSettings, { meta as appGeneralSettingsMeta } from '../src/screens/app/general.settings';
@@ -14,6 +15,7 @@ import { meta as editorBaseMeta } from '../src/screens/editor.base';
 
 const screenTree = buildScreenTree(config, [
   { kind: 'custom', bucket: 'app', id: 'assistant-programs', component: lazyComponent(() => import('../src/screens/app/assistant-programs.custom')), meta: appAssistantProgramsCustomMeta },
+  { kind: 'custom', bucket: 'app', id: 'assistant-projects', component: lazyComponent(() => import('../src/screens/app/assistant-projects.custom')), meta: appAssistantProjectsCustomMeta },
   { kind: 'settings', bucket: 'app', id: 'assistant', sections: AppAssistantSettings, meta: appAssistantSettingsMeta },
   { kind: 'settings', bucket: 'app', id: 'canvas', sections: AppCanvasSettings, meta: appCanvasSettingsMeta },
   { kind: 'settings', bucket: 'app', id: 'general', sections: AppGeneralSettings, meta: appGeneralSettingsMeta },

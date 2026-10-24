@@ -30,7 +30,7 @@ const saveDocument: ToolHandler = async (input, context) => {
     ok: true,
     revision,
     fileName: fileName(place.value),
-    place: placeOf(place.value, context.call.folder),
+    place: placeOf(context, place.value),
     bytes: bytes.length,
     savedAt: new Date().toISOString(),
   });

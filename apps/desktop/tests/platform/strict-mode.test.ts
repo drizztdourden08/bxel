@@ -3,14 +3,8 @@ import { COMMAND_NAME } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { setPlatform } from '../../src/platform-preset/set-platform';
 import { setStrict } from '../../src/platform-preset/set-strict';
-import { artworkOf, chosen, platformFile, revisionOf, run } from './platform-harness';
+import { artworkOf, chosen, platformFile, revisionOf, run, strictSnes } from './platform-harness';
 import type { PlatformFile } from './platform-harness';
-
-const strictSnes = (): PlatformFile => {
-  const file = platformFile(chosen('snes-sprite'));
-  expect(setStrict(file.host, file.documentId, true)).toEqual({ ok: true });
-  return file;
-};
 
 const failure = (file: PlatformFile, name: string, options: object) => {
   const done = run(file, name, options);

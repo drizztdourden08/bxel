@@ -10,7 +10,7 @@ import {
   SHEET_ID_SCHEMA,
   SPRITE_ID_SCHEMA,
 } from '../schema/ids.constants';
-import { COUNT_SCHEMA } from '../schema/shapes.constants';
+import { COUNT_SCHEMA, HEX_COLOR_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
 import { TOOL_NAME } from './tool-name.constants';
@@ -21,6 +21,13 @@ const bank = z.strictObject({
   cap: COUNT_SCHEMA,
   used: COUNT_SCHEMA,
   transparent: z.boolean(),
+});
+
+const tag = z.strictObject({
+  name: z.string(),
+  from: COUNT_SCHEMA,
+  to: COUNT_SCHEMA,
+  colour: HEX_COLOR_SCHEMA.optional().describe('The colour the owner gave the tag, as #rrggbb. Left out when the tag has none.'),
 });
 
 const sprite = z.strictObject({
@@ -34,7 +41,7 @@ const sprite = z.strictObject({
     z.strictObject({ layerId: LAYER_ID_SCHEMA, name: z.string(), visible: z.boolean(), locked: z.boolean() }),
   ),
   frames: z.array(z.strictObject({ frameId: FRAME_ID_SCHEMA, durationMs: COUNT_SCHEMA })),
-  tags: z.array(z.strictObject({ name: z.string(), from: COUNT_SCHEMA, to: COUNT_SCHEMA })),
+  tags: z.array(tag),
 });
 
 const sheet = z.strictObject({

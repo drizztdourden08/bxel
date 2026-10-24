@@ -7,6 +7,7 @@ import { initialForm } from '../../src/new-sprite/initial-form';
 import { NEW_MEMORY_DEFAULT } from '../../src/new-sprite/new-sprite.constants';
 import type { CreationForm } from '../../src/new-sprite/new-sprite.type';
 import { patchForm } from '../../src/new-sprite/patch-form';
+import { setStrict } from '../../src/platform-preset/set-strict';
 import { runSteps } from '../../src/transactions/run-steps';
 import { newHost } from '../dialogs/dialog-harness';
 
@@ -27,6 +28,13 @@ const platformFile = (form: CreationForm): PlatformFile => {
   return { host, documentId: outcome.documentId };
 };
 
+const strictSnes = (): PlatformFile => {
+  const file = platformFile(chosen('snes-sprite'));
+  const outcome = setStrict(file.host, file.documentId, true);
+  if (!outcome.ok) throw new Error(outcome.message);
+  return file;
+};
+
 const artworkOf = ({ host, documentId }: PlatformFile): Artwork => {
   const artwork = host.view(documentId)?.state.artwork;
   if (!artwork) throw new Error('no file');
@@ -44,5 +52,5 @@ const spriteScope = (spriteId: string): TargetScope => ({
   frames: { by: 'all' },
 });
 
-export { artworkOf, blank, chosen, platformFile, revisionOf, run, spriteScope };
+export { artworkOf, blank, chosen, platformFile, revisionOf, run, spriteScope, strictSnes };
 export type { PlatformFile };
