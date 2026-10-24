@@ -2,7 +2,9 @@
 import { decodePng } from '@bxel/formats';
 import { describe, expect, it } from 'vitest';
 import { exportPng } from '../../src/files/export-png';
-import { createProject, harness, paintPixels } from './file-harness';
+import { isProjectPath } from '../../src/files/is-project-path';
+import { saveProject } from '../../src/files/save-project';
+import { createProject, harness, paintPixels, SAVED } from './file-harness';
 
 const TARGET = 'C:\\art\\hero.png';
 
@@ -47,5 +49,27 @@ describe('export PNG', () => {
       kind: 'failed',
       message: 'Export failed: The disk is full. No files were changed.',
     });
+  });
+
+  it('writes without adding the file to the recent list', async () => {
+    const { kit, host, memory } = harness();
+    const documentId = createProject(host);
+    memory.picks.saveAs = TARGET;
+    await exportPng(kit, documentId);
+    expect(memory.options).toEqual([{ recent: false }]);
+    expect(memory.recent).toEqual([]);
+  });
+
+  it('keeps only .bxel files in the recent list after a save and an export', async () => {
+    const { kit, host, memory, paths } = harness();
+    const documentId = createProject(host);
+    paths.set(documentId, SAVED);
+    paintPixels(host, documentId);
+    await saveProject(kit, documentId, false);
+    memory.picks.saveAs = TARGET;
+    await exportPng(kit, documentId);
+    const recent = await memory.port.recent();
+    expect(recent.map((entry) => entry.path)).toEqual([SAVED]);
+    expect(recent.every((entry) => isProjectPath(entry.path))).toBe(true);
   });
 });

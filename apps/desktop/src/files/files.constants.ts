@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { DocumentDialogOptions } from '@drizztdourden08/brock-core';
+import type { DocumentDialogOptions, DocumentWriteOptions } from '@drizztdourden08/brock-core';
 import type { FileActionKind, FileBusy, FileOutcome } from './files.type';
 
 const BXEL_EXTENSION = 'bxel';
@@ -9,6 +9,8 @@ const BXEL_SUFFIX = `.${BXEL_EXTENSION}`;
 const BXEL_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'Bxel project', extensions: [BXEL_EXTENSION] }];
 
 const PNG_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'PNG image', extensions: ['png'] }];
+
+const EXPORT_WRITE: DocumentWriteOptions = { recent: false };
 
 const CANCELLED: FileOutcome = { kind: 'cancelled' };
 
@@ -78,6 +80,7 @@ export {
   BXEL_FILTERS,
   BXEL_SUFFIX,
   CANCELLED,
+  EXPORT_WRITE,
   FILE_COMMAND,
   FILE_TEXT,
   ISSUE_LIMIT,

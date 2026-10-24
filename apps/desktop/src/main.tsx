@@ -40,7 +40,7 @@ const App = () => {
       tours={appTours}
       commands={FILE_COMMANDS}
       menu={menu}
-      beforeQuit={closeGuard}
+      onBeforeQuit={closeGuard}
     />
   );
 };

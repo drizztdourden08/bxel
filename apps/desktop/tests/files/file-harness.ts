@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME, counterIdSource } from '@bxel/document';
 import type { DocumentId } from '@bxel/document';
-import type { DocumentsPort } from '@drizztdourden08/brock-core';
+import type { DocumentsPort, DocumentWriteOptions, RecentDocument } from '@drizztdourden08/brock-core';
 import { createDefaultProject } from '../../src/documents/create-default-project';
 import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
@@ -14,6 +14,8 @@ type Memory = {
   readonly files: Map<string, Uint8Array>;
   readonly picks: { open: string | null; saveAs: string | null };
   readonly writes: string[];
+  readonly options: (DocumentWriteOptions | undefined)[];
+  readonly recent: RecentDocument[];
   failWrites: boolean;
 };
 
@@ -30,9 +32,13 @@ const SAVED = 'C:\\art\\hero.bxel';
 const memoryDocuments = (): Memory => {
   const files = new Map<string, Uint8Array>();
   const writes: string[] = [];
+  const options: (DocumentWriteOptions | undefined)[] = [];
+  const recent: RecentDocument[] = [];
   const memory: Memory = {
     files,
     writes,
+    options,
+    recent,
     picks: { open: null, saveAs: null },
     failWrites: false,
     port: {
@@ -43,14 +49,16 @@ const memoryDocuments = (): Memory => {
         return bytes ? Promise.resolve(bytes) : Promise.reject(new Error(`No file at ${path}`));
       },
       readText: () => Promise.reject(new Error('Text reads are not used')),
-      write: (path, data) => {
+      write: (path, data, writeOptions) => {
         if (memory.failWrites) return Promise.reject(new Error('The disk is full'));
         writes.push(path);
+        options.push(writeOptions);
+        if (writeOptions?.recent !== false) recent.unshift({ path, name: path, lastOpened: 1 });
         files.set(path, data);
         return Promise.resolve();
       },
       writeText: () => Promise.reject(new Error('Text writes are not used')),
-      recent: () => Promise.resolve([]),
+      recent: () => Promise.resolve(recent),
       clearRecent: () => Promise.resolve(),
       openRecent: (path) => Promise.resolve(path),
       snapshot: () => Promise.resolve(),
