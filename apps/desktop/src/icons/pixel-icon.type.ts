@@ -54,7 +54,20 @@ type SheetIconName = 'gridView' | 'listView' | 'atlas';
 
 type SpriteIconName = 'flipH' | 'flipV' | 'turnLeft' | 'turnRight' | 'pivot' | 'isolate';
 
-type PixelIconName = PaintIconName | ShapeIconName | SelectIconName | ViewIconName | ActionIconName | SheetIconName | SpriteIconName;
+type TimelineIconName = 'pause' | 'loop' | 'pingPong' | 'framePrev' | 'frameNext';
+
+type FrameIconName = 'frameAdd' | 'frameDuplicate' | 'frameDelete' | 'tagAdd' | 'linkedCel' | 'unlinkCel';
+
+type PixelIconName =
+  | PaintIconName
+  | ShapeIconName
+  | SelectIconName
+  | ViewIconName
+  | ActionIconName
+  | SheetIconName
+  | SpriteIconName
+  | TimelineIconName
+  | FrameIconName;
 
 type PixelBitmap = readonly string[];
 
@@ -70,6 +83,8 @@ export type {
   ActionIconName,
   SheetIconName,
   SpriteIconName,
+  TimelineIconName,
+  FrameIconName,
   PixelBitmap,
   PixelIconData,
   PixelIconName,

@@ -30,6 +30,7 @@ declare module '@drizztdourden08/tessera' {
         | 'SpritesPanel'
         | 'SurroundEditor'
         | 'SwatchSetEditor'
+        | 'TimelinePanel'
         | 'ToolRail'
         | 'TransformDialog'
         | 'TransformPanel';

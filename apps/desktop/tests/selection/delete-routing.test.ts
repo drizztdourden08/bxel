@@ -22,6 +22,12 @@ describe('the Delete chord', () => {
     expect(find(SELECTION_COMMAND_ID.delete).when?.()).toBe(false);
   });
 
+  it('stays off while the Timeline has focus, so only the picked cels are cleared', () => {
+    openRig();
+    focusIn('timeline');
+    expect(find(SELECTION_COMMAND_ID.delete).when?.()).toBe(false);
+  });
+
   it('clears the selected pixels when the canvas has focus', () => {
     const rig = openRig();
     rig.paint(BLOCK, 7);
