@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
-import { Button, Callout, DialogShell, Stack } from '@drizztdourden08/tessera';
+import { Button, Callout, Stack } from '@drizztdourden08/tessera';
 import { CHANGE_TEXT } from '../../../palette-change/palette-change.constants';
+import { FitDialog } from '../../FitDialog';
 import { useChangeDialog } from '../behavior/useChangeDialog';
 import type { ChangeDialogProps } from '../PaletteChangeDialog.type';
 import { LimitBody } from './LimitBody';
@@ -21,13 +22,13 @@ const ChangeDialog = ({ request }: ChangeDialogProps) => {
     </>
   );
   return (
-    <DialogShell open title={CHANGE_TEXT.titles[request.kind]} onClose={cancel} actions={actions} className="change-dialog">
+    <FitDialog open title={CHANGE_TEXT.titles[request.kind]} onClose={cancel} actions={actions} className="change-dialog">
       <Stack gap="md">
         {request.kind === 'limit' ? <LimitBody request={request} state={state} /> : <SwatchBody request={request} state={state} />}
         {error !== null && <Callout tone="warning">{error}</Callout>}
         {failure !== null && <Callout tone="danger">{failure}</Callout>}
       </Stack>
-    </DialogShell>
+    </FitDialog>
   );
 };
 

@@ -5,6 +5,7 @@ declare module '@drizztdourden08/tessera' {
   interface TesseraApps {
     'bxel': {
       parts:
+        | 'ActionHint'
         | 'ApplyBar'
         | 'AssistantPanel'
         | 'CanvasRuler'
@@ -15,6 +16,7 @@ declare module '@drizztdourden08/tessera' {
         | 'EditorScreen'
         | 'EditorStatus'
         | 'ExportDialog'
+        | 'HintedSegments'
         | 'ImagePreview'
         | 'ImportWizard'
         | 'LayersPanel'
