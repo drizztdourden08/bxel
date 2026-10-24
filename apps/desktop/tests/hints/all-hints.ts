@@ -3,7 +3,7 @@ import { TOOLS } from '../../src/editor/tools.constants';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import {
   BACK_HINT, MIRROR_X_HINT, MIRROR_Y_HINT, MODE_HINTS, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT, TILED_HINT, TILED_HINTS, VIEW_HINTS, ZOOM_ACTUAL_HINT,
-  ZOOM_FIT_HINT, ZOOM_ACTUAL_HINT,
+  ZOOM_FIT_HINT,
 } from '../../src/views/CanvasToolbar/CanvasToolbar.constants';
 import {
   BRUSH_SHAPE_HINTS, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILLED_HINT, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SELECT_MODE_HINTS, SELECT_VARIANT_HINTS,
