@@ -1,26 +1,26 @@
 /* @layer renderer-app @kind component */
-import { ButtonGroup, IconButton, Text, Tooltip } from '@drizztdourden08/tessera';
-import { TOOLS } from '../../editor/tools.constants';
+import { ButtonGroup, Flex } from '@drizztdourden08/tessera';
+import { TOOL_GROUPS, TOOLS } from '../../editor/tools.constants';
 import { useToolStore } from '../../stores/useToolStore';
 import { TOOL_RAIL_TEXT } from './ToolRail.constants';
+import { ShapeFlyout } from './sub-components/ShapeFlyout';
+import { ToolButton } from './sub-components/ToolButton';
 import './ToolRail.css';
 
 const ToolRail = () => {
   const tool = useToolStore((state) => state.tool);
-  const setTool = useToolStore((state) => state.setTool);
+  const selectTool = useToolStore((state) => state.selectTool);
   return (
-    <ButtonGroup orientation="vertical" aria-label={TOOL_RAIL_TEXT.region} className="tool-rail">
-      {TOOLS.map((def) => {
-        const name = TOOL_RAIL_TEXT.name(def.label, def.key);
-        return (
-          <Tooltip key={def.id} content={name} placement="bottom">
-            <IconButton label={name} active={tool === def.id} onClick={() => setTool(def.id)}>
-              <Text as="span" variant="label">{def.key.toUpperCase()}</Text>
-            </IconButton>
-          </Tooltip>
-        );
-      })}
-    </ButtonGroup>
+    <Flex direction="column" gap="sm" className="tool-rail" role="group" aria-label={TOOL_RAIL_TEXT.region}>
+      {TOOL_GROUPS.map((group) => (
+        <ButtonGroup key={group} orientation="vertical" aria-label={TOOL_RAIL_TEXT.groups[group]}>
+          {TOOLS.filter((def) => def.group === group).map((def) => (
+            <ToolButton key={def.id} def={def} active={tool === def.id} onSelect={() => selectTool(def.id)} />
+          ))}
+          {group === 'draw' && <ShapeFlyout />}
+        </ButtonGroup>
+      ))}
+    </Flex>
   );
 };
 

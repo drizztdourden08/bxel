@@ -1,13 +1,11 @@
 /* @layer renderer-app @kind test */
-import type { Brush } from '@bxel/raster';
 import { describe, expect, it } from 'vitest';
 import { beginStroke } from '../../src/editor/begin-stroke';
 import { extendStroke } from '../../src/editor/extend-stroke';
 import { fillRequest } from '../../src/editor/fill-request';
 import { strokeRequest } from '../../src/editor/stroke-request';
-import { openEditor } from './editor-harness';
+import { openEditor, plainOptions } from './editor-harness';
 
-const brush: Brush = { shape: 'square', size: 1 };
 const rowStart = 33;
 const crimson = [224, 36, 94, 255];
 
@@ -16,7 +14,7 @@ describe('a pencil stroke', () => {
     const { host, target, pixels } = openEditor();
     const kinds: string[] = [];
     host.subscribe((event) => kinds.push(event.kind));
-    const session = beginStroke({ target: target(), tool: 'pencil', index: 5, brush, at: { x: 1, y: 1 } });
+    const session = beginStroke({ target: target(), tool: 'pencil', index: 5, options: plainOptions, at: { x: 1, y: 1 } });
     extendStroke(session, { x: 4, y: 1 });
     extendStroke(session, { x: 4, y: 1 });
     expect(session.points).toEqual([{ x: 1, y: 1 }, { x: 4, y: 1 }]);
@@ -33,7 +31,7 @@ describe('a pencil stroke', () => {
 
   it('undoes as one step', () => {
     const { host, documentId, target, pixels } = openEditor();
-    const session = beginStroke({ target: target(), tool: 'pencil', index: 2, brush, at: { x: 0, y: 0 } });
+    const session = beginStroke({ target: target(), tool: 'pencil', index: 2, options: plainOptions, at: { x: 0, y: 0 } });
     extendStroke(session, { x: 6, y: 5 });
     host.execute(strokeRequest(target(), session));
     expect(host.undo(documentId).ok).toBe(true);
@@ -46,10 +44,10 @@ describe('a pencil stroke', () => {
 describe('an eraser stroke', () => {
   it('clears pixels in the overlay and in the commit', () => {
     const { host, target, pixels } = openEditor();
-    const pencil = beginStroke({ target: target(), tool: 'pencil', index: 7, brush, at: { x: 2, y: 2 } });
+    const pencil = beginStroke({ target: target(), tool: 'pencil', index: 7, options: plainOptions, at: { x: 2, y: 2 } });
     extendStroke(pencil, { x: 5, y: 2 });
     host.execute(strokeRequest(target(), pencil));
-    const eraser = beginStroke({ target: target(), tool: 'eraser', index: 7, brush, at: { x: 3, y: 2 } });
+    const eraser = beginStroke({ target: target(), tool: 'eraser', index: 7, options: plainOptions, at: { x: 3, y: 2 } });
     extendStroke(eraser, { x: 4, y: 2 });
     expect(eraser.index).toBe(0);
     host.execute(strokeRequest(target(), eraser));
@@ -61,7 +59,7 @@ describe('an eraser stroke', () => {
 describe('a fill', () => {
   it('floods the empty sprite with the chosen index in one step', () => {
     const { host, documentId, target, pixels } = openEditor();
-    const result = host.execute(fillRequest(target(), { x: 9, y: 9 }, 3));
+    const result = host.execute(fillRequest(target(), { x: 9, y: 9 }, { index: 3, mode: 'contiguous', connectivity: 4 }));
     expect(result.ok).toBe(true);
     expect(pixels().every((value) => value === 3)).toBe(true);
     expect(host.undo(documentId).ok).toBe(true);

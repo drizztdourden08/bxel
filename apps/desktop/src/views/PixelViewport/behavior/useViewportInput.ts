@@ -9,7 +9,7 @@ import { useViewportKeys } from './useViewportKeys';
 const useViewportInput = (parts: ViewportParts, props: PixelViewportProps): ViewportHandlers => {
   const { view, box, image } = parts;
   const keys = useViewportKeys(view, box, props.onKeyDown);
-  const drag = usePanDrag(view, keys.spaceHeld);
+  const drag = usePanDrag(view, keys.spaceHeld, props.hand === true);
   const pointer = usePointerPixel(view, box, image, props.onPointerPixel);
   return {
     onKeyDown: keys.onKeyDown,

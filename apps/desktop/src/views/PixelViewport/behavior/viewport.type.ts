@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { FocusEventHandler, KeyboardEventHandler, MouseEventHandler, PointerEvent, PointerEventHandler, RefObject } from 'react';
-import type { PixelDraw, PixelPoint, PixelSource, PixelView } from '../PixelViewport.type';
+import type { PixelDraw, PixelPoint, PixelSource, PixelTiling, PixelView } from '../PixelViewport.type';
 
 interface ImageSize {
   width: number;
@@ -54,6 +54,7 @@ interface FrameInput {
   draw?: PixelDraw;
   source?: PixelSource;
   gridFrom: number | null;
+  tiled: PixelTiling;
 }
 
 interface PlacedImage {
@@ -69,6 +70,7 @@ interface PaintTools {
   placed: PlacedImage;
   view: PixelView;
   scratch: () => HTMLCanvasElement;
+  primary: boolean;
 }
 
 interface FrameCache {

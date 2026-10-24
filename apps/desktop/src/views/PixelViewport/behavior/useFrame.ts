@@ -20,11 +20,11 @@ const useFrame = (rootRef: RefObject<HTMLElement | null>, canvasRef: RefObject<H
     });
   }, [rootRef, canvasRef]);
 
-  const { target, box, image, draw, source, gridFrom } = frame;
+  const { target, box, image, draw, source, gridFrom, tiled } = frame;
   useLayoutEffect(() => {
-    input.current = { target, box, image, draw, source, gridFrom };
+    input.current = { target, box, image, draw, source, gridFrom, tiled };
     schedule();
-  }, [target, box, image, draw, source, gridFrom, schedule]);
+  }, [target, box, image, draw, source, gridFrom, tiled, schedule]);
 
   useEffect(() => {
     const view = windowOf(rootRef.current);

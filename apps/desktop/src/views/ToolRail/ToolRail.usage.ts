@@ -2,9 +2,9 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Shows the drawing tools of the editor as a vertical rail of lettered buttons, with the active tool lit.',
+  job: 'Shows the tools of the editor as vertical groups of lettered buttons, with the active tool lit and a flyout for the shape kinds.',
   useWhen: [
-    'The editor needs one place to pick the drawing tool, such as the pencil, the eraser, the fill or the picker.',
+    'The editor needs one place to pick the tool, such as the pencil, the eraser, the fill, the picker, the shapes, the zoom or the hand.',
     'Each tool has a single key and the rail must show it next to the tool name.',
   ],
   avoidWhen: [
@@ -13,11 +13,12 @@ const usage = {
   ],
   rules: [
     'The rail reads and writes the tool in the tool store, so it takes no props.',
-    'Each button is named with the tool and its key, such as Pencil (B), and the same text is its tooltip.',
-    'The active tool is the pressed button; pressing another tool replaces it.',
+    'Each button is named with the tool and its key, such as Pencil and B, and the same text is its tooltip.',
+    'The active tool is the pressed button; pressing another tool replaces it. Pressing the key of the active tool again cycles its variants, such as line, rectangle and ellipse.',
+    'The chevron under the tools opens the shape flyout: the shape kind and the filled choice.',
   ],
   a11y: [
-    'The rail is a labelled group of buttons, each with an accessible name that holds the tool and its key.',
+    'The rail is a labelled group of labelled groups of buttons, each with an accessible name that holds the tool and its key.',
     'The buttons are reached with Tab and pressed with Enter or Space; the tool keys work from anywhere in the editor.',
   ],
   tree: {

@@ -6,7 +6,8 @@ import type { EditorTarget, StrokeSession } from './editor.type';
 import { STROKE_LABELS } from './stroke.constants';
 
 const strokeRequest = (target: EditorTarget, session: StrokeSession): TransactionRequest => {
-  const stroke = { points: session.points, brush: session.brush };
+  const { brush, pixelPerfect, symmetry } = session.options;
+  const stroke = { points: session.points, brush, pixelPerfect, symmetry };
   const step =
     session.tool === 'pencil'
       ? { name: COMMAND_NAME.pixelsPaint, options: { ...stroke, index: session.index } }

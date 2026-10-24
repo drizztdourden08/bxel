@@ -1,0 +1,5 @@
+/* @layer renderer-app @kind style */
+.context-bar {
+  padding: var(--space-xs) var(--space-sm);
+  border-block-end: var(--border-width-thin) solid var(--c-border);
+}

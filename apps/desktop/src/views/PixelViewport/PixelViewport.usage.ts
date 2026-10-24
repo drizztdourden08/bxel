@@ -22,10 +22,13 @@ const usage = {
     'onPointerPixel reports the image pixel under the pointer, or null outside the image, for a StatusBar readout.',
     'The ref gives screenToPixel and pixelToScreen in client coordinates, fit, setZoom with an optional anchor, zoomIn, zoomOut, redraw and view.',
     'Pointer handlers passed in get every press the viewport does not take for a pan, so the app paints with the main button.',
+    'Pass hand to let the main button drag the view, for a hand tool; the middle button and Space with the main button always pan.',
+    'Pass tiled with x, y or both to repeat the image across the view for a tile preview; the app overlay and the pointer stay on the first copy.',
+    'The viewport takes no zoom keys of its own. The app binds zoom in, zoom out, fit and actual size to its keymap and calls the ref.',
   ],
   a11y: [
     'The viewport is one Tab stop, an application region named by label.',
-    'The plus and minus keys zoom around the centre, 0 fits, 1 shows 100%, the arrow keys pan by a step and Shift with an arrow pans four steps.',
+    'The arrow keys pan by a step and Shift with an arrow pans four steps; the zoom keys belong to the app keymap.',
     'Hold Space and drag with the main button, or drag with the middle button, to pan.',
     'The zoom level is announced in a polite live region once the zoom settles, only while focus is inside.',
     'Zoom changes at once, with no animation, so reduced motion needs nothing more.',
@@ -54,7 +57,7 @@ const SpriteCanvas = ({ layers }: { layers: readonly ImageBitmap[] }) => {
   );
 };
 `,
-  propsHash: 'a2b98b83bd615c2e',
+  propsHash: '368c34b26a828dda',
 } satisfies ComponentUsage;
 
 export { usage };

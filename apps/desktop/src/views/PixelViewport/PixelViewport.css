@@ -15,6 +15,7 @@
   outline-offset: calc(-1 * var(--border-width-thick));
 }
 
+.pixel-viewport--hand,
 .pixel-viewport[data-grab] {
   cursor: grab;
 }
