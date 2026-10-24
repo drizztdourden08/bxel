@@ -26,7 +26,7 @@ const artworkOf = (documentId: DocumentId): Artwork => {
   return found;
 };
 
-const putLegacy = (artwork: Artwork): string => {
+const writeOlderFile = (artwork: Artwork): string => {
   const path = `${PARENT}/old.bxel`;
   held.disk.files.set(path, legacyBytes(artwork));
   return path;
@@ -42,7 +42,7 @@ beforeEach(() => {
 
 describe('an older .bxel file', () => {
   it('with one sprite and nothing else opens as an unsaved sprite', async () => {
-    const path = putLegacy(singleSprite(sampleArtwork()));
+    const path = writeOlderFile(singleSprite(sampleArtwork()));
     expect((await openPath(held.kit, path)).kind).toBe('done');
     const [workspace] = workspaces();
     expect(workspace?.kind).toBe('loose');
@@ -52,7 +52,7 @@ describe('an older .bxel file', () => {
   });
 
   it('with several assets opens read only, counts them, and refuses to save', async () => {
-    const path = putLegacy(sampleArtwork());
+    const path = writeOlderFile(sampleArtwork());
     await openPath(held.kit, path);
     const [workspace] = workspaces();
     expect(workspace?.legacy?.counts).toEqual({ sprites: 2, sheets: 2, palettes: 1 });
@@ -62,7 +62,7 @@ describe('an older .bxel file', () => {
 
   it('splits into a new project beside it that reopens identical, and leaves the older file alone', async () => {
     const artwork = sampleArtwork();
-    const path = putLegacy(artwork);
+    const path = writeOlderFile(artwork);
     const before = held.disk.files.get(path);
     await openPath(held.kit, path);
     const legacy = workspaces()[0];

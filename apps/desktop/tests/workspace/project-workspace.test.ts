@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import type { DocumentId, SpriteId } from '@bxel/document';
+import type { DocumentId } from '@bxel/document';
 import { decodeSprite } from '@bxel/document/native';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { openProject } from '../../src/project/open-project';
@@ -43,6 +43,14 @@ const artworkOf = (documentId: DocumentId) => {
   return found;
 };
 
+const paintedFirst = async () => {
+  const { documentId } = await opened();
+  const sprite = artworkOf(documentId).sprites[0];
+  if (!sprite) throw new Error('no sprite');
+  paintSprite(documentId, sprite.id);
+  return { documentId, sprite };
+};
+
 beforeEach(() => {
   held = rig();
 });
@@ -72,21 +80,16 @@ describe('opening a project', () => {
 
 describe('a sprite used by two sheets', () => {
   it('is one sprite in memory: painting it changes what both sheets show and dirties only the sprite', async () => {
-    const { documentId } = await opened();
-    const sprite = artworkOf(documentId).sprites[0];
-    if (!sprite) throw new Error('no sprite');
-    paintSprite(documentId, sprite.id);
+    const { documentId, sprite } = await paintedFirst();
     const after = artworkOf(documentId);
-    expect(after.sheets.every((sheet) => sheet.entries.some((entry) => entry.spriteId === sprite.id))).toBe(true);
+    const placed = (sheet: (typeof after.sheets)[number]): boolean => sheet.entries.some((entry) => entry.spriteId === sprite.id);
+    expect(after.sheets.every(placed)).toBe(true);
     expect(after.sprites.filter((each) => each.id === sprite.id)).toHaveLength(1);
     expect([...workspaceOf(documentId).dirty]).toEqual([`sprite:${sprite.id}`]);
   });
 
   it('is clean again when the paint is undone', async () => {
-    const { documentId } = await opened();
-    const sprite = artworkOf(documentId).sprites[0];
-    if (!sprite) throw new Error('no sprite');
-    paintSprite(documentId, sprite.id);
+    const { documentId } = await paintedFirst();
     useDocumentStore.getState().host.undo(documentId);
     expect(workspaceOf(documentId).dirty.size).toBe(0);
   });
@@ -125,8 +128,8 @@ describe('saving a project workspace', () => {
     if (!lone) throw new Error('no sprite');
     const host = useDocumentStore.getState().host;
     const removed = runSteps(host, documentId, 'Remove', [
-      ...artworkOf(documentId).sheets.map((sheet) => ({ name: COMMAND_NAME.sheetRemove, targets: spritesTarget([lone.id as SpriteId]), options: { sheet: sheet.id } })),
-      { name: COMMAND_NAME.spriteDelete, targets: spritesTarget([lone.id as SpriteId]), options: {} },
+      ...artworkOf(documentId).sheets.map((sheet) => ({ name: COMMAND_NAME.sheetRemove, targets: spritesTarget([lone.id]), options: { sheet: sheet.id } })),
+      { name: COMMAND_NAME.spriteDelete, targets: spritesTarget([lone.id]), options: {} },
     ]);
     expect(removed.ok).toBe(true);
     await saveWorkspace(held.kit, documentId);

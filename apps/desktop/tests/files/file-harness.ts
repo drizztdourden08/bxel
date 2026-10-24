@@ -28,8 +28,6 @@ type Harness = {
   readonly focused: DocumentId[];
 };
 
-const SAVED = 'C:\\art\\hero.bxel';
-
 const memoryDocuments = (): Memory => {
   const files = new Map<string, Uint8Array>();
   const writes: string[] = [];
@@ -108,5 +106,5 @@ const paintPixels = (host: DocumentHost, documentId: DocumentId): void => {
   if (!result.ok) throw new Error(result.error.message);
 };
 
-export { createArtwork, harness, paintPixels, SAVED };
+export { createArtwork, harness, paintPixels };
 export type { Harness };

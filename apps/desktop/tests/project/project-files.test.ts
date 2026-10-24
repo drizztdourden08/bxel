@@ -57,7 +57,7 @@ describe('a new file in the project', () => {
     expect(held.disk.writes).toEqual([]);
   });
 
-  it.each(['', 'a/b', 'a' + String.fromCharCode(92) + 'b', 'CON', '.hidden', 'x'.repeat(70)])('refuses the name "%s"', async (name) => {
+  it.each(['', 'a/b', `a${String.fromCharCode(92)}b`, 'CON', '.hidden', 'x'.repeat(70)])('refuses the name "%s"', async (name) => {
     const outcome = await newProjectFile(ROOT, name);
     expect(outcome.ok).toBe(false);
     expect(held.disk.writes).toEqual([]);

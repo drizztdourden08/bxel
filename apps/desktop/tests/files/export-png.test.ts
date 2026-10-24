@@ -2,8 +2,7 @@
 import { decodePng } from '@bxel/formats';
 import { describe, expect, it } from 'vitest';
 import { exportPng } from '../../src/files/export-png';
-import { isArtworkPath } from '../../src/files/is-artwork-path';
-import { createArtwork, harness, paintPixels, SAVED } from './file-harness';
+import { createArtwork, harness, paintPixels } from './file-harness';
 
 const TARGET = 'C:\\art\\hero.png';
 
@@ -58,5 +57,4 @@ describe('export PNG', () => {
     expect(memory.options).toEqual([{ recent: false }]);
     expect(memory.recent).toEqual([]);
   });
-
 });
