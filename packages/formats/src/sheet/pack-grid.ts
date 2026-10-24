@@ -2,14 +2,10 @@
 import { FORMAT_ERROR_CODE } from '../failure/format-error.constants';
 import { formatFail } from '../failure/format-fail';
 import { finishPack } from './finish-pack';
-import type { GridLayout, PackedItem, PackItem, PackResult } from './sheet.type';
+import type { GridLayout, PackedItem, PackItem, PackOptions, PackResult } from './sheet.type';
 
-const packGrid = (
-  items: readonly PackItem[],
-  layout: GridLayout,
-  margin: number,
-  extrude: number,
-): PackResult => {
+const packGrid = (items: readonly PackItem[], layout: GridLayout, options: PackOptions): PackResult => {
+  const { margin, extrude, powerOfTwo } = options;
   const rows = Math.ceil(items.length / layout.columns);
   const byRows = layout.order === 'rows';
   const usedColumns = byRows ? Math.min(items.length, layout.columns) : Math.ceil(items.length / rows);
@@ -26,7 +22,7 @@ const packGrid = (
   }
   const width = 2 * margin + usedColumns * layout.cellWidth + (usedColumns - 1) * layout.spacingX;
   const height = 2 * margin + rows * layout.cellHeight + (rows - 1) * layout.spacingY;
-  return finishPack(width, height, placed);
+  return finishPack(width, height, placed, powerOfTwo);
 };
 
 export { packGrid };
