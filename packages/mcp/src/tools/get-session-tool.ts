@@ -21,7 +21,7 @@ const getSessionTool = defineTool(TOOL_NAME.getSession, {
     scope: SCOPE_SETTINGS_SCHEMA,
     bxelVersion: z.string(),
     contract: z.number().int().min(1),
-    'aiFolder': z.string(),
+    assistantFolder: z.string(),
     exportFormats: z.array(z.string()),
     commands: z.array(z.string()),
     limits: z.strictObject({

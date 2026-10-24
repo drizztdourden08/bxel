@@ -82,7 +82,7 @@ const OUTPUT_EXAMPLES: Record<string, unknown> = {
     scope: { see: 'everything', write: 'where_bxel_can' },
     bxelVersion: '0.4.0',
     contract: 1,
-    'aiFolder': 'Documents\\Bxel Assistant',
+    assistantFolder: 'Documents\\Bxel Assistant',
     exportFormats: ['png'],
     commands: ['pixels.patch'],
     limits: {
@@ -111,7 +111,7 @@ const OUTPUT_EXAMPLES: Record<string, unknown> = {
       },
     ],
     recent: [{ recentId: RECENT, fileName: 'boss.bxel', kind: 'bxel', openedAt: '2026-10-22T18:01:00Z', documentId: null }],
-    'aiFolder': { name: 'Bxel Assistant', writable: true },
+    assistantFolder: { name: 'Bxel Assistant', writable: true },
   },
   list_files: {
     ok: true,

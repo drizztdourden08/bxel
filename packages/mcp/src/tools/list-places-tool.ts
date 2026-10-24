@@ -35,7 +35,7 @@ const listPlacesTool = defineTool(TOOL_NAME.listPlaces, {
         documentId: DOCUMENT_ID_SCHEMA.nullable(),
       }),
     ),
-    'aiFolder': z.strictObject({ name: z.string(), writable: z.boolean() }),
+    assistantFolder: z.strictObject({ name: z.string(), writable: z.boolean() }),
   }),
 });
 

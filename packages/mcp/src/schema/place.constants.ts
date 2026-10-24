@@ -20,7 +20,7 @@ const PLACE_SCHEMA = z
     z.null(),
     LOCATION_SCHEMA,
     RECENT_REF_SCHEMA,
-    z.strictObject({ 'aiFolder': z.literal(true) }),
+    z.strictObject({ assistantFolder: z.literal(true) }),
     z.strictObject({ project: z.strictObject({ name: z.string(), granted: z.literal(false) }) }),
   ])
   .meta({ id: 'Place', description: 'Where an open document lives, as the assistant may see it. Null means untitled.' });

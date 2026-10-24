@@ -55,9 +55,9 @@ describe('assistant can write', () => {
   });
 
   it('refuses a document own file at projects and the assistant folder', () => {
-    expect(checkWrite('projects_and_ai_folder', 'own_file')?.error.code).toBe('WRITE_NOT_ALLOWED');
-    expect(checkWrite('projects_and_ai_folder', 'project_file')).toBeNull();
-    expect(checkWrite('projects_and_ai_folder', 'assistant_folder')).toBeNull();
+    expect(checkWrite('projects_and_assistant_folder', 'own_file')?.error.code).toBe('WRITE_NOT_ALLOWED');
+    expect(checkWrite('projects_and_assistant_folder', 'project_file')).toBeNull();
+    expect(checkWrite('projects_and_assistant_folder', 'assistant_folder')).toBeNull();
   });
 
   it('refuses everything at nowhere', () => {
