@@ -2,11 +2,13 @@
 import { counterIdSource, createEngine, documentCommands, splitIntoAssets } from '@bxel/document';
 import type { Artwork, Engine } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
+import { decodeArtwork } from '@bxel/document/native';
 import { decodeFiles, encodeSlice } from './asset-bytes';
 import { fixtureToArtwork } from './fixture-to-artwork';
 import { documentId } from './heart-engine';
 import { heartPairFixture } from './heart-pair-fixture';
 import { legacyArtwork } from './legacy-fixture';
+import { artworkOf, encodeHeart, heartState } from './native-fixture';
 import { apply, HEART, onSprites, plain } from './sheet-engine';
 
 const NOW = Date.UTC(2026, 9, 24, 12, 0, 0);
@@ -100,5 +102,14 @@ describe('the created time in the asset files', () => {
     const sheets = sources.flatMap((source) => source.slice.artwork.sheets ?? []);
     expect(sheets.length).toBeGreaterThan(0);
     expect(sheets.every((sheet) => sheet.created === undefined)).toBe(true);
+  });
+
+  it('is saved in a whole older file and read back, and stays unknown when it was never set', () => {
+    const state = heartState();
+    const stamped = { ...state, artwork: { ...state.artwork, sprites: state.artwork.sprites.map((sprite) => ({ ...sprite, created: NOW })) } };
+    const read = artworkOf(decodeArtwork(encodeHeart(stamped)));
+    expect(read.sprites.every((sprite) => sprite.created === NOW)).toBe(true);
+    const plain = artworkOf(decodeArtwork(encodeHeart()));
+    expect(plain.sprites.every((sprite) => sprite.created === undefined)).toBe(true);
   });
 });

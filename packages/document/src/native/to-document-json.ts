@@ -13,6 +13,7 @@ const sortedLayer = (layer: Layer): Layer => ({
 const spriteToJson = (sprite: Sprite): SpriteJson => ({
   id: sprite.id,
   name: sprite.name,
+  ...(sprite.created === undefined ? {} : { created: sprite.created }),
   role: sprite.role,
   bankId: sprite.bankId,
   width: sprite.width,
@@ -28,6 +29,7 @@ const spriteToJson = (sprite: Sprite): SpriteJson => ({
 const tilemapToJson = (tilemap: Tilemap): TilemapJson => ({
   id: tilemap.id,
   name: tilemap.name,
+  ...(tilemap.created === undefined ? {} : { created: tilemap.created }),
   tilesetId: tilemap.tilesetId,
   columns: tilemap.columns,
   rows: tilemap.rows,
