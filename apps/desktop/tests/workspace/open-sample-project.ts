@@ -13,8 +13,7 @@ type SampleProject = {
   readonly documentId: DocumentId;
 };
 
-const openSampleProject = async (held: Rig): Promise<SampleProject> => {
-  const artwork = sampleArtwork();
+const openSampleProject = async (held: Rig, artwork: Artwork = sampleArtwork()): Promise<SampleProject> => {
   const paths = writeProjectAssets(held.disk, ROOT, artwork);
   withManifest(held.disk);
   held.disk.picks.folder = ROOT;

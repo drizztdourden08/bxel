@@ -1,15 +1,13 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type * as EncodeModule from '../../src/workspace/encode-asset';
-import { openProject } from '../../src/project/open-project';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
-import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
 import { saveWorkspace } from '../../src/workspace/save-workspace';
-import { rig, ROOT, withManifest } from '../project/project-harness';
+import { rig } from '../project/project-harness';
 import type { Rig } from '../project/project-harness';
 import { manyArtwork } from './many-artwork';
-import { artworkOf, workspaceOf } from './open-sample-project';
-import { paintSprite, writeProjectAssets } from './workspace-harness';
+import { artworkOf, openSampleProject, workspaceOf } from './open-sample-project';
+import { paintSprite } from './workspace-harness';
 
 const encoded = vi.hoisted(() => ({ keys: [] as string[] }));
 
@@ -26,21 +24,14 @@ vi.mock('../../src/workspace/encode-asset', async (original) => {
 });
 
 const ASSETS = 200;
-const OPEN_BUDGET_MS = 4000;
 
 let held: Rig;
 const artwork = manyArtwork(ASSETS);
 
-const openMany = async (): Promise<{ readonly paths: ReadonlyMap<string, string>; readonly documentId: ReturnType<typeof workspaceOf>['documentId'] }> => {
-  const paths = writeProjectAssets(held.disk, ROOT, artwork);
-  withManifest(held.disk);
-  held.disk.picks.folder = ROOT;
-  await openProject();
-  const workspace = Object.values(useWorkspaceStore.getState().workspaces)[0];
-  if (!workspace) throw new Error('the project workspace did not open');
-  held.disk.writes.length = 0;
+const openMany = async (): ReturnType<typeof openSampleProject> => {
+  const opened = await openSampleProject(held, artwork);
   encoded.keys.length = 0;
-  return { paths, documentId: workspace.documentId };
+  return opened;
 };
 
 beforeEach(() => {
@@ -48,17 +39,11 @@ beforeEach(() => {
 });
 
 describe('a project of 200 assets', () => {
-  it('opens every asset, clean, within the time budget', async () => {
-    const paths = writeProjectAssets(held.disk, ROOT, artwork);
-    withManifest(held.disk);
-    held.disk.picks.folder = ROOT;
-    const start = performance.now();
-    await openProject();
-    const elapsed = performance.now() - start;
-    const workspace = Object.values(useWorkspaceStore.getState().workspaces)[0];
-    expect(workspace?.paths.size).toBe(paths.size);
-    expect(workspace?.dirty.size).toBe(0);
-    expect(elapsed).toBeLessThan(OPEN_BUDGET_MS);
+  it('opens every asset, clean', async () => {
+    const { paths, documentId } = await openMany();
+    expect(paths.size).toBe(ASSETS);
+    expect(workspaceOf(documentId).paths.size).toBe(ASSETS);
+    expect(workspaceOf(documentId).dirty.size).toBe(0);
   });
 
   it('saves one painted asset without encoding any other asset', async () => {

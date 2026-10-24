@@ -1,7 +1,7 @@
 /* @layer core @kind config */
 import type { AssetKind } from '../../model/asset.type';
 import type { Clock } from '../clock.type';
-import type { PartsBuilder } from './asset-digest.constants.type';
+import type { PartsBuilder } from './parts-builder.type';
 import { paletteParts } from './palette-parts';
 import { sheetParts } from './sheet-parts';
 import { spriteParts } from './sprite-parts';

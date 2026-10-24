@@ -8,11 +8,11 @@ import type { NoiseRig } from './noise-rig';
 const SIDE = 300;
 const WANT = '34cce5f0880c effcee0d21b4 712b2736747c 077f022a56b9 fe74b0847845 15688a743ae3 d7364b892528 b9ab685bcce7 1f23d2388ef0';
 
-const digest = (value: unknown): string =>
-  createHash('sha1')
-    .update(JSON.stringify(value, (_key, item: unknown) => (item instanceof Uint8Array ? Buffer.from(item).toString('hex') : item)))
-    .digest('hex')
-    .slice(0, 12);
+const hexBytes = (_key: string, item: unknown): unknown => (item instanceof Uint8Array ? Buffer.from(item).toString('hex') : item);
+
+const flat = (value: unknown): string => JSON.stringify(value, hexBytes);
+
+const digest = (value: unknown): string => createHash('sha1').update(flat(value)).digest('hex').slice(0, 12);
 
 const stage = (rig: NoiseRig, result: TransactionResult): string => {
   if (!result.ok) throw new Error(result.error.message);
