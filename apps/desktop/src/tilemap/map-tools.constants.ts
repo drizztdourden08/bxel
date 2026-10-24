@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { ToolDef, ToolId } from '../editor/tool.type';
-import type { AnyPixelIconName } from '../icons/pixel-icon.type';
+import type { ToolDef } from '../editor/tool.type';
 
 const MAP_TOOLS: readonly ToolDef[] = [
   { id: 'pencil', label: 'Place', description: 'Place the picked tile or tiles. Drag to paint a line of tiles.', key: 'b', group: 'draw' },
@@ -19,16 +18,4 @@ const MAP_TOOLS: readonly ToolDef[] = [
   { id: 'hand', label: 'Hand', description: 'Drag to move the map around.', key: 'h', group: 'view' },
 ];
 
-const MAP_TOOL_ICONS: Readonly<Record<ToolId, AnyPixelIconName>> = {
-  pencil: 'mapPaint',
-  eraser: 'mapErase',
-  fill: 'mapFill',
-  picker: 'mapPick',
-  shape: 'mapRect',
-  zoom: 'pixel-zoom',
-  hand: 'pixel-hand',
-  select: 'pixel-select-rect',
-  move: 'pixel-move',
-};
-
-export { MAP_TOOL_ICONS, MAP_TOOLS };
+export { MAP_TOOLS };

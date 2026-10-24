@@ -10,7 +10,7 @@ declare module '@drizztdourden08/tessera' {
         | 'AssistantPanel'
         | 'AssistantProjects'
         | 'CanvasRuler'
-        | 'ContextBar'
+        | 'CanvasToolbar'
         | 'CreateDialog'
         | 'DialogHost'
         | 'EditorCanvas'
@@ -22,7 +22,7 @@ declare module '@drizztdourden08/tessera' {
         | 'LayersPanel'
         | 'MapLayersPanel'
         | 'MismatchBar'
-        | 'ModeBar'
+        | 'OptionsToolbar'
         | 'PaletteChangeDialog'
         | 'PaletteFields'
         | 'PalettePanel'
@@ -32,7 +32,9 @@ declare module '@drizztdourden08/tessera' {
         | 'ProjectCreateDialog'
         | 'ProjectPanel'
         | 'RecoveryDialog'
+        | 'ScopeBar'
         | 'SheetCanvas'
+        | 'SlotToolbar'
         | 'SpritesPanel'
         | 'SurroundEditor'
         | 'SwatchSetEditor'
@@ -40,9 +42,9 @@ declare module '@drizztdourden08/tessera' {
         | 'TilemapDialog'
         | 'TilesetPanel'
         | 'TimelinePanel'
+        | 'ToolbarPanel'
         | 'ToolRail'
-        | 'TransformDialog'
-        | 'TransformPanel';
+        | 'TransformDialog';
     };
   }
 }

@@ -20,13 +20,6 @@ interface HintCombo {
   mouse?: MouseButton;
 }
 
-interface HintedOption<T extends string> {
-  value: T;
-  label: string;
-  hint: HintSpec;
-  disabled?: boolean | string;
-}
-
 interface ActionHintProps {
   hint?: HintSpec;
   placement?: TooltipPlacement;
@@ -42,4 +35,4 @@ interface HintShortcutRowProps {
   shortcut: HintShortcut;
 }
 
-export type { ActionHintProps, HintBodyProps, HintCombo, HintShortcut, HintShortcutRowProps, HintSpec, HintedOption };
+export type { ActionHintProps, HintBodyProps, HintCombo, HintShortcut, HintShortcutRowProps, HintSpec };

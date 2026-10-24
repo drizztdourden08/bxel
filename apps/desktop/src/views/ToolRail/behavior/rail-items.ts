@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { ToolbarItem } from '@drizztdourden08/tessera';
-import { TOOL_GROUPS, TOOLS } from '../../../editor/tools.constants';
+import { TOOL_GROUPS } from '../../../editor/tools.constants';
 import type { ToolDef } from '../../../editor/tool.type';
 import type { RailItemContext } from '../ToolRail.type';
 
@@ -19,7 +19,7 @@ const railItem = (def: ToolDef, context: RailItemContext): ToolbarItem => ({
 const railItems = (context: RailItemContext): ToolbarItem[] =>
   TOOL_GROUPS.flatMap((group, index): ToolbarItem[] => [
     ...(index > 0 ? [{ kind: 'separator' as const, id: `after-${TOOL_GROUPS[index - 1]}` }] : []),
-    ...TOOLS.filter((def) => def.group === group).map((def) => railItem(def, context)),
+    ...context.defs.filter((def) => def.group === group).map((def) => railItem(def, context)),
   ]);
 
 export { railItems };
