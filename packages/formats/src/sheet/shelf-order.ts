@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import type { PackItem } from './sheet.type';
 
-const shelfOrder = (items: readonly PackItem[]): number[] =>
+const shelfOrder = (items: readonly Pick<PackItem, 'width' | 'height'>[]): number[] =>
   items
     .map((_, index) => index)
     .sort((a, b) => {

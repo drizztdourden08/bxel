@@ -1,26 +1,24 @@
 /* @layer core @kind logic */
-import { buildSheetCells } from './build-sheet-cells';
 import { checkExportInput } from './check-export-input';
 import type { ExportPagesInput, ExportPagesResult } from './export-pages.type';
-import { exportSheet } from './export-sheet';
 import type { ExportedSheet } from './export-sheet.type';
-import { packPages } from './pack-pages';
+import { finishSheet } from './finish-sheet';
+import { pageCells } from './page-cells';
+import { planAtlas } from './plan-atlas';
 
 const exportSheetPages = (input: ExportPagesInput): ExportPagesResult => {
   const invalid = checkExportInput({ ...input, imageName: input.imageName(0, 1) });
   if (invalid) return invalid;
-  const cells = buildSheetCells(input.sprites, input.trim);
-  const groups = input.sprites.map((_sprite, at) =>
-    cells
-      .filter((cell) => cell.spriteIndex === at)
-      .map((cell) => ({ key: cell.key, width: cell.trimmed.image.width, height: cell.trimmed.image.height })),
-  );
-  const paged = packPages(groups, input.settings, input.pageSide);
-  if (!paged.ok) return paged;
+  const plan = planAtlas({ sprites: input.sprites, settings: input.settings, trim: input.trim, pageSide: input.pageSide });
+  if (!plan.ok) return plan;
   const pages: ExportedSheet[] = [];
-  for (const [at, page] of paged.pages.entries()) {
+  for (const [at, page] of plan.pages.entries()) {
     const sprites = page.groups.flatMap((index) => input.sprites[index] ?? []);
-    const sheet = exportSheet({ ...input, sprites, imageName: input.imageName(at, paged.pages.length) });
+    const sheet = finishSheet(
+      { ...input, sprites, imageName: input.imageName(at, plan.pages.length) },
+      pageCells(plan.cells, page.groups),
+      page.packed,
+    );
     if (!sheet.ok) return sheet;
     pages.push(sheet);
   }

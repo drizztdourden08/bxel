@@ -16,6 +16,7 @@ type SheetTagDirection = 'forward' | 'reverse' | 'pingpong';
 
 type SheetFrameEntry = {
   readonly box: Box;
+  readonly rotated: boolean;
   readonly trimmed: boolean;
   readonly sourceX: number;
   readonly sourceY: number;
