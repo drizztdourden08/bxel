@@ -7,10 +7,13 @@ import { placeStampAt } from './place-stamp-at';
 import { readiedMap } from './readied-map';
 import { readyStamp } from './ready-stamp';
 import { runMap } from './run-map';
+import { terrainActive } from './terrain/terrain-active';
+import { terrainCells } from './terrain/terrain-cells';
 import { TILE_LABEL } from './tilemap.constants';
 
 const strokePlace = (points: readonly Point[]): boolean => {
   const target = readiedMap();
+  if (target && terrainActive(target)) return terrainCells(target, points, false);
   const stamp = target ? readyStamp(target) : null;
   if (!target || !stamp) return false;
   if (stamp.keys.length > 1) return placeStampAt(points);

@@ -3,23 +3,14 @@ import { cellKey } from '@bxel/document';
 import type { Artwork } from '@bxel/document';
 import { decodePng } from '@bxel/formats';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { DEFAULT_EXPORT_SETTINGS } from '../../src/export/export.constants';
-import type { ExportPlan, ExportSettings } from '../../src/export/export.type';
-import { planExport } from '../../src/export/plan-export';
+import type { ExportPlan } from '../../src/export/export.type';
 import { useTilemapStore } from '../../src/stores/useTilemapStore';
 import { deleteTile } from '../../src/tilemap/delete-tile';
 import { placeStampAt } from '../../src/tilemap/place-stamp-at';
 import { artworkNow, mapNow, openMapFile, tilesetNow } from './map-harness';
+import { planMapExport } from './plan-map-export';
 
 type Json = Record<string, unknown>;
-
-const planOf = (artwork: Artwork, patch: Partial<ExportSettings>): ExportPlan =>
-  planExport({
-    frozen: { revision: 1, artwork },
-    settings: { ...DEFAULT_EXPORT_SETTINGS, kind: 'map', fileName: 'level', ...patch },
-    selectedIds: [],
-    current: { spriteId: null, frameId: null, tilemapId: mapNow().id },
-  });
 
 const textOf = (plan: ExportPlan, at: number): string => {
   const made = plan.files[at]?.make();
@@ -38,7 +29,7 @@ beforeEach(() => {
 
 describe('exporting a map as Bxel map JSON', () => {
   it('writes a tileset image and a map file named after the map', () => {
-    const plan = planOf(artworkNow(), {});
+    const plan = planMapExport(artworkNow(), {});
     expect(plan.problem).toBeNull();
     expect(plan.files.map((file) => file.name)).toEqual(['level-tiles.png', 'level.json']);
     expect(plan.files[0]).toMatchObject({ width: 4, height: 2 });
@@ -48,7 +39,7 @@ describe('exporting a map as Bxel map JSON', () => {
   });
 
   it('lists the key and the turn of every cell and names only tiles of the tileset', () => {
-    const json = JSON.parse(textOf(planOf(artworkNow(), {}), 1)) as Json;
+    const json = JSON.parse(textOf(planMapExport(artworkNow(), {}), 1)) as Json;
     expect(json['format']).toBe('bxel-tilemap');
     const layers = json['layers'] as { keys: number[]; flags: number[] }[];
     const tiles = (json['tileset'] as { tiles: { key: number }[] }).tiles.map((tile) => tile.key);
@@ -60,7 +51,7 @@ describe('exporting a map as Bxel map JSON', () => {
 
   it('keeps every exported key in the tileset after a tile is deleted with its cells cleared', () => {
     expect(deleteTile(2, 0)).toBe(true);
-    const json = JSON.parse(textOf(planOf(artworkNow(), {}), 1)) as Json;
+    const json = JSON.parse(textOf(planMapExport(artworkNow(), {}), 1)) as Json;
     const layers = json['layers'] as { keys: number[] }[];
     expect(layers[0]?.keys.filter((key) => key !== 0)).toEqual([1]);
   });
@@ -71,20 +62,20 @@ describe('exporting a map as Bxel map JSON', () => {
     const cells = Uint32Array.from(layer?.cells ?? []);
     cells[5] = 9;
     const broken: Artwork = { ...artworkNow(), tilemaps: [{ ...map, layers: [{ ...(layer as NonNullable<typeof layer>), cells }] }] };
-    const plan = planOf(broken, {});
+    const plan = planMapExport(broken, {});
     expect(plan.files).toEqual([]);
     expect(plan.problem).toContain('key 9');
   });
 
   it('blocks the export of a file without a map or without tiles', () => {
-    expect(planOf({ ...artworkNow(), tilemaps: [] }, {}).problem).toContain('no tilemap');
-    expect(planOf({ ...artworkNow(), tilesets: artworkNow().tilesets.map((set) => ({ ...set, tiles: [] })) }, {}).problem).toContain('no tiles');
+    expect(planMapExport({ ...artworkNow(), tilemaps: [] }, {}).problem).toContain('no tilemap');
+    expect(planMapExport({ ...artworkNow(), tilesets: artworkNow().tilesets.map((set) => ({ ...set, tiles: [] })) }, {}).problem).toContain('no tiles');
   });
 });
 
 describe('exporting a map as Tiled JSON', () => {
   it('writes global tile ids with the flip bits in the top bits', () => {
-    const plan = planOf(artworkNow(), { mapFormat: 'tiled' });
+    const plan = planMapExport(artworkNow(), { mapFormat: 'tiled' });
     expect(plan.files.map((file) => file.name)).toEqual(['level-tiles.png', 'level.tmj']);
     const json = JSON.parse(textOf(plan, 1)) as { orientation: string; layers: { data: number[] }[]; tilesets: { firstgid: number; tilecount: number }[] };
     expect(json.orientation).toBe('orthogonal');

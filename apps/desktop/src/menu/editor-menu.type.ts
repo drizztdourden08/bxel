@@ -16,6 +16,8 @@ interface EditorMenuState {
   symmetryY: boolean;
   mode: SpriteMode;
   tileMode: TileEditMode;
+  collision: boolean;
+  terrainBrush: boolean;
 }
 
 export type { EditorMenuState };

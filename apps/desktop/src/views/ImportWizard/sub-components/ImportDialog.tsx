@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Box, Callout, DialogShell, Stack } from '@drizztdourden08/tessera';
 import { IMPORT_TEXT } from '../../../image-import/image-import.constants';
+import { TILED_TEXT } from '../../../tiled-import/tiled-import.constants';
 import { useImportWizard } from '../behavior/useImportWizard';
 import type { ImportDialogProps } from '../ImportWizard.type';
 import { ColorsStep } from './ColorsStep';
@@ -9,13 +10,13 @@ import { SourceStep } from './SourceStep';
 import { StepHeader } from './StepHeader';
 import { WizardActions } from './WizardActions';
 
-const ImportDialog = ({ image }: ImportDialogProps) => {
-  const wizard = useImportWizard(image);
+const ImportDialog = ({ image, tiled }: ImportDialogProps) => {
+  const wizard = useImportWizard(image, tiled);
   const { step, failure, cancel } = wizard;
   return (
     <DialogShell
       open
-      title={IMPORT_TEXT.title(image.fileName)}
+      title={tiled ? TILED_TEXT.title(tiled.mapFile) : IMPORT_TEXT.title(image.fileName)}
       onClose={cancel}
       actions={<WizardActions wizard={wizard} />}
       className="import-wizard"

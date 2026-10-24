@@ -9,9 +9,11 @@ import { getSession } from './tools/get-session';
 import { listDocuments } from './tools/list-documents';
 import { listAssets } from './tools/list-assets';
 import { listFiles } from './tools/list-files';
+import { listMapLayers } from './tools/list-map-layers';
 import { listPlaces } from './tools/list-places';
 import { openFile } from './tools/open-file';
 import { previewEdits } from './tools/preview-edits';
+import { readMapCells } from './tools/read-map-cells';
 import { readPalette } from './tools/read-palette';
 import { readPixels } from './tools/read-pixels';
 import { renderPreview } from './tools/render-preview';
@@ -38,6 +40,8 @@ const TOOL_HANDLERS: ToolHandlers = {
   export_document: exportDocument,
   create_document: createDocument,
   split_legacy_file: splitLegacyFile,
+  list_map_layers: listMapLayers,
+  read_map_cells: readMapCells,
 };
 
 export { TOOL_HANDLERS };

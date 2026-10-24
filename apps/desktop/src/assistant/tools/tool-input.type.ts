@@ -20,6 +20,10 @@ type GetDocumentInput = DocumentInput & { readonly spriteOffset: number; readonl
 
 type ReadPaletteInput = DocumentInput & { readonly bankId?: string };
 
+type ListMapLayersInput = DocumentInput & { readonly tilemapId?: string; readonly includeTiles: boolean };
+
+type ReadMapCellsInput = DocumentInput & { readonly tilemapId: string; readonly layerId: string; readonly rect: WireRect };
+
 type ReadPixelsInput = DocumentInput & {
   readonly spriteId: string;
   readonly frameId: string;
@@ -133,6 +137,8 @@ type ListFilesInput = {
 type PlatformOptions = { platformStrict?: unknown; platformId?: unknown };
 
 export type {
+  ListMapLayersInput,
+  ReadMapCellsInput,
   PlatformOptions,
   AssetInput,
   CreateInput,

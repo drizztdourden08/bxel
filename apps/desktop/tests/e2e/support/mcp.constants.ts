@@ -16,7 +16,7 @@ const MCP_DRAWN = Uint8Array.from({ length: MCP_SIDE * MCP_SIDE }, (_, at) => {
   return x === 0 || y === x ? 1 + ((x + y) % 3) : 0;
 });
 
-const MCP_TOOL_COUNT = 21;
+const MCP_TOOL_COUNT = 23;
 
 const MCP_CLIENT_NAME = 'bxel-check7';
 

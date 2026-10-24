@@ -3,6 +3,7 @@ import type { CellFlags } from '../model/cell-flags.type';
 
 const CELL = {
   KEY_MASK: 0x0fffffff,
+  RESERVED: 0x10000000,
   FLIP_X: 0x80000000,
   FLIP_Y: 0x40000000,
   DIAGONAL: 0x20000000,

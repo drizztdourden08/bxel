@@ -25,6 +25,8 @@ interface TilemapSettings {
   flags: CellFlags;
   filled: boolean;
   selection: MapSelection | null;
+  showCollision: boolean;
+  terrainBrush: boolean;
 }
 
 interface TilemapState extends TilemapSettings {
@@ -38,6 +40,8 @@ interface TilemapState extends TilemapSettings {
   setFlags: (flags: CellFlags) => void;
   setFilled: (filled: boolean) => void;
   setSelection: (selection: MapSelection | null) => void;
+  setShowCollision: (showCollision: boolean) => void;
+  setTerrainBrush: (terrainBrush: boolean) => void;
 }
 
 export type { MapSelection, TileEditMode, TileStamp, TilemapSettings, TilemapState };

@@ -28,7 +28,7 @@ const tileUnique = defineCommand({
     const taken = draft.artwork.sprites.map((sprite) => sprite.name);
     const name = tileSpriteName(options.name, taken, opened.tileset, newKey);
     const copy = cloneSprite(draft.ids, requireSprite(draft.artwork, source.spriteId), name, draft.stamp);
-    attachTile(draft, opened.tileset, copy);
+    attachTile(draft, opened.tileset, copy, source.collision);
     editLayerCells(draft, opened, (cells) => {
       for (const index of indexes) cells[index] = rekeyCell(cells[index] ?? 0, newKey);
     });

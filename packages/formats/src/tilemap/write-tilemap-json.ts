@@ -25,6 +25,7 @@ const writeTilemapJson = (input: TilemapExportInput): TilemapJsonResult => {
       size: { columns: input.columns, rows: input.rows },
       tileSize: { w: input.tileWidth, h: input.tileHeight },
       flagBits: TILEMAP_JSON.FLAG_BITS,
+      ...(input.orientation ? { orientation: input.orientation } : {}),
       tileset: {
         name: tileset.name,
         image: tileset.image,
@@ -33,6 +34,7 @@ const writeTilemapJson = (input: TilemapExportInput): TilemapJsonResult => {
         spacing: tileset.spacing,
         margin: tileset.margin,
         tiles: tileset.tiles,
+        ...(tileset.terrain ? { terrain: tileset.terrain } : {}),
       },
     },
     null,

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { PointerEvent } from 'react';
-import type { CellFlags, Point } from '@bxel/document';
+import type { CellFlags, Point, Rect } from '@bxel/document';
 import type { CanvasLook } from '../../canvas-look/canvas-look.type';
 import type { MapSelection, TileStamp } from '../../stores/tilemap-store.type';
 import type { MapTarget, MapTool } from '../../tilemap/tilemap.type';
@@ -24,6 +24,7 @@ interface MapPaintBase {
   selection: MapSelection | null;
   filled: boolean;
   cells: boolean;
+  collision: boolean;
   look: CanvasLook;
 }
 
@@ -35,6 +36,12 @@ interface MapLook {
   cursor: string;
   erase: string;
   select: string;
+  collision: string;
+}
+
+interface CellRegion {
+  cells: Rect;
+  style: BoxStyle;
 }
 
 interface BoxStyle {
@@ -59,4 +66,4 @@ interface TilemapSurfaceProps {
   view: MapView;
 }
 
-export type { BoxStyle, MapDrag, MapGesture, MapLive, MapLook, MapPaintBase, MapPaintState, MapView, TilemapSurfaceProps };
+export type { BoxStyle, CellRegion, MapDrag, MapGesture, MapLive, MapLook, MapPaintBase, MapPaintState, MapView, TilemapSurfaceProps };

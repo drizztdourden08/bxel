@@ -6,16 +6,20 @@ import { MAP_TOOL_OPTIONS, TOOL_OPTIONS } from '../OptionsToolbar.constants';
 import { joinOptions } from './join-options';
 import { useOptionItems } from './useOptionItems';
 import { useTileModeItems } from './useTileModeItems';
+import { useTileOverlayItems } from './useTileOverlayItems';
+import { useSpriteStore } from '../../../stores/useSpriteStore';
 
 const useOptionsItems = (): ToolbarItem[] => {
   const tool = useToolStore((state) => state.tool);
   const placing = useMapPlacing();
   const items = useOptionItems();
   const mode = useTileModeItems();
+  const overlay = useTileOverlayItems();
+  const tilemap = useSpriteStore((state) => state.mode === 'tilemap');
   const kinds = placing ? MAP_TOOL_OPTIONS[tool] : TOOL_OPTIONS[tool];
   const options = joinOptions(kinds, items);
   const gap = mode.length > 0 && options.length > 0 ? [{ kind: 'separator' as const, id: 'after-tile-mode' }] : [];
-  return [...mode, ...gap, ...options];
+  return [...mode, ...(tilemap ? overlay : []), ...gap, ...options];
 };
 
 export { useOptionsItems };

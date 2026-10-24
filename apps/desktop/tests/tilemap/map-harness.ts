@@ -4,6 +4,7 @@ import type { Artwork, MapLayer, Tilemap, Tileset } from '@bxel/document';
 import { currentArtwork } from '../../src/sheet/current-artwork';
 import { runDocument } from '../../src/sheet/run-document';
 import { spritesTarget } from '../../src/sheet/sprites-target';
+import { MAP_DEFAULTS } from '../../src/views/TilemapDialog/TilemapDialog.constants';
 import { TILEMAP_DEFAULTS } from '../../src/stores/tilemap-store.constants';
 import { useTilemapStore } from '../../src/stores/useTilemapStore';
 import { addTile } from '../../src/tilemap/add-tile';
@@ -76,7 +77,7 @@ const openMapFile = (): void => {
   paintTile(1, [1, 1, 1, 1]);
   paintTile(2, ROCK);
   const tilesetId = tilesetNow().id;
-  if (createTilemap({ name: 'level', tilesetId, columns: 4, rows: 3 }) !== null) throw new Error('no tilemap');
+  if (createTilemap({ name: 'level', tilesetId, ...MAP_DEFAULTS, columns: 4, rows: 3 }) !== null) throw new Error('no tilemap');
   useTilemapStore.getState().setStamp({ columns: 1, rows: 1, keys: [2] });
 };
 

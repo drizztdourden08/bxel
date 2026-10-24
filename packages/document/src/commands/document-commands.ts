@@ -46,21 +46,27 @@ import { mapFill } from './map/map-fill';
 import { mapPaint } from './map/map-paint';
 import { mapRect } from './map/map-rect';
 import { mapReplace } from './map/map-replace';
+import { mapTerrain } from './map/map-terrain';
+import { mapWrite } from './map/map-write';
 import { mapLayerAdd } from './map-layer/map-layer-add';
 import { mapLayerDelete } from './map-layer/map-layer-delete';
 import { mapLayerReorder } from './map-layer/map-layer-reorder';
 import { mapLayerUpdate } from './map-layer/map-layer-update';
 import { tileAdd } from './tile/tile-add';
+import { tileCollision } from './tile/tile-collision';
 import { tileDelete } from './tile/tile-delete';
 import { tileUnique } from './tile/tile-unique';
 import { tilemapCreate } from './tilemap/tilemap-create';
 import { tilemapDelete } from './tilemap/tilemap-delete';
 import { tilemapDuplicate } from './tilemap/tilemap-duplicate';
+import { tilemapImport } from './tilemap/tilemap-import';
+import { tilemapOrient } from './tilemap/tilemap-orient';
 import { tilemapResize } from './tilemap/tilemap-resize';
 import { tilemapUpdate } from './tilemap/tilemap-update';
 import { tilesetCreate } from './tileset/tileset-create';
 import { tilesetDelete } from './tileset/tileset-delete';
 import { tilesetDuplicate } from './tileset/tileset-duplicate';
+import { tilesetTerrain } from './tileset/tileset-terrain';
 import { tilesetUpdate } from './tileset/tileset-update';
 
 const documentCommands: readonly CommandDef[] = [
@@ -112,11 +118,15 @@ const documentCommands: readonly CommandDef[] = [
   tileAdd,
   tileDelete,
   tileUnique,
+  tileCollision,
+  tilesetTerrain,
   tilemapCreate,
   tilemapUpdate,
   tilemapResize,
   tilemapDelete,
   tilemapDuplicate,
+  tilemapImport,
+  tilemapOrient,
   mapLayerAdd,
   mapLayerUpdate,
   mapLayerDelete,
@@ -126,6 +136,8 @@ const documentCommands: readonly CommandDef[] = [
   mapFill,
   mapRect,
   mapReplace,
+  mapTerrain,
+  mapWrite,
 ];
 
 export { documentCommands };

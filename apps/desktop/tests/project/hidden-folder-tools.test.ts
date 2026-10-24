@@ -1,18 +1,15 @@
 /* @layer renderer-app @kind test */
-import type { Artwork, DocumentId } from '@bxel/document';
-import { createFolderId } from '@bxel/project';
+import type { Artwork } from '@bxel/document';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
 import { sampleArtwork, writeProjectAssets } from '../workspace/workspace-harness';
 import { key } from './disk-paths';
 import type { Disk } from './memory-disk';
+import { openSharedRig, SHARED, workspaceDocumentId } from './hidden-folder-rig';
 import { manifestOf, ROOT } from './project-harness';
 import { fieldOf, rowsOf, toolRig } from './project-tool-rig';
 import type { ToolRig } from './project-tool-rig';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('./project-mocks')).brockReactMock());
-
-const SHARED = 'C:/Art/Shared';
 
 let current: ToolRig;
 let artwork: Artwork;
@@ -35,11 +32,7 @@ const seed = (disk: Disk): void => {
   disk.granted.add(key(SHARED));
 };
 
-const documentId = (): DocumentId => {
-  const workspace = Object.values(useWorkspaceStore.getState().workspaces)[0];
-  if (!workspace) throw new Error('the project workspace did not open');
-  return workspace.documentId;
-};
+const documentId = workspaceDocumentId;
 
 const scopeOf = (spriteId: string) => ({ sprites: [spriteId], layers: { by: 'all' }, frames: { by: 'all' } });
 
@@ -56,12 +49,7 @@ const pixelsInput = (spriteId: string) => ({ documentId: documentId(), spriteId,
 
 beforeEach(async () => {
   artwork = sampleArtwork();
-  const owner = manifestOf();
-  const rootFolder = owner.folders[0];
-  if (!rootFolder) throw new Error('no root folder');
-  const shared = { folderId: createFolderId((length) => Uint8Array.from({ length }, (_unused, index) => index + 9)), name: 'Shared', path: '../Shared' };
-  const manifest = { ...owner, folders: [rootFolder, { ...rootFolder, ...shared, roles: {} }], assistant: { ...owner.assistant, folders: [rootFolder.folderId] } };
-  current = await toolRig({ manifest, seed });
+  current = await openSharedRig(seed);
 });
 
 describe('a sprite in a folder the assistant may not see', () => {

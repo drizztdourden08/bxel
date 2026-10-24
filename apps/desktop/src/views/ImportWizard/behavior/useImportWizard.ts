@@ -15,14 +15,15 @@ import { stepIssue } from '../../../image-import/step-issue';
 import { switchTarget } from '../../../image-import/switch-target';
 import { stepsOf } from '../../../image-import/steps-of';
 import { useImportStore } from '../../../stores/useImportStore';
+import type { TiledImportData } from '../../../tiled-import/tiled-import.type';
 import type { ImportWizardState } from '../ImportWizard.type';
 
-const useImportWizard = (image: SourceImage): ImportWizardState => {
-    const view = useActiveDocument();
+const useImportWizard = (image: SourceImage, tiled: TiledImportData | null): ImportWizardState => {
+  const view = useActiveDocument();
   const context = useMemo(() => importContext(view), [view]);
   const defaults = useEffectiveDefaults();
   const memory = useMemo(() => memoryOf(defaults), [defaults]);
-  const [form, setForm] = useState<ImportForm>(() => initialImportForm(image, context, memory));
+  const [form, setForm] = useState<ImportForm>(() => initialImportForm(image, context, memory, tiled ? 'tiled' : 'sprite'));
   const [step, setStep] = useState<ImportStep>('source');
   const [failure, setFailure] = useState<string | null>(null);
   const { target, reduce, dither, alphaPercent, limit, transparent, source } = form;
@@ -58,11 +59,11 @@ const useImportWizard = (image: SourceImage): ImportWizardState => {
       return;
     }
     if (!colors.plan) return;
-    const failed = finishImport({ form, image, plan: colors.plan, rects, names, context });
+    const failed = finishImport({ form, image, plan: colors.plan, rects, names, context, tiled });
     if (failed !== null) setFailure(failed);
-  }, [steps, step, colors.plan, form, image, rects, names, context]);
+  }, [steps, step, colors.plan, form, image, rects, names, context, tiled]);
 
-  return { form, step, steps, colors, errors, rects, names, context, issue, failure, update, setSlice, setTarget, advance, back, cancel };
+  return { form, step, steps, colors, errors, rects, names, context, tiled, issue, failure, update, setSlice, setTarget, advance, back, cancel };
 };
 
 export { useImportWizard };

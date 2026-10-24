@@ -28,6 +28,8 @@ const TOOL_HINTS = {
   create_document: ACTION,
   list_assets: SAFE_READ,
   split_legacy_file: ACTION,
+  list_map_layers: SAFE_READ,
+  read_map_cells: SAFE_READ,
 } as const satisfies Record<string, ToolHints>;
 
 export { TOOL_HINTS };

@@ -38,6 +38,6 @@ const MAP_STEM = 'Map';
 
 const TILESET_DEFAULTS = { width: 16, height: 16 } as const;
 
-const MAP_DEFAULTS = { columns: 32, rows: 24 } as const;
+const MAP_DEFAULTS = { columns: 32, rows: 24, orientation: 'orthogonal', staggerAxis: 'y', staggerIndex: 'odd', hexSideLength: 0 } as const;
 
 export { MAP_DEFAULTS, MAP_SIZE_RANGE, MAP_STEM, TILE_PRESETS, TILE_SIZE_RANGE, TILEMAP_DIALOG_TEXT, TILESET_DEFAULTS, TILESET_STEM };

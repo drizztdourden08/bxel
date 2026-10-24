@@ -18,7 +18,8 @@ const hiddenAssets = (context: ToolContext, documentId: string): ReadonlySet<str
   }
   const ids = new Set([...(workspace?.paths ?? [])].filter(([, path]) => inside(path)).map(([id]) => id));
   const tiles = artwork.tilesets.filter((tileset) => ids.has(tileset.id)).flatMap((tileset) => tileset.tiles.map((tile) => tile.spriteId));
-  return new Set([...ids, ...tiles]);
+  const maps = artwork.tilemaps.filter((tilemap) => ids.has(tilemap.tilesetId)).map((tilemap) => tilemap.id);
+  return new Set([...ids, ...tiles, ...maps]);
 };
 
 export { hiddenAssets };

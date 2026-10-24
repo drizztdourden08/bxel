@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { IconName } from '@drizztdourden08/tessera';
+import { COLLISION_COMMAND } from '../../../keymap/collision-command-id.constants';
+import { TERRAIN_COMMAND } from '../../../keymap/terrain-command-id.constants';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
 import { TILEMAP_COMMAND } from '../../../keymap/tilemap-command-id.constants';
 import type { TileEditMode } from '../../../stores/tilemap-store.type';
@@ -13,6 +15,8 @@ const TILE_OPTIONS_TEXT = {
   place: 'Place Tile',
   edit: 'Edit Tile',
   filledCaption: 'Filled',
+  collisionCaption: 'Collision',
+  terrainCaption: 'Terrain',
   replaceInCaption: 'In selection',
   replaceAllCaption: 'Everywhere',
   uniqueCaption: 'Unique',
@@ -66,6 +70,18 @@ const FLAG_ACTIONS: readonly FlagAction[] = [
   { op: 'turn', flag: 'diagonal', icon: 'pixel-turn-right', hint: TURN_HINT },
 ];
 
+const COLLISION_OVERLAY_HINT: HintSpec = {
+  name: 'Show collision',
+  description: 'Draw the collision shape of every placed tile over the map.',
+  shortcuts: [{ command: COLLISION_COMMAND.toggleOverlay }],
+};
+
+const TERRAIN_BRUSH_HINT: HintSpec = {
+  name: 'Terrain brush',
+  description: 'Paint and erase with the terrain rules of the tileset, so the tiles join their neighbours.',
+  shortcuts: [{ command: TERRAIN_COMMAND.toggleBrush }],
+};
+
 const FILLED_MAP_HINT: HintSpec = {
   name: 'Filled',
   description: 'Fill the inside of the rectangle. Off draws only the outline.',
@@ -96,6 +112,6 @@ const UNIQUE_CELLS_HINT: HintSpec = {
 };
 
 export {
-  CLEAR_CELLS_HINT, FILLED_MAP_HINT, FLAG_ACTIONS, FLAG_HINTS, REPLACE_ALL_HINT, REPLACE_IN_HINT, TILE_MODE_HINTS, TILE_MODE_ICONS, TILE_MODE_ORDER,
+  CLEAR_CELLS_HINT, COLLISION_OVERLAY_HINT, FILLED_MAP_HINT, TERRAIN_BRUSH_HINT, FLAG_ACTIONS, FLAG_HINTS, REPLACE_ALL_HINT, REPLACE_IN_HINT, TILE_MODE_HINTS, TILE_MODE_ICONS, TILE_MODE_ORDER,
   TILE_OPTIONS_TEXT, UNIQUE_CELLS_HINT,
 };

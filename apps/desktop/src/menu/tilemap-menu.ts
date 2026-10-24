@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { MenuItem } from '@drizztdourden08/brock-react';
+import { COLLISION_COMMAND } from '../keymap/collision-command-id.constants';
+import { TERRAIN_COMMAND } from '../keymap/terrain-command-id.constants';
 import { SHEET_COMMAND } from '../keymap/sheet-command-id.constants';
 import { TILEMAP_COMMAND as ID } from '../keymap/tilemap-command-id.constants';
 import { MENU_KEYS, MENU_TEXT } from './editor-menu.constants';
@@ -36,6 +38,9 @@ const tilemapMenu = (state: EditorMenuState): MenuItem => {
       'separator',
       menuItem(ID.layerUp, 'Move map layer up', off),
       menuItem(ID.layerDown, 'Move map layer down', off),
+      'separator',
+      menuItem(COLLISION_COMMAND.toggleOverlay, 'Show collision', { ...off, checked: state.collision }),
+      menuItem(TERRAIN_COMMAND.toggleBrush, 'Terrain brush', { ...off, checked: state.terrainBrush }),
     ],
   };
 };

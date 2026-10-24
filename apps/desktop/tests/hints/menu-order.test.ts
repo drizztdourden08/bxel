@@ -19,6 +19,8 @@ const state: EditorMenuState = {
   symmetryY: false,
   mode: 'sprite',
   tileMode: 'place',
+  collision: false,
+  terrainBrush: false,
 };
 
 const keysOf = (item: MenuEntry | undefined): string[] =>
@@ -32,7 +34,7 @@ describe('the file menu', () => {
 
   it('puts the settings entry before the separator that keeps the less used sprite and import entries', () => {
     const [file] = fileMenu(recentMenuItem([], { open: () => undefined, clear: () => undefined }), 'Sprite settings...');
-    expect(keysOf(file).slice(7)).toEqual(['file-settings', 'separator', 'file-new-sprite', 'file-import']);
+    expect(keysOf(file).slice(7)).toEqual(['file-settings', 'separator', 'file-new-sprite', 'file-import', 'file-import-tiled']);
   });
 });
 

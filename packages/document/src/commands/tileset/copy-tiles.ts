@@ -16,7 +16,7 @@ const copyTiles = (draft: Draft, source: Tileset): readonly Tile[] =>
     );
     const copy = cloneSprite(draft.ids, original, name, draft.stamp);
     addSprite(draft, copy);
-    return { id: draft.ids.next('til') as TileId, key: tile.key, spriteId: copy.id };
+    return { id: draft.ids.next('til') as TileId, key: tile.key, spriteId: copy.id, ...(tile.collision ? { collision: tile.collision } : {}) };
   });
 
 export { copyTiles };

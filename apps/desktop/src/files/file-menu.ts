@@ -2,6 +2,7 @@
 import type { MenuEntry, MenuItem } from '@drizztdourden08/brock-react';
 import { ASSET_SETTINGS_COMMAND } from '../config-entry/config-entry.constants';
 import { DIALOG_COMMAND } from '../keymap/dialog-command-id.constants';
+import { TILED_COMMAND } from '../keymap/tiled-command-id.constants';
 import { FILE_COMMAND, FILE_TEXT } from './files.constants';
 
 const fileMenu = (recent: MenuItem, settingsLabel: string): MenuEntry[] => [
@@ -21,6 +22,7 @@ const fileMenu = (recent: MenuItem, settingsLabel: string): MenuEntry[] => [
       'separator',
       { key: 'file-new-sprite', label: 'New sprite...', command: DIALOG_COMMAND.newSprite },
       { key: 'file-import', label: 'Import image...', command: DIALOG_COMMAND.importImage },
+      { key: 'file-import-tiled', label: 'Import Tiled map...', command: TILED_COMMAND.importMap },
     ],
   },
 ];

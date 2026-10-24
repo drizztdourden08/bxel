@@ -39,15 +39,22 @@ import type { mapPaintSchema } from './map-paint-schema';
 import type { mapRectSchema } from './map-rect-schema';
 import type { mapReplaceSchema } from './map-replace-schema';
 import type { tileAddSchema } from './tile-add-schema';
+import type { tileCollisionSchema } from './tile-collision-schema';
 import type { tileDeleteSchema } from './tile-delete-schema';
 import type { tileRefSchema } from './tile-ref-schema';
 import type { tileUniqueSchema } from './tile-unique-schema';
 import type { tilemapCreateSchema } from './tilemap-create-schema';
 import type { tilemapDeleteSchema } from './tilemap-delete-schema';
+import type { tilemapImportSchema } from './tilemap-import-schema';
+import type { orientRequestSchema } from './orient-request-schema';
+import type { tilemapOrientSchema } from './tilemap-orient-schema';
 import type { tilemapResizeSchema } from './tilemap-resize-schema';
 import type { tilemapUpdateSchema } from './tilemap-update-schema';
 import type { tilesetCreateSchema } from './tileset-create-schema';
 import type { tilesetDeleteSchema } from './tileset-delete-schema';
+import type { mapTerrainSchema } from './map-terrain-schema';
+import type { mapWriteSchema } from './map-write-schema';
+import type { tilesetTerrainSchema } from './tileset-terrain-schema';
 import type { tilesetUpdateSchema } from './tileset-update-schema';
 
 type ArtworkCreateOptions = z.output<typeof artworkCreateSchema>;
@@ -82,13 +89,20 @@ type TilesetCreateOptions = z.output<typeof tilesetCreateSchema>;
 type TilesetUpdateOptions = z.output<typeof tilesetUpdateSchema>;
 type TilesetDeleteOptions = z.output<typeof tilesetDeleteSchema>;
 type TileAddOptions = z.output<typeof tileAddSchema>;
+type TileCollisionOptions = z.output<typeof tileCollisionSchema>;
 type TileDeleteOptions = z.output<typeof tileDeleteSchema>;
+type TilesetTerrainOptions = z.output<typeof tilesetTerrainSchema>;
+type MapTerrainOptions = z.output<typeof mapTerrainSchema>;
+type MapWriteOptions = z.output<typeof mapWriteSchema>;
 type TileUniqueOptions = z.output<typeof tileUniqueSchema>;
 type TileRef = z.output<typeof tileRefSchema>;
 type TilemapCreateOptions = z.output<typeof tilemapCreateSchema>;
 type TilemapUpdateOptions = z.output<typeof tilemapUpdateSchema>;
+type OrientRequest = z.output<typeof orientRequestSchema>;
+type TilemapOrientOptions = z.output<typeof tilemapOrientSchema>;
 type TilemapResizeOptions = z.output<typeof tilemapResizeSchema>;
 type TilemapDeleteOptions = z.output<typeof tilemapDeleteSchema>;
+type TilemapImportOptions = z.output<typeof tilemapImportSchema>;
 type MapLayerRef = z.output<typeof mapLayerRefSchema>;
 type MapLayerAddOptions = z.output<typeof mapLayerAddSchema>;
 type MapLayerUpdateOptions = z.output<typeof mapLayerUpdateSchema>;
@@ -112,12 +126,19 @@ export type {
   MapRectOptions,
   MapReplaceOptions,
   TileAddOptions,
+  TilesetTerrainOptions,
+  MapTerrainOptions,
+  MapWriteOptions,
+  TileCollisionOptions,
   TileDeleteOptions,
   TileRef,
   TileUniqueOptions,
   TilemapCreateOptions,
   TilemapDeleteOptions,
+  TilemapImportOptions,
   TilemapResizeOptions,
+  OrientRequest,
+  TilemapOrientOptions,
   TilemapUpdateOptions,
   TilesetCreateOptions,
   TilesetDeleteOptions,

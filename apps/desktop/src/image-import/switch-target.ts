@@ -4,9 +4,10 @@ import { DEFAULT_SPRITE_NAME } from '../sprite-name/sprite-name.constants';
 import { uniqueName } from '../sprite-name/unique-name';
 import { defaultReduce } from './default-reduce';
 import type { ImportContext, ImportForm, ImportTarget, SourceImage } from './image-import.type';
+import { takenNames } from './taken-names';
 
 const switchTarget = (form: ImportForm, target: ImportTarget, image: SourceImage, context: ImportContext): ImportForm => {
-  const taken = target === 'file' ? context.taken : [];
+  const taken = target === 'file' ? takenNames(form.kind, context) : [];
   const base = baseName(image.fileName).trim() || DEFAULT_SPRITE_NAME;
   const next = { ...form, target, name: uniqueName(base, taken) };
   return { ...next, reduce: defaultReduce(next, image, context) };

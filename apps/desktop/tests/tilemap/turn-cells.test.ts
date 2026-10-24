@@ -7,6 +7,7 @@ import { ALL_FLAGS } from '../../src/tilemap/flag-sets.constants';
 import { composeFlags } from '../../src/tilemap/compose-flags';
 import { placeStampAt } from '../../src/tilemap/place-stamp-at';
 import { turnCells } from '../../src/tilemap/turn-cells';
+import { MAP_DEFAULTS } from '../../src/views/TilemapDialog/TilemapDialog.constants';
 import { createTilemap } from '../../src/tilemap/create-tilemap';
 import { createTileset } from '../../src/tilemap/create-tileset';
 import { lastNotice, revision } from '../sheet/sheet-harness';
@@ -78,7 +79,7 @@ describe('turning placed cells', () => {
   it('refuses a quarter turn for tiles that are not square', () => {
     createTileset({ name: 'wide', width: 4, height: 2 });
     const wide = artworkNow().tilesets.at(-1);
-    expect(createTilemap({ name: 'wide map', tilesetId: wide?.id ?? null, columns: 2, rows: 2 })).toBeNull();
+    expect(createTilemap({ name: 'wide map', tilesetId: wide?.id ?? null, ...MAP_DEFAULTS, columns: 2, rows: 2 })).toBeNull();
     expect(turnCells('turn')).toBe(false);
     expect(lastNotice()).toContain('square');
     expect(turnCells('flipX')).toBe(true);

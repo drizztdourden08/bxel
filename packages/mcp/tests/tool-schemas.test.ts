@@ -20,9 +20,9 @@ const refsOf = (value: unknown): string[] => {
 };
 
 describe('the tool set', () => {
-  it('has the 21 tools of the contract, each with a mode', () => {
-    expect(tools).toHaveLength(21);
-    expect(new Set(tools.map((tool) => tool.name)).size).toBe(21);
+  it('has the 23 tools of the contract, each with a mode', () => {
+    expect(tools).toHaveLength(23);
+    expect(new Set(tools.map((tool) => tool.name)).size).toBe(23);
     expect(Object.values(TOOL_NAME).sort()).toEqual(tools.map((tool) => tool.name).sort());
     for (const tool of tools) expect(tool.mode).toBe(TOOL_MODE[tool.name]);
   });

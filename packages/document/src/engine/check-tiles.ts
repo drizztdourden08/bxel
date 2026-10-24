@@ -7,7 +7,10 @@ import type { Artwork } from '../model/artwork.type';
 import type { Sprite } from '../model/sprite.type';
 import type { Tileset } from '../model/tilemap.type';
 import { findSprite } from '../read/find-sprite';
+import { collisionIssue } from '../read/collision-issue';
 import { findTileset } from '../read/find-tileset';
+import { orientationIssue } from '../read/orientation-issue';
+import { terrainIssue } from '../read/terrain-issue';
 import { cellKey } from '../tilemap/cell-key';
 
 const broken = (message: string): CommandFailure => fail(ERROR_CODE.REFERENCE_BROKEN, message);
@@ -28,8 +31,12 @@ const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
     if (keys.has(tile.key) || tile.key >= tileset.nextKey) {
       throw broken(`Tile key ${tile.key} of tileset "${tileset.name}" is not unique or not issued.`);
     }
+    const issue = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
+    if (issue !== null) throw broken(`Tile ${tile.key} of tileset "${tileset.name}": ${issue}`);
     keys.add(tile.key);
   }
+  const rules = tileset.terrain ? terrainIssue(tileset.terrain, tileset) : null;
+  if (rules !== null) throw broken(rules);
 };
 
 const checkMaps = (draft: Draft): void => {
@@ -37,6 +44,8 @@ const checkMaps = (draft: Draft): void => {
   for (const tilemap of artwork.tilemaps) {
     const tileset = findTileset(artwork, tilemap.tilesetId);
     if (!tileset) throw broken(`Tilemap "${tilemap.name}" names a tileset that does not exist.`);
+    const shape = tilemap.orientation ? orientationIssue(tilemap.orientation, tileset) : null;
+    if (shape !== null) throw broken(`Tilemap "${tilemap.name}": ${shape}`);
     const prior = base.tilemaps.find((item) => item.id === tilemap.id);
     const known = new Set(tileset.tiles.map((tile) => tile.key));
     const fresh = tilemap.layers.filter((layer) => !prior?.layers.some((old) => old.cells === layer.cells));

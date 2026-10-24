@@ -5,7 +5,8 @@
   gap: var(--space-2xs);
 }
 
-.tileset-panel__tile {
+.tileset-panel__tile,
+.tileset-panel__slot {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -19,7 +20,8 @@
   cursor: pointer;
 }
 
-.tileset-panel__tile:hover {
+.tileset-panel__tile:hover,
+.tileset-panel__slot:hover {
   background: var(--c-hover);
 }
 
@@ -43,4 +45,43 @@
 
 .tileset-panel__key {
   font-variant-numeric: tabular-nums;
+}
+
+.tileset-panel__collision {
+  display: block;
+  max-inline-size: 100%;
+  image-rendering: pixelated;
+  cursor: crosshair;
+  touch-action: none;
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-sunken);
+}
+
+.tileset-panel__slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--size-40), 1fr));
+  gap: var(--space-2xs);
+}
+
+.tileset-panel__slot-empty {
+  display: block;
+  inline-size: var(--size-40);
+  block-size: var(--size-40);
+  border: var(--border-width-thin) dashed var(--c-border);
+}
+
+.tileset-panel__glyph {
+  display: grid;
+  grid-template-columns: repeat(3, var(--size-8));
+  grid-template-rows: repeat(3, var(--size-8));
+  gap: var(--border-width-thin);
+}
+
+.tileset-panel__glyph-cell {
+  background: var(--c-sunken);
+}
+
+.tileset-panel__glyph-cell--on {
+  background: var(--c-primary-bright);
 }
