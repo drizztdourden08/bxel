@@ -6,7 +6,9 @@ import { changedKeys } from './changed-keys';
 import { focusTab } from './focus-tab';
 import { settleEngine } from './settle-engine';
 import { tabOf } from './tab-of';
+import { touchedName } from './touched-name';
 import { trackChange } from './track-change';
+import { trackSteps } from './track-steps';
 
 const followHistory = (event: DocumentEvent): void => {
   const view = useDocumentStore.getState().host.view(event.documentId);
@@ -29,7 +31,10 @@ const onWorkspaceEvent = (event: DocumentEvent): void => {
   const view = useDocumentStore.getState().host.view(event.documentId);
   const store = useWorkspaceStore.getState();
   if (!view || !store.workspaces[event.documentId]) return;
-  store.patch(event.documentId, (workspace) => trackChange(workspace, event.changes, view.state.artwork));
+  store.patch(event.documentId, (workspace) => {
+    const name = event.kind === 'commit' ? touchedName(workspace, event.changes, view.state.artwork) : '';
+    return { ...trackChange(workspace, event.changes, view.state.artwork), steps: trackSteps(workspace.steps, event.kind, name) };
+  });
   settleEngine(useDocumentStore.getState().host, event.documentId);
   if (event.kind === 'commit') openAdded(event);
   else followHistory(event);

@@ -50,6 +50,8 @@ const TAB_KINDS: readonly AssetKind[] = ['sprite', 'sheet', 'tileset', 'tilemap'
 
 const MAX_WORKSPACE_ASSETS = 2000;
 
+const MAX_STEP_NAMES = 500;
+
 const NATIVE_EXTENSIONS: readonly string[] = NATIVE_ASSET_EXTENSIONS.map((extension) => extension.slice(1));
 
 const HASH_CLOCK: Clock = () => 0;
@@ -109,6 +111,7 @@ export {
   DECODE_ORDER,
   HASH_CLOCK,
   KEY_SEPARATOR,
+  MAX_STEP_NAMES,
   MAX_WORKSPACE_ASSETS,
   NAME_FALLBACK,
   NATIVE_EXTENSIONS,

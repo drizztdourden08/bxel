@@ -25,9 +25,12 @@ type Workspace = {
   readonly base: Artwork;
   readonly last: Artwork;
   readonly legacy: LegacySource | null;
+  readonly steps: HistorySteps;
 };
 
-type WorkspaceSeed = Omit<Workspace, 'documentId' | 'base' | 'last' | 'saved'> & {
+type HistorySteps = { readonly undo: readonly string[]; readonly redo: readonly string[] };
+
+type WorkspaceSeed = Omit<Workspace, 'documentId' | 'base' | 'last' | 'saved' | 'steps'> & {
   readonly artwork: Artwork;
   readonly readOnly: boolean;
   readonly unsaved: boolean;
@@ -119,6 +122,7 @@ export type {
   Decoder,
   Encoder,
   FileReport,
+  HistorySteps,
   LegacyCounts,
   LegacySource,
   LinkedSlice,

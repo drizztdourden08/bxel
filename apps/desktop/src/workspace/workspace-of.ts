@@ -15,6 +15,7 @@ const workspaceOf = (documentId: DocumentId, seed: WorkspaceSeed): Workspace => 
   base: seed.artwork,
   last: seed.artwork,
   legacy: seed.legacy,
+  steps: { undo: [], redo: [] },
 });
 
 export { workspaceOf };

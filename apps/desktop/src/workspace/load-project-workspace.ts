@@ -4,7 +4,11 @@ import type { DocumentId } from '@bxel/document';
 import type { FileKit } from '../files/files.type';
 import type { OpenProject } from '../project/project.type';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
+import { isSamePath } from '@bxel/project';
 import { attachWorkspace } from './attach-workspace';
+import { closeWorkspace } from './close-workspace';
+import { focusTab } from './focus-tab';
+import { projectWorkspaceId } from './project-workspace-id';
 import { projectSeed } from './project-seed';
 import { readAssetFiles } from './read-asset-files';
 import { scanProjectFiles } from './scan-project-files';
@@ -16,7 +20,21 @@ const tellLoaded = (total: number, skipped: number, rekeyed: number): void => {
   if (rekeyed > 0) toast(WORKSPACE_TEXT.rekeyed(rekeyed), { variant: 'info' });
 };
 
-const loadProjectWorkspace = async (kit: FileKit, project: OpenProject): Promise<DocumentId> => {
+const reuse = async (project: OpenProject): Promise<DocumentId | null | undefined> => {
+  const existing = projectWorkspaceId();
+  if (existing === null) return undefined;
+  const store = useWorkspaceStore.getState();
+  if (isSamePath(store.workspaces[existing]?.projectFile ?? '', project.projectFile)) {
+    const tab = store.tabs.find((each) => each.documentId === existing);
+    if (tab) focusTab(tab);
+    return existing;
+  }
+  return (await closeWorkspace(existing)) ? undefined : null;
+};
+
+const loadProjectWorkspace = async (kit: FileKit, project: OpenProject): Promise<DocumentId | null> => {
+  const reused = await reuse(project);
+  if (reused !== undefined) return reused;
   const store = useWorkspaceStore.getState();
   const found = await scanProjectFiles(kit.documents, project);
   const paths = found.slice(0, MAX_WORKSPACE_ASSETS);

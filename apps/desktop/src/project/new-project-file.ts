@@ -8,10 +8,10 @@ import type { DocumentHost } from '../documents/document-host.type';
 import { fileKit } from '../files/file-kit';
 import { reasonOf } from '../files/reason-of';
 import { spriteSteps } from '../new-sprite/sprite-steps';
-import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { runSteps } from '../transactions/run-steps';
 import { adoptPath } from '../workspace/adopt-path';
 import { focusTab } from '../workspace/focus-tab';
+import { projectWorkspaceId } from '../workspace/project-workspace-id';
 import { saveTab } from '../workspace/save-tab';
 import { tabOf } from '../workspace/tab-of';
 import { listFolderEntries } from './list-folder-entries';
@@ -29,9 +29,6 @@ const bankOf = (host: DocumentHost, documentId: DocumentId): string | null => {
   return made.ok ? (host.view(documentId)?.state.artwork.banks[0]?.id ?? null) : null;
 };
 
-const projectWorkspace = (): DocumentId | null =>
-  Object.values(useWorkspaceStore.getState().workspaces).find((workspace) => workspace.kind === 'project')?.documentId ?? null;
-
 const addSprite = (host: DocumentHost, documentId: DocumentId, stem: string): SpriteId | null => {
   const bankId = bankOf(host, documentId);
   if (bankId === null) return null;
@@ -43,7 +40,7 @@ const addSprite = (host: DocumentHost, documentId: DocumentId, stem: string): Sp
 
 const newProjectFile = async (folder: string, typed: string): Promise<ProjectOutcome> => {
   const kit = fileKit();
-  const documentId = projectWorkspace();
+  const documentId = projectWorkspaceId();
   if (!kit || documentId === null) return { ok: false, message: PROJECT_TEXT.unavailable };
   const name = withSuffix(typed.trim());
   const checked = checkFileName(name, 'bxsprite');
