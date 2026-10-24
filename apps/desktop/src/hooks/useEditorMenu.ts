@@ -9,6 +9,9 @@ import { useActiveDocument } from './useActiveDocument';
 const useEditorMenu = (): MenuEntry[] => {
   const view = useActiveDocument();
   const grid = useViewStore((state) => state.grid);
+  const gridMajor = useViewStore((state) => state.gridMajor);
+  const gridTile = useViewStore((state) => state.gridTile);
+  const rulers = useViewStore((state) => state.rulers);
   const tiled = useViewStore((state) => state.tiled);
   const symmetryX = useToolStore((state) => state.symmetryX);
   const symmetryY = useToolStore((state) => state.symmetryY);
@@ -16,8 +19,8 @@ const useEditorMenu = (): MenuEntry[] => {
   const canUndo = view?.canUndo ?? false;
   const canRedo = view?.canRedo ?? false;
   return useMemo(
-    () => editorMenu({ hasDocument, canUndo, canRedo, grid, tiled, symmetryX, symmetryY }),
-    [hasDocument, canUndo, canRedo, grid, tiled, symmetryX, symmetryY],
+    () => editorMenu({ hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY }),
+    [hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY],
   );
 };
 

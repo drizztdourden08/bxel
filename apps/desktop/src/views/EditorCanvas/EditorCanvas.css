@@ -6,8 +6,25 @@
   min-block-size: 0;
 }
 
+.editor-canvas--rulers {
+  display: grid;
+  grid-template-columns: var(--size-24) minmax(0, 1fr);
+  grid-template-rows: var(--size-24) minmax(0, 1fr);
+}
+
+.editor-canvas__corner {
+  grid-area: 1 / 1;
+  background: var(--c-sunken);
+  border-block-end: var(--border-width-thin) solid var(--c-border);
+  border-inline-end: var(--border-width-thin) solid var(--c-border);
+}
+
 .editor-canvas__viewport {
   flex: 1;
+}
+
+.editor-canvas--rulers > .editor-canvas__viewport {
+  grid-area: 2 / 2;
 }
 
 .pixel-viewport.editor-canvas__viewport--zoom {

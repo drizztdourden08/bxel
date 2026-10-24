@@ -6,6 +6,7 @@ const MENU_TEXT = {
   view: 'View',
   help: 'Help',
   zoom: 'Zoom',
+  grid: 'Grid',
   symmetry: 'Symmetry',
   tiled: 'Tiled preview',
   transform: 'Transform',

@@ -27,7 +27,16 @@ const viewMenu = (state: EditorMenuState): MenuItem => {
           menuItem(COMMAND_ID.zoomActual, 'Actual size', off),
         ],
       },
-      menuItem(COMMAND_ID.pixelGrid, 'Pixel grid', { ...off, checked: state.grid }),
+      {
+        key: 'view-grid',
+        label: MENU_TEXT.grid,
+        children: [
+          menuItem(COMMAND_ID.pixelGrid, 'Pixel grid', { ...off, checked: state.grid }),
+          menuItem(COMMAND_ID.majorGrid, 'Major grid', { ...off, checked: state.gridMajor }),
+          menuItem(COMMAND_ID.tileGrid, 'Tile grid', { ...off, checked: state.gridTile }),
+        ],
+      },
+      menuItem(COMMAND_ID.rulers, 'Rulers', { ...off, checked: state.rulers }),
       {
         key: 'view-symmetry',
         label: MENU_TEXT.symmetry,

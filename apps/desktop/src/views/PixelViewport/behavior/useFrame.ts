@@ -8,7 +8,7 @@ import { windowOf } from './window-of';
 const useFrame = (rootRef: RefObject<HTMLElement | null>, canvasRef: RefObject<HTMLCanvasElement | null>, frame: FrameInput): (() => void) => {
   const input = useRef(frame);
   const pending = useRef<number | null>(null);
-  const cache = useRef<FrameCache>({ tile: null, tileKey: '', scratch: null });
+  const cache = useRef<FrameCache>({ tile: null, tileKey: '', surround: null, surroundKey: '', scratch: null });
 
   const schedule = useCallback(() => {
     const root = rootRef.current;
@@ -16,15 +16,15 @@ const useFrame = (rootRef: RefObject<HTMLElement | null>, canvasRef: RefObject<H
     pending.current = windowOf(root).requestAnimationFrame(() => {
       pending.current = null;
       const canvas = canvasRef.current;
-      if (canvas && rootRef.current) paintFrame(canvas, rootRef.current, input.current, cache.current);
+      if (canvas && rootRef.current) paintFrame(canvas, input.current, cache.current);
     });
   }, [rootRef, canvasRef]);
 
-  const { target, box, image, draw, source, gridFrom, tiled } = frame;
+  const { target, box, image, draw, source, gridFrom, grids, look, tiled } = frame;
   useLayoutEffect(() => {
-    input.current = { target, box, image, draw, source, gridFrom, tiled };
+    input.current = { target, box, image, draw, source, gridFrom, grids, look, tiled };
     schedule();
-  }, [target, box, image, draw, source, gridFrom, tiled, schedule]);
+  }, [target, box, image, draw, source, gridFrom, grids, look, tiled, schedule]);
 
   useEffect(() => {
     const view = windowOf(rootRef.current);

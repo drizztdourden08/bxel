@@ -7,6 +7,13 @@ const EDITOR_CANVAS_TEXT = {
   empty: 'No sprite is open.',
 } as const;
 
+const CANVAS_CLASS = {
+  plain: 'editor-canvas',
+  rulers: 'editor-canvas editor-canvas--rulers',
+  viewport: 'editor-canvas__viewport',
+  zoom: 'editor-canvas__viewport editor-canvas__viewport--zoom',
+} as const;
+
 const TILING_OF: Readonly<Record<TileMode, PixelTiling>> = {
   off: { x: false, y: false },
   x: { x: true, y: false },
@@ -38,6 +45,6 @@ const AXIS_DASH: readonly number[] = [4, 3];
 const AXIS_GRIP = 5;
 
 export {
-  ANT_DASH, ANT_PERIOD, ANT_STEP_MS, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, EDITOR_CANVAS_TEXT, OUTLINE_PATHS, OVERLAY_TOKENS, REDUCED_MOTION,
-  TILING_OF,
+  ANT_DASH, ANT_PERIOD, ANT_STEP_MS, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, EDITOR_CANVAS_TEXT, OUTLINE_PATHS, OVERLAY_TOKENS,
+  REDUCED_MOTION, TILING_OF,
 };

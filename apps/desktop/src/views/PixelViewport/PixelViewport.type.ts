@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind types */
+import type { CanvasLook } from '../../canvas-look/canvas-look.type';
 import type { KeyboardEventHandler, PointerEventHandler, Ref } from 'react';
 
 interface PixelPoint {
@@ -52,7 +53,10 @@ interface PixelViewportProps {
   onPanChange?: (pan: PixelPoint) => void;
   zoomSteps?: readonly number[];
   grid?: boolean;
+  gridMajor?: boolean;
+  gridTile?: boolean;
   gridFrom?: number;
+  look?: CanvasLook;
   wheel?: PixelWheel;
   hand?: boolean;
   tiled?: PixelTiling;

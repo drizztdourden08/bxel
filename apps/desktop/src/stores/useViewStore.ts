@@ -5,7 +5,8 @@ import type { ViewState } from './view-store.type';
 
 const useViewStore = create<ViewState>()((set) => ({
   ...VIEW_DEFAULTS,
-  toggleGrid: () => set((state) => ({ grid: !state.grid })),
+  toggleView: (toggle) => set((state) => ({ [toggle]: !state[toggle] })),
+  setToggles: (toggles) => set(toggles),
   setTiled: (tiled) => set({ tiled }),
   setViewport: (viewport) => set({ viewport }),
 }));

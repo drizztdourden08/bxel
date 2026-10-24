@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind constants */
 import { DEFAULT_BASE_SETTINGS } from '@drizztdourden08/brock-core';
+import { CANVAS_DEFAULTS } from './canvas-look/canvas-look.constants';
 import { NEW_MEMORY_DEFAULT } from './new-sprite/new-sprite.constants';
 import type { AppSettings } from './settings.type';
 
-const DEFAULT_SETTINGS: AppSettings = { ...DEFAULT_BASE_SETTINGS, newSprite: NEW_MEMORY_DEFAULT };
+const DEFAULT_SETTINGS: AppSettings = { ...DEFAULT_BASE_SETTINGS, ...CANVAS_DEFAULTS, newSprite: NEW_MEMORY_DEFAULT };
 
 export { DEFAULT_SETTINGS };
