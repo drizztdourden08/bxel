@@ -65,8 +65,8 @@ describe('what a delete takes with it', () => {
     expect(deleteImpact(artwork(), spriteOf('walk'))).toMatchObject({ name: 'walk', sheets: 2, tilemaps: 0 });
     expect(deleteImpact(artwork(), spriteOf('idle'))).toMatchObject({ sheets: 1 });
     expect(deleteImpact(artwork(), spriteOf('jump'))).toMatchObject({ sheets: 0, tilemaps: 0 });
-    expect(DELETE_TEXT.use(2, 1)).toBe('On 2 sheets, In 1 tilemap');
-    expect(DELETE_TEXT.use(1, 0)).toBe('On 1 sheet');
+    expect(DELETE_TEXT.usage(2, 1)).toBe('On 2 sheets, In 1 tilemap');
+    expect(DELETE_TEXT.usage(1, 0)).toBe('On 1 sheet');
   });
 
   it('plans how many of the picked sprites are used and refuses to take the last one', () => {

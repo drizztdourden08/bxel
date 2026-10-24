@@ -12,7 +12,7 @@ import { ViewControls } from './ViewControls';
 
 const ManagerFilters = ({ model }: ManagerModelProps) => {
   const store = useManagerStore();
-  const active = [store.filter.animated, store.filter.unplaced, store.filter.size !== null].filter(Boolean).length;
+  const active = [store.filter.animated, store.filter.unplaced, store.filter.size !== null, store.filter.identical !== 'off'].filter(Boolean).length;
   return (
     <Stack gap="xs">
       <Flex gap="xs" align="center">

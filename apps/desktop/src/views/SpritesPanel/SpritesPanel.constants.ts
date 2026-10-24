@@ -88,4 +88,9 @@ const SPRITE_HINTS = {
   },
 } as const satisfies Record<string, HintSpec>;
 
-export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, MARQUEE_ITEM, NO_SPRITES, SPRITE_HINTS, VIRTUAL_LIST_MIN };
+const SPRITE_STEPS = [
+  { hint: SPRITE_HINTS.earlier, icon: 'arrow-left', by: -1 },
+  { hint: SPRITE_HINTS.later, icon: 'arrow-right', by: 1 },
+] as const;
+
+export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, MARQUEE_ITEM, NO_SPRITES, SPRITE_HINTS, SPRITE_STEPS, VIRTUAL_LIST_MIN };

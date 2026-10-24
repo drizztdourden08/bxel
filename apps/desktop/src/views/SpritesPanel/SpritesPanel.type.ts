@@ -14,6 +14,7 @@ interface ManagerModel {
   shown: readonly SpriteFacts[];
   order: readonly SpriteId[];
   sizes: readonly string[];
+  twins: ReadonlySet<SpriteId>;
   ids: readonly SpriteId[];
 }
 
@@ -50,6 +51,7 @@ interface SpriteState {
   active: boolean;
   affected: boolean;
   loose: boolean;
+  twin: boolean;
 }
 
 interface SpriteHandlers {
@@ -104,6 +106,7 @@ interface ListHeadCellProps {
 
 interface SpriteBadgesProps {
   fact: SpriteFacts;
+  twin: boolean;
 }
 
 interface ToolbarButtonProps {

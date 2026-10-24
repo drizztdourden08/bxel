@@ -5,7 +5,7 @@ const DELETE_TEXT = {
   title: (count: number): string => (count === 1 ? 'Delete sprite' : `Delete ${count} sprites`),
   confirm: 'Delete',
   unused: 'Not on a sheet or in a tilemap',
-  use: (sheets: number, tilemaps: number): string =>
+  usage: (sheets: number, tilemaps: number): string =>
     [sheets > 0 ? `On ${plural(sheets, 'sheet')}` : '', tilemaps > 0 ? `In ${plural(tilemaps, 'tilemap')}` : ''].filter(Boolean).join(', '),
   summary: (used: number, total: number): string =>
     used === 0

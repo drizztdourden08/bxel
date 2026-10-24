@@ -7,7 +7,7 @@ import { reorderSprites } from '../../../sheet/reorder-sprites';
 import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
 import { ActionHint } from '../../ActionHint';
 import { PixelIcon } from '../../PixelIcon';
-import { SPRITE_HINTS } from '../SpritesPanel.constants';
+import { SPRITE_HINTS, SPRITE_STEPS } from '../SpritesPanel.constants';
 import type { ManagerToolbarProps } from '../SpritesPanel.type';
 import { ActionsMenu } from './ActionsMenu';
 import { ToolbarButton } from './ToolbarButton';
@@ -21,8 +21,9 @@ const SpritesToolbar = ({ model, groups, open }: ManagerToolbarProps) => {
         <ToolbarButton hint={SPRITE_HINTS.add} icon={<Icon name="plus" size={16} />} onClick={() => useCreateDialogStore.getState().show('sprite')} />
         <ToolbarButton hint={SPRITE_HINTS.duplicate} disabled={none} icon={<Icon name="copy" size={16} />} onClick={() => duplicateSprites(ids)} />
         <ToolbarButton hint={SPRITE_HINTS.isolate} disabled={none} icon={<PixelIcon name="isolate" />} onClick={() => isolateSprite()} />
-        <ToolbarButton hint={SPRITE_HINTS.earlier} disabled={none} icon={<Icon name="arrow-left" size={16} />} onClick={() => reorderSprites(ids, { by: -1 })} />
-        <ToolbarButton hint={SPRITE_HINTS.later} disabled={none} icon={<Icon name="arrow-right" size={16} />} onClick={() => reorderSprites(ids, { by: 1 })} />
+        {SPRITE_STEPS.map((step) => (
+          <ToolbarButton key={step.icon} hint={step.hint} disabled={none} icon={<Icon name={step.icon} size={16} />} onClick={() => reorderSprites(ids, { by: step.by })} />
+        ))}
         <ToolbarButton hint={SPRITE_HINTS.remove} disabled={none} icon={<Icon name="trash-2" size={16} />} onClick={() => open('delete')} />
       </ButtonGroup>
       <ActionHint hint={SPRITE_HINTS.more}>

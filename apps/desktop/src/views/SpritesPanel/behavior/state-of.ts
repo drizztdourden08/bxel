@@ -8,6 +8,7 @@ const stateOf = (model: ManagerModel, fact: SpriteFacts, affected: readonly Spri
   active: model.scene.active?.id === fact.sprite.id,
   affected: affected.includes(fact.sprite.id),
   loose: model.sheet !== null && !fact.onSheet,
+  twin: model.twins.has(fact.sprite.id),
 });
 
 export { stateOf };

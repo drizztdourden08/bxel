@@ -5,7 +5,7 @@ const NAME_COLLATOR = new Intl.Collator('en', { numeric: true, sensitivity: 'bas
 
 const ZOOM = { min: 24, max: 128, step: 8, start: 48 } as const;
 
-const NO_FILTER: ManagerFilter = { animated: false, unplaced: false, size: null };
+const NO_FILTER: ManagerFilter = { animated: false, unplaced: false, size: null, identical: 'off' };
 
 const SORT_KEYS: readonly SortKey[] = ['manual', 'name', 'size', 'area', 'frames'];
 

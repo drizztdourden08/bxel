@@ -8,7 +8,7 @@ const DeleteRows = ({ impacts }: DeleteRowsProps) => (
   <Stack gap="2xs" role="list">
     {impacts.slice(0, PREVIEW_ROWS).map((impact) => (
       <Text key={impact.id} variant="caption" role="listitem">
-        {`${impact.name}: ${impact.sheets + impact.tilemaps === 0 ? DELETE_TEXT.unused : DELETE_TEXT.use(impact.sheets, impact.tilemaps)}`}
+        {`${impact.name}: ${impact.sheets + impact.tilemaps === 0 ? DELETE_TEXT.unused : DELETE_TEXT.usage(impact.sheets, impact.tilemaps)}`}
       </Text>
     ))}
     {impacts.length > PREVIEW_ROWS && (

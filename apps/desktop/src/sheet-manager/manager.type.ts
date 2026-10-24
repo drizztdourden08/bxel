@@ -2,6 +2,7 @@
 import type { Point, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { Anchor } from '@drizztdourden08/tessera';
 import type { ArrangeKind } from '../sheet/sheet.type';
+import type { IdenticalMode } from './identical.type';
 
 type ManagerTab = 'sprites' | 'atlas';
 
@@ -9,12 +10,13 @@ type ManagerView = 'grid' | 'list';
 
 type SortKey = 'manual' | 'name' | 'size' | 'area' | 'frames';
 
-type ManagerDialog = 'rename' | 'duplicate' | 'delete' | 'pivot' | 'resize' | 'merge' | 'split' | 'slice' | null;
+type ManagerDialog = 'rename' | 'duplicate' | 'delete' | 'compare' | 'pivot' | 'resize' | 'merge' | 'split' | 'slice' | null;
 
 interface ManagerFilter {
   animated: boolean;
   unplaced: boolean;
   size: string | null;
+  identical: IdenticalMode;
 }
 
 interface AtlasSettings {
@@ -29,6 +31,7 @@ interface ListQuery {
   filter: ManagerFilter;
   sortKey: SortKey;
   sortDown: boolean;
+  twins?: ReadonlySet<SpriteId>;
 }
 
 interface SpriteFacts {

@@ -40,7 +40,7 @@ const modelOf = (): ManagerModel => {
   const art = artwork();
   const scene = spriteScene(art, { activeId: idOf('walk_1'), selected: idsOf('walk_1', 'walk_2') });
   const facts = allFacts(art, art.sheets[0] ?? null);
-  return { artwork: art, scene, sheet: art.sheets[0] ?? null, facts, shown: facts, order: facts.map((fact) => fact.sprite.id), sizes: ['8x8'], ids: selectionIds(scene) };
+  return { artwork: art, scene, sheet: art.sheets[0] ?? null, facts, shown: facts, order: facts.map((fact) => fact.sprite.id), sizes: ['8x8'], twins: new Set(), ids: selectionIds(scene) };
 };
 
 beforeEach(() => openFile(['walk_1', 'walk_2'], 8));
@@ -49,7 +49,7 @@ describe('the sprite tile and row', () => {
   it('names the sprite and its size and marks a picked sprite', () => {
     const fact = allFacts(artwork(), null).find((each) => each.sprite.name === 'walk_1');
     if (!fact) throw new Error('no fact');
-    const state = { selected: true, active: true, affected: false, loose: true };
+    const state = { selected: true, active: true, affected: false, loose: true, twin: false };
     const tile = renderToString(createElement(SpriteTile, { fact, artwork: artwork(), box: 48, state, drag, handlers }));
     expect(tile).toContain('aria-label="walk_1, 8 by 8"');
     expect(tile).toContain('aria-pressed="true"');
@@ -99,8 +99,8 @@ describe('the atlas pieces', () => {
 describe('the action menu', () => {
   it('has the groups for editing, combining, ordering, the sheet, transforms and selecting', () => {
     const groups = actionGroups({ model: modelOf(), sortKey: 'manual', rename: none, open: none });
-    expect(groups.map((group) => group.id)).toEqual(['edit', 'combine', 'order', 'sheet', 'transform', 'select']);
-    expect(itemIds(groups)).toEqual(expect.arrayContaining(['rename', 'rename-many', 'duplicate', 'delete', 'merge', 'split', 'slice', 'sort-name', 'add-to-sheet', 'pivot', 'trim', 'flip-h', 'turn-half', 'select-invert']));
+    expect(groups.map((group) => group.id)).toEqual(['edit', 'combine', 'order', 'sheet', 'transform', 'select', 'find']);
+    expect(itemIds(groups)).toEqual(expect.arrayContaining(['rename', 'rename-many', 'duplicate', 'delete', 'merge', 'split', 'slice', 'sort-name', 'add-to-sheet', 'pivot', 'trim', 'flip-h', 'turn-half', 'select-invert', 'select-duplicates', 'compare']));
   });
 
   it('turns the item off when nothing is picked and offers the view order only when sorted', () => {
