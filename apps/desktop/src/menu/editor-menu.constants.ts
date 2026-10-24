@@ -6,7 +6,7 @@ const MENU_TEXT = {
   sheet: 'Sheet',
   tilemap: 'Tilemap',
   arrange: 'Arrange',
-  view: 'Canvas',
+  view: 'View',
   help: 'Help',
   zoom: 'Zoom',
   grid: 'Grid',
@@ -26,7 +26,7 @@ const MENU_KEYS = {
   sheet: 'sheet',
   tilemap: 'tilemap',
   arrange: 'sheet-arrange',
-  view: 'canvas',
+  view: 'view',
   help: 'help',
 } as const;
 

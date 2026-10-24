@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind component */
-import { Flex, Paragraph, Stack } from '@drizztdourden08/tessera';
+import { DialogShell, Flex, Paragraph, Stack } from '@drizztdourden08/tessera';
 import { useState } from 'react';
 import { useExportStore } from '../../../export/useExportStore';
-import { FitDialog } from '../../FitDialog';
 import { useExportModel } from '../behavior/useExportModel';
 import { EXPORT_DIALOG_TEXT } from '../ExportDialog.constants';
 import { ExportActions } from './ExportActions';
@@ -30,7 +29,7 @@ const ExportForm = () => {
     />
   );
   return (
-    <FitDialog open title={EXPORT_DIALOG_TEXT.title} onClose={hide} actions={buttons}>
+    <DialogShell open title={EXPORT_DIALOG_TEXT.title} onClose={hide} actions={buttons}>
       <Stack gap="md">
         <Flex gap="lg" className="export-dialog__body">
           <ExportFields model={model} onEnter={exportNow} />
@@ -39,7 +38,7 @@ const ExportForm = () => {
         <PresetBar presets={presets.presets} naming={naming} onApply={presets.apply} onSave={presets.save} onDone={() => setNaming(false)} />
         <Paragraph tone="dim">{EXPORT_DIALOG_TEXT.revision(plan.revision)}</Paragraph>
       </Stack>
-    </FitDialog>
+    </DialogShell>
   );
 };
 

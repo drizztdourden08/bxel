@@ -17,7 +17,6 @@ declare module '@drizztdourden08/tessera' {
         | 'EditorScreen'
         | 'EditorStatus'
         | 'ExportDialog'
-        | 'FitDialog'
         | 'HintedSegments'
         | 'ImagePreview'
         | 'ImportWizard'
