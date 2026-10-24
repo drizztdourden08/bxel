@@ -153,7 +153,6 @@ export type {
   SaveInput,
   SpriteFrame,
   UndoInput,
-  WireAssetKind,
   WireFileKind,
   WireRect,
   WireStep,

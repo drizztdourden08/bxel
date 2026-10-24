@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind test */
-import type { DocumentId } from '@bxel/document';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { buildRows } from '../../src/asset-list/build-rows';
 import { copyForSheet } from '../../src/asset-list/copy-for-sheet';
@@ -15,22 +14,14 @@ import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
 import { tabOf } from '../../src/workspace/tab-of';
 import { rig, ROOT, withManifest } from '../project/project-harness';
 import type { Rig } from '../project/project-harness';
+import { artworkOf, openSampleProject } from '../workspace/open-sample-project';
 import { paintSprite, sampleArtwork, writeProjectAssets } from '../workspace/workspace-harness';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
 let held: Rig;
 
-const opened = async () => {
-  const artwork = sampleArtwork();
-  const paths = writeProjectAssets(held.disk, ROOT, artwork);
-  withManifest(held.disk);
-  held.disk.picks.folder = ROOT;
-  await openProject();
-  const workspace = Object.values(useWorkspaceStore.getState().workspaces)[0];
-  if (!workspace) throw new Error('the project workspace did not open');
-  return { artwork, paths, documentId: workspace.documentId };
-};
+const opened = () => openSampleProject(held);
 
 const rowsOf = async (): Promise<readonly AssetRow[]> => {
   const workspace = Object.values(useWorkspaceStore.getState().workspaces).find((each) => each.kind === 'project');
@@ -38,12 +29,6 @@ const rowsOf = async (): Promise<readonly AssetRow[]> => {
   const artwork = workspace ? useDocumentStore.getState().host.view(workspace.documentId)?.state.artwork : undefined;
   if (!workspace || !artwork || !project) throw new Error('no project');
   return buildRows({ workspace, artwork, files: await listProjectFiles(held.disk.port, project) });
-};
-
-const artworkOf = (documentId: DocumentId) => {
-  const found = useDocumentStore.getState().host.view(documentId)?.state.artwork;
-  if (!found) throw new Error('no document');
-  return found;
 };
 
 const rowNamed = (rows: readonly AssetRow[], kind: string, name: string): AssetRow => {

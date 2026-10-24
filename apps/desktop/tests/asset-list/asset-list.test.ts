@@ -76,6 +76,7 @@ describe('asset list model on a 100 asset fixture', () => {
     const shown = ask({ usedBySprite: 'sprite_1' });
     expect(shown.map((each) => each.assetId).sort()).toEqual(['sheet_0', 'sheet_1']);
     expect(ask({ usedBySprite: 'sprite_20' })).toEqual([]);
+    expect(ask({ usedBySprite: 'sprite_1', chip: 'palette', search: 'nothing' }).map((each) => each.assetId).sort()).toEqual(['sheet_0', 'sheet_1']);
     expect(ask({ usedBySprite: 'sprite_7' }).map((each) => each.assetId)).toEqual(['sheet_2']);
   });
 

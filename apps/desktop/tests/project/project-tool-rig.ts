@@ -16,6 +16,8 @@ type ToolRig = {
   readonly rig: Rig;
   readonly projectId: string;
   readonly folderId: string;
+  readonly grants: (access?: 'read' | 'edit') => readonly ProjectGrant[];
+  readonly locate: (path: string) => { readonly projectId: string; readonly folderId: string; readonly path: string };
   readonly run: (tool: ToolName, input: unknown, grants: readonly ProjectGrant[], mode?: SessionMode) => Promise<ToolOutcome>;
   readonly runWith: (tool: ToolName, input: unknown, setup: RunSetup) => Promise<ToolOutcome>;
 };
@@ -74,7 +76,17 @@ const toolRig = async (options: RigOptions = {}): Promise<ToolRig> => {
   };
   const run = (tool: ToolName, input: unknown, grants: readonly ProjectGrant[], mode: SessionMode = 'edit'): Promise<ToolOutcome> =>
     runWith(tool, input, { grants, mode });
-  return { rig: base, projectId: project.manifest.projectId, folderId: project.manifest.folders[0]?.folderId ?? '', run, runWith };
+  const { projectId } = project.manifest;
+  const folderId = project.manifest.folders[0]?.folderId ?? '';
+  return {
+    rig: base,
+    projectId,
+    folderId,
+    grants: (access = 'edit') => [grantOf(projectId, access)],
+    locate: (path) => ({ projectId, folderId, path }),
+    run,
+    runWith,
+  };
 };
 
 const fieldOf = (outcome: ToolOutcome, key: string): unknown => (outcome.ok ? outcome[key] : undefined);

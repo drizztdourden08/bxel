@@ -1,8 +1,6 @@
 /* @layer renderer-app @kind test */
-import type { DocumentId } from '@bxel/document';
 import { decodeSprite } from '@bxel/document/native';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { openProject } from '../../src/project/open-project';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
 import { runSteps } from '../../src/transactions/run-steps';
@@ -10,38 +8,18 @@ import { saveActiveAsset } from '../../src/workspace/save-active-asset';
 import { saveWorkspace } from '../../src/workspace/save-workspace';
 import { COMMAND_NAME } from '@bxel/document';
 import { spritesTarget } from '../../src/sheet/sprites-target';
-import { rig, ROOT, withManifest } from '../project/project-harness';
+import { rig, ROOT } from '../project/project-harness';
 import type { Rig } from '../project/project-harness';
 import { confirmAction } from '../project/project-mocks';
-import { paintSprite, sampleArtwork, writeProjectAssets } from './workspace-harness';
+import { artworkOf, openSampleProject, workspaceOf } from './open-sample-project';
+import { paintSprite } from './workspace-harness';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
 let held: Rig;
 
-const opened = async () => {
-  const artwork = sampleArtwork();
-  const paths = writeProjectAssets(held.disk, ROOT, artwork);
-  withManifest(held.disk);
-  held.disk.picks.folder = ROOT;
-  await openProject();
-  const workspace = Object.values(useWorkspaceStore.getState().workspaces)[0];
-  if (!workspace) throw new Error('the project workspace did not open');
-  held.disk.writes.length = 0;
-  return { artwork, paths, documentId: workspace.documentId };
-};
+const opened = () => openSampleProject(held);
 
-const workspaceOf = (documentId: DocumentId) => {
-  const found = useWorkspaceStore.getState().workspaces[documentId];
-  if (!found) throw new Error('no workspace');
-  return found;
-};
-
-const artworkOf = (documentId: DocumentId) => {
-  const found = useDocumentStore.getState().host.view(documentId)?.state.artwork;
-  if (!found) throw new Error('no document');
-  return found;
-};
 
 const paintedFirst = async () => {
   const { documentId } = await opened();
