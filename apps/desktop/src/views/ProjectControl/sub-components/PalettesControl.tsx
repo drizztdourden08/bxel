@@ -13,7 +13,7 @@ const PalettesControl = () => {
         {model.files.map((file) => (
           <ListItemRow
             key={file.id}
-            icon={<Icon name="palette" />}
+            icon={<Icon name="pixel-palette" />}
             name={file.name}
             meta={`${file.path}, ${PALETTES_TEXT.users(file.users)}`}
             actionVisibility="always"

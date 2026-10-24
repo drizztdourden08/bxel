@@ -44,11 +44,11 @@ const KIND_LABEL: Readonly<Record<RowKind, string>> = {
 const DEFAULT_QUERY: AssetQuery = { chip: 'all', sort: 'name', search: '', usedBySprite: null };
 
 const KIND_ICON: Readonly<Record<RowKind, IconName>> = {
-  sprite: 'pixel-pencil',
-  sheet: 'pixel-grid-view',
+  sprite: 'pixel-sprite',
+  sheet: 'pixel-atlas',
   palette: 'pixel-palette',
   tileset: 'pixel-tileset',
-  tilemap: 'map',
+  tilemap: 'pixel-tilemap',
   image: 'image',
   other: 'file',
 };
