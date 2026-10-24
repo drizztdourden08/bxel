@@ -21,4 +21,10 @@ interface ListItem {
   fact: SpriteFacts | null;
 }
 
-export type { FolderGroup, ListItem, SavedSelection };
+interface GridRow {
+  key: string;
+  group: FolderGroup | null;
+  facts: readonly SpriteFacts[];
+}
+
+export type { FolderGroup, GridRow, ListItem, SavedSelection };

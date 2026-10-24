@@ -35,11 +35,14 @@ const ATLAS_CANVAS_SIDE = 4096;
 
 const SHEET_PICKER_NEW = 'new';
 
+const GRID_CHROME = { edge: 32, tile: 20 } as const;
+
 export {
   ATLAS_CANVAS_SIDE,
   ATLAS_LIMITS,
   ATLAS_SIDE_LIMIT,
   DEFAULT_PATTERN,
+  GRID_CHROME,
   FIRST_NUMBER,
   NAME_COLLATOR,
   NO_FILTER,

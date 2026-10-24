@@ -3,7 +3,7 @@ import type { DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, Ref
 import type { MenuGroup } from '@drizztdourden08/tessera';
 import type { Artwork, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
-import type { FolderGroup, SavedSelection } from '../../sheet-manager/folders.type';
+import type { FolderGroup, GridRow, SavedSelection } from '../../sheet-manager/folders.type';
 import type { ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
 import type { HintSpec } from '../ActionHint';
 
@@ -113,6 +113,22 @@ interface ListHeadCellProps {
   onSort: () => void;
 }
 
+interface GridTileProps {
+  view: SpriteGridProps;
+  fact: SpriteFacts;
+}
+
+interface GridSpacerProps {
+  at: number;
+  rows: number;
+}
+
+interface GridRowViewProps {
+  view: SpriteGridProps;
+  row: GridRow;
+  at: number;
+}
+
 interface FolderHeaderProps {
   group: FolderGroup;
 }
@@ -177,6 +193,9 @@ export type {
   FilterActions,
   FilterOptions,
   FolderHeaderProps,
+  GridRowViewProps,
+  GridSpacerProps,
+  GridTileProps,
   KeyAction,
   KeyHandlers,
   KeyShape,
