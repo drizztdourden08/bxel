@@ -1,0 +1,81 @@
+/* @layer core @kind constants */
+import { ERROR_CODE } from '@bxel/document';
+import type { Retry } from './error.type';
+import { MCP_ERROR_CODE } from './mcp-error-code.constants';
+
+const RETRY_TABLE: readonly (readonly [Retry, readonly string[]])[] = [
+  [
+    'after_read',
+    [
+      ERROR_CODE.STALE_REVISION,
+      ERROR_CODE.DOCUMENT_NOT_FOUND,
+      ERROR_CODE.TARGET_NOT_FOUND,
+      MCP_ERROR_CODE.PROJECT_NOT_FOUND,
+      MCP_ERROR_CODE.FILE_NOT_FOUND,
+      MCP_ERROR_CODE.FOLDER_NOT_FOUND,
+    ],
+  ],
+  [
+    'after_owner',
+    [
+      ERROR_CODE.LAYER_LOCKED,
+      ERROR_CODE.LAYER_HIDDEN,
+      ERROR_CODE.READ_ONLY_DOCUMENT,
+      MCP_ERROR_CODE.START_NOT_ALLOWED,
+      MCP_ERROR_CODE.MCP_DISABLED,
+      MCP_ERROR_CODE.PAIRING_DENIED,
+      MCP_ERROR_CODE.PAIRING_TIMEOUT,
+      MCP_ERROR_CODE.SESSION_REVOKED,
+      MCP_ERROR_CODE.READ_ONLY_SESSION,
+      MCP_ERROR_CODE.PROJECT_NOT_GRANTED,
+      MCP_ERROR_CODE.WRITE_NOT_ALLOWED,
+    ],
+  ],
+  [
+    'never',
+    [
+      ERROR_CODE.NOTHING_TO_UNDO,
+      ERROR_CODE.NOTHING_TO_REDO,
+      MCP_ERROR_CODE.UNDO_NOT_OWN,
+      MCP_ERROR_CODE.STOP_NOT_ALLOWED,
+      MCP_ERROR_CODE.HELPER_OUTDATED,
+      'FILE_NOT_BXEL',
+      'FILE_TRUNCATED',
+      'FILE_TOO_LARGE',
+      'VERSION_TOO_NEW',
+      'MANIFEST_INVALID',
+      'ENTRY_MISSING',
+      'ENTRY_CHECKSUM',
+      'DOCUMENT_INVALID',
+      'REFERENCE_BROKEN',
+    ],
+  ],
+  [
+    'later',
+    [
+      MCP_ERROR_CODE.DOCUMENT_BUSY,
+      MCP_ERROR_CODE.START_FAILED,
+      MCP_ERROR_CODE.SESSION_UNKNOWN,
+      MCP_ERROR_CODE.APP_BUSY,
+      MCP_ERROR_CODE.BRIDGE_ERROR,
+    ],
+  ],
+  ['after_start', [MCP_ERROR_CODE.BXEL_NOT_RUNNING]],
+  [
+    'fix_input',
+    [
+      MCP_ERROR_CODE.UNSAVED_CHANGES,
+      MCP_ERROR_CODE.FILE_NOT_SUPPORTED,
+      MCP_ERROR_CODE.PATH_NOT_ALLOWED,
+      MCP_ERROR_CODE.NAME_INVALID,
+      MCP_ERROR_CODE.PATH_INVALID,
+      MCP_ERROR_CODE.FILE_EXISTS,
+      MCP_ERROR_CODE.NEEDS_FILE_NAME,
+      MCP_ERROR_CODE.RESULT_TOO_LARGE,
+    ],
+  ],
+];
+
+const ENGINE_CODE_SET: ReadonlySet<string> = new Set(Object.values(ERROR_CODE));
+
+export { ENGINE_CODE_SET, RETRY_TABLE };

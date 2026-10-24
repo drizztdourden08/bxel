@@ -1,0 +1,32 @@
+{
+  "name": "@bxel/mcp",
+  "version": "0.1.0",
+  "description": "Bxel's MCP contract: tool schemas, errors, limits, base64 codecs, the trust store and scope checks.",
+  "type": "module",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=24"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "lint": "tsc --noEmit && eslint ."
+  },
+  "dependencies": {
+    "@bxel/document": "workspace:*",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@drizztdourden08/brock-lint-config": "^0.79.0",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}
