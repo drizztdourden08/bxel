@@ -1,12 +1,12 @@
 /* @layer renderer-app @kind component */
-import { Box, DropdownMenu, Stack } from '@drizztdourden08/tessera';
+import { Box, ContextMenu, Stack } from '@drizztdourden08/tessera';
 import { FOCUS_ZONE } from '../../../editor/focus/focus-zone.constants';
+import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { renameSprite } from '../../../sheet/rename-sprite';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { usePendingStore } from '../../../stores/usePendingStore';
 import { actionGroups } from '../behavior/action-groups';
 import { handlersFor } from '../behavior/handlers-for';
-import { useContextMenu } from '../behavior/useContextMenu';
 import { useSpriteDrag } from '../behavior/useSpriteDrag';
 import { useSpriteRename } from '../behavior/useSpriteRename';
 import { useSpritesKeys } from '../behavior/useSpritesKeys';
@@ -19,7 +19,6 @@ import { SpritesToolbar } from './SpritesToolbar';
 
 const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const rename = useSpriteRename();
-  const menu = useContextMenu();
   const sortKey = useManagerStore((state) => state.sortKey);
   const patch = useManagerStore((state) => state.patch);
   const affected = usePendingStore((state) => state.pending?.sprites ?? NO_SPRITES);
@@ -31,9 +30,11 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
     <Stack gap="sm">
       <ManagerFilters model={model} />
       <SpritesToolbar model={model} groups={groups} />
-      <Box onKeyDown={onKeyDown} data-focus-zone={FOCUS_ZONE.sprites}>
-        <SpriteCollection model={model} affected={affected} dragFor={dragFor} handlersFor={handlersFor(model, rename.begin, menu)} />
-      </Box>
+      <ContextMenu groups={groups} label={MANAGER_TEXT.actions}>
+        <Box onKeyDown={onKeyDown} data-focus-zone={FOCUS_ZONE.sprites}>
+          <SpriteCollection model={model} affected={affected} dragFor={dragFor} handlersFor={handlersFor(model, rename.begin)} />
+        </Box>
+      </ContextMenu>
       {renaming && (
         <SpriteRename
           key={renaming.id}
@@ -44,7 +45,6 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
           }}
         />
       )}
-      {menu.open && <DropdownMenu groups={groups} anchorRef={menu.anchor} onClose={menu.hide} />}
     </Stack>
   );
 };

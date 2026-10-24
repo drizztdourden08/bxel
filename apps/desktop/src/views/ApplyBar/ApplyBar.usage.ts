@@ -2,7 +2,7 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Shows what a pending edit will touch, then holds Cancel and Apply, so a transform, move or paste is committed only after the user has seen it on the canvas.',
+  job: 'Tells what a pending edit will touch and holds Cancel and Apply in a Tessera FloatingPrompt, so a transform, move or paste is committed only after the user has seen it on the canvas.',
   useWhen: [
     'A flip, turn, rotate, scale, move or paste is previewed on the canvas and waits for a decision.',
     'The user must see the targets, layers, frames and clipping before one undo step is written.',
@@ -13,17 +13,17 @@ const usage = {
   ],
   rules: [
     'The bar reads the pending edit and its preview from the pending store, so it takes no props and shows nothing when no edit waits.',
-    'It lists Targets, Layers, Frames and Clipping, then Cancel and Apply. Enter applies as a command, and Escape cancels through the escape stack.',
-    'Apply is off while the preview reports an error, and the error shows in the bar.',
-    'It floats over the canvas area and takes no layout space, so the canvas never moves. A transparent scrim blocks the pointer on the canvas until the user picks Apply or Cancel.',
+    'The message names the edit, then lists Targets, Layers, Frames and Clipping. Apply is the first action and Cancel is marked as the way out, so Escape cancels.',
+    'Apply is off while the preview reports an error, and the bar then turns to the danger tone and shows the error.',
+    'It floats over the foot of the canvas area, takes no layout space and makes the canvas inert until the user picks Apply or Cancel. The arrow keys still nudge a moving selection.',
   ],
   a11y: [
-    'The bar is a labelled region and its scope chips are a status, so a screen reader hears the scope when the bar opens.',
-    'Cancel and Apply are buttons in the tab order, with the same keys as the commands.',
+    'The bar is an alert dialog named Apply bar, so a screen reader hears the edit and its scope when it opens.',
+    'Focus moves to Apply when the bar opens and returns to the canvas when it closes.',
   ],
   tree: {
-    path: ['layout', 'an app frame with its navigation'],
-    rule: 'ApplyBar is the floating bar over the foot of the canvas that asks for a decision on a previewed edit.',
+    path: ['feedback', 'a question that blocks one region until it is answered'],
+    rule: 'ApplyBar is the FloatingPrompt of the editor that asks for a decision on a previewed edit.',
   },
   example: `import { ApplyBar } from '../ApplyBar';
 

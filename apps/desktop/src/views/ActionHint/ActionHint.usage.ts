@@ -35,7 +35,7 @@ const UndoButton = ({ onUndo }: { onUndo: () => void }) => (
   </ActionHint>
 );
 `,
-  propsHash: '123689ae4f9b19d5',
+  propsHash: '90097519cdc837f2',
 } satisfies ComponentUsage;
 
 export { usage };

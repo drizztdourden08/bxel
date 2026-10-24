@@ -20,7 +20,7 @@ describe('check 4: an arbitrary angle rotation', () => {
     const dialog = session.page.getByRole('dialog', { name: 'Rotate' });
     await dialog.getByRole('spinbutton', { name: 'Angle in degrees' }).fill('90');
     await dialog.getByRole('button', { name: 'Preview on canvas' }).click();
-    const bar = session.page.getByRole('region', { name: 'Apply bar' });
+    const bar = session.page.getByRole('alertdialog', { name: 'Apply bar' });
     await bar.waitFor();
     seen.preview = await shownNow();
     expect([...seen.preview]).not.toEqual([...original]);

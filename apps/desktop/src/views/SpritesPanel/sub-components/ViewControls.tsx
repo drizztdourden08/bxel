@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind component */
-import { ButtonGroup, Flex, IconButton, Slider } from '@drizztdourden08/tessera';
+import { Flex, SegmentedControl, Slider } from '@drizztdourden08/tessera';
 import { ZOOM } from '../../../sheet-manager/manager.constants';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
+import type { ManagerView } from '../../../sheet-manager/manager.type';
 import { useManagerStore } from '../../../stores/useManagerStore';
-import { ActionHint } from '../../ActionHint';
-import { PixelIcon } from '../../PixelIcon';
-import { SPRITE_HINTS } from '../SpritesPanel.constants';
+import { viewOptions } from '../behavior/view-options';
 
 const ViewControls = () => {
   const view = useManagerStore((state) => state.view);
@@ -13,18 +12,13 @@ const ViewControls = () => {
   const patch = useManagerStore((state) => state.patch);
   return (
     <Flex gap="xs" align="center">
-      <ButtonGroup aria-label={MANAGER_TEXT.views}>
-        <ActionHint hint={SPRITE_HINTS.grid}>
-          <IconButton label={MANAGER_TEXT.grid} size="sm" active={view === 'grid'} onClick={() => patch({ view: 'grid' })}>
-            <PixelIcon name="gridView" />
-          </IconButton>
-        </ActionHint>
-        <ActionHint hint={SPRITE_HINTS.list}>
-          <IconButton label={MANAGER_TEXT.list} size="sm" active={view === 'list'} onClick={() => patch({ view: 'list' })}>
-            <PixelIcon name="listView" />
-          </IconButton>
-        </ActionHint>
-      </ButtonGroup>
+      <SegmentedControl<ManagerView>
+        size="sm"
+        aria-label={MANAGER_TEXT.views}
+        value={view}
+        options={viewOptions()}
+        onChange={(next) => patch({ view: next })}
+      />
       {view === 'grid' && (
         <Slider
           size="sm"

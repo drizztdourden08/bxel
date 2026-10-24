@@ -4,8 +4,6 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { stepHistory } from '../../src/editor/step-history';
 import { applyOrder } from '../../src/sheet-manager/apply-order';
 import { allFacts } from '../../src/sheet-manager/all-facts';
-import { bandIds } from '../../src/sheet-manager/band-ids';
-import { bandRect } from '../../src/sheet-manager/band-rect';
 import { invertIds } from '../../src/sheet-manager/invert-ids';
 import { orderMoves } from '../../src/sheet-manager/order-moves';
 import { selectIds } from '../../src/sheet-manager/select-ids';
@@ -63,19 +61,5 @@ describe('picking in the order shown', () => {
 
   it('inverts a pick along the order given', () => {
     expect(invertIds(idsOf('idle', 'walk_2', 'walk_10'), idsOf('walk_2'))).toEqual(idsOf('idle', 'walk_10'));
-  });
-});
-
-describe('the drag rectangle', () => {
-  it('works from any corner and picks the boxes it touches', () => {
-    const band = bandRect({ x: 30, y: 30 }, { x: 5, y: 10 });
-    expect(band).toEqual({ x: 5, y: 10, width: 25, height: 20 });
-    const boxes = [
-      { id: idOf('idle'), x: 0, y: 0, width: 10, height: 10 },
-      { id: idOf('walk_2'), x: 40, y: 40, width: 10, height: 10 },
-      { id: idOf('walk_10'), x: 20, y: 20, width: 10, height: 10 },
-    ];
-    expect(bandIds(boxes, { x: 5, y: 5, width: 20, height: 20 })).toEqual(idsOf('idle', 'walk_10'));
-    expect(bandIds(boxes, { x: 60, y: 60, width: 5, height: 5 })).toEqual([]);
   });
 });
