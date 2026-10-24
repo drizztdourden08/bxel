@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind logic */
 import { addPick } from '../../../timeline/add-pick';
-import { deletePickedTag } from '../../../timeline/delete-picked-tag';
 import { enterZone } from '../../../timeline/enter-zone';
 import { parkCursor } from '../../../timeline/park-cursor';
 import { stepFrame } from '../../../timeline/step-frame';
@@ -23,9 +22,6 @@ const runLaneAction = (action: LaneKeyAction): void => {
       return;
     case 'tag':
       stepTag(action.delta);
-      return;
-    case 'deleteTag':
-      deletePickedTag();
   }
 };
 

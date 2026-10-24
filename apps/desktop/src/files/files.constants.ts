@@ -18,14 +18,12 @@ const BUSY_OF: Readonly<Record<FileActionKind, FileBusy>> = {
   saveAll: 'saving',
   open: 'opening',
   openPath: 'opening',
-  export: 'exporting',
 };
 
 const FILE_TEXT = {
   group: 'File',
   saveTitle: 'Save file',
   openTitle: 'Open file',
-  exportTitle: 'Export PNG',
   saveReady: 'Save file',
   saveClean: 'Saved. No changes to save.',
   saveBusy: 'Saving',
@@ -34,7 +32,6 @@ const FILE_TEXT = {
   saveAsAction: 'Save as',
   busy: 'Wait for the current operation.',
   noDocument:'Open or create a file first.',
-  nothingToExport: 'This file has no sprite frame to export.',
   readOnly: 'This file opens read-only.',
   recentLabel: 'Open recent',
   recentNone: 'No recent files',
@@ -45,8 +42,6 @@ const FILE_TEXT = {
   unreadable: 'The file is not a Bxel file.',
   saveFailed: (file: string): string => `Could not save ${file}. Your last saved file is unchanged.`,
   openFailed: (file: string, reason: string): string => `Could not open ${file}. ${reason}`,
-  exportFailed: (reason: string): string => `Export failed: ${reason}. No files were changed.`,
-  exported: (file: string): string => `Exported ${file}.`,
 } as const;
 
 const NOTICE_VARIANT = {
@@ -55,7 +50,6 @@ const NOTICE_VARIANT = {
   save: 'info',
   saveAs: 'info',
   saveAll: 'info',
-  export: 'success',
 } as const;
 
 const FILE_COMMAND = {

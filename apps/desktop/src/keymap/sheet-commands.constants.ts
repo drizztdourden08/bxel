@@ -15,12 +15,16 @@ import { reorderSprites } from '../sheet/reorder-sprites';
 import { selectionIds } from '../sheet/selection-ids';
 import { switchMode } from '../sheet/switch-mode';
 import { toggleBroadcast } from '../sheet/toggle-broadcast';
+import { useManagerStore } from '../stores/useManagerStore';
 import { useSpriteStore } from '../stores/useSpriteStore';
+import { COMMAND_ZONE } from './command-zone.constants';
 import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
 import { SHEET_COMMAND as ID } from './sheet-command-id.constants';
 
 const group = COMMAND_GROUP.sheet;
+
+const hasActiveSprite = (): boolean => (currentScene()?.active ?? null) !== null;
 
 const leavable = (): boolean => hasActiveDocument() && leaveReady();
 
@@ -41,9 +45,27 @@ const MODE_COMMANDS: readonly CommandDef[] = [
 const SPRITE_COMMANDS: readonly CommandDef[] = [
   { id: ID.duplicateSprite, label: 'Duplicate sprite', group, chord: 'Mod+Shift+D', whileTyping: false, run: onSelection(duplicateSprites) },
   { id: ID.deleteSprite, label: 'Delete sprite', group, run: onSelection(deleteSprites) },
+  {
+    id: ID.askDeleteSprite,
+    label: 'Delete sprites...',
+    group,
+    chord: 'Delete',
+    zone: COMMAND_ZONE.sprites,
+    whileTyping: false,
+    when: () => hasActiveDocument() && hasActiveSprite(),
+    run: () => useManagerStore.getState().patch({ dialog: 'delete' }),
+  },
   { id: ID.moveEarlier, label: 'Move sprite earlier', group, run: onSelection((ids) => reorderSprites(ids, { by: -1 })) },
   { id: ID.moveLater, label: 'Move sprite later', group, run: onSelection((ids) => reorderSprites(ids, { by: 1 })) },
-  { id: ID.renameSprite, label: 'Rename sprite', group, run: () => useSpriteStore.getState().setRenaming(currentScene()?.active?.id ?? null) },
+  {
+    id: ID.renameSprite,
+    label: 'Rename sprite',
+    group,
+    chord: 'F2',
+    zone: COMMAND_ZONE.sprites,
+    whileTyping: false,
+    run: () => useSpriteStore.getState().setRenaming(currentScene()?.active?.id ?? null),
+  },
   { id: ID.duplicateFrame, label: 'Duplicate frame', group, run: duplicateFrame },
 ];
 

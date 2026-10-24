@@ -11,6 +11,7 @@ import { PROJECT_COMMANDS } from './project-commands.constants';
 import { SELECTION_COMMANDS } from './selection-commands.constants';
 import { SHEET_EDITOR_COMMANDS } from './sheet-commands.constants';
 import { TILEMAP_COMMANDS } from './tilemap-commands.constants';
+import { TIMELINE_COMMANDS } from './timeline-commands.constants';
 import { TOOL_COMMANDS } from './tool-commands.constants';
 import { VIEW_COMMANDS } from './view-commands.constants';
 
@@ -23,6 +24,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...CANVAS_SIZE_COMMANDS,
   ...SHEET_EDITOR_COMMANDS,
   ...TILEMAP_COMMANDS,
+  ...TIMELINE_COMMANDS,
   ...HELP_COMMANDS,
 ];
 

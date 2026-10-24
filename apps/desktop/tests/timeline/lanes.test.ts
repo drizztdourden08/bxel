@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { currentPick } from '../../src/editor/current-pick';
 import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { addTag } from '../../src/timeline/add-tag';
+import { deleteInZone } from '../../src/timeline/delete-in-zone';
 import { runKeyAction } from '../../src/views/TimelinePanel/behavior/run-key-action';
 import { timelineKeyAction } from '../../src/views/TimelinePanel/behavior/timeline-key-action';
 import { gridHtml } from './grid-html';
@@ -40,11 +41,11 @@ describe('keys on the frame headers', () => {
 });
 
 describe('keys on the tag bars', () => {
-  it('steps between tags, goes down to the headers and deletes with Delete', () => {
+  it('steps between tags, goes down to the headers and leaves Delete to the timeline command', () => {
     expect(timelineKeyAction(key('ArrowRight'), 'tag')).toEqual({ kind: 'tag', delta: 1 });
     expect(timelineKeyAction(key('ArrowLeft'), 'tag')).toEqual({ kind: 'tag', delta: -1 });
     expect(timelineKeyAction(key('ArrowDown'), 'tag')).toEqual({ kind: 'zone', zone: 'head' });
-    expect(timelineKeyAction(key('Delete'), 'tag')).toEqual({ kind: 'deleteTag' });
+    expect(timelineKeyAction(key('Delete'), 'tag')).toBeNull();
     expect(timelineKeyAction(key('Enter'), 'tag')).toBeNull();
   });
 });
@@ -99,16 +100,6 @@ describe('running the lane keys', () => {
     expect(useTimelineStore.getState().tagId).toBe(second?.id);
   });
 
-  it('deletes the picked tag with one undo step', () => {
-    twoTags();
-    const before = revision();
-    runKeyAction({ kind: 'deleteTag' });
-    expect(live().sprite.tags).toHaveLength(1);
-    expect(revision()).toBe(before + 1);
-    runKeyAction({ kind: 'deleteTag' });
-    expect(live().sprite.tags).toHaveLength(1);
-  });
-
   it('parks the cursor without changing the pick, then adds the cursor cel', () => {
     withFrames(4);
     runKeyAction({ kind: 'cursor', by: { frames: 0, layers: 0 }, extend: false });
@@ -147,5 +138,25 @@ describe('the grid in the tab order', () => {
     withFrames(3);
     expect(currentPick().frameId).toBe(frameAt(0));
     expect(useTimelineStore.getState().zone).toBe('cel');
+  });
+});
+
+describe('the Delete command of the timeline zone', () => {
+  it('deletes the picked tag with one undo step', () => {
+    twoTags();
+    const before = revision();
+    useTimelineStore.getState().setZone('tag');
+    deleteInZone();
+    expect(live().sprite.tags).toHaveLength(1);
+    expect(revision()).toBe(before + 1);
+    deleteInZone();
+    expect(live().sprite.tags).toHaveLength(1);
+  });
+
+  it('leaves the tags alone when Delete comes from the frame headers', () => {
+    twoTags();
+    useTimelineStore.getState().setZone('head');
+    deleteInZone();
+    expect(live().sprite.tags).toHaveLength(2);
   });
 });

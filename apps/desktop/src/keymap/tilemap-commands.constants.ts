@@ -13,6 +13,7 @@ import { placeTiles } from '../tilemap/place-tiles';
 import { replaceCells } from '../tilemap/replace-cells';
 import { toggleEdit } from '../tilemap/toggle-edit';
 import { turnCells } from '../tilemap/turn-cells';
+import { COMMAND_ZONE } from './command-zone.constants';
 import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
 import { TILEMAP_COMMAND as ID } from './tilemap-command-id.constants';
@@ -29,7 +30,15 @@ const TILE_COMMANDS: readonly CommandDef[] = [
   { id: ID.newTilemap, label: 'New tilemap', group, run: () => useTilemapDialogStore.getState().show('tilemap') },
   { id: ID.addTile, label: 'Add tile', group, run: () => void addTile() },
   { id: ID.duplicateTile, label: 'Duplicate tile', group, run: onPicked(duplicateTile) },
-  { id: ID.deleteTile, label: 'Delete tile', group, run: onPicked(askDeleteTile) },
+  {
+    id: ID.deleteTile,
+    label: 'Delete tile',
+    group,
+    chord: 'Delete',
+    zone: COMMAND_ZONE.tileset,
+    whileTyping: false,
+    run: onPicked(askDeleteTile),
+  },
   { id: ID.makeUnique, label: 'Make selected cells unique', group, run: makeUnique },
   { id: ID.toggleEdit, label: 'Switch between Place Tile and Edit Tile', group, chord: 'Alt+T', whileTyping: false, run: toggleEdit },
   { id: ID.placeTiles, label: 'Place Tile', group, run: placeTiles },

@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind test */
 import { shortcutsHelp } from '@drizztdourden08/brock-react';
-import type { CommandDef } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { currentTarget } from '../../src/editor/current-target';
@@ -13,25 +12,10 @@ import { useToolStore } from '../../src/stores/useToolStore';
 import { useViewStore } from '../../src/stores/useViewStore';
 import { VIEW_DEFAULTS } from '../../src/stores/view-store.constants';
 import type { PixelView, PixelViewportHandle } from '../../src/views/PixelViewport';
+import { chordsOf, clashes } from './chord-table';
 import { findCommand } from './find-command';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('./brock-react-mock')).brockReactMock());
-
-const BROCK_CHORDS = ['mod+k', 'mod+/', 'alt+left'];
-
-const chordsOf = (def: CommandDef): string[] => {
-  if (def.chord === undefined) return [];
-  if (typeof def.chord === 'string') return [def.chord];
-  return 'mac' in def.chord ? [] : [...def.chord];
-};
-
-const canonical = (chord: string): string => {
-  const parts = chord.split('+').map((part) => part.toLowerCase().replace('mod', 'ctrl'));
-  const key = parts.pop() ?? '';
-  return [...parts.sort(), key].join('+');
-};
-
-const pairsOf = (def: CommandDef): { id: string; key: string }[] => chordsOf(def).map((chord) => ({ id: def.id, key: canonical(chord) }));
 
 const find = findCommand;
 
@@ -67,12 +51,8 @@ beforeEach(() => {
 });
 
 describe('the keymap table', () => {
-  it('has no two commands on the same chord, and none on a Brock chord', () => {
-    const owners = new Map<string, string[]>(BROCK_CHORDS.map((chord) => [chord, ['brock']]));
-    const pairs = APP_COMMANDS.flatMap(pairsOf);
-    for (const pair of pairs) owners.set(pair.key, [...(owners.get(pair.key) ?? []), pair.id]);
-    const clashes = [...owners].filter(([, ids]) => ids.length > 1);
-    expect(clashes).toEqual([]);
+  it('has no two commands on the same chord in the same scope and zone, and none on a Brock chord', () => {
+    expect(clashes()).toEqual([]);
   });
 
   it('has a unique id, a label and a group for every command', () => {

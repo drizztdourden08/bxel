@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind component */
+import { commandZone } from '@drizztdourden08/brock-react';
 import { Flex } from '@drizztdourden08/tessera';
 import { useMapPlacing } from '../../hooks/useMapPlacing';
+import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
 import { useTimelinePlayback } from '../../hooks/useTimelinePlayback';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { ApplyBar } from '../ApplyBar';
@@ -31,7 +33,7 @@ const EditorScreen = () => {
       <AssetTabs />
       <WorkspaceProgress />
       <LegacyBar />
-      <Flex className="editor-screen__body">
+      <Flex className="editor-screen__body" {...commandZone(COMMAND_ZONE.canvas)}>
         <Flex className={editing ? 'editor-screen__stage editor-screen__stage--tile-edit' : 'editor-screen__stage'}>
           {mode === 'sheet' && <SheetCanvas />}
           {placing && <TilemapCanvas />}

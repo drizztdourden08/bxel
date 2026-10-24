@@ -12,6 +12,7 @@ const COMMAND_GROUP = {
   edit: 'Edit',
   layers: 'Layers',
   sheet: 'Sheet',
+  timeline: 'Timeline',
   tilemap: 'Tilemap',
   help: 'Help',
 } as const;
