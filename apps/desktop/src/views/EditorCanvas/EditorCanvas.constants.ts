@@ -11,7 +11,6 @@ const CANVAS_CLASS = {
   plain: 'editor-canvas',
   rulers: 'editor-canvas editor-canvas--rulers',
   viewport: 'editor-canvas__viewport',
-  zoom: 'editor-canvas__viewport editor-canvas__viewport--zoom',
 } as const;
 
 const TILING_OF: Readonly<Record<TileMode, PixelTiling>> = {

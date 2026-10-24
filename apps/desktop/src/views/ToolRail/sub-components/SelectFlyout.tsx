@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind component */
 import { DropdownMenu } from '@drizztdourden08/tessera';
 import type { MenuGroup, MenuItem } from '@drizztdourden08/tessera';
+import { PixelIcon } from '../../PixelIcon';
+import { SELECT_VARIANT_ICONS } from '../../../icons/tool-icons.constants';
 import { MODE_LABELS, SELECT_LABELS, SELECT_MODES, SELECT_VARIANTS } from '../../../editor/selection/selection.constants';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { useToolStore } from '../../../stores/useToolStore';
@@ -19,6 +21,7 @@ const SelectFlyout = () => {
       items: SELECT_VARIANTS.map((each): MenuItem => ({
         id: each,
         label: SELECT_LABELS[each],
+        icon: <PixelIcon name={SELECT_VARIANT_ICONS[each]} />,
         kind: 'radio',
         checked: variant === each,
         onSelect: () => {

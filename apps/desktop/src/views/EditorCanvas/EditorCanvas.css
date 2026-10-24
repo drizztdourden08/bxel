@@ -27,6 +27,44 @@
   grid-area: 2 / 2;
 }
 
+.pixel-viewport.editor-canvas__viewport--pencil {
+  cursor: url('/cursors/pencil.svg') 3 25, crosshair;
+}
+
+.pixel-viewport.editor-canvas__viewport--eraser {
+  cursor: url('/cursors/eraser.svg') 9 25, crosshair;
+}
+
+.pixel-viewport.editor-canvas__viewport--fill {
+  cursor: url('/cursors/fill.svg') 27 23, crosshair;
+}
+
+.pixel-viewport.editor-canvas__viewport--picker {
+  cursor: url('/cursors/picker.svg') 3 25, crosshair;
+}
+
+.pixel-viewport.editor-canvas__viewport--shape,
+.pixel-viewport.editor-canvas__viewport--select {
+  cursor: url('/cursors/select.svg') 15 15, crosshair;
+}
+
+.pixel-viewport.editor-canvas__viewport--move {
+  cursor: url('/cursors/move.svg') 15 15, move;
+}
+
 .pixel-viewport.editor-canvas__viewport--zoom {
-  cursor: zoom-in;
+  cursor: url('/cursors/zoom-in.svg') 11 11, zoom-in;
+}
+
+.pixel-viewport.editor-canvas__viewport--zoom-out {
+  cursor: url('/cursors/zoom-out.svg') 11 11, zoom-out;
+}
+
+.pixel-viewport.editor-canvas__viewport--hand,
+.pixel-viewport.editor-canvas__viewport[data-grab] {
+  cursor: url('/cursors/hand-open.svg') 15 15, grab;
+}
+
+.pixel-viewport.editor-canvas__viewport[data-panning] {
+  cursor: url('/cursors/hand-grabbing.svg') 15 15, grabbing;
 }

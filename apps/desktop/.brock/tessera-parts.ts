@@ -20,6 +20,7 @@ declare module '@drizztdourden08/tessera' {
         | 'PaletteChangeDialog'
         | 'PaletteFields'
         | 'PalettePanel'
+        | 'PixelIcon'
         | 'PixelViewport'
         | 'RecoveryDialog'
         | 'SurroundEditor'
