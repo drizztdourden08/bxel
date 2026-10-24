@@ -5,8 +5,8 @@ import type { ButtonSpec } from './toolbar-items.type';
 
 const buttonItem = (spec: ButtonSpec): ToolbarButton => {
   const { label, description, shortcut } = hintFace(spec.hint, spec.keys);
-  const { id, icon, caption, disabled, options, onSelect } = spec;
-  return { kind: 'button', id, icon, caption, disabled, options, onSelect, label, description, shortcut };
+  const { id, icon, caption, disabled, options, openOn, onSelect } = spec;
+  return { kind: 'button', id, icon, caption, disabled, options, openOn, onSelect, label, description, shortcut };
 };
 
 export { buttonItem };

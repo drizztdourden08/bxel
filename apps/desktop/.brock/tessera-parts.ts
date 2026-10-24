@@ -51,7 +51,6 @@ declare module '@drizztdourden08/tessera' {
         | 'TilemapDialog'
         | 'TilesetPanel'
         | 'TimelinePanel'
-        | 'ToolbarPanel'
         | 'ToolRail'
         | 'TransformDialog'
         | 'WorkspaceProgress';
