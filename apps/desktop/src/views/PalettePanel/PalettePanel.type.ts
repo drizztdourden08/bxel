@@ -1,50 +1,67 @@
 /* @layer renderer-app @kind types */
-import type { BankOption } from '../../palette-bank/palette-bank.type';
+import type { MouseButton, ShortcutKey } from '@drizztdourden08/tessera';
+import type { RefObject } from 'react';
 import type { PaletteSlot } from '../../editor/palette-slots.type';
 import type { ColourSlot } from '../../editor/press-plan.type';
-import type { SourceGroup } from '../../palette-source/palette-source.type';
-import type { PlatformReport } from '../../platform-preset/platform-preset.type';
-import type { SnapChange } from '../../platform-preset/snap-plan.type';
-import type { LoadMode } from '../../swatch-library/swatch-library.type';
+import type { SwatchClick } from '../../editor/swatch-slot.type';
 
-type SwatchRole = ColourSlot | null;
+interface HeldCombo {
+  keys?: readonly ShortcutKey[];
+  mouse: MouseButton;
+}
+
+interface HeldChipDef {
+  slot: ColourSlot;
+  position: number;
+  draw: HeldCombo;
+  pick: HeldCombo;
+}
+
+type HeldColours = Readonly<Record<ColourSlot, number>>;
+
+type EditSwatch = (index: number, element: HTMLElement) => void;
 
 interface PaletteSwatchProps {
   slot: PaletteSlot;
-  role: SwatchRole;
-  onPick: (index: number, which: ColourSlot) => void;
+  marks: readonly number[];
+  onPick: (index: number, click: SwatchClick) => void;
+  onEdit: EditSwatch;
 }
 
-interface PlatformRowModel {
+interface SwatchGridProps {
+  slots: readonly PaletteSlot[];
+  held: HeldColours;
+  onEdit: EditSwatch;
+}
+
+interface HeldRowProps {
+  slots: readonly PaletteSlot[];
+  held: HeldColours;
+  onEdit: EditSwatch;
+}
+
+interface HeldChipProps {
+  chip: HeldChipDef;
+  slot: PaletteSlot | undefined;
+  onEdit: EditSwatch;
+}
+
+interface SwatchDraft {
+  index: number;
   value: string;
-  report: PlatformReport | null;
-  unknown: string | null;
-  strict: boolean;
-  choose: (value: string) => void;
-  toggleStrict: (on: boolean) => void;
 }
 
-interface SnapRowModel {
-  changes: readonly SnapChange[];
-  banks: number;
-  open: boolean;
-  begin: () => void;
-  cancel: () => void;
-  apply: () => void;
-}
-
-interface BankRowModel {
-  options: readonly BankOption[];
+interface SwatchEditModel {
+  index: number | null;
   value: string;
-  choose: (bankId: string) => void;
+  anchor: RefObject<HTMLElement | null>;
+  open: EditSwatch;
+  change: (hex: string) => void;
+  close: () => void;
 }
 
-interface SetLoaderModel {
-  groups: SourceGroup[];
-  value: string;
-  empty: boolean;
-  choose: (key: string) => void;
-  load: (mode: LoadMode) => void;
+interface SwatchEditorProps {
+  editor: SwatchEditModel;
 }
 
-export type { BankRowModel, PaletteSwatchProps, PlatformRowModel, SetLoaderModel, SnapRowModel, SwatchRole };
+export type { EditSwatch, HeldChipDef, HeldChipProps, HeldColours, HeldRowProps, PaletteSwatchProps, SwatchDraft, SwatchEditModel, SwatchEditorProps, SwatchGridProps };

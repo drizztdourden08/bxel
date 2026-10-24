@@ -1,44 +1,34 @@
 /* @layer renderer-app @kind component */
-import { EmptyState, Grid, Stack, Text } from '@drizztdourden08/tessera';
+import { EmptyState, Flex, Stack, Text } from '@drizztdourden08/tessera';
 import { PALETTE_TEXT } from '../../editor/palette-text.constants';
-import { swatchRole } from '../../editor/swatch-role';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { usePaletteSlots } from '../../hooks/usePaletteSlots';
-import { useToolStore } from '../../stores/useToolStore';
-import { PALETTE_COLUMNS, PALETTE_PANEL_TEXT } from './PalettePanel.constants';
-import { BankRow } from './sub-components/BankRow';
-import { PaletteSwatch } from './sub-components/PaletteSwatch';
-import { PlatformRow } from './sub-components/PlatformRow';
-import { SetLoader } from './sub-components/SetLoader';
+import { PaletteSettings } from '../PaletteSettings';
+import { useHeldColours } from './behavior/useHeldColours';
+import { useSwatchEdit } from './behavior/useSwatchEdit';
+import { PALETTE_PANEL_TEXT } from './PalettePanel.constants';
+import { HeldRow } from './sub-components/HeldRow';
+import { SwatchEditor } from './sub-components/SwatchEditor';
+import { SwatchGrid } from './sub-components/SwatchGrid';
 import './PalettePanel.css';
 
 const PalettePanel = () => {
   const target = useEditorTarget();
   const slots = usePaletteSlots();
-  const foreground = useToolStore((state) => state.foreground);
-  const background = useToolStore((state) => state.background);
-  const setForeground = useToolStore((state) => state.setForeground);
-  const setBackground = useToolStore((state) => state.setBackground);
+  const held = useHeldColours();
+  const editor = useSwatchEdit();
   if (!target) return <EmptyState message={PALETTE_PANEL_TEXT.empty} />;
   const { bank } = target;
   return (
     <Stack gap="sm">
-      <Text variant="label">{PALETTE_TEXT.title(bank.name)}</Text>
-      <BankRow />
+      <Flex justify="between" align="center" gap="xs" wrap>
+        <Text variant="label">{PALETTE_TEXT.title(bank.name)}</Text>
+        <PaletteSettings />
+      </Flex>
+      <HeldRow slots={slots} held={held} onEdit={editor.open} />
+      <SwatchGrid slots={slots} held={held} onEdit={editor.open} />
       <Text variant="caption" tone="muted">{PALETTE_TEXT.count(bank.cap, bank.transparent)}</Text>
-      <Grid columns={PALETTE_COLUMNS} gap="xs" aria-label={PALETTE_PANEL_TEXT.grid}>
-        {slots.map((slot) => (
-          <PaletteSwatch
-            key={slot.index}
-            slot={slot}
-            role={swatchRole(slot.index, foreground, background)}
-            onPick={(index, which) => (which === 'foreground' ? setForeground(index) : setBackground(index))}
-          />
-        ))}
-      </Grid>
-      <Text variant="caption" tone="muted">{PALETTE_PANEL_TEXT.hint}</Text>
-      <SetLoader />
-      <PlatformRow />
+      <SwatchEditor editor={editor} />
     </Stack>
   );
 };

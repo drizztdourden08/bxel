@@ -84,7 +84,7 @@ describe('the selection mode keys', () => {
 
 describe('the status bar help', () => {
   it('adds a help entry to the status bar', () => {
-    const items = statusItems({ pointer: null, zoom: 1, colour: null, clean: true, recovered: false });
+    const items = statusItems({ pointer: null, zoom: 1, colours: [null, null], clean: true, recovered: false });
     expect(items.map((item) => item.id)).toContain('help');
   });
 

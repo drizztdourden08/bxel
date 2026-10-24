@@ -7,7 +7,8 @@ import {
 } from '../../src/views/ContextBar/ContextBar.constants';
 import { LAYER_ACTIONS, LAYER_TOGGLES } from '../../src/views/LayersPanel/LayersPanel.constants';
 import { BACK_HINT, MODE_HINTS, PAINT_ALL_HINT } from '../../src/views/ModeBar/ModeBar.constants';
-import { swatchHint } from '../../src/views/PalettePanel/PalettePanel.constants';
+import { chipHint, HELD_CHIPS, swatchHint } from '../../src/views/PalettePanel/PalettePanel.constants';
+import { SETTINGS_HINT } from '../../src/views/PaletteSettings/PaletteSettings.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
 import { TRANSFORM_ACTIONS } from '../../src/views/TransformPanel/TransformPanel.constants';
 import { toolHint } from '../../src/views/ToolRail/behavior/tool-hint';
@@ -69,6 +70,8 @@ const allHints = (): HintSpec[] => [
   EXPAND_HINT,
   SHRINK_HINT,
   swatchHint('3 Blue'),
+  ...HELD_CHIPS.map(chipHint),
+  SETTINGS_HINT,
   ...TOOLS.map((tool) => canvasHelp(tool.id, 'sprite')),
   canvasHelp('pencil', 'sheet'),
   ...MAP_TOOLS.map((tool) => canvasHelp(tool.id, 'tilemap')),

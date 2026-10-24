@@ -1,4 +1,12 @@
 /* @layer renderer-app @kind style */
 .palette-panel__swatch {
-  --swatch-size: var(--size-40);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.palette-panel__chip-colour {
+  width: 100%;
+  height: var(--size-28);
+  align-items: center;
 }

@@ -5,20 +5,21 @@ import { PALETTE_PANEL_TEXT, swatchHint } from '../PalettePanel.constants';
 import type { PaletteSwatchProps } from '../PalettePanel.type';
 
 const PaletteSwatch = (props: PaletteSwatchProps) => {
-  const { slot, role, onPick } = props;
+  const { slot, marks, onPick, onEdit } = props;
   return (
     <ActionHint hint={swatchHint(slot.label)} placement="top">
       <ColorSwatch
         className="palette-panel__swatch"
         color={slot.hex}
         transparent={slot.transparent}
-        selected={role === 'foreground'}
-        caption={PALETTE_PANEL_TEXT.caption(slot.index, role)}
-        aria-label={PALETTE_PANEL_TEXT.name(slot.label, role)}
-        onClick={(event) => onPick(slot.index, event.shiftKey ? 'background' : 'foreground')}
+        selected={marks.length > 0}
+        caption={marks.length > 0 ? PALETTE_PANEL_TEXT.caption(marks) : undefined}
+        aria-label={PALETTE_PANEL_TEXT.name(slot.label, marks)}
+        onClick={(event) => onPick(slot.index, { right: false, shift: event.shiftKey })}
+        onDoubleClick={(event) => onEdit(slot.index, event.currentTarget)}
         onContextMenu={(event) => {
           event.preventDefault();
-          onPick(slot.index, 'background');
+          onPick(slot.index, { right: true, shift: event.shiftKey });
         }}
       />
     </ActionHint>

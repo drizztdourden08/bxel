@@ -42,6 +42,13 @@ const BRUSH_COMMANDS: readonly CommandDef[] = [
     run: () => useToolStore.getState().swapColors(),
   },
   {
+    id: COMMAND_ID.swapColourPairs,
+    label: 'Swap colour pairs',
+    group: COMMAND_GROUP.colours,
+    chord: 'Shift+X',
+    run: () => useToolStore.getState().swapPairs(),
+  },
+  {
     id: COMMAND_ID.colourBack,
     label: 'Previous colour',
     group: COMMAND_GROUP.colours,

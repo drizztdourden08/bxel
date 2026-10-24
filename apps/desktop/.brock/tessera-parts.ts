@@ -26,6 +26,7 @@ declare module '@drizztdourden08/tessera' {
         | 'PaletteChangeDialog'
         | 'PaletteFields'
         | 'PalettePanel'
+        | 'PaletteSettings'
         | 'PixelIcon'
         | 'PixelViewport'
         | 'PlatformFindings'

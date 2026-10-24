@@ -92,6 +92,7 @@ describe('the keymap table', () => {
     expect(chordsOf(find(COMMAND_ID.symmetryX))).toEqual(['Alt+X']);
     expect(chordsOf(find(COMMAND_ID.symmetryY))).toEqual(['Alt+Y']);
     expect(chordsOf(find(COMMAND_ID.swapColours))).toEqual(['X']);
+    expect(chordsOf(find(COMMAND_ID.swapColourPairs))).toEqual(['Shift+X']);
     expect(chordsOf(find(COMMAND_ID.colourBack))).toEqual(['Q']);
     expect(chordsOf(find(COMMAND_ID.colourForward))).toEqual(['W']);
     expect(chordsOf(find(COMMAND_ID.zoomIn))).toEqual(['Plus', '=']);
@@ -139,6 +140,11 @@ describe('the tool, brush and colour commands', () => {
     useToolStore.getState().setBackground(7);
     run(COMMAND_ID.swapColours);
     expect(useToolStore.getState()).toMatchObject({ foreground: 7, background: 4 });
+    useToolStore.getState().setColour('third', 2);
+    useToolStore.getState().setColour('fourth', 3);
+    run(COMMAND_ID.swapColourPairs);
+    expect(useToolStore.getState()).toMatchObject({ foreground: 2, background: 3, third: 7, fourth: 4 });
+    run(COMMAND_ID.swapColourPairs);
     run(COMMAND_ID.colourForward);
     run(COMMAND_ID.colourBack);
     run(COMMAND_ID.colourBack);

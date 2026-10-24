@@ -7,7 +7,7 @@ import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { bankOptions } from '../../../palette-bank/bank-options';
 import { switchBank } from '../../../palette-bank/switch-bank';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
-import type { BankRowModel } from '../PalettePanel.type';
+import type { BankRowModel } from '../PaletteSettings.type';
 
 const useBankRow = (): BankRowModel | null => {
   const view = useActiveDocument();

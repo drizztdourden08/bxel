@@ -1,12 +1,14 @@
 /* @layer renderer-app @kind types */
 import type { StrokeTool } from './tool.type';
 
-type ColourSlot = 'foreground' | 'background';
+type ColourSlot = 'foreground' | 'background' | 'third' | 'fourth';
 
 interface PressEvent {
   button: number;
   altKey: boolean;
   shiftKey: boolean;
+  ctrlKey?: boolean;
+  metaKey?: boolean;
 }
 
 type PressPlan =

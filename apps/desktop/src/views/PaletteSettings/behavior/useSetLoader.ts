@@ -8,7 +8,7 @@ import { runLoad } from '../../../swatch-library/run-load';
 import { setSelectGroups } from '../../../swatch-library/set-select-groups';
 import type { LoadMode } from '../../../swatch-library/swatch-library.type';
 import { useSwatchLibrary } from '../../../swatch-library/useSwatchLibrary';
-import type { SetLoaderModel } from '../PalettePanel.type';
+import type { SetLoaderModel } from '../PaletteSettings.type';
 
 const useSetLoader = (): SetLoaderModel => {
   const library = useSwatchLibrary();

@@ -3,7 +3,7 @@ import { Callout, Checkbox, Field, Select, Stack } from '@drizztdourden08/tesser
 import { PLATFORM_TEXT, STRICT_TEXT } from '../../../platform-preset/platform-preset.constants';
 import { PlatformFindings } from '../../PlatformFindings';
 import { usePlatformRow } from '../behavior/usePlatformRow';
-import { PLATFORM_GROUPS } from '../PalettePanel.constants';
+import { PLATFORM_GROUPS } from '../PaletteSettings.constants';
 import { SnapRow } from './SnapRow';
 
 const PlatformRow = () => {
