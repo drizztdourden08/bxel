@@ -1,0 +1,20 @@
+/* @layer renderer-app @kind style */
+.import-wizard.import-wizard {
+  max-inline-size: var(--size-768);
+}
+
+.import-wizard__body {
+  max-block-size: var(--size-512);
+  overflow-y: auto;
+}
+
+.import-wizard__pane {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.import-wizard__slices {
+  display: block;
+  max-inline-size: 100%;
+  image-rendering: pixelated;
+}

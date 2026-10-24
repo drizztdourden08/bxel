@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Flex } from '@drizztdourden08/tessera';
 import { ContextBar } from '../ContextBar';
+import { DialogHost } from '../DialogHost';
 import { EditorCanvas } from '../EditorCanvas';
 import { EditorStatus } from '../EditorStatus';
 import { RecoveryDialog } from '../RecoveryDialog';
@@ -16,6 +17,7 @@ const EditorScreen = () => (
     </Flex>
     <EditorStatus />
     <RecoveryDialog />
+    <DialogHost />
   </Flex>
 );
 

@@ -1,0 +1,23 @@
+/* @layer renderer-app @kind logic */
+import { DEFAULT_SPRITE_NAME } from '../sprite-name/sprite-name.constants';
+import { uniqueName } from '../sprite-name/unique-name';
+import { patchForm } from './patch-form';
+import { NEW_FORM_BASE } from './new-sprite.constants';
+import type { CreationForm, CreationMemory } from './new-sprite.type';
+
+const initialForm = (memory: CreationMemory, taken: readonly string[]): CreationForm =>
+  patchForm(
+    {
+      ...NEW_FORM_BASE,
+      name: uniqueName(DEFAULT_SPRITE_NAME, taken),
+      width: memory.width,
+      height: memory.height,
+      limit: memory.limit,
+      transparent: memory.transparent,
+      background: memory.transparent ? 'transparent' : 'opaque',
+      source: { kind: 'preset', presetId: memory.presetId, file: null },
+    },
+    {},
+  );
+
+export { initialForm };

@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { MenuEntry, MenuItem } from '@drizztdourden08/brock-react';
+import { DIALOG_COMMAND } from '../keymap/dialog-command-id.constants';
 import { FILE_COMMAND, FILE_TEXT } from './files.constants';
 
 const fileMenu = (recent: MenuItem): MenuEntry[] => [
@@ -13,6 +14,9 @@ const fileMenu = (recent: MenuItem): MenuEntry[] => [
       { key: 'file-save', label: 'Save', command: FILE_COMMAND.save },
       { key: 'file-save-as', label: 'Save as...', command: FILE_COMMAND.saveAs },
       'separator',
+      { key: 'file-new', label: 'New...', command: DIALOG_COMMAND.newFile },
+      { key: 'file-new-sprite', label: 'New sprite...', command: DIALOG_COMMAND.newSprite },
+      { key: 'file-import', label: 'Import image...', command: DIALOG_COMMAND.importImage },
       { key: 'file-export', label: 'Export PNG...', command: FILE_COMMAND.export },
     ],
   },

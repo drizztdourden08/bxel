@@ -1,0 +1,9 @@
+/* @layer renderer-app @kind style */
+.change-dialog.change-dialog {
+  max-inline-size: var(--size-640);
+}
+
+.change-dialog__pane {
+  flex: 1;
+  min-inline-size: 0;
+}

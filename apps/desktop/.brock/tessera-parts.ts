@@ -6,10 +6,16 @@ declare module '@drizztdourden08/tessera' {
     'bxel': {
       parts:
         | 'ContextBar'
+        | 'CreateDialog'
+        | 'DialogHost'
         | 'EditorCanvas'
         | 'EditorScreen'
         | 'EditorStatus'
+        | 'ImagePreview'
+        | 'ImportWizard'
         | 'LayersPanel'
+        | 'PaletteChangeDialog'
+        | 'PaletteFields'
         | 'PalettePanel'
         | 'PixelViewport'
         | 'RecoveryDialog'
