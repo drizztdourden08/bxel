@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { frameRefSchema } from './frame-ref-schema';
+import { tagColourOptionSchema } from './tag-colour-option-schema';
 import { tagDirectionSchema } from './tag-direction-schema';
 import { tagRefSchema } from './tag-ref-schema';
 import { tagRepeatSchema } from './tag-repeat-schema';
@@ -13,6 +14,7 @@ const tagUpdateSchema = z
     to: frameRefSchema.optional(),
     direction: tagDirectionSchema.optional(),
     repeat: tagRepeatSchema.optional(),
+    colour: tagColourOptionSchema.nullable().optional(),
   })
   .refine(
     (value) =>
@@ -20,8 +22,9 @@ const tagUpdateSchema = z
       value.from !== undefined ||
       value.to !== undefined ||
       value.direction !== undefined ||
-      value.repeat !== undefined,
-    { message: 'Give a name, from, to, direction or repeat.' },
+      value.repeat !== undefined ||
+      value.colour !== undefined,
+    { message: 'Give a name, from, to, direction, repeat or colour.' },
   );
 
 export { tagUpdateSchema };

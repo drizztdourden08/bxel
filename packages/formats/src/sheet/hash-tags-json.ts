@@ -12,7 +12,7 @@ const hashTagsJson = (
       from: (offsets[i] ?? 0) + tag.from,
       to: (offsets[i] ?? 0) + tag.to,
       direction: tag.direction,
-      color: SHEET_JSON.TAG_COLOR,
+      color: tag.colour === undefined ? SHEET_JSON.TAG_COLOR : `${tag.colour}ff`,
       ...(tag.repeat > 0 ? { repeat: String(tag.repeat) } : {}),
     })),
   );

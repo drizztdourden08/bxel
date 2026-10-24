@@ -16,7 +16,8 @@ const tagsOf = (target: Target): SheetTagEntry[] =>
     const from = target.frames.findIndex((frame) => frame.id === tag.from);
     const to = target.frames.findIndex((frame) => frame.id === tag.to);
     if (from < 0 || to < 0) return [];
-    return [{ name: tag.name, from: Math.min(from, to), to: Math.max(from, to), direction: tag.direction, repeat: tag.repeat }];
+    const entry: SheetTagEntry = { name: tag.name, from: Math.min(from, to), to: Math.max(from, to), direction: tag.direction, repeat: tag.repeat };
+    return [tag.colour === undefined ? entry : { ...entry, colour: tag.colour }];
   });
 
 const exportSprite = (target: Target): ExportSprite => {

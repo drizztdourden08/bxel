@@ -4,10 +4,8 @@ import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { PIXEL_ICONS } from '../../src/icons/pixel-icon.constants';
-import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { addTag } from '../../src/timeline/add-tag';
 import { linkCels } from '../../src/timeline/link-cels';
-import { timelineModel } from '../../src/timeline/timeline-model';
 import { TimelinePanel } from '../../src/views/TimelinePanel';
 import { CEL_ACTIONS, FRAME_ACTIONS } from '../../src/views/TimelinePanel/TimelinePanel.constants';
 import { ActionBar } from '../../src/views/TimelinePanel/sub-components/ActionBar';
@@ -15,8 +13,8 @@ import { DurationField } from '../../src/views/TimelinePanel/sub-components/Dura
 import { OnionControls } from '../../src/views/TimelinePanel/sub-components/OnionControls';
 import { OnionToggle } from '../../src/views/TimelinePanel/sub-components/OnionToggle';
 import { TagEditor } from '../../src/views/TimelinePanel/sub-components/TagEditor';
-import { TimelineGrid } from '../../src/views/TimelinePanel/sub-components/TimelineGrid';
 import { TransportBar } from '../../src/views/TimelinePanel/sub-components/TransportBar';
+import { gridHtml } from './grid-html';
 import { frameAt, freshDocument, live, paintCel, pickCels, pickRange, withFrames } from './timeline-harness';
 
 Object.assign(globalThis, { React });
@@ -38,12 +36,6 @@ const NEW_ICONS = [
   'linkedCel',
   'unlinkCel',
 ] as const;
-
-const gridHtml = (): string => {
-  const { selection, tagId } = useTimelineStore.getState();
-  const target = live();
-  return renderToString(createElement(TimelineGrid, { model: timelineModel(target, selection, tagId), frameId: target.frameId }));
-};
 
 describe('timeline icons', () => {
   it('draws every timeline icon on the sixteen by sixteen grid', () => {

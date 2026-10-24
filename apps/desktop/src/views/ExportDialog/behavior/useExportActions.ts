@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind hook */
 import type { SpriteId } from '@bxel/document';
 import { getPlatform, useSettings } from '@drizztdourden08/brock-react';
+import { currentPick } from '../../../editor/current-pick';
 import { folderOf } from '../../../export/folder-of';
 import { joinPath } from '../../../export/join-path';
 import { safeName } from '../../../export/safe-name';
@@ -21,7 +22,7 @@ const useExportActions = ({ settings, change }: DraftModel, selectedIds: readonl
     if (!state) return;
     patch({ exportLast: { ...settings, approved: false } });
     hide();
-    void startExport({ frozen: { revision: state.revision, artwork: state.artwork }, settings, selectedIds, title: state.artwork.name });
+    void startExport({ frozen: { revision: state.revision, artwork: state.artwork }, settings, selectedIds, title: state.artwork.name, current: currentPick() });
   };
   const browse = (): void => {
     const documents = getPlatform().documents;

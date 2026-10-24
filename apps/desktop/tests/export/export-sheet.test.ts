@@ -3,7 +3,7 @@ import { decodePng, readBxelSheetJson, writeHashSheetJson } from '@bxel/formats'
 import { describe, expect, it } from 'vitest';
 import type { ExportSettings } from '../../src/export/export.type';
 import { planExport } from '../../src/export/plan-export';
-import { addFrame, bytesOf, frozenOf, harness, paint, settingsOf, textOf } from './export-harness';
+import { bytesOf, frozenOf, harness, settingsOf, textOf, threeFrames } from './export-harness';
 import type { ExportHarness } from './export-harness';
 
 const PALETTE = [
@@ -11,16 +11,6 @@ const PALETTE = [
   [0x7b, 0x3f, 0xe4],
   [0xb0, 0x2a, 0x9c],
 ];
-
-const threeFrames = (): ExportHarness => {
-  const h = harness();
-  addFrame(h, 100);
-  addFrame(h, 100);
-  paint(h, 0, 1, 2);
-  paint(h, 1, 2, 3);
-  paint(h, 2, 3, 4);
-  return h;
-};
 
 const sheetOf = (h: ExportHarness, patch: Partial<ExportSettings>) => {
   const plan = planExport({ frozen: frozenOf(h), settings: settingsOf({ kind: 'sheet', frames: 'all', ...patch }), selectedIds: [] });

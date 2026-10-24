@@ -21,6 +21,7 @@ const tagJson = (tag: SheetTagEntry): JsonValue => ({
   to: tag.to,
   direction: tag.direction,
   repeat: tag.repeat,
+  ...(tag.colour === undefined ? {} : { colour: tag.colour }),
 });
 
 const sliceJson = (slice: SheetSliceEntry): JsonValue => ({

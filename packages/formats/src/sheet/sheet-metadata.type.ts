@@ -28,6 +28,7 @@ type SheetTagEntry = {
   readonly to: number;
   readonly direction: SheetTagDirection;
   readonly repeat: number;
+  readonly colour?: string;
 };
 
 type SheetSliceEntry = {

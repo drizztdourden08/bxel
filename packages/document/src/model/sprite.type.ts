@@ -24,6 +24,7 @@ type Tag = {
   readonly to: FrameId;
   readonly direction: TagDirection;
   readonly repeat: number;
+  readonly colour?: string;
 };
 
 type Slice = {

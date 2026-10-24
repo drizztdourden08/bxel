@@ -9,6 +9,7 @@ import { pickTags } from './pick-tags';
 import { resolveFrameId } from './resolve-frame-id';
 import { sameTag } from './same-tag';
 import { tagName } from './tag-name';
+import { withColour } from './with-colour';
 
 const tagUpdate = defineCommand({
   name: COMMAND_NAME.tagUpdate,
@@ -18,7 +19,7 @@ const tagUpdate = defineCommand({
     const { options } = input;
     for (const { sprite, tag } of pickTags(draft.artwork, input.sprites, options.tag)) {
       const others = sprite.tags.filter((item) => item.id !== tag.id).map((item) => item.name);
-      const next: Tag = {
+      const changed: Tag = {
         ...tag,
         name: options.name === undefined ? tag.name : tagName(options.name, others),
         from: resolveFrameId({ artwork: draft.artwork, spriteId: sprite.id, ref: options.from, path: 'options.from', fallback: tag.from }),
@@ -26,6 +27,7 @@ const tagUpdate = defineCommand({
         direction: options.direction ?? tag.direction,
         repeat: options.repeat ?? tag.repeat,
       };
+      const next = withColour(changed, options.colour);
       checkSpan(sprite, next.from, next.to);
       if (!sameTag(next, tag)) {
         updateSprite(draft, sprite.id, (current) => ({

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, Frame, PaletteBank, Sprite, SpriteId, Tag } from '@bxel/document';
 import type { SheetFlavour } from '@bxel/formats';
+import type { CurrentPick } from '../editor/current-pick.type';
 
 type ExportKind = 'sprite' | 'frames' | 'animation' | 'sheet';
 
@@ -131,12 +132,14 @@ type ExportRequest = {
   readonly settings: ExportSettings;
   readonly selectedIds: readonly SpriteId[];
   readonly title: string;
+  readonly current?: CurrentPick;
 };
 
 type PlanInput = {
   readonly frozen: FrozenArtwork;
   readonly settings: ExportSettings;
   readonly selectedIds: readonly SpriteId[];
+  readonly current?: CurrentPick;
 };
 
 type PlanParts = {

@@ -36,9 +36,18 @@ interface TagCell {
   tagId: TagId;
   name: string;
   colour: string;
+  custom: string | null;
   edge: TagEdge;
   selected: boolean;
+  roving: boolean;
   label: string;
+}
+
+type TagLook = Pick<TagCell, 'colour' | 'edge' | 'selected' | 'roving'>;
+
+interface TagColourChoice {
+  name: string;
+  hex: string;
 }
 
 interface TimelineModel {
@@ -75,4 +84,4 @@ interface CelStep {
   toFrame: FrameId;
 }
 
-export type { CelCell, CelMove, CelState, CelStep, EffectiveSelection, FrameColumn, LayerRow, PlayOptions, ShiftedSelection, TagCell, TagEdge, TimelineModel };
+export type { CelCell, CelMove, CelState, CelStep, EffectiveSelection, FrameColumn, LayerRow, PlayOptions, ShiftedSelection, TagCell, TagColourChoice, TagEdge, TagLook, TimelineModel };

@@ -1,27 +1,23 @@
 /* @layer renderer-app @kind logic */
-import { ARROWS, STEP_KEYS } from '../TimelinePanel.constants';
+import type { TimelineZone } from '../../../stores/timeline-store.type';
+import { STEP_KEYS } from '../TimelinePanel.constants';
 import type { TimelineKeyAction, TimelineKeyInfo } from '../TimelinePanel.type';
+import { celKeyAction } from './cel-key-action';
+import { ctrlKeyAction } from './ctrl-key-action';
+import { headKeyAction } from './head-key-action';
+import { tagKeyAction } from './tag-key-action';
 
-const arrowAction = (arrow: readonly [number, number], info: TimelineKeyInfo): TimelineKeyAction | null => {
-  const [frames, layers] = arrow;
-  if (info.altKey && info.shiftKey) return { kind: 'moveCels', by: { frames, layers } };
-  if (info.altKey) return frames === 0 ? null : { kind: 'moveFrames', delta: frames };
-  return { kind: 'cursor', by: { frames, layers }, extend: info.shiftKey };
+const zoneAction = (info: TimelineKeyInfo, zone: TimelineZone | null): TimelineKeyAction | null => {
+  if (zone === 'cel') return celKeyAction(info);
+  if (zone === 'head') return headKeyAction(info);
+  return zone === 'tag' ? tagKeyAction(info) : null;
 };
 
-const gridKeyAction = (info: TimelineKeyInfo): TimelineKeyAction | null => {
-  const arrow = ARROWS[info.key];
-  if (arrow) return arrowAction(arrow, info);
-  if (info.key === 'Enter' || info.key === ' ') return info.altKey ? null : { kind: 'play' };
-  if (info.key === 'Home' || info.key === 'End') return { kind: 'edge', end: info.key === 'Home' ? 'first' : 'last' };
-  return info.key === 'Delete' ? { kind: 'clear' } : null;
-};
-
-const timelineKeyAction = (info: TimelineKeyInfo, inGrid: boolean): TimelineKeyAction | null => {
-  if (info.ctrlKey || info.metaKey) return null;
+const timelineKeyAction = (info: TimelineKeyInfo, zone: TimelineZone | null): TimelineKeyAction | null => {
+  if (info.ctrlKey || info.metaKey) return zone === 'cel' ? ctrlKeyAction(info) : null;
   const step = STEP_KEYS[info.key];
   if (step !== undefined && !info.altKey) return { kind: 'cursor', by: { frames: step, layers: 0 }, extend: false };
-  return inGrid ? gridKeyAction(info) : null;
+  return zoneAction(info, zone);
 };
 
 export { timelineKeyAction };

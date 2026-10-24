@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { isRecord } from './is-record';
+import { TAG_COLOUR } from './read-json-tag.constants';
 import type { SheetTagDirection, SheetTagEntry } from './sheet-metadata.type';
 
 const isDirection = (value: unknown): value is SheetTagDirection =>
@@ -10,10 +11,11 @@ const isIndex = (value: unknown): value is number =>
 
 const readJsonTag = (value: unknown): SheetTagEntry | undefined => {
   if (!isRecord(value)) return undefined;
-  const { name, from, to, direction, repeat } = value;
+  const { name, from, to, direction, repeat, colour } = value;
   if (typeof name !== 'string' || !isDirection(direction)) return undefined;
   if (!isIndex(from) || !isIndex(to) || !isIndex(repeat) || from > to) return undefined;
-  return { name, from, to, direction, repeat };
+  const base = { name, from, to, direction, repeat };
+  return typeof colour === 'string' && TAG_COLOUR.test(colour) ? { ...base, colour } : base;
 };
 
 export { readJsonTag };
