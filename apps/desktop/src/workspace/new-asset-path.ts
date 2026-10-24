@@ -10,7 +10,7 @@ const newAssetPath = (workspace: Workspace, artwork: Artwork, key: AssetKey): st
   const dir = workspace.dirs[key.kind];
   const name = assetName(artwork, key);
   if (dir === undefined || name === null || key.kind === 'project') return null;
-  if (key.kind === 'palette' && workspace.kind !== 'project') return null;
+  if (workspace.kind !== 'project') return null;
   const taken = new Set([...workspace.paths.values()].map((path) => path.toLowerCase()));
   return uniquePath(dir, fileSafeStem(name, NAME_FALLBACK), ASSET_FORMAT[key.kind].extension, taken);
 };

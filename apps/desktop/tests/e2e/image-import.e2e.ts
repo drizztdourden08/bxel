@@ -43,7 +43,7 @@ describe('check 2: a PNG with more than 16 colours is reduced to the palette', (
     await dialog.getByRole('button', { name: 'Cancel' }).click();
     await dialog.waitFor({ state: 'detached' });
     expect(await session.page.getByRole('button', { name: 'Nothing to undo' }).count()).toBe(1);
-    expect(await session.page.getByText('Untitled.bxel - Bxel').count()).toBe(1);
+    expect(await session.page.getByText('sprite.bxsprite - Bxel').count()).toBe(1);
     await waitSaved(session);
   });
 
@@ -56,6 +56,7 @@ describe('check 2: a PNG with more than 16 colours is reduced to the palette', (
     await dialog.getByRole('radio', { name: 'None (default)' }).check();
     await dialog.getByRole('button', { name: 'Import sprite' }).click();
     await dialog.waitFor({ state: 'detached' });
+    await session.page.getByRole('tablist', { name: 'Open assets' }).getByRole('tab', { name: /blocks/ }).click();
     const path = join(session.dir, 'imported.bxsprite');
     await saveFile(session, path);
     const artwork = readSaved(path);

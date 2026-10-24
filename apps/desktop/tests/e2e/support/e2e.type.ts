@@ -14,7 +14,7 @@ type SpriteSize = { readonly width: number; readonly height: number };
 
 type CellMapper = (cell: Cell) => Cell;
 
-type DialogAnswers = { readonly open: string | null; readonly save: string | null };
+type DialogAnswers = { readonly open: string | null; readonly save: string | readonly string[] | null };
 
 type Swatches = readonly (string | null)[];
 

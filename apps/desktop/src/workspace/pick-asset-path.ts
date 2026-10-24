@@ -6,7 +6,7 @@ import { FILE_TEXT } from '../files/files.constants';
 import { assetName } from './asset-name';
 import { parentOf } from './parent-of';
 import { toSlashes } from './to-slashes';
-import { ASSET_FILE_LABEL, NAME_FALLBACK } from './workspace.constants';
+import { ASSET_FILE_LABEL, BXEL_ENDING, NAME_FALLBACK } from './workspace.constants';
 import type { Workspace } from './workspace.type';
 
 const pickAssetPath = async (documents: DocumentsPort, workspace: Workspace, artwork: Artwork, key: AssetKey): Promise<string | null> => {
@@ -20,8 +20,7 @@ const pickAssetPath = async (documents: DocumentsPort, workspace: Workspace, art
     filters: [{ name: ASSET_FILE_LABEL[key.kind], extensions: [extension.slice(1)] }],
   });
   if (picked === null) return null;
-  const path = toSlashes(picked);
-  return path.toLowerCase().endsWith(extension) ? path : `${path}${extension}`;
+  return `${toSlashes(picked).replace(BXEL_ENDING, '')}${extension}`;
 };
 
 export { pickAssetPath };

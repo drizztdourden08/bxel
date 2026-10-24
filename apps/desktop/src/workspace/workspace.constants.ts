@@ -58,6 +58,8 @@ const HASH_CLOCK: Clock = () => 0;
 
 const NAME_FALLBACK = 'asset';
 
+const BXEL_ENDING = /\.(?:bxsprite|bxsheet|bxpalette|bxtiles|bxmap|bxproject|bxel)$/i;
+
 const NO_BANK_ID = 'bnk_000000';
 
 const KEY_SEPARATOR = ':';
@@ -108,6 +110,7 @@ export {
   ASSET_KINDS,
   ASSET_FILE_LABEL,
   ASSETS_OF,
+  BXEL_ENDING,
   DECODE_ORDER,
   HASH_CLOCK,
   KEY_SEPARATOR,

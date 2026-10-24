@@ -39,12 +39,13 @@ const saveDocument: ToolHandler = async (input, context) => {
   const documentId = save.documentId as DocumentId;
   const written = save.target === 'current' ? await saveInPlace(context, documentId) : await saveAssetAt(context, documentId, place.value);
   if (typeof written !== 'string') return written;
-  const bytes = await context.documents.read(written).then((data) => data.length, () => 0);
+  const shown = save.target === 'current' ? written : place.value;
+  const bytes = await context.documents.read(shown).then((data) => data.length, () => 0);
   return reply({
     ok: true,
     revision: context.host.view(documentId)?.state.revision ?? view.state.revision,
-    fileName: fileName(written),
-    place: placeOf(context, written),
+    fileName: fileName(shown),
+    place: placeOf(context, shown),
     bytes,
     savedAt: new Date().toISOString(),
   });

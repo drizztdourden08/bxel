@@ -78,7 +78,7 @@ const staleAndInvalid = async ({ link }: McpRig): Promise<void> => {
 const saveReopenExport = async ({ link, folder }: McpRig): Promise<void> => {
   const pixels = await readLayer(link.client, sprite(), 'flattened');
   const saved = await callMcp(link.client, 'save_document', { documentId: sprite().documentId, target: { fileName: 'check7.bxsprite' } });
-  expect(saved.data).toMatchObject({ ok: true, fileName: 'check7.bxsprite', place: { assistantFolder: true } });
+  expect(saved.data, JSON.stringify(saved.data)).toMatchObject({ ok: true, fileName: 'check7.bxsprite', place: { assistantFolder: true } });
   await access(join(folder, 'check7.bxsprite'));
   expect((await callMcp(link.client, 'close_document', { documentId: sprite().documentId })).data).toMatchObject({ ok: true, closed: true });
   const places = await callMcp(link.client, 'list_places');
