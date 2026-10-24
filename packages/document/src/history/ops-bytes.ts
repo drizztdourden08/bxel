@@ -1,6 +1,8 @@
 /* @layer core @kind logic */
+import { TILEMAP_PATH } from './entity-path.constants';
 import { ENTITY_OP_BYTES, REMAP_OP_BYTES } from './history-limits.constants';
 import type { UndoOp } from './history.type';
+import { tilemapBytes } from './tilemap-bytes';
 
 const payloadBytes = (value: unknown): number => {
   if (typeof value !== 'object' || value === null) return 0;
@@ -11,6 +13,9 @@ const payloadBytes = (value: unknown): number => {
   return 0;
 };
 
+const extraBytes = (op: Extract<UndoOp, { kind: 'entity' }>): number =>
+  op.path === TILEMAP_PATH ? tilemapBytes(op.before, op.after) : 0;
+
 const opBytes = (op: UndoOp): number => {
   switch (op.kind) {
     case 'cel-rect':
@@ -18,7 +23,7 @@ const opBytes = (op: UndoOp): number => {
     case 'cel-remap':
       return REMAP_OP_BYTES;
     case 'entity':
-      return ENTITY_OP_BYTES + payloadBytes(op.before) + payloadBytes(op.after);
+      return ENTITY_OP_BYTES + payloadBytes(op.before) + payloadBytes(op.after) + extraBytes(op);
   }
 };
 

@@ -6,6 +6,8 @@ const isEmptyChanges = (changes: ChangeSet): boolean =>
   changes.banks.length === 0 &&
   changes.sprites.length === 0 &&
   changes.sheets.length === 0 &&
-  changes.presets.length === 0;
+  changes.presets.length === 0 &&
+  changes.tilesets.length === 0 &&
+  changes.tilemaps.length === 0;
 
 export { isEmptyChanges };

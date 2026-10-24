@@ -1,6 +1,16 @@
 /* @layer core @kind types */
 import type { Rect } from '../model/geometry.type';
-import type { BankId, CelId, FrameId, LayerId, PresetId, SheetId, SpriteId } from '../model/ids.type';
+import type {
+  BankId,
+  CelId,
+  FrameId,
+  LayerId,
+  PresetId,
+  SheetId,
+  SpriteId,
+  TilemapId,
+  TilesetId,
+} from '../model/ids.type';
 import type { CommandError } from './command-error.type';
 import type { TransactionMode } from './transaction.type';
 
@@ -26,6 +36,8 @@ type ChangeSet = {
   readonly sprites: readonly SpriteChange[];
   readonly sheets: readonly EntityChange<SheetId>[];
   readonly presets: readonly EntityChange<PresetId>[];
+  readonly tilesets: readonly EntityChange<TilesetId>[];
+  readonly tilemaps: readonly EntityChange<TilemapId>[];
 };
 
 type PreviewCel = CelChange & { readonly pixels: Uint8Array };

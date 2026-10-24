@@ -24,6 +24,25 @@ import { spriteUpdate } from './sprite/sprite-update';
 import { tagAdd } from './tag/tag-add';
 import { tagDelete } from './tag/tag-delete';
 import { tagUpdate } from './tag/tag-update';
+import { mapErase } from './map/map-erase';
+import { mapFill } from './map/map-fill';
+import { mapPaint } from './map/map-paint';
+import { mapRect } from './map/map-rect';
+import { mapReplace } from './map/map-replace';
+import { mapLayerAdd } from './map-layer/map-layer-add';
+import { mapLayerDelete } from './map-layer/map-layer-delete';
+import { mapLayerReorder } from './map-layer/map-layer-reorder';
+import { mapLayerUpdate } from './map-layer/map-layer-update';
+import { tileAdd } from './tile/tile-add';
+import { tileDelete } from './tile/tile-delete';
+import { tileUnique } from './tile/tile-unique';
+import { tilemapCreate } from './tilemap/tilemap-create';
+import { tilemapDelete } from './tilemap/tilemap-delete';
+import { tilemapResize } from './tilemap/tilemap-resize';
+import { tilemapUpdate } from './tilemap/tilemap-update';
+import { tilesetCreate } from './tileset/tileset-create';
+import { tilesetDelete } from './tileset/tileset-delete';
+import { tilesetUpdate } from './tileset/tileset-update';
 
 const documentCommands: readonly CommandDef[] = [
   artworkUpdate,
@@ -50,6 +69,25 @@ const documentCommands: readonly CommandDef[] = [
   celMove,
   celLink,
   celUnlink,
+  tilesetCreate,
+  tilesetUpdate,
+  tilesetDelete,
+  tileAdd,
+  tileDelete,
+  tileUnique,
+  tilemapCreate,
+  tilemapUpdate,
+  tilemapResize,
+  tilemapDelete,
+  mapLayerAdd,
+  mapLayerUpdate,
+  mapLayerDelete,
+  mapLayerReorder,
+  mapPaint,
+  mapErase,
+  mapFill,
+  mapRect,
+  mapReplace,
 ];
 
 export { documentCommands };

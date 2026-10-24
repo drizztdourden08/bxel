@@ -97,3 +97,18 @@ export { readPalettePng } from './palette-file/read-palette-png';
 export { writeGpl } from './palette-file/write-gpl';
 export { writeJascPal } from './palette-file/write-jasc-pal';
 export { writePalettePng } from './palette-file/write-palette-png';
+export { exportTilesetImage } from './tilemap/export-tileset-image';
+export { TILED_JSON, TILEMAP_JSON } from './tilemap/tilemap.constants';
+export type {
+  TilemapExportInput,
+  TilemapJsonResult,
+  TilemapLayerInput,
+  TilesetDescriptor,
+  TilesetImage,
+  TilesetImageInput,
+  TilesetImageResult,
+  TilesetPlacement,
+  TilesetTile,
+} from './tilemap/tilemap.type';
+export { writeTiledJson } from './tilemap/write-tiled-json';
+export { writeTilemapJson } from './tilemap/write-tilemap-json';

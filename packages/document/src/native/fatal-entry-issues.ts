@@ -5,6 +5,8 @@ import type { LoadIssue } from './load-report.type';
 import type { Manifest } from './manifest.type';
 
 const fatalEntryIssues = (manifest: Manifest, check: EntryCheck): readonly LoadIssue[] =>
-  [...check.problems].filter(([path]) => !entryPaths.isCel(path) && path !== manifest.preview).map(([, issue]) => issue);
+  [...check.problems]
+    .filter(([path]) => !entryPaths.isCel(path) && !entryPaths.isTilemapLayer(path) && path !== manifest.preview)
+    .map(([, issue]) => issue);
 
 export { fatalEntryIssues };

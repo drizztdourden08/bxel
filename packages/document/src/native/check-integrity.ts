@@ -2,6 +2,7 @@
 import { checkBanks } from './check-banks';
 import { checkReferences } from './check-references';
 import { checkSpriteReferences } from './check-sprite-references';
+import { checkTilesets } from './check-tilesets';
 import { checkUniqueIds } from './check-unique-ids';
 import { MAX_REPORTED_ISSUES } from './container.constants';
 import type { DocumentJson } from './document-json.type';
@@ -13,6 +14,7 @@ const checkIntegrity = (document: DocumentJson): readonly LoadIssue[] =>
     ...checkReferences(document),
     ...checkSpriteReferences(document),
     ...checkBanks(document),
+    ...checkTilesets(document),
   ].slice(0, MAX_REPORTED_ISSUES);
 
 export { checkIntegrity };

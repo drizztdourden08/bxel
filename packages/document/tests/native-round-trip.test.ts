@@ -10,6 +10,7 @@ import { encodeHeart, fixedClock, heartPreview, heartState, artworkOf } from './
 
 const withTilemap = (artwork: Artwork): Artwork => ({
   ...artwork,
+  sprites: artwork.sprites.map((sprite) => (sprite.id === 'spr_000010' ? { ...sprite, role: 'tile' as const } : sprite)),
   tilesets: [
     {
       id: brand<TilesetId>('tls_000060'),
