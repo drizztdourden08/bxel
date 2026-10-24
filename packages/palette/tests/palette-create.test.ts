@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { describe, expect, it } from 'vitest';
 import { undoLast } from './import-helpers';
-import { execute, makeRig, rejectionCode, snapshotProject, step, succeed } from './palette-engine';
+import { execute, makeRig, rejectionCode, snapshotArtwork, step, succeed } from './palette-engine';
 import type { Rig } from './palette-engine';
 
 const create = (rig: Rig, options: object) => execute(rig, [step('palette.create', options)]);
@@ -15,7 +15,7 @@ describe('palette.create', () => {
     const rig = makeRig();
     const revision = rig.engine.state().revision;
     const result = succeed(execute(rig, [{ ...step('palette.create', base), ref: 'made' }]));
-    const { banks } = rig.engine.state().project;
+    const { banks } = rig.engine.state().artwork;
     const made = banks[1];
     expect(banks).toHaveLength(2);
     expect(made?.slots.map((slot) => (slot.kind === 'color' ? slot.rgb : slot.kind))).toEqual(['transparent', '#ff0000', '#00ff00']);
@@ -28,14 +28,14 @@ describe('palette.create', () => {
   it('labels slot 0 of an opaque bank Background', () => {
     const rig = makeRig();
     succeed(create(rig, { ...base, transparent: false }));
-    const made = rig.engine.state().project.banks[1];
+    const made = rig.engine.state().artwork.banks[1];
     expect(made?.slots.map((slot) => (slot.kind === 'color' ? slot.name : null))).toEqual(['Background', '#00ff00']);
   });
 
   it('accepts a bank that exactly fills its cap', () => {
     const rig = makeRig();
     succeed(create(rig, { ...base, cap: 3 }));
-    expect(rig.engine.state().project.banks[1]?.slots).toHaveLength(3);
+    expect(rig.engine.state().artwork.banks[1]?.slots).toHaveLength(3);
   });
 
   it('warns about a repeated colour and keeps it', () => {
@@ -46,10 +46,10 @@ describe('palette.create', () => {
 
   it('undoes as one step', () => {
     const rig = makeRig();
-    const snapshot = snapshotProject(rig.engine.state().project);
+    const snapshot = snapshotArtwork(rig.engine.state().artwork);
     succeed(create(rig, base));
     succeed(undoLast(rig));
-    expect(snapshotProject(rig.engine.state().project)).toBe(snapshot);
+    expect(snapshotArtwork(rig.engine.state().artwork)).toBe(snapshot);
   });
 
 });

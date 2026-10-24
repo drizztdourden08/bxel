@@ -11,7 +11,7 @@ const paletteResize = defineCommand({
   run: (draft, input) => {
     const { cap } = input.options;
     const bankId = input.options.bankId as BankId;
-    const bank = requireBank(draft.project, bankId);
+    const bank = requireBank(draft.artwork, bankId);
     if (cap < MIN_BANK_CAP || cap > MAX_BANK_CAP) {
       throw fail(ERROR_CODE.CAP_OUT_OF_RANGE, `A bank holds ${MIN_BANK_CAP} to ${MAX_BANK_CAP} slots.`, { path: 'options.cap' });
     }

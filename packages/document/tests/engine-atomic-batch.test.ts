@@ -1,25 +1,25 @@
 /* @layer core @kind test */
 import { describe, expect, it } from 'vitest';
 import { documentId, heartEngine, patchStep, request } from './heart-engine';
-import { snapshotProject } from './snapshot-project';
+import { snapshotArtwork } from './snapshot-artwork';
 
 const undoRequest = (revision: number) => ({ documentId, expectedRevision: revision });
 
 describe('atomic batch', () => {
   it('applies nothing when the third step is invalid', () => {
     const { engine } = heartEngine();
-    const before = snapshotProject(engine.state().project);
+    const before = snapshotArtwork(engine.state().artwork);
     const result = engine.execute(request([patchStep(6), patchStep(5), patchStep(9)]));
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error.step).toBe(2);
-    expect(snapshotProject(engine.state().project)).toBe(before);
+    expect(snapshotArtwork(engine.state().artwork)).toBe(before);
     expect(engine.state().revision).toBe(1);
     expect(engine.canUndo()).toBe(false);
   });
 
   it('paints both hearts by layer name as one history entry', () => {
     const { engine } = heartEngine();
-    const before = snapshotProject(engine.state().project);
+    const before = snapshotArtwork(engine.state().artwork);
     const result = engine.execute(request([patchStep(6)], { label: 'Mark both hearts' }));
     expect(result.ok).toBe(true);
     if (!result.ok) return;
@@ -28,21 +28,21 @@ describe('atomic batch', () => {
     for (const sprite of result.changes.sprites) {
       expect(sprite.cels.map((cel) => cel.rect)).toEqual([{ x: 2, y: 2, width: 2, height: 1 }]);
     }
-    const after = snapshotProject(engine.state().project);
+    const after = snapshotArtwork(engine.state().artwork);
     expect(after).not.toBe(before);
     expect(engine.undo(undoRequest(2)).ok).toBe(true);
-    expect(snapshotProject(engine.state().project)).toBe(before);
+    expect(snapshotArtwork(engine.state().artwork)).toBe(before);
     expect(engine.state().revision).toBe(3);
     expect(engine.canUndo()).toBe(false);
     expect(engine.redo(undoRequest(3)).ok).toBe(true);
-    expect(snapshotProject(engine.state().project)).toBe(after);
+    expect(snapshotArtwork(engine.state().artwork)).toBe(after);
     expect(engine.state().revision).toBe(4);
   });
 
   it('leaves the locked Ink layer untouched', () => {
     const { engine } = heartEngine();
     engine.execute(request([patchStep(6)]));
-    const heartB = engine.state().project.sprites.find((sprite) => sprite.name === 'heart-b');
+    const heartB = engine.state().artwork.sprites.find((sprite) => sprite.name === 'heart-b');
     expect(heartB?.layers.find((layer) => layer.name === 'Ink')?.cels).toEqual({});
     expect(Object.keys(heartB?.cels ?? {})).toHaveLength(1);
   });

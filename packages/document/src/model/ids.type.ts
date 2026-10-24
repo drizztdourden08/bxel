@@ -2,7 +2,7 @@
 type Brand<T, B extends string> = T & { readonly __brand: B };
 
 type DocumentId = Brand<string, 'doc'>;
-type ProjectId = Brand<string, 'prj'>;
+type ArtworkId = Brand<string, 'art'>;
 type BankId = Brand<string, 'bnk'>;
 type SwatchId = Brand<string, 'sw'>;
 type RampId = Brand<string, 'rmp'>;
@@ -28,7 +28,7 @@ export type {
   LayerId,
   MapLayerId,
   PresetId,
-  ProjectId,
+  ArtworkId,
   RampId,
   SheetId,
   SliceId,

@@ -9,7 +9,7 @@ import { updateSprite } from './update-sprite';
 const ensureCel = (draft: Draft, target: ResolvedCel): CelId => {
   if (target.celId) return target.celId;
   const celId = draft.ids.next('cel') as CelId;
-  const pixels = emptyCel(requireSprite(draft.project, target.spriteId));
+  const pixels = emptyCel(requireSprite(draft.artwork, target.spriteId));
   draft.owned.set(celId, pixels);
   updateSprite(draft, target.spriteId, (sprite) => ({
     ...sprite,

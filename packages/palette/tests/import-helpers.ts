@@ -28,7 +28,7 @@ const importOptions = (
 const importStep = (options: object, ref?: string): CommandStep => ({ ...step('sprite.import', options), ...(ref ? { ref } : {}) });
 
 const spriteNamed = (rig: Rig, name: string): Sprite => {
-  const sprite = rig.engine.state().project.sprites.find((candidate) => candidate.name === name);
+  const sprite = rig.engine.state().artwork.sprites.find((candidate) => candidate.name === name);
   if (!sprite) throw new Error(`sprite ${name} is missing`);
   return sprite;
 };

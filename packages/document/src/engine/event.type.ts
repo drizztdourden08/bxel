@@ -12,6 +12,7 @@ type DocumentEvent = {
   readonly previousRevision: number;
   readonly label: string;
   readonly origin: TransactionOrigin;
+  readonly actor: string;
   readonly changes: ChangeSet;
 };
 

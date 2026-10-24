@@ -1,12 +1,12 @@
 /* @layer core @kind logic */
 import { ERROR_CODE, fail, requireSprite } from '@bxel/document';
-import type { CommandInput, Project } from '@bxel/document';
+import type { CommandInput, Artwork } from '@bxel/document';
 import { uncoveredIssues } from './uncovered-issues';
 
-const checkTurnCoverage = (project: Project, input: CommandInput): void => {
+const checkTurnCoverage = (artwork: Artwork, input: CommandInput): void => {
   const details = input.sprites.flatMap((spriteId) =>
     uncoveredIssues(
-      requireSprite(project, spriteId),
+      requireSprite(artwork, spriteId),
       input.cels.filter((cel) => cel.spriteId === spriteId),
     ),
   );

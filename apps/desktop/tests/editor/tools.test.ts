@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it } from 'vitest';
-import { createDefaultProject } from '../../src/documents/create-default-project';
+import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { beginStroke } from '../../src/editor/begin-stroke';
 import { paletteSlots } from '../../src/editor/palette-slots';
 import { PALETTE_TEXT } from '../../src/editor/palette-text.constants';
@@ -92,7 +92,7 @@ describe('the palette', () => {
   });
 
   it('steps the front colour back and forward and wraps at both ends', () => {
-    createDefaultProject(useDocumentStore.getState().host);
+    createDefaultArtwork(useDocumentStore.getState().host);
     useToolStore.getState().setForeground(0);
     stepColour(-1);
     expect(useToolStore.getState().foreground).toBe(15);

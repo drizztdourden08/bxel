@@ -13,7 +13,7 @@ const paletteImport = defineCommand({
   schema: paletteImportSchema,
   run: (draft, input) => {
     const { options } = input;
-    const bank = requireBank(draft.project, options.bankId as BankId);
+    const bank = requireBank(draft.artwork, options.bankId as BankId);
     const colors = options.colors.map((value, at) => checkColor(value, `options.colors.${at}`));
     if (options.mode === 'append') importAppend(draft, bank, colors);
     else importReplace(draft, bank, colors);

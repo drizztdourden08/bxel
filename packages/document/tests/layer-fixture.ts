@@ -1,5 +1,5 @@
 /* @layer core @kind test */
-import type { ProjectFixture } from './fixture-to-project';
+import type { ArtworkFixture } from './fixture-to-artwork';
 import { heartPairFixture } from './heart-pair-fixture';
 
 const shape = () => ({
@@ -12,8 +12,8 @@ const shape = () => ({
   slices: [],
 });
 
-const layerFixture: ProjectFixture = {
-  id: 'prj_000001',
+const layerFixture: ArtworkFixture = {
+  id: 'art_000001',
   name: 'Layers',
   defaultBankId: 'bnk_000002',
   coverSpriteId: null,

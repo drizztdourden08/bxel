@@ -15,7 +15,7 @@ const pixelsShape = defineCommand({
     if ('points' in options) {
       checkPointCount(options.points.length, input.step);
     }
-    checkTargets({ project: draft.project, sprites: input.sprites, index: options.index, mask: options.mask });
+    checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: options.index, mask: options.mask });
     applyToCels(draft, input.cels, (target) => drawShapeOptions(target, options));
   },
 });

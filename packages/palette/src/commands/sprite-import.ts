@@ -15,7 +15,7 @@ const spriteImport = defineCommand({
     const bank = resolveImportBank(draft, input.options.bank);
     const { width, height } = image;
     spriteCreate.run(draft, { ...input, options: { name, width, height, bankId: bank.id, pivot }, sprites: [], cels: [] });
-    const sprite = draft.project.sprites.at(-1);
+    const sprite = draft.artwork.sprites.at(-1);
     if (!sprite) throw fail(ERROR_CODE.TARGET_NOT_FOUND, 'The imported sprite was not created.');
     writeImportCel(draft, sprite, mapImportImage(image, bank, mapping));
   },

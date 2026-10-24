@@ -1,6 +1,6 @@
 /* @layer core @kind config */
 const COMMAND_NAME = {
-  projectUpdate: 'project.update',
+  artworkUpdate: 'artwork.update',
   spriteCreate: 'sprite.create',
   spriteUpdate: 'sprite.update',
   pixelsPatch: 'pixels.patch',

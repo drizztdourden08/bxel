@@ -1,17 +1,17 @@
 /* @layer core @kind test */
-import { counterIdSource, flattenFrame, frameToRgba, projectCreate } from '@bxel/document';
+import { counterIdSource, flattenFrame, frameToRgba, artworkCreate } from '@bxel/document';
 import type { BankId, FrameId } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { brand, fixtureToProject } from './fixture-to-project';
+import { brand, fixtureToArtwork } from './fixture-to-artwork';
 import { heartEngine, request } from './heart-engine';
 import { heartPairFixture } from './heart-pair-fixture';
-import { snapshotProject } from './snapshot-project';
+import { snapshotArtwork } from './snapshot-artwork';
 
 describe('engine round trip', () => {
   it('holds every field and every cel byte of the fixture', () => {
     const { engine } = heartEngine();
-    const expected = fixtureToProject(heartPairFixture);
-    expect(snapshotProject(engine.state().project)).toBe(snapshotProject(expected));
+    const expected = fixtureToArtwork(heartPairFixture);
+    expect(snapshotArtwork(engine.state().artwork)).toBe(snapshotArtwork(expected));
     expect(engine.state().revision).toBe(1);
   });
 
@@ -26,7 +26,7 @@ describe('engine round trip', () => {
 
   it('flattens heart frame 1 to the fixture rows', () => {
     const { engine } = heartEngine();
-    const sprite = engine.state().project.sprites.find((item) => item.name === 'heart');
+    const sprite = engine.state().artwork.sprites.find((item) => item.name === 'heart');
     expect(sprite).toBeDefined();
     if (!sprite) return;
     const flat = flattenFrame(sprite, brand<FrameId>('frm_000012'));
@@ -37,9 +37,9 @@ describe('engine round trip', () => {
 
   it('maps indices to rgba with a transparent slot 0', () => {
     const { engine } = heartEngine();
-    const project = engine.state().project;
-    const sprite = project.sprites.find((item) => item.name === 'heart');
-    const bank = project.banks.find((item) => item.id === brand<BankId>('bnk_000002'));
+    const artwork = engine.state().artwork;
+    const sprite = artwork.sprites.find((item) => item.name === 'heart');
+    const bank = artwork.banks.find((item) => item.id === brand<BankId>('bnk_000002'));
     if (!sprite || !bank) throw new Error('fixture is missing the heart sprite or its bank');
     const rgba = frameToRgba(sprite, bank, brand<FrameId>('frm_000012'));
     expect(Array.from(rgba.subarray(0, 4))).toEqual([0, 0, 0, 0]);
@@ -47,7 +47,7 @@ describe('engine round trip', () => {
   });
 });
 
-describe('project.create', () => {
+describe('artwork.create', () => {
   const options = {
     name: 'Fresh',
     bank: {
@@ -60,39 +60,39 @@ describe('project.create', () => {
   };
 
   it('returns a document at revision 1 with counter ids', () => {
-    const result = projectCreate({ options, ids: counterIdSource() });
+    const result = artworkCreate({ options, ids: counterIdSource() });
     expect(result.ok).toBe(true);
     if (!result.ok) return;
     const { state } = result;
     expect(state.revision).toBe(1);
     expect(state.readOnly).toBe(false);
-    expect(state.project.id).toBe('prj_000001');
-    expect(state.project.defaultBankId).toBe('bnk_000002');
-    expect(state.project.banks[0]?.slots.map((slot) => slot.id)).toEqual(['sw_000003', 'sw_000004', 'sw_000005']);
-    expect(state.project.sprites[0]?.id).toBe('spr_000006');
-    expect(state.project.sprites[0]?.pivot).toEqual({ x2: 8, y2: 8 });
+    expect(state.artwork.id).toBe('art_000001');
+    expect(state.artwork.defaultBankId).toBe('bnk_000002');
+    expect(state.artwork.banks[0]?.slots.map((slot) => slot.id)).toEqual(['sw_000003', 'sw_000004', 'sw_000005']);
+    expect(state.artwork.sprites[0]?.id).toBe('spr_000006');
+    expect(state.artwork.sprites[0]?.pivot).toEqual({ x2: 8, y2: 8 });
     expect(state.documentId).toBe('doc_000009');
-    const first = state.project.banks[0]?.slots[1];
+    const first = state.artwork.banks[0]?.slots[1];
     expect(first?.kind === 'color' ? first.rgb : null).toBe('#140b26');
   });
 
   it('labels slot 0 Background in an opaque bank', () => {
     const opaque = { ...options, bank: { ...options.bank, transparent: false } };
-    const result = projectCreate({ options: opaque, ids: counterIdSource() });
+    const result = artworkCreate({ options: opaque, ids: counterIdSource() });
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    const slot = result.state.project.banks[0]?.slots[0];
-    expect(slot?.kind === 'color' ? slot.name : null).toBe('Night');
+    const slot = result.state.artwork.banks[0]?.slots[0];
+    expect(slot?.kind === 'color' ? slot.name : null).toBe('Background');
     const unnamed = { ...options, bank: { ...options.bank, transparent: false, colors: [{ rgb: '#000000' }] } };
-    const second = projectCreate({ options: unnamed, ids: counterIdSource() });
-    const background = second.ok ? second.state.project.banks[0]?.slots[0] : undefined;
+    const second = artworkCreate({ options: unnamed, ids: counterIdSource() });
+    const background = second.ok ? second.state.artwork.banks[0]?.slots[0] : undefined;
     expect(background?.kind === 'color' ? background.name : null).toBe('Background');
   });
 
   it('rejects bad input with the contract codes and consumes no ids', () => {
     const ids = counterIdSource();
     const code = (patch: object): string | null => {
-      const result = projectCreate({ options: { ...options, ...patch }, ids });
+      const result = artworkCreate({ options: { ...options, ...patch }, ids });
       return result.ok ? null : result.error.code;
     };
     expect(code({ name: '   ' })).toBe('NAME_INVALID');
@@ -103,6 +103,6 @@ describe('project.create', () => {
     expect(code({ sprite: { name: 'hero', width: 0, height: 8 } })).toBe('SIZE_OUT_OF_RANGE');
     expect(code({ sprite: { name: 'hero', width: 8, height: 2049 } })).toBe('SIZE_OUT_OF_RANGE');
     expect(code({ unknown: true })).toBe('INVALID_OPTION');
-    expect(ids.next('prj')).toBe('prj_000001');
+    expect(ids.next('art')).toBe('art_000001');
   });
 });

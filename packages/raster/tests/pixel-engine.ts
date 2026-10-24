@@ -1,14 +1,14 @@
 /* @layer tests @kind logic */
 import { counterIdSource, createEngine, documentCommands } from '@bxel/document';
-import type { CommandStep, DocumentId, Engine, Project, SpriteId, TargetScope, TransactionRequest } from '@bxel/document';
+import type { CommandStep, DocumentId, Engine, Artwork, SpriteId, TargetScope, TransactionRequest } from '@bxel/document';
 import { rasterCommands } from '@bxel/raster';
 import { brand } from './brand';
 
 const documentId = brand<DocumentId>('doc_000001');
 
-const pixelEngine = (project: Project): Engine =>
+const pixelEngine = (artwork: Artwork): Engine =>
   createEngine({
-    state: { documentId, revision: 1, project, readOnly: false },
+    state: { documentId, revision: 1, artwork, readOnly: false },
     ids: counterIdSource(100),
     commands: [...documentCommands, ...rasterCommands],
   });

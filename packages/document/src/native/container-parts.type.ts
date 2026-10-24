@@ -1,8 +1,8 @@
 /* @layer core @kind types */
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 
 type ContainerParts = {
-  readonly project: Project;
+  readonly artwork: Artwork;
   readonly savedAt: number;
   readonly documentBytes: Uint8Array;
   readonly preview: Uint8Array | null;

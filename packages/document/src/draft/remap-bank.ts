@@ -4,7 +4,7 @@ import { recordPending } from '../history/record-pending';
 import { remapCel } from '../pixels/remap-cel';
 import type { BankRemap, Draft } from './draft.type';
 import { snapshotOwned } from './snapshot-owned';
-import { updateProject } from './update-project';
+import { updateArtwork } from './update-artwork';
 
 const remapSprite = (draft: Draft, sprite: Sprite, table: Uint8Array): Sprite => {
   const entries = Object.values(sprite.cels).map((cel) => {
@@ -20,9 +20,9 @@ const remapBank = (draft: Draft, remap: BankRemap): void => {
   recordPending(draft);
   snapshotOwned(draft);
   draft.ops.push({ kind: 'cel-remap', bankId: remap.bankId, forward: remap.forward, inverse: remap.inverse });
-  updateProject(draft, (project) => ({
-    ...project,
-    sprites: project.sprites.map((sprite) => (sprite.bankId === remap.bankId ? remapSprite(draft, sprite, remap.forward) : sprite)),
+  updateArtwork(draft, (artwork) => ({
+    ...artwork,
+    sprites: artwork.sprites.map((sprite) => (sprite.bankId === remap.bankId ? remapSprite(draft, sprite, remap.forward) : sprite)),
   }));
 };
 

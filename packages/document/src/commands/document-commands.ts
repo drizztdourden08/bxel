@@ -8,12 +8,12 @@ import { layerMerge } from './layer/layer-merge';
 import { layerReorder } from './layer/layer-reorder';
 import { layerUpdate } from './layer/layer-update';
 import { pixelsPatch } from './pixels/pixels-patch';
-import { projectUpdate } from './project/project-update';
+import { artworkUpdate } from './artwork/artwork-update';
 import { spriteCreate } from './sprite/sprite-create';
 import { spriteUpdate } from './sprite/sprite-update';
 
 const documentCommands: readonly CommandDef[] = [
-  projectUpdate,
+  artworkUpdate,
   spriteCreate,
   spriteUpdate,
   pixelsPatch,

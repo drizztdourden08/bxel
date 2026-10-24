@@ -1,7 +1,7 @@
 /* @layer core @kind types */
 import type { CommandWarning } from '../commands/result.type';
 import type { CelId, FrameId, LayerId, SpriteId } from '../model/ids.type';
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 import type { Layer, Sprite } from '../model/sprite.type';
 import type { FrameSelector, LayerSelector, SpriteRef, TargetScope } from './target-scope.type';
 
@@ -19,14 +19,14 @@ type ResolvedScope = {
 };
 
 type ResolveScopeInput = {
-  readonly project: Project;
+  readonly artwork: Artwork;
   readonly scope: TargetScope;
   readonly created: Readonly<Record<string, string>>;
   readonly step: number;
 };
 
 type ResolveSpritesInput = {
-  readonly project: Project;
+  readonly artwork: Artwork;
   readonly refs: readonly SpriteRef[];
   readonly created: Readonly<Record<string, string>>;
 };

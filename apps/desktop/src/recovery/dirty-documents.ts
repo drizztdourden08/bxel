@@ -13,7 +13,7 @@ const dirtyDocuments = (
     const view = views[documentId];
     return view === undefined || view.clean
       ? []
-      : [{ documentId, name: documentName(view.state.project.name, pathOf(documentId)) }];
+      : [{ documentId, name: documentName(view.state.artwork.name, pathOf(documentId)) }];
   });
 
 export { dirtyDocuments };

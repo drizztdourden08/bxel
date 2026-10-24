@@ -1,6 +1,6 @@
 /* @layer core @kind test */
-import type { DocumentState, Project } from '@bxel/document';
-import { encodeProject } from '@bxel/document/native';
+import type { DocumentState, Artwork } from '@bxel/document';
+import { encodeArtwork } from '@bxel/document/native';
 import type { LoadReport } from '@bxel/document/native';
 import { heartEngine } from './heart-engine';
 
@@ -10,11 +10,11 @@ const fixedClock = (): number => Date.UTC(2026, 9, 22, 14, 3, 11);
 const heartState = (): DocumentState => heartEngine().engine.state();
 
 const encodeHeart = (state: DocumentState = heartState()): Uint8Array =>
-  encodeProject(state, heartPreview, fixedClock);
+  encodeArtwork(state, heartPreview, fixedClock);
 
-const projectOf = (report: LoadReport): Project => {
-  if (!report.project) throw new Error('The report has no project.');
-  return report.project;
+const artworkOf = (report: LoadReport): Artwork => {
+  if (!report.artwork) throw new Error('The report has no artwork.');
+  return report.artwork;
 };
 
-export { encodeHeart, fixedClock, heartPreview, heartState, projectOf };
+export { encodeHeart, fixedClock, heartPreview, heartState, artworkOf };

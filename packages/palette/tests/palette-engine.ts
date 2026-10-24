@@ -1,12 +1,12 @@
 /* @layer tests @kind test */
-import { counterIdSource, createEngine, documentCommands, projectCreate } from '@bxel/document';
+import { counterIdSource, createEngine, documentCommands, artworkCreate } from '@bxel/document';
 import type {
   BankId,
   CommandStep,
   Engine,
   FrameId,
   PaletteBank,
-  Project,
+  Artwork,
   Sprite,
   SpriteId,
   TransactionResult,
@@ -49,7 +49,7 @@ const makeRig = (rigOptions: RigOptions = {}): Rig => {
   const { transparent = true, cap = 8 } = rigOptions;
   const slotCount = colors.length + (transparent ? 1 : 0);
   const ids = counterIdSource();
-  const created = projectCreate({
+  const created = artworkCreate({
     options: {
       name: 'Palette tests',
       bank: { name: 'Test bank', cap, transparent, colors },
@@ -58,8 +58,8 @@ const makeRig = (rigOptions: RigOptions = {}): Rig => {
     ids,
   });
   if (!created.ok) throw new Error(created.error.message);
-  const sprite = created.state.project.sprites[0];
-  if (!sprite) throw new Error('the created project has no sprite');
+  const sprite = created.state.artwork.sprites[0];
+  if (!sprite) throw new Error('the created artwork has no sprite');
   const engine = createEngine({ state: created.state, ids, commands: [...documentCommands, ...paletteCommands] });
   const rig: Rig = { engine, spriteId: sprite.id, bankId: sprite.bankId };
   succeed(
@@ -75,13 +75,13 @@ const makeRig = (rigOptions: RigOptions = {}): Rig => {
 };
 
 const currentBank = (rig: Rig): PaletteBank => {
-  const bank = rig.engine.state().project.banks.find((candidate) => candidate.id === rig.bankId);
+  const bank = rig.engine.state().artwork.banks.find((candidate) => candidate.id === rig.bankId);
   if (!bank) throw new Error('the bank is missing');
   return bank;
 };
 
 const currentSprite = (rig: Rig): Sprite => {
-  const sprite = rig.engine.state().project.sprites.find((candidate) => candidate.id === rig.spriteId);
+  const sprite = rig.engine.state().artwork.sprites.find((candidate) => candidate.id === rig.spriteId);
   if (!sprite) throw new Error('the sprite is missing');
   return sprite;
 };
@@ -94,15 +94,15 @@ const firstFrame = (sprite: Sprite): FrameId => {
 
 const celBytes = (sprite: Sprite): number[] => Object.values(sprite.cels).flatMap((cel) => Array.from(cel.pixels));
 
-const snapshotProject = (project: Project): string =>
-  JSON.stringify(project, (_key, value: unknown) => (value instanceof Uint8Array ? Buffer.from(value).toString('hex') : value));
+const snapshotArtwork = (artwork: Artwork): string =>
+  JSON.stringify(artwork, (_key, value: unknown) => (value instanceof Uint8Array ? Buffer.from(value).toString('hex') : value));
 
 const rejectionCode = (rig: Rig, run: () => TransactionResult): string | null => {
   const revision = rig.engine.state().revision;
-  const snapshot = snapshotProject(rig.engine.state().project);
+  const snapshot = snapshotArtwork(rig.engine.state().artwork);
   const result = run();
   expect(rig.engine.state().revision).toBe(revision);
-  expect(snapshotProject(rig.engine.state().project)).toBe(snapshot);
+  expect(snapshotArtwork(rig.engine.state().artwork)).toBe(snapshot);
   return result.ok ? null : result.error.code;
 };
 
@@ -121,7 +121,7 @@ export {
   makeRig,
   rejectionCode,
   slotId,
-  snapshotProject,
+  snapshotArtwork,
   step,
   succeed,
 };

@@ -2,14 +2,14 @@
 import { describe, expect, it } from 'vitest';
 import { dirtyDocuments } from '../../src/recovery/dirty-documents';
 import { RECOVERY_TEXT } from '../../src/recovery/recovery.constants';
-import { createProject, harness, paintPixels } from '../files/file-harness';
+import { createArtwork, harness, paintPixels } from '../files/file-harness';
 
 describe('close prompt', () => {
   it('names the documents with unsaved changes, by file name once saved', () => {
     const { host, paths } = harness();
-    const saved = createProject(host);
-    const fresh = createProject(host);
-    const clean = createProject(host);
+    const saved = createArtwork(host);
+    const fresh = createArtwork(host);
+    const clean = createArtwork(host);
     paths.set(saved, 'C:\\art\\hero.bxel');
     paintPixels(host, saved);
     paintPixels(host, fresh);
@@ -34,7 +34,7 @@ describe('close prompt', () => {
 
   it('has nothing to say when every document is saved', () => {
     const { host } = harness();
-    const id = createProject(host);
+    const id = createArtwork(host);
     const view = host.view(id);
     expect(dirtyDocuments(view ? { [id]: view } : {}, [id], () => undefined)).toEqual([]);
   });

@@ -13,7 +13,7 @@ const swatchAdd = defineCommand({
   run: (draft, input) => {
     const { options } = input;
     const bankId = options.bankId as BankId;
-    const bank = requireBank(draft.project, bankId);
+    const bank = requireBank(draft.artwork, bankId);
     const rgb = checkColor(options.rgb, 'options.rgb');
     const name = options.name === undefined ? rgb : checkName(options.name);
     if (bank.slots.length >= bank.cap) {

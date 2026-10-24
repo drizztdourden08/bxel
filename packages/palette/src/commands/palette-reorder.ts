@@ -12,7 +12,7 @@ const paletteReorder = defineCommand({
   schema: paletteReorderSchema,
   run: (draft, input) => {
     const bankId = input.options.bankId as BankId;
-    const bank = requireBank(draft.project, bankId);
+    const bank = requireBank(draft.artwork, bankId);
     const indices = checkOrder(bank, input.options.order);
     if (indices.every((slot, position) => slot === position)) return;
     const { forward, inverse } = buildReorderTables(indices);

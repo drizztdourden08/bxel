@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
 
-const projectOptions = (name: string) => ({
+const artworkOptions = (name: string) => ({
   name,
   bank: {
     name: 'Bank',
@@ -20,14 +20,14 @@ const projectOptions = (name: string) => ({
 });
 
 const openOne = (host: DocumentHost, name: string): DocumentId => {
-  const created = host.create(projectOptions(name));
+  const created = host.create(artworkOptions(name));
   if (!created.ok) throw new Error(created.error.message);
   return created.documentId;
 };
 
 const paint = (host: DocumentHost, documentId: DocumentId, overrides: Partial<TransactionRequest> = {}): TransactionResult => {
   const view = host.view(documentId);
-  const sprite = view?.state.project.sprites[0];
+  const sprite = view?.state.artwork.sprites[0];
   if (!view || !sprite) throw new Error('the document has no sprite');
   return host.execute({
     documentId,
@@ -58,7 +58,7 @@ const collect = (host: DocumentHost): DocumentEvent[] => {
 const newHost = (): DocumentHost => createDocumentHost({ ids: counterIdSource() });
 
 describe('DocumentHost lifecycle', () => {
-  it('opens a project as a clean document at revision 1 and publishes open once', () => {
+  it('opens an artwork as a clean document at revision 1 and publishes open once', () => {
     const host = newHost();
     const events = collect(host);
     const documentId = openOne(host, 'first');
@@ -167,7 +167,7 @@ describe('DocumentHost missing documents', () => {
     expect(host.markSaved(documentId)).toBe(false);
   });
 
-  it('reports a rejected project without opening a document', () => {
+  it('reports a rejected artwork without opening a document', () => {
     const host = newHost();
     const created = host.create({ name: '' });
     expect(created.ok).toBe(false);

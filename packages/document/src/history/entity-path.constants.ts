@@ -1,7 +1,7 @@
 /* @layer core @kind config */
-const META_PATH = 'project.meta';
-const ORDER_PATH = 'project.spriteOrder';
-const COLLECTION_PREFIX = 'project.';
+const META_PATH = 'artwork.meta';
+const ORDER_PATH = 'artwork.spriteOrder';
+const COLLECTION_PREFIX = 'artwork.';
 const SPRITE_PREFIX = 'sprite:';
 const SHELL_PREFIX = 'shell:';
 const CEL_PREFIX = 'cel:';

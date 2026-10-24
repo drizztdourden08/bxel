@@ -18,16 +18,16 @@ describe('palette.delete', () => {
     const rig = makeRig();
     const bankId = createBank(rig, ['#112233', '#445566'], true);
     roundTrip(rig, [step('palette.delete', { bankId })]);
-    expect(rig.engine.state().project.banks.map((bank) => bank.id)).toEqual([rig.bankId]);
+    expect(rig.engine.state().artwork.banks.map((bank) => bank.id)).toEqual([rig.bankId]);
   });
 
   it('refuses the default bank, a bank in use and an unknown bank', () => {
     const rig = makeRig();
-    expect(rejectionCode(rig, () => execute(rig, [step('palette.delete', { bankId: rig.bankId })]))).toBe('INVALID_OPTION');
+    expect(rejectionCode(rig, () => execute(rig, [step('palette.delete', { bankId: rig.bankId })]))).toBe('DEFAULT_BANK');
     const bankId = createBank(rig, ['#112233', '#445566'], true);
     const second = addSprite(rig, 'second', bankId, new Array<number>(16).fill(1));
     const used = step('palette.delete', { bankId });
-    expect(rejectionCode(rig, () => execute(rig, [used]))).toBe('INCOMPATIBLE_TARGETS');
+    expect(rejectionCode(rig, () => execute(rig, [used]))).toBe('BANK_IN_USE');
     const failed = execute(rig, [used]);
     expect(failed.ok ? [] : failed.error.details.map((issue) => issue.spriteId)).toEqual([second]);
     expect(rejectionCode(rig, () => execute(rig, [step('palette.delete', { bankId: 'bnk_zzzzzz' })]))).toBe('TARGET_NOT_FOUND');
@@ -63,14 +63,14 @@ describe('palette.detach', () => {
     const third = addSprite(rig, 'third', rig.bankId, new Array<number>(16).fill(2));
     succeed(execute(rig, [detach(second)]));
     succeed(execute(rig, [detach(third)]));
-    expect(rig.engine.state().project.banks.map((bank) => bank.name)).toEqual(['Test bank', 'Test bank copy', 'Test bank copy 2']);
+    expect(rig.engine.state().artwork.banks.map((bank) => bank.name)).toEqual(['Test bank', 'Test bank copy', 'Test bank copy 2']);
   });
 
   it('takes an explicit name and rejects one already taken', () => {
     const { rig, second } = sharedRig();
     expect(rejectionCode(rig, () => execute(rig, [detach(second, { name: 'TEST BANK' })]))).toBe('NAME_TAKEN');
     succeed(execute(rig, [detach(second, { name: 'Mine' })]));
-    expect(rig.engine.state().project.banks.map((bank) => bank.name)).toEqual(['Test bank', 'Mine']);
+    expect(rig.engine.state().artwork.banks.map((bank) => bank.name)).toEqual(['Test bank', 'Mine']);
   });
 
   it('refuses a sprite that already has its own palette', () => {

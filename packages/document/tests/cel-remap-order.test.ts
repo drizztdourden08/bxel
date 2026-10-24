@@ -7,15 +7,15 @@ import { request } from './heart-engine';
 describe('entity ops stay ordered with remaps and change rects', () => {
   it('undoes a deleted cel and a later palette remap in one transaction exactly', () => {
     const engine = swapEngine();
-    const original = engine.state().project;
+    const original = engine.state().artwork;
     run(engine, 'test.delete-remap');
-    const done = engine.state().project;
+    const done = engine.state().artwork;
     expect(spriteOf(engine).cels[CEL_B]).toBeUndefined();
     expect(pixelsOf(engine, CEL_A).slice(0, 2)).toEqual([2, 1]);
     undo(engine);
-    expect(engine.state().project).toEqual(original);
+    expect(engine.state().artwork).toEqual(original);
     redo(engine);
-    expect(engine.state().project).toEqual(done);
+    expect(engine.state().artwork).toEqual(done);
   });
 
   it('reports the whole cel as changed after a non-square resize', () => {

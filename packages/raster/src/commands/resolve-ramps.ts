@@ -5,12 +5,12 @@ import { rampSlots } from '../shade/ramp-slots';
 import { targetIssue } from './target-issue';
 import type { RampRequest } from './ramp-request.type';
 
-const resolveRamps = ({ project, sprites, name, needs }: RampRequest): Map<SpriteId, readonly number[]> => {
+const resolveRamps = ({ artwork, sprites, name, needs }: RampRequest): Map<SpriteId, readonly number[]> => {
   const found = new Map<SpriteId, readonly number[]>();
   const missing: TargetIssue[] = [];
   const short: TargetIssue[] = [];
   for (const spriteId of sprites) {
-    const slots = rampSlots(requireBank(project, requireSprite(project, spriteId).bankId), name);
+    const slots = rampSlots(requireBank(artwork, requireSprite(artwork, spriteId).bankId), name);
     if (!slots || slots.length === 0) {
       missing.push(targetIssue(spriteId, `the palette has no ramp "${name}" with colors`));
     } else if (slots.length < needs) {

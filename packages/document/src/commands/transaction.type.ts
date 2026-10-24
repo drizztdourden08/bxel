@@ -18,6 +18,7 @@ type TransactionRequest = {
   readonly baseRevision: number;
   readonly mode: TransactionMode;
   readonly origin: TransactionOrigin;
+  readonly actor?: string;
   readonly label: string;
   readonly steps: readonly CommandStep[];
   readonly previewPixels: number;

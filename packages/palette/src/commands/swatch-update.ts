@@ -13,7 +13,7 @@ const swatchUpdate = defineCommand({
     const { options } = input;
     const bankId = options.bankId as BankId;
     const swatchId = options.swatchId as SwatchId;
-    const slot = requireBank(draft.project, bankId).slots.find((candidate) => candidate.id === swatchId);
+    const slot = requireBank(draft.artwork, bankId).slots.find((candidate) => candidate.id === swatchId);
     if (!slot) throw fail(ERROR_CODE.TARGET_NOT_FOUND, `Swatch ${swatchId} is not in bank ${bankId}.`, { path: 'options.swatchId' });
     if (slot.kind === 'transparent') {
       throw fail(ERROR_CODE.TRANSPARENT_SLOT_FIXED, 'The transparent swatch cannot be edited.', { path: 'options.swatchId' });

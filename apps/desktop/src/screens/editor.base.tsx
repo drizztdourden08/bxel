@@ -2,13 +2,13 @@
 import type { ScreenMeta } from '@drizztdourden08/brock-react';
 import { useEditorNotices } from '../hooks/useEditorNotices';
 import { useOpenedFiles } from '../hooks/useOpenedFiles';
-import { useProjectTitle } from '../hooks/useProjectTitle';
+import { useArtworkTitle } from '../hooks/useArtworkTitle';
 import { EditorScreen } from '../views/EditorScreen';
 
 const meta: ScreenMeta = { title: 'Editor', icon: 'pencil' };
 
 const EditorBase = () => {
-  useProjectTitle();
+  useArtworkTitle();
   useOpenedFiles();
   useEditorNotices();
   return <EditorScreen />;

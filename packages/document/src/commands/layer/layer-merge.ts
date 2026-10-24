@@ -11,7 +11,7 @@ const layerMerge = defineCommand({
   scope: 'sprites',
   schema: layerMergeSchema,
   run: (draft, input) => {
-    const picked = pickLayers(draft.project, input.sprites, input.options.layer);
+    const picked = pickLayers(draft.artwork, input.sprites, input.options.layer);
     checkMerge(picked, input.options.allowLocked);
     for (const { sprite, layer, index } of picked) {
       const below = sprite.layers[index - 1];

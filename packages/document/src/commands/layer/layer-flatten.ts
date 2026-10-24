@@ -26,7 +26,7 @@ const flatCels = (draft: Draft, sprite: Sprite): Record<FrameId, CelId> => {
 };
 
 const flattenSprite = (draft: Draft, spriteId: SpriteId, requested: string | undefined): LayerId => {
-  const sprite = requireSprite(draft.project, spriteId);
+  const sprite = requireSprite(draft.artwork, spriteId);
   const names = sprite.layers.map((item) => item.name);
   const layer: Layer = {
     id: draft.ids.next('lay') as LayerId,
@@ -44,7 +44,7 @@ const layerFlatten = defineCommand({
   scope: 'sprites',
   schema: layerFlattenSchema,
   run: (draft, input) => {
-    const hidden = input.sprites.filter((id) => !requireSprite(draft.project, id).layers.some((layer) => layer.visible));
+    const hidden = input.sprites.filter((id) => !requireSprite(draft.artwork, id).layers.some((layer) => layer.visible));
     failIfAny(
       ERROR_CODE.TARGET_EMPTY,
       'Flatten needs at least one visible layer in every target sprite.',

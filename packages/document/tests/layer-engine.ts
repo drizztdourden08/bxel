@@ -10,8 +10,8 @@ import type {
   TransactionResult,
 } from '@bxel/document';
 import { expect } from 'vitest';
-import { canonicalProject } from './canonical-project';
-import { brand, fixtureToProject } from './fixture-to-project';
+import { canonicalArtwork } from './canonical-artwork';
+import { brand, fixtureToArtwork } from './fixture-to-artwork';
 import { documentId, request } from './heart-engine';
 import { layerFixture } from './layer-fixture';
 
@@ -21,7 +21,7 @@ const LONELY = brand<SpriteId>('spr_000300');
 
 const layerEngine = (): Engine =>
   createEngine({
-    state: { documentId, revision: 1, project: fixtureToProject(layerFixture), readOnly: false },
+    state: { documentId, revision: 1, artwork: fixtureToArtwork(layerFixture), readOnly: false },
     ids: counterIdSource(500),
     commands: documentCommands,
   });
@@ -42,19 +42,19 @@ const apply = (engine: Engine, step: CommandStep): TransactionOk => {
 };
 
 const rejection = (engine: Engine, step: CommandStep) => {
-  const before = canonicalProject(engine.state().project);
+  const before = canonicalArtwork(engine.state().artwork);
   const revision = engine.state().revision;
   const undoable = engine.canUndo();
   const result: TransactionResult = engine.execute(request([step], { baseRevision: revision }));
   expect(engine.state().revision).toBe(revision);
-  expect(canonicalProject(engine.state().project)).toBe(before);
+  expect(canonicalArtwork(engine.state().artwork)).toBe(before);
   expect(engine.canUndo()).toBe(undoable);
   if (result.ok) throw new Error('the request was accepted');
   return result.error;
 };
 
 const sprite = (engine: Engine, id: SpriteId = MUSHROOM): Sprite => {
-  const found = engine.state().project.sprites.find((item) => item.id === id);
+  const found = engine.state().artwork.sprites.find((item) => item.id === id);
   if (!found) throw new Error(`no sprite ${id}`);
   return found;
 };
@@ -73,16 +73,16 @@ const layerOf = (engine: Engine, name: string, id: SpriteId = MUSHROOM): Layer =
 const undoRequest = (engine: Engine) => ({ documentId, expectedRevision: engine.state().revision });
 
 const expectUndoRedo = (engine: Engine, step: CommandStep): void => {
-  const before = canonicalProject(engine.state().project);
+  const before = canonicalArtwork(engine.state().artwork);
   const undoable = engine.canUndo();
   apply(engine, step);
-  const after = canonicalProject(engine.state().project);
+  const after = canonicalArtwork(engine.state().artwork);
   expect(after).not.toBe(before);
   expect(engine.undo(undoRequest(engine)).ok).toBe(true);
-  expect(canonicalProject(engine.state().project)).toBe(before);
+  expect(canonicalArtwork(engine.state().artwork)).toBe(before);
   expect(engine.canUndo()).toBe(undoable);
   expect(engine.redo(undoRequest(engine)).ok).toBe(true);
-  expect(canonicalProject(engine.state().project)).toBe(after);
+  expect(canonicalArtwork(engine.state().artwork)).toBe(after);
 };
 
 export { LONELY, MUSHROOM, MUSHROOM_B, apply, celPixels, expectUndoRedo, layerEngine, layerNames, layerOf, layerStep, named, rejection, sprite };

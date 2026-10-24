@@ -10,7 +10,7 @@ const MENU_TEXT = {
   tiled: 'Tiled preview',
   mirrorX: 'Mirror horizontally (X)',
   mirrorY: 'Mirror vertically (Y)',
-  noDocument: 'Open or create a project first.',
+  noDocument: 'Open or create a file first.',
 } as const;
 
 const MENU_KEYS = {

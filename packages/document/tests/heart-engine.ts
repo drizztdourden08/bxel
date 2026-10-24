@@ -10,7 +10,7 @@ import type {
   TargetScope,
   TransactionRequest,
 } from '@bxel/document';
-import { brand, fixtureToProject } from './fixture-to-project';
+import { brand, fixtureToArtwork } from './fixture-to-artwork';
 import { heartPairFixture } from './heart-pair-fixture';
 
 const documentId = brand<DocumentId>('doc_000001');
@@ -24,7 +24,7 @@ const bothHearts: TargetScope = {
 const heartEngine = (limits?: HistoryLimits): { engine: Engine; ids: IdSource } => {
   const ids = counterIdSource(100);
   const engine = createEngine({
-    state: { documentId, revision: 1, project: fixtureToProject(heartPairFixture), readOnly: false },
+    state: { documentId, revision: 1, artwork: fixtureToArtwork(heartPairFixture), readOnly: false },
     ids,
     commands: documentCommands,
     limits,

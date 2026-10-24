@@ -15,7 +15,7 @@ const pixelsStamp = defineCommand({
   run: (draft, input) => {
     const { patch, points, anchor, skipZero, mask } = input.options;
     checkPointCount(points.length, input.step);
-    checkTargets({ project: draft.project, sprites: input.sprites, index: maxIndex(patch.pixels), mask });
+    checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: maxIndex(patch.pixels), mask });
     applyToCels(draft, uniqueCels(input.cels), (target) =>
       stampPatch({ target, patch, points, anchor, skipZero, mask }),
     );

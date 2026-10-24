@@ -1,6 +1,6 @@
 /* @layer core @kind config */
 const ID_PREFIX = {
-  project: 'prj',
+  artwork: 'art',
   bank: 'bnk',
   swatch: 'sw',
   ramp: 'rmp',

@@ -6,8 +6,8 @@ import { spriteOps } from './sprite-ops';
 
 const recordPending = (draft: Draft): void => {
   flushCels(draft);
-  draft.ops.push(...collectionOps(draft.recorded, draft.project), ...spriteOps(draft.recorded, draft.project));
-  draft.recorded = draft.project;
+  draft.ops.push(...collectionOps(draft.recorded, draft.artwork), ...spriteOps(draft.recorded, draft.artwork));
+  draft.recorded = draft.artwork;
 };
 
 export { recordPending };

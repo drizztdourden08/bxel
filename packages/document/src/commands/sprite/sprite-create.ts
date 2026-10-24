@@ -21,11 +21,11 @@ const spriteCreate = defineCommand({
     const name = checkName(options.name);
     checkSize(options);
     assertNameFree(
-      draft.project.sprites.map((sprite) => sprite.name),
+      draft.artwork.sprites.map((sprite) => sprite.name),
       name,
     );
-    const bankId = (options.bankId ?? draft.project.defaultBankId) as BankId;
-    requireBank(draft.project, bankId);
+    const bankId = (options.bankId ?? draft.artwork.defaultBankId) as BankId;
+    requireBank(draft.artwork, bankId);
     if (options.pivot) checkPivot(options.pivot, options);
     const sprite = buildSprite({ ids: draft.ids, name, width: options.width, height: options.height, bankId, pivot: options.pivot ?? null });
     addSprite(draft, sprite);

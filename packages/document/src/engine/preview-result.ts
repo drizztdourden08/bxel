@@ -7,7 +7,7 @@ import { isEmptyChanges } from './is-empty-changes';
 import { okResult } from './ok-result';
 
 const previewResult = ({ store, draft, request }: DraftRun): TransactionResult => {
-  const changes = computeChanges(store.project, draft.project);
+  const changes = computeChanges(store.artwork, draft.artwork);
   return okResult({
     mode: 'preview',
     baseRevision: request.baseRevision,
@@ -16,7 +16,8 @@ const previewResult = ({ store, draft, request }: DraftRun): TransactionResult =
     noop: isEmptyChanges(changes),
     warnings: draft.warnings,
     created: draft.created,
-    preview: buildPreview({ project: draft.project, changes, previewPixels: request.previewPixels }),
+    report: draft.report,
+    preview: buildPreview({ artwork: draft.artwork, changes, previewPixels: request.previewPixels }),
   });
 };
 

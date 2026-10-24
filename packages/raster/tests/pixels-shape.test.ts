@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest';
 import { blankBuffer } from './blank-buffer';
 import { pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
 import { createdCelRows, errorOf, okOf } from './result-checks';
-import { emptyProject, rowsIds } from './rows-project';
+import { emptyArtwork, rowsIds } from './rows-artwork';
 import { toRows } from './to-rows';
 
 const FROM = { x: 1, y: 1 };
@@ -15,9 +15,9 @@ const shapeRequest = (options: Record<string, unknown>) =>
   request([stepOf('pixels.shape', scopeOf([rowsIds.sprite]), { from: FROM, to: TO, index: 2, ...options })]);
 
 const drawn = (shape: ShapeKind, filled: boolean): string[] => {
-  const engine = pixelEngine(emptyProject(8, 6));
+  const engine = pixelEngine(emptyArtwork(8, 6));
   okOf(engine.execute(shapeRequest({ shape, filled })));
-  return createdCelRows(engine.state().project, rowsIds.sprite);
+  return createdCelRows(engine.state().artwork, rowsIds.sprite);
 };
 
 const direct = (shape: ShapeKind, filled: boolean): string[] => {
@@ -46,13 +46,13 @@ describe('pixels.shape', () => {
   });
 
   test('clips a shape that leaves the sprite', () => {
-    const engine = pixelEngine(emptyProject(4, 4));
+    const engine = pixelEngine(emptyArtwork(4, 4));
     okOf(engine.execute(shapeRequest({ shape: 'rect', filled: true, from: { x: -2, y: -2 }, to: { x: 1, y: 1 } })));
-    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual(['22..', '22..', '....', '....']);
+    expect(createdCelRows(engine.state().artwork, rowsIds.sprite)).toEqual(['22..', '22..', '....', '....']);
   });
 
   test('rejects an unknown shape and an index at the palette size', () => {
-    const engine = pixelEngine(emptyProject(4, 4));
+    const engine = pixelEngine(emptyArtwork(4, 4));
     expect(errorOf(engine.execute(shapeRequest({ shape: 'blob' }))).path).toBe('steps.0.options.shape');
     expect(errorOf(engine.execute(shapeRequest({ shape: 'line', index: 7 }))).code).toBe('INDEX_OUT_OF_RANGE');
   });

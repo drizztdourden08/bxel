@@ -15,7 +15,7 @@ const createEngine = (options: EngineOptions): Engine => {
     limits: options.limits ?? DEFAULT_HISTORY_LIMITS,
     listeners: new Set(),
     revision: options.state.revision,
-    project: options.state.project,
+    artwork: options.state.artwork,
     ids: options.ids,
     history: options.unsaved === true ? { ...emptyHistory(), savedCursor: null } : emptyHistory(),
     nextEntryId: 1,
@@ -25,7 +25,7 @@ const createEngine = (options: EngineOptions): Engine => {
     state: () => ({
       documentId: store.documentId,
       revision: store.revision,
-      project: store.project,
+      artwork: store.artwork,
       readOnly: store.readOnly,
     }),
     execute: (request) => executeTransaction(store, request),

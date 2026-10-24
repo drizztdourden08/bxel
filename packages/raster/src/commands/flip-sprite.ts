@@ -7,7 +7,7 @@ import { reorientSprite } from './reorient-sprite';
 import { uniqueCels } from './unique-cels';
 
 const flipSprite = (draft: Draft, spriteId: SpriteId, cels: readonly ResolvedCel[], orientation: Orientation): void => {
-  const sprite = requireSprite(draft.project, spriteId);
+  const sprite = requireSprite(draft.artwork, spriteId);
   const { width, height } = sprite;
   for (const { celId } of uniqueCels(cels)) {
     if (celId) {

@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { defineCommand, registerRef, updateProject } from '@bxel/document';
+import { defineCommand, registerRef, updateArtwork } from '@bxel/document';
 import { buildNewBank } from './build-new-bank';
 import { PALETTE_COMMAND_NAME } from './palette-command-name.constants';
 import { paletteColors } from './palette-colors';
@@ -13,7 +13,7 @@ const paletteCreate = defineCommand({
   run: (draft, input) => {
     const bank = buildNewBank(draft.ids, input.options);
     warnDuplicates(draft, bank.name, paletteColors(bank));
-    updateProject(draft, (project) => ({ ...project, banks: [...project.banks, bank] }));
+    updateArtwork(draft, (artwork) => ({ ...artwork, banks: [...artwork.banks, bank] }));
     registerRef(draft, input.ref, bank.id);
   },
 });

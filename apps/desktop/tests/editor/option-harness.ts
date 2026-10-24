@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import type { Point } from '@bxel/raster';
-import { createDefaultProject } from '../../src/documents/create-default-project';
+import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { currentTarget } from '../../src/editor/current-target';
 import type { EditorTarget, StrokeSession } from '../../src/editor/editor.type';
 import { extendStroke } from '../../src/editor/extend-stroke';
@@ -34,7 +34,7 @@ const penStroke = (start: Point, ...more: Point[]): StrokeSession => {
 
 const resetEditor = (): void => {
   useToolStore.setState({ ...TOOL_DEFAULTS });
-  createDefaultProject(useDocumentStore.getState().host);
+  createDefaultArtwork(useDocumentStore.getState().host);
 };
 
 export { flat, live, penStroke, resetEditor, tools };

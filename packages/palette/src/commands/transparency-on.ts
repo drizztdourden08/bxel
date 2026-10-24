@@ -17,7 +17,7 @@ const transparencyOn = (draft: Draft, bank: PaletteBank, fillBackground: boolean
   for (let at = 1; at < bank.slots.length; at += 1) table[at] = at + 1;
   remapSprites(
     draft,
-    bankSprites(draft.project, bank.id).map((sprite) => sprite.id),
+    bankSprites(draft.artwork, bank.id).map((sprite) => sprite.id),
     table,
   );
   const lead: Swatch = { id: draft.ids.next('sw') as SwatchId, kind: 'transparent' };

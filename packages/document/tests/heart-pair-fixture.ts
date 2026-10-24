@@ -1,8 +1,8 @@
 /* @layer core @kind test */
-import type { ProjectFixture } from './fixture-to-project';
+import type { ArtworkFixture } from './fixture-to-artwork';
 
-const heartPairFixture: ProjectFixture = {
-  id: 'prj_000001',
+const heartPairFixture: ArtworkFixture = {
+  id: 'art_000001',
   name: 'Heart pair',
   defaultBankId: 'bnk_000002',
   coverSpriteId: 'spr_000010',

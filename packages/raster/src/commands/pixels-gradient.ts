@@ -15,9 +15,9 @@ const pixelsGradient = defineCommand({
   schema: pixelsGradientSchema,
   run: (draft, input) => {
     const { ramp, first, last, line, mode, dither, origin, mask } = input.options;
-    checkTargets({ project: draft.project, sprites: input.sprites, index: 0, mask });
+    checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: 0, mask });
     const needs = Math.max(first ?? 0, last ?? 0) + 1;
-    const ramps = resolveRamps({ project: draft.project, sprites: input.sprites, name: ramp, needs });
+    const ramps = resolveRamps({ artwork: draft.artwork, sprites: input.sprites, name: ramp, needs });
     for (const [spriteId, slots] of ramps) {
       const colors = rampRun(slots, first, last);
       const bayer = mode === 'dither' ? dither : null;

@@ -1,14 +1,14 @@
 /* @layer core @kind logic */
 import type { Sprite } from '../model/sprite.type';
 import type { Tilemap } from '../model/tilemap.type';
-import type { BuiltProject } from './built-project.type';
+import type { BuiltArtwork } from './built-artwork.type';
 import type { DocumentJson } from './document-json.type';
 import type { EntryCheck } from './entry-check.type';
 import type { DamagedCel, LoadIssue } from './load-report.type';
 import { restoreSprite } from './restore-sprite';
 import { restoreTilemap } from './restore-tilemap';
 
-const fromDocumentJson = (document: DocumentJson, source: EntryCheck): BuiltProject => {
+const fromDocumentJson = (document: DocumentJson, source: EntryCheck): BuiltArtwork => {
   const sprites: Sprite[] = [];
   const damage: DamagedCel[] = [];
   for (const shell of document.sprites) {
@@ -25,7 +25,7 @@ const fromDocumentJson = (document: DocumentJson, source: EntryCheck): BuiltProj
     if (restored.ok) tilemaps.push(restored.value);
     else issues.push(...restored.issues);
   }
-  const project = {
+  const artwork = {
     id: document.id,
     name: document.name,
     defaultBankId: document.defaultBankId,
@@ -37,7 +37,7 @@ const fromDocumentJson = (document: DocumentJson, source: EntryCheck): BuiltProj
     tilesets: document.tilesets,
     tilemaps,
   };
-  return { project, damage, issues };
+  return { artwork, damage, issues };
 };
 
 export { fromDocumentJson };

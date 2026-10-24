@@ -5,14 +5,14 @@ import { describe, expect, it } from 'vitest';
 describe('id sources', () => {
   it('counts with one shared counter', () => {
     const ids = counterIdSource();
-    expect(ids.next('prj')).toBe('prj_000001');
+    expect(ids.next('art')).toBe('art_000001');
     expect(ids.next('bnk')).toBe('bnk_000002');
     expect(ids.next('sw')).toBe('sw_000003');
   });
 
   it('forks without advancing the parent', () => {
     const ids = counterIdSource();
-    ids.next('prj');
+    ids.next('art');
     const fork = forkIdSource(ids);
     expect(fork.next('spr')).toBe('spr_000002');
     expect(fork.next('spr')).toBe('spr_000003');

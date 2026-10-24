@@ -13,7 +13,7 @@ const pixelsClear = defineCommand({
   schema: pixelsClearSchema,
   run: (draft, input) => {
     const { mask } = input.options;
-    checkTargets({ project: draft.project, sprites: input.sprites, index: 0, mask });
+    checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: 0, mask });
     applyToCels(draft, uniqueCels(input.cels), (target) => clearRegion(target, mask));
   },
 });

@@ -1,8 +1,8 @@
 /* @layer core @kind test */
 import { counterIdSource, createEngine, defineCommand, documentCommands, remapBank, resizeSprite, updateSprite } from '@bxel/document';
-import type { BankId, Cel, CelId, CommandDef, Engine, Project, SpriteId } from '@bxel/document';
+import type { BankId, Cel, CelId, CommandDef, Engine, Artwork, SpriteId } from '@bxel/document';
 import { z } from 'zod';
-import { brand, fixtureToProject } from './fixture-to-project';
+import { brand, fixtureToArtwork } from './fixture-to-artwork';
 import { documentId } from './heart-engine';
 import { heartPairFixture } from './heart-pair-fixture';
 
@@ -14,7 +14,7 @@ const PIXELS_B = Uint8Array.from([6, 5, 4, 3, 2, 1, 6, 5]);
 const TURNED_A = Uint8Array.from([5, 1, 6, 2, 1, 3, 1, 2]);
 const TURNED_B = Uint8Array.from([2, 6, 1, 5, 6, 4, 5, 3]);
 
-const wideProject = (): Project => {
+const wideArtwork = (): Artwork => {
   const [heart] = heartPairFixture.sprites;
   if (!heart) throw new Error('the heart fixture is missing');
   const sprite = {
@@ -24,7 +24,7 @@ const wideProject = (): Project => {
     pivot: { x2: 3, y2: 1 },
     cels: { cel_000014: { rows: ['1234', '5612'] }, cel_000015: { rows: ['6543', '2165'] } },
   };
-  return fixtureToProject({ ...heartPairFixture, sprites: [sprite], sheets: [], presets: [] });
+  return fixtureToArtwork({ ...heartPairFixture, sprites: [sprite], sheets: [], presets: [] });
 };
 
 const swapCommand = (name: string, run: CommandDef['run']): CommandDef =>
@@ -77,7 +77,7 @@ const swapCommands: readonly CommandDef[] = [
 
 const swapEngine = (): Engine =>
   createEngine({
-    state: { documentId, revision: 1, project: wideProject(), readOnly: false },
+    state: { documentId, revision: 1, artwork: wideArtwork(), readOnly: false },
     ids: counterIdSource(100),
     commands: [...documentCommands, ...swapCommands],
   });

@@ -5,11 +5,12 @@ const createDraft = ({ base, ids }: DraftInput): Draft => ({
   base,
   ids,
   created: {},
+  report: {},
   warnings: [],
   owned: new Map(),
   baselines: new Map(),
   ops: [],
-  project: base,
+  artwork: base,
   recorded: base,
   step: 0,
 });

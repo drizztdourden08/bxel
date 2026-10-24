@@ -25,7 +25,7 @@ const transparencyOff = (draft: Draft, bank: PaletteBank, replacementId: string 
   if (bank.slots.length < 2) {
     throw fail(ERROR_CODE.INVALID_COLOR, 'An opaque bank needs a Background colour.', { path: 'options.transparent' });
   }
-  const sprites = bankSprites(draft.project, bank.id);
+  const sprites = bankSprites(draft.artwork, bank.id);
   const table = identityTable();
   table[0] = emptyTarget(bank, bankUsage(sprites)[0] ?? 0, replacementId);
   for (let at = 1; at < bank.slots.length; at += 1) table[at] = at - 1;

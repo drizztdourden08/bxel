@@ -17,8 +17,8 @@ const pixelsShade = defineCommand({
   run: (draft, input) => {
     const { ramp, direction, steps, mask, ...stroke } = input.options;
     checkPointCount(stroke.points.length, input.step);
-    checkTargets({ project: draft.project, sprites: input.sprites, index: 0, mask });
-    const ramps = resolveRamps({ project: draft.project, sprites: input.sprites, name: ramp, needs: 1 });
+    checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: 0, mask });
+    const ramps = resolveRamps({ artwork: draft.artwork, sprites: input.sprites, name: ramp, needs: 1 });
     for (const [spriteId, slots] of ramps) {
       const table = shadeTable({ slots, direction, steps });
       applyToCels(draft, spriteCels(input.cels, spriteId), (target) => shadeStroke({ ...stroke, target, table, mask }));

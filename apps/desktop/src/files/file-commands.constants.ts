@@ -7,7 +7,7 @@ import { runFileAction } from './run-file-action';
 const FILE_COMMANDS: readonly CommandDef[] = [
   {
     id: FILE_COMMAND.open,
-    label: 'Open project',
+    label: 'Open file',
     icon: 'folder-open',
     group: FILE_TEXT.group,
     chord: 'Mod+O',
@@ -17,7 +17,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
   },
   {
     id: FILE_COMMAND.save,
-    label: 'Save project',
+    label: 'Save file',
     icon: 'save',
     group: FILE_TEXT.group,
     chord: 'Mod+S',
@@ -28,7 +28,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
   },
   {
     id: FILE_COMMAND.saveAs,
-    label: 'Save project as',
+    label: 'Save file as',
     icon: 'save',
     group: FILE_TEXT.group,
     chord: 'Mod+Shift+S',

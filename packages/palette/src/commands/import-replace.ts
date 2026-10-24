@@ -7,7 +7,7 @@ import { updateBank } from './update-bank';
 import { warnDuplicates } from './warn-duplicates';
 
 const importReplace = (draft: Draft, bank: PaletteBank, colors: readonly Rgb[]): void => {
-  checkReplacement(draft.project, bank, colors.length);
+  checkReplacement(draft.artwork, bank, colors.length);
   const floor = bank.transparent ? 1 : 0;
   const body = colors.map((rgb, at) => recolorSwatch(draft.ids, bank.slots[floor + at], rgb, !bank.transparent && at === 0));
   const dropped = bank.slots.slice(floor + colors.length);

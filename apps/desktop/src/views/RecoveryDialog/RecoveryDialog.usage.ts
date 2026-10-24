@@ -4,7 +4,7 @@ import type { ComponentUsage } from '@drizztdourden08/tessera';
 const usage = {
   job: 'Asks at start whether to restore, discard or postpone the unsaved work that an earlier session left behind.',
   useWhen: [
-    'The app starts and recovery copies of unsaved projects exist from the last session.',
+    'The app starts and recovery copies of unsaved files exist from the last session.',
     'The person must choose between restoring the copy, discarding it and deciding later.',
   ],
   avoidWhen: [

@@ -1,5 +1,5 @@
 /* @layer core @kind types */
-import type { ProjectId } from '../model/ids.type';
+import type { ArtworkId } from '../model/ids.type';
 
 type ManifestEntry = { readonly path: string; readonly length: number; readonly crc32: string };
 
@@ -9,7 +9,7 @@ type Manifest = {
   readonly minReaderVersion: number;
   readonly writer: { readonly app: string; readonly version: string };
   readonly savedAt: string;
-  readonly projectId: ProjectId;
+  readonly artworkId: ArtworkId;
   readonly document: string;
   readonly preview: string | null;
   readonly entries: readonly ManifestEntry[];

@@ -14,10 +14,10 @@ const pixelsPatch = defineCommand({
   schema: pixelsPatchSchema,
   run: (draft, input) => {
     const { rect, pixels, skipZero } = input.options;
-    checkPatch(draft.project, input.options, input.sprites);
+    checkPatch(draft.artwork, input.options, input.sprites);
     for (const target of input.cels) {
       const celId = ensureCel(draft, target);
-      const stride = requireSprite(draft.project, target.spriteId).width;
+      const stride = requireSprite(draft.artwork, target.spriteId).width;
       writeRect({ target: writableCel(draft, target.spriteId, celId), stride, rect, pixels, skipZero });
     }
   },

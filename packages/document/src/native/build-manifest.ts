@@ -18,13 +18,13 @@ const entryOf = (path: string, bytes: Uint8Array): ManifestEntry => ({
 
 const savedAtOf = (milliseconds: number): string => new Date(milliseconds).toISOString().replace(/\.\d{3}Z$/, 'Z');
 
-const buildManifest = ({ project, savedAt, documentBytes, preview, blobs }: ContainerParts): Manifest => ({
+const buildManifest = ({ artwork, savedAt, documentBytes, preview, blobs }: ContainerParts): Manifest => ({
   format: FORMAT_NAME,
   formatVersion: FORMAT_VERSION,
   minReaderVersion: MIN_READER_VERSION,
   writer: WRITER,
   savedAt: savedAtOf(savedAt),
-  projectId: project.id,
+  artworkId: artwork.id,
   document: ENTRY.document,
   preview: preview ? ENTRY.preview : null,
   entries: [

@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { defineCommand, ERROR_CODE, fail, requireBank, updateProject } from '@bxel/document';
+import { defineCommand, ERROR_CODE, fail, requireBank, updateArtwork } from '@bxel/document';
 import type { BankId } from '@bxel/document';
 import { bankSprites } from './bank-sprites';
 import { PALETTE_COMMAND_NAME } from './palette-command-name.constants';
@@ -10,21 +10,21 @@ const paletteDelete = defineCommand({
   scope: 'none',
   schema: paletteDeleteSchema,
   run: (draft, input) => {
-    const bank = requireBank(draft.project, input.options.bankId as BankId);
-    if (bank.id === draft.project.defaultBankId) {
-      throw fail(ERROR_CODE.INVALID_OPTION, 'The default palette cannot be deleted.', { path: 'options.bankId' });
+    const bank = requireBank(draft.artwork, input.options.bankId as BankId);
+    if (bank.id === draft.artwork.defaultBankId) {
+      throw fail(ERROR_CODE.DEFAULT_BANK, 'The default palette cannot be deleted.', { path: 'options.bankId' });
     }
-    const users = bankSprites(draft.project, bank.id);
+    const users = bankSprites(draft.artwork, bank.id);
     if (users.length > 0) {
-      throw fail(ERROR_CODE.INCOMPATIBLE_TARGETS, `${users.length} sprites still use palette "${bank.name}".`, {
+      throw fail(ERROR_CODE.BANK_IN_USE, `${users.length} sprites still use palette "${bank.name}".`, {
         path: 'options.bankId',
         details: users.map((sprite) => ({ spriteId: sprite.id, layerId: null, frameId: null, reason: 'uses this palette' })),
       });
     }
-    if (draft.project.tilesets.some((tileset) => tileset.bankId === bank.id)) {
-      throw fail(ERROR_CODE.INCOMPATIBLE_TARGETS, `A tileset still uses palette "${bank.name}".`, { path: 'options.bankId' });
+    if (draft.artwork.tilesets.some((tileset) => tileset.bankId === bank.id)) {
+      throw fail(ERROR_CODE.BANK_IN_USE, `A tileset still uses palette "${bank.name}".`, { path: 'options.bankId' });
     }
-    updateProject(draft, (project) => ({ ...project, banks: project.banks.filter((other) => other.id !== bank.id) }));
+    updateArtwork(draft, (artwork) => ({ ...artwork, banks: artwork.banks.filter((other) => other.id !== bank.id) }));
   },
 });
 

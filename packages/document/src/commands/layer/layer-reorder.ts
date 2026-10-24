@@ -14,7 +14,7 @@ const layerReorder = defineCommand({
   schema: layerReorderSchema,
   run: (draft, input) => {
     const { layer: ref, to } = input.options;
-    const picked = pickLayers(draft.project, input.sprites, ref);
+    const picked = pickLayers(draft.artwork, input.sprites, ref);
     failIfAny(
       ERROR_CODE.INDEX_OUT_OF_RANGE,
       'The position is at or above the number of layers.',

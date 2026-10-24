@@ -14,7 +14,7 @@ const swatchMerge = defineCommand({
   schema: swatchMergeSchema,
   run: (draft, input) => {
     const { options } = input;
-    const bank = requireBank(draft.project, options.bankId as BankId);
+    const bank = requireBank(draft.artwork, options.bankId as BankId);
     const removed = slotIndex(bank, options.from, 'options.from');
     checkRemovable(bank, removed, 'options.from');
     const replacement = replacementIndex(bank, options.into, removed, 'options.into');

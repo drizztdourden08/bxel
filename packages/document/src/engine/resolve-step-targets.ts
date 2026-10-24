@@ -23,13 +23,13 @@ const resolveStepTargets = ({
   const path = `steps.${index}.targets`;
   if (!targets) throw fail(ERROR_CODE.INVALID_OPTION, 'This command needs targets.', { path });
   if (scope === 'sprite' || scope === 'sprites') {
-    const sprites = resolveSprites({ project: draft.project, refs: targets.sprites, created: draft.created });
+    const sprites = resolveSprites({ artwork: draft.artwork, refs: targets.sprites, created: draft.created });
     if (scope === 'sprite' && sprites.length !== 1) {
       throw fail(ERROR_CODE.INVALID_OPTION, 'This command targets exactly one sprite.', { path });
     }
     return { sprites, cels: [] };
   }
-  const resolved = resolveScope({ project: draft.project, scope: targets, created: draft.created, step: index });
+  const resolved = resolveScope({ artwork: draft.artwork, scope: targets, created: draft.created, step: index });
   draft.warnings.push(...resolved.warnings);
   return resolved;
 };

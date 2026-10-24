@@ -1,12 +1,12 @@
 /* @layer core @kind test */
 import type { CelId } from '@bxel/document';
-import { decodeProject, LOAD_ERROR } from '@bxel/document/native';
+import { decodeArtwork, LOAD_ERROR } from '@bxel/document/native';
 import { strToU8 } from 'fflate';
 import { describe, expect, it } from 'vitest';
 import { editCel, editDocument, editFiles } from './container-edit';
 import { firstCode } from './first-code';
-import { brand } from './fixture-to-project';
-import { encodeHeart, projectOf } from './native-fixture';
+import { brand } from './fixture-to-artwork';
+import { encodeHeart, artworkOf } from './native-fixture';
 
 describe('native open damage: cels', () => {
   it('opens read-only with a damage report when a cel byte is flipped', () => {
@@ -18,7 +18,7 @@ describe('native open damage: cels', () => {
       },
       false,
     );
-    const report = decodeProject(bytes);
+    const report = decodeArtwork(bytes);
     expect(report.outcome).toBe('recoverable');
     expect(report.readOnly).toBe(true);
     expect(report.notice).not.toBeNull();
@@ -32,7 +32,7 @@ describe('native open damage: cels', () => {
       code: LOAD_ERROR.ENTRY_CHECKSUM,
     });
     expect(damage?.message).toContain('cels/cel_000014.idx');
-    const sprite = projectOf(report).sprites[0];
+    const sprite = artworkOf(report).sprites[0];
     const emptied = sprite?.cels[brand<CelId>('cel_000014')];
     expect(Array.from(emptied?.pixels ?? [1])).toEqual(Array.from({ length: 64 }, () => 0));
     const untouched = sprite?.cels[brand<CelId>('cel_000015')];
@@ -43,7 +43,7 @@ describe('native open damage: cels', () => {
     const bytes = editFiles(encodeHeart(), (files) => {
       delete files['cels/cel_000024.idx'];
     });
-    const report = decodeProject(bytes);
+    const report = decodeArtwork(bytes);
     expect(report.outcome).toBe('recoverable');
     expect(report.damage.map((item) => [item.celId, item.code, item.layerId])).toEqual([
       ['cel_000024', LOAD_ERROR.ENTRY_MISSING, 'lay_000021'],
@@ -62,7 +62,7 @@ describe('native open damage: bad cel data', () => {
       },
       true,
     );
-    const report = decodeProject(bytes);
+    const report = decodeArtwork(bytes);
     expect(report.outcome).toBe('recoverable');
     expect(report.damage).toHaveLength(1);
     expect(report.damage[0]?.code).toBe(LOAD_ERROR.INDEX_OUT_OF_RANGE);
@@ -74,7 +74,7 @@ describe('native open damage: bad cel data', () => {
     const shorter = editFiles(encodeHeart(), (files) => {
       files['cels/cel_000015.idx'] = new Uint8Array(10);
     });
-    const report = decodeProject(editDocument(shorter, () => undefined));
+    const report = decodeArtwork(editDocument(shorter, () => undefined));
     expect(report.outcome).toBe('recoverable');
     expect(report.damage[0]?.code).toBe(LOAD_ERROR.INDEX_OUT_OF_RANGE);
   });
@@ -85,7 +85,7 @@ describe('native open damage: preview', () => {
     const damaged = editFiles(encodeHeart(), (files) => {
       files['preview.png'] = strToU8('not the thumbnail');
     });
-    const report = decodeProject(damaged);
+    const report = decodeArtwork(damaged);
     expect(report.outcome).toBe('recoverable');
     expect(report.preview).toBeNull();
     expect(report.damage).toEqual([]);
@@ -93,7 +93,7 @@ describe('native open damage: preview', () => {
     const missing = editFiles(encodeHeart(), (files) => {
       delete files['preview.png'];
     });
-    const clean = decodeProject(missing);
+    const clean = decodeArtwork(missing);
     expect(clean.outcome).toBe('ok');
     expect(clean.preview).toBeNull();
   });

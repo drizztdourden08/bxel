@@ -8,7 +8,7 @@ import { useFileStore } from '../stores/useFileStore';
 const describeDocument = (documentId: DocumentId): SnapshotMeta => {
   const view = useDocumentStore.getState().host.view(documentId);
   const path = useFileStore.getState().paths[documentId];
-  const name = documentName(view?.state.project.name ?? '', path);
+  const name = documentName(view?.state.artwork.name ?? '', path);
   return path === undefined ? { name } : { name, path };
 };
 

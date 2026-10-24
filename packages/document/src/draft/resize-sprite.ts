@@ -21,7 +21,7 @@ const celsOf = (draft: Draft, geometry: SpriteGeometry): Record<CelId, Cel> => {
 };
 
 const resizeSprite = (draft: Draft, spriteId: SpriteId, geometry: SpriteGeometry): void => {
-  checkGeometry(requireSprite(draft.project, spriteId), geometry);
+  checkGeometry(requireSprite(draft.artwork, spriteId), geometry);
   recordPending(draft);
   snapshotOwned(draft);
   const cels = celsOf(draft, geometry);

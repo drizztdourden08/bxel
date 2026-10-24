@@ -12,7 +12,7 @@ const layerUpdate = defineCommand({
   schema: layerUpdateSchema,
   run: (draft, input) => {
     const { options } = input;
-    for (const { sprite, layer } of pickLayers(draft.project, input.sprites, options.layer)) {
+    for (const { sprite, layer } of pickLayers(draft.artwork, input.sprites, options.layer)) {
       const others = sprite.layers.filter((item) => item.id !== layer.id).map((item) => item.name);
       const name = chooseLayerName(options.name, others, layer.name);
       const visible = options.visible ?? layer.visible;

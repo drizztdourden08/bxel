@@ -7,6 +7,7 @@ const okResult = (
   ok: true,
   noop: false,
   created: {},
+  report: {},
   warnings: [],
   preview: null,
   ...fields,

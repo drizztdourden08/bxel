@@ -13,8 +13,8 @@ const pixelsFill = defineCommand({
   run: (draft, input) => {
     const { x, y, index, mode, connectivity, mask } = input.options;
     const seed = { x, y };
-    checkTargets({ project: draft.project, sprites: input.sprites, index, mask });
-    checkSeed(draft.project, input.sprites, seed);
+    checkTargets({ artwork: draft.artwork, sprites: input.sprites, index, mask });
+    checkSeed(draft.artwork, input.sprites, seed);
     applyToCels(draft, input.cels, (target) => floodFill({ target, seed, index, mode, connectivity, mask }));
   },
 });

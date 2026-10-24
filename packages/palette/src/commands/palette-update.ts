@@ -13,7 +13,7 @@ const paletteUpdate = defineCommand({
   schema: paletteUpdateSchema,
   run: (draft, input) => {
     const { options } = input;
-    const bank = requireBank(draft.project, options.bankId as BankId);
+    const bank = requireBank(draft.artwork, options.bankId as BankId);
     if (options.name !== undefined) renameBank(draft, bank, options.name);
     if (options.transparent === undefined || options.transparent === bank.transparent) return;
     if (options.transparent) transparencyOn(draft, bank, options.fillBackground ?? false);

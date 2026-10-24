@@ -13,7 +13,7 @@ const saveDestination = async (
   known ??
   kit.documents.saveAs({
     title: FILE_TEXT.saveTitle,
-    defaultPath: kit.paths.pathOf(documentId) ?? `${view.state.project.name}${BXEL_SUFFIX}`,
+    defaultPath: kit.paths.pathOf(documentId) ?? `${view.state.artwork.name}${BXEL_SUFFIX}`,
     filters: BXEL_FILTERS,
   });
 

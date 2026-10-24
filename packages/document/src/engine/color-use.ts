@@ -1,11 +1,11 @@
 /* @layer core @kind logic */
 import type { BankId } from '../model/ids.type';
 import type { PaletteBank } from '../model/palette.type';
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 
-const countBank = (project: Project, bank: PaletteBank): number[] => {
+const countBank = (artwork: Artwork, bank: PaletteBank): number[] => {
   const counts = new Array<number>(bank.slots.length).fill(0);
-  for (const sprite of project.sprites) {
+  for (const sprite of artwork.sprites) {
     if (sprite.bankId !== bank.id) continue;
     for (const cel of Object.values(sprite.cels)) {
       for (const value of cel.pixels) counts[value] = (counts[value] ?? 0) + 1;
@@ -14,9 +14,9 @@ const countBank = (project: Project, bank: PaletteBank): number[] => {
   return counts;
 };
 
-const colorUse = (project: Project, bankIds: ReadonlySet<BankId>): Record<BankId, number[]> =>
+const colorUse = (artwork: Artwork, bankIds: ReadonlySet<BankId>): Record<BankId, number[]> =>
   Object.fromEntries(
-    project.banks.filter((bank) => bankIds.has(bank.id)).map((bank) => [bank.id, countBank(project, bank)] as const),
+    artwork.banks.filter((bank) => bankIds.has(bank.id)).map((bank) => [bank.id, countBank(artwork, bank)] as const),
   );
 
 export { colorUse };

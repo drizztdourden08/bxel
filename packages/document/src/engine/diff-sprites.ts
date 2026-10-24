@@ -1,10 +1,10 @@
 /* @layer core @kind logic */
 import type { SpriteChange } from '../commands/result.type';
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 import { recoloredBanks } from './recolored-banks';
 import { spriteChange } from './sprite-change';
 
-const diffSprites = (before: Project, after: Project): SpriteChange[] => {
+const diffSprites = (before: Artwork, after: Artwork): SpriteChange[] => {
   const recolored = recoloredBanks(before, after);
   const prior = new Map(before.sprites.map((sprite) => [sprite.id, sprite] as const));
   const present = new Set(after.sprites.map((sprite) => sprite.id));

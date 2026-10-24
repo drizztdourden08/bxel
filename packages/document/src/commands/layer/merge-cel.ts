@@ -11,7 +11,7 @@ import type { CelMerge } from './layer.type';
 const mergeCel = (draft: Draft, merge: CelMerge): CelId | null => {
   const { spriteId, sourceLayer, from, into } = merge;
   if (from === into) return into;
-  const sprite = requireSprite(draft.project, spriteId);
+  const sprite = requireSprite(draft.artwork, spriteId);
   const source = sprite.cels[from];
   if (!source) return into ?? null;
   const target = into === undefined ? undefined : sprite.cels[into];

@@ -1,6 +1,6 @@
 /* @layer core @kind types */
 import type { CelId, FrameId, LayerId, SpriteId } from '../model/ids.type';
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 import type { LOAD_ERROR } from './load-error.constants';
 import type { Manifest } from './manifest.type';
 
@@ -24,7 +24,7 @@ type DamagedCel = {
 
 type LoadReport = {
   readonly outcome: LoadOutcome;
-  readonly project: Project | null;
+  readonly artwork: Artwork | null;
   readonly readOnly: boolean;
   readonly notice: string | null;
   readonly migrated: boolean;

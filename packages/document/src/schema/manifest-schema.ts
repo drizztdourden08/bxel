@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { ID_PREFIX } from '../ids/id-prefix.constants';
-import type { ProjectId } from '../model/ids.type';
+import type { ArtworkId } from '../model/ids.type';
 import { FORMAT_NAME, MAX_ENTRY_BYTES } from '../native/container.constants';
 import { brandedIdSchema } from './branded-id-schema';
 
@@ -23,7 +23,7 @@ const manifestSchema = z
     minReaderVersion: z.number().int().min(1),
     writer: z.object({ app: z.string(), version: z.string() }),
     savedAt: z.string(),
-    projectId: brandedIdSchema<ProjectId>(ID_PREFIX.project),
+    artworkId: brandedIdSchema<ArtworkId>(ID_PREFIX.artwork),
     document: pathSchema,
     preview: pathSchema.nullable(),
     entries: z.array(entrySchema),

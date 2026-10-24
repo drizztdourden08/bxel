@@ -2,7 +2,7 @@
 import type { TransactionOrigin } from '../commands/transaction.type';
 import type { Rect } from '../model/geometry.type';
 import type { BankId, CelId, SpriteId } from '../model/ids.type';
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 import type { COLLECTION_KEYS } from './entity-path.constants';
 
 type UndoOp =
@@ -21,6 +21,7 @@ type HistoryEntry = {
   readonly id: number;
   readonly label: string;
   readonly origin: TransactionOrigin;
+  readonly actor: string;
   readonly bytes: number;
   readonly ops: readonly UndoOp[];
 };
@@ -37,6 +38,6 @@ type HistoryDirection = 'undo' | 'redo';
 
 type CollectionKey = (typeof COLLECTION_KEYS)[number];
 
-type ProjectMeta = Pick<Project, 'name' | 'defaultBankId' | 'coverSpriteId'>;
+type ArtworkMeta = Pick<Artwork, 'name' | 'defaultBankId' | 'coverSpriteId'>;
 
-export type { CollectionKey, HistoryDirection, HistoryEntry, HistoryLimits, HistoryState, ProjectMeta, UndoOp };
+export type { CollectionKey, HistoryDirection, HistoryEntry, HistoryLimits, HistoryState, ArtworkMeta, UndoOp };

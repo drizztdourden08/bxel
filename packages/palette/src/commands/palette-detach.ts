@@ -8,7 +8,7 @@ import {
   registerRef,
   requireBank,
   requireSprite,
-  updateProject,
+  updateArtwork,
   updateSprite,
 } from '@bxel/document';
 import { bankSprites } from './bank-sprites';
@@ -24,20 +24,20 @@ const paletteDetach = defineCommand({
   run: (draft, input) => {
     const spriteId = input.sprites[0];
     if (!spriteId) throw fail(ERROR_CODE.TARGET_EMPTY, 'palette.detach needs one sprite.');
-    const sprite = requireSprite(draft.project, spriteId);
-    const bank = requireBank(draft.project, sprite.bankId);
-    if (bankSprites(draft.project, bank.id).length < 2) {
+    const sprite = requireSprite(draft.artwork, spriteId);
+    const bank = requireBank(draft.artwork, sprite.bankId);
+    if (bankSprites(draft.artwork, bank.id).length < 2) {
       throw fail(ERROR_CODE.INCOMPATIBLE_TARGETS, `Sprite "${sprite.name}" already has its own palette.`, {
         details: [{ spriteId, layerId: null, frameId: null, reason: 'the palette is not shared' }],
       });
     }
-    const name = input.options.name === undefined ? uniqueBankName(draft.project, bank.name) : checkName(input.options.name);
+    const name = input.options.name === undefined ? uniqueBankName(draft.artwork, bank.name) : checkName(input.options.name);
     assertNameFree(
-      draft.project.banks.map((other) => other.name),
+      draft.artwork.banks.map((other) => other.name),
       name,
     );
     const copy = copyBank(draft.ids, bank, name);
-    updateProject(draft, (project) => ({ ...project, banks: [...project.banks, copy] }));
+    updateArtwork(draft, (artwork) => ({ ...artwork, banks: [...artwork.banks, copy] }));
     updateSprite(draft, spriteId, (current) => ({ ...current, bankId: copy.id }));
     registerRef(draft, input.ref, copy.id);
   },

@@ -2,7 +2,7 @@
 import type { CommandStep, TransactionResult } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { heartEngine, request } from './heart-engine';
-import { snapshotProject } from './snapshot-project';
+import { snapshotArtwork } from './snapshot-artwork';
 
 const createStep: CommandStep = {
   name: 'sprite.create',
@@ -28,7 +28,7 @@ describe('preview', () => {
   it('equals commit, including ids from the counter source', () => {
     const previewed = heartEngine();
     const preview = okOf(previewed.engine.execute(request(createAndPaint, { mode: 'preview', previewPixels: 64 })));
-    const before = snapshotProject(previewed.engine.state().project);
+    const before = snapshotArtwork(previewed.engine.state().artwork);
     expect(previewed.engine.state().revision).toBe(1);
     const committed = okOf(previewed.engine.execute(request(createAndPaint)));
 
@@ -39,16 +39,16 @@ describe('preview', () => {
     expect(committed.created).toEqual(alone.created);
     expect(committed.created['fresh']).toBe('spr_000100');
     expect(committed.changes).toEqual(preview.changes);
-    expect(snapshotProject(previewed.engine.state().project)).toBe(snapshotProject(direct.engine.state().project));
-    expect(snapshotProject(previewed.engine.state().project)).not.toBe(before);
+    expect(snapshotArtwork(previewed.engine.state().artwork)).toBe(snapshotArtwork(direct.engine.state().artwork));
+    expect(snapshotArtwork(previewed.engine.state().artwork)).not.toBe(before);
   });
 
-  it('leaves the revision, project and id source unchanged', () => {
+  it('leaves the revision, artwork and id source unchanged', () => {
     const { engine, ids } = heartEngine();
-    const before = snapshotProject(engine.state().project);
+    const before = snapshotArtwork(engine.state().artwork);
     okOf(engine.execute(request(createAndPaint, { mode: 'preview' })));
     expect(engine.state().revision).toBe(1);
-    expect(snapshotProject(engine.state().project)).toBe(before);
+    expect(snapshotArtwork(engine.state().artwork)).toBe(before);
     expect(engine.canUndo()).toBe(false);
     expect(ids.next('spr')).toBe('spr_000100');
   });
@@ -66,15 +66,15 @@ describe('preview', () => {
 
   it('creates a sprite and its cel in one undo step', () => {
     const { engine } = heartEngine();
-    const before = snapshotProject(engine.state().project);
+    const before = snapshotArtwork(engine.state().artwork);
     const result = okOf(engine.execute(request(createAndPaint)));
     expect(Object.keys(result.created)).toEqual(['fresh']);
-    expect(engine.state().project.sprites).toHaveLength(3);
-    const after = snapshotProject(engine.state().project);
+    expect(engine.state().artwork.sprites).toHaveLength(3);
+    const after = snapshotArtwork(engine.state().artwork);
     engine.undo({ documentId: engine.documentId, expectedRevision: 2 });
-    expect(snapshotProject(engine.state().project)).toBe(before);
+    expect(snapshotArtwork(engine.state().artwork)).toBe(before);
     engine.redo({ documentId: engine.documentId, expectedRevision: 3 });
-    expect(snapshotProject(engine.state().project)).toBe(after);
+    expect(snapshotArtwork(engine.state().artwork)).toBe(after);
   });
 
   it('rejects a ref used twice and a ref that was never made', () => {
