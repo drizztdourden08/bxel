@@ -21,6 +21,7 @@ const buildSheetCells = (sprites: readonly ExportSprite[], trim: boolean): Sheet
       return {
         key: sheetFrameKey(sprite.name, frameIndex, sprite.frames.length),
         spriteIndex,
+        frameIndex,
         durationMs: frame.durationMs,
         trimmed: trim ? trimRgba(image) : keepWhole(image),
       };

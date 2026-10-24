@@ -1,15 +1,12 @@
 /* @layer renderer-app @kind logic */
-import type { AtlasHeld, AtlasInput } from './manager.type';
-import { trimBounds } from './trim-bounds';
+import type { Sheet, Sprite } from '@bxel/document';
+import type { AtlasHeld } from './manager.type';
 
-const atlasHeld = ({ sheet, sprites, trim }: AtlasInput): AtlasHeld[] => {
+const atlasHeld = (sheet: Sheet, sprites: readonly Sprite[]): AtlasHeld[] => {
   const byId = new Map(sprites.map((sprite) => [sprite.id, sprite] as const));
-  const trimmed = trim && sheet.layout.kind !== 'manual';
   return sheet.entries.flatMap((entry) => {
     const sprite = byId.get(entry.spriteId);
-    if (!sprite) return [];
-    const source = trimmed ? trimBounds(sprite) : { x: 0, y: 0, width: sprite.width, height: sprite.height };
-    return [{ sprite, at: entry.at, source }];
+    return sprite ? [{ sprite, at: entry.at, source: { x: 0, y: 0, width: sprite.width, height: sprite.height } }] : [];
   });
 };
 

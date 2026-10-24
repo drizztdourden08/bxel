@@ -68,6 +68,16 @@ describe('the shown list', () => {
     expect(shown({ filter: { ...NO_FILTER, size: '8x8' } })).toEqual(['walk_10', 'Walk_1']);
   });
 
+  it('sorts by the date created and keeps the sprites with an unknown date last', () => {
+    const art = artwork();
+    const stamps: Record<string, number> = { walk_2: 30, idle: 10, walk_10: 20 };
+    const stamped = { ...art, sprites: art.sprites.map((sprite) => ({ ...sprite, created: stamps[sprite.name] })) };
+    const facts = allFacts(stamped, managerSheet(stamped, null, null));
+    const names = (sortDown: boolean): string[] => visibleFacts(facts, { ...base, sortKey: 'created', sortDown }).map((fact) => fact.sprite.name);
+    expect(names(false)).toEqual(['idle', 'walk_10', 'walk_2', 'sprite', 'Walk_1']);
+    expect(names(true)).toEqual(['walk_2', 'walk_10', 'idle', 'sprite', 'Walk_1']);
+  });
+
   it('knows which sprites are animated and which are not on the sheet', () => {
     addToSheet(idsOf('sprite', 'idle'), null);
     expect(shown({ filter: { ...NO_FILTER, unplaced: true } })).toEqual(['walk_10', 'walk_2', 'Walk_1']);

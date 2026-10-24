@@ -39,9 +39,9 @@ const restoreLayer = (context: LayerContext): RestoredLayer => {
 const restoreTilemap = (shell: TilemapJson, tileset: Tileset | null, source: EntryCheck): RestoredTilemap => {
   const keys = tileset ? new Set(tileset.tiles.map((tile) => tile.key)) : null;
   const restored = shell.layers.map((layer) => restoreLayer({ shell, layer, keys, source }));
-  const { id, name, tilesetId, columns, rows } = shell;
+  const { id, name, tilesetId, columns, rows, created } = shell;
   return {
-    tilemap: { id, name, tilesetId, columns, rows, layers: restored.map((item) => item.layer) },
+    tilemap: { id, name, ...(created === undefined ? {} : { created }), tilesetId, columns, rows, layers: restored.map((item) => item.layer) },
     damage: restored.flatMap((item) => (item.damage ? [item.damage] : [])),
   };
 };

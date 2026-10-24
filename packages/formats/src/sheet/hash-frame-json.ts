@@ -4,7 +4,7 @@ import type { JsonValue, SheetFrameEntry, SheetSpriteEntry } from './sheet-metad
 
 const hashFrameJson = (sprite: SheetSpriteEntry, frame: SheetFrameEntry): JsonValue => ({
   frame: boxJson(frame.box),
-  rotated: false,
+  rotated: frame.rotated,
   trimmed: frame.trimmed,
   spriteSourceSize: boxJson({
     x: frame.sourceX,

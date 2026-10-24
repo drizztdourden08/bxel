@@ -12,6 +12,7 @@ const buildSprite = ({
   height,
   bankId,
   pivot,
+  created,
 }: {
   ids: IdSource;
   name: string;
@@ -19,9 +20,11 @@ const buildSprite = ({
   height: number;
   bankId: BankId;
   pivot: Pivot2 | null;
+  created: number | undefined;
 }): Sprite => ({
   id: ids.next('spr') as SpriteId,
   name,
+  created,
   role: 'sprite',
   bankId,
   width,

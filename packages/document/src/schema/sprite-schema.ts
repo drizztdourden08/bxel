@@ -9,6 +9,7 @@ import {
   MIN_SPRITE_SIZE,
 } from '../model/limits.constants';
 import { brandedIdSchema } from './branded-id-schema';
+import { createdSchema } from './created-schema';
 import { nameSchema } from './name-schema';
 import { pivotSchema } from './pivot-schema';
 import { pixelGridSchema } from './pixel-grid-schema';
@@ -54,6 +55,7 @@ const sliceSchema = z.object({
 const spriteShellSchema = z.object({
   id: brandedIdSchema<SpriteId>(ID_PREFIX.sprite),
   name: nameSchema,
+  created: createdSchema.optional(),
   role: z.enum(['sprite', 'tile']),
   bankId: brandedIdSchema<BankId>(ID_PREFIX.bank),
   width: sizeSchema,

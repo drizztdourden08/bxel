@@ -2,6 +2,7 @@
 import { findSprite } from '@bxel/document';
 import type { Artwork, AssetKey, SpriteId } from '@bxel/document';
 import { assetKeys } from '../workspace/asset-keys';
+import { assetCreated } from '../workspace/asset-created';
 import { assetName } from '../workspace/asset-name';
 import { keyId } from '../workspace/key-id';
 import { referrersOf } from '../workspace/referrers-of';
@@ -17,6 +18,7 @@ const thumbOf = (artwork: Artwork, key: AssetKey): string | null => {
 
 const nativeRow = (workspace: Workspace, artwork: Artwork, stats: ReadonlyMap<string, FileStat>, key: AssetKey): AssetRow | null => {
   const name = assetName(artwork, key);
+  const created = assetCreated(artwork, key);
   if (name === null || key.kind === 'project') return null;
   const path = workspace.paths.get(key.id) ?? '';
   return {
@@ -27,6 +29,7 @@ const nativeRow = (workspace: Workspace, artwork: Artwork, stats: ReadonlyMap<st
     path,
     folder: folderLabel(path, workspace.name),
     modified: stats.get(path.toLowerCase())?.modified ?? 0,
+    created,
     dirty: path === '' || workspace.dirty.has(keyId(key)),
     loaded: true,
     usedBy: key.kind === 'sprite' ? referrersOf(artwork, key).map((each) => each.id) : [],

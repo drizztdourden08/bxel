@@ -5,6 +5,7 @@ import type { TransactionResult } from '../commands/result.type';
 import type { Draft } from '../draft/draft.type';
 import type { HistoryDirection, HistoryEntry, HistoryLimits, HistoryState } from '../history/history.type';
 import type { IdSource } from '../ids/id-source.type';
+import type { Clock } from '../native/clock.type';
 import type { DocumentId } from '../model/ids.type';
 import type { DocumentState, Artwork } from '../model/artwork.type';
 import type { DocumentListener } from './event.type';
@@ -12,6 +13,7 @@ import type { DocumentListener } from './event.type';
 type EngineOptions = {
   readonly state: DocumentState;
   readonly ids: IdSource;
+  readonly clock?: Clock;
   readonly commands: readonly CommandDef[];
   readonly limits?: HistoryLimits;
   readonly unsaved?: boolean;
@@ -40,6 +42,7 @@ type EngineStore = {
   revision: number;
   artwork: Artwork;
   ids: IdSource;
+  clock: Clock | undefined;
   history: HistoryState;
   nextEntryId: number;
 };

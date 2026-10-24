@@ -22,7 +22,7 @@ const tilemapDuplicate = defineCommand({
     const name = input.options.name === undefined ? freeName(taken, `${source.name}${COPY_SUFFIX}`) : checkName(input.options.name);
     assertNameFree(taken, name);
     const layers = source.layers.map((layer) => ({ ...layer, id: draft.ids.next('tml') as MapLayerId, cells: layer.cells.slice() }));
-    const copy: Tilemap = { ...source, id: draft.ids.next('tlm') as TilemapId, name, layers };
+    const copy: Tilemap = { ...source, id: draft.ids.next('tlm') as TilemapId, name, created: draft.stamp, layers };
     updateArtwork(draft, (artwork) => ({ ...artwork, tilemaps: [...artwork.tilemaps, copy] }));
     registerRef(draft, input.ref, copy.id);
   },

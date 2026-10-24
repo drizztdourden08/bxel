@@ -9,10 +9,12 @@ const byKind: Compare = (left, right) => KIND_ORDER.indexOf(left.kind) - KIND_OR
 
 const byModified: Compare = (left, right) => right.modified - left.modified || byName(left, right);
 
+const byCreated: Compare = (left, right) => (right.created ?? -1) - (left.created ?? -1) || byName(left, right);
+
 const byFolder: Compare = (left, right) => left.folder.localeCompare(right.folder) || byName(left, right);
 
 const sortRows = (rows: readonly AssetRow[], sort: AssetSort): readonly AssetRow[] => {
-  const compare: Record<AssetSort, Compare> = { name: byName, kind: byKind, modified: byModified, folder: byFolder };
+  const compare: Record<AssetSort, Compare> = { name: byName, kind: byKind, modified: byModified, created: byCreated, folder: byFolder };
   return [...rows].sort(compare[sort]);
 };
 

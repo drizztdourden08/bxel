@@ -26,6 +26,7 @@ const sheetCreate = defineCommand({
     const sheet: Sheet = {
       id: draft.ids.next('sht') as SheetId,
       name,
+      created: draft.stamp,
       layout: fillLayout(options.layout ?? { kind: 'manual' }, [], margin),
       spacing: options.spacing ?? NO_SPACING,
       margin,

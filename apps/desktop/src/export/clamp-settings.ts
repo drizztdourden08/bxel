@@ -11,6 +11,8 @@ const clampSettings = (settings: ExportSettings): ExportSettings => ({
   columns: within(settings.columns, EXPORT_RANGES.columns),
   padding: within(settings.padding, EXPORT_RANGES.padding),
   extrusion: within(settings.extrusion, EXPORT_RANGES.extrusion),
+  margin: within(settings.margin, EXPORT_RANGES.margin),
+  maxWidth: within(settings.maxWidth, EXPORT_RANGES.maxWidth),
   pageSide: within(settings.pageSide, EXPORT_RANGES.pageSide),
 });
 

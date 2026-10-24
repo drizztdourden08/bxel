@@ -17,8 +17,11 @@ const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   columns: 4,
   padding: 1,
   extrusion: 0,
+  margin: 0,
+  maxWidth: 0,
   trim: false,
   powerOfTwo: false,
+  rotate: false,
   pageSide: 0,
   sheetId: '',
   flavour: 'bxel',
@@ -37,6 +40,7 @@ const EXPORT_LIMITS = {
   maxColumns: 64,
   maxPadding: 64,
   maxExtrusion: 16,
+  maxMargin: 64,
   maxColours: 256,
   minPackedWidth: 64,
 } as const;
@@ -46,6 +50,8 @@ const EXPORT_RANGES = {
   columns: { min: 1, max: EXPORT_LIMITS.maxColumns },
   padding: { min: 0, max: EXPORT_LIMITS.maxPadding },
   extrusion: { min: 0, max: EXPORT_LIMITS.maxExtrusion },
+  margin: { min: 0, max: EXPORT_LIMITS.maxMargin },
+  maxWidth: { min: 0, max: EXPORT_LIMITS.maxSide },
   pageSide: { min: 0, max: EXPORT_LIMITS.maxSide },
 } as const;
 

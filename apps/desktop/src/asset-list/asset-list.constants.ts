@@ -16,6 +16,7 @@ const SORT_OPTIONS: readonly SortOption[] = [
   { value: 'name', label: 'Name' },
   { value: 'kind', label: 'Kind' },
   { value: 'modified', label: 'Modified' },
+  { value: 'created', label: 'Date created' },
   { value: 'folder', label: 'Folder' },
 ];
 

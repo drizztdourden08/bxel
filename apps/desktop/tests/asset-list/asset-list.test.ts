@@ -15,6 +15,7 @@ const row = (kind: RowKind, index: number, extra: Partial<AssetRow> = {}): Asset
   path: `/p/${FOLDERS[index % FOLDERS.length]}/${kind}-${index}`,
   folder: FOLDERS[index % FOLDERS.length] ?? '',
   modified: 1000 + index,
+  created: index % 3 === 0 ? null : 500 + index,
   dirty: false,
   loaded: true,
   usedBy: [],
@@ -80,13 +81,17 @@ describe('asset list model on a 100 asset fixture', () => {
     expect(ask({ usedBySprite: 'sprite_7' }).map((each) => each.assetId)).toEqual(['sheet_2']);
   });
 
-  test('sorts by name, kind, modified and folder', () => {
+  test('sorts by name, kind, modified, date created and folder', () => {
     const names = ask({ chip: 'sprite' }).map((each) => each.name);
     expect(names).toEqual([...names].sort());
     expect(ask({ sort: 'kind' }).slice(0, 40).every((each) => each.kind === 'sprite')).toBe(true);
     expect(ask({ sort: 'kind' }).at(-1)?.kind).toBe('other');
     const stamps = ask({ sort: 'modified' }).map((each) => each.modified);
     expect(stamps).toEqual([...stamps].sort((left, right) => right - left));
+    const made = ask({ sort: 'created' }).map((each) => each.created);
+    const known = made.filter((each): each is number => each !== null);
+    expect(known).toEqual([...known].sort((left, right) => right - left));
+    expect(made.slice(known.length).every((each) => each === null)).toBe(true);
     const folders = ask({ sort: 'folder' }).map((each) => each.folder);
     expect(folders).toEqual([...folders].sort((left, right) => left.localeCompare(right)));
   });

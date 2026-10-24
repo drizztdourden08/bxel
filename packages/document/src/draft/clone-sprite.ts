@@ -19,13 +19,14 @@ const cloneCels = (source: Sprite, mapped: CloneIds): Record<CelId, Cel> => {
   return cels;
 };
 
-const cloneSprite = (ids: IdSource, source: Sprite, name: string): Sprite => {
+const cloneSprite = (ids: IdSource, source: Sprite, name: string, created: number | undefined): Sprite => {
   const id = ids.next('spr') as SpriteId;
   const mapped = cloneIds(ids, source);
   return {
     ...source,
     id,
     name,
+    created,
     layers: source.layers.map((layer) => ({
       ...layer,
       id: ids.next('lay') as LayerId,

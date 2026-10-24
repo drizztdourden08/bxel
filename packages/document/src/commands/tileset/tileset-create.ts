@@ -28,6 +28,7 @@ const tilesetCreate = defineCommand({
     const tileset: Tileset = {
       id: draft.ids.next('tls') as TilesetId,
       name,
+      created: draft.stamp,
       bankId,
       tileWidth: options.tileWidth,
       tileHeight: options.tileHeight,

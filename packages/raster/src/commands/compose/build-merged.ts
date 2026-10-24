@@ -14,6 +14,7 @@ const buildMerged = (ids: IdSource, sources: readonly [Sprite, ...Sprite[]], spe
   return {
     id: ids.next('spr') as SpriteId,
     name: spec.name,
+    created: spec.created,
     role: 'sprite',
     bankId: lead.bankId,
     ...size,
