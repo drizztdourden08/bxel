@@ -1,26 +1,18 @@
 /* @layer renderer-app @kind component */
-import { Pressable, Text } from '@drizztdourden08/tessera';
-import { pickHow } from '../../../sheet/pick-how';
-import { SPRITES_TEXT } from '../SpritesPanel.constants';
+import { Text } from '@drizztdourden08/tessera';
 import type { SpriteTileProps } from '../SpritesPanel.type';
-import { tileClass } from '../behavior/tile-class';
+import { SpriteBadges } from './SpriteBadges';
+import { SpriteButton } from './SpriteButton';
 import { SpriteThumb } from './SpriteThumb';
 
-const SpriteTile = ({ sprite, image, selected, active, affected, drag, onPick, onRename }: SpriteTileProps) => (
-  <Pressable
-    type="button"
-    className={tileClass(active, affected)}
-    aria-pressed={selected}
-    aria-label={SPRITES_TEXT.tile(sprite.name, sprite.width, sprite.height)}
-    data-sprite-id={sprite.id}
-    draggable
-    onClick={(event) => onPick(pickHow(event) ?? 'replace')}
-    onDoubleClick={onRename}
-    {...drag}
-  >
-    <SpriteThumb image={image} />
-    <Text as="span" variant="caption" className="sprites-panel__name">{sprite.name}</Text>
-  </Pressable>
+const SpriteTile = ({ fact, artwork, box, state, drag, handlers }: SpriteTileProps) => (
+  <SpriteButton fact={fact} base="sprites-panel__tile" state={state} drag={drag} handlers={handlers}>
+    <SpriteThumb artwork={artwork} sprite={fact.sprite} box={box} />
+    <SpriteBadges fact={fact} />
+    <Text as="span" variant="caption" className="sprites-panel__name">
+      {fact.sprite.name}
+    </Text>
+  </SpriteButton>
 );
 
 export { SpriteTile };

@@ -15,16 +15,10 @@ import { renameSprite } from '../../src/sheet/rename-sprite';
 import { reorderSprites } from '../../src/sheet/reorder-sprites';
 import { scopeChipModel } from '../../src/sheet/scope-chip-model';
 import { sheetModel } from '../../src/sheet/sheet-model';
-import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
 import { currentTarget } from '../../src/editor/current-target';
 import { currentScene } from '../../src/sheet/current-scene';
-import { artwork, idOf, lastNotice, namesOf, openFile, spriteOf } from './sheet-harness';
-
-const revision = (): number => {
-  const { host, activeId } = useDocumentStore.getState();
-  return activeId === null ? 0 : (host.view(activeId)?.state.revision ?? 0);
-};
+import { artwork, idOf, lastNotice, namesOf, openFile, revision, spriteOf } from './sheet-harness';
 
 const spots = (): Record<string, string> => {
   const art = artwork();

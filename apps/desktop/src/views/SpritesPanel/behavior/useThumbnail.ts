@@ -1,19 +1,35 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useRef } from 'react';
 import type { RefObject } from 'react';
-import { THUMB_BOX } from '../../../sheet/sheet.constants';
-import type { FrameImage } from '../../../sheet/sheet.type';
+import { findBank } from '@bxel/document';
+import type { Artwork, Sprite } from '@bxel/document';
+import { bankSpriteImage } from '../../../sheet/bank-sprite-image';
 import { drawThumbnail } from './draw-thumbnail';
 
-const useThumbnail = (image: FrameImage | null): RefObject<HTMLCanvasElement | null> => {
+const useThumbnail = (artwork: Artwork, sprite: Sprite, box: number): RefObject<HTMLCanvasElement | null> => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
+  const bank = findBank(artwork, sprite.bankId);
   useEffect(() => {
     const element = canvas.current;
-    if (!element) return;
-    element.width = THUMB_BOX;
-    element.height = THUMB_BOX;
-    drawThumbnail(element, image);
-  }, [image]);
+    if (element) {
+      element.width = box;
+      element.height = box;
+    }
+  }, [box]);
+  useEffect(() => {
+    const element = canvas.current;
+    if (!element) return undefined;
+    const paint = (): void => drawThumbnail(element, bankSpriteImage(bank, sprite), box);
+    if (typeof IntersectionObserver === 'undefined') {
+      paint();
+      return undefined;
+    }
+    const watch = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) paint();
+    });
+    watch.observe(element);
+    return () => watch.disconnect();
+  }, [bank, sprite, box]);
   return canvas;
 };
 

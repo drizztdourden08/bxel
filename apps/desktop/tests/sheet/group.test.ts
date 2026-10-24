@@ -14,12 +14,7 @@ import { spritesTarget } from '../../src/sheet/sprites-target';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { usePendingStore } from '../../src/stores/usePendingStore';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
-import { idOf, openFile, pixelsOf, spriteOf } from './sheet-harness';
-
-const patch = (name: string, rect: { x: number; y: number; width: number; height: number }, value: number): void => {
-  const pixels = new Uint8Array(rect.width * rect.height).fill(value);
-  runDocument('Paint', [{ name: COMMAND_NAME.pixelsPatch, targets: spritesTarget([idOf(name)]), options: { rect, pixels } }]);
-};
+import { idOf, openFile, patch, pixelsOf, revision, spriteOf } from './sheet-harness';
 
 const pickThree = (): void => {
   pickSpriteById(idOf('sprite'), 'replace');
@@ -30,11 +25,6 @@ const pickThree = (): void => {
 const lastLabel = (): string => {
   const { host, activeId } = useDocumentStore.getState();
   return activeId === null ? '' : (host.view(activeId)?.lastEvent.label ?? '');
-};
-
-const revision = (): number => {
-  const { host, activeId } = useDocumentStore.getState();
-  return activeId === null ? 0 : (host.view(activeId)?.state.revision ?? 0);
 };
 
 beforeEach(() => {

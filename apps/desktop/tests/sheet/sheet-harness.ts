@@ -1,9 +1,10 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME } from '@bxel/document';
-import type { Artwork, Sprite, SpriteId } from '@bxel/document';
+import type { Artwork, Rect, Sprite, SpriteId } from '@bxel/document';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { currentArtwork } from '../../src/sheet/current-artwork';
 import { runDocument } from '../../src/sheet/run-document';
+import { spritesTarget } from '../../src/sheet/sprites-target';
 import { SPRITE_DEFAULTS } from '../../src/stores/sprite-store.constants';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
@@ -46,4 +47,14 @@ const pixelsOf = (name: string): number[] => {
 
 const lastNotice = (): string | null => useNoticeStore.getState().notice?.text ?? null;
 
-export { artwork, idOf, lastNotice, namesOf, openFile, pixelsOf, spriteOf };
+const revision = (): number => {
+  const { host, activeId } = useDocumentStore.getState();
+  return activeId === null ? 0 : (host.view(activeId)?.state.revision ?? 0);
+};
+
+const patch = (name: string, rect: Rect, value: number): void => {
+  const pixels = new Uint8Array(rect.width * rect.height).fill(value);
+  runDocument('Paint', [{ name: COMMAND_NAME.pixelsPatch, targets: spritesTarget([idOf(name)]), options: { rect, pixels } }]);
+};
+
+export { artwork, idOf, lastNotice, namesOf, openFile, patch, pixelsOf, revision, spriteOf };

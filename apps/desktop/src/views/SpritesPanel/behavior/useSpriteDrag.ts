@@ -2,12 +2,10 @@
 import { useRef } from 'react';
 import type { SpriteId } from '@bxel/document';
 import { reorderSprites } from '../../../sheet/reorder-sprites';
-import type { SceneModel } from '../../../sheet/sheet.type';
-import { selectionIds } from '../../../sheet/selection-ids';
 import { DRAG_TYPE } from '../SpritesPanel.constants';
-import type { SpriteDragHandlers } from '../SpritesPanel.type';
+import type { ManagerModel, SpriteDragHandlers } from '../SpritesPanel.type';
 
-const useSpriteDrag = (model: SceneModel | null): ((id: SpriteId) => SpriteDragHandlers) => {
+const useSpriteDrag = (model: ManagerModel | null): ((id: SpriteId) => SpriteDragHandlers) => {
   const dragged = useRef<SpriteId | null>(null);
   return (id) => ({
     onDragStart: (event) => {
@@ -23,9 +21,8 @@ const useSpriteDrag = (model: SceneModel | null): ((id: SpriteId) => SpriteDragH
       const from = dragged.current;
       dragged.current = null;
       if (from === null || from === id || !model) return;
-      const chosen = selectionIds(model.scene);
       const to = model.artwork.sprites.findIndex((sprite) => sprite.id === id);
-      reorderSprites(chosen.includes(from) ? chosen : [from], { to: Math.max(0, to) });
+      reorderSprites(model.ids.includes(from) ? model.ids : [from], { to: Math.max(0, to) });
     },
   });
 };

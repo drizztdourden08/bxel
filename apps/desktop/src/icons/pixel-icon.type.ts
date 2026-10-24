@@ -49,7 +49,11 @@ type ActionIconName =
   | 'layers'
   | 'palette';
 
-type PixelIconName = PaintIconName | ShapeIconName | SelectIconName | ViewIconName | ActionIconName;
+type SheetIconName = 'gridView' | 'listView' | 'atlas';
+
+type SpriteIconName = 'flipH' | 'flipV' | 'turnLeft' | 'turnRight' | 'pivot' | 'isolate';
+
+type PixelIconName = PaintIconName | ShapeIconName | SelectIconName | ViewIconName | ActionIconName | SheetIconName | SpriteIconName;
 
 type PixelBitmap = readonly string[];
 
@@ -57,4 +61,16 @@ type PixelTone = 'solid' | 'soft';
 
 type PixelIconData = NonNullable<IconProps['icon']>;
 
-export type { PaintIconName, ShapeIconName, SelectIconName, ViewIconName, ActionIconName, PixelBitmap, PixelIconData, PixelIconName, PixelTone };
+export type {
+  PaintIconName,
+  ShapeIconName,
+  SelectIconName,
+  ViewIconName,
+  ActionIconName,
+  SheetIconName,
+  SpriteIconName,
+  PixelBitmap,
+  PixelIconData,
+  PixelIconName,
+  PixelTone,
+};

@@ -1,32 +1,34 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
-
-const SPRITES_TEXT = {
-  empty: 'No sprite is open.',
-  title: (count: number, selected: number): string => (selected > 1 ? `Sprites (${count}), ${selected} selected` : `Sprites (${count})`),
-  list: 'Sprites',
-  actions: 'Sprite actions',
-  renameLabel: 'Sprite name',
-  renameHint: 'Press Enter to keep the name or Escape to cancel.',
-  add: 'New sprite',
-  addKey: 'Ctrl+Shift+N',
-  duplicate: 'Duplicate sprite',
-  duplicateKey: 'Ctrl+Shift+D',
-  remove: 'Delete sprite',
-  cancelRemove: 'Keep the sprites',
-  earlier: 'Move earlier',
-  earlierKey: 'Alt+Left',
-  later: 'Move later',
-  laterKey: 'Alt+Right',
-  rename: 'Rename sprite',
-  renameKey: 'F2',
-  tile: (name: string, width: number, height: number): string => `${name}, ${width} by ${height}`,
-} as const;
+import { MANAGER_TEXT } from '../../sheet-manager/manager-text.constants';
+import type { ListColumn } from './SpritesPanel.type';
 
 const NO_SPRITES: readonly SpriteId[] = [];
 
 const DRAG_TYPE = 'application/x-bxel-sprite';
 
+const ANY_SIZE = 'any';
+
 const ARROW_STEP: Readonly<Record<string, number>> = { ArrowLeft: -1, ArrowRight: 1 };
 
-export { ARROW_STEP, DRAG_TYPE, NO_SPRITES, SPRITES_TEXT };
+const LIST_THUMB = 32;
+
+const BAND_MIN = 4;
+
+const END_INDEX = 100000;
+
+const MANAGER_TABS = [
+  { id: 'sprites', label: MANAGER_TEXT.tabs.sprites },
+  { id: 'atlas', label: MANAGER_TEXT.tabs.atlas },
+];
+
+const LIST_COLUMNS: readonly ListColumn[] = [
+  { key: 'name', label: 'name' },
+  { key: 'size', label: 'size' },
+  { key: null, label: 'pivot' },
+  { key: 'frames', label: 'frames' },
+  { key: null, label: 'tags' },
+  { key: null, label: 'bank' },
+];
+
+export { ANY_SIZE, ARROW_STEP, BAND_MIN, DRAG_TYPE, END_INDEX, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, NO_SPRITES };
