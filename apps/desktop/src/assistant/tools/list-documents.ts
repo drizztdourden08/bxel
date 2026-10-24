@@ -5,12 +5,15 @@ import { fileName } from '../../files/file-name';
 import { useAssistantStore } from '../../stores/useAssistantStore';
 import { useDocumentStore } from '../../stores/useDocumentStore';
 import type { ToolContext, ToolHandler } from '../assistant.type';
+import { hiddenAssets } from './hidden-assets';
 import { placeOf } from './place-of';
 import { reply } from './reply';
+import { viewFor } from './view-for';
 
 const entryOf = (context: ToolContext, documentId: DocumentId) => {
-  const view = context.host.view(documentId);
+  const view = viewFor(context, documentId);
   if (!view) return [];
+  const hidden = hiddenAssets(context, documentId);
   const path = context.paths.pathOf(documentId);
   return [
     {
@@ -23,8 +26,8 @@ const entryOf = (context: ToolContext, documentId: DocumentId) => {
       readOnly: view.state.readOnly,
       active: useDocumentStore.getState().activeId === documentId,
       openedBy: useAssistantStore.getState().opened[documentId] ? 'mcp' : 'owner',
-      sprites: view.state.artwork.sprites.length,
-      sheets: view.state.artwork.sheets.length,
+      sprites: view.state.artwork.sprites.filter((sprite) => !hidden.has(sprite.id)).length,
+      sheets: view.state.artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).length,
     },
   ];
 };

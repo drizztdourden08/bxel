@@ -1,9 +1,10 @@
 /* @layer renderer-app @kind logic */
-import type { DocumentId, TransactionMode } from '@bxel/document';
+import type { DocumentId, TransactionMode, TransactionRequest } from '@bxel/document';
 import { checkPatchPixels, hiddenFailure, MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { ToolReply } from '@bxel/mcp';
 import { usePendingStore } from '../../stores/usePendingStore';
 import type { ToolContext } from '../assistant.type';
+import { hiddenEdit } from './hidden-edit';
 import { platformLock } from './platform-lock';
 import { reply } from './reply';
 import { toCommandSteps } from './to-command-steps';
@@ -25,7 +26,7 @@ const runEdits = (input: EditInput, context: ToolContext, mode: TransactionMode)
   const steps = toCommandSteps(input.steps);
   if (!steps.ok) return reply(steps);
   const { session } = context.call;
-  const result = context.host.execute({
+  const request: TransactionRequest = {
     documentId: input.documentId as DocumentId,
     baseRevision: input.baseRevision,
     mode,
@@ -34,7 +35,10 @@ const runEdits = (input: EditInput, context: ToolContext, mode: TransactionMode)
     label: TOOL_TEXT.labelOf(session.displayName, input.label),
     steps: steps.value,
     previewPixels: mode === 'preview' ? (input.previewPixels ?? 0) : 0,
-  });
+  };
+  const hidden = hiddenEdit(context, request, view.state.artwork);
+  if (hidden) return reply(hidden);
+  const result = context.host.execute(request);
   return reply(wireTransaction(result));
 };
 

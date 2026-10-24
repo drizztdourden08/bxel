@@ -3,6 +3,7 @@ import { BACKGROUND_LABEL, ERROR_CODE, findBank } from '@bxel/document';
 import type { BankId, PaletteBank, Swatch } from '@bxel/document';
 import { hiddenFailure, mcpFailure } from '@bxel/mcp';
 import type { ToolHandler } from '../assistant.type';
+import { hiddenAssets } from './hidden-assets';
 import { reply } from './reply';
 import type { ReadPaletteInput } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
@@ -26,7 +27,7 @@ const readPalette: ToolHandler = (input, context) => {
   if (!view) return reply(hiddenFailure('document'));
   const { artwork, revision } = view.state;
   const bank = findBank(artwork, (bankId ?? artwork.defaultBankId) as BankId);
-  if (!bank) return reply(mcpFailure(ERROR_CODE.TARGET_NOT_FOUND, TOOL_TEXT.notFound));
+  if (!bank || hiddenAssets(context, documentId).has(bank.id)) return reply(mcpFailure(ERROR_CODE.TARGET_NOT_FOUND, TOOL_TEXT.notFound));
   return reply({
     ok: true,
     revision,

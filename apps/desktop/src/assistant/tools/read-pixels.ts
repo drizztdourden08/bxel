@@ -4,6 +4,7 @@ import type { FrameId, Sprite } from '@bxel/document';
 import { encodeBase64, hiddenFailure, mcpFailure } from '@bxel/mcp';
 import type { ToolHandler } from '../assistant.type';
 import { colorUse } from './color-use';
+import { hiddenAssets } from './hidden-assets';
 import { indexHash } from './index-hash';
 import { reply } from './reply';
 import { spriteFrame } from './sprite-frame';
@@ -25,7 +26,7 @@ const readPixels: ToolHandler = async (input, context) => {
   const { documentId, spriteId, frameId, layer, rect } = input as ReadPixelsInput;
   const view = viewFor(context, documentId);
   if (!view) return reply(hiddenFailure('document'));
-  const found = spriteFrame(view.state.artwork, spriteId, frameId);
+  const found = spriteFrame(view.state.artwork, spriteId, frameId, hiddenAssets(context, documentId));
   if (!found.ok) return reply(found);
   const { sprite } = found.value;
   if (!inside(sprite, rect)) return reply(mcpFailure(ERROR_CODE.OUT_OF_BOUNDS, TOOL_TEXT.outside, { path: 'rect' }));
