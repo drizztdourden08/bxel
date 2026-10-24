@@ -5,15 +5,19 @@ import type { ManagerModelProps } from '../../SpritesPanel.type';
 import { CompareDialog } from './sub-components/CompareDialog';
 import { DeleteDialog } from './sub-components/DeleteDialog';
 import { DuplicateDialog } from './sub-components/DuplicateDialog';
+import { FolderDialog } from './sub-components/FolderDialog';
 import { MergeDialog } from './sub-components/MergeDialog';
 import { PivotDialog } from './sub-components/PivotDialog';
 import { RenameDialog } from './sub-components/RenameDialog';
 import { ResizeDialog } from './sub-components/ResizeDialog';
+import { SelectionDialog } from './sub-components/SelectionDialog';
 import { SliceDialog } from './sub-components/SliceDialog';
 import { SplitDialog } from './sub-components/SplitDialog';
 
 const DIALOG_VIEWS: Readonly<Record<Exclude<ManagerDialog, null>, ComponentType<ManagerModelProps>>> = {
   rename: RenameDialog,
+  folder: FolderDialog,
+  selection: SelectionDialog,
   duplicate: DuplicateDialog,
   delete: DeleteDialog,
   compare: CompareDialog,

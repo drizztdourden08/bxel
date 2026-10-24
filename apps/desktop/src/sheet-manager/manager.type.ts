@@ -10,7 +10,7 @@ type ManagerView = 'grid' | 'list';
 
 type SortKey = 'manual' | 'name' | 'size' | 'area' | 'frames';
 
-type ManagerDialog = 'rename' | 'duplicate' | 'delete' | 'compare' | 'pivot' | 'resize' | 'merge' | 'split' | 'slice' | null;
+type ManagerDialog = 'rename' | 'folder' | 'selection' | 'duplicate' | 'delete' | 'compare' | 'pivot' | 'resize' | 'merge' | 'split' | 'slice' | null;
 
 interface ManagerFilter {
   animated: boolean;

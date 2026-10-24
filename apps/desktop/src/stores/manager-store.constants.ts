@@ -13,6 +13,8 @@ const MANAGER_DEFAULTS: ManagerSettings = {
   sheetId: null,
   dialog: null,
   atlas: { extrude: 0, pivots: true, bounds: false, zoom: 2 },
+  collapsed: [],
+  selections: [],
 };
 
 export { MANAGER_DEFAULTS };

@@ -12,6 +12,7 @@ import { ViewControls } from './ViewControls';
 
 const ManagerFilters = ({ model }: ManagerModelProps) => {
   const store = useManagerStore();
+  const shownIds = model.shown.map((fact) => fact.sprite.id);
   const active = [store.filter.animated, store.filter.unplaced, store.filter.size !== null, store.filter.identical !== 'off'].filter(Boolean).length;
   return (
     <Stack gap="xs">
@@ -22,10 +23,10 @@ const ManagerFilters = ({ model }: ManagerModelProps) => {
           placeholder={MANAGER_TEXT.searchHint}
           aria-label={MANAGER_TEXT.search}
           onChange={(query) => store.patch({ query })}
-          onEnter={() => selectIds(model.order)}
+          onEnter={() => selectIds(shownIds)}
         />
         <ActionHint hint={SPRITE_HINTS.selectMatches}>
-          <IconButton label={MANAGER_TEXT.selectMatches} size="sm" disabled={model.order.length === 0} onClick={() => selectIds(model.order)}>
+          <IconButton label={MANAGER_TEXT.selectMatches} size="sm" disabled={shownIds.length === 0} onClick={() => selectIds(shownIds)}>
             <Icon name="check" size={16} />
           </IconButton>
         </ActionHint>

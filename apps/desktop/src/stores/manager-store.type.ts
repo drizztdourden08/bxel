@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { SheetId } from '@bxel/document';
+import type { SavedSelection } from '../sheet-manager/folders.type';
 import type { AtlasSettings, ManagerDialog, ManagerFilter, ManagerTab, ManagerView, SortKey } from '../sheet-manager/manager.type';
 
 interface ManagerSettings {
@@ -13,6 +14,8 @@ interface ManagerSettings {
   sheetId: SheetId | null;
   dialog: ManagerDialog;
   atlas: AtlasSettings;
+  collapsed: readonly string[];
+  selections: readonly SavedSelection[];
 }
 
 interface ManagerState extends ManagerSettings {
@@ -21,6 +24,9 @@ interface ManagerState extends ManagerSettings {
   patchFilter: (change: Partial<ManagerFilter>) => void;
   patchAtlas: (change: Partial<AtlasSettings>) => void;
   clearFilters: () => void;
+  toggleFolder: (path: string) => void;
+  saveSelection: (selection: SavedSelection) => void;
+  dropSelection: (name: string) => void;
 }
 
 export type { ManagerSettings, ManagerState };

@@ -5,6 +5,7 @@ import { combineGroup } from './combine-group';
 import { editGroup } from './edit-group';
 import { findGroup } from './find-group';
 import { orderGroup } from './order-group';
+import { savedGroup } from './saved-group';
 import { selectGroup } from './select-group';
 import { sheetGroup } from './sheet-group';
 import { transformGroup } from './transform-group';
@@ -17,6 +18,7 @@ const actionGroups = (ctx: ActionContext): MenuGroup[] => [
   transformGroup(ctx),
   selectGroup(ctx),
   findGroup(ctx),
+  savedGroup(ctx),
 ];
 
 export { actionGroups };

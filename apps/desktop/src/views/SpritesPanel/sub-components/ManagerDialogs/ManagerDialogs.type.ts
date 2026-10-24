@@ -66,6 +66,13 @@ interface NumberPairProps {
   step: number;
 }
 
+interface FolderForm {
+  folder: string;
+  plan: RenamePlan;
+  targets: readonly Sprite[];
+  update: (folder: string) => void;
+}
+
 interface DeleteRowsProps {
   impacts: readonly DeleteImpact[];
 }
@@ -82,6 +89,7 @@ interface DialogFrameProps {
 export type {
   DeleteRowsProps,
   DialogFrameProps,
+  FolderForm,
   NumberPairProps,
   PivotFieldsProps,
   PivotForm,

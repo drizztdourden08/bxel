@@ -7,6 +7,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
 import { allFacts } from '../../src/sheet-manager/all-facts';
 import { atlasModel } from '../../src/sheet-manager/atlas-model';
+import { folderGroups } from '../../src/sheet-manager/folder-groups';
 import { planRenames } from '../../src/sheet-manager/plan-renames';
 import { selectionIds } from '../../src/sheet/selection-ids';
 import { spriteScene } from '../../src/sheet/sprite-scene';
@@ -40,7 +41,7 @@ const modelOf = (): ManagerModel => {
   const art = artwork();
   const scene = spriteScene(art, { activeId: idOf('walk_1'), selected: idsOf('walk_1', 'walk_2') });
   const facts = allFacts(art, art.sheets[0] ?? null);
-  return { artwork: art, scene, sheet: art.sheets[0] ?? null, facts, shown: facts, order: facts.map((fact) => fact.sprite.id), sizes: ['8x8'], twins: new Set(), ids: selectionIds(scene) };
+  return { artwork: art, scene, sheet: art.sheets[0] ?? null, facts, shown: facts, order: facts.map((fact) => fact.sprite.id), sizes: ['8x8'], twins: new Set(), groups: folderGroups(facts, new Set()), ids: selectionIds(scene) };
 };
 
 beforeEach(() => openFile(['walk_1', 'walk_2'], 8));
@@ -98,18 +99,18 @@ describe('the atlas pieces', () => {
 
 describe('the action menu', () => {
   it('has the groups for editing, combining, ordering, the sheet, transforms and selecting', () => {
-    const groups = actionGroups({ model: modelOf(), sortKey: 'manual', rename: none, open: none });
-    expect(groups.map((group) => group.id)).toEqual(['edit', 'combine', 'order', 'sheet', 'transform', 'select', 'find']);
+    const groups = actionGroups({ model: modelOf(), sortKey: 'manual', rename: none, open: none, selections: [] });
+    expect(groups.map((group) => group.id)).toEqual(['edit', 'combine', 'order', 'sheet', 'transform', 'select', 'find', 'saved']);
     expect(itemIds(groups)).toEqual(expect.arrayContaining(['rename', 'rename-many', 'duplicate', 'delete', 'merge', 'split', 'slice', 'sort-name', 'add-to-sheet', 'pivot', 'trim', 'flip-h', 'turn-half', 'select-invert', 'select-duplicates', 'compare']));
   });
 
   it('turns the item off when nothing is picked and offers the view order only when sorted', () => {
     const base = modelOf();
     const empty = { ...base, ids: [], scene: { ...base.scene, selected: [], active: null } };
-    const edit = actionGroups({ model: empty, sortKey: 'manual', rename: none, open: none })[0];
+    const edit = actionGroups({ model: empty, sortKey: 'manual', rename: none, open: none, selections: [] })[0];
     const duplicate = edit?.items.find((item) => 'id' in item && item.id === 'duplicate');
     expect(duplicate && 'disabled' in duplicate ? duplicate.disabled : false).toBe(true);
-    expect(hasItem(actionGroups({ model: base, sortKey: 'manual', rename: none, open: none })[2], 'use-order')).toBe(false);
-    expect(hasItem(actionGroups({ model: base, sortKey: 'name', rename: none, open: none })[2], 'use-order')).toBe(true);
+    expect(hasItem(actionGroups({ model: base, sortKey: 'manual', rename: none, open: none, selections: [] })[2], 'use-order')).toBe(false);
+    expect(hasItem(actionGroups({ model: base, sortKey: 'name', rename: none, open: none, selections: [] })[2], 'use-order')).toBe(true);
   });
 });

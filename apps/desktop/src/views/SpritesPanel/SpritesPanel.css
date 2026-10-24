@@ -138,3 +138,31 @@
   flex: 1;
   min-inline-size: 0;
 }
+
+.sprites-panel__folder {
+  min-block-size: var(--size-32);
+  padding-inline-start: var(--space-2xs);
+}
+
+.sprites-panel__folder[data-depth='2'] {
+  padding-inline-start: var(--space-md);
+}
+
+.sprites-panel__folder[data-depth='3'] {
+  padding-inline-start: var(--space-lg);
+}
+
+.sprites-panel__folder[data-depth='4'] {
+  padding-inline-start: var(--space-xl);
+}
+
+.sprites-panel__folder-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--c-text);
+  cursor: pointer;
+}

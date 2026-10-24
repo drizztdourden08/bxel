@@ -3,6 +3,7 @@ import type { DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, Ref
 import type { MenuGroup } from '@drizztdourden08/tessera';
 import type { Artwork, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
+import type { FolderGroup, SavedSelection } from '../../sheet-manager/folders.type';
 import type { ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
 import type { HintSpec } from '../ActionHint';
 
@@ -12,6 +13,7 @@ interface ManagerModel {
   sheet: Sheet | null;
   facts: readonly SpriteFacts[];
   shown: readonly SpriteFacts[];
+  groups: readonly FolderGroup[];
   order: readonly SpriteId[];
   sizes: readonly string[];
   twins: ReadonlySet<SpriteId>;
@@ -104,6 +106,10 @@ interface ListHeadCellProps {
   onSort: () => void;
 }
 
+interface FolderHeaderProps {
+  group: FolderGroup;
+}
+
 interface SpriteBadgesProps {
   fact: SpriteFacts;
   twin: boolean;
@@ -121,6 +127,7 @@ interface ActionContext {
   sortKey: SortKey;
   rename: (id: SpriteId) => void;
   open: (dialog: ManagerDialog) => void;
+  selections: readonly SavedSelection[];
 }
 
 interface ActionsMenuProps {
@@ -161,6 +168,7 @@ export type {
   ActionContext,
   ActionsMenuProps,
   FilterActions,
+  FolderHeaderProps,
   KeyAction,
   KeyHandlers,
   KeyShape,

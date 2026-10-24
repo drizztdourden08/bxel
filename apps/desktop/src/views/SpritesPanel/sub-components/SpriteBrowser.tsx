@@ -26,7 +26,8 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const open = (dialog: ManagerDialog): void => patch({ dialog });
   const onKeyDown = useSpritesKeys(model, { begin: rename.begin, open });
   const dragFor = useSpriteDrag(model);
-  const groups = actionGroups({ model, sortKey, rename: rename.begin, open });
+  const selections = useManagerStore((state) => state.selections);
+  const groups = actionGroups({ model, sortKey, rename: rename.begin, open, selections });
   const renaming = model.scene.sprites.find((sprite) => sprite.id === rename.renamingId);
   return (
     <Stack gap="sm">
