@@ -7,6 +7,7 @@ import type {
   DocumentListener,
   DocumentState,
   Engine,
+  HistoryEntry,
   HistoryLimits,
   IdSource,
   Artwork,
@@ -20,7 +21,10 @@ type DocumentView = {
   readonly canUndo: boolean;
   readonly canRedo: boolean;
   readonly lastEvent: DocumentEvent;
+  readonly newest: HistoryMark | null;
 };
+
+type HistoryMark = Pick<HistoryEntry, 'label' | 'origin' | 'actor'>;
 
 type HostChange = {
   readonly kind: 'open' | 'close';

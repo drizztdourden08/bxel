@@ -4,6 +4,7 @@ import { mainModules } from '../.brock/modules.main';
 import { mainBootTasks } from '../.brock/boot.main';
 import { mainHandlers } from '../.brock/handlers.main';
 import { product } from '../src/product';
+import { registerAssistantBridge } from './assistant/register-assistant-bridge';
 import { allowOpenedFile } from './open/allow-opened-file';
 
 bootstrapApp(product, {
@@ -11,6 +12,7 @@ bootstrapApp(product, {
   bootTasks: mainBootTasks,
   handlers: mainHandlers,
   onOpen: allowOpenedFile,
+  bridge: { register: registerAssistantBridge, openOnBoot: false },
   dataDomains: [
     { domain: 'profiles', label: 'Profiles', dir: 'profiles', description: 'Each profile with its settings.', clearable: false },
     { domain: 'logs', label: 'Logs', dir: 'debug', description: 'Session and console logs.', cleanOlderThanDays: [7, 30], portable: false },

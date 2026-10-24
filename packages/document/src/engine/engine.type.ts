@@ -3,7 +3,7 @@ import type { CommandDef } from '../commands/command-def.type';
 import type { CommandStep, HistoryRequest, TransactionRequest } from '../commands/transaction.type';
 import type { TransactionResult } from '../commands/result.type';
 import type { Draft } from '../draft/draft.type';
-import type { HistoryDirection, HistoryLimits, HistoryState } from '../history/history.type';
+import type { HistoryDirection, HistoryEntry, HistoryLimits, HistoryState } from '../history/history.type';
 import type { IdSource } from '../ids/id-source.type';
 import type { DocumentId } from '../model/ids.type';
 import type { DocumentState, Artwork } from '../model/artwork.type';
@@ -24,6 +24,7 @@ type Engine = {
   readonly undo: (request: HistoryRequest) => TransactionResult;
   readonly redo: (request: HistoryRequest) => TransactionResult;
   readonly subscribe: (listener: DocumentListener) => () => void;
+  readonly newest: () => HistoryEntry | null;
   readonly canUndo: () => boolean;
   readonly canRedo: () => boolean;
   readonly isClean: () => boolean;
