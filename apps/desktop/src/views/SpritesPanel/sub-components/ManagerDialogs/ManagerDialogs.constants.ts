@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind constants */
+import { COMPOSE_TEXT } from '../../../../sheet-manager/compose-text.constants';
 import { DEFAULT_PATTERN, FIRST_NUMBER } from '../../../../sheet-manager/manager.constants';
 import type { RenameSpec } from '../../../../sheet-manager/manager.type';
 import { DIALOG_TEXT } from '../../../../sheet-manager/manager-text.constants';
@@ -14,6 +15,11 @@ const PIVOT_KINDS = [
   { value: 'first', label: DIALOG_TEXT.pivotFirst },
 ] as const;
 
+const SLICE_KINDS = [
+  { value: 'count', label: COMPOSE_TEXT.byCount },
+  { value: 'size', label: COMPOSE_TEXT.bySize },
+] as const;
+
 const PREVIEW_ROWS = 8;
 
-export { PIVOT_KINDS, PIVOT_START, PREVIEW_ROWS, RENAME_START };
+export { PIVOT_KINDS, PIVOT_START, PREVIEW_ROWS, RENAME_START, SLICE_KINDS };

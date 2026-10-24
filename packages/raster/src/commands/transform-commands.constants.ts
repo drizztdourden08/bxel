@@ -4,6 +4,9 @@ const TRANSFORM_COMMAND = {
   spriteTurn: 'sprite.turn',
   spriteResize: 'sprite.resize',
   spriteTrim: 'sprite.trim',
+  spriteMerge: 'sprite.merge',
+  spriteSplit: 'sprite.split',
+  spriteSlice: 'sprite.slice',
   pixelsFlip: 'pixels.flip',
   pixelsTurn: 'pixels.turn',
 } as const;

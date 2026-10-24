@@ -9,7 +9,7 @@ type ManagerView = 'grid' | 'list';
 
 type SortKey = 'manual' | 'name' | 'size' | 'area' | 'frames';
 
-type ManagerDialog = 'rename' | 'pivot' | 'resize' | null;
+type ManagerDialog = 'rename' | 'pivot' | 'resize' | 'merge' | 'split' | 'slice' | null;
 
 interface ManagerFilter {
   animated: boolean;

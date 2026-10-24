@@ -1,7 +1,5 @@
 /* @layer core @kind logic */
-import { prunePresets } from '../../draft/prune-presets';
-import { removeFromSheets } from '../../draft/remove-from-sheets';
-import { removeSprites } from '../../draft/remove-sprites';
+import { dropSprites } from '../../draft/drop-sprites';
 import { findSprite } from '../../read/find-sprite';
 import { spriteDeleteSchema } from '../../schema/sprite-delete-schema';
 import { COMMAND_NAME } from '../command-name.constants';
@@ -22,9 +20,7 @@ const spriteDelete = defineCommand({
     }
     const left = draft.artwork.sprites.filter((sprite) => sprite.role === 'sprite' && !gone.has(sprite.id));
     if (left.length === 0) throw fail(ERROR_CODE.LAST_SPRITE, 'A file keeps at least one sprite.');
-    removeFromSheets(draft, gone);
-    removeSprites(draft, gone);
-    prunePresets(draft, gone);
+    dropSprites(draft, gone);
   },
 });
 

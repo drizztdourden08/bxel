@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
+import { expandNamePattern as expandPattern } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { stepHistory } from '../../src/editor/step-history';
-import { expandPattern } from '../../src/sheet-manager/expand-pattern';
 import type { RenameSpec } from '../../src/sheet-manager/manager.type';
 import { planRenames } from '../../src/sheet-manager/plan-renames';
 import { renameSprites } from '../../src/sheet-manager/rename-sprites';

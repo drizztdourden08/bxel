@@ -97,10 +97,10 @@ describe('the atlas pieces', () => {
 });
 
 describe('the action menu', () => {
-  it('has the groups for editing, ordering, the sheet, transforms and selecting', () => {
+  it('has the groups for editing, combining, ordering, the sheet, transforms and selecting', () => {
     const groups = actionGroups({ model: modelOf(), sortKey: 'manual', rename: none, open: none });
-    expect(groups.map((group) => group.id)).toEqual(['edit', 'order', 'sheet', 'transform', 'select']);
-    expect(itemIds(groups)).toEqual(expect.arrayContaining(['rename', 'rename-many', 'duplicate', 'delete', 'sort-name', 'add-to-sheet', 'pivot', 'trim', 'flip-h', 'turn-half', 'select-invert']));
+    expect(groups.map((group) => group.id)).toEqual(['edit', 'combine', 'order', 'sheet', 'transform', 'select']);
+    expect(itemIds(groups)).toEqual(expect.arrayContaining(['rename', 'rename-many', 'duplicate', 'delete', 'merge', 'split', 'slice', 'sort-name', 'add-to-sheet', 'pivot', 'trim', 'flip-h', 'turn-half', 'select-invert']));
   });
 
   it('turns the item off when nothing is picked and offers the view order only when sorted', () => {
@@ -109,7 +109,7 @@ describe('the action menu', () => {
     const edit = actionGroups({ model: empty, sortKey: 'manual', rename: none, open: none })[0];
     const duplicate = edit?.items.find((item) => 'id' in item && item.id === 'duplicate');
     expect(duplicate && 'disabled' in duplicate ? duplicate.disabled : false).toBe(true);
-    expect(hasItem(actionGroups({ model: base, sortKey: 'manual', rename: none, open: none })[1], 'use-order')).toBe(false);
-    expect(hasItem(actionGroups({ model: base, sortKey: 'name', rename: none, open: none })[1], 'use-order')).toBe(true);
+    expect(hasItem(actionGroups({ model: base, sortKey: 'manual', rename: none, open: none })[2], 'use-order')).toBe(false);
+    expect(hasItem(actionGroups({ model: base, sortKey: 'name', rename: none, open: none })[2], 'use-order')).toBe(true);
   });
 });
