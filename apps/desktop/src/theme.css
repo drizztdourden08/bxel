@@ -1,1 +1,19 @@
 /* @layer renderer-app @kind style */
+:root {
+  --p-primary: #e0245e;
+  --p-secondary: #7b3fe4;
+  --p-tertiary: #9a86c8;
+  --p-white: #f4eeff;
+  --p-black: #140b26;
+  --p-bxel-deep-purple: #4b1fa0;
+  --p-gradient-dark-from: #2c1466;
+  --p-gradient-dark-to: #140b26;
+  --p-on-primary: var(--p-pure-white);
+  --p-on-secondary: var(--p-pure-white);
+  --c-bg: var(--p-black);
+  --c-surface: color-mix(in oklab, var(--p-bxel-deep-purple) 22%, var(--p-black));
+  --c-sunken: color-mix(in oklab, var(--p-black) 72%, var(--p-pure-black));
+  --c-border: color-mix(in oklab, var(--p-bxel-deep-purple) 55%, var(--p-black));
+  --c-border-strong: color-mix(in oklab, var(--p-bxel-deep-purple) 80%, var(--p-tertiary));
+  --c-selected: color-mix(in srgb, var(--p-secondary) 32%, transparent);
+}

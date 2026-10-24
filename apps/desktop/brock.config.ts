@@ -7,9 +7,15 @@ export default defineBrockConfig({
     name: 'Bxel',
     appId: 'com.drizztdourden08.bxel',
     ports: { base: 23600 },
-    description: 'A blank Brock app.',
+    description: 'A palette constrained pixel art editor for sprites, animation and sprite sheets.',
     author: { name: 'Drizztdourden_', email: '36481532+drizztdourden08@users.noreply.github.com' },
-    icons: { brand: 'brock' },
+    icons: {
+      ico: 'build/app-icon/icon.ico',
+      png256: 'build/app-icon/icon-256.png',
+      png512: 'build/app-icon/icon-512.png',
+      wordmark: { src: './logos/bxel-wordmark.svg' },
+    },
+    logos: { app: './logos/bxel-icon-32.png', mark: './logos/bxel-mark.svg' },
     singleProfile: true,
     fileAssociations: [
       {

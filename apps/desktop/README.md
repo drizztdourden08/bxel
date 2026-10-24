@@ -1,8 +1,8 @@
 <!-- @layer docs @kind doc -->
 # Bxel
 
-A blank Brock app: Electron + React on the Tessera design system, with profiles,
-settings and an about screen already in place.
+A palette constrained pixel art editor for sprites, animation and sprite sheets.
+Electron and React on the Tessera design system, a Brock app.
 
 ## Commands
 
