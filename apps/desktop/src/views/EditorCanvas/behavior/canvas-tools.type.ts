@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { MouseEventHandler, PointerEvent, PointerEventHandler } from 'react';
+import type { CombineMode, MaskView, Point } from '@bxel/raster';
+import type { DragShape } from '../../../editor/selection/selection.type';
 import type { PixelDraw, PixelPoint } from '../../PixelViewport';
 
 interface PaintGesture {
@@ -10,6 +12,16 @@ interface PaintGesture {
 }
 
 interface AxisDrag {
+  down: (event: PointerEvent<HTMLElement>) => boolean;
+  move: (event: PointerEvent<HTMLElement>) => boolean;
+  up: () => boolean;
+}
+
+type ActiveDrag =
+  | { kind: 'shape'; shape: DragShape; base: MaskView | null; mode: CombineMode }
+  | { kind: 'float'; start: Point; origin: Point };
+
+interface SelectGesture {
   down: (event: PointerEvent<HTMLElement>) => boolean;
   move: (event: PointerEvent<HTMLElement>) => boolean;
   up: () => boolean;
@@ -31,6 +43,8 @@ interface CanvasReadout {
 interface OverlayLook {
   axis: string;
   cursor: string;
+  ink: string;
+  ground: string;
 }
 
 interface ClientPoint {
@@ -38,4 +52,4 @@ interface ClientPoint {
   clientY: number;
 }
 
-export type { AxisDrag, CanvasReadout, CanvasTools, ClientPoint, OverlayLook, PaintGesture };
+export type { ActiveDrag, AxisDrag, CanvasReadout, CanvasTools, ClientPoint, OverlayLook, PaintGesture, SelectGesture };

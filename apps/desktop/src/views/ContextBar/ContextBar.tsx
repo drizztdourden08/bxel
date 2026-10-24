@@ -6,6 +6,7 @@ import { BrushOptions } from './sub-components/BrushOptions';
 import { FillOptions } from './sub-components/FillOptions';
 import { PixelPerfectOption } from './sub-components/PixelPerfectOption';
 import { ScopeChips } from './sub-components/ScopeChips';
+import { SelectOptions } from './sub-components/SelectOptions';
 import { ShapeOptions } from './sub-components/ShapeOptions';
 import { SymmetryOptions } from './sub-components/SymmetryOptions';
 import './ContextBar.css';
@@ -22,6 +23,7 @@ const ContextBar = () => {
       {options.includes('pixelPerfect') && <PixelPerfectOption />}
       {options.includes('fill') && <FillOptions />}
       {options.includes('symmetry') && <SymmetryOptions />}
+      {options.includes('select') && <SelectOptions />}
     </Flex>
   );
 };

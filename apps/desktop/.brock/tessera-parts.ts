@@ -5,6 +5,7 @@ declare module '@drizztdourden08/tessera' {
   interface TesseraApps {
     'bxel': {
       parts:
+        | 'ApplyBar'
         | 'ContextBar'
         | 'EditorCanvas'
         | 'EditorScreen'
@@ -13,7 +14,9 @@ declare module '@drizztdourden08/tessera' {
         | 'PalettePanel'
         | 'PixelViewport'
         | 'RecoveryDialog'
-        | 'ToolRail';
+        | 'ToolRail'
+        | 'TransformDialog'
+        | 'TransformPanel';
     };
   }
 }

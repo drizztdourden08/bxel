@@ -4,6 +4,7 @@ import { bankTable } from './bank-table';
 import { CHANNELS } from './bank-table.constants';
 import type { EditorTarget, Overlay } from './editor.type';
 import { refreshRect } from './refresh-rect';
+import { selectionMask } from './selection/selection-mask';
 
 const createOverlay = (target: EditorTarget): Overlay => {
   const { sprite, bank, frameId } = target;
@@ -16,6 +17,7 @@ const createOverlay = (target: EditorTarget): Overlay => {
     rgba: new Uint8ClampedArray(sprite.width * sprite.height * CHANNELS),
     table: bankTable(bank),
     dirty: null,
+    mask: selectionMask(target),
   };
   refreshRect(overlay, { x: 0, y: 0, width: sprite.width, height: sprite.height });
   return overlay;

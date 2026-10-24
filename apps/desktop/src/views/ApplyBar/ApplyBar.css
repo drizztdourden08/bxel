@@ -1,0 +1,13 @@
+/* @layer renderer-app @kind style */
+.apply-bar {
+  padding: var(--space-xs) var(--space-sm);
+  border-block-start: var(--border-width-thin) solid var(--c-border);
+}
+
+.apply-bar__error {
+  color: var(--c-danger);
+}
+
+.apply-bar__actions {
+  margin-inline-start: auto;
+}

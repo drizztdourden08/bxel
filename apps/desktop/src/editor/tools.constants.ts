@@ -11,9 +11,11 @@ const TOOLS: readonly ToolDef[] = [
   { id: 'shape', label: 'Shapes', key: 'u', group: 'draw' },
   { id: 'zoom', label: 'Zoom', key: 'z', group: 'view' },
   { id: 'hand', label: 'Hand', key: 'h', group: 'view' },
+  { id: 'select', label: 'Select', key: 'm', group: 'select' },
+  { id: 'move', label: 'Move', key: 'v', group: 'select' },
 ];
 
-const TOOL_GROUPS: readonly ToolGroup[] = ['draw', 'view'];
+const TOOL_GROUPS: readonly ToolGroup[] = ['draw', 'select', 'view'];
 
 const SHAPE_KINDS: readonly ShapeKind[] = ['line', 'rect', 'ellipse'];
 

@@ -10,7 +10,7 @@ const shapeRequest = (target: EditorTarget, session: ShapeSession): TransactionR
   const { shape, from, to, index, filled, brush, symmetry } = spec;
   return commitRequest(target, SHAPE_LABELS[shape], {
     name: COMMAND_NAME.pixelsShape,
-    options: { shape, from, to, index, filled, brush, symmetry },
+    options: { shape, from, to, index, filled, brush, symmetry, ...(session.mask ? { mask: session.mask } : {}) },
   });
 };
 

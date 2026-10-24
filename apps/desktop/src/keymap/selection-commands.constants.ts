@@ -1,0 +1,76 @@
+/* @layer renderer-app @kind constants */
+import type { CommandDef } from '@drizztdourden08/brock-react';
+import { applyPreview } from '../editor/pending/apply-preview';
+import { cancelPreview } from '../editor/pending/cancel-preview';
+import { hasPreview } from '../editor/pending/has-preview';
+import { clearSelection } from '../editor/selection/clear-selection';
+import { copySelection } from '../editor/selection/copy-selection';
+import { cutSelection } from '../editor/selection/cut-selection';
+import { deleteSelection } from '../editor/selection/delete-selection';
+import { invertSelection } from '../editor/selection/invert-selection';
+import { pasteClip } from '../editor/selection/paste-clip';
+import { resizeSelection } from '../editor/selection/resize-selection';
+import { selectAll } from '../editor/selection/select-all';
+import { startFlip } from '../editor/transform/start-flip';
+import { startRotate } from '../editor/transform/start-rotate';
+import { startScale } from '../editor/transform/start-scale';
+import { startTurn } from '../editor/transform/start-turn';
+import { hasActiveDocument } from '../files/has-active-document';
+import { editorCommand } from './editor-command';
+import { COMMAND_GROUP } from './keymap.constants';
+import { SELECTION_COMMAND_ID as ID } from './selection-command-id.constants';
+
+const group = COMMAND_GROUP.edit;
+
+const SELECTION_EDITS: readonly CommandDef[] = [
+  { id: ID.selectAll, label: 'Select all', group, chord: 'Mod+A', whileTyping: false, run: selectAll },
+  { id: ID.clear, label: 'Deselect', group, chord: 'Mod+D', whileTyping: false, run: clearSelection },
+  { id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: invertSelection },
+  { id: ID.expand, label: 'Expand selection by 1 pixel', group, run: () => resizeSelection(1) },
+  { id: ID.shrink, label: 'Shrink selection by 1 pixel', group, run: () => resizeSelection(-1) },
+  { id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: copySelection },
+  { id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: cutSelection },
+  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: pasteClip },
+  { id: ID.delete, label: 'Delete', group, chord: 'Delete', whileTyping: false, run: deleteSelection },
+];
+
+const PREVIEW_COMMANDS: readonly CommandDef[] = [
+  {
+    id: ID.apply,
+    label: 'Apply',
+    group,
+    chord: 'Enter',
+    whileTyping: false,
+    when: () => hasActiveDocument() && hasPreview(),
+    run: applyPreview,
+  },
+  {
+    id: ID.cancel,
+    label: 'Cancel',
+    group,
+    chord: 'Escape',
+    whileTyping: false,
+    when: () => hasActiveDocument() && hasPreview(),
+    run: cancelPreview,
+  },
+];
+
+const TRANSFORM_COMMANDS: readonly CommandDef[] = [
+  { id: ID.flipHorizontal, label: 'Flip horizontal', group, chord: 'Shift+H', whileTyping: false, run: () => startFlip('horizontal') },
+  { id: ID.flipVertical, label: 'Flip vertical', group, chord: 'Shift+V', whileTyping: false, run: () => startFlip('vertical') },
+  { id: ID.turnClockwise, label: 'Rotate 90 clockwise', group, chord: 'Shift+R', whileTyping: false, run: () => startTurn('clockwise') },
+  {
+    id: ID.turnCounterClockwise,
+    label: 'Rotate 90 counterclockwise',
+    group,
+    chord: 'Shift+Alt+R',
+    whileTyping: false,
+    run: () => startTurn('counter-clockwise'),
+  },
+  { id: ID.rotate, label: 'Rotate...', group, run: startRotate },
+  { id: ID.scale, label: 'Scale...', group, run: startScale },
+];
+
+const SELECTION_COMMANDS: readonly CommandDef[] = [...SELECTION_EDITS, ...PREVIEW_COMMANDS, ...TRANSFORM_COMMANDS].map(editorCommand);
+
+export { SELECTION_COMMANDS };

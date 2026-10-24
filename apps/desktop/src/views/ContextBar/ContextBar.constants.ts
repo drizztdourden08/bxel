@@ -21,6 +21,11 @@ const CONTEXT_TEXT = {
   symmetry: 'Symmetry',
   mirrorX: 'Mirror X  Alt+X',
   mirrorY: 'Mirror Y  Alt+Y',
+  selectVariant: 'Selection shape',
+  selectMode: 'Selection mode',
+  wandNeighbours: 'Wand neighbours',
+  expand: 'Expand 1',
+  shrink: 'Shrink 1',
 } as const;
 
 const TOOL_OPTIONS: Readonly<Record<ToolId, readonly OptionKind[]>> = {
@@ -31,6 +36,8 @@ const TOOL_OPTIONS: Readonly<Record<ToolId, readonly OptionKind[]>> = {
   shape: ['shape', 'brush', 'symmetry'],
   zoom: [],
   hand: [],
+  select: ['select'],
+  move: [],
 };
 
 const BRUSH_SHAPES: readonly BrushShape[] = ['square', 'circle'];

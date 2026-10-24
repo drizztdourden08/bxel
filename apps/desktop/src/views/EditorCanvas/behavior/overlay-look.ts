@@ -7,6 +7,8 @@ const overlayLook = (canvas: HTMLCanvasElement): OverlayLook => {
   return {
     axis: style?.getPropertyValue(OVERLAY_TOKENS.axis).trim() ?? '',
     cursor: style?.getPropertyValue(OVERLAY_TOKENS.cursor).trim() ?? '',
+    ink: style?.getPropertyValue(OVERLAY_TOKENS.ink).trim() ?? '',
+    ground: style?.getPropertyValue(OVERLAY_TOKENS.ground).trim() ?? '',
   };
 };
 
