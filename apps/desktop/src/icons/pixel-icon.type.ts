@@ -47,7 +47,8 @@ type ActionIconName =
   | 'saveFile'
   | 'exportImage'
   | 'layers'
-  | 'palette';
+  | 'palette'
+  | 'lock';
 
 type SheetIconName = 'gridView' | 'listView' | 'atlas';
 

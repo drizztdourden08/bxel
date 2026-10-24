@@ -7,4 +7,18 @@ interface ScopeMenusProps {
   chips: ScopeChipModel;
 }
 
-export type { OptionKind, ScopeMenusProps };
+type ScopeChipKey = 'sprite' | 'layer' | 'frame';
+
+interface ScopeChipView {
+  key: ScopeChipKey;
+  text: string;
+  full: string;
+  locked: boolean;
+  danger: boolean;
+}
+
+interface ScopeChipProps {
+  chip: ScopeChipView;
+}
+
+export type { OptionKind, ScopeChipKey, ScopeChipProps, ScopeChipView, ScopeMenusProps };

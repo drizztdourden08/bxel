@@ -13,7 +13,8 @@ const usage = {
   ],
   rules: [
     'The bar reads and writes the tool store and the open document, so it takes no props.',
-    'The scope chips are read-only: Sprite, Layer and Frame. A locked or hidden layer turns its chip to the danger tone and says why.',
+    'It is one row of fixed height that never wraps: a chip that gets long truncates with an ellipsis and a tooltip with the full text, and a row that is still too wide scrolls sideways.',
+    'The scope chips are read-only: Sprite, Layer and Frame. A locked layer shows a lock icon on a danger chip; a hidden layer says so in the chip text.',
     'Only the options of the active tool show. Symmetry shows for the pencil, the eraser and shapes.',
     'Each option has a command with a key, so the bar and the menu change the same store.',
   ],

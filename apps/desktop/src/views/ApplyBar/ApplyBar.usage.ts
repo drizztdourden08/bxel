@@ -15,6 +15,7 @@ const usage = {
     'The bar reads the pending edit and its preview from the pending store, so it takes no props and shows nothing when no edit waits.',
     'It lists Targets, Layers, Frames and Clipping, then Cancel and Apply. Enter applies as a command, and Escape cancels through the escape stack.',
     'Apply is off while the preview reports an error, and the error shows in the bar.',
+    'It floats over the canvas area and takes no layout space, so the canvas never moves. A transparent scrim blocks the pointer on the canvas until the user picks Apply or Cancel.',
   ],
   a11y: [
     'The bar is a labelled region and its scope chips are a status, so a screen reader hears the scope when the bar opens.',
@@ -22,7 +23,7 @@ const usage = {
   ],
   tree: {
     path: ['layout', 'an app frame with its navigation'],
-    rule: 'ApplyBar is the strip under the canvas that asks for a decision on a previewed edit.',
+    rule: 'ApplyBar is the floating bar over the foot of the canvas that asks for a decision on a previewed edit.',
   },
   example: `import { ApplyBar } from '../ApplyBar';
 

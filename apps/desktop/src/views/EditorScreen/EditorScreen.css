@@ -10,3 +10,10 @@
   min-block-size: 0;
   padding: var(--space-sm);
 }
+
+.editor-screen__stage {
+  position: relative;
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 0;
+}
