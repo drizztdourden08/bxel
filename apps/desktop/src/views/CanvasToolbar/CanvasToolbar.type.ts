@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { ShortcutKey, ToolbarSlot } from '@drizztdourden08/tessera';
+import type { IconName, ShortcutKey, ToolbarSlot } from '@drizztdourden08/tessera';
 import type { SpriteMode } from '../../stores/sprite-store.type';
 import type { HintSpec } from '../ActionHint';
 
@@ -20,9 +20,13 @@ interface ModeModel {
 interface TransformAction {
   id: string;
   hint: HintSpec;
+  icon?: IconName;
+  needsSelection?: boolean;
   run: () => void;
 }
 
-type ModeKeys = Readonly<Record<SpriteMode, readonly ShortcutKey[] | undefined>>;
+type TransformKeys = Readonly<Record<string, readonly ShortcutKey[] | undefined>>;
 
-export type { CanvasToolbarProps, ModeKeys, ModeModel, TransformAction };
+type ModeKeys =Readonly<Record<SpriteMode, readonly ShortcutKey[] | undefined>>;
+
+export type { CanvasToolbarProps, ModeKeys, ModeModel, TransformAction, TransformKeys };

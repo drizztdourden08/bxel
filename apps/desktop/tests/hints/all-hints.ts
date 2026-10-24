@@ -13,7 +13,7 @@ import { SCOPE_HINTS } from '../../src/views/ScopeBar/ScopeBar.constants';
 import { LAYER_ACTIONS, LAYER_TOGGLES } from '../../src/views/LayersPanel/LayersPanel.constants';
 import { swatchHint } from '../../src/views/PalettePanel/PalettePanel.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
-import { TRANSFORM_ACTIONS, TRANSFORM_HINT } from '../../src/views/CanvasToolbar/sub-components/TransformMenu.constants';
+import { CANVAS_ACTIONS, TRANSFORM_ACTIONS, TRANSFORM_HINT } from '../../src/views/CanvasToolbar/sub-components/TransformMenu.constants';
 import type { HintSpec } from '../../src/views/ActionHint';
 import { COMMAND_ID } from '../../src/keymap/keymap.constants';
 import type { ToolDef } from '../../src/editor/tool.type';
@@ -57,6 +57,7 @@ const allHints = (): HintSpec[] => [
   ...LAYER_ACTIONS.map((action) => action.hint),
   ...LAYER_TOGGLES.map((toggle) => toggle.hint),
   ...TRANSFORM_ACTIONS.map((action) => action.hint),
+  ...CANVAS_ACTIONS.map((action) => action.hint),
   TRANSFORM_HINT,
   ...Object.values(SPRITE_HINTS),
   ...Object.values(MODE_HINTS),

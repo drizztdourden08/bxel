@@ -2,6 +2,7 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { FILE_COMMANDS } from '../files/file-commands.constants';
 import { BRUSH_COMMANDS } from './brush-commands.constants';
+import { CANVAS_SIZE_COMMANDS } from './canvas-size-commands.constants';
 import { DIALOG_COMMANDS } from './dialog-commands.constants';
 import { EDIT_COMMANDS } from './edit-commands.constants';
 import { HELP_COMMANDS } from './help-commands.constants';
@@ -18,6 +19,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...VIEW_COMMANDS,
   ...EDIT_COMMANDS,
   ...SELECTION_COMMANDS,
+  ...CANVAS_SIZE_COMMANDS,
   ...SHEET_EDITOR_COMMANDS,
   ...TILEMAP_COMMANDS,
   ...HELP_COMMANDS,

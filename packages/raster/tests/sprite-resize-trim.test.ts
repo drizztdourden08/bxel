@@ -92,3 +92,21 @@ describe('sprite.trim', () => {
     expect(findSprite(engine.state().artwork, ids.wide)?.width).toBe(3);
   });
 });
+
+describe('sprite.crop', () => {
+  test('keeps the asked rectangle, moves the pivot and is one undo step', () => {
+    const engine = pixelEngine(smallArtwork());
+    const original = engine.state().artwork;
+    const result = applyStep(engine, 'sprite.crop', scopeOf([small]), { x: 1, y: 1, width: 2, height: 1 });
+    expect(rowsOf(engine, small, smallCel)).toEqual(['12']);
+    expect(dimsOf(engine, small)).toEqual({ width: 2, height: 1, pivot: { x2: 2, y2: 2 } });
+    okOf(engine.undo({ documentId, expectedRevision: result.revision }));
+    expect(engine.state().artwork).toEqual(original);
+  });
+
+  test('refuses a rectangle that reaches outside the sprite', () => {
+    const engine = pixelEngine(smallArtwork());
+    const refusal = refusalOf(engine, stepOf('sprite.crop', scopeOf([small]), { x: 3, y: 0, width: 2, height: 2 }));
+    expect(refusal.code).toBe('INVALID_OPTION');
+  });
+});
