@@ -17,7 +17,9 @@ const checkGifFrame = (
   if (frame.indices.length !== pixelCount) {
     return formatFail(FORMAT_ERROR_CODE.GIF_INVALID_INPUT, `Frame holds ${frame.indices.length} indices, expected ${pixelCount}`);
   }
-  for (const index of frame.indices) {
+  const count = frame.indices.length;
+  for (let at = 0; at < count; at += 1) {
+    const index = frame.indices[at] ?? 0;
     if (index >= entries) {
       return formatFail(FORMAT_ERROR_CODE.GIF_INVALID_INPUT, `Index ${index} is outside the palette`);
     }

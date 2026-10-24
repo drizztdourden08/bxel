@@ -19,6 +19,7 @@
     "deadcode": "brock knip",
     "duplicates": "jscpd .",
     "test": "vitest run",
+    "bench": "vitest bench --run",
     "postinstall": "node bin/bxel.mjs --link"
   },
   "brock": {
