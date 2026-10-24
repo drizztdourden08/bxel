@@ -1,40 +1,30 @@
 /* @layer core @kind logic */
-import { strFromU8 } from 'fflate';
+import { readAsset } from '@bxel/document/native';
 import { PROJECT_ERROR_CODE } from '../errors/project-error.constants';
 import { projectFail } from '../errors/project-fail';
 import { projectOk } from '../errors/project-ok';
 import type { ProjectResult } from '../errors/project-result.type';
-import { parseProjectDocument } from '../project-document/parse-project-document';
+import { parseProjectDocumentValue } from '../project-document/parse-project-document-value';
 import { isAssetEntry } from './asset-entry';
-import { checkContainerKind } from './check-container-kind';
-import { parseContainerManifest } from './parse-container-manifest';
-import { CONTAINER_ENTRY } from './project-container.constants';
+import { PROJECT_KIND } from './project-container.constants';
 import type { DecodedProject } from './project-file.type';
-import { readArchive } from './read-archive';
-import { verifyContainerEntries } from './verify-container-entries';
+import { projectFailureOf } from './project-failure-of';
 
 const decodeProject = (bytes: Uint8Array): ProjectResult<DecodedProject> => {
-  const archive = readArchive(bytes);
-  if (!archive.ok) return archive;
-  const wrong = checkContainerKind(bytes);
-  if (wrong) return wrong;
-  const container = parseContainerManifest(archive.value);
-  if (!container.ok) return container;
-  const good = verifyContainerEntries(container.value, archive.value);
-  if (!good.ok) return good;
-  const document = good.value.get(CONTAINER_ENTRY.document);
-  if (!document) return projectFail(PROJECT_ERROR_CODE.PROJECT_FILE_INVALID, 'The project file has no project.json.');
-  const manifest = parseProjectDocument(strFromU8(document));
+  const read = readAsset(bytes, PROJECT_KIND);
+  if (!read.ok) return projectFailureOf(read.issues);
+  const { opened, check, json } = read.value;
+  const manifest = parseProjectDocumentValue(json);
   if (!manifest.ok) return manifest;
-  if (manifest.value.projectId !== container.value.assetId) {
+  if (manifest.value.projectId !== opened.manifest.assetId) {
     return projectFail(PROJECT_ERROR_CODE.PROJECT_FILE_INVALID, 'The project file and its manifest name different projects.');
   }
-  const assets = new Map([...good.value].filter(([path]) => isAssetEntry(path)));
+  const { preview, savedAt } = opened.manifest;
   return projectOk({
     manifest: manifest.value,
-    preview: good.value.get(CONTAINER_ENTRY.preview) ?? null,
-    assets,
-    savedAt: container.value.savedAt,
+    preview: preview === null ? null : (check.good.get(preview) ?? null),
+    assets: new Map([...check.good].filter(([path]) => isAssetEntry(path))),
+    savedAt,
   });
 };
 

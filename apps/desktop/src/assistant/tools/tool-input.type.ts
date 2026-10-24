@@ -88,11 +88,13 @@ type OpenInput = {
 
 type OpenTarget = { readonly path: string; readonly viaRecent: boolean };
 
+type WireFileKind = 'bxel' | 'image' | 'palette' | 'sheet_json' | 'other';
+
 type ListFilesInput = {
   readonly projectId: string;
   readonly folderId: string;
   readonly path?: string;
-  readonly kinds: readonly ('bxel' | 'image' | 'palette' | 'sheet_json' | 'other')[];
+  readonly kinds: readonly WireFileKind[];
   readonly offset: number;
   readonly limit: number;
 };
@@ -115,6 +117,7 @@ export type {
   SaveInput,
   SpriteFrame,
   UndoInput,
+  WireFileKind,
   WireRect,
   WireStep,
 };

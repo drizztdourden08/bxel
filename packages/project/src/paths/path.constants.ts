@@ -16,6 +16,12 @@ const UNSAFE_SEGMENT_START = /^[^A-Za-z0-9_]+/;
 
 const FILE_EXTENSIONS = {
   bxel: ['bxel'],
+  bxsprite: ['bxsprite'],
+  bxsheet: ['bxsheet'],
+  bxpalette: ['bxpalette'],
+  bxtiles: ['bxtiles'],
+  bxmap: ['bxmap'],
+  bxproject: ['bxproject'],
   png: ['png'],
   apng: ['png', 'apng'],
   gif: ['gif'],

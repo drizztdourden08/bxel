@@ -13,7 +13,7 @@ const useProjectActions = ({ dir, enter, refresh }: ProjectActionsInput): Projec
   const openEntry = useCallback(
     (entry: ListedEntry): void => {
       if (entry.kind === 'folder') return enter(entry.name);
-      const path = dir === null || entry.kind !== 'bxel' ? null : joinInside(dir, entry.name);
+      const path = dir === null || entry.kind !== 'legacy' ? null : joinInside(dir, entry.name);
       if (path?.ok) void runFileAction({ kind: 'openPath', path: path.value });
       return undefined;
     },

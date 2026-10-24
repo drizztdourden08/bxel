@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
+import { entryKindOf } from './entry-kind-of';
 import { isListableName } from './is-listable-name';
-import { listedKindOf } from './listed-kind-of';
 import type { ListedEntry, Listing, ListOptions, RawEntry } from './listing.type';
 
 const byName = (first: ListedEntry, second: ListedEntry): number =>
@@ -9,7 +9,7 @@ const byName = (first: ListedEntry, second: ListedEntry): number =>
 const listedOf = (entry: RawEntry): ListedEntry =>
   entry.kind === 'folder'
     ? { name: entry.name, kind: 'folder' }
-    : { name: entry.name, kind: listedKindOf(entry.name), bytes: entry.size, modified: entry.modified };
+    : { name: entry.name, kind: entryKindOf(entry.name), bytes: entry.size, modified: entry.modified };
 
 const wanted = (entry: ListedEntry, options: ListOptions): boolean =>
   entry.kind === 'folder' || options.kinds.includes(entry.kind);

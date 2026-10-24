@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind hook */
-import { DEFAULT_LISTED_KINDS } from '@bxel/project';
+import { DEFAULT_ENTRY_KINDS } from '@bxel/project';
 import { useCallback, useEffect, useState } from 'react';
 import { fileKit } from '../../../files/file-kit';
 import { reasonOf } from '../../../files/reason-of';
@@ -26,7 +26,7 @@ const useProjectListing = (dir: string | null): ListingState & { readonly refres
       return undefined;
     }
     let live = true;
-    const options = { kinds: DEFAULT_LISTED_KINDS, offset: 0, limit: PANEL_LIST_LIMIT };
+    const options = { kinds: DEFAULT_ENTRY_KINDS, offset: 0, limit: PANEL_LIST_LIMIT };
     listFolderEntries(kit.documents, dir, options).then(
       (listing) => live && setState({ listing, error: null }),
       (failure: unknown) => live && setState({ listing: null, error: reasonOf(failure) }),

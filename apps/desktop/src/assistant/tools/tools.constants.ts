@@ -1,4 +1,7 @@
 /* @layer renderer-app @kind constants */
+import type { EntryKind } from '@bxel/project';
+import type { WireFileKind } from './tool-input.type';
+
 const RECENT_ID_LENGTH = 12;
 
 const ASSISTANT_FOLDER_NAME = 'Bxel Assistant';
@@ -12,6 +15,19 @@ const FILE_KIND_OF: Readonly<Record<string, 'bxel' | 'image' | 'palette' | 'shee
   gpl: 'palette',
   hex: 'palette',
   json: 'sheet_json',
+};
+
+const WIRE_KIND_OF: Readonly<Record<EntryKind, WireFileKind>> = {
+  sprite: 'bxel',
+  sheet: 'bxel',
+  tileset: 'bxel',
+  tilemap: 'bxel',
+  project: 'bxel',
+  legacy: 'bxel',
+  palette: 'palette',
+  image: 'image',
+  data: 'sheet_json',
+  other: 'other',
 };
 
 const TOOL_TEXT = {
@@ -39,4 +55,4 @@ const TOOL_TEXT = {
   nothingToUndo: 'There is nothing to undo.',
 } as const;
 
-export { ASSISTANT_FOLDER_NAME, FILE_KIND_OF, RECENT_ID_LENGTH, REQUEST_MEMORY_MAX, TOOL_TEXT };
+export { ASSISTANT_FOLDER_NAME, FILE_KIND_OF, RECENT_ID_LENGTH, REQUEST_MEMORY_MAX, TOOL_TEXT, WIRE_KIND_OF };

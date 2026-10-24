@@ -1,5 +1,5 @@
 /* @layer tests @kind test */
-import { DEFAULT_LISTED_KINDS, listedKindOf, listEntries } from '@bxel/project';
+import { DEFAULT_ENTRY_KINDS, listEntries } from '@bxel/project';
 import type { RawEntry } from '@bxel/project';
 import { describe, expect, it } from 'vitest';
 
@@ -7,18 +7,17 @@ const file = (name: string, size = 10, modified = 1000): RawEntry => ({ name, ki
 
 const folder = (name: string): RawEntry => ({ name, kind: 'folder', size: 0, modified: 0 });
 
-const options = { kinds: DEFAULT_LISTED_KINDS, offset: 0, limit: 200 };
+const options = { kinds: DEFAULT_ENTRY_KINDS, offset: 0, limit: 200 };
 
 describe('file kinds', () => {
-  it('sorts a name into bxel, image, palette, sheet json or other', () => {
-    expect(['a.bxel', 'a.PNG', 'a.gif', 'a.gpl', 'a.json', 'a.txt', 'noext'].map(listedKindOf)).toEqual([
-      'bxel',
-      'image',
-      'image',
-      'palette',
-      'sheet_json',
-      'other',
-      'other',
+  it('lists each file with its entry kind', () => {
+    const names = ['a.bxsprite', 'a.bxel', 'a.PNG', 'a.gpl', 'a.json'];
+    expect(listEntries(names.map((name) => file(name)), options).entries.map((entry) => [entry.name, entry.kind])).toEqual([
+      ['a.bxel', 'legacy'],
+      ['a.bxsprite', 'sprite'],
+      ['a.gpl', 'palette'],
+      ['a.json', 'data'],
+      ['a.PNG', 'image'],
     ]);
   });
 });
@@ -59,6 +58,6 @@ describe('a folder listing', () => {
   });
 
   it('carries the size and modified time of a file', () => {
-    expect(listEntries([file('a.bxel', 42, 7)], options).entries).toEqual([{ name: 'a.bxel', kind: 'bxel', bytes: 42, modified: 7 }]);
+    expect(listEntries([file('a.bxel', 42, 7)], options).entries).toEqual([{ name: 'a.bxel', kind: 'legacy', bytes: 42, modified: 7 }]);
   });
 });

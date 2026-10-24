@@ -104,4 +104,16 @@ describe('file names', () => {
   it('accepts a plain name with the right extension', () => {
     expect(checkFileName('idle 01.png', 'png')).toEqual({ ok: true, value: 'idle 01.png' });
   });
+
+  it.each([
+    ['hero.bxsprite', 'bxsprite'],
+    ['walk.bxsheet', 'bxsheet'],
+    ['dawn.bxpalette', 'bxpalette'],
+    ['cave.bxtiles', 'bxtiles'],
+    ['level.bxmap', 'bxmap'],
+    ['Dungeon.bxproject', 'bxproject'],
+  ] as const)('accepts %j as a %s file name', (name, kind) => {
+    expect(checkFileName(name, kind)).toEqual({ ok: true, value: name });
+    expect(checkFileName('hero.bxel', kind)).toMatchObject({ ok: false, code: NAME_INVALID });
+  });
 });

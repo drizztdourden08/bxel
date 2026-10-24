@@ -22,7 +22,7 @@ const newProjectFile = async (folder: string, typed: string): Promise<ProjectOut
   const path = joinInside(folder, name, 'bxel');
   if (!path.ok) return { ok: false, message: path.message };
   try {
-    const present = await listFolderEntries(kit.documents, folder, { kinds: ['bxel'], offset: 0, limit: 500 });
+    const present = await listFolderEntries(kit.documents, folder, { kinds: ['legacy'], offset: 0, limit: 500 });
     if (present.entries.some((entry) => entry.name.toLowerCase() === name.toLowerCase())) return { ok: false, message: PROJECT_TEXT.fileExists(name) };
     const created = kit.host.create({ ...DEFAULT_ARTWORK, name: name.slice(0, -BXEL_SUFFIX.length) });
     if (!created.ok) return { ok: false, message: created.error.message };
