@@ -14,6 +14,8 @@ const BROKEN: readonly (readonly [string, (manifest: Record<string, unknown>) =>
   ['a role path that climbs out', (manifest) => (manifest['folders'] = [{ folderId: 'fld_7r2k9m4q', name: 'A', path: '.', roles: { sprites: '../x' } }])],
   ['a default size that is too large', (manifest) => (manifest['defaults'] = { size: { width: 5000, height: 8 } })],
   ['an assistant folder the project lacks', (manifest) => (manifest['assistant'] = { access: 'read', folders: ['fld_zzzzzzzz'] })],
+  ['a cover in a missing folder', (manifest) => (manifest['cover'] = { folderId: 'fld_zzzzzzzz', path: 'sprites/hero.bxsprite' })],
+  ['a cover that climbs out', (manifest) => (manifest['cover'] = { folderId: 'fld_7r2k9m4q', path: '../hero.bxsprite' })],
   ['a default palette in a missing folder', (manifest) => (manifest['defaults'] = { palette: { kind: 'file', folderId: 'fld_zzzzzzzz', path: 'a.bxpalette' } })],
 ];
 
@@ -23,6 +25,13 @@ describe('manifest v2', () => {
     expect(Object.keys(JSON.parse(output) as object)).toEqual(['format', 'formatVersion', 'projectId', 'name', 'folders', 'defaults', 'assistant']);
     expect(parseProjectDocument(output)).toEqual({ ok: true, value: sampleDocument() });
     expect(writeProjectDocument(sampleDocument())).toEqual({ ok: true, value: output });
+  });
+
+  it('writes the cover after the name and reads it back', () => {
+    const withCover = { ...sampleDocument(), cover: { folderId: 'fld_7r2k9m4q' as const, path: 'sprites/hero.bxsprite' } };
+    const output = must(writeProjectDocument(withCover));
+    expect(Object.keys(JSON.parse(output) as object)).toEqual(['format', 'formatVersion', 'projectId', 'name', 'cover', 'folders', 'defaults', 'assistant']);
+    expect(parseProjectDocument(output)).toEqual({ ok: true, value: withCover });
   });
 
   it('fills the missing roles and defaults with empty ones', () => {

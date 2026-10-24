@@ -3,6 +3,7 @@ import type { AssetDefaults } from '@bxel/project';
 import { locateAsset } from '../project-meta/locate-asset';
 import { withCover } from '../project-meta/with-cover';
 import { applyProjectChange } from './apply-project-change';
+import { isSaved } from './is-saved';
 import { PROJECT_CONFIG_TEXT } from './project-config.constants';
 import type { FieldOutcome, ProjectField, ProjectFocus } from './project-config.type';
 import { setProjectDefaults } from './set-project-defaults';
@@ -26,7 +27,7 @@ const rename = (focus: ProjectFocus, value: unknown): FieldOutcome => {
 const pickCover = (focus: ProjectFocus, value: unknown): FieldOutcome => {
   if (typeof value !== 'string') return null;
   const path = value === '' ? undefined : focus.paths.get(value);
-  if (value !== '' && path === undefined) return PROJECT_CONFIG_TEXT.unsavedCover;
+  if (value !== '' && (path === undefined || !isSaved(focus.documentId, value))) return PROJECT_CONFIG_TEXT.unsavedCover;
   const cover = path === undefined ? null : locateAsset(focus.project.folders, path);
   return applyProjectChange(focus, withCover(focus.project.manifest, cover), { coverSpriteId: value === '' ? null : value });
 };

@@ -102,7 +102,10 @@ type ListFilesInput = {
   readonly limit: number;
 };
 
+type PlatformOptions = { platformStrict?: unknown; platformId?: unknown };
+
 export type {
+  PlatformOptions,
   CloseInput,
   EditInput,
   ExportInput,

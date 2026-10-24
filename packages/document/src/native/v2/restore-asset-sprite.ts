@@ -9,7 +9,7 @@ const restoreAssetSprite = (shell: SpriteJson, bank: PaletteBank, check: EntryCh
   const { sprite, damage } = restoreSprite(shell, bank, check);
   const platform = {
     ...(shell.platformId === undefined ? {} : { platformId: shell.platformId }),
-    ...(shell.platformStrict === true ? { platformStrict: true } : {}),
+    ...(typeof shell.platformStrict === 'boolean' ? { platformStrict: shell.platformStrict } : {}),
   };
   return { sprite: { ...sprite, ...platform }, damage };
 };
