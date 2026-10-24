@@ -1,0 +1,31 @@
+/* @layer renderer-app @kind constants */
+import { join } from 'node:path';
+
+const APP_DIR = join(import.meta.dirname, '../../..');
+
+const TEMP_PREFIX = 'bxel-e2e-';
+
+const CANVAS_LABEL = 'Sprite canvas';
+
+const STATUS_LABEL = 'Editor status';
+
+const ZOOM_PATTERN = /Zoom\s+(\d+)%/;
+
+const SWATCH_PATTERN = /^Swatch (\d+), [^,]+, (#[0-9A-F]{6})/;
+
+const CURSOR_PARK = { x: 4, y: 4 } as const;
+
+const POLL_MS = 15000;
+
+const SHORTCUT = {
+  newFile: 'Control+n',
+  saveAs: 'Control+Shift+s',
+  save: 'Control+s',
+  open: 'Control+o',
+  importImage: 'Control+i',
+  exportImages: 'Control+Shift+e',
+  undo: 'Control+z',
+  redo: 'Control+y',
+} as const;
+
+export { APP_DIR, CANVAS_LABEL, CURSOR_PARK, POLL_MS, SHORTCUT, STATUS_LABEL, SWATCH_PATTERN, TEMP_PREFIX, ZOOM_PATTERN };

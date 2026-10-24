@@ -19,6 +19,7 @@
     "deadcode": "brock knip",
     "duplicates": "jscpd .",
     "test": "vitest run",
+    "e2e": "vitest run --config vitest.e2e.config.ts",
     "postinstall": "node bin/bxel.mjs --link"
   },
   "brock": {

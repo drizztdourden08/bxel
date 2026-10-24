@@ -51,6 +51,7 @@
     "eslint": "catalog:",
     "jscpd": "catalog:",
     "knip": "catalog:",
+    "playwright-core": "catalog:",
     "markdownlint-cli2": "catalog:",
     "stylelint": "catalog:",
     "typescript": "catalog:",
