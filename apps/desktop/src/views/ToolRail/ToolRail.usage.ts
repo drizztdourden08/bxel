@@ -2,7 +2,7 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Shows the tools of the editor as a column of pixel art icon buttons, with the active tool lit and a menu that opens to the right on hover for the tools that have options.',
+  job: 'Holds the tools of the editor as a docked toolbar of pixel art icon buttons, with the active tool lit and a menu that opens beside it on hover for the tools that have options.',
   useWhen: [
     'The editor needs one place to pick the tool, such as the pencil, the eraser, the fill, the picker, the shapes, the zoom or the hand.',
     'Each tool has a single key and the rail must teach it in a hint, never on the button.',
@@ -12,8 +12,8 @@ const usage = {
     { case: 'A few related actions share one horizontal row.', use: 'ButtonGroup' },
   ],
   rules: [
-    'The rail reads and writes the tool in the tool store, so it takes no props.',
-    'Each button is named with the tool, such as Pencil. Its hint shows the name, a one line description and the key, read from the keymap so a rebind shows up. In tilemap placing mode the rail is a set of button groups whose hints open to the right.',
+    'The rail reads and writes the tool in the tool store, so it takes only the slot the toolbar dock gives it. It starts on the left side and can move to any side.',
+    'Each button is named with the tool, such as Pencil. Its hint shows the name, a one line description and the key, read from the keymap so a rebind shows up. In tilemap placing mode the rail lists the map tools, such as Place and Erase, in the same order.',
     'The active tool is the pressed button; pressing another tool replaces it. Pressing the key of the active tool again cycles its variants, such as line, rectangle and ellipse.',
     'Shapes and Select open a menu to the right on hover with their options, each with a description.',
   ],
@@ -25,11 +25,12 @@ const usage = {
     path: ['actions', 'several related buttons', 'peer actions on one thing, read as one tool'],
     rule: 'ToolRail is the vertical group of tool buttons of the editor, bound to the tool store.',
   },
-  example: `import { ToolRail } from '../ToolRail';
+  example: `import type { ToolbarSlot } from '@drizztdourden08/tessera';
+import { ToolRail } from '../ToolRail';
 
-const EditorSide = () => <ToolRail />;
+const EditorSide = ({ slot }: { slot: ToolbarSlot }) => <ToolRail slot={slot} />;
 `,
-  propsHash: '69a6789bb8733db8',
+  propsHash: 'f077f75daf06e6f9',
 } satisfies ComponentUsage;
 
 export { usage };

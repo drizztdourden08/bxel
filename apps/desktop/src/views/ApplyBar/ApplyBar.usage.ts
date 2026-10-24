@@ -8,7 +8,7 @@ const usage = {
     'The user must see the targets, layers, frames and clipping before one undo step is written.',
   ],
   avoidWhen: [
-    { case: 'The edit applies at once, such as a pencil stroke or a layer command.', use: 'ContextBar' },
+    { case: 'The edit applies at once, such as a pencil stroke or a layer command.', use: 'OptionsToolbar' },
     { case: 'The edit needs typed values before it can preview.', use: 'TransformDialog' },
   ],
   rules: [

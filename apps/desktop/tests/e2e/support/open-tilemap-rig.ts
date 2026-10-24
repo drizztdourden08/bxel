@@ -12,7 +12,7 @@ type TilemapRig = {
 const openTilemapRig = async (): Promise<TilemapRig> => {
   const session = await openSession();
   const { page } = session;
-  await page.getByRole('radio', { name: 'Tilemap', exact: true }).click();
+  await page.getByRole('toolbar', { name: 'Canvas' }).getByRole('button', { name: 'Tilemap', exact: true }).click();
   await page.getByRole('button', { name: 'New tileset', exact: true }).click();
   const tileset = page.getByRole('dialog', { name: 'New tileset' });
   await tileset.getByRole('button', { name: 'Create' }).click();

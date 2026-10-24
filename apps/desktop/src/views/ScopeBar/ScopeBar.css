@@ -1,0 +1,14 @@
+/* @layer renderer-app @kind style */
+.scope-bar {
+  box-sizing: border-box;
+  block-size: var(--size-32);
+  flex: none;
+  min-inline-size: 0;
+  overflow: hidden;
+  padding-inline: var(--space-sm);
+}
+
+.scope-chip {
+  min-inline-size: 0;
+  max-inline-size: var(--size-224);
+}

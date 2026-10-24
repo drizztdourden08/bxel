@@ -2,26 +2,33 @@
 import { TOOLS } from '../../src/editor/tools.constants';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import {
-  BRUSH_SHAPE_HINTS, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILLED_HINT, MIRROR_X_HINT, MIRROR_Y_HINT, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SCOPE_HINTS,
-  SELECT_MODE_HINTS, SELECT_VARIANT_HINTS, SHAPE_HINTS, SHRINK_HINT,
-} from '../../src/views/ContextBar/ContextBar.constants';
+  BACK_HINT, MIRROR_X_HINT, MIRROR_Y_HINT, MODE_HINTS, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT, TILED_HINT, TILED_HINTS, VIEW_HINTS, ZOOM_ACTUAL_HINT,
+  ZOOM_FIT_HINT,
+} from '../../src/views/CanvasToolbar/CanvasToolbar.constants';
+import {
+  BRUSH_SHAPE_HINTS, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILLED_HINT, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SELECT_MODE_HINTS, SELECT_VARIANT_HINTS,
+  SHAPE_HINTS, SHRINK_HINT,
+} from '../../src/views/OptionsToolbar/OptionsToolbar.constants';
+import { SCOPE_HINTS } from '../../src/views/ScopeBar/ScopeBar.constants';
 import { LAYER_ACTIONS, LAYER_TOGGLES } from '../../src/views/LayersPanel/LayersPanel.constants';
-import { BACK_HINT, MODE_HINTS, PAINT_ALL_HINT } from '../../src/views/ModeBar/ModeBar.constants';
 import { swatchHint } from '../../src/views/PalettePanel/PalettePanel.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
-import { TRANSFORM_ACTIONS } from '../../src/views/TransformPanel/TransformPanel.constants';
-import { toolHint } from '../../src/views/ToolRail/behavior/tool-hint';
+import { TRANSFORM_ACTIONS, TRANSFORM_HINT } from '../../src/views/CanvasToolbar/sub-components/TransformMenu.constants';
 import type { HintSpec } from '../../src/views/ActionHint';
+import { COMMAND_ID } from '../../src/keymap/keymap.constants';
+import type { ToolDef } from '../../src/editor/tool.type';
 import { MAP_TOOLS } from '../../src/tilemap/map-tools.constants';
 import {
   CLEAR_CELLS_HINT, FILLED_MAP_HINT, FLAG_ACTIONS, REPLACE_ALL_HINT, REPLACE_IN_HINT, TILE_MODE_HINTS, UNIQUE_CELLS_HINT,
-} from '../../src/views/ContextBar/sub-components/TileBar.constants';
+} from '../../src/views/OptionsToolbar/sub-components/TileOptions.constants';
 import {
   ADD_LAYER_HINT, DELETE_LAYER_HINT, DOWN_LAYER_HINT, LOCKED_HINT, RENAME_LAYER_HINT, UP_LAYER_HINT, VISIBLE_HINT,
 } from '../../src/views/MapLayersPanel/MapLayersPanel.constants';
 import {
   ADD_HINT, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, NEW_TILEMAP_HINT, NEW_TILESET_HINT, UNIQUE_HINT,
 } from '../../src/views/TilesetPanel/TilesetPanel.constants';
+
+const toolHint = (def: ToolDef): HintSpec => ({ name: def.label, description: def.description, shortcuts: [{ command: COMMAND_ID.tool(def.id) }] });
 
 const allHints = (): HintSpec[] => [
   ...TOOLS.map(toolHint),
@@ -50,6 +57,7 @@ const allHints = (): HintSpec[] => [
   ...LAYER_ACTIONS.map((action) => action.hint),
   ...LAYER_TOGGLES.map((toggle) => toggle.hint),
   ...TRANSFORM_ACTIONS.map((action) => action.hint),
+  TRANSFORM_HINT,
   ...Object.values(SPRITE_HINTS),
   ...Object.values(MODE_HINTS),
   ...Object.values(BRUSH_SHAPE_HINTS),
@@ -59,6 +67,14 @@ const allHints = (): HintSpec[] => [
   ...Object.values(SELECT_VARIANT_HINTS),
   ...Object.values(SELECT_MODE_HINTS),
   ...Object.values(SCOPE_HINTS),
+  ...Object.values(VIEW_HINTS),
+  ...Object.values(TILED_HINTS),
+  TILED_HINT,
+  ONION_HINT,
+  PLAY_HINT,
+  PAUSE_HINT,
+  ZOOM_FIT_HINT,
+  ZOOM_ACTUAL_HINT,
   MIRROR_X_HINT,
   MIRROR_Y_HINT,
   BACK_HINT,

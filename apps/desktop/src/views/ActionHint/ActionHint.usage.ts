@@ -15,7 +15,7 @@ const usage = {
     'Give the hint a name, a one line description and, when there are keys, a list of shortcuts. A shortcut names a command, so a rebind shows up, or fixed keys and a mouse gesture for what is not a command.',
     'Never put the key in the label of a button or a toggle. The label stays the plain name and the key lives only in the hint.',
     'A command with no key bound draws no key. A shortcut with only a label draws that label as a note.',
-    'For a segmented control or a toggle group, give each option a tooltip with segmentOption or optionTooltip, so the control shows the name, the description and the key of the option under the pointer.',
+    'For a segmented control or a toggle group, give each option a tooltip with optionTooltip, so the control shows the name, the description and the key of the option under the pointer. A toolbar item takes the same name, description and key from toolbar-items.',
     'Use placement right for a hint on a rail of tools that runs down an edge.',
   ],
   a11y: [

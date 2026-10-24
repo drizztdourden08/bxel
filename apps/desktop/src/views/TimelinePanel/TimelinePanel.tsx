@@ -11,7 +11,6 @@ import { TIMELINE_TEXT } from '../../timeline/timeline.constants';
 import { timelineModel } from '../../timeline/timeline-model';
 import { CEL_ACTIONS, FRAME_ACTIONS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT } from './TimelinePanel.constants';
 import { useTimelineKeys } from './behavior/useTimelineKeys';
-import { useTimelinePlayback } from './behavior/useTimelinePlayback';
 import { ActionBar } from './sub-components/ActionBar';
 import { DurationField } from './sub-components/DurationField';
 import { OnionControls } from './sub-components/OnionControls';
@@ -28,7 +27,6 @@ const TimelinePanel = () => {
   const pingPong = useTimelineStore((state) => state.pingPong);
   const hintId = useId();
   const onKeyDown = useTimelineKeys();
-  useTimelinePlayback();
   const model = useMemo(() => (target ? timelineModel(target, selection, tagId) : null), [target, selection, tagId]);
   if (!target || !model) return <EmptyState message={TIMELINE_TEXT.empty} />;
   const { sprite, frameId } = target;

@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { COMMAND_ID } from '../../src/keymap/keymap.constants';
-import { toolHint } from '../../src/views/ToolRail/behavior/tool-hint';
 import { TOOLS } from '../../src/editor/tools.constants';
 import { bind, unbindAll } from './brock-chords';
 import { renderHint } from './hint-harness';
@@ -17,7 +16,7 @@ describe('the hint body', () => {
     bind(COMMAND_ID.tool('pencil'), ['B']);
     const pencil = TOOLS.find((tool) => tool.id === 'pencil');
     if (!pencil) throw new Error('no pencil');
-    const html = renderHint(toolHint(pencil));
+    const html = renderHint({ name: pencil.label, description: pencil.description, shortcuts: [{ command: COMMAND_ID.tool('pencil') }] });
     expect(html).toContain('Pencil');
     expect(html).toContain(pencil.description);
     expect(caps(html)).toBe(1);
