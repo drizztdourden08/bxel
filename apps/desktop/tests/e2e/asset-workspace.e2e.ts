@@ -12,10 +12,10 @@ import { drawStroke } from './support/draw-stroke';
 import { APP_DIR, PROJECT_PARENT, TEMP_PREFIX } from './support/e2e.constants';
 import type { Session } from './support/e2e.type';
 import { openFile } from './support/open-file';
+import { openProjectAtInUi } from './support/open-project-at-in-ui';
 import { openSession } from './support/open-session';
 import { pickSwatch } from './support/pick-swatch';
 import { readSaved } from './support/read-saved';
-import { runMenu } from './support/run-menu';
 import { SAMPLE } from './support/sample.constants';
 import { useRig } from './support/use-rig';
 import { waitSaved } from './support/wait-saved';
@@ -42,12 +42,6 @@ const inPlace = async (run: (place: string) => Promise<void>): Promise<void> => 
 
 const byId = (left: { id: string }, right: { id: string }): number => left.id.localeCompare(right.id);
 
-const openProjectAt = async (session: Session, folder: string, name: string): Promise<void> => {
-  await answerDialogs(session, { open: folder, save: null });
-  await runMenu(session, [/^Project/, /^Open project/]);
-  await waitText(session, new RegExp(`Opened the project ${name}`));
-};
-
 const snapshot = async (paths: ReadonlyMap<string, string>): Promise<Map<string, Buffer>> =>
   new Map(await Promise.all([...paths.values()].map(async (path) => [path, await readFile(path)] as const)));
 
@@ -70,7 +64,7 @@ const paintsAndSavesAll = async (session: Session, place: string): Promise<void>
   const root = join(place, 'Sample');
   const artwork = buildSampleArtwork();
   const paths = await writeSampleProject(root, artwork, SAMPLE.name);
-  await openProjectAt(session, root, SAMPLE.name);
+  await openProjectAtInUi(session, root, SAMPLE.name);
   await session.page.getByRole('tablist', { name: 'Open assets' }).getByRole('tab', { name: new RegExp(SAMPLE.sprites[0]) }).waitFor();
   const before = await snapshot(paths);
   const hero = heroOf(artwork);
@@ -115,7 +109,7 @@ const migratesProject = async (session: Session, place: string): Promise<void> =
   const text = writeManifest({ ...seed, swatchSets: [warm] });
   if (!text.ok) throw new Error(text.message);
   await writeFile(join(root, manifestFileName('Old')), text.value);
-  await openProjectAt(session, root, 'Old');
+  await openProjectAtInUi(session, root, 'Old');
   await waitText(session, /Updated the project file to the new format/);
   await access(join(root, 'Old.bxproject'));
   await access(join(root, 'palettes', 'Warm.bxpalette'));

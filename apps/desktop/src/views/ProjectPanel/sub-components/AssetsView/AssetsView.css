@@ -1,0 +1,5 @@
+/* @layer renderer-app @kind style */
+.project-assets__list {
+  block-size: var(--size-448);
+  max-block-size: 70vh;
+}

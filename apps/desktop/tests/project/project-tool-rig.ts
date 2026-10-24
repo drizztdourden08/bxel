@@ -3,7 +3,7 @@ import { artworkCreate, counterIdSource, documentCommands } from '@bxel/document
 import { encodeArtwork } from '@bxel/document/native';
 import { buildTools } from '@bxel/mcp';
 import type { SessionMode, ToolName, ToolOutcome } from '@bxel/mcp';
-import type { ProjectGrant } from '@bxel/project';
+import type { ProjectDocument, ProjectGrant } from '@bxel/project';
 import type { AssistantSettings } from '../../src/assistant/assistant.type';
 import { TOOL_HANDLERS } from '../../src/assistant/tool-handlers.constants';
 import { openProject } from '../../src/project/open-project';
@@ -16,8 +16,15 @@ type ToolRig = {
   readonly rig: Rig;
   readonly projectId: string;
   readonly folderId: string;
+  readonly grants: (access?: 'read' | 'edit') => readonly ProjectGrant[];
+  readonly locate: (path: string) => { readonly projectId: string; readonly folderId: string; readonly path: string };
   readonly run: (tool: ToolName, input: unknown, grants: readonly ProjectGrant[], mode?: SessionMode) => Promise<ToolOutcome>;
   readonly runWith: (tool: ToolName, input: unknown, setup: RunSetup) => Promise<ToolOutcome>;
+};
+
+type RigOptions = {
+  readonly seed?: (disk: Rig['disk']) => void;
+  readonly manifest?: ProjectDocument;
 };
 
 type RunSetup = {
@@ -51,9 +58,10 @@ const grantOf = (projectId: string, access: 'read' | 'edit', rootRealPath = ROOT
   grantedAt: '2026-10-24T10:00:00.000Z',
 });
 
-const toolRig = async (): Promise<ToolRig> => {
+const toolRig = async (options: RigOptions = {}): Promise<ToolRig> => {
   const base = rig();
-  withManifest(base.disk);
+  options.seed?.(base.disk);
+  withManifest(base.disk, options.manifest);
   base.disk.picks.folder = ROOT;
   await openProject();
   const project = useProjectStore.getState().project;
@@ -68,7 +76,17 @@ const toolRig = async (): Promise<ToolRig> => {
   };
   const run = (tool: ToolName, input: unknown, grants: readonly ProjectGrant[], mode: SessionMode = 'edit'): Promise<ToolOutcome> =>
     runWith(tool, input, { grants, mode });
-  return { rig: base, projectId: project.manifest.projectId, folderId: project.manifest.folders[0]?.folderId ?? '', run, runWith };
+  const { projectId } = project.manifest;
+  const folderId = project.manifest.folders[0]?.folderId ?? '';
+  return {
+    rig: base,
+    projectId,
+    folderId,
+    grants: (access = 'edit') => [grantOf(projectId, access)],
+    locate: (path) => ({ projectId, folderId, path }),
+    run,
+    runWith,
+  };
 };
 
 const fieldOf = (outcome: ToolOutcome, key: string): unknown => (outcome.ok ? outcome[key] : undefined);

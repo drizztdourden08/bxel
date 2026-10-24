@@ -26,6 +26,8 @@ const TOOL_HINTS = {
   save_document: DESTRUCTIVE,
   export_document: DESTRUCTIVE,
   create_document: ACTION,
+  list_assets: SAFE_READ,
+  split_legacy_file: ACTION,
 } as const satisfies Record<string, ToolHints>;
 
 export { TOOL_HINTS };

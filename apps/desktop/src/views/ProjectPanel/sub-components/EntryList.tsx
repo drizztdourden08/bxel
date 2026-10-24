@@ -21,11 +21,13 @@ const EntryList = ({ model }: PanelPartProps) => {
   if (model.error !== null) return <Callout tone="danger">{model.error}</Callout>;
   const { listing } = model;
   if (listing === null) return null;
-  if (listing.entries.length === 0) return <EmptyState message={PANEL_TEXT.empty} />;
+  const needle = model.search.trim().toLowerCase();
+  const entries = listing.entries.filter((entry) => entry.name.toLowerCase().includes(needle));
+  if (entries.length === 0) return <EmptyState message={PANEL_TEXT.empty} />;
   return (
     <Stack gap="xs">
       <ListItemList label={PANEL_TEXT.filesLabel}>
-        {listing.entries.map((entry) => (
+        {entries.map((entry) => (
           <ListItemRow
             key={entry.name}
             icon={<Icon name={entry.kind === 'folder' ? 'folder' : 'file'} />}

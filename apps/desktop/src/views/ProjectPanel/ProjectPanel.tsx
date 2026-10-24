@@ -8,6 +8,8 @@ import { FolderNameRow } from './sub-components/FolderNameRow';
 import { ProjectHeader } from './sub-components/ProjectHeader';
 import { ProjectStart } from './sub-components/ProjectStart';
 import { RenameRow } from './sub-components/RenameRow';
+import { AssetsView } from './sub-components/AssetsView';
+import { ViewBar } from './sub-components/ViewBar';
 
 const ProjectPanel = () => {
   const model = useProjectPanel();
@@ -16,11 +18,18 @@ const ProjectPanel = () => {
   return (
     <Stack gap="sm">
       <ProjectHeader model={model} project={project} />
-      <FolderBar model={model} project={project} />
+      <ViewBar model={model} />
       {model.naming && <FileNameRow model={model} />}
       {model.makingFolder && <FolderNameRow model={model} />}
-      {model.renaming !== null && <RenameRow key={model.renaming} model={model} />}
-      <EntryList model={model} />
+      {model.view === 'assets' ? (
+        <AssetsView model={model.assets} />
+      ) : (
+        <>
+          <FolderBar model={model} project={project} />
+          {model.renaming !== null && <RenameRow key={model.renaming} model={model} />}
+          <EntryList model={model} />
+        </>
+      )}
     </Stack>
   );
 };

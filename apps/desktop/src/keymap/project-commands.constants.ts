@@ -3,6 +3,7 @@ import type { CommandDef } from '@drizztdourden08/brock-react';
 import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import { closeProject } from '../project/close-project';
 import { openProject } from '../project/open-project';
+import { packCurrentProject } from '../project/pack-current-project';
 import { PROJECT_COMMAND, PROJECT_GROUP, PROJECT_TEXT, PROJECT_WIDGET_ID } from '../project/project.constants';
 import { useProjectStore } from '../stores/useProjectStore';
 
@@ -41,6 +42,16 @@ const PROJECT_COMMANDS: readonly CommandDef[] = [
     group: PROJECT_GROUP,
     when: hasProject,
     run: () => useProjectStore.getState().showSettings(true),
+  },
+  {
+    id: PROJECT_COMMAND.pack,
+    label: 'Pack project',
+    icon: 'package',
+    group: PROJECT_GROUP,
+    when: hasProject,
+    run: () => {
+      void packCurrentProject();
+    },
   },
   {
     id: PROJECT_COMMAND.panel,

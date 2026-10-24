@@ -1,9 +1,19 @@
 /* @layer renderer-app @kind types */
 import type { ListedEntry, Listing, RecentProject } from '@bxel/project';
 import type { OpenProject, ProjectFolderState } from '../../project/project.type';
+import type { CreatableKind } from '../../stores/creation-store.type';
+import type { AssetsModel } from './sub-components/AssetsView/AssetsView.type';
+
+type PanelView = 'assets' | 'folders';
 
 type ProjectPanelModel = EntryActions &
   ProjectActions & {
+    readonly view: PanelView;
+    readonly search: string;
+    readonly assets: AssetsModel;
+    readonly setView: (view: PanelView) => void;
+    readonly setSearch: (search: string) => void;
+    readonly newAsset: (kind: CreatableKind) => void;
     readonly project: OpenProject | null;
     readonly recents: readonly RecentProject[];
     readonly folder: ProjectFolderState | null;
@@ -76,4 +86,4 @@ type FolderMakerState = Pick<EntryActions, 'makingFolder' | 'folderError' | 'sta
 
 type EntryRowProps = PanelPartProps & { readonly entry: ListedEntry };
 
-export type { EntryActions, EntryRowProps, FolderScope, ListingState, Located, FolderMakerState, PanelPartProps, ProjectActions, ProjectActionsInput, ProjectPanelModel, RenameState };
+export type { EntryActions, EntryRowProps, FolderScope, ListingState, Located, FolderMakerState, PanelPartProps, PanelView, ProjectActions, ProjectActionsInput, ProjectPanelModel, RenameState };

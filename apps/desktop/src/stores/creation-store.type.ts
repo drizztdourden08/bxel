@@ -1,10 +1,15 @@
 /* @layer renderer-app @kind types */
+import type { AssetKind } from '@bxel/document';
+
 type CreationMode = 'closed' | 'file' | 'sprite';
+
+type CreatableKind = Exclude<AssetKind, 'project'>;
 
 interface CreationState {
   mode: CreationMode;
-  show: (mode: 'file' | 'sprite') => void;
+  kind: CreatableKind | null;
+  show: (mode: 'file' | 'sprite', kind?: CreatableKind) => void;
   hide: () => void;
 }
 
-export type { CreationState };
+export type { CreationState, CreatableKind };

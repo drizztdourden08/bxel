@@ -1,11 +1,13 @@
 /* @layer renderer-app @kind logic */
 import { POLL_MS } from './e2e.constants';
 import type { Session } from './e2e.type';
+import { showPanelView } from './show-folder-view';
 
 const listed = (session: Session, name: string) =>
   session.page.getByRole('list', { name: 'Project files' }).getByText(name, { exact: true });
 
 const chooseEntryAction = async (session: Session, name: string, action: string): Promise<void> => {
+  await showPanelView(session, 'Folders');
   await session.page.getByRole('button', { name: `Actions for ${name}` }).click();
   await session.page.getByRole('menuitem', { name: action, exact: true }).click();
 };
@@ -24,6 +26,7 @@ const trashProjectEntryInUi = async (session: Session, name: string): Promise<vo
 };
 
 const createProjectFolderInUi = async (session: Session, name: string): Promise<void> => {
+  await showPanelView(session, 'Folders');
   await session.page.getByRole('button', { name: 'New folder in the project' }).click();
   await session.page.getByRole('textbox', { name: 'Folder name' }).fill(name);
   await session.page.getByRole('button', { name: 'Create', exact: true }).click();
