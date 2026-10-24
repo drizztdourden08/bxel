@@ -63,9 +63,9 @@ const INPUT_EXAMPLES: Record<string, unknown> = {
   preview_edits: { documentId: DOC, baseRevision: 12, label: 'Outline', steps: EDIT_STEPS },
   apply_edits: { documentId: DOC, baseRevision: 12, label: 'Outline', steps: EDIT_STEPS, clientRequestId: 'try-1' },
   undo: { documentId: DOC, expectedRevision: 13 },
-  save_document: { documentId: DOC, target: { fileName: 'hero.bxel' } },
+  save_document: { documentId: DOC, asset: { kind: 'sprite', id: SPRITE }, target: { fileName: 'hero.bxsprite', moveAsset: true } },
   export_document: { documentId: DOC, format: 'png', source: { spriteId: SPRITE }, fileName: 'idle.png' },
-  create_document: { name: 'Hero', bank: { name: 'Main', cap: 16, transparent: true, colors: [{ rgb: '#140B26' }] } },
+  create_document: { name: 'Hero', kind: 'sheet', bank: { name: 'Main', cap: 16, transparent: true, colors: [{ rgb: '#140B26' }] }, sprite: { name: 'idle', width: 16, height: 16 } },
 };
 
 const OUTPUT_EXAMPLES: Record<string, unknown> = {
@@ -196,9 +196,9 @@ const OUTPUT_EXAMPLES: Record<string, unknown> = {
   preview_edits: { ...TRANSACTION, mode: 'preview', preview: { cels: [], colorUse: { [BANK]: [0, 4] }, truncated: false } },
   apply_edits: TRANSACTION,
   undo: { ok: true, baseRevision: 13, revision: 14, undone: { label: 'Agent (pixel-agent): outline', origin: 'mcp' }, changes: CHANGES },
-  save_document: { ok: true, revision: 14, fileName: 'hero.bxel', place: LOCATION, bytes: 18234, savedAt: '2026-10-23T19:42:10Z' },
+  save_document: { ok: true, revision: 14, fileName: 'hero.bxsprite', place: LOCATION, bytes: 18234, savedAt: '2026-10-23T19:42:10Z' },
   export_document: { ok: true, revision: 14, files: [{ fileName: 'idle.png', bytes: 412, sha256: SHA }], indexHash: SHA },
-  create_document: { ok: true, documentId: DOC, revision: 1 },
+  create_document: { ok: true, documentId: DOC, revision: 1, asset: { kind: 'sheet', id: 'sht_0123456789abcdef' } },
 };
 
 export { INPUT_EXAMPLES, OUTPUT_EXAMPLES, SCOPE };

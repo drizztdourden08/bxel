@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { ASSET_DECODERS } from './decoders.constants';
+import { nameFromFile } from './name-from-file';
 import { DECODE_ORDER } from './workspace.constants';
 import type { AssetFile, DecodedFile, DecodedFiles, FileReport } from './workspace.type';
 
@@ -12,7 +13,10 @@ const decodeAssetFiles = (files: readonly AssetFile[]): DecodedFiles => {
       if (!decode) continue;
       const { report, relinked } = decode(file, sources);
       reports.push({ path: file.path, report });
-      if (report.slice) sources.push({ path: file.path, slice: report.slice, relinked: relinked || report.missingLinks.length > 0 });
+      const slice = report.slice ? nameFromFile(file.path, report.slice) : null;
+      if (report.slice) {
+        sources.push({ path: file.path, slice: slice ?? report.slice, relinked: relinked || slice !== null || report.missingLinks.length > 0 });
+      }
     }
   }
   return { sources, reports };

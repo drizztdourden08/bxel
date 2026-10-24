@@ -7,16 +7,21 @@ import { initialForm } from '../../../new-sprite/initial-form';
 import { kindChange } from '../../../new-sprite/kind-change';
 import { newFormErrors } from '../../../new-sprite/new-form-errors';
 import { NEW_TEXT } from '../../../new-sprite/new-sprite.constants';
-import type { CreationForm, FormNames, InFileOutcome } from '../../../new-sprite/new-sprite.type';
+import type { CreationForm, CreationKind, CreationMemory, FormNames, InFileOutcome } from '../../../new-sprite/new-sprite.type';
 import { newSummary } from '../../../new-sprite/new-summary';
 import { patchForm } from '../../../new-sprite/patch-form';
 import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
 import type { CreateFormBase } from '../CreateDialog.type';
 
+const startForm = (memory: CreationMemory, names: FormNames, wanted: CreationKind | null): CreationForm => {
+  const base = { ...initialForm(memory, names.namesFor('sprite')), tilesetId: names.firstTileset };
+  return wanted === null ? base : patchForm(base, kindChange(base, { kind: wanted }, names));
+};
+
 const useNewFormBase = (names: FormNames): CreateFormBase => {
   const defaults = useEffectiveDefaults();
   const memory = useMemo(() => memoryOf(defaults), [defaults]);
-  const [form, setForm] = useState<CreationForm>(() => ({ ...initialForm(memory, names.namesFor('sprite')), tilesetId: names.firstTileset }));
+  const [form, setForm] = useState<CreationForm>(() => startForm(memory, names, useCreateDialogStore.getState().kind));
   const [failure, setFailure] = useState<string | null>(null);
   const errors = useMemo(() => newFormErrors(form, names.namesFor(form.kind)), [form, names]);
   const summary = useMemo(() => newSummary(form), [form]);

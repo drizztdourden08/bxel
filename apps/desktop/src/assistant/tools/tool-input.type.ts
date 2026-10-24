@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { AssetKey, DocumentId, FrameId, PaletteBank, Sprite } from '@bxel/document';
+import type { AssetKey, AssetKind, DocumentId, FrameId, PaletteBank, Sprite } from '@bxel/document';
 import type { FileKind } from '@bxel/project';
 
 type SpriteFrame = { readonly sprite: Sprite; readonly bank: PaletteBank; readonly frameId: FrameId };
@@ -49,11 +49,16 @@ type EditInput = DocumentInput & {
 
 type UndoInput = DocumentInput & { readonly expectedRevision: number };
 
-type FileNameTarget = { readonly fileName: string; readonly overwrite: boolean };
+type WireAssetKind = Exclude<AssetKind, 'project'>;
 
-type LocationTarget = { readonly location: ProjectLocation; readonly overwrite: boolean };
+type AssetInput = { readonly kind: WireAssetKind; readonly id: string };
+
+type FileNameTarget = { readonly fileName: string; readonly overwrite: boolean; readonly moveAsset: boolean };
+
+type LocationTarget = { readonly location: ProjectLocation; readonly overwrite: boolean; readonly moveAsset: boolean };
 
 type SaveInput = DocumentInput & {
+  readonly asset?: AssetInput;
   readonly expectedRevision?: number;
   readonly target: 'current' | FileNameTarget | LocationTarget;
 };
@@ -91,6 +96,29 @@ type OpenTarget = { readonly path: string; readonly viaRecent: boolean };
 
 type OpenedFile = { readonly documentId: DocumentId; readonly key: AssetKey | null };
 
+type ListAssetsInput = {
+  readonly projectId: string;
+  readonly kinds: readonly WireAssetKind[];
+  readonly folderId?: string;
+  readonly path?: string;
+  readonly usedBy?: string;
+  readonly search?: string;
+  readonly offset: number;
+  readonly limit: number;
+};
+
+type SplitInput = { readonly file: ProjectLocation };
+
+type CreateInput = {
+  readonly name: string;
+  readonly kind: WireAssetKind;
+  readonly platformId?: string;
+  readonly bank: unknown;
+  readonly sprite?: { readonly name: string; readonly width: number; readonly height: number };
+  readonly tileSize?: { readonly width: number; readonly height: number };
+  readonly mapSize?: { readonly columns: number; readonly rows: number };
+};
+
 type WireFileKind = 'bxel' | 'image' | 'palette' | 'sheet_json' | 'other';
 
 type ListFilesInput = {
@@ -106,6 +134,10 @@ type PlatformOptions = { platformStrict?: unknown; platformId?: unknown };
 
 export type {
   PlatformOptions,
+  AssetInput,
+  CreateInput,
+  ListAssetsInput,
+  SplitInput,
   CloseInput,
   EditInput,
   ExportInput,

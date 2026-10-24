@@ -6,12 +6,12 @@ import { fileName } from '../../files/file-name';
 import { useAssistantStore } from '../../stores/useAssistantStore';
 import { useDocumentStore } from '../../stores/useDocumentStore';
 import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
-import { assetName } from '../../workspace/asset-name';
 import { findAssetTab } from '../../workspace/find-asset-tab';
 import { focusTab } from '../../workspace/focus-tab';
 import { openPath } from '../../workspace/open-path';
 import type { ToolContext } from '../assistant.type';
 import { reply } from './reply';
+import { wireAsset } from './wire-asset';
 import type { OpenedFile, OpenTarget } from './tool-input.type';
 import { toolKit } from './tool-kit';
 
@@ -24,8 +24,6 @@ const openedAt = (context: ToolContext, path: string): OpenedFile | null => {
 
 const opened = (context: ToolContext, found: OpenedFile, path: string, alreadyOpen: boolean): ToolReply => {
   const view = context.host.view(found.documentId);
-  const { key } = found;
-  const name = view && key ? assetName(view.state.artwork, key) : null;
   return reply({
     ok: true,
     documentId: found.documentId,
@@ -34,7 +32,8 @@ const opened = (context: ToolContext, found: OpenedFile, path: string, alreadyOp
     readOnly: view?.state.readOnly ?? false,
     outcome: view?.state.readOnly ? 'recoverable' : 'ok',
     fileName: fileName(path),
-    asset: key ? { kind: key.kind, id: key.id, name } : null,
+    asset: wireAsset(view, found.key),
+    legacy: useWorkspaceStore.getState().workspaces[found.documentId]?.kind === 'legacy',
   });
 };
 

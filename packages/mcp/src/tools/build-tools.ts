@@ -6,6 +6,7 @@ import { createDocumentTool } from './create-document-tool';
 import { exportDocumentTool } from './export-document-tool';
 import { getDocumentTool } from './get-document-tool';
 import { getSessionTool } from './get-session-tool';
+import { listAssetsTool } from './list-assets-tool';
 import { listDocumentsTool } from './list-documents-tool';
 import { listFilesTool } from './list-files-tool';
 import { listPlacesTool } from './list-places-tool';
@@ -17,6 +18,7 @@ import { renderPreviewTool } from './render-preview-tool';
 import { saveDocumentTool } from './save-document-tool';
 import { showWindowTool } from './show-window-tool';
 import { startBxelTool } from './start-bxel-tool';
+import { splitLegacyFileTool } from './split-legacy-file-tool';
 import { stopBxelTool } from './stop-bxel-tool';
 import type { ToolSpec } from './tool.type';
 import { undoTool } from './undo-tool';
@@ -28,6 +30,7 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   getSessionTool,
   listPlacesTool,
   listFilesTool,
+  listAssetsTool,
   openFileTool,
   closeDocumentTool,
   listDocumentsTool,
@@ -41,6 +44,7 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   saveDocumentTool,
   exportDocumentTool,
   createDocumentTool,
+  splitLegacyFileTool,
 ];
 
 export { buildTools };

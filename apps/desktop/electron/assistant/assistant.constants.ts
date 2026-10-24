@@ -27,6 +27,8 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   save_document: saveExport,
   export_document: saveExport,
   create_document: edit,
+  list_assets: read,
+  split_legacy_file: saveExport,
 };
 
 const NATIVE_PAIR_TEXT = {

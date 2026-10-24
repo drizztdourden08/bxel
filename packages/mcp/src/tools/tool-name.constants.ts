@@ -21,6 +21,8 @@ const TOOL_NAME = {
   saveDocument: 'save_document',
   exportDocument: 'export_document',
   createDocument: 'create_document',
+  listAssets: 'list_assets',
+  splitLegacyFile: 'split_legacy_file',
 } as const;
 
 const TOOL_MODE = {
@@ -43,6 +45,8 @@ const TOOL_MODE = {
   save_document: 'edit',
   export_document: 'edit',
   create_document: 'edit',
+  list_assets: 'read',
+  split_legacy_file: 'edit',
 } as const satisfies Record<ToolName, 'read' | 'edit'>;
 
 const TOOLS_WITHOUT_SESSION: readonly string[] = [TOOL_NAME.startBxel];

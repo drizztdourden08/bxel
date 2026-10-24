@@ -16,6 +16,7 @@ import { createProjectFolderInUi, listed, renameProjectEntryInUi, trashProjectEn
 import type { AccessChoice, ProjectRig } from './support/project-rig.type';
 import { runMenu } from './support/run-menu';
 import { setProjectAccessInUi } from './support/set-project-access-in-ui';
+import { showPanelView } from './support/show-folder-view';
 import { answerDialogs } from './support/answer-dialogs';
 import { useRig } from './support/use-rig';
 import { waitText } from './support/wait-text';
@@ -45,7 +46,7 @@ const created = async (rig: ProjectRig): Promise<void> => {
     folders: [{ path: '.', roles: { sprites: 'sprites', exports: 'exports' } }],
   });
   expect((await readdir(rig.projectDir)).sort()).toEqual([`${NAME}.bxproject`, ...ROLE_FOLDERS].sort());
-  await rig.session.page.getByRole('button', { name: 'New file in the project' }).waitFor();
+  await rig.session.page.getByRole('button', { name: 'New asset' }).waitFor();
 };
 
 const filed = async (rig: ProjectRig): Promise<void> => {
@@ -148,6 +149,7 @@ const paneled = async ({ session, projectDir }: ProjectRig): Promise<void> => {
 };
 
 const watched = async ({ session, projectDir }: ProjectRig): Promise<void> => {
+  await showPanelView(session, 'Folders');
   await writeFile(join(projectDir, 'outside.png'), new Uint8Array([1, 2, 3]));
   await listed(session, 'outside.png').waitFor({ timeout: POLL_MS });
 };
@@ -166,6 +168,23 @@ const linked = async (rig: ProjectRig): Promise<void> => {
   }
 };
 
+const assetsOverMcp = async (rig: ProjectRig): Promise<void> => {
+  await grant(rig, 'Read and edit');
+  const manifest = await manifestOnDisk(rig);
+  const listed = await callMcp(rig.link.client, 'list_assets', { projectId: manifest.projectId, kinds: ['sprite'] });
+  const assets = listed.data.assets as { kind: string; name: string; opened: boolean; location: unknown; id: string }[];
+  const hero = assets.find((asset) => asset.name === 'hero');
+  expect(hero).toMatchObject({ kind: 'sprite', opened: true });
+  const open = await callMcp(rig.link.client, 'open_file', { file: hero?.location });
+  expect(open.data).toMatchObject({ ok: true, asset: { kind: 'sprite', id: hero?.id }, legacy: false });
+  const documentId = String(open.data.documentId);
+  const saved = await callMcp(rig.link.client, 'save_document', { documentId, asset: { kind: 'sprite', id: hero?.id }, target: 'current' });
+  expect(saved.data).toMatchObject({ ok: true, fileName: 'hero.bxsprite', asset: { kind: 'sprite', id: hero?.id } });
+  await grant(rig, 'Read only');
+  const refused = await callMcp(rig.link.client, 'save_document', { documentId, asset: { kind: 'sprite', id: hero?.id }, target: 'current' });
+  expect(refused.data).toMatchObject({ ok: false, error: { code: 'PROJECT_NOT_GRANTED' } });
+};
+
 describe('projects: create, add a file, grant the assistant, browse over MCP', () => {
   const rig = useRig(openProjectRig);
   test('creates a project in a folder from the Project menu', () => created(rig()));
@@ -180,4 +199,5 @@ describe('projects: create, add a file, grant the assistant, browse over MCP', (
   test('renames, trashes and makes folders from the Project panel', () => paneled(rig()));
   test('shows a file added on disk without a refresh', () => watched(rig()));
   test('links and unlinks a folder in the project settings', () => linked(rig()));
+  test('lists assets, opens and saves one, and is refused when the project is read only', () => assetsOverMcp(rig()));
 });

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { Artwork, AssetKind } from '@bxel/document';
+import type { Artwork, AssetContent, AssetKind } from '@bxel/document';
 import { encodePalette, encodeSheet, encodeSprite, encodeTilemap, encodeTileset } from '@bxel/document/native';
 import type { Clock } from '@bxel/document/native';
 import { NATIVE_ASSET_EXTENSIONS } from '@bxel/project';
@@ -42,6 +42,14 @@ const ROLE_OF_KIND: Readonly<Partial<Record<AssetKind, FolderRole>>> = {
   tilemap: 'tilemaps',
 };
 
+const CONTENT_OF_KIND: Readonly<Partial<Record<AssetKind, keyof AssetContent>>> = {
+  sprite: 'sprites',
+  sheet: 'sheets',
+  palette: 'banks',
+  tileset: 'tilesets',
+  tilemap: 'tilemaps',
+};
+
 const SAVE_ORDER: readonly AssetKind[] = ['palette', 'sprite', 'tileset', 'sheet', 'tilemap'];
 
 const ASSET_KINDS: readonly string[] = ['sprite', 'sheet', 'palette', 'tileset', 'tilemap'];
@@ -51,6 +59,12 @@ const TAB_KINDS: readonly AssetKind[] = ['sprite', 'sheet', 'tileset', 'tilemap'
 const MAX_WORKSPACE_ASSETS = 2000;
 
 const MAX_STEP_NAMES = 500;
+
+const MAX_STORED_TABS = 60;
+
+const MAX_STORED_PROJECTS = 40;
+
+const TABS_SAVE_DELAY_MS = 400;
 
 const NATIVE_EXTENSIONS: readonly string[] = NATIVE_ASSET_EXTENSIONS.map((extension) => extension.slice(1));
 
@@ -72,7 +86,7 @@ const WORKSPACE_TEXT = {
   loading: (done: number, total: number): string => `Opening assets ${done} of ${total}`,
   loadingLabel: 'Opening the project',
   tabsLabel: 'Open assets',
-  capped: (total: number, max: number): string => `The project holds ${total} assets. Bxel opened the first ${max}.`,
+  capped: (total: number, max: number): string => `The project holds ${total} assets. Bxel opened the first ${max}. The rest open from the Assets list when you pick them.`,
   skipped: (count: number): string => (count === 1 ? 'One file could not be read and was left out.' : `${count} files could not be read and were left out.`),
   rekeyed: (count: number): string => (count === 1 ? 'One copied file had the same ids as another and was given new ones.' : `${count} copied files had the same ids as others and were given new ones.`),
   trashTitle: 'Move deleted assets to the trash?',
@@ -113,11 +127,14 @@ export {
   ASSET_FILE_LABEL,
   ASSETS_OF,
   BXEL_ENDING,
+  CONTENT_OF_KIND,
   DECODE_ORDER,
   GRANT_LEVELS,
   HASH_CLOCK,
   KEY_SEPARATOR,
   MAX_STEP_NAMES,
+  MAX_STORED_PROJECTS,
+  MAX_STORED_TABS,
   MAX_WORKSPACE_ASSETS,
   NAME_FALLBACK,
   NATIVE_EXTENSIONS,
@@ -126,6 +143,7 @@ export {
   SAVE_ORDER,
   SPLIT_TEXT,
   TAB_KINDS,
+  TABS_SAVE_DELAY_MS,
   TAB_SEPARATOR,
   WORKSPACE_TEXT,
 };

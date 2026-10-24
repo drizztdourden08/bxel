@@ -24,6 +24,8 @@ const MCP_ROUTE = {
   saveDocument: 'bxel:mcp:save_document',
   exportDocument: 'bxel:mcp:export_document',
   createDocument: 'bxel:mcp:create_document',
+  listAssets: 'bxel:mcp:list_assets',
+  splitLegacyFile: 'bxel:mcp:split_legacy_file',
 } as const;
 
 const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
@@ -45,6 +47,8 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   save_document: MCP_ROUTE.saveDocument,
   export_document: MCP_ROUTE.exportDocument,
   create_document: MCP_ROUTE.createDocument,
+  list_assets: MCP_ROUTE.listAssets,
+  split_legacy_file: MCP_ROUTE.splitLegacyFile,
 };
 
 const MCP_ASK = {
