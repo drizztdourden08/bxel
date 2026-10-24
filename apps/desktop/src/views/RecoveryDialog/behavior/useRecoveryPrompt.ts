@@ -3,12 +3,15 @@ import { toast, useRecoverable } from '@drizztdourden08/brock-react';
 import { useCallback, useState } from 'react';
 import { liveRestoreKit } from '../../../recovery/live-restore-kit';
 import { recoverSnapshot } from '../../../recovery/recover-snapshot';
+import { unopenedSnapshots } from '../../../recovery/unopened-snapshots';
+import { useDocumentStore } from '../../../stores/useDocumentStore';
 import type { RecoveryPromptState } from './recovery-prompt.type';
 
 const useRecoveryPrompt = (): RecoveryPromptState => {
   const { snapshots, restore, discard } = useRecoverable();
+  const openKeys = useDocumentStore((state) => state.order);
   const [deferred, setDeferred] = useState<readonly string[]>([]);
-  const pending = snapshots.filter((snapshot) => !deferred.includes(snapshot.key));
+  const pending = unopenedSnapshots(snapshots, openKeys).filter((snapshot) => !deferred.includes(snapshot.key));
   const current = pending[0] ?? null;
 
   const later = useCallback((): void => {

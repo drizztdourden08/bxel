@@ -5,7 +5,7 @@ const MENU_TEXT = {
   layer: 'Layer',
   sheet: 'Sheet',
   arrange: 'Arrange',
-  view: 'View',
+  view: 'Canvas',
   help: 'Help',
   zoom: 'Zoom',
   grid: 'Grid',
@@ -24,7 +24,7 @@ const MENU_KEYS = {
   layer: 'layer',
   sheet: 'sheet',
   arrange: 'sheet-arrange',
-  view: 'view',
+  view: 'canvas',
   help: 'help',
 } as const;
 

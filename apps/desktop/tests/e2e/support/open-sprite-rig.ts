@@ -12,7 +12,12 @@ const openSpriteRig = async (): Promise<SpriteRig> => {
   await createSprite(session);
   const size = { width: MARKS_SIDE, height: MARKS_SIDE };
   const map = await canvasMapper(session, size);
-  return { session, map, shown: async () => readDisplayed(session, map, size, await readSwatches(session)) };
+  return {
+    session,
+    map,
+    shown: async () => readDisplayed(session, map, size, await readSwatches(session)),
+    shownNow: async () => readDisplayed(session, await canvasMapper(session, size), size, await readSwatches(session)),
+  };
 };
 
 export { openSpriteRig };
