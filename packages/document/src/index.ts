@@ -158,3 +158,4 @@ export { targetScopeSchema } from './schema/scope-schema';
 export { spriteCreateSchema } from './schema/sprite-create-schema';
 export { spriteUpdateSchema } from './schema/sprite-update-schema';
 export { transactionRequestSchema } from './schema/transaction-schema';
+export * from './tilemap/index';

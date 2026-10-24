@@ -1,0 +1,7 @@
+/* @layer core @kind config */
+const MAX_MAP_CELLS = 4194304;
+const MAX_MAP_LAYERS = 32;
+const MAX_TILESET_TILES = 4096;
+const MAX_STROKE_CELLS = 1048576;
+
+export { MAX_MAP_CELLS, MAX_MAP_LAYERS, MAX_STROKE_CELLS, MAX_TILESET_TILES };

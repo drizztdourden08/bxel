@@ -18,7 +18,6 @@ const decodeArtwork = (bytes: Uint8Array): LoadReport => {
   const read = readDocument(manifest, check);
   if (!read.ok) return fatalReport(read.issues);
   const built = fromDocumentJson(read.value.document, { good: read.value.blobs, problems: check.problems });
-  if (built.issues.length > 0) return fatalReport(built.issues);
   return finishReport({ opened: opened.value, read: read.value, built, check });
 };
 

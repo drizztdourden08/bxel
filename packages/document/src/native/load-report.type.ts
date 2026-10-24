@@ -1,5 +1,5 @@
 /* @layer core @kind types */
-import type { CelId, FrameId, LayerId, SpriteId } from '../model/ids.type';
+import type { CelId, FrameId, LayerId, MapLayerId, SpriteId, TilemapId } from '../model/ids.type';
 import type { Artwork } from '../model/artwork.type';
 import type { LOAD_ERROR } from './load-error.constants';
 import type { Manifest } from './manifest.type';
@@ -22,6 +22,13 @@ type DamagedCel = {
   readonly message: string;
 };
 
+type DamagedMapLayer = {
+  readonly tilemapId: TilemapId;
+  readonly layerId: MapLayerId;
+  readonly code: LoadErrorCode;
+  readonly message: string;
+};
+
 type LoadReport = {
   readonly outcome: LoadOutcome;
   readonly artwork: Artwork | null;
@@ -32,6 +39,7 @@ type LoadReport = {
   readonly preview: Uint8Array | null;
   readonly issues: readonly LoadIssue[];
   readonly damage: readonly DamagedCel[];
+  readonly mapDamage: readonly DamagedMapLayer[];
 };
 
-export type { DamagedCel, LoadErrorCode, LoadIssue, LoadOutcome, LoadReport };
+export type { DamagedCel, DamagedMapLayer, LoadErrorCode, LoadIssue, LoadOutcome, LoadReport };

@@ -11,6 +11,7 @@ const fatalReport = (issues: readonly LoadIssue[]): LoadReport => ({
   preview: null,
   issues,
   damage: [],
+  mapDamage: [],
 });
 
 export { fatalReport };

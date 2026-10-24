@@ -77,4 +77,10 @@ const editCel = (bytes: Uint8Array, celId: string, edit: (pixels: Uint8Array) =>
     if (refresh) refreshManifest(files);
   });
 
-export { editCel, editDocument, editFiles, editManifest, pack };
+const replaceEntry = (bytes: Uint8Array, path: string, data: Uint8Array): Uint8Array =>
+  editFiles(bytes, (files) => {
+    files[path] = data;
+    refreshManifest(files);
+  });
+
+export { editCel, editDocument, editFiles, editManifest, pack, replaceEntry };
