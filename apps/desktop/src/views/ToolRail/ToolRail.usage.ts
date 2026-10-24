@@ -2,7 +2,7 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Shows the tools of the editor as vertical groups of lettered buttons, with the active tool lit and a flyout for the shape kinds.',
+  job: 'Shows the tools of the editor as vertical groups of pixel art icon buttons, with the active tool lit and a flyout for the shape kinds.',
   useWhen: [
     'The editor needs one place to pick the tool, such as the pencil, the eraser, the fill, the picker, the shapes, the zoom or the hand.',
     'Each tool has a single key and the rail must show it next to the tool name.',

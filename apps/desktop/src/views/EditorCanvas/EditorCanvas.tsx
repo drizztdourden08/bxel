@@ -15,6 +15,7 @@ import { useCommittedImage } from './behavior/useCommittedImage';
 import { useEscapeCancel } from './behavior/useEscapeCancel';
 import { useMarchingAnts } from './behavior/useMarchingAnts';
 import { usePendingImage } from './behavior/usePendingImage';
+import { toolCursorClass } from './behavior/tool-cursor-class';
 import { useSyncPending } from './behavior/useSyncPending';
 import { useViewportBridge } from './behavior/useViewportBridge';
 import './EditorCanvas.css';
@@ -39,7 +40,7 @@ const EditorCanvas = () => {
     <Box className="editor-canvas" onContextMenu={tools.onContextMenu}>
       <PixelViewport
         ref={viewport}
-        className={tool === 'zoom' ? 'editor-canvas__viewport editor-canvas__viewport--zoom' : 'editor-canvas__viewport'}
+        className={`editor-canvas__viewport ${toolCursorClass(tool)}`}
         label={EDITOR_CANVAS_TEXT.label}
         width={outcome?.width ?? target.sprite.width}
         height={outcome?.height ?? target.sprite.height}
