@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import { NEW_TEXT } from '../../new-sprite/new-sprite.constants';
+import { platformGroups } from '../../platform-preset/platform-groups';
 import type { BackgroundOption, KindOption } from './CreateDialog.type';
 
 const KIND_OPTIONS: KindOption[] = [
@@ -12,8 +13,10 @@ const BACKGROUND_OPTIONS: BackgroundOption[] = [
   { value: 'opaque', label: NEW_TEXT.opaqueBackground },
 ];
 
+const PLATFORM_GROUPS = platformGroups();
+
 const NO_NAMES: readonly string[] = [];
 
 const TRANSPARENT_OFF_REASON = 'Turn on the transparent slot to use a transparent background.';
 
-export { BACKGROUND_OPTIONS, KIND_OPTIONS, NO_NAMES, TRANSPARENT_OFF_REASON };
+export { BACKGROUND_OPTIONS, KIND_OPTIONS, NO_NAMES, PLATFORM_GROUPS, TRANSPARENT_OFF_REASON };

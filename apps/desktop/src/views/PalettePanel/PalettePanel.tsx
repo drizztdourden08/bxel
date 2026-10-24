@@ -7,6 +7,8 @@ import { usePaletteSlots } from '../../hooks/usePaletteSlots';
 import { useToolStore } from '../../stores/useToolStore';
 import { PALETTE_COLUMNS, PALETTE_PANEL_TEXT } from './PalettePanel.constants';
 import { PaletteSwatch } from './sub-components/PaletteSwatch';
+import { PlatformRow } from './sub-components/PlatformRow';
+import { SetLoader } from './sub-components/SetLoader';
 import './PalettePanel.css';
 
 const PalettePanel = () => {
@@ -33,6 +35,8 @@ const PalettePanel = () => {
         ))}
       </Grid>
       <Text variant="caption" tone="muted">{PALETTE_PANEL_TEXT.hint}</Text>
+      <SetLoader />
+      <PlatformRow />
     </Stack>
   );
 };

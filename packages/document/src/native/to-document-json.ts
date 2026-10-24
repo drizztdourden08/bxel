@@ -44,6 +44,7 @@ const toDocumentJson = (artwork: Artwork): DocumentJson => ({
   name: artwork.name,
   defaultBankId: artwork.defaultBankId,
   coverSpriteId: artwork.coverSpriteId,
+  ...(artwork.platformId === undefined ? {} : { platformId: artwork.platformId }),
   banks: artwork.banks,
   sprites: artwork.sprites.map(spriteToJson),
   sheets: artwork.sheets,

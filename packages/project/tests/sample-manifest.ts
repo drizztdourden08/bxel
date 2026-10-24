@@ -15,6 +15,7 @@ const sampleManifest = (): ProjectManifest => ({
     exports: { folderId: 'fld_7r2k9m4q', path: 'exports' },
     palette: { folderId: 'fld_3m8q2k7x', path: 'dawnbringer-16.gpl' },
   },
+  swatchSets: [],
   assistant: { access: 'edit' },
 });
 

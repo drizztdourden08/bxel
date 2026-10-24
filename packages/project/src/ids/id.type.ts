@@ -3,6 +3,8 @@ type ProjectId = `prj_${string}`;
 
 type FolderId = `fld_${string}`;
 
+type SwatchSetId = `sws_${string}`;
+
 type ByteProvider = (length: number) => Uint8Array;
 
-export type { ByteProvider, FolderId, ProjectId };
+export type { ByteProvider, FolderId, ProjectId, SwatchSetId };

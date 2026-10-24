@@ -10,12 +10,24 @@ interface LoadedPalette {
   colors: readonly SourceColor[];
 }
 
-type SourceKind = 'preset' | 'file' | 'custom';
+type SourceKind = 'preset' | 'file' | 'custom' | 'set';
+
+interface SourceSet {
+  key: string;
+  name: string;
+  colors: readonly SourceColor[];
+}
 
 interface PaletteSource {
   kind: SourceKind;
   presetId: string;
   file: LoadedPalette | null;
+  set?: SourceSet;
+}
+
+interface SourceGroup {
+  label: string;
+  options: SourceOption[];
 }
 
 interface PalettePreset {
@@ -48,4 +60,4 @@ interface BankPlan {
 
 type PaletteRead = { ok: true; palette: LoadedPalette } | { ok: false; message: string };
 
-export type { BankDraft, BankPlan, FittedColors, LoadedPalette, PaletteRead, PaletteSource, PalettePreset, SourceColor, SourceOption };
+export type { BankDraft, BankPlan, FittedColors, LoadedPalette, PaletteRead, PaletteSource, PalettePreset, SourceColor, SourceGroup };

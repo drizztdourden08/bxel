@@ -38,6 +38,6 @@ type HistoryDirection = 'undo' | 'redo';
 
 type CollectionKey = (typeof COLLECTION_KEYS)[number];
 
-type ArtworkMeta = Pick<Artwork, 'name' | 'defaultBankId' | 'coverSpriteId'>;
+type ArtworkMeta = Pick<Artwork, 'name' | 'defaultBankId' | 'coverSpriteId' | 'platformId'>;
 
 export type { CollectionKey, HistoryDirection, HistoryEntry, HistoryLimits, HistoryState, ArtworkMeta, UndoOp };

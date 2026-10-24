@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { DocumentId } from '@bxel/document';
 import type { PaletteSource } from '../palette-source/palette-source.type';
+import type { PlatformReport } from '../platform-preset/platform-preset.type';
 
 type CreationKind = 'sprite' | 'sheet';
 
@@ -20,6 +21,7 @@ interface CreationForm {
   limit: number;
   transparent: boolean;
   source: PaletteSource;
+  platformId: string | null;
 }
 
 interface CreationErrors {
@@ -36,6 +38,7 @@ interface CreationSummary {
   usage: string;
   fits: string | null;
   sheet: string | null;
+  platform: PlatformReport | null;
 }
 
 interface CreationMemory {
@@ -44,6 +47,7 @@ interface CreationMemory {
   limit: number;
   transparent: boolean;
   presetId: string;
+  platformId?: string;
 }
 
 interface BackgroundChoice {

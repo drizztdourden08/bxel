@@ -17,7 +17,8 @@ const artworkUpdate = defineCommand({
     const requested = options.coverSpriteId as SpriteId | null | undefined;
     if (requested) requireSprite(draft.artwork, requested);
     const coverSpriteId = requested === undefined ? draft.artwork.coverSpriteId : requested;
-    updateArtwork(draft, (artwork) => ({ ...artwork, name, coverSpriteId }));
+    const platformId = options.platformId === undefined ? draft.artwork.platformId : (options.platformId ?? undefined);
+    updateArtwork(draft, (artwork) => ({ ...artwork, name, coverSpriteId, platformId }));
   },
 });
 

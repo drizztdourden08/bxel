@@ -104,6 +104,12 @@ importers:
       '@bxel/palette':
         specifier: workspace:*
         version: link:../../packages/palette
+      '@bxel/presets':
+        specifier: workspace:*
+        version: link:../../packages/presets
+      '@bxel/project':
+        specifier: workspace:*
+        version: link:../../packages/project
       '@bxel/raster':
         specifier: workspace:*
         version: link:../../packages/raster

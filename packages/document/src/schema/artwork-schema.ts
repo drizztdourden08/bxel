@@ -6,6 +6,7 @@ import { brandedIdSchema } from './branded-id-schema';
 import { exportPresetSchema } from './export-preset-schema';
 import { nameSchema } from './name-schema';
 import { paletteBankSchema } from './palette-schema';
+import { platformIdSchema } from './platform-id-schema';
 import { sheetSchema } from './sheet-schema';
 import { spriteShellSchema } from './sprite-schema';
 import { tilemapShellSchema } from './tilemap-schema';
@@ -16,6 +17,7 @@ const artworkSchema = z.object({
   name: nameSchema,
   defaultBankId: brandedIdSchema<BankId>(ID_PREFIX.bank),
   coverSpriteId: brandedIdSchema<SpriteId>(ID_PREFIX.sprite).nullable(),
+  platformId: platformIdSchema.optional(),
   banks: z.array(paletteBankSchema),
   sprites: z.array(spriteShellSchema),
   sheets: z.array(sheetSchema),

@@ -2,6 +2,7 @@
 import { Stack, Text } from '@drizztdourden08/tessera';
 import { NEW_TEXT } from '../../../new-sprite/new-sprite.constants';
 import type { CreationSummary } from '../../../new-sprite/new-sprite.type';
+import { PlatformFindings } from '../../PlatformFindings';
 
 const ResultLines = ({ summary }: { summary: CreationSummary }) => (
   <Stack gap="2xs" aria-live="polite">
@@ -20,6 +21,7 @@ const ResultLines = ({ summary }: { summary: CreationSummary }) => (
         {summary.sheet}
       </Text>
     )}
+    {summary.platform !== null && <PlatformFindings report={summary.platform} />}
   </Stack>
 );
 

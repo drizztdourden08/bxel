@@ -7,6 +7,7 @@ const formMemory = (form: CreationForm, previous: CreationMemory): CreationMemor
   limit: form.limit,
   transparent: form.transparent,
   presetId: form.source.kind === 'preset' ? form.source.presetId : previous.presetId,
+  ...(form.platformId === null ? {} : { platformId: form.platformId }),
 });
 
 export { formMemory };

@@ -32,6 +32,7 @@ const fromDocumentJson = (document: DocumentJson, source: EntryCheck): BuiltArtw
     name: document.name,
     defaultBankId: document.defaultBankId,
     coverSpriteId: document.coverSpriteId,
+    ...(document.platformId === undefined ? {} : { platformId: document.platformId }),
     banks: document.banks,
     sprites,
     sheets: document.sheets,

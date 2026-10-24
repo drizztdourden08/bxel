@@ -5,9 +5,10 @@ import { pickPaletteFile } from '../../../palette-source/pick-palette-file';
 import { SOURCE_TEXT } from '../../../palette-source/palette-source.constants';
 import type { PaletteSource } from '../../../palette-source/palette-source.type';
 import { sourceFromValue } from '../../../palette-source/source-from-value';
+import type { SwatchLibrary } from '../../../swatch-library/swatch-library.type';
 import type { PaletteFileState } from '../PaletteFields.type';
 
-const usePaletteFile = (source: PaletteSource, onChange: (source: PaletteSource) => void): PaletteFileState => {
+const usePaletteFile = (source: PaletteSource, library: SwatchLibrary, onChange: (source: PaletteSource) => void): PaletteFileState => {
   const [error, setError] = useState<string | null>(null);
 
   const pick = useCallback((): void => {
@@ -25,7 +26,7 @@ const usePaletteFile = (source: PaletteSource, onChange: (source: PaletteSource)
 
   const choose = useCallback(
     (value: string): void => {
-      const next = sourceFromValue(value, source);
+      const next = sourceFromValue(value, source, library);
       if (next === null) {
         pick();
         return;
@@ -33,7 +34,7 @@ const usePaletteFile = (source: PaletteSource, onChange: (source: PaletteSource)
       setError(null);
       onChange(next);
     },
-    [onChange, pick, source],
+    [library, onChange, pick, source],
   );
 
   return { error, choose, pick };

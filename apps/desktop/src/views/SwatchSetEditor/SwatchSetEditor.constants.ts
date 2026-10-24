@@ -1,0 +1,32 @@
+/* @layer renderer-app @kind constants */
+const SWATCH_EDITOR_TEXT = {
+  setLabel: 'Swatch set',
+  setPlaceholder: 'No swatch sets yet',
+  newSet: 'New set',
+  importFile: 'Import palette file...',
+  deleteSet: 'Delete set',
+  deleteArmed: 'Click again to delete the set',
+  nameLabel: 'Set name',
+  colorsTitle: 'Colors',
+  colorsHint: 'Pick a color to edit it. Every set holds 1 to 256 colors.',
+  colorLabel: (index: number, rgb: string): string => `Color ${index + 1}, ${rgb}`,
+  addColor: 'Add color',
+  removeColor: 'Remove color',
+  colorName: 'Color name',
+  changeColor: (rgb: string): string => `Change the color ${rgb}`,
+  copyTitle: 'Start from an existing set',
+  copyHint: 'Copy a platform preset, or a set of the open project, into your sets.',
+  copyPlaceholder: 'Choose a set to copy',
+  copy: 'Copy to my sets',
+  toProject: 'Copy to the open project',
+  toProjectHint: 'The project keeps its own copy, so every file in it can reuse the set.',
+  imported: (name: string, count: number): string => `Imported ${name}, ${count} ${count === 1 ? 'color' : 'colors'}.`,
+  importedCut: (name: string, kept: number): string => `Imported ${name}. Only the first ${kept} colors fit in a set.`,
+  copied: (name: string): string => `Copied ${name} to your sets.`,
+  projectCopied: (name: string, project: string): string => `Copied ${name} to the project ${project}.`,
+  projectFailed: (reason: string): string => `Could not copy to the project. ${reason}`,
+  saveFailed: (reason: string): string => `Could not save the set. ${reason}`,
+  noDocuments: 'This window cannot open files.',
+} as const;
+
+export { SWATCH_EDITOR_TEXT };

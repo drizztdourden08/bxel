@@ -1,6 +1,8 @@
 /* @layer core @kind barrel */
 export { checkAreas } from './checks/check-areas';
+export { checkPlatform } from './checks/check-platform';
 export { checkSprite } from './checks/check-sprite';
+export type * from './checks/finding.type';
 export type * from './defaults/defaults.type';
 export { presetDefaults } from './defaults/preset-defaults';
 export type * from './model/area.type';

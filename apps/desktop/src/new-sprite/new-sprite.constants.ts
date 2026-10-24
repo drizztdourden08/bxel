@@ -29,6 +29,7 @@ const NEW_FORM_BASE: CreationForm = {
   limit: NEW_MEMORY_DEFAULT.limit,
   transparent: NEW_MEMORY_DEFAULT.transparent,
   source: { kind: 'preset', presetId: PRESET_DEFAULT, file: null },
+  platformId: null,
 };
 
 const NEW_FILE_NAME = 'Untitled';
