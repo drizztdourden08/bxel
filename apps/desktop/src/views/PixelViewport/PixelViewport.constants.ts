@@ -7,16 +7,11 @@ const PIXEL_ZOOM_STEPS: readonly number[] = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 4
 const PIXEL_GRID_FROM = 8;
 
 const PIXEL_TOKENS = {
-  checkA: '--c-checker-a',
-  checkB: '--c-checker-b',
-  grid: '--c-grid-line',
-  check: '--checker-size',
   margin: '--size-32',
   step: '--size-32',
 } as const;
 
 const PIXEL_FALLBACK = {
-  check: 8,
   margin: 32,
   step: 32,
 } as const;

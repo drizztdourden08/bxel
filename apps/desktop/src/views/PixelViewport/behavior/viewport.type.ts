@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { FocusEventHandler, KeyboardEventHandler, MouseEventHandler, PointerEvent, PointerEventHandler, RefObject } from 'react';
+import type { CanvasLook, GridFlags } from '../../../canvas-look/canvas-look.type';
 import type { PixelDraw, PixelPoint, PixelSource, PixelTiling, PixelView } from '../PixelViewport.type';
 
 interface ImageSize {
@@ -18,13 +19,6 @@ interface ViewBox {
 interface ViewTarget {
   zoom: number;
   pan: PixelPoint;
-}
-
-interface ViewLook {
-  checkA: string;
-  checkB: string;
-  grid: string;
-  check: number;
 }
 
 interface ViewStateParams {
@@ -53,7 +47,9 @@ interface FrameInput {
   image: ImageSize;
   draw?: PixelDraw;
   source?: PixelSource;
-  gridFrom: number | null;
+  gridFrom: number;
+  grids: GridFlags;
+  look: CanvasLook;
   tiled: PixelTiling;
 }
 
@@ -76,6 +72,8 @@ interface PaintTools {
 interface FrameCache {
   tile: HTMLCanvasElement | null;
   tileKey: string;
+  surround: HTMLCanvasElement | null;
+  surroundKey: string;
   scratch: HTMLCanvasElement | null;
 }
 
@@ -102,6 +100,7 @@ interface KeyLike {
 interface GridAxis {
   start: number;
   scale: number;
+  every: number;
   count: number;
   room: number;
 }
@@ -159,6 +158,6 @@ interface ViewportModel {
 }
 
 export type {
-  FrameCache, FrameInput, GridAxis, ImageSize, KeyLike, PaintTools, PanDrag, PanDragging, PlacedImage, PointerPixel, ViewBox, ViewLook,
+  FrameCache, FrameInput, GridAxis, ImageSize, KeyLike, PaintTools, PanDrag, PanDragging, PlacedImage, PointerPixel, ViewBox,
   ViewportHandlers, ViewportKeys, ViewportModel, ViewportParts, ViewState, ViewStateParams, ViewTarget, WheelLike, WheelSteps,
 };

@@ -6,6 +6,7 @@ declare module '@drizztdourden08/tessera' {
     'bxel': {
       parts:
         | 'ApplyBar'
+        | 'CanvasRuler'
         | 'ContextBar'
         | 'CreateDialog'
         | 'DialogHost'
@@ -21,6 +22,7 @@ declare module '@drizztdourden08/tessera' {
         | 'PalettePanel'
         | 'PixelViewport'
         | 'RecoveryDialog'
+        | 'SurroundEditor'
         | 'ToolRail'
         | 'TransformDialog'
         | 'TransformPanel';

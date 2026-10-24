@@ -6,6 +6,9 @@ interface EditorMenuState {
   canUndo: boolean;
   canRedo: boolean;
   grid: boolean;
+  gridMajor: boolean;
+  gridTile: boolean;
+  rulers: boolean;
   tiled: TileMode;
   symmetryX: boolean;
   symmetryY: boolean;

@@ -3,16 +3,32 @@ import type { PixelViewportHandle } from '../views/PixelViewport';
 
 type TileMode = 'off' | 'x' | 'y' | 'both';
 
-interface ViewSettings {
+type ViewToggle = 'grid' | 'gridMajor' | 'gridTile' | 'rulers';
+
+interface ViewToggles {
   grid: boolean;
+  gridMajor: boolean;
+  gridTile: boolean;
+  rulers: boolean;
+}
+
+interface ViewToggleRow {
+  toggle: ViewToggle;
+  command: string;
+  label: string;
+  chord?: string;
+}
+
+interface ViewSettings extends ViewToggles {
   tiled: TileMode;
   viewport: PixelViewportHandle | null;
 }
 
 interface ViewState extends ViewSettings {
-  toggleGrid: () => void;
+  toggleView: (toggle: ViewToggle) => void;
+  setToggles: (toggles: Partial<ViewToggles>) => void;
   setTiled: (tiled: TileMode) => void;
   setViewport: (viewport: PixelViewportHandle | null) => void;
 }
 
-export type { TileMode, ViewSettings, ViewState };
+export type { TileMode, ViewSettings, ViewState, ViewToggleRow };

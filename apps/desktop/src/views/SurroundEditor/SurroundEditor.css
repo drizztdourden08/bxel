@@ -1,0 +1,35 @@
+/* @layer renderer-app @kind style */
+.surround-editor {
+  max-inline-size: var(--size-512);
+}
+
+.surround-editor__preview {
+  display: block;
+  inline-size: 100%;
+  block-size: var(--size-160);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  image-rendering: pixelated;
+}
+
+.surround-editor__grid {
+  inline-size: var(--size-320);
+  block-size: var(--size-320);
+  max-inline-size: 100%;
+  border: var(--border-width-thin) solid var(--c-border);
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+}
+
+.surround-editor__grid:focus-visible {
+  outline: var(--border-width-thick) solid var(--c-primary);
+  outline-offset: var(--border-width-thick);
+}
+
+.surround-editor__grid-canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  image-rendering: pixelated;
+}

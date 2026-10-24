@@ -1,0 +1,29 @@
+/* @layer renderer-app @kind style */
+.canvas-ruler {
+  position: relative;
+  overflow: hidden;
+  min-inline-size: 0;
+  min-block-size: 0;
+  touch-action: none;
+  user-select: none;
+}
+
+.canvas-ruler--x {
+  grid-area: 1 / 2;
+}
+
+.canvas-ruler--y {
+  grid-area: 2 / 1;
+}
+
+.canvas-ruler[data-grab] {
+  cursor: grab;
+}
+
+.canvas-ruler__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
