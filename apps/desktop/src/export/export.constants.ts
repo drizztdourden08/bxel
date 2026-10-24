@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
-import type { JobStepDef } from '@drizztdourden08/brock-core';
-import type { ExportKind, ExportResult, ExportSettings, IndexedStatus, SavedPreset, SpriteChoice } from './export.type';
+import type { DocumentDialogOptions, JobStepDef } from '@drizztdourden08/brock-core';
+import type { AnimationFormat, ExportKind, ExportResult, ExportSettings, IndexedStatus, SavedPreset, SpriteChoice } from './export.type';
 
 const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   kind: 'sprite',
@@ -143,6 +143,11 @@ const NO_SPRITES: readonly SpriteId[] = [];
 
 const FOLDER_KINDS: readonly ExportKind[] = ['frames', 'sheet', 'map'];
 
+const ANIMATION_BROWSE_FILTERS: Readonly<Record<AnimationFormat, NonNullable<DocumentDialogOptions['filters']>>> = {
+  gif: [{ name: 'GIF image', extensions: ['gif'] }],
+  apng: [{ name: 'Animated PNG image', extensions: ['png'] }],
+};
+
 const NO_PRESETS: readonly SavedPreset[] = [];
 
 const EMPTY_PICK: Readonly<Record<SpriteChoice, string>> = {
@@ -155,6 +160,7 @@ const EMPTY_PICK: Readonly<Record<SpriteChoice, string>> = {
 const NO_INDEXED: IndexedStatus = { state: 'unavailable', note: '' };
 
 export {
+  ANIMATION_BROWSE_FILTERS,
   ANIMATION_INDEXED,
   DATA_URL_CHUNK,
   EMPTY_PICK,

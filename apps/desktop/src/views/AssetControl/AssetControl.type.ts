@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind types */
+import type { PresetOrigin } from '../../export/preset-entry.type';
 import type { BankOption } from '../../palette-bank/palette-bank.type';
 import type { SourceGroup } from '../../palette-source/palette-source.type';
 import type { PlatformGroup, PlatformReport } from '../../platform-preset/platform-preset.type';
@@ -51,8 +52,10 @@ interface SetLoaderModel {
 }
 
 interface PresetRowModel {
+  key: string;
   name: string;
   detail: string;
+  origin: PresetOrigin;
 }
 
 interface PresetRowProps {
