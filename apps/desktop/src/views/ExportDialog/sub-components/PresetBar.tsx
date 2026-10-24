@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Button, Field, Flex, Select, TextInput } from '@drizztdourden08/tessera';
 import { useState } from 'react';
+import { presetGroups } from '../../../export/preset-groups';
 import { EXPORT_DIALOG_TEXT } from '../ExportDialog.constants';
 import type { PresetBarProps } from '../ExportDialog.type';
 
@@ -19,7 +20,7 @@ const PresetBar = ({ presets, naming, onApply, onSave, onDone }: PresetBarProps)
             size="sm"
             aria-label={EXPORT_DIALOG_TEXT.preset}
             placeholder={EXPORT_DIALOG_TEXT.presetNone}
-            options={presets.map((preset) => ({ value: preset.name, label: preset.name }))}
+            groups={presetGroups(presets)}
             onChange={onApply}
           />
         </Field>

@@ -8,7 +8,7 @@ const PresetRow = ({ row, onRename, onRemove, onRun }: PresetRowProps) => {
   const [draft, setDraft] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const save = (): void => {
-    const failure = onRename(row.name, draft ?? row.name);
+    const failure = onRename(row.key, draft ?? row.name);
     setProblem(failure);
     if (failure === null) setDraft(null);
   };
@@ -31,13 +31,13 @@ const PresetRow = ({ row, onRename, onRemove, onRun }: PresetRowProps) => {
         )}
         {draft === null ? (
           <>
-            <Button size="sm" variant="secondary" onClick={() => onRun(row.name)}>
+            <Button size="sm" variant="secondary" onClick={() => onRun(row.key)}>
               {ASSET_CONTROL_TEXT.presetRun}
             </Button>
             <Button size="sm" variant="tertiary" onClick={() => setDraft(row.name)}>
               {ASSET_CONTROL_TEXT.presetRename}
             </Button>
-            <Button size="sm" variant="tertiary" onClick={() => onRemove(row.name)}>
+            <Button size="sm" variant="tertiary" onClick={() => onRemove(row.key)}>
               {ASSET_CONTROL_TEXT.presetDelete}
             </Button>
           </>

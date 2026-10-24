@@ -11,6 +11,7 @@ interface AppSettings extends BaseSettings, CanvasSettings, AssistantSettings, P
   assetDefaults: AssetDefaults;
   exportLast?: ExportSettings;
   exportPresets?: readonly SavedPreset[];
+  exportPresetsOffered?: boolean;
   swatchSets?: readonly SwatchSet[];
   managerViews?: ManagerViews;
 }

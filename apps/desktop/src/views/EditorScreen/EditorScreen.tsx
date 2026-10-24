@@ -13,6 +13,7 @@ import { EditorStatus } from '../EditorStatus';
 import { ExportDialog } from '../ExportDialog';
 import { LegacyBar } from '../LegacyBar';
 import { MismatchBar } from '../MismatchBar';
+import { PresetMoveBar } from '../PresetMoveBar';
 import { RecoveryDialog } from '../RecoveryDialog';
 import { ScopeBar } from '../ScopeBar';
 import { SheetCanvas } from '../SheetCanvas';
@@ -33,6 +34,7 @@ const EditorScreen = () => {
       <AssetTabs />
       <WorkspaceProgress />
       <LegacyBar />
+      <PresetMoveBar />
       <Flex className="editor-screen__body" {...commandZone(COMMAND_ZONE.canvas)}>
         <Flex className={editing ? 'editor-screen__stage editor-screen__stage--tile-edit' : 'editor-screen__stage'}>
           {mode === 'sheet' && <SheetCanvas />}

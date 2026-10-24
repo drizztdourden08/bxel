@@ -36,6 +36,7 @@ declare module '@drizztdourden08/tessera' {
         | 'PixelViewport'
         | 'PlatformFindings'
         | 'PresetBrowser'
+        | 'PresetMoveBar'
         | 'ProjectControl'
         | 'ProjectCreateDialog'
         | 'ProjectPanel'

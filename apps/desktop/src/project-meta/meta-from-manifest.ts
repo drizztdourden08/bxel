@@ -26,7 +26,7 @@ const metaFromManifest = (manifest: ProjectDocument, folders: readonly ResolvedF
     coverSpriteId: idAt(sources, folders, manifest.cover, 'sprite') as SpriteId | null,
     ...(typeof platformId === 'string' ? { platformId } : {}),
     ...(platformStrict === true && typeof platformId === 'string' ? { platformStrict: true } : {}),
-    presets: [],
+    presets: manifest.export?.presets ?? [],
   };
 };
 
