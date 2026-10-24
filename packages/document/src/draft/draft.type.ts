@@ -14,6 +14,7 @@ type Draft = {
   readonly baselines: Map<CelId, Uint8Array>;
   readonly ops: UndoOp[];
   project: Project;
+  recorded: Project;
   step: number;
 };
 

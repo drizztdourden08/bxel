@@ -6,7 +6,9 @@ import { findSprite } from '../read/find-sprite';
 import type { Draft } from './draft.type';
 
 const flushCel = (draft: Draft, sprite: Sprite, cel: Cel): void => {
-  const from = draft.baselines.get(cel.id) ?? findSprite(draft.base, sprite.id)?.cels[cel.id]?.pixels;
+  const prior = findSprite(draft.recorded, sprite.id);
+  if (prior?.width !== sprite.width || prior.height !== sprite.height) return;
+  const from = draft.baselines.get(cel.id) ?? prior.cels[cel.id]?.pixels;
   if (!from || from === cel.pixels || from.length !== cel.pixels.length) return;
   const rect = diffBounds(from, cel.pixels, sprite.width);
   if (!rect) return;

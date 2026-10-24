@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import type { CelId } from '../model/ids.type';
 import type { Project } from '../model/project.type';
-import type { Sprite, SpriteShell } from '../model/sprite.type';
+import type { Cel, Sprite, SpriteShell } from '../model/sprite.type';
 import { CEL_PREFIX, ORDER_PATH, SHELL_KEYS, SHELL_PREFIX, SPRITE_PREFIX } from './entity-path.constants';
 import type { UndoOp } from './history.type';
 
@@ -9,14 +9,20 @@ const shellOf = ({ cels: _cels, ...shell }: Sprite): SpriteShell => shell;
 
 const sameShell = (first: Sprite, second: Sprite): boolean => SHELL_KEYS.every((key) => first[key] === second[key]);
 
+const celChanged = (prior: Cel | undefined, current: Cel | undefined, moved: boolean): boolean => {
+  if (!prior || !current) return true;
+  if (prior.pixels === current.pixels) return false;
+  return moved || prior.pixels.length !== current.pixels.length;
+};
+
 const celOps = (before: Sprite, after: Sprite): UndoOp[] => {
+  const moved = before.width !== after.width || before.height !== after.height;
   const ids = new Set([...Object.keys(before.cels), ...Object.keys(after.cels)]);
   const ops: UndoOp[] = [];
   for (const id of ids) {
     const prior = before.cels[id as CelId];
     const current = after.cels[id as CelId];
-    const changed = prior?.pixels.length !== current?.pixels.length;
-    if (changed) ops.push({ kind: 'entity', path: `${CEL_PREFIX}${after.id}:${id}`, before: prior, after: current });
+    if (celChanged(prior, current, moved)) ops.push({ kind: 'entity', path: `${CEL_PREFIX}${after.id}:${id}`, before: prior, after: current });
   }
   return ops;
 };

@@ -1,8 +1,9 @@
 /* @layer core @kind logic */
 import type { Sprite } from '../model/sprite.type';
+import { recordPending } from '../history/record-pending';
 import { remapCel } from '../pixels/remap-cel';
 import type { BankRemap, Draft } from './draft.type';
-import { flushCels } from './flush-cels';
+import { snapshotOwned } from './snapshot-owned';
 import { updateProject } from './update-project';
 
 const remapSprite = (draft: Draft, sprite: Sprite, table: Uint8Array): Sprite => {
@@ -16,7 +17,8 @@ const remapSprite = (draft: Draft, sprite: Sprite, table: Uint8Array): Sprite =>
 };
 
 const remapBank = (draft: Draft, remap: BankRemap): void => {
-  flushCels(draft);
+  recordPending(draft);
+  snapshotOwned(draft);
   draft.ops.push({ kind: 'cel-remap', bankId: remap.bankId, forward: remap.forward, inverse: remap.inverse });
   updateProject(draft, (project) => ({
     ...project,
