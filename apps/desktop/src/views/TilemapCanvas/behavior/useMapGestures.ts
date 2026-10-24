@@ -9,6 +9,7 @@ import type { MapTarget } from '../../../tilemap/tilemap.type';
 import type { PixelPoint, PixelViewportHandle } from '../../PixelViewport';
 import type { MapGesture, MapLive } from '../TilemapCanvas.type';
 import { beginDrag } from './begin-drag';
+import { cellNearest } from './cell-nearest';
 import { cellOf } from './cell-of';
 import { extendDrag } from './extend-drag';
 import { finishDrag } from './finish-drag';
@@ -16,7 +17,9 @@ import { finishDrag } from './finish-drag';
 const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target: MapTarget, live: RefObject<MapLive>): MapGesture => {
   const tool = MAP_TOOL_OF[useToolStore((state) => state.tool)];
   const pixelAt = (event: PointerEvent<HTMLElement>): PixelPoint => viewport.current?.screenToPixel(event.clientX, event.clientY) ?? { x: 0, y: 0 };
-  const cellAt = (event: PointerEvent<HTMLElement>): Point => cellOf(pixelAt(event), target.tileset);
+  const cellAt = (event: PointerEvent<HTMLElement>): Point => cellOf(pixelAt(event), target);
+  const cellNear = (event: PointerEvent<HTMLElement>): Point => cellNearest(pixelAt(event), target);
+  const spanning = tool === 'rect' || tool === 'select';
   const redraw = (): void => viewport.current?.redraw();
   return {
     down: (event) => {
@@ -26,13 +29,13 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
         return;
       }
       if (event.button !== 0) return;
-      live.current.drag = beginDrag(tool, cellAt(event), target);
+      live.current.drag = beginDrag(tool, spanning ? cellNear(event) : cellAt(event), target);
       if (live.current.drag) event.currentTarget.setPointerCapture(event.pointerId);
       redraw();
     },
     move: (event) => {
       const { drag } = live.current;
-      if (drag) live.current.drag = extendDrag(drag, cellAt(event), useTilemapStore.getState().stamp, target);
+      if (drag) live.current.drag = extendDrag(drag, drag.kind === 'stroke' ? cellAt(event) : cellNear(event), useTilemapStore.getState().stamp, target);
       live.current.hover = cellAt(event);
       redraw();
     },
@@ -43,7 +46,7 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
       redraw();
     },
     hover: (pixel) => {
-      live.current.hover = pixel ? cellOf(pixel, target.tileset) : null;
+      live.current.hover = pixel ? cellOf(pixel, target) : null;
       useReadoutStore.getState().setPointer(pixel ? { x: Math.floor(pixel.x), y: Math.floor(pixel.y) } : null);
       redraw();
     },

@@ -46,6 +46,8 @@ import type { tileUniqueSchema } from './tile-unique-schema';
 import type { tilemapCreateSchema } from './tilemap-create-schema';
 import type { tilemapDeleteSchema } from './tilemap-delete-schema';
 import type { tilemapImportSchema } from './tilemap-import-schema';
+import type { orientRequestSchema } from './orient-request-schema';
+import type { tilemapOrientSchema } from './tilemap-orient-schema';
 import type { tilemapResizeSchema } from './tilemap-resize-schema';
 import type { tilemapUpdateSchema } from './tilemap-update-schema';
 import type { tilesetCreateSchema } from './tileset-create-schema';
@@ -94,6 +96,8 @@ type TileUniqueOptions = z.output<typeof tileUniqueSchema>;
 type TileRef = z.output<typeof tileRefSchema>;
 type TilemapCreateOptions = z.output<typeof tilemapCreateSchema>;
 type TilemapUpdateOptions = z.output<typeof tilemapUpdateSchema>;
+type OrientRequest = z.output<typeof orientRequestSchema>;
+type TilemapOrientOptions = z.output<typeof tilemapOrientSchema>;
 type TilemapResizeOptions = z.output<typeof tilemapResizeSchema>;
 type TilemapDeleteOptions = z.output<typeof tilemapDeleteSchema>;
 type TilemapImportOptions = z.output<typeof tilemapImportSchema>;
@@ -130,6 +134,8 @@ export type {
   TilemapDeleteOptions,
   TilemapImportOptions,
   TilemapResizeOptions,
+  OrientRequest,
+  TilemapOrientOptions,
   TilemapUpdateOptions,
   TilesetCreateOptions,
   TilesetDeleteOptions,

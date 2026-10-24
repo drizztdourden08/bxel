@@ -7,11 +7,13 @@ import { usableStamp } from '../../../tilemap/usable-stamp';
 import { GHOST_ALPHA } from '../TilemapCanvas.constants';
 import type { MapPaintState } from '../TilemapCanvas.type';
 import { cellMatrix } from './cell-matrix';
+import { targetGeometry } from './target-geometry';
 
 const paintGhost = (ctx: CanvasRenderingContext2D, state: MapPaintState, origin: Point): void => {
   const { target, stamp, flags } = state;
   const { tileset, artwork } = target;
   const size = { width: tileset.tileWidth, height: tileset.tileHeight };
+  const geometry = targetGeometry(target);
   ctx.save();
   ctx.globalAlpha = GHOST_ALPHA;
   for (const { key, cell } of stampPlacements(usableStamp(stamp, tileset), origin, target.tilemap)) {
@@ -20,7 +22,8 @@ const paintGhost = (ctx: CanvasRenderingContext2D, state: MapPaintState, origin:
     const canvas = sprite ? tileCanvas(artwork, sprite) : null;
     if (!canvas) continue;
     ctx.save();
-    ctx.translate(cell.x * size.width, cell.y * size.height);
+    const origin = geometry.originOf(cell.x, cell.y);
+    ctx.translate(origin.x, origin.y);
     ctx.transform(...cellMatrix(flags, size));
     ctx.drawImage(canvas, 0, 0);
     ctx.restore();

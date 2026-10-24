@@ -106,6 +106,7 @@ export { writePalettePng } from './palette-file/write-palette-png';
 export { exportTilesetImage } from './tilemap/export-tileset-image';
 export { TILED_JSON, TILEMAP_JSON } from './tilemap/tilemap.constants';
 export type {
+  MapOrientationInput,
   TilemapExportInput,
   TilemapJsonResult,
   TilemapLayerInput,

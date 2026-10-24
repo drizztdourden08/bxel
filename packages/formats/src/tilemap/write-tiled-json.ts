@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import { checkTilemapInput } from './check-tilemap-input';
 import { tiledGids } from './tiled-gids';
+import { tiledOrientation } from './tiled-orientation';
 import { tiledTileEntries } from './tiled-tile-entries';
 import { TILED_JSON } from './tilemap.constants';
 import type { TilemapExportInput, TilemapJsonResult } from './tilemap.type';
@@ -27,8 +28,7 @@ const writeTiledJson = (input: TilemapExportInput): TilemapJsonResult => {
     type: 'map',
     version: TILED_JSON.VERSION,
     tiledversion: TILED_JSON.TILED_VERSION,
-    orientation: 'orthogonal',
-    renderorder: 'right-down',
+    ...tiledOrientation(input),
     infinite: false,
     compressionlevel: -1,
     width: input.columns,

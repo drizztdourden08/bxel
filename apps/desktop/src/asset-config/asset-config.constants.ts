@@ -21,6 +21,7 @@ const ASSET_LABEL = {
   transparent: 'Change the transparent slot',
   sheetStyle: 'Style sheet',
   mapSize: 'Resize map',
+  orientation: 'Set map orientation',
   platform: 'Set the platform',
   strict: 'Set strict rules',
   pixelGrid: 'Set the pixel grid',

@@ -55,6 +55,7 @@ import { tilemapCreate } from './tilemap/tilemap-create';
 import { tilemapDelete } from './tilemap/tilemap-delete';
 import { tilemapDuplicate } from './tilemap/tilemap-duplicate';
 import { tilemapImport } from './tilemap/tilemap-import';
+import { tilemapOrient } from './tilemap/tilemap-orient';
 import { tilemapResize } from './tilemap/tilemap-resize';
 import { tilemapUpdate } from './tilemap/tilemap-update';
 import { tilesetCreate } from './tileset/tileset-create';
@@ -116,6 +117,7 @@ const documentCommands: readonly CommandDef[] = [
   tilemapDelete,
   tilemapDuplicate,
   tilemapImport,
+  tilemapOrient,
   mapLayerAdd,
   mapLayerUpdate,
   mapLayerDelete,

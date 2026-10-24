@@ -8,6 +8,7 @@ import { assertNameFree } from '../../validate/assert-name-free';
 import { checkName } from '../../validate/check-name';
 import { checkMapSize } from './check-map-size';
 import type { TilemapRequest } from './tilemap-request.type';
+import { normalizeOrientation } from './normalize-orientation';
 import { pickTileset } from './pick-tileset';
 
 const addTilemap = (draft: Draft, ref: string | undefined, request: TilemapRequest, layersOf: () => MapLayer[]): void => {
@@ -18,6 +19,7 @@ const addTilemap = (draft: Draft, ref: string | undefined, request: TilemapReque
     name,
   );
   checkMapSize({ width: request.columns, height: request.rows });
+  const orientation = normalizeOrientation(request.orientation, tileset, 'options.orientation');
   const tilemap: Tilemap = {
     id: draft.ids.next('tlm') as TilemapId,
     name,
@@ -25,6 +27,7 @@ const addTilemap = (draft: Draft, ref: string | undefined, request: TilemapReque
     columns: request.columns,
     rows: request.rows,
     layers: layersOf(),
+    ...(orientation ? { orientation } : {}),
   };
   updateArtwork(draft, (artwork) => ({ ...artwork, tilemaps: [...artwork.tilemaps, tilemap] }));
   registerRef(draft, ref, tilemap.id);

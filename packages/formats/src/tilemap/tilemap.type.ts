@@ -65,6 +65,13 @@ type TilemapLayerInput = {
   readonly cells: Uint32Array;
 };
 
+type MapOrientationInput = {
+  readonly kind: 'isometric' | 'staggered' | 'hexagonal';
+  readonly staggerAxis: 'x' | 'y';
+  readonly staggerIndex: 'odd' | 'even';
+  readonly hexSideLength: number;
+};
+
 type TilemapExportInput = {
   readonly name: string;
   readonly columns: number;
@@ -73,11 +80,13 @@ type TilemapExportInput = {
   readonly tileHeight: number;
   readonly tileset: TilesetDescriptor;
   readonly layers: readonly TilemapLayerInput[];
+  readonly orientation?: MapOrientationInput | undefined;
 };
 
 type TilemapJsonResult = { readonly ok: true; readonly json: string } | FormatFailure;
 
 export type {
+  MapOrientationInput,
   TilemapExportInput,
   TilemapJsonResult,
   TilemapLayerInput,

@@ -31,6 +31,7 @@ const tilemapToJson = (tilemap: Tilemap): TilemapJson => ({
   tilesetId: tilemap.tilesetId,
   columns: tilemap.columns,
   rows: tilemap.rows,
+  ...(tilemap.orientation ? { orientation: tilemap.orientation } : {}),
   layers: tilemap.layers.map((layer) => ({
     id: layer.id,
     name: layer.name,

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 import { COMMAND_NAME } from '@bxel/document';
-import type { Tilemap } from '@bxel/document';
+import type { OrientRequest, Tilemap } from '@bxel/document';
 import { ASSET_LABEL } from './asset-config.constants';
 import type { AssetFields, AssetFocus, AssetOutcome } from './asset-config.type';
 import { focusAssetOf } from './focus-asset-of';
@@ -32,6 +32,15 @@ const resizeMap = (focus: AssetFocus, size: { columns?: unknown; rows?: unknown 
   return runField(focus, ASSET_LABEL.mapSize, [{ name: COMMAND_NAME.tilemapResize, targets: null, options: { tilemap: map.id, columns, rows } }]);
 };
 
+const orientMap = (focus: AssetFocus, patch: Partial<OrientRequest>): AssetOutcome => {
+  const map = mapOf(focus);
+  if (!map) return null;
+  const now = map.orientation;
+  const side = now && now.hexSideLength > 0 ? { hexSideLength: now.hexSideLength } : {};
+  const orientation = { kind: now?.kind ?? 'orthogonal', ...(now ? { staggerAxis: now.staggerAxis, staggerIndex: now.staggerIndex } : {}), ...side, ...patch };
+  return runField(focus, ASSET_LABEL.orientation, [{ name: COMMAND_NAME.tilemapOrient, targets: null, options: { tilemap: map.id, orientation } }]);
+};
+
 const TILESET_FIELDS: AssetFields = {
   'tileset.name': { read: (focus) => focusAssetOf(focus, 'tileset')?.name ?? '', write: renameTileset, buffered: true },
 };
@@ -39,6 +48,26 @@ const TILESET_FIELDS: AssetFields = {
 const TILEMAP_FIELDS: AssetFields = {
   'tilemap.name': { read: (focus) => mapOf(focus)?.name ?? '', write: renameMap, buffered: true },
   'tilemap.columns': { read: (focus) => mapOf(focus)?.columns ?? 0, write: (focus, value) => resizeMap(focus, { columns: value }), buffered: true },
+  'tilemap.orientation': {
+    read: (focus) => mapOf(focus)?.orientation?.kind ?? 'orthogonal',
+    write: (focus, value) => (typeof value === 'string' ? orientMap(focus, { kind: value as OrientRequest['kind'], hexSideLength: undefined }) : null),
+    buffered: false,
+  },
+  'tilemap.staggerAxis': {
+    read: (focus) => mapOf(focus)?.orientation?.staggerAxis ?? 'y',
+    write: (focus, value) => (value === 'x' || value === 'y' ? orientMap(focus, { staggerAxis: value }) : null),
+    buffered: false,
+  },
+  'tilemap.staggerIndex': {
+    read: (focus) => mapOf(focus)?.orientation?.staggerIndex ?? 'odd',
+    write: (focus, value) => (value === 'odd' || value === 'even' ? orientMap(focus, { staggerIndex: value }) : null),
+    buffered: false,
+  },
+  'tilemap.hexSide': {
+    read: (focus) => mapOf(focus)?.orientation?.hexSideLength ?? 0,
+    write: (focus, value) => (typeof value === 'number' && Number.isInteger(value) && value > 0 ? orientMap(focus, { hexSideLength: value }) : null),
+    buffered: true,
+  },
   'tilemap.rows': { read: (focus) => mapOf(focus)?.rows ?? 0, write: (focus, value) => resizeMap(focus, { rows: value }), buffered: true },
 };
 

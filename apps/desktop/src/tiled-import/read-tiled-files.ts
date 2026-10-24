@@ -26,7 +26,6 @@ const readTiledFiles = async (documents: TiledFiles, path: string): Promise<Tile
   }
   const plan = planTiledImport({ map: map.map, tilesets });
   if (!plan.ok) return { ok: false, message: `${name}: ${plan.message}` };
-  if (plan.orientation !== 'orthogonal') return { ok: false, message: `${name}: ${TILED_TEXT.orthogonalOnly}` };
   return { ok: true, image: tiledAtlas(plan, name), tiled: { mapFile: name, plan, atlasColumns: atlasColumns(plan.tiles.length) } };
 };
 

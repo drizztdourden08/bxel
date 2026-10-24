@@ -9,6 +9,7 @@ const mapExportInput = (tilemap: Tilemap, tileset: Tileset, sheet: TilesetImage,
   rows: tilemap.rows,
   tileWidth: tileset.tileWidth,
   tileHeight: tileset.tileHeight,
+  ...(tilemap.orientation ? { orientation: tilemap.orientation } : {}),
   tileset: {
     name: tileset.name,
     image: imageName,

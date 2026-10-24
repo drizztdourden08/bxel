@@ -55,10 +55,10 @@ describe('reading a Tiled map with its tileset and image', () => {
     expect(read.ok ? '' : read.message).toContain('ground.png');
   });
 
-  it('refuses a map that is not orthogonal', async () => {
-    const store = files(files().get('C:/maps/level.tmx')?.toString().replace('orthogonal', 'isometric'));
-    const read = await readTiledFiles(stubFiles(store), 'C:/maps/level.tmx');
-    expect(read.ok).toBe(false);
+  it('reads the orientation of an isometric map', async () => {
+    const text = files().get('C:/maps/level.tmx')?.toString().replace('orthogonal', 'isometric') ?? '';
+    const { tiled } = await readOk(files(text));
+    expect(tiled.plan.orientation).toBe('isometric');
   });
 });
 
@@ -101,6 +101,24 @@ describe('importing the map', () => {
     expect(artworkOf(host, id).tilemaps).toHaveLength(0);
     expect(artworkOf(host, id).tilesets).toHaveLength(0);
     expect(host.view(id)?.state.revision).toBe(before + 1);
+  });
+
+});
+
+describe('importing the map as other grids and into a file', () => {
+  it('keeps the isometric and hexagonal orientation of a map', async () => {
+    const source = files().get('C:/maps/level.tmx')?.toString() ?? '';
+    const iso = await readOk(files(source.replace('orthogonal', 'isometric')));
+    const host = newHost();
+    const outcome = runImport(host, runOf(iso.image, iso.tiled, NONE));
+    if (!outcome.ok) throw new Error(outcome.message);
+    expect(artworkOf(host, outcome.documentId).tilemaps[0]?.orientation?.kind).toBe('isometric');
+    const hexText = source.replace('orientation="orthogonal"', 'orientation="hexagonal" hexsidelength="2" staggeraxis="x" staggerindex="even"');
+    const hex = await readOk(files(hexText));
+    const second = newHost();
+    const done = runImport(second, runOf(hex.image, hex.tiled, NONE));
+    if (!done.ok) throw new Error(done.message);
+    expect(artworkOf(second, done.documentId).tilemaps[0]?.orientation).toEqual({ kind: 'hexagonal', staggerAxis: 'x', staggerIndex: 'even', hexSideLength: 2 });
   });
 
   it('keeps every tile pixel on a palette index of the extracted palette', async () => {

@@ -50,6 +50,7 @@ const COMMAND_NAME = {
   tilemapCreate: 'tilemap.create',
   tilemapUpdate: 'tilemap.update',
   tilemapImport: 'tilemap.import',
+  tilemapOrient: 'tilemap.orient',
   tilemapResize: 'tilemap.resize',
   tilemapDelete: 'tilemap.delete',
   tilemapDuplicate: 'tilemap.duplicate',

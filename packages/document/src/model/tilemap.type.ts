@@ -11,6 +11,13 @@ type TerrainKind = 'blob16' | 'blob47';
 
 type TerrainRules = { readonly kind: TerrainKind; readonly keys: readonly number[] };
 
+type MapOrientation = {
+  readonly kind: 'isometric' | 'staggered' | 'hexagonal';
+  readonly staggerAxis: 'x' | 'y';
+  readonly staggerIndex: 'odd' | 'even';
+  readonly hexSideLength: number;
+};
+
 type Tile = {
   readonly id: TileId;
   readonly key: number;
@@ -44,6 +51,7 @@ type Tilemap = {
   readonly columns: number;
   readonly rows: number;
   readonly layers: readonly MapLayer[];
+  readonly orientation?: MapOrientation;
 };
 
-export type { MapLayer, TerrainKind, TerrainRules, Tile, TileCollision, Tilemap, Tileset };
+export type { MapLayer, MapOrientation, TerrainKind, TerrainRules, Tile, TileCollision, Tilemap, Tileset };

@@ -7,6 +7,7 @@ import type { BankOption, ImportRun } from '../image-import/image-import.type';
 import { freeName } from '../sheet/free-name';
 import { layerNames } from './layer-names';
 import { atlasOrigin } from './atlas-origin';
+import { orientRequest } from './orient-request';
 import { TILED_REF } from './tiled-import.constants';
 
 const tiledSteps = (run: ImportRun, bank: BankOption): CommandStep[] => {
@@ -45,6 +46,7 @@ const tiledSteps = (run: ImportRun, bank: BankOption): CommandStep[] => {
         tileset: { ref: TILED_REF.tileset },
         columns: plan.columns,
         rows: plan.rows,
+        ...(orientRequest(plan) ? { orientation: orientRequest(plan) } : {}),
         layers: plan.layers.map((layer, at) => ({ name: names[at] ?? layer.name, visible: layer.visible, locked: layer.locked, cells: layer.cells })),
       },
     },

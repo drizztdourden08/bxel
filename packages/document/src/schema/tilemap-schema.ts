@@ -4,6 +4,7 @@ import { ID_PREFIX } from '../ids/id-prefix.constants';
 import type { MapLayerId, TilemapId, TilesetId } from '../model/ids.type';
 import { brandedIdSchema } from './branded-id-schema';
 import { nameSchema } from './name-schema';
+import { orientationSchema } from './orientation-schema';
 import { MAX_MAP_SIDE } from './tilemap-schema.constants';
 
 const sideSchema = z.number().int().min(1).max(MAX_MAP_SIDE);
@@ -22,6 +23,7 @@ const tilemapShellSchema = z.object({
   columns: sideSchema,
   rows: sideSchema,
   layers: z.array(mapLayerSchema),
+  orientation: orientationSchema.optional(),
 });
 
 export { tilemapShellSchema };

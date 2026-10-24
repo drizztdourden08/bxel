@@ -25,6 +25,7 @@ const writeTilemapJson = (input: TilemapExportInput): TilemapJsonResult => {
       size: { columns: input.columns, rows: input.rows },
       tileSize: { w: input.tileWidth, h: input.tileHeight },
       flagBits: TILEMAP_JSON.FLAG_BITS,
+      ...(input.orientation ? { orientation: input.orientation } : {}),
       tileset: {
         name: tileset.name,
         image: tileset.image,

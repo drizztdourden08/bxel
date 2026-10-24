@@ -4,6 +4,7 @@ import { Field, Flex, Select, Stack, Text, TextInput } from '@drizztdourden08/te
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
 import { MAP_SIZE_RANGE, TILEMAP_DIALOG_TEXT } from '../TilemapDialog.constants';
 import type { MapFieldsProps } from '../TilemapDialog.type';
+import { OrientationFields } from './OrientationFields';
 import { SizePair } from './SizePair';
 
 const MapFields = ({ model }: MapFieldsProps) => {
@@ -31,6 +32,7 @@ const MapFields = ({ model }: MapFieldsProps) => {
           />
         </Flex>
       </Field>
+      <OrientationFields model={model} />
       <Text variant="caption" tone="muted">
         {TILEMAP_DIALOG_TEXT.mapNote}
       </Text>

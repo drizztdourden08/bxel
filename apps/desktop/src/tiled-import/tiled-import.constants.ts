@@ -27,7 +27,6 @@ const TILED_TEXT = {
   warnings: 'Left out or changed',
   button: 'Import map',
   unavailable: 'File access is not available here.',
-  orthogonalOnly: 'Only orthogonal Tiled maps can be imported.',
 } as const;
 
 export { ATLAS_COLUMNS, LAYER_FALLBACK, ROOTED_PATH, TILED_FILTERS, TILED_LABEL, TILED_REF, TILED_TEXT };

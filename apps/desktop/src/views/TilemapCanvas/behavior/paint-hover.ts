@@ -2,9 +2,8 @@
 import { inBounds } from '../../../tilemap/in-bounds';
 import type { PixelView } from '../../PixelViewport';
 import type { MapLook, MapPaintState } from '../TilemapCanvas.type';
-import { cellBox } from './cell-box';
-import { paintBox } from './paint-box';
 import { paintGhost } from './paint-ghost';
+import { paintRegion } from './paint-region';
 
 const paintHover = (ctx: CanvasRenderingContext2D, view: PixelView, state: MapPaintState, look: MapLook): void => {
   const { hover, drag } = state.live;
@@ -12,7 +11,7 @@ const paintHover = (ctx: CanvasRenderingContext2D, view: PixelView, state: MapPa
   const placing = state.tool === 'place';
   const footprint = { ...hover, width: placing ? state.stamp.columns : 1, height: placing ? state.stamp.rows : 1 };
   if (placing) paintGhost(ctx, state, hover);
-  paintBox(ctx, view, cellBox(footprint, state.target.tileset), { colour: state.tool === 'erase' ? look.erase : look.cursor, dashed: false });
+  paintRegion(ctx, view, state, { cells: footprint, style: { colour: state.tool === 'erase' ? look.erase : look.cursor, dashed: false } });
 };
 
 export { paintHover };

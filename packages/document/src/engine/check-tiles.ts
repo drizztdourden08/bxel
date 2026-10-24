@@ -9,6 +9,7 @@ import type { Tileset } from '../model/tilemap.type';
 import { findSprite } from '../read/find-sprite';
 import { collisionIssue } from '../read/collision-issue';
 import { findTileset } from '../read/find-tileset';
+import { orientationIssue } from '../read/orientation-issue';
 import { terrainIssue } from '../read/terrain-issue';
 import { cellKey } from '../tilemap/cell-key';
 
@@ -43,6 +44,8 @@ const checkMaps = (draft: Draft): void => {
   for (const tilemap of artwork.tilemaps) {
     const tileset = findTileset(artwork, tilemap.tilesetId);
     if (!tileset) throw broken(`Tilemap "${tilemap.name}" names a tileset that does not exist.`);
+    const shape = tilemap.orientation ? orientationIssue(tilemap.orientation, tileset) : null;
+    if (shape !== null) throw broken(`Tilemap "${tilemap.name}": ${shape}`);
     const prior = base.tilemaps.find((item) => item.id === tilemap.id);
     const known = new Set(tileset.tiles.map((tile) => tile.key));
     const fresh = tilemap.layers.filter((layer) => !prior?.layers.some((old) => old.cells === layer.cells));

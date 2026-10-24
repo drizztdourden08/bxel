@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { MAX_MAP_LAYERS } from '../model/tilemap-limits.constants';
+import { orientRequestSchema } from './orient-request-schema';
 import { tilesetRefSchema } from './tileset-ref-schema';
 
 const importLayerSchema = z.strictObject({
@@ -16,6 +17,7 @@ const tilemapImportSchema = z.strictObject({
   columns: z.number().int(),
   rows: z.number().int(),
   layers: z.array(importLayerSchema).min(1).max(MAX_MAP_LAYERS),
+  orientation: orientRequestSchema.optional(),
 });
 
 export { tilemapImportSchema };

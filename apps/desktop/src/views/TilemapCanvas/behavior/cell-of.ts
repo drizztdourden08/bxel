@@ -1,9 +1,8 @@
 /* @layer renderer-app @kind logic */
-import type { Point, Tileset } from '@bxel/document';
+import type { Point } from '@bxel/document';
+import type { MapTarget } from '../../../tilemap/tilemap.type';
+import { targetGeometry } from './target-geometry';
 
-const cellOf = (at: Point, tileset: Tileset): Point => ({
-  x: Math.floor(at.x / tileset.tileWidth),
-  y: Math.floor(at.y / tileset.tileHeight),
-});
+const cellOf = (at: Point, target: Pick<MapTarget, 'tilemap' | 'tileset'>): Point => targetGeometry(target).cellAt(at.x, at.y);
 
 export { cellOf };
