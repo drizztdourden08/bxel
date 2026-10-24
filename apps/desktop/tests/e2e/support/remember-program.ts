@@ -1,12 +1,12 @@
 /* @layer renderer-app @kind logic */
-import { launchAppForTest } from '@drizztdourden08/brock-build/testing';
 import { expect } from 'vitest';
 import { approvePairing } from './approve-pairing';
 import { callMcp } from './call-mcp';
 import { connectMcp } from './connect-mcp';
-import { APP_DIR, CANVAS_LABEL, POLL_MS } from './e2e.constants';
+import { CANVAS_LABEL, POLL_MS } from './e2e.constants';
 import type { Session } from './e2e.type';
 import { enableAssistant } from './enable-assistant';
+import { launchBuiltApp } from './launch-built-app';
 import { MCP_CLIENT_NAME } from './mcp.constants';
 import type { ClientConfig } from './mcp.type';
 import { readClientConfig } from './read-client-config';
@@ -29,7 +29,7 @@ const pairAndRemember = async (session: Session, userData: string): Promise<Clie
 };
 
 const rememberProgram = async (userData: string, folder: string): Promise<ClientConfig> => {
-  const launched = await launchAppForTest({ appDir: APP_DIR, userData });
+  const launched = await launchBuiltApp(userData);
   try {
     return await pairAndRemember({ app: launched.app, page: launched.page, dir: folder, close: launched.close }, userData);
   } finally {
