@@ -1,0 +1,15 @@
+/* @layer core @kind constants */
+
+const APNG_LIMITS = {
+  MAX_FRAMES: 4096,
+  MAX_DELAY_MS: 65535,
+  MAX_LOOPS: 2147483647,
+  DELAY_DEN: 1000,
+  DEFAULT_DEN: 100,
+  ACTL_LENGTH: 8,
+  FCTL_LENGTH: 26,
+  SEQUENCE_LENGTH: 4,
+  MAX_TOTAL_PIXELS: 67108864,
+} as const;
+
+export { APNG_LIMITS };

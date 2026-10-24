@@ -1,0 +1,17 @@
+/* @layer core @kind constants */
+
+const GIF_LIMITS = {
+  MAX_SIDE: 4096,
+  MAX_FRAMES: 4096,
+  MAX_COLORS: 256,
+  MAX_DELAY_CS: 65535,
+  MAX_LOOPS: 65536,
+  MIN_CODE_SIZE: 2,
+  MAX_CODE_WIDTH: 12,
+  TABLE_SIZE: 4096,
+  SUB_BLOCK_MAX: 255,
+  MS_PER_CS: 10,
+  MAX_TOTAL_PIXELS: 67108864,
+} as const;
+
+export { GIF_LIMITS };
