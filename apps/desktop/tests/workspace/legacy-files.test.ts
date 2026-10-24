@@ -40,6 +40,14 @@ const savedProject = (bytes: string | Uint8Array | undefined): ProjectDocument =
   return decoded.value.manifest;
 };
 
+const splitBeside = async (path: string): Promise<void> => {
+  await openPath(held.kit, path);
+  const legacy = workspaces()[0];
+  if (!legacy) throw new Error('no workspace');
+  held.disk.picks.folder = PARENT;
+  expect(await runSplit(legacy.documentId, 'beside')).toEqual({ kind: 'done' });
+};
+
 const singleSprite = (artwork: Artwork): Artwork => ({ ...artwork, sprites: artwork.sprites.slice(0, 1), sheets: [] });
 
 beforeEach(() => {
@@ -72,11 +80,7 @@ describe('an older .bxel file', () => {
     const artwork = sampleArtwork();
     const path = writeOlderFile(artwork);
     const before = held.disk.files.get(path);
-    await openPath(held.kit, path);
-    const legacy = workspaces()[0];
-    if (!legacy) throw new Error('no workspace');
-    held.disk.picks.folder = PARENT;
-    expect(await runSplit(legacy.documentId, 'beside')).toEqual({ kind: 'done' });
+    await splitBeside(path);
     expect(held.disk.files.has(`${PARENT}/Untitled/Untitled.bxproject`)).toBe(true);
     expect(held.disk.files.get(path)).toBe(before);
     const [project] = workspaces();
@@ -97,11 +101,7 @@ describe('splitting an older file keeps its project settings', () => {
     if (!hero) throw new Error('no sprite');
     const artwork = { ...base, coverSpriteId: hero.id, platformId: 'gb-dmg', platformStrict: true };
     const path = writeOlderFile(artwork);
-    await openPath(held.kit, path);
-    const legacy = workspaces()[0];
-    if (!legacy) throw new Error('no workspace');
-    held.disk.picks.folder = PARENT;
-    expect(await runSplit(legacy.documentId, 'beside')).toEqual({ kind: 'done' });
+    await splitBeside(path);
     const manifest = savedProject(held.disk.files.get(`${PARENT}/Untitled/Untitled.bxproject`));
     expect(manifest.cover?.path.startsWith('sprites/')).toBe(true);
     expect(manifest.defaults.palette).toMatchObject({ kind: 'file' });

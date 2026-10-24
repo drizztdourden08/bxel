@@ -1,27 +1,17 @@
 /* @layer renderer-app @kind test */
-import type { Artwork, DocumentId } from '@bxel/document';
+import type { Artwork, DocumentId, Sprite } from '@bxel/document';
 import { decodeProject } from '@bxel/project';
 import type { ProjectDocument } from '@bxel/project';
-import { openProject } from '../../src/project/open-project';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
-import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
-import { rig, ROOT, withManifest } from '../project/project-harness';
+import { rig } from '../project/project-harness';
 import type { Rig } from '../project/project-harness';
-import { sampleArtwork, writeProjectAssets } from '../workspace/workspace-harness';
+import { openSampleProject } from '../workspace/open-sample-project';
 
 type OpenRig = { readonly held: Rig; readonly documentId: DocumentId; readonly paths: ReadonlyMap<string, string>; readonly artwork: Artwork };
 
 const openedProject = async (): Promise<OpenRig> => {
   const held = rig();
-  const artwork = sampleArtwork();
-  const paths = writeProjectAssets(held.disk, ROOT, artwork);
-  withManifest(held.disk);
-  held.disk.picks.folder = ROOT;
-  await openProject();
-  const workspace = Object.values(useWorkspaceStore.getState().workspaces)[0];
-  if (!workspace) throw new Error('the project workspace did not open');
-  held.disk.writes.length = 0;
-  return { held, documentId: workspace.documentId, paths, artwork };
+  return { held, ...(await openSampleProject(held)) };
 };
 
 const liveArtwork = (documentId: DocumentId): Artwork => {
@@ -30,12 +20,24 @@ const liveArtwork = (documentId: DocumentId): Artwork => {
   return found;
 };
 
+const firstSprite = (documentId: DocumentId): Sprite => {
+  const sprite = liveArtwork(documentId).sprites[0];
+  if (!sprite) throw new Error('no sprite');
+  return sprite;
+};
+
+const undoOnce = (documentId: DocumentId): void => {
+  useDocumentStore.getState().host.undo(documentId);
+};
+
+const revisionOf = (documentId: DocumentId): number => useDocumentStore.getState().host.view(documentId)?.state.revision ?? 0;
+
 const savedManifest = (held: Rig): ProjectDocument => {
-  const bytes = held.disk.files.get(`${ROOT}/Dungeon.bxproject`);
+  const bytes = held.disk.files.get('C:/Art/Dungeon/Dungeon.bxproject');
   if (!(bytes instanceof Uint8Array)) throw new Error('the project file is missing');
   const decoded = decodeProject(bytes);
   if (!decoded.ok) throw new Error(decoded.message);
   return decoded.value.manifest;
 };
 
-export { liveArtwork, openedProject, savedManifest };
+export { firstSprite, liveArtwork, openedProject, revisionOf, savedManifest, undoOnce };

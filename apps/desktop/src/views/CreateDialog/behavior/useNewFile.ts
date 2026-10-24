@@ -11,11 +11,9 @@ import { openCreatedAsset } from '../../../new-sprite/open-created-asset';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
 import { useWorkspaceStore } from '../../../stores/useWorkspaceStore';
 import { focusDocument } from '../../../transactions/focus-document';
-import { NO_NAMES } from '../CreateDialog.constants';
+import { NO_NAMES, WORKSPACE_KINDS } from '../CreateDialog.constants';
 import type { CreateFormState } from '../CreateDialog.type';
 import { useNewFormBase } from './useNewFormBase';
-
-const WORKSPACE_KINDS: readonly CreationKind[] = ['palette', 'tileset', 'tilemap'];
 
 const report = (error: string | null): void => {
   if (error !== null) toast(NEW_TEXT.failed(error), { variant: 'danger' });

@@ -27,8 +27,10 @@ const BACKGROUND_OPTIONS: BackgroundOption[] = [
 
 const PLATFORM_GROUPS = platformGroups();
 
+const WORKSPACE_KINDS: readonly CreationKind[] = ['palette', 'tileset', 'tilemap'];
+
 const NO_NAMES: readonly string[] = [];
 
 const TRANSPARENT_OFF_REASON = 'Turn on the transparent slot to use a transparent background.';
 
-export { BACKGROUND_OPTIONS, CREATE_LABEL, KIND_OPTIONS, NO_NAMES, PLATFORM_GROUPS, TRANSPARENT_OFF_REASON };
+export { BACKGROUND_OPTIONS, CREATE_LABEL, KIND_OPTIONS, NO_NAMES, PLATFORM_GROUPS, TRANSPARENT_OFF_REASON, WORKSPACE_KINDS };

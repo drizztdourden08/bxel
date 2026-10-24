@@ -3,7 +3,7 @@ import type { AssetKey, DocumentId } from '@bxel/document';
 import type { FileKit } from '../files/files.type';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { adoptPath } from './adopt-path';
-import { besidePath } from './beside-path';
+import { pathInDir } from './path-in-dir';
 import { pickAssetPath } from './pick-asset-path';
 
 const givePaths = async (kit: FileKit, documentId: DocumentId, keys: readonly AssetKey[]): Promise<boolean> => {
@@ -13,7 +13,7 @@ const givePaths = async (kit: FileKit, documentId: DocumentId, keys: readonly As
     const view = kit.host.view(documentId);
     if (!workspace || !view) return false;
     if (workspace.paths.has(key.id) || key.kind === 'palette') continue;
-    const beside = granted ? besidePath(workspace, view.state.artwork, key) : null;
+    const beside = granted ? pathInDir(workspace, view.state.artwork, key) : null;
     if (beside !== null) {
       adoptPath(kit.host, documentId, key, beside);
       continue;

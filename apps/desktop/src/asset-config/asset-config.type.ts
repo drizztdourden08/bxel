@@ -17,4 +17,4 @@ type GridPatch = { columns?: number; cellWidth?: number; cellHeight?: number; or
 
 type AssetOutcome = Extract<FieldResult, string | null>;
 
-export type { AssetField, AssetFields, AssetFocus, AssetOutcome, GridPatch };
+export type { AssetFields, AssetFocus, AssetOutcome, GridPatch };
