@@ -297,17 +297,18 @@ The copied config has this shape (the paths are an example of an install):
       "args": ["C:\\Users\\you\\AppData\\Local\\Bxel\\current\\resources\\helpers\\bxel-mcp.mjs"],
       "env": {
         "ELECTRON_RUN_AS_NODE": "1",
-        "BROCK_BRIDGE_FILE": "C:\\Users\\you\\AppData\\Roaming\\bxel\\bridge.json",
-        "BXEL_APP_LAUNCH": "{\"command\":\"C:\\\\Users\\\\you\\\\AppData\\\\Local\\\\Bxel\\\\current\\\\Bxel.exe\",\"args\":[]}"
+        "BROCK_BRIDGE_FILE": "C:\\Users\\you\\AppData\\Roaming\\bxel\\bridge.json"
       }
     }
   }
 }
 ```
 
-`BXEL_APP_LAUNCH` lets the `start_bxel` tool start Bxel when it is closed, with no window
-(`headless`) or with one (`visible`); a development build leaves it out, so start Bxel
-yourself there. A headless Bxel quits when the program that started it leaves, and keeps
+The `start_bxel` tool starts Bxel when it is closed, with no window (`headless`) or with one
+(`visible`). Bxel writes how it was started to `launch-bridge.json` beside the bridge file each time
+its bridge opens, and the helper reads that file, so a packaged install and a development build
+both start the same way once they have run with Assistant access on. A headless Bxel quits
+when the program that started it leaves, and keeps
 unsaved work for Recovery. New files from a program land in the assistant folder
 (Documents, Bxel Assistant, or the folder set on the Assistant page). The tests in
 `tests/e2e/mcp-check7.e2e.ts` and `tests/e2e/mcp-headless.e2e.ts` drive a hidden Bxel with
