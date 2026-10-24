@@ -74,7 +74,6 @@ type OpenInput = {
 
 export type {
   CloseInput,
-  DocumentInput,
   EditInput,
   ExportInput,
   ExportTarget,
@@ -86,7 +85,6 @@ export type {
   RenderInput,
   SaveInput,
   SpriteFrame,
-  SpriteSource,
   UndoInput,
   WireRect,
   WireStep,

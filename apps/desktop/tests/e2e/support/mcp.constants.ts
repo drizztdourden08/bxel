@@ -18,4 +18,6 @@ const MCP_DRAWN = Uint8Array.from({ length: MCP_SIDE * MCP_SIDE }, (_, at) => {
 
 const MCP_TOOL_COUNT = 19;
 
-export { MCP_ARTWORK, MCP_COLORS, MCP_DRAWN, MCP_SIDE, MCP_TOOL_COUNT };
+const MCP_CLIENT_NAME = 'bxel-check7';
+
+export { MCP_ARTWORK, MCP_CLIENT_NAME, MCP_COLORS, MCP_DRAWN, MCP_SIDE, MCP_TOOL_COUNT };

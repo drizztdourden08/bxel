@@ -23,6 +23,7 @@
         "electron/main.ts",
         "electron/preload.ts",
         "src/main.tsx",
+        "src/helper/main.ts",
         "src/ipc/contract.type.ts",
         "src/screens/**/*.custom.tsx",
         "src/views/*/*.usage.ts",
