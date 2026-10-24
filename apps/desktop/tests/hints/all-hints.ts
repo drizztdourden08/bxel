@@ -13,9 +13,41 @@ import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constant
 import { TRANSFORM_ACTIONS } from '../../src/views/TransformPanel/TransformPanel.constants';
 import { toolHint } from '../../src/views/ToolRail/behavior/tool-hint';
 import type { HintSpec } from '../../src/views/ActionHint';
+import { MAP_TOOLS } from '../../src/tilemap/map-tools.constants';
+import {
+  CLEAR_CELLS_HINT, FILLED_MAP_HINT, FLAG_ACTIONS, REPLACE_ALL_HINT, REPLACE_IN_HINT, TILE_MODE_HINTS, UNIQUE_CELLS_HINT,
+} from '../../src/views/ContextBar/sub-components/TileBar.constants';
+import {
+  ADD_LAYER_HINT, DELETE_LAYER_HINT, DOWN_LAYER_HINT, LOCKED_HINT, RENAME_LAYER_HINT, UP_LAYER_HINT, VISIBLE_HINT,
+} from '../../src/views/MapLayersPanel/MapLayersPanel.constants';
+import {
+  ADD_HINT, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, NEW_TILEMAP_HINT, NEW_TILESET_HINT, UNIQUE_HINT,
+} from '../../src/views/TilesetPanel/TilesetPanel.constants';
 
 const allHints = (): HintSpec[] => [
   ...TOOLS.map(toolHint),
+  ...MAP_TOOLS.map(toolHint),
+  ...Object.values(TILE_MODE_HINTS),
+  ...FLAG_ACTIONS.map((action) => action.hint),
+  FILLED_MAP_HINT,
+  REPLACE_IN_HINT,
+  REPLACE_ALL_HINT,
+  CLEAR_CELLS_HINT,
+  UNIQUE_CELLS_HINT,
+  ADD_LAYER_HINT,
+  DELETE_LAYER_HINT,
+  UP_LAYER_HINT,
+  DOWN_LAYER_HINT,
+  RENAME_LAYER_HINT,
+  VISIBLE_HINT,
+  LOCKED_HINT,
+  ADD_HINT,
+  DELETE_HINT,
+  DUPLICATE_HINT,
+  EDIT_HINT,
+  NEW_TILEMAP_HINT,
+  NEW_TILESET_HINT,
+  UNIQUE_HINT,
   ...LAYER_ACTIONS.map((action) => action.hint),
   ...LAYER_TOGGLES.map((toggle) => toggle.hint),
   ...TRANSFORM_ACTIONS.map((action) => action.hint),
@@ -41,6 +73,7 @@ const allHints = (): HintSpec[] => [
   swatchHint('3 Blue'),
   ...TOOLS.map((tool) => canvasHelp(tool.id, 'sprite')),
   canvasHelp('pencil', 'sheet'),
+  ...MAP_TOOLS.map((tool) => canvasHelp(tool.id, 'tilemap')),
 ];
 
 export { allHints };

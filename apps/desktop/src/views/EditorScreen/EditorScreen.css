@@ -17,3 +17,8 @@
   min-inline-size: 0;
   min-block-size: 0;
 }
+
+.editor-screen__stage--tile-edit {
+  outline: var(--border-width-thick) solid var(--c-warning);
+  outline-offset: calc(-1 * var(--border-width-thick));
+}

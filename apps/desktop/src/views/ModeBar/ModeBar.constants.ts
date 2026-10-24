@@ -14,6 +14,11 @@ const MODE_HINTS: Readonly<Record<SpriteMode, HintSpec>> = {
     description: 'See every sprite on one sheet and arrange them.',
     shortcuts: [{ command: SHEET_COMMAND.modeSheet }],
   },
+  tilemap: {
+    name: 'Tilemap',
+    description: 'Build a map from reusable tiles. Placing a tile never changes its pixels.',
+    shortcuts: [{ command: SHEET_COMMAND.modeTilemap }],
+  },
 };
 
 const BACK_HINT: HintSpec = {

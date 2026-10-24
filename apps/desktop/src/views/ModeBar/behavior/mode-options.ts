@@ -12,6 +12,7 @@ const sheetReason = (previewing: boolean, total: number): string | false => {
 const modeOptions = (previewing: boolean, total: number): HintedOption<SpriteMode>[] => [
   { value: 'sprite', label: SHEET_TEXT.sprite, hint: MODE_HINTS.sprite, disabled: previewing ? SHEET_TEXT.modePreviewOff : false },
   { value: 'sheet', label: SHEET_TEXT.sheet, hint: MODE_HINTS.sheet, disabled: sheetReason(previewing, total) },
+  { value: 'tilemap', label: SHEET_TEXT.tilemap, hint: MODE_HINTS.tilemap, disabled: previewing ? SHEET_TEXT.modePreviewOff : false },
 ];
 
 export { modeOptions };

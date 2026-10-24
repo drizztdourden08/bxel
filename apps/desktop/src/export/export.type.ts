@@ -1,9 +1,11 @@
 /* @layer renderer-app @kind types */
-import type { Artwork, Frame, PaletteBank, Sprite, SpriteId, Tag } from '@bxel/document';
+import type { Artwork, Frame, PaletteBank, Sprite, SpriteId, Tag, Tilemap, Tileset } from '@bxel/document';
 import type { SheetFlavour } from '@bxel/formats';
 import type { CurrentPick } from '../editor/current-pick.type';
 
-type ExportKind = 'sprite' | 'frames' | 'animation' | 'sheet';
+type ExportKind = 'sprite' | 'frames' | 'animation' | 'sheet' | 'map';
+
+type MapFormat = 'bxel' | 'tiled';
 
 type SpriteChoice = 'current' | 'selected' | 'all';
 
@@ -33,6 +35,7 @@ type ExportSettings = {
   readonly extrusion: number;
   readonly trim: boolean;
   readonly flavour: SheetFlavour;
+  readonly mapFormat: MapFormat;
   readonly folder: string;
   readonly fileName: string;
 };
@@ -142,6 +145,11 @@ type PlanInput = {
   readonly current?: CurrentPick;
 };
 
+type MapPick = {
+  readonly tilemap: Tilemap;
+  readonly tileset: Tileset;
+};
+
 type PlanParts = {
   readonly targets: readonly Target[];
   readonly settings: ExportSettings;
@@ -169,6 +177,8 @@ export type {
   LayerChoice,
   LayoutChoice,
   MadeEntry,
+  MapFormat,
+  MapPick,
   MadeFile,
   PlanInput,
   PlanParts,

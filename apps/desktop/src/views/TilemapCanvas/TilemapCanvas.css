@@ -1,0 +1,42 @@
+/* @layer renderer-app @kind style */
+.tilemap-canvas {
+  display: flex;
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 0;
+}
+
+.tilemap-canvas__viewport {
+  flex: 1;
+}
+
+.pixel-viewport.tilemap-canvas__viewport--pencil,
+.pixel-viewport.tilemap-canvas__viewport--shape,
+.pixel-viewport.tilemap-canvas__viewport--select {
+  cursor: url('/cursors/select.svg') 15 15, crosshair;
+}
+
+.pixel-viewport.tilemap-canvas__viewport--eraser {
+  cursor: url('/cursors/eraser.svg') 9 25, crosshair;
+}
+
+.pixel-viewport.tilemap-canvas__viewport--fill {
+  cursor: url('/cursors/fill.svg') 27 23, crosshair;
+}
+
+.pixel-viewport.tilemap-canvas__viewport--picker {
+  cursor: url('/cursors/picker.svg') 3 25, crosshair;
+}
+
+.pixel-viewport.tilemap-canvas__viewport--zoom {
+  cursor: url('/cursors/zoom-in.svg') 11 11, zoom-in;
+}
+
+.pixel-viewport.tilemap-canvas__viewport--hand,
+.pixel-viewport.tilemap-canvas__viewport[data-grab] {
+  cursor: url('/cursors/hand-open.svg') 15 15, grab;
+}
+
+.pixel-viewport.tilemap-canvas__viewport[data-panning] {
+  cursor: url('/cursors/hand-grabbing.svg') 15 15, grabbing;
+}

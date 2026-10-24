@@ -1,9 +1,15 @@
 /* @layer renderer-app @kind logic */
-import type { FrameId, LayerId, SpriteId } from '@bxel/document';
+import type { FrameId, LayerId, Sprite, SpriteId } from '@bxel/document';
 import type { DocumentView } from '../documents/document-host.type';
 import { listSprites } from '../sheet/list-sprites';
 import type { EditorTarget } from './editor.type';
 import { spriteTarget } from './sprite-target';
+
+const pickSprite = (view: DocumentView, spriteId: SpriteId | null): Sprite | undefined => {
+  const sprites = listSprites(view.state.artwork);
+  const tile = view.state.artwork.sprites.find((each) => each.id === spriteId && each.role === 'tile');
+  return tile ?? sprites.find((each) => each.id === spriteId) ?? sprites[0];
+};
 
 const activeTarget = (
   view: DocumentView | null,
@@ -12,8 +18,7 @@ const activeTarget = (
   frameId: FrameId | null = null,
 ): EditorTarget | null => {
   if (!view) return null;
-  const sprites = listSprites(view.state.artwork);
-  const sprite = sprites.find((each) => each.id === spriteId) ?? sprites[0];
+  const sprite = pickSprite(view, spriteId);
   return sprite ? spriteTarget(view, sprite, layerId, frameId) : null;
 };
 

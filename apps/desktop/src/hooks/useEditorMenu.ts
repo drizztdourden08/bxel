@@ -3,6 +3,7 @@ import type { MenuEntry } from '@drizztdourden08/brock-react';
 import { useMemo } from 'react';
 import { editorMenu } from '../menu/editor-menu';
 import { useSpriteStore } from '../stores/useSpriteStore';
+import { useTilemapStore } from '../stores/useTilemapStore';
 import { useToolStore } from '../stores/useToolStore';
 import { useViewStore } from '../stores/useViewStore';
 import { useActiveDocument } from './useActiveDocument';
@@ -17,12 +18,13 @@ const useEditorMenu = (): MenuEntry[] => {
   const symmetryX = useToolStore((state) => state.symmetryX);
   const symmetryY = useToolStore((state) => state.symmetryY);
   const mode = useSpriteStore((state) => state.mode);
+  const tileMode = useTilemapStore((state) => state.editMode);
   const hasDocument = view !== null;
   const canUndo = view?.canUndo ?? false;
   const canRedo = view?.canRedo ?? false;
   return useMemo(
-    () => editorMenu({ hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY, mode }),
-    [hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY, mode],
+    () => editorMenu({ hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY, mode, tileMode }),
+    [hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY, mode, tileMode],
   );
 };
 

@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { settleMapTool } from '../tilemap/settle-map-tool';
 import { useNoticeStore } from '../stores/useNoticeStore';
 import type { SpriteMode } from '../stores/sprite-store.type';
 import { useSpriteStore } from '../stores/useSpriteStore';
@@ -16,6 +17,7 @@ const switchMode = (mode: SpriteMode): boolean => {
     return false;
   }
   sprites.setMode(mode, false);
+  if (mode === 'tilemap') settleMapTool();
   if (mode === 'sheet' && scene.selected.length === 0 && scene.active) sprites.setSelection([scene.active.id], scene.active.id);
   return true;
 };

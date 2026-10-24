@@ -8,6 +8,7 @@ import type { ExportPlan, PlanInput, PlanParts, PlannedFile } from './export.typ
 import { indexedStatus } from './indexed-status';
 import { planAnimation } from './plan-animation';
 import { planImages } from './plan-images';
+import { planMap } from './plan-map';
 import { planNotes } from './plan-notes';
 import { planSheet } from './plan-sheet';
 import { resolveTargets } from './resolve-targets';
@@ -28,6 +29,7 @@ const filesProblem = (files: readonly PlannedFile[]): string | null => {
 
 const planExport = (input: PlanInput): ExportPlan => {
   const settings = clampSettings(input.settings);
+  if (settings.kind === 'map') return planMap({ ...input, settings });
   const { artwork, revision } = input.frozen;
   const resolved = resolveTargets(artwork, settings, input.selectedIds, input.current);
   if (!resolved.ok) {

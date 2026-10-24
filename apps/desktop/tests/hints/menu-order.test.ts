@@ -18,6 +18,7 @@ const state: EditorMenuState = {
   symmetryX: false,
   symmetryY: false,
   mode: 'sprite',
+  tileMode: 'place',
 };
 
 const keysOf = (item: MenuEntry | undefined): string[] =>

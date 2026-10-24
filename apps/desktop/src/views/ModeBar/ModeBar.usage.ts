@@ -2,7 +2,7 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Switches the editor between Sprite mode and Sheet mode, returns from an isolated sprite, and turns on shared strokes for the picked sprites.',
+  job: 'Switches the editor between Sprite mode, Sheet mode and Tilemap mode, returns from an isolated sprite, and turns on shared strokes for the picked sprites.',
   useWhen: [
     'The context bar needs the mode switch beside the scope chips.',
     'A sprite was isolated from the sheet and the user must see how to return.',
@@ -18,7 +18,7 @@ const usage = {
   ],
   a11y: [
     'The mode switch is one group named Mode, and a disabled segment says why.',
-    'Alt+1 picks Sprite mode, Alt+2 picks Sheet mode, and Alt+B turns shared strokes on or off.',
+    'Alt+1 picks Sprite mode, Alt+2 picks Sheet mode, Alt+3 picks Tilemap mode, and Alt+B turns shared strokes on or off.',
   ],
   tree: {
     path: ['data', 'a drawing', 'in pixels'],
