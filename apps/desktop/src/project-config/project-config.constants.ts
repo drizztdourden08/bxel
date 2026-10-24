@@ -15,6 +15,8 @@ const PROJECT_CONFIG_TEXT = {
   exportTitle: 'Export the palette',
   paletteDone: 'The palette file is ready.',
   noSet: 'Choose a palette from the library first.',
+  badScale: (max: number): string => `The scale is a whole number from 1 to ${max}.`,
+  badTemplate: 'A template cannot be too long or hold a slash, a backslash, a colon, a quote, or any of * ? < > |.',
   failed: (reason: string): string => `Could not change the project. ${reason}`,
 } as const;
 

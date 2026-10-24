@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import type { PaletteDefault, PixelSize, ProjectDefaults } from '../defaults/asset-defaults.type';
 import { FOLDER_ROLES } from './project-document.constants';
-import type { FolderRoles, DocumentFolder, ProjectDocument } from './project-document.type';
+import type { FolderRoles, DocumentFolder, ProjectDocument, ProjectExport } from './project-document.type';
 
 const orderSize = (size: PixelSize) => ({ width: size.width, height: size.height });
 
@@ -31,6 +31,11 @@ const orderDefaults = (defaults: ProjectDefaults) => ({
   ...(defaults.pixelGrid === undefined ? {} : { pixelGrid: orderSize(defaults.pixelGrid) }),
 });
 
+const orderExport = (settings: ProjectExport) => ({
+  ...(settings.scale === undefined ? {} : { scale: settings.scale }),
+  ...(settings.pathTemplate === undefined ? {} : { pathTemplate: settings.pathTemplate }),
+});
+
 const orderProjectDocument = (manifest: ProjectDocument) => ({
   format: manifest.format,
   formatVersion: manifest.formatVersion,
@@ -39,6 +44,7 @@ const orderProjectDocument = (manifest: ProjectDocument) => ({
   ...(manifest.cover === undefined ? {} : { cover: { folderId: manifest.cover.folderId, path: manifest.cover.path } }),
   folders: manifest.folders.map(orderFolder),
   defaults: orderDefaults(manifest.defaults),
+  ...(manifest.export === undefined ? {} : { export: orderExport(manifest.export) }),
   assistant: {
     access: manifest.assistant.access,
     ...(manifest.assistant.folders === undefined ? {} : { folders: [...manifest.assistant.folders] }),

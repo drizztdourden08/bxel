@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, DocumentId } from '@bxel/document';
-import type { ProjectDefaults } from '@bxel/project';
+import type { ProjectDefaults, ProjectExport } from '@bxel/project';
 import type { SourceField } from '../config-source/config-source.type';
 import type { OpenProject } from '../project/project.type';
 
@@ -12,6 +12,8 @@ type ProjectFocus = {
 };
 
 type DefaultsPatch = { [K in keyof ProjectDefaults]: ProjectDefaults[K] | undefined };
+
+type ExportPatch = { [K in keyof ProjectExport]: ProjectExport[K] | undefined };
 
 type ProjectOutcomeText = string | null;
 
@@ -26,4 +28,4 @@ type PaletteSeed = {
   readonly colors: readonly string[];
 };
 
-export type { DefaultsPatch, FieldOutcome, PaletteSeed, ProjectField, ProjectFocus, ProjectOutcomeText };
+export type { DefaultsPatch, ExportPatch, FieldOutcome, PaletteSeed, ProjectField, ProjectFocus, ProjectOutcomeText };

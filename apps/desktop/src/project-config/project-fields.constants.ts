@@ -5,6 +5,7 @@ import { withCover } from '../project-meta/with-cover';
 import { applyProjectChange } from './apply-project-change';
 import { isSaved } from './is-saved';
 import { PROJECT_CONFIG_TEXT } from './project-config.constants';
+import { PROJECT_EXPORT_FIELDS } from './project-export-fields.constants';
 import type { FieldOutcome, ProjectField, ProjectFocus } from './project-config.type';
 import { setProjectDefaults } from './set-project-defaults';
 
@@ -35,6 +36,7 @@ const pickCover = (focus: ProjectFocus, value: unknown): FieldOutcome => {
 const PROJECT_FIELDS: Readonly<Record<string, ProjectField>> = {
   'project.name': { read: (focus) => focus.project.manifest.name, write: rename, buffered: true },
   'project.cover': { read: (focus) => focus.artwork?.coverSpriteId ?? '', write: pickCover },
+  ...PROJECT_EXPORT_FIELDS,
   ...Object.fromEntries(DEFAULT_KEYS.map((key) => [`project.default.${key}`, defaultField(key)])),
 };
 

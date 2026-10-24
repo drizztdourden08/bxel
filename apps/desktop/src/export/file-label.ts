@@ -1,12 +1,19 @@
 /* @layer renderer-app @kind logic */
-import type { Target } from './export.type';
+import type { LabelParts } from './export.type';
+import { fillTemplate } from './fill-template';
 import { safeName } from './safe-name';
 
-const fileLabel = (base: string, target: Target, targetCount: number, extra: string | null): string => {
+const joined = ({ base, target, count, extra }: LabelParts): string => {
   const parts = [base];
-  if (targetCount > 1) parts.push(safeName(target.sprite.name));
+  if (count > 1) parts.push(safeName(target.sprite.name));
   if (extra !== null) parts.push(extra);
   return parts.join('_');
+};
+
+const fileLabel = (label: LabelParts): string => {
+  if (label.template === '') return joined(label);
+  const filled = fillTemplate(label.template, { name: label.base, sprite: safeName(label.target.sprite.name), frame: label.extra ?? '' });
+  return filled === '' ? joined(label) : filled;
 };
 
 export { fileLabel };

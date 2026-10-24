@@ -11,4 +11,8 @@ const DEFAULT_ROLE_PATHS = {
   exports: 'exports',
 } as const satisfies Record<(typeof FOLDER_ROLES)[number], string>;
 
-export { DEFAULT_ROLE_PATHS, FOLDER_ROLES, PROJECT_DOCUMENT_VERSION };
+const PROJECT_EXPORT_LIMITS = { scaleMin: 1, scaleMax: 8, templateMax: 120 } as const;
+
+const TEMPLATE_PATTERN = /^[^\\/:*?"<>|\p{Cc}]+$/u;
+
+export { DEFAULT_ROLE_PATHS, FOLDER_ROLES, PROJECT_DOCUMENT_VERSION, PROJECT_EXPORT_LIMITS, TEMPLATE_PATTERN };
