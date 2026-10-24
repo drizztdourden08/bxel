@@ -50,7 +50,7 @@ const openLegacyFile = async (kit: FileKit, path: string): Promise<FileOutcome> 
   if (report.outcome === 'fatal' || report.artwork === null) return failed(FILE_TEXT.openFailed(fileName(path), issueText(report)));
   const seed = legacySeed(report.artwork, path);
   const documentId = attachWorkspace(kit.host, seed);
-  if (seed.legacy !== null) kit.paths.remember(documentId, path);
+  kit.paths.remember(documentId, path);
   return { kind: 'done', path, notice: report.notice };
 };
 

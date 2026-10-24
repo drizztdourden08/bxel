@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
-import type { FrameId, PaletteBank, Sprite } from '@bxel/document';
+import type { AssetKey, DocumentId, FrameId, PaletteBank, Sprite } from '@bxel/document';
+import type { FileKind } from '@bxel/project';
 
 type SpriteFrame = { readonly sprite: Sprite; readonly bank: PaletteBank; readonly frameId: FrameId };
 
@@ -77,7 +78,7 @@ type ProjectLocation = {
 
 type ProjectWrite = {
   readonly location: ProjectLocation;
-  readonly kind: 'bxel' | 'png';
+  readonly kind: FileKind;
   readonly overwrite: boolean;
 };
 
@@ -87,6 +88,8 @@ type OpenInput = {
 };
 
 type OpenTarget = { readonly path: string; readonly viaRecent: boolean };
+
+type OpenedFile = { readonly documentId: DocumentId; readonly key: AssetKey | null };
 
 type WireFileKind = 'bxel' | 'image' | 'palette' | 'sheet_json' | 'other';
 
@@ -107,6 +110,7 @@ export type {
   FramePng,
   GetDocumentInput,
   ListFilesInput,
+  OpenedFile,
   OpenInput,
   OpenTarget,
   ProjectLocation,
