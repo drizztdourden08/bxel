@@ -15,14 +15,14 @@ describe('check 4: an arbitrary angle rotation', () => {
   const seen: { preview?: Uint8Array; committed?: Uint8Array } = {};
 
   test('commits nearest neighbour pixels with no new colors', async () => {
-    const { session, original, shown } = rig();
+    const { session, original, shown, shownNow } = rig();
     await session.page.getByRole('region', { name: 'Transform' }).getByRole('button', { name: 'Rotate...', exact: true }).click();
     const dialog = session.page.getByRole('dialog', { name: 'Rotate' });
     await dialog.getByRole('spinbutton', { name: 'Angle in degrees' }).fill('90');
     await dialog.getByRole('button', { name: 'Preview on canvas' }).click();
     const bar = session.page.getByRole('region', { name: 'Apply bar' });
     await bar.waitFor();
-    seen.preview = await shown();
+    seen.preview = await shownNow();
     expect([...seen.preview]).not.toEqual([...original]);
     await bar.getByRole('button', { name: 'Apply', exact: true }).click();
     await bar.waitFor({ state: 'detached' });
@@ -36,7 +36,7 @@ describe('check 4: an arbitrary angle rotation', () => {
     expect([...saved].every((index) => allowed.has(index))).toBe(true);
   });
 
-  test.fails('known bug: the rotate preview shows the same pixels the commit paints', () => {
+  test('the rotate preview shows the same pixels the commit paints', () => {
     expect([...(seen.preview ?? [])]).toEqual([...(seen.committed ?? [])]);
   });
 });

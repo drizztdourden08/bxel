@@ -5,6 +5,7 @@ type SpriteRig = {
   readonly session: Session;
   readonly map: CellMapper;
   readonly shown: () => Promise<Uint8Array>;
+  readonly shownNow: () => Promise<Uint8Array>;
 };
 
 export type { SpriteRig };
