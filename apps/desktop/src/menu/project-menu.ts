@@ -24,6 +24,7 @@ const projectMenu = (recent: readonly RecentProject[], isOpen: boolean, open: (r
     { key: 'project-open-recent', label: PROJECT_TEXT.openRecent, children: recentEntries(recent, open) },
     'separator',
     menuItem(PROJECT_COMMAND.panel, PROJECT_TEXT.showPanel),
+    menuItem(PROJECT_COMMAND.settings, PROJECT_TEXT.settings, { disabled: !isOpen }),
     menuItem(PROJECT_COMMAND.close, PROJECT_TEXT.closeProject, { disabled: !isOpen }),
   ],
 });

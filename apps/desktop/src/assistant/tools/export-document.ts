@@ -1,9 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { flattenFrame } from '@bxel/document';
 import { hiddenFailure } from '@bxel/mcp';
+import type { Failure } from '@bxel/mcp';
 import { fileName } from '../../files/file-name';
 import { EXPORT_WRITE } from '../../files/files.constants';
-import type { ToolHandler } from '../assistant.type';
+import type { ToolContext, ToolHandler } from '../assistant.type';
 import { checkRevision } from './check-revision';
 import { exportTarget } from './export-target';
 import { framePng } from './frame-png';
@@ -12,6 +13,13 @@ import { reply } from './reply';
 import { spriteFrame } from './sprite-frame';
 import type { ExportInput } from './tool-input.type';
 import { viewFor } from './view-for';
+import { writeProjectFile } from './write-project-file';
+
+const writeExport = async (context: ToolContext, job: ExportInput, path: string, bytes: Uint8Array): Promise<Failure | null> => {
+  if (job.location) return writeProjectFile(context, path, bytes, EXPORT_WRITE);
+  await context.documents.write(path, bytes, EXPORT_WRITE);
+  return null;
+};
 
 const exportDocument: ToolHandler = async (input, context) => {
   const job = input as ExportInput;
@@ -19,13 +27,14 @@ const exportDocument: ToolHandler = async (input, context) => {
   if (!view) return reply(hiddenFailure('document'));
   const stale = checkRevision(view, job.expectedRevision);
   if (stale) return reply(stale);
-  const target = exportTarget(job, context);
+  const target = await exportTarget(job, context);
   if (!target.ok) return reply(target);
   const found = spriteFrame(view.state.artwork, target.value.source.spriteId, target.value.source.frameId);
   if (!found.ok) return reply(found);
   const png = framePng(found.value, job.scale);
   if (!png.ok) return reply(png);
-  await context.documents.write(target.value.path, png.value.bytes, EXPORT_WRITE);
+  const refused = await writeExport(context, job, target.value.path, png.value.bytes);
+  if (refused) return reply(refused);
   return reply({
     ok: true,
     revision: view.state.revision,

@@ -10,7 +10,10 @@ const PROJECT_COMMAND = {
   open: 'project.open',
   close: 'project.close',
   panel: 'project.panel',
+  settings: 'project.settings',
 } as const;
+
+const PROJECT_SUBFOLDERS = { newFiles: 'newFiles', exports: 'exports' } as const;
 
 const PROJECT_GROUP = 'Project';
 
@@ -21,6 +24,7 @@ const PROJECT_TEXT = {
   openRecent: 'Open recent project',
   recentNone: 'No recent projects',
   closeProject: 'Close project',
+  settings: 'Project settings...',
   showPanel: 'Show project panel',
   pickTitle: 'Choose the project folder',
   newTitle: 'New project',
@@ -48,11 +52,39 @@ const PROJECT_TEXT = {
     `Assistant access was on for the project ${name} (${level}), but only for the place it came from. Turn it on for this copy?`,
   turnOnConfirm: 'Turn it on',
   turnOnCancel: 'Keep it off',
+  trashTitle: 'Move to the trash?',
+  trashMessage: (name: string, isFolder: boolean): string =>
+    isFolder ? `The folder ${name} and everything in it moves to the trash. You can restore it from there.` : `${name} moves to the trash. You can restore it from there.`,
+  trashConfirm: 'Move to trash',
+  trashed: (name: string): string => `Moved ${name} to the trash.`,
+  renamed: (name: string): string => `Renamed to ${name}.`,
+  folderCreated: (name: string): string => `Created the folder ${name}.`,
+  inProject: (file: string, project: string): string => `${file} in ${project}`,
+  nameNoFolder: 'A name has no folder part.',
+  nameExists: (name: string): string => `There is already something named ${name} here.`,
+  keepExtension: (extension: string): string => `Keep the ending ${extension} so the file stays the same kind.`,
+  noFolderHere: 'Open a folder of the project first.',
+  removedFromList: (name: string): string => `Removed ${name} from the list. The folder is untouched.`,
+  settingsTitle: 'Project settings',
+  linkedTitle: 'Linked folders',
+  linkedHint: 'A linked folder is another place on this computer that belongs to the project. The first folder is the project folder and stays.',
+  addLinked: 'Add a linked folder...',
+  removeLinked: (name: string): string => `Remove the linked folder ${name}`,
+  rootFolder: 'Project folder',
+  linkedPickTitle: 'Choose a folder to link',
+  linkedAdded: (name: string): string => `Linked the folder ${name}.`,
+  linkedRemoved: (name: string): string => `Unlinked the folder ${name}. Its files stay where they are.`,
+  linkedSame: 'That folder is already part of the project.',
+  done: 'Done',
 } as const;
 
 const SIZE_UNITS = { step: 1024, wholeFrom: 10, names: ['B', 'KB', 'MB', 'GB'] } as const;
 
 const PANEL_LIST_LIMIT = 1000;
+
+const LINKED_NAME_MAX = 64;
+
+const FOLDER_PART_PATTERN = /[\\/]/;
 
 const PANEL_TEXT = {
   title: 'Project',
@@ -61,6 +93,16 @@ const PANEL_TEXT = {
   recent: 'Recent projects',
   refresh: 'Refresh the list',
   newFile: 'New file in the project',
+  newFolder: 'New folder in the project',
+  folderNameLabel: 'Folder name',
+  folderNamePlaceholder: 'New folder name',
+  renameLabel: 'New name',
+  rename: 'Rename',
+  renameSubmit: 'Save name',
+  trash: 'Move to trash',
+  entryActions: (name: string): string => `Actions for ${name}`,
+  removeRecent: 'Remove from list',
+  settingsLabel: 'Project settings',
   closeLabel: 'Close the project',
   up: 'Up one folder',
   folderLabel: 'Project folder',
@@ -83,4 +125,4 @@ const ACCESS_LABEL = {
   edit: 'Read and edit',
 } as const;
 
-export { ACCESS_LABEL, PANEL_LIST_LIMIT, PANEL_TEXT, PROJECT_COMMAND, PROJECT_DEFAULTS, PROJECT_GROUP, PROJECT_TEXT, PROJECT_WIDGET_ID, SIZE_UNITS };
+export { ACCESS_LABEL, FOLDER_PART_PATTERN, LINKED_NAME_MAX, PANEL_LIST_LIMIT, PANEL_TEXT, PROJECT_COMMAND, PROJECT_DEFAULTS, PROJECT_GROUP, PROJECT_SUBFOLDERS, PROJECT_TEXT, PROJECT_WIDGET_ID, SIZE_UNITS };

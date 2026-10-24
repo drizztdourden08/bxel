@@ -11,6 +11,9 @@ import { reply } from './reply';
 import type { SaveInput } from './tool-input.type';
 import { viewFor } from './view-for';
 import { writePlace } from './write-place';
+import { writeProjectFile } from './write-project-file';
+
+const isProjectTarget = (target: SaveInput['target']): boolean => typeof target === 'object' && 'location' in target;
 
 const saveDocument: ToolHandler = async (input, context) => {
   const save = input as SaveInput;
@@ -18,12 +21,17 @@ const saveDocument: ToolHandler = async (input, context) => {
   if (!view) return reply(hiddenFailure('document'));
   const stale = checkRevision(view, save.expectedRevision);
   if (stale) return reply(stale);
-  const place = writePlace(context, save);
+  const place = await writePlace(context, save);
   if (!place.ok) return reply(place);
   const documentId = save.documentId as DocumentId;
   const { revision } = view.state;
   const bytes = artworkBytes(view.state, () => Date.now());
-  await context.documents.write(place.value, bytes);
+  if (isProjectTarget(save.target)) {
+    const refused = await writeProjectFile(context, place.value, bytes);
+    if (refused) return reply(refused);
+  } else {
+    await context.documents.write(place.value, bytes);
+  }
   context.paths.remember(documentId, place.value);
   markIfUnchanged(context.host, documentId, revision);
   return reply({

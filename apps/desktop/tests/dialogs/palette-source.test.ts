@@ -8,6 +8,7 @@ import { PALETTE_PRESETS, SOURCE_DEFAULT } from '../../src/palette-source/palett
 import type { PaletteSource } from '../../src/palette-source/palette-source.type';
 import { pickPaletteFile } from '../../src/palette-source/pick-palette-file';
 import { readPaletteFile } from '../../src/palette-source/read-palette-file';
+import { quietDocuments } from '../project/quiet-documents';
 
 const SAMPLE: PaletteFile = {
   name: 'Warm',
@@ -36,12 +37,8 @@ const portWith = (path: string | null, files: Record<string, Uint8Array>): Docum
     write: missing,
     writeText: missing,
     recent: () => Promise.resolve([]),
-    clearRecent: () => Promise.resolve(),
     openRecent: missing,
-    snapshot: missing,
-    recoverable: () => Promise.resolve([]),
-    restoreSnapshot: missing,
-    discardSnapshot: () => Promise.resolve(),
+    ...quietDocuments,
   };
 };
 

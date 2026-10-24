@@ -16,8 +16,14 @@ const ProjectHeader = ({ model, project }: PanelPartProps & { readonly project: 
       <IconButton label={PANEL_TEXT.newFile} size="sm" onClick={model.startNaming}>
         <Icon name="plus" />
       </IconButton>
+      <IconButton label={PANEL_TEXT.newFolder} size="sm" onClick={model.startFolder}>
+        <Icon name="folder" />
+      </IconButton>
       <IconButton label={PANEL_TEXT.refresh} size="sm" onClick={model.refresh}>
         <Icon name="refresh-cw" />
+      </IconButton>
+      <IconButton label={PANEL_TEXT.settingsLabel} size="sm" onClick={model.openSettings}>
+        <Icon name="settings" />
       </IconButton>
       <IconButton label={PANEL_TEXT.closeLabel} size="sm" onClick={model.closeProject}>
         <Icon name="x" />

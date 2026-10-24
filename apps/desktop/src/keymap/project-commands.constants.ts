@@ -25,7 +25,23 @@ const PROJECT_COMMANDS: readonly CommandDef[] = [
       void openProject();
     },
   },
-  { id: PROJECT_COMMAND.close, label: 'Close project', group: PROJECT_GROUP, when: hasProject, run: closeProject },
+  {
+    id: PROJECT_COMMAND.close,
+    label: 'Close project',
+    group: PROJECT_GROUP,
+    when: hasProject,
+    run: () => {
+      void closeProject();
+    },
+  },
+  {
+    id: PROJECT_COMMAND.settings,
+    label: 'Project settings',
+    icon: 'settings',
+    group: PROJECT_GROUP,
+    when: hasProject,
+    run: () => useProjectStore.getState().showSettings(true),
+  },
   {
     id: PROJECT_COMMAND.panel,
     label: PROJECT_TEXT.showPanel,

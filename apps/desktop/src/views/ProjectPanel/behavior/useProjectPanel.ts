@@ -4,8 +4,10 @@ import { closeProject } from '../../../project/close-project';
 import { folderDir } from '../../../project/folder-dir';
 import { grantProjectFolder } from '../../../project/grant-project-folder';
 import { openProject } from '../../../project/open-project';
+import { removeRecentProject } from '../../../project/remove-recent-project';
 import { useProjectStore } from '../../../stores/useProjectStore';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
+import { useEntryActions } from './useEntryActions';
 import { useProjectActions } from './useProjectActions';
 import { useProjectListing } from './useProjectListing';
 import { useProjectLocation } from './useProjectLocation';
@@ -19,12 +21,15 @@ const useProjectPanel = (): ProjectPanelModel => {
   const dir = folder?.granted ? folderDir(folder.path, segments) : null;
   const { listing, error, refresh } = useProjectListing(dir);
   const actions = useProjectActions({ dir, enter: location.enter, refresh });
+  const entries = useEntryActions({ dir, refresh });
 
   const grantFolder = useCallback(() => {
     if (folder) void grantProjectFolder(folder);
   }, [folder]);
 
   return {
+    ...actions,
+    ...entries,
     project,
     recents,
     folder,
@@ -37,16 +42,12 @@ const useProjectPanel = (): ProjectPanelModel => {
     grantFolder,
     chooseFolder: location.chooseFolder,
     up: location.up,
-    openEntry: actions.openEntry,
-    naming: actions.naming,
-    nameError: actions.nameError,
-    startNaming: actions.startNaming,
-    stopNaming: actions.stopNaming,
-    createFile: actions.createFile,
     newProject: () => useProjectStore.getState().showDialog(true),
     openProject: () => void openProject(),
     openRecent: (root) => void openProject(root),
-    closeProject,
+    removeRecent: (entry) => void removeRecentProject(entry),
+    openSettings: () => useProjectStore.getState().showSettings(true),
+    closeProject: () => void closeProject(),
   };
 };
 

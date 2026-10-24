@@ -50,7 +50,7 @@ type UndoInput = DocumentInput & { readonly expectedRevision: number };
 
 type FileNameTarget = { readonly fileName: string; readonly overwrite: boolean };
 
-type LocationTarget = { readonly location: unknown; readonly overwrite: boolean };
+type LocationTarget = { readonly location: ProjectLocation; readonly overwrite: boolean };
 
 type SaveInput = DocumentInput & {
   readonly expectedRevision?: number;
@@ -62,7 +62,9 @@ type ExportInput = DocumentInput & {
   readonly format: string;
   readonly source: SpriteSource | SheetSource;
   readonly scale: number;
+  readonly overwrite?: boolean;
   readonly fileName?: string;
+  readonly location?: ProjectLocation;
 };
 
 type CloseInput = DocumentInput & { readonly discard: boolean };
@@ -71,6 +73,12 @@ type ProjectLocation = {
   readonly projectId: string;
   readonly folderId: string;
   readonly path: string;
+};
+
+type ProjectWrite = {
+  readonly location: ProjectLocation;
+  readonly kind: 'bxel' | 'png';
+  readonly overwrite: boolean;
 };
 
 type OpenInput = {
@@ -100,6 +108,7 @@ export type {
   OpenInput,
   OpenTarget,
   ProjectLocation,
+  ProjectWrite,
   ReadPaletteInput,
   ReadPixelsInput,
   RenderInput,

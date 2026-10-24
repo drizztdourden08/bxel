@@ -4,6 +4,7 @@ import { encodeArtwork } from '@bxel/document/native';
 import { buildTools } from '@bxel/mcp';
 import type { SessionMode, ToolName, ToolOutcome } from '@bxel/mcp';
 import type { ProjectGrant } from '@bxel/project';
+import type { AssistantSettings } from '../../src/assistant/assistant.type';
 import { TOOL_HANDLERS } from '../../src/assistant/tool-handlers.constants';
 import { openProject } from '../../src/project/open-project';
 import { useProjectStore } from '../../src/stores/useProjectStore';
@@ -16,6 +17,13 @@ type ToolRig = {
   readonly projectId: string;
   readonly folderId: string;
   readonly run: (tool: ToolName, input: unknown, grants: readonly ProjectGrant[], mode?: SessionMode) => Promise<ToolOutcome>;
+  readonly runWith: (tool: ToolName, input: unknown, setup: RunSetup) => Promise<ToolOutcome>;
+};
+
+type RunSetup = {
+  readonly grants: readonly ProjectGrant[];
+  readonly mode?: SessionMode;
+  readonly settings?: Partial<AssistantSettings>;
 };
 
 const tools = buildTools(documentCommands);
@@ -51,14 +59,16 @@ const toolRig = async (): Promise<ToolRig> => {
   const project = useProjectStore.getState().project;
   if (!project) throw new Error('the project did not open');
   const parts = { host: base.kit.host, paths: base.kit.paths, documents: base.disk.port };
-  const run = async (tool: ToolName, input: unknown, grants: readonly ProjectGrant[], mode: SessionMode = 'edit'): Promise<ToolOutcome> => {
+  const runWith = async (tool: ToolName, input: unknown, { grants, mode = 'edit', settings }: RunSetup): Promise<ToolOutcome> => {
     const handler = TOOL_HANDLERS[tool];
     if (!handler) throw new Error(`no handler for ${tool}`);
-    const outcome = (await handler(input, toolContext(parts, grants, mode))).outcome;
+    const outcome = (await handler(input, toolContext(parts, grants, mode, settings))).outcome;
     expectValid(tool, outcome);
     return outcome;
   };
-  return { rig: base, projectId: project.manifest.projectId, folderId: project.manifest.folders[0]?.folderId ?? '', run };
+  const run = (tool: ToolName, input: unknown, grants: readonly ProjectGrant[], mode: SessionMode = 'edit'): Promise<ToolOutcome> =>
+    runWith(tool, input, { grants, mode });
+  return { rig: base, projectId: project.manifest.projectId, folderId: project.manifest.folders[0]?.folderId ?? '', run, runWith };
 };
 
 const fieldOf = (outcome: ToolOutcome, key: string): unknown => (outcome.ok ? outcome[key] : undefined);
@@ -68,5 +78,5 @@ const rowsOf = (outcome: ToolOutcome, key: string): readonly Record<string, unkn
   return Array.isArray(value) ? value.filter((row): row is Record<string, unknown> => typeof row === 'object' && row !== null) : [];
 };
 
-export { bxelBytes, fieldOf, grantOf, rowsOf, toolRig };
+export { bxelBytes, fieldOf, grantOf, ROOT, rowsOf, toolRig };
 export type { ToolRig };
