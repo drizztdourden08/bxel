@@ -13,7 +13,7 @@ const fileMenu = (recent: MenuItem): MenuEntry[] => [
       { key: 'file-save', label: 'Save', command: FILE_COMMAND.save },
       { key: 'file-save-as', label: 'Save as...', command: FILE_COMMAND.saveAs },
       'separator',
-      { key: 'file-export', label: 'Export PNG...', command: FILE_COMMAND.export },
+      { key: 'file-export', label: 'Export...', command: FILE_COMMAND.export },
     ],
   },
 ];

@@ -10,6 +10,7 @@ declare module '@drizztdourden08/tessera' {
         | 'EditorCanvas'
         | 'EditorScreen'
         | 'EditorStatus'
+        | 'ExportDialog'
         | 'LayersPanel'
         | 'PalettePanel'
         | 'PixelViewport'

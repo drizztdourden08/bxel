@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
+import { openExport } from '../export/open-export';
 import { FILE_COMMAND, FILE_TEXT } from './files.constants';
 import { hasActiveDocument } from './has-active-document';
 import { runFileAction } from './run-file-action';
@@ -39,14 +40,12 @@ const FILE_COMMANDS: readonly CommandDef[] = [
   },
   {
     id: FILE_COMMAND.export,
-    label: 'Export current frame as PNG',
+    label: 'Export',
     icon: 'image',
     group: FILE_TEXT.group,
     chord: 'Mod+Shift+E',
     when: hasActiveDocument,
-    run: () => {
-      void runFileAction({ kind: 'export' });
-    },
+    run: openExport,
   },
 ];
 

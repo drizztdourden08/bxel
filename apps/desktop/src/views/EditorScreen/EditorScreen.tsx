@@ -4,6 +4,7 @@ import { ApplyBar } from '../ApplyBar';
 import { ContextBar } from '../ContextBar';
 import { EditorCanvas } from '../EditorCanvas';
 import { EditorStatus } from '../EditorStatus';
+import { ExportDialog } from '../ExportDialog';
 import { RecoveryDialog } from '../RecoveryDialog';
 import { ToolRail } from '../ToolRail';
 import { TransformDialog } from '../TransformDialog';
@@ -19,6 +20,7 @@ const EditorScreen = () => (
     <ApplyBar />
     <EditorStatus />
     <RecoveryDialog />
+    <ExportDialog />
     <TransformDialog />
   </Flex>
 );
