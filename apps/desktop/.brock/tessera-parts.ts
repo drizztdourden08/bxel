@@ -7,6 +7,7 @@ declare module '@drizztdourden08/tessera' {
       parts:
         | 'ActionHint'
         | 'ApplyBar'
+        | 'AssetTabs'
         | 'AssistantPanel'
         | 'AssistantProjects'
         | 'CanvasRuler'
@@ -21,6 +22,7 @@ declare module '@drizztdourden08/tessera' {
         | 'ImagePreview'
         | 'ImportWizard'
         | 'LayersPanel'
+        | 'LegacyBar'
         | 'MapLayersPanel'
         | 'MismatchBar'
         | 'OptionsToolbar'
@@ -37,6 +39,7 @@ declare module '@drizztdourden08/tessera' {
         | 'ScopeBar'
         | 'SheetCanvas'
         | 'SlotToolbar'
+        | 'SplitDialog'
         | 'SpritesPanel'
         | 'SurroundEditor'
         | 'SwatchSetEditor'
@@ -46,7 +49,8 @@ declare module '@drizztdourden08/tessera' {
         | 'TimelinePanel'
         | 'ToolbarPanel'
         | 'ToolRail'
-        | 'TransformDialog';
+        | 'TransformDialog'
+        | 'WorkspaceProgress';
     };
   }
 }

@@ -4,6 +4,7 @@ import { ENTRY_KINDS, joinInside } from '@bxel/project';
 import type { ListedEntry } from '@bxel/project';
 import type { ToolContext, ToolHandler } from '../assistant.type';
 import { listFolderEntries } from '../../project/list-folder-entries';
+import { documentAt } from './document-at';
 import { projectFolder } from './project-folder';
 import { projectPath } from './project-path';
 import { reply } from './reply';
@@ -18,7 +19,7 @@ const wireEntry = (context: ToolContext, dir: string, entry: ListedEntry) => {
     kind: WIRE_KIND_OF[entry.kind],
     bytes: entry.bytes,
     modifiedAt: new Date(entry.modified).toISOString(),
-    documentId: (path.ok ? context.paths.documentAt(path.value) : undefined) ?? null,
+    documentId: path.ok ? documentAt(context, path.value) : null,
   };
 };
 

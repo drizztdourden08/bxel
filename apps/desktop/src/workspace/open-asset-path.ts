@@ -11,6 +11,7 @@ import { decodeAssetFiles } from './decode-asset-files';
 import { findAssetTab } from './find-asset-tab';
 import { focusTab } from './focus-tab';
 import { looseFileSeed } from './loose-file-seed';
+import { looseMeta } from './loose-meta';
 import { mergeWorkspace } from './merge-workspace';
 import type { LooseLoad } from './workspace.type';
 
@@ -33,7 +34,8 @@ const openAssetPath = async (kit: FileKit, path: string): Promise<FileOutcome> =
   const loaded = await loadLoose(kit, path);
   if ('kind' in loaded) return loaded;
   const { first, report, decoded } = loaded;
-  const documentId = attachWorkspace(kit.host, looseFileSeed(first, report, mergeWorkspace(decoded, browserIdSource())));
+  const ids = browserIdSource();
+  const documentId = attachWorkspace(kit.host, looseFileSeed(first, report, mergeWorkspace(decoded, ids, looseMeta(ids, report.slice?.name ?? ''))));
   kit.paths.remember(documentId, first.path);
   const notice = report.readOnly ? (report.notice ?? FILE_TEXT.readOnly) : report.notice;
   return { kind: 'done', path, notice };

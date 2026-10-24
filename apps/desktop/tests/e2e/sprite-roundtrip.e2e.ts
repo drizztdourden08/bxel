@@ -54,12 +54,12 @@ describe('check 1: a 16 slot sprite survives save and reopen', () => {
     await dialog.getByRole('button', { name: /^Merge swatches/ }).click();
     await dialog.waitFor({ state: 'detached' });
     await shiftLayer(session, 'Layer 2', 'Down');
-    await saveFile(session, join(dir(), 'hero.bxel'));
-    const sprite = spriteOf(readSaved(join(dir(), 'hero.bxel')), 'sprite');
+    await saveFile(session, join(dir(), 'hero.bxsprite'));
+    const sprite = spriteOf(readSaved(join(dir(), 'hero.bxsprite')), 'hero');
     expect(sprite.layers.map((layer) => layer.name)).toEqual(['Layer 2', 'Layer 1']);
     expect([...layerIndices(sprite, 'Layer 1').filter((value) => value !== 0)]).toEqual([2, 2, 2, 2]);
     expect([...layerIndices(sprite, 'Layer 2').filter((value) => value !== 0)]).toEqual([4, 4, 4, 4]);
-    const bank = readSaved(join(dir(), 'hero.bxel')).banks[0];
+    const bank = readSaved(join(dir(), 'hero.bxsprite')).banks[0];
     expect(bank?.cap).toBe(16);
     const merged = bank?.slots[2];
     expect(merged?.kind === 'color' ? merged.rgb.toLowerCase() : null).toBe('#7b3fe4');
@@ -68,14 +68,14 @@ describe('check 1: a 16 slot sprite survives save and reopen', () => {
   });
 
   test('reopens with identical pixels, indices, layers and colour cap', async () => {
-    const saved = readSaved(join(dir(), 'hero.bxel'));
+    const saved = readSaved(join(dir(), 'hero.bxsprite'));
     const second = await openSession();
     state.second = second;
-    await openFile(second, join(dir(), 'hero.bxel'));
-    await saveFile(second, join(second.dir, 'again.bxel'));
-    const again = readSaved(join(second.dir, 'again.bxel'));
-    const before = spriteOf(saved, 'sprite');
-    const after = spriteOf(again, 'sprite');
+    await openFile(second, join(dir(), 'hero.bxsprite'));
+    await saveFile(second, join(second.dir, 'again.bxsprite'));
+    const again = readSaved(join(second.dir, 'again.bxsprite'));
+    const before = spriteOf(saved, 'hero');
+    const after = spriteOf(again, 'again');
     expect(after.layers.map((layer) => [layer.name, layer.visible, layer.locked])).toEqual(before.layers.map((layer) => [layer.name, layer.visible, layer.locked]));
     for (const layer of before.layers) expect(layerIndices(after, layer.name)).toEqual(layerIndices(before, layer.name));
     expect(again.banks.map((bank) => [bank.cap, bank.transparent, bank.slots.length])).toEqual(saved.banks.map((bank) => [bank.cap, bank.transparent, bank.slots.length]));

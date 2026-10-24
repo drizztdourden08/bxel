@@ -8,15 +8,6 @@ const ASSISTANT_FOLDER_NAME = 'Bxel Assistant';
 
 const REQUEST_MEMORY_MAX = 200;
 
-const FILE_KIND_OF: Readonly<Record<string, 'bxel' | 'image' | 'palette' | 'sheet_json'>> = {
-  bxel: 'bxel',
-  png: 'image',
-  gif: 'image',
-  gpl: 'palette',
-  hex: 'palette',
-  json: 'sheet_json',
-};
-
 const WIRE_KIND_OF: Readonly<Record<EntryKind, WireFileKind>> = {
   sprite: 'bxel',
   sheet: 'bxel',
@@ -56,4 +47,4 @@ const TOOL_TEXT = {
   nothingToUndo: 'There is nothing to undo.',
 } as const;
 
-export { ASSISTANT_FOLDER_NAME, FILE_KIND_OF, RECENT_ID_LENGTH, REQUEST_MEMORY_MAX, TOOL_TEXT, WIRE_KIND_OF };
+export { ASSISTANT_FOLDER_NAME, RECENT_ID_LENGTH, REQUEST_MEMORY_MAX, TOOL_TEXT, WIRE_KIND_OF };

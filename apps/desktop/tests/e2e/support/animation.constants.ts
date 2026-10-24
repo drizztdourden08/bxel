@@ -3,7 +3,7 @@ const ANIMATION = {
   side: 8,
   durations: [100, 250, 400],
   swatches: [3, 7, 11],
-  file: 'walk.bxel',
+  file: 'walk.bxsprite',
   spriteName: 'walk',
   tagName: 'run',
 } as const;
