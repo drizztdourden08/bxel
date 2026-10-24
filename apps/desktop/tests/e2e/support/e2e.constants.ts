@@ -17,6 +17,8 @@ const CURSOR_PARK = { x: 4, y: 4 } as const;
 
 const POLL_MS = 15000;
 
+const LAYOUT_SETTLE = { attempts: 40, steady: 4, gapMs: 100 } as const;
+
 const SHORTCUT = {
   newFile: 'Control+n',
   saveAs: 'Control+Shift+s',
@@ -28,4 +30,4 @@ const SHORTCUT = {
   redo: 'Control+y',
 } as const;
 
-export { APP_DIR, CANVAS_LABEL, CURSOR_PARK, POLL_MS, SHORTCUT, STATUS_LABEL, SWATCH_PATTERN, TEMP_PREFIX, ZOOM_PATTERN };
+export { APP_DIR, CANVAS_LABEL, CURSOR_PARK, LAYOUT_SETTLE, POLL_MS, SHORTCUT, STATUS_LABEL, SWATCH_PATTERN, TEMP_PREFIX, ZOOM_PATTERN };

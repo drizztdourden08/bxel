@@ -80,6 +80,18 @@ describe('the active layer', () => {
     expect(layerBlock(live().layer)).toBeNull();
   });
 
+  it('refuses a stroke on a locked layer with a notice and paints nothing', () => {
+    updateLayerFlag(live().layerId, 'locked', true);
+    const plan = { kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false } as const;
+    expect(allowPress(plan, live())).toBe(false);
+    expect(useNoticeStore.getState().notice?.text).toBe('Layer Layer 1 is locked. Unlock it or choose another layer.');
+    expect(drawAt(2)?.ok).toBe(false);
+    expect(cellOf('Layer 1')?.pixels.some((index) => index !== 0) ?? false).toBe(false);
+    updateLayerFlag(live().layerId, 'locked', false);
+    expect(allowPress(plan, live())).toBe(true);
+    expect(drawAt(2)?.ok).toBe(true);
+  });
+
   it('refuses a press on a blocked layer with a notice, but lets the picker through', () => {
     updateLayerFlag(live().layerId, 'visible', false);
     expect(allowPress({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live())).toBe(false);
