@@ -29,7 +29,7 @@ const answerPair = async (request: PairRequest): Promise<PairOutcome> => {
     if (decision.trust === 'remembered') port.patch({ assistantPrograms: touchProgram(trust, request.client, new Date().toISOString()).programs });
     return { ok: true, mode: decision.mode, trust: decision.trust };
   }
-  const mode = await askOwner(request.client);
+  const mode = await askOwner(request.client, request.headless);
   rememberChoice(port, request, mode, decision.remember !== 'none');
   return mode === 'blocked' ? denied() : { ok: true, mode, trust: 'prompted' };
 };
