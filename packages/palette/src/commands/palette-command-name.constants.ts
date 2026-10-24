@@ -11,6 +11,7 @@ const PALETTE_COMMAND_NAME = {
   paletteUpdate: 'palette.update',
   paletteDelete: 'palette.delete',
   paletteDetach: 'palette.detach',
+  paletteDuplicate: 'palette.duplicate',
   paletteAssign: 'palette.assign',
   paletteImport: 'palette.import',
 } as const;

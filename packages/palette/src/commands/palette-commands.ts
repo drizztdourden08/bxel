@@ -4,6 +4,7 @@ import { paletteAssign } from './palette-assign';
 import { paletteCreate } from './palette-create';
 import { paletteDelete } from './palette-delete';
 import { paletteDetach } from './palette-detach';
+import { paletteDuplicate } from './palette-duplicate';
 import { paletteImport } from './palette-import';
 import { paletteReorder } from './palette-reorder';
 import { paletteResize } from './palette-resize';
@@ -28,6 +29,7 @@ const paletteCommands: readonly CommandDef[] = [
   paletteUpdate,
   paletteDelete,
   paletteDetach,
+  paletteDuplicate,
   paletteAssign,
   paletteImport,
   rampAdd,

@@ -51,10 +51,12 @@ import { tileDelete } from './tile/tile-delete';
 import { tileUnique } from './tile/tile-unique';
 import { tilemapCreate } from './tilemap/tilemap-create';
 import { tilemapDelete } from './tilemap/tilemap-delete';
+import { tilemapDuplicate } from './tilemap/tilemap-duplicate';
 import { tilemapResize } from './tilemap/tilemap-resize';
 import { tilemapUpdate } from './tilemap/tilemap-update';
 import { tilesetCreate } from './tileset/tileset-create';
 import { tilesetDelete } from './tileset/tileset-delete';
+import { tilesetDuplicate } from './tileset/tileset-duplicate';
 import { tilesetUpdate } from './tileset/tileset-update';
 
 const documentCommands: readonly CommandDef[] = [
@@ -98,6 +100,7 @@ const documentCommands: readonly CommandDef[] = [
   tilesetCreate,
   tilesetUpdate,
   tilesetDelete,
+  tilesetDuplicate,
   tileAdd,
   tileDelete,
   tileUnique,
@@ -105,6 +108,7 @@ const documentCommands: readonly CommandDef[] = [
   tilemapUpdate,
   tilemapResize,
   tilemapDelete,
+  tilemapDuplicate,
   mapLayerAdd,
   mapLayerUpdate,
   mapLayerDelete,
