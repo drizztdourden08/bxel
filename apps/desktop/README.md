@@ -271,3 +271,44 @@ The app starts with the `updater` module: a "Check for updates" menu entry, the 
 dialog and an "Update available" badge in the title bar once a newer release is found.
 It reads the GitHub releases of `product.repo` in `brock.config.ts`. Without a `repo` it
 checks nothing and the dialog says the app has no update source.
+
+## Assistant access over MCP
+
+An assistant client drives Bxel through `bxel-mcp`, a stdio MCP helper that `brock build`
+bundles into `dist/helpers/bxel-mcp.mjs` (`resources/helpers` in an install). The helper
+reaches the running Bxel over the Brock bridge, and every tool runs through the same
+document engine and commands as the editor: one `apply_edits` batch is one undo step,
+labelled with the program's name.
+
+1. Turn on Settings, Assistant, Assistant access. Bxel opens the bridge only while it is on.
+2. Open Settings, Assistant programs, and copy the client config. It names this Bxel's own
+   executable, helper and bridge file, so copy it again after a move or a reinstall.
+3. Paste it into the client's MCP settings. The first call from a new program asks you to
+   allow read only, allow editing or deny; the default level remembers the answer.
+
+The copied config has this shape (the paths are an example of an install):
+
+```json
+{
+  "mcpServers": {
+    "bxel": {
+      "type": "stdio",
+      "command": "C:\\Users\\you\\AppData\\Local\\Bxel\\current\\Bxel.exe",
+      "args": ["C:\\Users\\you\\AppData\\Local\\Bxel\\current\\resources\\helpers\\bxel-mcp.mjs"],
+      "env": {
+        "ELECTRON_RUN_AS_NODE": "1",
+        "BROCK_BRIDGE_FILE": "C:\\Users\\you\\AppData\\Roaming\\bxel\\bridge.json",
+        "BXEL_APP_LAUNCH": "{\"command\":\"C:\\\\Users\\\\you\\\\AppData\\\\Local\\\\Bxel\\\\current\\\\Bxel.exe\",\"args\":[]}"
+      }
+    }
+  }
+}
+```
+
+`BXEL_APP_LAUNCH` lets the `start_bxel` tool start Bxel when it is closed, with no window
+(`headless`) or with one (`visible`); a development build leaves it out, so start Bxel
+yourself there. A headless Bxel quits when the program that started it leaves, and keeps
+unsaved work for Recovery. New files from a program land in the assistant folder
+(Documents, Bxel Assistant, or the folder set on the Assistant page). The tests in
+`tests/e2e/mcp-check7.e2e.ts` and `tests/e2e/mcp-headless.e2e.ts` drive a hidden Bxel with
+the MCP SDK client in exactly this way.
