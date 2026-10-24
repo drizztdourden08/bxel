@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { ID_PREFIX } from '../ids/id-prefix.constants';
 import type { SheetId, SpriteId } from '../model/ids.type';
 import { brandedIdSchema } from './branded-id-schema';
+import { createdSchema } from './created-schema';
 import { nameSchema } from './name-schema';
 import { pointSchema } from './point-schema';
 import { rectSchema } from './rect-schema';
@@ -30,6 +31,7 @@ const entrySchema = z.object({
 const sheetSchema = z.object({
   id: brandedIdSchema<SheetId>(ID_PREFIX.sheet),
   name: nameSchema,
+  created: createdSchema.optional(),
   layout: layoutSchema,
   spacing: pointSchema,
   margin: z.number().int().min(0),

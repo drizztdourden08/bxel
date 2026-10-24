@@ -62,7 +62,7 @@ const frameRows = (sprite: Sprite, layer: number, frame: number): string[] => {
   return toRows({ pixels: cel.pixels, width: sprite.width, height: sprite.height });
 };
 
-const fresh = (): Engine => pixelEngine(world());
+const fresh = (clock?: () => number): Engine => pixelEngine(world(), clock);
 
 const apply = (engine: Engine, name: string, targets: TargetScope | null, options: unknown): TransactionOk =>
   okOf(engine.execute(request([stepOf(name, targets as TargetScope, options)], { baseRevision: engine.state().revision })));

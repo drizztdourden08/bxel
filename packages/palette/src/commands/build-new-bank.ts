@@ -4,7 +4,7 @@ import type { BankId, IdSource, PaletteBank, Swatch, SwatchId } from '@bxel/docu
 import { checkBankOptions } from './check-bank-options';
 import type { PaletteCreateOptions } from './palette-create.type';
 
-const buildNewBank = (ids: IdSource, options: PaletteCreateOptions): PaletteBank => {
+const buildNewBank = (ids: IdSource, options: PaletteCreateOptions, created: number | undefined): PaletteBank => {
   const { name, colors } = checkBankOptions(options);
   const id = ids.next('bnk') as BankId;
   const lead: Swatch[] = options.transparent ? [{ id: ids.next('sw') as SwatchId, kind: 'transparent' }] : [];
@@ -16,7 +16,7 @@ const buildNewBank = (ids: IdSource, options: PaletteCreateOptions): PaletteBank
       name: !options.transparent && index === 0 ? BACKGROUND_LABEL : rgb,
     }),
   );
-  return { id, name, cap: options.cap, transparent: options.transparent, slots: [...lead, ...painted], ramps: [] };
+  return { id, name, created, cap: options.cap, transparent: options.transparent, slots: [...lead, ...painted], ramps: [] };
 };
 
 export { buildNewBank };

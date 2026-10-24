@@ -31,7 +31,7 @@ const spriteDuplicate = defineCommand({
       const taken = draft.artwork.sprites.map((sprite) => sprite.name);
       const label = name === undefined ? freeName(taken, `${source.name}${COPY_SUFFIX}`) : checkName(name);
       if (name !== undefined) assertNameFree(taken, label);
-      const copy = cloneSprite(draft.ids, source, label);
+      const copy = cloneSprite(draft.ids, source, label, draft.stamp);
       insertSprite(draft, copy, id);
       for (const sheet of draft.artwork.sheets.filter((item) => item.entries.some((entry) => entry.spriteId === id))) {
         addSheetEntry(draft, sheet.id, copy.id);

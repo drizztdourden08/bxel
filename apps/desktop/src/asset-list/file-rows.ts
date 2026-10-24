@@ -26,6 +26,7 @@ const fileRow = (file: ListedFile, loaded: ReadonlySet<string>, fallback: string
     path,
     folder: folderLabel(path, fallback),
     modified: file.modified,
+    created: null,
     dirty: false,
     loaded: false,
     usedBy: [],

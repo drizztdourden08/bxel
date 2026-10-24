@@ -25,6 +25,7 @@ const tileAdd = defineCommand({
       height: tileset.tileHeight,
       bankId: tileset.bankId,
       pivot: null,
+      created: draft.stamp,
     });
     const sprite = { ...base, role: 'tile' as const };
     attachTile(draft, tileset, sprite);

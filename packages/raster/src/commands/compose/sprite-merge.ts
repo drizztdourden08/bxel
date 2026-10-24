@@ -17,7 +17,7 @@ const spriteMerge = defineCommand({
     const taken = takenNames(draft, input.sprites, keep);
     const [lead] = sources;
     const label = name === undefined ? freeName(taken, keep ? `${lead.name} merged` : lead.name) : claimName(taken, name);
-    const merged = buildMerged(draft.ids, sources, { name: label, anchor });
+    const merged = buildMerged(draft.ids, sources, { name: label, anchor, created: draft.stamp });
     swapSprites(draft, { sources: input.sprites, made: [merged], keep });
     registerRef(draft, input.ref, merged.id);
   },

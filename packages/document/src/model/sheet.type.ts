@@ -18,6 +18,7 @@ type SheetEntry = { readonly spriteId: SpriteId; readonly at: Point; readonly so
 type Sheet = {
   readonly id: SheetId;
   readonly name: string;
+  readonly created?: number;
   readonly layout: SheetLayout;
   readonly spacing: Point;
   readonly margin: number;

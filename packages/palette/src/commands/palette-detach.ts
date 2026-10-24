@@ -29,7 +29,7 @@ const paletteDetach = defineCommand({
         details: [{ spriteId, layerId: null, frameId: null, reason: 'the palette is not shared' }],
       });
     }
-    const copy = copyBank(draft.ids, bank, bankCopyName(draft, bank, input.options.name));
+    const copy = copyBank(draft.ids, bank, bankCopyName(draft, bank, input.options.name), draft.stamp);
     updateArtwork(draft, (artwork) => ({ ...artwork, banks: [...artwork.banks, copy] }));
     updateSprite(draft, spriteId, (current) => ({ ...current, bankId: copy.id }));
     registerRef(draft, input.ref, copy.id);

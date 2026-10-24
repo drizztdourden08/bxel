@@ -14,6 +14,7 @@ import type {
   TransactionRequest,
   TransactionResult,
 } from '@bxel/document';
+import type { Clock } from '@bxel/document/native';
 
 type DocumentView = {
   readonly state: DocumentState;
@@ -46,6 +47,7 @@ type OpenRequest = {
 
 type DocumentHostOptions = {
   readonly ids?: IdSource;
+  readonly clock?: Clock;
   readonly commands?: readonly CommandDef[];
   readonly limits?: HistoryLimits;
 };
@@ -73,6 +75,7 @@ type HostEntry = {
 
 type HostStore = {
   readonly ids: IdSource;
+  readonly clock: Clock | undefined;
   readonly commands: readonly CommandDef[];
   readonly limits: HistoryLimits | undefined;
   readonly entries: Map<DocumentId, HostEntry>;

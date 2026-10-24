@@ -38,6 +38,7 @@ type Slice = {
 type Sprite = {
   readonly id: SpriteId;
   readonly name: string;
+  readonly created?: number;
   readonly role: SpriteRole;
   readonly bankId: BankId;
   readonly width: number;

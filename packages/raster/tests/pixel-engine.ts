@@ -6,11 +6,12 @@ import { brand } from './brand';
 
 const documentId = brand<DocumentId>('doc_000001');
 
-const pixelEngine = (artwork: Artwork): Engine =>
+const pixelEngine = (artwork: Artwork, clock?: () => number): Engine =>
   createEngine({
     state: { documentId, revision: 1, artwork, readOnly: false },
     ids: counterIdSource(100),
     commands: [...documentCommands, ...rasterCommands],
+    ...(clock ? { clock } : {}),
   });
 
 const scopeOf = (sprites: readonly SpriteId[], layers: TargetScope['layers'] = { by: 'all' }): TargetScope => ({

@@ -5,7 +5,7 @@ import type { PaletteBank, Rgb, Swatch } from '../../model/palette.type';
 import { BACKGROUND_LABEL } from '../../model/transparent.constants';
 import type { ArtworkCreateOptions } from '../../schema/command-options.type';
 
-const buildBank = (ids: IdSource, bank: ArtworkCreateOptions['bank']): PaletteBank => {
+const buildBank = (ids: IdSource, bank: ArtworkCreateOptions['bank'], created: number | undefined): PaletteBank => {
   const id = ids.next('bnk') as BankId;
   const slots: Swatch[] = [];
   if (bank.transparent) slots.push({ id: ids.next('sw') as SwatchId, kind: 'transparent' });
@@ -14,7 +14,7 @@ const buildBank = (ids: IdSource, bank: ArtworkCreateOptions['bank']): PaletteBa
     const name = !bank.transparent && index === 0 ? BACKGROUND_LABEL : (color.name?.trim() ?? rgb);
     slots.push({ id: ids.next('sw') as SwatchId, kind: 'color', rgb, name });
   }
-  return { id, name: bank.name.trim(), cap: bank.cap, transparent: bank.transparent, slots, ramps: [] };
+  return { id, name: bank.name.trim(), created, cap: bank.cap, transparent: bank.transparent, slots, ramps: [] };
 };
 
 export { buildBank };

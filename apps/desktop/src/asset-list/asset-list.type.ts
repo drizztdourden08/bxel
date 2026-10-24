@@ -6,7 +6,7 @@ type RowKind = Exclude<AssetKind, 'project'> | 'image' | 'other';
 
 type AssetChip = 'all' | 'sprite' | 'sheet' | 'palette' | 'tilemap' | 'image' | 'other';
 
-type AssetSort = 'name' | 'kind' | 'modified' | 'folder';
+type AssetSort = 'name' | 'kind' | 'modified' | 'created' | 'folder';
 
 type AssetRow = {
   readonly id: string;
@@ -16,6 +16,7 @@ type AssetRow = {
   readonly path: string;
   readonly folder: string;
   readonly modified: number;
+  readonly created: number | null;
   readonly dirty: boolean;
   readonly loaded: boolean;
   readonly usedBy: readonly string[];

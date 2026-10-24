@@ -8,6 +8,7 @@ import type { Artwork } from '../model/artwork.type';
 type Draft = {
   readonly base: Artwork;
   readonly ids: IdSource;
+  readonly stamp: number | undefined;
   readonly created: Record<string, string>;
   readonly report: Record<string, number>;
   readonly warnings: CommandWarning[];
@@ -19,7 +20,7 @@ type Draft = {
   step: number;
 };
 
-type DraftInput = { readonly base: Artwork; readonly ids: IdSource };
+type DraftInput = { readonly base: Artwork; readonly ids: IdSource; readonly stamp?: number };
 
 type BankRemap = { readonly bankId: BankId; readonly forward: Uint8Array; readonly inverse: Uint8Array };
 

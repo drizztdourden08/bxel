@@ -5,7 +5,7 @@ import { applyHostChange } from './apply-host-change';
 import type { DocumentStoreState } from './document-store.type';
 
 const useDocumentStore = create<DocumentStoreState>()((set) => {
-  const host = createDocumentHost();
+  const host = createDocumentHost({ clock: () => Date.now() });
   host.subscribe((event) => {
     const view = host.view(event.documentId);
     if (view) set((state) => ({ views: { ...state.views, [event.documentId]: view } }));

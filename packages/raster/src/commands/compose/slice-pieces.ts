@@ -19,6 +19,7 @@ const slicePieces = (draft: Draft, source: Sprite, request: SpriteSliceRequest, 
   return cells.map((cell) =>
     buildPiece(draft.ids, source, {
       name: claimName(taken, expandNamePattern(request.pattern, source.name, request.start + cell.index)),
+      created: draft.stamp,
       size,
       frames,
       crop: cell.rect,

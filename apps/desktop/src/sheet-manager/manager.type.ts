@@ -8,7 +8,7 @@ type ManagerTab = 'sprites' | 'atlas';
 
 type ManagerView = 'grid' | 'list';
 
-type SortKey = 'manual' | 'name' | 'size' | 'area' | 'frames' | 'tags' | 'bank';
+type SortKey = 'manual' | 'name' | 'size' | 'area' | 'frames' | 'tags' | 'bank' | 'created';
 
 type ManagerDialog = 'rename' | 'bank' | 'folder' | 'selection' | 'duplicate' | 'delete' | 'compare' | 'pivot' | 'resize' | 'merge' | 'split' | 'slice' | null;
 

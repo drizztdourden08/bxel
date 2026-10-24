@@ -14,7 +14,7 @@ import { runSteps } from './run-steps';
 const executeTransaction = (store: EngineStore, request: TransactionRequest): TransactionResult =>
   attempt(store, request.baseRevision, () => {
     checkRequest(store, request);
-    const draft = createDraft({ base: store.artwork, ids: forkIdSource(store.ids) });
+    const draft = createDraft({ base: store.artwork, ids: forkIdSource(store.ids), stamp: store.clock?.() });
     runSteps({ store, draft, request });
     checkDraft(draft);
     return request.mode === 'preview' ? previewResult({ store, draft, request }) : commitDraft({ store, draft, request });

@@ -26,10 +26,12 @@ type MergeSource = {
 type MergeSpec = {
   readonly name: string;
   readonly anchor: string;
+  readonly created: number | undefined;
 };
 
 type PieceSpec = {
   readonly name: string;
+  readonly created: number | undefined;
   readonly size: Size;
   readonly frames: readonly number[];
   readonly crop: Rect | null;

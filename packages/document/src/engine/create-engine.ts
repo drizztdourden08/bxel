@@ -17,6 +17,7 @@ const createEngine = (options: EngineOptions): Engine => {
     revision: options.state.revision,
     artwork: options.state.artwork,
     ids: options.ids,
+    clock: options.clock,
     history: options.unsaved === true ? { ...emptyHistory(), savedCursor: null } : emptyHistory(),
     nextEntryId: 1,
   };
