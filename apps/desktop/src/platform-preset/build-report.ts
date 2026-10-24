@@ -8,6 +8,7 @@ const buildReport = (preset: PlatformPreset, facts: PlatformFacts): PlatformRepo
   platformId: preset.id,
   name: preset.name,
   rules: rulesLine(preset),
+  strict: false,
   findings: checkPlatform(preset, facts).map((finding) => ({ tier: finding.tier, text: finding.message })),
 });
 

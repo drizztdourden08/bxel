@@ -11,7 +11,9 @@ const checkSizes = (preset: PlatformPreset, sizes: readonly SpriteSize[]): reado
   return unique.flatMap((size): RuleFinding[] => {
     const result = checkSprite(preset, size);
     if (result.ok) return [];
-    return [{ rule: 'spriteSize', tier: preset.tiers.spriteSize, message: result.message }];
+    const key = sizeKey(size);
+    const excess = sizes.filter((other) => sizeKey(other) === key).length;
+    return [{ rule: 'spriteSize', tier: preset.tiers.spriteSize, message: result.message, key: `spriteSize:${key}`, excess }];
   });
 };
 

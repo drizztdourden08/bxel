@@ -1,6 +1,6 @@
 /* @layer tests @kind test */
-import { findPreset } from '@bxel/presets';
-import type { PlatformPreset } from '@bxel/presets';
+import { findPreset, presetDefaults } from '@bxel/presets';
+import type { BankFacts, PlatformPreset } from '@bxel/presets';
 
 const preset = (id: string): PlatformPreset => {
   const result = findPreset(id);
@@ -21,4 +21,15 @@ const runs = (height: number, columns: readonly (readonly [number, number])[]): 
   );
 };
 
-export { preset, runs, size };
+const startBank = (id: string): BankFacts => {
+  const defaults = presetDefaults(preset(id));
+  return {
+    id: 'bnk_main',
+    name: 'Main',
+    cap: defaults.bankSize,
+    transparent: defaults.transparent,
+    colours: defaults.palette.flatMap((slot) => (slot.kind === 'color' ? [slot.rgb] : [])),
+  };
+};
+
+export { preset, runs, size, startBank };

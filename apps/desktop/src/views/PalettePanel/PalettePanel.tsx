@@ -6,6 +6,7 @@ import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { usePaletteSlots } from '../../hooks/usePaletteSlots';
 import { useToolStore } from '../../stores/useToolStore';
 import { PALETTE_COLUMNS, PALETTE_PANEL_TEXT } from './PalettePanel.constants';
+import { BankRow } from './sub-components/BankRow';
 import { PaletteSwatch } from './sub-components/PaletteSwatch';
 import { PlatformRow } from './sub-components/PlatformRow';
 import { SetLoader } from './sub-components/SetLoader';
@@ -23,6 +24,7 @@ const PalettePanel = () => {
   return (
     <Stack gap="sm">
       <Text variant="label">{PALETTE_TEXT.title(bank.name)}</Text>
+      <BankRow />
       <Text variant="caption" tone="muted">{PALETTE_TEXT.count(bank.cap, bank.transparent)}</Text>
       <Grid columns={PALETTE_COLUMNS} gap="xs" aria-label={PALETTE_PANEL_TEXT.grid}>
         {slots.map((slot) => (

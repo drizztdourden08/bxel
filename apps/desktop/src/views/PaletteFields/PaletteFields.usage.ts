@@ -4,11 +4,11 @@ import type { ComponentUsage } from '@drizztdourden08/tessera';
 const usage = {
   job: 'Sets where a palette comes from, how many slots it holds and whether slot 0 is transparent, with the limit presets and a custom value always in view.',
   useWhen: [
-    'A new file or an import creates a palette and the color limit must be set in view.',
+    'A new file or an import creates a palette and the colour limit must be set in view.',
     'The same fields are needed in more than one dialog.',
   ],
   avoidWhen: [
-    { case: 'A single swatch color is edited.', use: 'ColorPickerPopover' },
+    { case: 'A single swatch colour is edited.', use: 'ColorPickerPopover' },
     { case: 'Only one choice from a list is needed.', use: 'Select' },
   ],
   rules: [

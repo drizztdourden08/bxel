@@ -19,7 +19,7 @@ const paletteMenu = (state: EditorMenuState): MenuItem => {
       'separator',
       menuItem(DIALOG_COMMAND.deleteSwatch, 'Delete swatch...', off),
       menuItem(DIALOG_COMMAND.mergeSwatch, 'Merge swatch...', off),
-      menuItem(DIALOG_COMMAND.changeLimit, 'Change color limit...', off),
+      menuItem(DIALOG_COMMAND.changeLimit, 'Change colour limit...', off),
     ],
   };
 };

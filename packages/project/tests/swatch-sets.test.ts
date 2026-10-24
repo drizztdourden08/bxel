@@ -67,7 +67,7 @@ describe('manifest swatch sets', () => {
     expect(parseManifest(output)).toEqual({ ok: true, value: { ...sampleManifest(), swatchSets: sets } });
   });
 
-  it('lowercases colors and keeps names', () => {
+  it('lowercases colours and keeps names', () => {
     const upper: SwatchSet = { ...setOf(2), colors: [{ rgb: '#FFCD75', name: 'Sand' }] };
     const parsed = parseManifest(written({ swatchSets: [upper] }));
     expect(parsed).toMatchObject({ ok: true, value: { swatchSets: [{ colors: [{ rgb: '#ffcd75', name: 'Sand' }] }] } });
@@ -82,8 +82,8 @@ describe('manifest swatch sets', () => {
   it.each([
     ['a bad id', { setId: 'set_1' }],
     ['an empty name', { name: '   ' }],
-    ['no colors', { colors: [] }],
-    ['a color that is not a hex', { colors: [{ rgb: 'red', name: 'Red' }] }],
+    ['no colours', { colors: [] }],
+    ['a colour that is not a hex', { colors: [{ rgb: 'red', name: 'Red' }] }],
     ['an unknown key', { shade: 'warm' }],
   ])('refuses %s', (_label, change) => {
     const broken = { ...setOf(4), ...change };

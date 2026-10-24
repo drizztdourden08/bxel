@@ -33,7 +33,7 @@ describe('a swatch set as a palette source', () => {
     expect(groups[1]?.options.some((option) => option.value === 'set:builtin:snes-sprite')).toBe(true);
   });
 
-  it('turns a chosen set into a source with its colors and its name', () => {
+  it('turns a chosen set into a source with its colours and its name', () => {
     const source = sourceFromValue(`set:user:${warm.setId}`, SOURCE_DEFAULT, library);
     expect(source?.kind).toBe('set');
     expect(source && sourceColors(source).map((color) => color.rgb)).toEqual(['#ff0000', '#ffaa00']);

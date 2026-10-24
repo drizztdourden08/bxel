@@ -4,7 +4,7 @@ import { SOURCE_TEXT } from '../palette-source/palette-source.constants';
 import { nameError } from '../sprite-name/name-error';
 import { sizeError } from '../sprite-name/size-error';
 import { backgroundChoices } from './background-choices';
-import { MAX_SHEET_SPRITES, NEW_TEXT } from './new-sprite.constants';
+import { MAX_NEW_BANKS, MAX_SHEET_SPRITES, NEW_TEXT } from './new-sprite.constants';
 import type { CreationForm, CreationErrors } from './new-sprite.type';
 import { sheetCount } from './sheet-count';
 import { spriteNames } from './sprite-names';
@@ -35,6 +35,7 @@ const newFormErrors = (form: CreationForm, taken: readonly string[]): CreationEr
     limit: limitError(form.limit),
     palette: form.source.kind === 'file' && form.source.file === null ? SOURCE_TEXT.choose : null,
     background: backgroundError(form),
+    banks: Number.isInteger(form.banks) && form.banks >= 1 && form.banks <= MAX_NEW_BANKS ? null : NEW_TEXT.banksRange,
   };
 };
 

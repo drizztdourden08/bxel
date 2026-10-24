@@ -67,7 +67,7 @@ describe('check 1: a 16 slot sprite survives save and reopen', () => {
     expect([...shown]).toEqual([...flatIndices(sprite)]);
   });
 
-  test('reopens with identical pixels, indices, layers and color cap', async () => {
+  test('reopens with identical pixels, indices, layers and colour cap', async () => {
     const saved = readSaved(join(dir(), 'hero.bxel'));
     const second = await openSession();
     state.second = second;

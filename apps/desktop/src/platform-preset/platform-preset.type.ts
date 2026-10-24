@@ -1,15 +1,23 @@
 /* @layer renderer-app @kind types */
-import type { RuleTier } from '@bxel/presets';
+import type { AreaRect, RuleTier } from '@bxel/presets';
+
+interface AreaHighlight {
+  key: string;
+  spriteId: string;
+  frames: Readonly<Record<string, readonly AreaRect[]>>;
+}
 
 interface FindingLine {
   tier: RuleTier;
   text: string;
+  area?: AreaHighlight;
 }
 
 interface PlatformReport {
   platformId: string;
   name: string;
   rules: string;
+  strict: boolean;
   findings: readonly FindingLine[];
 }
 
@@ -25,4 +33,4 @@ interface PlatformGroup {
 
 type PlatformOutcome = { ok: true } | { ok: false; message: string };
 
-export type { PlatformGroup, PlatformOutcome, PlatformReport };
+export type { AreaHighlight, FindingLine, PlatformGroup, PlatformOutcome, PlatformReport };

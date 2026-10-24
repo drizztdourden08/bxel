@@ -40,7 +40,7 @@ const FILE_DIALOG_COMMANDS: readonly CommandDef[] = [
 const PALETTE_DIALOG_COMMANDS: readonly CommandDef[] = [
   { id: DIALOG_COMMAND.deleteSwatch, label: 'Delete swatch', group: COMMAND_GROUP.colours, run: () => startChange('delete') },
   { id: DIALOG_COMMAND.mergeSwatch, label: 'Merge swatch', group: COMMAND_GROUP.colours, run: () => startChange('merge') },
-  { id: DIALOG_COMMAND.changeLimit, label: 'Change color limit', group: COMMAND_GROUP.colours, run: () => startChange('limit') },
+  { id: DIALOG_COMMAND.changeLimit, label: 'Change colour limit', group: COMMAND_GROUP.colours, run: () => startChange('limit') },
 ].map(editorCommand);
 
 const DIALOG_COMMANDS: readonly CommandDef[] = [...FILE_DIALOG_COMMANDS, ...PALETTE_DIALOG_COMMANDS];

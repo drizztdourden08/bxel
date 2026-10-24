@@ -46,7 +46,7 @@ const portWith = (path: string | null, files: Record<string, Uint8Array>): Docum
 };
 
 describe('reading a palette file', () => {
-  it('reads a GPL file and drops repeated colors', () => {
+  it('reads a GPL file and drops repeated colours', () => {
     const written = writeGpl(SAMPLE);
     expect(written.ok).toBe(true);
     const read = readPaletteFile(bytesOf(written.ok ? written.text : ''), 'warm.gpl');
@@ -84,20 +84,20 @@ describe('reading a palette file', () => {
 });
 
 describe('the palette presets', () => {
-  it('lists Bxel 16 first with 15 colors', () => {
+  it('lists Bxel 16 first with 15 colours', () => {
     expect(PALETTE_PRESETS[0]?.name).toBe('Bxel 16');
     expect(PALETTE_PRESETS[0]?.colors).toHaveLength(15);
     expect(PALETTE_PRESETS.length).toBeGreaterThanOrEqual(4);
   });
 
-  it('takes the colors that fit the limit and counts the rest', () => {
+  it('takes the colours that fit the limit and counts the rest', () => {
     const pico: PaletteSource = { kind: 'preset', presetId: 'pico-8', file: null };
     expect(bankPlan(pico, 16, true).dropped).toBe(1);
     expect(bankPlan(pico, 16, false).dropped).toBe(0);
     expect(bankPlan(pico, 32, true).bank.colors).toHaveLength(16);
   });
 
-  it('keeps an opaque custom palette usable with at least one color', () => {
+  it('keeps an opaque custom palette usable with at least one colour', () => {
     const custom: PaletteSource = { ...SOURCE_DEFAULT, kind: 'custom' };
     expect(bankPlan(custom, 1, false).bank.colors).toHaveLength(1);
     expect(bankPlan(custom, 1, true).bank.colors).toHaveLength(0);

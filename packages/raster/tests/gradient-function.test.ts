@@ -45,7 +45,7 @@ describe('gradientFill', () => {
     expect(toRows(target)).toEqual(['44', '44', '55', '55']);
   });
 
-  test('ordered dither mixes the two colors a pixel sits between', () => {
+  test('ordered dither mixes the two colours a pixel sits between', () => {
     const target = blankBuffer(8, 1);
     gradientFill({ target, colors: [1, 2], line: ACROSS, bayer: 4, origin: ORIGIN });
     expect(toRows(target)).toEqual(['11212222']);
@@ -73,7 +73,7 @@ describe('gradientFill', () => {
     expect(rect).toEqual({ x: 2, y: 0, width: 4, height: 1 });
   });
 
-  test('colors run in the order given, so a reversed ramp reverses the bands', () => {
+  test('colours run in the order given, so a reversed ramp reverses the bands', () => {
     const target = blankBuffer(8, 1);
     gradientFill({ target, colors: [3, 2, 1], line: ACROSS, bayer: null, origin: ORIGIN });
     expect(toRows(target)).toEqual(['33322111']);

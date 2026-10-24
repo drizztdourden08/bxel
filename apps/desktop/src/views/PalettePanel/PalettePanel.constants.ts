@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import { platformGroups } from '../../platform-preset/platform-groups';
+import type { SnapChange } from '../../platform-preset/snap-plan.type';
 import type { HintSpec } from '../ActionHint';
 import type { SwatchRole } from './PalettePanel.type';
 
@@ -10,8 +11,8 @@ const PALETTE_PANEL_TEXT = {
   hint: 'Click sets the front colour. Right click or Shift and click sets the back colour. X swaps them.',
   setLabel: 'Swatch set',
   setPlaceholder: 'Choose a set',
-  addColors: 'Add colors',
-  replaceColors: 'Replace colors',
+  addColors: 'Add colours',
+  replaceColors: 'Replace colours',
   caption: (index: number, role: SwatchRole): string => (role === 'background' ? `${index} bg` : String(index)),
   name: (label: string, role: SwatchRole): string => (role === null ? label : `${label}, ${role}`),
 } as const;
@@ -31,4 +32,6 @@ const PALETTE_COLUMNS = 4;
 
 const PLATFORM_GROUPS = platformGroups();
 
-export { PALETTE_COLUMNS, PALETTE_PANEL_TEXT, PLATFORM_GROUPS, swatchHint };
+const NO_CHANGES: readonly SnapChange[] = [];
+
+export { NO_CHANGES, PALETTE_COLUMNS, PALETTE_PANEL_TEXT, PLATFORM_GROUPS, swatchHint };

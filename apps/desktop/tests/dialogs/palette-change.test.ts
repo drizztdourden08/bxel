@@ -116,10 +116,10 @@ describe('the rules of the palette change', () => {
     expect(coloured(sprites(host, documentId).find((each) => each.name === 'cap_red'), 2)).toBe(16);
   });
 
-  it('refuses a limit below the colors in use and accepts a raise', () => {
+  it('refuses a limit below the colours in use and accepts a raise', () => {
     const { host, documentId } = hostWithFile();
     const low = previewOf(host, requestFor(host, documentId, { kind: 'limit', cap: 8 }));
-    expect(low.error).toBe('The new limit is below the 16 colors in use. Merge or delete swatches first.');
+    expect(low.error).toBe('The new limit is below the 16 colours in use. Merge or delete swatches first.');
     const raised = requestFor(host, documentId, { kind: 'limit', cap: 32 });
     const preview = previewOf(host, raised);
     expect(preview.error).toBeNull();

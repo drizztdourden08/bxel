@@ -5,6 +5,7 @@ import { sourceFromSet } from '../palette-source/source-from-set';
 import { SOURCE_DEFAULT } from '../palette-source/palette-source.constants';
 import { builtinSets } from '../swatch-library/builtin-sets';
 import { setKey } from '../swatch-library/set-key';
+import { MAX_NEW_BANKS } from './new-sprite.constants';
 import type { CreationForm } from './new-sprite.type';
 
 const platformPatch = (preset: PlatformPreset, current: CreationForm): Partial<CreationForm> => {
@@ -17,6 +18,7 @@ const platformPatch = (preset: PlatformPreset, current: CreationForm): Partial<C
     cellWidth: defaults.spriteSize.width,
     cellHeight: defaults.spriteSize.height,
     limit: defaults.bankSize,
+    banks: Math.min(defaults.bankCount, MAX_NEW_BANKS),
     transparent: defaults.transparent,
     source: set ? sourceFromSet(set, current.source) : SOURCE_DEFAULT,
   };

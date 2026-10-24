@@ -36,6 +36,40 @@ describe('artwork platform id', () => {
     expect(rejection(engine, plain('artwork.update', { platformId: 'Bad Id' })).code).toBeTruthy();
   });
 
+});
+
+describe('artwork platform strict switch', () => {
+  it('keeps the strict switch with the platform, off by default, one undo step each', () => {
+    const { engine } = heartEngine();
+    expect(engine.state().artwork.platformStrict).toBeUndefined();
+    apply(engine, plain('artwork.update', { platformStrict: true }));
+    expect(engine.state().artwork.platformStrict).toBeUndefined();
+    apply(engine, plain('artwork.update', { platformId: 'gb-dmg' }));
+    expectUndoRedo(engine, plain('artwork.update', { platformStrict: true }));
+    apply(engine, plain('artwork.update', { platformStrict: true }));
+    expect(engine.state().artwork.platformStrict).toBe(true);
+    apply(engine, plain('artwork.update', { name: 'renamed' }));
+    expect(engine.state().artwork.platformStrict).toBe(true);
+    apply(engine, plain('artwork.update', { platformStrict: false }));
+    expect(engine.state().artwork.platformStrict).toBeUndefined();
+    apply(engine, plain('artwork.update', { platformStrict: true }));
+    apply(engine, plain('artwork.update', { platformId: null }));
+    expect(engine.state().artwork.platformStrict).toBeUndefined();
+    expect(rejection(engine, plain('artwork.update', { platformStrict: 'yes' })).code).toBeTruthy();
+  });
+
+  it('saves the strict switch and reads a file without it as off', () => {
+    const { engine } = heartEngine();
+    apply(engine, plain('artwork.update', { platformId: 'nes-sprite', platformStrict: true }));
+    const saved = decodeArtwork(encodeHeart(engine.state()));
+    expect(saved.artwork?.platformStrict).toBe(true);
+    const old = decodeArtwork(encodeHeart(heartState()));
+    expect(old.artwork && 'platformStrict' in old.artwork).toBe(false);
+  });
+
+});
+
+describe('artwork platform id in a file', () => {
   it('survives a save and a load, and an old file reads without it', () => {
     const { engine } = heartEngine();
     apply(engine, plain('artwork.update', { platformId: 'nes-sprite' }));

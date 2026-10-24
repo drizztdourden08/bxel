@@ -6,9 +6,12 @@ type RuleFinding = {
   readonly rule: RuleName;
   readonly tier: RuleTier;
   readonly message: string;
+  readonly key: string;
+  readonly excess: number;
 };
 
 type BankFacts = {
+  readonly id: string;
   readonly name: string;
   readonly cap: number;
   readonly transparent: boolean;

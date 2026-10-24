@@ -6,6 +6,7 @@ import { artworkReport } from '../../../platform-preset/artwork-report';
 import { NO_PLATFORM, PLATFORM_TEXT } from '../../../platform-preset/platform-preset.constants';
 import { presetById } from '../../../platform-preset/preset-by-id';
 import { setPlatform } from '../../../platform-preset/set-platform';
+import { setStrict } from '../../../platform-preset/set-strict';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
 import type { PlatformRowModel } from '../PalettePanel.type';
 
@@ -22,11 +23,20 @@ const usePlatformRow = (): PlatformRowModel => {
     if (!outcome.ok) toast(outcome.message, { variant: 'danger' });
   }, []);
 
+  const toggleStrict = useCallback((on: boolean): void => {
+    const { host, activeId } = useDocumentStore.getState();
+    if (activeId === null) return;
+    const outcome = setStrict(host, activeId, on);
+    if (!outcome.ok) toast(outcome.message, { variant: 'danger' });
+  }, []);
+
   return {
     value: known ? (platformId ?? NO_PLATFORM) : NO_PLATFORM,
     report,
     unknown: platformId !== undefined && !known ? PLATFORM_TEXT.unknown(platformId) : null,
+    strict: report?.strict ?? false,
     choose,
+    toggleStrict,
   };
 };
 

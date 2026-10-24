@@ -111,7 +111,7 @@ const SOURCE_TEXT = {
   choose: 'Choose a palette file.',
   unreadable: 'Cannot read that palette file. Bxel opens GPL, PAL and palette PNG files.',
   title: 'Choose a palette file',
-  fits: (kept: number, total: number): string => `Uses the first ${kept} of ${total} colors. Raise the limit to keep all of them.`,
+  fits: (kept: number, total: number): string => `Uses the first ${kept} of ${total} colours. Raise the limit to keep all of them.`,
 } as const;
 
 export {

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { BackgroundKind, InFileOutcome, CreationForm, CreationErrors, CreationKind, CreationSummary } from '../../new-sprite/new-sprite.type';
+import type { BackgroundKind, InFileOutcome, CreationForm, CreationErrors, CreationKind, CreationSummary, SpriteCheck } from '../../new-sprite/new-sprite.type';
 
 interface KindOption {
   value: CreationKind;
@@ -29,6 +29,10 @@ interface CreateFormState {
   create: () => void;
 }
 
+interface SpriteFormState extends CreateFormState {
+  check: SpriteCheck;
+}
+
 interface CreateFormBase {
   form: CreationForm;
   errors: CreationErrors;
@@ -50,4 +54,4 @@ interface FileShare {
   count: string;
 }
 
-export type { BackgroundOption, CreateActionsProps, FileShare, KindOption, CreateFieldsProps, CreateFormBase, CreateFormState };
+export type { BackgroundOption, CreateActionsProps, FileShare, KindOption, CreateFieldsProps, CreateFormBase, CreateFormState, SpriteFormState };

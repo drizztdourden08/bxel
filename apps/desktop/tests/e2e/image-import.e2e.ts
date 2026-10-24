@@ -17,11 +17,11 @@ const wizardFor = async (session: Session, path: string) => {
   await answerDialogs(session, { open: path, save: null });
   await session.page.keyboard.press(SHORTCUT.importImage);
   const dialog = session.page.getByRole('dialog', { name: /^Import image/ });
-  await dialog.getByRole('button', { name: 'Next: Colors' }).click();
+  await dialog.getByRole('button', { name: 'Next: Colours' }).click();
   return dialog;
 };
 
-describe('check 2: a PNG with more than 16 colors is reduced to the palette', () => {
+describe('check 2: a PNG with more than 16 colours is reduced to the palette', () => {
   const state: { session?: Session; png?: string } = {};
   const live = () => {
     if (!state.session) throw new Error('no session');
@@ -50,7 +50,7 @@ describe('check 2: a PNG with more than 16 colors is reduced to the palette', ()
   test('shows the original beside the reduced preview and imports only palette swatches without dithering', async () => {
     const session = live();
     const dialog = await wizardFor(session, state.png ?? '');
-    await dialog.getByRole('application', { name: `Original, ${BLOCKS.count} colors` }).waitFor();
+    await dialog.getByRole('application', { name: `Original, ${BLOCKS.count} colours` }).waitFor();
     await dialog.getByRole('application', { name: /^Palette-mapped, \d+ of 15 opaque used$/ }).waitFor();
     await dialog.getByText('Advanced').click();
     await dialog.getByRole('radio', { name: 'None (default)' }).check();

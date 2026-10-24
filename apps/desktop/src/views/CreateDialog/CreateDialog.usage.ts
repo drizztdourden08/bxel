@@ -5,7 +5,7 @@ const usage = {
   job: 'Asks for the name, size, background and palette of a new sprite or sheet of sprites, and creates it only when the person chooses Create.',
   useWhen: [
     'The person starts a new file with New, or a new sprite inside an open file with New sprite.',
-    'The color limit and the transparent slot must be set in view before anything exists.',
+    'The colour limit and the transparent slot must be set in view before anything exists.',
   ],
   avoidWhen: [
     { case: 'A single yes or no question is enough.', use: 'Dialog' },
@@ -15,7 +15,7 @@ const usage = {
     'The dialog reads its mode from the app and takes no props.',
     'The count line, the opaque used line and every error update while the person types.',
     'Create stays disabled while a field has an error, and Cancel creates nothing.',
-    'The last size, color limit, transparent slot and preset are remembered in the app settings.',
+    'The last size, colour limit, transparent slot and preset are remembered in the app settings.',
     'Inside an open file the palette is inherited and read only.',
   ],
   a11y: [
@@ -25,7 +25,7 @@ const usage = {
   ],
   tree: {
     path: ['something over the page', 'a question the user must answer'],
-    rule: 'CreateDialog is the form that creates a sprite or a sheet of sprites with the color limit in view.',
+    rule: 'CreateDialog is the form that creates a sprite or a sheet of sprites with the colour limit in view.',
   },
   example: `import { CreateDialog } from '../CreateDialog';
 

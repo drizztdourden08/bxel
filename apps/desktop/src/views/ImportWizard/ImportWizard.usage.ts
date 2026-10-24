@@ -13,8 +13,8 @@ const usage = {
   ],
   rules: [
     'The wizard reads the image from the app and takes no props.',
-    'Steps are Source, Colors and, for a sheet, Slicing. Cancel at any step changes nothing.',
-    'Next stays disabled while the image has more colors than the limit and no reduction is chosen.',
+    'Steps are Source, Colours and, for a sheet, Slicing. Cancel at any step changes nothing.',
+    'Next stays disabled while the image has more colours than the limit and no reduction is chosen.',
     'The import is one transaction, so one undo removes every sprite it made.',
   ],
   a11y: [
@@ -24,7 +24,7 @@ const usage = {
   ],
   tree: {
     path: ['something over the page', 'a question the user must answer'],
-    rule: 'ImportWizard is the stepped dialog that reduces the colors of a PNG to a palette and slices it into sprites.',
+    rule: 'ImportWizard is the stepped dialog that reduces the colours of a PNG to a palette and slices it into sprites.',
   },
   example: `import { ImportWizard } from '../ImportWizard';
 

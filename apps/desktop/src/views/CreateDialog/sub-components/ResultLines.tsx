@@ -16,6 +16,11 @@ const ResultLines = ({ summary }: { summary: CreationSummary }) => (
         {summary.fits}
       </Text>
     )}
+    {summary.banks !== null && (
+      <Text variant="caption" tone="muted">
+        {summary.banks}
+      </Text>
+    )}
     {summary.sheet !== null && (
       <Text variant="caption" tone="muted">
         {summary.sheet}
