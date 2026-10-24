@@ -10,8 +10,6 @@ const windowModes = [
   { value: 'fullscreen', label: 'Fullscreen', hint: 'Takes over the display until you leave fullscreen.' },
 ];
 
-const asPercent = (value: number): string => `${Math.round(value * 100)}%`;
-
 const sections: Section[] = [
   {
     id: 'window',
@@ -36,20 +34,6 @@ const sections: Section[] = [
         description: 'Put the widgets back where they start.',
         hint: 'Closes the widgets you opened and docks the others where the app first placed them.',
         actions: [{ id: 'reset-layout', label: 'Reset', icon: 'rotate-ccw', tone: 'danger', confirm: 'Reset the layout?', onSelect: () => widgets.reset() }],
-      },
-    ],
-  },
-  {
-    id: 'audio',
-    title: 'Audio',
-    items: [
-      { key: 'enableAudio', label: 'Audio', description: 'Play sound.', hint: 'Off mutes every sound the app plays, whatever the volume.' },
-      {
-        key: 'masterVolume',
-        label: 'Master volume',
-        description: 'Overall output level.',
-        hint: 'Drag to scale every sound at once. 100% plays them as made.',
-        control: { kind: 'range', min: 0, max: 1, step: 0.05, format: asPercent },
       },
     ],
   },
