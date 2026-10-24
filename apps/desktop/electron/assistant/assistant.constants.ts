@@ -29,6 +29,17 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   create_document: edit,
 };
 
+const NATIVE_PAIR_TEXT = {
+  title: 'A program wants to use Bxel',
+  message: (program: string) => `${program} started Bxel without a window and wants to use it. Programs report their own name, and Bxel cannot check it.`,
+  editDetail: 'Allow editing lets it change, save and export your files. Choose Not editing to decide on read only access next.',
+  editAllow: 'Allow editing',
+  editRefuse: 'Not editing',
+  readDetail: 'Read only lets it look at documents, read pixels and preview edits.',
+  readAllow: 'Allow read only',
+  readRefuse: 'Deny',
+} as const;
+
 const MAIN_TEXT = {
   unknown: 'Bxel does not know this session. The helper pairs again on its own.',
   revoked: 'The owner disconnected this session. Restart the helper to ask again.',
@@ -41,4 +52,4 @@ const MAIN_TEXT = {
   tray: (names: string) => `Bxel is running for ${names}`,
 } as const;
 
-export { FOLDER_NAME, MAIN_TEXT, QUIT_DELAY_MS, TOOL_TIMEOUT };
+export { FOLDER_NAME, MAIN_TEXT, NATIVE_PAIR_TEXT, QUIT_DELAY_MS, TOOL_TIMEOUT };

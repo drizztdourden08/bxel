@@ -1,12 +1,14 @@
 /* @layer renderer-app @kind logic */
 import type { HelloClient, ProgramMode } from '@bxel/mcp';
-import { confirmChoice } from '@drizztdourden08/brock-react';
+import { channelApi, confirmChoice } from '@drizztdourden08/brock-react';
+import { APP_CHANNELS } from '../ipc/contract.constants';
 import { useAssistantStore } from '../stores/useAssistantStore';
 import { ASSISTANT_TEXT } from './assistant.constants';
 
-const askOwner = async (client: HelloClient): Promise<ProgramMode> => {
+const askOwner = async (client: HelloClient, headless: boolean): Promise<ProgramMode> => {
   useAssistantStore.getState().setPairing(1);
   try {
+    if (headless) return await channelApi(APP_CHANNELS).assistantNativePair(client.name);
     const picked = await confirmChoice<'read' | 'edit'>({
       title: ASSISTANT_TEXT.pairTitle,
       message: ASSISTANT_TEXT.pairMessage(client.name ?? ASSISTANT_TEXT.unnamed),

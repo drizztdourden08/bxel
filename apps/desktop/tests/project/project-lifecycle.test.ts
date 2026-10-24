@@ -134,7 +134,7 @@ describe('opening a project', () => {
     withManifest(held.disk, manifestOf({ swatchSets: [warm] }));
     pick(held, ROOT);
     await openProject();
-    closeProject();
+    await closeProject();
     expect(useProjectStore.getState().project).toBeNull();
     expect(useProjectSetsStore.getState().projectName).toBeNull();
     expect(useProjectSetsStore.getState().sets).toEqual([]);

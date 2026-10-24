@@ -31,11 +31,24 @@ type ProjectOutcome = { readonly ok: true } | { readonly ok: false; readonly mes
 
 type AccessTarget = Pick<RecentProject, 'projectId' | 'rootRealPath'>;
 
-type ProjectTask =(documents: DocumentsPort) => Promise<ProjectOutcome | null>;
+type ProjectTask = (documents: DocumentsPort) => Promise<ProjectOutcome | null>;
 
 type ProjectLocation = {
   readonly folderId: string;
   readonly segments: readonly string[];
+};
+
+type LinkedFolder = {
+  readonly manifest: ProjectManifest;
+  readonly folder: ResolvedFolder;
+};
+
+type ProjectIdentity = Pick<OpenProject, 'manifest' | 'rootRealPath'>;
+
+type EntryRef = {
+  readonly dir: string;
+  readonly name: string;
+  readonly kind: 'file' | 'folder';
 };
 
 type GrantRow = {
@@ -49,10 +62,13 @@ type GrantRow = {
 
 export type {
   AccessTarget,
+  EntryRef,
   GrantRow,
+  LinkedFolder,
   LoadedManifest,
   OpenProject,
   ProjectFolderState,
+  ProjectIdentity,
   ProjectLocation,
   ProjectOutcome,
   ProjectPort,

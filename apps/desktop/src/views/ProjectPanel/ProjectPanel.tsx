@@ -2,10 +2,12 @@
 import { Stack } from '@drizztdourden08/tessera';
 import { useProjectPanel } from './behavior/useProjectPanel';
 import { EntryList } from './sub-components/EntryList';
-import { FolderBar } from './sub-components/FolderBar';
 import { FileNameRow } from './sub-components/FileNameRow';
+import { FolderBar } from './sub-components/FolderBar';
+import { FolderNameRow } from './sub-components/FolderNameRow';
 import { ProjectHeader } from './sub-components/ProjectHeader';
 import { ProjectStart } from './sub-components/ProjectStart';
+import { RenameRow } from './sub-components/RenameRow';
 
 const ProjectPanel = () => {
   const model = useProjectPanel();
@@ -16,6 +18,8 @@ const ProjectPanel = () => {
       <ProjectHeader model={model} project={project} />
       <FolderBar model={model} project={project} />
       {model.naming && <FileNameRow model={model} />}
+      {model.makingFolder && <FolderNameRow model={model} />}
+      {model.renaming !== null && <RenameRow key={model.renaming} model={model} />}
       <EntryList model={model} />
     </Stack>
   );

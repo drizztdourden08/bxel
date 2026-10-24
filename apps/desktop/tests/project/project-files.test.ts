@@ -83,7 +83,7 @@ describe('the Project menu', () => {
   it('leads with New, Open and Open recent, and closes only an open project', () => {
     const item = projectMenu([], false, () => undefined);
     const keys = (item.children ?? []).map((child) => (child === 'separator' ? child : child.key));
-    expect(keys).toEqual(['project.new', 'project.open', 'project-open-recent', 'separator', 'project.panel', 'project.close']);
+    expect(keys).toEqual(['project.new', 'project.open', 'project-open-recent', 'separator', 'project.panel', 'project.settings', 'project.close']);
     const close = item.children?.at(-1);
     expect(close !== 'separator' && close?.disabled).toBe(true);
     expect(projectMenu([], true, () => undefined).children?.at(-1)).toMatchObject({ disabled: false });

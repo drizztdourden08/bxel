@@ -3,6 +3,7 @@ import { Button, Callout, EmptyState, Icon, ListItemList, ListItemRow, Stack, Te
 import { formatSize } from '../../../project/format-size';
 import { PANEL_TEXT } from '../../../project/project.constants';
 import type { PanelPartProps } from '../ProjectPanel.type';
+import { EntryMenu } from './EntryMenu';
 
 const EntryList = ({ model }: PanelPartProps) => {
   if (model.folder && !model.folder.granted) {
@@ -31,6 +32,8 @@ const EntryList = ({ model }: PanelPartProps) => {
             name={entry.name}
             meta={entry.kind === 'folder' ? undefined : formatSize(entry.bytes)}
             selected={model.selected === entry.name}
+            action={<EntryMenu model={model} entry={entry} />}
+            actionVisibility="always"
             onClick={() => (entry.kind === 'folder' ? model.openEntry(entry) : model.select(entry.name))}
             onDoubleClick={() => model.openEntry(entry)}
           />

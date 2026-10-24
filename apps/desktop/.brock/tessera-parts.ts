@@ -31,6 +31,7 @@ declare module '@drizztdourden08/tessera' {
         | 'PlatformFindings'
         | 'ProjectCreateDialog'
         | 'ProjectPanel'
+        | 'ProjectSettingsDialog'
         | 'RecoveryDialog'
         | 'SheetCanvas'
         | 'SpritesPanel'

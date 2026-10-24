@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button, EmptyState, Flex, Icon, ListItemList, ListItemRow, Stack, Text } from '@drizztdourden08/tessera';
+import { Button, EmptyState, Flex, Icon, IconButton, ListItemList, ListItemRow, Stack, Text } from '@drizztdourden08/tessera';
 import { PANEL_TEXT } from '../../../project/project.constants';
 import type { PanelPartProps } from '../ProjectPanel.type';
 
@@ -29,6 +29,12 @@ const ProjectStart = ({ model }: PanelPartProps) => (
               icon={<Icon name="folder" />}
               name={entry.name}
               meta={entry.rootRealPath}
+              actionVisibility="always"
+              action={
+                <IconButton label={`${PANEL_TEXT.removeRecent}: ${entry.name}`} size="xs" onClick={() => model.removeRecent(entry)}>
+                  <Icon name="x" />
+                </IconButton>
+              }
               onClick={() => model.openRecent(entry.rootRealPath)}
             />
           ))}

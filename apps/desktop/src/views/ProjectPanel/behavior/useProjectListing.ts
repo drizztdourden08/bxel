@@ -5,6 +5,7 @@ import { fileKit } from '../../../files/file-kit';
 import { reasonOf } from '../../../files/reason-of';
 import { listFolderEntries } from '../../../project/list-folder-entries';
 import { PANEL_LIST_LIMIT } from '../../../project/project.constants';
+import { watchFolder } from '../../../project/watch-folder';
 import { EMPTY_LISTING } from '../ProjectPanel.constants';
 import type { ListingState } from '../ProjectPanel.type';
 
@@ -14,9 +15,9 @@ const useProjectListing = (dir: string | null): ListingState & { readonly refres
   const refresh = useCallback(() => setTick((value) => value + 1), []);
 
   useEffect(() => {
-    window.addEventListener('focus', refresh);
-    return () => window.removeEventListener('focus', refresh);
-  }, [refresh]);
+    const kit = fileKit();
+    return dir === null || !kit ? undefined : watchFolder(kit.documents, dir, refresh);
+  }, [dir, refresh]);
 
   useEffect(() => {
     const kit = fileKit();

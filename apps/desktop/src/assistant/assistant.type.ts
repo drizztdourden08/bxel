@@ -66,6 +66,7 @@ type ToolContext = {
 type GrantedProject = {
   readonly project: OpenProject;
   readonly access: 'read' | 'edit';
+  readonly open: boolean;
 };
 
 type FoundFolder = GrantedProject & { readonly folder: ProjectFolderState };

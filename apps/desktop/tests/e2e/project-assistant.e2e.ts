@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
-import { readdir, readFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { mkdtemp, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 import { decodeArtwork } from '@bxel/document/native';
 import { manifestFileName, parseManifest } from '@bxel/project';
 import type { ProjectManifest } from '@bxel/project';
@@ -8,7 +8,11 @@ import { describe, expect, test } from 'vitest';
 import { addProjectFileInUi } from './support/add-project-file-in-ui';
 import { callMcp } from './support/call-mcp';
 import { createProjectInUi } from './support/create-project-in-ui';
+import { POLL_MS } from './support/e2e.constants';
+import { linkFolderInUi, unlinkFolderInUi } from './support/link-folder-in-ui';
 import { openProjectRig } from './support/open-project-rig';
+import { exportIntoProject, heroDocument, locationIn, saveIntoProject } from './support/project-writes';
+import { createProjectFolderInUi, listed, renameProjectEntryInUi, trashProjectEntryInUi } from './support/project-entry-ui';
 import type { AccessChoice, ProjectRig } from './support/project-rig.type';
 import { runMenu } from './support/run-menu';
 import { setProjectAccessInUi } from './support/set-project-access-in-ui';
@@ -26,7 +30,7 @@ const manifestOnDisk = async ({ projectDir }: ProjectRig): Promise<ProjectManife
 
 const grant = async (rig: ProjectRig, choice: AccessChoice): Promise<void> => setProjectAccessInUi(rig.session, NAME, choice);
 
-const places = async ({ link }: ProjectRig) => (await callMcp(link.client, 'list_places')).data as { projects: { projectId: string; name: string; access: string }[] };
+const places = async ({ link }: ProjectRig) => (await callMcp(link.client, 'list_places')).data as { projects: { projectId: string; name: string; access: string; folders: unknown[] }[] };
 
 const filesOf = async (rig: ProjectRig, path?: string) => {
   const manifest = await manifestOnDisk(rig);
@@ -37,8 +41,13 @@ const filesOf = async (rig: ProjectRig, path?: string) => {
 const created = async (rig: ProjectRig): Promise<void> => {
   await createProjectInUi(rig.session, rig.projectDir, NAME);
   const manifest = await manifestOnDisk(rig);
-  expect(manifest).toMatchObject({ name: NAME, assistant: { access: 'off' }, folders: [{ path: '.' }] });
-  expect(await readdir(rig.projectDir)).toEqual([manifestFileName(NAME)]);
+  expect(manifest).toMatchObject({
+    name: NAME,
+    assistant: { access: 'off' },
+    folders: [{ path: '.' }],
+    settings: { newFiles: { path: 'newFiles' }, exports: { path: 'exports' } },
+  });
+  expect((await readdir(rig.projectDir)).sort()).toEqual([manifestFileName(NAME), 'exports', 'newFiles'].sort());
   await rig.session.page.getByRole('button', { name: 'New file in the project' }).waitFor();
 };
 
@@ -47,7 +56,7 @@ const filed = async (rig: ProjectRig): Promise<void> => {
   const report = decodeArtwork(new Uint8Array(await readFile(join(rig.projectDir, 'hero.bxel'))));
   expect(report.outcome).toBe('ok');
   expect(report.artwork?.name).toBe('hero');
-  await waitText(rig.session, /hero\.bxel - Bxel/);
+  await waitText(rig.session, /hero\.bxel in Dungeon - Bxel/);
 };
 
 const hidden = async (rig: ProjectRig): Promise<void> => {
@@ -64,9 +73,14 @@ const browsed = async (rig: ProjectRig): Promise<void> => {
   expect(manifest.assistant.access).toBe('read');
   expect((await places(rig)).projects).toMatchObject([{ projectId: manifest.projectId, name: NAME, access: 'read' }]);
   const listed = await filesOf(rig);
-  expect(listed.data).toMatchObject({ ok: true, path: '', total: 1, entries: [{ name: 'hero.bxel', kind: 'bxel' }] });
-  const entries = listed.data.entries as { documentId: string | null }[];
-  expect(entries[0]?.documentId).toMatch(/^doc_/);
+  expect(listed.data).toMatchObject({
+    ok: true,
+    path: '',
+    total: 3,
+    entries: [{ name: 'exports', kind: 'folder' }, { name: 'newFiles', kind: 'folder' }, { name: 'hero.bxel', kind: 'bxel' }],
+  });
+  const entries = listed.data.entries as { name: string; documentId: string | null }[];
+  expect(entries.find((entry) => entry.name === 'hero.bxel')?.documentId).toMatch(/^doc_/);
 };
 
 const opened = async (rig: ProjectRig): Promise<void> => {
@@ -102,7 +116,58 @@ const reopened = async (rig: ProjectRig): Promise<void> => {
   await runMenu(rig.session, [/^Project/, /^Open project/]);
   await waitText(rig.session, /Opened the project Dungeon/);
   expect((await places(rig)).projects).toMatchObject([{ name: NAME, access: 'edit' }]);
-  expect((await filesOf(rig)).data).toMatchObject({ ok: true, total: 1 });
+  expect((await filesOf(rig)).data).toMatchObject({ ok: true, total: 3 });
+};
+
+const assistantWrites = async (rig: ProjectRig): Promise<void> => {
+  const saved = await saveIntoProject(rig, NAME, 'newFiles/copy.bxel');
+  expect(saved.data).toMatchObject({ ok: true, fileName: 'copy.bxel', place: await locationIn(rig, NAME, 'newFiles/copy.bxel') });
+  expect(decodeArtwork(new Uint8Array(await readFile(join(rig.projectDir, 'newFiles', 'copy.bxel')))).outcome).toBe('ok');
+  expect((await saveIntoProject(rig, NAME, 'newFiles/copy.bxel')).code).toBe('FILE_EXISTS');
+  const exported = await exportIntoProject(rig, NAME, 'exports/hero.png');
+  expect(exported.data).toMatchObject({ ok: true, files: [{ fileName: 'hero.png' }] });
+  expect((await stat(join(rig.projectDir, 'exports', 'hero.png'))).size).toBeGreaterThan(0);
+};
+
+const assistantRefused = async (rig: ProjectRig): Promise<void> => {
+  const documentId = await heroDocument(rig, NAME);
+  await grant(rig, 'Read only');
+  expect((await saveIntoProject(rig, NAME, 'newFiles/refused.bxel')).code).toBe('PROJECT_NOT_GRANTED');
+  expect((await exportIntoProject(rig, NAME, 'exports/refused.png')).code).toBe('PROJECT_NOT_GRANTED');
+  await grant(rig, 'Off');
+  expect((await saveIntoProject(rig, NAME, 'newFiles/refused.bxel', documentId)).code).toBe('PROJECT_NOT_FOUND');
+  expect(await readdir(join(rig.projectDir, 'newFiles'))).toEqual(['copy.bxel']);
+  expect(await readdir(join(rig.projectDir, 'exports'))).toEqual(['hero.png']);
+};
+
+const paneled = async ({ session, projectDir }: ProjectRig): Promise<void> => {
+  await addProjectFileInUi(session, 'scrap');
+  await renameProjectEntryInUi(session, 'scrap.bxel', 'junk.bxel');
+  expect(await readdir(projectDir)).toContain('junk.bxel');
+  expect(await readdir(projectDir)).not.toContain('scrap.bxel');
+  await trashProjectEntryInUi(session, 'junk.bxel');
+  expect(await readdir(projectDir)).not.toContain('junk.bxel');
+  await createProjectFolderInUi(session, 'props');
+  expect((await stat(join(projectDir, 'props'))).isDirectory()).toBe(true);
+};
+
+const watched = async ({ session, projectDir }: ProjectRig): Promise<void> => {
+  await writeFile(join(projectDir, 'outside.png'), new Uint8Array([1, 2, 3]));
+  await listed(session, 'outside.png').waitFor({ timeout: POLL_MS });
+};
+
+const linked = async (rig: ProjectRig): Promise<void> => {
+  const shared = await mkdtemp(join(dirname(rig.projectDir), 'bxel-e2e-linked-'));
+  try {
+    await grant(rig, 'Read and edit');
+    await linkFolderInUi(rig.session, NAME, shared);
+    expect((await manifestOnDisk(rig)).folders[1]?.path).toMatch(/^\.\.\/bxel-e2e-linked-/);
+    expect((await places(rig)).projects[0]?.folders).toHaveLength(2);
+    await unlinkFolderInUi(rig.session, NAME);
+    expect((await manifestOnDisk(rig)).folders).toHaveLength(1);
+  } finally {
+    await rm(shared, { recursive: true, force: true });
+  }
 };
 
 describe('projects: create, add a file, grant the assistant, browse over MCP', () => {
@@ -114,4 +179,9 @@ describe('projects: create, add a file, grant the assistant, browse over MCP', (
   test('opens a project file, closes it and opens it again', () => opened(rig()));
   test('hides the project again when the grant is turned off', () => offAgain(rig()));
   test('keeps the grant when the project is closed and opened again', () => reopened(rig()));
+  test('saves and exports into a project granted Read and edit', () => assistantWrites(rig()));
+  test('refuses the same writes when the project is read only or off', () => assistantRefused(rig()));
+  test('renames, trashes and makes folders from the Project panel', () => paneled(rig()));
+  test('shows a file added on disk without a refresh', () => watched(rig()));
+  test('links and unlinks a folder in the project settings', () => linked(rig()));
 });

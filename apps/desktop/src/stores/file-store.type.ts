@@ -7,6 +7,7 @@ interface FileState {
   recovered: Readonly<Record<string, true>>;
   busy: FileBusy | null;
   remember: (documentId: DocumentId, path: string) => void;
+  retarget: (from: string, to: string | null) => void;
   markRecovered: (documentId: DocumentId) => void;
   clearRecovered: (documentId: DocumentId) => void;
   setBusy: (busy: FileBusy | null) => void;
