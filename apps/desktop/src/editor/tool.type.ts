@@ -8,6 +8,7 @@ type ToolGroup = 'draw' | 'select' | 'view';
 interface ToolDef {
   id: ToolId;
   label: string;
+  description: string;
   key: string;
   group: ToolGroup;
 }

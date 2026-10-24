@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind constants */
+import { COMMAND_ID } from '../../keymap/keymap.constants';
 import { platformGroups } from '../../platform-preset/platform-groups';
+import type { HintSpec } from '../ActionHint';
 import type { SwatchRole } from './PalettePanel.type';
 
 const PALETTE_PANEL_TEXT = {
@@ -14,8 +16,19 @@ const PALETTE_PANEL_TEXT = {
   name: (label: string, role: SwatchRole): string => (role === null ? label : `${label}, ${role}`),
 } as const;
 
+const swatchHint = (label: string): HintSpec => ({
+  name: label,
+  description: 'Choose this colour for drawing.',
+  shortcuts: [
+    { label: 'Front colour', mouse: 'left' },
+    { label: 'Back colour', mouse: 'right' },
+    { label: 'Back colour', keys: ['shift'], mouse: 'left' },
+    { label: 'Swap colours', command: COMMAND_ID.swapColours },
+  ],
+});
+
 const PALETTE_COLUMNS = 4;
 
 const PLATFORM_GROUPS = platformGroups();
 
-export { PALETTE_COLUMNS, PALETTE_PANEL_TEXT, PLATFORM_GROUPS };
+export { PALETTE_COLUMNS, PALETTE_PANEL_TEXT, PLATFORM_GROUPS, swatchHint };

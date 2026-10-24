@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind types */
 import type { LayerId } from '@bxel/document';
 import type { IconName, ReorderDrag } from '@drizztdourden08/tessera';
+import type { HintSpec } from '../ActionHint';
 
 interface LayerAction {
   id: string;
-  label: string;
-  shortcut: string | null;
+  hint: HintSpec;
   icon: IconName;
   run: () => void;
 }
@@ -30,7 +30,7 @@ interface LayerToggle {
   id: LayerToggleId;
   iconOn: IconName;
   iconOff: IconName;
-  label: string;
+  hint: HintSpec;
 }
 
 interface LayerItem {

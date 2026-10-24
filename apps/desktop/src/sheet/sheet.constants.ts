@@ -25,7 +25,6 @@ const SHEET_TEXT = {
   modePreviewOff: 'Apply or cancel the preview first.',
   back: 'Back to sheet',
   paintAll: 'Paint all selected',
-  paintAllHint: 'Paint all selected  Alt+B',
   painting: (count: number): string => `Painting ${count} sprites`,
   spriteChip: (name: string): string => `Sprite: ${name}`,
   spritesChip: (count: number): string => `Sprites: ${count} selected`,

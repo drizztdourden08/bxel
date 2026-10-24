@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Box, Icon, IconButton } from '@drizztdourden08/tessera';
+import { ActionHint } from '../../ActionHint';
 import { LAYER_TOGGLES } from '../LayersPanel.constants';
 import type { LayerTogglesProps } from '../LayersPanel.type';
 import './LayerToggles.css';
@@ -9,18 +10,19 @@ const LayerToggles = ({ name, state, onToggle }: LayerTogglesProps) => (
     {LAYER_TOGGLES.map((toggle) => {
       const on = state[toggle.id];
       return (
-        <IconButton
-          key={toggle.id}
-          variant="ghost"
-          size="sm"
-          label={toggle.label}
-          aria-pressed={on}
-          className="layer-list__toggle"
-          data-on={on ? 'yes' : 'no'}
-          onClick={() => onToggle(toggle.id, !on)}
-        >
-          <Icon name={on ? toggle.iconOn : toggle.iconOff} size={16} />
-        </IconButton>
+        <ActionHint key={toggle.id} hint={toggle.hint}>
+          <IconButton
+            variant="ghost"
+            size="sm"
+            label={toggle.hint.name}
+            aria-pressed={on}
+            className="layer-list__toggle"
+            data-on={on ? 'yes' : 'no'}
+            onClick={() => onToggle(toggle.id, !on)}
+          >
+            <Icon name={on ? toggle.iconOn : toggle.iconOff} size={16} />
+          </IconButton>
+        </ActionHint>
       );
     })}
   </Box>

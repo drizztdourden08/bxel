@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind types */
+import type { HintSpec } from '../ActionHint';
+
 interface TransformAction {
   id: string;
-  label: string;
-  shortcut: string | null;
+  hint: HintSpec;
   run: () => void;
 }
 

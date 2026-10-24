@@ -9,15 +9,15 @@ const fileMenu = (recent: MenuItem): MenuEntry[] => [
     label: FILE_TEXT.group,
     icon: 'file',
     children: [
+      { key: 'file-new', label: 'New...', command: DIALOG_COMMAND.newFile },
       { key: 'file-open', label: 'Open...', command: FILE_COMMAND.open },
       recent,
       { key: 'file-save', label: 'Save', command: FILE_COMMAND.save },
       { key: 'file-save-as', label: 'Save as...', command: FILE_COMMAND.saveAs },
+      { key: 'file-export', label: 'Export...', command: FILE_COMMAND.export },
       'separator',
-      { key: 'file-new', label: 'New...', command: DIALOG_COMMAND.newFile },
       { key: 'file-new-sprite', label: 'New sprite...', command: DIALOG_COMMAND.newSprite },
       { key: 'file-import', label: 'Import image...', command: DIALOG_COMMAND.importImage },
-      { key: 'file-export', label: 'Export...', command: FILE_COMMAND.export },
     ],
   },
 ];

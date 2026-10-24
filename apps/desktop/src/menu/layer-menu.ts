@@ -15,9 +15,10 @@ const layerMenu = (state: EditorMenuState): MenuItem => {
     children: [
       menuItem(COMMAND_ID.layerAdd, LAYER_LABEL.add, off),
       menuItem(COMMAND_ID.layerDuplicate, LAYER_LABEL.duplicate, off),
+      menuItem(COMMAND_ID.layerDelete, LAYER_LABEL.remove, off),
+      'separator',
       menuItem(COMMAND_ID.layerMerge, LAYER_LABEL.merge, off),
       menuItem(COMMAND_ID.layerFlatten, LAYER_LABEL.flatten, off),
-      menuItem(COMMAND_ID.layerDelete, LAYER_LABEL.remove, off),
       'separator',
       menuItem(COMMAND_ID.layerAbove, 'Select layer above', off),
       menuItem(COMMAND_ID.layerBelow, 'Select layer below', off),

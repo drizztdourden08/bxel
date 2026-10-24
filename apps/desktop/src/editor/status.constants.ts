@@ -7,9 +7,13 @@ const STATUS_TEXT = {
   saved: 'Saved',
   unsaved: 'Unsaved changes',
   recovered: 'Recovered, not saved',
+  help: 'Help',
+  helpValue: 'Canvas controls',
   cursor: (at: Point): string => `x ${at.x}, y ${at.y}`,
   zoom: (zoom: number): string => `${Math.round(zoom * 100)}%`,
   colour: (index: number, name: string): string => `${index} ${name}`,
 } as const;
 
-export { STATUS_TEXT };
+const HELP_PRIORITY = 3;
+
+export { HELP_PRIORITY, STATUS_TEXT };

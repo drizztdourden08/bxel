@@ -4,6 +4,7 @@ import type { MenuGroup } from '@drizztdourden08/tessera';
 import type { Artwork, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
 import type { ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
+import type { HintSpec } from '../ActionHint';
 
 interface ManagerModel {
   artwork: Artwork;
@@ -106,8 +107,7 @@ interface SpriteBadgesProps {
 }
 
 interface ToolbarButtonProps {
-  label: string;
-  keys?: string;
+  hint: HintSpec;
   disabled?: boolean;
   onClick: () => void;
   icon: ReactNode;
