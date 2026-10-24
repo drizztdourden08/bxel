@@ -84,6 +84,12 @@ const sections: Section[] = [
         hint: 'The export window keeps your presets.',
         actions: [{ id: 'export', label: 'Export...', icon: 'upload', onSelect: () => runInEditor(FILE_COMMAND.export) }],
       },
+      {
+        key: 'sprite.exportPresets',
+        label: 'Saved presets',
+        description: 'The sprite export settings you saved. Run opens the Export window with a preset in place.',
+        hint: 'Save a preset in the Export window. These are the same presets the sheets and the window use.',
+      },
     ],
   },
 ];

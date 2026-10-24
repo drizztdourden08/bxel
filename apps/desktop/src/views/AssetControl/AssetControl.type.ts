@@ -50,4 +50,23 @@ interface SetLoaderModel {
   load: (mode: LoadMode) => void;
 }
 
-export type { AssetControlProps, BankControlModel, LimitControlModel, PlatformControlModel, ReportControlModel, SetLoaderModel, SnapRowModel };
+interface PresetRowModel {
+  name: string;
+  detail: string;
+}
+
+interface PresetRowProps {
+  row: PresetRowModel;
+  onRename: (from: string, to: string) => string | null;
+  onRemove: (name: string) => void;
+  onRun: (name: string) => void;
+}
+
+interface PresetListModel {
+  rows: readonly PresetRowModel[];
+  rename: (from: string, to: string) => string | null;
+  remove: (name: string) => void;
+  run: (name: string) => void;
+}
+
+export type { AssetControlProps, BankControlModel, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowModel, PresetRowProps, ReportControlModel, SetLoaderModel, SnapRowModel };
