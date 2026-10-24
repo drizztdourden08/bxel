@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import { access, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Artwork, DocumentId } from '@bxel/document';
 import { encodeArtwork } from '@bxel/document/native';
@@ -9,7 +9,7 @@ import { answerDialogs } from './support/answer-dialogs';
 import { buildSampleArtwork } from './support/build-sample-artwork';
 import { canvasMapper } from './support/canvas-mapper';
 import { drawStroke } from './support/draw-stroke';
-import { APP_DIR, PROJECT_PARENT, TEMP_PREFIX } from './support/e2e.constants';
+import { inFreshPlace } from './support/in-place';
 import type { Session } from './support/e2e.type';
 import { openFile } from './support/open-file';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
@@ -24,21 +24,6 @@ import { waitUnsaved } from './support/wait-unsaved';
 import { writeSampleProject } from './support/write-sample-project';
 
 const SAVE_ALL = 'Control+Alt+s';
-
-const placeFor = async (): Promise<string> => {
-  const parent = join(APP_DIR, PROJECT_PARENT);
-  await mkdir(parent, { recursive: true });
-  return mkdtemp(join(parent, TEMP_PREFIX));
-};
-
-const inPlace = async (run: (place: string) => Promise<void>): Promise<void> => {
-  const place = await placeFor();
-  try {
-    await run(place);
-  } finally {
-    await rm(place, { recursive: true, force: true });
-  }
-};
 
 const byId = (left: { id: string }, right: { id: string }): number => left.id.localeCompare(right.id);
 
@@ -119,7 +104,7 @@ const migratesProject = async (session: Session, place: string): Promise<void> =
 describe('check 9: one workspace per project, one file per asset', () => {
   const rig = useRig(async () => ({ session: await openSession() }));
   test('opens every asset of a project, paints a sprite used by two sheets and Save all writes only its file', () =>
-    inPlace((place) => paintsAndSavesAll(rig().session, place)));
-  test('splits an older file with several assets into a project that reopens identical', () => inPlace((place) => splitsOlderFile(rig().session, place)));
-  test('updates an older project file to the new format when it opens', () => inPlace((place) => migratesProject(rig().session, place)));
+    inFreshPlace((place) => paintsAndSavesAll(rig().session, place)));
+  test('splits an older file with several assets into a project that reopens identical', () => inFreshPlace((place) => splitsOlderFile(rig().session, place)));
+  test('updates an older project file to the new format when it opens', () => inFreshPlace((place) => migratesProject(rig().session, place)));
 });

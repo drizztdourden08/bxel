@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind test */
 import type { Artwork, DocumentId } from '@bxel/document';
+import { decodeProject } from '@bxel/project';
+import type { ProjectDocument } from '@bxel/project';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
@@ -30,6 +32,20 @@ const writeOlderFile = (artwork: Artwork): string => {
   const path = `${PARENT}/old.bxel`;
   held.disk.files.set(path, legacyBytes(artwork));
   return path;
+};
+
+const savedProject = (bytes: string | Uint8Array | undefined): ProjectDocument => {
+  const decoded = bytes instanceof Uint8Array ? decodeProject(bytes) : null;
+  if (!decoded?.ok) throw new Error('the project file did not read');
+  return decoded.value.manifest;
+};
+
+const splitBeside = async (path: string): Promise<void> => {
+  await openPath(held.kit, path);
+  const legacy = workspaces()[0];
+  if (!legacy) throw new Error('no workspace');
+  held.disk.picks.folder = PARENT;
+  expect(await runSplit(legacy.documentId, 'beside')).toEqual({ kind: 'done' });
 };
 
 const singleSprite = (artwork: Artwork): Artwork => ({ ...artwork, sprites: artwork.sprites.slice(0, 1), sheets: [] });
@@ -64,11 +80,7 @@ describe('an older .bxel file', () => {
     const artwork = sampleArtwork();
     const path = writeOlderFile(artwork);
     const before = held.disk.files.get(path);
-    await openPath(held.kit, path);
-    const legacy = workspaces()[0];
-    if (!legacy) throw new Error('no workspace');
-    held.disk.picks.folder = PARENT;
-    expect(await runSplit(legacy.documentId, 'beside')).toEqual({ kind: 'done' });
+    await splitBeside(path);
     expect(held.disk.files.has(`${PARENT}/Untitled/Untitled.bxproject`)).toBe(true);
     expect(held.disk.files.get(path)).toBe(before);
     const [project] = workspaces();
@@ -79,6 +91,26 @@ describe('an older .bxel file', () => {
     expect([...reopened.sheets].sort(byId)).toEqual([...artwork.sheets].sort(byId));
     expect(reopened.banks).toEqual(artwork.banks);
     expect(project?.dirty.size).toBe(0);
+  });
+});
+
+describe('splitting an older file keeps its project settings', () => {
+  it('writes the cover, the default palette and the platform to the project file and loads them again', async () => {
+    const base = sampleArtwork();
+    const hero = base.sprites[0];
+    if (!hero) throw new Error('no sprite');
+    const artwork = { ...base, coverSpriteId: hero.id, platformId: 'gb-dmg', platformStrict: true };
+    const path = writeOlderFile(artwork);
+    await splitBeside(path);
+    const manifest = savedProject(held.disk.files.get(`${PARENT}/Untitled/Untitled.bxproject`));
+    expect(manifest.cover?.path.startsWith('sprites/')).toBe(true);
+    expect(manifest.defaults.palette).toMatchObject({ kind: 'file' });
+    expect(manifest.defaults).toMatchObject({ platformId: 'gb-dmg', platformStrict: true });
+    const [project] = workspaces();
+    const reopened = artworkOf(project?.documentId ?? ('' as DocumentId));
+    expect(reopened.coverSpriteId).toBe(hero.id);
+    expect(reopened.defaultBankId).toBe(artwork.defaultBankId);
+    expect([reopened.platformId, reopened.platformStrict]).toEqual(['gb-dmg', true]);
   });
 });
 

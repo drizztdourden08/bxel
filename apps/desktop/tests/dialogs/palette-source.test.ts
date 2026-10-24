@@ -9,6 +9,7 @@ import type { PaletteSource } from '../../src/palette-source/palette-source.type
 import { pickPaletteFile } from '../../src/palette-source/pick-palette-file';
 import { readPaletteFile } from '../../src/palette-source/read-palette-file';
 import { quietDocuments } from '../project/quiet-documents';
+import { documentPicker } from '../files/document-picker';
 
 const SAMPLE: PaletteFile = {
   name: 'Warm',
@@ -25,7 +26,7 @@ const bytesOf = (text: string): Uint8Array => new TextEncoder().encode(text);
 const portWith = (path: string | null, files: Record<string, Uint8Array>): DocumentsPort => {
   const missing = (): Promise<never> => Promise.reject(new Error('unused'));
   return {
-    open: () => Promise.resolve(path),
+    open: documentPicker(() => path),
     saveAs: missing,
     openFolder: () => Promise.resolve(null),
     list: () => Promise.resolve({ entries: [], truncated: false }),

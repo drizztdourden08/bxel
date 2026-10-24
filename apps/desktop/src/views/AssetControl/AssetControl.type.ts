@@ -1,0 +1,53 @@
+/* @layer renderer-app @kind types */
+import type { BankOption } from '../../palette-bank/palette-bank.type';
+import type { SourceGroup } from '../../palette-source/palette-source.type';
+import type { PlatformGroup, PlatformReport } from '../../platform-preset/platform-preset.type';
+import type { SnapChange } from '../../platform-preset/snap-plan.type';
+import type { LoadMode } from '../../swatch-library/swatch-library.type';
+
+interface AssetControlProps {
+  field: string;
+}
+
+interface BankControlModel {
+  options: readonly BankOption[];
+  value: string;
+  choose: (bankId: string) => void;
+}
+
+interface LimitControlModel {
+  count: string;
+  change: () => void;
+}
+
+interface PlatformControlModel {
+  groups: PlatformGroup[];
+  value: string;
+  unknown: string | null;
+  choose: (value: string) => void;
+}
+
+interface SnapRowModel {
+  changes: readonly SnapChange[];
+  banks: number;
+  open: boolean;
+  begin: () => void;
+  cancel: () => void;
+  apply: () => void;
+}
+
+interface ReportControlModel {
+  report: PlatformReport | null;
+  caption: string;
+  toggleStrict: (on: boolean) => void;
+}
+
+interface SetLoaderModel {
+  groups: SourceGroup[];
+  value: string;
+  empty: boolean;
+  choose: (key: string) => void;
+  load: (mode: LoadMode) => void;
+}
+
+export type { AssetControlProps, BankControlModel, LimitControlModel, PlatformControlModel, ReportControlModel, SetLoaderModel, SnapRowModel };

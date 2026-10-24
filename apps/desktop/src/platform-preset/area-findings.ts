@@ -38,10 +38,10 @@ const spriteLines = (preset: PlatformPreset, sprite: Sprite, cap: number): Findi
   });
 };
 
-const artworkAreaFindings = (artwork: Artwork, preset: PlatformPreset): FindingLine[] =>
+const artworkAreaFindings = (artwork: Artwork, preset: PlatformPreset, only?: readonly Sprite[]): FindingLine[] =>
   preset.areaRules.length === 0
     ? []
-    : listSprites(artwork).flatMap((sprite) => {
+    : (only ?? listSprites(artwork)).flatMap((sprite) => {
         const bank = findBank(artwork, sprite.bankId);
         return bank ? spriteLines(preset, sprite, bank.cap) : [];
       });

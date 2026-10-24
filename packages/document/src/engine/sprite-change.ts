@@ -10,7 +10,9 @@ const metaChanged = (before: Sprite, after: Sprite): boolean =>
   before.role !== after.role ||
   before.bankId !== after.bankId ||
   before.pivot.x2 !== after.pivot.x2 ||
-  before.pivot.y2 !== after.pivot.y2;
+  before.pivot.y2 !== after.pivot.y2 ||
+  before.platformId !== after.platformId ||
+  before.platformStrict !== after.platformStrict;
 
 const structureChanged = (before: Sprite, after: Sprite): boolean =>
   structureKeys.some((key) => before[key] !== after[key]);

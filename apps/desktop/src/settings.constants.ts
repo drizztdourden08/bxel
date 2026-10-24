@@ -2,7 +2,7 @@
 import { DEFAULT_BASE_SETTINGS } from '@drizztdourden08/brock-core';
 import { ASSISTANT_DEFAULTS } from './assistant/assistant.constants';
 import { CANVAS_DEFAULTS } from './canvas-look/canvas-look.constants';
-import { NEW_MEMORY_DEFAULT } from './new-sprite/new-sprite.constants';
+import { APP_ASSET_DEFAULTS } from './asset-defaults/asset-defaults.constants';
 import { PROJECT_DEFAULTS } from './project/project.constants';
 import type { AppSettings } from './settings.type';
 
@@ -11,7 +11,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   ...CANVAS_DEFAULTS,
   ...ASSISTANT_DEFAULTS,
   ...PROJECT_DEFAULTS,
-  newSprite: NEW_MEMORY_DEFAULT,
+  assetDefaults: APP_ASSET_DEFAULTS,
 };
 
 export { DEFAULT_SETTINGS };

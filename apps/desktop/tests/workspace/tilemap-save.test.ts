@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind test */
+import { documentPicker } from '../files/document-picker';
 import { COMMAND_NAME } from '@bxel/document';
 import type { DocumentId } from '@bxel/document';
 import { decodeTilemap, decodeTileset } from '@bxel/document/native';
@@ -42,7 +43,7 @@ describe('saving a tilemap of a new file', () => {
     const tab = tabOf(documentId, { kind: 'tilemap', id: tilemapId });
     useWorkspaceStore.getState().addTab(tab);
     useWorkspaceStore.getState().setActiveTab(tab.id);
-    vi.spyOn(held.disk.port, 'saveAs').mockResolvedValue(`${DIR}/level.bxmap`);
+    vi.spyOn(held.disk.port, 'saveAs').mockImplementation(documentPicker(() => `${DIR}/level.bxmap`));
     const outcome = await saveActiveAsset(held.kit, true);
     expect(outcome).toMatchObject({ kind: 'done', path: `${DIR}/level.bxmap` });
     const tileset = decodeTileset(held.disk.files.get(`${DIR}/level.bxtiles`) as Uint8Array);

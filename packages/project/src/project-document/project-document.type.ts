@@ -16,14 +16,17 @@ type AssistantScope = {
   readonly folders?: readonly FolderId[];
 };
 
+type ProjectCover = { readonly folderId: FolderId; readonly path: string };
+
 type ProjectDocument = {
   readonly format: typeof MANIFEST_FORMAT;
   readonly formatVersion: typeof PROJECT_DOCUMENT_VERSION;
   readonly projectId: ProjectId;
   readonly name: string;
+  readonly cover?: ProjectCover;
   readonly folders: readonly DocumentFolder[];
   readonly defaults: ProjectDefaults;
   readonly assistant: AssistantScope;
 };
 
-export type { AssistantScope, FolderRole, FolderRoles, DocumentFolder, ProjectDocument };
+export type { AssistantScope, FolderRole, FolderRoles, DocumentFolder, ProjectCover, ProjectDocument };

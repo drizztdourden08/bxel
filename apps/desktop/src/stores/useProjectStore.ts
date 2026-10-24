@@ -7,10 +7,9 @@ const useProjectStore = create<ProjectState>()((set) => ({
   port: null,
   recents: [],
   dialog: false,
-  settingsDialog: false,
   held: [],
   open: (project) => set({ project }),
-  close: () => set({ project: null, settingsDialog: false }),
+  close: () => set({ project: null }),
   update: (manifest) => set((state) => (state.project ? { project: { ...state.project, manifest } } : state)),
   markGranted: (folderId) =>
     set((state) =>
@@ -26,7 +25,6 @@ const useProjectStore = create<ProjectState>()((set) => ({
   setPort: (port) => set({ port }),
   setRecents: (recents) => set({ recents }),
   showDialog: (dialog) => set({ dialog }),
-  showSettings: (settingsDialog) => set({ settingsDialog }),
   setFolders: (folders) => set((state) => (state.project ? { project: { ...state.project, folders } } : state)),
   setHeld: (held) => set({ held }),
 }));

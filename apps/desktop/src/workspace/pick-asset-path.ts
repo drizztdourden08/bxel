@@ -6,10 +6,10 @@ import { FILE_TEXT } from '../files/files.constants';
 import { assetName } from './asset-name';
 import { parentOf } from './parent-of';
 import { toSlashes } from './to-slashes';
-import { ASSET_FILE_LABEL, BXEL_ENDING, NAME_FALLBACK } from './workspace.constants';
-import type { Workspace } from './workspace.type';
+import { ASSET_FILE_LABEL, BXEL_ENDING, GRANT_LEVELS, NAME_FALLBACK } from './workspace.constants';
+import type { AssetPick, Workspace } from './workspace.type';
 
-const pickAssetPath = async (documents: DocumentsPort, workspace: Workspace, artwork: Artwork, key: AssetKey): Promise<string | null> => {
+const pickAssetPath = async (documents: DocumentsPort, workspace: Workspace, artwork: Artwork, key: AssetKey): Promise<AssetPick | null> => {
   const extension = ASSET_FORMAT[key.kind].extension;
   const stem = fileSafeStem(assetName(artwork, key) ?? NAME_FALLBACK, NAME_FALLBACK);
   const known = workspace.paths.get(key.id);
@@ -18,9 +18,10 @@ const pickAssetPath = async (documents: DocumentsPort, workspace: Workspace, art
     title: FILE_TEXT.saveTitle,
     defaultPath: dir === undefined ? `${stem}${extension}` : `${dir}/${stem}${extension}`,
     filters: [{ name: ASSET_FILE_LABEL[key.kind], extensions: [extension.slice(1)] }],
+    grantFolder: { ask: true, levels: GRANT_LEVELS },
   });
   if (picked === null) return null;
-  return `${toSlashes(picked).replace(BXEL_ENDING, '')}${extension}`;
+  return { path: `${toSlashes(picked.path).replace(BXEL_ENDING, '')}${extension}`, granted: picked.folderGranted };
 };
 
 export { pickAssetPath };

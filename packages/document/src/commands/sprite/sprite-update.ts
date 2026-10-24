@@ -9,6 +9,7 @@ import { checkName } from '../../validate/check-name';
 import { checkPivot } from '../../validate/check-pivot';
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
+import { spritePlatform } from './sprite-platform';
 
 const spriteUpdate = defineCommand({
   name: COMMAND_NAME.spriteUpdate,
@@ -27,7 +28,8 @@ const spriteUpdate = defineCommand({
     if (options.pivot) checkPivot(options.pivot, sprite);
     const pivot = options.pivot ?? sprite.pivot;
     const samePivot = pivot.x2 === sprite.pivot.x2 && pivot.y2 === sprite.pivot.y2;
-    updateSprite(draft, spriteId, (current) => ({ ...current, name, pivot: samePivot ? current.pivot : pivot }));
+    const platform = spritePlatform(sprite, options);
+    updateSprite(draft, spriteId, (current) => ({ ...current, name, pivot: samePivot ? current.pivot : pivot, ...platform }));
   },
 });
 

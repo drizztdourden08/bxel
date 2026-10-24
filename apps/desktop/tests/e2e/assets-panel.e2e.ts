@@ -1,12 +1,13 @@
 /* @layer renderer-app @kind test */
-import { access, mkdir, mkdtemp, readdir, readFile, rm } from 'node:fs/promises';
+import { access, mkdir, readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, test, vi } from 'vitest';
 import { answerDialogs } from './support/answer-dialogs';
 import { answerOpenInOrder } from './support/answer-open-in-order';
 import { buildManyAssets } from './support/build-many-assets';
 import { buildSampleArtwork } from './support/build-sample-artwork';
-import { APP_DIR, POLL_MS, PROJECT_PARENT, SHORTCUT, TEMP_PREFIX } from './support/e2e.constants';
+import { POLL_MS, SHORTCUT } from './support/e2e.constants';
+import { inFreshPlace } from './support/in-place';
 import type { Session } from './support/e2e.type';
 import { MANY } from './support/many.constants';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
@@ -17,17 +18,6 @@ import { SAMPLE } from './support/sample.constants';
 import { useRig } from './support/use-rig';
 import { waitText } from './support/wait-text';
 import { writeSampleProject } from './support/write-sample-project';
-
-const inPlace = async (run: (place: string) => Promise<void>): Promise<void> => {
-  const parent = join(APP_DIR, PROJECT_PARENT);
-  await mkdir(parent, { recursive: true });
-  const place = await mkdtemp(join(parent, TEMP_PREFIX));
-  try {
-    await run(place);
-  } finally {
-    await rm(place, { recursive: true, force: true });
-  }
-};
 
 const countsOnChips = async (session: Session): Promise<void> => {
   await chip(session, /^All 100$/).waitFor();
@@ -118,7 +108,7 @@ const packsAndUnpacks = async (session: Session, place: string): Promise<void> =
 describe('check 10: the Assets view, Pack and Unpack', () => {
   const rig = useRig(async () => ({ session: await openSession() }));
   test('lists a project of 100 assets, narrows by kind, search and used by, and acts on a row', () =>
-    inPlace(async (place) => {
+    inFreshPlace(async (place) => {
       const { session } = rig();
       const root = join(place, MANY.name);
       await writeSampleProject(root, buildManyAssets(), MANY.name);
@@ -134,5 +124,5 @@ describe('check 10: the Assets view, Pack and Unpack', () => {
 
 describe('check 10: Pack and Unpack', () => {
   const rig = useRig(async () => ({ session: await openSession() }));
-  test('packs a project into one file and unpacks it into an identical project', () => inPlace((place) => packsAndUnpacks(rig().session, place)));
+  test('packs a project into one file and unpacks it into an identical project', () => inFreshPlace((place) => packsAndUnpacks(rig().session, place)));
 });

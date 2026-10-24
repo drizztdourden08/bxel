@@ -7,7 +7,6 @@ interface ProjectState {
   port: ProjectPort | null;
   recents: readonly RecentProject[];
   dialog: boolean;
-  settingsDialog: boolean;
   held: readonly OpenProject[];
   open: (project: OpenProject) => void;
   close: () => void;
@@ -16,7 +15,6 @@ interface ProjectState {
   setPort: (port: ProjectPort | null) => void;
   setRecents: (recents: readonly RecentProject[]) => void;
   showDialog: (shown: boolean) => void;
-  showSettings: (shown: boolean) => void;
   setFolders: (folders: readonly ProjectFolderState[]) => void;
   setHeld: (held: readonly OpenProject[]) => void;
 }

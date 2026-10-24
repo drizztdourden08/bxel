@@ -11,7 +11,7 @@ import { COMMAND_GROUP } from './keymap.constants';
 const FILE_DIALOG_COMMANDS: readonly CommandDef[] = [
   {
     id: DIALOG_COMMAND.newFile,
-    label: 'New file',
+    label: 'New asset',
     icon: 'file',
     group: 'File',
     chord: 'Mod+N',

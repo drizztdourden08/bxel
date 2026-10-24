@@ -4,7 +4,8 @@ import type { Artwork, DocumentId } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { changePlatform } from '../../src/new-sprite/change-platform';
 import { createNewFile } from '../../src/new-sprite/create-new-file';
-import { formMemory } from '../../src/new-sprite/form-memory';
+import { APP_ASSET_DEFAULTS } from '../../src/asset-defaults/asset-defaults.constants';
+import { memoryOf } from '../../src/asset-defaults/memory-of';
 import { initialForm } from '../../src/new-sprite/initial-form';
 import { NEW_MEMORY_DEFAULT } from '../../src/new-sprite/new-sprite.constants';
 import type { CreationForm } from '../../src/new-sprite/new-sprite.type';
@@ -109,13 +110,13 @@ describe('the platform a file remembers', () => {
     expect(host.view(outcome.documentId)?.state.artwork.platformId).toBeUndefined();
   });
 
-  it('starts the next New dialog with the same platform', () => {
-    const memory = formMemory(chosen('gb-dmg'), NEW_MEMORY_DEFAULT);
+  it('starts the New dialog with the platform of the defaults', () => {
+    const memory = memoryOf({ ...APP_ASSET_DEFAULTS, platformId: 'gb-dmg', colorLimit: 4 });
     expect(memory.platformId).toBe('gb-dmg');
     const next = initialForm(memory, []);
     expect(next.platformId).toBe('gb-dmg');
     expect(next.limit).toBe(4);
-    expect(formMemory(blank(), memory).platformId).toBeUndefined();
+    expect(memoryOf(APP_ASSET_DEFAULTS).platformId).toBeUndefined();
   });
 
   it('is changed and cleared from the open file as one undo step each', () => {

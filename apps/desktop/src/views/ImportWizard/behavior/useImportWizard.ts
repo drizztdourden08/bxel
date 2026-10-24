@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind hook */
-import { useSettings } from '@drizztdourden08/brock-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
 import { activeRects } from '../../../image-import/active-rects';
@@ -7,23 +6,22 @@ import { colorsView } from '../../../image-import/colors-view';
 import { finishImport } from '../../../image-import/finish-import';
 import { importContext } from '../../../image-import/import-context';
 import { importErrors } from '../../../image-import/import-errors';
-import { importMemory } from '../../../image-import/import-memory';
+import { memoryOf } from '../../../asset-defaults/memory-of';
+import { useEffectiveDefaults } from '../../../asset-defaults/useEffectiveDefaults';
 import { importNames } from '../../../image-import/import-names';
 import type { ImportForm, ImportStep, ImportTarget, SliceForm, SourceImage } from '../../../image-import/image-import.type';
 import { initialImportForm } from '../../../image-import/initial-import-form';
 import { stepIssue } from '../../../image-import/step-issue';
 import { switchTarget } from '../../../image-import/switch-target';
 import { stepsOf } from '../../../image-import/steps-of';
-import { NEW_MEMORY_DEFAULT } from '../../../new-sprite/new-sprite.constants';
-import type { AppSettings } from '../../../settings.type';
 import { useImportStore } from '../../../stores/useImportStore';
 import type { ImportWizardState } from '../ImportWizard.type';
 
 const useImportWizard = (image: SourceImage): ImportWizardState => {
-  const { settings, patch } = useSettings<AppSettings>();
-  const view = useActiveDocument();
+    const view = useActiveDocument();
   const context = useMemo(() => importContext(view), [view]);
-  const memory = useMemo(() => ({ ...NEW_MEMORY_DEFAULT, ...settings.newSprite }), [settings.newSprite]);
+  const defaults = useEffectiveDefaults();
+  const memory = useMemo(() => memoryOf(defaults), [defaults]);
   const [form, setForm] = useState<ImportForm>(() => initialImportForm(image, context, memory));
   const [step, setStep] = useState<ImportStep>('source');
   const [failure, setFailure] = useState<string | null>(null);
@@ -61,9 +59,8 @@ const useImportWizard = (image: SourceImage): ImportWizardState => {
     }
     if (!colors.plan) return;
     const failed = finishImport({ form, image, plan: colors.plan, rects, names, context });
-    if (failed === null) patch({ newSprite: importMemory(form, memory) });
-    else setFailure(failed);
-  }, [steps, step, colors.plan, form, image, rects, names, context, patch, memory]);
+    if (failed !== null) setFailure(failed);
+  }, [steps, step, colors.plan, form, image, rects, names, context]);
 
   return { form, step, steps, colors, errors, rects, names, context, issue, failure, update, setSlice, setTarget, advance, back, cancel };
 };

@@ -33,4 +33,10 @@ interface PlatformGroup {
 
 type PlatformOutcome = { ok: true } | { ok: false; message: string };
 
-export type { AreaHighlight, FindingLine, PlatformGroup, PlatformOutcome, PlatformReport };
+interface EffectivePlatform {
+  platformId: string | undefined;
+  strict: boolean;
+  inherited: boolean;
+}
+
+export type { AreaHighlight, EffectivePlatform, FindingLine, PlatformGroup, PlatformOutcome, PlatformReport };

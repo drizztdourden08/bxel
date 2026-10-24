@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
+import { openProjectSettings } from '../config-entry/open-project-settings';
 import { closeProject } from '../project/close-project';
 import { openProject } from '../project/open-project';
 import { packCurrentProject } from '../project/pack-current-project';
@@ -41,7 +42,7 @@ const PROJECT_COMMANDS: readonly CommandDef[] = [
     icon: 'settings',
     group: PROJECT_GROUP,
     when: hasProject,
-    run: () => useProjectStore.getState().showSettings(true),
+    run: () => openProjectSettings(),
   },
   {
     id: PROJECT_COMMAND.pack,

@@ -22,7 +22,7 @@ const saveActiveAsset = async (kit: FileKit, asNew: boolean): Promise<FileOutcom
   if (needsPath) {
     const picked = await pickAssetPath(kit.documents, workspace, view.state.artwork, tab.key);
     if (picked === null) return CANCELLED;
-    adoptPath(kit.host, tab.documentId, tab.key, picked);
+    adoptPath(kit.host, tab.documentId, tab.key, picked.path);
   }
   return saveTab(kit, tab, needsPath);
 };

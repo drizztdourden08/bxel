@@ -130,7 +130,10 @@ type ListFilesInput = {
   readonly limit: number;
 };
 
+type PlatformOptions = { platformStrict?: unknown; platformId?: unknown };
+
 export type {
+  PlatformOptions,
   AssetInput,
   CreateInput,
   ListAssetsInput,

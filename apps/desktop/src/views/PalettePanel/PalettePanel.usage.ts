@@ -9,7 +9,7 @@ const usage = {
   ],
   avoidWhen: [
     { case: 'A single colour is chosen from a picker, not from a fixed bank.', use: 'ColorPicker' },
-    { case: 'The swatch set, the palette bank or the platform rules of the file change.', use: 'PaletteSettings' },
+    { case: 'The swatch set, the palette bank or the platform rules of the file change.', use: 'AssetControl' },
   ],
   rules: [
     'The panel reads the active document and the tool store, so it takes no props.',

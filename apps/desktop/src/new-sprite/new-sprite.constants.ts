@@ -1,13 +1,18 @@
 /* @layer renderer-app @kind constants */
+import type { Artwork } from '@bxel/document';
 import { LIMIT_DEFAULT } from '../palette-limit/palette-limit.constants';
 import { PRESET_DEFAULT } from '../palette-source/palette-source.constants';
-import type { CreationForm, CreationMemory } from './new-sprite.type';
+import type { CreationErrors, CreationForm, CreationKind, CreationMemory } from './new-sprite.type';
 
 const SIZE_PRESETS: readonly number[] = [8, 16, 32, 64];
 
 const MAX_SHEET_SPRITES = 64;
 
 const MAX_NEW_BANKS = 32;
+
+const MAX_MAP_SIDE = 1024;
+
+const NO_ERRORS: CreationErrors = { name: null, size: null, sheet: null, limit: null, palette: null, background: null, banks: null };
 
 const BANK_NAME_ROOM = 58;
 
@@ -35,6 +40,18 @@ const NEW_FORM_BASE: CreationForm = {
   source: { kind: 'preset', presetId: PRESET_DEFAULT, file: null },
   platformId: null,
   banks: 1,
+  tilesetId: '',
+  frameMs: 100,
+};
+
+const KIND_NAME: Readonly<Record<CreationKind, string>> = { sprite: 'sprite', sheet: 'sprite', palette: 'palette', tileset: 'tileset', tilemap: 'map' };
+
+const KIND_NAMES_OF: Readonly<Record<CreationKind, (artwork: Artwork) => string[]>> = {
+  sprite: (artwork) => artwork.sprites.map((sprite) => sprite.name),
+  sheet: (artwork) => artwork.sprites.map((sprite) => sprite.name),
+  palette: (artwork) => artwork.banks.map((bank) => bank.name),
+  tileset: (artwork) => artwork.tilesets.map((tileset) => tileset.name),
+  tilemap: (artwork) => artwork.tilemaps.map((tilemap) => tilemap.name),
 };
 
 const NEW_FILE_NAME = 'Untitled';
@@ -51,7 +68,21 @@ const NEW_LABEL = {
 } as const;
 
 const NEW_TEXT = {
-  title: 'New file',
+  title: 'New asset',
+  paletteKind: 'Palette',
+  tileset: 'Tileset',
+  tilemap: 'Tilemap',
+  tilesetPick: 'Tileset',
+  noTileset: 'The map needs a tileset. Create a tileset first.',
+  mapSize: (side: number): string => `A map has 1 to ${side} columns and rows.`,
+  tileSize: 'Tile size',
+  mapGrid: 'Map size',
+  createPalette: 'Create palette',
+  createTileset: 'Create tileset',
+  createTilemap: 'Create tilemap',
+  needsFile: 'Open or create a file first.',
+  createdAsset: (name: string): string => `Created ${name}.`,
+  inProject: 'The asset is written to the folder of its kind in the project.',
   titleSprite: 'New sprite',
   kind: 'Type',
   sprite: 'Sprite',
@@ -91,5 +122,5 @@ const NEW_TEXT = {
 } as const;
 
 export {
-  BANK_NAME_ROOM, MAX_NEW_BANKS, MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_REF, NEW_SHEET_NAME, NEW_SHEET_REF, NEW_TEXT, SIZE_PRESETS,
+  BANK_NAME_ROOM, KIND_NAME, KIND_NAMES_OF, MAX_MAP_SIDE, MAX_NEW_BANKS, MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_REF, NEW_SHEET_NAME, NEW_SHEET_REF, NEW_TEXT, NO_ERRORS, SIZE_PRESETS,
 };

@@ -1,43 +1,48 @@
 /* @layer renderer-app @kind hook */
-import { toast, useSettings } from '@drizztdourden08/brock-react';
+import { toast } from '@drizztdourden08/brock-react';
 import { useCallback, useMemo, useState } from 'react';
-import { formMemory } from '../../../new-sprite/form-memory';
+import { memoryOf } from '../../../asset-defaults/memory-of';
+import { useEffectiveDefaults } from '../../../asset-defaults/useEffectiveDefaults';
 import { initialForm } from '../../../new-sprite/initial-form';
+import { kindChange } from '../../../new-sprite/kind-change';
 import { newFormErrors } from '../../../new-sprite/new-form-errors';
-import { NEW_MEMORY_DEFAULT, NEW_TEXT } from '../../../new-sprite/new-sprite.constants';
-import type { CreationForm, InFileOutcome } from '../../../new-sprite/new-sprite.type';
+import { NEW_TEXT } from '../../../new-sprite/new-sprite.constants';
+import type { CreationForm, CreationKind, CreationMemory, FormNames, InFileOutcome } from '../../../new-sprite/new-sprite.type';
 import { newSummary } from '../../../new-sprite/new-summary';
 import { patchForm } from '../../../new-sprite/patch-form';
-import type { AppSettings } from '../../../settings.type';
 import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
 import type { CreateFormBase } from '../CreateDialog.type';
 
-const useNewFormBase = (taken: readonly string[]): CreateFormBase => {
-  const { settings, patch } = useSettings<AppSettings>();
-  const memory = useMemo(() => ({ ...NEW_MEMORY_DEFAULT, ...settings.newSprite }), [settings.newSprite]);
-  const [form, setForm] = useState<CreationForm>(() => initialForm(memory, taken));
+const startForm = (memory: CreationMemory, names: FormNames, wanted: CreationKind | null): CreationForm => {
+  const base = { ...initialForm(memory, names.namesFor('sprite')), tilesetId: names.firstTileset };
+  return wanted === null ? base : patchForm(base, kindChange(base, { kind: wanted }, names));
+};
+
+const useNewFormBase = (names: FormNames): CreateFormBase => {
+  const defaults = useEffectiveDefaults();
+  const memory = useMemo(() => memoryOf(defaults), [defaults]);
+  const [form, setForm] = useState<CreationForm>(() => startForm(memory, names, useCreateDialogStore.getState().kind));
   const [failure, setFailure] = useState<string | null>(null);
-  const errors = useMemo(() => newFormErrors(form, taken), [form, taken]);
+  const errors = useMemo(() => newFormErrors(form, names.namesFor(form.kind)), [form, names]);
   const summary = useMemo(() => newSummary(form), [form]);
 
-  const update = useCallback((change: Partial<CreationForm>): void => {
-    setFailure(null);
-    setForm((current) => patchForm(current, change));
-  }, []);
-
-  const settle = useCallback(
-    (outcome: InFileOutcome): boolean => {
-      if (!outcome.ok) {
-        setFailure(NEW_TEXT.failed(outcome.message));
-        return false;
-      }
-      patch({ newSprite: formMemory(form, memory) });
-      toast(NEW_TEXT.created(outcome.names), { variant: 'success' });
-      useCreateDialogStore.getState().hide();
-      return true;
+  const update = useCallback(
+    (change: Partial<CreationForm>): void => {
+      setFailure(null);
+      setForm((current) => patchForm(current, kindChange(current, change, names)));
     },
-    [form, memory, patch],
+    [names],
   );
+
+  const settle = useCallback((outcome: InFileOutcome): boolean => {
+    if (!outcome.ok) {
+      setFailure(NEW_TEXT.failed(outcome.message));
+      return false;
+    }
+    toast(NEW_TEXT.created(outcome.names), { variant: 'success' });
+    useCreateDialogStore.getState().hide();
+    return true;
+  }, []);
 
   return { form, errors, summary, failure, update, settle };
 };

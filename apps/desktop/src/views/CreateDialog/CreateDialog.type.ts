@@ -17,6 +17,7 @@ interface CreateFieldsProps {
   form: CreationForm;
   errors: CreationErrors;
   update: CreateUpdate;
+  inDocument?: boolean;
 }
 
 interface CreateFormState {
@@ -27,6 +28,7 @@ interface CreateFormState {
   valid: boolean;
   update: CreateUpdate;
   create: () => void;
+  inDocument?: boolean;
 }
 
 interface SpriteFormState extends CreateFormState {

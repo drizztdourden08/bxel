@@ -2,46 +2,30 @@
 import { Callout, DialogShell, Stack, Text } from '@drizztdourden08/tessera';
 import { NEW_TEXT } from '../../../new-sprite/new-sprite.constants';
 import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
-import { PaletteFields } from '../../PaletteFields';
+import { CREATE_LABEL } from '../CreateDialog.constants';
 import { useNewFile } from '../behavior/useNewFile';
-import { BackgroundField } from './BackgroundField';
-import { BanksField } from './BanksField';
 import { CreateActions } from './CreateActions';
 import { KindField } from './KindField';
+import { KindFields } from './KindFields';
 import { NameField } from './NameField';
-import { PlatformField } from './PlatformField';
 import { ResultLines } from './ResultLines';
-import { SheetFields } from './SheetFields';
-import { SizeFields } from './SizeFields';
 
 const CreateFileDialog = () => {
-  const { form, errors, summary, failure, valid, update, create } = useNewFile();
+  const { form, errors, summary, failure, valid, update, create, inDocument } = useNewFile();
   const hide = useCreateDialogStore((state) => state.hide);
-  const fields = { form, errors, update };
-  const label = form.kind === 'sheet' ? NEW_TEXT.createSheet : NEW_TEXT.create;
+  const fields = { form, errors, update, inDocument };
   return (
     <DialogShell
       open
       title={NEW_TEXT.title}
       onClose={hide}
-      actions={<CreateActions label={label} valid={valid} onCreate={create} />}
+      actions={<CreateActions label={CREATE_LABEL[form.kind]} valid={valid} onCreate={create} />}
       className="create-dialog"
     >
       <Stack gap="md">
         <KindField {...fields} />
         <NameField {...fields} />
-        <PlatformField {...fields} />
-        {form.kind === 'sprite' ? <SizeFields {...fields} /> : <SheetFields {...fields} />}
-        <BackgroundField {...fields} />
-        <Text variant="label">{NEW_TEXT.palette}</Text>
-        <PaletteFields
-          value={{ source: form.source, limit: form.limit, transparent: form.transparent }}
-          limitError={errors.limit}
-          paletteError={errors.palette}
-          withSource
-          onChange={update}
-        />
-        <BanksField {...fields} />
+        <KindFields {...fields} />
         <ResultLines summary={summary} />
         {failure !== null && <Callout tone="danger">{failure}</Callout>}
         <Text variant="caption" tone="muted">

@@ -3,7 +3,7 @@ import type { DocumentId } from '@bxel/document';
 import type { PaletteSource } from '../palette-source/palette-source.type';
 import type { PlatformReport } from '../platform-preset/platform-preset.type';
 
-type CreationKind = 'sprite' | 'sheet';
+type CreationKind = 'sprite' | 'sheet' | 'palette' | 'tileset' | 'tilemap';
 
 type BackgroundKind = 'transparent' | 'opaque';
 
@@ -23,6 +23,8 @@ interface CreationForm {
   source: PaletteSource;
   platformId: string | null;
   banks: number;
+  tilesetId: string;
+  frameMs: number;
 }
 
 interface CreationErrors {
@@ -51,6 +53,7 @@ interface CreationMemory {
   transparent: boolean;
   presetId: string;
   platformId?: string;
+  frameMs?: number;
 }
 
 interface BackgroundChoice {
@@ -83,8 +86,13 @@ interface SpriteCheck {
   blocked: string | null;
 }
 
+interface FormNames {
+  namesFor: (kind: CreationKind) => readonly string[];
+  firstTileset: string;
+}
+
 type CreationOutcome = { ok: true; documentId: DocumentId; names: readonly string[] } | { ok: false; message: string };
 
 type InFileOutcome = { ok: true; names: readonly string[] } | { ok: false; message: string };
 
-export type { BackgroundChoice, BackgroundKind, InFileOutcome, CreationForm, CreationErrors, CreationKind, CreationMemory, CreationOutcome, CreationSummary, SpriteCheck, SpriteDraft, SpriteSize, SpriteStepsInput };
+export type { BackgroundChoice, BackgroundKind, InFileOutcome, CreationForm, CreationErrors, CreationKind, CreationMemory, CreationOutcome, CreationSummary, FormNames, SpriteCheck, SpriteDraft, SpriteSize, SpriteStepsInput };
