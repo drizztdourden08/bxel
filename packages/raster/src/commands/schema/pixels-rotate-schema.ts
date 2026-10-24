@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
+import { allUsesSchema } from './all-uses-schema';
 import { ROTATE_ANGLE_MAX } from '../advanced-commands.constants';
 import { boundsPolicySchema } from './bounds-policy-schema';
 import { maskSchema } from './mask-schema';
@@ -12,6 +13,7 @@ const pixelsRotateSchema = z.strictObject({
   bounds: boundsPolicySchema,
   skipZero: skipZeroSchema,
   mask: maskSchema,
+  allUses: allUsesSchema,
 });
 
 export { pixelsRotateSchema };
