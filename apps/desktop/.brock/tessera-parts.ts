@@ -8,6 +8,7 @@ declare module '@drizztdourden08/tessera' {
         | 'EditorCanvas'
         | 'EditorScreen'
         | 'EditorStatus'
+        | 'LayersPanel'
         | 'PalettePanel'
         | 'PixelViewport'
         | 'RecoveryDialog'

@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind types */
+import type { LayerId } from '@bxel/document';
 import type { ToolId } from '../editor/tool.type';
 
 interface ToolSettings {
@@ -6,6 +7,7 @@ interface ToolSettings {
   foreground: number;
   background: number;
   brushSize: number;
+  layerId: LayerId | null;
 }
 
 interface ToolState extends ToolSettings {
@@ -13,6 +15,7 @@ interface ToolState extends ToolSettings {
   setForeground: (index: number) => void;
   setBackground: (index: number) => void;
   swapColors: () => void;
+  setLayer: (layerId: LayerId | null) => void;
 }
 
 export type { ToolSettings, ToolState };

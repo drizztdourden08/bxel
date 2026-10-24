@@ -9,6 +9,7 @@ const useToolStore = create<ToolState>()((set) => ({
   setForeground: (foreground) => set({ foreground }),
   setBackground: (background) => set({ background }),
   swapColors: () => set((state) => ({ foreground: state.background, background: state.foreground })),
+  setLayer: (layerId) => set({ layerId }),
 }));
 
 export { useToolStore };

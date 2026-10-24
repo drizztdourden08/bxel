@@ -2,6 +2,7 @@
 import { useRef, useState } from 'react';
 import type { PointerEvent, RefObject } from 'react';
 import type { Point } from '@bxel/raster';
+import { allowPress } from '../../../editor/allow-press';
 import { clampPoint } from '../../../editor/clamp-point';
 import { commitStroke } from '../../../editor/commit-stroke';
 import { currentTarget } from '../../../editor/current-target';
@@ -35,7 +36,7 @@ const useCanvasTools = (viewport: RefObject<PixelViewportHandle | null>): Canvas
       const target = currentTarget();
       const plan = pressPlan(useToolStore.getState().tool, event);
       const at = pixelAt(event);
-      if (!target || !plan || !insideSprite(target, at)) return;
+      if (!target || !plan || !insideSprite(target, at) || !allowPress(plan, target)) return;
       if (plan.kind !== 'stroke') {
         runInstant(plan.kind, target, at, plan.slot);
         return;
