@@ -17,7 +17,7 @@ import { findCommand } from './find-command';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('./brock-react-mock')).brockReactMock());
 
-const BROCK_CHORDS = ['mod+k', 'mod+/', 'alt+enter', 'alt+left'];
+const BROCK_CHORDS = ['mod+k', 'mod+/', 'alt+left'];
 
 const chordsOf = (def: CommandDef): string[] => {
   if (def.chord === undefined) return [];

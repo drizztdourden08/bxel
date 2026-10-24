@@ -16,6 +16,8 @@ import type { OptionKind } from './OptionsToolbar.type';
 const OPTIONS_TEXT = {
   region: 'Tool options',
   size: 'Brush size',
+  smaller: 'Smaller',
+  larger: 'Larger',
   brushShape: 'Brush shape',
   fillMode: 'Fill area',
   neighbours: 'Fill neighbours',
@@ -76,8 +78,8 @@ const BRUSH_SIZE_HINT: HintSpec = {
   name: 'Brush size',
   description: 'How many pixels wide the brush is.',
   shortcuts: [
-    { command: COMMAND_ID.brushSmaller, label: 'Smaller' },
-    { command: COMMAND_ID.brushLarger, label: 'Larger' },
+    { command: COMMAND_ID.brushSmaller, label: OPTIONS_TEXT.smaller },
+    { command: COMMAND_ID.brushLarger, label: OPTIONS_TEXT.larger },
   ],
 };
 

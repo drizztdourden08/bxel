@@ -44,19 +44,15 @@ const KIND_LABEL: Readonly<Record<RowKind, string>> = {
 const DEFAULT_QUERY: AssetQuery = { chip: 'all', sort: 'name', search: '', usedBySprite: null };
 
 const KIND_ICON: Readonly<Record<RowKind, IconName>> = {
-  sprite: 'pixel-pencil',
-  sheet: 'pixel-grid-view',
+  sprite: 'pixel-sprite',
+  sheet: 'pixel-atlas',
   palette: 'pixel-palette',
   tileset: 'pixel-tileset',
-  tilemap: 'map',
+  tilemap: 'pixel-tilemap',
   image: 'image',
   other: 'file',
 };
 
-const DRIVE_PATH = /^[A-Za-z]:\//;
-
-const WINDOWS_SEPARATOR = '\\';
-
 const WATCH_DELAY_MS = 250;
 
-export { CHIP_OF_KIND, CHIP_OPTIONS, DEFAULT_QUERY, DRIVE_PATH, KIND_ICON, KIND_LABEL, KIND_ORDER, SORT_OPTIONS, WATCH_DELAY_MS, WINDOWS_SEPARATOR };
+export { CHIP_OF_KIND, CHIP_OPTIONS, DEFAULT_QUERY, KIND_ICON, KIND_LABEL, KIND_ORDER, SORT_OPTIONS, WATCH_DELAY_MS };

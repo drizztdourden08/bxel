@@ -24,6 +24,7 @@ interface PalettesModel {
   addFromLibrary: (key: string) => void;
   exportFile: (id: string) => void;
   open: (id: string) => void;
+  reveal: (id: string) => void;
 }
 
 interface FoldersModel {

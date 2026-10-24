@@ -8,7 +8,7 @@ const usage = {
     'A new toolbar of the editor needs the handle, the hints and the fold into More without writing them again.',
   ],
   avoidWhen: [
-    { case: 'The same items are shown with labels in a widget.', use: 'ToolbarPanel' },
+    { case: 'The same items are shown with labels in a widget.', use: 'Toolbar' },
     { case: 'The items belong to one row of one list item.', use: 'ActionBar' },
   ],
   rules: [

@@ -14,7 +14,8 @@ type QuietMethods =
   | 'watch'
   | 'rememberedFolders'
   | 'regrant'
-  | 'forgetFolder';
+  | 'forgetFolder'
+  | 'reveal';
 
 const quietDocuments: Pick<DocumentsPort, QuietMethods> = {
   clearRecent: () => Promise.resolve(),
@@ -30,6 +31,7 @@ const quietDocuments: Pick<DocumentsPort, QuietMethods> = {
   rememberedFolders: () => Promise.resolve([]),
   regrant: (path) => Promise.reject(new Error(`"${path}" is not remembered`)),
   forgetFolder: () => Promise.resolve(false),
+  reveal: () => Promise.resolve({ revealed: true }),
 };
 
 export { quietDocuments };

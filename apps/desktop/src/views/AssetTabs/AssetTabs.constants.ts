@@ -3,12 +3,12 @@ import type { AssetKind } from '@bxel/document';
 import type { IconName } from '@drizztdourden08/tessera';
 
 const ASSET_ICON: Readonly<Record<AssetKind, IconName>> = {
-  sprite: 'image',
-  sheet: 'layout-grid',
-  palette: 'palette',
-  tileset: 'puzzle',
-  tilemap: 'map',
-  project: 'folder',
+  sprite: 'pixel-sprite',
+  sheet: 'pixel-atlas',
+  palette: 'pixel-palette',
+  tileset: 'pixel-tileset',
+  tilemap: 'pixel-tilemap',
+  project: 'pixel-project',
 };
 
 const ASSET_TABS_TEXT = { label: 'Open assets' } as const;

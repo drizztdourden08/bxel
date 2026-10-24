@@ -4,6 +4,7 @@ const PALETTES_TEXT = {
   none: 'The project has no palette file yet.',
   open: 'Open',
   export: 'Export...',
+  reveal: 'Reveal in folder',
   create: 'New palette file',
   importFile: 'Import a GPL, PAL or HEX file...',
   library: 'Palette from the app library',

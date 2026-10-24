@@ -29,6 +29,7 @@ const useViewItems = (): ToolbarItem[] => {
     pressed: view.tiled !== 'off',
     onChange: (on) => view.setTiled(on ? 'both' : 'off'),
     options: tiledGroups(view.tiled, view.setTiled),
+    openOn: 'click',
   });
   return [...toggles, tiled];
 };

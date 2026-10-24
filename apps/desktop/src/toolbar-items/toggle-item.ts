@@ -5,8 +5,8 @@ import type { ToggleSpec } from './toolbar-items.type';
 
 const toggleItem = (spec: ToggleSpec): ToolbarToggle => {
   const { label, description, shortcut } = hintFace(spec.hint, spec.keys);
-  const { id, icon, caption, disabled, options, pressed, onChange } = spec;
-  return { kind: 'toggle', id, icon, caption, disabled, options, pressed, onChange, label, description, shortcut };
+  const { id, icon, caption, disabled, options, openOn, pressed, onChange } = spec;
+  return { kind: 'toggle', id, icon, caption, disabled, options, openOn, pressed, onChange, label, description, shortcut };
 };
 
 export { toggleItem };

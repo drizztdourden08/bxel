@@ -13,7 +13,7 @@ const PalettesControl = () => {
         {model.files.map((file) => (
           <ListItemRow
             key={file.id}
-            icon={<Icon name="palette" />}
+            icon={<Icon name="pixel-palette" />}
             name={file.name}
             meta={`${file.path}, ${PALETTES_TEXT.users(file.users)}`}
             actionVisibility="always"
@@ -21,6 +21,9 @@ const PalettesControl = () => {
               <Flex gap="2xs">
                 <Button size="xs" variant="tertiary" onClick={() => model.open(file.id)}>
                   {PALETTES_TEXT.open}
+                </Button>
+                <Button size="xs" variant="tertiary" onClick={() => model.reveal(file.id)}>
+                  {PALETTES_TEXT.reveal}
                 </Button>
                 <Button size="xs" variant="tertiary" disabled={model.busy} onClick={() => model.exportFile(file.id)}>
                   {PALETTES_TEXT.export}

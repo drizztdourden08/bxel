@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { IconName, MenuGroup, ShortcutKey } from '@drizztdourden08/tessera';
+import type { IconName, MenuGroup, ShortcutKey, ToolbarOpenOn } from '@drizztdourden08/tessera';
 import type { HintSpec } from '../views/ActionHint';
 
 interface HintFace {
@@ -16,6 +16,7 @@ interface ItemSpec {
   caption?: string;
   disabled?: boolean;
   options?: readonly MenuGroup[];
+  openOn?: ToolbarOpenOn;
 }
 
 interface ToggleSpec extends ItemSpec {

@@ -25,7 +25,7 @@ const useTransformItems = (): ToolbarItem[] => {
   };
   return [
     buttonItem({
-      id: 'transform', icon: 'rotate-ccw', hint: TRANSFORM_HINT, caption: TRANSFORM_CAPTION, disabled, options: transformGroups(keys, hasSelection), onSelect: () => undefined,
+      id: 'transform', icon: 'rotate-ccw', hint: TRANSFORM_HINT, caption: TRANSFORM_CAPTION, disabled, options: transformGroups(keys, hasSelection), openOn: 'click', onSelect: () => undefined,
     }),
   ];
 };
