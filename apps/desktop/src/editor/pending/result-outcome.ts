@@ -7,7 +7,7 @@ import { PENDING_TEXT } from './pending.constants';
 import type { PendingOutcome } from './pending.type';
 import { previewImage } from './preview-image';
 
-const resultOutcome = (target: EditorTarget, result: TransactionOk, landing: MaskView | null): PendingOutcome => {
+const resultOutcome = (target: EditorTarget, result: TransactionOk, landing: MaskView | null): Omit<PendingOutcome, 'others'> => {
   const frame = previewImage(target, result);
   const size = frame ?? target.sprite;
   const resized = size.width !== target.sprite.width || size.height !== target.sprite.height;

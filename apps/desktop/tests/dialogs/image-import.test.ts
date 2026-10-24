@@ -17,7 +17,7 @@ import { NEW_MEMORY_DEFAULT } from '../../src/new-sprite/new-sprite.constants';
 import { useImportStore } from '../../src/stores/useImportStore';
 import { hostWithFile, newHost, revisionOf, sourceImage, sprites } from './dialog-harness';
 
-const NONE: ImportContext = { documentId: null, bank: null, taken: [], spriteCount: 0 };
+const NONE: ImportContext = { documentId: null, bank: null, taken: [], sheetNames: [], spriteCount: 0 };
 
 const noise = (side: number): SourceImage => sourceImage(side, side, (x, y) => [x * 9 + 3, y * 11 + 5, (x + y) * 5 + 1, 255]);
 

@@ -2,11 +2,21 @@
 import { Flex, Tag } from '@drizztdourden08/tessera';
 import { layerState } from '../../../editor/layer-state';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
+import { useSpriteScene } from '../../../hooks/useSpriteScene';
+import { scopeChipModel } from '../../../sheet/scope-chip-model';
+import { useSpriteStore } from '../../../stores/useSpriteStore';
 import { CONTEXT_TEXT } from '../ContextBar.constants';
+import { ScopeMenus } from './ScopeMenus';
 
 const ScopeChips = () => {
   const target = useEditorTarget();
-  if (!target) return null;
+  const model = useSpriteScene();
+  const spritesScope = useSpriteStore((state) => state.spritesScope);
+  const layerScope = useSpriteStore((state) => state.layerScope);
+  const frameScope = useSpriteStore((state) => state.frameScope);
+  if (!target || !model) return null;
+  const chips = scopeChipModel(model.scene, target, { sprites: spritesScope, layers: layerScope, frames: frameScope });
+  if (chips.multi) return <ScopeMenus chips={chips} />;
   const { sprite, layer, frameId } = target;
   const state = layerState(layer);
   const frame = sprite.frames.findIndex((each) => each.id === frameId) + 1;

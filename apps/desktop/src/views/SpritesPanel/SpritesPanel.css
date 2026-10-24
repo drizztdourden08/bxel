@@ -1,0 +1,51 @@
+/* @layer renderer-app @kind style */
+.sprites-panel__strip {
+  align-items: flex-start;
+}
+
+.sprites-panel__tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  inline-size: var(--size-64);
+  padding: var(--space-xs);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-surface);
+  color: var(--c-text);
+  cursor: pointer;
+}
+
+.sprites-panel__tile:hover {
+  background: var(--c-hover);
+}
+
+.sprites-panel__tile[aria-pressed='true'] {
+  border-color: var(--c-primary-bright);
+  background: var(--c-selected);
+}
+
+.sprites-panel__tile--active {
+  border-width: var(--border-width-thick);
+}
+
+.sprites-panel__tile--affected {
+  outline: var(--border-width-thin) dashed var(--c-danger);
+  outline-offset: var(--size-2);
+}
+
+.sprites-panel__thumb {
+  inline-size: var(--size-40);
+  block-size: var(--size-40);
+  image-rendering: pixelated;
+  background: var(--c-sunken);
+}
+
+.sprites-panel__name {
+  inline-size: 100%;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

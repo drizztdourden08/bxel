@@ -1,10 +1,13 @@
 /* @layer renderer-app @kind logic */
 import type { CommandStep } from '@bxel/document';
-import { PALETTE_COMMAND_NAME } from '@bxel/palette';
+import { PALETTE_COMMAND_NAME, sheetImportSteps } from '@bxel/palette';
+import type { SheetImportCell } from '@bxel/palette';
 import { alphaThreshold } from './alpha-threshold';
 import { cropRgba } from './crop-rgba';
 import { BANK_REF } from './image-import.constants';
-import type { ImportRun } from './image-import.type';
+import type { BankOption, ImportRun } from './image-import.type';
+import { sheetLayoutOf } from './sheet-layout-of';
+import { sheetNameOf } from './sheet-name-of';
 
 const bankStep = (run: ImportRun): CommandStep[] => {
   const draft = run.plan.bank;
@@ -13,20 +16,34 @@ const bankStep = (run: ImportRun): CommandStep[] => {
   return [{ name: PALETTE_COMMAND_NAME.paletteCreate, targets: null, options, ref: BANK_REF }];
 };
 
-const spriteStep = (run: ImportRun, bankId: string | null, at: number): CommandStep | null => {
+const cellOf = (run: ImportRun, at: number): SheetImportCell | null => {
   const rect = run.rects[at];
   const name = run.names[at];
   if (!rect || name === undefined) return null;
   const { form, image } = run;
-  const picture = { width: rect.width, height: rect.height, rgba: cropRgba(image, rect) };
-  const bank = bankId === null ? { ref: BANK_REF } : { bankId };
+  const picture = { width: rect.width, height: rect.height, rgba: Uint8Array.from(cropRgba(image, rect)) };
   const mapping = { dither: form.dither, originX: rect.x, originY: rect.y, alphaThreshold: alphaThreshold(form.alphaPercent) };
-  return { name: PALETTE_COMMAND_NAME.spriteImport, targets: null, options: { name, image: picture, bank, mapping } };
+  return { name, image: picture, source: { x: rect.x, y: rect.y, width: rect.width, height: rect.height }, mapping };
+};
+
+const bankOption = (run: ImportRun, bankId: string | null): BankOption => {
+  const id = bankId ?? run.plan.bankId;
+  return id === null ? { ref: BANK_REF } : { bankId: id };
 };
 
 const importSteps = (run: ImportRun, bankId: string | null): CommandStep[] => {
-  const sprites = run.rects.map((_, at) => spriteStep(run, bankId ?? run.plan.bankId, at));
-  return [...bankStep(run), ...sprites.filter((step): step is CommandStep => step !== null)];
+  const cells = run.rects.flatMap((_, at) => cellOf(run, at) ?? []);
+  const bank = bankOption(run, bankId);
+  if (run.form.kind === 'sheet') {
+    const layout = sheetLayoutOf(run);
+    return [...bankStep(run), ...sheetImportSteps({ sheetName: sheetNameOf(run), ...layout, bank, cells })];
+  }
+  const sprites = cells.map((cell): CommandStep => ({
+    name: PALETTE_COMMAND_NAME.spriteImport,
+    targets: null,
+    options: { name: cell.name, image: cell.image, bank, mapping: cell.mapping },
+  }));
+  return [...bankStep(run), ...sprites];
 };
 
 export { importSteps };

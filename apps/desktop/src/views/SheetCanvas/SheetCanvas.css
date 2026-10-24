@@ -1,0 +1,11 @@
+/* @layer renderer-app @kind style */
+.sheet-canvas {
+  display: flex;
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 0;
+}
+
+.sheet-canvas__viewport {
+  flex: 1;
+}

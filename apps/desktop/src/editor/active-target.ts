@@ -1,19 +1,15 @@
 /* @layer renderer-app @kind logic */
-import { findBank } from '@bxel/document';
-import type { LayerId } from '@bxel/document';
+import type { LayerId, SpriteId } from '@bxel/document';
 import type { DocumentView } from '../documents/document-host.type';
-import { activeLayer } from './active-layer';
+import { listSprites } from '../sheet/list-sprites';
 import type { EditorTarget } from './editor.type';
+import { spriteTarget } from './sprite-target';
 
-const activeTarget = (view: DocumentView | null, layerId: LayerId | null = null): EditorTarget | null => {
+const activeTarget = (view: DocumentView | null, layerId: LayerId | null = null, spriteId: SpriteId | null = null): EditorTarget | null => {
   if (!view) return null;
-  const { documentId, revision, artwork } = view.state;
-  const sprite = artwork.sprites[0];
-  const layer = sprite ? activeLayer(sprite, layerId) : undefined;
-  const frame = sprite?.frames[0];
-  const bank = sprite ? findBank(artwork, sprite.bankId) : undefined;
-  if (!sprite || !layer || !frame || !bank) return null;
-  return { documentId, revision, sprite, bank, layer, layerId: layer.id, frameId: frame.id };
+  const sprites = listSprites(view.state.artwork);
+  const sprite = sprites.find((each) => each.id === spriteId) ?? sprites[0];
+  return sprite ? spriteTarget(view, sprite, layerId) : null;
 };
 
 export { activeTarget };
