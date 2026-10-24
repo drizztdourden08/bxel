@@ -13,7 +13,7 @@ const usage = {
   ],
   rules: [
     'The bar reads the pending edit and its preview from the pending store, so it takes no props and shows nothing when no edit waits.',
-    'It lists Targets, Layers, Frames and Clipping, then Cancel and Apply. Enter applies and Escape cancels, as commands.',
+    'It lists Targets, Layers, Frames and Clipping, then Cancel and Apply. Enter applies as a command, and Escape cancels through the escape stack.',
     'Apply is off while the preview reports an error, and the error shows in the bar.',
   ],
   a11y: [

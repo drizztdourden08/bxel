@@ -12,6 +12,7 @@ import { canvasKeyDown } from './behavior/canvas-key-down';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasTools } from './behavior/useCanvasTools';
 import { useCommittedImage } from './behavior/useCommittedImage';
+import { useEscapeCancel } from './behavior/useEscapeCancel';
 import { useMarchingAnts } from './behavior/useMarchingAnts';
 import { usePendingImage } from './behavior/usePendingImage';
 import { useSyncPending } from './behavior/useSyncPending';
@@ -32,6 +33,7 @@ const EditorCanvas = () => {
   useViewportBridge(viewport, target !== null);
   useMarchingAnts(viewport);
   useSyncPending(target);
+  useEscapeCancel();
   if (!target) return <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;
   return (
     <Box className="editor-canvas" onContextMenu={tools.onContextMenu}>

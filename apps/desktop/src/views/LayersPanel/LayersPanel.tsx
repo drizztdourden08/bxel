@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import type { LayerId } from '@bxel/document';
 import { Box, EmptyState, ReorderList, Stack, Text } from '@drizztdourden08/tessera';
+import { FOCUS_ZONE } from '../../editor/focus/focus-zone.constants';
 import { layerItems } from '../../editor/layer-items';
 import { moveLayer } from '../../editor/move-layer';
 import { renameLayer } from '../../editor/rename-layer';
@@ -26,7 +27,7 @@ const LayersPanel = () => {
       <Text variant="label">{LAYERS_PANEL_TEXT.title}</Text>
       <Text variant="caption" tone="muted">{LAYERS_PANEL_TEXT.count(sprite.layers.length)}</Text>
       <LayersToolbar />
-      <Box onKeyDown={onKeyDown}>
+      <Box onKeyDown={onKeyDown} data-focus-zone={FOCUS_ZONE.layers}>
         <ReorderList
           label={LAYERS_PANEL_TEXT.list}
           items={layerItems(sprite)}

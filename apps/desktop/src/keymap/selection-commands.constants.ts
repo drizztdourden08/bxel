@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
+import { layersFocused } from '../editor/focus/layers-focused';
 import { applyPreview } from '../editor/pending/apply-preview';
 import { cancelPreview } from '../editor/pending/cancel-preview';
 import { hasPreview } from '../editor/pending/has-preview';
@@ -31,7 +32,15 @@ const SELECTION_EDITS: readonly CommandDef[] = [
   { id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: copySelection },
   { id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: cutSelection },
   { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: pasteClip },
-  { id: ID.delete, label: 'Delete', group, chord: 'Delete', whileTyping: false, run: deleteSelection },
+  {
+    id: ID.delete,
+    label: 'Delete',
+    group,
+    chord: 'Delete',
+    whileTyping: false,
+    when: () => hasActiveDocument() && !layersFocused(),
+    run: deleteSelection,
+  },
 ];
 
 const PREVIEW_COMMANDS: readonly CommandDef[] = [
@@ -48,8 +57,6 @@ const PREVIEW_COMMANDS: readonly CommandDef[] = [
     id: ID.cancel,
     label: 'Cancel',
     group,
-    chord: 'Escape',
-    whileTyping: false,
     when: () => hasActiveDocument() && hasPreview(),
     run: cancelPreview,
   },
