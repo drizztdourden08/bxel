@@ -3,6 +3,7 @@ import { startFlip } from '../../editor/transform/start-flip';
 import { startRotate } from '../../editor/transform/start-rotate';
 import { startScale } from '../../editor/transform/start-scale';
 import { startTurn } from '../../editor/transform/start-turn';
+import { SELECTION_COMMAND_ID as ID } from '../../keymap/selection-command-id.constants';
 import type { TransformAction } from './TransformPanel.type';
 
 const TRANSFORM_PANEL_TEXT = {
@@ -16,12 +17,40 @@ const TRANSFORM_PANEL_TEXT = {
 } as const;
 
 const TRANSFORM_ACTIONS: readonly TransformAction[] = [
-  { id: 'flip-h', label: 'Flip horizontal', shortcut: 'Shift+H', run: () => startFlip('horizontal') },
-  { id: 'flip-v', label: 'Flip vertical', shortcut: 'Shift+V', run: () => startFlip('vertical') },
-  { id: 'turn-cw', label: 'Rotate 90 clockwise', shortcut: 'Shift+R', run: () => startTurn('clockwise') },
-  { id: 'turn-ccw', label: 'Rotate 90 counterclockwise', shortcut: 'Shift+Alt+R', run: () => startTurn('counter-clockwise') },
-  { id: 'rotate', label: 'Rotate...', shortcut: null, run: startRotate },
-  { id: 'scale', label: 'Scale...', shortcut: null, run: startScale },
+  {
+    id: 'flip-h',
+    run: () => startFlip('horizontal'),
+    hint: { name: 'Flip horizontal', description: 'Mirror the pixels from left to right.', shortcuts: [{ command: ID.flipHorizontal }] },
+  },
+  {
+    id: 'flip-v',
+    run: () => startFlip('vertical'),
+    hint: { name: 'Flip vertical', description: 'Mirror the pixels from top to bottom.', shortcuts: [{ command: ID.flipVertical }] },
+  },
+  {
+    id: 'turn-cw',
+    run: () => startTurn('clockwise'),
+    hint: { name: 'Rotate 90 clockwise', description: 'Turn the pixels a quarter turn to the right.', shortcuts: [{ command: ID.turnClockwise }] },
+  },
+  {
+    id: 'turn-ccw',
+    run: () => startTurn('counter-clockwise'),
+    hint: {
+      name: 'Rotate 90 counterclockwise',
+      description: 'Turn the pixels a quarter turn to the left.',
+      shortcuts: [{ command: ID.turnCounterClockwise }],
+    },
+  },
+  {
+    id: 'rotate',
+    run: startRotate,
+    hint: { name: 'Rotate...', description: 'Turn the pixels by any angle. A preview opens first.', shortcuts: [{ command: ID.rotate }] },
+  },
+  {
+    id: 'scale',
+    run: startScale,
+    hint: { name: 'Scale...', description: 'Make the pixels larger or smaller. A preview opens first.', shortcuts: [{ command: ID.scale }] },
+  },
 ];
 
 export { TRANSFORM_ACTIONS, TRANSFORM_PANEL_TEXT };

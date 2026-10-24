@@ -3,7 +3,9 @@ import { ButtonGroup, Flex, IconButton, Slider } from '@drizztdourden08/tessera'
 import { ZOOM } from '../../../sheet-manager/manager.constants';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { useManagerStore } from '../../../stores/useManagerStore';
+import { ActionHint } from '../../ActionHint';
 import { PixelIcon } from '../../PixelIcon';
+import { SPRITE_HINTS } from '../SpritesPanel.constants';
 
 const ViewControls = () => {
   const view = useManagerStore((state) => state.view);
@@ -12,12 +14,16 @@ const ViewControls = () => {
   return (
     <Flex gap="xs" align="center">
       <ButtonGroup aria-label={MANAGER_TEXT.views}>
-        <IconButton label={MANAGER_TEXT.grid} size="sm" active={view === 'grid'} onClick={() => patch({ view: 'grid' })}>
-          <PixelIcon name="gridView" />
-        </IconButton>
-        <IconButton label={MANAGER_TEXT.list} size="sm" active={view === 'list'} onClick={() => patch({ view: 'list' })}>
-          <PixelIcon name="listView" />
-        </IconButton>
+        <ActionHint hint={SPRITE_HINTS.grid}>
+          <IconButton label={MANAGER_TEXT.grid} size="sm" active={view === 'grid'} onClick={() => patch({ view: 'grid' })}>
+            <PixelIcon name="gridView" />
+          </IconButton>
+        </ActionHint>
+        <ActionHint hint={SPRITE_HINTS.list}>
+          <IconButton label={MANAGER_TEXT.list} size="sm" active={view === 'list'} onClick={() => patch({ view: 'list' })}>
+            <PixelIcon name="listView" />
+          </IconButton>
+        </ActionHint>
       </ButtonGroup>
       {view === 'grid' && (
         <Slider

@@ -2,7 +2,8 @@
 import { Box, Button, Flex, Tag, Text } from '@drizztdourden08/tessera';
 import { cancelPending } from '../../editor/pending/cancel-pending';
 import { commitPending } from '../../editor/pending/commit-pending';
-import { APPLY_BAR_TEXT } from './ApplyBar.constants';
+import { ActionHint } from '../ActionHint';
+import { APPLY_BAR_TEXT, APPLY_HINT, CANCEL_HINT } from './ApplyBar.constants';
 import { useApplyBar } from './behavior/useApplyBar';
 import './ApplyBar.css';
 
@@ -24,8 +25,12 @@ const ApplyBar = () => {
           </Flex>
           {bar.error !== null && <Text as="span" variant="caption" className="apply-bar__error">{bar.error}</Text>}
           <Flex gap="sm" align="center" className="apply-bar__actions">
-            <Button variant="tertiary" onClick={cancelPending}>{APPLY_BAR_TEXT.cancel}</Button>
-            <Button variant="primary" disabled={bar.error !== null} onClick={commitPending}>{APPLY_BAR_TEXT.apply}</Button>
+            <ActionHint hint={CANCEL_HINT} placement="top">
+              <Button variant="tertiary" onClick={cancelPending}>{APPLY_BAR_TEXT.cancel}</Button>
+            </ActionHint>
+            <ActionHint hint={APPLY_HINT} placement="top">
+              <Button variant="primary" disabled={bar.error !== null} onClick={commitPending}>{APPLY_BAR_TEXT.apply}</Button>
+            </ActionHint>
           </Flex>
         </Flex>
       </Box>

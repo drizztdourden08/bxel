@@ -16,6 +16,7 @@ const usage = {
     'The cursor reads Outside when the pointer is not over the sprite.',
     'The saved state reads Saved or Unsaved changes, in words and in tone.',
     'A document restored from a recovery copy adds Recovered, not saved until it is saved.',
+    'Hovering the bar opens a hint with the canvas controls and their keys for the current tool, or for the sheet in Sheet mode. The Help entry points to it.',
   ],
   a11y: [
     'The bar is a labelled region named Editor status.',

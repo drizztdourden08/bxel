@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { StatusBarEntry } from '@drizztdourden08/tessera';
 import type { StatusInput } from './status.type';
-import { STATUS_TEXT } from './status.constants';
+import { HELP_PRIORITY, STATUS_TEXT } from './status.constants';
 
 const statusItems = (input: StatusInput): StatusBarEntry[] => {
   const { pointer, zoom, colour, clean, recovered } = input;
@@ -23,6 +23,7 @@ const statusItems = (input: StatusInput): StatusBarEntry[] => {
       align: 'end',
     },
     ...recovery,
+    { id: 'help', label: STATUS_TEXT.help, value: STATUS_TEXT.helpValue, icon: 'circle-help', align: 'end', priority: HELP_PRIORITY },
   ];
 };
 

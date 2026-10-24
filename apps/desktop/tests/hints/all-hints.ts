@@ -1,0 +1,46 @@
+/* @layer renderer-app @kind test */
+import { TOOLS } from '../../src/editor/tools.constants';
+import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
+import { APPLY_HINT, CANCEL_HINT } from '../../src/views/ApplyBar/ApplyBar.constants';
+import {
+  BRUSH_SHAPE_HINTS, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILLED_HINT, MIRROR_HINTS, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SCOPE_HINTS,
+  SELECT_MODE_HINTS, SELECT_VARIANT_HINTS, SHAPE_HINTS, SHRINK_HINT,
+} from '../../src/views/ContextBar/ContextBar.constants';
+import { LAYER_ACTIONS, LAYER_TOGGLES } from '../../src/views/LayersPanel/LayersPanel.constants';
+import { BACK_HINT, MODE_HINTS, PAINT_ALL_HINT } from '../../src/views/ModeBar/ModeBar.constants';
+import { swatchHint } from '../../src/views/PalettePanel/PalettePanel.constants';
+import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
+import { TRANSFORM_ACTIONS } from '../../src/views/TransformPanel/TransformPanel.constants';
+import { toolHint } from '../../src/views/ToolRail/behavior/tool-hint';
+import type { HintSpec } from '../../src/views/ActionHint';
+
+const allHints = (): HintSpec[] => [
+  ...TOOLS.map(toolHint),
+  ...LAYER_ACTIONS.map((action) => action.hint),
+  ...LAYER_TOGGLES.map((toggle) => toggle.hint),
+  ...TRANSFORM_ACTIONS.map((action) => action.hint),
+  ...Object.values(SPRITE_HINTS),
+  ...Object.values(MODE_HINTS),
+  ...Object.values(BRUSH_SHAPE_HINTS),
+  ...Object.values(FILL_HINTS),
+  ...Object.values(NEIGHBOUR_HINTS),
+  ...Object.values(SHAPE_HINTS),
+  ...Object.values(SELECT_VARIANT_HINTS),
+  ...Object.values(SELECT_MODE_HINTS),
+  ...Object.values(SCOPE_HINTS),
+  ...MIRROR_HINTS,
+  BACK_HINT,
+  PAINT_ALL_HINT,
+  BRUSH_SIZE_HINT,
+  PIXEL_PERFECT_HINT,
+  FILLED_HINT,
+  EXPAND_HINT,
+  SHRINK_HINT,
+  APPLY_HINT,
+  CANCEL_HINT,
+  swatchHint('3 Blue'),
+  ...TOOLS.map((tool) => canvasHelp(tool.id, 'sprite')),
+  canvasHelp('pencil', 'sheet'),
+];
+
+export { allHints };

@@ -1,12 +1,13 @@
 /* @layer renderer-app @kind component */
-import { ColorSwatch, Tooltip } from '@drizztdourden08/tessera';
-import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
+import { ColorSwatch } from '@drizztdourden08/tessera';
+import { ActionHint } from '../../ActionHint';
+import { PALETTE_PANEL_TEXT, swatchHint } from '../PalettePanel.constants';
 import type { PaletteSwatchProps } from '../PalettePanel.type';
 
 const PaletteSwatch = (props: PaletteSwatchProps) => {
   const { slot, role, onPick } = props;
   return (
-    <Tooltip content={slot.label}>
+    <ActionHint hint={swatchHint(slot.label)} placement="top">
       <ColorSwatch
         className="palette-panel__swatch"
         color={slot.hex}
@@ -20,7 +21,7 @@ const PaletteSwatch = (props: PaletteSwatchProps) => {
           onPick(slot.index, 'background');
         }}
       />
-    </Tooltip>
+    </ActionHint>
   );
 };
 

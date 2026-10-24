@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind component */
-import { Tag, Tooltip } from '@drizztdourden08/tessera';
+import { Tag } from '@drizztdourden08/tessera';
+import { ActionHint } from '../../ActionHint';
 import { PixelIcon } from '../../PixelIcon';
-import { CONTEXT_TEXT } from '../ContextBar.constants';
+import { CONTEXT_TEXT, SCOPE_DESCRIPTION } from '../ContextBar.constants';
 import type { ScopeChipProps } from '../ContextBar.type';
 
 const ScopeChip = ({ chip }: ScopeChipProps) => {
@@ -13,9 +14,9 @@ const ScopeChip = ({ chip }: ScopeChipProps) => {
     </>
   );
   return (
-    <Tooltip content={chip.full} placement="bottom" className="scope-chip">
+    <ActionHint hint={{ name: chip.full, description: SCOPE_DESCRIPTION }} className="scope-chip">
       {chip.danger ? <Tag variant="urgency" color="danger">{body}</Tag> : <Tag>{body}</Tag>}
-    </Tooltip>
+    </ActionHint>
   );
 };
 

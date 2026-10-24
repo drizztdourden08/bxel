@@ -1,0 +1,8 @@
+/* @layer renderer-app @kind style */
+.editor-status {
+  min-inline-size: 0;
+}
+
+.editor-status__bar {
+  flex: 1;
+}

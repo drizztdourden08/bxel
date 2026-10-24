@@ -6,6 +6,8 @@ import { SHEET_TEXT } from '../../../sheet/sheet.constants';
 import { spritesGroups } from '../../../sheet/sprites-groups';
 import { usePendingStore } from '../../../stores/usePendingStore';
 import { useSpriteStore } from '../../../stores/useSpriteStore';
+import { ActionHint } from '../../ActionHint';
+import { SCOPE_HINTS } from '../ContextBar.constants';
 import type { ScopeMenusProps } from '../ContextBar.type';
 
 const ScopeMenus = ({ chips }: ScopeMenusProps) => {
@@ -13,14 +15,15 @@ const ScopeMenus = ({ chips }: ScopeMenusProps) => {
   const locked = usePendingStore((state) => state.pending !== null);
   return (
     <Flex gap="xs" align="center" role="group" aria-label={SHEET_TEXT.scopeLabel}>
-      <DropdownMenu
-        size="sm"
-        disabled={locked}
-        trigger={{ label: chips.sprites }}
-        groups={spritesGroups(scopes.spritesScope, scopes.setSpritesScope)}
-      />
-      <DropdownMenu size="sm" disabled={locked} trigger={{ label: chips.layers }} groups={layersGroups(scopes.layerScope, scopes.setLayerScope)} />
-      <DropdownMenu size="sm" disabled={locked} trigger={{ label: chips.frames }} groups={framesGroups(scopes.frameScope, scopes.setFrameScope)} />
+      <ActionHint hint={SCOPE_HINTS.sprites}>
+        <DropdownMenu size="sm" disabled={locked} trigger={{ label: chips.sprites }} groups={spritesGroups(scopes.spritesScope, scopes.setSpritesScope)} />
+      </ActionHint>
+      <ActionHint hint={SCOPE_HINTS.layers}>
+        <DropdownMenu size="sm" disabled={locked} trigger={{ label: chips.layers }} groups={layersGroups(scopes.layerScope, scopes.setLayerScope)} />
+      </ActionHint>
+      <ActionHint hint={SCOPE_HINTS.frames}>
+        <DropdownMenu size="sm" disabled={locked} trigger={{ label: chips.frames }} groups={framesGroups(scopes.frameScope, scopes.setFrameScope)} />
+      </ActionHint>
     </Flex>
   );
 };

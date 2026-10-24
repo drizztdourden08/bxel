@@ -2,10 +2,10 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Shows the tools of the editor as vertical groups of pixel art icon buttons, with the active tool lit and a flyout for the shape kinds.',
+  job: 'Shows the tools of the editor as vertical groups of pixel art icon buttons, with the active tool lit and a hover menu for the tools that have options.',
   useWhen: [
     'The editor needs one place to pick the tool, such as the pencil, the eraser, the fill, the picker, the shapes, the zoom or the hand.',
-    'Each tool has a single key and the rail must show it next to the tool name.',
+    'Each tool has a single key and the rail must teach it in a hint, never on the button.',
   ],
   avoidWhen: [
     { case: 'Tools sit in labelled groups on a top bar.', use: 'ToolGroups' },
@@ -13,12 +13,12 @@ const usage = {
   ],
   rules: [
     'The rail reads and writes the tool in the tool store, so it takes no props.',
-    'Each button is named with the tool and its key, such as Pencil and B, and the same text is its tooltip.',
+    'Each button is named with the tool, such as Pencil. A tool without options shows a hint with its name, a one line description and its key, read from the keymap so a rebind shows up.',
     'The active tool is the pressed button; pressing another tool replaces it. Pressing the key of the active tool again cycles its variants, such as line, rectangle and ellipse.',
-    'The chevron under the tools opens the shape flyout: the shape kind and the filled choice.',
+    'Shapes and Select open a menu to the right on hover: the tool itself with its key, then its options, each with a description.',
   ],
   a11y: [
-    'The rail is a labelled group of labelled groups of buttons, each with an accessible name that holds the tool and its key.',
+    'The rail is a labelled group of labelled groups of buttons, each with an accessible name that holds the tool.',
     'The buttons are reached with Tab and pressed with Enter or Space; the tool keys work from anywhere in the editor.',
   ],
   tree: {

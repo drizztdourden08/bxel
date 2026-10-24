@@ -6,7 +6,11 @@ import { useActiveDocument } from '../../hooks/useActiveDocument';
 import { usePaletteSlots } from '../../hooks/usePaletteSlots';
 import { useReadoutStore } from '../../stores/useReadoutStore';
 import { useFileStore } from '../../stores/useFileStore';
+import { useSpriteStore } from '../../stores/useSpriteStore';
 import { useToolStore } from '../../stores/useToolStore';
+import { ActionHint } from '../ActionHint';
+import { canvasHelp } from './behavior/canvas-help';
+import './EditorStatus.css';
 
 const EditorStatus = () => {
   const view = useActiveDocument();
@@ -14,10 +18,16 @@ const EditorStatus = () => {
   const pointer = useReadoutStore((state) => state.pointer);
   const zoom = useReadoutStore((state) => state.zoom);
   const foreground = useToolStore((state) => state.foreground);
+  const tool = useToolStore((state) => state.tool);
+  const mode = useSpriteStore((state) => state.mode);
   const recovered = useFileStore((state) => (view ? view.state.documentId in state.recovered : false));
   const colour = slots[foreground] ?? null;
   const clean = view?.clean ?? true;
-  return <StatusBar label={STATUS_TEXT.region} items={statusItems({ pointer, zoom, colour, clean, recovered })} />;
+  return (
+    <ActionHint hint={canvasHelp(tool, mode)} placement="top" className="editor-status">
+      <StatusBar className="editor-status__bar" label={STATUS_TEXT.region} items={statusItems({ pointer, zoom, colour, clean, recovered })} />
+    </ActionHint>
+  );
 };
 
 export { EditorStatus };

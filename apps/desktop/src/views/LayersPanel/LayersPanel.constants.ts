@@ -4,6 +4,7 @@ import { deleteLayer } from '../../editor/delete-layer';
 import { duplicateLayer } from '../../editor/duplicate-layer';
 import { flattenLayers } from '../../editor/flatten-layers';
 import { mergeLayerDown } from '../../editor/merge-layer-down';
+import { COMMAND_ID } from '../../keymap/keymap.constants';
 import type { LayerAction, LayerToggle } from './LayersPanel.type';
 
 const LAYERS_PANEL_TEXT = {
@@ -28,16 +29,59 @@ const LAYER_MOVE_KEYS = 'Alt+ArrowUp Alt+ArrowDown';
 const LAYER_FOCUS_KEYS: Readonly<Record<string, 'first' | 'last'>> = { Home: 'first', End: 'last' };
 
 const LAYER_TOGGLES: readonly LayerToggle[] = [
-  { id: 'visible', label: 'Visible', iconOn: 'eye', iconOff: 'eye-off' },
-  { id: 'locked', label: 'Locked', iconOn: 'lock', iconOff: 'lock-open' },
+  {
+    id: 'visible',
+    iconOn: 'eye',
+    iconOff: 'eye-off',
+    hint: { name: 'Visible', description: 'Show or hide this layer. A hidden layer cannot be drawn on.' },
+  },
+  {
+    id: 'locked',
+    iconOn: 'lock',
+    iconOff: 'lock-open',
+    hint: { name: 'Locked', description: 'Lock this layer so nothing can be drawn on it by mistake.' },
+  },
 ];
 
 const LAYER_ACTIONS: readonly LayerAction[] = [
-  { id: 'add', label: 'New layer', shortcut: 'Shift+N', icon: 'plus', run: addLayer },
-  { id: 'duplicate', label: 'Duplicate layer', shortcut: null, icon: 'copy', run: duplicateLayer },
-  { id: 'merge', label: 'Merge down', shortcut: 'Ctrl+E', icon: 'arrow-down', run: mergeLayerDown },
-  { id: 'flatten', label: 'Flatten copy', shortcut: null, icon: 'layers', run: flattenLayers },
-  { id: 'delete', label: 'Delete layer', shortcut: 'Delete', icon: 'trash-2', run: deleteLayer },
+  {
+    id: 'add',
+    icon: 'plus',
+    run: addLayer,
+    hint: { name: 'New layer', description: 'Add an empty layer above the current one.', shortcuts: [{ command: COMMAND_ID.layerAdd }] },
+  },
+  {
+    id: 'duplicate',
+    icon: 'copy',
+    run: duplicateLayer,
+    hint: { name: 'Duplicate layer', description: 'Make a copy of the current layer.', shortcuts: [{ command: COMMAND_ID.layerDuplicate }] },
+  },
+  {
+    id: 'merge',
+    icon: 'arrow-down',
+    run: mergeLayerDown,
+    hint: { name: 'Merge down', description: 'Join the current layer into the layer below it.', shortcuts: [{ command: COMMAND_ID.layerMerge }] },
+  },
+  {
+    id: 'flatten',
+    icon: 'layers',
+    run: flattenLayers,
+    hint: {
+      name: 'Flatten copy',
+      description: 'Add one layer that joins all visible layers. The originals stay.',
+      shortcuts: [{ command: COMMAND_ID.layerFlatten }],
+    },
+  },
+  {
+    id: 'delete',
+    icon: 'trash-2',
+    run: deleteLayer,
+    hint: {
+      name: 'Delete layer',
+      description: 'Remove the current layer. A sprite keeps at least one layer.',
+      shortcuts: [{ command: COMMAND_ID.layerDelete }, { keys: ['delete'], label: 'In the list' }],
+    },
+  },
 ];
 
 export { LAYER_ACTIONS, LAYER_FOCUS_KEYS, LAYER_LIST_TEXT, LAYER_MOVE_KEYS, LAYER_TOGGLES, LAYERS_PANEL_TEXT };

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { beginPending } from '../../src/editor/pending/begin-pending';
 import { cancelPending } from '../../src/editor/pending/cancel-pending';
@@ -12,6 +12,8 @@ import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { usePendingStore } from '../../src/stores/usePendingStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { ApplyBar } from '../../src/views/ApplyBar';
+
+vi.mock('@drizztdourden08/brock-react', async () => (await import('../hints/brock-chords')).brockChords());
 
 const markup = (): string => renderToStaticMarkup(createElement(ApplyBar));
 

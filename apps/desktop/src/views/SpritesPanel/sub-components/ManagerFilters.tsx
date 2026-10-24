@@ -1,10 +1,12 @@
 /* @layer renderer-app @kind component */
-import { DropdownMenu, Flex, Icon, IconButton, SearchInput, Stack, Text, Tooltip } from '@drizztdourden08/tessera';
+import { DropdownMenu, Flex, Icon, IconButton, SearchInput, Stack, Text } from '@drizztdourden08/tessera';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { selectIds } from '../../../sheet-manager/select-ids';
 import { useManagerStore } from '../../../stores/useManagerStore';
+import { ActionHint } from '../../ActionHint';
 import { filterGroups } from '../behavior/filter-groups';
 import { sortGroups } from '../behavior/sort-groups';
+import { SPRITE_HINTS } from '../SpritesPanel.constants';
 import type { ManagerModelProps } from '../SpritesPanel.type';
 import { ViewControls } from './ViewControls';
 
@@ -22,11 +24,11 @@ const ManagerFilters = ({ model }: ManagerModelProps) => {
           onChange={(query) => store.patch({ query })}
           onEnter={() => selectIds(model.order)}
         />
-        <Tooltip content={MANAGER_TEXT.selectMatches} placement="bottom">
+        <ActionHint hint={SPRITE_HINTS.selectMatches}>
           <IconButton label={MANAGER_TEXT.selectMatches} size="sm" disabled={model.order.length === 0} onClick={() => selectIds(model.order)}>
             <Icon name="check" size={16} />
           </IconButton>
-        </Tooltip>
+        </ActionHint>
       </Flex>
       <Flex gap="xs" align="center" wrap>
         <ViewControls />
