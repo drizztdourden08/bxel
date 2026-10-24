@@ -43,6 +43,8 @@ type Sprite = {
   readonly width: number;
   readonly height: number;
   readonly pivot: Pivot2;
+  readonly platformId?: string;
+  readonly platformStrict?: boolean;
   readonly layers: readonly Layer[];
   readonly frames: readonly Frame[];
   readonly tags: readonly Tag[];
