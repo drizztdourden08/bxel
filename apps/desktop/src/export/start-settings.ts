@@ -7,7 +7,7 @@ const startSettings = (last: ExportSettings | undefined, folder: string, project
   const own = { pathTemplate: project?.pathTemplate ?? '', ...(project?.scale === undefined ? {} : { scale: project.scale }) };
   const saved = { ...DEFAULT_EXPORT_SETTINGS, ...last, approved: false, ...own };
   const sprites = saved.sprites === 'sheet' ? 'all' : saved.sprites;
-  return { ...saved, sprites, sheetId: '', folder: saved.folder === '' ? folder : saved.folder };
+  return { ...saved, sprites, sheetId: '', maxWidth: 0, folder: saved.folder === '' ? folder : saved.folder };
 };
 
 export { startSettings };

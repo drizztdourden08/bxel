@@ -9,7 +9,11 @@ type PackItem = {
   readonly height: number;
 };
 
-type PackedItem = Box & { readonly key: string };
+type PackedItem = Box & { readonly key: string; readonly rotated: boolean };
+
+type RotateMode = 'none' | 'fit' | 'landscape';
+
+type Oriented = { readonly width: number; readonly height: number; readonly rotated: boolean };
 
 type GridLayout = {
   readonly kind: 'grid';
@@ -34,12 +38,14 @@ type PackSettings = {
   readonly margin: number;
   readonly extrude: number;
   readonly powerOfTwo?: boolean;
+  readonly rotate?: boolean;
 };
 
 type PackOptions = {
   readonly margin: number;
   readonly extrude: number;
   readonly powerOfTwo: boolean;
+  readonly rotate: boolean;
 };
 
 type PackedPage = {
@@ -84,6 +90,7 @@ type TrimmedImage = {
 
 export type {
   GridLayout,
+  Oriented,
   PackedItem,
   PackedLayout,
   PackedPage,
@@ -93,6 +100,7 @@ export type {
   PackPagesResult,
   PackResult,
   PackSettings,
+  RotateMode,
   Shelf,
   ShelfSlot,
   SheetLayoutSpec,

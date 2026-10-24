@@ -75,7 +75,7 @@ const sections: Section[] = [
         key: 'sheet.exportPresets',
         label: 'Saved presets',
         description: 'The sheet export settings you saved. Run opens the Export window with a preset in place.',
-        hint: 'Save a preset in the Export window.',
+        hint: 'Save a preset in the Export window. It goes into this sheet file. Presets saved in the app are listed last.',
       },
     ],
   },

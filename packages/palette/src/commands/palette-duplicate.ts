@@ -13,7 +13,7 @@ const paletteDuplicate = defineCommand({
   run: (draft, input) => {
     const { options } = input;
     const bank = requireBank(draft.artwork, options.bankId as BankId);
-    const copy = copyBank(draft.ids, bank, bankCopyName(draft, bank, options.name));
+    const copy = copyBank(draft.ids, bank, bankCopyName(draft, bank, options.name), draft.stamp);
     updateArtwork(draft, (artwork) => ({ ...artwork, banks: [...artwork.banks, copy] }));
     registerRef(draft, input.ref, copy.id);
   },

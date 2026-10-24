@@ -49,6 +49,7 @@ type ExportSheetResult = ExportedSheet | FormatFailure;
 type SheetCell = {
   readonly key: string;
   readonly spriteIndex: number;
+  readonly frameIndex: number;
   readonly durationMs: number;
   readonly trimmed: TrimmedImage;
 };

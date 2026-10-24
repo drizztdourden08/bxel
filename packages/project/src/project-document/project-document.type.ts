@@ -1,4 +1,5 @@
 /* @layer core @kind types */
+import type { ExportPreset } from '@bxel/document';
 import type { ProjectDefaults } from '../defaults/asset-defaults.type';
 import type { FolderId, ProjectId } from '../ids/id.type';
 import type { MANIFEST_FORMAT } from '../manifest/manifest.constants';
@@ -18,7 +19,7 @@ type AssistantScope = {
 
 type ProjectCover = { readonly folderId: FolderId; readonly path: string };
 
-type ProjectExport = { readonly scale?: number; readonly pathTemplate?: string };
+type ProjectExport = { readonly scale?: number; readonly pathTemplate?: string; readonly presets?: readonly ExportPreset[] };
 
 type ProjectDocument = {
   readonly format: typeof MANIFEST_FORMAT;

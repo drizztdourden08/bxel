@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, Frame, PaletteBank, Sprite, SpriteId, Tag, Tilemap, Tileset } from '@bxel/document';
-import type { SheetFlavour } from '@bxel/formats';
+import type { ExportSheetInput, SheetFlavour } from '@bxel/formats';
 import type { CurrentPick } from '../editor/current-pick.type';
 
 type ExportKind = 'sprite' | 'frames' | 'animation' | 'sheet' | 'map';
@@ -33,8 +33,11 @@ type ExportSettings = {
   readonly columns: number;
   readonly padding: number;
   readonly extrusion: number;
+  readonly margin: number;
+  readonly maxWidth: number;
   readonly trim: boolean;
   readonly powerOfTwo: boolean;
+  readonly rotate: boolean;
   readonly pageSide: number;
   readonly sheetId: string;
   readonly flavour: SheetFlavour;
@@ -53,6 +56,8 @@ type SavedPreset = {
   readonly name: string;
   readonly settings: ExportSettings;
 };
+
+type SheetInput = Omit<ExportSheetInput, 'imageName'>;
 
 type FrozenArtwork = {
   readonly revision: number;
@@ -203,6 +208,7 @@ export type {
   PlanParts,
   PlannedFile,
   SavedPreset,
+  SheetInput,
   SpriteChoice,
   Target,
   TargetsResult,

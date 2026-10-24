@@ -91,7 +91,8 @@ describe('the atlas pieces', () => {
     const controls = renderToString(createElement(AtlasControls, { sheet }));
     expect(controls).toContain('Layout');
     expect(controls).toContain('Spacing');
-    const atlas = atlasModel({ sheet, sprites: model.artwork.sprites, extrude: 0, ...PLAIN_ATLAS });
+    expect(controls).toContain('Allow rotation');
+    const atlas = atlasModel({ sheet, artwork: model.artwork, extrude: 0, ...PLAIN_ATLAS });
     const canvas = renderToString(createElement(AtlasCanvas, { model, atlas }));
     expect(canvas).toContain('sprites-panel__atlas-canvas');
   });

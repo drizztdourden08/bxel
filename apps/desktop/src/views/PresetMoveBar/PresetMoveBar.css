@@ -1,0 +1,10 @@
+/* @layer renderer-app @kind style */
+.preset-move-bar {
+  padding: var(--space-xs) var(--space-sm);
+  border-block-end: var(--border-width-thin) solid var(--c-primary);
+  background: var(--c-sunken);
+}
+
+.preset-move-bar__actions {
+  margin-inline-start: auto;
+}

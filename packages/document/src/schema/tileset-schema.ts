@@ -5,6 +5,7 @@ import type { BankId, SpriteId, TileId, TilesetId } from '../model/ids.type';
 import { MAX_SPRITE_SIZE, MIN_SPRITE_SIZE } from '../model/limits.constants';
 import { brandedIdSchema } from './branded-id-schema';
 import { collisionSchema } from './collision-schema';
+import { createdSchema } from './created-schema';
 import { terrainSchema } from './terrain-schema';
 import { nameSchema } from './name-schema';
 import { MAX_TILE_KEY } from './tileset-schema.constants';
@@ -21,6 +22,7 @@ const tileSchema = z.object({
 const tilesetSchema = z.object({
   id: brandedIdSchema<TilesetId>(ID_PREFIX.tileset),
   name: nameSchema,
+  created: createdSchema.optional(),
   bankId: brandedIdSchema<BankId>(ID_PREFIX.bank),
   tileWidth: sizeSchema,
   tileHeight: sizeSchema,

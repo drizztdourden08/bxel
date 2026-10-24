@@ -9,6 +9,14 @@ const SheetPackFields = ({ settings, change }: FieldsProps) => (
     <Flex gap="md" align="center" wrap>
       <Checkbox size="sm" label={EXPORT_DIALOG_TEXT.trim} checked={settings.trim} onChange={(trim) => change({ trim })} />
       <Checkbox size="sm" label={EXPORT_DIALOG_TEXT.powerOfTwo} checked={settings.powerOfTwo} onChange={(powerOfTwo) => change({ powerOfTwo })} />
+      <Checkbox
+        size="sm"
+        label={EXPORT_DIALOG_TEXT.rotate}
+        disabled={settings.layout !== 'packed'}
+        title={EXPORT_DIALOG_TEXT.rotateHint}
+        checked={settings.rotate && settings.layout === 'packed'}
+        onChange={(rotate) => change({ rotate })}
+      />
     </Flex>
     <Field label={EXPORT_DIALOG_TEXT.pageSide} hint={EXPORT_DIALOG_TEXT.pageSideHint}>
       <NumberInput

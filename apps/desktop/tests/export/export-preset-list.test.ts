@@ -44,17 +44,12 @@ describe('the preset list on the Asset pages', () => {
   });
 
   it('runs a preset by opening the export window on its settings, without the folder or the project template', () => {
-    expect(runPreset(PRESETS, 'web sheet')).toBe(true);
+    runPreset(PRESETS[0]?.settings ?? settingsOf({}));
     const { open, request } = useExportStore.getState();
     expect(open).toBe(true);
     expect(request?.kind).toBe('sheet');
     expect(request?.settings).toMatchObject({ kind: 'sheet', scale: 2, approved: false });
     expect(request?.settings).not.toHaveProperty('folder');
     expect(request?.settings).not.toHaveProperty('pathTemplate');
-  });
-
-  it('runs nothing for a name that is not there', () => {
-    expect(runPreset(PRESETS, 'missing')).toBe(false);
-    expect(useExportStore.getState().open).toBe(false);
   });
 });

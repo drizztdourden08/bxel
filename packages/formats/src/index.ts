@@ -53,11 +53,15 @@ export type {
   ExportSheetInput,
   ExportSheetResult,
   ExportSprite,
+  SheetCell,
   SheetFlavour,
 } from './sheet/export-sheet.type';
 export { nextPowerOfTwo } from './sheet/next-power-of-two';
+export { occupiedBox } from './sheet/occupied-box';
 export { packPages } from './sheet/pack-pages';
 export { packSheet } from './sheet/pack-sheet';
+export { planAtlas } from './sheet/plan-atlas';
+export type { AtlasPlan, AtlasPlanInput, AtlasPlanResult } from './sheet/plan-atlas.type';
 export { readBxelSheetJson } from './sheet/read-bxel-sheet-json';
 export { sheetFrameKey } from './sheet/sheet-frame-key';
 export type {

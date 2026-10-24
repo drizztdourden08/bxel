@@ -16,7 +16,7 @@ import { expect } from 'vitest';
 
 type Rig = { readonly engine: Engine; readonly spriteId: SpriteId; readonly bankId: BankId };
 
-type RigOptions = { readonly transparent?: boolean; readonly cap?: number };
+type RigOptions = { readonly transparent?: boolean; readonly cap?: number; readonly clock?: () => number };
 
 const colors = [
   { rgb: '#140b26', name: 'Night' },
@@ -46,7 +46,7 @@ const succeed = (result: TransactionResult): TransactionResult => {
 };
 
 const makeRig = (rigOptions: RigOptions = {}): Rig => {
-  const { transparent = true, cap = 8 } = rigOptions;
+  const { transparent = true, cap = 8, clock } = rigOptions;
   const slotCount = colors.length + (transparent ? 1 : 0);
   const ids = counterIdSource();
   const created = artworkCreate({
@@ -60,7 +60,7 @@ const makeRig = (rigOptions: RigOptions = {}): Rig => {
   if (!created.ok) throw new Error(created.error.message);
   const sprite = created.state.artwork.sprites[0];
   if (!sprite) throw new Error('the created artwork has no sprite');
-  const engine = createEngine({ state: created.state, ids, commands: [...documentCommands, ...paletteCommands] });
+  const engine = createEngine({ state: created.state, ids, commands: [...documentCommands, ...paletteCommands], ...(clock ? { clock } : {}) });
   const rig: Rig = { engine, spriteId: sprite.id, bankId: sprite.bankId };
   succeed(
     execute(rig, [

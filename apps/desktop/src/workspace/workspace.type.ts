@@ -100,7 +100,7 @@ type AssetPick = { readonly path: string; readonly granted: boolean };
 
 type OpenTab = { readonly id: string; readonly documentId: DocumentId; readonly key: AssetKey };
 
-type NamedAsset = { readonly id: string; readonly name: string };
+type NamedAsset = { readonly id: string; readonly name: string; readonly created?: number };
 
 type Encoder = (slice: AssetSlice, preview: Uint8Array | null, clock: Clock) => Uint8Array;
 

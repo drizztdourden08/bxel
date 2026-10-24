@@ -23,6 +23,7 @@ const addTilemap = (draft: Draft, ref: string | undefined, request: TilemapReque
   const tilemap: Tilemap = {
     id: draft.ids.next('tlm') as TilemapId,
     name,
+    created: draft.stamp,
     tilesetId: tileset.id,
     columns: request.columns,
     rows: request.rows,

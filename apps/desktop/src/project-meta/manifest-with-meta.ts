@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind logic */
+import { presetsOf } from '@bxel/document';
 import type { Artwork } from '@bxel/document';
 import type { ProjectCover, ProjectDefaults, ProjectDocument } from '@bxel/project';
+import { exportWithPresets } from './export-with-presets';
 import { locateAsset } from './locate-asset';
 import type { MetaSource } from './project-meta.type';
 
@@ -38,7 +40,7 @@ const manifestWithMeta = (manifest: ProjectDocument, source: MetaSource): Projec
   ...coverOf(source, manifest),
   folders: manifest.folders,
   defaults: { ...keptDefaults(manifest.defaults), ...paletteOf(source, manifest.defaults), ...platformOf(source.artwork, manifest.defaults) },
-  ...(manifest.export === undefined ? {} : { export: manifest.export }),
+  ...exportWithPresets(manifest, presetsOf(source.artwork, { kind: 'project', id: source.artwork.id })),
   assistant: manifest.assistant,
 });
 

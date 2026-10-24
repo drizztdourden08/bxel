@@ -33,3 +33,17 @@ describe('palette.duplicate', () => {
     expect(rejectionCode(rig, () => execute(rig, [step('palette.duplicate', { bankId: 'bnk_zzzzzz' })]))).toBe('TARGET_NOT_FOUND');
   });
 });
+
+describe('the created time of a palette', () => {
+  it('is set on a duplicate and on a new palette from the clock, and stays unknown without one', () => {
+    const at = Date.UTC(2026, 9, 24, 12, 0, 0);
+    const rig = makeRig({ clock: () => at });
+    const result = roundTrip(rig, [{ ...step('palette.duplicate', { bankId: rig.bankId }), ref: 'copy' }]);
+    expect(bankOf(rig, result.created.copy as never).created).toBe(at);
+    const created = createBank(rig, ['#112233', '#445566'], true);
+    expect(rig.engine.state().artwork.banks.find((bank) => bank.id === created)?.created).toBe(at);
+    const plain = makeRig();
+    succeed(execute(plain, [step('palette.duplicate', { bankId: plain.bankId })]));
+    expect(plain.engine.state().artwork.banks.every((bank) => bank.created === undefined)).toBe(true);
+  });
+});

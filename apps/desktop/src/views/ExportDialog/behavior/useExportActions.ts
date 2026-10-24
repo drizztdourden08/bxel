@@ -2,13 +2,13 @@
 import type { SpriteId } from '@bxel/document';
 import { getPlatform, useSettings } from '@drizztdourden08/brock-react';
 import { currentPick } from '../../../editor/current-pick';
+import { browseFilters } from '../../../export/browse-filters';
 import { folderOf } from '../../../export/folder-of';
 import { joinPath } from '../../../export/join-path';
 import { safeName } from '../../../export/safe-name';
 import { startExport } from '../../../export/start-export';
 import { FOLDER_KINDS } from '../../../export/export.constants';
 import { useExportStore } from '../../../export/useExportStore';
-import { PNG_FILTERS } from '../../../files/files.constants';
 import { fileName } from '../../../files/file-name';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
 import type { AppSettings } from '../../../settings.type';
@@ -35,7 +35,7 @@ const useExportActions = ({ settings, change }: DraftModel, selectedIds: readonl
     }
     const name = safeName(settings.fileName) || firstName;
     const defaultPath = settings.folder === '' ? name : joinPath(settings.folder, name);
-    void documents?.saveAs({ title: EXPORT_DIALOG_TEXT.browseTitle, defaultPath, filters: PNG_FILTERS }).then((path) => {
+    void documents?.saveAs({ title: EXPORT_DIALOG_TEXT.browseTitle, defaultPath, filters: browseFilters(settings) }).then((path) => {
       if (path !== null) change({ folder: folderOf(path), fileName: safeName(fileName(path)) });
     });
   };

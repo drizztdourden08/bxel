@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
-import type { ExportPlan, ExportSettings, IndexedStatus, SavedPreset } from '../../export/export.type';
+import type { ExportPlan, ExportSettings, IndexedStatus } from '../../export/export.type';
+import type { PresetEntry } from '../../export/preset-entry.type';
 
 type ChangeSettings = (patch: Partial<ExportSettings>) => void;
 
@@ -29,7 +30,7 @@ interface DestinationFieldsProps extends FieldsProps {
 }
 
 interface PresetBarProps {
-  presets: readonly SavedPreset[];
+  presets: readonly PresetEntry[];
   naming: boolean;
   onApply: (name: string) => void;
   onSave: (name: string) => void;
@@ -58,7 +59,7 @@ interface DraftModel {
 }
 
 interface PresetModel {
-  presets: readonly SavedPreset[];
+  presets: readonly PresetEntry[];
   apply: (name: string) => void;
   save: (name: string) => void;
 }

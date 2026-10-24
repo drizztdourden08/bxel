@@ -21,6 +21,7 @@ const spriteSplit = defineCommand({
       const made = source.frames.map((_frame, at) =>
         buildPiece(draft.ids, source, {
           name: claimName(taken, expandNamePattern(pattern, source.name, start + at)),
+          created: draft.stamp,
           size: source,
           frames: [at],
           crop: null,

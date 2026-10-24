@@ -3,11 +3,10 @@ import { fullMask } from '@bxel/raster';
 import { selectAllSprites } from '../../sheet/select-all-sprites';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { currentTarget } from '../current-target';
-import { spritesFocused } from '../focus/sprites-focused';
 import { setSelection } from './set-selection';
 
 const selectAll = (): void => {
-  if (useSpriteStore.getState().mode === 'sheet' || spritesFocused()) {
+  if (useSpriteStore.getState().mode === 'sheet') {
     selectAllSprites();
     return;
   }

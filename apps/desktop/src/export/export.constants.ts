@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
-import type { JobStepDef } from '@drizztdourden08/brock-core';
-import type { ExportKind, ExportResult, ExportSettings, IndexedStatus, SavedPreset, SpriteChoice } from './export.type';
+import type { DocumentDialogOptions, JobStepDef } from '@drizztdourden08/brock-core';
+import type { AnimationFormat, ExportKind, ExportResult, ExportSettings, IndexedStatus, SavedPreset, SpriteChoice } from './export.type';
 
 const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   kind: 'sprite',
@@ -17,8 +17,11 @@ const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   columns: 4,
   padding: 1,
   extrusion: 0,
+  margin: 0,
+  maxWidth: 0,
   trim: false,
   powerOfTwo: false,
+  rotate: false,
   pageSide: 0,
   sheetId: '',
   flavour: 'bxel',
@@ -37,6 +40,7 @@ const EXPORT_LIMITS = {
   maxColumns: 64,
   maxPadding: 64,
   maxExtrusion: 16,
+  maxMargin: 64,
   maxColours: 256,
   minPackedWidth: 64,
 } as const;
@@ -46,6 +50,8 @@ const EXPORT_RANGES = {
   columns: { min: 1, max: EXPORT_LIMITS.maxColumns },
   padding: { min: 0, max: EXPORT_LIMITS.maxPadding },
   extrusion: { min: 0, max: EXPORT_LIMITS.maxExtrusion },
+  margin: { min: 0, max: EXPORT_LIMITS.maxMargin },
+  maxWidth: { min: 0, max: EXPORT_LIMITS.maxSide },
   pageSide: { min: 0, max: EXPORT_LIMITS.maxSide },
 } as const;
 
@@ -137,6 +143,11 @@ const NO_SPRITES: readonly SpriteId[] = [];
 
 const FOLDER_KINDS: readonly ExportKind[] = ['frames', 'sheet', 'map'];
 
+const ANIMATION_BROWSE_FILTERS: Readonly<Record<AnimationFormat, NonNullable<DocumentDialogOptions['filters']>>> = {
+  gif: [{ name: 'GIF image', extensions: ['gif'] }],
+  apng: [{ name: 'Animated PNG image', extensions: ['png'] }],
+};
+
 const NO_PRESETS: readonly SavedPreset[] = [];
 
 const EMPTY_PICK: Readonly<Record<SpriteChoice, string>> = {
@@ -149,6 +160,7 @@ const EMPTY_PICK: Readonly<Record<SpriteChoice, string>> = {
 const NO_INDEXED: IndexedStatus = { state: 'unavailable', note: '' };
 
 export {
+  ANIMATION_BROWSE_FILTERS,
   ANIMATION_INDEXED,
   DATA_URL_CHUNK,
   EMPTY_PICK,

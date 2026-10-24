@@ -1,9 +1,10 @@
 /* @layer core @kind logic */
 import type { Draft, DraftInput } from './draft.type';
 
-const createDraft = ({ base, ids }: DraftInput): Draft => ({
+const createDraft = ({ base, ids, stamp }: DraftInput): Draft => ({
   base,
   ids,
+  stamp,
   created: {},
   report: {},
   warnings: [],

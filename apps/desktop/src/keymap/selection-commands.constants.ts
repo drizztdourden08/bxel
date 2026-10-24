@@ -1,8 +1,5 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
-import { layersFocused } from '../editor/focus/layers-focused';
-import { spritesFocused } from '../editor/focus/sprites-focused';
-import { timelineFocused } from '../editor/focus/timeline-focused';
 import { cancelPreview } from '../editor/pending/cancel-preview';
 import { hasPreview } from '../editor/pending/has-preview';
 import { clearSelection } from '../editor/selection/clear-selection';
@@ -24,15 +21,17 @@ import { useTilemapStore } from '../stores/useTilemapStore';
 import { clearCells } from '../tilemap/clear-cells';
 import { turnCells } from '../tilemap/turn-cells';
 import { editorCommand } from './editor-command';
+import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { mapOr } from './map-or';
 import { pixelCommand } from './pixel-command';
 import { SELECTION_COMMAND_ID as ID } from './selection-command-id.constants';
 
 const group = COMMAND_GROUP.edit;
+const zone = COMMAND_ZONE.canvas;
 
 const SELECTION_EDITS: readonly CommandDef[] = [
-  pixelCommand({ id: ID.selectAll, label: 'Select all', group, chord: 'Mod+A', whileTyping: false, run: selectAll }),
+  pixelCommand({ id: ID.selectAll, label: 'Select all', group, chord: 'Mod+A', zone, whileTyping: false, run: selectAll }),
   {
     id: ID.clear,
     label: 'Deselect',
@@ -52,8 +51,8 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     label: 'Delete',
     group,
     chord: 'Delete',
+    zone,
     whileTyping: false,
-    when: () => hasActiveDocument() && !layersFocused() && !spritesFocused() && !timelineFocused(),
     run: mapOr(clearCells, deleteSelection),
   },
 ];

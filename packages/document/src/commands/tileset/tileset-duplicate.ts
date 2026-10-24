@@ -23,7 +23,7 @@ const tilesetDuplicate = defineCommand({
     const name = input.options.name === undefined ? freeName(taken, `${source.name}${COPY_SUFFIX}`) : checkName(input.options.name);
     assertNameFree(taken, name);
     const tiles = copyTiles(draft, source);
-    const copy: Tileset = { ...source, id: draft.ids.next('tls') as TilesetId, name, tiles };
+    const copy: Tileset = { ...source, id: draft.ids.next('tls') as TilesetId, name, created: draft.stamp, tiles };
     updateArtwork(draft, (artwork) => ({ ...artwork, tilesets: [...artwork.tilesets, copy] }));
     registerRef(draft, input.ref, copy.id);
   },

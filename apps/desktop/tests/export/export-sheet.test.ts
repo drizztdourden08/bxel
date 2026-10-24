@@ -59,6 +59,23 @@ describe('sheet export', () => {
     checkFrames(sheet, 2);
   });
 
+  it('keeps a margin around a grid and a packed sheet', () => {
+    const plain = sheetOf(threeFrames(), { layout: 'grid', columns: 2, padding: 1 });
+    const margin = sheetOf(threeFrames(), { layout: 'grid', columns: 2, padding: 1, margin: 3 });
+    expect([margin.decoded.width, margin.decoded.height]).toEqual([plain.decoded.width + 6, plain.decoded.height + 6]);
+    expect(margin.metadata.sprites[0]?.frames[0]?.box).toMatchObject({ x: 3, y: 3 });
+    const packed = sheetOf(threeFrames(), { layout: 'packed', padding: 1, margin: 5 });
+    expect(packed.metadata.sprites[0]?.frames.every((frame) => frame.box.x >= 5 && frame.box.y >= 5)).toBe(true);
+    checkFrames(margin, 1);
+  });
+
+  it('uses the largest width of a packed sheet when one is asked for', () => {
+    const wide = sheetOf(threeFrames(), { layout: 'packed', padding: 0, maxWidth: 200 });
+    const narrow = sheetOf(threeFrames(), { layout: 'packed', padding: 0, maxWidth: 64 });
+    expect(narrow.decoded.width).toBeLessThanOrEqual(64);
+    expect(wide.decoded.width).toBeGreaterThan(narrow.decoded.width);
+  });
+
   it('writes the hash flavour with the same rectangles', () => {
     const h = threeFrames();
     const plan = planExport({ frozen: frozenOf(h), settings: settingsOf({ kind: 'sheet', frames: 'all', flavour: 'hash' }), selectedIds: [] });

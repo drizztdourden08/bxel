@@ -43,7 +43,7 @@ const CEL_ACTIONS: readonly TimelineAction[] = [
 
 const ZONE_ATTRIBUTE = 'data-timeline-zone';
 
-const LANE_KINDS: ReadonlySet<string> = new Set(['park', 'addPick', 'frame', 'zone', 'tag', 'deleteTag']);
+const LANE_KINDS: ReadonlySet<string> = new Set(['park', 'addPick', 'frame', 'zone', 'tag']);
 
 const FAR_FRAME = Number.POSITIVE_INFINITY;
 

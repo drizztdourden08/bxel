@@ -16,10 +16,10 @@ import { AtlasPages } from './sub-components/AtlasPages';
 const AtlasView = ({ model }: ManagerModelProps) => {
   const settings = useManagerStore((state) => state.atlas);
   const { sheet } = model;
-  const { extrude, trim, powerOfTwo, pageSide, page } = settings;
+  const { extrude, trim, powerOfTwo, rotate, pageSide, page } = settings;
   const atlas = useMemo(
-    () => (sheet ? atlasModel({ sheet, sprites: model.artwork.sprites, extrude, trim, powerOfTwo, pageSide, page }) : null),
-    [sheet, model.artwork.sprites, extrude, trim, powerOfTwo, pageSide, page],
+    () => (sheet ? atlasModel({ sheet, artwork: model.artwork, extrude, trim, powerOfTwo, rotate, pageSide, page }) : null),
+    [sheet, model.artwork, extrude, trim, powerOfTwo, rotate, pageSide, page],
   );
   if (!sheet || !atlas || (atlas.items.length === 0 && atlas.failure === null)) {
     return (

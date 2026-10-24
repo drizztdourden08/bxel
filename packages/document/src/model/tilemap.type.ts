@@ -28,6 +28,7 @@ type Tile = {
 type Tileset = {
   readonly id: TilesetId;
   readonly name: string;
+  readonly created?: number;
   readonly bankId: BankId;
   readonly tileWidth: number;
   readonly tileHeight: number;
@@ -47,6 +48,7 @@ type MapLayer = {
 type Tilemap = {
   readonly id: TilemapId;
   readonly name: string;
+  readonly created?: number;
   readonly tilesetId: TilesetId;
   readonly columns: number;
   readonly rows: number;

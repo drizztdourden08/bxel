@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { addTag } from '../../src/timeline/add-tag';
 import { linkCels } from '../../src/timeline/link-cels';
 import { TimelinePanel } from '../../src/views/TimelinePanel';
@@ -15,6 +15,8 @@ import { TagEditor } from '../../src/views/TimelinePanel/sub-components/TagEdito
 import { TransportBar } from '../../src/views/TimelinePanel/sub-components/TransportBar';
 import { gridHtml } from './grid-html';
 import { frameAt, freshDocument, live, paintCel, pickCels, pickRange, withFrames } from './timeline-harness';
+
+vi.mock('@drizztdourden08/brock-react', async () => (await import('../keymap/brock-react-mock')).brockReactMock());
 
 Object.assign(globalThis, { React });
 

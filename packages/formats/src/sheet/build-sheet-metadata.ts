@@ -12,6 +12,7 @@ const frameEntries = (cells: readonly SheetCell[], packed: PackedSheet): SheetFr
     const list = grouped[cell.spriteIndex] ?? [];
     list.push({
       box: { x: item.x, y: item.y, width: item.width, height: item.height },
+      rotated: item.rotated,
       trimmed: trimmed.image.width !== trimmed.sourceWidth || trimmed.image.height !== trimmed.sourceHeight,
       sourceX: trimmed.offsetX,
       sourceY: trimmed.offsetY,

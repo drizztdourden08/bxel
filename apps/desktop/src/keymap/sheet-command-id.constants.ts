@@ -8,6 +8,7 @@ const SHEET_COMMAND = {
   broadcast: 'scope.set_broadcast',
   duplicateSprite: 'sprite.duplicate',
   deleteSprite: 'sprite.delete',
+  askDeleteSprite: 'sprite.ask_delete',
   moveEarlier: 'sprite.move_earlier',
   moveLater: 'sprite.move_later',
   renameSprite: 'sprite.rename',

@@ -12,6 +12,7 @@ type Ramp = { readonly id: RampId; readonly name: string; readonly swatches: rea
 type PaletteBank = {
   readonly id: BankId;
   readonly name: string;
+  readonly created?: number;
   readonly cap: number;
   readonly transparent: boolean;
   readonly slots: readonly Swatch[];

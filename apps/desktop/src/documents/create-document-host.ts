@@ -13,6 +13,7 @@ import { subscribeTo } from './subscribe-to';
 const createDocumentHost = (options: DocumentHostOptions = {}): DocumentHost => {
   const store: HostStore = {
     ids: options.ids ?? browserIdSource(),
+    clock: options.clock,
     commands: options.commands ?? APP_COMMANDS,
     limits: options.limits,
     entries: new Map(),
@@ -21,7 +22,7 @@ const createDocumentHost = (options: DocumentHostOptions = {}): DocumentHost => 
   };
   return {
     create: (createOptions) => {
-      const created = artworkCreate({ options: createOptions, ids: store.ids });
+      const created = artworkCreate({ options: createOptions, ids: store.ids, clock: store.clock });
       if (!created.ok) return { ok: false, error: created.error };
       return { ok: true, documentId: attachEngine(store, created.state) };
     },

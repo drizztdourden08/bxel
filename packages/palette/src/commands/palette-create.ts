@@ -11,7 +11,7 @@ const paletteCreate = defineCommand({
   scope: 'none',
   schema: paletteCreateSchema,
   run: (draft, input) => {
-    const bank = buildNewBank(draft.ids, input.options);
+    const bank = buildNewBank(draft.ids, input.options, draft.stamp);
     warnDuplicates(draft, bank.name, paletteColors(bank));
     updateArtwork(draft, (artwork) => ({ ...artwork, banks: [...artwork.banks, bank] }));
     registerRef(draft, input.ref, bank.id);

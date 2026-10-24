@@ -19,6 +19,7 @@ const restoreSprite = (shell: SpriteJson, bank: PaletteBank, source: EntryCheck)
   const sprite = {
     id: shell.id,
     name: shell.name,
+    ...(shell.created === undefined ? {} : { created: shell.created }),
     role: shell.role,
     bankId: shell.bankId,
     width: shell.width,

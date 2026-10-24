@@ -11,6 +11,7 @@ const FACT_COMPARE: Readonly<Record<Exclude<SortKey, 'manual'>, (a: SpriteFacts,
   frames: (a, b) => a.frames - b.frames,
   tags: (a, b) => a.tags - b.tags,
   bank: (a, b) => NAME_COLLATOR.compare(a.bank, b.bank),
+  created: (a, b) => (a.sprite.created ?? 0) - (b.sprite.created ?? 0),
 };
 
 export { FACT_COMPARE };

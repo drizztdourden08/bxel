@@ -14,6 +14,7 @@ import { SHEET_EDITOR_COMMANDS } from './sheet-commands.constants';
 import { TERRAIN_COMMANDS } from './terrain-commands.constants';
 import { TILED_COMMANDS } from './tiled-commands.constants';
 import { TILEMAP_COMMANDS } from './tilemap-commands.constants';
+import { TIMELINE_COMMANDS } from './timeline-commands.constants';
 import { TOOL_COMMANDS } from './tool-commands.constants';
 import { VIEW_COMMANDS } from './view-commands.constants';
 
@@ -28,6 +29,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TILEMAP_COMMANDS,
   ...COLLISION_COMMANDS,
   ...TERRAIN_COMMANDS,
+  ...TIMELINE_COMMANDS,
   ...HELP_COMMANDS,
 ];
 

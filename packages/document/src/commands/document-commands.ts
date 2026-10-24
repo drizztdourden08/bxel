@@ -19,6 +19,10 @@ import { layerReorder } from './layer/layer-reorder';
 import { layerUpdate } from './layer/layer-update';
 import { pixelsPatch } from './pixels/pixels-patch';
 import { artworkUpdate } from './artwork/artwork-update';
+import { presetAdd } from './preset/preset-add';
+import { presetDelete } from './preset/preset-delete';
+import { presetRename } from './preset/preset-rename';
+import { presetUpdate } from './preset/preset-update';
 import { sheetAdd } from './sheet/sheet-add';
 import { sheetArrange } from './sheet/sheet-arrange';
 import { sheetCreate } from './sheet/sheet-create';
@@ -79,6 +83,10 @@ const documentCommands: readonly CommandDef[] = [
   sheetRemove,
   sheetPlace,
   sheetArrange,
+  presetAdd,
+  presetUpdate,
+  presetRename,
+  presetDelete,
   sliceAdd,
   sliceUpdate,
   sliceDelete,

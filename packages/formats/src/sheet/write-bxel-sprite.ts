@@ -10,6 +10,7 @@ import type {
 
 const frameJson = (frame: SheetFrameEntry): JsonValue => ({
   frame: boxJson(frame.box),
+  rotated: frame.rotated,
   trimmed: frame.trimmed,
   offset: { x: frame.sourceX, y: frame.sourceY },
   durationMs: frame.durationMs,

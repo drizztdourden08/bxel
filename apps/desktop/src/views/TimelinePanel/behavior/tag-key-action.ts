@@ -6,7 +6,7 @@ const tagKeyAction = (info: TimelineKeyInfo): LaneKeyAction | null => {
   if (info.key === 'ArrowLeft') return { kind: 'tag', delta: -1 };
   if (info.key === 'ArrowRight') return { kind: 'tag', delta: 1 };
   if (info.key === 'ArrowDown') return { kind: 'zone', zone: 'head' };
-  return info.key === 'Delete' ? { kind: 'deleteTag' } : null;
+  return null;
 };
 
 export { tagKeyAction };

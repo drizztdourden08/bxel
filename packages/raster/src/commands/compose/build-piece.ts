@@ -28,6 +28,7 @@ const buildPiece = (ids: IdSource, source: Sprite, spec: PieceSpec): Sprite => {
   return {
     id: ids.next('spr') as SpriteId,
     name: spec.name,
+    created: spec.created,
     role: 'sprite',
     bankId: source.bankId,
     width: spec.size.width,

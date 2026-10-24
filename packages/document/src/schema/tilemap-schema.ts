@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { ID_PREFIX } from '../ids/id-prefix.constants';
 import type { MapLayerId, TilemapId, TilesetId } from '../model/ids.type';
 import { brandedIdSchema } from './branded-id-schema';
+import { createdSchema } from './created-schema';
 import { nameSchema } from './name-schema';
 import { orientationSchema } from './orientation-schema';
 import { MAX_MAP_SIDE } from './tilemap-schema.constants';
@@ -19,6 +20,7 @@ const mapLayerSchema = z.object({
 const tilemapShellSchema = z.object({
   id: brandedIdSchema<TilemapId>(ID_PREFIX.tilemap),
   name: nameSchema,
+  created: createdSchema.optional(),
   tilesetId: brandedIdSchema<TilesetId>(ID_PREFIX.tileset),
   columns: sideSchema,
   rows: sideSchema,
