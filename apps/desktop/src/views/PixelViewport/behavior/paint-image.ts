@@ -3,7 +3,7 @@ import type { FrameInput, PaintTools } from './viewport.type';
 import { drawableOf } from './drawable-of';
 
 const paintImage = (args: PaintTools, frame: FrameInput): void => {
-  const { ctx, placed, view, scratch } = args;
+  const { ctx, placed, view, scratch, primary } = args;
   ctx.save();
   ctx.setTransform(placed.scale, 0, 0, placed.scale, placed.x, placed.y);
   ctx.imageSmoothingEnabled = false;
@@ -12,7 +12,7 @@ const paintImage = (args: PaintTools, frame: FrameInput): void => {
   ctx.clip();
   const drawable = frame.source ? drawableOf(frame.source, scratch) : null;
   if (drawable) ctx.drawImage(drawable, 0, 0);
-  frame.draw?.(ctx, view);
+  if (primary) frame.draw?.(ctx, view);
   ctx.restore();
 };
 

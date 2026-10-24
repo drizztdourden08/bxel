@@ -24,6 +24,11 @@ type PixelSource = ImageData | ImageBitmap | HTMLCanvasElement | HTMLImageElemen
 
 type PixelWheel = 'zoom' | 'pan';
 
+interface PixelTiling {
+  x: boolean;
+  y: boolean;
+}
+
 interface PixelViewportHandle {
   screenToPixel: (clientX: number, clientY: number) => PixelPoint;
   pixelToScreen: (x: number, y: number) => PixelPoint;
@@ -49,6 +54,8 @@ interface PixelViewportProps {
   grid?: boolean;
   gridFrom?: number;
   wheel?: PixelWheel;
+  hand?: boolean;
+  tiled?: PixelTiling;
   onPointerPixel?: (pixel: PixelPoint | null) => void;
   onPointerDown?: PointerEventHandler<HTMLElement>;
   onPointerMove?: PointerEventHandler<HTMLElement>;
@@ -59,4 +66,4 @@ interface PixelViewportProps {
   ref?: Ref<PixelViewportHandle>;
 }
 
-export type { PixelDraw, PixelPoint, PixelSource, PixelView, PixelViewportHandle, PixelViewportProps, PixelWheel };
+export type { PixelDraw, PixelPoint, PixelSource, PixelTiling, PixelView, PixelViewportHandle, PixelViewportProps, PixelWheel };

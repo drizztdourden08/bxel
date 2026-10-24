@@ -10,8 +10,6 @@ const STROKE_LABELS: Readonly<Record<StrokeTool, string>> = {
 
 const FILL_LABEL = 'Fill';
 
-const BRUSH_SHAPE = 'square';
-
 const POINT_LIMIT = 4096;
 
-export { BRUSH_SHAPE, ERASE_INDEX, FILL_LABEL, POINT_LIMIT, STROKE_LABELS };
+export { ERASE_INDEX, FILL_LABEL, POINT_LIMIT, STROKE_LABELS };

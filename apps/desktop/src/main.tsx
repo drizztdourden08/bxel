@@ -13,8 +13,8 @@ import { appWidgetKits } from '../.brock/widget-kits';
 import { appReview } from '../.brock/review';
 import { appTitleBar } from '../.brock/title-bar';
 import { appTours } from '../.brock/tours';
-import { FILE_COMMANDS } from './files/file-commands.constants';
-import { useFileMenu } from './hooks/useFileMenu';
+import { APP_COMMANDS } from './keymap/app-commands.constants';
+import { useAppMenu } from './hooks/useAppMenu';
 import { SETTINGS } from './main.constants';
 import { product } from './product';
 import { closeGuard } from './recovery/close-guard';
@@ -24,7 +24,7 @@ const root = document.getElementById('root');
 if (!root) throw new Error('index.html has no #root element');
 
 const App = () => {
-  const menu = useFileMenu();
+  const menu = useAppMenu();
   return (
     <BrockApp<AppSettings>
       product={product}
@@ -38,7 +38,7 @@ const App = () => {
       review={appReview}
       titleBar={appTitleBar}
       tours={appTours}
-      commands={FILE_COMMANDS}
+      commands={APP_COMMANDS}
       menu={menu}
       onBeforeQuit={closeGuard}
     />

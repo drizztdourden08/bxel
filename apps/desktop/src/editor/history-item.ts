@@ -2,7 +2,6 @@
 import type { TitleBarButtonSpec } from '@drizztdourden08/brock-react';
 import type { HistoryDirection } from './editor.type';
 import { HISTORY_ITEMS } from './history.constants';
-import { stepHistory } from './step-history';
 
 const historyItem = (direction: HistoryDirection, available: boolean): TitleBarButtonSpec => {
   const item = HISTORY_ITEMS[direction];
@@ -10,9 +9,8 @@ const historyItem = (direction: HistoryDirection, available: boolean): TitleBarB
     kind: 'button',
     label: available ? item.ready : item.empty,
     icon: item.icon,
-    shortcut: item.shortcut,
+    command: item.command,
     disabled: !available,
-    onSelect: () => stepHistory(direction),
   };
 };
 

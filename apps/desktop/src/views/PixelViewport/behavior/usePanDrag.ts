@@ -4,12 +4,12 @@ import type { PointerEvent, RefObject } from 'react';
 import { MAIN_BUTTON, MIDDLE_BUTTON } from '../PixelViewport.constants';
 import type { PanDrag, PanDragging, ViewState } from './viewport.type';
 
-const usePanDrag = (view: ViewState, spaceHeld: RefObject<boolean>): PanDragging => {
+const usePanDrag = (view: ViewState, spaceHeld: RefObject<boolean>, hand: boolean): PanDragging => {
   const drag = useRef<PanDrag | null>(null);
   const owns = (event: PointerEvent<HTMLElement>): boolean => drag.current?.pointer === event.pointerId;
   return {
     start: (event) => {
-      const wanted = event.button === MIDDLE_BUTTON || (event.button === MAIN_BUTTON && spaceHeld.current);
+      const wanted = event.button === MIDDLE_BUTTON || (event.button === MAIN_BUTTON && (hand || spaceHeld.current));
       if (!wanted) return false;
       event.preventDefault();
       event.currentTarget.setPointerCapture(event.pointerId);

@@ -1,6 +1,19 @@
 /* @layer renderer-app @kind types */
-import type { MouseEventHandler, PointerEventHandler } from 'react';
+import type { MouseEventHandler, PointerEvent, PointerEventHandler } from 'react';
 import type { PixelDraw, PixelPoint } from '../../PixelViewport';
+
+interface PaintGesture {
+  live: ImageData | null;
+  down: (event: PointerEvent<HTMLElement>) => void;
+  move: (event: PointerEvent<HTMLElement>) => void;
+  up: () => void;
+}
+
+interface AxisDrag {
+  down: (event: PointerEvent<HTMLElement>) => boolean;
+  move: (event: PointerEvent<HTMLElement>) => boolean;
+  up: () => boolean;
+}
 
 interface CanvasTools {
   live: ImageData | null;
@@ -15,4 +28,14 @@ interface CanvasReadout {
   onPointerPixel: (pixel: PixelPoint | null) => void;
 }
 
-export type { CanvasReadout, CanvasTools };
+interface OverlayLook {
+  axis: string;
+  cursor: string;
+}
+
+interface ClientPoint {
+  clientX: number;
+  clientY: number;
+}
+
+export type { AxisDrag, CanvasReadout, CanvasTools, ClientPoint, OverlayLook, PaintGesture };

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useMemo, useRef } from 'react';
-import { PIXEL_GRID_FROM, PIXEL_ZOOM_STEPS } from '../PixelViewport.constants';
+import { NO_TILING, PIXEL_GRID_FROM, PIXEL_ZOOM_STEPS } from '../PixelViewport.constants';
 import type { PixelViewportProps } from '../PixelViewport.type';
 import type { ViewportModel } from './viewport.type';
 import { fitZoom } from './fit-zoom';
@@ -14,7 +14,7 @@ import { useZoomAnnounce } from './useZoomAnnounce';
 import { zoomLevels } from './zoom-levels';
 
 const usePixelViewport = (props: PixelViewportProps): ViewportModel => {
-  const { width, height, zoomSteps = PIXEL_ZOOM_STEPS, grid = true, gridFrom = PIXEL_GRID_FROM, wheel = 'zoom' } = props;
+  const { width, height, zoomSteps = PIXEL_ZOOM_STEPS, grid = true, gridFrom = PIXEL_GRID_FROM, wheel = 'zoom', tiled = NO_TILING } = props;
   const rootRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const box = useBoxSize(rootRef);
@@ -23,7 +23,8 @@ const usePixelViewport = (props: PixelViewportProps): ViewportModel => {
   const levels = useMemo(() => zoomLevels(zoomSteps, fit), [zoomSteps, fit]);
   const view = useViewState({ image, box, levels, zoom: props.zoom, pan: props.pan, onZoomChange: props.onZoomChange, onPanChange: props.onPanChange });
   const parts = { rootRef, canvasRef, view, box, image };
-  const redraw = useFrame(rootRef, canvasRef, { target: view.target, box, image, draw: props.draw, source: props.source, gridFrom: grid ? gridFrom : null });
+  const frame = { target: view.target, box, image, draw: props.draw, source: props.source, gridFrom: grid ? gridFrom : null, tiled };
+  const redraw = useFrame(rootRef, canvasRef, frame);
   useWheel(rootRef, view, box, wheel);
   useViewportHandle(props.ref, parts, redraw);
   return {

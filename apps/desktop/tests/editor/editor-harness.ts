@@ -5,7 +5,9 @@ import { createDefaultProject } from '../../src/documents/create-default-project
 import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
 import { activeTarget } from '../../src/editor/active-target';
-import type { EditorTarget } from '../../src/editor/editor.type';
+import type { BrushOptions, EditorTarget } from '../../src/editor/editor.type';
+
+const plainOptions: BrushOptions = { brush: { shape: 'square', size: 1 }, pixelPerfect: false, symmetry: {} };
 
 interface OpenEditor {
   host: DocumentHost;
@@ -25,5 +27,5 @@ const openEditor = (): OpenEditor => {
   return { host, documentId, target, pixels: () => flattenFrame(target().sprite, target().frameId) };
 };
 
-export { openEditor };
+export { openEditor, plainOptions };
 export type { OpenEditor };

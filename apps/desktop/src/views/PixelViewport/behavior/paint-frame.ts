@@ -6,6 +6,7 @@ import { paintGrid } from './paint-grid';
 import { paintImage } from './paint-image';
 import { placeImage } from './place-image';
 import { readLook } from './read-look';
+import { tilePlacements } from './tile-placements';
 import { viewOf } from './view-of';
 
 const fitBackingStore = (canvas: HTMLCanvasElement, frame: FrameInput): void => {
@@ -29,13 +30,15 @@ const paintFrame = (canvas: HTMLCanvasElement, root: HTMLElement, frame: FrameIn
     cache.tile = checkerTile(canvas.ownerDocument, look, view.dpr);
     cache.tileKey = tileKey;
   }
-  paintChecker(ctx, placed, cache.tile);
   const scratch = () => {
     cache.scratch ??= canvas.ownerDocument.createElement('canvas');
     return cache.scratch;
   };
-  paintImage({ ctx, placed, view, scratch }, frame);
-  if (frame.gridFrom !== null && view.zoom >= frame.gridFrom) paintGrid(ctx, placed, frame.image, look.grid);
+  tilePlacements(placed, frame.tiled, canvas).forEach((tile, at) => {
+    if (cache.tile) paintChecker(ctx, tile, cache.tile);
+    paintImage({ ctx, placed: tile, view, scratch, primary: at === 0 }, frame);
+    if (frame.gridFrom !== null && view.zoom >= frame.gridFrom) paintGrid(ctx, tile, frame.image, look.grid);
+  });
 };
 
 export { paintFrame };

@@ -1,17 +1,18 @@
 /* @layer renderer-app @kind component */
 import { Box, Canvas, Text } from '@drizztdourden08/tessera';
 import { PIXEL_VIEWPORT_STRINGS } from './PixelViewport.constants';
+import { pixelViewportClass } from './behavior/pixel-viewport-class';
 import { usePixelViewport } from './behavior/usePixelViewport';
 import type { PixelViewportProps } from './PixelViewport.type';
 import './PixelViewport.css';
 
 const PixelViewport = (props: PixelViewportProps) => {
-  const { label, className } = props;
+  const { label, className, hand } = props;
   const viewport = usePixelViewport(props);
   return (
     <Box
       ref={viewport.rootRef}
-      className={className ? `pixel-viewport ${className}` : 'pixel-viewport'}
+      className={pixelViewportClass(className, hand === true)}
       tabIndex={0}
       role="application"
       aria-label={label}

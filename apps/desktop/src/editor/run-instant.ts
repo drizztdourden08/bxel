@@ -20,8 +20,9 @@ const runInstant = (kind: 'pick' | 'fill', target: EditorTarget, at: Point, slot
     pickColour(target, at, slot);
     return;
   }
-  const index = useToolStore.getState()[slot];
-  useDocumentStore.getState().host.execute(fillRequest(target, at, index));
+  const tools = useToolStore.getState();
+  const choice = { index: tools[slot], mode: tools.fillMode, connectivity: tools.connectivity };
+  useDocumentStore.getState().host.execute(fillRequest(target, at, choice));
 };
 
 export { runInstant };

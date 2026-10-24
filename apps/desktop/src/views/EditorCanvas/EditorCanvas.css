@@ -9,3 +9,7 @@
 .editor-canvas__viewport {
   flex: 1;
 }
+
+.pixel-viewport.editor-canvas__viewport--zoom {
+  cursor: zoom-in;
+}

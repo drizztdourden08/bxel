@@ -1,30 +1,27 @@
 /* @layer renderer-app @kind test */
-import type { Brush } from '@bxel/raster';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { createDefaultProject } from '../../src/documents/create-default-project';
 import { activeLayer } from '../../src/editor/active-layer';
 import { addLayer } from '../../src/editor/add-layer';
 import { allowPress } from '../../src/editor/allow-press';
 import { beginStroke } from '../../src/editor/begin-stroke';
-import { commitStroke } from '../../src/editor/commit-stroke';
+import { commitSession } from '../../src/editor/commit-session';
 import { currentTarget } from '../../src/editor/current-target';
 import { deleteLayer } from '../../src/editor/delete-layer';
-import type { EditorTarget, KeyLike } from '../../src/editor/editor.type';
-import { keyAction } from '../../src/editor/key-action';
+import type { EditorTarget } from '../../src/editor/editor.type';
 import { layerBlock } from '../../src/editor/layer-block';
 import { layerItems } from '../../src/editor/layer-items';
 import { mergeLayerDown } from '../../src/editor/merge-layer-down';
 import { moveLayer } from '../../src/editor/move-layer';
 import { renameLayer } from '../../src/editor/rename-layer';
-import { runAction } from '../../src/editor/run-action';
+import { stepHistory } from '../../src/editor/step-history';
 import { stepLayer } from '../../src/editor/step-layer';
 import { updateLayerFlag } from '../../src/editor/update-layer-flag';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
 import { useToolStore } from '../../src/stores/useToolStore';
-
-const brush: Brush = { shape: 'square', size: 1 };
+import { plainOptions } from './editor-harness';
 
 const live = (): EditorTarget => {
   const target = currentTarget();
@@ -34,15 +31,7 @@ const live = (): EditorTarget => {
 
 const layerNames = (): string[] => live().sprite.layers.map((layer) => layer.name);
 
-const press = (name: string, ...held: string[]): KeyLike => ({
-  key: name,
-  ctrlKey: held.includes('ctrl'),
-  metaKey: false,
-  shiftKey: held.includes('shift'),
-  altKey: false,
-});
-
-const drawAt = (x: number) => commitStroke(beginStroke({ target: live(), tool: 'pencil', index: 3, brush, at: { x, y: 0 } }));
+const drawAt = (x: number) => commitSession(beginStroke({ target: live(), tool: 'pencil', index: 3, options: plainOptions, at: { x, y: 0 } }));
 
 const cellOf = (layerName: string) => {
   const { sprite, frameId } = live();
@@ -62,7 +51,7 @@ describe('the active layer', () => {
     expect(activeLayer(sprite, null)?.name).toBe('Layer 1');
     addLayer();
     expect(live().layer.name).toBe('Layer 2');
-    runAction({ kind: 'undo' });
+    stepHistory('undo');
     expect(useToolStore.getState().layerId).not.toBeNull();
     expect(live().layer.name).toBe('Layer 1');
   });
@@ -93,7 +82,7 @@ describe('the active layer', () => {
 
   it('refuses a press on a blocked layer with a notice, but lets the picker through', () => {
     updateLayerFlag(live().layerId, 'visible', false);
-    expect(allowPress({ kind: 'stroke', tool: 'pencil', slot: 'foreground' }, live())).toBe(false);
+    expect(allowPress({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live())).toBe(false);
     expect(useNoticeStore.getState().notice?.text).toBe('Layer Layer 1 is hidden. Show it to draw on it.');
     expect(allowPress({ kind: 'pick', slot: 'foreground' }, live())).toBe(true);
   });
@@ -153,15 +142,5 @@ describe('layer actions', () => {
     expect(live().layer.name).toBe('Layer 1');
     stepLayer(1);
     expect(live().layer.name).toBe('Layer 2');
-  });
-
-  it('maps the layer keys', () => {
-    expect(keyAction(press('N', 'shift'))).toEqual({ kind: 'layer', op: 'add' });
-    expect(keyAction(press('e', 'ctrl'))).toEqual({ kind: 'layer', op: 'merge' });
-    expect(keyAction(press('ArrowUp', 'ctrl'))).toEqual({ kind: 'layer', op: 'up' });
-    expect(keyAction(press('ArrowDown', 'ctrl'))).toEqual({ kind: 'layer', op: 'down' });
-    expect(keyAction(press('n'))).toBeNull();
-    runAction({ kind: 'layer', op: 'add' });
-    expect(layerNames()).toEqual(['Layer 1', 'Layer 2']);
   });
 });

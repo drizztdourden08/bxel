@@ -1,15 +1,26 @@
 /* @layer renderer-app @kind hook */
-import { useCallback } from 'react';
-import type { PixelDraw, PixelPoint } from '../../PixelViewport';
+import { useCallback, useEffect } from 'react';
+import type { RefObject } from 'react';
+import type { PixelDraw, PixelPoint, PixelViewportHandle } from '../../PixelViewport';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
+import { useToolStore } from '../../../stores/useToolStore';
 import type { CanvasReadout } from './canvas-tools.type';
+import { paintOverlay } from './paint-overlay';
 
-const useCanvasReadout = (): CanvasReadout => {
-  const draw = useCallback<PixelDraw>((_ctx, view) => {
+const useCanvasReadout = (viewport: RefObject<PixelViewportHandle | null>): CanvasReadout => {
+  const draw = useCallback<PixelDraw>((ctx, view) => {
     const readout = useReadoutStore.getState();
     if (readout.zoom !== view.zoom) readout.setZoom(view.zoom);
+    paintOverlay(ctx, view);
   }, []);
-  const onPointerPixel = useCallback((pixel: PixelPoint | null) => useReadoutStore.getState().setPointer(pixel), []);
+  const onPointerPixel = useCallback(
+    (pixel: PixelPoint | null) => {
+      useReadoutStore.getState().setPointer(pixel);
+      viewport.current?.redraw();
+    },
+    [viewport],
+  );
+  useEffect(() => useToolStore.subscribe(() => viewport.current?.redraw()), [viewport]);
   return { draw, onPointerPixel };
 };
 

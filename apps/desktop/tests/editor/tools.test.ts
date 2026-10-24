@@ -1,37 +1,29 @@
 /* @layer renderer-app @kind test */
-import type { Brush } from '@bxel/raster';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { createDefaultProject } from '../../src/documents/create-default-project';
 import { beginStroke } from '../../src/editor/begin-stroke';
-import { keyAction } from '../../src/editor/key-action';
-import type { KeyLike } from '../../src/editor/editor.type';
 import { paletteSlots } from '../../src/editor/palette-slots';
 import { PALETTE_TEXT } from '../../src/editor/palette-text.constants';
 import { pressPlan } from '../../src/editor/press-plan';
-import { runAction } from '../../src/editor/run-action';
+import type { PressEvent } from '../../src/editor/press-plan.type';
 import { runInstant } from '../../src/editor/run-instant';
 import { samplePixel } from '../../src/editor/sample-pixel';
+import { stepColour } from '../../src/editor/step-colour';
 import { strokeRequest } from '../../src/editor/stroke-request';
 import { swatchRole } from '../../src/editor/swatch-role';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
+import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useToolStore } from '../../src/stores/useToolStore';
-import { openEditor } from './editor-harness';
+import { openEditor, plainOptions } from './editor-harness';
 
-const brush: Brush = { shape: 'square', size: 1 };
-const key = (name: string, modifiers: Partial<KeyLike> = {}): KeyLike => ({
-  key: name,
-  ctrlKey: false,
-  metaKey: false,
-  shiftKey: false,
-  altKey: false,
-  ...modifiers,
-});
+const press = (button: number, held: Partial<PressEvent> = {}): PressEvent => ({ button, altKey: false, shiftKey: false, ...held });
 
 beforeEach(() => useToolStore.setState({ ...TOOL_DEFAULTS }));
 
 describe('the picker', () => {
   it('reads the visible index under the pointer and ignores pixels outside', () => {
     const { host, target } = openEditor();
-    const session = beginStroke({ target: target(), tool: 'pencil', index: 9, brush, at: { x: 5, y: 4 } });
+    const session = beginStroke({ target: target(), tool: 'pencil', index: 9, options: plainOptions, at: { x: 5, y: 4 } });
     host.execute(strokeRequest(target(), session));
     expect(samplePixel(target(), { x: 5, y: 4 })).toBe(9);
     expect(samplePixel(target(), { x: 0, y: 0 })).toBe(0);
@@ -41,7 +33,8 @@ describe('the picker', () => {
 
   it('sets the front colour on a left press and the back colour on a right press', () => {
     const { host, target } = openEditor();
-    host.execute(strokeRequest(target(), beginStroke({ target: target(), tool: 'pencil', index: 9, brush, at: { x: 5, y: 4 } })));
+    const session = beginStroke({ target: target(), tool: 'pencil', index: 9, options: plainOptions, at: { x: 5, y: 4 } });
+    host.execute(strokeRequest(target(), session));
     runInstant('pick', target(), { x: 5, y: 4 }, 'foreground');
     expect(useToolStore.getState().foreground).toBe(9);
     runInstant('pick', target(), { x: 0, y: 0 }, 'background');
@@ -52,14 +45,24 @@ describe('the picker', () => {
 });
 
 describe('press plans', () => {
-  it('maps tool, button and Alt to an action', () => {
-    expect(pressPlan('pencil', { button: 0, altKey: false })).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'foreground' });
-    expect(pressPlan('pencil', { button: 2, altKey: false })).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'background' });
-    expect(pressPlan('eraser', { button: 0, altKey: false })).toEqual({ kind: 'stroke', tool: 'eraser', slot: 'foreground' });
-    expect(pressPlan('fill', { button: 0, altKey: false })).toEqual({ kind: 'fill', slot: 'foreground' });
-    expect(pressPlan('picker', { button: 2, altKey: false })).toEqual({ kind: 'pick', slot: 'background' });
-    expect(pressPlan('fill', { button: 0, altKey: true })).toEqual({ kind: 'pick', slot: 'foreground' });
-    expect(pressPlan('pencil', { button: 1, altKey: false })).toBeNull();
+  it('maps tool, button, Shift and Alt to an action', () => {
+    expect(pressPlan('pencil', press(0))).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false });
+    expect(pressPlan('pencil', press(2))).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'background', line: false });
+    expect(pressPlan('pencil', press(0, { shiftKey: true }))).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: true });
+    expect(pressPlan('eraser', press(0))).toEqual({ kind: 'stroke', tool: 'eraser', slot: 'foreground', line: false });
+    expect(pressPlan('fill', press(0))).toEqual({ kind: 'fill', slot: 'foreground' });
+    expect(pressPlan('shape', press(2))).toEqual({ kind: 'shape', slot: 'background' });
+    expect(pressPlan('picker', press(2))).toEqual({ kind: 'pick', slot: 'background' });
+    expect(pressPlan('zoom', press(0))).toEqual({ kind: 'zoom', out: false });
+    expect(pressPlan('zoom', press(2))).toEqual({ kind: 'zoom', out: true });
+    expect(pressPlan('hand', press(0))).toBeNull();
+    expect(pressPlan('pencil', press(1))).toBeNull();
+  });
+
+  it('picks with any tool while Alt is held, even the shape and zoom tools', () => {
+    expect(pressPlan('fill', press(0, { altKey: true }))).toEqual({ kind: 'pick', slot: 'foreground' });
+    expect(pressPlan('shape', press(0, { altKey: true }))).toEqual({ kind: 'pick', slot: 'foreground' });
+    expect(pressPlan('zoom', press(2, { altKey: true }))).toEqual({ kind: 'pick', slot: 'background' });
   });
 });
 
@@ -84,29 +87,18 @@ describe('the palette', () => {
     const tools = useToolStore.getState();
     tools.setForeground(6);
     tools.setBackground(2);
-    runAction({ kind: 'swap' });
+    useToolStore.getState().swapColors();
     expect(useToolStore.getState()).toMatchObject({ foreground: 2, background: 6 });
   });
-});
 
-describe('editor keys', () => {
-  it('selects tools with B E G I and swaps with X', () => {
-    expect(keyAction(key('b'))).toEqual({ kind: 'tool', tool: 'pencil' });
-    expect(keyAction(key('E'))).toEqual({ kind: 'tool', tool: 'eraser' });
-    expect(keyAction(key('g'))).toEqual({ kind: 'tool', tool: 'fill' });
-    expect(keyAction(key('i'))).toEqual({ kind: 'tool', tool: 'picker' });
-    expect(keyAction(key('x'))).toEqual({ kind: 'swap' });
-    expect(keyAction(key('q'))).toBeNull();
-    runAction({ kind: 'tool', tool: 'fill' });
-    expect(useToolStore.getState().tool).toBe('fill');
-  });
-
-  it('maps Ctrl+Z, Ctrl+Y and Ctrl+Shift+Z to undo and redo', () => {
-    expect(keyAction(key('z', { ctrlKey: true }))).toEqual({ kind: 'undo' });
-    expect(keyAction(key('z', { metaKey: true }))).toEqual({ kind: 'undo' });
-    expect(keyAction(key('y', { ctrlKey: true }))).toEqual({ kind: 'redo' });
-    expect(keyAction(key('Z', { ctrlKey: true, shiftKey: true }))).toEqual({ kind: 'redo' });
-    expect(keyAction(key('b', { ctrlKey: true }))).toBeNull();
-    expect(keyAction(key('b', { altKey: true }))).toBeNull();
+  it('steps the front colour back and forward and wraps at both ends', () => {
+    createDefaultProject(useDocumentStore.getState().host);
+    useToolStore.getState().setForeground(0);
+    stepColour(-1);
+    expect(useToolStore.getState().foreground).toBe(15);
+    stepColour(1);
+    expect(useToolStore.getState().foreground).toBe(0);
+    stepColour(1);
+    expect(useToolStore.getState().foreground).toBe(1);
   });
 });

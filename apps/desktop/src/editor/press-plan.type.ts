@@ -6,11 +6,16 @@ type ColourSlot = 'foreground' | 'background';
 interface PressEvent {
   button: number;
   altKey: boolean;
+  shiftKey: boolean;
 }
 
 type PressPlan =
   | { kind: 'pick'; slot: ColourSlot }
   | { kind: 'fill'; slot: ColourSlot }
-  | { kind: 'stroke'; tool: StrokeTool; slot: ColourSlot };
+  | { kind: 'zoom'; out: boolean }
+  | { kind: 'shape'; slot: ColourSlot }
+  | { kind: 'stroke'; tool: StrokeTool; slot: ColourSlot; line: boolean };
 
-export type { ColourSlot, PressEvent, PressPlan };
+type DrawPlan = Extract<PressPlan, { kind: 'shape' | 'stroke' }>;
+
+export type { ColourSlot, DrawPlan, PressEvent, PressPlan };
