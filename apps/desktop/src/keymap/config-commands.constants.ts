@@ -9,7 +9,7 @@ const CONFIG_COMMANDS: readonly CommandDef[] = [
     label: 'Asset settings',
     icon: 'settings',
     group: 'File',
-    chord: 'Mod+Alt+Enter',
+    chord: 'Alt+Enter',
     run: () => openAssetSettings(),
   },
 ];

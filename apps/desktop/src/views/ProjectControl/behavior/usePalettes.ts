@@ -10,6 +10,7 @@ import { createProjectPalette } from '../../../project-config/create-project-pal
 import { exportPaletteFile } from '../../../project-config/export-palette-file';
 import { focusedProject } from '../../../project-config/focused-project';
 import { paletteDraft } from '../../../project-config/palette-draft';
+import { revealPaletteFile } from '../../../project-config/reveal-palette-file';
 import { PROJECT_CONFIG_TEXT } from '../../../project-config/project-config.constants';
 import type { ProjectOutcomeText } from '../../../project-config/project-config.type';
 import { findLibrarySet } from '../../../swatch-library/find-library-set';
@@ -74,7 +75,7 @@ const usePalettes = (): PalettesModel => {
     if (documentId) focusTab(tabOf(documentId, { kind: 'palette', id }));
   }, []);
 
-  return { files, groups, busy, error, create, importFile, addFromLibrary, exportFile, open };
+  return { files, groups, busy, error, create, importFile, addFromLibrary, exportFile, open, reveal: revealPaletteFile };
 };
 
 export { usePalettes };

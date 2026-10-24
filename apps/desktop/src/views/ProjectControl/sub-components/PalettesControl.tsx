@@ -22,6 +22,9 @@ const PalettesControl = () => {
                 <Button size="xs" variant="tertiary" onClick={() => model.open(file.id)}>
                   {PALETTES_TEXT.open}
                 </Button>
+                <Button size="xs" variant="tertiary" onClick={() => model.reveal(file.id)}>
+                  {PALETTES_TEXT.reveal}
+                </Button>
                 <Button size="xs" variant="tertiary" disabled={model.busy} onClick={() => model.exportFile(file.id)}>
                   {PALETTES_TEXT.export}
                 </Button>

@@ -41,7 +41,7 @@ const movesBetweenHubs = async (session: Session): Promise<void> => {
   await switchTo(session, 'App');
   await page.getByText('Window mode', { exact: true }).waitFor();
   await page.keyboard.press('Escape');
-  await page.keyboard.press('Control+Alt+Enter');
+  await page.keyboard.press('Alt+Enter');
   await page.getByText('Pivot x', { exact: true }).waitFor();
   await page.keyboard.press('Escape');
 };
