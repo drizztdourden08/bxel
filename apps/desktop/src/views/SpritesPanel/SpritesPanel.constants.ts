@@ -34,8 +34,8 @@ const LIST_COLUMNS: readonly ListColumn[] = [
   { key: 'size', label: 'size' },
   { key: null, label: 'pivot' },
   { key: 'frames', label: 'frames' },
-  { key: null, label: 'tags' },
-  { key: null, label: 'bank' },
+  { key: 'tags', label: 'tags' },
+  { key: 'bank', label: 'bank' },
 ];
 
 const IN_LIST = 'In the list';

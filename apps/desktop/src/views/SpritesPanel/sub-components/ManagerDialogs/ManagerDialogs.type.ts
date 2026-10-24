@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { ReactNode } from 'react';
-import type { Sprite } from '@bxel/document';
+import type { BankId, Sprite } from '@bxel/document';
+import type { BankPlan } from '../../../../sheet-manager/bank.type';
 import type { DeleteImpact } from '../../../../sheet-manager/delete.type';
 import type { PivotMode, RenamePlan, RenameSpec, ResizeSpec } from '../../../../sheet-manager/manager.type';
 
@@ -66,6 +67,18 @@ interface NumberPairProps {
   step: number;
 }
 
+interface BankForm {
+  bankId: BankId | null;
+  plan: BankPlan | null;
+  targets: readonly Sprite[];
+  update: (bankId: BankId | null) => void;
+}
+
+interface BankNotesProps {
+  plan: BankPlan | null;
+  name: string;
+}
+
 interface FolderForm {
   folder: string;
   plan: RenamePlan;
@@ -87,6 +100,8 @@ interface DialogFrameProps {
 }
 
 export type {
+  BankForm,
+  BankNotesProps,
   DeleteRowsProps,
   DialogFrameProps,
   FolderForm,

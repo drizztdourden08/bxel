@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { DropdownMenu, Flex, Icon, IconButton, SearchInput, Stack, Text } from '@drizztdourden08/tessera';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
+import { activeFilters } from '../../../sheet-manager/active-filters';
 import { selectIds } from '../../../sheet-manager/select-ids';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { ActionHint } from '../../ActionHint';
@@ -13,7 +14,7 @@ import { ViewControls } from './ViewControls';
 const ManagerFilters = ({ model }: ManagerModelProps) => {
   const store = useManagerStore();
   const shownIds = model.shown.map((fact) => fact.sprite.id);
-  const active = [store.filter.animated, store.filter.unplaced, store.filter.size !== null, store.filter.identical !== 'off'].filter(Boolean).length;
+  const active = activeFilters(store.filter);
   return (
     <Stack gap="xs">
       <Flex gap="xs" align="center">
@@ -43,7 +44,7 @@ const ManagerFilters = ({ model }: ManagerModelProps) => {
           size="sm"
           label={MANAGER_TEXT.filters}
           trigger={{ label: active > 0 ? `${MANAGER_TEXT.filters} (${active})` : MANAGER_TEXT.filters, icon: 'filter' }}
-          groups={filterGroups(store.filter, model.sizes, { patch: store.patchFilter, clear: store.clearFilters })}
+          groups={filterGroups(store.filter, { sizes: model.sizes, tags: model.tags, banks: model.artwork.banks }, { patch: store.patchFilter, clear: store.clearFilters })}
         />
       </Flex>
       <Text variant="caption" tone="dim">

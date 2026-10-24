@@ -6,6 +6,7 @@ import { allFacts } from '../../../sheet-manager/all-facts';
 import { folderGroups } from '../../../sheet-manager/folder-groups';
 import { managerSheet } from '../../../sheet-manager/manager-sheet';
 import { sizeOptions } from '../../../sheet-manager/size-options';
+import { tagOptions } from '../../../sheet-manager/tag-options';
 import { twinIds } from '../../../sheet-manager/twin-ids';
 import { visibleFacts } from '../../../sheet-manager/visible-facts';
 import { visibleOrder } from '../../../sheet-manager/visible-order';
@@ -28,12 +29,13 @@ const useManagerModel = (): ManagerModel | null => {
   const shown = useMemo(() => visibleFacts(facts, { query, filter, sortKey, sortDown, twins }), [facts, query, filter, sortKey, sortDown, twins]);
   const groups = useMemo(() => folderGroups(shown, new Set(collapsed)), [shown, collapsed]);
   const sizes = useMemo(() => sizeOptions(facts.map((fact) => fact.sprite)), [facts]);
+  const tags = useMemo(() => tagOptions(facts.map((fact) => fact.sprite)), [facts]);
   return useMemo(
     () =>
       base
-        ? { artwork: base.artwork, scene: base.scene, sheet, facts, shown, groups, order: visibleOrder(groups), sizes, twins, ids: selectionIds(base.scene) }
+        ? { artwork: base.artwork, scene: base.scene, sheet, facts, shown, groups, order: visibleOrder(groups), sizes, tags, twins, ids: selectionIds(base.scene) }
         : null,
-    [base, sheet, facts, shown, groups, sizes, twins],
+    [base, sheet, facts, shown, groups, sizes, tags, twins],
   );
 };
 

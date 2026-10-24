@@ -41,7 +41,7 @@ const modelOf = (): ManagerModel => {
   const art = artwork();
   const scene = spriteScene(art, { activeId: idOf('walk_1'), selected: idsOf('walk_1', 'walk_2') });
   const facts = allFacts(art, art.sheets[0] ?? null);
-  return { artwork: art, scene, sheet: art.sheets[0] ?? null, facts, shown: facts, order: facts.map((fact) => fact.sprite.id), sizes: ['8x8'], twins: new Set(), groups: folderGroups(facts, new Set()), ids: selectionIds(scene) };
+  return { artwork: art, scene, sheet: art.sheets[0] ?? null, facts, shown: facts, order: facts.map((fact) => fact.sprite.id), sizes: ['8x8'], tags: [], twins: new Set(), groups: folderGroups(facts, new Set()), ids: selectionIds(scene) };
 };
 
 beforeEach(() => openFile(['walk_1', 'walk_2'], 8));
@@ -100,7 +100,7 @@ describe('the atlas pieces', () => {
 describe('the action menu', () => {
   it('has the groups for editing, combining, ordering, the sheet, transforms and selecting', () => {
     const groups = actionGroups({ model: modelOf(), sortKey: 'manual', rename: none, open: none, selections: [] });
-    expect(groups.map((group) => group.id)).toEqual(['edit', 'combine', 'order', 'sheet', 'transform', 'select', 'find', 'saved']);
+    expect(groups.map((group) => group.id)).toEqual(['edit', 'combine', 'order', 'sheet', 'layout', 'transform', 'select', 'find', 'saved']);
     expect(itemIds(groups)).toEqual(expect.arrayContaining(['rename', 'rename-many', 'duplicate', 'delete', 'merge', 'split', 'slice', 'sort-name', 'add-to-sheet', 'pivot', 'trim', 'flip-h', 'turn-half', 'select-invert', 'select-duplicates', 'compare']));
   });
 

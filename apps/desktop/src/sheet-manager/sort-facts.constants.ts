@@ -9,6 +9,8 @@ const FACT_COMPARE: Readonly<Record<Exclude<SortKey, 'manual'>, (a: SpriteFacts,
   size: (a, b) => a.sprite.width - b.sprite.width || a.sprite.height - b.sprite.height,
   area: (a, b) => area(a) - area(b),
   frames: (a, b) => a.frames - b.frames,
+  tags: (a, b) => a.tags - b.tags,
+  bank: (a, b) => NAME_COLLATOR.compare(a.bank, b.bank),
 };
 
 export { FACT_COMPARE };

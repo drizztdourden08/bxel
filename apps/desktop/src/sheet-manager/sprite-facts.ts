@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { findBank } from '@bxel/document';
 import type { Artwork, Sheet, Sprite } from '@bxel/document';
 import type { SpriteFacts } from './manager.type';
 
@@ -9,6 +10,7 @@ const spriteFacts = (artwork: Artwork, sprite: Sprite, sheet: Sheet | null): Spr
   sprite,
   frames: sprite.frames.length,
   tags: sprite.tags.length,
+  bank: findBank(artwork, sprite.bankId)?.name ?? '',
   slices: sprite.slices.length,
   onSheet: sheet?.entries.some((entry) => entry.spriteId === sprite.id) ?? false,
   sheets: sheetsHolding(artwork, sprite),

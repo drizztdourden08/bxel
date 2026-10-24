@@ -4,6 +4,7 @@ import type { ActionContext } from '../SpritesPanel.type';
 import { combineGroup } from './combine-group';
 import { editGroup } from './edit-group';
 import { findGroup } from './find-group';
+import { layoutGroup } from './layout-group';
 import { orderGroup } from './order-group';
 import { savedGroup } from './saved-group';
 import { selectGroup } from './select-group';
@@ -15,6 +16,7 @@ const actionGroups = (ctx: ActionContext): MenuGroup[] => [
   combineGroup(ctx),
   orderGroup(ctx),
   sheetGroup(ctx),
+  layoutGroup(ctx),
   transformGroup(ctx),
   selectGroup(ctx),
   findGroup(ctx),

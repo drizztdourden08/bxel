@@ -16,6 +16,7 @@ interface ManagerModel {
   groups: readonly FolderGroup[];
   order: readonly SpriteId[];
   sizes: readonly string[];
+  tags: readonly string[];
   twins: ReadonlySet<SpriteId>;
   ids: readonly SpriteId[];
 }
@@ -88,6 +89,12 @@ interface SpriteViewProps {
 
 interface SpriteGridProps extends SpriteViewProps {
   box: number;
+}
+
+interface FilterOptions {
+  sizes: readonly string[];
+  tags: readonly string[];
+  banks: readonly { id: string; name: string }[];
 }
 
 interface FilterActions {
@@ -168,6 +175,7 @@ export type {
   ActionContext,
   ActionsMenuProps,
   FilterActions,
+  FilterOptions,
   FolderHeaderProps,
   KeyAction,
   KeyHandlers,

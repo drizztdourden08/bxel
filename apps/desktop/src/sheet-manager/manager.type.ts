@@ -8,15 +8,17 @@ type ManagerTab = 'sprites' | 'atlas';
 
 type ManagerView = 'grid' | 'list';
 
-type SortKey = 'manual' | 'name' | 'size' | 'area' | 'frames';
+type SortKey = 'manual' | 'name' | 'size' | 'area' | 'frames' | 'tags' | 'bank';
 
-type ManagerDialog = 'rename' | 'folder' | 'selection' | 'duplicate' | 'delete' | 'compare' | 'pivot' | 'resize' | 'merge' | 'split' | 'slice' | null;
+type ManagerDialog = 'rename' | 'bank' | 'folder' | 'selection' | 'duplicate' | 'delete' | 'compare' | 'pivot' | 'resize' | 'merge' | 'split' | 'slice' | null;
 
 interface ManagerFilter {
   animated: boolean;
   unplaced: boolean;
   size: string | null;
   identical: IdenticalMode;
+  tag: string | null;
+  bank: string | null;
 }
 
 interface AtlasSettings {
@@ -38,6 +40,7 @@ interface SpriteFacts {
   sprite: Sprite;
   frames: number;
   tags: number;
+  bank: string;
   slices: number;
   onSheet: boolean;
   sheets: readonly string[];

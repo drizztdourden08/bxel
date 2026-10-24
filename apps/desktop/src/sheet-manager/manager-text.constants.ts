@@ -22,7 +22,7 @@ const MANAGER_TEXT = {
   sortDirection: 'Sort direction',
   ascending: 'Ascending',
   descending: 'Descending',
-  sortLabels: { manual: 'Sheet order', name: 'Name', size: 'Size', area: 'Area', frames: 'Frames' } as Readonly<Record<SortKey, string>>,
+  sortLabels: { manual: 'Sheet order', name: 'Name', size: 'Size', area: 'Area', frames: 'Frames', tags: 'Tags', bank: 'Palette' } as Readonly<Record<SortKey, string>>,
   filters: 'Filters',
   animated: 'Animated',
   unplaced: 'Not on sheet',

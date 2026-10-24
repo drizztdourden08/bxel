@@ -2,6 +2,7 @@
 import type { ComponentType } from 'react';
 import type { ManagerDialog } from '../../../../sheet-manager/manager.type';
 import type { ManagerModelProps } from '../../SpritesPanel.type';
+import { BankDialog } from './sub-components/BankDialog';
 import { CompareDialog } from './sub-components/CompareDialog';
 import { DeleteDialog } from './sub-components/DeleteDialog';
 import { DuplicateDialog } from './sub-components/DuplicateDialog';
@@ -16,6 +17,7 @@ import { SplitDialog } from './sub-components/SplitDialog';
 
 const DIALOG_VIEWS: Readonly<Record<Exclude<ManagerDialog, null>, ComponentType<ManagerModelProps>>> = {
   rename: RenameDialog,
+  bank: BankDialog,
   folder: FolderDialog,
   selection: SelectionDialog,
   duplicate: DuplicateDialog,
