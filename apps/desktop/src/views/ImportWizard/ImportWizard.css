@@ -3,11 +3,6 @@
   max-inline-size: var(--size-768);
 }
 
-.import-wizard__body {
-  max-block-size: var(--size-512);
-  overflow-y: auto;
-}
-
 .import-wizard__pane {
   flex: 1;
   min-inline-size: 0;

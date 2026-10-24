@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
-import { Box, Callout, DialogShell, Stack } from '@drizztdourden08/tessera';
+import { Box, Callout, Stack } from '@drizztdourden08/tessera';
 import { IMPORT_TEXT } from '../../../image-import/image-import.constants';
+import { FitDialog } from '../../FitDialog';
 import { useImportWizard } from '../behavior/useImportWizard';
 import type { ImportDialogProps } from '../ImportWizard.type';
 import { ColorsStep } from './ColorsStep';
@@ -13,7 +14,7 @@ const ImportDialog = ({ image }: ImportDialogProps) => {
   const wizard = useImportWizard(image);
   const { step, failure, cancel } = wizard;
   return (
-    <DialogShell
+    <FitDialog
       open
       title={IMPORT_TEXT.title(image.fileName)}
       onClose={cancel}
@@ -22,14 +23,14 @@ const ImportDialog = ({ image }: ImportDialogProps) => {
     >
       <Stack gap="md">
         <StepHeader wizard={wizard} />
-        <Box className="import-wizard__body">
+        <Box>
           {step === 'source' && <SourceStep image={image} wizard={wizard} />}
           {step === 'colors' && <ColorsStep image={image} wizard={wizard} />}
           {step === 'slicing' && <SlicingStep image={image} wizard={wizard} />}
         </Box>
         {failure !== null && <Callout tone="danger">{failure}</Callout>}
       </Stack>
-    </DialogShell>
+    </FitDialog>
   );
 };
 

@@ -1,0 +1,11 @@
+/* @layer renderer-app @kind style */
+.fit-dialog {
+  display: flex;
+  flex-direction: column;
+  max-block-size: calc(100% - var(--space-xl));
+}
+
+.fit-dialog__body {
+  flex: 1 1 auto;
+  min-block-size: 0;
+}

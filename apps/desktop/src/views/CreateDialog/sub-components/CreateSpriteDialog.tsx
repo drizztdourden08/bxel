@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind component */
-import { Callout, DialogShell, Stack, Text } from '@drizztdourden08/tessera';
+import { Callout, Stack, Text } from '@drizztdourden08/tessera';
 import { NEW_TEXT } from '../../../new-sprite/new-sprite.constants';
 import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
+import { FitDialog } from '../../FitDialog';
 import { PlatformFindings } from '../../PlatformFindings';
 import { useFileShare } from '../behavior/useFileShare';
 import { useNewSprite } from '../behavior/useNewSprite';
@@ -15,7 +16,7 @@ const CreateSpriteDialog = () => {
   const hide = useCreateDialogStore((state) => state.hide);
   const fields = { form, errors, update };
   return (
-    <DialogShell
+    <FitDialog
       open
       title={NEW_TEXT.titleSprite}
       onClose={hide}
@@ -38,7 +39,7 @@ const CreateSpriteDialog = () => {
         )}
         {failure !== null && <Callout tone="danger">{failure}</Callout>}
       </Stack>
-    </DialogShell>
+    </FitDialog>
   );
 };
 
