@@ -62,7 +62,7 @@ const TimelinePanel = () => {
           <OnionControls />
         </Disclosure>
       </Disclosure>
-      <Box id={hintId} className="visually-hidden">{`${TIMELINE_TEXT.playHint} ${TIMELINE_TEXT.moveHint}`}</Box>
+      <Box id={hintId} className="visually-hidden">{`${TIMELINE_TEXT.playHint} ${TIMELINE_TEXT.moveHint} ${TIMELINE_TEXT.pickHint} ${TIMELINE_TEXT.laneHint}`}</Box>
     </Box>
   );
 };

@@ -3,57 +3,48 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { runKeyAction } from '../../src/views/TimelinePanel/behavior/run-key-action';
 import { timelineKeyAction } from '../../src/views/TimelinePanel/behavior/timeline-key-action';
-import type { TimelineKeyInfo } from '../../src/views/TimelinePanel/TimelinePanel.type';
+import { key } from './key-info';
 import { frameAt, frameIds, freshDocument, layerIds, live, paintCel, pickCels, pickRange, withFrames } from './timeline-harness';
 
 beforeEach(freshDocument);
 
-const key = (name: string, extra: Partial<TimelineKeyInfo> = {}): TimelineKeyInfo => ({
-  key: name,
-  shiftKey: false,
-  altKey: false,
-  ctrlKey: false,
-  metaKey: false,
-  ...extra,
-});
-
 describe('timeline keys', () => {
   it('plays and pauses on Enter and Space in the grid only', () => {
-    expect(timelineKeyAction(key('Enter'), true)).toEqual({ kind: 'play' });
-    expect(timelineKeyAction(key(' '), true)).toEqual({ kind: 'play' });
-    expect(timelineKeyAction(key('Enter'), false)).toBeNull();
-    expect(timelineKeyAction(key(' '), false)).toBeNull();
+    expect(timelineKeyAction(key('Enter'), 'cel')).toEqual({ kind: 'play' });
+    expect(timelineKeyAction(key(' '), 'cel')).toEqual({ kind: 'play' });
+    expect(timelineKeyAction(key('Enter'), null)).toBeNull();
+    expect(timelineKeyAction(key(' '), null)).toBeNull();
   });
 
   it('steps a frame with comma and period wherever the timeline has focus', () => {
-    expect(timelineKeyAction(key(','), false)).toEqual({ kind: 'cursor', by: { frames: -1, layers: 0 }, extend: false });
-    expect(timelineKeyAction(key('.'), true)).toEqual({ kind: 'cursor', by: { frames: 1, layers: 0 }, extend: false });
+    expect(timelineKeyAction(key(','), null)).toEqual({ kind: 'cursor', by: { frames: -1, layers: 0 }, extend: false });
+    expect(timelineKeyAction(key('.'), 'cel')).toEqual({ kind: 'cursor', by: { frames: 1, layers: 0 }, extend: false });
   });
 
   it('moves the cursor with the arrows and extends with Shift', () => {
-    expect(timelineKeyAction(key('ArrowRight'), true)).toEqual({ kind: 'cursor', by: { frames: 1, layers: 0 }, extend: false });
-    expect(timelineKeyAction(key('ArrowUp', { shiftKey: true }), true)).toEqual({ kind: 'cursor', by: { frames: 0, layers: 1 }, extend: true });
+    expect(timelineKeyAction(key('ArrowRight'), 'cel')).toEqual({ kind: 'cursor', by: { frames: 1, layers: 0 }, extend: false });
+    expect(timelineKeyAction(key('ArrowUp', { shiftKey: true }), 'cel')).toEqual({ kind: 'cursor', by: { frames: 0, layers: 1 }, extend: true });
   });
 
   it('moves frames with Alt and Left or Right, and cels with Alt and Shift', () => {
-    expect(timelineKeyAction(key('ArrowLeft', { altKey: true }), true)).toEqual({ kind: 'moveFrames', delta: -1 });
-    expect(timelineKeyAction(key('ArrowUp', { altKey: true }), true)).toBeNull();
-    expect(timelineKeyAction(key('ArrowRight', { altKey: true, shiftKey: true }), true)).toEqual({
+    expect(timelineKeyAction(key('ArrowLeft', { altKey: true }), 'cel')).toEqual({ kind: 'moveFrames', delta: -1 });
+    expect(timelineKeyAction(key('ArrowUp', { altKey: true }), 'cel')).toBeNull();
+    expect(timelineKeyAction(key('ArrowRight', { altKey: true, shiftKey: true }), 'cel')).toEqual({
       kind: 'moveCels',
       by: { frames: 1, layers: 0 },
     });
   });
 
   it('jumps with Home and End and clears cels with Delete', () => {
-    expect(timelineKeyAction(key('Home'), true)).toEqual({ kind: 'edge', end: 'first' });
-    expect(timelineKeyAction(key('End'), true)).toEqual({ kind: 'edge', end: 'last' });
-    expect(timelineKeyAction(key('Delete'), true)).toEqual({ kind: 'clear' });
+    expect(timelineKeyAction(key('Home'), 'cel')).toEqual({ kind: 'edge', end: 'first' });
+    expect(timelineKeyAction(key('End'), 'cel')).toEqual({ kind: 'edge', end: 'last' });
+    expect(timelineKeyAction(key('Delete'), 'cel')).toEqual({ kind: 'clear' });
   });
 
   it('leaves the chords with Ctrl or Meta to the app', () => {
-    expect(timelineKeyAction(key('ArrowLeft', { ctrlKey: true }), true)).toBeNull();
-    expect(timelineKeyAction(key(',', { metaKey: true }), true)).toBeNull();
-    expect(timelineKeyAction(key('x'), true)).toBeNull();
+    expect(timelineKeyAction(key('ArrowLeft', { ctrlKey: true }), 'head')).toBeNull();
+    expect(timelineKeyAction(key(',', { metaKey: true }), 'cel')).toBeNull();
+    expect(timelineKeyAction(key('x'), 'cel')).toBeNull();
   });
 });
 

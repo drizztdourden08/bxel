@@ -29,7 +29,7 @@ const filesProblem = (files: readonly PlannedFile[]): string | null => {
 const planExport = (input: PlanInput): ExportPlan => {
   const settings = clampSettings(input.settings);
   const { artwork, revision } = input.frozen;
-  const resolved = resolveTargets(artwork, settings, input.selectedIds);
+  const resolved = resolveTargets(artwork, settings, input.selectedIds, input.current);
   if (!resolved.ok) {
     return { files: [], spriteCount: 0, indexed: NO_INDEXED, notes: [], problem: resolved.message, revision };
   }

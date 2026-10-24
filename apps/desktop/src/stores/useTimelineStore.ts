@@ -17,6 +17,7 @@ const useTimelineStore = create<TimelineState>()((set) => ({
   setLoop: (loop) => set({ loop }),
   setPingPong: (pingPong) => set({ pingPong, cursor: -1 }),
   setCursor: (cursor) => set({ cursor }),
+  setZone: (zone) => set({ zone }),
   setOnion: (patch) => set((state) => ({ onion: { ...state.onion, ...patch } })),
 }));
 

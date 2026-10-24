@@ -15,6 +15,7 @@ const DEFAULT_FRAME_DURATION_MS = 100;
 const DEFAULT_LAYER_NAME = 'Layer 1';
 const CONTROL_CHARACTERS = /\p{Cc}/u;
 const PLATFORM_ID_PATTERN = /^[a-z0-9][a-z0-9-]{0,63}$/;
+const TAG_COLOUR_PATTERN = /^#[0-9a-f]{6}$/;
 
 export {
   CONTROL_CHARACTERS,
@@ -33,4 +34,5 @@ export {
   MIN_DURATION_MS,
   MIN_SPRITE_SIZE,
   PLATFORM_ID_PATTERN,
+  TAG_COLOUR_PATTERN,
 };

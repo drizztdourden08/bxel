@@ -4,6 +4,7 @@ import { IMAGE_EXTENSION } from '../../../export/export.constants';
 import { useExportStore } from '../../../export/useExportStore';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
 import type { ExportModel } from '../ExportDialog.type';
+import { useCurrentPick } from './useCurrentPick';
 import { useExportActions } from './useExportActions';
 import { useExportDraft } from './useExportDraft';
 import { useExportPlan } from './useExportPlan';
@@ -14,7 +15,8 @@ import { useSelectedSprites } from './useSelectedSprites';
 const useExportModel = (): ExportModel | null => {
   const draft = useExportDraft();
   const selectedIds = useSelectedSprites();
-  const plan = useExportPlan(draft.settings, selectedIds);
+  const current = useCurrentPick();
+  const plan = useExportPlan(draft.settings, selectedIds, current);
   const presets = useExportPresets(draft);
   const actions = useExportActions(draft, selectedIds, plan?.files[0]?.name.replace(IMAGE_EXTENSION, '') ?? '');
   const source = usePreviewSource(plan);

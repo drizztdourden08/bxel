@@ -18,6 +18,7 @@ const TIMELINE_DEFAULTS: TimelineSettings = {
   loop: true,
   pingPong: false,
   cursor: -1,
+  zone: 'cel',
   onion: ONION_DEFAULTS,
 };
 

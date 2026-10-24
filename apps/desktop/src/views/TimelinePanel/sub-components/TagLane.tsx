@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Box, Pressable, Text } from '@drizztdourden08/tessera';
 import { selectTag } from '../../../timeline/select-tag';
+import { tagLook } from '../../../timeline/tag-look';
 import type { TagLaneProps } from '../TimelinePanel.type';
 
 const TagLane = ({ cells }: TagLaneProps) => (
@@ -13,12 +14,15 @@ const TagLane = ({ cells }: TagLaneProps) => (
         <Pressable
           key={index}
           className="timeline-tag"
-          data-colour={cell.colour}
+          style={cell.custom === null ? undefined : tagLook(cell.custom)}
+          data-colour={cell.custom === null ? cell.colour : 'custom'}
           data-edge={cell.edge}
           data-selected={cell.selected ? 'yes' : 'no'}
+          data-timeline-zone={cell.edge === 'start' || cell.edge === 'only' ? 'tag' : undefined}
+          data-roving={cell.roving ? 'yes' : 'no'}
           aria-pressed={cell.selected}
           aria-label={cell.label}
-          tabIndex={-1}
+          tabIndex={cell.roving ? 0 : -1}
           onClick={() => selectTag(cell.tagId)}
         >
           <Text as="span" variant="caption">{cell.name}</Text>

@@ -18,9 +18,11 @@ const FrameHeader = ({ column, index, total, drag }: FrameHeaderProps) => (
   >
     <Pressable
       className="timeline-head__button"
-      tabIndex={-1}
+      tabIndex={column.current ? 0 : -1}
+      data-timeline-zone="head"
+      data-roving={column.current ? 'yes' : 'no'}
       aria-label={TIMELINE_TEXT.frameLabel(column.number, column.durationMs)}
-      onClick={(event) => goToFrame(column.id, event.shiftKey)}
+      onClick={(event) => goToFrame(column.id, event.shiftKey, event.ctrlKey || event.metaKey)}
       {...drag.handlers(index)}
     >
       <Text as="span" variant="caption" numeric>{column.number}</Text>

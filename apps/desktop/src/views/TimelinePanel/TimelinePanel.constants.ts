@@ -41,7 +41,11 @@ const CEL_ACTIONS: readonly TimelineAction[] = [
   { id: 'clear', label: 'Clear cels', shortcut: 'Delete', icon: 'eraser', run: clearCels },
 ];
 
-const GRID_SELECTOR = '[data-timeline-grid]';
+const ZONE_ATTRIBUTE = 'data-timeline-zone';
+
+const LANE_KINDS: ReadonlySet<string> = new Set(['park', 'addPick', 'frame', 'zone', 'tag', 'deleteTag']);
+
+const FAR_FRAME = Number.POSITIVE_INFINITY;
 
 const DURATION_STEP = 10;
 
@@ -56,4 +60,4 @@ const ARROWS: Readonly<Record<string, readonly [number, number]>> = {
 
 const STEP_KEYS: Readonly<Record<string, number>> = { ',': -1, '.': 1 };
 
-export { ARROWS, CEL_ACTIONS, DURATION_STEP, FRAME_ACTIONS, GRID_SELECTOR, STEP_KEYS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT };
+export { ARROWS, CEL_ACTIONS, DURATION_STEP, FAR_FRAME, FRAME_ACTIONS, LANE_KINDS, STEP_KEYS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT, ZONE_ATTRIBUTE };

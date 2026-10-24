@@ -9,13 +9,14 @@ import { pickFrames } from '../frame/pick-frames';
 import { registerCreatedRef } from '../register-created-ref';
 import { checkSpan } from './check-span';
 import { tagName } from './tag-name';
+import { withColour } from './with-colour';
 
 const tagAdd = defineCommand({
   name: COMMAND_NAME.tagAdd,
   scope: 'sprites',
   schema: tagAddSchema,
   run: (draft, input) => {
-    const { name, from, to, direction, repeat } = input.options;
+    const { name, from, to, direction, repeat, colour } = input.options;
     const starts = pickFrames(draft.artwork, input.sprites, from, 'options.from');
     const ends = pickFrames(draft.artwork, input.sprites, to, 'options.to');
     const created: TagId[] = [];
@@ -24,7 +25,7 @@ const tagAdd = defineCommand({
       if (!end) continue;
       const { sprite } = start;
       checkSpan(sprite, start.frame.id, end.frame.id);
-      const tag: Tag = {
+      const base: Tag = {
         id: draft.ids.next('tag') as TagId,
         name: tagName(
           name,
@@ -35,6 +36,7 @@ const tagAdd = defineCommand({
         direction,
         repeat,
       };
+      const tag = withColour(base, colour);
       updateSprite(draft, sprite.id, (current) => ({ ...current, tags: [...current.tags, tag] }));
       created.push(tag.id);
     }

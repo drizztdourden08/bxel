@@ -11,6 +11,8 @@ interface OnionSettings {
   tint: OnionTint;
 }
 
+type TimelineZone = 'cel' | 'head' | 'tag';
+
 interface CelKey {
   layerId: LayerId;
   frameId: FrameId;
@@ -30,6 +32,7 @@ interface TimelineSettings {
   loop: boolean;
   pingPong: boolean;
   cursor: number;
+  zone: TimelineZone;
   onion: OnionSettings;
 }
 
@@ -44,7 +47,8 @@ interface TimelineState extends TimelineSettings {
   setLoop: (loop: boolean) => void;
   setPingPong: (pingPong: boolean) => void;
   setCursor: (cursor: number) => void;
+  setZone: (zone: TimelineZone) => void;
   setOnion: (patch: Partial<OnionSettings>) => void;
 }
 
-export type { CelKey, OnionSettings, OnionTint, TimelineSelection, TimelineSettings, TimelineState };
+export type { CelKey, OnionSettings, OnionTint, TimelineSelection, TimelineSettings, TimelineState, TimelineZone };

@@ -6,8 +6,14 @@ import { moveCels } from '../../../timeline/move-cels';
 import { moveCursor } from '../../../timeline/move-cursor';
 import { moveFrames } from '../../../timeline/move-frames';
 import type { TimelineKeyAction } from '../TimelinePanel.type';
+import { isLaneAction } from './is-lane-action';
+import { runLaneAction } from './run-lane-action';
 
 const runKeyAction = (action: TimelineKeyAction): void => {
+  if (isLaneAction(action)) {
+    runLaneAction(action);
+    return;
+  }
   switch (action.kind) {
     case 'play':
       useTimelineStore.getState().togglePlay();
@@ -26,7 +32,6 @@ const runKeyAction = (action: TimelineKeyAction): void => {
       return;
     case 'clear':
       clearCels();
-      break;
   }
 };
 

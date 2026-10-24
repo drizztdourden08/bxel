@@ -12,6 +12,7 @@ import { brandedIdSchema } from './branded-id-schema';
 import { nameSchema } from './name-schema';
 import { pivotSchema } from './pivot-schema';
 import { rectSchema } from './rect-schema';
+import { tagColourSchema } from './tag-colour-schema';
 
 const frameId = brandedIdSchema<FrameId>(ID_PREFIX.frame);
 const celId = brandedIdSchema<CelId>(ID_PREFIX.cel);
@@ -37,6 +38,7 @@ const tagSchema = z.object({
   to: frameId,
   direction: z.enum(['forward', 'reverse', 'pingpong']),
   repeat: z.number().int().min(0),
+  colour: tagColourSchema.optional(),
 });
 
 const sliceSchema = z.object({

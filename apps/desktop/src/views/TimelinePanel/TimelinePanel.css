@@ -116,6 +116,17 @@
   background: var(--c-selected);
 }
 
+.timeline-cel[data-drop='yes'] {
+  outline: var(--border-width-thick) dashed var(--c-primary-bright);
+  outline-offset: calc(-1 * var(--size-2));
+}
+
+.timeline-head__button:focus-visible,
+.timeline-tag:focus-visible {
+  outline: var(--border-width-thick) solid var(--c-primary-bright);
+  outline-offset: calc(-1 * var(--size-2));
+}
+
 .timeline-cel__button {
   display: flex;
   align-items: center;

@@ -7,6 +7,7 @@ import { setTagRange } from '../../../timeline/set-tag-range';
 import { TAG_DIRECTION_TEXT, TAG_DIRECTIONS, TIMELINE_LABEL } from '../../../timeline/timeline.constants';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { TagEditorProps } from '../TimelinePanel.type';
+import { TagColours } from './TagColours';
 
 const TagEditor = ({ tag }: TagEditorProps) => {
   const rename = (name: string): void => {
@@ -30,6 +31,7 @@ const TagEditor = ({ tag }: TagEditorProps) => {
         options={TAG_DIRECTIONS.map((direction) => ({ value: direction, label: TAG_DIRECTION_TEXT[direction] }))}
         onChange={(direction) => changeTag(TIMELINE_LABEL.updateTag, tag.id, { direction })}
       />
+      <TagColours tag={tag} />
       <Button size="sm" variant="secondary" onClick={() => setTagRange(tag.id)}>
         {TIMELINE_PANEL_TEXT.tagRange}
       </Button>

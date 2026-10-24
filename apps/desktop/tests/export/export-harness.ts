@@ -71,6 +71,16 @@ const paint = (h: ExportHarness, frameIndex: number, x: number, index: number): 
   step(h, COMMAND_NAME.pixelsPaint, { points: [{ x, y: 0 }], brush: { shape: 'square', size: 1 }, index }, scope);
 };
 
+const threeFrames = (): ExportHarness => {
+  const h = harness();
+  addFrame(h, 100);
+  addFrame(h, 100);
+  paint(h, 0, 1, 2);
+  paint(h, 1, 2, 3);
+  paint(h, 2, 3, 4);
+  return h;
+};
+
 const settingsOf = (patch: Partial<ExportSettings>): ExportSettings => ({ ...DEFAULT_EXPORT_SETTINGS, folder: 'C:\\art', ...patch });
 
 const withBank = (artwork: Artwork, bank: PaletteBank, spriteName: string): Artwork => {
@@ -131,5 +141,5 @@ const stubJob = (signal: AbortSignal = new AbortController().signal): ExportJob 
   };
 };
 
-export { addFrame, artworkOf, bytesOf, frozenOf, harness, memorySink, paint, settingsOf, step, stubJob, textOf, withBank };
+export { addFrame, artworkOf, bytesOf, frozenOf, harness, memorySink, paint, settingsOf, step, stubJob, textOf, threeFrames, withBank };
 export type { ExportHarness, MemorySink };
