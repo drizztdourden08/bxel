@@ -29,15 +29,15 @@ const TIMELINE_PANEL_TEXT = {
 } as const;
 
 const FRAME_ACTIONS: readonly TimelineAction[] = [
-  { id: 'add', label: 'Add frame', shortcut: null, icon: 'frameAdd', run: addFrame },
-  { id: 'duplicate', label: 'Duplicate frames', shortcut: null, icon: 'frameDuplicate', run: duplicateFrames },
-  { id: 'delete', label: 'Delete frames', shortcut: null, icon: 'frameDelete', run: deleteFrames },
-  { id: 'tag', label: 'Add tag on the selected frames', shortcut: null, icon: 'tagAdd', run: addTag },
+  { id: 'add', label: 'Add frame', shortcut: null, icon: 'pixel-frame-add', run: addFrame },
+  { id: 'duplicate', label: 'Duplicate frames', shortcut: null, icon: 'pixel-frame-duplicate', run: duplicateFrames },
+  { id: 'delete', label: 'Delete frames', shortcut: null, icon: 'pixel-frame-delete', run: deleteFrames },
+  { id: 'tag', label: 'Add tag on the selected frames', shortcut: null, icon: 'pixel-tag-add', run: addTag },
 ];
 
 const CEL_ACTIONS: readonly TimelineAction[] = [
-  { id: 'link', label: 'Link cels across the selected frames', shortcut: null, icon: 'linkedCel', run: linkCels },
-  { id: 'unlink', label: 'Unlink cels', shortcut: null, icon: 'unlinkCel', run: unlinkCels },
+  { id: 'link', label: 'Link cels across the selected frames', shortcut: null, icon: 'pixel-linked-cel', run: linkCels },
+  { id: 'unlink', label: 'Unlink cels', shortcut: null, icon: 'pixel-unlink-cel', run: unlinkCels },
   { id: 'clear', label: 'Clear cels', shortcut: 'Delete', icon: 'pixel-eraser', run: clearCels },
 ];
 

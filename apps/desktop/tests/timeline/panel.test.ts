@@ -3,7 +3,6 @@ import * as React from 'react';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { PIXEL_ICONS } from '../../src/icons/pixel-icon.constants';
 import { addTag } from '../../src/timeline/add-tag';
 import { linkCels } from '../../src/timeline/link-cels';
 import { TimelinePanel } from '../../src/views/TimelinePanel';
@@ -20,33 +19,6 @@ import { frameAt, freshDocument, live, paintCel, pickCels, pickRange, withFrames
 Object.assign(globalThis, { React });
 
 beforeEach(freshDocument);
-
-const NEW_ICONS = [
-  'play',
-  'pause',
-  'loop',
-  'pingPong',
-  'framePrev',
-  'frameNext',
-  'onionSkin',
-  'frameAdd',
-  'frameDuplicate',
-  'frameDelete',
-  'tagAdd',
-  'linkedCel',
-  'unlinkCel',
-] as const;
-
-describe('timeline icons', () => {
-  it('draws every timeline icon on the sixteen by sixteen grid', () => {
-    for (const name of NEW_ICONS) {
-      const bitmap = PIXEL_ICONS[name];
-      expect(bitmap, name).toHaveLength(16);
-      expect(bitmap.every((row) => row.length === 16 && /^[.#+]+$/.test(row)), name).toBe(true);
-      expect(bitmap.some((row) => /[#+]/.test(row)), name).toBe(true);
-    }
-  });
-});
 
 describe('the timeline grid', () => {
   it('names the grid, the frames and each cel by layer, frame and state', () => {

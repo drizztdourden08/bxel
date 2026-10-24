@@ -64,7 +64,7 @@ const LAYER_ACTIONS: readonly LayerAction[] = [
   },
   {
     id: 'flatten',
-    icon: 'layers',
+    icon: 'pixel-layers',
     run: flattenLayers,
     hint: {
       name: 'Flatten copy',

@@ -6,7 +6,6 @@ import { duplicateSprites } from '../../../sheet/duplicate-sprites';
 import { isolateSprite } from '../../../sheet/isolate-sprite';
 import { SPRITE_TEXT } from '../../../sheet/sprite-label.constants';
 import type { ActionContext } from '../SpritesPanel.type';
-import { pixelMenuIcon } from './pixel-menu-icon';
 
 const editGroup = ({ model, rename, open }: ActionContext): MenuGroup => {
   const none = model.ids.length === 0;
@@ -25,7 +24,7 @@ const editGroup = ({ model, rename, open }: ActionContext): MenuGroup => {
       },
       { id: 'rename-many', label: MANAGER_TEXT.renameMany, disabled: none, onSelect: () => open('rename') },
       { id: 'duplicate', label: MANAGER_TEXT.duplicate, shortcut: 'Ctrl+Shift+D', icon: 'copy', disabled: none, onSelect: () => duplicateSprites(model.ids) },
-      { id: 'isolate', label: MANAGER_TEXT.isolate, shortcut: 'Enter', icon: pixelMenuIcon('isolate'), disabled: none, onSelect: () => isolateSprite() },
+      { id: 'isolate', label: MANAGER_TEXT.isolate, shortcut: 'Enter', icon: 'pixel-isolate', disabled: none, onSelect: () => isolateSprite() },
       {
         id: 'delete',
         label: MANAGER_TEXT.remove,

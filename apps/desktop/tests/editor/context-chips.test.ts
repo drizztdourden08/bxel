@@ -4,7 +4,6 @@ import { createDefaultArtwork } from '../../src/documents/create-default-artwork
 import { currentTarget } from '../../src/editor/current-target';
 import type { EditorTarget } from '../../src/editor/editor.type';
 import { updateLayerFlag } from '../../src/editor/update-layer-flag';
-import { PIXEL_ICON_SIZE, PIXEL_ICONS } from '../../src/icons/pixel-icon.constants';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useToolStore } from '../../src/stores/useToolStore';
@@ -51,14 +50,5 @@ describe('the scope chips of the scope bar', () => {
   it('gives the other chips the same text for the chip and the hint', () => {
     const others = scopeChipList(live()).filter((chip) => chip.key !== 'layer');
     expect(others.every((chip) => chip.text === chip.full && !chip.locked && !chip.danger)).toBe(true);
-  });
-});
-
-describe('the lock icon', () => {
-  it('is a 16 by 16 bitmap with ink', () => {
-    const rows = PIXEL_ICONS.lock;
-    expect(rows).toHaveLength(PIXEL_ICON_SIZE);
-    expect(rows.every((row) => row.length === PIXEL_ICON_SIZE && /^[.#+]+$/.test(row))).toBe(true);
-    expect(rows.join('')).toContain('#');
   });
 });

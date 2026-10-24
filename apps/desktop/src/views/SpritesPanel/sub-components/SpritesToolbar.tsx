@@ -8,7 +8,6 @@ import { reorderSprites } from '../../../sheet/reorder-sprites';
 import { SPRITE_TEXT } from '../../../sheet/sprite-label.constants';
 import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
 import { ActionHint } from '../../ActionHint';
-import { PixelIcon } from '../../PixelIcon';
 import { SPRITE_HINTS } from '../SpritesPanel.constants';
 import type { ManagerToolbarProps } from '../SpritesPanel.type';
 import { ActionsMenu } from './ActionsMenu';
@@ -22,7 +21,7 @@ const SpritesToolbar = ({ model, groups }: ManagerToolbarProps) => {
       <ButtonGroup aria-label={MANAGER_TEXT.actions}>
         <ToolbarButton hint={SPRITE_HINTS.add} icon={<Icon name="plus" size={16} />} onClick={() => useCreateDialogStore.getState().show('sprite')} />
         <ToolbarButton hint={SPRITE_HINTS.duplicate} disabled={none} icon={<Icon name="copy" size={16} />} onClick={() => duplicateSprites(ids)} />
-        <ToolbarButton hint={SPRITE_HINTS.isolate} disabled={none} icon={<PixelIcon name="isolate" />} onClick={() => isolateSprite()} />
+        <ToolbarButton hint={SPRITE_HINTS.isolate} disabled={none} icon={<Icon name="pixel-isolate" />} onClick={() => isolateSprite()} />
         <ToolbarButton hint={SPRITE_HINTS.earlier} disabled={none} icon={<Icon name="arrow-left" size={16} />} onClick={() => reorderSprites(ids, { by: -1 })} />
         <ToolbarButton hint={SPRITE_HINTS.later} disabled={none} icon={<Icon name="arrow-right" size={16} />} onClick={() => reorderSprites(ids, { by: 1 })} />
         <ActionHint hint={SPRITE_HINTS.remove}>

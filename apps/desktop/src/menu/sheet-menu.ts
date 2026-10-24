@@ -11,7 +11,7 @@ const sheetMenu = (state: EditorMenuState): MenuItem => {
   return {
     key: MENU_KEYS.sheet,
     label: MENU_TEXT.sheet,
-    icon: 'layout-grid',
+    icon: 'pixel-grid-view',
     children: [
       menuItem(ID.modeSprite, 'Sprite mode', { ...off, checked: state.mode === 'sprite' }),
       menuItem(ID.modeSheet, 'Sheet mode', { ...off, checked: state.mode === 'sheet' }),

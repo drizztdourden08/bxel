@@ -61,9 +61,9 @@ const TURN_HINT: HintSpec = {
 const FLAG_HINTS: Readonly<Record<FlagOp, HintSpec>> = { flipX: FLIP_X_HINT, flipY: FLIP_Y_HINT, turn: TURN_HINT };
 
 const FLAG_ACTIONS: readonly FlagAction[] = [
-  { op: 'flipX', flag: 'flipX', icon: 'arrow-left-right', hint: FLIP_X_HINT },
-  { op: 'flipY', flag: 'flipY', icon: 'arrow-up-down', hint: FLIP_Y_HINT },
-  { op: 'turn', flag: 'diagonal', icon: 'refresh-cw', hint: TURN_HINT },
+  { op: 'flipX', flag: 'flipX', icon: 'pixel-flip-tile-x', hint: FLIP_X_HINT },
+  { op: 'flipY', flag: 'flipY', icon: 'pixel-flip-tile-y', hint: FLIP_Y_HINT },
+  { op: 'turn', flag: 'diagonal', icon: 'pixel-turn-right', hint: TURN_HINT },
 ];
 
 const FILLED_MAP_HINT: HintSpec = {

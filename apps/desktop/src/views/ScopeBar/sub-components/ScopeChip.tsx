@@ -1,14 +1,13 @@
 /* @layer renderer-app @kind component */
-import { Tag } from '@drizztdourden08/tessera';
+import { Icon, Tag } from '@drizztdourden08/tessera';
 import { ActionHint } from '../../ActionHint';
-import { PixelIcon } from '../../PixelIcon';
 import { SCOPE_DESCRIPTION, SCOPE_TEXT } from '../ScopeBar.constants';
 import type { ScopeChipProps } from '../ScopeBar.type';
 
 const ScopeChip = ({ chip }: ScopeChipProps) => {
   const body = (
     <>
-      {chip.locked && <PixelIcon name="lock" size={12} label={SCOPE_TEXT.lockedIcon} />}
+      {chip.locked && <Icon name="pixel-lock" size={12} label={SCOPE_TEXT.lockedIcon} />}
       {chip.locked && ' '}
       {chip.text}
     </>

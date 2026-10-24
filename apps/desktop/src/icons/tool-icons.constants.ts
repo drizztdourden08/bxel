@@ -2,9 +2,9 @@
 import type { ShapeKind } from '@bxel/raster';
 import type { ToolId } from '../editor/tool.type';
 import type { SelectVariant } from '../editor/selection/selection.type';
-import type { StockPixelIconName } from './pixel-icon.type';
+import type { PixelIconName } from './pixel-icon.type';
 
-const TOOL_ICONS: Readonly<Record<ToolId, StockPixelIconName>> = {
+const TOOL_ICONS: Readonly<Record<ToolId, PixelIconName>> = {
   pencil: 'pixel-pencil',
   eraser: 'pixel-eraser',
   fill: 'pixel-fill-bucket',
@@ -16,19 +16,28 @@ const TOOL_ICONS: Readonly<Record<ToolId, StockPixelIconName>> = {
   move: 'pixel-move',
 };
 
-const SHAPE_KIND_ICONS: Readonly<Record<ShapeKind, StockPixelIconName>> = {
+const MAP_TOOL_ICONS: Readonly<Record<ToolId, PixelIconName>> = {
+  ...TOOL_ICONS,
+  pencil: 'pixel-map-paint',
+  eraser: 'pixel-map-erase',
+  fill: 'pixel-map-fill',
+  picker: 'pixel-map-pick',
+  shape: 'pixel-map-rect',
+};
+
+const SHAPE_KIND_ICONS: Readonly<Record<ShapeKind, PixelIconName>> = {
   line: 'pixel-shape-line',
   rect: 'pixel-shape-rect',
   ellipse: 'pixel-shape-ellipse',
 };
 
-const SHAPE_FILLED_ICONS: Readonly<Record<ShapeKind, StockPixelIconName>> = {
+const SHAPE_FILLED_ICONS: Readonly<Record<ShapeKind, PixelIconName>> = {
   line: 'pixel-shape-line',
   rect: 'pixel-shape-rect-filled',
   ellipse: 'pixel-shape-ellipse-filled',
 };
 
-const SELECT_VARIANT_ICONS: Readonly<Record<SelectVariant, StockPixelIconName>> = {
+const SELECT_VARIANT_ICONS: Readonly<Record<SelectVariant, PixelIconName>> = {
   rect: 'pixel-select-rect',
   ellipse: 'pixel-select-ellipse',
   lasso: 'pixel-select-lasso',
@@ -37,4 +46,4 @@ const SELECT_VARIANT_ICONS: Readonly<Record<SelectVariant, StockPixelIconName>> 
   colour: 'pixel-select-color',
 };
 
-export { SELECT_VARIANT_ICONS, SHAPE_FILLED_ICONS, SHAPE_KIND_ICONS, TOOL_ICONS };
+export { MAP_TOOL_ICONS, SELECT_VARIANT_ICONS, SHAPE_FILLED_ICONS, SHAPE_KIND_ICONS, TOOL_ICONS };

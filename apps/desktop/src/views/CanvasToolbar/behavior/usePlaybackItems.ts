@@ -12,9 +12,9 @@ const usePlaybackItems = (): ToolbarItem[] => {
   const setOnion = useTimelineStore((state) => state.setOnion);
   const togglePlay = useTimelineStore((state) => state.togglePlay);
   return [
-    toggleItem({ id: 'onion', icon: 'layers', hint: ONION_HINT, disabled, pressed: onion, onChange: (on) => setOnion({ on }) }),
+    toggleItem({ id: 'onion', icon: 'pixel-onion-skin', hint: ONION_HINT, disabled, pressed: onion, onChange: (on) => setOnion({ on }) }),
     toggleItem({
-      id: 'play', icon: playing ? 'pause' : 'play', hint: playing ? PAUSE_HINT : PLAY_HINT, disabled, pressed: playing, onChange: togglePlay,
+      id: 'play', icon: playing ? 'pixel-pause' : 'pixel-play', hint: playing ? PAUSE_HINT : PLAY_HINT, disabled, pressed: playing, onChange: togglePlay,
     }),
   ];
 };

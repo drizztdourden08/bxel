@@ -19,7 +19,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
   {
     id: FILE_COMMAND.save,
     label: 'Save file',
-    icon: 'save',
+    icon: 'pixel-save-file',
     group: FILE_TEXT.group,
     chord: 'Mod+S',
     when: hasActiveDocument,
@@ -30,7 +30,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
   {
     id: FILE_COMMAND.saveAs,
     label: 'Save file as',
-    icon: 'save',
+    icon: 'pixel-save-file',
     group: FILE_TEXT.group,
     chord: 'Mod+Shift+S',
     when: hasActiveDocument,
@@ -41,7 +41,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
   {
     id: FILE_COMMAND.export,
     label: 'Export',
-    icon: 'image',
+    icon: 'pixel-export-image',
     group: FILE_TEXT.group,
     chord: 'Mod+Shift+E',
     when: hasActiveDocument,

@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button, Flex, IconButton, SegmentedControl, TextInput, Tooltip } from '@drizztdourden08/tessera';
-import { PixelIcon } from '../../PixelIcon';
+import { Button, Flex, Icon, IconButton, SegmentedControl, TextInput, Tooltip } from '@drizztdourden08/tessera';
 import { changeTag } from '../../../timeline/change-tag';
 import { deleteTag } from '../../../timeline/delete-tag';
 import { setTagRange } from '../../../timeline/set-tag-range';
@@ -37,7 +36,7 @@ const TagEditor = ({ tag }: TagEditorProps) => {
       </Button>
       <Tooltip content={TIMELINE_PANEL_TEXT.tagDelete} placement="top">
         <IconButton label={TIMELINE_PANEL_TEXT.tagDelete} size="sm" onClick={() => deleteTag(tag.id)}>
-          <PixelIcon name="frameDelete" />
+          <Icon name="pixel-frame-delete" />
         </IconButton>
       </Tooltip>
     </Flex>
