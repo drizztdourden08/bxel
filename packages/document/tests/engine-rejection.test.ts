@@ -1,9 +1,9 @@
 /* @layer core @kind test */
 import type { CommandStep, DocumentId, LayerId, SpriteId, TransactionResult } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { brand } from './fixture-to-project';
+import { brand } from './fixture-to-artwork';
 import { bothHearts, heartEngine, patchStep, request } from './heart-engine';
-import { snapshotProject } from './snapshot-project';
+import { snapshotArtwork } from './snapshot-artwork';
 
 const failureOf = (result: TransactionResult) => {
   if (result.ok) throw new Error('the request was accepted');
@@ -12,10 +12,10 @@ const failureOf = (result: TransactionResult) => {
 
 const rejects = (step: CommandStep, fields: Parameters<typeof request>[1] = {}) => {
   const { engine } = heartEngine();
-  const before = snapshotProject(engine.state().project);
+  const before = snapshotArtwork(engine.state().artwork);
   const result = engine.execute(request([step], fields));
   expect(engine.state().revision).toBe(1);
-  expect(snapshotProject(engine.state().project)).toBe(before);
+  expect(snapshotArtwork(engine.state().artwork)).toBe(before);
   expect(engine.canUndo()).toBe(false);
   return failureOf(result);
 };

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
 import { counterIdSource, flattenFrame } from '@bxel/document';
 import type { DocumentId } from '@bxel/document';
-import { createDefaultProject } from '../../src/documents/create-default-project';
+import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
 import { activeTarget } from '../../src/editor/active-target';
@@ -18,7 +18,7 @@ interface OpenEditor {
 
 const openEditor = (): OpenEditor => {
   const host = createDocumentHost({ ids: counterIdSource() });
-  const documentId = createDefaultProject(host);
+  const documentId = createDefaultArtwork(host);
   const target = (): EditorTarget => {
     const found = activeTarget(host.view(documentId));
     if (!found) throw new Error('the editor has no target');

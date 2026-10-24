@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import type { BankId } from '../model/ids.type';
 import type { PaletteBank, Swatch } from '../model/palette.type';
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 
 const slotColor = (slot: Swatch): string => (slot.kind === 'color' ? slot.rgb : '');
 
@@ -12,7 +12,7 @@ const colorsDiffer = (before: PaletteBank, after: PaletteBank): boolean =>
     return other !== undefined && slotColor(slot) !== slotColor(other);
   });
 
-const recoloredBanks = (before: Project, after: Project): Set<BankId> => {
+const recoloredBanks = (before: Artwork, after: Artwork): Set<BankId> => {
   const recolored = new Set<BankId>();
   for (const bank of after.banks) {
     const prior = before.banks.find((item) => item.id === bank.id);

@@ -1,18 +1,18 @@
 /* @layer core @kind logic */
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 import { COLLECTION_KEYS, COLLECTION_PREFIX, META_PATH } from './entity-path.constants';
-import type { ProjectMeta, UndoOp } from './history.type';
+import type { ArtworkMeta, UndoOp } from './history.type';
 
 const sameList = (first: readonly unknown[], second: readonly unknown[]): boolean =>
   first.length === second.length && first.every((item, index) => item === second[index]);
 
-const metaOf = (project: Project): ProjectMeta => ({
-  name: project.name,
-  defaultBankId: project.defaultBankId,
-  coverSpriteId: project.coverSpriteId,
+const metaOf = (artwork: Artwork): ArtworkMeta => ({
+  name: artwork.name,
+  defaultBankId: artwork.defaultBankId,
+  coverSpriteId: artwork.coverSpriteId,
 });
 
-const metaOps = (base: Project, next: Project): UndoOp[] => {
+const metaOps = (base: Artwork, next: Artwork): UndoOp[] => {
   const before = metaOf(base);
   const after = metaOf(next);
   const same =
@@ -22,7 +22,7 @@ const metaOps = (base: Project, next: Project): UndoOp[] => {
   return same ? [] : [{ kind: 'entity', path: META_PATH, before, after }];
 };
 
-const collectionOps = (base: Project, next: Project): UndoOp[] => [
+const collectionOps = (base: Artwork, next: Artwork): UndoOp[] => [
   ...metaOps(base, next),
   ...COLLECTION_KEYS.flatMap((key): UndoOp[] =>
     sameList(base[key], next[key])

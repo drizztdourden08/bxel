@@ -12,10 +12,10 @@ const paletteAssign = defineCommand({
   scope: 'sprites',
   schema: paletteAssignSchema,
   run: (draft, input) => {
-    const dest = requireBank(draft.project, input.options.bankId as BankId);
-    const sprites = input.sprites.map((id) => requireSprite(draft.project, id));
+    const dest = requireBank(draft.artwork, input.options.bankId as BankId);
+    const sprites = input.sprites.map((id) => requireSprite(draft.artwork, id));
     checkAssignTarget(dest, sprites);
-    const sources = [...new Set(sprites.map((sprite) => sprite.bankId))].map((id) => requireBank(draft.project, id));
+    const sources = [...new Set(sprites.map((sprite) => sprite.bankId))].map((id) => requireBank(draft.artwork, id));
     const pairs = resolveAssignPairs(sources, dest, input.options.mapping);
     assignSprites(draft, dest, sprites, pairs);
   },

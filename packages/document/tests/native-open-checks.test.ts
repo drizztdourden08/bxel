@@ -1,28 +1,28 @@
 /* @layer core @kind test */
-import { decodeProject, LOAD_ERROR, MIMETYPE } from '@bxel/document/native';
+import { decodeArtwork, LOAD_ERROR, MIMETYPE } from '@bxel/document/native';
 import { strToU8, zipSync } from 'fflate';
 import { describe, expect, it } from 'vitest';
 import { editDocument, editFiles, editManifest, pack } from './container-edit';
 import { firstCode } from './first-code';
-import { encodeHeart, projectOf } from './native-fixture';
+import { encodeHeart, artworkOf } from './native-fixture';
 
 describe('native open checks: the archive', () => {
   it('rejects bytes that are not a zip', () => {
-    const report = decodeProject(Uint8Array.from([1, 2, 3, 4, 5]));
+    const report = decodeArtwork(Uint8Array.from([1, 2, 3, 4, 5]));
     expect(report.outcome).toBe('fatal');
     expect(firstCode(report)).toBe(LOAD_ERROR.FILE_NOT_BXEL);
-    expect(report.project).toBeNull();
+    expect(report.artwork).toBeNull();
     expect(report.readOnly).toBe(true);
   });
 
   it('rejects a zip whose mimetype is something else', () => {
-    const report = decodeProject(pack({ mimetype: strToU8('text/plain') }));
+    const report = decodeArtwork(pack({ mimetype: strToU8('text/plain') }));
     expect(firstCode(report)).toBe(LOAD_ERROR.FILE_NOT_BXEL);
   });
 
   it('reports a truncated archive', () => {
     const bytes = encodeHeart();
-    const report = decodeProject(bytes.slice(0, Math.floor(bytes.length / 2)));
+    const report = decodeArtwork(bytes.slice(0, Math.floor(bytes.length / 2)));
     expect(report.outcome).toBe('fatal');
     expect(firstCode(report)).toBe(LOAD_ERROR.FILE_TRUNCATED);
   });
@@ -32,24 +32,24 @@ describe('native open checks: the archive', () => {
       mimetype: [strToU8(MIMETYPE), { level: 0 }],
       'cels/cel_bomb.idx': new Uint8Array(65 * 1024 * 1024),
     });
-    expect(firstCode(decodeProject(bomb))).toBe(LOAD_ERROR.FILE_TOO_LARGE);
+    expect(firstCode(decodeArtwork(bomb))).toBe(LOAD_ERROR.FILE_TOO_LARGE);
   });
 
   it('rejects a missing or malformed manifest', () => {
     const missing = editFiles(encodeHeart(), (files) => {
       delete files['manifest.json'];
     });
-    expect(firstCode(decodeProject(missing))).toBe(LOAD_ERROR.MANIFEST_INVALID);
+    expect(firstCode(decodeArtwork(missing))).toBe(LOAD_ERROR.MANIFEST_INVALID);
     const wrongFormat = editManifest(encodeHeart(), (manifest) => {
       manifest.format = 'other';
     });
-    const report = decodeProject(wrongFormat);
+    const report = decodeArtwork(wrongFormat);
     expect(firstCode(report)).toBe(LOAD_ERROR.MANIFEST_INVALID);
     expect(report.issues[0]?.path).toBe('$.format');
     const broken = editFiles(encodeHeart(), (files) => {
       files['manifest.json'] = strToU8('{ not json');
     });
-    expect(firstCode(decodeProject(broken))).toBe(LOAD_ERROR.MANIFEST_INVALID);
+    expect(firstCode(decodeArtwork(broken))).toBe(LOAD_ERROR.MANIFEST_INVALID);
   });
 });
 
@@ -59,11 +59,11 @@ describe('native open checks: versions', () => {
       manifest.formatVersion = 2;
       manifest.minReaderVersion = 1;
     });
-    const report = decodeProject(bytes);
+    const report = decodeArtwork(bytes);
     expect(report.outcome).toBe('ok');
     expect(report.readOnly).toBe(true);
     expect(report.notice).toContain('newer');
-    expect(projectOf(report).sprites).toHaveLength(2);
+    expect(artworkOf(report).sprites).toHaveLength(2);
   });
 
   it('refuses a newer file whose minimum reader version is unknown', () => {
@@ -71,7 +71,7 @@ describe('native open checks: versions', () => {
       manifest.formatVersion = 3;
       manifest.minReaderVersion = 2;
     });
-    const report = decodeProject(bytes);
+    const report = decodeArtwork(bytes);
     expect(report.outcome).toBe('fatal');
     expect(firstCode(report)).toBe(LOAD_ERROR.VERSION_TOO_NEW);
   });
@@ -82,7 +82,7 @@ describe('native open checks: entries and document', () => {
     const bytes = editFiles(encodeHeart(), (files) => {
       delete files['document.json'];
     });
-    const report = decodeProject(bytes);
+    const report = decodeArtwork(bytes);
     expect(report.outcome).toBe('fatal');
     expect(firstCode(report)).toBe(LOAD_ERROR.ENTRY_MISSING);
     expect(report.issues[0]?.path).toBe('document.json');
@@ -92,7 +92,7 @@ describe('native open checks: entries and document', () => {
     const bytes = editFiles(encodeHeart(), (files) => {
       files['document.json'] = strToU8('{}');
     });
-    expect(firstCode(decodeProject(bytes))).toBe(LOAD_ERROR.ENTRY_CHECKSUM);
+    expect(firstCode(decodeArtwork(bytes))).toBe(LOAD_ERROR.ENTRY_CHECKSUM);
   });
 
   it('reports a document that breaks the schema with a JSON path', () => {
@@ -100,7 +100,7 @@ describe('native open checks: entries and document', () => {
       const sprite = document.sprites[0];
       if (sprite) sprite.width = 0;
     });
-    const report = decodeProject(bytes);
+    const report = decodeArtwork(bytes);
     expect(report.outcome).toBe('fatal');
     expect(firstCode(report)).toBe(LOAD_ERROR.DOCUMENT_INVALID);
     expect(report.issues[0]?.path).toBe('$.sprites[0].width');
@@ -111,7 +111,7 @@ describe('native open checks: entries and document', () => {
       const [first, second] = document.sprites;
       if (first && second) second.id = first.id;
     });
-    const report = decodeProject(bytes);
+    const report = decodeArtwork(bytes);
     expect(report.outcome).toBe('fatal');
     expect(firstCode(report)).toBe(LOAD_ERROR.REFERENCE_BROKEN);
     expect(report.issues[0]?.message).toContain('spr_000010');
@@ -122,7 +122,7 @@ describe('native open checks: entries and document', () => {
       const sprite = document.sprites[1];
       if (sprite) sprite.bankId = 'bnk_999999';
     });
-    const report = decodeProject(bytes);
+    const report = decodeArtwork(bytes);
     expect(report.outcome).toBe('fatal');
     expect(firstCode(report)).toBe(LOAD_ERROR.REFERENCE_BROKEN);
     expect(report.issues[0]?.path).toBe('$.sprites[1].bankId');
@@ -133,6 +133,6 @@ describe('native open checks: entries and document', () => {
       const bank = document.banks[0];
       if (bank) bank.transparent = false;
     });
-    expect(firstCode(decodeProject(bytes))).toBe(LOAD_ERROR.DOCUMENT_INVALID);
+    expect(firstCode(decodeArtwork(bytes))).toBe(LOAD_ERROR.DOCUMENT_INVALID);
   });
 });

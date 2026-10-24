@@ -1,18 +1,18 @@
 /* @layer core @kind logic */
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 import { applyCelRect } from './apply-cel-rect';
 import { applyEntity } from './apply-entity';
 import { applyRemap } from './apply-remap';
 import type { HistoryDirection, UndoOp } from './history.type';
 
-const applyOp = (project: Project, op: UndoOp, direction: HistoryDirection): Project => {
+const applyOp = (artwork: Artwork, op: UndoOp, direction: HistoryDirection): Artwork => {
   switch (op.kind) {
     case 'cel-rect':
-      return applyCelRect(project, op, direction);
+      return applyCelRect(artwork, op, direction);
     case 'cel-remap':
-      return applyRemap(project, op, direction);
+      return applyRemap(artwork, op, direction);
     case 'entity':
-      return applyEntity(project, op.path, direction === 'undo' ? op.before : op.after);
+      return applyEntity(artwork, op.path, direction === 'undo' ? op.before : op.after);
   }
 };
 

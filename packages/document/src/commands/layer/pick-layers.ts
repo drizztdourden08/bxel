@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import type { SpriteId } from '../../model/ids.type';
-import type { Project } from '../../model/project.type';
+import type { Artwork } from '../../model/artwork.type';
 import type { Layer } from '../../model/sprite.type';
 import { requireSprite } from '../../read/require-sprite';
 import type { LayerRef } from '../../schema/command-options.type';
@@ -15,7 +15,7 @@ const matches = (layer: Layer, ref: LayerRef): boolean =>
 
 const describe = (ref: LayerRef): string => (ref.by === 'id' ? `Layer ${ref.id}` : `Layer "${ref.name}"`);
 
-const pickLayers = (project: Project, sprites: readonly SpriteId[], ref: LayerRef): PickedLayer[] => {
+const pickLayers = (artwork: Artwork, sprites: readonly SpriteId[], ref: LayerRef): PickedLayer[] => {
   if (ref.by === 'id' && sprites.length > 1) {
     throw fail(ERROR_CODE.INVALID_OPTION, 'A layer id is valid with one sprite only. Use a layer name.', {
       path: 'options.layer',
@@ -24,7 +24,7 @@ const pickLayers = (project: Project, sprites: readonly SpriteId[], ref: LayerRe
   const picked: PickedLayer[] = [];
   const missing: TargetIssue[] = [];
   for (const spriteId of sprites) {
-    const sprite = requireSprite(project, spriteId);
+    const sprite = requireSprite(artwork, spriteId);
     const index = sprite.layers.findIndex((layer) => matches(layer, ref));
     const layer = sprite.layers[index];
     if (layer) picked.push({ sprite, layer, index });

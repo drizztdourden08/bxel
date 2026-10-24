@@ -15,6 +15,7 @@ const transactionRequestSchema = z.strictObject({
   baseRevision: z.number().int().min(0),
   mode: z.enum(['preview', 'commit']),
   origin: z.enum(['ui', 'mcp']),
+  actor: z.string().min(1).max(64).optional(),
   label: z.string().min(1).max(200),
   steps: z.array(stepSchema),
   previewPixels: z.number().int().min(0),

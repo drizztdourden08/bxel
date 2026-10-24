@@ -4,7 +4,7 @@ import type { MenuItem } from '@drizztdourden08/brock-react';
 import { describe, expect, it } from 'vitest';
 import { fileMenu } from '../../src/files/file-menu';
 import type { FileAction, FileOutcome } from '../../src/files/files.type';
-import { isProjectPath } from '../../src/files/is-project-path';
+import { isArtworkPath } from '../../src/files/is-artwork-path';
 import { recentMenuItem } from '../../src/files/recent-menu-item';
 import { recordsRecent } from '../../src/files/records-recent';
 
@@ -30,12 +30,12 @@ const actions = () => {
 const childrenOf = (item: MenuItem): readonly (MenuItem | 'separator')[] => item.children ?? [];
 
 describe('open recent menu', () => {
-  it('lists the recent projects, newest first, with the path as the description', () => {
+  it('lists the recent files, newest first, with the path as the description', () => {
     const { handlers } = actions();
     const item = recentMenuItem([entry('C:\\art\\b.bxel', 'b.bxel'), entry('C:\\art\\a.bxel', 'a.bxel')], handlers);
     expect(item.label).toBe('Open recent');
     const rows = childrenOf(item).filter((child): child is MenuItem => child !== 'separator');
-    expect(rows.map((row) => row.label)).toEqual(['b.bxel', 'a.bxel', 'Clear recent projects']);
+    expect(rows.map((row) => row.label)).toEqual(['b.bxel', 'a.bxel', 'Clear recent files']);
     expect(rows[0]?.description).toBe('C:\\art\\b.bxel');
   });
 
@@ -52,15 +52,15 @@ describe('open recent menu', () => {
   it('shows a disabled line when there is nothing recent', () => {
     const { handlers } = actions();
     const [only] = childrenOf(recentMenuItem([], handlers));
-    expect(only).toMatchObject({ label: 'No recent projects', disabled: true });
+    expect(only).toMatchObject({ label: 'No recent files', disabled: true });
   });
 
-  it('leaves out files that are not Bxel projects, such as exported images', () => {
+  it('leaves out files that are not Bxel files, such as exported images', () => {
     const { handlers } = actions();
     const item = recentMenuItem([entry('C:\\art\\hero.png', 'hero.png'), entry('C:\\art\\HERO.BXEL', 'HERO.BXEL')], handlers);
     const labels = childrenOf(item).flatMap((child) => (child === 'separator' ? [] : [child.label]));
-    expect(labels).toEqual(['HERO.BXEL', 'Clear recent projects']);
-    expect(isProjectPath('C:\\art\\hero.png')).toBe(false);
+    expect(labels).toEqual(['HERO.BXEL', 'Clear recent files']);
+    expect(isArtworkPath('C:\\art\\hero.png')).toBe(false);
   });
 
   it('sits under File right after Open', () => {

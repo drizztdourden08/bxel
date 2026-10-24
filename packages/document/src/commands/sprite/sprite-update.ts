@@ -17,11 +17,11 @@ const spriteUpdate = defineCommand({
   run: (draft, input) => {
     const spriteId = input.sprites[0];
     if (!spriteId) throw fail(ERROR_CODE.TARGET_NOT_FOUND, 'No sprite was targeted.');
-    const sprite = requireSprite(draft.project, spriteId);
+    const sprite = requireSprite(draft.artwork, spriteId);
     const { options } = input;
     const name = options.name === undefined ? sprite.name : checkName(options.name);
     assertNameFree(
-      draft.project.sprites.filter((other) => other.id !== sprite.id).map((other) => other.name),
+      draft.artwork.sprites.filter((other) => other.id !== sprite.id).map((other) => other.name),
       name,
     );
     if (options.pivot) checkPivot(options.pivot, sprite);

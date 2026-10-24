@@ -4,15 +4,15 @@ import { maskFromRows } from './mask-from-rows';
 import { expectLockedInk } from './expect-locked-ink';
 import { pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
 import { createdCelRows, celRows, errorOf, expectUntouched, okOf } from './result-checks';
-import { emptyProject, rowsIds, rowsProject } from './rows-project';
+import { emptyArtwork, rowsIds, rowsArtwork } from './rows-artwork';
 
 const fillRequest = (options: Record<string, unknown>) =>
   request([stepOf('pixels.fill', scopeOf([rowsIds.sprite]), { x: 0, y: 0, index: 2, ...options })]);
 
 const filled = (rows: readonly string[], options: Record<string, unknown>): string[] => {
-  const engine = pixelEngine(rowsProject(rows));
+  const engine = pixelEngine(rowsArtwork(rows));
   okOf(engine.execute(fillRequest(options)));
-  return celRows(engine.state().project, rowsIds.sprite, rowsIds.cel);
+  return celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
 };
 
 describe('pixels.fill', () => {
@@ -32,14 +32,14 @@ describe('pixels.fill', () => {
   });
 
   test('fills a layer that has no cel yet and creates it', () => {
-    const engine = pixelEngine(emptyProject(3, 3));
+    const engine = pixelEngine(emptyArtwork(3, 3));
     const result = okOf(engine.execute(fillRequest({})));
     expect(result.changes.sprites[0]?.cels[0]?.rect).toEqual({ x: 0, y: 0, width: 3, height: 3 });
-    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual(['222', '222', '222']);
+    expect(createdCelRows(engine.state().artwork, rowsIds.sprite)).toEqual(['222', '222', '222']);
   });
 
   test('is a no-op when the seed already holds the index', () => {
-    const engine = pixelEngine(rowsProject(['11', '11']));
+    const engine = pixelEngine(rowsArtwork(['11', '11']));
     const result = okOf(engine.execute(fillRequest({ index: 1 })));
     expect(result.noop).toBe(true);
     expect(engine.state().revision).toBe(1);
@@ -48,8 +48,8 @@ describe('pixels.fill', () => {
 
 describe('pixels.fill rejections', () => {
   test('refuses a seed outside every target sprite', () => {
-    const engine = pixelEngine(rowsProject(['..', '..']));
-    const before = engine.state().project;
+    const engine = pixelEngine(rowsArtwork(['..', '..']));
+    const before = engine.state().artwork;
     const error = errorOf(engine.execute(fillRequest({ x: 2 })));
     expect(error.code).toBe('OUT_OF_BOUNDS');
     expect(error.details.map((issue) => issue.spriteId)).toEqual([rowsIds.sprite]);
@@ -57,7 +57,7 @@ describe('pixels.fill rejections', () => {
   });
 
   test('refuses an index at the palette size', () => {
-    const engine = pixelEngine(rowsProject(['..']));
+    const engine = pixelEngine(rowsArtwork(['..']));
     expect(errorOf(engine.execute(fillRequest({ index: 7 }))).code).toBe('INDEX_OUT_OF_RANGE');
   });
 

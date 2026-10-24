@@ -6,11 +6,11 @@ import type { SpriteId } from '../model/ids.type';
 import { findSprite } from '../read/find-sprite';
 import type { ResolveSpritesInput } from './resolved-scope.type';
 
-const resolveSprites = ({ project, refs, created }: ResolveSpritesInput): SpriteId[] => {
+const resolveSprites = ({ artwork, refs, created }: ResolveSpritesInput): SpriteId[] => {
   const ids = new Set<SpriteId>();
   for (const [index, ref] of refs.entries()) {
     const id = (typeof ref === 'string' ? ref : created[ref.ref]) as SpriteId | undefined;
-    if (id === undefined || !findSprite(project, id)) {
+    if (id === undefined || !findSprite(artwork, id)) {
       throw fail(ERROR_CODE.TARGET_NOT_FOUND, `Sprite target ${index} does not resolve.`, {
         path: `targets.sprites.${index}`,
       });

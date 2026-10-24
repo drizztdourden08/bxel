@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it } from 'vitest';
-import { createDefaultProject } from '../../src/documents/create-default-project';
+import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { beginStroke } from '../../src/editor/begin-stroke';
 import { commitSession } from '../../src/editor/commit-session';
 import { currentTarget } from '../../src/editor/current-target';
@@ -28,17 +28,17 @@ const activeView = () => {
 
 beforeEach(() => {
   useToolStore.setState({ ...TOOL_DEFAULTS });
-  createDefaultProject(useDocumentStore.getState().host);
+  createDefaultArtwork(useDocumentStore.getState().host);
 });
 
 describe('the document store', () => {
   it('opens the default sprite as a clean 32 by 32 document with the Bxel 16 bank', () => {
     const { state, clean } = activeView();
-    const sprite = state.project.sprites[0];
+    const sprite = state.artwork.sprites[0];
     expect(clean).toBe(true);
     expect(sprite).toMatchObject({ width: 32, height: 32 });
-    expect(state.project.banks[0]).toMatchObject({ name: 'Bxel 16', cap: 16, transparent: true });
-    expect(state.project.banks[0]?.slots).toHaveLength(16);
+    expect(state.artwork.banks[0]).toMatchObject({ name: 'Bxel 16', cap: 16, transparent: true });
+    expect(state.artwork.banks[0]?.slots).toHaveLength(16);
   });
 });
 

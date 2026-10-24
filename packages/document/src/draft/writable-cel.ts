@@ -9,7 +9,7 @@ import { updateSprite } from './update-sprite';
 const writableCel = (draft: Draft, spriteId: SpriteId, celId: CelId): Uint8Array => {
   const owned = draft.owned.get(celId);
   if (owned) return owned;
-  const cel = requireSprite(draft.project, spriteId).cels[celId];
+  const cel = requireSprite(draft.artwork, spriteId).cels[celId];
   if (!cel) throw fail(ERROR_CODE.TARGET_NOT_FOUND, `Cel ${celId} does not exist in sprite ${spriteId}.`);
   const pixels = cel.pixels.slice();
   draft.owned.set(celId, pixels);

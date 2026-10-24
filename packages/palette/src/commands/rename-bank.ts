@@ -6,7 +6,7 @@ import { updateBank } from './update-bank';
 const renameBank = (draft: Draft, bank: PaletteBank, requested: string): void => {
   const name = checkName(requested);
   assertNameFree(
-    draft.project.banks.filter((other) => other.id !== bank.id).map((other) => other.name),
+    draft.artwork.banks.filter((other) => other.id !== bank.id).map((other) => other.name),
     name,
   );
   if (name === bank.name) return;

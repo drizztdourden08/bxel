@@ -7,7 +7,7 @@ import { remapSprites } from './remap-sprites';
 
 const assignSprites = (draft: Draft, dest: PaletteBank, sprites: readonly Sprite[], pairs: readonly ResolvedPair[]): void => {
   for (const sourceId of new Set(sprites.map((sprite) => sprite.bankId))) {
-    const source = requireBank(draft.project, sourceId);
+    const source = requireBank(draft.artwork, sourceId);
     const table = nearestTable(source, dest);
     for (const pair of pairs.filter((item) => item.source === sourceId)) table[pair.from] = pair.to;
     for (const sprite of sprites.filter((item) => item.bankId === sourceId)) {

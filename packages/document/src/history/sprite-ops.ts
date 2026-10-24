@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import type { CelId } from '../model/ids.type';
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 import type { Cel, Sprite, SpriteShell } from '../model/sprite.type';
 import { CEL_PREFIX, ORDER_PATH, SHELL_KEYS, SHELL_PREFIX, SPRITE_PREFIX } from './entity-path.constants';
 import type { UndoOp } from './history.type';
@@ -35,14 +35,14 @@ const changedOps = (before: Sprite, after: Sprite): UndoOp[] => {
   return [...shell, ...celOps(before, after)];
 };
 
-const orderOps = (base: Project, next: Project): UndoOp[] => {
+const orderOps = (base: Artwork, next: Artwork): UndoOp[] => {
   const before = base.sprites.map((sprite) => sprite.id);
   const after = next.sprites.map((sprite) => sprite.id);
   const same = before.length === after.length && before.every((id, index) => id === after[index]);
   return same ? [] : [{ kind: 'entity', path: ORDER_PATH, before, after }];
 };
 
-const spriteOps = (base: Project, next: Project): UndoOp[] => {
+const spriteOps = (base: Artwork, next: Artwork): UndoOp[] => {
   const prior = new Map(base.sprites.map((sprite) => [sprite.id, sprite] as const));
   const kept = new Set(next.sprites.map((sprite) => sprite.id));
   const ops: UndoOp[] = [];

@@ -22,10 +22,10 @@ const entryFor = ({ store, request, direction }: HistoryRun): HistoryEntry => {
 };
 
 const applyStep = (store: EngineStore, { direction }: HistoryRun, entry: HistoryEntry): TransactionResult => {
-  const project = direction === 'undo' ? applyUndo(store.project, entry) : applyRedo(store.project, entry);
-  const changes = computeChanges(store.project, project);
+  const artwork = direction === 'undo' ? applyUndo(store.artwork, entry) : applyRedo(store.artwork, entry);
+  const changes = computeChanges(store.artwork, artwork);
   const previousRevision = store.revision;
-  store.project = project;
+  store.artwork = artwork;
   store.revision += 1;
   store.history = { ...store.history, cursor: store.history.cursor + (direction === 'undo' ? -1 : 1) };
   notify(store, {
@@ -35,6 +35,7 @@ const applyStep = (store: EngineStore, { direction }: HistoryRun, entry: History
     previousRevision,
     label: entry.label,
     origin: entry.origin,
+    actor: entry.actor,
     changes,
   });
   return okResult({ mode: 'commit', baseRevision: previousRevision, revision: store.revision, changes });

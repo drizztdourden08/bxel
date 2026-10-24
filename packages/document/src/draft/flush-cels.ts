@@ -24,7 +24,7 @@ const flushCel = (draft: Draft, sprite: Sprite, cel: Cel): void => {
 };
 
 const flushCels = (draft: Draft): void => {
-  for (const sprite of draft.project.sprites) {
+  for (const sprite of draft.artwork.sprites) {
     for (const cel of Object.values(sprite.cels)) flushCel(draft, sprite, cel);
   }
 };

@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { flattenFrame, frameToRgba } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { celBytes, currentBank, currentSprite, execute, firstFrame, makeRig, slotId, snapshotProject, step, succeed } from './palette-engine';
+import { celBytes, currentBank, currentSprite, execute, firstFrame, makeRig, slotId, snapshotArtwork, step, succeed } from './palette-engine';
 import type { Rig } from './palette-engine';
 
 const reverseTail = (rig: Rig): string[] => [0, 4, 3, 2, 1].map((index) => slotId(rig, index));
@@ -37,16 +37,16 @@ describe('palette.reorder', () => {
 
   it('undoes and redoes the remap as one history step', () => {
     const rig = makeRig();
-    const original = snapshotProject(rig.engine.state().project);
+    const original = snapshotArtwork(rig.engine.state().artwork);
     succeed(reorder(rig, reverseTail(rig)));
-    const reordered = snapshotProject(rig.engine.state().project);
+    const reordered = snapshotArtwork(rig.engine.state().artwork);
     expect(reordered).not.toBe(original);
     const undone = rig.engine.undo({ documentId: rig.engine.documentId, expectedRevision: rig.engine.state().revision });
     expect(undone.ok).toBe(true);
-    expect(snapshotProject(rig.engine.state().project)).toBe(original);
+    expect(snapshotArtwork(rig.engine.state().artwork)).toBe(original);
     const redone = rig.engine.redo({ documentId: rig.engine.documentId, expectedRevision: rig.engine.state().revision });
     expect(redone.ok).toBe(true);
-    expect(snapshotProject(rig.engine.state().project)).toBe(reordered);
+    expect(snapshotArtwork(rig.engine.state().artwork)).toBe(reordered);
   });
 
   it('commits nothing when the order is unchanged', () => {

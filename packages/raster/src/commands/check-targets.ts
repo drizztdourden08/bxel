@@ -4,15 +4,15 @@ import type { TargetIssue } from '@bxel/document';
 import { targetIssue } from './target-issue';
 import type { TargetRules } from './target-rules.type';
 
-const checkTargets = ({ project, sprites, index, mask }: TargetRules): void => {
+const checkTargets = ({ artwork, sprites, index, mask }: TargetRules): void => {
   const mismatched: TargetIssue[] = [];
   const tooHigh: TargetIssue[] = [];
   for (const spriteId of sprites) {
-    const sprite = requireSprite(project, spriteId);
+    const sprite = requireSprite(artwork, spriteId);
     if (mask && (mask.width !== sprite.width || mask.height !== sprite.height)) {
       mismatched.push(targetIssue(spriteId, 'the mask size differs from the sprite size'));
     }
-    if (index >= requireBank(project, sprite.bankId).slots.length) {
+    if (index >= requireBank(artwork, sprite.bankId).slots.length) {
       tooHigh.push(targetIssue(spriteId, 'the index is past the last slot'));
     }
   }

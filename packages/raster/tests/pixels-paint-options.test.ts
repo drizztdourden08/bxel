@@ -2,11 +2,11 @@
 import type { SpriteId } from '@bxel/document';
 import { describe, expect, test } from 'vitest';
 import { brand } from './brand';
-import { buildProject } from './build-project';
+import { buildArtwork } from './build-artwork';
 import { maskFromRows } from './mask-from-rows';
 import { pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
 import { createdCelRows, errorOf, okOf } from './result-checks';
-import { emptyProject, rowsIds } from './rows-project';
+import { emptyArtwork, rowsIds } from './rows-artwork';
 
 const SCOPE = scopeOf([rowsIds.sprite]);
 
@@ -14,26 +14,26 @@ const paint = (options: Record<string, unknown>) => request([stepOf('pixels.pain
 
 describe('pixels.paint options', () => {
   test('clips a stroke that starts outside the sprite and creates the missing cel', () => {
-    const engine = pixelEngine(emptyProject(4, 4));
+    const engine = pixelEngine(emptyArtwork(4, 4));
     const result = okOf(engine.execute(paint({ points: [{ x: -3, y: -3 }, { x: 1, y: 1 }] })));
     const rect = result.changes.sprites[0]?.cels[0]?.rect;
     expect(rect).toEqual({ x: 0, y: 0, width: 2, height: 2 });
-    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual(['1...', '.1..', '....', '....']);
+    expect(createdCelRows(engine.state().artwork, rowsIds.sprite)).toEqual(['1...', '.1..', '....', '....']);
   });
 
   test('is a no-op, with no new cel, when every pixel is outside', () => {
-    const engine = pixelEngine(emptyProject(4, 4));
-    const before = engine.state().project;
+    const engine = pixelEngine(emptyArtwork(4, 4));
+    const before = engine.state().artwork;
     const result = okOf(engine.execute(paint({ points: [{ x: 10, y: 10 }] })));
     expect(result.noop).toBe(true);
-    expect(engine.state().project).toBe(before);
+    expect(engine.state().artwork).toBe(before);
     expect(engine.state().revision).toBe(1);
   });
 
   test('mirrors the stroke across doubled-integer axes', () => {
-    const engine = pixelEngine(emptyProject(8, 8));
+    const engine = pixelEngine(emptyArtwork(8, 8));
     okOf(engine.execute(paint({ points: [{ x: 1, y: 1 }], symmetry: { x2: 8, y2: 8 } })));
-    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual([
+    expect(createdCelRows(engine.state().artwork, rowsIds.sprite)).toEqual([
       '........',
       '.1....1.',
       '........',
@@ -46,10 +46,10 @@ describe('pixels.paint options', () => {
   });
 
   test('writes only where the mask allows', () => {
-    const engine = pixelEngine(emptyProject(4, 4));
+    const engine = pixelEngine(emptyArtwork(4, 4));
     const mask = maskFromRows(['##..', '##..', '##..', '##..']);
     okOf(engine.execute(paint({ points: [{ x: 0, y: 1 }, { x: 3, y: 1 }], mask })));
-    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual(['....', '11..', '....', '....']);
+    expect(createdCelRows(engine.state().artwork, rowsIds.sprite)).toEqual(['....', '11..', '....', '....']);
   });
 
   test('fails INCOMPATIBLE_TARGETS and names the sprite whose size the mask does not fit', () => {
@@ -62,7 +62,7 @@ describe('pixels.paint options', () => {
       layers: [{ id: `lay_${id.slice(4)}`, name: 'Body' }],
       cels: {},
     });
-    const engine = pixelEngine(buildProject([sprite('spr_000010', 'small', 4), sprite('spr_000020', 'large', 8)]));
+    const engine = pixelEngine(buildArtwork([sprite('spr_000010', 'small', 4), sprite('spr_000020', 'large', 8)]));
     const scope = scopeOf([rowsIds.sprite, brand<SpriteId>('spr_000020')], { by: 'names', names: ['Body'] });
     const mask = maskFromRows(['####', '####', '####', '####']);
     const error = errorOf(engine.execute(request([stepOf('pixels.paint', scope, { index: 1, points: [{ x: 0, y: 0 }], mask })])));
@@ -73,7 +73,7 @@ describe('pixels.paint options', () => {
 
 describe('pixels.paint limits', () => {
   const failing = (options: Record<string, unknown>) => {
-    const engine = pixelEngine(emptyProject(4, 4));
+    const engine = pixelEngine(emptyArtwork(4, 4));
     return errorOf(engine.execute(paint(options)));
   };
 

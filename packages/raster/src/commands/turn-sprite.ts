@@ -6,7 +6,7 @@ import { transformBuffer } from '../transform/transform-buffer';
 import { reorientSprite } from './reorient-sprite';
 
 const turnSprite = (draft: Draft, spriteId: SpriteId, orientation: Orientation): void => {
-  const sprite = requireSprite(draft.project, spriteId);
+  const sprite = requireSprite(draft.artwork, spriteId);
   const { width, height } = sprite;
   const cels: Record<CelId, Uint8Array> = {};
   for (const cel of Object.values(sprite.cels)) {

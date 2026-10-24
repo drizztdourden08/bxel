@@ -19,7 +19,7 @@ const redo = (engine: Engine): void => {
 };
 
 const spriteOf = (engine: Engine) => {
-  const sprite = findSprite(engine.state().project, WIDE);
+  const sprite = findSprite(engine.state().artwork, WIDE);
   if (!sprite) throw new Error('the sprite is missing');
   return sprite;
 };

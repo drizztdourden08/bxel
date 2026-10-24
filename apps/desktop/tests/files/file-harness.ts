@@ -2,7 +2,7 @@
 import { COMMAND_NAME, counterIdSource } from '@bxel/document';
 import type { DocumentId } from '@bxel/document';
 import type { DocumentsPort, DocumentWriteOptions, RecentDocument } from '@drizztdourden08/brock-core';
-import { createDefaultProject } from '../../src/documents/create-default-project';
+import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
 import { activeTarget } from '../../src/editor/active-target';
@@ -95,7 +95,7 @@ const harness = (): Harness => {
   return { kit, host, memory, paths, focused };
 };
 
-const createProject = (host: DocumentHost): DocumentId => createDefaultProject(host);
+const createArtwork = (host: DocumentHost): DocumentId => createDefaultArtwork(host);
 
 const paintPixels = (host: DocumentHost, documentId: DocumentId): void => {
   const target = activeTarget(host.view(documentId));
@@ -109,5 +109,5 @@ const paintPixels = (host: DocumentHost, documentId: DocumentId): void => {
   if (!result.ok) throw new Error(result.error.message);
 };
 
-export { createProject, harness, paintPixels, SAVED };
+export { createArtwork, harness, paintPixels, SAVED };
 export type { Harness };

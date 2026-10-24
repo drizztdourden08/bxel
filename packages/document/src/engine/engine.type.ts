@@ -6,7 +6,7 @@ import type { Draft } from '../draft/draft.type';
 import type { HistoryDirection, HistoryLimits, HistoryState } from '../history/history.type';
 import type { IdSource } from '../ids/id-source.type';
 import type { DocumentId } from '../model/ids.type';
-import type { DocumentState, Project } from '../model/project.type';
+import type { DocumentState, Artwork } from '../model/artwork.type';
 import type { DocumentListener } from './event.type';
 
 type EngineOptions = {
@@ -37,7 +37,7 @@ type EngineStore = {
   readonly limits: HistoryLimits;
   readonly listeners: Set<DocumentListener>;
   revision: number;
-  project: Project;
+  artwork: Artwork;
   ids: IdSource;
   history: HistoryState;
   nextEntryId: number;

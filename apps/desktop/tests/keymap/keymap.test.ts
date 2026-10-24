@@ -2,7 +2,7 @@
 import { shortcutsHelp } from '@drizztdourden08/brock-react';
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createDefaultProject } from '../../src/documents/create-default-project';
+import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { currentTarget } from '../../src/editor/current-target';
 import { TOOLS } from '../../src/editor/tools.constants';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
@@ -72,7 +72,7 @@ const fakeHandle = (): PixelViewportHandle => ({
 beforeEach(() => {
   useToolStore.setState({ ...TOOL_DEFAULTS });
   useViewStore.setState({ ...VIEW_DEFAULTS });
-  createDefaultProject(useDocumentStore.getState().host);
+  createDefaultArtwork(useDocumentStore.getState().host);
 });
 
 describe('the keymap table', () => {

@@ -19,7 +19,7 @@ const layerDuplicate = defineCommand({
   run: (draft, input) => {
     const { layer: ref, name } = input.options;
     const created: LayerId[] = [];
-    for (const { sprite, layer, index } of pickLayers(draft.project, input.sprites, ref)) {
+    for (const { sprite, layer, index } of pickLayers(draft.artwork, input.sprites, ref)) {
       const names = sprite.layers.map((item) => item.name);
       const copy: Layer = {
         id: draft.ids.next('lay') as LayerId,

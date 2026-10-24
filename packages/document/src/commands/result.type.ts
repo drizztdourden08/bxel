@@ -21,7 +21,7 @@ type SpriteChange = EntityChange<SpriteId> & {
 };
 
 type ChangeSet = {
-  readonly project: boolean;
+  readonly artwork: boolean;
   readonly banks: readonly EntityChange<BankId>[];
   readonly sprites: readonly SpriteChange[];
   readonly sheets: readonly EntityChange<SheetId>[];
@@ -46,6 +46,7 @@ type TransactionOk = {
   readonly noop: boolean;
   readonly changes: ChangeSet;
   readonly created: Readonly<Record<string, string>>;
+  readonly report: Readonly<Record<string, number>>;
   readonly warnings: readonly CommandWarning[];
   readonly preview: PreviewData | null;
 };

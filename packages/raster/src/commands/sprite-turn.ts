@@ -11,7 +11,7 @@ const spriteTurn = defineCommand({
   scope: 'cels',
   schema: spriteTurnSchema,
   run: (draft, input) => {
-    checkTurnCoverage(draft.project, input);
+    checkTurnCoverage(draft.artwork, input);
     const orientation = TURN_ORIENTATION[input.options.direction];
     for (const spriteId of input.sprites) {
       turnSprite(draft, spriteId, orientation);

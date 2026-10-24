@@ -6,7 +6,7 @@ const BXEL_EXTENSION = 'bxel';
 
 const BXEL_SUFFIX = `.${BXEL_EXTENSION}`;
 
-const BXEL_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'Bxel project', extensions: [BXEL_EXTENSION] }];
+const BXEL_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'Bxel file', extensions: [BXEL_EXTENSION] }];
 
 const PNG_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'PNG image', extensions: ['png'] }];
 
@@ -24,27 +24,27 @@ const BUSY_OF: Readonly<Record<FileActionKind, FileBusy>> = {
 
 const FILE_TEXT = {
   group: 'File',
-  saveTitle: 'Save project',
-  openTitle: 'Open project',
+  saveTitle: 'Save file',
+  openTitle: 'Open file',
   exportTitle: 'Export PNG',
-  saveReady: 'Save project (.bxel)',
+  saveReady: 'Save file (.bxel)',
   saveClean: 'Saved. No changes to save.',
   saveBusy: 'Saving',
   exportReady: 'Export images and sheet data',
   exportBusy: 'Exporting',
   saveAsAction: 'Save as',
   busy: 'Wait for the current operation.',
-  noDocument:'Open or create a project first.',
-  nothingToExport: 'This project has no sprite frame to export.',
-  readOnly: 'This project opens read-only.',
+  noDocument:'Open or create a file first.',
+  nothingToExport: 'This file has no sprite frame to export.',
+  readOnly: 'This file opens read-only.',
   recentLabel: 'Open recent',
-  recentNone: 'No recent projects',
-  recentClear: 'Clear recent projects',
-  recentMissing: 'That project no longer exists. It was removed from the recent list.',
+  recentNone: 'No recent files',
+  recentClear: 'Clear recent files',
+  recentMissing: 'That file no longer exists. It was removed from the recent list.',
   unavailable: 'File access is not available here.',
-  notBxel: 'Bxel opens .bxel project files.',
+  notBxel: 'Bxel opens .bxel files.',
   unknownReason: 'The cause is unknown',
-  unreadable: 'The file is not a Bxel project.',
+  unreadable: 'The file is not a Bxel file.',
   saveFailed: (file: string): string => `Could not save ${file}. Your last saved file is unchanged.`,
   openFailed: (file: string, reason: string): string => `Could not open ${file}. ${reason}`,
   exportFailed: (reason: string): string => `Export failed: ${reason}. No files were changed.`,
@@ -60,9 +60,9 @@ const NOTICE_VARIANT = {
 } as const;
 
 const FILE_COMMAND = {
-  open: 'project.open',
-  save: 'project.save',
-  saveAs: 'project.save_as',
+  open: 'file.open',
+  save: 'file.save',
+  saveAs: 'file.save_as',
   export: 'export.open',
 } as const;
 

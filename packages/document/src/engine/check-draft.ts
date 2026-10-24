@@ -10,9 +10,9 @@ import { nameKey } from '../validate/name-key';
 const hasDuplicate = (names: readonly string[]): boolean => new Set(names.map(nameKey)).size !== names.length;
 
 const checkNames = (draft: Draft): void => {
-  const { sprites } = draft.project;
+  const { sprites } = draft.artwork;
   if (hasDuplicate(sprites.map((sprite) => sprite.name))) {
-    throw fail(ERROR_CODE.NAME_TAKEN, 'Sprite names must be unique in a project.');
+    throw fail(ERROR_CODE.NAME_TAKEN, 'Sprite names must be unique in a file.');
   }
   for (const sprite of sprites) {
     const base = findSprite(draft.base, sprite.id);
@@ -26,8 +26,8 @@ const checkNames = (draft: Draft): void => {
 };
 
 const checkIndices = (draft: Draft): void => {
-  for (const sprite of draft.project.sprites) {
-    const bank = findBank(draft.project, sprite.bankId);
+  for (const sprite of draft.artwork.sprites) {
+    const bank = findBank(draft.artwork, sprite.bankId);
     const base = findSprite(draft.base, sprite.id);
     for (const cel of Object.values(sprite.cels)) {
       const untouched = base?.cels[cel.id]?.pixels === cel.pixels;

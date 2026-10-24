@@ -8,14 +8,14 @@ import { FILE_TEXT } from './files.constants';
 import type { FileOutcome } from './files.type';
 import { reasonOf } from './reason-of';
 import { reportOutcome } from './report-outcome';
-import { saveProject } from './save-project';
+import { saveArtwork } from './save-artwork';
 
 const attempt = async (documentId: DocumentId): Promise<FileOutcome> => {
   const kit = fileKit();
   if (!kit) return failed(FILE_TEXT.unavailable);
   kit.focus(documentId);
   try {
-    return await saveProject(kit, documentId, false);
+    return await saveArtwork(kit, documentId, false);
   } catch (error) {
     return failed(reasonOf(error));
   }

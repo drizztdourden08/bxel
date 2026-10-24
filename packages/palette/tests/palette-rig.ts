@@ -2,7 +2,7 @@
 import { frameToRgba } from '@bxel/document';
 import type { BankId, CommandStep, PaletteBank, SpriteId, TransactionOk } from '@bxel/document';
 import { expect } from 'vitest';
-import { currentSprite, execute, firstFrame, snapshotProject, step, succeed } from './palette-engine';
+import { currentSprite, execute, firstFrame, snapshotArtwork, step, succeed } from './palette-engine';
 import type { Rig } from './palette-engine';
 
 const request = (rig: Rig, steps: readonly CommandStep[], mode: 'preview' | 'commit') => ({
@@ -20,24 +20,24 @@ const undoOnce = (rig: Rig) => rig.engine.undo({ documentId: rig.engine.document
 const redoOnce = (rig: Rig) => rig.engine.redo({ documentId: rig.engine.documentId, expectedRevision: rig.engine.state().revision });
 
 const roundTrip = (rig: Rig, steps: readonly CommandStep[]): TransactionOk => {
-  const before = snapshotProject(rig.engine.state().project);
+  const before = snapshotArtwork(rig.engine.state().artwork);
   const result = succeed(execute(rig, steps));
-  const after = snapshotProject(rig.engine.state().project);
+  const after = snapshotArtwork(rig.engine.state().artwork);
   expect(after).not.toBe(before);
   expect(undoOnce(rig).ok).toBe(true);
-  expect(snapshotProject(rig.engine.state().project)).toBe(before);
+  expect(snapshotArtwork(rig.engine.state().artwork)).toBe(before);
   expect(redoOnce(rig).ok).toBe(true);
-  expect(snapshotProject(rig.engine.state().project)).toBe(after);
+  expect(snapshotArtwork(rig.engine.state().artwork)).toBe(after);
   if (!result.ok) throw new Error('unreachable');
   return result;
 };
 
 const previewMatchesCommit = (rig: Rig, steps: readonly CommandStep[]): void => {
   const revision = rig.engine.state().revision;
-  const before = snapshotProject(rig.engine.state().project);
+  const before = snapshotArtwork(rig.engine.state().artwork);
   const preview = rig.engine.execute(request(rig, steps, 'preview'));
   expect(rig.engine.state().revision).toBe(revision);
-  expect(snapshotProject(rig.engine.state().project)).toBe(before);
+  expect(snapshotArtwork(rig.engine.state().artwork)).toBe(before);
   const commit = rig.engine.execute(request(rig, steps, 'commit'));
   if (!preview.ok || !commit.ok) throw new Error('the preview or the commit failed');
   expect(JSON.stringify(preview.changes)).toBe(JSON.stringify(commit.changes));
@@ -46,9 +46,9 @@ const previewMatchesCommit = (rig: Rig, steps: readonly CommandStep[]): void => 
 };
 
 const rgbaOfSprite = (rig: Rig, spriteId: SpriteId): number[] => {
-  const project = rig.engine.state().project;
-  const sprite = project.sprites.find((candidate) => candidate.id === spriteId);
-  const bank = project.banks.find((candidate) => candidate.id === sprite?.bankId);
+  const artwork = rig.engine.state().artwork;
+  const sprite = artwork.sprites.find((candidate) => candidate.id === spriteId);
+  const bank = artwork.banks.find((candidate) => candidate.id === sprite?.bankId);
   if (!sprite || !bank) throw new Error('the sprite or its bank is missing');
   return Array.from(frameToRgba(sprite, bank, firstFrame(sprite)));
 };
@@ -75,13 +75,13 @@ const onSprites = (command: CommandStep, spriteIds: readonly SpriteId[]): Comman
 });
 
 const bankOf = (rig: Rig, bankId: BankId): PaletteBank => {
-  const bank = rig.engine.state().project.banks.find((candidate) => candidate.id === bankId);
+  const bank = rig.engine.state().artwork.banks.find((candidate) => candidate.id === bankId);
   if (!bank) throw new Error('the bank is missing');
   return bank;
 };
 
 const spriteOf = (rig: Rig, spriteId: SpriteId) => {
-  const sprite = rig.engine.state().project.sprites.find((candidate) => candidate.id === spriteId);
+  const sprite = rig.engine.state().artwork.sprites.find((candidate) => candidate.id === spriteId);
   if (!sprite) throw new Error('the sprite is missing');
   return sprite;
 };

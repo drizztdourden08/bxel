@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import type { CelId } from '../model/ids.type';
-import type { Project } from '../model/project.type';
+import type { Artwork } from '../model/artwork.type';
 import type { Layer, Sprite } from '../model/sprite.type';
 import type { Tilemap } from '../model/tilemap.type';
 import type { DocumentJson, SpriteJson, TilemapJson } from './document-json.type';
@@ -39,17 +39,17 @@ const tilemapToJson = (tilemap: Tilemap): TilemapJson => ({
   })),
 });
 
-const toDocumentJson = (project: Project): DocumentJson => ({
-  id: project.id,
-  name: project.name,
-  defaultBankId: project.defaultBankId,
-  coverSpriteId: project.coverSpriteId,
-  banks: project.banks,
-  sprites: project.sprites.map(spriteToJson),
-  sheets: project.sheets,
-  presets: project.presets,
-  tilesets: project.tilesets,
-  tilemaps: project.tilemaps.map(tilemapToJson),
+const toDocumentJson = (artwork: Artwork): DocumentJson => ({
+  id: artwork.id,
+  name: artwork.name,
+  defaultBankId: artwork.defaultBankId,
+  coverSpriteId: artwork.coverSpriteId,
+  banks: artwork.banks,
+  sprites: artwork.sprites.map(spriteToJson),
+  sheets: artwork.sheets,
+  presets: artwork.presets,
+  tilesets: artwork.tilesets,
+  tilemaps: artwork.tilemaps.map(tilemapToJson),
 });
 
 export { toDocumentJson };

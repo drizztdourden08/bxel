@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it } from 'vitest';
-import { createDefaultProject } from '../../src/documents/create-default-project';
+import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { activeLayer } from '../../src/editor/active-layer';
 import { addLayer } from '../../src/editor/add-layer';
 import { allowPress } from '../../src/editor/allow-press';
@@ -42,7 +42,7 @@ const cellOf = (layerName: string) => {
 beforeEach(() => {
   useNoticeStore.setState({ notice: null });
   useToolStore.setState({ ...TOOL_DEFAULTS });
-  createDefaultProject(useDocumentStore.getState().host);
+  createDefaultArtwork(useDocumentStore.getState().host);
 });
 
 describe('the active layer', () => {

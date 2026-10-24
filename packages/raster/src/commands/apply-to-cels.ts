@@ -4,7 +4,7 @@ import type { Draft, ResolvedCel } from '@bxel/document';
 import type { CelOperation } from './cel-operation.type';
 
 const applyToCel = (draft: Draft, target: ResolvedCel, operate: CelOperation): void => {
-  const { width, height } = requireSprite(draft.project, target.spriteId);
+  const { width, height } = requireSprite(draft.artwork, target.spriteId);
   if (target.celId) {
     operate({ pixels: writableCel(draft, target.spriteId, target.celId), width, height });
     return;

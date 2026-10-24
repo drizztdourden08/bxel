@@ -16,7 +16,7 @@ const finishReport = ({ opened, read, built, check }: ReportParts): LoadReport =
   const previewBytes = manifest.preview === null || preview ? null : (check.good.get(manifest.preview) ?? null);
   return {
     outcome: recoverable ? 'recoverable' : 'ok',
-    project: built.project,
+    artwork: built.artwork,
     readOnly: opened.readOnly || recoverable,
     notice: opened.notice ?? (recoverable ? RECOVERABLE_NOTICE : null),
     migrated: read.migrated,

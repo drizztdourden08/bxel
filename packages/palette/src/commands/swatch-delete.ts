@@ -16,12 +16,12 @@ const swatchDelete = defineCommand({
   schema: swatchDeleteSchema,
   run: (draft, input) => {
     const { options } = input;
-    const bank = requireBank(draft.project, options.bankId as BankId);
+    const bank = requireBank(draft.artwork, options.bankId as BankId);
     const removed = slotIndex(bank, options.swatchId, 'options.swatchId');
     checkRemovable(bank, removed, 'options.swatchId');
     const replacement =
       options.replacementId === undefined ? null : replacementIndex(bank, options.replacementId, removed, 'options.replacementId');
-    const used = bankUsage(bankSprites(draft.project, bank.id))[removed] ?? 0;
+    const used = bankUsage(bankSprites(draft.artwork, bank.id))[removed] ?? 0;
     if (replacement === null && used > 0) {
       throw fail(ERROR_CODE.SWATCH_IN_USE, `${used} pixels use this swatch. Choose a replacement swatch first.`, {
         path: 'options.replacementId',

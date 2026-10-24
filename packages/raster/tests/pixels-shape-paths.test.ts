@@ -3,7 +3,7 @@ import { drawPath } from '@bxel/raster';
 import { describe, expect, test } from 'vitest';
 import { createdCelRows, errorOf, expectLockedInk, expectOneUndo, expectPreviewEqualsCommit, okOf, pixelEngine, request, scopeOf, stepOf } from './advanced-kit';
 import { blankBuffer } from './blank-buffer';
-import { emptyProject, rowsIds } from './rows-project';
+import { emptyArtwork, rowsIds } from './rows-artwork';
 import { toRows } from './to-rows';
 
 const TRIANGLE = [{ x: 1, y: 1 }, { x: 7, y: 1 }, { x: 4, y: 5 }];
@@ -14,20 +14,20 @@ const shape = (options: Record<string, unknown>) => stepOf('pixels.shape', scope
 describe('pixels.shape polygon, curve and contour', () => {
   test('a polygon outline and fill match the direct rasterizer and undo in one step', () => {
     for (const filled of [false, true]) {
-      const engine = pixelEngine(emptyProject(9, 7));
-      const original = engine.state().project;
+      const engine = pixelEngine(emptyArtwork(9, 7));
+      const original = engine.state().artwork;
       okOf(engine.execute(request([shape({ shape: 'polygon', points: TRIANGLE, filled })])));
       const target = blankBuffer(9, 7);
       drawPath({ target, index: 2, kind: 'polygon', points: TRIANGLE, filled });
-      expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual(toRows(target));
+      expect(createdCelRows(engine.state().artwork, rowsIds.sprite)).toEqual(toRows(target));
       expectOneUndo(engine, original);
     }
   });
 
   test('a curve runs from its first point to its last', () => {
-    const engine = pixelEngine(emptyProject(10, 7));
+    const engine = pixelEngine(emptyArtwork(10, 7));
     okOf(engine.execute(request([shape({ shape: 'curve', ...BOW })])));
-    expect(createdCelRows(engine.state().project, rowsIds.sprite)).toEqual([
+    expect(createdCelRows(engine.state().artwork, rowsIds.sprite)).toEqual([
       '..........',
       '..........',
       '..........',
@@ -39,20 +39,20 @@ describe('pixels.shape polygon, curve and contour', () => {
   });
 
   test('a contour closes itself', () => {
-    const engine = pixelEngine(emptyProject(9, 7));
+    const engine = pixelEngine(emptyArtwork(9, 7));
     const points = [{ x: 1, y: 1 }, { x: 3, y: 0 }, { x: 6, y: 1 }, { x: 7, y: 4 }, { x: 4, y: 5 }, { x: 2, y: 4 }];
     okOf(engine.execute(request([shape({ shape: 'contour', points, filled: true })])));
-    expect(createdCelRows(engine.state().project, rowsIds.sprite)[1]).toBe('.222222..');
+    expect(createdCelRows(engine.state().artwork, rowsIds.sprite)[1]).toBe('.222222..');
   });
 
   test('the older shapes still take from and to', () => {
-    const engine = pixelEngine(emptyProject(8, 6));
+    const engine = pixelEngine(emptyArtwork(8, 6));
     okOf(engine.execute(request([shape({ shape: 'rect', from: { x: 1, y: 1 }, to: { x: 6, y: 4 } })])));
-    expect(createdCelRows(engine.state().project, rowsIds.sprite)[1]).toBe('.222222.');
+    expect(createdCelRows(engine.state().artwork, rowsIds.sprite)[1]).toBe('.222222.');
   });
 
   test('refuses too few points, mixed fields, an unknown shape and too many points', () => {
-    const engine = pixelEngine(emptyProject(9, 7));
+    const engine = pixelEngine(emptyArtwork(9, 7));
     const few = errorOf(engine.execute(request([shape({ shape: 'polygon', points: TRIANGLE.slice(0, 2) })])));
     expect(few.code).toBe('INVALID_OPTION');
     expect(few.path).toBe('steps.0.options.points');
@@ -70,7 +70,7 @@ describe('pixels.shape polygon, curve and contour', () => {
   });
 
   test('preview equals commit', () => {
-    expectPreviewEqualsCommit(emptyProject(10, 7), shape({ shape: 'curve', filled: true, ...BOW }));
-    expectPreviewEqualsCommit(emptyProject(9, 7), shape({ shape: 'polygon', points: TRIANGLE, symmetry: { x2: 9 } }));
+    expectPreviewEqualsCommit(emptyArtwork(10, 7), shape({ shape: 'curve', filled: true, ...BOW }));
+    expectPreviewEqualsCommit(emptyArtwork(9, 7), shape({ shape: 'polygon', points: TRIANGLE, symmetry: { x2: 9 } }));
   });
 });

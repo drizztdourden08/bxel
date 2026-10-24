@@ -2,7 +2,7 @@
 import { flattenFrame } from '@bxel/document';
 import type { CommandStep, FrameId, LayerId } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { brand } from './fixture-to-project';
+import { brand } from './fixture-to-artwork';
 import { LONELY, MUSHROOM, MUSHROOM_B, apply, celPixels, expectUndoRedo, layerEngine, layerNames, layerOf, layerStep, named, rejection, sprite } from './layer-engine';
 
 const FIRST = brand<FrameId>('frm_000110');

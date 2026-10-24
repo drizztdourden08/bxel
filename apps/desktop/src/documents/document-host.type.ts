@@ -9,7 +9,7 @@ import type {
   Engine,
   HistoryLimits,
   IdSource,
-  Project,
+  Artwork,
   TransactionRequest,
   TransactionResult,
 } from '@bxel/document';
@@ -35,7 +35,7 @@ type CreateOutcome =
   | { readonly ok: false; readonly error: CommandError };
 
 type OpenRequest = {
-  readonly project: Project;
+  readonly artwork: Artwork;
   readonly readOnly: boolean;
   readonly unsaved?: boolean;
 };

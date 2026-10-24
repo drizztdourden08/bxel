@@ -16,10 +16,10 @@ const layerAdd = defineCommand({
   schema: layerAddSchema,
   run: (draft, input) => {
     const { name, above } = input.options;
-    const anchors = above ? pickLayers(draft.project, input.sprites, above) : [];
+    const anchors = above ? pickLayers(draft.artwork, input.sprites, above) : [];
     const created: LayerId[] = [];
     for (const spriteId of input.sprites) {
-      const sprite = requireSprite(draft.project, spriteId);
+      const sprite = requireSprite(draft.artwork, spriteId);
       const names = sprite.layers.map((layer) => layer.name);
       const layer = {
         id: draft.ids.next('lay') as LayerId,

@@ -12,7 +12,7 @@ const rampAdd = defineCommand({
   schema: rampAddSchema,
   run: (draft, input) => {
     const { options } = input;
-    const bank = requireBank(draft.project, options.bankId as BankId);
+    const bank = requireBank(draft.artwork, options.bankId as BankId);
     const name = checkName(options.name);
     assertNameFree(
       bank.ramps.map((ramp) => ramp.name),

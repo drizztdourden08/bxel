@@ -12,7 +12,7 @@ const removeSwatch = (draft: Draft, removal: SwatchRemoval): void => {
   const table = buildRemoveTable({ slotCount: bank.slots.length, removed, replacement });
   remapSprites(
     draft,
-    bankSprites(draft.project, bank.id).map((sprite) => sprite.id),
+    bankSprites(draft.artwork, bank.id).map((sprite) => sprite.id),
     table,
   );
   const gone = bank.slots[removed];

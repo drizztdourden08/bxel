@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
-import type { BankId, Project, Sprite } from '@bxel/document';
+import type { BankId, Artwork, Sprite } from '@bxel/document';
 
-const bankSprites = (project: Project, bankId: BankId): Sprite[] => project.sprites.filter((sprite) => sprite.bankId === bankId);
+const bankSprites = (artwork: Artwork, bankId: BankId): Sprite[] => artwork.sprites.filter((sprite) => sprite.bankId === bankId);
 
 export { bankSprites };

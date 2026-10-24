@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { projectCreate } from '@bxel/document';
+import { artworkCreate } from '@bxel/document';
 import type { DocumentId } from '@bxel/document';
 import { attachEngine } from './attach-engine';
 import { browserIdSource } from './browser-id-source';
@@ -21,12 +21,12 @@ const createDocumentHost = (options: DocumentHostOptions = {}): DocumentHost => 
   };
   return {
     create: (createOptions) => {
-      const created = projectCreate({ options: createOptions, ids: store.ids });
+      const created = artworkCreate({ options: createOptions, ids: store.ids });
       if (!created.ok) return { ok: false, error: created.error };
       return { ok: true, documentId: attachEngine(store, created.state) };
     },
-    open: ({ project, readOnly, unsaved }) =>
-      attachEngine(store, { documentId: store.ids.next('doc') as DocumentId, revision: 1, project, readOnly }, unsaved === true),
+    open: ({ artwork, readOnly, unsaved }) =>
+      attachEngine(store, { documentId: store.ids.next('doc') as DocumentId, revision: 1, artwork, readOnly }, unsaved === true),
     close: (documentId) => closeEntry(store, documentId),
     list: () => [...store.entries.keys()],
     view: (documentId) => store.entries.get(documentId)?.view ?? null,

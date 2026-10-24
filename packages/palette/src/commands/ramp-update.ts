@@ -13,7 +13,7 @@ const rampUpdate = defineCommand({
   schema: rampUpdateSchema,
   run: (draft, input) => {
     const { options } = input;
-    const bank = requireBank(draft.project, options.bankId as BankId);
+    const bank = requireBank(draft.artwork, options.bankId as BankId);
     const ramp = findRamp(bank, options.rampId);
     const name = options.name === undefined ? ramp.name : checkName(options.name);
     assertNameFree(

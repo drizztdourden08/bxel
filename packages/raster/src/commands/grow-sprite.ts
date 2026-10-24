@@ -13,7 +13,7 @@ const shiftSlice = (slice: Slice, frame: Rect): Slice => ({
 });
 
 const growSprite = (draft: Draft, spriteId: SpriteId, frame: Rect): void => {
-  const sprite = requireSprite(draft.project, spriteId);
+  const sprite = requireSprite(draft.artwork, spriteId);
   const cels: Record<CelId, Uint8Array> = {};
   for (const cel of Object.values(sprite.cels)) {
     cels[cel.id] = padBuffer({ pixels: cel.pixels, width: sprite.width, height: sprite.height }, frame).pixels;

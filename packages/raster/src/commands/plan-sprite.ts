@@ -1,12 +1,12 @@
 /* @layer core @kind logic */
 import { requireSprite } from '@bxel/document';
-import type { Project, SpriteId } from '@bxel/document';
+import type { Artwork, SpriteId } from '@bxel/document';
 import { fullMask } from '../selection/full-mask';
 import { maskBounds } from '../selection/mask-bounds';
 import type { ResampleSpec, SpritePlan } from './resample.type';
 
-const planSprite = (project: Project, spriteId: SpriteId, spec: ResampleSpec): SpritePlan => {
-  const sprite = requireSprite(project, spriteId);
+const planSprite = (artwork: Artwork, spriteId: SpriteId, spec: ResampleSpec): SpritePlan => {
+  const sprite = requireSprite(artwork, spriteId);
   const mask = spec.mask ?? fullMask(sprite);
   const box = maskBounds(mask);
   const pivot = spec.pivot ?? sprite.pivot;

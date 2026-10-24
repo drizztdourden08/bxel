@@ -1,15 +1,15 @@
 /* @layer tests @kind test */
 import type { CommandStep } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { currentBank, execute, makeRig, slotId, snapshotProject, step, succeed } from './palette-engine';
+import { currentBank, execute, makeRig, slotId, snapshotArtwork, step, succeed } from './palette-engine';
 import type { Rig } from './palette-engine';
 
 const rejection = (rig: Rig, command: CommandStep) => {
   const revision = rig.engine.state().revision;
-  const snapshot = snapshotProject(rig.engine.state().project);
+  const snapshot = snapshotArtwork(rig.engine.state().artwork);
   const result = execute(rig, [command]);
   expect(rig.engine.state().revision).toBe(revision);
-  expect(snapshotProject(rig.engine.state().project)).toBe(snapshot);
+  expect(snapshotArtwork(rig.engine.state().artwork)).toBe(snapshot);
   if (result.ok) throw new Error('the step was accepted');
   return result.error;
 };

@@ -13,7 +13,7 @@ const layerDelete = defineCommand({
   scope: 'sprites',
   schema: layerDeleteSchema,
   run: (draft, input) => {
-    const picked = pickLayers(draft.project, input.sprites, input.options.layer);
+    const picked = pickLayers(draft.artwork, input.sprites, input.options.layer);
     const sole = picked.filter(({ sprite }) => sprite.layers.length === 1);
     failIfAny(
       ERROR_CODE.LAST_LAYER,

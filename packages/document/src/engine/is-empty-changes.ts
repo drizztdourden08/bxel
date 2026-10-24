@@ -2,7 +2,7 @@
 import type { ChangeSet } from '../commands/result.type';
 
 const isEmptyChanges = (changes: ChangeSet): boolean =>
-  !changes.project &&
+  !changes.artwork &&
   changes.banks.length === 0 &&
   changes.sprites.length === 0 &&
   changes.sheets.length === 0 &&

@@ -1,9 +1,9 @@
 /* @layer core @kind types */
-import type { Project, SpriteId } from '@bxel/document';
+import type { Artwork, SpriteId } from '@bxel/document';
 import type { MaskView } from '../buffer.type';
 
 type TargetRules = {
-  readonly project: Project;
+  readonly artwork: Artwork;
   readonly sprites: readonly SpriteId[];
   readonly index: number;
   readonly mask: MaskView | undefined;

@@ -11,7 +11,7 @@ const rampDelete = defineCommand({
   scope: 'none',
   schema: rampDeleteSchema,
   run: (draft, input) => {
-    const bank = requireBank(draft.project, input.options.bankId as BankId);
+    const bank = requireBank(draft.artwork, input.options.bankId as BankId);
     const ramp = findRamp(bank, input.options.rampId);
     updateBank(draft, bank.id, (current) => ({ ...current, ramps: current.ramps.filter((item) => item.id !== ramp.id) }));
   },

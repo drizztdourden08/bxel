@@ -9,13 +9,13 @@ import type { layerRefSchema } from './layer-ref-schema';
 import type { layerReorderSchema } from './layer-reorder-schema';
 import type { layerUpdateSchema } from './layer-update-schema';
 import type { pixelsPatchSchema } from './pixels-patch-schema';
-import type { projectCreateSchema } from './project-create-schema';
-import type { projectUpdateSchema } from './project-update-schema';
+import type { artworkCreateSchema } from './artwork-create-schema';
+import type { artworkUpdateSchema } from './artwork-update-schema';
 import type { spriteCreateSchema } from './sprite-create-schema';
 import type { spriteUpdateSchema } from './sprite-update-schema';
 
-type ProjectCreateOptions = z.output<typeof projectCreateSchema>;
-type ProjectUpdateOptions = z.output<typeof projectUpdateSchema>;
+type ArtworkCreateOptions = z.output<typeof artworkCreateSchema>;
+type ArtworkUpdateOptions = z.output<typeof artworkUpdateSchema>;
 type SpriteCreateOptions = z.output<typeof spriteCreateSchema>;
 type SpriteUpdateOptions = z.output<typeof spriteUpdateSchema>;
 type PixelsPatchOptions = z.output<typeof pixelsPatchSchema>;
@@ -38,8 +38,8 @@ export type {
   LayerReorderOptions,
   LayerUpdateOptions,
   PixelsPatchOptions,
-  ProjectCreateOptions,
-  ProjectUpdateOptions,
+  ArtworkCreateOptions,
+  ArtworkUpdateOptions,
   SpriteCreateOptions,
   SpriteUpdateOptions,
 };

@@ -6,7 +6,7 @@ import { recoverSnapshot } from '../../src/recovery/recover-snapshot';
 import { SNAPSHOT_TIMING } from '../../src/recovery/recovery.constants';
 import type { RecoverOps } from '../../src/recovery/recovery.type';
 import { restoreRecovered } from '../../src/recovery/restore-recovered';
-import { createProject } from '../files/file-harness';
+import { createArtwork } from '../files/file-harness';
 import { paintAt, rig } from './recovery-harness';
 import type { Rig } from './recovery-harness';
 
@@ -16,7 +16,7 @@ const ORIGINAL = 'C:\\art\\hero.bxel';
 const crashedSession = async (path: string | undefined): Promise<RecoveredSnapshot> => {
   const session = rig();
   session.tracker.start();
-  const documentId = createProject(session.host);
+  const documentId = createArtwork(session.host);
   paintAt(session.host, documentId, 4);
   await session.advance(SNAPSHOT_TIMING.pauseMs);
   const kept = session.stored.get(documentId);
@@ -71,12 +71,12 @@ describe('restoring a recovery snapshot', () => {
     expect(view?.clean).toBe(false);
     expect(view?.canUndo).toBe(false);
     expect(view?.state.readOnly).toBe(false);
-    expect(view?.state.project.sprites).toHaveLength(1);
+    expect(view?.state.artwork.sprites).toHaveLength(1);
     expect(paths.get(documentId ?? '')).toBe(ORIGINAL);
     expect(recovered.has(documentId ?? '')).toBe(true);
   });
 
-  it('keeps no path for a project that was never saved', async () => {
+  it('keeps no path for an artwork that was never saved', async () => {
     const found = await crashedSession(undefined);
     const { session, paths, ops } = reopened();
     await recoverSnapshot(OLD_KEY, ops(found));

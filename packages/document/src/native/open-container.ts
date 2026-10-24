@@ -11,7 +11,7 @@ import { versionGate } from './version-gate';
 
 const notBxel = (): Parsed<OpenedContainer> => ({
   ok: false,
-  issues: [makeIssue(LOAD_ERROR.FILE_NOT_BXEL, 'The archive is not a Bxel project.', ENTRY.mimetype)],
+  issues: [makeIssue(LOAD_ERROR.FILE_NOT_BXEL, 'The archive is not a Bxel file.', ENTRY.mimetype)],
 });
 
 const openContainer = (bytes: Uint8Array): Parsed<OpenedContainer> => {
