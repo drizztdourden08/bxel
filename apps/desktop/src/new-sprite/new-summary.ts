@@ -5,6 +5,7 @@ import { usageLine } from '../palette-limit/usage-line';
 import { bankPlan } from '../palette-source/bank-plan';
 import { sourceColors } from '../palette-source/source-colors';
 import { SOURCE_TEXT } from '../palette-source/palette-source.constants';
+import { formReport } from './form-report';
 import { NEW_TEXT } from './new-sprite.constants';
 import type { CreationForm, CreationSummary } from './new-sprite.type';
 import { sheetCount } from './sheet-count';
@@ -24,6 +25,7 @@ const newSummary = (form: CreationForm): CreationSummary => {
     usage: usageLine(0, opaqueSlots(form.limit, form.transparent)),
     fits: plan.dropped > 0 ? SOURCE_TEXT.fits(total - plan.dropped, total) : null,
     sheet: sheetNote(form),
+    platform: formReport(form),
   };
 };
 

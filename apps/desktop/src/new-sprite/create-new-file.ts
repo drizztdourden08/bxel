@@ -17,6 +17,7 @@ const createNewFile = (host: DocumentHost, form: CreationForm): CreationOutcome 
   const size = spriteSize(form);
   const created = host.create({
     name: NEW_FILE_NAME,
+    ...(form.platformId === null ? {} : { platformId: form.platformId }),
     bank: { name: bank.name, cap: bank.cap, transparent: bank.transparent, colors: bank.colors },
     sprite: { name: names[0] ?? form.name.trim(), ...size },
   });

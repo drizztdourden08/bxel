@@ -8,6 +8,7 @@ import { BackgroundField } from './BackgroundField';
 import { CreateActions } from './CreateActions';
 import { KindField } from './KindField';
 import { NameField } from './NameField';
+import { PlatformField } from './PlatformField';
 import { ResultLines } from './ResultLines';
 import { SheetFields } from './SheetFields';
 import { SizeFields } from './SizeFields';
@@ -28,6 +29,7 @@ const CreateFileDialog = () => {
       <Stack gap="md">
         <KindField {...fields} />
         <NameField {...fields} />
+        <PlatformField {...fields} />
         {form.kind === 'sprite' ? <SizeFields {...fields} /> : <SheetFields {...fields} />}
         <BackgroundField {...fields} />
         <Text variant="label">{NEW_TEXT.palette}</Text>

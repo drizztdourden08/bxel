@@ -90,6 +90,10 @@ const FILE_CHOICE = 'file';
 
 const PRESET_PREFIX = 'preset:';
 
+const SET_PREFIX = 'set:';
+
+const PALETTE_GROUP_LABEL = 'Palettes';
+
 const CUSTOM_CHOICE = 'custom';
 
 const HEX_COLOR = /^#[0-9a-f]{6}/i;
@@ -102,6 +106,8 @@ const SOURCE_TEXT = {
   customEntry: 'Custom',
   presetLabel: (name: string): string => `Preset: ${name}`,
   chosenFile: (name: string): string => `File: ${name}`,
+  setLabel: (name: string): string => `Set: ${name}`,
+  missingSet: 'That swatch set is no longer available.',
   choose: 'Choose a palette file.',
   unreadable: 'Cannot read that palette file. Bxel opens GPL, PAL and palette PNG files.',
   title: 'Choose a palette file',
@@ -117,9 +123,11 @@ export {
   HEX_COLOR,
   PALETTE_FILE_FILTERS,
   PALETTE_FILE_KIND,
+  PALETTE_GROUP_LABEL,
   PALETTE_PRESETS,
   PRESET_DEFAULT,
   PRESET_PREFIX,
+  SET_PREFIX,
   SOURCE_DEFAULT,
   SOURCE_TEXT,
 };

@@ -1,11 +1,13 @@
 /* @layer renderer-app @kind logic */
+import { presetById } from '../platform-preset/preset-by-id';
 import { DEFAULT_SPRITE_NAME } from '../sprite-name/sprite-name.constants';
 import { uniqueName } from '../sprite-name/unique-name';
 import { patchForm } from './patch-form';
 import { NEW_FORM_BASE } from './new-sprite.constants';
 import type { CreationForm, CreationMemory } from './new-sprite.type';
+import { platformPatch } from './platform-patch';
 
-const initialForm = (memory: CreationMemory, taken: readonly string[]): CreationForm =>
+const memoryForm = (memory: CreationMemory, taken: readonly string[]): CreationForm =>
   patchForm(
     {
       ...NEW_FORM_BASE,
@@ -19,5 +21,11 @@ const initialForm = (memory: CreationMemory, taken: readonly string[]): Creation
     },
     {},
   );
+
+const initialForm = (memory: CreationMemory, taken: readonly string[]): CreationForm => {
+  const form = memoryForm(memory, taken);
+  const preset = presetById(memory.platformId);
+  return preset ? patchForm(form, platformPatch(preset, form)) : form;
+};
 
 export { initialForm };

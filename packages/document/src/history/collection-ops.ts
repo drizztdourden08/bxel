@@ -10,6 +10,7 @@ const metaOf = (artwork: Artwork): ArtworkMeta => ({
   name: artwork.name,
   defaultBankId: artwork.defaultBankId,
   coverSpriteId: artwork.coverSpriteId,
+  platformId: artwork.platformId,
 });
 
 const metaOps = (base: Artwork, next: Artwork): UndoOp[] => {
@@ -18,7 +19,8 @@ const metaOps = (base: Artwork, next: Artwork): UndoOp[] => {
   const same =
     before.name === after.name &&
     before.defaultBankId === after.defaultBankId &&
-    before.coverSpriteId === after.coverSpriteId;
+    before.coverSpriteId === after.coverSpriteId &&
+    before.platformId === after.platformId;
   return same ? [] : [{ kind: 'entity', path: META_PATH, before, after }];
 };
 

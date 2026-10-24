@@ -8,6 +8,7 @@ const presetColors = (presetId: string): readonly SourceColor[] =>
 const sourceColors = (source: PaletteSource): readonly SourceColor[] => {
   if (source.kind === 'custom') return CUSTOM_COLORS;
   if (source.kind === 'file') return source.file?.colors ?? [];
+  if (source.kind === 'set') return source.set?.colors ?? [];
   return presetColors(source.presetId);
 };
 

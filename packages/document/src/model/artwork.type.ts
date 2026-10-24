@@ -11,6 +11,7 @@ type Artwork = {
   readonly name: string;
   readonly defaultBankId: BankId;
   readonly coverSpriteId: SpriteId | null;
+  readonly platformId?: string;
   readonly banks: readonly PaletteBank[];
   readonly sprites: readonly Sprite[];
   readonly sheets: readonly Sheet[];

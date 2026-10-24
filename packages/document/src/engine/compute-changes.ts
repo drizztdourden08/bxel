@@ -8,7 +8,8 @@ const computeChanges = (before: Artwork, after: Artwork): ChangeSet => ({
   artwork:
     before.name !== after.name ||
     before.defaultBankId !== after.defaultBankId ||
-    before.coverSpriteId !== after.coverSpriteId,
+    before.coverSpriteId !== after.coverSpriteId ||
+    before.platformId !== after.platformId,
   banks: diffEntities(before.banks, after.banks),
   sprites: diffSprites(before, after),
   sheets: diffEntities(before.sheets, after.sheets),

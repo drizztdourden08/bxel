@@ -23,6 +23,7 @@ const buildDocument = (options: ArtworkCreateOptions, ids: IdSource): DocumentSt
     name: options.name.trim(),
     defaultBankId: bank.id,
     coverSpriteId: null,
+    ...(options.platformId === undefined ? {} : { platformId: options.platformId }),
     banks: [bank],
     sprites,
     sheets: [],

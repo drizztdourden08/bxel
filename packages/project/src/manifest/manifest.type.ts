@@ -1,5 +1,6 @@
 /* @layer core @kind types */
 import type { FolderId, ProjectId } from '../ids/id.type';
+import type { SwatchSet } from '../swatches/swatch.type';
 import type { ACCESS_LEVELS, MANIFEST_FORMAT, MANIFEST_VERSION } from './manifest.constants';
 
 type AccessLevel = (typeof ACCESS_LEVELS)[number];
@@ -28,6 +29,7 @@ type ProjectManifest = {
   readonly name: string;
   readonly folders: readonly ProjectFolder[];
   readonly settings: ProjectSettings;
+  readonly swatchSets: readonly SwatchSet[];
   readonly assistant: { readonly access: AccessLevel };
 };
 

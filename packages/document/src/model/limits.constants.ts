@@ -14,6 +14,7 @@ const MAX_DURATION_MS = 65535;
 const DEFAULT_FRAME_DURATION_MS = 100;
 const DEFAULT_LAYER_NAME = 'Layer 1';
 const CONTROL_CHARACTERS = /\p{Cc}/u;
+const PLATFORM_ID_PATTERN = /^[a-z0-9][a-z0-9-]{0,63}$/;
 
 export {
   CONTROL_CHARACTERS,
@@ -31,4 +32,5 @@ export {
   MIN_BANK_CAP,
   MIN_DURATION_MS,
   MIN_SPRITE_SIZE,
+  PLATFORM_ID_PATTERN,
 };
