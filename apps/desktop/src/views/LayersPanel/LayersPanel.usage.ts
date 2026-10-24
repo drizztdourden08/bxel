@@ -8,7 +8,7 @@ const usage = {
     'Layers must be shown or locked from the row and put in order by drag or by keys.',
   ],
   avoidWhen: [
-    { case: 'Items of a list are put in order but have no per-sprite meaning.', use: 'ReorderList' },
+    { case: 'The user picks and orders the sprites of a file instead of the layers of one sprite.', use: 'SpritesPanel' },
     { case: 'A table of frames by layers shows the cels.', use: 'DataTable' },
   ],
   rules: [
