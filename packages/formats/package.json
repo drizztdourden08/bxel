@@ -23,7 +23,7 @@
     "fflate": "^0.8.3"
   },
   "devDependencies": {
-    "@drizztdourden08/brock-lint-config": "^0.89.1",
+    "@drizztdourden08/brock-lint-config": "^0.90.0",
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:"
