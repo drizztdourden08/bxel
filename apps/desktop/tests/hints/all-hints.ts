@@ -31,7 +31,7 @@ import {
 
 const toolHint = (def: ToolDef): HintSpec => ({ name: def.label, description: def.description, shortcuts: [{ command: COMMAND_ID.tool(def.id) }] });
 
-const allHints = (): HintSpec[] => [
+const panelHints = (): HintSpec[] => [
   ...TOOLS.map(toolHint),
   ...MAP_TOOLS.map(toolHint),
   ...Object.values(TILE_MODE_HINTS),
@@ -60,6 +60,9 @@ const allHints = (): HintSpec[] => [
   ...TRANSFORM_ACTIONS.map((action) => action.hint),
   TRANSFORM_HINT,
   ...Object.values(SPRITE_HINTS),
+];
+
+const toolbarHints = (): HintSpec[] => [
   ...Object.values(MODE_HINTS),
   ...Object.values(BRUSH_SHAPE_HINTS),
   ...Object.values(FILL_HINTS),
@@ -92,5 +95,7 @@ const allHints = (): HintSpec[] => [
   canvasHelp('pencil', 'sheet'),
   ...MAP_TOOLS.map((tool) => canvasHelp(tool.id, 'tilemap')),
 ];
+
+const allHints = (): HintSpec[] => [...panelHints(), ...toolbarHints()];
 
 export { allHints };
