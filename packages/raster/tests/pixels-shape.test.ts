@@ -53,7 +53,7 @@ describe('pixels.shape', () => {
 
   test('rejects an unknown shape and an index at the palette size', () => {
     const engine = pixelEngine(emptyProject(4, 4));
-    expect(errorOf(engine.execute(shapeRequest({ shape: 'polygon' }))).path).toBe('steps.0.options.shape');
+    expect(errorOf(engine.execute(shapeRequest({ shape: 'blob' }))).path).toBe('steps.0.options.shape');
     expect(errorOf(engine.execute(shapeRequest({ shape: 'line', index: 7 }))).code).toBe('INDEX_OUT_OF_RANGE');
   });
 });
