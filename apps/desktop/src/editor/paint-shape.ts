@@ -18,6 +18,7 @@ const paintShape = (session: ShapeSession): void => {
     filled: spec.filled,
     brush: spec.brush,
     symmetry: spec.symmetry,
+    mask: session.mask,
   });
   session.dirty = painted;
   const changed = unionDirty(before, painted);

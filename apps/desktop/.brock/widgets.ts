@@ -2,11 +2,13 @@
 import { lazyComponent, widgetsFromFiles } from '@drizztdourden08/brock-react';
 import { meta as layersWidgetMeta } from '../src/widgets/layers.widget';
 import { meta as paletteWidgetMeta } from '../src/widgets/palette.widget';
+import { meta as transformWidgetMeta } from '../src/widgets/transform.widget';
 import appWidgetLayout from '../src/widgets/layout';
 
 const appWidgets = widgetsFromFiles([
   { id: 'layers', component: lazyComponent(() => import('../src/widgets/layers.widget')), meta: layersWidgetMeta },
   { id: 'palette', component: lazyComponent(() => import('../src/widgets/palette.widget')), meta: paletteWidgetMeta },
+  { id: 'transform', component: lazyComponent(() => import('../src/widgets/transform.widget')), meta: transformWidgetMeta },
 ]);
 
 export { appWidgetLayout, appWidgets };

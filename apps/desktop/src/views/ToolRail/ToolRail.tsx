@@ -3,6 +3,7 @@ import { ButtonGroup, Flex } from '@drizztdourden08/tessera';
 import { TOOL_GROUPS, TOOLS } from '../../editor/tools.constants';
 import { useToolStore } from '../../stores/useToolStore';
 import { TOOL_RAIL_TEXT } from './ToolRail.constants';
+import { SelectFlyout } from './sub-components/SelectFlyout';
 import { ShapeFlyout } from './sub-components/ShapeFlyout';
 import { ToolButton } from './sub-components/ToolButton';
 import './ToolRail.css';
@@ -18,6 +19,7 @@ const ToolRail = () => {
             <ToolButton key={def.id} def={def} active={tool === def.id} onSelect={() => selectTool(def.id)} />
           ))}
           {group === 'draw' && <ShapeFlyout />}
+          {group === 'select' && <SelectFlyout />}
         </ButtonGroup>
       ))}
     </Flex>

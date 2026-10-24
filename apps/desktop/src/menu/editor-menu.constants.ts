@@ -8,6 +8,7 @@ const MENU_TEXT = {
   zoom: 'Zoom',
   symmetry: 'Symmetry',
   tiled: 'Tiled preview',
+  transform: 'Transform',
   mirrorX: 'Mirror horizontally (X)',
   mirrorY: 'Mirror vertically (Y)',
   noDocument: 'Open or create a file first.',
@@ -15,6 +16,7 @@ const MENU_TEXT = {
 
 const MENU_KEYS = {
   edit: 'edit',
+  transform: 'edit-transform',
   palette: 'palette',
   layer: 'layer',
   view: 'view',

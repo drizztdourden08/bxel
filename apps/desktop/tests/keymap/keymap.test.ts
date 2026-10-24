@@ -92,7 +92,7 @@ describe('the keymap table', () => {
 
   it('puts every tool on its letter key', () => {
     const letters = TOOLS.map((tool) => chordsOf(find(COMMAND_ID.tool(tool.id))));
-    expect(letters).toEqual([['B'], ['E'], ['G'], ['I'], ['U'], ['Z'], ['H']]);
+    expect(letters).toEqual([['B'], ['E'], ['G'], ['I'], ['U'], ['Z'], ['H'], ['M'], ['V']]);
   });
 
   it('keeps the chords of the contract for brush, symmetry, colours, view and help', () => {
