@@ -24,10 +24,10 @@ const packageSources = (): string[] =>
 
 const americanText = (file: string): string[] => {
   const text = readFileSync(file, 'utf8');
-  if (!/\bcolors?\b/i.test(text)) return [];
+  if (!/\bcolors?\b(?!-)/i.test(text)) return [];
   return [...text.matchAll(LITERAL)]
-    .map((match) => (match[2] ?? '').replace(/\$\{[^}]*\}/g, ''))
-    .filter((body) => /\s/.test(body) && !PROPER_NOUN.test(body) && /\bcolors?\b/i.test(body));
+    .map((match) => (match[2] ?? '').replace(/\$\{[^}]*\}/g, '').replace(/`[^`]*`/g, ''))
+    .filter((body) => /\s/.test(body) && !PROPER_NOUN.test(body) && /\bcolors?\b(?!-)/i.test(body));
 };
 
 describe('the spelling of colour in text the user reads', () => {
