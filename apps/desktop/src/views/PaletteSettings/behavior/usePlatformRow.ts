@@ -8,7 +8,7 @@ import { presetById } from '../../../platform-preset/preset-by-id';
 import { setPlatform } from '../../../platform-preset/set-platform';
 import { setStrict } from '../../../platform-preset/set-strict';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
-import type { PlatformRowModel } from '../PalettePanel.type';
+import type { PlatformRowModel } from '../PaletteSettings.type';
 
 const usePlatformRow = (): PlatformRowModel => {
   const view = useActiveDocument();

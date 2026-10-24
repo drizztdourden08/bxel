@@ -19,15 +19,16 @@ const EditorStatus = () => {
   const pointer = useReadoutStore((state) => state.pointer);
   const zoom = useReadoutStore((state) => state.zoom);
   const foreground = useToolStore((state) => state.foreground);
+  const background = useToolStore((state) => state.background);
   const tool = useToolStore((state) => state.tool);
   const mode = useSpriteStore((state) => state.mode);
   const tileMode = useTilemapStore((state) => state.editMode);
   const recovered = useFileStore((state) => (view ? view.state.documentId in state.recovered : false));
-  const colour = slots[foreground] ?? null;
+  const colours = [slots[foreground] ?? null, slots[background] ?? null] as const;
   const clean = view?.clean ?? true;
   return (
     <ActionHint hint={canvasHelp(tool, mode, tileMode)} placement="top" className="editor-status">
-      <StatusBar className="editor-status__bar" label={STATUS_TEXT.region} items={statusItems({ pointer, zoom, colour, clean, recovered })} />
+      <StatusBar className="editor-status__bar" label={STATUS_TEXT.region} items={statusItems({ pointer, zoom, colours, clean, recovered })} />
     </ActionHint>
   );
 };

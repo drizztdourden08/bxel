@@ -10,6 +10,9 @@ const useToolStore = create<ToolState>()((set) => ({
   selectTool: (tool) => set((state) => toolChange(state, tool)),
   setForeground: (foreground) => set({ foreground }),
   setBackground: (background) => set({ background }),
+  setColour: (slot, index) => set({ [slot]: index }),
+  swapPairs: () =>
+    set((state) => ({ foreground: state.third, background: state.fourth, third: state.foreground, fourth: state.background })),
   swapColors: () => set((state) => ({ foreground: state.background, background: state.foreground })),
   setLayer: (layerId) => set({ layerId }),
   setBrushSize: (size) => set({ brushSize: clampBrushSize(size) }),

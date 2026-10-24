@@ -5,6 +5,8 @@ const TOOL_DEFAULTS: ToolSettings = {
   tool: 'pencil',
   foreground: 1,
   background: 0,
+  third: 2,
+  fourth: 3,
   brushSize: 1,
   brushShape: 'square',
   pixelPerfect: false,

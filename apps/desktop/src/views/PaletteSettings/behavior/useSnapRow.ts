@@ -7,8 +7,8 @@ import { snapPlan } from '../../../platform-preset/snap-plan';
 import { snapPlatform } from '../../../platform-preset/snap-platform';
 import { SNAP_TEXT } from '../../../platform-preset/snap-platform.constants';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
-import { NO_CHANGES } from '../PalettePanel.constants';
-import type { SnapRowModel } from '../PalettePanel.type';
+import { NO_CHANGES } from '../PaletteSettings.constants';
+import type { SnapRowModel } from '../PaletteSettings.type';
 
 const useSnapRow = (): SnapRowModel => {
   const view = useActiveDocument();

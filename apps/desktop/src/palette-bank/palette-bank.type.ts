@@ -6,4 +6,9 @@ interface BankOption {
 
 type BankOutcome = { ok: true; message: string } | { ok: false; message: string };
 
-export type { BankOption, BankOutcome };
+interface RecolourChange {
+  index: number;
+  rgb: string;
+}
+
+export type { BankOption, BankOutcome, RecolourChange };

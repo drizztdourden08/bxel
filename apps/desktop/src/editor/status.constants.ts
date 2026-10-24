@@ -11,6 +11,7 @@ const STATUS_TEXT = {
   helpValue: 'Canvas controls',
   cursor: (at: Point): string => `x ${at.x}, y ${at.y}`,
   zoom: (zoom: number): string => `${Math.round(zoom * 100)}%`,
+  colourLabel: (position: 1 | 2): string => `Colour ${position}`,
   colour: (index: number, name: string): string => `${index} ${name}`,
 } as const;
 

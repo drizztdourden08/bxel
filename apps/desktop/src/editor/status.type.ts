@@ -5,7 +5,7 @@ import type { PaletteSlot } from './palette-slots.type';
 interface StatusInput {
   pointer: Point | null;
   zoom: number;
-  colour: PaletteSlot | null;
+  colours: readonly [PaletteSlot | null, PaletteSlot | null];
   clean: boolean;
   recovered: boolean;
 }
