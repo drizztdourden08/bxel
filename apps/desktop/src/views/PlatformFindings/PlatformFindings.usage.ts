@@ -12,13 +12,14 @@ const usage = {
     { case: 'A blocking message about one action.', use: 'Callout' },
   ],
   rules: [
-    'Pass the report of the platform check. It never blocks work: every finding is a warning or a note.',
+    'Pass the report of the platform check. The list never blocks work itself: every finding is a warning or a note.',
+    'A finding about areas of a sprite has a Show on the canvas button that marks those areas on the canvas.',
     'A finding outside the rules shows in the danger tone, a check in the warning tone and a note in the info tone.',
     'With no findings the view says that everything fits.',
   ],
   a11y: [
     'The list is a polite live region, so a new finding is announced when the file changes.',
-    'Each finding names its kind in words, not only in color.',
+    'Each finding names its kind in words, not only in colour.',
   ],
   tree: {
     path: ['a status, a count or a label', 'the state something is in'],

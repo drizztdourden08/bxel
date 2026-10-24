@@ -4,16 +4,16 @@ import type { ChangeKind } from './palette-change.type';
 const pixelWord = (count: number): string => (count === 1 ? '1 pixel' : `${count} pixels`);
 
 const CHANGE_TEXT = {
-  titles: { delete: 'Delete swatch', merge: 'Merge swatch', limit: 'Change color limit' } satisfies Record<ChangeKind, string>,
+  titles: { delete: 'Delete swatch', merge: 'Merge swatch', limit: 'Change colour limit' } satisfies Record<ChangeKind, string>,
   pickLabels: { delete: 'Replace with', merge: 'Merge into', limit: 'New limit' } satisfies Record<ChangeKind, string>,
   pickHints: {
-    delete: 'Pixels using this swatch take the replacement color.',
-    merge: 'Pixels using this swatch take the color of the swatch you merge into.',
+    delete: 'Pixels using this swatch take the replacement colour.',
+    merge: 'Pixels using this swatch take the colour of the swatch you merge into.',
     limit: 'The number of slots the palette holds, counting the transparent slot.',
   } satisfies Record<ChangeKind, string>,
   noReplacement: 'No replacement',
   chooseOther: 'Choose a replacement swatch first.',
-  below: (inUse: number): string => `The new limit is below the ${inUse} colors in use. Merge or delete swatches first.`,
+  below: (inUse: number): string => `The new limit is below the ${inUse} colours in use. Merge or delete swatches first.`,
   affects: (count: number, total: number, pixels: number): string =>
     `Affects ${count} of ${total} sprites. ${pixelWord(pixels)} change. This is one undo step.`,
   sprite: 'Sprite',
@@ -33,7 +33,7 @@ const CHANGE_TEXT = {
   done: {
     delete: 'Deleted the swatch.',
     merge: 'Merged the swatches.',
-    limit: 'Changed the color limit.',
+    limit: 'Changed the colour limit.',
   } satisfies Record<ChangeKind, string>,
   failed: (reason: string): string => `Could not change the palette. ${reason}`,
   noFile: 'Open or create a file first.',
@@ -47,7 +47,7 @@ const CHANGE_TEXT = {
 const CHANGE_LABEL = {
   delete: 'Delete swatch',
   merge: 'Merge swatches',
-  limit: 'Change color limit',
+  limit: 'Change colour limit',
 } satisfies Record<ChangeKind, string>;
 
 const FRAME_JOIN = ', ';

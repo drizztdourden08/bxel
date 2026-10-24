@@ -20,14 +20,14 @@ import { hostWithFile, newHost, revisionOf, sprites } from './dialog-harness';
 const blank = (): CreationForm => initialForm(NEW_MEMORY_DEFAULT, []);
 
 describe('the count line and the limit rules', () => {
-  it('states the opaque colors, the transparent slot and the limit in the wording of the contract', () => {
+  it('states the opaque colours, the transparent slot and the limit in the wording of the contract', () => {
     expect(PALETTE_TEXT.count(16, true)).toBe('15 opaque + transparent = 16');
     expect(PALETTE_TEXT.count(16, false)).toBe('16 opaque, no transparency = 16');
     expect(newSummary(blank()).count).toBe('15 opaque + transparent = 16');
     expect(newSummary(patchForm(blank(), { transparent: false, limit: 8 })).count).toBe('8 opaque, no transparency = 8');
   });
 
-  it('counts the used colors and says when the palette is full', () => {
+  it('counts the used colours and says when the palette is full', () => {
     expect(usageLine(11, 15)).toBe('11 of 15 opaque used');
     expect(usageLine(15, 15)).toBe('15 of 15 opaque used. Palette is full.');
     expect(newSummary(blank()).usage).toBe('0 of 15 opaque used');
@@ -38,13 +38,13 @@ describe('the count line and the limit rules', () => {
     expect(NEW_MEMORY_DEFAULT.limit).toBe(16);
     expect(LIMIT_PRESETS).toEqual([4, 8, 16, 32, 64, 256]);
     expect([1, 16, 256].map(limitError)).toEqual([null, null, null]);
-    expect([0, 257, 2.5, Number.NaN].every((value) => limitError(value) === 'The color limit must be between 1 and 256.')).toBe(true);
+    expect([0, 257, 2.5, Number.NaN].every((value) => limitError(value) === 'The colour limit must be between 1 and 256.')).toBe(true);
   });
 
-  it('says plainly when a palette has more colors than the limit holds', () => {
+  it('says plainly when a palette has more colours than the limit holds', () => {
     const summary = newSummary(patchForm(blank(), { limit: 4 }));
     expect(summary.count).toBe('3 opaque + transparent = 4');
-    expect(summary.fits).toBe('Uses the first 3 of 15 colors. Raise the limit to keep all of them.');
+    expect(summary.fits).toBe('Uses the first 3 of 15 colours. Raise the limit to keep all of them.');
   });
 });
 
@@ -57,7 +57,7 @@ describe('the form errors', () => {
     const errors = newFormErrors(patchForm(blank(), { name: ' ', width: 0, limit: 300 }), []);
     expect(errors.name).toBe('A name has 1 to 64 characters you can print.');
     expect(errors.size).toBe('Size must be between 1 and 2048 pixels.');
-    expect(errors.limit).toBe('The color limit must be between 1 and 256.');
+    expect(errors.limit).toBe('The colour limit must be between 1 and 256.');
   });
 
   it('refuses a name that the file already uses', () => {
@@ -83,7 +83,7 @@ describe('creating a new file', () => {
     expect(bank?.name).toBe('Bxel 16');
   });
 
-  it('makes the first slot the background color when transparency is off', () => {
+  it('makes the first slot the background colour when transparency is off', () => {
     const host = newHost();
     const outcome = createNewFile(host, patchForm(blank(), { transparent: false, limit: 16 }));
     expect(outcome.ok).toBe(true);

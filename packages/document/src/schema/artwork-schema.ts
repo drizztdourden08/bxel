@@ -18,6 +18,7 @@ const artworkSchema = z.object({
   defaultBankId: brandedIdSchema<BankId>(ID_PREFIX.bank),
   coverSpriteId: brandedIdSchema<SpriteId>(ID_PREFIX.sprite).nullable(),
   platformId: platformIdSchema.optional(),
+  platformStrict: z.boolean().optional(),
   banks: z.array(paletteBankSchema),
   sprites: z.array(spriteShellSchema),
   sheets: z.array(sheetSchema),

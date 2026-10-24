@@ -22,6 +22,7 @@ interface CreationForm {
   transparent: boolean;
   source: PaletteSource;
   platformId: string | null;
+  banks: number;
 }
 
 interface CreationErrors {
@@ -31,6 +32,7 @@ interface CreationErrors {
   limit: string | null;
   palette: string | null;
   background: string | null;
+  banks: string | null;
 }
 
 interface CreationSummary {
@@ -39,6 +41,7 @@ interface CreationSummary {
   fits: string | null;
   sheet: string | null;
   platform: PlatformReport | null;
+  banks: string | null;
 }
 
 interface CreationMemory {
@@ -75,8 +78,13 @@ interface SpriteStepsInput {
   existingId: string | null;
 }
 
+interface SpriteCheck {
+  report: PlatformReport | null;
+  blocked: string | null;
+}
+
 type CreationOutcome = { ok: true; documentId: DocumentId; names: readonly string[] } | { ok: false; message: string };
 
 type InFileOutcome = { ok: true; names: readonly string[] } | { ok: false; message: string };
 
-export type { BackgroundChoice, BackgroundKind, InFileOutcome, CreationForm, CreationErrors, CreationKind, CreationMemory, CreationOutcome, CreationSummary, SpriteDraft, SpriteSize, SpriteStepsInput };
+export type { BackgroundChoice, BackgroundKind, InFileOutcome, CreationForm, CreationErrors, CreationKind, CreationMemory, CreationOutcome, CreationSummary, SpriteCheck, SpriteDraft, SpriteSize, SpriteStepsInput };

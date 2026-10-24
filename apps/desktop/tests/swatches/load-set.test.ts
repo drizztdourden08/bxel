@@ -43,14 +43,14 @@ const rgbs = (bank: PaletteBank): string[] => bank.slots.flatMap((slot) => (slot
 const hex = (index: number): string => `#00${(index + 16).toString(16).padStart(2, '0')}00`;
 
 describe('the load plan', () => {
-  it('appends only colors the palette does not hold yet, in order', () => {
+  it('appends only colours the palette does not hold yet, in order', () => {
     const bank = bankOf(roomy());
     const plan = loadPlan(bank, colors(rgbs(bank)[0] ?? '#000000', '#010203', '#010203', '#040506'), 'append');
     expect(plan.colors).toEqual(['#010203', '#040506']);
     expect(plan.skipped).toBe(1);
   });
 
-  it('cuts the colors at the free slots and counts what did not fit', () => {
+  it('cuts the colours at the free slots and counts what did not fit', () => {
     const bank = bankOf(roomy());
     const free = bank.cap - bank.slots.length;
     const plan = loadPlan(bank, colors(...Array.from({ length: free + 3 }, (_unused, index) => hex(index))), 'append');
@@ -68,20 +68,20 @@ describe('the load plan', () => {
   });
 
   it('says what happened in plain words', () => {
-    expect(loadMessage({ mode: 'append', colors: ['#000000'], dropped: 0, skipped: 0 }, 16)).toBe('Added 1 color.');
+    expect(loadMessage({ mode: 'append', colors: ['#000000'], dropped: 0, skipped: 0 }, 16)).toBe('Added 1 colour.');
     expect(loadMessage({ mode: 'append', colors: ['#000000', '#111111'], dropped: 2, skipped: 1 }, 16)).toBe(
-      'Added 2 colors. 2 colors did not fit the limit of 16. 1 color was already in the palette.',
+      'Added 2 colours. 2 colours did not fit the limit of 16. 1 colour was already in the palette.',
     );
-    expect(loadMessage({ mode: 'replace', colors: ['#000000'], dropped: 1, skipped: 0 }, 4)).toBe('Replaced the palette with 1 color. 1 color did not fit the limit of 4.');
+    expect(loadMessage({ mode: 'replace', colors: ['#000000'], dropped: 1, skipped: 0 }, 4)).toBe('Replaced the palette with 1 colour. 1 colour did not fit the limit of 4.');
   });
 });
 
 describe('loading a set into the open palette', () => {
-  it('appends the colors as one undo step', () => {
+  it('appends the colours as one undo step', () => {
     const open = roomy();
     const bank = bankOf(open);
     const outcome = runLoad(open.host, { documentId: open.documentId, bankId: bank.id, set: setOf('#0a0b0c', '#0d0e0f'), mode: 'append' });
-    expect(outcome).toEqual({ ok: true, message: 'Added 2 colors.' });
+    expect(outcome).toEqual({ ok: true, message: 'Added 2 colours.' });
     expect(bankOf(open).slots).toHaveLength(bank.slots.length + 2);
     expect(open.host.undo(open.documentId).ok).toBe(true);
     expect(bankOf(open).slots).toHaveLength(bank.slots.length);
@@ -95,21 +95,21 @@ describe('loading a set into the open palette', () => {
     const outcome = runLoad(open.host, { documentId: open.documentId, bankId: bank.id, set: setOf(...many), mode: 'append' });
     expect(outcome.ok).toBe(true);
     expect(bankOf(open).slots).toHaveLength(bank.cap);
-    expect(outcome.message).toContain('2 colors did not fit the limit');
+    expect(outcome.message).toContain('2 colours did not fit the limit');
   });
 
-  it('replaces the colors of the palette', () => {
+  it('replaces the colours of the palette', () => {
     const open = roomy();
     const outcome = runLoad(open.host, { documentId: open.documentId, bankId: bankOf(open).id, set: setOf('#0a0b0c', '#0d0e0f'), mode: 'replace' });
     expect(outcome.ok).toBe(true);
     expect(rgbs(bankOf(open))).toEqual(['#0a0b0c', '#0d0e0f']);
   });
 
-  it('reports a set whose colors are all in the palette already', () => {
+  it('reports a set whose colours are all in the palette already', () => {
     const open = roomy();
     const first = rgbs(bankOf(open))[0] ?? '#000000';
     const outcome = runLoad(open.host, { documentId: open.documentId, bankId: bankOf(open).id, set: setOf(first), mode: 'append' });
-    expect(outcome).toEqual({ ok: false, message: 'Every color of that set is already in the palette.' });
+    expect(outcome).toEqual({ ok: false, message: 'Every colour of that set is already in the palette.' });
   });
 
   it('says so when the palette has no free slot', () => {
@@ -117,6 +117,6 @@ describe('loading a set into the open palette', () => {
     const bank = bankOf({ host, documentId });
     const outcome = runLoad(host, { documentId, bankId: bank.id, set: setOf('#0a0b0c'), mode: 'append' });
     expect(outcome.ok).toBe(false);
-    expect(outcome.message).toBe(`The palette is full at ${bank.cap} slots. Raise the limit or replace colors.`);
+    expect(outcome.message).toBe(`The palette is full at ${bank.cap} slots. Raise the limit or replace colours.`);
   });
 });

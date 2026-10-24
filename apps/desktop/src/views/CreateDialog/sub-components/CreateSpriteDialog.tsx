@@ -2,6 +2,7 @@
 import { Callout, DialogShell, Stack, Text } from '@drizztdourden08/tessera';
 import { NEW_TEXT } from '../../../new-sprite/new-sprite.constants';
 import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
+import { PlatformFindings } from '../../PlatformFindings';
 import { useFileShare } from '../behavior/useFileShare';
 import { useNewSprite } from '../behavior/useNewSprite';
 import { CreateActions } from './CreateActions';
@@ -9,7 +10,7 @@ import { NameField } from './NameField';
 import { SizeFields } from './SizeFields';
 
 const CreateSpriteDialog = () => {
-  const { form, errors, failure, valid, update, create } = useNewSprite();
+  const { form, errors, failure, valid, update, create, check } = useNewSprite();
   const share = useFileShare();
   const hide = useCreateDialogStore((state) => state.hide);
   const fields = { form, errors, update };
@@ -24,6 +25,8 @@ const CreateSpriteDialog = () => {
       <Stack gap="md">
         <NameField {...fields} />
         <SizeFields {...fields} />
+        {check.report !== null && <PlatformFindings report={check.report} />}
+        {check.blocked !== null && <Callout tone="danger">{check.blocked}</Callout>}
         {share !== null && (
           <Stack gap="2xs">
             <Text variant="label">{NEW_TEXT.shared(share.name, share.sprites)}</Text>

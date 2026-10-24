@@ -9,9 +9,9 @@ const printable = (text: string): boolean => !hasControlCharacters(text);
 const swatchColorSchema = z.strictObject({
   rgb: z
     .string()
-    .regex(SWATCH_RGB_REGEX, { message: 'A color looks like #1a2b3c.' })
+    .regex(SWATCH_RGB_REGEX, { message: 'A colour looks like #1a2b3c.' })
     .transform((value) => value.toLowerCase()),
-  name: z.string().max(MAX_COLOR_NAME).refine(printable, { message: 'A color name has printable characters only.' }),
+  name: z.string().max(MAX_COLOR_NAME).refine(printable, { message: 'A colour name has printable characters only.' }),
 });
 
 const swatchSetSchema = z.strictObject({

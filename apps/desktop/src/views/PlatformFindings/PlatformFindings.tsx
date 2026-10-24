@@ -1,25 +1,27 @@
 /* @layer renderer-app @kind component */
-import { Callout, Stack, Text } from '@drizztdourden08/tessera';
-import { PLATFORM_TEXT, TIER_LABELS } from '../../platform-preset/platform-preset.constants';
-import { FINDING_TONES } from './PlatformFindings.constants';
+import { Stack, Text } from '@drizztdourden08/tessera';
+import { PLATFORM_TEXT } from '../../platform-preset/platform-preset.constants';
+import { useAreaFindings } from './behavior/useAreaFindings';
 import type { PlatformFindingsProps } from './PlatformFindings.type';
+import { FindingRow } from './sub-components/FindingRow';
 
-const PlatformFindings = ({ report }: PlatformFindingsProps) => (
-  <Stack gap="xs" aria-live="polite">
-    <Text variant="caption" tone="muted">
-      {report.rules}
-    </Text>
-    {report.findings.length === 0 && (
+const PlatformFindings = ({ report }: PlatformFindingsProps) => {
+  const areas = useAreaFindings(report);
+  return (
+    <Stack gap="xs" aria-live="polite">
       <Text variant="caption" tone="muted">
-        {PLATFORM_TEXT.noFindings}
+        {report.rules}
       </Text>
-    )}
-    {report.findings.map((finding) => (
-      <Callout key={`${finding.tier}:${finding.text}`} variant="footnote" tone={FINDING_TONES[finding.tier]}>
-        {`${TIER_LABELS[finding.tier]}: ${finding.text}`}
-      </Callout>
-    ))}
-  </Stack>
-);
+      {report.findings.length === 0 && (
+        <Text variant="caption" tone="muted">
+          {PLATFORM_TEXT.noFindings}
+        </Text>
+      )}
+      {report.findings.map((finding) => (
+        <FindingRow key={`${finding.tier}:${finding.text}`} finding={finding} areas={areas} />
+      ))}
+    </Stack>
+  );
+};
 
 export { PlatformFindings };

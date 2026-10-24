@@ -8,7 +8,7 @@ const LIMIT_DEFAULT = 16;
 const LIMIT_RANGE = { min: MIN_BANK_CAP, max: MAX_BANK_CAP } as const;
 
 const LIMIT_TEXT = {
-  range: `The color limit must be between ${MIN_BANK_CAP} and ${MAX_BANK_CAP}.`,
+  range: `The colour limit must be between ${MIN_BANK_CAP} and ${MAX_BANK_CAP}.`,
   label: 'Maximum slots',
   custom: 'Custom',
   transparency: 'Use slot 0 for transparent',

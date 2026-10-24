@@ -85,24 +85,24 @@ describe('slicing rectangles', () => {
   });
 });
 
-describe('the colors step', () => {
+describe('the colours step', () => {
   it('reads 50 percent as the byte 128', () => {
     expect(alphaThreshold(50)).toBe(128);
     expect(alphaThreshold(0)).toBe(0);
     expect(alphaThreshold(100)).toBe(255);
   });
 
-  it('warns and blocks when the image has more colors than the limit and no reduction is chosen', () => {
+  it('warns and blocks when the image has more colours than the limit and no reduction is chosen', () => {
     const image = noise(8);
     const form = formFor(image, NONE, {});
     const view = colorsView(form, image, NONE);
     expect(form.reduce).toBeNull();
-    expect(view.warning).toBe('This image has 64 colors. The limit is 16. Choose how to reduce them before importing.');
+    expect(view.warning).toBe('This image has 64 colours. The limit is 16. Choose how to reduce them before importing.');
     const errors = importErrors({ form, image, context: NONE, rects: activeRects(form, image), names: ['caps'] });
     expect(stepIssue('colors', errors, view)).toBe(view.warning);
   });
 
-  it('shows the reduced image and never adds colors silently', () => {
+  it('shows the reduced image and never adds colours silently', () => {
     const image = noise(8);
     const form = formFor(image, NONE, { reduce: 'extract' });
     const view = colorsView(form, image, NONE);
@@ -113,7 +113,7 @@ describe('the colors step', () => {
     expect(stepIssue('colors', importErrors({ form, image, context: NONE, rects: [], names: [] }), view)).toBeNull();
   });
 
-  it('extracts the exact colors when the image fits the limit', () => {
+  it('extracts the exact colours when the image fits the limit', () => {
     const image = quad();
     const form = formFor(image, NONE, {});
     expect(form.reduce).toBe('extract');
@@ -170,7 +170,7 @@ describe('the import transaction', () => {
     expect(undone?.banks[0]).toEqual(before?.banks[0]);
   });
 
-  it('maps to the palette of the open file and adds no color', () => {
+  it('maps to the palette of the open file and adds no colour', () => {
     const { host, documentId } = hostWithFile();
     const context = importContext(host.view(documentId));
     const image = noise(8);

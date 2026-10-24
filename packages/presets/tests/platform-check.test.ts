@@ -1,18 +1,7 @@
 /* @layer tests @kind test */
 import { checkPlatform, presetDefaults } from '@bxel/presets';
-import type { BankFacts } from '@bxel/presets';
 import { describe, expect, it } from 'vitest';
-import { preset, size } from './preset-fixtures';
-
-const startBank = (id: string): BankFacts => {
-  const defaults = presetDefaults(preset(id));
-  return {
-    name: 'Main',
-    cap: defaults.bankSize,
-    transparent: defaults.transparent,
-    colours: defaults.palette.flatMap((slot) => (slot.kind === 'color' ? [slot.rgb] : [])),
-  };
-};
+import { preset, size, startBank } from './preset-fixtures';
 
 describe('checkPlatform', () => {
   it('finds nothing wrong in the start state of each preset', () => {
@@ -25,8 +14,17 @@ describe('checkPlatform', () => {
   it('flags a bank of the wrong size at the tier of the preset', () => {
     const findings = checkPlatform(preset('snes-sprite'), { banks: [{ ...startBank('snes-sprite'), cap: 32 }], sprites: [] });
     expect(findings).toEqual([
-      { rule: 'bankSize', tier: 'enforce', message: 'Main holds 32 slots. SNES sprite 4bpp uses 16.' },
+      { rule: 'bankSize', tier: 'enforce', message: 'Main holds 32 slots. SNES sprite 4bpp uses 16.', key: 'bankSize:bnk_main', excess: 16 },
     ]);
+  });
+
+  it('flags a bank that holds more colours than the platform allows', () => {
+    const colours = Array.from({ length: 16 }, (_unused, index) => `#${(index * 8).toString(16).padStart(2, '0')}0000`);
+    const bank = { ...startBank('snes-sprite'), cap: 16, colours };
+    const findings = checkPlatform(preset('snes-sprite'), { banks: [bank], sprites: [] });
+    const usage = findings.find((finding) => finding.key === 'bankUsage:bnk_main');
+    expect(usage).toMatchObject({ rule: 'bankSize', tier: 'enforce', excess: 1 });
+    expect(usage?.message).toBe('Main uses 17 slots. SNES sprite 4bpp allows 16.');
   });
 
   it('flags a missing transparent slot 0', () => {

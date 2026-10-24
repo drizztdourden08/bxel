@@ -5,11 +5,13 @@ const NO_PLATFORM = 'none';
 
 const PLATFORM_LABEL = 'Change platform';
 
+const STRICT_LABEL = 'Change platform rules mode';
+
 const PLATFORM_TEXT = {
   label: 'Platform',
   none: 'No platform',
   freeGroup: 'No rules',
-  hint: 'A platform sets the size, color count, palette and rules for a target. You can still change them. Anything outside the rules shows as a warning.',
+  hint: 'A platform sets the size, colour count, palette and rules for a target. You can still change them. Anything outside the rules shows as a warning.',
   rulesTitle: 'Platform rules',
   noFindings: 'Everything fits the platform rules.',
   changeFailed: (reason: string): string => `Could not change the platform. ${reason}`,
@@ -19,9 +21,29 @@ const PLATFORM_TEXT = {
   slot0: {
     transparent: 'slot 0 transparent',
     background: 'slot 0 is the backdrop',
-    colour: 'slot 0 is a color',
+    colour: 'slot 0 is a colour',
   },
   shared: 'slot 0 is the backdrop shared by every palette',
+} as const;
+
+const STRICT_TEXT = {
+  label: 'Enforce platform rules',
+  hint: 'Blocks a change that would break a rule marked Outside the rules. Checks and notes stay warnings.',
+  on: 'Platform rules are enforced.',
+  off: 'Platform rules are not enforced.',
+  failed: (reason: string): string => `Could not change the setting. ${reason}`,
+  blocked: (message: string): string => `Blocked by the platform rules. ${message} Turn off Enforce platform rules to allow it.`,
+  sizeBlocked: (message: string): string => `${message} Enforce platform rules is on, so this size cannot be added.`,
+} as const;
+
+const AREA_TEXT = {
+  palette: (name: string, count: number, frames: string): string =>
+    `${name}${frames}: ${count} ${count === 1 ? 'area uses' : 'areas use'} more than one palette.`,
+  colours: (name: string, count: number, frames: string, limit: number): string =>
+    `${name}${frames}: ${count} ${count === 1 ? 'area uses' : 'areas use'} more than ${limit} ${limit === 1 ? 'colour' : 'colours'}.`,
+  frames: (list: string): string => `, frames ${list}`,
+  show: 'Show on the canvas',
+  hide: 'Hide from the canvas',
 } as const;
 
 const TIER_LABELS: Readonly<Record<RuleTier, string>> = {
@@ -30,4 +52,4 @@ const TIER_LABELS: Readonly<Record<RuleTier, string>> = {
   advisory: 'Note',
 };
 
-export { NO_PLATFORM, PLATFORM_LABEL, PLATFORM_TEXT, TIER_LABELS };
+export { AREA_TEXT, NO_PLATFORM, PLATFORM_LABEL, PLATFORM_TEXT, STRICT_LABEL, STRICT_TEXT, TIER_LABELS };

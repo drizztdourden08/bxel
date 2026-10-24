@@ -7,6 +7,7 @@ const artworkUpdateSchema = z.strictObject({
   name: z.string().optional(),
   coverSpriteId: idSchema('spr').nullable().optional(),
   platformId: platformIdSchema.nullable().optional(),
+  platformStrict: z.boolean().optional(),
 });
 
 export { artworkUpdateSchema };

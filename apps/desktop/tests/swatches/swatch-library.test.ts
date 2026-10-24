@@ -31,14 +31,14 @@ describe('the built-in sets', () => {
     expect(sets.every((set) => set.origin === 'builtin' && set.setId === null)).toBe(true);
   });
 
-  it('holds only opaque hex colors, without the transparent slot', () => {
+  it('holds only opaque hex colours, without the transparent slot', () => {
     const snes = sets.find((set) => set.key === 'builtin:snes-sprite');
     expect(snes?.name).toBe('SNES sprite 4bpp');
     expect(snes?.colors).toHaveLength(15);
     expect(allRgbs(sets).every((rgb) => /^#[0-9a-f]{6}$/.test(rgb))).toBe(true);
   });
 
-  it('keeps the fixed colors of a fantasy console', () => {
+  it('keeps the fixed colours of a fantasy console', () => {
     const pico = sets.find((set) => set.key === 'builtin:pico-8');
     expect(pico?.colors).toHaveLength(16);
     expect(pico?.colors[1]?.rgb).toBe('#1d2b53');
@@ -82,21 +82,21 @@ describe('making and editing a set', () => {
     expect(withName(set, '   ')).toBe(set);
   });
 
-  it('adds a color up to the largest size', () => {
+  it('adds a colour up to the largest size', () => {
     const set = small();
     expect(withAddedColor(set, { rgb: '#808080', name: 'Mid' }).colors).toHaveLength(3);
     const full = { ...set, colors: Array.from({ length: MAX_SET_COLORS }, () => ({ rgb: '#000000', name: 'k' })) };
     expect(withAddedColor(full, { rgb: '#ffffff', name: 'w' })).toBe(full);
   });
 
-  it('removes a color but keeps the last one', () => {
+  it('removes a colour but keeps the last one', () => {
     const set = small();
     expect(withoutColor(set, 0).colors.map((each) => each.rgb)).toEqual(['#222222']);
     const single = withoutColor(set, 0);
     expect(withoutColor(single, 0)).toBe(single);
   });
 
-  it('recolors and renames a color, and follows the value while the name is the value', () => {
+  it('recolors and renames a colour, and follows the value while the name is the value', () => {
     const set = small();
     const recolored = recolorSet(set, 0, '#ABCDEF');
     expect(recolored.colors[0]).toEqual({ rgb: '#abcdef', name: '#abcdef' });

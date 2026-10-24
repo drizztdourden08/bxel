@@ -7,6 +7,10 @@ const SIZE_PRESETS: readonly number[] = [8, 16, 32, 64];
 
 const MAX_SHEET_SPRITES = 64;
 
+const MAX_NEW_BANKS = 32;
+
+const BANK_NAME_ROOM = 58;
+
 const NEW_MEMORY_DEFAULT: CreationMemory = {
   width: 16,
   height: 16,
@@ -30,6 +34,7 @@ const NEW_FORM_BASE: CreationForm = {
   transparent: NEW_MEMORY_DEFAULT.transparent,
   source: { kind: 'preset', presetId: PRESET_DEFAULT, file: null },
   platformId: null,
+  banks: 1,
 };
 
 const NEW_FILE_NAME = 'Untitled';
@@ -62,8 +67,12 @@ const NEW_TEXT = {
   background: 'Background',
   transparentBackground: 'Transparent',
   opaqueBackground: 'Opaque',
-  backgroundColor: 'Background color',
-  palette: 'Palette and color limit',
+  backgroundColor: 'Background colour',
+  palette: 'Palette and colour limit',
+  banks: 'Palettes',
+  banksHint: 'How many palettes the file starts with. Each one begins with the colours above.',
+  banksRange: `A file starts with 1 to ${MAX_NEW_BANKS} palettes.`,
+  banksNote: (count: number, slots: number): string => `Creates ${count} palettes of ${slots} slots each.`,
   result: 'Result',
   create: 'Create sprite',
   createSheet: 'Create sheet',
@@ -72,7 +81,7 @@ const NEW_TEXT = {
   sheetNote: (count: number, first: string, last: string): string =>
     `Creates ${count} sprites, ${first} to ${last}. Placing them on a sheet is not built yet.`,
   sheetLimit: `A sheet holds 1 to ${MAX_SHEET_SPRITES} sprites.`,
-  backgroundPick: 'Choose a color for the background.',
+  backgroundPick: 'Choose a colour for the background.',
   shared: (name: string, count: number): string => `Palette ${name}, shared by ${count} sprites`,
   inherited: 'The palette is inherited and read only.',
   created: (names: readonly string[]): string => (names.length === 1 ? `Created sprite ${names[0] ?? ''}.` : `Created ${names.length} sprites.`),
@@ -82,5 +91,5 @@ const NEW_TEXT = {
 } as const;
 
 export {
-  MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_REF, NEW_SHEET_NAME, NEW_SHEET_REF, NEW_TEXT, SIZE_PRESETS,
+  BANK_NAME_ROOM, MAX_NEW_BANKS, MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_REF, NEW_SHEET_NAME, NEW_SHEET_REF, NEW_TEXT, SIZE_PRESETS,
 };

@@ -28,7 +28,7 @@ const artworkIn = (host: DocumentHost, documentId: DocumentId): Artwork => {
 const chosen = (id: string): CreationForm => patchForm(blank(), changePlatform(blank(), id));
 
 describe('choosing a platform in the New dialog', () => {
-  it('sets the size, the color count, the transparent slot, the palette and the platform', () => {
+  it('sets the size, the colour count, the transparent slot, the palette and the platform', () => {
     const form = chosen('snes-sprite');
     expect(form.platformId).toBe('snes-sprite');
     expect([form.width, form.height]).toEqual([16, 16]);

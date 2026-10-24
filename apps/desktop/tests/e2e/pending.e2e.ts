@@ -8,5 +8,5 @@ describe('release checks that wait for features that are not built yet', () => {
 
   test.skip('check 6, tags and onion skin: build the tagged animation in the editor and reimport the export (pending: there is no timeline or frame editing UI, and image import reads PNG only)', () => undefined);
 
-  test.skip('check 1, edit a swatch color: change a swatch color and reorder swatches in the palette panel (pending: the palette panel only picks colors; merge, delete and limit are covered by check 1)', () => undefined);
+  test.skip('check 1, edit a swatch colour: change a swatch colour and reorder swatches in the palette panel (pending: the palette panel only picks colours; merge, delete and limit are covered by check 1)', () => undefined);
 });

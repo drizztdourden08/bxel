@@ -17,7 +17,7 @@ const bank: PaletteBank = {
       id: brand<SwatchId>(`sw_${String(at + 4).padStart(6, '0')}`),
       kind: 'color' as const,
       rgb,
-      name: `Color ${at + 1}`,
+      name: `Colour ${at + 1}`,
     })),
   ],
   ramps: [],

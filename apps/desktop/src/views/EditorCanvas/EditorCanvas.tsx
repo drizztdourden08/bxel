@@ -11,6 +11,7 @@ import type { PixelViewportHandle } from '../PixelViewport';
 import { EDITOR_CANVAS_TEXT, TILING_OF } from './EditorCanvas.constants';
 import { canvasClass } from './behavior/canvas-class';
 import { canvasKeyDown } from './behavior/canvas-key-down';
+import { useAreaRedraw } from './behavior/useAreaRedraw';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasTools } from './behavior/useCanvasTools';
 import { useCommittedImage } from './behavior/useCommittedImage';
@@ -42,6 +43,7 @@ const EditorCanvas = () => {
   useViewDefaults();
   useViewportBridge(viewport, target !== null);
   useMarchingAnts(viewport);
+  useAreaRedraw(viewport);
   useSyncPending(target);
   useEscapeCancel();
   if (!target) return <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;

@@ -2,13 +2,13 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Shows what a swatch delete, a swatch merge or a color limit change would do to the sprites before it is applied, and applies it as one undo step.',
+  job: 'Shows what a swatch delete, a swatch merge or a colour limit change would do to the sprites before it is applied, and applies it as one undo step.',
   useWhen: [
     'A swatch is deleted or merged and sprites may use it.',
-    'The color limit of a palette changes.',
+    'The colour limit of a palette changes.',
   ],
   avoidWhen: [
-    { case: 'A single swatch color is edited with a live canvas preview.', use: 'PalettePanel' },
+    { case: 'A single swatch colour is edited with a live canvas preview.', use: 'PalettePanel' },
     { case: 'A single yes or no question is enough.', use: 'Dialog' },
   ],
   rules: [

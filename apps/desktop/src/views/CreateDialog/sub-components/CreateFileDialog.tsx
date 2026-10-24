@@ -5,6 +5,7 @@ import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
 import { PaletteFields } from '../../PaletteFields';
 import { useNewFile } from '../behavior/useNewFile';
 import { BackgroundField } from './BackgroundField';
+import { BanksField } from './BanksField';
 import { CreateActions } from './CreateActions';
 import { KindField } from './KindField';
 import { NameField } from './NameField';
@@ -40,6 +41,7 @@ const CreateFileDialog = () => {
           withSource
           onChange={update}
         />
+        <BanksField {...fields} />
         <ResultLines summary={summary} />
         {failure !== null && <Callout tone="danger">{failure}</Callout>}
         <Text variant="caption" tone="muted">

@@ -12,9 +12,9 @@ const resolveRamps = ({ artwork, sprites, name, needs }: RampRequest): Map<Sprit
   for (const spriteId of sprites) {
     const slots = rampSlots(requireBank(artwork, requireSprite(artwork, spriteId).bankId), name);
     if (!slots || slots.length === 0) {
-      missing.push(targetIssue(spriteId, `the palette has no ramp "${name}" with colors`));
+      missing.push(targetIssue(spriteId, `the palette has no ramp "${name}" with colours`));
     } else if (slots.length < needs) {
-      short.push(targetIssue(spriteId, `the ramp "${name}" has fewer than ${needs} colors`));
+      short.push(targetIssue(spriteId, `the ramp "${name}" has fewer than ${needs} colours`));
     } else {
       found.set(spriteId, slots);
     }

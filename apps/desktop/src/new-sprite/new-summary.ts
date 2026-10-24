@@ -26,6 +26,7 @@ const newSummary = (form: CreationForm): CreationSummary => {
     fits: plan.dropped > 0 ? SOURCE_TEXT.fits(total - plan.dropped, total) : null,
     sheet: sheetNote(form),
     platform: formReport(form),
+    banks: form.banks > 1 ? NEW_TEXT.banksNote(form.banks, form.limit) : null,
   };
 };
 

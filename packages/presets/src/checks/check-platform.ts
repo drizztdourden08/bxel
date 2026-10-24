@@ -12,6 +12,8 @@ const countFinding = (preset: PlatformPreset, count: number): RuleFinding[] =>
           rule: 'bankCount',
           tier: preset.tiers.bankCount,
           message: `The file has ${String(count)} palettes. ${preset.name} allows ${String(preset.banks.count)}.`,
+          key: 'bankCount',
+          excess: count - preset.banks.count,
         },
       ];
 

@@ -14,7 +14,7 @@ describe('check 4: an arbitrary angle rotation', () => {
   const rig = useRig(openTransformRig);
   const seen: { preview?: Uint8Array; committed?: Uint8Array } = {};
 
-  test('commits nearest neighbour pixels with no new colors', async () => {
+  test('commits nearest neighbour pixels with no new colours', async () => {
     const { session, original, shown, shownNow } = rig();
     await session.page.getByRole('region', { name: 'Transform' }).getByRole('button', { name: 'Rotate...', exact: true }).click();
     const dialog = session.page.getByRole('dialog', { name: 'Rotate' });

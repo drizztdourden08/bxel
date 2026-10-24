@@ -54,7 +54,7 @@ describe('pixels.shade ramps and guards', () => {
     expect(rowsOf(engine)).toEqual(['2.34', '4.56', '....']);
   });
 
-  test('refuses a ramp that is missing or holds no colors', () => {
+  test('refuses a ramp that is missing or holds no colours', () => {
     const engine = pixelEngine(rampArtwork(ROWS));
     for (const ramp of ['Nope', 'Empty']) {
       const error = errorOf(engine.execute(request([shade({ direction: 'up', ramp })])));
