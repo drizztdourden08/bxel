@@ -21,7 +21,7 @@ const verify = (entry: ManifestEntry, bytes: Uint8Array): LoadIssue | null => {
     : makeIssue(LOAD_ERROR.ENTRY_CHECKSUM, `${entry.path} fails its checksum.`, entry.path);
 };
 
-const checkEntries = (manifest: Manifest, archive: ArchiveContents): EntryCheck => {
+const checkEntries = (manifest: Pick<Manifest, 'entries'>, archive: ArchiveContents): EntryCheck => {
   const good = new Map<string, Uint8Array>();
   const problems = new Map<string, LoadIssue>();
   for (const entry of manifest.entries) {
