@@ -35,6 +35,7 @@ const tileDelete = defineCommand({
     updateTileset(draft, tileset.id, (current) => ({
       ...current,
       tiles: current.tiles.filter((item) => item.key !== key),
+      ...(current.terrain ? { terrain: { ...current.terrain, keys: current.terrain.keys.map((slot) => (slot === key ? 0 : slot)) } } : {}),
     }));
     removeSprites(draft, new Set([tile.spriteId]));
   },

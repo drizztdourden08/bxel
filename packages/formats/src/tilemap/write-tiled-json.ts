@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import { checkTilemapInput } from './check-tilemap-input';
 import { tiledGids } from './tiled-gids';
+import { tiledTileEntries } from './tiled-tile-entries';
 import { TILED_JSON } from './tilemap.constants';
 import type { TilemapExportInput, TilemapJsonResult } from './tilemap.type';
 
@@ -21,6 +22,7 @@ const writeTiledJson = (input: TilemapExportInput): TilemapJsonResult => {
     height: input.rows,
     data: tiledGids(input, layer.cells),
   }));
+  const shaped = tiledTileEntries(input);
   const map = {
     type: 'map',
     version: TILED_JSON.VERSION,
@@ -34,7 +36,7 @@ const writeTiledJson = (input: TilemapExportInput): TilemapJsonResult => {
     tilewidth: input.tileWidth,
     tileheight: input.tileHeight,
     nextlayerid: layers.length + 1,
-    nextobjectid: 1,
+    nextobjectid: shaped.length + 1,
     layers,
     tilesets: [
       {
@@ -49,6 +51,7 @@ const writeTiledJson = (input: TilemapExportInput): TilemapJsonResult => {
         columns: tileset.columns,
         spacing: tileset.spacing,
         margin: tileset.margin,
+        ...(shaped.length > 0 ? { tiles: shaped } : {}),
       },
     ],
   };

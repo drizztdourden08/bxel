@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import { clearColour } from './clear-colour';
 import { cropTile } from './crop-tile';
+import { shapeToCollision } from './shape-to-collision';
 import { EMPTY_SHAPES } from './tiled.constants';
 import type { PlannedTile, ResolvedTileset } from './tiled-plan.type';
 
@@ -28,6 +29,7 @@ const sheetTiles = (source: ResolvedTileset): PlannedTile[] => {
       gid: firstGid + id,
       image: clearColour(crop, tileset.image?.transparent ?? null),
       shapes: tile?.shapes ?? EMPTY_SHAPES,
+      collision: shapeToCollision(tile?.shapes ?? EMPTY_SHAPES, { width: tileset.tileWidth, height: tileset.tileHeight }),
       properties: tile?.properties ?? {},
     };
   });
@@ -37,7 +39,9 @@ const collectionTiles = (source: ResolvedTileset): PlannedTile[] =>
   source.tileset.tiles.flatMap((tile) => {
     const image = source.tileImages.get(tile.id);
     const fits = image?.width === source.tileset.tileWidth && image.height === source.tileset.tileHeight;
-    return image && fits ? [{ gid: source.firstGid + tile.id, image, shapes: tile.shapes, properties: tile.properties }] : [];
+    if (!image || !fits) return [];
+    const collision = shapeToCollision(tile.shapes, { width: source.tileset.tileWidth, height: source.tileset.tileHeight });
+    return [{ gid: source.firstGid + tile.id, image, shapes: tile.shapes, collision, properties: tile.properties }];
   });
 
 const tilesetTiles = (source: ResolvedTileset): PlannedTile[] => (source.image ? sheetTiles(source) : collectionTiles(source));

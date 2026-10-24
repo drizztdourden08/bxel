@@ -16,6 +16,8 @@ const useTilemapStore = create<TilemapState>()((set) => ({
   setFlags: (flags) => set({ flags }),
   setFilled: (filled) => set({ filled }),
   setSelection: (selection) => set({ selection }),
+  setShowCollision: (showCollision) => set({ showCollision }),
+  setTerrainBrush: (terrainBrush) => set({ terrainBrush }),
 }));
 
 useDocumentStore.subscribe((state, previous) => {

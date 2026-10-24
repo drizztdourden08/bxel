@@ -20,6 +20,7 @@ const tiledSteps = (run: ImportRun, bank: BankOption): CommandStep[] => {
     image: { width: tile.image.width, height: tile.image.height, rgba: Uint8Array.from(tile.image.data) },
     originX: atlasOrigin(at, tiled.atlasColumns, plan).x,
     originY: atlasOrigin(at, tiled.atlasColumns, plan).y,
+    ...(tile.collision ? { collision: tile.collision } : {}),
   }));
   return [
     {

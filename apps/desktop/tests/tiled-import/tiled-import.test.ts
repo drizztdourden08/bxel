@@ -89,6 +89,11 @@ describe('importing the map', () => {
     expect(map?.layers[1]?.cells[4]).toBe(0x80000004);
   });
 
+  it('brings the collision shape of a tile along', async () => {
+    const { artwork } = await importedNew();
+    expect(artwork.tilesets[0]?.tiles.map((tile) => tile.collision)).toEqual([{ kind: 'full' }, undefined, undefined, undefined]);
+  });
+
   it('is one undo step', async () => {
     const { host, id } = await importedNew();
     const before = host.view(id)?.state.revision ?? 0;

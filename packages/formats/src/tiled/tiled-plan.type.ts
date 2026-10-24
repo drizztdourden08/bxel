@@ -1,6 +1,7 @@
 /* @layer core @kind types */
 import type { FormatFailure } from '../failure/format.type';
 import type { RgbaImage } from '../png.type';
+import type { TileShape } from '../tilemap/tilemap.type';
 import type {
   TiledMap,
   TiledOrientation,
@@ -27,6 +28,7 @@ type PlannedTile = {
   readonly gid: number;
   readonly image: RgbaImage;
   readonly shapes: readonly TiledShape[];
+  readonly collision: TileShape | null;
   readonly properties: TiledProperties;
 };
 

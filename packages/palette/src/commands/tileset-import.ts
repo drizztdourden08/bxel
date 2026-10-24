@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { defineCommand, ERROR_CODE, fail, tileAdd, tilesetCreate } from '@bxel/document';
+import { defineCommand, ERROR_CODE, fail, requireTileset, setTileCollision, tileAdd, tilesetCreate } from '@bxel/document';
 import type { Draft, TilesetId } from '@bxel/document';
 import { mapImportImage } from './map-import-image';
 import { PALETTE_COMMAND_NAME } from './palette-command-name.constants';
@@ -32,6 +32,9 @@ const tilesetImport = defineCommand({
       if (!sprite) throw fail(ERROR_CODE.TARGET_NOT_FOUND, 'The imported tile was not created.');
       const placed = { ...mapping, originX: tile.originX, originY: tile.originY };
       writeImportCel(draft, sprite, mapImportImage(tile.image, bank, placed));
+      if (!tile.collision) return;
+      const current = requireTileset(draft.artwork, tileset);
+      setTileCollision(draft, current, { key: current.nextKey - 1, collision: tile.collision, path: `options.tiles.${at}.collision` });
     });
   },
 });

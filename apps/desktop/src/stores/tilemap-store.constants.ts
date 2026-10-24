@@ -15,6 +15,8 @@ const TILEMAP_DEFAULTS: TilemapSettings = {
   flags: NO_FLAGS,
   filled: true,
   selection: null,
+  showCollision: false,
+  terrainBrush: false,
 };
 
 export { TILEMAP_DEFAULTS };

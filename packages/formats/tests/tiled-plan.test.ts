@@ -59,10 +59,41 @@ describe('planTiledImport', () => {
     expect(Array.from(plan.tiles[1]?.image.data.subarray(0, 4) ?? [])).toEqual([9, 8, 7, 255]);
   });
 
+});
+
+describe('planTiledImport tile details', () => {
   it('keeps the first collision shape source on the tile and warns about extras', () => {
     const plan = planOf(TMX, [props(), ground()]);
     expect(plan.tiles[1]?.shapes).toEqual([{ kind: 'rect', x: 0, y: 0, width: 4, height: 2 }]);
     expect(plan.warnings.join(' ')).toContain('object or image layer');
+  });
+
+  it('turns the first Tiled shape into a collision shape inside the tile', () => {
+    const set = ground();
+    const shaped = {
+      ...set,
+      tileset: {
+        ...set.tileset,
+        tiles: [
+          { id: 0, image: null, properties: {}, shapes: [{ kind: 'rect' as const, x: -1, y: 0, width: 9, height: 9 }] },
+          { id: 1, image: null, properties: {}, shapes: [{ kind: 'rect' as const, x: 0.6, y: 1, width: 2, height: 2 }] },
+          {
+            id: 2,
+            image: null,
+            properties: {},
+            shapes: [{ kind: 'polygon' as const, points: [{ x: 0, y: 0 }, { x: 9, y: 0 }, { x: 0, y: 3 }] }],
+          },
+          { id: 3, image: null, properties: {}, shapes: [{ kind: 'polygon' as const, points: [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }] }] },
+        ],
+      },
+    };
+    const plan = planOf(tmjText([1, 2, 3, 4]), [shaped]);
+    expect(plan.tiles.map((tile) => tile.collision)).toEqual([
+      { kind: 'full' },
+      { kind: 'rect', x: 1, y: 1, width: 2, height: 2 },
+      { kind: 'polygon', points: [{ x: 0, y: 0 }, { x: 4, y: 0 }, { x: 0, y: 3 }] },
+      null,
+    ]);
   });
 
   it('clears the transparent colour of the tileset image', () => {

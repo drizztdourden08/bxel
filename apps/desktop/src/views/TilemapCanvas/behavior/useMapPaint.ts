@@ -5,6 +5,7 @@ import type { PixelDraw, PixelViewportHandle } from '../../PixelViewport';
 import type { MapLive, MapPaintBase } from '../TilemapCanvas.type';
 import { mapLook } from './map-look';
 import { paintCellGrid } from './paint-cell-grid';
+import { paintCollision } from './paint-collision';
 import { paintDrag } from './paint-drag';
 import { paintHover } from './paint-hover';
 import { paintSelection } from './paint-selection';
@@ -24,6 +25,7 @@ const useMapPaint = (base: MapPaintBase, live: RefObject<MapLive>, viewport: Ref
       const state = { ...props.current, live: live.current };
       const look = mapLook(ctx.canvas);
       paintCellGrid(ctx, view, state);
+      paintCollision(ctx, state, look);
       paintSelection(ctx, view, state, look);
       paintDrag(ctx, view, state, look);
       paintHover(ctx, view, state, look);

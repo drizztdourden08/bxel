@@ -17,8 +17,8 @@ const MAP_EXPORT_TEXT = {
     `${name}, ${width} x ${height} px, ${count} ${count === 1 ? 'tile' : 'tiles'}`,
   mapDetail: (name: string, columns: number, rows: number, layers: number): string =>
     `${name}, ${columns} x ${rows} cells, ${layers} ${layers === 1 ? 'layer' : 'layers'}`,
-  bxelNote: 'The Bxel map JSON lists the tile key and the flip and turn bits of every cell.',
-  tiledNote: 'The Tiled JSON uses global tile ids with the flip bits in the top three bits.',
+  bxelNote: 'The Bxel map JSON lists the tile key and the flip and turn bits of every cell, and the collision shape of each tile.',
+  tiledNote: 'The Tiled JSON uses global tile ids with the flip bits in the top three bits. Tile collision shapes are written as tile object groups.',
 } as const;
 
 export { MAP_EXPORT, MAP_EXPORT_TEXT };

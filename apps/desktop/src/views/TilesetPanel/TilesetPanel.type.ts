@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
-import type { PointerEvent, MouseEvent } from 'react';
-import type { Artwork, Sprite, Tile, Tileset } from '@bxel/document';
+import type { PointerEvent, MouseEvent, RefObject } from 'react';
+import type { Artwork, Size, TerrainRules, Sprite, Tile, TileCollision, Tileset } from '@bxel/document';
 import type { TileEditMode, TileStamp } from '../../stores/tilemap-store.type';
 
 interface TileCell {
@@ -54,4 +54,46 @@ interface TilesetHeaderProps {
   model: TilesetModel;
 }
 
-export type { TileButtonProps, TileCell, TileGridProps, TileHandlers, TileThumbProps, TilesetActionsProps, TilesetHeaderProps, TilesetModel };
+interface CollisionProps {
+  artwork: Artwork;
+  tileset: Tileset;
+  tile: Tile;
+  sprite: Sprite;
+}
+
+interface TerrainSlotProps {
+  index: number;
+  mask: number;
+  cell: TileCell | undefined;
+  artwork: Artwork;
+  onPick: (index: number) => void;
+}
+
+interface TerrainSlotsProps {
+  model: TilesetModel;
+  rules: TerrainRules;
+  onPick: (index: number) => void;
+}
+
+interface TerrainActionsProps {
+  model: TilesetModel;
+  rules: TerrainRules;
+}
+
+interface CollisionCanvasHandle {
+  canvas: RefObject<HTMLCanvasElement | null>;
+  pointerDown: (event: PointerEvent<HTMLCanvasElement>) => void;
+  pointerMove: (event: PointerEvent<HTMLCanvasElement>) => void;
+  pointerUp: () => void;
+  doubleClick: (event: MouseEvent<HTMLCanvasElement>) => void;
+}
+
+interface CollisionPaint {
+  tile: HTMLCanvasElement | null;
+  size: Size;
+  scale: number;
+  shape: TileCollision | null;
+  colour: string;
+}
+
+export type { TerrainActionsProps, TerrainSlotProps, TerrainSlotsProps, CollisionCanvasHandle, CollisionPaint, CollisionProps, TileButtonProps, TileCell, TileGridProps, TileHandlers, TileThumbProps, TilesetActionsProps, TilesetHeaderProps, TilesetModel };

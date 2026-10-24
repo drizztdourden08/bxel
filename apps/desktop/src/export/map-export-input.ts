@@ -17,7 +17,11 @@ const mapExportInput = (tilemap: Tilemap, tileset: Tileset, sheet: TilesetImage,
     columns: sheet.columns,
     spacing: MAP_EXPORT.spacing,
     margin: MAP_EXPORT.margin,
-    tiles: sheet.tiles,
+    ...(tileset.terrain ? { terrain: tileset.terrain } : {}),
+    tiles: sheet.tiles.map((placement) => {
+      const collision = tileset.tiles.find((tile) => tile.key === placement.key)?.collision;
+      return collision ? { ...placement, collision } : placement;
+    }),
   },
   layers: tilemap.layers.map((layer) => ({ name: layer.name, visible: layer.visible, locked: layer.locked, cells: layer.cells })),
 });

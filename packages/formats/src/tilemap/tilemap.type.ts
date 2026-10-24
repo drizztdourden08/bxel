@@ -7,6 +7,13 @@ type TilesetTile = {
   readonly image: RgbaImage;
 };
 
+type TileShape =
+  | { readonly kind: 'full' }
+  | { readonly kind: 'rect'; readonly x: number; readonly y: number; readonly width: number; readonly height: number }
+  | { readonly kind: 'polygon'; readonly points: readonly { readonly x: number; readonly y: number }[] };
+
+type TileSize = { readonly width: number; readonly height: number };
+
 type TilesetImageInput = {
   readonly tileWidth: number;
   readonly tileHeight: number;
@@ -37,6 +44,8 @@ type TilesetImage = {
 
 type TilesetImageResult = TilesetImage | FormatFailure;
 
+type TilesetEntry = TilesetPlacement & { readonly collision?: TileShape };
+
 type TilesetDescriptor = {
   readonly name: string;
   readonly image: string;
@@ -45,7 +54,8 @@ type TilesetDescriptor = {
   readonly columns: number;
   readonly spacing: number;
   readonly margin: number;
-  readonly tiles: readonly TilesetPlacement[];
+  readonly tiles: readonly TilesetEntry[];
+  readonly terrain?: { readonly kind: string; readonly keys: readonly number[] };
 };
 
 type TilemapLayerInput = {
@@ -71,7 +81,10 @@ export type {
   TilemapExportInput,
   TilemapJsonResult,
   TilemapLayerInput,
+  TileShape,
+  TileSize,
   TilesetDescriptor,
+  TilesetEntry,
   TilesetImage,
   TilesetImageInput,
   TilesetImageResult,

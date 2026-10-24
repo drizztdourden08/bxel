@@ -24,6 +24,7 @@ interface MapPaintBase {
   selection: MapSelection | null;
   filled: boolean;
   cells: boolean;
+  collision: boolean;
   look: CanvasLook;
 }
 
@@ -35,6 +36,7 @@ interface MapLook {
   cursor: string;
   erase: string;
   select: string;
+  collision: string;
 }
 
 interface BoxStyle {

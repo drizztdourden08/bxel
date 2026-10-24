@@ -1,7 +1,6 @@
 /* @layer core @kind test */
 import { describe, expect, it } from 'vitest';
-import { canonicalArtwork } from './canonical-artwork';
-import { applySteps, buildWorld, failure, step } from './tile-engine';
+import { applySteps, buildWorld, checkOneUndoStep, failure, step } from './tile-engine';
 
 const FLIP_X = 0x80000000;
 
@@ -34,14 +33,7 @@ describe('tilemap.import', () => {
 
   it('undoes and redoes as one step', () => {
     const world = buildWorld();
-    const before = canonicalArtwork(world.engine.state().artwork);
-    applySteps(world.engine, [importStep(world)]);
-    const after = canonicalArtwork(world.engine.state().artwork);
-    const request = () => ({ documentId: world.engine.documentId, expectedRevision: world.engine.state().revision });
-    expect(world.engine.undo(request()).ok).toBe(true);
-    expect(canonicalArtwork(world.engine.state().artwork)).toBe(before);
-    expect(world.engine.redo(request()).ok).toBe(true);
-    expect(canonicalArtwork(world.engine.state().artwork)).toBe(after);
+    checkOneUndoStep(world.engine, () => applySteps(world.engine, [importStep(world)]));
   });
 
   it('refuses a cell that names a tile the tileset does not have', () => {

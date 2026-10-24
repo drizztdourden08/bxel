@@ -19,12 +19,14 @@ const useEditorMenu = (): MenuEntry[] => {
   const symmetryY = useToolStore((state) => state.symmetryY);
   const mode = useSpriteStore((state) => state.mode);
   const tileMode = useTilemapStore((state) => state.editMode);
+  const collision = useTilemapStore((state) => state.showCollision);
+  const terrainBrush = useTilemapStore((state) => state.terrainBrush);
   const hasDocument = view !== null;
   const canUndo = view?.canUndo ?? false;
   const canRedo = view?.canRedo ?? false;
   return useMemo(
-    () => editorMenu({ hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY, mode, tileMode }),
-    [hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY, mode, tileMode],
+    () => editorMenu({ hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY, mode, tileMode, collision, terrainBrush }),
+    [hasDocument, canUndo, canRedo, grid, gridMajor, gridTile, rulers, tiled, symmetryX, symmetryY, mode, tileMode, collision, terrainBrush],
   );
 };
 

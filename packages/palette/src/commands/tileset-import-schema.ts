@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { collisionSchema } from '@bxel/document/schema';
 import { z } from 'zod';
 import { importBankSchema } from './import-bank-schema';
 import { importImageSchema } from './import-image-schema';
@@ -9,6 +10,7 @@ const importTileSchema = z.strictObject({
   image: importImageSchema,
   originX: z.number().int().default(0),
   originY: z.number().int().default(0),
+  collision: collisionSchema.optional(),
 });
 
 const tilesetImportSchema = z.strictObject({

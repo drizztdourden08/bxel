@@ -7,7 +7,9 @@ import type { Artwork } from '../model/artwork.type';
 import type { Sprite } from '../model/sprite.type';
 import type { Tileset } from '../model/tilemap.type';
 import { findSprite } from '../read/find-sprite';
+import { collisionIssue } from '../read/collision-issue';
 import { findTileset } from '../read/find-tileset';
+import { terrainIssue } from '../read/terrain-issue';
 import { cellKey } from '../tilemap/cell-key';
 
 const broken = (message: string): CommandFailure => fail(ERROR_CODE.REFERENCE_BROKEN, message);
@@ -28,8 +30,12 @@ const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
     if (keys.has(tile.key) || tile.key >= tileset.nextKey) {
       throw broken(`Tile key ${tile.key} of tileset "${tileset.name}" is not unique or not issued.`);
     }
+    const issue = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
+    if (issue !== null) throw broken(`Tile ${tile.key} of tileset "${tileset.name}": ${issue}`);
     keys.add(tile.key);
   }
+  const rules = tileset.terrain ? terrainIssue(tileset.terrain, tileset) : null;
+  if (rules !== null) throw broken(rules);
 };
 
 const checkMaps = (draft: Draft): void => {

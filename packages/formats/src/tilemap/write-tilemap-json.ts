@@ -33,6 +33,7 @@ const writeTilemapJson = (input: TilemapExportInput): TilemapJsonResult => {
         spacing: tileset.spacing,
         margin: tileset.margin,
         tiles: tileset.tiles,
+        ...(tileset.terrain ? { terrain: tileset.terrain } : {}),
       },
     },
     null,
