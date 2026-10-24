@@ -28,12 +28,11 @@ type FileAction =
   | { readonly kind: 'saveAs' }
   | { readonly kind: 'saveAll' }
   | { readonly kind: 'open' }
-  | { readonly kind: 'openPath'; readonly path: string }
-  | { readonly kind: 'export' };
+  | { readonly kind: 'openPath'; readonly path: string };
 
 type FileActionKind = FileAction['kind'];
 
-type FileBusy = 'saving' | 'opening' | 'exporting';
+type FileBusy = 'saving' | 'opening';
 
 type RecentActions = {
   readonly open: (path: string) => void;

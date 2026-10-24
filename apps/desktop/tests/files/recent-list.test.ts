@@ -79,11 +79,10 @@ describe('recent list updates', () => {
     for (const action of kinds) expect(recordsRecent(action, done)).toBe(true);
   });
 
-  it('does not refresh after a cancel, a failure or an export', () => {
+  it('does not refresh after a cancel or a failure', () => {
     for (const action of kinds) {
       expect(recordsRecent(action, { kind: 'cancelled' })).toBe(false);
       expect(recordsRecent(action, { kind: 'failed', message: 'No' })).toBe(false);
     }
-    expect(recordsRecent({ kind: 'export' }, done)).toBe(false);
   });
 });
