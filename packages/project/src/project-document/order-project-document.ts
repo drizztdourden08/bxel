@@ -36,6 +36,7 @@ const orderProjectDocument = (manifest: ProjectDocument) => ({
   formatVersion: manifest.formatVersion,
   projectId: manifest.projectId,
   name: manifest.name,
+  ...(manifest.cover === undefined ? {} : { cover: { folderId: manifest.cover.folderId, path: manifest.cover.path } }),
   folders: manifest.folders.map(orderFolder),
   defaults: orderDefaults(manifest.defaults),
   assistant: {

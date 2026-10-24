@@ -22,10 +22,16 @@ const checkDefaultPalette = (manifest: ProjectDocument, known: ReadonlySet<strin
     : [];
 };
 
+const checkCover = (manifest: ProjectDocument, known: ReadonlySet<string>): ManifestIssue[] =>
+  manifest.cover !== undefined && !known.has(manifest.cover.folderId)
+    ? [{ path: ['cover', 'folderId'], message: 'The cover names a folder the project does not have.' }]
+    : [];
+
 const checkProjectDocument = (manifest: ProjectDocument): ManifestIssue[] => {
   const known = new Set<string>(manifest.folders.map((folder) => folder.folderId));
   return [
     ...checkManifestFolders(manifest.folders),
+    ...checkCover(manifest, known),
     ...checkDefaultPalette(manifest, known),
     ...checkAssistantFolders(manifest, known),
   ];
