@@ -1,0 +1,5 @@
+/* @layer renderer-app @kind style */
+.pixel-viewport.image-preview {
+  inline-size: 100%;
+  block-size: var(--size-224);
+}

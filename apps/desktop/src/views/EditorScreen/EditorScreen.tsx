@@ -2,6 +2,7 @@
 import { Flex } from '@drizztdourden08/tessera';
 import { ApplyBar } from '../ApplyBar';
 import { ContextBar } from '../ContextBar';
+import { DialogHost } from '../DialogHost';
 import { EditorCanvas } from '../EditorCanvas';
 import { EditorStatus } from '../EditorStatus';
 import { RecoveryDialog } from '../RecoveryDialog';
@@ -20,6 +21,7 @@ const EditorScreen = () => (
     <EditorStatus />
     <RecoveryDialog />
     <TransformDialog />
+    <DialogHost />
   </Flex>
 );
 
