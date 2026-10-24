@@ -10,6 +10,7 @@ const createDraft = ({ base, ids }: DraftInput): Draft => ({
   baselines: new Map(),
   ops: [],
   project: base,
+  recorded: base,
   step: 0,
 });
 

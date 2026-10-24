@@ -3,7 +3,7 @@ import { findSprite } from '@bxel/document';
 import { describe, expect, test } from 'vitest';
 import { documentId, pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
 import { errorOf, expectUntouched, okOf } from './result-checks';
-import { applyStep, dimsOf, rowsOf } from './transform-checks';
+import { applyStep, dimsOf, rowsOf, snapshotOf } from './transform-checks';
 import { transformIds as ids, transformProject } from './transform-project';
 
 const turnCw = { direction: 'clockwise' };
@@ -47,6 +47,23 @@ describe('sprite.turn results', () => {
     const sprite = findSprite(engine.state().project, ids.wide);
     expect(Object.keys(sprite?.cels ?? {})).toHaveLength(3);
     expect(sprite?.layers[1]?.cels).toEqual({ frm_000032: ids.wideInk });
+  });
+});
+
+describe('sprite.turn round trip', () => {
+  test('a 3 by 2 sprite turned, undone and redone matches bit for bit in pixels, size and pivot', () => {
+    const engine = pixelEngine(transformProject());
+    const original = snapshotOf(engine, ids.wide);
+    applyStep(engine, 'sprite.turn', scopeOf([ids.wide]), turnCw);
+    const turned = snapshotOf(engine, ids.wide);
+    expect(turned).not.toEqual(original);
+    expect([turned.width, turned.height]).toEqual([2, 3]);
+    okOf(engine.undo({ documentId, expectedRevision: 2 }));
+    expect(snapshotOf(engine, ids.wide)).toEqual(original);
+    okOf(engine.redo({ documentId, expectedRevision: 3 }));
+    expect(snapshotOf(engine, ids.wide)).toEqual(turned);
+    okOf(engine.undo({ documentId, expectedRevision: 4 }));
+    expect(snapshotOf(engine, ids.wide)).toEqual(original);
   });
 });
 
