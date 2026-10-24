@@ -6,6 +6,7 @@ import AppCanvasSettings, { meta as appCanvasSettingsMeta } from '../src/screens
 import AppGeneralSettings, { meta as appGeneralSettingsMeta } from '../src/screens/app/general.settings';
 import { meta as appStoragePageMeta } from '../src/screens/app/storage.page';
 import { meta as appSurroundCustomMeta } from '../src/screens/app/surround.custom';
+import { meta as appSwatchesCustomMeta } from '../src/screens/app/swatches.custom';
 import { meta as creditsCardMeta } from '../src/screens/credits.card';
 import { meta as editorBaseMeta } from '../src/screens/editor.base';
 
@@ -14,6 +15,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'settings', bucket: 'app', id: 'general', sections: AppGeneralSettings, meta: appGeneralSettingsMeta },
   { kind: 'page', bucket: 'app', id: 'storage', component: lazyComponent(() => import('../src/screens/app/storage.page')), meta: appStoragePageMeta },
   { kind: 'custom', bucket: 'app', id: 'surround', component: lazyComponent(() => import('../src/screens/app/surround.custom')), meta: appSurroundCustomMeta },
+  { kind: 'custom', bucket: 'app', id: 'swatches', component: lazyComponent(() => import('../src/screens/app/swatches.custom')), meta: appSwatchesCustomMeta },
   { kind: 'card', id: 'credits', component: lazyComponent(() => import('../src/screens/credits.card')), meta: creditsCardMeta },
   { kind: 'base', id: 'editor', component: lazyComponent(() => import('../src/screens/editor.base')), meta: editorBaseMeta },
 ], searchIndex);

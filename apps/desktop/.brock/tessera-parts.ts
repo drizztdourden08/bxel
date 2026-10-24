@@ -24,10 +24,12 @@ declare module '@drizztdourden08/tessera' {
         | 'PalettePanel'
         | 'PixelIcon'
         | 'PixelViewport'
+        | 'PlatformFindings'
         | 'RecoveryDialog'
         | 'SheetCanvas'
         | 'SpritesPanel'
         | 'SurroundEditor'
+        | 'SwatchSetEditor'
         | 'ToolRail'
         | 'TransformDialog'
         | 'TransformPanel';
