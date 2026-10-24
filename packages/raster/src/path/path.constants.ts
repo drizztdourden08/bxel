@@ -1,0 +1,6 @@
+/* @layer core @kind config */
+const SAMPLES_PER_PIXEL = 2;
+const POLYGON_MIN_POINTS = 3;
+const CONTOUR_MIN_POINTS = 2;
+
+export { CONTOUR_MIN_POINTS, POLYGON_MIN_POINTS, SAMPLES_PER_PIXEL };
