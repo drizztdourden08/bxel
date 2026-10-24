@@ -2,19 +2,26 @@
 import type { Sheet } from '@bxel/document';
 import { DEFAULT_EXPORT_SETTINGS } from '../export/export.constants';
 import type { ExportSettings } from '../export/export.type';
-import type { AtlasSettings } from './manager.type';
+import type { AtlasPack } from './manager.type';
 
-const atlasExportSettings = (sheet: Sheet, atlas: AtlasSettings): Partial<ExportSettings> => ({
-  sprites: 'sheet',
-  sheetId: sheet.id,
-  frames: 'all',
-  layout: sheet.layout.kind === 'packed' ? 'packed' : 'grid',
-  columns: sheet.layout.kind === 'grid' ? sheet.layout.columns : DEFAULT_EXPORT_SETTINGS.columns,
-  padding: sheet.spacing.x,
-  extrusion: atlas.extrude,
-  trim: atlas.trim && sheet.layout.kind !== 'manual',
-  powerOfTwo: atlas.powerOfTwo,
-  pageSide: atlas.pageSide,
-});
+const atlasExportSettings = (sheet: Sheet, atlas: AtlasPack): Partial<ExportSettings> => {
+  const { layout } = sheet;
+  return {
+    kind: 'sheet',
+    sprites: 'sheet',
+    sheetId: sheet.id,
+    frames: 'all',
+    layout: layout.kind === 'packed' ? 'packed' : 'grid',
+    columns: layout.kind === 'grid' ? layout.columns : DEFAULT_EXPORT_SETTINGS.columns,
+    maxWidth: layout.kind === 'packed' ? layout.maxWidth : 0,
+    padding: sheet.spacing.x,
+    margin: sheet.margin,
+    extrusion: atlas.extrude,
+    trim: atlas.trim && layout.kind !== 'manual',
+    powerOfTwo: atlas.powerOfTwo,
+    rotate: atlas.rotate && layout.kind === 'packed',
+    pageSide: atlas.pageSide,
+  };
+};
 
 export { atlasExportSettings };

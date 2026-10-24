@@ -8,7 +8,6 @@ import { atlasScale } from '../../src/sheet-manager/atlas-scale';
 import { createSheet } from '../../src/sheet-manager/create-sheet';
 import { moveToSheet } from '../../src/sheet-manager/move-to-sheet';
 import { removeFromSheet } from '../../src/sheet-manager/remove-from-sheet';
-import { resizeSprites } from '../../src/sheet-manager/resize-sprites';
 import { sheetStyleOptions } from '../../src/sheet-manager/sheet-style-options';
 import { styleSheet } from '../../src/sheet-manager/style-sheet';
 import { artwork, openFile, revision } from '../sheet/sheet-harness';
@@ -105,34 +104,29 @@ describe('the atlas preview', () => {
   it('packs the sheet with the export packer and counts the empty space', () => {
     addToSheet(idsOf('a', 'b', 'c'), null);
     styleSheet(sheetNamed('Sheet').id, { layout: 'grid', columns: 2 });
-    const atlas = atlasModel({ sheet: sheetNamed('Sheet'), sprites: artwork().sprites, extrude: 0, ...PLAIN_ATLAS });
+    const atlas = atlasModel({ sheet: sheetNamed('Sheet'), artwork: artwork(), extrude: 0, ...PLAIN_ATLAS });
     expect(atlas.failure).toBeNull();
     expect(atlas).toMatchObject({ width: 16, height: 16 });
     expect(atlas.items.map((item) => `${item.x},${item.y}`)).toEqual(['0,0', '8,0', '0,8']);
     expect(atlas.empty).toBeCloseTo(0.25);
-    const padded = atlasModel({ sheet: sheetNamed('Sheet'), sprites: artwork().sprites, extrude: 2, ...PLAIN_ATLAS });
+    const padded = atlasModel({ sheet: sheetNamed('Sheet'), artwork: artwork(), extrude: 2, ...PLAIN_ATLAS });
     expect(padded.items[0]).toMatchObject({ x: 2, y: 2 });
     expect(padded.width).toBeGreaterThan(atlas.width);
   });
 
   it('shows a hand layout where the sprites are and an empty sheet as nothing', () => {
     addToSheet(idsOf('a', 'b'), null);
-    const manual = atlasModel({ sheet: sheetNamed('Sheet'), sprites: artwork().sprites, extrude: 0, ...PLAIN_ATLAS });
+    const manual = atlasModel({ sheet: sheetNamed('Sheet'), artwork: artwork(), extrude: 0, ...PLAIN_ATLAS });
     expect(manual.items).toHaveLength(2);
     expect(manual.failure).toBeNull();
-    const empty = atlasModel({ sheet: { ...sheetNamed('Sheet'), entries: [] }, sprites: artwork().sprites, extrude: 0, ...PLAIN_ATLAS });
+    const empty = atlasModel({ sheet: { ...sheetNamed('Sheet'), entries: [] }, artwork: artwork(), extrude: 0, ...PLAIN_ATLAS });
     expect(empty.items).toEqual([]);
   });
 
   it('reports a pack that is too large instead of drawing it', () => {
-    resizeSprites(idsOf('a'), { width: 2048, height: 2048, anchor: 'top-left' });
     addToSheet(idsOf('a'), null);
-    styleSheet(sheetNamed('Sheet').id, { layout: 'grid', columns: 1 });
-    const sheet = sheetNamed('Sheet');
-    const entry = sheet.entries[0];
-    if (!entry) throw new Error('no entry');
-    const tall = { ...sheet, entries: Array.from({ length: 9 }, () => entry) };
-    const atlas = atlasModel({ sheet: tall, sprites: artwork().sprites, extrude: 0, ...PLAIN_ATLAS });
+    styleSheet(sheetNamed('Sheet').id, { layout: 'grid', columns: 1, margin: 9000 });
+    const atlas = atlasModel({ sheet: sheetNamed('Sheet'), artwork: artwork(), extrude: 0, ...PLAIN_ATLAS });
     expect(atlas.failure).not.toBeNull();
     expect(atlas.items).toEqual([]);
   });
@@ -140,7 +134,7 @@ describe('the atlas preview', () => {
   it('grows a packed width when a sprite is wider than the sheet', () => {
     addToSheet(idsOf('a'), null);
     styleSheet(sheetNamed('Sheet').id, { layout: 'packed', maxWidth: 4 });
-    const atlas = atlasModel({ sheet: sheetNamed('Sheet'), sprites: artwork().sprites, extrude: 0, ...PLAIN_ATLAS });
+    const atlas = atlasModel({ sheet: sheetNamed('Sheet'), artwork: artwork(), extrude: 0, ...PLAIN_ATLAS });
     expect(atlas.failure).toBeNull();
     expect(atlas.width).toBe(8);
   });
@@ -148,7 +142,7 @@ describe('the atlas preview', () => {
   it('finds the sprite under a point and keeps the picture inside the canvas limit', () => {
     addToSheet(idsOf('a', 'b'), null);
     styleSheet(sheetNamed('Sheet').id, { layout: 'grid', columns: 2 });
-    const atlas = atlasModel({ sheet: sheetNamed('Sheet'), sprites: artwork().sprites, extrude: 0, ...PLAIN_ATLAS });
+    const atlas = atlasModel({ sheet: sheetNamed('Sheet'), artwork: artwork(), extrude: 0, ...PLAIN_ATLAS });
     expect(atlasHit(atlas.items, { x: 9, y: 1 })).toBe(atlas.items[1]?.id);
     expect(atlasHit(atlas.items, { x: 30, y: 30 })).toBeNull();
     expect(atlasScale(8, 100, 100)).toBe(8);

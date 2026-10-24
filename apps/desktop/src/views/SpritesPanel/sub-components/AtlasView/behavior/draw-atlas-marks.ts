@@ -1,16 +1,20 @@
 /* @layer renderer-app @kind logic */
+import { atlasExtent } from '../../../../../sheet-manager/atlas-extent';
+import { atlasPivotSpot } from '../../../../../sheet-manager/atlas-pivot-spot';
 import type { AtlasItem } from '../../../../../sheet-manager/manager.type';
 import type { AtlasDraw } from '../AtlasView.type';
 import { canvasTone } from './canvas-tone';
 
 const outline = (ctx: CanvasRenderingContext2D, item: AtlasItem, scale: number, width: number): void => {
+  const extent = atlasExtent(item);
   ctx.lineWidth = width;
-  ctx.strokeRect(item.x * scale + width / 2, item.y * scale + width / 2, item.width * scale - width, item.height * scale - width);
+  ctx.strokeRect(item.x * scale + width / 2, item.y * scale + width / 2, extent.width * scale - width, extent.height * scale - width);
 };
 
 const cross = (ctx: CanvasRenderingContext2D, item: AtlasItem, scale: number): void => {
-  const x = (item.x - item.source.x + item.pivot.x2 / 2) * scale;
-  const y = (item.y - item.source.y + item.pivot.y2 / 2) * scale;
+  const spot = atlasPivotSpot(item);
+  const x = spot.x * scale;
+  const y = spot.y * scale;
   const arm = Math.max(3, scale);
   ctx.lineWidth = 1;
   ctx.beginPath();

@@ -9,8 +9,7 @@ import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
 import { atlasExportSettings } from '../../src/sheet-manager/atlas-export-settings';
 import { atlasModel } from '../../src/sheet-manager/atlas-model';
 import { styleSheet } from '../../src/sheet-manager/style-sheet';
-import { trimBounds } from '../../src/sheet-manager/trim-bounds';
-import { artwork, openFile, patch, spriteOf } from '../sheet/sheet-harness';
+import { artwork, openFile, patch } from '../sheet/sheet-harness';
 import { idsOf, PLAIN_ATLAS } from './manager-harness';
 
 const sheet = () => {
@@ -20,7 +19,7 @@ const sheet = () => {
 };
 
 const model = (change: Partial<typeof PLAIN_ATLAS> = {}) =>
-  atlasModel({ sheet: sheet(), sprites: artwork().sprites, extrude: 0, ...PLAIN_ATLAS, ...change });
+  atlasModel({ sheet: sheet(), artwork: artwork(), extrude: 0, ...PLAIN_ATLAS, ...change });
 
 beforeEach(() => {
   openFile(['a', 'b', 'c', 'd', 'e'], 8);
@@ -31,8 +30,9 @@ beforeEach(() => {
 
 describe('the trim of the atlas preview', () => {
   it('finds the filled part of a sprite and keeps one pixel for a blank sprite', () => {
-    expect(trimBounds(spriteOf('a'))).toEqual({ x: 2, y: 3, width: 2, height: 1 });
-    expect(trimBounds(spriteOf('b'))).toEqual({ x: 0, y: 0, width: 1, height: 1 });
+    const trimmed = model({ trim: true });
+    expect(trimmed.items[0]?.source).toEqual({ x: 2, y: 3, width: 2, height: 1 });
+    expect(trimmed.items[1]?.source).toEqual({ x: 0, y: 0, width: 1, height: 1 });
   });
 
   it('packs the trimmed size and remembers where the part came from', () => {
@@ -75,8 +75,22 @@ describe('the power of two size and the pages of the atlas preview', () => {
 
 describe('opening the export for the sheet', () => {
   it('turns the atlas settings into export settings for the sprites of the sheet', () => {
-    const settings = atlasExportSettings(sheet(), { ...PLAIN_ATLAS, trim: true, powerOfTwo: true, pageSide: 64, extrude: 1, pivots: true, bounds: false, zoom: 2 });
+    const settings = atlasExportSettings(sheet(), { ...PLAIN_ATLAS, trim: true, powerOfTwo: true, pageSide: 64, extrude: 1 });
     expect(settings).toMatchObject({ sprites: 'sheet', sheetId: sheet().id, layout: 'grid', columns: 2, extrusion: 1, trim: true, powerOfTwo: true, pageSide: 64 });
+  });
+
+  it('carries the margin, the largest width and the rotation of a packed sheet', () => {
+    styleSheet(sheet().id, { layout: 'packed', maxWidth: 96, margin: 3, spacing: 2 });
+    const asked = atlasExportSettings(sheet(), { ...PLAIN_ATLAS, rotate: true, extrude: 0 });
+    expect(asked).toMatchObject({ layout: 'packed', maxWidth: 96, margin: 3, padding: 2, rotate: true });
+    styleSheet(sheet().id, { layout: 'grid', columns: 2 });
+    expect(atlasExportSettings(sheet(), { ...PLAIN_ATLAS, rotate: true, extrude: 0 })).toMatchObject({ layout: 'grid', maxWidth: 0, rotate: false });
+  });
+
+  it('keeps the margin and the largest width within range and forgets the largest width for the next open', () => {
+    const asked = openSettings(undefined, '', { kind: 'sheet', settings: { margin: 500, maxWidth: 99999 } });
+    expect(asked).toMatchObject({ margin: 64, maxWidth: 16384 });
+    expect(openSettings(asked, '', null)).toMatchObject({ margin: 64, maxWidth: 0 });
   });
 
   it('opens with the sheet kind chosen and the asked settings, and forgets them for the next open', () => {

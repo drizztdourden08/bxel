@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind types */
-import type { Point, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
+import type { Artwork, Point, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
+import type { AtlasPlan } from '@bxel/formats';
 import type { Anchor } from '@drizztdourden08/tessera';
+import type { Target } from '../export/export.type';
 import type { ArrangeKind } from '../sheet/sheet.type';
 import type { IdenticalMode } from './identical.type';
 
@@ -28,6 +30,7 @@ interface AtlasSettings {
   bounds: boolean;
   trim: boolean;
   powerOfTwo: boolean;
+  rotate: boolean;
   pageSide: number;
   page: number;
 }
@@ -96,10 +99,12 @@ interface OrderMove {
 interface AtlasItem {
   id: SpriteId;
   name: string;
+  frame: number;
   x: number;
   y: number;
   width: number;
   height: number;
+  rotated: boolean;
   pivot: { x2: number; y2: number };
   source: Rect;
 }
@@ -121,15 +126,17 @@ interface AtlasHeld {
   source: Rect;
 }
 
-interface AtlasInput {
+type AtlasPack = Pick<AtlasSettings, 'extrude' | 'trim' | 'powerOfTwo' | 'rotate' | 'pageSide'>;
+
+interface AtlasInput extends AtlasPack {
   sheet: Sheet;
-  sprites: readonly Sprite[];
-  extrude: number;
-  trim: boolean;
-  powerOfTwo: boolean;
-  pageSide: number;
+  artwork: Artwork;
   page: number;
 }
+
+type AtlasPlanned =
+  | { readonly ok: true; readonly targets: readonly Target[]; readonly plan: AtlasPlan }
+  | { readonly ok: false; readonly message: string };
 
 interface SheetStyle {
   layout?: ArrangeKind;
@@ -144,6 +151,8 @@ export type {
   AtlasInput,
   AtlasItem,
   AtlasModel,
+  AtlasPack,
+  AtlasPlanned,
   AtlasSettings,
   ListQuery,
   ManagerDialog,

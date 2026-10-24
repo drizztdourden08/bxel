@@ -94,6 +94,8 @@ const ATLAS_TEXT = {
   trim: 'Trim empty edges',
   trimManual: 'Trim works with a grid or packed sheet.',
   powerOfTwo: 'Power of two size',
+  rotate: 'Allow rotation',
+  rotateNeedsPacked: 'Rotation works with a packed sheet.',
   pageSide: 'Page size, 0 for one page',
   page: (page: number, count: number): string => `Page ${page} of ${count}`,
   previous: 'Previous page',
