@@ -70,34 +70,26 @@ describe('quit decision', () => {
     expect(log).toEqual(['flush', 'ask Untitled.bxel', 'save a']);
   });
 
-  it('asks once per dirty document, then saves and discards each as answered', async () => {
-    const documents = [doc('a', 'hero.bxel'), doc('b', 'Untitled.bxel'), doc('c', 'tiles.bxel')];
-    const { deps, log } = rig(documents, ['save', 'discard', 'save']);
+  it('asks once for every dirty document, then saves them all', async () => {
+    const documents = [doc('a', 'hero.bxsprite'), doc('b', 'walk.bxsheet, dawn.bxpalette'), doc('c', 'tiles.bxtiles')];
+    const { deps, log } = rig(documents, ['save']);
     expect(await decideQuit(deps)).toBe('quit');
-    expect(log).toEqual([
-      'flush',
-      'ask hero.bxel',
-      'ask Untitled.bxel',
-      'ask tiles.bxel',
-      'save a',
-      'save c',
-      'discard b',
-    ]);
+    expect(log).toEqual(['flush', 'ask hero.bxsprite, walk.bxsheet, dawn.bxpalette, tiles.bxtiles', 'save a', 'save b', 'save c']);
   });
 
-  it('stays without saving or discarding anything when a later document is cancelled', async () => {
-    const documents = [doc('a', 'hero.bxel'), doc('b', 'tiles.bxel')];
-    const { deps, log } = rig(documents, ['discard', 'cancel']);
-    expect(await decideQuit(deps)).toBe('stay');
-    expect(log).toEqual(['flush', 'ask hero.bxel', 'ask tiles.bxel']);
+  it('discards every document on Discard', async () => {
+    const documents = [doc('a', 'hero.bxsprite'), doc('b', 'tiles.bxtiles')];
+    const { deps, log } = rig(documents, ['discard']);
+    expect(await decideQuit(deps)).toBe('quit');
+    expect(log).toEqual(['flush', 'ask hero.bxsprite, tiles.bxtiles', 'discard a', 'discard b']);
   });
 
-  it('keeps the recovery copies of discarded documents when a save fails', async () => {
-    const documents = [doc('a', 'hero.bxel'), doc('b', 'tiles.bxel')];
-    const { deps, log, saves } = rig(documents, ['discard', 'save']);
+  it('keeps the recovery copies when a save fails', async () => {
+    const documents = [doc('a', 'hero.bxsprite'), doc('b', 'tiles.bxtiles')];
+    const { deps, log, saves } = rig(documents, ['save']);
     saves.failing.push('b' as DocumentId);
     expect(await decideQuit(deps)).toBe('stay');
-    expect(log).not.toContain('discard a');
+    expect(log.some((entry) => entry.startsWith('discard'))).toBe(false);
   });
 
   it('still quits when the snapshot flush fails', async () => {

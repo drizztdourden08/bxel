@@ -8,19 +8,19 @@ import { defineTool } from './define-tool';
 import { TOOL_NAME } from './tool-name.constants';
 
 const toLocation = z.strictObject({
-  location: LOCATION_SCHEMA.describe('Ends in .bxel; in a project granted editing.'),
+  location: LOCATION_SCHEMA.describe('Ends in the extension of the asset to save, such as .bxsprite; in a project granted editing.'),
   overwrite: z.boolean().default(false),
 });
 
 const toAssistantFolder = z.strictObject({
-  fileName: FILE_NAME_SCHEMA.describe('Ends in .bxel; lands in the assistant folder.'),
+  fileName: FILE_NAME_SCHEMA.describe('Ends in the extension of the asset to save, such as .bxsprite; lands in the assistant folder.'),
   overwrite: z.boolean().default(false),
 });
 
 const saveDocumentTool = defineTool(TOOL_NAME.saveDocument, {
   title: 'Save a document',
   description:
-    'Runs the save job. "current" writes the exact file the document came from, when the write setting allows it. A new place (a project path, or a file name in the assistant folder) works like Save As. An untitled document needs a new place.',
+    'Runs the save job. The document is a workspace of assets. "current" writes every asset with unsaved changes to its own file, when the write setting allows it. A new place (a project path, or a file name in the assistant folder) saves the asset whose kind matches the extension there, like Save As. An asset with no file yet needs a new place.',
   input: z.strictObject({
     documentId: DOCUMENT_ID_SCHEMA,
     expectedRevision: REVISION_SCHEMA.optional(),

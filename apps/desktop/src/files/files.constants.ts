@@ -2,11 +2,9 @@
 import type { DocumentDialogOptions, DocumentWriteOptions } from '@drizztdourden08/brock-core';
 import type { FileActionKind, FileBusy, FileOutcome } from './files.type';
 
-const BXEL_EXTENSION = 'bxel';
+const BXEL_EXTENSIONS: readonly string[] = ['bxsprite', 'bxsheet', 'bxpalette', 'bxtiles', 'bxmap', 'bxproject', 'bxel'];
 
-const BXEL_SUFFIX = `.${BXEL_EXTENSION}`;
-
-const BXEL_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'Bxel file', extensions: [BXEL_EXTENSION] }];
+const OPEN_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'Bxel files', extensions: [...BXEL_EXTENSIONS] }];
 
 const PNG_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'PNG image', extensions: ['png'] }];
 
@@ -17,6 +15,7 @@ const CANCELLED: FileOutcome = { kind: 'cancelled' };
 const BUSY_OF: Readonly<Record<FileActionKind, FileBusy>> = {
   save: 'saving',
   saveAs: 'saving',
+  saveAll: 'saving',
   open: 'opening',
   openPath: 'opening',
   export: 'exporting',
@@ -27,7 +26,7 @@ const FILE_TEXT = {
   saveTitle: 'Save file',
   openTitle: 'Open file',
   exportTitle: 'Export PNG',
-  saveReady: 'Save file (.bxel)',
+  saveReady: 'Save file',
   saveClean: 'Saved. No changes to save.',
   saveBusy: 'Saving',
   exportReady: 'Export images and sheet data',
@@ -42,7 +41,6 @@ const FILE_TEXT = {
   recentClear: 'Clear recent files',
   recentMissing: 'That file no longer exists. It was removed from the recent list.',
   unavailable: 'File access is not available here.',
-  notBxel: 'Bxel opens .bxel files.',
   unknownReason: 'The cause is unknown',
   unreadable: 'The file is not a Bxel file.',
   saveFailed: (file: string): string => `Could not save ${file}. Your last saved file is unchanged.`,
@@ -56,6 +54,7 @@ const NOTICE_VARIANT = {
   openPath: 'warning',
   save: 'info',
   saveAs: 'info',
+  saveAll: 'info',
   export: 'success',
 } as const;
 
@@ -63,6 +62,7 @@ const FILE_COMMAND = {
   open: 'file.open',
   save: 'file.save',
   saveAs: 'file.save_as',
+  saveAll: 'file.save_all',
   export: 'export.open',
 } as const;
 
@@ -76,15 +76,14 @@ const ISSUE_LIMIT = 3;
 
 export {
   BUSY_OF,
-  BXEL_EXTENSION,
-  BXEL_FILTERS,
-  BXEL_SUFFIX,
+  BXEL_EXTENSIONS,
   CANCELLED,
   EXPORT_WRITE,
   FILE_COMMAND,
   FILE_TEXT,
   ISSUE_LIMIT,
   NOTICE_VARIANT,
+  OPEN_FILTERS,
   PATH_SEPARATOR,
   PNG_FILTERS,
   RECENT_ACTIONS,

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
-import { createFolderId, createManifest, createProjectId, manifestFileName, writeManifest } from '@bxel/project';
-import type { ProjectGrant, ProjectManifest, RecentProject } from '@bxel/project';
+import { createFolderId, createManifest, createProjectDocument, createProjectId, encodeProject, manifestFileName, writeManifest } from '@bxel/project';
+import type { ProjectDocument, ProjectGrant, ProjectManifest, RecentProject } from '@bxel/project';
 import { storePathBook } from '../../src/files/store-path-book';
 import type { FileKit } from '../../src/files/files.type';
 import type { ProjectPort } from '../../src/project/project.type';
@@ -8,11 +8,15 @@ import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useFileStore } from '../../src/stores/useFileStore';
 import { useProjectSetsStore } from '../../src/stores/useProjectSetsStore';
 import { useProjectStore } from '../../src/stores/useProjectStore';
+import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
+import { watchWorkspaces } from '../../src/workspace/watch-workspaces';
 import { memoryDisk } from './memory-disk';
 import type { Disk } from './memory-disk';
 import { confirmAction, held, toast } from './project-mocks';
 
 const ROOT = 'C:/Art/Dungeon';
+
+watchWorkspaces();
 
 const bytes = (length: number): Uint8Array => Uint8Array.from({ length }, (_unused, index) => index + 5);
 
@@ -33,6 +37,7 @@ const resetStores = (): void => {
   useProjectStore.setState({ project: null, port: null, recents: [], dialog: false });
   useProjectSetsStore.getState().close();
   useFileStore.setState({ paths: {} });
+  useWorkspaceStore.setState({ workspaces: {}, tabs: [], activeTab: null, loading: null, splitting: null });
   for (const documentId of useDocumentStore.getState().host.list()) useDocumentStore.getState().host.close(documentId);
 };
 
@@ -55,12 +60,26 @@ const rig = (): Rig => {
   return { disk, values, kit };
 };
 
-const manifestOf = (extra: Partial<ProjectManifest> = {}): ProjectManifest => ({
+const manifestOf = (extra: Partial<ProjectDocument> = {}): ProjectDocument => ({
+  ...createProjectDocument({ projectId: createProjectId(bytes), folderId: createFolderId(bytes), name: 'Dungeon' }),
+  ...extra,
+});
+
+const legacyManifestOf = (extra: Partial<ProjectManifest> = {}): ProjectManifest => ({
   ...createManifest({ projectId: createProjectId(bytes), folderId: createFolderId(bytes), name: 'Dungeon' }),
   ...extra,
 });
 
-const withManifest = (disk: Disk, manifest: ProjectManifest = manifestOf(), root = ROOT): string => {
+const withManifest = (disk: Disk, manifest: ProjectDocument = manifestOf(), root = ROOT): string => {
+  const encoded = encodeProject({ manifest, preview: null, assets: new Map() }, () => 1_700_000_000_000);
+  if (!encoded.ok) throw new Error(encoded.message);
+  const path = `${root}/${manifest.name}.bxproject`;
+  disk.files.set(path, encoded.value);
+  disk.dirs.add(root);
+  return path;
+};
+
+const withLegacyManifest = (disk: Disk, manifest: ProjectManifest = legacyManifestOf(), root = ROOT): string => {
   const text = writeManifest(manifest);
   if (!text.ok) throw new Error(text.message);
   const path = `${root}/${manifestFileName(manifest.name)}`;
@@ -69,5 +88,5 @@ const withManifest = (disk: Disk, manifest: ProjectManifest = manifestOf(), root
   return path;
 };
 
-export { bytes, manifestOf, rig, ROOT, withManifest };
+export { bytes, legacyManifestOf, manifestOf, rig, ROOT, withLegacyManifest, withManifest };
 export type { Rig };

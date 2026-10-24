@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { ProjectManifest, RecentProject } from '@bxel/project';
+import type { ProjectDocument, RecentProject } from '@bxel/project';
 import type { OpenProject, ProjectFolderState, ProjectPort } from '../project/project.type';
 
 interface ProjectState {
@@ -11,7 +11,7 @@ interface ProjectState {
   held: readonly OpenProject[];
   open: (project: OpenProject) => void;
   close: () => void;
-  update: (manifest: ProjectManifest) => void;
+  update: (manifest: ProjectDocument) => void;
   markGranted: (folderId: string) => void;
   setPort: (port: ProjectPort | null) => void;
   setRecents: (recents: readonly RecentProject[]) => void;

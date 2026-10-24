@@ -4,6 +4,7 @@ import type { ListedEntry } from '@bxel/project';
 import { useCallback, useState } from 'react';
 import { runFileAction } from '../../../files/run-file-action';
 import { newProjectFile } from '../../../project/new-project-file';
+import { OPENED_KINDS } from '../ProjectPanel.constants';
 import type { ProjectActions, ProjectActionsInput } from '../ProjectPanel.type';
 
 const useProjectActions = ({ dir, enter, refresh }: ProjectActionsInput): ProjectActions => {
@@ -13,7 +14,7 @@ const useProjectActions = ({ dir, enter, refresh }: ProjectActionsInput): Projec
   const openEntry = useCallback(
     (entry: ListedEntry): void => {
       if (entry.kind === 'folder') return enter(entry.name);
-      const path = dir === null || entry.kind !== 'bxel' ? null : joinInside(dir, entry.name);
+      const path = dir === null || !OPENED_KINDS.includes(entry.kind) ? null : joinInside(dir, entry.name);
       if (path?.ok) void runFileAction({ kind: 'openPath', path: path.value });
       return undefined;
     },

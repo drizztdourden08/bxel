@@ -15,7 +15,7 @@ const setProjectAccess = async (port: ProjectPort, target: AccessTarget, access:
   port.patch({ assistantProjects: setGrant(port.read().assistantProjects, grant) });
   const { project } = useProjectStore.getState();
   if (project && isOpenProject(target) && project.manifest.assistant.access !== access) {
-    await saveManifest({ ...project.manifest, assistant: { access } });
+    await saveManifest({ ...project.manifest, assistant: { ...project.manifest.assistant, access } });
   }
 };
 

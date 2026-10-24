@@ -7,7 +7,7 @@ const addProjectFileInUi = async (session: Session, name: string): Promise<void>
   await page.getByRole('button', { name: 'New file in the project' }).click();
   await page.getByRole('textbox', { name: 'File name' }).fill(name);
   await page.getByRole('button', { name: 'Create', exact: true }).click();
-  await page.getByRole('list', { name: 'Project files' }).getByText(`${name}.bxel`).waitFor({ timeout: POLL_MS });
+  await page.getByRole('list', { name: 'Project files' }).getByText(`${name}.bxsprite`).waitFor({ timeout: POLL_MS });
 };
 
 export { addProjectFileInUi };

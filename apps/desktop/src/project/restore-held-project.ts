@@ -10,10 +10,10 @@ import { readProjectFolder } from './read-project-folder';
 const loadHeld = async (documents: DocumentsPort, grant: ProjectGrant, root: string): Promise<OpenProject | null> => {
   const loaded = await readProjectFolder(documents, root);
   if (!loaded.ok || loaded.value.manifest.projectId !== grant.projectId) return null;
-  const { manifest, manifestPath } = loaded.value;
+  const { manifest, projectFile, preview } = loaded.value;
   const resolved = resolveFolders(manifest.folders, root);
   if (!resolved.ok) return null;
-  return { manifest, rootRealPath: root, manifestPath, folders: await grantedFolders(documents, root, resolved.value) };
+  return { manifest, rootRealPath: root, projectFile, preview, folders: await grantedFolders(documents, root, resolved.value) };
 };
 
 const restoreHeldProject = async (documents: DocumentsPort, grant: ProjectGrant): Promise<OpenProject | null> => {

@@ -77,14 +77,14 @@ const staleAndInvalid = async ({ link }: McpRig): Promise<void> => {
 
 const saveReopenExport = async ({ link, folder }: McpRig): Promise<void> => {
   const pixels = await readLayer(link.client, sprite(), 'flattened');
-  const saved = await callMcp(link.client, 'save_document', { documentId: sprite().documentId, target: { fileName: 'check7.bxel' } });
-  expect(saved.data).toMatchObject({ ok: true, fileName: 'check7.bxel', place: { assistantFolder: true } });
-  await access(join(folder, 'check7.bxel'));
+  const saved = await callMcp(link.client, 'save_document', { documentId: sprite().documentId, target: { fileName: 'check7.bxsprite' } });
+  expect(saved.data, JSON.stringify(saved.data)).toMatchObject({ ok: true, fileName: 'check7.bxsprite', place: { assistantFolder: true } });
+  await access(join(folder, 'check7.bxsprite'));
   expect((await callMcp(link.client, 'close_document', { documentId: sprite().documentId })).data).toMatchObject({ ok: true, closed: true });
   const places = await callMcp(link.client, 'list_places');
-  const recent = (places.data.recent as { recentId: string; fileName: string }[]).find((entry) => entry.fileName === 'check7.bxel');
+  const recent = (places.data.recent as { recentId: string; fileName: string }[]).find((entry) => entry.fileName === 'check7.bxsprite');
   const opened = await callMcp(link.client, 'open_file', { file: { recentId: recent?.recentId } });
-  expect(opened.data).toMatchObject({ ok: true, alreadyOpen: false, fileName: 'check7.bxel' });
+  expect(opened.data).toMatchObject({ ok: true, alreadyOpen: false, fileName: 'check7.bxsprite' });
   held.sprite = { ...sprite(), documentId: String(opened.data.documentId) };
   expect([...(await readLayer(link.client, sprite(), 'flattened'))]).toEqual([...pixels]);
   const exported = await callMcp(link.client, 'export_document', { documentId: sprite().documentId, format: 'png', source: { spriteId: sprite().spriteId }, fileName: 'check7.png' });

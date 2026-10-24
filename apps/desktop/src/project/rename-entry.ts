@@ -2,6 +2,7 @@
 import { joinInside } from '@bxel/project';
 import { toast } from '@drizztdourden08/brock-react';
 import { useFileStore } from '../stores/useFileStore';
+import { followFileRename } from '../workspace/follow-file-rename';
 import { checkEntryName } from './check-entry-name';
 import { endingOf } from './ending-of';
 import { PROJECT_TEXT } from './project.constants';
@@ -23,6 +24,7 @@ const renameEntry = async (entry: EntryRef, typed: string): Promise<ProjectOutco
     if (problem !== null) return { ok: false, message: problem };
     await documents.rename(from.value, to.value);
     useFileStore.getState().retarget(from.value, to.value);
+    followFileRename(from.value, to.value);
     toast(PROJECT_TEXT.renamed(name), { variant: 'success' });
     return { ok: true };
   });

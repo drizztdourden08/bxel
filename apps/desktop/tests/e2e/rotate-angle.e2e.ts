@@ -28,9 +28,9 @@ describe('check 4: an arbitrary angle rotation', () => {
     await bar.getByRole('button', { name: 'Apply', exact: true }).click();
     await bar.waitFor({ state: 'detached' });
     seen.committed = await shown();
-    const path = join(session.dir, 'rotated.bxel');
+    const path = join(session.dir, 'rotated.bxsprite');
     await saveFile(session, path);
-    const saved = flatIndices(spriteOf(readSaved(path), 'sprite'));
+    const saved = flatIndices(spriteOf(readSaved(path), 'rotated'));
     expect([...saved]).toEqual([...seen.committed]);
     expect([...seen.committed]).toEqual([...turnGrid(original, MARKS_SIDE)]);
     const allowed = new Set([0, ...MARKS.map(([swatch]) => swatch)]);

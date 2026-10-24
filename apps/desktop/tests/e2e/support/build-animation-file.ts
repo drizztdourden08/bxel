@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind logic */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { artworkCreate, COMMAND_NAME, counterIdSource, createEngine, documentCommands } from '@bxel/document';
+import { artworkCreate, COMMAND_NAME, counterIdSource, createEngine, documentCommands, sliceAsset } from '@bxel/document';
 import type { Engine, Sprite, TargetScope } from '@bxel/document';
-import { encodeArtwork } from '@bxel/document/native';
+import { encodeSprite } from '@bxel/document/native';
 import { ANIMATION, ANIMATION_COLORS } from './animation.constants';
 import { runStep } from './run-step';
 
@@ -40,7 +40,8 @@ const buildAnimationFile = async (dir: string): Promise<string> => {
   for (let frameAt = 0; frameAt < ANIMATION.durations.length; frameAt += 1) paintFrame(engine, frameAt);
   runStep(engine, COMMAND_NAME.tagAdd, { name: ANIMATION.tagName, from: { by: 'index', index: 0 }, to: { by: 'index', index: 2 } }, all());
   const path = join(dir, ANIMATION.file);
-  await writeFile(path, encodeArtwork(engine.state(), null, () => 0));
+  const slice = sliceAsset(engine.state().artwork, { kind: 'sprite', id: firstSprite(engine).id }, new Map());
+  await writeFile(path, encodeSprite(slice, null, () => 0));
   return path;
 };
 

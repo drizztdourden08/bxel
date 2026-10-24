@@ -1,13 +1,15 @@
 /* @layer renderer-app @kind logic */
-import { joinInside } from '@bxel/project';
+import { resolveFolders, roleFolders } from '@bxel/project';
+import type { ProjectDocument } from '@bxel/project';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
-import { PROJECT_SUBFOLDERS } from './project.constants';
+import { locationPath } from './location-path';
 
-const makeSubfolders = async (documents: DocumentsPort, folder: string): Promise<void> => {
-  for (const name of Object.values(PROJECT_SUBFOLDERS)) {
-    const path = joinInside(folder, name);
-    if (!path.ok) throw new Error(path.message);
-    await documents.mkdir(path.value, { recursive: true });
+const makeSubfolders = async (documents: DocumentsPort, folder: string, manifest: ProjectDocument): Promise<void> => {
+  const folders = resolveFolders(manifest.folders, folder);
+  if (!folders.ok) throw new Error(folders.message);
+  for (const location of roleFolders(manifest.folders)) {
+    const path = locationPath(folders.value, location);
+    if (path !== null) await documents.mkdir(path, { recursive: true });
   }
 };
 

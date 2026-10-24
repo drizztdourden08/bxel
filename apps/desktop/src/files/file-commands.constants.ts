@@ -39,6 +39,17 @@ const FILE_COMMANDS: readonly CommandDef[] = [
     },
   },
   {
+    id: FILE_COMMAND.saveAll,
+    label: 'Save all files',
+    icon: 'pixel-save-file',
+    group: FILE_TEXT.group,
+    chord: 'Mod+Alt+S',
+    when: hasActiveDocument,
+    run: () => {
+      void runFileAction({ kind: 'saveAll' });
+    },
+  },
+  {
     id: FILE_COMMAND.export,
     label: 'Export',
     icon: 'pixel-export-image',

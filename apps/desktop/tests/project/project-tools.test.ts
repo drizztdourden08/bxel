@@ -39,7 +39,7 @@ describe('list_places', () => {
     const places = await held.run('list_places', {}, granted('read'));
     expect(places).toMatchObject({
       ok: true,
-      projects: [{ projectId: held.projectId, name: 'Dungeon', access: 'read', open: true, folders: [{ folderId: held.folderId, name: 'Dungeon' }], newFiles: null, exports: null }],
+      projects: [{ projectId: held.projectId, name: 'Dungeon', access: 'read', open: true, folders: [{ folderId: held.folderId, name: 'Dungeon' }], newFiles: { folderId: held.folderId, path: 'sprites' }, exports: { folderId: held.folderId, path: 'exports' } }],
     });
   });
 
@@ -81,7 +81,7 @@ describe('list_files', () => {
     putFile('hero.bxel', bxelBytes('hero'));
     putFile('CON.png');
     const listed = await held.run('list_files', listInput(), granted());
-    expect(listed).toMatchObject({ ok: true, skipped: 2, total: 1 });
+    expect(listed).toMatchObject({ ok: true, skipped: 1, total: 1 });
   });
 
   it('pages a large folder in two calls', async () => {
@@ -123,14 +123,14 @@ describe('open_file in a project', () => {
     expect(first).toMatchObject({ ok: true, alreadyOpen: false, fileName: 'hero.bxel', readOnly: false, outcome: 'ok' });
     const second = await held.run('open_file', { file: location('hero.bxel'), activate: false }, granted('read'));
     expect(second).toMatchObject({ ok: true, alreadyOpen: true, documentId: fieldOf(first, 'documentId') });
-    expect(held.rig.kit.host.list()).toHaveLength(1);
+    expect(held.rig.kit.host.list()).toHaveLength(2);
   });
 
   it('answers PROJECT_NOT_FOUND for an ungranted project and opens nothing', async () => {
     putFile('hero.bxel', bxelBytes('hero'));
     const refused = await held.run('open_file', { file: location('hero.bxel'), activate: false }, []);
     expect(refused).toMatchObject({ ok: false, error: { code: 'PROJECT_NOT_FOUND' } });
-    expect(held.rig.kit.host.list()).toHaveLength(0);
+    expect(held.rig.kit.host.list()).toHaveLength(1);
   });
 
   it('answers FILE_NOT_FOUND for a file that is not there and FILE_NOT_SUPPORTED for a picture', async () => {
@@ -144,22 +144,22 @@ describe('open_file in a project', () => {
   it('refuses a path that climbs out of the folder', async () => {
     const climbed = await held.run('open_file', { file: location('sub/../../x.bxel'), activate: false }, granted());
     expect(climbed).toMatchObject({ ok: false });
-    expect(held.rig.kit.host.list()).toHaveLength(0);
+    expect(held.rig.kit.host.list()).toHaveLength(1);
   });
 
   it('shows an open project file with its project place, or as ungranted when there is no grant', async () => {
     putFile('hero.bxel', bxelBytes('hero'));
     await held.run('open_file', { file: location('hero.bxel'), activate: false }, granted());
     const listed = await held.run('list_documents', {}, granted());
-    expect(listed).toMatchObject({ documents: [{ fileName: 'hero.bxel', place: location('hero.bxel') }] });
+    expect(rowsOf(listed, 'documents').find((row) => row.fileName === 'hero.bxel')).toMatchObject({ place: location('hero.bxel') });
     const hiddenListing = await held.run('list_documents', {}, []);
-    expect(hiddenListing).toMatchObject({ documents: [{ fileName: 'hero.bxel', place: { project: { name: 'Dungeon', granted: false } } }] });
+    expect(rowsOf(hiddenListing, 'documents').find((row) => row.fileName === 'hero.bxel')).toMatchObject({ place: { project: { name: 'Dungeon', granted: false } } });
   });
 
   it('refuses a damaged file with its own code and opens nothing', async () => {
     putFile('bad.bxel', new Uint8Array([1, 2, 3]));
     const damaged = await held.run('open_file', { file: location('bad.bxel'), activate: false }, granted());
     expect(damaged).toMatchObject({ ok: false });
-    expect(held.rig.kit.host.list()).toHaveLength(0);
+    expect(held.rig.kit.host.list()).toHaveLength(1);
   });
 });

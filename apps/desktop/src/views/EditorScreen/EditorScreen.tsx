@@ -4,17 +4,21 @@ import { useMapPlacing } from '../../hooks/useMapPlacing';
 import { useTimelinePlayback } from '../../hooks/useTimelinePlayback';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { ApplyBar } from '../ApplyBar';
+import { AssetTabs } from '../AssetTabs';
 import { DialogHost } from '../DialogHost';
 import { EditorCanvas } from '../EditorCanvas';
 import { EditorStatus } from '../EditorStatus';
 import { ExportDialog } from '../ExportDialog';
+import { LegacyBar } from '../LegacyBar';
 import { MismatchBar } from '../MismatchBar';
 import { RecoveryDialog } from '../RecoveryDialog';
 import { ScopeBar } from '../ScopeBar';
 import { SheetCanvas } from '../SheetCanvas';
+import { SplitDialog } from '../SplitDialog';
 import { TilemapCanvas } from '../TilemapCanvas';
 import { TilemapDialog } from '../TilemapDialog';
 import { TransformDialog } from '../TransformDialog';
+import { WorkspaceProgress } from '../WorkspaceProgress';
 import './EditorScreen.css';
 
 const EditorScreen = () => {
@@ -24,6 +28,9 @@ const EditorScreen = () => {
   useTimelinePlayback();
   return (
     <Flex direction="column" className="editor-screen">
+      <AssetTabs />
+      <WorkspaceProgress />
+      <LegacyBar />
       <Flex className="editor-screen__body">
         <Flex className={editing ? 'editor-screen__stage editor-screen__stage--tile-edit' : 'editor-screen__stage'}>
           {mode === 'sheet' && <SheetCanvas />}
@@ -39,6 +46,7 @@ const EditorScreen = () => {
       <ExportDialog />
       <TransformDialog />
       <TilemapDialog />
+      <SplitDialog />
       <DialogHost />
     </Flex>
   );

@@ -29,7 +29,7 @@ describe('check 8: editing a tile changes every placement of it', () => {
     await drawStroke(session, tilePixels, stroke);
     await switchTileMode(session, 'Place Tile');
     const path = join(session.dir, TILEMAP_E2E.file);
-    await saveFile(session, path);
+    await saveFile(session, path, [join(session.dir, 'tiles.bxtiles')]);
     const saved = readSaved(path);
     const map0 = saved.tilemaps[0];
     const tileset = saved.tilesets[0];

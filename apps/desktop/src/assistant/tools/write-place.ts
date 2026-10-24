@@ -4,6 +4,7 @@ import type { McpResult } from '@bxel/mcp';
 import type { DocumentId } from '@bxel/document';
 import type { ToolContext } from '../assistant.type';
 import { inFolder } from './in-folder';
+import { saveKindOf } from '../../assistant-bridge/save-kind-of';
 import { projectWriteTarget } from './project-write-target';
 import type { SaveInput } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
@@ -25,7 +26,7 @@ const folderPath = (context: ToolContext): McpResult<string> => {
 const writePlace = async (context: ToolContext, input: SaveInput): Promise<McpResult<string>> => {
   if (input.target === 'current') return currentPath(context, input.documentId);
   if ('location' in input.target) {
-    return projectWriteTarget(context, { location: input.target.location, kind: 'bxel', overwrite: input.target.overwrite });
+    return projectWriteTarget(context, { location: input.target.location, kind: saveKindOf(input.target.location.path), overwrite: input.target.overwrite });
   }
   return folderPath(context);
 };

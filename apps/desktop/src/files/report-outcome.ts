@@ -5,7 +5,7 @@ import type { FileAction, FileOutcome } from './files.type';
 
 const reportOutcome = (outcome: FileOutcome, action: FileAction): void => {
   if (outcome.kind === 'failed') {
-    const saving = action.kind === 'save' || action.kind === 'saveAs';
+    const saving = action.kind === 'save' || action.kind === 'saveAs' || action.kind === 'saveAll';
     const onSelect = (): void => {
       commands.run(FILE_COMMAND.saveAs);
     };

@@ -1,37 +1,61 @@
 /* @layer renderer-app @kind logic */
+import type { DocumentId, SpriteId } from '@bxel/document';
 import { checkFileName, joinInside } from '@bxel/project';
+import { PALETTE_COMMAND_NAME } from '@bxel/palette';
 import { toast } from '@drizztdourden08/brock-react';
 import { DEFAULT_ARTWORK } from '../documents/default-artwork.constants';
-import { artworkBytes } from '../files/artwork-bytes';
-import { BXEL_SUFFIX } from '../files/files.constants';
-import { reasonOf } from '../files/reason-of';
+import type { DocumentHost } from '../documents/document-host.type';
 import { fileKit } from '../files/file-kit';
-import { focusDocument } from '../transactions/focus-document';
+import { reasonOf } from '../files/reason-of';
+import { spriteSteps } from '../new-sprite/sprite-steps';
+import { runSteps } from '../transactions/run-steps';
+import { adoptPath } from '../workspace/adopt-path';
+import { focusTab } from '../workspace/focus-tab';
+import { projectWorkspaceId } from '../workspace/project-workspace-id';
+import { saveTab } from '../workspace/save-tab';
+import { tabOf } from '../workspace/tab-of';
 import { listFolderEntries } from './list-folder-entries';
-import { PROJECT_TEXT } from './project.constants';
+import { NEW_FILE_SUFFIX as SUFFIX, PROJECT_TEXT } from './project.constants';
 import type { ProjectOutcome } from './project.type';
 
-const withSuffix = (name: string): string => (name.toLowerCase().endsWith(BXEL_SUFFIX) ? name : `${name}${BXEL_SUFFIX}`);
+const withSuffix = (name: string): string => (name.toLowerCase().endsWith(SUFFIX) ? name : `${name}${SUFFIX}`);
+
+const bankOf = (host: DocumentHost, documentId: DocumentId): string | null => {
+  const existing = host.view(documentId)?.state.artwork.banks[0]?.id;
+  if (existing !== undefined) return existing;
+  const { bank } = DEFAULT_ARTWORK;
+  const options = { name: bank.name, cap: bank.cap, transparent: bank.transparent, colors: bank.colors.map((color) => color.rgb) };
+  const made = runSteps(host, documentId, PROJECT_TEXT.newSprite, [{ name: PALETTE_COMMAND_NAME.paletteCreate, targets: null, options }]);
+  return made.ok ? (host.view(documentId)?.state.artwork.banks[0]?.id ?? null) : null;
+};
+
+const addSprite = (host: DocumentHost, documentId: DocumentId, stem: string): SpriteId | null => {
+  const bankId = bankOf(host, documentId);
+  if (bankId === null) return null;
+  const { width, height } = DEFAULT_ARTWORK.sprite;
+  const steps = spriteSteps({ names: [stem], size: { width, height }, bankId, fillSlot: null, existingId: null });
+  const done = runSteps(host, documentId, PROJECT_TEXT.newSprite, steps);
+  return done.ok ? ((Object.values(done.created)[0] as SpriteId | undefined) ?? null) : null;
+};
 
 const newProjectFile = async (folder: string, typed: string): Promise<ProjectOutcome> => {
   const kit = fileKit();
-  if (!kit) return { ok: false, message: PROJECT_TEXT.unavailable };
+  const documentId = projectWorkspaceId();
+  if (!kit || documentId === null) return { ok: false, message: PROJECT_TEXT.unavailable };
   const name = withSuffix(typed.trim());
-  const checked = checkFileName(name, 'bxel');
-  if (!checked.ok) return { ok: false, message: checked.message };
-  const path = joinInside(folder, name, 'bxel');
+  const checked = checkFileName(name, 'bxsprite');
+  const path = checked.ok ? joinInside(folder, name, 'bxsprite') : checked;
   if (!path.ok) return { ok: false, message: path.message };
   try {
-    const present = await listFolderEntries(kit.documents, folder, { kinds: ['bxel'], offset: 0, limit: 500 });
+    const present = await listFolderEntries(kit.documents, folder, { kinds: ['sprite'], offset: 0, limit: 500 });
     if (present.entries.some((entry) => entry.name.toLowerCase() === name.toLowerCase())) return { ok: false, message: PROJECT_TEXT.fileExists(name) };
-    const created = kit.host.create({ ...DEFAULT_ARTWORK, name: name.slice(0, -BXEL_SUFFIX.length) });
-    if (!created.ok) return { ok: false, message: created.error.message };
-    const view = kit.host.view(created.documentId);
-    if (!view) return { ok: false, message: PROJECT_TEXT.unavailable };
-    await kit.documents.write(path.value, artworkBytes(view.state, kit.clock));
-    kit.paths.remember(created.documentId, path.value);
-    kit.host.markSaved(created.documentId);
-    focusDocument(created.documentId);
+    const spriteId = addSprite(kit.host, documentId, name.slice(0, -SUFFIX.length));
+    if (spriteId === null) return { ok: false, message: PROJECT_TEXT.unavailable };
+    const tab = tabOf(documentId, { kind: 'sprite', id: spriteId });
+    adoptPath(kit.host, documentId, tab.key, path.value);
+    const saved = await saveTab(kit, tab, true);
+    if (saved.kind === 'failed') return { ok: false, message: saved.message };
+    focusTab(tab);
     toast(PROJECT_TEXT.fileCreated(name), { variant: 'success' });
     return { ok: true };
   } catch (error) {

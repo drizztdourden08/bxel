@@ -5,11 +5,13 @@ import { useOpenedFiles } from '../hooks/useOpenedFiles';
 import { useArtworkTitle } from '../hooks/useArtworkTitle';
 import { useAssistantHost } from '../hooks/useAssistantHost';
 import { useProjectHost } from '../hooks/useProjectHost';
+import { useWorkspaceHost } from '../hooks/useWorkspaceHost';
 import { EditorScreen } from '../views/EditorScreen';
 
 const meta: ScreenMeta = { title: 'Editor', icon: 'pencil' };
 
 const EditorBase = () => {
+  useWorkspaceHost();
   useAssistantHost();
   useProjectHost();
   useArtworkTitle();

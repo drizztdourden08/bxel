@@ -1,0 +1,5 @@
+/* @layer renderer-app @kind style */
+.split-dialog__files {
+  max-block-size: var(--size-224);
+  overflow: auto;
+}

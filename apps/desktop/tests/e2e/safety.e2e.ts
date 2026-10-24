@@ -35,27 +35,27 @@ describe('check 8: damaged input and failed writes change nothing', () => {
     await drawStroke(session, map, mark(5));
     const before = await painted();
     const whole = await readFile(await buildAnimationFile(session.dir));
-    const cut = join(session.dir, 'cut.bxel');
+    const cut = join(session.dir, 'cut.bxsprite');
     await writeFile(cut, whole.subarray(0, Math.floor(whole.length / 2)));
     await answerDialogs(session, { open: cut, save: null });
     await session.page.keyboard.press(SHORTCUT.open);
-    await waitText(session, /Could not open cut\.bxel/);
-    expect(await session.page.getByText('cut.bxel - Bxel').count()).toBe(0);
+    await waitText(session, /Could not open cut\.bxsprite/);
+    expect(await session.page.getByText('cut.bxsprite - Bxel').count()).toBe(0);
     expect(await painted()).toBe(before);
   });
 
   test.skipIf(process.platform !== 'win32')('a save that cannot replace the file leaves the old file whole', async () => {
     const { session, map } = rig();
-    const path = join(session.dir, 'keep.bxel');
+    const path = join(session.dir, 'keep.bxsprite');
     await saveFile(session, path);
     const old = await readFile(path);
     await chmod(path, 0o444);
     await drawStroke(session, map, mark(8));
     await waitUnsaved(session);
     await session.page.keyboard.press(SHORTCUT.save);
-    await waitText(session, /Could not save keep\.bxel/, 60000);
+    await waitText(session, /Could not save keep\.bxsprite/, 60000);
     expect(Buffer.compare(await readFile(path), old)).toBe(0);
-    expect((await readdir(session.dir)).filter((name) => name.startsWith('keep.bxel') && name !== 'keep.bxel')).toEqual([]);
+    expect((await readdir(session.dir)).filter((name) => name.startsWith('keep.bxsprite') && name !== 'keep.bxsprite')).toEqual([]);
     await waitUnsaved(session);
     await chmod(path, 0o666);
   });

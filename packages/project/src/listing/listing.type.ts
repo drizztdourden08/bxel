@@ -1,7 +1,5 @@
 /* @layer core @kind types */
-import type { LISTED_KINDS } from './listing.constants';
-
-type ListedKind = (typeof LISTED_KINDS)[number];
+import type { EntryKind } from './entry-kind.type';
 
 type RawEntry = {
   readonly name: string;
@@ -17,7 +15,7 @@ type ListedFolder = {
 
 type ListedFile = {
   readonly name: string;
-  readonly kind: ListedKind;
+  readonly kind: EntryKind;
   readonly bytes: number;
   readonly modified: number;
 };
@@ -25,7 +23,7 @@ type ListedFile = {
 type ListedEntry = ListedFolder | ListedFile;
 
 type ListOptions = {
-  readonly kinds: readonly ListedKind[];
+  readonly kinds: readonly EntryKind[];
   readonly offset: number;
   readonly limit: number;
 };
@@ -37,4 +35,4 @@ type Listing = {
   readonly truncated: boolean;
 };
 
-export type { ListedEntry, ListedFile, ListedFolder, ListedKind, Listing, ListOptions, RawEntry };
+export type { ListedEntry, ListedFile, ListedFolder, Listing, ListOptions, RawEntry };

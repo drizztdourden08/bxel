@@ -24,7 +24,7 @@ const INDEXES_SCHEMA = z
 
 const FILE_NAME_SCHEMA = z
   .string()
-  .regex(/^[A-Za-z0-9_][A-Za-z0-9 _.-]{0,59}\.[a-z]{3,4}$/)
+  .regex(/^[A-Za-z0-9_][A-Za-z0-9 _.-]{0,59}\.[a-z]{3,9}$/)
   .meta({ id: 'FileName' });
 
 const REL_PATH_SCHEMA = z

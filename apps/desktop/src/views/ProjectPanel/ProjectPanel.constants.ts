@@ -6,4 +6,6 @@ const EMPTY_LISTING: ListingState = { listing: null, error: null };
 
 const START_LOCATION: ProjectLocation = { folderId: '', segments: [] };
 
-export { EMPTY_LISTING, START_LOCATION };
+const OPENED_KINDS: readonly string[] = ['sprite', 'sheet', 'palette', 'tileset', 'tilemap', 'project', 'legacy'];
+
+export { EMPTY_LISTING, OPENED_KINDS, START_LOCATION };

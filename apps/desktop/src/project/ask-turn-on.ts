@@ -1,12 +1,12 @@
 /* @layer renderer-app @kind logic */
 import { effectiveGrant } from '@bxel/project';
-import type { ProjectManifest } from '@bxel/project';
+import type { ProjectDocument } from '@bxel/project';
 import { confirmAction } from '@drizztdourden08/brock-react';
 import { useProjectStore } from '../stores/useProjectStore';
 import { ACCESS_LABEL, PROJECT_TEXT } from './project.constants';
 import { setProjectAccess } from './set-project-access';
 
-const askTurnOn = async (manifest: ProjectManifest, rootRealPath: string): Promise<void> => {
+const askTurnOn = async (manifest: ProjectDocument, rootRealPath: string): Promise<void> => {
   const { port } = useProjectStore.getState();
   if (!port || !effectiveGrant(manifest, rootRealPath, port.read().assistantProjects).turnItOnHere) return;
   const level = ACCESS_LABEL[manifest.assistant.access].toLowerCase();

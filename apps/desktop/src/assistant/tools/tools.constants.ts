@@ -1,17 +1,24 @@
 /* @layer renderer-app @kind constants */
+import type { EntryKind } from '@bxel/project';
+import type { WireFileKind } from './tool-input.type';
+
 const RECENT_ID_LENGTH = 12;
 
 const ASSISTANT_FOLDER_NAME = 'Bxel Assistant';
 
 const REQUEST_MEMORY_MAX = 200;
 
-const FILE_KIND_OF: Readonly<Record<string, 'bxel' | 'image' | 'palette' | 'sheet_json'>> = {
-  bxel: 'bxel',
-  png: 'image',
-  gif: 'image',
-  gpl: 'palette',
-  hex: 'palette',
-  json: 'sheet_json',
+const WIRE_KIND_OF: Readonly<Record<EntryKind, WireFileKind>> = {
+  sprite: 'bxel',
+  sheet: 'bxel',
+  tileset: 'bxel',
+  tilemap: 'bxel',
+  project: 'other',
+  legacy: 'bxel',
+  palette: 'palette',
+  image: 'image',
+  data: 'sheet_json',
+  other: 'other',
 };
 
 const TOOL_TEXT = {
@@ -24,7 +31,8 @@ const TOOL_TEXT = {
   noSheet: 'Sheet previews and sheet exports are not offered yet. Name a sprite.',
   needsName: 'The document has no file yet. Give a file name.',
   unsaved: 'The document has unsaved changes. Save it first, or pass discard: true.',
-  notBxel: 'Release 1 opens .bxel files only.',
+  notBxel: 'Bxel opens sprites, sheets, palettes, tilesets, tilemaps, projects and older .bxel files.',
+  noAssetOfKind: 'The document has no asset of the kind the file name ends with. Use .bxsprite, .bxsheet, .bxpalette, .bxtiles or .bxmap.',
   noFolder: 'The project has no such folder. Call list_places.',
   folderNotOpen: 'The owner has not allowed Bxel to look in this folder yet. Ask the owner to open the project in Bxel.',
   folderUnreadable: 'That folder does not exist or cannot be listed.',
@@ -39,4 +47,4 @@ const TOOL_TEXT = {
   nothingToUndo: 'There is nothing to undo.',
 } as const;
 
-export { ASSISTANT_FOLDER_NAME, FILE_KIND_OF, RECENT_ID_LENGTH, REQUEST_MEMORY_MAX, TOOL_TEXT };
+export { ASSISTANT_FOLDER_NAME, RECENT_ID_LENGTH, REQUEST_MEMORY_MAX, TOOL_TEXT, WIRE_KIND_OF };

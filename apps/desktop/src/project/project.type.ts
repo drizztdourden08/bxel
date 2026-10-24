@@ -1,19 +1,22 @@
 /* @layer renderer-app @kind types */
-import type { AccessLevel, ProjectGrant, ProjectManifest, RecentProject, ResolvedFolder } from '@bxel/project';
+import type { AccessLevel, ProjectDocument, ProjectGrant, RecentProject, ResolvedFolder } from '@bxel/project';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
 
 type ProjectFolderState = ResolvedFolder & { readonly granted: boolean };
 
 type OpenProject = {
-  readonly manifest: ProjectManifest;
+  readonly manifest: ProjectDocument;
   readonly rootRealPath: string;
-  readonly manifestPath: string;
+  readonly projectFile: string;
+  readonly preview: Uint8Array | null;
   readonly folders: readonly ProjectFolderState[];
 };
 
 type LoadedManifest = {
-  readonly manifest: ProjectManifest;
-  readonly manifestPath: string;
+  readonly manifest: ProjectDocument;
+  readonly projectFile: string;
+  readonly preview: Uint8Array | null;
+  readonly migrated: boolean;
 };
 
 interface ProjectSettings {
@@ -39,7 +42,7 @@ type ProjectLocation = {
 };
 
 type LinkedFolder = {
-  readonly manifest: ProjectManifest;
+  readonly manifest: ProjectDocument;
   readonly folder: ResolvedFolder;
 };
 

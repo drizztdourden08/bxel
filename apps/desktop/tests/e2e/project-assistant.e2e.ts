@@ -1,9 +1,7 @@
 /* @layer renderer-app @kind test */
-import { mkdtemp, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import { mkdtemp, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
-import { decodeArtwork } from '@bxel/document/native';
-import { manifestFileName, parseManifest } from '@bxel/project';
-import type { ProjectManifest } from '@bxel/project';
+import type { ProjectDocument } from '@bxel/project';
 import { describe, expect, test } from 'vitest';
 import { addProjectFileInUi } from './support/add-project-file-in-ui';
 import { callMcp } from './support/call-mcp';
@@ -11,6 +9,8 @@ import { createProjectInUi } from './support/create-project-in-ui';
 import { POLL_MS } from './support/e2e.constants';
 import { linkFolderInUi, unlinkFolderInUi } from './support/link-folder-in-ui';
 import { openProjectRig } from './support/open-project-rig';
+import { projectOnDisk } from './support/project-on-disk';
+import { readSaved } from './support/read-saved';
 import { exportIntoProject, heroDocument, locationIn, saveIntoProject } from './support/project-writes';
 import { createProjectFolderInUi, listed, renameProjectEntryInUi, trashProjectEntryInUi } from './support/project-entry-ui';
 import type { AccessChoice, ProjectRig } from './support/project-rig.type';
@@ -22,11 +22,9 @@ import { waitText } from './support/wait-text';
 
 const NAME = 'Dungeon';
 
-const manifestOnDisk = async ({ projectDir }: ProjectRig): Promise<ProjectManifest> => {
-  const parsed = parseManifest(await readFile(join(projectDir, manifestFileName(NAME)), 'utf8'));
-  if (!parsed.ok) throw new Error(parsed.message);
-  return parsed.value;
-};
+const ROLE_FOLDERS = ['exports', 'palettes', 'sheets', 'sprites', 'tilemaps'];
+
+const manifestOnDisk = ({ projectDir }: ProjectRig): Promise<ProjectDocument> => projectOnDisk(projectDir, NAME);
 
 const grant = async (rig: ProjectRig, choice: AccessChoice): Promise<void> => setProjectAccessInUi(rig.session, NAME, choice);
 
@@ -44,26 +42,24 @@ const created = async (rig: ProjectRig): Promise<void> => {
   expect(manifest).toMatchObject({
     name: NAME,
     assistant: { access: 'off' },
-    folders: [{ path: '.' }],
-    settings: { newFiles: { path: 'newFiles' }, exports: { path: 'exports' } },
+    folders: [{ path: '.', roles: { sprites: 'sprites', exports: 'exports' } }],
   });
-  expect((await readdir(rig.projectDir)).sort()).toEqual([manifestFileName(NAME), 'exports', 'newFiles'].sort());
+  expect((await readdir(rig.projectDir)).sort()).toEqual([`${NAME}.bxproject`, ...ROLE_FOLDERS].sort());
   await rig.session.page.getByRole('button', { name: 'New file in the project' }).waitFor();
 };
 
 const filed = async (rig: ProjectRig): Promise<void> => {
   await addProjectFileInUi(rig.session, 'hero');
-  const report = decodeArtwork(new Uint8Array(await readFile(join(rig.projectDir, 'hero.bxel'))));
-  expect(report.outcome).toBe('ok');
-  expect(report.artwork?.name).toBe('hero');
-  await waitText(rig.session, /hero\.bxel in Dungeon - Bxel/);
+  const saved = readSaved(join(rig.projectDir, 'hero.bxsprite'));
+  expect(saved.sprites.map((sprite) => sprite.name)).toEqual(['hero']);
+  await waitText(rig.session, /hero\.bxsprite in Dungeon - Bxel/);
 };
 
 const hidden = async (rig: ProjectRig): Promise<void> => {
   expect((await places(rig)).projects).toEqual([]);
   expect((await filesOf(rig)).code).toBe('PROJECT_NOT_FOUND');
   const manifest = await manifestOnDisk(rig);
-  const opened = await callMcp(rig.link.client, 'open_file', { file: { projectId: manifest.projectId, folderId: manifest.folders[0]?.folderId, path: 'hero.bxel' } });
+  const opened = await callMcp(rig.link.client, 'open_file', { file: { projectId: manifest.projectId, folderId: manifest.folders[0]?.folderId, path: 'hero.bxsprite' } });
   expect(opened.code).toBe('PROJECT_NOT_FOUND');
 };
 
@@ -76,24 +72,24 @@ const browsed = async (rig: ProjectRig): Promise<void> => {
   expect(listed.data).toMatchObject({
     ok: true,
     path: '',
-    total: 3,
-    entries: [{ name: 'exports', kind: 'folder' }, { name: 'newFiles', kind: 'folder' }, { name: 'hero.bxel', kind: 'bxel' }],
+    total: 6,
+    entries: [...ROLE_FOLDERS.map((name) => ({ name, kind: 'folder' })), { name: 'hero.bxsprite', kind: 'bxel' }],
   });
   const entries = listed.data.entries as { name: string; documentId: string | null }[];
-  expect(entries.find((entry) => entry.name === 'hero.bxel')?.documentId).toMatch(/^doc_/);
+  expect(entries.find((entry) => entry.name === 'hero.bxsprite')?.documentId).toMatch(/^doc_/);
 };
 
 const opened = async (rig: ProjectRig): Promise<void> => {
   const manifest = await manifestOnDisk(rig);
-  const file = { projectId: manifest.projectId, folderId: manifest.folders[0]?.folderId, path: 'hero.bxel' };
+  const file = { projectId: manifest.projectId, folderId: manifest.folders[0]?.folderId, path: 'hero.bxsprite' };
   const already = await callMcp(rig.link.client, 'open_file', { file });
-  expect(already.data).toMatchObject({ ok: true, alreadyOpen: true, fileName: 'hero.bxel' });
+  expect(already.data).toMatchObject({ ok: true, alreadyOpen: true, fileName: 'hero.bxsprite' });
   const documentId = String(already.data.documentId);
   expect((await callMcp(rig.link.client, 'close_document', { documentId })).data).toMatchObject({ ok: true, closed: true });
   const again = await callMcp(rig.link.client, 'open_file', { file });
-  expect(again.data).toMatchObject({ ok: true, alreadyOpen: false, fileName: 'hero.bxel', outcome: 'ok' });
+  expect(again.data).toMatchObject({ ok: true, alreadyOpen: false, fileName: 'hero.bxsprite', outcome: 'ok' });
   expect((await callMcp(rig.link.client, 'get_document', { documentId: String(again.data.documentId) })).data).toMatchObject({ ok: true, name: 'hero' });
-  const outside = await callMcp(rig.link.client, 'open_file', { file: { ...file, path: '../escape.bxel' } });
+  const outside = await callMcp(rig.link.client, 'open_file', { file: { ...file, path: '../escape.bxsprite' } });
   expect(outside.ok).toBe(false);
   expect((await filesOf(rig, 'nowhere')).code).toBe('FOLDER_NOT_FOUND');
 };
@@ -116,14 +112,14 @@ const reopened = async (rig: ProjectRig): Promise<void> => {
   await runMenu(rig.session, [/^Project/, /^Open project/]);
   await waitText(rig.session, /Opened the project Dungeon/);
   expect((await places(rig)).projects).toMatchObject([{ name: NAME, access: 'edit' }]);
-  expect((await filesOf(rig)).data).toMatchObject({ ok: true, total: 3 });
+  expect((await filesOf(rig)).data).toMatchObject({ ok: true, total: 6 });
 };
 
 const assistantWrites = async (rig: ProjectRig): Promise<void> => {
-  const saved = await saveIntoProject(rig, NAME, 'newFiles/copy.bxel');
-  expect(saved.data).toMatchObject({ ok: true, fileName: 'copy.bxel', place: await locationIn(rig, NAME, 'newFiles/copy.bxel') });
-  expect(decodeArtwork(new Uint8Array(await readFile(join(rig.projectDir, 'newFiles', 'copy.bxel')))).outcome).toBe('ok');
-  expect((await saveIntoProject(rig, NAME, 'newFiles/copy.bxel')).code).toBe('FILE_EXISTS');
+  const saved = await saveIntoProject(rig, NAME, 'sprites/copy.bxsprite');
+  expect(saved.data).toMatchObject({ ok: true, fileName: 'copy.bxsprite', place: await locationIn(rig, NAME, 'sprites/copy.bxsprite') });
+  expect(readSaved(join(rig.projectDir, 'sprites', 'copy.bxsprite')).sprites).toHaveLength(1);
+  expect((await saveIntoProject(rig, NAME, 'sprites/copy.bxsprite')).code).toBe('FILE_EXISTS');
   const exported = await exportIntoProject(rig, NAME, 'exports/hero.png');
   expect(exported.data).toMatchObject({ ok: true, files: [{ fileName: 'hero.png' }] });
   expect((await stat(join(rig.projectDir, 'exports', 'hero.png'))).size).toBeGreaterThan(0);
@@ -132,21 +128,21 @@ const assistantWrites = async (rig: ProjectRig): Promise<void> => {
 const assistantRefused = async (rig: ProjectRig): Promise<void> => {
   const documentId = await heroDocument(rig, NAME);
   await grant(rig, 'Read only');
-  expect((await saveIntoProject(rig, NAME, 'newFiles/refused.bxel')).code).toBe('PROJECT_NOT_GRANTED');
+  expect((await saveIntoProject(rig, NAME, 'sprites/refused.bxsprite')).code).toBe('PROJECT_NOT_GRANTED');
   expect((await exportIntoProject(rig, NAME, 'exports/refused.png')).code).toBe('PROJECT_NOT_GRANTED');
   await grant(rig, 'Off');
-  expect((await saveIntoProject(rig, NAME, 'newFiles/refused.bxel', documentId)).code).toBe('PROJECT_NOT_FOUND');
-  expect(await readdir(join(rig.projectDir, 'newFiles'))).toEqual(['copy.bxel']);
+  expect((await saveIntoProject(rig, NAME, 'sprites/refused.bxsprite', documentId)).code).toBe('PROJECT_NOT_FOUND');
+  expect(await readdir(join(rig.projectDir, 'sprites'))).toEqual(['copy.bxsprite']);
   expect(await readdir(join(rig.projectDir, 'exports'))).toEqual(['hero.png']);
 };
 
 const paneled = async ({ session, projectDir }: ProjectRig): Promise<void> => {
   await addProjectFileInUi(session, 'scrap');
-  await renameProjectEntryInUi(session, 'scrap.bxel', 'junk.bxel');
-  expect(await readdir(projectDir)).toContain('junk.bxel');
-  expect(await readdir(projectDir)).not.toContain('scrap.bxel');
-  await trashProjectEntryInUi(session, 'junk.bxel');
-  expect(await readdir(projectDir)).not.toContain('junk.bxel');
+  await renameProjectEntryInUi(session, 'scrap.bxsprite', 'junk.bxsprite');
+  expect(await readdir(projectDir)).toContain('junk.bxsprite');
+  expect(await readdir(projectDir)).not.toContain('scrap.bxsprite');
+  await trashProjectEntryInUi(session, 'junk.bxsprite');
+  expect(await readdir(projectDir)).not.toContain('junk.bxsprite');
   await createProjectFolderInUi(session, 'props');
   expect((await stat(join(projectDir, 'props'))).isDirectory()).toBe(true);
 };

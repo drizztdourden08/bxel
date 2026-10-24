@@ -49,15 +49,15 @@ describe('linked folders', () => {
     expect(storedManifest(held).folders).toHaveLength(1);
   });
 
-  it('removes a linked folder, takes its grant away and resets the settings that pointed at it', async () => {
+  it('removes a linked folder, takes its grant away and drops it from the assistant folders', async () => {
     await linkFolderAt(held, SHARED);
     const linked = currentProject().manifest.folders[1];
     if (!linked) throw new Error('no linked folder');
-    const settings = { ...currentProject().manifest.settings, exports: { folderId: linked.folderId, path: 'out' } };
-    useProjectStore.getState().update({ ...currentProject().manifest, settings });
+    const assistant = { ...currentProject().manifest.assistant, folders: [linked.folderId] };
+    useProjectStore.getState().update({ ...currentProject().manifest, assistant });
     expect(await removeLinkedFolder(linked.folderId)).toEqual({ ok: true });
     expect(storedManifest(held).folders).toHaveLength(1);
-    expect(storedManifest(held).settings.exports).toEqual({ folderId: currentProject().manifest.folders[0]?.folderId, path: '.' });
+    expect(storedManifest(held).assistant.folders).toEqual([]);
     expect(currentProject().folders).toHaveLength(1);
     expect(held.disk.revoked).toEqual([SHARED]);
   });

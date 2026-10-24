@@ -2,20 +2,19 @@
 import type { DocumentId } from '@bxel/document';
 import { toast } from '@drizztdourden08/brock-react';
 import { useFileStore } from '../stores/useFileStore';
+import { saveWorkspace } from '../workspace/save-workspace';
 import { failed } from './failed';
 import { fileKit } from './file-kit';
 import { FILE_TEXT } from './files.constants';
 import type { FileOutcome } from './files.type';
 import { reasonOf } from './reason-of';
 import { reportOutcome } from './report-outcome';
-import { saveArtwork } from './save-artwork';
 
 const attempt = async (documentId: DocumentId): Promise<FileOutcome> => {
   const kit = fileKit();
   if (!kit) return failed(FILE_TEXT.unavailable);
-  kit.focus(documentId);
   try {
-    return await saveArtwork(kit, documentId, false);
+    return await saveWorkspace(kit, documentId);
   } catch (error) {
     return failed(reasonOf(error));
   }
@@ -30,7 +29,7 @@ const saveForQuit = async (documentId: DocumentId): Promise<boolean> => {
   files.setBusy('saving');
   try {
     const outcome = await attempt(documentId);
-    reportOutcome(outcome, { kind: 'save' });
+    reportOutcome(outcome, { kind: 'saveAll' });
     return outcome.kind === 'done';
   } finally {
     files.setBusy(null);

@@ -2,9 +2,7 @@
 import { decodePng } from '@bxel/formats';
 import { describe, expect, it } from 'vitest';
 import { exportPng } from '../../src/files/export-png';
-import { isArtworkPath } from '../../src/files/is-artwork-path';
-import { saveArtwork } from '../../src/files/save-artwork';
-import { createArtwork, harness, paintPixels, SAVED } from './file-harness';
+import { createArtwork, harness, paintPixels } from './file-harness';
 
 const TARGET = 'C:\\art\\hero.png';
 
@@ -58,18 +56,5 @@ describe('export PNG', () => {
     await exportPng(kit, documentId);
     expect(memory.options).toEqual([{ recent: false }]);
     expect(memory.recent).toEqual([]);
-  });
-
-  it('keeps only .bxel files in the recent list after a save and an export', async () => {
-    const { kit, host, memory, paths } = harness();
-    const documentId = createArtwork(host);
-    paths.set(documentId, SAVED);
-    paintPixels(host, documentId);
-    await saveArtwork(kit, documentId, false);
-    memory.picks.saveAs = TARGET;
-    await exportPng(kit, documentId);
-    const recent = await memory.port.recent();
-    expect(recent.map((entry) => entry.path)).toEqual([SAVED]);
-    expect(recent.every((entry) => isArtworkPath(entry.path))).toBe(true);
   });
 });

@@ -1,18 +1,15 @@
 /* @layer renderer-app @kind logic */
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { manifestFileName, parseManifest } from '@bxel/project';
 import { callMcp } from './call-mcp';
+import { projectOnDisk } from './project-on-disk';
 import type { ProjectRig } from './project-rig.type';
 
 const locationIn = async (rig: ProjectRig, name: string, path: string) => {
-  const parsed = parseManifest(await readFile(join(rig.projectDir, manifestFileName(name)), 'utf8'));
-  if (!parsed.ok) throw new Error(parsed.message);
-  return { projectId: parsed.value.projectId, folderId: parsed.value.folders[0]?.folderId, path };
+  const manifest = await projectOnDisk(rig.projectDir, name);
+  return { projectId: manifest.projectId, folderId: manifest.folders[0]?.folderId, path };
 };
 
 const heroDocument = async (rig: ProjectRig, name: string): Promise<string> => {
-  const opened = await callMcp(rig.link.client, 'open_file', { file: await locationIn(rig, name, 'hero.bxel') });
+  const opened = await callMcp(rig.link.client, 'open_file', { file: await locationIn(rig, name, 'hero.bxsprite') });
   return String(opened.data.documentId);
 };
 
