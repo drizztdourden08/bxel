@@ -12,6 +12,7 @@ const pixelsPatchSchema = z.strictObject({
   rect: rectSchema,
   pixels: z.instanceof(Uint8Array),
   skipZero: z.boolean().default(false),
+  allUses: z.boolean().default(false),
 });
 
 export { pixelsPatchSchema };

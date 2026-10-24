@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
+import { allUsesSchema } from './all-uses-schema';
 import { brushSchema } from './brush-schema';
 import { maskSchema } from './mask-schema';
 import { pointSchema } from './point-schema';
@@ -11,6 +12,7 @@ const strokeFields = {
   pixelPerfect: z.boolean().default(false),
   symmetry: symmetrySchema,
   mask: maskSchema,
+  allUses: allUsesSchema,
 };
 
 export { strokeFields };

@@ -6,6 +6,7 @@ import type { ResolvedCel } from '../scope/resolved-scope.type';
 import type { CommandName } from './transaction.type';
 
 type CommandScope = 'none' | 'sprite' | 'sprites' | 'cels';
+type LinkedCels = 'refuse' | 'allow';
 
 type CommandInput<O = unknown> = {
   readonly options: O;
@@ -18,6 +19,7 @@ type CommandInput<O = unknown> = {
 type CommandDef = {
   readonly name: CommandName;
   readonly scope: CommandScope;
+  readonly linked: LinkedCels;
   readonly schema: z.ZodType;
   readonly run: (draft: Draft, input: CommandInput) => void;
 };
@@ -25,8 +27,9 @@ type CommandDef = {
 type CommandSpec<S extends z.ZodType> = {
   readonly name: CommandName;
   readonly scope: CommandScope;
+  readonly linked?: LinkedCels;
   readonly schema: S;
   readonly run: (draft: Draft, input: CommandInput<z.output<S>>) => void;
 };
 
-export type { CommandDef, CommandInput, CommandScope, CommandSpec };
+export type { CommandDef, CommandInput, CommandScope, CommandSpec, LinkedCels };

@@ -1,5 +1,19 @@
 /* @layer core @kind barrel */
 export type * from './command-options.type';
+export { celClearSchema } from './cel-clear-schema';
+export { celSlotSchema } from './cel-slot-schema';
+export { celTransferSchema } from './cel-transfer-schema';
+export { celUnlinkSchema } from './cel-unlink-schema';
+export { frameAddSchema } from './frame-add-schema';
+export { frameDeleteSchema } from './frame-delete-schema';
+export { frameDuplicateSchema } from './frame-duplicate-schema';
+export { frameRefSchema } from './frame-ref-schema';
+export { frameReorderSchema } from './frame-reorder-schema';
+export { frameUpdateSchema } from './frame-update-schema';
+export { tagAddSchema } from './tag-add-schema';
+export { tagDeleteSchema } from './tag-delete-schema';
+export { tagRefSchema } from './tag-ref-schema';
+export { tagUpdateSchema } from './tag-update-schema';
 export { idSchema } from './id-schema';
 export { layerAddSchema } from './layer-add-schema';
 export { layerDeleteSchema } from './layer-delete-schema';

@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
+import { allUsesSchema } from './all-uses-schema';
 import { brushSchema } from './brush-schema';
 import { indexSchema } from './index-schema';
 import { maskSchema } from './mask-schema';
@@ -11,6 +12,7 @@ const shapeFields = {
   brush: brushSchema,
   symmetry: symmetrySchema,
   mask: maskSchema,
+  allUses: allUsesSchema,
 };
 
 export { shapeFields };

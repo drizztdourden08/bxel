@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
+import { allUsesSchema } from './all-uses-schema';
 import { ANCHOR_NAMES } from '../../region/region.constants';
 import { boundsPolicySchema } from './bounds-policy-schema';
 import { maskSchema } from './mask-schema';
@@ -12,6 +13,7 @@ const pixelsScaleSchema = z.strictObject({
   bounds: boundsPolicySchema,
   skipZero: skipZeroSchema,
   mask: maskSchema,
+  allUses: allUsesSchema,
 });
 
 export { pixelsScaleSchema };
