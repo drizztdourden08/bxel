@@ -11,4 +11,6 @@ type AssetParts = {
   readonly blobs: ReadonlyMap<string, Uint8Array>;
 };
 
-export type { AssetParts };
+type AssetExtras = Pick<AssetParts, 'preview' | 'blobs'>;
+
+export type { AssetExtras, AssetHeader, AssetParts };

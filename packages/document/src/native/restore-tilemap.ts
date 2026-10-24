@@ -32,12 +32,12 @@ const restoreLayer = (context: LayerContext): RestoredLayer => {
     return blank(context, { code: LOAD_ERROR.DOCUMENT_INVALID, message: `${path} does not match the map size.`, path });
   }
   const cells = bytesToCells(bytes);
-  const lost = clearBrokenCells(cells, keys);
+  const lost = keys ? clearBrokenCells(cells, keys) : [];
   return { layer: { ...layer, cells }, damage: lost.length > 0 ? brokenDamage(context, lost) : null };
 };
 
-const restoreTilemap = (shell: TilemapJson, tileset: Tileset, source: EntryCheck): RestoredTilemap => {
-  const keys = new Set(tileset.tiles.map((tile) => tile.key));
+const restoreTilemap = (shell: TilemapJson, tileset: Tileset | null, source: EntryCheck): RestoredTilemap => {
+  const keys = tileset ? new Set(tileset.tiles.map((tile) => tile.key)) : null;
   const restored = shell.layers.map((layer) => restoreLayer({ shell, layer, keys, source }));
   const { id, name, tilesetId, columns, rows } = shell;
   return {

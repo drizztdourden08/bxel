@@ -4,17 +4,24 @@ import type { DocumentJson } from '../document-json.type';
 import { SCOPE_ARTWORK_ID } from './asset-container.constants';
 import type { ScopedParts } from './scoped-document.type';
 
-const scopedDocument = ({ banks, sprites, presets }: ScopedParts): DocumentJson => ({
+const scopedDocument = ({
+  banks = [],
+  sprites = [],
+  presets = [],
+  sheets = [],
+  tilesets = [],
+  tilemaps = [],
+}: ScopedParts): DocumentJson => ({
   id: SCOPE_ARTWORK_ID as ArtworkId,
   name: 'asset',
   defaultBankId: banks[0]?.id ?? ('bnk_000000' as BankId),
   coverSpriteId: null,
   banks,
   sprites,
-  sheets: [],
+  sheets,
   presets,
-  tilesets: [],
-  tilemaps: [],
+  tilesets,
+  tilemaps,
 });
 
 export { scopedDocument };

@@ -15,7 +15,7 @@ const decodeSprite = (bytes: Uint8Array, palette: AssetSlice | null = null): Ass
   const { opened, check, json } = read.value;
   const file = validateSpriteFile(json, opened.manifest);
   if (!file.ok) return fatalAssetReport(file.issues);
-  const { bank, missing } = chooseBank(file.value, opened.manifest.links, palette);
+  const { bank, missing } = chooseBank(file.value.palette, opened.manifest.links, palette);
   const { sprite, damage } = restoreAssetSprite(file.value.sprite, bank, check);
   const slice = {
     kind: ASSET_KIND.sprite,

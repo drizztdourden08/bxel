@@ -7,7 +7,7 @@ import type { DamagedMapLayer } from './load-report.type';
 type LayerContext = {
   readonly shell: TilemapJson;
   readonly layer: MapLayerJson;
-  readonly keys: ReadonlySet<number>;
+  readonly keys: ReadonlySet<number> | null;
   readonly source: EntryCheck;
 };
 

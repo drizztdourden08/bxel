@@ -192,3 +192,4 @@ export { spriteReorderSchema } from './schema/sprite-reorder-schema';
 export { transactionRequestSchema } from './schema/transaction-schema';
 export * from './tilemap/index';
 export * from './scope/index';
+export * from './workspace/index';
