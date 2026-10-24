@@ -50,6 +50,7 @@ export { tileUniqueSchema } from './tile-unique-schema';
 export { tilemapCreateSchema } from './tilemap-create-schema';
 export { tilemapDeleteSchema } from './tilemap-delete-schema';
 export { tilemapDuplicateSchema } from './tilemap-duplicate-schema';
+export { tilemapImportSchema } from './tilemap-import-schema';
 export { tilemapRefSchema } from './tilemap-ref-schema';
 export { tilemapResizeSchema } from './tilemap-resize-schema';
 export { tilemapUpdateSchema } from './tilemap-update-schema';

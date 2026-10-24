@@ -44,6 +44,7 @@ import type { tileRefSchema } from './tile-ref-schema';
 import type { tileUniqueSchema } from './tile-unique-schema';
 import type { tilemapCreateSchema } from './tilemap-create-schema';
 import type { tilemapDeleteSchema } from './tilemap-delete-schema';
+import type { tilemapImportSchema } from './tilemap-import-schema';
 import type { tilemapResizeSchema } from './tilemap-resize-schema';
 import type { tilemapUpdateSchema } from './tilemap-update-schema';
 import type { tilesetCreateSchema } from './tileset-create-schema';
@@ -89,6 +90,7 @@ type TilemapCreateOptions = z.output<typeof tilemapCreateSchema>;
 type TilemapUpdateOptions = z.output<typeof tilemapUpdateSchema>;
 type TilemapResizeOptions = z.output<typeof tilemapResizeSchema>;
 type TilemapDeleteOptions = z.output<typeof tilemapDeleteSchema>;
+type TilemapImportOptions = z.output<typeof tilemapImportSchema>;
 type MapLayerRef = z.output<typeof mapLayerRefSchema>;
 type MapLayerAddOptions = z.output<typeof mapLayerAddSchema>;
 type MapLayerUpdateOptions = z.output<typeof mapLayerUpdateSchema>;
@@ -117,6 +119,7 @@ export type {
   TileUniqueOptions,
   TilemapCreateOptions,
   TilemapDeleteOptions,
+  TilemapImportOptions,
   TilemapResizeOptions,
   TilemapUpdateOptions,
   TilesetCreateOptions,

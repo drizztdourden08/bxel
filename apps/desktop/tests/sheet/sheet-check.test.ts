@@ -56,7 +56,7 @@ const runOf = (image: SourceImage): ImportRun => {
   const plan = colorsView(form, image, NONE).plan;
   if (!plan) throw new Error('no plan');
   const rects = activeRects(form, image);
-  return { form, image, plan, rects, names: importNames(form, rects), context: NONE };
+  return { form, image, plan, rects, names: importNames(form, rects), context: NONE, tiled: null };
 };
 
 const pixel = (name: string, x: number, y: number): number => pixelsOf(name)[y * spriteOf(name).width + x] ?? 0;

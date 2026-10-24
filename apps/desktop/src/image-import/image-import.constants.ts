@@ -56,6 +56,7 @@ const FORM_BASE: ImportForm = {
 const STEPS_BY_KIND: Readonly<Record<ImportKind, readonly ImportStep[]>> = {
   sprite: ['source', 'colors'],
   sheet: ['source', 'colors', 'slicing'],
+  tiled: ['source', 'colors'],
 };
 
 const PNG_MIME = 'image/png';

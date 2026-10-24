@@ -10,6 +10,7 @@ import type {
   SliceRect,
   SourceImage,
 } from '../../image-import/image-import.type';
+import type { TiledImportData } from '../../tiled-import/tiled-import.type';
 
 interface ImportWizardState {
   form: ImportForm;
@@ -20,6 +21,7 @@ interface ImportWizardState {
   rects: readonly SliceRect[];
   names: readonly string[];
   context: ImportContext;
+  tiled: TiledImportData | null;
   issue: string | null;
   failure: string | null;
   update: (patch: Partial<ImportForm>) => void;
@@ -37,6 +39,11 @@ interface StepProps {
 
 interface ImportDialogProps {
   image: SourceImage;
+  tiled: TiledImportData | null;
+}
+
+interface TiledSummaryProps {
+  tiled: TiledImportData;
 }
 
 interface SlicePreviewProps {
@@ -65,4 +72,13 @@ interface PairFieldProps {
   onY: (value: number) => void;
 }
 
-export type { ImportDialogProps, ImportWizardState, PairFieldProps, SliceLook, SlicePreviewProps, StepProps, WizardActionsProps };
+export type {
+  ImportDialogProps,
+  ImportWizardState,
+  PairFieldProps,
+  SliceLook,
+  SlicePreviewProps,
+  StepProps,
+  TiledSummaryProps,
+  WizardActionsProps,
+};

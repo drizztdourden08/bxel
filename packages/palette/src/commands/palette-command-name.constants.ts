@@ -3,6 +3,7 @@
 const PALETTE_COMMAND_NAME = {
   paletteCreate: 'palette.create',
   spriteImport: 'sprite.import',
+  tilesetImport: 'tileset.import',
   swatchDelete: 'swatch.delete',
   swatchMerge: 'swatch.merge',
   rampAdd: 'ramp.add',

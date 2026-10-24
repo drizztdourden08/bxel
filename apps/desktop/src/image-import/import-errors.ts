@@ -6,11 +6,12 @@ import { nameError } from '../sprite-name/name-error';
 import { IMPORT_TEXT } from './image-import.constants';
 import type { ErrorInput, ImportErrors, ImportForm } from './image-import.type';
 import { sliceError } from './slice-error';
+import { takenNames } from './taken-names';
 
-const takenIn = ({ form, context }: ErrorInput): readonly string[] => (form.target === 'file' ? context.taken : []);
+const takenIn = ({ form, context }: ErrorInput): readonly string[] => (form.target === 'file' ? takenNames(form.kind, context) : []);
 
 const nameIssue = (input: ErrorInput): string | null =>
-  input.form.kind === 'sprite' ? nameError(input.form.name, takenIn(input)) : null;
+  input.form.kind === 'sheet' ? null : nameError(input.form.name, takenIn(input));
 
 const sizeIssue = ({ form, image }: ErrorInput): string | null =>
   form.kind === 'sprite' && (image.width > MAX_SPRITE_SIZE || image.height > MAX_SPRITE_SIZE)

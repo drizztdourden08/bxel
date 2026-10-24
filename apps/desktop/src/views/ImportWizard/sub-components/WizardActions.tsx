@@ -15,7 +15,7 @@ const WizardActions = ({ wizard }: WizardActionsProps) => (
       {IMPORT_TEXT.cancel}
     </Button>
     <Button variant="primary" disabled={wizard.issue !== null} onClick={wizard.advance}>
-      {advanceLabel(wizard.step, wizard.steps, wizard.names.length)}
+      {advanceLabel(wizard.step, wizard.steps, wizard.names.length, wizard.form.kind)}
     </Button>
   </>
 );

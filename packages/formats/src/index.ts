@@ -118,3 +118,33 @@ export type {
 } from './tilemap/tilemap.type';
 export { writeTiledJson } from './tilemap/write-tiled-json';
 export { writeTilemapJson } from './tilemap/write-tilemap-json';
+export { parseXml } from './xml/parse-xml';
+export type { XmlNode, XmlResult } from './xml/xml.type';
+export { TILED_FLAG, TILED_LIMITS } from './tiled/tiled.constants';
+export { planTiledImport } from './tiled/plan-tiled-import';
+export { readTiledMap } from './tiled/read-tiled-map';
+export { readTiledTileset } from './tiled/read-tiled-tileset';
+export type {
+  TiledImage,
+  TiledLayer,
+  TiledMap,
+  TiledMapResult,
+  TiledOrientation,
+  TiledPoint,
+  TiledProperties,
+  TiledShape,
+  TiledStaggerAxis,
+  TiledStaggerIndex,
+  TiledTile,
+  TiledTileset,
+  TiledTilesetRef,
+  TiledTilesetResult,
+} from './tiled/tiled.type';
+export type {
+  PlannedLayer,
+  PlannedTile,
+  ResolvedTileset,
+  TiledPlan,
+  TiledPlanResult,
+  TiledSources,
+} from './tiled/tiled-plan.type';

@@ -17,7 +17,7 @@ import { NEW_MEMORY_DEFAULT } from '../../src/new-sprite/new-sprite.constants';
 import { useImportStore } from '../../src/stores/useImportStore';
 import { hostWithFile, newHost, revisionOf, sourceImage, sprites } from './dialog-harness';
 
-const NONE: ImportContext = { documentId: null, bank: null, taken: [], sheetNames: [], spriteCount: 0 };
+const NONE: ImportContext = { documentId: null, bank: null, taken: [], sheetNames: [], tilesetNames: [], tilemapNames: [], spriteCount: 0 };
 
 const noise = (side: number): SourceImage => sourceImage(side, side, (x, y) => [x * 9 + 3, y * 11 + 5, (x + y) * 5 + 1, 255]);
 
@@ -40,7 +40,7 @@ const runOf = (form: ImportForm, image: SourceImage, context: ImportContext): Im
   const plan = colorsView(form, image, context).plan;
   if (!plan) throw new Error('no plan');
   const rects = activeRects(form, image);
-  return { form, image, plan, rects, names: importNames(form, rects), context };
+  return { form, image, plan, rects, names: importNames(form, rects), context, tiled: null };
 };
 
 describe('slicing rectangles', () => {

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { DocumentId, LayoutRequest, PaletteBank, Point } from '@bxel/document';
 import type { BankDraft, PaletteSource } from '../palette-source/palette-source.type';
+import type { TiledImportData } from '../tiled-import/tiled-import.type';
 
 interface SourceImage {
   fileName: string;
@@ -13,7 +14,7 @@ type ImageRead = { ok: true; image: SourceImage } | { ok: false; message: string
 
 type ImportTarget = 'new' | 'file';
 
-type ImportKind = 'sprite' | 'sheet';
+type ImportKind = 'sprite' | 'sheet' | 'tiled';
 
 type ReduceMode = 'map' | 'extract' | 'palette';
 
@@ -64,6 +65,8 @@ interface ImportContext {
   bank: PaletteBank | null;
   taken: readonly string[];
   sheetNames: readonly string[];
+  tilesetNames: readonly string[];
+  tilemapNames: readonly string[];
   spriteCount: number;
 }
 
@@ -138,9 +141,12 @@ interface ImportRun {
   rects: readonly SliceRect[];
   names: readonly string[];
   context: ImportContext;
+  tiled: TiledImportData | null;
 }
 
-type ImportOutcome = { ok: true; documentId: DocumentId; names: readonly string[] } | { ok: false; message: string };
+type ImportOutcome =
+  | { ok: true; documentId: DocumentId; names: readonly string[]; created: Readonly<Record<string, string>> }
+  | { ok: false; message: string };
 
 export type {
   BankOption,

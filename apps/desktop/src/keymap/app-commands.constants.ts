@@ -10,6 +10,7 @@ import { HELP_COMMANDS } from './help-commands.constants';
 import { PROJECT_COMMANDS } from './project-commands.constants';
 import { SELECTION_COMMANDS } from './selection-commands.constants';
 import { SHEET_EDITOR_COMMANDS } from './sheet-commands.constants';
+import { TILED_COMMANDS } from './tiled-commands.constants';
 import { TILEMAP_COMMANDS } from './tilemap-commands.constants';
 import { TOOL_COMMANDS } from './tool-commands.constants';
 import { VIEW_COMMANDS } from './view-commands.constants';
@@ -26,6 +27,6 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...HELP_COMMANDS,
 ];
 
-const APP_COMMANDS: readonly CommandDef[] = [...FILE_COMMANDS, ...CONFIG_COMMANDS, ...PROJECT_COMMANDS, ...DIALOG_COMMANDS, ...EDITOR_COMMANDS];
+const APP_COMMANDS: readonly CommandDef[] = [...FILE_COMMANDS, ...CONFIG_COMMANDS, ...PROJECT_COMMANDS, ...DIALOG_COMMANDS, ...TILED_COMMANDS, ...EDITOR_COMMANDS];
 
 export { APP_COMMANDS };
