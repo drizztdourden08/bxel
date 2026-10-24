@@ -2,6 +2,7 @@
 import type { AssetDefaults, SwatchSet } from '@bxel/project';
 import type { BaseSettings } from '@drizztdourden08/brock-core';
 import type { AssistantSettings } from './assistant/assistant.type';
+import type { ManagerViews } from './manager-views/manager-views.type';
 import type { CanvasSettings } from './canvas-look/canvas-look.type';
 import type { ExportSettings, SavedPreset } from './export/export.type';
 import type { ProjectSettings } from './project/project.type';
@@ -11,6 +12,7 @@ interface AppSettings extends BaseSettings, CanvasSettings, AssistantSettings, P
   exportLast?: ExportSettings;
   exportPresets?: readonly SavedPreset[];
   swatchSets?: readonly SwatchSet[];
+  managerViews?: ManagerViews;
 }
 
 export type { AppSettings };
