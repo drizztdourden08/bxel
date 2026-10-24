@@ -269,6 +269,25 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
 
+  packages/presets:
+    dependencies:
+      '@bxel/palette':
+        specifier: workspace:*
+        version: link:../palette
+    devDependencies:
+      '@drizztdourden08/brock-lint-config':
+        specifier: ^0.79.0
+        version: 0.79.0(@types/node@24.19.2)(eslint@10.13.0(jiti@2.7.0))(markdownlint-cli2@0.22.1)(stylelint@17.16.0(typescript@6.0.3))(typescript@6.0.3)
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.19.2
+      eslint:
+        specifier: 'catalog:'
+        version: 10.13.0(jiti@2.7.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+
   packages/project:
     dependencies:
       zod:
