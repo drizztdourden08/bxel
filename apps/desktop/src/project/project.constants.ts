@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { ProjectSettings } from './project.type';
 
-const PROJECT_DEFAULTS: ProjectSettings = { projectRecents: [] };
+const PROJECT_DEFAULTS: ProjectSettings = { projectRecents: [], projectTabs: {} };
 
 const PROJECT_WIDGET_ID = 'project';
 

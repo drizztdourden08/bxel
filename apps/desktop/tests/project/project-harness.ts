@@ -4,6 +4,7 @@ import type { ProjectDocument, ProjectGrant, ProjectManifest, RecentProject } fr
 import { storePathBook } from '../../src/files/store-path-book';
 import type { FileKit } from '../../src/files/files.type';
 import type { ProjectPort } from '../../src/project/project.type';
+import type { StoredTabsMap } from '../../src/workspace/stored-tabs.type';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useFileStore } from '../../src/stores/useFileStore';
 import { useProjectSetsStore } from '../../src/stores/useProjectSetsStore';
@@ -20,7 +21,7 @@ watchWorkspaces();
 
 const bytes = (length: number): Uint8Array => Uint8Array.from({ length }, (_unused, index) => index + 5);
 
-type Values = { projectRecents: readonly RecentProject[]; assistantProjects: readonly ProjectGrant[] };
+type Values = { projectRecents: readonly RecentProject[]; assistantProjects: readonly ProjectGrant[]; projectTabs: StoredTabsMap };
 
 type Rig = {
   readonly disk: Disk;
@@ -44,9 +45,9 @@ const resetStores = (): void => {
 const rig = (): Rig => {
   resetStores();
   const disk = memoryDisk();
-  const values: Values = { projectRecents: [], assistantProjects: [] };
+  const values: Values = { projectRecents: [], assistantProjects: [], projectTabs: {} };
   const port = {
-    read: (): ReturnType<ProjectPort['read']> => ({ projectRecents: values.projectRecents, assistantProjects: values.assistantProjects }),
+    read: (): ReturnType<ProjectPort['read']> => ({ projectRecents: values.projectRecents, assistantProjects: values.assistantProjects, projectTabs: values.projectTabs }),
     patch: (patch: Parameters<ProjectPort['patch']>[0]): void => {
       Object.assign(values, patch);
     },

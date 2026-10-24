@@ -3,6 +3,8 @@ import { parseGrants, parseRecentProjects } from '@bxel/project';
 import { useSettings } from '@drizztdourden08/brock-react';
 import { useEffect, useRef } from 'react';
 import { restoreHeldProjects } from '../project/restore-held-projects';
+import { parseStoredTabs } from '../workspace/parse-stored-tabs';
+import { watchProjectTabs } from '../workspace/watch-project-tabs';
 import type { AppSettings } from '../settings.type';
 import { useProjectStore } from '../stores/useProjectStore';
 
@@ -17,6 +19,7 @@ const useProjectHost = (): void => {
       read: () => ({
         projectRecents: parseRecentProjects(latest.current.projectRecents),
         assistantProjects: parseGrants(latest.current.assistantProjects),
+        projectTabs: parseStoredTabs(latest.current.projectTabs),
       }),
       patch,
     });
@@ -28,6 +31,7 @@ const useProjectHost = (): void => {
   useEffect(() => {
     if (hydrated) void restoreHeldProjects();
   }, [hydrated]);
+  useEffect(() => watchProjectTabs(), []);
 };
 
 export { useProjectHost };
