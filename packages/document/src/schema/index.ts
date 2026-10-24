@@ -66,5 +66,7 @@ export { tilesetRefSchema } from './tileset-ref-schema';
 export { tilesetTerrainSchema } from './tileset-terrain-schema';
 export { tilesetUpdateSchema } from './tileset-update-schema';
 export { mapTerrainSchema } from './map-terrain-schema';
+export { mapWriteSchema } from './map-write-schema';
+export { cellRectSchema } from './cell-rect-schema';
 export { terrainSchema } from './terrain-schema';
 export { transactionRequestSchema } from './transaction-schema';

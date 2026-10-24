@@ -11,6 +11,9 @@ const SHEET_ID_SCHEMA = idSchemaOf('sht').meta({ id: 'SheetId' });
 const PROJECT_ID_SCHEMA = idSchemaOf('prj').meta({ id: 'ProjectId' });
 const FOLDER_ID_SCHEMA = idSchemaOf('fld').meta({ id: 'FolderId' });
 const RECENT_ID_SCHEMA = idSchemaOf('rcf').meta({ id: 'RecentId' });
+const TILESET_ID_SCHEMA = idSchemaOf('tls').meta({ id: 'TilesetId' });
+const TILEMAP_ID_SCHEMA = idSchemaOf('tlm').meta({ id: 'TilemapId' });
+const MAP_LAYER_ID_SCHEMA = idSchemaOf('tml').meta({ id: 'MapLayerId' });
 const REVISION_SCHEMA = z.number().int().min(1).meta({ id: 'Revision' });
 
 export {
@@ -19,9 +22,12 @@ export {
   FOLDER_ID_SCHEMA,
   FRAME_ID_SCHEMA,
   LAYER_ID_SCHEMA,
+  MAP_LAYER_ID_SCHEMA,
   PROJECT_ID_SCHEMA,
   RECENT_ID_SCHEMA,
   REVISION_SCHEMA,
   SHEET_ID_SCHEMA,
   SPRITE_ID_SCHEMA,
+  TILEMAP_ID_SCHEMA,
+  TILESET_ID_SCHEMA,
 };

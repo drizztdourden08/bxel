@@ -25,6 +25,8 @@ const TOOL_TEXT = {
   notHere: 'This tool is answered by the helper or by Bxel main, not by the editor.',
   busy: 'The owner is in the middle of an edit on this document. Reads still work; try the edit again shortly.',
   notFound: 'The sprite, layer or frame is not in this document. Call get_document.',
+  noMap: 'The tilemap or its layer is not in this document. Call list_map_layers.',
+  outsideMap: 'The rectangle reaches outside the map.',
   outside: 'The rectangle reaches outside the sprite.',
   tooLarge: (side: number) => `The image would be more than ${side} pixels on a side. Ask for a smaller scale.`,
   pngTooLarge: 'The PNG is larger than one reply may carry. Ask for a smaller scale.',

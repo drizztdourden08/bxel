@@ -43,6 +43,7 @@ import { mapPaint } from './map/map-paint';
 import { mapRect } from './map/map-rect';
 import { mapReplace } from './map/map-replace';
 import { mapTerrain } from './map/map-terrain';
+import { mapWrite } from './map/map-write';
 import { mapLayerAdd } from './map-layer/map-layer-add';
 import { mapLayerDelete } from './map-layer/map-layer-delete';
 import { mapLayerReorder } from './map-layer/map-layer-reorder';
@@ -128,6 +129,7 @@ const documentCommands: readonly CommandDef[] = [
   mapRect,
   mapReplace,
   mapTerrain,
+  mapWrite,
 ];
 
 export { documentCommands };

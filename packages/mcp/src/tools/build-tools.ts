@@ -9,9 +9,11 @@ import { getSessionTool } from './get-session-tool';
 import { listAssetsTool } from './list-assets-tool';
 import { listDocumentsTool } from './list-documents-tool';
 import { listFilesTool } from './list-files-tool';
+import { listMapLayersTool } from './list-map-layers-tool';
 import { listPlacesTool } from './list-places-tool';
 import { openFileTool } from './open-file-tool';
 import { buildPreviewEditsTool } from './preview-edits-tool';
+import { readMapCellsTool } from './read-map-cells-tool';
 import { readPaletteTool } from './read-palette-tool';
 import { readPixelsTool } from './read-pixels-tool';
 import { renderPreviewTool } from './render-preview-tool';
@@ -37,6 +39,8 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   getDocumentTool,
   readPaletteTool,
   readPixelsTool,
+  listMapLayersTool,
+  readMapCellsTool,
   renderPreviewTool,
   buildPreviewEditsTool(commands),
   buildApplyEditsTool(commands),

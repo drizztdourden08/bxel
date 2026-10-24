@@ -53,6 +53,7 @@ import type { tilemapUpdateSchema } from './tilemap-update-schema';
 import type { tilesetCreateSchema } from './tileset-create-schema';
 import type { tilesetDeleteSchema } from './tileset-delete-schema';
 import type { mapTerrainSchema } from './map-terrain-schema';
+import type { mapWriteSchema } from './map-write-schema';
 import type { tilesetTerrainSchema } from './tileset-terrain-schema';
 import type { tilesetUpdateSchema } from './tileset-update-schema';
 
@@ -92,6 +93,7 @@ type TileCollisionOptions = z.output<typeof tileCollisionSchema>;
 type TileDeleteOptions = z.output<typeof tileDeleteSchema>;
 type TilesetTerrainOptions = z.output<typeof tilesetTerrainSchema>;
 type MapTerrainOptions = z.output<typeof mapTerrainSchema>;
+type MapWriteOptions = z.output<typeof mapWriteSchema>;
 type TileUniqueOptions = z.output<typeof tileUniqueSchema>;
 type TileRef = z.output<typeof tileRefSchema>;
 type TilemapCreateOptions = z.output<typeof tilemapCreateSchema>;
@@ -126,6 +128,7 @@ export type {
   TileAddOptions,
   TilesetTerrainOptions,
   MapTerrainOptions,
+  MapWriteOptions,
   TileCollisionOptions,
   TileDeleteOptions,
   TileRef,

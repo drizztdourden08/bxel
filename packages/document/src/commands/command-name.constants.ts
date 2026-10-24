@@ -63,6 +63,7 @@ const COMMAND_NAME = {
   mapFill: 'map.fill',
   mapRect: 'map.rect',
   mapReplace: 'map.replace',
+  mapWrite: 'map.write',
   swatchAdd: 'swatch.add',
   swatchUpdate: 'swatch.update',
   paletteReorder: 'palette.reorder',
