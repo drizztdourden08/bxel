@@ -4,6 +4,7 @@ import { ERROR_CODE } from '../commands/error-code.constants';
 import { fail } from '../commands/fail';
 import { parseOptions } from '../commands/parse-options';
 import type { DraftRun, StepRun } from './engine.type';
+import { checkLinked } from './check-linked';
 import { resolveStepTargets } from './resolve-step-targets';
 
 const runStep = ({ store, draft, step, index }: StepRun): void => {
@@ -12,6 +13,7 @@ const runStep = ({ store, draft, step, index }: StepRun): void => {
   draft.step = index;
   const options = parseOptions(def.schema, step.options, `steps.${index}.options`);
   const targets = resolveStepTargets({ draft, scope: def.scope, targets: step.targets, index });
+  checkLinked({ draft, def, options, cels: targets.cels });
   def.run(draft, { options, step: index, ref: step.ref, sprites: targets.sprites, cels: targets.cels });
 };
 
