@@ -17,7 +17,7 @@ const previewResult = ({ store, draft, request }: DraftRun): TransactionResult =
     warnings: draft.warnings,
     created: draft.created,
     report: draft.report,
-    preview: buildPreview({ artwork: draft.artwork, changes, previewPixels: request.previewPixels }),
+    preview: buildPreview({ artwork: draft.artwork, base: store.artwork, changes, previewPixels: request.previewPixels }),
   });
 };
 

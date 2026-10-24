@@ -2,7 +2,7 @@
 import { ERROR_CODE } from '../commands/error-code.constants';
 import { fail } from '../commands/fail';
 import type { Draft } from '../draft/draft.type';
-import { maxIndex } from '../pixels/max-index';
+import { hasIndexAtLeast } from '../pixels/has-index-at-least';
 import { findBank } from '../read/find-bank';
 import { findSprite } from '../read/find-sprite';
 import { nameKey } from '../validate/name-key';
@@ -33,7 +33,7 @@ const checkIndices = (draft: Draft): void => {
     const base = findSprite(draft.base, sprite.id);
     for (const cel of Object.values(sprite.cels)) {
       const untouched = base?.cels[cel.id]?.pixels === cel.pixels;
-      if (bank && !untouched && maxIndex(cel.pixels) >= bank.slots.length) {
+      if (bank && !untouched && hasIndexAtLeast(cel.pixels, bank.slots.length)) {
         throw fail(ERROR_CODE.INDEX_OUT_OF_RANGE, `A pixel index is at or above the ${bank.slots.length} slots of bank "${bank.name}".`);
       }
     }

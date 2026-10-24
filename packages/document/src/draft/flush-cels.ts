@@ -5,13 +5,18 @@ import { readRect } from '../pixels/read-rect';
 import { findSprite } from '../read/find-sprite';
 import type { Draft } from './draft.type';
 
-const flushCel = (draft: Draft, sprite: Sprite, cel: Cel): void => {
+const baselineOf = (draft: Draft, sprite: Sprite, cel: Cel): Uint8Array | null => {
   const prior = findSprite(draft.recorded, sprite.id);
-  if (prior?.width !== sprite.width || prior.height !== sprite.height) return;
+  if (prior?.width !== sprite.width || prior.height !== sprite.height) return null;
   const from = draft.baselines.get(cel.id) ?? prior.cels[cel.id]?.pixels;
-  if (!from || from === cel.pixels || from.length !== cel.pixels.length) return;
-  const rect = diffBounds(from, cel.pixels, sprite.width);
-  if (!rect) return;
+  if (!from || from === cel.pixels || from.length !== cel.pixels.length) return null;
+  return from;
+};
+
+const flushCel = (draft: Draft, sprite: Sprite, cel: Cel, final: boolean): void => {
+  const from = baselineOf(draft, sprite, cel);
+  const rect = from ? diffBounds(from, cel.pixels, sprite.width) : null;
+  if (!from || !rect) return;
   draft.ops.push({
     kind: 'cel-rect',
     spriteId: sprite.id,
@@ -20,12 +25,12 @@ const flushCel = (draft: Draft, sprite: Sprite, cel: Cel): void => {
     before: readRect(from, sprite.width, rect),
     after: readRect(cel.pixels, sprite.width, rect),
   });
-  draft.baselines.set(cel.id, cel.pixels.slice());
+  if (!final) draft.baselines.set(cel.id, cel.pixels.slice());
 };
 
-const flushCels = (draft: Draft): void => {
+const flushCels = (draft: Draft, final: boolean): void => {
   for (const sprite of draft.artwork.sprites) {
-    for (const cel of Object.values(sprite.cels)) flushCel(draft, sprite, cel);
+    for (const cel of Object.values(sprite.cels)) flushCel(draft, sprite, cel, final);
   }
 };
 

@@ -118,6 +118,7 @@ export * from './model/limits.constants';
 export { BACKGROUND_LABEL, RGB_PATTERN, TRANSPARENT_INDEX } from './model/transparent.constants';
 export { diffBounds } from './pixels/diff-bounds';
 export { emptyCel } from './pixels/empty-cel';
+export { hasIndexAtLeast } from './pixels/has-index-at-least';
 export { maxIndex } from './pixels/max-index';
 export { overlayPixels } from './pixels/overlay-pixels';
 export { readRect } from './pixels/read-rect';

@@ -4,7 +4,7 @@ import type { UndoOp } from './history.type';
 import { recordPending } from './record-pending';
 
 const collectOps = (draft: Draft): UndoOp[] => {
-  recordPending(draft);
+  recordPending(draft, true);
   return [...draft.ops];
 };
 
