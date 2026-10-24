@@ -7,6 +7,7 @@ import { readInstance } from './read-instance';
 const assistantMain: AssistantMain = {
   ctx: null,
   access: false,
+  folder: '',
   instance: readInstance(),
   sessions: createSessionTable(() => publishSessions(assistantMain)),
 };

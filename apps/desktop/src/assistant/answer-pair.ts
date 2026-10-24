@@ -19,7 +19,7 @@ const rememberChoice = (port: SettingsPort,request: PairRequest, mode: ProgramMo
 
 const answerPair = async (request: PairRequest): Promise<PairOutcome> => {
   const port = useAssistantStore.getState().port;
-  if (!port) return mcpFailure(MCP_ERROR_CODE.APP_BUSY, 'Bxel is still starting. Try again in a moment.');
+  if (!port) return mcpFailure(MCP_ERROR_CODE.APP_BUSY, ASSISTANT_TEXT.starting);
   const settings = port.read();
   if (!settings.assistantAccess) return mcpFailure(MCP_ERROR_CODE.MCP_DISABLED, ASSISTANT_TEXT.disabled);
   const trust = trustStoreOf(settings);

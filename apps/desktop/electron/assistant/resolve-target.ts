@@ -8,8 +8,7 @@ import { existsSync } from 'fs';
 import { mkdir } from 'fs/promises';
 import { join } from 'path';
 import { fieldOf } from '../../src/assistant-bridge/field-of';
-import { assistantFolder } from './assistant-folder';
-import type { WantedFile } from './assistant.type';
+import type { TargetCall, WantedFile } from './assistant.type';
 
 const wantedFile = (tool: ToolRouteName, input: unknown): WantedFile | null => {
   const holder = tool === 'save_document' ? fieldOf(input, 'target') : input;
@@ -19,12 +18,11 @@ const wantedFile = (tool: ToolRouteName, input: unknown): WantedFile | null => {
   return { name, kind, overwrite: fieldOf(holder, 'overwrite') === true, path: tool === 'save_document' ? 'target.fileName' : 'fileName' };
 };
 
-const resolveTarget = async (ctx: MainContext, tool: ToolRouteName, input: unknown): Promise<McpResult<string | null>> => {
-  const wanted = wantedFile(tool, input);
+const resolveTarget = async (ctx: MainContext, folder: string, call: TargetCall): Promise<McpResult<string | null>> => {
+  const wanted = wantedFile(call.tool, call.input);
   if (!wanted) return { ok: true, value: null };
   const checked = checkFileName(wanted.name, wanted.kind);
   if (!checked.ok) return mcpFailure(checked.code, checked.message, { path: wanted.path });
-  const folder = assistantFolder();
   await mkdir(folder, { recursive: true });
   const path = join(folder, wanted.name);
   if (!wanted.overwrite && existsSync(path)) {

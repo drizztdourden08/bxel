@@ -13,7 +13,7 @@ import { TOOL_TEXT } from './tools/tools.constants';
 const runTool = async (call: ToolCall): Promise<ToolReply> => {
   const port = useAssistantStore.getState().port;
   const kit = fileKit();
-  if (!port || !kit) return reply(mcpFailure(MCP_ERROR_CODE.APP_BUSY, 'Bxel is still starting. Try again in a moment.'));
+  if (!port || !kit) return reply(mcpFailure(MCP_ERROR_CODE.APP_BUSY, ASSISTANT_TEXT.starting));
   const settings = port.read();
   if (!settings.assistantAccess) return reply(mcpFailure(MCP_ERROR_CODE.MCP_DISABLED, ASSISTANT_TEXT.disabled));
   const handler = TOOL_HANDLERS[call.tool];

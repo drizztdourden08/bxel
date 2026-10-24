@@ -10,6 +10,7 @@ const ASSISTANT_DEFAULTS: AssistantSettings = {
   assistantPrograms: DEFAULT_TRUST_STORE.programs,
   assistantSee: DEFAULT_SCOPE_SETTINGS.see,
   assistantWrite: DEFAULT_SCOPE_SETTINGS.write,
+  assistantFolder: '',
 };
 
 const ACTIVITY_MAX = 500;
@@ -31,7 +32,18 @@ const ASSISTANT_TEXT = {
   disabled: 'Assistant access is off in Settings.',
   denied: 'The owner denied the connection.',
   unnamed: 'Unnamed program',
+  starting: 'Bxel is still starting. Try again in a moment.',
   failed: (message: string) => `The tool failed in Bxel: ${message}`,
 } as const;
 
-export { ACTIVITY_MAX, ASSISTANT_DEFAULTS, ASSISTANT_FOLDER_LABEL, ASSISTANT_TEXT, EXPORT_FORMATS };
+const CHIP_TEXT = {
+  waiting: 'A program wants to connect',
+  one: (name: string, editing: boolean) => `Assistant: ${name}, ${editing ? 'editing' : 'read only'}`,
+  many: (count: number) => `Assistant: ${count} programs`,
+  makeReadOnly: (name: string) => `Make ${name} read only`,
+  allowEditing: (name: string) => `Allow ${name} to edit`,
+  disconnect: (name: string) => `Disconnect ${name}`,
+  settings: 'Assistant programs',
+} as const;
+
+export { ACTIVITY_MAX, ASSISTANT_DEFAULTS, ASSISTANT_FOLDER_LABEL, ASSISTANT_TEXT, CHIP_TEXT, EXPORT_FORMATS };

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { answerFlush } from '../assistant/answer-flush';
 import { answerPair } from '../assistant/answer-pair';
 import { answerTool } from '../assistant/answer-tool';
-import { APP_CHANNELS } from '../ipc/contract.constants';
+import { APP_CHANNELS, ASK_CHANNELS } from '../ipc/contract.constants';
 import type { AppSettings } from '../settings.type';
 import { useAssistantStore } from '../stores/useAssistantStore';
 
@@ -12,9 +12,9 @@ const listen = (): (() => void) => {
   const api = channelApi(APP_CHANNELS);
   const { setSessions } = useAssistantStore.getState();
   const stops = [
-    answer(APP_CHANNELS.assistantPair, answerPair),
-    answer(APP_CHANNELS.assistantTool, answerTool),
-    answer(APP_CHANNELS.assistantFlush, answerFlush),
+    answer(ASK_CHANNELS.assistantPair, answerPair),
+    answer(ASK_CHANNELS.assistantTool, answerTool),
+    answer(ASK_CHANNELS.assistantFlush, answerFlush),
     api.assistantSessionsChanged((sessions) => setSessions(sessions)),
   ];
   void api.assistantSessions().then(setSessions);
@@ -26,10 +26,10 @@ const listen = (): (() => void) => {
 const useAssistantHost = (): void => {
   const { settings, patch, hydrated } = useSettings<AppSettings>();
   const latest = useRef(settings);
-  const { assistantAccess, assistantStart } = settings;
+  const { assistantAccess: access, assistantStart: start, assistantFolder: folder } = settings;
   useEffect(() => {
-    if (hydrated && hostApi() !== null) void channelApi(APP_CHANNELS).assistantSetAccess(assistantAccess, assistantStart);
-  }, [hydrated, assistantAccess, assistantStart]);
+    if (hydrated && hostApi() !== null) void channelApi(APP_CHANNELS).assistantSetup({ access, start, folder });
+  }, [hydrated, access, start, folder]);
   useEffect(() => {
     latest.current = settings;
   }, [settings]);

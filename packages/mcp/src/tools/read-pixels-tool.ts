@@ -35,7 +35,7 @@ const readPixelsTool = defineTool(TOOL_NAME.readPixels, {
     encoding: z.literal('u8-rowmajor-base64'),
     pixels: INDEXES_SCHEMA,
     indexHash: SHA256_SCHEMA,
-    colorUse: z.array(z.tuple([COUNT_SCHEMA, COUNT_SCHEMA])),
+    colorUse: z.array(z.array(COUNT_SCHEMA).length(2)).describe('Index and count pairs for the indexes present.'),
   }),
 });
 

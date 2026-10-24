@@ -1,5 +1,5 @@
 /* @layer electron-main @kind types */
-import type { CallSession, HelloClient, InstanceWindow, SessionMode, SessionView } from '@bxel/mcp';
+import type { CallSession, HelloClient, InstanceWindow, SessionMode, SessionView, ToolRouteName } from '@bxel/mcp';
 import type { FileKind } from '@bxel/project';
 import type { MainContext } from '@drizztdourden08/brock-electron/main';
 
@@ -33,6 +33,7 @@ type InstanceState = {
 type AssistantMain = {
   ctx: MainContext | null;
   access: boolean;
+  folder: string;
   readonly sessions: SessionTable;
   readonly instance: InstanceState;
 };
@@ -43,6 +44,11 @@ type SessionLink = {
   readonly launchedThis: boolean;
 };
 
+type TargetCall = {
+  readonly tool: ToolRouteName;
+  readonly input: unknown;
+};
+
 type WantedFile = {
   readonly name: string;
   readonly kind: FileKind;
@@ -50,4 +56,4 @@ type WantedFile = {
   readonly path: string;
 };
 
-export type { AssistantMain, InstanceState, LiveSession, SessionLink, SessionTable, WantedFile };
+export type { AssistantMain, InstanceState, LiveSession, SessionLink, SessionTable, TargetCall, WantedFile };

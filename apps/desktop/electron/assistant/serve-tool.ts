@@ -26,7 +26,7 @@ const forward = async (state: AssistantMain, tool: ToolRouteName, session: LiveS
   if (tool === 'show_window') return showWindow(state);
   if (tool === 'stop_bxel') return stopBxel(state, session, input);
   const ctx = state.ctx;
-  const target = ctx ? await resolveTarget(ctx, tool, input) : { ok: true as const, value: null };
+  const target = ctx ? await resolveTarget(ctx, assistantFolder(state), { tool, input }) : { ok: true as const, value: null };
   if (!target.ok) return toolReply(target);
   const call = {
     tool,
@@ -34,7 +34,7 @@ const forward = async (state: AssistantMain, tool: ToolRouteName, session: LiveS
     session: callSession(session),
     instance: instanceView(state, session),
     target: target.value,
-    folder: assistantFolder(),
+    folder: assistantFolder(state),
     version: app.getVersion(),
   };
   return askTool(state, call, TOOL_TIMEOUT[tool]);

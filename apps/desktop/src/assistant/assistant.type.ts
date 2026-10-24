@@ -21,12 +21,19 @@ interface AssistantSettings {
   assistantPrograms: readonly TrustEntry[];
   assistantSee: SeeScope;
   assistantWrite: WriteScope;
+  assistantFolder: string;
 }
 
 type ClientConfig = {
   readonly command: string;
   readonly args: readonly string[];
   readonly env: Readonly<Record<string, string>>;
+};
+
+type AssistantSetup = {
+  readonly access: boolean;
+  readonly start: boolean;
+  readonly folder: string;
 };
 
 type ActivityEntry = {
@@ -57,4 +64,4 @@ type ToolHandler = (input: unknown, context: ToolContext) => ToolReply | Promise
 
 type ToolHandlers = Readonly<Partial<Record<ToolName, ToolHandler>>>;
 
-export type { ActivityEntry, AssistantSettings, ClientConfig, SettingsPort, ToolContext, ToolHandler, ToolHandlers };
+export type { ActivityEntry, AssistantSettings, AssistantSetup, ClientConfig, SettingsPort, ToolContext, ToolHandler, ToolHandlers };
