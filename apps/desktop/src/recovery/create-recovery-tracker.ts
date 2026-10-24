@@ -24,7 +24,12 @@ const createRecoveryTracker = (deps: RecoveryDeps): RecoveryTracker => {
       }),
     ];
   };
-  return { start, stop, flush: (documentId) => flushSnapshots(run, documentId) };
+  return {
+    start,
+    stop,
+    flush: (documentId) => flushSnapshots(run, documentId),
+    discard: (documentId) => discardSnapshot(run, documentId),
+  };
 };
 
 export { createRecoveryTracker };

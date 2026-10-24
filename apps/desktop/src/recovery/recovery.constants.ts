@@ -11,8 +11,11 @@ const REAL_TIMERS: SnapshotTimers = {
 const RECOVERY_TEXT = {
   missing: 'The recovered copy could not be read.',
   restoreFailed: (reason: string): string => `Could not restore the recovered copy. ${reason}`,
-  closePrompt: (files: string): string =>
-    `Save changes to ${files} before closing? Choose Stay to go back and save. Quit keeps a recovery copy.`,
+  closeTitle: 'Unsaved changes',
+  closeSave: 'Save',
+  closeDiscard: 'Discard',
+  closeCancel: 'Cancel',
+  closePrompt: (file: string): string => `Save changes to ${file} before closing?`,
 } as const;
 
 export { RECOVERY_TEXT, REAL_TIMERS, SNAPSHOT_TIMING };

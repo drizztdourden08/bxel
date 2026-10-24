@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
-import { dirtyNames } from '../../src/recovery/dirty-names';
+import { dirtyDocuments } from '../../src/recovery/dirty-documents';
 import { RECOVERY_TEXT } from '../../src/recovery/recovery.constants';
 import { createProject, harness, paintPixels } from '../files/file-harness';
 
@@ -17,19 +17,25 @@ describe('close prompt', () => {
       const view = host.view(id);
       return view ? [[id, view]] : [];
     }));
-    expect(dirtyNames(views, [saved, fresh, clean], (id) => paths.get(id))).toEqual(['hero.bxel', 'Untitled.bxel']);
+    expect(dirtyDocuments(views, [saved, fresh, clean], (id) => paths.get(id))).toEqual([
+      { documentId: saved, name: 'hero.bxel' },
+      { documentId: fresh, name: 'Untitled.bxel' },
+    ]);
   });
 
-  it('asks to save before closing and says what Quit does', () => {
-    const text = RECOVERY_TEXT.closePrompt('hero.bxel');
-    expect(text.startsWith('Save changes to hero.bxel before closing?')).toBe(true);
-    expect(text).toContain('Quit keeps a recovery copy.');
+  it('asks to save one file before closing, with Save, Discard and Cancel', () => {
+    expect(RECOVERY_TEXT.closePrompt('hero.bxel')).toBe('Save changes to hero.bxel before closing?');
+    expect([RECOVERY_TEXT.closeSave, RECOVERY_TEXT.closeDiscard, RECOVERY_TEXT.closeCancel]).toEqual([
+      'Save',
+      'Discard',
+      'Cancel',
+    ]);
   });
 
   it('has nothing to say when every document is saved', () => {
     const { host } = harness();
     const id = createProject(host);
     const view = host.view(id);
-    expect(dirtyNames(view ? { [id]: view } : {}, [id], () => undefined)).toEqual([]);
+    expect(dirtyDocuments(view ? { [id]: view } : {}, [id], () => undefined)).toEqual([]);
   });
 });

@@ -48,6 +48,7 @@ type RecoveryTracker = {
   readonly start: () => void;
   readonly stop: () => void;
   readonly flush: (documentId?: DocumentId) => Promise<void>;
+  readonly discard: (documentId: DocumentId) => Promise<void>;
 };
 
 type RestoreKit = {
@@ -68,7 +69,31 @@ type RecoveredCopy = {
   readonly bytes: Uint8Array;
 };
 
+type DirtyDocument = {
+  readonly documentId: DocumentId;
+  readonly name: string;
+};
+
+type CloseAnswer = 'save' | 'discard' | 'cancel';
+
+type CloseChoices = {
+  readonly save: readonly DocumentId[];
+  readonly discard: readonly DocumentId[];
+};
+
+type QuitDeps = {
+  readonly dirty: () => readonly DirtyDocument[];
+  readonly flush: () => Promise<void>;
+  readonly ask: (name: string) => Promise<CloseAnswer>;
+  readonly save: (documentId: DocumentId) => Promise<boolean>;
+  readonly discard: (documentId: DocumentId) => Promise<void>;
+};
+
 export type {
+  CloseAnswer,
+  CloseChoices,
+  DirtyDocument,
+  QuitDeps,
   RecoverOps,
   RecoveredCopy,
   RecoveryDeps,

@@ -4,7 +4,7 @@ import { encodePngRgba } from '@bxel/formats';
 import { activeTarget } from '../editor/active-target';
 import { failed } from './failed';
 import { fileName } from './file-name';
-import { CANCELLED, FILE_TEXT, PNG_FILTERS } from './files.constants';
+import { CANCELLED, EXPORT_WRITE, FILE_TEXT, PNG_FILTERS } from './files.constants';
 import type { FileKit, FileOutcome } from './files.type';
 import { frameImage } from './frame-image';
 import { reasonOf } from './reason-of';
@@ -22,7 +22,7 @@ const exportPng = async (kit: FileKit, documentId: DocumentId): Promise<FileOutc
   });
   if (path === null) return CANCELLED;
   try {
-    await kit.documents.write(path, encoded.bytes);
+    await kit.documents.write(path, encoded.bytes, EXPORT_WRITE);
   } catch (error) {
     return failed(FILE_TEXT.exportFailed(reasonOf(error)));
   }
