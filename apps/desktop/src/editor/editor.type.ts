@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { Brush, Point } from '@bxel/raster';
-import type { DocumentId, FrameId, LayerId, PaletteBank, Sprite } from '@bxel/document';
+import type { DocumentId, FrameId, Layer, LayerId, PaletteBank, Sprite } from '@bxel/document';
+import type { LayerOp } from './layer-op.type';
 import type { StrokeTool, ToolId } from './tool.type';
 
 interface EditorTarget {
@@ -8,6 +9,7 @@ interface EditorTarget {
   revision: number;
   sprite: Sprite;
   bank: PaletteBank;
+  layer: Layer;
   layerId: LayerId;
   frameId: FrameId;
 }
@@ -36,7 +38,8 @@ type EditorAction =
   | { kind: 'undo' }
   | { kind: 'redo' }
   | { kind: 'swap' }
-  | { kind: 'tool'; tool: ToolId };
+  | { kind: 'tool'; tool: ToolId }
+  | { kind: 'layer'; op: LayerOp };
 
 interface KeyLike {
   key: string;

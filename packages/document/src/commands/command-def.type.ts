@@ -5,7 +5,7 @@ import type { SpriteId } from '../model/ids.type';
 import type { ResolvedCel } from '../scope/resolved-scope.type';
 import type { CommandName } from './transaction.type';
 
-type CommandScope = 'none' | 'sprite' | 'cels';
+type CommandScope = 'none' | 'sprite' | 'sprites' | 'cels';
 
 type CommandInput<O = unknown> = {
   readonly options: O;

@@ -1,6 +1,14 @@
 /* @layer core @kind barrel */
 export type * from './command-options.type';
 export { idSchema } from './id-schema';
+export { layerAddSchema } from './layer-add-schema';
+export { layerDeleteSchema } from './layer-delete-schema';
+export { layerDuplicateSchema } from './layer-duplicate-schema';
+export { layerFlattenSchema } from './layer-flatten-schema';
+export { layerMergeSchema } from './layer-merge-schema';
+export { layerRefSchema } from './layer-ref-schema';
+export { layerReorderSchema } from './layer-reorder-schema';
+export { layerUpdateSchema } from './layer-update-schema';
 export { pivotSchema } from './pivot-schema';
 export { pixelsPatchSchema } from './pixels-patch-schema';
 export { projectCreateSchema } from './project-create-schema';
