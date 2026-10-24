@@ -6,6 +6,7 @@ import type { OptionKind } from './ContextBar.type';
 const CONTEXT_TEXT = {
   region: 'Tool options',
   scope: 'Edit scope',
+  lockedIcon: 'Locked',
   sprite: (name: string): string => `Sprite: ${name}`,
   layer: (name: string, state: string): string => (state === '' ? `Layer: ${name}` : `Layer: ${name} (${state})`),
   frame: (at: number, total: number): string => `Frame: ${at} of ${total}`,

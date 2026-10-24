@@ -21,10 +21,12 @@ const EditorScreen = () => {
       <ContextBar />
       <Flex gap="sm" className="editor-screen__body">
         <ToolRail />
-        {mode === 'sheet' ? <SheetCanvas /> : <EditorCanvas />}
+        <Flex className="editor-screen__stage">
+          {mode === 'sheet' ? <SheetCanvas /> : <EditorCanvas />}
+          <ApplyBar />
+        </Flex>
       </Flex>
       <MismatchBar />
-      <ApplyBar />
       <EditorStatus />
       <RecoveryDialog />
       <ExportDialog />

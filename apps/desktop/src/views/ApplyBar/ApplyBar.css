@@ -1,7 +1,17 @@
 /* @layer renderer-app @kind style */
+.apply-bar__scrim {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  cursor: default;
+}
+
 .apply-bar {
-  padding: var(--space-xs) var(--space-sm);
-  border-block-start: var(--border-width-thin) solid var(--c-border);
+  position: absolute;
+  inset-inline: var(--space-md);
+  inset-block-end: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  box-shadow: var(--shadow-dropdown);
 }
 
 .apply-bar__error {
