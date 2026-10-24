@@ -6,24 +6,56 @@ import { meta as appAssistantProgramsCustomMeta } from '../src/screens/app/assis
 import { meta as appAssistantProjectsCustomMeta } from '../src/screens/app/assistant-projects.custom';
 import AppAssistantSettings, { meta as appAssistantSettingsMeta } from '../src/screens/app/assistant.settings';
 import AppCanvasSettings, { meta as appCanvasSettingsMeta } from '../src/screens/app/canvas.settings';
+import AppDefaultsSettings, { meta as appDefaultsSettingsMeta } from '../src/screens/app/defaults.settings';
 import AppGeneralSettings, { meta as appGeneralSettingsMeta } from '../src/screens/app/general.settings';
+import { meta as appPresetsCustomMeta } from '../src/screens/app/presets.custom';
 import { meta as appStoragePageMeta } from '../src/screens/app/storage.page';
 import { meta as appSurroundCustomMeta } from '../src/screens/app/surround.custom';
 import { meta as appSwatchesCustomMeta } from '../src/screens/app/swatches.custom';
+import { meta as assetNoneCustomMeta } from '../src/screens/asset/none.custom';
+import AssetPaletteSettings, { meta as assetPaletteSettingsMeta } from '../src/screens/asset/palette.settings';
+import AssetSheetSettings, { meta as assetSheetSettingsMeta } from '../src/screens/asset/sheet.settings';
+import AssetSpritePaletteSettings, { meta as assetSpritePaletteSettingsMeta } from '../src/screens/asset/sprite-palette.settings';
+import AssetSpritePlatformSettings, { meta as assetSpritePlatformSettingsMeta } from '../src/screens/asset/sprite-platform.settings';
+import AssetSpriteSettings, { meta as assetSpriteSettingsMeta } from '../src/screens/asset/sprite.settings';
+import AssetTilemapSettings, { meta as assetTilemapSettingsMeta } from '../src/screens/asset/tilemap.settings';
+import AssetTilesetSettings, { meta as assetTilesetSettingsMeta } from '../src/screens/asset/tileset.settings';
 import { meta as creditsCardMeta } from '../src/screens/credits.card';
 import { meta as editorBaseMeta } from '../src/screens/editor.base';
+import ProjectAssistantSettings, { meta as projectAssistantSettingsMeta } from '../src/screens/project/assistant.settings';
+import ProjectDefaultsSettings, { meta as projectDefaultsSettingsMeta } from '../src/screens/project/defaults.settings';
+import ProjectFoldersSettings, { meta as projectFoldersSettingsMeta } from '../src/screens/project/folders.settings';
+import ProjectGeneralSettings, { meta as projectGeneralSettingsMeta } from '../src/screens/project/general.settings';
+import { meta as projectNoneCustomMeta } from '../src/screens/project/none.custom';
+import ProjectPalettesSettings, { meta as projectPalettesSettingsMeta } from '../src/screens/project/palettes.settings';
 
 const screenTree = buildScreenTree(config, [
   { kind: 'custom', bucket: 'app', id: 'assistant-programs', component: lazyComponent(() => import('../src/screens/app/assistant-programs.custom')), meta: appAssistantProgramsCustomMeta },
   { kind: 'custom', bucket: 'app', id: 'assistant-projects', component: lazyComponent(() => import('../src/screens/app/assistant-projects.custom')), meta: appAssistantProjectsCustomMeta },
   { kind: 'settings', bucket: 'app', id: 'assistant', sections: AppAssistantSettings, meta: appAssistantSettingsMeta },
   { kind: 'settings', bucket: 'app', id: 'canvas', sections: AppCanvasSettings, meta: appCanvasSettingsMeta },
+  { kind: 'settings', bucket: 'app', id: 'defaults', sections: AppDefaultsSettings, meta: appDefaultsSettingsMeta },
   { kind: 'settings', bucket: 'app', id: 'general', sections: AppGeneralSettings, meta: appGeneralSettingsMeta },
+  { kind: 'custom', bucket: 'app', id: 'presets', component: lazyComponent(() => import('../src/screens/app/presets.custom')), meta: appPresetsCustomMeta },
   { kind: 'page', bucket: 'app', id: 'storage', component: lazyComponent(() => import('../src/screens/app/storage.page')), meta: appStoragePageMeta },
   { kind: 'custom', bucket: 'app', id: 'surround', component: lazyComponent(() => import('../src/screens/app/surround.custom')), meta: appSurroundCustomMeta },
   { kind: 'custom', bucket: 'app', id: 'swatches', component: lazyComponent(() => import('../src/screens/app/swatches.custom')), meta: appSwatchesCustomMeta },
+  { kind: 'custom', bucket: 'asset', id: 'none', component: lazyComponent(() => import('../src/screens/asset/none.custom')), meta: assetNoneCustomMeta },
+  { kind: 'settings', bucket: 'asset', id: 'palette', sections: AssetPaletteSettings, meta: assetPaletteSettingsMeta },
+  { kind: 'settings', bucket: 'asset', id: 'sheet', sections: AssetSheetSettings, meta: assetSheetSettingsMeta },
+  { kind: 'settings', bucket: 'asset', id: 'sprite-palette', sections: AssetSpritePaletteSettings, meta: assetSpritePaletteSettingsMeta },
+  { kind: 'settings', bucket: 'asset', id: 'sprite-platform', sections: AssetSpritePlatformSettings, meta: assetSpritePlatformSettingsMeta },
+  { kind: 'settings', bucket: 'asset', id: 'sprite', sections: AssetSpriteSettings, meta: assetSpriteSettingsMeta },
+  { kind: 'settings', bucket: 'asset', id: 'tilemap', sections: AssetTilemapSettings, meta: assetTilemapSettingsMeta },
+  { kind: 'settings', bucket: 'asset', id: 'tileset', sections: AssetTilesetSettings, meta: assetTilesetSettingsMeta },
   { kind: 'card', id: 'credits', component: lazyComponent(() => import('../src/screens/credits.card')), meta: creditsCardMeta },
   { kind: 'base', id: 'editor', component: lazyComponent(() => import('../src/screens/editor.base')), meta: editorBaseMeta },
+  { kind: 'settings', bucket: 'project', id: 'assistant', sections: ProjectAssistantSettings, meta: projectAssistantSettingsMeta },
+  { kind: 'settings', bucket: 'project', id: 'defaults', sections: ProjectDefaultsSettings, meta: projectDefaultsSettingsMeta },
+  { kind: 'settings', bucket: 'project', id: 'folders', sections: ProjectFoldersSettings, meta: projectFoldersSettingsMeta },
+  { kind: 'settings', bucket: 'project', id: 'general', sections: ProjectGeneralSettings, meta: projectGeneralSettingsMeta },
+  { kind: 'custom', bucket: 'project', id: 'none', component: lazyComponent(() => import('../src/screens/project/none.custom')), meta: projectNoneCustomMeta },
+  { kind: 'settings', bucket: 'project', id: 'palettes', sections: ProjectPalettesSettings, meta: projectPalettesSettingsMeta },
 ], searchIndex);
 
 export { screenTree };
