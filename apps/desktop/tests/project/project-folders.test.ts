@@ -73,15 +73,13 @@ describe('opening a recent project', () => {
 });
 
 describe('a new project', () => {
-  it('makes its newFiles and exports folders up front and points the settings at them', async () => {
+  it('makes its role folders up front and names them in the project file', async () => {
     held.disk.granted.add(ROOT.toLowerCase());
     await createProject('Dungeon', ROOT);
-    expect(held.disk.made).toEqual([`${ROOT}/newFiles`, `${ROOT}/exports`]);
-    const { settings, folders } = storedManifest(held);
-    expect(folders).toMatchObject([{ path: '.' }]);
-    expect(settings.newFiles).toMatchObject({ path: 'newFiles' });
-    expect(settings.exports).toMatchObject({ path: 'exports' });
-    expect(currentProject().manifest.settings.exports.path).toBe('exports');
+    expect(held.disk.made).toEqual(['sprites', 'sheets', 'palettes', 'tilemaps', 'exports'].map((role) => `${ROOT}/${role}`));
+    const { folders } = storedManifest(held);
+    expect(folders).toMatchObject([{ path: '.', roles: { sprites: 'sprites', exports: 'exports' } }]);
+    expect(currentProject().manifest.folders[0]?.roles.exports).toBe('exports');
   });
 
   it('makes nothing when the folder already holds a project', async () => {

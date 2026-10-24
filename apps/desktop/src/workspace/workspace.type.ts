@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, AssetKey, AssetKind, AssetSlice, DocumentId } from '@bxel/document';
 import type { AssetManifest, AssetReport, Clock } from '@bxel/document/native';
-import type { DocumentsPort } from '@drizztdourden08/brock-core';
-import type { DocumentHost, DocumentView } from '../documents/document-host.type';
+import type { DocumentView } from '../documents/document-host.type';
 
 type WorkspaceKind = 'project' | 'loose' | 'legacy';
 
@@ -95,15 +94,7 @@ type SplitOutcome = { readonly kind: 'done' } | { readonly kind: 'cancelled' } |
 
 type SeededWorkspace = { readonly seed: WorkspaceSeed; readonly merged: MergedWorkspace };
 
-type WorkspaceKit = {
-  readonly documents: DocumentsPort;
-  readonly host: DocumentHost;
-  readonly clock: Clock;
-};
-
 type Progress = (done: number, total: number) => void;
-
-type SaveOutcome = { readonly written: readonly string[]; readonly trashed: readonly string[] };
 
 type OpenTab = { readonly id: string; readonly documentId: DocumentId; readonly key: AssetKey };
 
@@ -118,7 +109,6 @@ export type {
   DecodedFile,
   DirtyKeys,
   DecodedFiles,
-  DecodeResult,
   Decoder,
   Encoder,
   FileReport,
@@ -132,15 +122,12 @@ export type {
   NameSync,
   OpenTab,
   Progress,
-  SaveOutcome,
   SavedAssets,
   SeededWorkspace,
   SplitDestination,
   SplitOutcome,
   Tally,
   Workspace,
-  WorkspaceKind,
-  WorkspaceKit,
   WorkspaceSeed,
   WorkspaceTarget,
   WrittenAsset,

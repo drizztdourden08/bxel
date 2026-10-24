@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import { manifestFileName, parseManifest } from '@bxel/project';
+import { decodeProject } from '@bxel/project';
 import { addLinkedFolder } from '../../src/project/add-linked-folder';
 import { openProject } from '../../src/project/open-project';
 import { useProjectStore } from '../../src/stores/useProjectStore';
@@ -15,10 +15,10 @@ const openedProject = async (held: Rig): Promise<void> => {
 };
 
 const storedManifest = (held: Rig) => {
-  const text = held.disk.files.get(`${ROOT}/${manifestFileName('Dungeon')}`);
-  const parsed = parseManifest(typeof text === 'string' ? text : '');
-  if (!parsed.ok) throw new Error(parsed.message);
-  return parsed.value;
+  const bytes = held.disk.files.get(`${ROOT}/Dungeon.bxproject`);
+  const decoded = decodeProject(bytes instanceof Uint8Array ? bytes : new Uint8Array());
+  if (!decoded.ok) throw new Error(decoded.message);
+  return decoded.value.manifest;
 };
 
 const currentProject = () => {

@@ -1,13 +1,13 @@
 /* @layer renderer-app @kind test */
-import { decodeArtwork } from '@bxel/document/native';
+import { decodePalette, decodeSprite } from '@bxel/document/native';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { grantRows } from '../../src/project/grant-rows';
 import { formatSize } from '../../src/project/format-size';
 import { newProjectFile } from '../../src/project/new-project-file';
 import { projectMenu } from '../../src/menu/project-menu';
-import { useDocumentStore } from '../../src/stores/useDocumentStore';
-import { useFileStore } from '../../src/stores/useFileStore';
-import { manifestOf, rig, ROOT } from './project-harness';
+import { openProject } from '../../src/project/open-project';
+import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
+import { manifestOf, rig, ROOT, withManifest } from './project-harness';
 import type { Rig } from './project-harness';
 import { grantOf } from './project-tool-rig';
 
@@ -22,39 +22,48 @@ beforeEach(() => {
 });
 
 describe('a new file in the project', () => {
-  it('is written into the folder, opened as a saved tab and remembered by its path', async () => {
-    expect(await newProjectFile(ROOT, 'hero')).toEqual({ ok: true });
-    const bytes = held.disk.files.get(`${ROOT}/hero.bxel`);
-    expect(bytes).toBeInstanceOf(Uint8Array);
-    const report = decodeArtwork(bytes as Uint8Array);
-    expect(report.outcome).toBe('ok');
-    expect(report.artwork?.name).toBe('hero');
-    const [documentId] = useDocumentStore.getState().host.list();
-    expect(useFileStore.getState().paths[documentId ?? '']).toBe(`${ROOT}/hero.bxel`);
-    expect(useDocumentStore.getState().host.view(documentId ?? '' as never)?.clean).toBe(true);
-    expect(useDocumentStore.getState().activeId).toBe(documentId);
+  beforeEach(async () => {
+    withManifest(held.disk);
+    held.disk.picks.folder = ROOT;
+    await openProject();
+    held.disk.writes.length = 0;
   });
 
-  it('keeps a .bxel suffix the owner typed', async () => {
-    expect(await newProjectFile(ROOT, 'slime.bxel')).toEqual({ ok: true });
-    expect(held.disk.files.has(`${ROOT}/slime.bxel`)).toBe(true);
+  it('is written into the folder as a sprite of the project, opened as a saved tab', async () => {
+    expect(await newProjectFile(ROOT, 'hero')).toEqual({ ok: true });
+    const bytes = held.disk.files.get(`${ROOT}/hero.bxsprite`);
+    expect(bytes).toBeInstanceOf(Uint8Array);
+    const palettePath = [...held.disk.files.keys()].find((path) => path.endsWith('.bxpalette'));
+    expect(palettePath).toBe(`${ROOT}/palettes/Bxel 16.bxpalette`);
+    const palette = decodePalette(held.disk.files.get(palettePath ?? '') as Uint8Array).slice;
+    const report = decodeSprite(bytes as Uint8Array, palette);
+    expect(report.outcome).toBe('ok');
+    expect(report.slice?.name).toBe('hero');
+    const workspace = Object.values(useWorkspaceStore.getState().workspaces)[0];
+    expect([...(workspace?.paths.values() ?? [])]).toContain(`${ROOT}/hero.bxsprite`);
+    expect(workspace?.dirty.size).toBe(0);
+    expect(useWorkspaceStore.getState().activeTab).toContain('sprite:');
+  });
+
+  it('keeps a .bxsprite suffix the owner typed', async () => {
+    expect(await newProjectFile(ROOT, 'slime.bxsprite')).toEqual({ ok: true });
+    expect(held.disk.files.has(`${ROOT}/slime.bxsprite`)).toBe(true);
   });
 
   it('refuses a name that is taken, whatever the case, and writes nothing more', async () => {
-    held.disk.files.set(`${ROOT}/Hero.bxel`, new Uint8Array(1));
+    held.disk.files.set(`${ROOT}/Hero.bxsprite`, new Uint8Array(1));
     const outcome = await newProjectFile(ROOT, 'hero');
     expect(outcome).toMatchObject({ ok: false });
     expect(held.disk.writes).toEqual([]);
-    expect(useDocumentStore.getState().host.list()).toHaveLength(0);
   });
 
-  it.each(['', 'a/b', 'a\\b', 'CON', '.hidden', 'x'.repeat(70)])('refuses the name "%s"', async (name) => {
+  it.each(['', 'a/b', 'a' + String.fromCharCode(92) + 'b', 'CON', '.hidden', 'x'.repeat(70)])('refuses the name "%s"', async (name) => {
     const outcome = await newProjectFile(ROOT, name);
     expect(outcome.ok).toBe(false);
     expect(held.disk.writes).toEqual([]);
   });
 
-  it('opens nothing when the write fails', async () => {
+  it('reports a write that fails', async () => {
     const outcome = await newProjectFile('C:/Elsewhere', 'hero');
     expect(outcome.ok).toBe(false);
   });

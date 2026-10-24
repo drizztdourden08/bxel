@@ -24,4 +24,4 @@ interface WorkspaceState extends WorkspaceSlice {
   showSplit: (documentId: DocumentId | null) => void;
 }
 
-export type { WorkspaceLoading, WorkspaceSlice, WorkspaceState };
+export type { WorkspaceState };

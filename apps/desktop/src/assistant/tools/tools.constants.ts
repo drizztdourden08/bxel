@@ -22,7 +22,7 @@ const WIRE_KIND_OF: Readonly<Record<EntryKind, WireFileKind>> = {
   sheet: 'bxel',
   tileset: 'bxel',
   tilemap: 'bxel',
-  project: 'bxel',
+  project: 'other',
   legacy: 'bxel',
   palette: 'palette',
   image: 'image',

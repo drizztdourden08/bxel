@@ -77,7 +77,7 @@ const WORKSPACE_TEXT = {
   trashCancel: 'Keep the files',
   saved: (count: number): string => (count === 1 ? 'Saved one file.' : `Saved ${count} files.`),
   nothingToSave: 'Every asset is saved.',
-  saveFailed: (file: string): string => `Could not save ${file}. The file on disk is unchanged.`,
+  saveFailed: (file: string, reason: string): string => `Could not save ${file}. ${reason}`,
   notNative: 'Bxel opens sprites, sheets, palettes, tilesets, tilemaps, projects and older .bxel files.',
   olderFileLocked: 'This older file opens read only. Split it into separate files to edit.',
 } as const;

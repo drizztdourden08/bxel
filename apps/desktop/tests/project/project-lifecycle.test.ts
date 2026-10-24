@@ -1,15 +1,15 @@
 /* @layer renderer-app @kind test */
-import { createSwatchSetId, manifestFileName, parseManifest } from '@bxel/project';
+import { decodePalette } from '@bxel/document/native';
+import { createSwatchSetId, decodeProject } from '@bxel/project';
 import type { SwatchSet } from '@bxel/project';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { closeProject } from '../../src/project/close-project';
 import { createProject } from '../../src/project/create-project';
 import { openProject } from '../../src/project/open-project';
 import { setProjectAccess } from '../../src/project/set-project-access';
-import { syncProjectSets } from '../../src/project/sync-project-sets';
-import { useProjectSetsStore } from '../../src/stores/useProjectSetsStore';
 import { useProjectStore } from '../../src/stores/useProjectStore';
-import { bytes, manifestOf, rig, ROOT, withManifest } from './project-harness';
+import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
+import { bytes, legacyManifestOf, manifestOf, rig, ROOT, withLegacyManifest, withManifest } from './project-harness';
 import type { Rig } from './project-harness';
 import { confirmAction, openWidget, toast } from './project-mocks';
 
@@ -24,16 +24,16 @@ const warm: SwatchSet = {
   ],
 };
 
-const manifestText = (rigged: Rig): string => {
-  const text = rigged.disk.files.get(`${ROOT}/${manifestFileName('Dungeon')}`);
-  if (typeof text !== 'string') throw new Error('no manifest on disk');
-  return text;
+const manifestText = (rigged: Rig): Uint8Array => {
+  const found = rigged.disk.files.get(`${ROOT}/Dungeon.bxproject`);
+  if (!(found instanceof Uint8Array)) throw new Error('no project file on disk');
+  return found;
 };
 
 const stored = (rigged: Rig) => {
-  const parsed = parseManifest(manifestText(rigged));
-  if (!parsed.ok) throw new Error(parsed.message);
-  return parsed.value;
+  const decoded = decodeProject(manifestText(rigged));
+  if (!decoded.ok) throw new Error(decoded.message);
+  return decoded.value.manifest;
 };
 
 const pick = (rigged: Rig, folder: string | null): void => {
@@ -58,7 +58,6 @@ describe('creating a project', () => {
     expect(open?.manifest.projectId).toBe(manifest.projectId);
     expect(open?.rootRealPath).toBe(ROOT);
     expect(open?.folders.every((folder) => folder.granted)).toBe(true);
-    expect(useProjectSetsStore.getState().projectName).toBe('Dungeon');
     expect(held.values.projectRecents.map((entry) => entry.name)).toEqual(['Dungeon']);
     expect(openWidget).toHaveBeenCalledWith('project');
   });
@@ -88,13 +87,12 @@ describe('creating a project', () => {
 });
 
 describe('opening a project', () => {
-  it('reads the project file and loads its swatch sets', async () => {
-    withManifest(held.disk, manifestOf({ swatchSets: [warm] }));
+  it('reads the project file and opens its workspace', async () => {
+    withManifest(held.disk);
     pick(held, ROOT);
     await openProject();
     expect(useProjectStore.getState().project?.manifest.name).toBe('Dungeon');
-    expect(useProjectSetsStore.getState().sets).toEqual([warm]);
-    expect(useProjectSetsStore.getState().projectName).toBe('Dungeon');
+    expect(Object.values(useWorkspaceStore.getState().workspaces).map((workspace) => workspace.kind)).toEqual(['project']);
     expect(held.values.projectRecents).toHaveLength(1);
     expect(toast).toHaveBeenCalledWith('Opened the project Dungeon.', { variant: 'success' });
   });
@@ -130,14 +128,26 @@ describe('opening a project', () => {
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ defaultPath: ROOT }));
   });
 
-  it('closes the project and its swatch sets', async () => {
-    withManifest(held.disk, manifestOf({ swatchSets: [warm] }));
+  it('closes the project and its workspace', async () => {
+    withManifest(held.disk);
     pick(held, ROOT);
     await openProject();
     await closeProject();
     expect(useProjectStore.getState().project).toBeNull();
-    expect(useProjectSetsStore.getState().projectName).toBeNull();
-    expect(useProjectSetsStore.getState().sets).toEqual([]);
+    expect(useWorkspaceStore.getState().workspaces).toEqual({});
+  });
+
+  it('updates an older project file to the new format, with its swatch sets as palettes', async () => {
+    withLegacyManifest(held.disk, legacyManifestOf({ swatchSets: [warm] }));
+    pick(held, ROOT);
+    await openProject();
+    expect(stored(held).name).toBe('Dungeon');
+    expect(held.disk.trashed).toEqual([`${ROOT}/Dungeon.bxelproject`]);
+    const palette = held.disk.files.get(`${ROOT}/palettes/Warm.bxpalette`);
+    expect(decodePalette(palette as Uint8Array).slice?.artwork.banks?.[0]?.name).toBe('Warm');
+    expect(toast).toHaveBeenCalledWith('Updated the project file to the new format.', { variant: 'info' });
+    const workspace = Object.values(useWorkspaceStore.getState().workspaces)[0];
+    expect([...(workspace?.paths.values() ?? [])]).toEqual([`${ROOT}/palettes/Warm.bxpalette`]);
   });
 });
 
@@ -195,28 +205,5 @@ describe('the grant of the open project', () => {
     await setProjectAccess(port, target, 'off');
     expect(held.values.assistantProjects).toEqual([]);
     expect(stored(held).assistant.access).toBe('off');
-  });
-});
-
-describe('project swatch sets', () => {
-  it('write back into the project file when a set is copied to the project', async () => {
-    withManifest(held.disk);
-    pick(held, ROOT);
-    await openProject();
-    const stop = syncProjectSets();
-    expect(useProjectSetsStore.getState().put(warm)?.ok).toBe(true);
-    await vi.waitFor(() => expect(stored(held).swatchSets).toEqual([warm]));
-    expect(useProjectStore.getState().project?.manifest.swatchSets).toEqual([warm]);
-    useProjectSetsStore.getState().drop(warm.setId);
-    await vi.waitFor(() => expect(stored(held).swatchSets).toEqual([]));
-    stop();
-  });
-
-  it('write nothing when no project is open', () => {
-    const stop = syncProjectSets();
-    useProjectSetsStore.getState().open('Elsewhere', []);
-    useProjectSetsStore.getState().put(warm);
-    expect(held.disk.writes).toEqual([]);
-    stop();
   });
 });

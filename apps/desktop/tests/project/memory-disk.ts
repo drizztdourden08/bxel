@@ -33,10 +33,11 @@ const entryOf = (path: string, kind: 'file' | 'folder', size: number): DocumentE
 
 const sizeOf = (content: string | Uint8Array): number => (typeof content === 'string' ? content.length : content.length);
 
-const childrenOf = (disk: Pick<Disk, 'files' | 'dirs'>, folder: string): DocumentEntry[] => {
+const childrenOf = (disk: Pick<Disk, 'files' | 'dirs'>, folder: string, recursive = false): DocumentEntry[] => {
   const base = key(folder);
-  const files = [...disk.files].filter(([path]) => key(parentOf(path)) === base).map(([path, content]) => entryOf(path, 'file', sizeOf(content)));
-  const dirs = [...disk.dirs].filter((path) => key(parentOf(path)) === base).map((path) => entryOf(path, 'folder', 0));
+  const within = (path: string): boolean => (recursive ? key(path).startsWith(`${base}/`) : key(parentOf(path)) === base);
+  const files = [...disk.files].filter(([path]) => within(path)).map(([path, content]) => entryOf(path, 'file', sizeOf(content)));
+  const dirs = [...disk.dirs].filter((path) => within(path)).map((path) => entryOf(path, 'folder', 0));
   return [...dirs, ...files];
 };
 
@@ -44,7 +45,7 @@ const listOf = (disk: Disk, folder: string, options?: DocumentListOptions): Prom
   if (!inside(disk, folder)) return Promise.reject(new Error(`"${folder}" is not inside a granted folder`));
   if (!exists(disk, folder)) return Promise.reject(new Error(`ENOENT: no such directory, scandir '${folder}'`));
   const wanted = options?.extensions?.map((extension) => extension.toLowerCase());
-  const entries = childrenOf(disk, folder).filter(
+  const entries = childrenOf(disk, folder, options?.recursive === true).filter(
     (entry) => wanted === undefined || (entry.kind === 'file' && wanted.includes(entry.name.split('.').at(-1)?.toLowerCase() ?? '')),
   );
   return Promise.resolve({ entries, truncated: false });
