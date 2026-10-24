@@ -1,0 +1,10 @@
+/* @layer renderer-app @kind style */
+.legacy-bar {
+  padding: var(--space-xs) var(--space-sm);
+  border-block-end: var(--border-width-thin) solid var(--c-warning);
+  background: var(--c-warning-soft);
+}
+
+.legacy-bar__action {
+  margin-inline-start: auto;
+}

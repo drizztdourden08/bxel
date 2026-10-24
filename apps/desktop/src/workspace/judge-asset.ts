@@ -4,9 +4,7 @@ import { assetHash } from './asset-hash';
 import { assetName } from './asset-name';
 import { newAssetPath } from './new-asset-path';
 import { savedHash } from './saved-hash';
-import type { Workspace } from './workspace.type';
-
-type Tally = { readonly saved: Map<string, string>; readonly paths: Map<string, string> };
+import type { Tally, Workspace } from './workspace.type';
 
 const judgeAsset = (workspace: Workspace, artwork: Artwork, key: AssetKey, tally: Tally): boolean => {
   if (key.kind === 'project') return true;

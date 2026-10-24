@@ -2,7 +2,7 @@
 import type { Artwork, AssetKey, AssetKind, AssetSlice, DocumentId } from '@bxel/document';
 import type { AssetManifest, AssetReport, Clock } from '@bxel/document/native';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
-import type { DocumentHost } from '../documents/document-host.type';
+import type { DocumentHost, DocumentView } from '../documents/document-host.type';
 
 type WorkspaceKind = 'project' | 'loose' | 'legacy';
 
@@ -80,6 +80,16 @@ type ActiveAsset = {
   readonly anyDirty: boolean;
 };
 
+type Tally = { readonly saved: Map<string, string>; readonly paths: Map<string, string> };
+
+type WorkspaceTarget = { readonly workspace: Workspace; readonly view: DocumentView };
+
+type LooseLoad = { readonly first: AssetFile; readonly report: AssetReport; readonly decoded: DecodedFiles };
+
+type SplitDestination = 'beside' | 'project';
+
+type SplitOutcome = { readonly kind: 'done' } | { readonly kind: 'cancelled' } | { readonly kind: 'failed'; readonly message: string };
+
 type SeededWorkspace = { readonly seed: WorkspaceSeed; readonly merged: MergedWorkspace };
 
 type WorkspaceKit = {
@@ -112,6 +122,7 @@ export type {
   LegacyCounts,
   LegacySource,
   LinkedSlice,
+  LooseLoad,
   MergedWorkspace,
   NamedAsset,
   NameSync,
@@ -120,9 +131,13 @@ export type {
   SaveOutcome,
   SavedAssets,
   SeededWorkspace,
+  SplitDestination,
+  SplitOutcome,
+  Tally,
   Workspace,
   WorkspaceKind,
   WorkspaceKit,
   WorkspaceSeed,
+  WorkspaceTarget,
   WrittenAsset,
 };

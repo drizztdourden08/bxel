@@ -77,7 +77,28 @@ const WORKSPACE_TEXT = {
   nothingToSave: 'Every asset is saved.',
   saveFailed: (file: string): string => `Could not save ${file}. The file on disk is unchanged.`,
   notNative: 'Bxel opens sprites, sheets, palettes, tilesets, tilemaps, projects and older .bxel files.',
-  readOnlyLegacy: 'This older file opens read only. Split it into separate files to edit.',
+  olderFileLocked: 'This older file opens read only. Split it into separate files to edit.',
+} as const;
+
+const SPLIT_TEXT = {
+  title: 'Split into separate files',
+  bar: (sprites: string, sheets: string, palettes: string): string =>
+    `This older Bxel file holds ${sprites}, ${sheets} and ${palettes}. Save them as separate files to edit.`,
+  open: 'Split into files...',
+  intro: 'Bxel writes each sprite, sheet, palette, tileset and tilemap as its own file. The older file is left as it is.',
+  destination: 'Put the files in',
+  beside: 'A new project folder beside the file',
+  project: 'The open project',
+  files: 'Files',
+  conflicts: 'Names that were already taken get a number at the end.',
+  renamed: (name: string): string => `${name} (name changed to fit a file name)`,
+  suffixed: (name: string): string => `${name} (numbered)`,
+  split: 'Split',
+  cancel: 'Cancel',
+  pickParent: 'Choose where the new project folder goes',
+  unavailable: 'This file cannot be split here.',
+  noProject: 'Open a project first.',
+  failed: (reason: string): string => `Could not split the file. ${reason}`,
 } as const;
 
 export {
@@ -94,6 +115,7 @@ export {
   NO_BANK_ID,
   ROLE_OF_KIND,
   SAVE_ORDER,
+  SPLIT_TEXT,
   TAB_KINDS,
   TAB_SEPARATOR,
   WORKSPACE_TEXT,
