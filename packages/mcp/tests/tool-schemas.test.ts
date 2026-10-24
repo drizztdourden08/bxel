@@ -79,6 +79,20 @@ describe('round trips', () => {
     expect(tool.output.safeParse(OUTPUT_EXAMPLES[name]).success).toBe(true);
   });
 
+  it('lists the optional tag colour of get_document as #rrggbb', () => {
+    const tool = tools.find((candidate) => candidate.name === 'get_document');
+    const example = OUTPUT_EXAMPLES.get_document as { sprites: { tags: object[] }[] };
+    const withColour = (colour: unknown) => ({
+      ...example,
+      sprites: [{ ...example.sprites[0], tags: [{ name: 'walk', from: 0, to: 3, colour }] }],
+    });
+    expect(tool?.output.safeParse(withColour('#3b82f6')).success).toBe(true);
+    expect(tool?.output.safeParse(withColour('blue')).success).toBe(false);
+    expect(tool?.output.safeParse(withColour('#3b82f')).success).toBe(false);
+    const descriptor = descriptors.find((candidate) => candidate.name === 'get_document');
+    expect(JSON.stringify(descriptor?.outputSchema)).toContain('"colour"');
+  });
+
   it('rejects an unknown property on a strict input', () => {
     const tool = tools.find((candidate) => candidate.name === 'get_session');
     expect(tool && parseToolInput(tool, { extra: 1 }).ok).toBe(false);

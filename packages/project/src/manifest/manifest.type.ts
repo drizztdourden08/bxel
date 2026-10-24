@@ -33,9 +33,15 @@ type ProjectManifest = {
   readonly assistant: { readonly access: AccessLevel };
 };
 
+type ManifestSeed = {
+  readonly projectId: ProjectId;
+  readonly folderId: FolderId;
+  readonly name: string;
+};
+
 type ManifestIssue = {
   readonly path: (string | number)[];
   readonly message: string;
 };
 
-export type { AccessLevel,FolderLocation, ManifestIssue, ProjectFolder, ProjectManifest, ProjectSettings };
+export type { AccessLevel, FolderLocation, ManifestIssue, ManifestSeed, ProjectFolder, ProjectManifest, ProjectSettings };

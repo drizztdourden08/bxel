@@ -2,6 +2,7 @@
 import { lazyComponent, widgetsFromFiles } from '@drizztdourden08/brock-react';
 import { meta as layersWidgetMeta } from '../src/widgets/layers.widget';
 import { meta as paletteWidgetMeta } from '../src/widgets/palette.widget';
+import { meta as projectWidgetMeta } from '../src/widgets/project.widget';
 import { meta as spritesWidgetMeta } from '../src/widgets/sprites.widget';
 import { meta as timelineWidgetMeta } from '../src/widgets/timeline.widget';
 import { meta as transformWidgetMeta } from '../src/widgets/transform.widget';
@@ -10,6 +11,7 @@ import appWidgetLayout from '../src/widgets/layout';
 const appWidgets = widgetsFromFiles([
   { id: 'layers', component: lazyComponent(() => import('../src/widgets/layers.widget')), meta: layersWidgetMeta },
   { id: 'palette', component: lazyComponent(() => import('../src/widgets/palette.widget')), meta: paletteWidgetMeta },
+  { id: 'project', component: lazyComponent(() => import('../src/widgets/project.widget')), meta: projectWidgetMeta },
   { id: 'sprites', component: lazyComponent(() => import('../src/widgets/sprites.widget')), meta: spritesWidgetMeta },
   { id: 'timeline', component: lazyComponent(() => import('../src/widgets/timeline.widget')), meta: timelineWidgetMeta },
   { id: 'transform', component: lazyComponent(() => import('../src/widgets/transform.widget')), meta: transformWidgetMeta },

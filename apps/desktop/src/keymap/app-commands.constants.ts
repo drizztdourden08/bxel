@@ -5,6 +5,7 @@ import { BRUSH_COMMANDS } from './brush-commands.constants';
 import { DIALOG_COMMANDS } from './dialog-commands.constants';
 import { EDIT_COMMANDS } from './edit-commands.constants';
 import { HELP_COMMANDS } from './help-commands.constants';
+import { PROJECT_COMMANDS } from './project-commands.constants';
 import { SELECTION_COMMANDS } from './selection-commands.constants';
 import { SHEET_EDITOR_COMMANDS } from './sheet-commands.constants';
 import { TOOL_COMMANDS } from './tool-commands.constants';
@@ -20,6 +21,6 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...HELP_COMMANDS,
 ];
 
-const APP_COMMANDS: readonly CommandDef[] = [...FILE_COMMANDS, ...DIALOG_COMMANDS, ...EDITOR_COMMANDS];
+const APP_COMMANDS: readonly CommandDef[] = [...FILE_COMMANDS, ...PROJECT_COMMANDS, ...DIALOG_COMMANDS, ...EDITOR_COMMANDS];
 
 export { APP_COMMANDS };

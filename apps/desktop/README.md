@@ -312,3 +312,23 @@ unsaved work for Recovery. New files from a program land in the assistant folder
 (Documents, Bxel Assistant, or the folder set on the Assistant page). The tests in
 `tests/e2e/mcp-check7.e2e.ts` and `tests/e2e/mcp-headless.e2e.ts` drive a hidden Bxel with
 the MCP SDK client in exactly this way.
+
+## Projects
+
+A project keeps several files and folders together. Its folder holds one small
+`<name>.bxelproject` file, written by Bxel, and the ordinary `.bxel` files of the project.
+
+- Project, New project asks for a name and a folder. The folder window is Brock's folder
+  grant, so Bxel may read and write in that folder until it quits. Project, Open project
+  and Open recent project grant it again the same way.
+- The Project widget lists the files and subfolders of the open project and refreshes when
+  the window gets focus. A double click opens a file, the plus button makes a new one.
+- The project keeps its own swatch sets. Copy to the open project, on the Swatch sets page,
+  writes the set into the project file, and every file of the project can use it.
+- Settings, Assistant projects lists the projects you used. Each has Let the assistant
+  browse this project: off, read only, or read and edit. The grant is kept in the Bxel
+  settings against the project id and its folder, so a copied project starts off and Bxel
+  asks once before it turns the access on there. The project file shows the level too.
+- With a grant, `list_places`, `list_files` and `open_file` reach the project while it is
+  open. A project without a grant is as invisible as one that does not exist. The test in
+  `tests/e2e/project-assistant.e2e.ts` runs this over MCP.

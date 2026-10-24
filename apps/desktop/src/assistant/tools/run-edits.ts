@@ -4,6 +4,7 @@ import { checkPatchPixels, hiddenFailure, MCP_ERROR_CODE, mcpFailure } from '@bx
 import type { ToolReply } from '@bxel/mcp';
 import { usePendingStore } from '../../stores/usePendingStore';
 import type { ToolContext } from '../assistant.type';
+import { platformLock } from './platform-lock';
 import { reply } from './reply';
 import { toCommandSteps } from './to-command-steps';
 import type { EditInput } from './tool-input.type';
@@ -14,7 +15,10 @@ import { wireTransaction } from './wire-transaction';
 const ownerBusy = (documentId: string): boolean => usePendingStore.getState().pending?.documentId === documentId;
 
 const runEdits = (input: EditInput, context: ToolContext, mode: TransactionMode): ToolReply => {
-  if (!viewFor(context, input.documentId)) return reply(hiddenFailure('document'));
+  const view = viewFor(context, input.documentId);
+  if (!view) return reply(hiddenFailure('document'));
+  const locked = platformLock(view.state.artwork, input.steps);
+  if (locked) return reply(locked);
   if (mode === 'commit' && ownerBusy(input.documentId)) return reply(mcpFailure(MCP_ERROR_CODE.DOCUMENT_BUSY, TOOL_TEXT.busy));
   const limit = checkPatchPixels(input.steps);
   if (limit) return reply(limit);

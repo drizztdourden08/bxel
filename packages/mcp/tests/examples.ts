@@ -163,7 +163,7 @@ const OUTPUT_EXAMPLES: Record<string, unknown> = {
         pivot: { x2: 32, y2: 64 },
         layers: [{ layerId: LAYER, name: 'Layer 1', visible: true, locked: false }],
         frames: [{ frameId: FRAME, durationMs: 100 }],
-        tags: [{ name: 'walk', from: 0, to: 3 }],
+        tags: [{ name: 'walk', from: 0, to: 3, colour: '#3b82f6' }, { name: 'idle', from: 0, to: 1 }],
       },
     ],
     spritesTotal: 1,

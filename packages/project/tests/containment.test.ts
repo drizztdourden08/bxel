@@ -1,5 +1,5 @@
 /* @layer tests @kind test */
-import { isInside, isSamePath, normalizeAbsolute } from '@bxel/project';
+import { isInside, isSamePath, normalizeAbsolute, relativeInside } from '@bxel/project';
 import { describe, expect, it } from 'vitest';
 
 describe('containment', () => {
@@ -42,5 +42,13 @@ describe('containment', () => {
     expect(isSamePath('C:/Games/Dungeon', 'c:\\games\\dungeon\\')).toBe(true);
     expect(isSamePath('C:/Games/Dungeon', 'C:/Games/Dungeon2')).toBe(false);
     expect(isSamePath('relative', 'relative')).toBe(false);
+  });
+
+  it('gives the path below a folder, with forward slashes, or nothing when it is outside', () => {
+    expect(relativeInside('C:/Games/Dungeon', 'c:\\games\\dungeon\\sprites\\a.bxel')).toBe('sprites/a.bxel');
+    expect(relativeInside('C:/Games/Dungeon/', 'C:/Games/Dungeon/a.bxel')).toBe('a.bxel');
+    expect(relativeInside('C:/Games/Dungeon', 'C:/Games/Dungeon2/a.bxel')).toBeUndefined();
+    expect(relativeInside('C:/Games/Dungeon', 'D:/a.bxel')).toBeUndefined();
+    expect(relativeInside('relative', 'C:/a.bxel')).toBeUndefined();
   });
 });

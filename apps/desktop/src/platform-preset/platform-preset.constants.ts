@@ -33,6 +33,7 @@ const STRICT_TEXT = {
   off: 'Platform rules are not enforced.',
   failed: (reason: string): string => `Could not change the setting. ${reason}`,
   blocked: (message: string): string => `Blocked by the platform rules. ${message} Turn off Enforce platform rules to allow it.`,
+  ownerOnly: 'Enforce platform rules is on for this file. Only the owner can turn it off or change the platform.',
   sizeBlocked: (message: string): string => `${message} Enforce platform rules is on, so this size cannot be added.`,
 } as const;
 

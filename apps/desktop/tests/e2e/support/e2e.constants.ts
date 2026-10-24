@@ -5,6 +5,8 @@ const APP_DIR = join(import.meta.dirname, '../../..');
 
 const TEMP_PREFIX = 'bxel-e2e-';
 
+const PROJECT_PARENT = '.e2e-projects';
+
 const CANVAS_LABEL = 'Sprite canvas';
 
 const STATUS_LABEL = 'Editor status';
@@ -30,4 +32,16 @@ const SHORTCUT = {
   redo: 'Control+y',
 } as const;
 
-export { APP_DIR, CANVAS_LABEL, CURSOR_PARK, LAYOUT_SETTLE, POLL_MS, SHORTCUT, STATUS_LABEL, SWATCH_PATTERN, TEMP_PREFIX, ZOOM_PATTERN };
+export {
+  APP_DIR,
+  CANVAS_LABEL,
+  CURSOR_PARK,
+  LAYOUT_SETTLE,
+  POLL_MS,
+  PROJECT_PARENT,
+  SHORTCUT,
+  STATUS_LABEL,
+  SWATCH_PATTERN,
+  TEMP_PREFIX,
+  ZOOM_PATTERN,
+};
