@@ -2,7 +2,3 @@
 .tool-rail {
   align-self: flex-start;
 }
-
-.tool-flyout {
-  display: inline-flex;
-}

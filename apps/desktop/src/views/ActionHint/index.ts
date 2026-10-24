@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind barrel */
 export { ActionHint } from './ActionHint';
-export { commandKeys } from './behavior/command-keys';
-export { hintOf } from './behavior/hint-of';
-export { useChoiceHint } from './behavior/useChoiceHint';
-export type { HintShortcut, HintSpec } from './ActionHint.type';
+export { optionTooltip } from './behavior/option-tooltip';
+export { segmentOption } from './behavior/segment-option';
+export { useCommandKeys } from './behavior/useCommandKeys';
+export type { HintShortcut, HintSpec, HintedOption } from './ActionHint.type';

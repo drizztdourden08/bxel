@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { MIN_SHEET_SPRITES, SHEET_TEXT } from '../../../sheet/sheet.constants';
 import type { SpriteMode } from '../../../stores/sprite-store.type';
-import type { HintedOption } from '../../HintedSegments';
+import type { HintedOption } from '../../ActionHint';
 import { MODE_HINTS } from '../ModeBar.constants';
 
 const sheetReason = (previewing: boolean, total: number): string | false => {

@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { CellFlags } from '@bxel/document';
+import type { Connectivity } from '@bxel/raster';
 import type { PixelIconName } from '../../icons/pixel-icon.type';
 import type { ScopeChipModel } from '../../sheet/sheet.type';
 import type { FlagOp } from '../../tilemap/tilemap.type';
@@ -27,6 +28,12 @@ interface ScopeMenusProps {
   chips: ScopeChipModel;
 }
 
+interface NeighbourChoiceProps {
+  label: string;
+  value: Connectivity;
+  onChange: (value: Connectivity) => void;
+}
+
 type ScopeChipKey = 'sprite' | 'layer' | 'frame';
 
 interface ScopeChipView {
@@ -41,4 +48,4 @@ interface ScopeChipProps {
   chip: ScopeChipView;
 }
 
-export type { FlagAction, FlagButtonProps, OptionKind, ScopeChipProps, ScopeChipView, ScopeMenusProps, ToolOptionsProps };
+export type { FlagAction, FlagButtonProps, NeighbourChoiceProps, OptionKind, ScopeChipProps, ScopeChipView, ScopeMenusProps, ToolOptionsProps };

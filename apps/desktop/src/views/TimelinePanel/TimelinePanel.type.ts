@@ -3,7 +3,7 @@ import type { DragEvent } from 'react';
 import type { FrameId, Tag } from '@bxel/document';
 import type { ReorderDrag } from '@drizztdourden08/tessera';
 import type { CelKey, TimelineZone } from '../../stores/timeline-store.type';
-import type { PixelIconName } from '../../icons/pixel-icon.type';
+import type { AnyPixelIconName } from '../../icons/pixel-icon.type';
 import type { CelCell, CelMove, FrameColumn, LayerRow, TagCell, TimelineModel } from '../../timeline/timeline.type';
 
 interface CelDragHandlers {
@@ -23,7 +23,7 @@ interface TimelineAction {
   id: string;
   label: string;
   shortcut: string | null;
-  icon: PixelIconName;
+  icon: AnyPixelIconName;
   run: () => unknown;
 }
 

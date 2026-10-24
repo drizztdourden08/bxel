@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { SpriteMode } from '../../stores/sprite-store.type';
-import type { HintedOption } from '../HintedSegments';
+import type { HintedOption } from '../ActionHint';
 
 interface ModeBarModel {
   mode: SpriteMode;

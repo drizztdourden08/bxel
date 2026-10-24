@@ -3,10 +3,10 @@ import { Flex, Shortcut, Text } from '@drizztdourden08/tessera';
 import { Fragment } from 'react';
 import { ACTION_HINT_TEXT } from '../ActionHint.constants';
 import type { HintShortcutRowProps } from '../ActionHint.type';
-import { shortcutCombos } from '../behavior/shortcut-combos';
+import { useShortcutCombos } from '../behavior/useShortcutCombos';
 
 const HintShortcutRow = ({ shortcut }: HintShortcutRowProps) => {
-  const combos = shortcutCombos(shortcut);
+  const combos = useShortcutCombos(shortcut);
   const note = shortcut.command === undefined && shortcut.keys === undefined && shortcut.mouse === undefined;
   if (combos.length === 0 && !note) return null;
   return (
