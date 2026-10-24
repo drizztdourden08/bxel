@@ -1,0 +1,17 @@
+/* @layer core @kind constants */
+
+const GIF_BLOCK = {
+  EXTENSION: 0x21,
+  IMAGE: 0x2c,
+  TRAILER: 0x3b,
+  GRAPHIC_CONTROL: 0xf9,
+  APPLICATION: 0xff,
+  TABLE_FLAG: 0x80,
+  INTERLACE_FLAG: 0x40,
+  TRANSPARENT_FLAG: 0x01,
+  SCREEN_LENGTH: 7,
+  HEADER_LENGTH: 6,
+  DESCRIPTOR_LENGTH: 9,
+} as const;
+
+export { GIF_BLOCK };
