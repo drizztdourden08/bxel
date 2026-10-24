@@ -3,6 +3,8 @@ const MENU_TEXT = {
   edit: 'Edit',
   palette: 'Palette',
   layer: 'Layer',
+  sheet: 'Sheet',
+  arrange: 'Arrange',
   view: 'View',
   help: 'Help',
   zoom: 'Zoom',
@@ -19,6 +21,8 @@ const MENU_KEYS = {
   transform: 'edit-transform',
   palette: 'palette',
   layer: 'layer',
+  sheet: 'sheet',
+  arrange: 'sheet-arrange',
   view: 'view',
   help: 'help',
 } as const;

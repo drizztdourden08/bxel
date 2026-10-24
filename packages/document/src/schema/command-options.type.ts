@@ -27,6 +27,7 @@ import type { artworkCreateSchema } from './artwork-create-schema';
 import type { artworkUpdateSchema } from './artwork-update-schema';
 import type { spriteCreateSchema } from './sprite-create-schema';
 import type { spriteUpdateSchema } from './sprite-update-schema';
+import type { sliceRefSchema } from './slice-ref-schema';
 import type { mapEraseSchema } from './map-erase-schema';
 import type { mapFillSchema } from './map-fill-schema';
 import type { mapLayerAddSchema } from './map-layer-add-schema';
@@ -53,6 +54,7 @@ type ArtworkCreateOptions = z.output<typeof artworkCreateSchema>;
 type ArtworkUpdateOptions = z.output<typeof artworkUpdateSchema>;
 type SpriteCreateOptions = z.output<typeof spriteCreateSchema>;
 type SpriteUpdateOptions = z.output<typeof spriteUpdateSchema>;
+type SliceRef = z.output<typeof sliceRefSchema>;
 type PixelsPatchOptions = z.output<typeof pixelsPatchSchema>;
 type LayerRef = z.output<typeof layerRefSchema>;
 type LayerAddOptions = z.output<typeof layerAddSchema>;
@@ -147,4 +149,5 @@ export type {
   ArtworkUpdateOptions,
   SpriteCreateOptions,
   SpriteUpdateOptions,
+  SliceRef,
 };

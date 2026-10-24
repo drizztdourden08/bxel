@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { DocumentId, PaletteBank } from '@bxel/document';
+import type { DocumentId, LayoutRequest, PaletteBank, Point } from '@bxel/document';
 import type { BankDraft, PaletteSource } from '../palette-source/palette-source.type';
 
 interface SourceImage {
@@ -63,6 +63,7 @@ interface ImportContext {
   documentId: DocumentId | null;
   bank: PaletteBank | null;
   taken: readonly string[];
+  sheetNames: readonly string[];
   spriteCount: number;
 }
 
@@ -122,6 +123,14 @@ interface ErrorInput {
   names: readonly string[];
 }
 
+type BankOption = { bankId: string } | { ref: string };
+
+interface SheetLayoutPlan {
+  layout: LayoutRequest;
+  spacing: Point;
+  margin: number;
+}
+
 interface ImportRun {
   form: ImportForm;
   image: SourceImage;
@@ -134,6 +143,7 @@ interface ImportRun {
 type ImportOutcome = { ok: true; documentId: DocumentId; names: readonly string[] } | { ok: false; message: string };
 
 export type {
+  BankOption,
   ChoiceOption,
   ColorsForm,
   DitherName,
@@ -153,6 +163,7 @@ export type {
   ReduceMode,
   ReduceOption,
   ReductionPlan,
+  SheetLayoutPlan,
   SliceForm,
   SliceOrder,
   SliceRect,

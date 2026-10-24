@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { DocumentId, FlipAxis, TurnDirection } from '@bxel/document';
+import type { DocumentId, FlipAxis, SpriteId, TurnDirection } from '@bxel/document';
 import type { BoundsPolicy, MaskView, Point } from '@bxel/raster';
 import type { Clip } from '../selection/selection.type';
 
@@ -15,6 +15,7 @@ type DialogSpec = Extract<PendingSpec, { kind: 'rotate' | 'scale' }>;
 
 interface PendingEdit {
   documentId: DocumentId;
+  sprites: readonly SpriteId[];
   spec: PendingSpec;
   mask: MaskView | null;
   editing: boolean;
@@ -27,10 +28,16 @@ interface PreviewFrame {
   indices: Uint8Array;
 }
 
+interface OtherFrame {
+  spriteId: SpriteId;
+  frame: PreviewFrame;
+}
+
 interface PendingOutcome {
   width: number;
   height: number;
   frame: PreviewFrame | null;
+  others: readonly OtherFrame[];
   clipping: string;
   error: string | null;
   landing: MaskView | null;
@@ -42,4 +49,4 @@ interface PendingScopeText {
   frames: string;
 }
 
-export type { DialogSpec, PendingEdit, PendingOutcome, PendingScopeText, PendingSpec, PreviewFrame };
+export type { DialogSpec, OtherFrame, PendingEdit, PendingOutcome, PendingScopeText, PendingSpec, PreviewFrame };

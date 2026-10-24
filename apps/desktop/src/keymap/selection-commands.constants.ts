@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { layersFocused } from '../editor/focus/layers-focused';
-import { applyPreview } from '../editor/pending/apply-preview';
+import { spritesFocused } from '../editor/focus/sprites-focused';
 import { cancelPreview } from '../editor/pending/cancel-preview';
 import { hasPreview } from '../editor/pending/has-preview';
 import { clearSelection } from '../editor/selection/clear-selection';
@@ -17,6 +17,8 @@ import { startRotate } from '../editor/transform/start-rotate';
 import { startScale } from '../editor/transform/start-scale';
 import { startTurn } from '../editor/transform/start-turn';
 import { hasActiveDocument } from '../files/has-active-document';
+import { enterAction } from '../sheet/enter-action';
+import { enterReady } from '../sheet/enter-ready';
 import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
 import { SELECTION_COMMAND_ID as ID } from './selection-command-id.constants';
@@ -38,7 +40,7 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     group,
     chord: 'Delete',
     whileTyping: false,
-    when: () => hasActiveDocument() && !layersFocused(),
+    when: () => hasActiveDocument() && !layersFocused() && !spritesFocused(),
     run: deleteSelection,
   },
 ];
@@ -50,8 +52,8 @@ const PREVIEW_COMMANDS: readonly CommandDef[] = [
     group,
     chord: 'Enter',
     whileTyping: false,
-    when: () => hasActiveDocument() && hasPreview(),
-    run: applyPreview,
+    when: () => hasActiveDocument() && enterReady(),
+    run: enterAction,
   },
   {
     id: ID.cancel,

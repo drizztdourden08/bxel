@@ -33,6 +33,12 @@ const NEW_FORM_BASE: CreationForm = {
 
 const NEW_FILE_NAME = 'Untitled';
 
+const NEW_SHEET_NAME = 'Sheet';
+
+const NEW_SHEET_REF = 'new-sheet';
+
+const NEW_REF = 'new0';
+
 const NEW_LABEL = {
   sprite: 'New sprite',
   sheet: 'New sheet',
@@ -74,4 +80,6 @@ const NEW_TEXT = {
   swatch: (index: number, name: string): string => `Swatch ${index}, ${name}`,
 } as const;
 
-export { MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_TEXT, SIZE_PRESETS };
+export {
+  MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_REF, NEW_SHEET_NAME, NEW_SHEET_REF, NEW_TEXT, SIZE_PRESETS,
+};

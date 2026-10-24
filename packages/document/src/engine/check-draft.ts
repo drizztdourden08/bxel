@@ -6,6 +6,7 @@ import { maxIndex } from '../pixels/max-index';
 import { findBank } from '../read/find-bank';
 import { findSprite } from '../read/find-sprite';
 import { nameKey } from '../validate/name-key';
+import { checkSheets } from './check-sheets';
 import { checkTiles } from './check-tiles';
 
 const hasDuplicate = (names: readonly string[]): boolean => new Set(names.map(nameKey)).size !== names.length;
@@ -42,6 +43,7 @@ const checkIndices = (draft: Draft): void => {
 const checkDraft = (draft: Draft): void => {
   checkNames(draft);
   checkIndices(draft);
+  checkSheets(draft.artwork, draft.base);
   checkTiles(draft);
 };
 

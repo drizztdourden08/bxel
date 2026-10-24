@@ -2,6 +2,7 @@
 import type { MenuEntry } from '@drizztdourden08/brock-react';
 import { useMemo } from 'react';
 import { editorMenu } from '../menu/editor-menu';
+import { useSpriteStore } from '../stores/useSpriteStore';
 import { useToolStore } from '../stores/useToolStore';
 import { useViewStore } from '../stores/useViewStore';
 import { useActiveDocument } from './useActiveDocument';
@@ -12,12 +13,13 @@ const useEditorMenu = (): MenuEntry[] => {
   const tiled = useViewStore((state) => state.tiled);
   const symmetryX = useToolStore((state) => state.symmetryX);
   const symmetryY = useToolStore((state) => state.symmetryY);
+  const mode = useSpriteStore((state) => state.mode);
   const hasDocument = view !== null;
   const canUndo = view?.canUndo ?? false;
   const canRedo = view?.canRedo ?? false;
   return useMemo(
-    () => editorMenu({ hasDocument, canUndo, canRedo, grid, tiled, symmetryX, symmetryY }),
-    [hasDocument, canUndo, canRedo, grid, tiled, symmetryX, symmetryY],
+    () => editorMenu({ hasDocument, canUndo, canRedo, grid, tiled, symmetryX, symmetryY, mode }),
+    [hasDocument, canUndo, canRedo, grid, tiled, symmetryX, symmetryY, mode],
   );
 };
 

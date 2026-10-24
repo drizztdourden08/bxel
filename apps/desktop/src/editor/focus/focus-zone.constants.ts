@@ -3,6 +3,7 @@ const FOCUS_ZONE_ATTRIBUTE = 'data-focus-zone';
 
 const FOCUS_ZONE = {
   layers: 'layers',
+  sprites: 'sprites',
 } as const;
 
 export { FOCUS_ZONE, FOCUS_ZONE_ATTRIBUTE };

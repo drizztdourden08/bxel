@@ -11,6 +11,7 @@ const COMMAND_GROUP = {
   view: 'View',
   edit: 'Edit',
   layers: 'Layers',
+  sheet: 'Sheet',
   help: 'Help',
 } as const;
 

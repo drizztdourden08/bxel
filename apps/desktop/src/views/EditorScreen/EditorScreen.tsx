@@ -1,28 +1,35 @@
 /* @layer renderer-app @kind component */
 import { Flex } from '@drizztdourden08/tessera';
+import { useSpriteStore } from '../../stores/useSpriteStore';
 import { ApplyBar } from '../ApplyBar';
 import { ContextBar } from '../ContextBar';
 import { DialogHost } from '../DialogHost';
 import { EditorCanvas } from '../EditorCanvas';
 import { EditorStatus } from '../EditorStatus';
+import { MismatchBar } from '../MismatchBar';
 import { RecoveryDialog } from '../RecoveryDialog';
+import { SheetCanvas } from '../SheetCanvas';
 import { ToolRail } from '../ToolRail';
 import { TransformDialog } from '../TransformDialog';
 import './EditorScreen.css';
 
-const EditorScreen = () => (
-  <Flex direction="column" className="editor-screen">
-    <ContextBar />
-    <Flex gap="sm" className="editor-screen__body">
-      <ToolRail />
-      <EditorCanvas />
+const EditorScreen = () => {
+  const mode = useSpriteStore((state) => state.mode);
+  return (
+    <Flex direction="column" className="editor-screen">
+      <ContextBar />
+      <Flex gap="sm" className="editor-screen__body">
+        <ToolRail />
+        {mode === 'sheet' ? <SheetCanvas /> : <EditorCanvas />}
+      </Flex>
+      <MismatchBar />
+      <ApplyBar />
+      <EditorStatus />
+      <RecoveryDialog />
+      <TransformDialog />
+      <DialogHost />
     </Flex>
-    <ApplyBar />
-    <EditorStatus />
-    <RecoveryDialog />
-    <TransformDialog />
-    <DialogHost />
-  </Flex>
-);
+  );
+};
 
 export { EditorScreen };

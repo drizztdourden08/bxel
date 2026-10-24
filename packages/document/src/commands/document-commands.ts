@@ -19,7 +19,20 @@ import { layerReorder } from './layer/layer-reorder';
 import { layerUpdate } from './layer/layer-update';
 import { pixelsPatch } from './pixels/pixels-patch';
 import { artworkUpdate } from './artwork/artwork-update';
+import { sheetAdd } from './sheet/sheet-add';
+import { sheetArrange } from './sheet/sheet-arrange';
+import { sheetCreate } from './sheet/sheet-create';
+import { sheetDelete } from './sheet/sheet-delete';
+import { sheetPlace } from './sheet/sheet-place';
+import { sheetRemove } from './sheet/sheet-remove';
+import { sheetUpdate } from './sheet/sheet-update';
+import { sliceAdd } from './slice/slice-add';
+import { sliceDelete } from './slice/slice-delete';
+import { sliceUpdate } from './slice/slice-update';
 import { spriteCreate } from './sprite/sprite-create';
+import { spriteDelete } from './sprite/sprite-delete';
+import { spriteDuplicate } from './sprite/sprite-duplicate';
+import { spriteReorder } from './sprite/sprite-reorder';
 import { spriteUpdate } from './sprite/sprite-update';
 import { tagAdd } from './tag/tag-add';
 import { tagDelete } from './tag/tag-delete';
@@ -48,6 +61,19 @@ const documentCommands: readonly CommandDef[] = [
   artworkUpdate,
   spriteCreate,
   spriteUpdate,
+  spriteDelete,
+  spriteDuplicate,
+  spriteReorder,
+  sheetCreate,
+  sheetUpdate,
+  sheetDelete,
+  sheetAdd,
+  sheetRemove,
+  sheetPlace,
+  sheetArrange,
+  sliceAdd,
+  sliceUpdate,
+  sliceDelete,
   pixelsPatch,
   layerAdd,
   layerDelete,

@@ -1,0 +1,10 @@
+/* @layer renderer-app @kind style */
+.mismatch-bar {
+  padding: var(--space-xs) var(--space-sm);
+  border-block-start: var(--border-width-thin) solid var(--c-danger);
+  background: var(--c-danger-soft);
+}
+
+.mismatch-bar__actions {
+  margin-inline-start: auto;
+}
