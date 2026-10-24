@@ -3,6 +3,8 @@ import { ACTION_ICONS } from './action-icons.constants';
 import { PAINT_ICONS } from './paint-icons.constants';
 import { SELECT_ICONS } from './select-icons.constants';
 import { SHAPE_ICONS } from './shape-icons.constants';
+import { SHEET_ICONS } from './sheet-icons.constants';
+import { SPRITE_ICONS } from './sprite-icons.constants';
 import { VIEW_ICONS } from './view-icons.constants';
 import type { PixelBitmap, PixelIconData, PixelIconName, PixelTone } from './pixel-icon.type';
 
@@ -12,6 +14,8 @@ const PIXEL_ICONS: Readonly<Record<PixelIconName, PixelBitmap>> = {
   ...SELECT_ICONS,
   ...VIEW_ICONS,
   ...ACTION_ICONS,
+  ...SHEET_ICONS,
+  ...SPRITE_ICONS,
 };
 
 const PIXEL_ICON_SIZE = 16;

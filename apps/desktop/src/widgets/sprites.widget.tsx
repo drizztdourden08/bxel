@@ -3,11 +3,11 @@ import type { WidgetMeta } from '@drizztdourden08/brock-react';
 import { SpritesPanel } from '../views/SpritesPanel';
 
 const meta: WidgetMeta = {
-  label: 'Sprites',
+  label: 'Sheet',
   icon: 'images',
   defaultOpen: true,
-  defaultSide: 'bottom',
-  defaultDockedSize: 168,
+  defaultSide: 'right',
+  defaultDockedSize: 340,
   popOut: false,
 };
 
