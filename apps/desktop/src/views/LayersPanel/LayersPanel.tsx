@@ -4,7 +4,6 @@ import { Box, EmptyState, ReorderList, Stack, Text } from '@drizztdourden08/tess
 import { layerItems } from '../../editor/layer-items';
 import { moveLayer } from '../../editor/move-layer';
 import { renameLayer } from '../../editor/rename-layer';
-import { rowLayerId } from '../../editor/row-layer-id';
 import { updateLayerFlag } from '../../editor/update-layer-flag';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { useToolStore } from '../../stores/useToolStore';
@@ -18,7 +17,7 @@ const LayersPanel = () => {
   const target = useEditorTarget();
   const setLayer = useToolStore((state) => state.setLayer);
   const rename = useLayerRename();
-  const onKeyDown = useLayersKeys(rename.begin);
+  const onKeyDown = useLayersKeys(target?.layerId ?? null, rename.begin);
   if (!target) return <EmptyState message={LAYERS_PANEL_TEXT.empty} />;
   const { sprite, layerId } = target;
   const renaming = sprite.layers.find((layer) => layer.id === rename.renamingId);
@@ -27,13 +26,7 @@ const LayersPanel = () => {
       <Text variant="label">{LAYERS_PANEL_TEXT.title}</Text>
       <Text variant="caption" tone="muted">{LAYERS_PANEL_TEXT.count(sprite.layers.length)}</Text>
       <LayersToolbar />
-      <Box
-        onKeyDown={onKeyDown}
-        onDoubleClick={(event) => {
-          const id = rowLayerId(event.target, false);
-          if (id !== null) rename.begin(id);
-        }}
-      >
+      <Box onKeyDown={onKeyDown}>
         <ReorderList
           label={LAYERS_PANEL_TEXT.list}
           items={layerItems(sprite)}

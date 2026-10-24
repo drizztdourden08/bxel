@@ -19,7 +19,7 @@ const usage = {
   ],
   a11y: [
     'The list is named Layers and each row is one button that carries aria-pressed when picked.',
-    'Alt and Up or Down moves the focused row, and F2 renames it.',
+    'Alt and Up or Down moves the focused row, and F2 renames the picked layer.',
     'Visible and Locked are icon buttons named by what they do, in a group named after the layer.',
   ],
   tree: {
