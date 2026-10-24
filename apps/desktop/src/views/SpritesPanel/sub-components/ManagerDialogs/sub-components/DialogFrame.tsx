@@ -4,7 +4,7 @@ import { DIALOG_TEXT } from '../../../../../sheet-manager/manager-text.constants
 import { useManagerStore } from '../../../../../stores/useManagerStore';
 import type { DialogFrameProps } from '../ManagerDialogs.type';
 
-const DialogFrame = ({ title, canApply, onApply, children }: DialogFrameProps) => {
+const DialogFrame = ({ title, canApply, onApply, applyLabel, danger, children }: DialogFrameProps) => {
   const patch = useManagerStore((state) => state.patch);
   const close = (): void => patch({ dialog: null });
   const actions = (
@@ -13,14 +13,14 @@ const DialogFrame = ({ title, canApply, onApply, children }: DialogFrameProps) =
         {DIALOG_TEXT.cancel}
       </Button>
       <Button
-        variant="primary"
+        variant={danger ? 'danger' : 'primary'}
         disabled={!canApply}
         onClick={() => {
           onApply();
           close();
         }}
       >
-        {DIALOG_TEXT.apply}
+        {applyLabel ?? DIALOG_TEXT.apply}
       </Button>
     </>
   );

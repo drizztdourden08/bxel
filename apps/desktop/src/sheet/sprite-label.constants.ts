@@ -13,7 +13,6 @@ const SPRITE_LABEL = {
 
 const SPRITE_TEXT = {
   taken: (name: string): string => `Name ${name} is already used. Choose another name.`,
-  confirmDelete: (count: number): string => (count === 1 ? 'Delete sprite? You can undo this.' : `Delete ${count} sprites? You can undo this.`),
   lastOne: 'A file keeps at least one sprite.',
 } as const;
 

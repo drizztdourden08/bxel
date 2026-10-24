@@ -1,20 +1,24 @@
 /* @layer renderer-app @kind types */
-import type { Point, Sheet, Sprite, SpriteId } from '@bxel/document';
+import type { Point, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { Anchor } from '@drizztdourden08/tessera';
 import type { ArrangeKind } from '../sheet/sheet.type';
+import type { IdenticalMode } from './identical.type';
 
 type ManagerTab = 'sprites' | 'atlas';
 
 type ManagerView = 'grid' | 'list';
 
-type SortKey = 'manual' | 'name' | 'size' | 'area' | 'frames';
+type SortKey = 'manual' | 'name' | 'size' | 'area' | 'frames' | 'tags' | 'bank';
 
-type ManagerDialog = 'rename' | 'pivot' | 'resize' | null;
+type ManagerDialog = 'rename' | 'bank' | 'folder' | 'selection' | 'duplicate' | 'delete' | 'compare' | 'pivot' | 'resize' | 'merge' | 'split' | 'slice' | null;
 
 interface ManagerFilter {
   animated: boolean;
   unplaced: boolean;
   size: string | null;
+  identical: IdenticalMode;
+  tag: string | null;
+  bank: string | null;
 }
 
 interface AtlasSettings {
@@ -22,6 +26,10 @@ interface AtlasSettings {
   pivots: boolean;
   zoom: number;
   bounds: boolean;
+  trim: boolean;
+  powerOfTwo: boolean;
+  pageSide: number;
+  page: number;
 }
 
 interface ListQuery {
@@ -29,12 +37,14 @@ interface ListQuery {
   filter: ManagerFilter;
   sortKey: SortKey;
   sortDown: boolean;
+  twins?: ReadonlySet<SpriteId>;
 }
 
 interface SpriteFacts {
   sprite: Sprite;
   frames: number;
   tags: number;
+  bank: string;
   slices: number;
   onSheet: boolean;
   sheets: readonly string[];
@@ -91,6 +101,7 @@ interface AtlasItem {
   width: number;
   height: number;
   pivot: { x2: number; y2: number };
+  source: Rect;
 }
 
 interface AtlasModel {
@@ -100,17 +111,24 @@ interface AtlasModel {
   used: number;
   empty: number;
   failure: string | null;
+  page: number;
+  pageCount: number;
 }
 
 interface AtlasHeld {
   sprite: Sprite;
   at: Point;
+  source: Rect;
 }
 
 interface AtlasInput {
   sheet: Sheet;
   sprites: readonly Sprite[];
   extrude: number;
+  trim: boolean;
+  powerOfTwo: boolean;
+  pageSide: number;
+  page: number;
 }
 
 interface SheetStyle {

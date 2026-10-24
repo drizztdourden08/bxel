@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind component */
-import { Checkbox, Field, Flex, NumberInput, SegmentedControl, Stack } from '@drizztdourden08/tessera';
+import { Field, Flex, NumberInput, SegmentedControl, Stack } from '@drizztdourden08/tessera';
 import { EXPORT_RANGES } from '../../../export/export.constants';
 import { EXPORT_DIALOG_TEXT, FLAVOUR_OPTIONS, LAYOUT_OPTIONS } from '../ExportDialog.constants';
 import type { FieldsProps } from '../ExportDialog.type';
+import { SheetPackFields } from './SheetPackFields';
 
 const SheetFields = ({ settings, change }: FieldsProps) => (
   <Stack gap="md">
@@ -49,7 +50,7 @@ const SheetFields = ({ settings, change }: FieldsProps) => (
         />
       </Field>
     </Flex>
-    <Checkbox size="sm" label={EXPORT_DIALOG_TEXT.trim} checked={settings.trim} onChange={(trim) => change({ trim })} />
+    <SheetPackFields settings={settings} change={change} />
     <Field label={EXPORT_DIALOG_TEXT.flavour}>
       <SegmentedControl
         size="sm"

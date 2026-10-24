@@ -22,7 +22,7 @@ const MANAGER_TEXT = {
   sortDirection: 'Sort direction',
   ascending: 'Ascending',
   descending: 'Descending',
-  sortLabels: { manual: 'Sheet order', name: 'Name', size: 'Size', area: 'Area', frames: 'Frames' } as Readonly<Record<SortKey, string>>,
+  sortLabels: { manual: 'Sheet order', name: 'Name', size: 'Size', area: 'Area', frames: 'Frames', tags: 'Tags', bank: 'Palette' } as Readonly<Record<SortKey, string>>,
   filters: 'Filters',
   animated: 'Animated',
   unplaced: 'Not on sheet',
@@ -44,7 +44,6 @@ const MANAGER_TEXT = {
   renameMany: 'Rename sprites',
   duplicate: 'Duplicate sprite',
   remove: 'Delete sprite',
-  cancelRemove: 'Keep the sprites',
   earlier: 'Move earlier',
   later: 'Move later',
   toTop: 'Move to start',
@@ -92,6 +91,14 @@ const ATLAS_TEXT = {
   size: (width: number, height: number, empty: number): string => `${width} by ${height}, ${Math.round(empty * 100)} percent empty`,
   overLimit: (limit: number): string => `The sheet is larger than ${limit} pixels on a side.`,
   export: 'Export the sheet',
+  trim: 'Trim empty edges',
+  trimManual: 'Trim works with a grid or packed sheet.',
+  powerOfTwo: 'Power of two size',
+  pageSide: 'Page size, 0 for one page',
+  page: (page: number, count: number): string => `Page ${page} of ${count}`,
+  previous: 'Previous page',
+  next: 'Next page',
+  offsets: 'Trimmed sprites keep their offset, so the export restores them.',
 } as const;
 
 const DIALOG_TEXT = {

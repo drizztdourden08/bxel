@@ -18,7 +18,20 @@ const drawAtlas = (canvas: HTMLCanvasElement, view: AtlasDraw): void => {
   for (const item of atlas.items) {
     const sprite = sprites.get(item.id);
     const image = sprite ? spriteImage(artwork, sprite) : null;
-    if (image) ctx.drawImage(frameCanvas(canvas.ownerDocument, image), item.x * scale, item.y * scale, item.width * scale, item.height * scale);
+    const { source } = item;
+    if (image) {
+      ctx.drawImage(
+        frameCanvas(canvas.ownerDocument, image),
+        source.x,
+        source.y,
+        source.width,
+        source.height,
+        item.x * scale,
+        item.y * scale,
+        item.width * scale,
+        item.height * scale,
+      );
+    }
   }
   drawAtlasMarks(canvas, view);
 };

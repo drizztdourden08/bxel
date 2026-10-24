@@ -3,6 +3,7 @@ import type { DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, Ref
 import type { MenuGroup } from '@drizztdourden08/tessera';
 import type { Artwork, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
+import type { FolderGroup, GridRow, SavedSelection } from '../../sheet-manager/folders.type';
 import type { ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
 import type { HintSpec } from '../ActionHint';
 
@@ -12,8 +13,11 @@ interface ManagerModel {
   sheet: Sheet | null;
   facts: readonly SpriteFacts[];
   shown: readonly SpriteFacts[];
+  groups: readonly FolderGroup[];
   order: readonly SpriteId[];
   sizes: readonly string[];
+  tags: readonly string[];
+  twins: ReadonlySet<SpriteId>;
   ids: readonly SpriteId[];
 }
 
@@ -50,6 +54,7 @@ interface SpriteState {
   active: boolean;
   affected: boolean;
   loose: boolean;
+  twin: boolean;
 }
 
 interface SpriteHandlers {
@@ -86,6 +91,12 @@ interface SpriteGridProps extends SpriteViewProps {
   box: number;
 }
 
+interface FilterOptions {
+  sizes: readonly string[];
+  tags: readonly string[];
+  banks: readonly { id: string; name: string }[];
+}
+
 interface FilterActions {
   patch: (change: Partial<ManagerFilter>) => void;
   clear: () => void;
@@ -102,8 +113,29 @@ interface ListHeadCellProps {
   onSort: () => void;
 }
 
+interface GridTileProps {
+  view: SpriteGridProps;
+  fact: SpriteFacts;
+}
+
+interface GridSpacerProps {
+  at: number;
+  rows: number;
+}
+
+interface GridRowViewProps {
+  view: SpriteGridProps;
+  row: GridRow;
+  at: number;
+}
+
+interface FolderHeaderProps {
+  group: FolderGroup;
+}
+
 interface SpriteBadgesProps {
   fact: SpriteFacts;
+  twin: boolean;
 }
 
 interface ToolbarButtonProps {
@@ -118,6 +150,7 @@ interface ActionContext {
   sortKey: SortKey;
   rename: (id: SpriteId) => void;
   open: (dialog: ManagerDialog) => void;
+  selections: readonly SavedSelection[];
 }
 
 interface ActionsMenuProps {
@@ -125,6 +158,7 @@ interface ActionsMenuProps {
 }
 
 interface ManagerToolbarProps {
+  open: (dialog: ManagerDialog) => void;
   model: ManagerModel;
   groups: readonly MenuGroup[];
 }
@@ -146,13 +180,24 @@ interface KeyShape {
 
 type SpriteKeyHandler = (event: KeyboardEvent<HTMLElement>) => void;
 
+interface KeyHandlers {
+  begin: (spriteId: SpriteId) => void;
+  open: (dialog: ManagerDialog) => void;
+}
+
 type KeyAction = () => void;
 
 export type {
   ActionContext,
   ActionsMenuProps,
   FilterActions,
+  FilterOptions,
+  FolderHeaderProps,
+  GridRowViewProps,
+  GridSpacerProps,
+  GridTileProps,
   KeyAction,
+  KeyHandlers,
   KeyShape,
   ListColumn,
   ListHeadCellProps,

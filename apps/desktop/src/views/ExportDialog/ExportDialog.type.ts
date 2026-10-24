@@ -13,6 +13,7 @@ interface FrameFieldsProps extends FieldsProps {
 }
 
 interface TargetFieldsProps extends FrameFieldsProps {
+  sheetLabel: string | null;
   spriteCount: number;
   selectedCount: number;
 }
@@ -73,6 +74,7 @@ interface ExportModel {
   spriteCount: number;
   selectedCount: number;
   tags: readonly string[];
+  sheetLabel: string | null;
 }
 
 interface ExportFieldsProps {

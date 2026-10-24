@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
+import type { GridRow } from '../../sheet-manager/folders.type';
 import { DIALOG_COMMAND } from '../../keymap/dialog-command-id.constants';
 import { SHEET_COMMAND } from '../../keymap/sheet-command-id.constants';
 import { MANAGER_TEXT } from '../../sheet-manager/manager-text.constants';
@@ -7,6 +8,8 @@ import type { HintSpec } from '../ActionHint';
 import type { ListColumn } from './SpritesPanel.type';
 
 const NO_SPRITES: readonly SpriteId[] = [];
+
+const NO_ROWS: readonly GridRow[] = [];
 
 const DRAG_TYPE = 'application/x-bxel-sprite';
 
@@ -20,7 +23,13 @@ const MARQUEE_ITEM = '[data-marquee-key]';
 
 const VIRTUAL_LIST_MIN = 200;
 
+const VIRTUAL_GRID_MIN = 200;
+
+const GRID_START_WIDTH = 320;
+
 const END_INDEX = 100000;
+
+const FOLDER_DEPTH_LIMIT = 4;
 
 const MANAGER_TABS = [
   { id: 'sprites', label: MANAGER_TEXT.tabs.sprites },
@@ -32,8 +41,8 @@ const LIST_COLUMNS: readonly ListColumn[] = [
   { key: 'size', label: 'size' },
   { key: null, label: 'pivot' },
   { key: 'frames', label: 'frames' },
-  { key: null, label: 'tags' },
-  { key: null, label: 'bank' },
+  { key: 'tags', label: 'tags' },
+  { key: 'bank', label: 'bank' },
 ];
 
 const IN_LIST = 'In the list';
@@ -88,4 +97,9 @@ const SPRITE_HINTS = {
   },
 } as const satisfies Record<string, HintSpec>;
 
-export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, MARQUEE_ITEM, NO_SPRITES, SPRITE_HINTS, VIRTUAL_LIST_MIN };
+const SPRITE_STEPS = [
+  { hint: SPRITE_HINTS.earlier, icon: 'arrow-left', by: -1 },
+  { hint: SPRITE_HINTS.later, icon: 'arrow-right', by: 1 },
+] as const;
+
+export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_START_WIDTH, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, MARQUEE_ITEM, NO_ROWS, NO_SPRITES, SPRITE_HINTS, SPRITE_STEPS, VIRTUAL_GRID_MIN, VIRTUAL_LIST_MIN };

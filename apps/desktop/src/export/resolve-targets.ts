@@ -4,13 +4,17 @@ import type { Artwork, Frame, Sprite, SpriteId } from '@bxel/document';
 import { NO_CURRENT } from '../editor/current-pick.constants';
 import type { CurrentPick } from '../editor/current-pick.type';
 import { listSprites } from '../sheet/list-sprites';
-import { EXPORT_TEXT } from './export.constants';
+import { EMPTY_PICK, EXPORT_TEXT } from './export.constants';
 import type { ExportSettings, Target, TargetsResult } from './export.type';
 import { layered } from './layered';
 
 const pickSprites = (artwork: Artwork, settings: ExportSettings, selectedIds: readonly SpriteId[], current: CurrentPick): Sprite[] => {
   const own = listSprites(artwork);
   if (settings.sprites === 'all') return [...own];
+  if (settings.sprites === 'sheet') {
+    const sheet = artwork.sheets.find((each) => each.id === settings.sheetId);
+    return (sheet?.entries ?? []).flatMap((entry) => own.find((sprite) => sprite.id === entry.spriteId) ?? []);
+  }
   if (settings.sprites === 'selected') return own.filter((sprite) => selectedIds.includes(sprite.id));
   const picked = own.find((sprite) => sprite.id === current.spriteId) ?? own[0];
   return picked ? [picked] : [];
@@ -42,7 +46,7 @@ const resolveTargets = (
 ): TargetsResult => {
   const sprites = pickSprites(artwork, settings, selectedIds, current);
   if (sprites.length === 0) {
-    return { ok: false, message: settings.sprites === 'selected' ? EXPORT_TEXT.noSelection : EXPORT_TEXT.noSprite };
+    return { ok: false, message: EMPTY_PICK[settings.sprites] };
   }
   if (settings.frames === 'tag' && settings.kind !== 'sprite' && settings.tag === '') {
     return { ok: false, message: EXPORT_TEXT.chooseTag };

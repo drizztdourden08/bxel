@@ -14,6 +14,9 @@ import { pixelsShade } from './pixels-shade';
 import { pixelsShape } from './pixels-shape';
 import { pixelsStamp } from './pixels-stamp';
 import { pixelsTurn } from './pixels-turn';
+import { spriteMerge } from './compose/sprite-merge';
+import { spriteSlice } from './compose/sprite-slice';
+import { spriteSplit } from './compose/sprite-split';
 import { spriteFlip } from './sprite-flip';
 import { spriteResize } from './sprite-resize';
 import { spriteTrim } from './sprite-trim';
@@ -30,6 +33,9 @@ const rasterCommands: readonly CommandDef[] = [
   spriteTurn,
   spriteResize,
   spriteTrim,
+  spriteMerge,
+  spriteSplit,
+  spriteSlice,
   pixelsReplace,
   pixelsShade,
   pixelsGradient,

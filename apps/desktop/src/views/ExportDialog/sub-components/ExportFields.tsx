@@ -25,6 +25,7 @@ const ExportFields = ({ model, onEnter }: ExportFieldsProps) => {
           change={change}
           spriteCount={model.spriteCount}
           selectedCount={model.selectedCount}
+          sheetLabel={model.sheetLabel}
           tags={model.tags}
         />
       )}
