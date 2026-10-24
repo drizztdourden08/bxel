@@ -3,14 +3,16 @@ import { findBank, nameKey, resolveFrames } from '@bxel/document';
 import type { Artwork, Frame, Sprite, SpriteId } from '@bxel/document';
 import { NO_CURRENT } from '../editor/current-pick.constants';
 import type { CurrentPick } from '../editor/current-pick.type';
+import { listSprites } from '../sheet/list-sprites';
 import { EXPORT_TEXT } from './export.constants';
 import type { ExportSettings, Target, TargetsResult } from './export.type';
 import { layered } from './layered';
 
 const pickSprites = (artwork: Artwork, settings: ExportSettings, selectedIds: readonly SpriteId[], current: CurrentPick): Sprite[] => {
-  if (settings.sprites === 'all') return [...artwork.sprites];
-  if (settings.sprites === 'selected') return artwork.sprites.filter((sprite) => selectedIds.includes(sprite.id));
-  const picked = artwork.sprites.find((sprite) => sprite.id === current.spriteId) ?? artwork.sprites[0];
+  const own = listSprites(artwork);
+  if (settings.sprites === 'all') return [...own];
+  if (settings.sprites === 'selected') return own.filter((sprite) => selectedIds.includes(sprite.id));
+  const picked = own.find((sprite) => sprite.id === current.spriteId) ?? own[0];
   return picked ? [picked] : [];
 };
 

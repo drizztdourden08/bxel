@@ -48,6 +48,18 @@ const TOOL_OPTIONS: Readonly<Record<ToolId, readonly OptionKind[]>> = {
   move: [],
 };
 
+const MAP_TOOL_OPTIONS: Readonly<Record<ToolId, readonly OptionKind[]>> = {
+  pencil: ['mapFlags'],
+  eraser: [],
+  fill: ['mapFlags'],
+  picker: [],
+  shape: ['mapFlags', 'mapFilled'],
+  zoom: [],
+  hand: [],
+  select: ['mapSelection', 'mapFlags'],
+  move: [],
+};
+
 const BRUSH_SHAPES: readonly BrushShape[] = ['square', 'circle'];
 
 const NEIGHBOUR_CHOICES: Readonly<Record<Connectivity, string>> = { 4: '4', 8: '8' };
@@ -144,6 +156,6 @@ const SCOPE_HINTS = {
 
 export {
   BRUSH_SHAPE_HINTS, BRUSH_SHAPES, BRUSH_SIZE_HINT, CONTEXT_TEXT, EXPAND_HINT, FILL_HINTS, FILLED_HINT, MIRROR_HINTS, MIRROR_X_HINT, MIRROR_Y_HINT,
-  NEIGHBOUR_CHOICES, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SCOPE_DESCRIPTION, SCOPE_HINTS, SELECT_MODE_HINTS, SELECT_VARIANT_HINTS, SHAPE_HINTS,
+  MAP_TOOL_OPTIONS, NEIGHBOUR_CHOICES, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SCOPE_DESCRIPTION, SCOPE_HINTS, SELECT_MODE_HINTS, SELECT_VARIANT_HINTS, SHAPE_HINTS,
   SHRINK_HINT, TOOL_OPTIONS,
 };

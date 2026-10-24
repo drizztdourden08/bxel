@@ -5,6 +5,7 @@ import type { EditorMenuState } from './editor-menu.type';
 import { helpMenu } from './help-menu';
 import { layerMenu } from './layer-menu';
 import { sheetMenu } from './sheet-menu';
+import { tilemapMenu } from './tilemap-menu';
 import { paletteMenu } from './palette-menu';
 import { viewMenu } from './view-menu';
 
@@ -13,6 +14,7 @@ const editorMenu = (state: EditorMenuState): MenuEntry[] => [
   paletteMenu(state),
   layerMenu(state),
   sheetMenu(state),
+  tilemapMenu(state),
   viewMenu(state),
   helpMenu(),
 ];

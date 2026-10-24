@@ -5,6 +5,7 @@ import { AnimationFields } from './AnimationFields';
 import { ColourField } from './ColourField';
 import { DestinationFields } from './DestinationFields';
 import { KindField } from './KindField';
+import { MapFormatField } from './MapFormatField';
 import { ScaleField } from './ScaleField';
 import { SheetFields } from './SheetFields';
 import { TargetFields } from './TargetFields';
@@ -12,20 +13,24 @@ import { TargetFields } from './TargetFields';
 const ExportFields = ({ model, onEnter }: ExportFieldsProps) => {
   const { settings, change } = model.draft;
   const first = model.plan.files[0];
+  const imagery = settings.kind !== 'map';
   return (
     <Stack gap="md" className="export-dialog__fields">
       <KindField settings={settings} change={change} />
+      {!imagery && <MapFormatField settings={settings} change={change} />}
       {settings.kind === 'animation' && <AnimationFields settings={settings} change={change} />}
-      <TargetFields
-        settings={settings}
-        change={change}
-        spriteCount={model.spriteCount}
-        selectedCount={model.selectedCount}
-        tags={model.tags}
-      />
+      {imagery && (
+        <TargetFields
+          settings={settings}
+          change={change}
+          spriteCount={model.spriteCount}
+          selectedCount={model.selectedCount}
+          tags={model.tags}
+        />
+      )}
       {settings.kind === 'sheet' && <SheetFields settings={settings} change={change} />}
-      <ScaleField settings={settings} change={change} />
-      <ColourField settings={settings} change={change} indexed={model.plan.indexed} />
+      {imagery && <ScaleField settings={settings} change={change} />}
+      {imagery && <ColourField settings={settings} change={change} indexed={model.plan.indexed} />}
       <DestinationFields
         settings={settings}
         change={change}

@@ -20,6 +20,7 @@ const MIN_SHEET_SPRITES = 2;
 const SHEET_TEXT = {
   sprite: 'Sprite',
   sheet: 'Sheet',
+  tilemap: 'Tilemap',
   mode: 'Mode',
   modeSheetOff: 'Add a second sprite to use Sheet mode.',
   modePreviewOff: 'Apply or cancel the preview first.',

@@ -52,6 +52,19 @@ type ActionIconName =
 
 type SheetIconName = 'gridView' | 'listView' | 'atlas';
 
+type TilemapIconName =
+  | 'tileset'
+  | 'tileAdd'
+  | 'tileUnique'
+  | 'mapPaint'
+  | 'mapErase'
+  | 'mapFill'
+  | 'mapRect'
+  | 'mapPick'
+  | 'mapLayerAdd'
+  | 'flipTileX'
+  | 'flipTileY';
+
 type SpriteIconName = 'flipH' | 'flipV' | 'turnLeft' | 'turnRight' | 'pivot' | 'isolate';
 
 type TimelineIconName = 'pause' | 'loop' | 'pingPong' | 'framePrev' | 'frameNext';
@@ -65,6 +78,7 @@ type PixelIconName =
   | ViewIconName
   | ActionIconName
   | SheetIconName
+  | TilemapIconName
   | SpriteIconName
   | TimelineIconName
   | FrameIconName;
@@ -83,6 +97,7 @@ export type {
   ActionIconName,
   SheetIconName,
   SpriteIconName,
+  TilemapIconName,
   TimelineIconName,
   FrameIconName,
   PixelBitmap,

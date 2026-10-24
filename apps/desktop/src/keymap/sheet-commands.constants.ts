@@ -32,6 +32,7 @@ const onSelection = (run: (ids: ReturnType<typeof selectionIds>) => void) => ():
 const MODE_COMMANDS: readonly CommandDef[] = [
   { id: ID.modeSprite, label: 'Sprite mode', group, chord: 'Alt+1', whileTyping: false, run: () => void switchMode('sprite') },
   { id: ID.modeSheet, label: 'Sheet mode', group, chord: 'Alt+2', whileTyping: false, run: () => void switchMode('sheet') },
+  { id: ID.modeTilemap, label: 'Tilemap mode', group, chord: 'Alt+3', whileTyping: false, run: () => void switchMode('tilemap') },
   { id: ID.isolate, label: 'Isolate sprite', group, run: () => isolateSprite() },
   { id: ID.back, label: 'Back to sheet', group, chord: 'Escape', whileTyping: false, when: leavable, run: leaveAction },
   { id: ID.broadcast, label: 'Paint all selected', group, chord: 'Alt+B', whileTyping: false, run: toggleBroadcast },

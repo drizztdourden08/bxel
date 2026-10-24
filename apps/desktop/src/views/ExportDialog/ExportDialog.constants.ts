@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { AnimationFormat, ColourMode, ExportKind, FrameChoice, LayerChoice, LayoutChoice } from '../../export/export.type';
+import type { AnimationFormat, ColourMode, ExportKind, FrameChoice, LayerChoice, LayoutChoice, MapFormat } from '../../export/export.type';
 
 const EXPORT_DIALOG_TEXT = {
   title: 'Export',
@@ -16,6 +16,7 @@ const EXPORT_DIALOG_TEXT = {
   extrusion: 'Extrusion in pixels',
   trim: 'Trim transparent edges',
   flavour: 'JSON format',
+  mapFormat: 'Map format',
   scale: 'Scale',
   scaleNote: 'Whole numbers 1 to 8. Never blurred.',
   colour: 'Colour',
@@ -34,6 +35,7 @@ const EXPORT_DIALOG_TEXT = {
   saveNamed: 'Save',
   cancel: 'Cancel',
   browseTitle: 'Choose where to export',
+  browseFolderTitle: 'Choose the folder to export to',
   selected: (count: number): string => `Selected sprites (${count})`,
   all: (count: number): string => `All sprites (${count})`,
   current: 'Current sprite',
@@ -46,6 +48,12 @@ const KIND_OPTIONS: { value: ExportKind; label: string }[] = [
   { value: 'frames', label: 'Frames' },
   { value: 'animation', label: 'Animation' },
   { value: 'sheet', label: 'Sheet and JSON' },
+  { value: 'map', label: 'Tilemap' },
+];
+
+const MAP_FORMAT_OPTIONS: { value: MapFormat; label: string }[] = [
+  { value: 'bxel', label: 'Bxel map JSON' },
+  { value: 'tiled', label: 'Tiled JSON' },
 ];
 
 const LAYER_OPTIONS: { value: LayerChoice; label: string }[] = [
@@ -88,4 +96,5 @@ export {
   KIND_OPTIONS,
   LAYER_OPTIONS,
   LAYOUT_OPTIONS,
+  MAP_FORMAT_OPTIONS,
 };

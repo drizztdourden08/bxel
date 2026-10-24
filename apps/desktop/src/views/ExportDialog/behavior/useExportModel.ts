@@ -3,6 +3,7 @@ import { exportBlocker } from '../../../export/export-blocker';
 import { IMAGE_EXTENSION } from '../../../export/export.constants';
 import { useExportStore } from '../../../export/useExportStore';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
+import { listSprites } from '../../../sheet/list-sprites';
 import type { ExportModel } from '../ExportDialog.type';
 import { useCurrentPick } from './useCurrentPick';
 import { useExportActions } from './useExportActions';
@@ -23,7 +24,8 @@ const useExportModel = (): ExportModel | null => {
   const running = useExportStore((state) => state.running);
   const artwork = useActiveDocument()?.state.artwork;
   if (!plan || !artwork) return null;
-  const tags = artwork.sprites[0]?.tags.map((tag) => tag.name) ?? [];
+  const sprites = listSprites(artwork);
+  const tags = sprites[0]?.tags.map((tag) => tag.name) ?? [];
   const blocker = exportBlocker(plan, draft.settings);
   return {
     draft,
@@ -33,7 +35,7 @@ const useExportModel = (): ExportModel | null => {
     source,
     blocker,
     running,
-    spriteCount: artwork.sprites.length,
+    spriteCount: sprites.length,
     selectedCount: selectedIds.length,
     tags,
   };

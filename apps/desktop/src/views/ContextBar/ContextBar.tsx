@@ -1,32 +1,27 @@
 /* @layer renderer-app @kind component */
 import { Divider, Flex, ScrollArea } from '@drizztdourden08/tessera';
+import { useMapPlacing } from '../../hooks/useMapPlacing';
+import { useSpriteStore } from '../../stores/useSpriteStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { ModeBar } from '../ModeBar';
-import { CONTEXT_TEXT, TOOL_OPTIONS } from './ContextBar.constants';
-import { BrushOptions } from './sub-components/BrushOptions';
-import { FillOptions } from './sub-components/FillOptions';
-import { PixelPerfectOption } from './sub-components/PixelPerfectOption';
+import { CONTEXT_TEXT, MAP_TOOL_OPTIONS, TOOL_OPTIONS } from './ContextBar.constants';
 import { ScopeChips } from './sub-components/ScopeChips';
-import { SelectOptions } from './sub-components/SelectOptions';
-import { ShapeOptions } from './sub-components/ShapeOptions';
-import { SymmetryOptions } from './sub-components/SymmetryOptions';
+import { TileBar } from './sub-components/TileBar';
+import { ToolOptions } from './sub-components/ToolOptions';
 import './ContextBar.css';
 
 const ContextBar = () => {
   const tool = useToolStore((state) => state.tool);
-  const options = TOOL_OPTIONS[tool];
+  const tilemap = useSpriteStore((state) => state.mode === 'tilemap');
+  const placing = useMapPlacing();
+  const options = placing ? MAP_TOOL_OPTIONS[tool] : TOOL_OPTIONS[tool];
   return (
     <ScrollArea axis="x" scrollbar="slim" role="group" aria-label={CONTEXT_TEXT.region} className="context-bar">
       <Flex gap="md" align="center" className="context-bar__row">
         <ModeBar />
-        <ScopeChips />
+        {tilemap ? <TileBar /> : <ScopeChips />}
         {options.length > 0 && <Divider orientation="vertical" />}
-        {options.includes('shape') && <ShapeOptions />}
-        {options.includes('brush') && <BrushOptions />}
-        {options.includes('pixelPerfect') && <PixelPerfectOption />}
-        {options.includes('fill') && <FillOptions />}
-        {options.includes('symmetry') && <SymmetryOptions />}
-        {options.includes('select') && <SelectOptions />}
+        <ToolOptions kinds={options} />
       </Flex>
     </ScrollArea>
   );

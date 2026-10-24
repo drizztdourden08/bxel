@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
 import type { JobStepDef } from '@drizztdourden08/brock-core';
-import type { ExportResult, ExportSettings, IndexedStatus, SavedPreset } from './export.type';
+import type { ExportKind, ExportResult, ExportSettings, IndexedStatus, SavedPreset } from './export.type';
 
 const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   kind: 'sprite',
@@ -19,6 +19,7 @@ const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   extrusion: 0,
   trim: false,
   flavour: 'bxel',
+  mapFormat: 'bxel',
   folder: '',
   fileName: '',
 };
@@ -54,7 +55,7 @@ const EXPORT_STEPS: readonly JobStepDef[] = [
 
 const UNSAFE_NAME_CHARS = /[\\/:*?"<>|\p{Cc}]/gu;
 
-const IMAGE_EXTENSION = /\.(png|gif|apng|json)$/i;
+const IMAGE_EXTENSION = /\.(png|gif|apng|json|tmj)$/i;
 
 const EXPORT_FALLBACK_NAME = 'export';
 
@@ -128,6 +129,8 @@ const PREVIEW_MIME: Readonly<Record<string, string>> = { png: 'image/png', gif: 
 
 const NO_SPRITES: readonly SpriteId[] = [];
 
+const FOLDER_KINDS: readonly ExportKind[] = ['frames', 'sheet', 'map'];
+
 const NO_PRESETS: readonly SavedPreset[] = [];
 
 const NO_INDEXED: IndexedStatus = { state: 'unavailable', note: '' };
@@ -143,6 +146,7 @@ export {
   EXPORT_RANGES,
   EXPORT_STEPS,
   EXPORT_TEXT,
+  FOLDER_KINDS,
   FOLDER_TAIL,
   IMAGE_EXTENSION,
   NO_INDEXED,

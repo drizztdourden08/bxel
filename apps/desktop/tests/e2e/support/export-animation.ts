@@ -2,17 +2,15 @@
 import { mkdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { expect } from 'vitest';
-import { answerDialogs } from './answer-dialogs';
-import { POLL_MS, SHORTCUT } from './e2e.constants';
+import { POLL_MS } from './e2e.constants';
 import type { Session } from './e2e.type';
+import { openExportDialog } from './open-export-dialog';
 
 const exportAnimation = async (session: Session, format: 'GIF' | 'APNG'): Promise<Uint8Array> => {
   const folder = join(session.dir, `out-${format}`);
   const file = join(folder, `walk.${format === 'GIF' ? 'gif' : 'png'}`);
   await mkdir(folder, { recursive: true });
-  await answerDialogs(session, { open: null, save: file });
-  await session.page.keyboard.press(SHORTCUT.exportImages);
-  const dialog = session.page.getByRole('dialog', { name: 'Export' });
+  const dialog = await openExportDialog(session, { open: null, save: file });
   await dialog.getByRole('radio', { name: 'Animation' }).check();
   await dialog.getByRole('radio', { name: format, exact: true }).check();
   await dialog.getByRole('button', { name: 'Browse...' }).click();

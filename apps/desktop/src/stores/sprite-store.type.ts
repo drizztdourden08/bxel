@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { SpriteId } from '@bxel/document';
 
-type SpriteMode = 'sprite' | 'sheet';
+type SpriteMode = 'sprite' | 'sheet' | 'tilemap';
 
 type LayerScope = 'active' | 'visible' | 'all';
 
