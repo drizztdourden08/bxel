@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Callout } from '@drizztdourden08/tessera';
 import { IDENTICAL_TEXT } from '../../../../../sheet-manager/identical-text.constants';
-import type { CompareVerdictProps } from '../CompareDialog.type';
+import type { CompareVerdictProps } from '../../../../../sheet-manager/dialog-form.type';
 
 const CompareVerdict = ({ comparison, first, second }: CompareVerdictProps) => {
   if (comparison.identical) return <Callout tone="success">{IDENTICAL_TEXT.identical}</Callout>;

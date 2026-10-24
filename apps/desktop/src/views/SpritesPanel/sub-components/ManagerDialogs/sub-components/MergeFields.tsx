@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { AnchorPicker, Checkbox, Field, Stack, TextInput } from '@drizztdourden08/tessera';
 import { COMPOSE_TEXT } from '../../../../../sheet-manager/compose-text.constants';
-import type { MergeFieldsProps } from '../ComposeDialogs.type';
+import type { MergeFieldsProps } from '../../../../../sheet-manager/dialog-form.type';
 
 const MergeFields = ({ spec, first, update }: MergeFieldsProps) => (
   <Stack gap="sm">

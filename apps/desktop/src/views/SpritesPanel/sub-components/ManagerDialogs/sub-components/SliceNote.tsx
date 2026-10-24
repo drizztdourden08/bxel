@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Text } from '@drizztdourden08/tessera';
 import { COMPOSE_TEXT } from '../../../../../sheet-manager/compose-text.constants';
-import type { SliceNoteProps } from '../ComposeDialogs.type';
+import type { SliceNoteProps } from '../../../../../sheet-manager/dialog-form.type';
 
 const SliceNote = ({ plan }: SliceNoteProps) => (
   <>

@@ -5,7 +5,7 @@ import type { SliceSpec } from '../../../../../sheet-manager/compose.type';
 import { otherNames } from '../../../../../sheet-manager/other-names';
 import { slicePlan } from '../../../../../sheet-manager/slice-plan';
 import type { ManagerModel } from '../../../SpritesPanel.type';
-import type { SliceForm } from '../ComposeDialogs.type';
+import type { SliceForm } from '../../../../../sheet-manager/dialog-form.type';
 import { useTargets } from './useTargets';
 
 const useSliceForm = (model: ManagerModel): SliceForm => {

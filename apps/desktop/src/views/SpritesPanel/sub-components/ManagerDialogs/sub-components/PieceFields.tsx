@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Checkbox, Field, Flex, NumberInput, Stack, TextInput } from '@drizztdourden08/tessera';
 import { COMPOSE_TEXT } from '../../../../../sheet-manager/compose-text.constants';
-import type { PieceFieldsProps } from '../ComposeDialogs.type';
+import type { PieceFieldsProps } from '../../../../../sheet-manager/dialog-form.type';
 
 const PieceFields = ({ pattern, start, keep, update }: PieceFieldsProps) => (
   <Stack gap="sm">

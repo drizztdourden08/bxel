@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Callout, Text } from '@drizztdourden08/tessera';
 import { COMPOSE_TEXT } from '../../../../../sheet-manager/compose-text.constants';
-import type { MergeNoteProps } from '../ComposeDialogs.type';
+import type { MergeNoteProps } from '../../../../../sheet-manager/dialog-form.type';
 
 const MergeNote = ({ plan }: MergeNoteProps) => {
   if (plan.blocker !== null) return <Callout tone="danger">{plan.blocker}</Callout>;

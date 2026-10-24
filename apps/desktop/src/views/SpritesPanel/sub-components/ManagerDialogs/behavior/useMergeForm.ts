@@ -4,7 +4,7 @@ import { MERGE_START } from '../../../../../sheet-manager/compose.constants';
 import type { MergeSpec } from '../../../../../sheet-manager/compose.type';
 import { mergePlan } from '../../../../../sheet-manager/merge-plan';
 import type { ManagerModel } from '../../../SpritesPanel.type';
-import type { MergeForm } from '../ComposeDialogs.type';
+import type { MergeForm } from '../../../../../sheet-manager/dialog-form.type';
 import { useTargets } from './useTargets';
 
 const useMergeForm = (model: ManagerModel): MergeForm => {

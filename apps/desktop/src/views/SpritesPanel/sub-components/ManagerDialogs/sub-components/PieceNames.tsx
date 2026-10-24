@@ -2,7 +2,7 @@
 import { Callout, Stack, Text } from '@drizztdourden08/tessera';
 import { COMPOSE_TEXT } from '../../../../../sheet-manager/compose-text.constants';
 import { PREVIEW_NAMES } from '../../../../../sheet-manager/compose.constants';
-import type { PieceNamesProps } from '../ComposeDialogs.type';
+import type { PieceNamesProps } from '../../../../../sheet-manager/dialog-form.type';
 
 const PieceNames = ({ plan }: PieceNamesProps) => (
   <Stack gap="2xs" aria-live="polite">

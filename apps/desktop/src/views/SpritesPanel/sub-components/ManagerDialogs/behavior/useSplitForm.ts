@@ -5,7 +5,7 @@ import type { SplitSpec } from '../../../../../sheet-manager/compose.type';
 import { otherNames } from '../../../../../sheet-manager/other-names';
 import { splitPlan } from '../../../../../sheet-manager/split-plan';
 import type { ManagerModel } from '../../../SpritesPanel.type';
-import type { SplitForm } from '../ComposeDialogs.type';
+import type { SplitForm } from '../../../../../sheet-manager/dialog-form.type';
 import { useTargets } from './useTargets';
 
 const useSplitForm = (model: ManagerModel): SplitForm => {

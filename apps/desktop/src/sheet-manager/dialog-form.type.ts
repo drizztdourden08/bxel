@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
-import type { Sprite } from '@bxel/document';
-import type { MergePlan, MergeSpec, PiecePlan, SlicePlan, SliceSpec, SplitSpec } from '../../../../sheet-manager/compose.type';
+import type { Artwork, Sprite } from '@bxel/document';
+import type { MergePlan, MergeSpec, PiecePlan, SlicePlan, SliceSpec, SplitSpec } from './compose.type';
+import type { SpriteComparison } from './identical.type';
 
 interface MergeForm {
   spec: MergeSpec;
@@ -54,7 +55,27 @@ interface SliceNoteProps {
   plan: SlicePlan;
 }
 
+interface CompareSideProps {
+  artwork: Artwork;
+  sprite: Sprite;
+}
+
+interface CompareDiffProps {
+  artwork: Artwork;
+  first: Sprite;
+  second: Sprite;
+}
+
+interface CompareVerdictProps {
+  comparison: SpriteComparison;
+  first: Sprite;
+  second: Sprite;
+}
+
 export type {
+  CompareDiffProps,
+  CompareSideProps,
+  CompareVerdictProps,
   MergeFieldsProps,
   MergeForm,
   MergeNoteProps,

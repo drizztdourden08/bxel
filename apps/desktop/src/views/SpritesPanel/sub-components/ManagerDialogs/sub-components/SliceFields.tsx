@@ -3,7 +3,7 @@ import { MAX_SPRITE_SIZE } from '@bxel/document';
 import { Checkbox, RadioGroup, Stack } from '@drizztdourden08/tessera';
 import { COMPOSE_TEXT } from '../../../../../sheet-manager/compose-text.constants';
 import { SLICE_KINDS } from '../ManagerDialogs.constants';
-import type { SliceFieldsProps } from '../ComposeDialogs.type';
+import type { SliceFieldsProps } from '../../../../../sheet-manager/dialog-form.type';
 import { NumberPair } from './NumberPair';
 
 const SliceFields = ({ spec, update }: SliceFieldsProps) => (
