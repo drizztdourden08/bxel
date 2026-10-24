@@ -7,6 +7,7 @@ import { NEW_FILE_NAME, NEW_LABEL } from './new-sprite.constants';
 import type { CreationForm, CreationOutcome } from './new-sprite.type';
 import { spriteNames } from './sprite-names';
 import { spriteSize } from './sprite-size';
+import { nextSheetName } from './next-sheet-name';
 import { sheetSteps } from './sheet-steps';
 import { spriteSteps } from './sprite-steps';
 
@@ -25,7 +26,7 @@ const createNewFile = (host: DocumentHost, form: CreationForm): CreationOutcome 
   if (!created.ok) return { ok: false, message: created.error.message };
   const { documentId } = created;
   const existingId = host.view(documentId)?.state.artwork.sprites[0]?.id ?? null;
-  const steps = [...bankSteps(form), ...spriteSteps({ names, size, bankId: null, fillSlot: fillSlotOf(form), existingId }), ...sheetSteps(names, form, size, existingId)];
+  const steps = [...bankSteps(form), ...spriteSteps({ names, size, bankId: null, fillSlot: fillSlotOf(form), existingId, pixelGrid: form.pixelGrid }), ...sheetSteps({ names, form, size, existingId, sheetName: nextSheetName([]) })];
   if (steps.length === 0) return { ok: true, documentId, names };
   const done = runSteps(host, documentId, form.kind === 'sheet' ? NEW_LABEL.sheet : NEW_LABEL.sprite, steps);
   if (done.ok) return { ok: true, documentId, names };

@@ -31,6 +31,7 @@ interface GridLine {
   colour: string;
   opacity: number;
   every: number;
+  everyY?: number;
 }
 
 interface CanvasLook {

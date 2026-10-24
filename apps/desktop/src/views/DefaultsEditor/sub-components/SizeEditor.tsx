@@ -7,8 +7,8 @@ import { NumberField } from './NumberField';
 const isSize = (value: unknown): value is SizeValue =>
   typeof value === 'object' && value !== null && typeof (value as SizeValue).width === 'number' && typeof (value as SizeValue).height === 'number';
 
-const SizeEditor = ({ value, onChange }: { value: unknown; onChange: (value: unknown) => void }) => {
-  const size = isSize(value) ? value : APP_ASSET_DEFAULTS.size;
+const SizeEditor = ({ value, fallback = APP_ASSET_DEFAULTS.size, onChange }: { value: unknown; fallback?: SizeValue; onChange: (value: unknown) => void }) => {
+  const size = isSize(value) ? value : fallback;
   const { min, max } = DEFAULT_RANGES.size;
   return (
     <Flex gap="sm" align="center" wrap>

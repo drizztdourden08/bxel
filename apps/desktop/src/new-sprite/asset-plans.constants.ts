@@ -6,6 +6,7 @@ import { bankPlan } from '../palette-source/bank-plan';
 import type { AssetPlan, PlanInput } from './asset-plan.type';
 import { extraSpriteSteps } from './extra-sprite-steps';
 import { NEW_REF, NEW_SHEET_REF } from './new-sprite.constants';
+import { nextSheetName } from './next-sheet-name';
 import { sheetSteps } from './sheet-steps';
 import { spriteNames } from './sprite-names';
 import { spriteSize } from './sprite-size';
@@ -18,7 +19,7 @@ const keyFrom = (kind: AssetKey['kind'], ref: string) => (created: Readonly<Reco
 
 const spritePlan = (input: PlanInput): AssetPlan => ({
   steps: [
-    ...spriteSteps({ names: spriteNames(input.form), size: spriteSize(input.form), bankId: input.bankId, fillSlot: null, existingId: null }),
+    ...spriteSteps({ names: spriteNames(input.form), size: spriteSize(input.form), bankId: input.bankId, fillSlot: null, existingId: null, pixelGrid: input.form.pixelGrid }),
     ...extraSpriteSteps(input),
   ],
   keyOf: keyFrom('sprite', NEW_REF),
@@ -27,7 +28,7 @@ const spritePlan = (input: PlanInput): AssetPlan => ({
 const sheetPlan = (input: PlanInput): AssetPlan => {
   const names = spriteNames(input.form);
   const size = spriteSize(input.form);
-  const steps = [...spriteSteps({ names, size, bankId: input.bankId, fillSlot: null, existingId: null }), ...sheetSteps(names, input.form, size, null)];
+  const steps = [...spriteSteps({ names, size, bankId: input.bankId, fillSlot: null, existingId: null, pixelGrid: input.form.pixelGrid }), ...sheetSteps({ names, form: input.form, size, existingId: null, sheetName: nextSheetName(input.artwork.sheets.map((sheet) => sheet.name)) })];
   const sheet = keyFrom('sheet', NEW_SHEET_REF);
   const first = keyFrom('sprite', NEW_REF);
   return { steps, keyOf: (created) => sheet(created) ?? first(created) };

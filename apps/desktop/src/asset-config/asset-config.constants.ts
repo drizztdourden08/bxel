@@ -23,6 +23,7 @@ const ASSET_LABEL = {
   mapSize: 'Resize map',
   platform: 'Set the platform',
   strict: 'Set strict rules',
+  pixelGrid: 'Set the pixel grid',
 } as const;
 
 const ASSET_TEXT = {

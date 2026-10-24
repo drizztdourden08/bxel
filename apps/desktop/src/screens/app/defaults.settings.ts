@@ -18,6 +18,7 @@ const sections: Section[] = [
       { key: 'app.default.palette', label: 'Palette', description: 'The palette a new sprite starts with.' },
       { key: 'app.default.transparent', label: 'Transparent slot', description: 'Slot 0 of a new palette is transparent.' },
       { key: 'app.default.frameDurationMs', label: 'Frame time', description: 'How long a new frame shows.' },
+      { key: 'app.default.pixelGrid', label: 'Pixel grid', description: 'The grid cell a new sprite is saved with.', hint: '1 by 1 draws a line between every pixel. A sprite keeps its own grid.' },
     ],
   },
   {

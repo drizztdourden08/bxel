@@ -42,6 +42,7 @@ const NEW_FORM_BASE: CreationForm = {
   banks: 1,
   tilesetId: '',
   frameMs: 100,
+  pixelGrid: { width: 1, height: 1 },
 };
 
 const KIND_NAME: Readonly<Record<CreationKind, string>> = { sprite: 'sprite', sheet: 'sprite', palette: 'palette', tileset: 'tileset', tilemap: 'map' };
@@ -56,7 +57,7 @@ const KIND_NAMES_OF: Readonly<Record<CreationKind, (artwork: Artwork) => string[
 
 const NEW_FILE_NAME = 'Untitled';
 
-const NEW_SHEET_NAME = 'Sheet';
+const NEW_SHEET_STEM = 'Sheet';
 
 const NEW_SHEET_REF = 'new-sheet';
 
@@ -122,5 +123,5 @@ const NEW_TEXT = {
 } as const;
 
 export {
-  BANK_NAME_ROOM, KIND_NAME, KIND_NAMES_OF, MAX_MAP_SIDE, MAX_NEW_BANKS, MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_REF, NEW_SHEET_NAME, NEW_SHEET_REF, NEW_TEXT, NO_ERRORS, SIZE_PRESETS,
+  BANK_NAME_ROOM, KIND_NAME, KIND_NAMES_OF, MAX_MAP_SIDE, MAX_NEW_BANKS, MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_REF, NEW_SHEET_REF, NEW_SHEET_STEM, NEW_TEXT, NO_ERRORS, SIZE_PRESETS,
 };

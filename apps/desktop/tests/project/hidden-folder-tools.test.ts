@@ -34,7 +34,7 @@ const visibleSprite = () => {
 
 const seed = (disk: Disk): void => {
   const plan = splitIntoAssets(artwork);
-  const paths = new Map(plan.files.map((file) => [file.key.id, `${ROOT}/${file.path}`] as const));
+  const paths = new Map<string, string>(plan.files.map((file) => [file.key.id, `${ROOT}/${file.path}`] as const));
   paths.set(hiddenSprite().id, `${SHARED}/hidden.bxsprite`);
   for (const file of plan.files) {
     const path = paths.get(file.key.id) ?? '';

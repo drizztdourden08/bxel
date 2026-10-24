@@ -2,6 +2,7 @@
 import { z } from 'zod';
 import { idSchema } from './id-schema';
 import { pivotSchema } from './pivot-schema';
+import { pixelGridSchema } from './pixel-grid-schema';
 
 const spriteCreateSchema = z.strictObject({
   name: z.string(),
@@ -9,6 +10,7 @@ const spriteCreateSchema = z.strictObject({
   height: z.number().int(),
   bankId: idSchema('bnk').optional(),
   pivot: pivotSchema.optional(),
+  pixelGrid: pixelGridSchema.optional(),
 });
 
 export { spriteCreateSchema };

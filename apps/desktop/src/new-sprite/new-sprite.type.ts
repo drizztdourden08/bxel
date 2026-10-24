@@ -25,6 +25,7 @@ interface CreationForm {
   banks: number;
   tilesetId: string;
   frameMs: number;
+  pixelGrid: SpriteSize;
 }
 
 interface CreationErrors {
@@ -54,6 +55,7 @@ interface CreationMemory {
   presetId: string;
   platformId?: string;
   frameMs?: number;
+  pixelGrid?: SpriteSize;
 }
 
 interface BackgroundChoice {
@@ -71,6 +73,7 @@ interface SpriteDraft {
   name: string;
   width: number;
   height: number;
+  pixelGrid?: SpriteSize;
 }
 
 interface SpriteStepsInput {
@@ -79,6 +82,15 @@ interface SpriteStepsInput {
   bankId: string | null;
   fillSlot: number | null;
   existingId: string | null;
+  pixelGrid?: SpriteSize;
+}
+
+interface SheetStepsInput {
+  names: readonly string[];
+  form: CreationForm;
+  size: SpriteSize;
+  existingId: string | null;
+  sheetName: string;
 }
 
 interface SpriteCheck {
@@ -95,4 +107,4 @@ type CreationOutcome = { ok: true; documentId: DocumentId; names: readonly strin
 
 type InFileOutcome = { ok: true; names: readonly string[] } | { ok: false; message: string };
 
-export type { BackgroundChoice, BackgroundKind, InFileOutcome, CreationForm, CreationErrors, CreationKind, CreationMemory, CreationOutcome, CreationSummary, FormNames, SpriteCheck, SpriteDraft, SpriteSize, SpriteStepsInput };
+export type { BackgroundChoice, BackgroundKind, InFileOutcome, CreationForm, CreationErrors, CreationKind, CreationMemory, CreationOutcome, CreationSummary, FormNames, SpriteCheck, SheetStepsInput, SpriteDraft, SpriteSize, SpriteStepsInput };

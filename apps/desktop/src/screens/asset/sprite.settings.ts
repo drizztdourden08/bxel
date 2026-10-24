@@ -55,6 +55,20 @@ const sections: Section[] = [
     id: 'grid',
     title: 'Grid',
     items: [
+      {
+        key: 'sprite.gridWidth',
+        label: 'Pixel grid width',
+        description: 'Pixels between grid lines across. 1 draws a line between every pixel.',
+        hint: 'Saved with the sprite. A new sprite takes it from the defaults.',
+        control: { kind: 'number', min: 1, max: 2048, step: 1, unit: 'px' },
+      },
+      {
+        key: 'sprite.gridHeight',
+        label: 'Pixel grid height',
+        description: 'Pixels between grid lines down.',
+        hint: 'Saved with the sprite.',
+        control: { kind: 'number', min: 1, max: 2048, step: 1, unit: 'px' },
+      },
       { key: 'view.grid', label: 'Pixel grid', description: 'Draw a line between pixels when zoomed in.', hint: 'This is a view setting. It does not change the file.' },
       { key: 'view.gridTile', label: 'Tile grid', description: 'Draw the boundaries of tiles of a set size.', hint: 'The tile size is set on the App Canvas page.' },
     ],

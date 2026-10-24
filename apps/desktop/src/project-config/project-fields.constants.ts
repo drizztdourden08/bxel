@@ -8,7 +8,7 @@ import { PROJECT_CONFIG_TEXT } from './project-config.constants';
 import type { FieldOutcome, ProjectField, ProjectFocus } from './project-config.type';
 import { setProjectDefaults } from './set-project-defaults';
 
-const DEFAULT_KEYS: readonly (keyof AssetDefaults)[] = ['size', 'colorLimit', 'palette', 'platformId', 'platformStrict', 'transparent', 'frameDurationMs'];
+const DEFAULT_KEYS: readonly (keyof AssetDefaults)[] = ['size', 'colorLimit', 'palette', 'platformId', 'platformStrict', 'transparent', 'frameDurationMs', 'pixelGrid'];
 
 const BUFFERED: ReadonlySet<keyof AssetDefaults> = new Set<keyof AssetDefaults>(['size', 'colorLimit', 'frameDurationMs']);
 

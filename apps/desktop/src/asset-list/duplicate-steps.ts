@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
-import type { Artwork, AssetKey, BankId, SheetId, SpriteId, TilemapId, TilesetId } from '@bxel/document';
+import type { Artwork, AssetKey, BankId, CommandStep, SheetId, SpriteId, TilemapId, TilesetId } from '@bxel/document';
 import { PALETTE_COMMAND_NAME } from '@bxel/palette';
 import { spritesTarget } from '../sheet/sprites-target';
 import type { DuplicatePlan } from './duplicate-steps.type';

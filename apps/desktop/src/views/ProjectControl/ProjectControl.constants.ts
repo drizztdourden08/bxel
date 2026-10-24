@@ -26,6 +26,7 @@ const PROJECT_CONTROL_FIELDS: readonly string[] = [
   'project.default.platformStrict',
   'project.default.transparent',
   'project.default.frameDurationMs',
+  'project.default.pixelGrid',
 ];
 
 export { DEFAULT_PREFIX, PALETTES_TEXT, PROJECT_CONTROL_FIELDS };
