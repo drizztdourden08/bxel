@@ -13,14 +13,9 @@ import { useToolStore } from '../../src/stores/useToolStore';
 import { useViewStore } from '../../src/stores/useViewStore';
 import { VIEW_DEFAULTS } from '../../src/stores/view-store.constants';
 import type { PixelView, PixelViewportHandle } from '../../src/views/PixelViewport';
+import { findCommand } from './find-command';
 
-vi.mock('@drizztdourden08/brock-react', () => ({
-  shortcutsHelp: { open: vi.fn() },
-  toast: vi.fn(),
-  commands: { run: vi.fn() },
-  getPlatform: vi.fn(),
-  useRecentDocumentsStore: { getState: vi.fn() },
-}));
+vi.mock('@drizztdourden08/brock-react', async () => (await import('./brock-react-mock')).brockReactMock());
 
 const BROCK_CHORDS = ['mod+k', 'mod+/', 'alt+enter', 'alt+left'];
 
@@ -38,11 +33,7 @@ const canonical = (chord: string): string => {
 
 const pairsOf = (def: CommandDef): { id: string; key: string }[] => chordsOf(def).map((chord) => ({ id: def.id, key: canonical(chord) }));
 
-const find = (id: string): CommandDef => {
-  const def = APP_COMMANDS.find((each) => each.id === id);
-  if (!def) throw new Error(`no command ${id}`);
-  return def;
-};
+const find = findCommand;
 
 const run = (id: string): void => find(id).run();
 

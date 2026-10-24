@@ -1,23 +1,10 @@
 /* @layer renderer-app @kind test */
-import type { CommandDef } from '@drizztdourden08/brock-react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
 import { SELECTION_COMMAND_ID } from '../../src/keymap/selection-command-id.constants';
+import { findCommand as find } from '../keymap/find-command';
 import { at, BLOCK, openRig } from './selection-harness';
 
-vi.mock('@drizztdourden08/brock-react', () => ({
-  shortcutsHelp: { open: vi.fn() },
-  toast: vi.fn(),
-  commands: { run: vi.fn() },
-  getPlatform: vi.fn(),
-  useRecentDocumentsStore: { getState: vi.fn() },
-}));
-
-const find = (id: string): CommandDef => {
-  const def = APP_COMMANDS.find((each) => each.id === id);
-  if (!def) throw new Error(`no command ${id}`);
-  return def;
-};
+vi.mock('@drizztdourden08/brock-react', async () => (await import('../keymap/brock-react-mock')).brockReactMock());
 
 const focusIn = (zone: string | null): void => {
   const closest = (selector: string): object | null => (zone !== null && selector.includes(`"${zone}"`) ? {} : null);
