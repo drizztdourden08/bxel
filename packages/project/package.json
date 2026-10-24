@@ -20,6 +20,8 @@
     "lint": "tsc --noEmit && eslint ."
   },
   "dependencies": {
+    "@bxel/document": "workspace:*",
+    "fflate": "^0.8.3",
     "zod": "^4.0.0"
   },
   "devDependencies": {

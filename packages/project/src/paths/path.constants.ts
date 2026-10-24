@@ -11,6 +11,8 @@ const PATH_LIMITS = {
 const SEGMENT_PATTERN = /^[A-Za-z0-9_][A-Za-z0-9 _.-]*$/;
 const RESERVED_DEVICE_PATTERN = /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])$/i;
 const TRAILING_DOTS_AND_SPACES = /[. ]+$/;
+const UNSAFE_SEGMENT_CHARACTERS = /[^A-Za-z0-9 _.-]/g;
+const UNSAFE_SEGMENT_START = /^[^A-Za-z0-9_]+/;
 
 const FILE_EXTENSIONS = {
   bxel: ['bxel'],
@@ -39,4 +41,6 @@ export {
   TEMPORARY_MARKER,
   TRAILING_DOTS_AND_SPACES,
   UNC_PREFIX_REGEX,
+  UNSAFE_SEGMENT_CHARACTERS,
+  UNSAFE_SEGMENT_START,
 };
