@@ -6,6 +6,7 @@ import { styleSheet } from '../../../../../sheet-manager/style-sheet';
 import { useManagerStore } from '../../../../../stores/useManagerStore';
 import { ATLAS_LAYOUTS } from '../AtlasView.constants';
 import type { AtlasControlsProps } from '../AtlasView.type';
+import { AtlasPackControls } from './AtlasPackControls';
 import { StyleNumber } from './StyleNumber';
 
 const AtlasControls = ({ sheet }: AtlasControlsProps) => {
@@ -34,6 +35,7 @@ const AtlasControls = ({ sheet }: AtlasControlsProps) => {
         <StyleNumber label={ATLAS_TEXT.margin} value={sheet.margin} min={0} max={ATLAS_LIMITS.marginMax} onCommit={(margin) => styleSheet(sheet.id, { margin })} />
         <StyleNumber label={ATLAS_TEXT.extrude} value={atlas.extrude} min={0} max={ATLAS_LIMITS.extrudeMax} onCommit={(extrude) => patchAtlas({ extrude })} />
       </Flex>
+      <AtlasPackControls sheet={sheet} />
       <Flex gap="md" align="center" wrap>
         <Slider size="sm" aria-label={ATLAS_TEXT.zoom} min={1} max={ATLAS_LIMITS.zoomMax} step={1} value={atlas.zoom} onChange={(zoom) => patchAtlas({ zoom })} />
         <Checkbox label={ATLAS_TEXT.pivots} checked={atlas.pivots} onChange={(pivots) => patchAtlas({ pivots })} />

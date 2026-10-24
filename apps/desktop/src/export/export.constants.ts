@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
 import type { JobStepDef } from '@drizztdourden08/brock-core';
-import type { ExportKind, ExportResult, ExportSettings, IndexedStatus, SavedPreset } from './export.type';
+import type { ExportKind, ExportResult, ExportSettings, IndexedStatus, SavedPreset, SpriteChoice } from './export.type';
 
 const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   kind: 'sprite',
@@ -18,6 +18,9 @@ const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   padding: 1,
   extrusion: 0,
   trim: false,
+  powerOfTwo: false,
+  pageSide: 0,
+  sheetId: '',
   flavour: 'bxel',
   mapFormat: 'bxel',
   folder: '',
@@ -42,6 +45,7 @@ const EXPORT_RANGES = {
   columns: { min: 1, max: EXPORT_LIMITS.maxColumns },
   padding: { min: 0, max: EXPORT_LIMITS.maxPadding },
   extrusion: { min: 0, max: EXPORT_LIMITS.maxExtrusion },
+  pageSide: { min: 0, max: EXPORT_LIMITS.maxSide },
 } as const;
 
 const TRANSPARENT_RGBA: readonly number[] = [0, 0, 0, 0];
@@ -61,6 +65,7 @@ const EXPORT_FALLBACK_NAME = 'export';
 
 const EXPORT_TEXT = {
   noSprite: 'This file has no sprite to export.',
+  noSheetSprites: 'The sheet has no sprites to export.',
   noSelection: 'No sprites are selected. Choose the current sprite or all sprites.',
   chooseTag: 'Choose a tag to export its frames.',
   noFolder: 'Choose a folder to save to.',
@@ -133,11 +138,19 @@ const FOLDER_KINDS: readonly ExportKind[] = ['frames', 'sheet', 'map'];
 
 const NO_PRESETS: readonly SavedPreset[] = [];
 
+const EMPTY_PICK: Readonly<Record<SpriteChoice, string>> = {
+  current: EXPORT_TEXT.noSprite,
+  all: EXPORT_TEXT.noSprite,
+  selected: EXPORT_TEXT.noSelection,
+  sheet: EXPORT_TEXT.noSheetSprites,
+};
+
 const NO_INDEXED: IndexedStatus = { state: 'unavailable', note: '' };
 
 export {
   ANIMATION_INDEXED,
   DATA_URL_CHUNK,
+  EMPTY_PICK,
   DEFAULT_EXPORT_SETTINGS,
   EXPORT_CANCELLED,
   EXPORT_FALLBACK_NAME,

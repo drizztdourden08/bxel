@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { Point, Sheet, Sprite, SpriteId } from '@bxel/document';
+import type { Point, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { Anchor } from '@drizztdourden08/tessera';
 import type { ArrangeKind } from '../sheet/sheet.type';
 import type { IdenticalMode } from './identical.type';
@@ -26,6 +26,10 @@ interface AtlasSettings {
   pivots: boolean;
   zoom: number;
   bounds: boolean;
+  trim: boolean;
+  powerOfTwo: boolean;
+  pageSide: number;
+  page: number;
 }
 
 interface ListQuery {
@@ -97,6 +101,7 @@ interface AtlasItem {
   width: number;
   height: number;
   pivot: { x2: number; y2: number };
+  source: Rect;
 }
 
 interface AtlasModel {
@@ -106,17 +111,24 @@ interface AtlasModel {
   used: number;
   empty: number;
   failure: string | null;
+  page: number;
+  pageCount: number;
 }
 
 interface AtlasHeld {
   sprite: Sprite;
   at: Point;
+  source: Rect;
 }
 
 interface AtlasInput {
   sheet: Sheet;
   sprites: readonly Sprite[];
   extrude: number;
+  trim: boolean;
+  powerOfTwo: boolean;
+  pageSide: number;
+  page: number;
 }
 
 interface SheetStyle {

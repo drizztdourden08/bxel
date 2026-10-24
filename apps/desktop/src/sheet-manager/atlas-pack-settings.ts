@@ -2,7 +2,7 @@
 import type { PackItem, PackSettings } from '@bxel/formats';
 import type { Sheet } from '@bxel/document';
 
-const atlasPackSettings = (sheet: Sheet, items: readonly PackItem[], extrude: number): PackSettings | null => {
+const atlasPackSettings = (sheet: Sheet, items: readonly PackItem[], extrude: number, powerOfTwo: boolean): PackSettings | null => {
   const { layout, spacing, margin } = sheet;
   if (layout.kind === 'manual') return null;
   const widest = Math.max(1, ...items.map((item) => item.width));
@@ -20,12 +20,14 @@ const atlasPackSettings = (sheet: Sheet, items: readonly PackItem[], extrude: nu
       },
       margin,
       extrude,
+      powerOfTwo,
     };
   }
   return {
     layout: { kind: 'packed', maxWidth: Math.max(layout.maxWidth, widest + 2 * (extrude + margin)), padding: spacing.x },
     margin,
     extrude,
+    powerOfTwo,
   };
 };
 

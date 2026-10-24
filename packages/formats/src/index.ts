@@ -55,6 +55,7 @@ export type {
   ExportSprite,
   SheetFlavour,
 } from './sheet/export-sheet.type';
+export { nextPowerOfTwo } from './sheet/next-power-of-two';
 export { packPages } from './sheet/pack-pages';
 export { packSheet } from './sheet/pack-sheet';
 export { readBxelSheetJson } from './sheet/read-bxel-sheet-json';

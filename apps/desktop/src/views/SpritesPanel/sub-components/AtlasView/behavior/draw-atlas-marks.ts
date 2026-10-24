@@ -9,8 +9,8 @@ const outline = (ctx: CanvasRenderingContext2D, item: AtlasItem, scale: number, 
 };
 
 const cross = (ctx: CanvasRenderingContext2D, item: AtlasItem, scale: number): void => {
-  const x = (item.x + item.pivot.x2 / 2) * scale;
-  const y = (item.y + item.pivot.y2 / 2) * scale;
+  const x = (item.x - item.source.x + item.pivot.x2 / 2) * scale;
+  const y = (item.y - item.source.y + item.pivot.y2 / 2) * scale;
   const arm = Math.max(3, scale);
   ctx.lineWidth = 1;
   ctx.beginPath();

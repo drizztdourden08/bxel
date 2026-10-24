@@ -20,6 +20,11 @@ interface AtlasControlsProps {
   sheet: Sheet;
 }
 
+interface AtlasPagesProps {
+  page: number;
+  count: number;
+}
+
 interface StyleNumberProps {
   label: string;
   value: number;
@@ -28,4 +33,4 @@ interface StyleNumberProps {
   onCommit: (value: number) => void;
 }
 
-export type { AtlasCanvasProps, AtlasControlsProps, AtlasDraw, StyleNumberProps };
+export type { AtlasCanvasProps, AtlasControlsProps, AtlasDraw, AtlasPagesProps, StyleNumberProps };

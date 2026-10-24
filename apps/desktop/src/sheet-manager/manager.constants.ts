@@ -27,7 +27,7 @@ const PIVOT_PRESETS: readonly PivotPreset[] = [
   { id: 'right', label: 'Middle right', fx: 1, fy: 0.5 },
 ];
 
-const ATLAS_LIMITS = { extrudeMax: 8, spacingMax: 64, marginMax: 256, columnsMax: 64, zoomMax: 8, widthMax: 4096 } as const;
+const ATLAS_LIMITS = { extrudeMax: 8, spacingMax: 64, marginMax: 256, columnsMax: 64, zoomMax: 8, widthMax: 4096, pageMax: 8192 } as const;
 
 const ATLAS_SIDE_LIMIT = 8192;
 

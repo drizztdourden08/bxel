@@ -20,7 +20,7 @@ import { SpriteRow } from '../../src/views/SpritesPanel/sub-components/SpriteRow
 import { SpriteTile } from '../../src/views/SpritesPanel/sub-components/SpriteTile';
 import type { ManagerModel, SpriteHandlers } from '../../src/views/SpritesPanel/SpritesPanel.type';
 import { artwork, idOf, openFile } from '../sheet/sheet-harness';
-import { idsOf } from './manager-harness';
+import { idsOf, PLAIN_ATLAS } from './manager-harness';
 
 vi.mock('../../src/export/open-export', () => ({ openExport: () => undefined }));
 
@@ -91,7 +91,7 @@ describe('the atlas pieces', () => {
     const controls = renderToString(createElement(AtlasControls, { sheet }));
     expect(controls).toContain('Layout');
     expect(controls).toContain('Spacing');
-    const atlas = atlasModel({ sheet, sprites: model.artwork.sprites, extrude: 0 });
+    const atlas = atlasModel({ sheet, sprites: model.artwork.sprites, extrude: 0, ...PLAIN_ATLAS });
     const canvas = renderToString(createElement(AtlasCanvas, { model, atlas }));
     expect(canvas).toContain('sprites-panel__atlas-canvas');
   });
