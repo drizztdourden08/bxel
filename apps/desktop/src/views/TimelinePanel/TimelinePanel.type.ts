@@ -32,16 +32,14 @@ type CelKeyAction =
   | { kind: 'cursor'; by: CelMove; extend: boolean }
   | { kind: 'edge'; end: 'first' | 'last' }
   | { kind: 'moveFrames'; delta: number }
-  | { kind: 'moveCels'; by: CelMove }
-  | { kind: 'clear' };
+  | { kind: 'moveCels'; by: CelMove };
 
 type LaneKeyAction =
   | { kind: 'park'; by: CelMove }
   | { kind: 'addPick' }
   | { kind: 'frame'; delta: number; extend: boolean }
   | { kind: 'zone'; zone: TimelineZone }
-  | { kind: 'tag'; delta: number }
-  | { kind: 'deleteTag' };
+  | { kind: 'tag'; delta: number };
 
 type TimelineKeyAction = CelKeyAction | LaneKeyAction;
 

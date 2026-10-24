@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind logic */
 import { useTimelineStore } from '../../../stores/useTimelineStore';
-import { clearCels } from '../../../timeline/clear-cels';
 import { jumpFrame } from '../../../timeline/jump-frame';
 import { moveCels } from '../../../timeline/move-cels';
 import { moveCursor } from '../../../timeline/move-cursor';
@@ -29,9 +28,6 @@ const runKeyAction = (action: TimelineKeyAction): void => {
       return;
     case 'moveCels':
       moveCels(action.by);
-      return;
-    case 'clear':
-      clearCels();
   }
 };
 

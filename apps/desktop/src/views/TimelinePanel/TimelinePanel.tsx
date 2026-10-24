@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind component */
 import { useId, useMemo } from 'react';
+import { commandZone } from '@drizztdourden08/brock-react';
 import { Box, Disclosure, Divider, EmptyState, Flex, Text } from '@drizztdourden08/tessera';
-import { FOCUS_ZONE } from '../../editor/focus/focus-zone.constants';
+import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { useTimelineStore } from '../../stores/useTimelineStore';
 import { ONION_TEXT } from '../../timeline/onion.constants';
@@ -39,7 +40,7 @@ const TimelinePanel = () => {
       aria-describedby={hintId}
       aria-keyshortcuts={TIMELINE_KEYS}
       className="timeline"
-      data-focus-zone={FOCUS_ZONE.timeline}
+      {...commandZone(COMMAND_ZONE.timeline)}
       onKeyDown={onKeyDown}
     >
       <Flex gap="md" align="center" wrap className="timeline__bar">

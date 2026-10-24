@@ -14,7 +14,7 @@ const celKeyAction = (info: TimelineKeyInfo): CelKeyAction | null => {
   if (arrow) return arrowAction(arrow, info);
   if (info.key === 'Enter' || info.key === ' ') return info.altKey ? null : { kind: 'play' };
   if (info.key === 'Home' || info.key === 'End') return { kind: 'edge', end: info.key === 'Home' ? 'first' : 'last' };
-  return info.key === 'Delete' ? { kind: 'clear' } : null;
+  return null;
 };
 
 export { celKeyAction };

@@ -180,11 +180,6 @@ interface KeyShape {
 
 type SpriteKeyHandler = (event: KeyboardEvent<HTMLElement>) => void;
 
-interface KeyHandlers {
-  begin: (spriteId: SpriteId) => void;
-  open: (dialog: ManagerDialog) => void;
-}
-
 type KeyAction = () => void;
 
 export type {
@@ -197,7 +192,6 @@ export type {
   GridSpacerProps,
   GridTileProps,
   KeyAction,
-  KeyHandlers,
   KeyShape,
   ListColumn,
   ListHeadCellProps,

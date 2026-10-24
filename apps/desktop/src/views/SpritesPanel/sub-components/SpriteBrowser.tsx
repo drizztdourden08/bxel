@@ -1,9 +1,13 @@
 /* @layer renderer-app @kind component */
+import { commandZone } from '@drizztdourden08/brock-react';
 import { Box, ContextMenu, Stack } from '@drizztdourden08/tessera';
-import { FOCUS_ZONE } from '../../../editor/focus/focus-zone.constants';
+import { useZoneKey } from '../../../hooks/useZoneKey';
+import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
+import { SPRITE_SELECT_ALL_KEY } from '../../../keymap/zone-key.constants';
 import type { ManagerDialog } from '../../../sheet-manager/manager.type';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { renameSprite } from '../../../sheet/rename-sprite';
+import { selectIds } from '../../../sheet-manager/select-ids';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { usePendingStore } from '../../../stores/usePendingStore';
 import { actionGroups } from '../behavior/action-groups';
@@ -24,7 +28,8 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const patch = useManagerStore((state) => state.patch);
   const affected = usePendingStore((state) => state.pending?.sprites ?? NO_SPRITES);
   const open = (dialog: ManagerDialog): void => patch({ dialog });
-  const onKeyDown = useSpritesKeys(model, { begin: rename.begin, open });
+  useZoneKey(SPRITE_SELECT_ALL_KEY, model.scene.active ? () => selectIds(model.order) : null);
+  const onKeyDown = useSpritesKeys(model);
   const dragFor = useSpriteDrag(model);
   const selections = useManagerStore((state) => state.selections);
   const groups = actionGroups({ model, sortKey, rename: rename.begin, open, selections });
@@ -34,7 +39,7 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
       <ManagerFilters model={model} />
       <SpritesToolbar model={model} groups={groups} open={open} />
       <ContextMenu groups={groups} label={MANAGER_TEXT.actions}>
-        <Box onKeyDown={onKeyDown} data-focus-zone={FOCUS_ZONE.sprites}>
+        <Box onKeyDown={onKeyDown} {...commandZone(COMMAND_ZONE.sprites)}>
           <SpriteCollection model={model} affected={affected} dragFor={dragFor} handlersFor={handlersFor(model, rename.begin)} />
         </Box>
       </ContextMenu>

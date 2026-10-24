@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it } from 'vitest';
 import { useTimelineStore } from '../../src/stores/useTimelineStore';
+import { deleteInZone } from '../../src/timeline/delete-in-zone';
 import { runKeyAction } from '../../src/views/TimelinePanel/behavior/run-key-action';
 import { timelineKeyAction } from '../../src/views/TimelinePanel/behavior/timeline-key-action';
 import { key } from './key-info';
@@ -35,10 +36,10 @@ describe('timeline keys', () => {
     });
   });
 
-  it('jumps with Home and End and clears cels with Delete', () => {
+  it('jumps with Home and End and leaves Delete to the timeline command', () => {
     expect(timelineKeyAction(key('Home'), 'cel')).toEqual({ kind: 'edge', end: 'first' });
     expect(timelineKeyAction(key('End'), 'cel')).toEqual({ kind: 'edge', end: 'last' });
-    expect(timelineKeyAction(key('Delete'), 'cel')).toEqual({ kind: 'clear' });
+    expect(timelineKeyAction(key('Delete'), 'cel')).toBeNull();
   });
 
   it('leaves the chords with Ctrl or Meta to the app', () => {
@@ -80,7 +81,8 @@ describe('running a key', () => {
     runKeyAction({ kind: 'moveCels', by: { frames: 1, layers: 0 } });
     expect(live().layer.cels[frameAt(1)]).toBe(cel);
     expect(live().layer.cels[frameAt(0)]).toBeUndefined();
-    runKeyAction({ kind: 'clear' });
+    useTimelineStore.getState().setZone('cel');
+    deleteInZone();
     expect(live().layer.cels[frameAt(1)]).toBeUndefined();
     expect(layerIds()).toHaveLength(1);
   });

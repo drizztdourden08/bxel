@@ -11,6 +11,7 @@ import { stepLayer } from '../editor/step-layer';
 import { addMapLayer } from '../tilemap/add-map-layer';
 import { deleteMapLayer } from '../tilemap/delete-map-layer';
 import { stepMapLayer } from '../tilemap/step-map-layer';
+import { COMMAND_ZONE } from './command-zone.constants';
 import { editorCommand } from './editor-command';
 import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
 import { mapOr } from './map-or';
@@ -40,7 +41,15 @@ const LAYER_COMMANDS: readonly CommandDef[] = [
   pixelCommand({ id: COMMAND_ID.layerDuplicate, label: LAYER_LABEL.duplicate, group: COMMAND_GROUP.layers, run: duplicateLayer }),
   pixelCommand({ id: COMMAND_ID.layerMerge, label: LAYER_LABEL.merge, group: COMMAND_GROUP.layers, chord: 'Mod+E', run: mergeLayerDown }),
   pixelCommand({ id: COMMAND_ID.layerFlatten, label: LAYER_LABEL.flatten, group: COMMAND_GROUP.layers, run: flattenLayers }),
-  { id: COMMAND_ID.layerDelete, label: LAYER_LABEL.remove, group: COMMAND_GROUP.layers, run: mapOr(deleteMapLayer, deleteLayer) },
+  {
+    id: COMMAND_ID.layerDelete,
+    label: LAYER_LABEL.remove,
+    group: COMMAND_GROUP.layers,
+    chord: 'Delete',
+    zone: COMMAND_ZONE.layers,
+    whileTyping: false,
+    run: mapOr(deleteMapLayer, deleteLayer),
+  },
   {
     id: COMMAND_ID.layerAbove,
     label: 'Select layer above',
