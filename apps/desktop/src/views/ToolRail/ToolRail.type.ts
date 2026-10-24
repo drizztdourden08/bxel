@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
-import type { MenuGroup } from '@drizztdourden08/tessera';
-import type { MouseEventHandler, FocusEventHandler, KeyboardEventHandler } from 'react';
-import type { ToolDef } from '../../editor/tool.type';
+import type { MenuGroup, ShortcutKey } from '@drizztdourden08/tessera';
+import type { ToolDef, ToolId } from '../../editor/tool.type';
+import type { StockPixelIconName } from '../../icons/pixel-icon.type';
 
 interface ToolButtonProps {
   def: ToolDef;
@@ -9,22 +9,12 @@ interface ToolButtonProps {
   onSelect: () => void;
 }
 
-interface ToolFlyoutProps extends ToolButtonProps {
-  groups: readonly MenuGroup[];
+interface RailItemContext {
+  tool: ToolId;
+  icons: Readonly<Record<ToolId, StockPixelIconName>>;
+  keys: Readonly<Record<ToolId, readonly ShortcutKey[] | undefined>>;
+  options: Readonly<Partial<Record<ToolId, readonly MenuGroup[]>>>;
+  pick: (tool: ToolId) => void;
 }
 
-interface FlyoutHandlers {
-  onMouseEnter: MouseEventHandler<HTMLElement>;
-  onMouseLeave: MouseEventHandler<HTMLElement>;
-  onFocus: FocusEventHandler<HTMLElement>;
-  onBlur: FocusEventHandler<HTMLElement>;
-  onKeyDown: KeyboardEventHandler<HTMLElement>;
-}
-
-interface FlyoutOpen {
-  open: boolean;
-  close: () => void;
-  handlers: FlyoutHandlers;
-}
-
-export type { FlyoutOpen, ToolButtonProps, ToolFlyoutProps };
+export type { RailItemContext, ToolButtonProps };

@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind component */
-import { Button } from '@drizztdourden08/tessera';
+import { Button, DialogShell } from '@drizztdourden08/tessera';
 import { DIALOG_TEXT } from '../../../../../sheet-manager/manager-text.constants';
-import { FitDialog } from '../../../../FitDialog';
 import { useManagerStore } from '../../../../../stores/useManagerStore';
 import type { DialogFrameProps } from '../ManagerDialogs.type';
 
@@ -26,9 +25,9 @@ const DialogFrame = ({ title, canApply, onApply, children }: DialogFrameProps) =
     </>
   );
   return (
-    <FitDialog open title={title} onClose={close} actions={actions}>
+    <DialogShell open title={title} onClose={close} actions={actions}>
       {children}
-    </FitDialog>
+    </DialogShell>
   );
 };
 

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { ResizeAnchor, SortKey } from './manager.type';
+import type { SortKey } from './manager.type';
 
 const MANAGER_TEXT = {
   empty: 'No sprite is open.',
@@ -122,17 +122,6 @@ const DIALOG_TEXT = {
   keepSize: 'Keep each sprite size',
   clips: (pixels: number): string => `${pixels} pixels outside the new canvas are cut off.`,
   noClips: 'No pixel is cut off.',
-  anchors: {
-    'top-left': 'Top left',
-    top: 'Top',
-    'top-right': 'Top right',
-    left: 'Left',
-    center: 'Center',
-    right: 'Right',
-    'bottom-left': 'Bottom left',
-    bottom: 'Bottom',
-    'bottom-right': 'Bottom right',
-  } as Readonly<Record<ResizeAnchor, string>>,
 } as const;
 
 const LABEL = {

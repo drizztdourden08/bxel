@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind component */
-import { Flex, NumberInput } from '@drizztdourden08/tessera';
+import { Flex, NumberInput, SegmentedControl } from '@drizztdourden08/tessera';
+import type { BrushShape } from '@bxel/raster';
 import { BRUSH_SIZE } from '../../../stores/tool-store.constants';
 import { useToolStore } from '../../../stores/useToolStore';
-import { ActionHint } from '../../ActionHint';
-import { HintedSegments } from '../../HintedSegments';
+import { ActionHint, segmentOption } from '../../ActionHint';
 import { BRUSH_SHAPE_HINTS, BRUSH_SHAPES, BRUSH_SIZE_HINT, CONTEXT_TEXT } from '../ContextBar.constants';
 
 const BrushOptions = () => {
@@ -25,14 +25,13 @@ const BrushOptions = () => {
           onChange={setSize}
         />
       </ActionHint>
-      <HintedSegments
-        label={CONTEXT_TEXT.brushShape}
+      <SegmentedControl<BrushShape>
+        size="sm"
+        aria-label={CONTEXT_TEXT.brushShape}
         value={shape}
-        options={BRUSH_SHAPES.map((each) => ({
-          value: each,
-          label: each === 'square' ? CONTEXT_TEXT.square : CONTEXT_TEXT.circle,
-          hint: BRUSH_SHAPE_HINTS[each],
-        }))}
+        options={BRUSH_SHAPES.map((each) =>
+          segmentOption({ value: each, label: each === 'square' ? CONTEXT_TEXT.square : CONTEXT_TEXT.circle, hint: BRUSH_SHAPE_HINTS[each] }),
+        )}
         onChange={setShape}
       />
     </Flex>

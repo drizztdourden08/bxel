@@ -7,7 +7,11 @@ import { statusItems } from '../../src/editor/status-items';
 import { MODE_KEYS } from '../../src/editor/tool-descriptions.constants';
 import { TOOLS } from '../../src/editor/tools.constants';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
-import { ToolButton } from '../../src/views/ToolRail/sub-components/ToolButton';
+import { TOOL_ICONS } from '../../src/icons/tool-icons.constants';
+import { MAP_TOOLS } from '../../src/tilemap/map-tools.constants';
+import { railItems } from '../../src/views/ToolRail/behavior/rail-items';
+import { MapToolButton } from '../../src/views/ToolRail/sub-components/MapToolButton';
+import type { RailItemContext } from '../../src/views/ToolRail/ToolRail.type';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import { COMMON_ROWS, TOOL_ROWS } from '../../src/views/EditorStatus/EditorStatus.constants';
 import { LAYER_ACTIONS } from '../../src/views/LayersPanel/LayersPanel.constants';
@@ -49,11 +53,18 @@ describe('the hint texts', () => {
 
 describe('the tool rail', () => {
   it('names a tool button with the tool alone and puts the key in the hint', () => {
-    for (const def of TOOLS) {
-      const html = render(createElement(ToolButton, { def, active: false, onSelect: () => undefined }));
+    for (const def of MAP_TOOLS) {
+      const html = render(createElement(MapToolButton, { def, active: false, onSelect: () => undefined }));
       expect(html).toContain(`aria-label="${def.label}"`);
       expect(html).not.toContain(`${def.label}  `);
     }
+  });
+
+  it('lists every tool of the editor as a toggle named with the tool alone', () => {
+    const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
+    const context: RailItemContext = { tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
+    const toggles = railItems(context).filter((item) => item.kind === 'toggle');
+    expect(toggles.map((item) => item.label).sort()).toEqual(TOOLS.map((def) => def.label).sort());
   });
 
   it('gives every tool a description', () => {

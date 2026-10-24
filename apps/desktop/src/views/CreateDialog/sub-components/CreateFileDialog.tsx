@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind component */
-import { Callout, Stack, Text } from '@drizztdourden08/tessera';
+import { Callout, DialogShell, Stack, Text } from '@drizztdourden08/tessera';
 import { NEW_TEXT } from '../../../new-sprite/new-sprite.constants';
 import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
-import { FitDialog } from '../../FitDialog';
 import { PaletteFields } from '../../PaletteFields';
 import { useNewFile } from '../behavior/useNewFile';
 import { BackgroundField } from './BackgroundField';
@@ -21,7 +20,7 @@ const CreateFileDialog = () => {
   const fields = { form, errors, update };
   const label = form.kind === 'sheet' ? NEW_TEXT.createSheet : NEW_TEXT.create;
   return (
-    <FitDialog
+    <DialogShell
       open
       title={NEW_TEXT.title}
       onClose={hide}
@@ -49,7 +48,7 @@ const CreateFileDialog = () => {
           {NEW_TEXT.nothing}
         </Text>
       </Stack>
-    </FitDialog>
+    </DialogShell>
   );
 };
 

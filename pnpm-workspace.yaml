@@ -3,7 +3,7 @@ packages:
   - 'packages/*'
   - 'tooling/*'
 catalog:
-  '@drizztdourden08/tessera': ^0.53.0
+  '@drizztdourden08/tessera': ^0.56.2
   '@electron-toolkit/utils': ^4.0.0
   '@types/node': ^24.19.0
   '@types/react': ^19.2.15

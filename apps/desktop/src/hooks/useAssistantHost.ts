@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { answerFlush } from '../assistant/answer-flush';
 import { answerPair } from '../assistant/answer-pair';
 import { answerTool } from '../assistant/answer-tool';
-import { APP_CHANNELS, ASK_CHANNELS } from '../ipc/contract.constants';
+import { APP_CHANNELS } from '../ipc/contract.constants';
 import type { AppSettings } from '../settings.type';
 import { useAssistantStore } from '../stores/useAssistantStore';
 
@@ -12,9 +12,9 @@ const listen = (): (() => void) => {
   const api = channelApi(APP_CHANNELS);
   const { setSessions } = useAssistantStore.getState();
   const stops = [
-    answer(ASK_CHANNELS.assistantPair, answerPair),
-    answer(ASK_CHANNELS.assistantTool, answerTool),
-    answer(ASK_CHANNELS.assistantFlush, answerFlush),
+    answer(APP_CHANNELS.assistantPair, answerPair),
+    answer(APP_CHANNELS.assistantTool, answerTool),
+    answer(APP_CHANNELS.assistantFlush, answerFlush),
     api.assistantSessionsChanged((sessions) => setSessions(sessions)),
   ];
   void api.assistantSessions().then(setSessions);

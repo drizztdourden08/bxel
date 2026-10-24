@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
-import type { Point, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
+import type { Point, Sheet, Sprite, SpriteId } from '@bxel/document';
+import type { Anchor } from '@drizztdourden08/tessera';
 import type { ArrangeKind } from '../sheet/sheet.type';
 
 type ManagerTab = 'sprites' | 'atlas';
@@ -71,21 +72,15 @@ interface PivotPreset {
   fy: number;
 }
 
-type ResizeAnchor = 'top-left' | 'top' | 'top-right' | 'left' | 'center' | 'right' | 'bottom-left' | 'bottom' | 'bottom-right';
-
 interface ResizeSpec {
   width: number;
   height: number;
-  anchor: ResizeAnchor;
+  anchor: Anchor;
 }
 
 interface OrderMove {
   id: SpriteId;
   to: number;
-}
-
-interface BandBox extends Rect {
-  id: SpriteId;
 }
 
 interface AtlasItem {
@@ -132,7 +127,6 @@ export type {
   AtlasItem,
   AtlasModel,
   AtlasSettings,
-  BandBox,
   ListQuery,
   ManagerDialog,
   ManagerFilter,
@@ -144,7 +138,6 @@ export type {
   RenameEntry,
   RenamePlan,
   RenameSpec,
-  ResizeAnchor,
   ResizeSpec,
   SheetStyle,
   SortKey,

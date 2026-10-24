@@ -19,7 +19,7 @@ const editGroup = ({ model, rename, open }: ActionContext): MenuGroup => {
         id: 'rename',
         label: MANAGER_TEXT.rename,
         shortcut: 'F2',
-        icon: pixelMenuIcon('pencil'),
+        icon: 'pixel-pencil',
         disabled: !active,
         onSelect: () => active && rename(active.id),
       },

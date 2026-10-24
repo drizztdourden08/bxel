@@ -6,7 +6,7 @@ import { EXIT_CODE } from '../assistant-bridge/launch.constants';
 import { HELPER_TEXT } from './helper.constants';
 import { helperLog } from './helper-log';
 import type { DiscoveryWait, HelperState } from './helper.type';
-import { readAppLaunch } from './read-app-launch';
+import { launchOf } from './launch-of';
 import { spawnBxel } from './spawn-bxel';
 import { waitForDiscovery } from './wait-for-discovery';
 
@@ -26,7 +26,7 @@ const startBxel = async (state: HelperState, window: 'headless' | 'visible'): Pr
     if (window === 'visible') await state.session.call('show_window', {});
     return { ok: true, started: false, window, launchedBy: state.started ? 'this_helper' : 'owner', readyMs: 0 };
   }
-  const launch = readAppLaunch();
+  const launch = launchOf(state.file);
   if (!launch) return mcpFailure(MCP_ERROR_CODE.START_FAILED, HELPER_TEXT.noLaunch);
   const token = randomBytes(32).toString('hex');
   const since = Date.now();

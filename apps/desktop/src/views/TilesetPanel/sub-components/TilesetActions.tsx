@@ -31,7 +31,7 @@ const TilesetActions = ({ model, onDelete }: TilesetActionsProps) => {
       </ActionHint>
       <ActionHint hint={EDIT_HINT}>
         <IconButton label={EDIT_HINT.name} size="sm" active={model.editMode === 'edit'} disabled={none} onClick={toggleEdit}>
-          <PixelIcon name="pencil" />
+          <PixelIcon name="pixel-pencil" />
         </IconButton>
       </ActionHint>
       <ActionHint hint={DELETE_HINT}>

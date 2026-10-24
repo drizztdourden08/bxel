@@ -17,7 +17,7 @@ const usage = {
     'A diagonal flip, and so a turn, needs square tiles.',
   ],
   a11y: [
-    'The dialog keeps the focus, Escape and title naming of FitDialog.',
+    'The dialog keeps the focus, Escape and title naming of DialogShell.',
     'Each size field has its own label, so a screen reader reads width and height apart.',
   ],
   tree: {

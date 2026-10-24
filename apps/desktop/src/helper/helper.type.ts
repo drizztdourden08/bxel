@@ -10,11 +10,6 @@ type BridgeSession = {
   readonly isRunning: () => boolean;
 };
 
-type AppLaunch = {
-  readonly command: string;
-  readonly args: readonly string[];
-};
-
 type StartedChild = {
   readonly child: ChildProcess;
   readonly exited: Promise<number | null>;
@@ -29,4 +24,4 @@ type HelperState = {
 
 type DiscoveryWait = { readonly kind: 'ready' } | { readonly kind: 'exit'; readonly code: number | null } | { readonly kind: 'timeout' };
 
-export type { AppLaunch, BridgeSession, DiscoveryWait, HelperState, StartedChild };
+export type { BridgeSession, DiscoveryWait, HelperState, StartedChild };

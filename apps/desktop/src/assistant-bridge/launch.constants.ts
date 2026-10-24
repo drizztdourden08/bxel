@@ -2,7 +2,6 @@
 const LAUNCH = {
   startFlag: '--mcp-start',
   tokenEnv: 'BXEL_MCP_LAUNCH',
-  appEnv: 'BXEL_APP_LAUNCH',
   helper: 'bxel-mcp',
   headlessArgs: ['--no-focus', '--muted'],
 } as const;

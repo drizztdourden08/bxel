@@ -7,7 +7,7 @@ import { toolHint } from '../behavior/tool-hint';
 import type { ToolButtonProps } from '../ToolRail.type';
 
 const MapToolButton = ({ def, active, onSelect }: ToolButtonProps) => (
-  <ActionHint hint={toolHint(def)}>
+  <ActionHint hint={toolHint(def)} placement="right">
     <IconButton label={def.label} active={active} onClick={onSelect}>
       <PixelIcon name={MAP_TOOL_ICONS[def.id]} />
     </IconButton>

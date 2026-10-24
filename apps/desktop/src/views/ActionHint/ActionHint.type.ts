@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { MouseButton, ShortcutKey } from '@drizztdourden08/tessera';
+import type { MouseButton, ShortcutKey, TooltipPlacement } from '@drizztdourden08/tessera';
 import type { ReactNode } from 'react';
 
 interface HintShortcut {
@@ -20,9 +20,16 @@ interface HintCombo {
   mouse?: MouseButton;
 }
 
+interface HintedOption<T extends string> {
+  value: T;
+  label: string;
+  hint: HintSpec;
+  disabled?: boolean | string;
+}
+
 interface ActionHintProps {
   hint?: HintSpec;
-  placement?: 'top' | 'bottom';
+  placement?: TooltipPlacement;
   className?: string;
   children: ReactNode;
 }
@@ -35,9 +42,4 @@ interface HintShortcutRowProps {
   shortcut: HintShortcut;
 }
 
-interface ChoiceHint {
-  spec: HintSpec | undefined;
-  onHint: (hint: { label: string; description: string } | null) => void;
-}
-
-export type { ActionHintProps, ChoiceHint, HintBodyProps, HintCombo, HintShortcut, HintShortcutRowProps, HintSpec };
+export type { ActionHintProps, HintBodyProps, HintCombo, HintShortcut, HintShortcutRowProps, HintSpec, HintedOption };

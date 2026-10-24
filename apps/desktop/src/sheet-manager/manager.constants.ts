@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { ManagerFilter, PivotPreset, ResizeAnchor, SortKey } from './manager.type';
+import type { ManagerFilter, PivotPreset, SortKey } from './manager.type';
 
 const NAME_COLLATOR = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
 
@@ -27,18 +27,6 @@ const PIVOT_PRESETS: readonly PivotPreset[] = [
   { id: 'right', label: 'Middle right', fx: 1, fy: 0.5 },
 ];
 
-const RESIZE_ANCHORS: readonly ResizeAnchor[] = [
-  'top-left',
-  'top',
-  'top-right',
-  'left',
-  'center',
-  'right',
-  'bottom-left',
-  'bottom',
-  'bottom-right',
-];
-
 const ATLAS_LIMITS = { extrudeMax: 8, spacingMax: 64, marginMax: 256, columnsMax: 64, zoomMax: 8, widthMax: 4096 } as const;
 
 const ATLAS_SIDE_LIMIT = 8192;
@@ -56,7 +44,6 @@ export {
   NAME_COLLATOR,
   NO_FILTER,
   PIVOT_PRESETS,
-  RESIZE_ANCHORS,
   SHEET_PICKER_NEW,
   SORT_KEYS,
   TEMP_NAME,

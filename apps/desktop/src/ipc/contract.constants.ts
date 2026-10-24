@@ -10,9 +10,6 @@ const APP_CHANNELS = defineChannels({
   assistantClientConfig: invoke<() => Promise<ClientConfig>>()('assistant:client-config'),
   assistantSetup: invoke<(setup: AssistantSetup) => Promise<void>>()('assistant:setup'),
   assistantSessionsChanged: event<(sessions: SessionView[]) => void>()('assistant:sessions-changed'),
-});
-
-const ASK_CHANNELS = defineChannels({
   assistantPair: ask<(request: PairRequest) => Promise<PairOutcome>>()('assistant:pair'),
   assistantTool: ask<(call: ToolCall) => Promise<ToolReply>>()('assistant:tool'),
   assistantFlush: ask<(mode: 'recover' | 'discard' | 'check') => Promise<FlushReport>>()('assistant:flush'),
@@ -24,4 +21,4 @@ const APP_SEND_MAP = APP_CHANNELS.maps.send;
 
 const APP_EVENT_MAP = APP_CHANNELS.maps.events;
 
-export { APP_CHANNELS, APP_EVENT_MAP, APP_INVOKE_MAP, APP_SEND_MAP, ASK_CHANNELS };
+export { APP_CHANNELS, APP_EVENT_MAP, APP_INVOKE_MAP, APP_SEND_MAP };

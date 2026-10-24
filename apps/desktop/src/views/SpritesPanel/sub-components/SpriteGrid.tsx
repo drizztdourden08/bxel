@@ -1,19 +1,14 @@
 /* @layer renderer-app @kind component */
-import { Box, Canvas, Flex } from '@drizztdourden08/tessera';
-import { useBandSelect } from '../behavior/useBandSelect';
+import { Box, Flex, MarqueeBox } from '@drizztdourden08/tessera';
+import { useSpriteMarquee } from '../behavior/useSpriteMarquee';
 import { stateOf } from '../behavior/state-of';
 import type { SpriteGridProps } from '../SpritesPanel.type';
 import { SpriteTile } from './SpriteTile';
 
 const SpriteGrid = ({ model, affected, dragFor, handlersFor, box }: SpriteGridProps) => {
-  const band = useBandSelect(model.scene.selected.map((sprite) => sprite.id));
+  const marquee = useSpriteMarquee(model);
   return (
-    <Box
-      className="sprites-panel__grid"
-      onPointerDown={band.onPointerDown}
-      onPointerMove={band.onPointerMove}
-      onPointerUp={band.onPointerUp}
-    >
+    <Box ref={marquee.area} className="sprites-panel__grid" onPointerDown={marquee.onPointerDown} onClick={marquee.onClick}>
       <Flex wrap gap="xs" role="group" aria-label="Sprites" className="sprites-panel__strip">
         {model.shown.map((fact) => (
           <SpriteTile
@@ -27,7 +22,7 @@ const SpriteGrid = ({ model, affected, dragFor, handlersFor, box }: SpriteGridPr
           />
         ))}
       </Flex>
-      <Canvas ref={band.canvas} className="sprites-panel__band" aria-hidden="true" />
+      <MarqueeBox rect={marquee.rect} />
     </Box>
   );
 };

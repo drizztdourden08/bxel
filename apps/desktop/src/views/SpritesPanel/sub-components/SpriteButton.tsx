@@ -15,10 +15,11 @@ const SpriteButton = ({ fact, base, state, drag, handlers, children }: SpriteBut
       aria-label={MANAGER_TEXT.tile(sprite.name, sprite.width, sprite.height)}
       title={state.loose ? MANAGER_TEXT.badgeUnplaced : MANAGER_TEXT.badgeSheets(fact.sheets)}
       data-sprite-id={sprite.id}
+      data-marquee-key={sprite.id}
       draggable
       onClick={(event) => handlers.onPick(pickHow(event) ?? 'replace')}
       onDoubleClick={handlers.onRename}
-      onContextMenu={handlers.onMenu}
+      onContextMenu={() => handlers.onMenu()}
       {...drag}
     >
       {children}

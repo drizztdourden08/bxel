@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind types */
-import type { PixelIconName } from '../../icons/pixel-icon.type';
+import type { AnyPixelIconName } from '../../icons/pixel-icon.type';
 
 interface PixelIconProps {
-  name: PixelIconName;
+  name: AnyPixelIconName;
   size?: number;
   label?: string;
 }

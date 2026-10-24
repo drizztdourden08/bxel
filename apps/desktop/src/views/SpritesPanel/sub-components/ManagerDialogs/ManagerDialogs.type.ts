@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { ReactNode } from 'react';
 import type { Sprite } from '@bxel/document';
-import type { PivotMode, RenamePlan, RenameSpec, ResizeAnchor, ResizeSpec } from '../../../../sheet-manager/manager.type';
+import type { PivotMode, RenamePlan, RenameSpec, ResizeSpec } from '../../../../sheet-manager/manager.type';
 
 interface RenameForm {
   spec: RenameSpec;
@@ -29,11 +29,6 @@ interface ResizeForm {
 interface ResizeFieldsProps {
   spec: ResizeSpec;
   update: (change: Partial<ResizeSpec>) => void;
-}
-
-interface AnchorPickerProps {
-  value: ResizeAnchor;
-  onChange: (anchor: ResizeAnchor) => void;
 }
 
 interface PivotFormState {
@@ -78,7 +73,6 @@ interface DialogFrameProps {
 }
 
 export type {
-  AnchorPickerProps,
   DialogFrameProps,
   NumberPairProps,
   PivotFieldsProps,

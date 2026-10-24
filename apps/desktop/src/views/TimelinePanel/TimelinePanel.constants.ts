@@ -38,7 +38,7 @@ const FRAME_ACTIONS: readonly TimelineAction[] = [
 const CEL_ACTIONS: readonly TimelineAction[] = [
   { id: 'link', label: 'Link cels across the selected frames', shortcut: null, icon: 'linkedCel', run: linkCels },
   { id: 'unlink', label: 'Unlink cels', shortcut: null, icon: 'unlinkCel', run: unlinkCels },
-  { id: 'clear', label: 'Clear cels', shortcut: 'Delete', icon: 'eraser', run: clearCels },
+  { id: 'clear', label: 'Clear cels', shortcut: 'Delete', icon: 'pixel-eraser', run: clearCels },
 ];
 
 const ZONE_ATTRIBUTE = 'data-timeline-zone';

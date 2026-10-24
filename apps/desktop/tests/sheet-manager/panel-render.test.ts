@@ -11,7 +11,6 @@ import { planRenames } from '../../src/sheet-manager/plan-renames';
 import { selectionIds } from '../../src/sheet/selection-ids';
 import { spriteScene } from '../../src/sheet/sprite-scene';
 import { actionGroups } from '../../src/views/SpritesPanel/behavior/action-groups';
-import { AnchorPicker } from '../../src/views/SpritesPanel/sub-components/ManagerDialogs/sub-components/AnchorPicker';
 import { AtlasCanvas } from '../../src/views/SpritesPanel/sub-components/AtlasView/sub-components/AtlasCanvas';
 import { AtlasControls } from '../../src/views/SpritesPanel/sub-components/AtlasView/sub-components/AtlasControls';
 import { RenamePreview } from '../../src/views/SpritesPanel/sub-components/ManagerDialogs/sub-components/RenamePreview';
@@ -65,10 +64,9 @@ describe('the sprite tile and row', () => {
 
 describe('the dialog pieces', () => {
   it('draw the nine anchors with one checked', () => {
-    const page = renderToString(createElement(AnchorPicker, { value: 'bottom', onChange: none }));
-    expect(page.match(/role="radio"/g)).toHaveLength(9);
-    expect(page.match(/aria-checked="true"/g)).toHaveLength(1);
     const fields = renderToString(createElement(ResizeFields, { spec: { width: 8, height: 8, anchor: 'center' }, update: none }));
+    expect(fields.match(/role="radio"/g)).toHaveLength(9);
+    expect(fields.match(/aria-checked="true"/g)).toHaveLength(1);
     expect(fields).toContain('Width');
     expect(fields).toContain('Anchor');
   });

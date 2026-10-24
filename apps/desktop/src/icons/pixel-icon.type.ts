@@ -1,44 +1,9 @@
 /* @layer renderer-app @kind types */
-import type { IconProps } from '@drizztdourden08/tessera';
+import type { IconName, IconProps } from '@drizztdourden08/tessera';
 
-type PaintIconName =
-  | 'pencil'
-  | 'eraser'
-  | 'fill'
-  | 'picker'
-  | 'fillContiguous'
-  | 'fillGlobal'
-  | 'brushSquare'
-  | 'brushCircle'
-  | 'pixelPerfect';
+type PaintIconName = 'brushSquare' | 'brushCircle' | 'pixelPerfect';
 
-type ShapeIconName =
-  | 'line'
-  | 'rectangle'
-  | 'ellipse'
-  | 'rectangleFilled'
-  | 'ellipseFilled'
-  | 'polygon'
-  | 'curve';
-
-type SelectIconName =
-  | 'selectRectangle'
-  | 'selectEllipse'
-  | 'lasso'
-  | 'selectPolygon'
-  | 'magicWand'
-  | 'selectColour'
-  | 'move';
-
-type ViewIconName =
-  | 'zoom'
-  | 'hand'
-  | 'grid'
-  | 'tiled'
-  | 'rulers'
-  | 'onionSkin'
-  | 'mirrorX'
-  | 'mirrorY';
+type ViewIconName = 'grid' | 'tiled' | 'rulers' | 'onionSkin' | 'mirrorX' | 'mirrorY';
 
 type ActionIconName =
   | 'play'
@@ -73,8 +38,6 @@ type FrameIconName = 'frameAdd' | 'frameDuplicate' | 'frameDelete' | 'tagAdd' | 
 
 type PixelIconName =
   | PaintIconName
-  | ShapeIconName
-  | SelectIconName
   | ViewIconName
   | ActionIconName
   | SheetIconName
@@ -83,6 +46,10 @@ type PixelIconName =
   | TimelineIconName
   | FrameIconName;
 
+type StockPixelIconName = Extract<IconName, `pixel-${string}`>;
+
+type AnyPixelIconName = PixelIconName | StockPixelIconName;
+
 type PixelBitmap = readonly string[];
 
 type PixelTone = 'solid' | 'soft';
@@ -90,18 +57,18 @@ type PixelTone = 'solid' | 'soft';
 type PixelIconData = NonNullable<IconProps['icon']>;
 
 export type {
-  PaintIconName,
-  ShapeIconName,
-  SelectIconName,
-  ViewIconName,
   ActionIconName,
-  SheetIconName,
-  SpriteIconName,
-  TilemapIconName,
-  TimelineIconName,
+  AnyPixelIconName,
   FrameIconName,
+  PaintIconName,
   PixelBitmap,
   PixelIconData,
   PixelIconName,
   PixelTone,
+  SheetIconName,
+  SpriteIconName,
+  StockPixelIconName,
+  TilemapIconName,
+  TimelineIconName,
+  ViewIconName,
 };

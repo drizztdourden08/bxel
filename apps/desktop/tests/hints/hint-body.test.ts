@@ -3,7 +3,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { COMMAND_ID } from '../../src/keymap/keymap.constants';
 import { toolHint } from '../../src/views/ToolRail/behavior/tool-hint';
 import { TOOLS } from '../../src/editor/tools.constants';
-import { commandKeys } from '../../src/views/ActionHint/behavior/command-keys';
 import { bind, unbindAll } from './brock-chords';
 import { renderHint } from './hint-harness';
 
@@ -25,12 +24,16 @@ describe('the hint body', () => {
   });
 
   it('follows a rebind of the command', () => {
+    const undo = { name: 'Undo', description: 'Take back the last edit.', shortcuts: [{ command: COMMAND_ID.undo }] };
     bind(COMMAND_ID.undo, ['Mod+Z']);
-    expect(commandKeys(COMMAND_ID.undo)).toEqual([['ctrl', 'Z']]);
+    const first = renderHint(undo);
+    expect(caps(first)).toBe(1);
     bind(COMMAND_ID.undo, ['Mod+Shift+U']);
-    expect(commandKeys(COMMAND_ID.undo)).toEqual([['ctrl', 'shift', 'U']]);
+    const second = renderHint(undo);
+    expect(caps(second)).toBe(1);
+    expect(second).not.toBe(first);
     bind(COMMAND_ID.undo, []);
-    expect(commandKeys(COMMAND_ID.undo)).toEqual([]);
+    expect(caps(renderHint(undo))).toBe(0);
   });
 
   it('lists every chord of a command and joins them with or', () => {

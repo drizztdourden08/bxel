@@ -1,9 +1,8 @@
 /* @layer renderer-app @kind test */
 import { TOOLS } from '../../src/editor/tools.constants';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
-import { APPLY_HINT, CANCEL_HINT } from '../../src/views/ApplyBar/ApplyBar.constants';
 import {
-  BRUSH_SHAPE_HINTS, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILLED_HINT, MIRROR_HINTS, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SCOPE_HINTS,
+  BRUSH_SHAPE_HINTS, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILLED_HINT, MIRROR_X_HINT, MIRROR_Y_HINT, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SCOPE_HINTS,
   SELECT_MODE_HINTS, SELECT_VARIANT_HINTS, SHAPE_HINTS, SHRINK_HINT,
 } from '../../src/views/ContextBar/ContextBar.constants';
 import { LAYER_ACTIONS, LAYER_TOGGLES } from '../../src/views/LayersPanel/LayersPanel.constants';
@@ -60,7 +59,8 @@ const allHints = (): HintSpec[] => [
   ...Object.values(SELECT_VARIANT_HINTS),
   ...Object.values(SELECT_MODE_HINTS),
   ...Object.values(SCOPE_HINTS),
-  ...MIRROR_HINTS,
+  MIRROR_X_HINT,
+  MIRROR_Y_HINT,
   BACK_HINT,
   PAINT_ALL_HINT,
   BRUSH_SIZE_HINT,
@@ -68,8 +68,6 @@ const allHints = (): HintSpec[] => [
   FILLED_HINT,
   EXPAND_HINT,
   SHRINK_HINT,
-  APPLY_HINT,
-  CANCEL_HINT,
   swatchHint('3 Blue'),
   ...TOOLS.map((tool) => canvasHelp(tool.id, 'sprite')),
   canvasHelp('pencil', 'sheet'),

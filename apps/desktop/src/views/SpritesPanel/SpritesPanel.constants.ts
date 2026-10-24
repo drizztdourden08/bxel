@@ -16,7 +16,9 @@ const ARROW_STEP: Readonly<Record<string, number>> = { ArrowLeft: -1, ArrowRight
 
 const LIST_THUMB = 32;
 
-const BAND_MIN = 4;
+const MARQUEE_ITEM = '[data-marquee-key]';
+
+const VIRTUAL_LIST_MIN = 200;
 
 const END_INDEX = 100000;
 
@@ -86,4 +88,4 @@ const SPRITE_HINTS = {
   },
 } as const satisfies Record<string, HintSpec>;
 
-export { ANY_SIZE, ARROW_STEP, BAND_MIN, DRAG_TYPE, END_INDEX, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, NO_SPRITES, SPRITE_HINTS };
+export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, MARQUEE_ITEM, NO_SPRITES, SPRITE_HINTS, VIRTUAL_LIST_MIN };

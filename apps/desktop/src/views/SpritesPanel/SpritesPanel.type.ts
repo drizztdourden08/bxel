@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, RefObject } from 'react';
 import type { MenuGroup } from '@drizztdourden08/tessera';
-import type { Artwork, Sheet, Sprite, SpriteId } from '@bxel/document';
+import type { Artwork, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
 import type { ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
 import type { HintSpec } from '../ActionHint';
@@ -55,7 +55,7 @@ interface SpriteState {
 interface SpriteHandlers {
   onPick: (how: PickHow) => void;
   onRename: () => void;
-  onMenu: (event: MouseEvent<HTMLElement>) => void;
+  onMenu: () => void;
 }
 
 interface SpriteItemProps {
@@ -129,18 +129,11 @@ interface ManagerToolbarProps {
   groups: readonly MenuGroup[];
 }
 
-interface ContextMenuState {
-  open: boolean;
-  anchor: RefObject<HTMLElement | null>;
-  show: (event: MouseEvent<HTMLElement>) => void;
-  hide: () => void;
-}
-
-interface BandState {
-  canvas: RefObject<HTMLCanvasElement | null>;
+interface SpriteMarquee {
+  area: RefObject<HTMLElement | null>;
+  rect: Rect | null;
   onPointerDown: (event: PointerEvent<HTMLElement>) => void;
-  onPointerMove: (event: PointerEvent<HTMLElement>) => void;
-  onPointerUp: (event: PointerEvent<HTMLElement>) => void;
+  onClick: (event: MouseEvent<HTMLElement>) => void;
 }
 
 interface KeyShape {
@@ -158,8 +151,6 @@ type KeyAction = () => void;
 export type {
   ActionContext,
   ActionsMenuProps,
-  BandState,
-  ContextMenuState,
   FilterActions,
   KeyAction,
   KeyShape,
@@ -175,6 +166,7 @@ export type {
   SpriteHandlers,
   SpriteItemProps,
   SpriteKeyHandler,
+  SpriteMarquee,
   SpriteRenameProps,
   SpriteRenameState,
   SpriteState,
