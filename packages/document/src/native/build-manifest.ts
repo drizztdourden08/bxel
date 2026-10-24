@@ -7,16 +7,9 @@ import {
   MIN_READER_VERSION,
   WRITER,
 } from './container.constants';
-import { crc32 } from './crc32';
-import type { Manifest, ManifestEntry } from './manifest.type';
-
-const entryOf = (path: string, bytes: Uint8Array): ManifestEntry => ({
-  path,
-  length: bytes.length,
-  crc32: crc32(bytes),
-});
-
-const savedAtOf = (milliseconds: number): string => new Date(milliseconds).toISOString().replace(/\.\d{3}Z$/, 'Z');
+import { entryOf } from './entry-of';
+import type { Manifest } from './manifest.type';
+import { savedAtOf } from './saved-at-of';
 
 const buildManifest = ({ artwork, savedAt, documentBytes, preview, blobs }: ContainerParts): Manifest => ({
   format: FORMAT_NAME,

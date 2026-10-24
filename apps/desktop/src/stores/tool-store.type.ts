@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { LayerId } from '@bxel/document';
 import type { BrushShape, Connectivity, FillMode, Point, ShapeKind } from '@bxel/raster';
+import type { ColourSlot } from '../editor/press-plan.type';
 import type { ToolId } from '../editor/tool.type';
 
 type SymmetryAxis = 'x' | 'y';
@@ -9,6 +10,8 @@ interface ToolSettings {
   tool: ToolId;
   foreground: number;
   background: number;
+  third: number;
+  fourth: number;
   brushSize: number;
   brushShape: BrushShape;
   pixelPerfect: boolean;
@@ -28,7 +31,9 @@ interface ToolState extends ToolSettings {
   selectTool: (tool: ToolId) => void;
   setForeground: (index: number) => void;
   setBackground: (index: number) => void;
+  setColour: (slot: ColourSlot, index: number) => void;
   swapColors: () => void;
+  swapPairs: () => void;
   setLayer: (layerId: LayerId | null) => void;
   setBrushSize: (size: number) => void;
   stepBrushSize: (delta: number) => void;

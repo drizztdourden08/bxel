@@ -45,7 +45,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
     group: FILE_TEXT.group,
     chord: 'Mod+Shift+E',
     when: hasActiveDocument,
-    run: openExport,
+    run: () => openExport(),
   },
 ];
 

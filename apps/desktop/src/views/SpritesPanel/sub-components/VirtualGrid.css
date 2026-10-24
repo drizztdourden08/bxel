@@ -1,0 +1,120 @@
+/* @layer renderer-app @kind style */
+.sprites-panel__vgrid {
+  position: relative;
+  overflow: auto;
+  overscroll-behavior: contain;
+  block-size: var(--size-448);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+}
+
+.sprites-panel__vrow {
+  box-sizing: border-box;
+  padding: var(--space-2xs) var(--space-sm);
+  overflow: hidden;
+}
+
+.sprites-panel__vgrid[data-row='80'] .sprites-panel__vrow,
+.sprites-panel__vgrid[data-row='80'] .sprites-panel__vspace {
+  block-size: var(--size-80);
+}
+
+.sprites-panel__vgrid[data-row='80'] .sprites-panel__vspace[data-rows='4'] {
+  block-size: calc(var(--size-80) * 4);
+}
+
+.sprites-panel__vgrid[data-row='80'] .sprites-panel__vspace[data-rows='16'] {
+  block-size: calc(var(--size-80) * 16);
+}
+
+.sprites-panel__vgrid[data-row='80'] .sprites-panel__vspace[data-rows='64'] {
+  block-size: calc(var(--size-80) * 64);
+}
+
+.sprites-panel__vgrid[data-row='80'] .sprites-panel__vspace[data-rows='256'] {
+  block-size: calc(var(--size-80) * 256);
+}
+
+.sprites-panel__vgrid[data-row='96'] .sprites-panel__vrow,
+.sprites-panel__vgrid[data-row='96'] .sprites-panel__vspace {
+  block-size: var(--size-96);
+}
+
+.sprites-panel__vgrid[data-row='96'] .sprites-panel__vspace[data-rows='4'] {
+  block-size: calc(var(--size-96) * 4);
+}
+
+.sprites-panel__vgrid[data-row='96'] .sprites-panel__vspace[data-rows='16'] {
+  block-size: calc(var(--size-96) * 16);
+}
+
+.sprites-panel__vgrid[data-row='96'] .sprites-panel__vspace[data-rows='64'] {
+  block-size: calc(var(--size-96) * 64);
+}
+
+.sprites-panel__vgrid[data-row='96'] .sprites-panel__vspace[data-rows='256'] {
+  block-size: calc(var(--size-96) * 256);
+}
+
+.sprites-panel__vgrid[data-row='128'] .sprites-panel__vrow,
+.sprites-panel__vgrid[data-row='128'] .sprites-panel__vspace {
+  block-size: var(--size-128);
+}
+
+.sprites-panel__vgrid[data-row='128'] .sprites-panel__vspace[data-rows='4'] {
+  block-size: calc(var(--size-128) * 4);
+}
+
+.sprites-panel__vgrid[data-row='128'] .sprites-panel__vspace[data-rows='16'] {
+  block-size: calc(var(--size-128) * 16);
+}
+
+.sprites-panel__vgrid[data-row='128'] .sprites-panel__vspace[data-rows='64'] {
+  block-size: calc(var(--size-128) * 64);
+}
+
+.sprites-panel__vgrid[data-row='128'] .sprites-panel__vspace[data-rows='256'] {
+  block-size: calc(var(--size-128) * 256);
+}
+
+.sprites-panel__vgrid[data-row='160'] .sprites-panel__vrow,
+.sprites-panel__vgrid[data-row='160'] .sprites-panel__vspace {
+  block-size: var(--size-160);
+}
+
+.sprites-panel__vgrid[data-row='160'] .sprites-panel__vspace[data-rows='4'] {
+  block-size: calc(var(--size-160) * 4);
+}
+
+.sprites-panel__vgrid[data-row='160'] .sprites-panel__vspace[data-rows='16'] {
+  block-size: calc(var(--size-160) * 16);
+}
+
+.sprites-panel__vgrid[data-row='160'] .sprites-panel__vspace[data-rows='64'] {
+  block-size: calc(var(--size-160) * 64);
+}
+
+.sprites-panel__vgrid[data-row='160'] .sprites-panel__vspace[data-rows='256'] {
+  block-size: calc(var(--size-160) * 256);
+}
+
+.sprites-panel__vgrid[data-row='192'] .sprites-panel__vrow,
+.sprites-panel__vgrid[data-row='192'] .sprites-panel__vspace {
+  block-size: var(--size-192);
+}
+
+.sprites-panel__vgrid[data-row='192'] .sprites-panel__vspace[data-rows='4'] {
+  block-size: calc(var(--size-192) * 4);
+}
+
+.sprites-panel__vgrid[data-row='192'] .sprites-panel__vspace[data-rows='16'] {
+  block-size: calc(var(--size-192) * 16);
+}
+
+.sprites-panel__vgrid[data-row='192'] .sprites-panel__vspace[data-rows='64'] {
+  block-size: calc(var(--size-192) * 64);
+}
+
+.sprites-panel__vgrid[data-row='192'] .sprites-panel__vspace[data-rows='256'] {
+  block-size: calc(var(--size-192) * 256);
+}

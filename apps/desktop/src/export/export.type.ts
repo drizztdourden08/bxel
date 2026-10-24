@@ -7,7 +7,7 @@ type ExportKind = 'sprite' | 'frames' | 'animation' | 'sheet' | 'map';
 
 type MapFormat = 'bxel' | 'tiled';
 
-type SpriteChoice = 'current' | 'selected' | 'all';
+type SpriteChoice = 'current' | 'selected' | 'all' | 'sheet';
 
 type LayerChoice = 'visible' | 'all';
 
@@ -34,10 +34,18 @@ type ExportSettings = {
   readonly padding: number;
   readonly extrusion: number;
   readonly trim: boolean;
+  readonly powerOfTwo: boolean;
+  readonly pageSide: number;
+  readonly sheetId: string;
   readonly flavour: SheetFlavour;
   readonly mapFormat: MapFormat;
   readonly folder: string;
   readonly fileName: string;
+};
+
+type ExportOpen = {
+  readonly kind?: ExportKind;
+  readonly settings?: Partial<ExportSettings>;
 };
 
 type SavedPreset = {
@@ -166,6 +174,7 @@ export type {
   EncodedBytes,
   ExportJob,
   ExportKind,
+  ExportOpen,
   ExportPlan,
   ExportRequest,
   ExportResult,

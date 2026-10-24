@@ -1,44 +1,32 @@
 /* @layer renderer-app @kind logic */
-import { exportSheet } from '@bxel/formats';
-import { EXPORT_TEXT } from './export.constants';
+import { exportSheet, exportSheetPages } from '@bxel/formats';
 import type { PlanParts, PlannedFile } from './export.type';
-import { encodeImage } from './encode-image';
 import { exportSprite } from './export-sprite';
+import { sheetFiles } from './sheet-files';
 import { sheetSettings } from './sheet-settings';
+
+const pageStem = (base: string, page: number, count: number): string => (count === 1 ? base : `${base}_${page + 1}`);
 
 const planSheet = (parts: PlanParts): PlannedFile[] | string => {
   const { targets, settings, base, map } = parts;
-  const imageName = `${base}.png`;
-  const jsonName = `${base}.json`;
-  const sheet = exportSheet({
-    imageName,
+  const common = {
     sprites: targets.map(exportSprite),
     settings: sheetSettings(targets, settings),
     trim: settings.trim,
     scale: settings.scale,
     flavour: settings.flavour,
-  });
-  if (!sheet.ok) return sheet.message;
+  };
   const last = targets.length - 1;
-  const { width, height } = sheet.image;
-  return [
-    {
-      name: imageName,
-      detail: EXPORT_TEXT.imageDetail(imageName, width, height),
-      spriteIndex: last,
-      width,
-      height,
-      make: () => (map === null ? { ok: true, data: { kind: 'bytes', bytes: sheet.png } } : encodeImage(sheet.image, map)),
-    },
-    {
-      name: jsonName,
-      detail: EXPORT_TEXT.jsonDetail(jsonName, targets.length),
-      spriteIndex: last,
-      width: null,
-      height: null,
-      make: () => ({ ok: true, data: { kind: 'text', text: sheet.json } }),
-    },
-  ];
+  if (settings.pageSide > 0) {
+    const paged = exportSheetPages({
+      ...common,
+      pageSide: settings.pageSide,
+      imageName: (page, count) => `${pageStem(base, page, count)}.png`,
+    });
+    return paged.ok ? paged.pages.flatMap((page) => sheetFiles(page, map, last)) : paged.message;
+  }
+  const sheet = exportSheet({ ...common, imageName: `${base}.png` });
+  return sheet.ok ? sheetFiles(sheet, map, last) : sheet.message;
 };
 
 export { planSheet };

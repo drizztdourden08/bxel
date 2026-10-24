@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind logic */
 const columnsOf = (container: HTMLElement): number => {
-  const tiles = Array.from(container.querySelectorAll<HTMLElement>('[data-sprite-id]'));
-  const first = tiles[0];
-  if (!first) return 1;
-  const row = tiles.filter((tile) => tile.offsetTop === first.offsetTop).length;
-  return Math.max(1, row);
+  const rows = new Map<number, number>();
+  for (const tile of container.querySelectorAll<HTMLElement>('[data-sprite-id]')) {
+    rows.set(tile.offsetTop, (rows.get(tile.offsetTop) ?? 0) + 1);
+  }
+  return Math.max(1, ...rows.values());
 };
 
 export { columnsOf };

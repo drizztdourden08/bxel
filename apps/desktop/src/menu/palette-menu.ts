@@ -14,6 +14,7 @@ const paletteMenu = (state: EditorMenuState): MenuItem => {
     icon: 'pixel-palette',
     children: [
       menuItem(COMMAND_ID.swapColours, 'Swap colours', off),
+      menuItem(COMMAND_ID.swapColourPairs, 'Swap colour pairs', off),
       menuItem(COMMAND_ID.colourBack, 'Previous colour', off),
       menuItem(COMMAND_ID.colourForward, 'Next colour', off),
       'separator',

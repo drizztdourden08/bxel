@@ -16,11 +16,15 @@ const usage = {
     'A click picks one sprite, Ctrl and click adds or drops one, Shift and click picks a range in the order shown, and a drag over empty space picks the sprites it touches.',
     'Each change is one command of the document engine, so each is one undo step, and a batch over many sprites is still one step.',
     'A refused command shows the reason in plain words and changes nothing.',
-    'The search, sort, filters, view and zoom only change what is shown; they never change the file.',
+    'The search, sort, filters, view and zoom only change what is shown; they never change the file. The manager keeps them for each open file.',
+    'A sprite name with a slash is a folder path: sprites with the same path are grouped under a header that opens and closes, and Move to folder renames them.',
+    'Merge, split and slice make new sprites from sprites; delete shows which sheets and tilemaps use each sprite before it asks; align and space work on a sheet that is arranged by hand.',
+    'A sheet of 200 sprites or more draws only the rows in view and keeps the room of the others.',
   ],
   a11y: [
     'The thumbnails are a group named Sprites and each tile or row is one button that carries aria-pressed when picked.',
-    'Arrow keys move the pick, Home and End jump, Space toggles, Enter isolates, Ctrl and A picks all, Left and Right with Alt move the picked sprites, F2 renames, Delete removes.',
+    'Arrow keys move the pick, Home and End jump, Space toggles, Enter isolates, Ctrl and A picks all, Left and Right with Alt move the picked sprites, F2 renames, Delete asks to remove.',
+    'A folder header is a button that carries aria-expanded.',
     'Each tile is named by the sprite name and its size, and the sortable list headers carry aria-sort.',
   ],
   tree: {

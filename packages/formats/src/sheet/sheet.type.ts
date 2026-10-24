@@ -33,7 +33,21 @@ type PackSettings = {
   readonly layout: SheetLayoutSpec;
   readonly margin: number;
   readonly extrude: number;
+  readonly powerOfTwo?: boolean;
 };
+
+type PackOptions = {
+  readonly margin: number;
+  readonly extrude: number;
+  readonly powerOfTwo: boolean;
+};
+
+type PackedPage = {
+  readonly groups: readonly number[];
+  readonly packed: PackedSheet;
+};
+
+type PackPagesResult = { readonly ok: true; readonly pages: readonly PackedPage[] } | FormatFailure;
 
 type PackedSheet = {
   readonly ok: true;
@@ -72,8 +86,11 @@ export type {
   GridLayout,
   PackedItem,
   PackedLayout,
+  PackedPage,
   PackedSheet,
   PackItem,
+  PackOptions,
+  PackPagesResult,
   PackResult,
   PackSettings,
   Shelf,

@@ -5,9 +5,9 @@ const NAME_COLLATOR = new Intl.Collator('en', { numeric: true, sensitivity: 'bas
 
 const ZOOM = { min: 24, max: 128, step: 8, start: 48 } as const;
 
-const NO_FILTER: ManagerFilter = { animated: false, unplaced: false, size: null };
+const NO_FILTER: ManagerFilter = { animated: false, unplaced: false, size: null, identical: 'off', tag: null, bank: null };
 
-const SORT_KEYS: readonly SortKey[] = ['manual', 'name', 'size', 'area', 'frames'];
+const SORT_KEYS: readonly SortKey[] = ['manual', 'name', 'size', 'area', 'frames', 'tags', 'bank'];
 
 const TEMP_NAME = 'rename_tmp';
 
@@ -27,7 +27,7 @@ const PIVOT_PRESETS: readonly PivotPreset[] = [
   { id: 'right', label: 'Middle right', fx: 1, fy: 0.5 },
 ];
 
-const ATLAS_LIMITS = { extrudeMax: 8, spacingMax: 64, marginMax: 256, columnsMax: 64, zoomMax: 8, widthMax: 4096 } as const;
+const ATLAS_LIMITS = { extrudeMax: 8, spacingMax: 64, marginMax: 256, columnsMax: 64, zoomMax: 8, widthMax: 4096, pageMax: 8192 } as const;
 
 const ATLAS_SIDE_LIMIT = 8192;
 
@@ -35,11 +35,14 @@ const ATLAS_CANVAS_SIDE = 4096;
 
 const SHEET_PICKER_NEW = 'new';
 
+const GRID_CHROME = { edge: 32, tile: 20 } as const;
+
 export {
   ATLAS_CANVAS_SIDE,
   ATLAS_LIMITS,
   ATLAS_SIDE_LIMIT,
   DEFAULT_PATTERN,
+  GRID_CHROME,
   FIRST_NUMBER,
   NAME_COLLATOR,
   NO_FILTER,

@@ -44,7 +44,9 @@ export { encodeGif } from './gif/encode-gif';
 export { gifDelayCs } from './gif/gif-delay';
 export type { Box } from './pixels/box.type';
 export { compositeIndexed } from './sheet/composite-indexed';
+export type { ExportPagesInput, ExportPagesResult } from './sheet/export-pages.type';
 export { exportSheet } from './sheet/export-sheet';
+export { exportSheetPages } from './sheet/export-sheet-pages';
 export type {
   ExportedSheet,
   ExportFrame,
@@ -53,6 +55,8 @@ export type {
   ExportSprite,
   SheetFlavour,
 } from './sheet/export-sheet.type';
+export { nextPowerOfTwo } from './sheet/next-power-of-two';
+export { packPages } from './sheet/pack-pages';
 export { packSheet } from './sheet/pack-sheet';
 export { readBxelSheetJson } from './sheet/read-bxel-sheet-json';
 export { sheetFrameKey } from './sheet/sheet-frame-key';
@@ -71,8 +75,10 @@ export type {
   GridLayout,
   PackedItem,
   PackedLayout,
+  PackedPage,
   PackedSheet,
   PackItem,
+  PackPagesResult,
   PackResult,
   PackSettings,
   SheetLayoutSpec,

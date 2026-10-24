@@ -20,6 +20,7 @@ const COMMAND_ID = {
   undo: 'history.undo',
   redo: 'history.redo',
   swapColours: 'palette.swap_colors',
+  swapColourPairs: 'palette.swap_pairs',
   colourBack: 'palette.step_back',
   colourForward: 'palette.step_forward',
   brushSmaller: 'brush.smaller',

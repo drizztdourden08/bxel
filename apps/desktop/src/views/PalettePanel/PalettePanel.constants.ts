@@ -1,37 +1,49 @@
 /* @layer renderer-app @kind constants */
 import { COMMAND_ID } from '../../keymap/keymap.constants';
-import { platformGroups } from '../../platform-preset/platform-groups';
-import type { SnapChange } from '../../platform-preset/snap-plan.type';
 import type { HintSpec } from '../ActionHint';
-import type { SwatchRole } from './PalettePanel.type';
+import type { HeldChipDef } from './PalettePanel.type';
 
 const PALETTE_PANEL_TEXT = {
   empty: 'No palette is open.',
   grid: 'Palette swatches',
-  hint: 'Click sets the front colour. Right click or Shift and click sets the back colour. X swaps them.',
-  setLabel: 'Swatch set',
-  setPlaceholder: 'Choose a set',
-  addColors: 'Add colours',
-  replaceColors: 'Replace colours',
-  caption: (index: number, role: SwatchRole): string => (role === 'background' ? `${index} bg` : String(index)),
-  name: (label: string, role: SwatchRole): string => (role === null ? label : `${label}, ${role}`),
+  held: 'Colours to draw with',
+  caption: (marks: readonly number[]): string => marks.join(' '),
+  name: (label: string, marks: readonly number[]): string => (marks.length === 0 ? label : `${label}, colour ${marks.join(' and ')}`),
+  chip: (position: number, label: string): string => `Colour ${position}, ${label}`,
+  chipEmpty: (position: number): string => `Colour ${position}, none`,
+  chipName: (position: number): string => `Colour ${position}`,
 } as const;
+
+const SWATCH_MIN_WIDTH = 24;
+
+const HELD_CHIPS: readonly HeldChipDef[] = [
+  { slot: 'foreground', position: 1, draw: { mouse: 'left' }, pick: { mouse: 'left' } },
+  { slot: 'background', position: 2, draw: { mouse: 'right' }, pick: { mouse: 'right' } },
+  { slot: 'third', position: 3, draw: { keys: ['ctrl'], mouse: 'left' }, pick: { keys: ['shift'], mouse: 'left' } },
+  { slot: 'fourth', position: 4, draw: { keys: ['ctrl'], mouse: 'right' }, pick: { keys: ['shift'], mouse: 'right' } },
+];
 
 const swatchHint = (label: string): HintSpec => ({
   name: label,
-  description: 'Choose this colour for drawing.',
+  description: 'Choose this colour for drawing. Double click to change its colour.',
   shortcuts: [
-    { label: 'Front colour', mouse: 'left' },
-    { label: 'Back colour', mouse: 'right' },
-    { label: 'Back colour', keys: ['shift'], mouse: 'left' },
-    { label: 'Swap colours', command: COMMAND_ID.swapColours },
+    { label: 'Colour 1', mouse: 'left' },
+    { label: 'Colour 2', mouse: 'right' },
+    { label: 'Colour 3', keys: ['shift'], mouse: 'left' },
+    { label: 'Colour 4', keys: ['shift'], mouse: 'right' },
+    { label: 'Swap colours 1 and 2', command: COMMAND_ID.swapColours },
+    { label: 'Swap pairs', command: COMMAND_ID.swapColourPairs },
   ],
 });
 
-const PALETTE_COLUMNS = 4;
+const chipHint = (chip: HeldChipDef): HintSpec => ({
+  name: PALETTE_PANEL_TEXT.chipName(chip.position),
+  description: 'A colour to draw with. Click it to change the colour itself.',
+  shortcuts: [
+    { label: 'Draw with it', keys: chip.draw.keys, mouse: chip.draw.mouse },
+    { label: 'Pick it', keys: chip.pick.keys, mouse: chip.pick.mouse },
+    { label: 'Swap pairs', command: COMMAND_ID.swapColourPairs },
+  ],
+});
 
-const PLATFORM_GROUPS = platformGroups();
-
-const NO_CHANGES: readonly SnapChange[] = [];
-
-export { NO_CHANGES, PALETTE_COLUMNS, PALETTE_PANEL_TEXT, PLATFORM_GROUPS, swatchHint };
+export { chipHint, HELD_CHIPS, PALETTE_PANEL_TEXT, SWATCH_MIN_WIDTH, swatchHint };

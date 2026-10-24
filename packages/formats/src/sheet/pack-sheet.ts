@@ -7,10 +7,9 @@ import type { PackItem, PackResult, PackSettings } from './sheet.type';
 const packSheet = (items: readonly PackItem[], settings: PackSettings): PackResult => {
   const invalid = checkPackInput(items, settings);
   if (invalid) return invalid;
-  const { layout, margin, extrude } = settings;
-  return layout.kind === 'grid'
-    ? packGrid(items, layout, margin, extrude)
-    : packShelf(items, layout, margin, extrude);
+  const { layout, margin, extrude, powerOfTwo = false } = settings;
+  const options = { margin, extrude, powerOfTwo };
+  return layout.kind === 'grid' ? packGrid(items, layout, options) : packShelf(items, layout, options);
 };
 
 export { packSheet };

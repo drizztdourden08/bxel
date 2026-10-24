@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { exportBlocker } from '../../../export/export-blocker';
+import { sheetLabel } from '../../../export/sheet-label';
 import { IMAGE_EXTENSION } from '../../../export/export.constants';
 import { useExportStore } from '../../../export/useExportStore';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
@@ -38,6 +39,7 @@ const useExportModel = (): ExportModel | null => {
     spriteCount: sprites.length,
     selectedCount: selectedIds.length,
     tags,
+    sheetLabel: sheetLabel(artwork, draft.settings),
   };
 };
 

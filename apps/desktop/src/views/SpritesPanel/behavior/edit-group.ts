@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind logic */
 import type { MenuGroup } from '@drizztdourden08/tessera';
+import { COPY_TEXT } from '../../../sheet-manager/copy-text.constants';
+import { FOLDER_TEXT } from '../../../sheet-manager/folder-text.constants';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
-import { deleteSprites } from '../../../sheet/delete-sprites';
 import { duplicateSprites } from '../../../sheet/duplicate-sprites';
 import { isolateSprite } from '../../../sheet/isolate-sprite';
-import { SPRITE_TEXT } from '../../../sheet/sprite-label.constants';
 import type { ActionContext } from '../SpritesPanel.type';
 
 const editGroup = ({ model, rename, open }: ActionContext): MenuGroup => {
@@ -23,7 +23,9 @@ const editGroup = ({ model, rename, open }: ActionContext): MenuGroup => {
         onSelect: () => active && rename(active.id),
       },
       { id: 'rename-many', label: MANAGER_TEXT.renameMany, disabled: none, onSelect: () => open('rename') },
+      { id: 'move-to-folder', label: FOLDER_TEXT.menu, disabled: none, onSelect: () => open('folder') },
       { id: 'duplicate', label: MANAGER_TEXT.duplicate, shortcut: 'Ctrl+Shift+D', icon: 'copy', disabled: none, onSelect: () => duplicateSprites(model.ids) },
+      { id: 'duplicate-named', label: COPY_TEXT.menu, disabled: none, onSelect: () => open('duplicate') },
       { id: 'isolate', label: MANAGER_TEXT.isolate, shortcut: 'Enter', icon: 'pixel-isolate', disabled: none, onSelect: () => isolateSprite() },
       {
         id: 'delete',
@@ -31,10 +33,8 @@ const editGroup = ({ model, rename, open }: ActionContext): MenuGroup => {
         shortcut: 'Del',
         icon: 'trash-2',
         tone: 'danger',
-        kind: 'confirm',
-        confirm: SPRITE_TEXT.confirmDelete(model.ids.length),
         disabled: none,
-        onSelect: () => deleteSprites(model.ids),
+        onSelect: () => open('delete'),
       },
     ],
   };

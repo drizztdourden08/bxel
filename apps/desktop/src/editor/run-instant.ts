@@ -11,8 +11,7 @@ const pickColour = (target: EditorTarget, at: Point, slot: ColourSlot): void => 
   const index = samplePixel(target, at);
   if (index === null) return;
   const tools = useToolStore.getState();
-  if (slot === 'foreground') tools.setForeground(index);
-  else tools.setBackground(index);
+  tools.setColour(slot, index);
 };
 
 const runInstant = (kind: 'pick' | 'fill', target: EditorTarget, at: Point, slot: ColourSlot): void => {

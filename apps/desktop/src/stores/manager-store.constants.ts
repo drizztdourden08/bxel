@@ -12,7 +12,9 @@ const MANAGER_DEFAULTS: ManagerSettings = {
   sortDown: false,
   sheetId: null,
   dialog: null,
-  atlas: { extrude: 0, pivots: true, bounds: false, zoom: 2 },
+  atlas: { extrude: 0, pivots: true, bounds: false, zoom: 2, trim: false, powerOfTwo: false, pageSide: 0, page: 0 },
+  collapsed: [],
+  selections: [],
 };
 
 export { MANAGER_DEFAULTS };

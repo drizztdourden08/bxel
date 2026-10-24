@@ -5,18 +5,17 @@ import { beginStroke } from '../../src/editor/begin-stroke';
 import { paletteSlots } from '../../src/editor/palette-slots';
 import { PALETTE_TEXT } from '../../src/editor/palette-text.constants';
 import { pressPlan } from '../../src/editor/press-plan';
-import type { PressEvent } from '../../src/editor/press-plan.type';
 import { runInstant } from '../../src/editor/run-instant';
 import { samplePixel } from '../../src/editor/sample-pixel';
 import { stepColour } from '../../src/editor/step-colour';
 import { strokeRequest } from '../../src/editor/stroke-request';
-import { swatchRole } from '../../src/editor/swatch-role';
+import { swatchMarks } from '../../src/editor/swatch-marks';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { openEditor, plainOptions } from './editor-harness';
+import { press } from './press-event';
 
-const press = (button: number, held: Partial<PressEvent> = {}): PressEvent => ({ button, altKey: false, shiftKey: false, ...held });
 
 beforeEach(() => useToolStore.setState({ ...TOOL_DEFAULTS }));
 
@@ -77,10 +76,12 @@ describe('the palette', () => {
     expect(PALETTE_TEXT.count(bank.cap, bank.transparent)).toBe('15 opaque + transparent = 16');
   });
 
-  it('marks the front and back swatches', () => {
-    expect(swatchRole(3, 3, 0)).toBe('foreground');
-    expect(swatchRole(0, 3, 0)).toBe('background');
-    expect(swatchRole(8, 3, 0)).toBeNull();
+  it('marks a swatch with the number of every held colour that uses it', () => {
+    const held = { foreground: 3, background: 0, third: 3, fourth: 7 };
+    expect(swatchMarks(3, held)).toEqual([1, 3]);
+    expect(swatchMarks(0, held)).toEqual([2]);
+    expect(swatchMarks(7, held)).toEqual([4]);
+    expect(swatchMarks(8, held)).toEqual([]);
   });
 
   it('sets the front and back colours and swaps them', () => {

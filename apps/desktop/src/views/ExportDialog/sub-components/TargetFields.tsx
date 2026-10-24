@@ -5,14 +5,14 @@ import { EXPORT_DIALOG_TEXT, LAYER_OPTIONS } from '../ExportDialog.constants';
 import type { TargetFieldsProps } from '../ExportDialog.type';
 import { FrameFields } from './FrameFields';
 
-const TargetFields = ({ settings, change, spriteCount, selectedCount, tags }: TargetFieldsProps) => (
+const TargetFields = ({ settings, change, spriteCount, selectedCount, sheetLabel, tags }: TargetFieldsProps) => (
   <Stack gap="md">
     <Field label={EXPORT_DIALOG_TEXT.sprites}>
       <SegmentedControl
         size="sm"
         aria-label={EXPORT_DIALOG_TEXT.sprites}
         value={settings.sprites}
-        options={spriteOptions(spriteCount, selectedCount)}
+        options={spriteOptions(spriteCount, selectedCount, sheetLabel)}
         onChange={(sprites) => change({ sprites })}
       />
     </Field>

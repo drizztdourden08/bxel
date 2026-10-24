@@ -1,15 +1,11 @@
 /* @layer core @kind logic */
 import { addWarning, requireSprite, resizeSprite, trimPivot } from '@bxel/document';
-import type { CelId, Draft, Pivot2, Rect, SpriteId } from '@bxel/document';
+import type { CelId, Draft, Rect, SpriteId } from '@bxel/document';
 import { countOpaque } from '../region/count-opaque';
 import { reframeBuffer } from '../region/reframe-buffer';
+import { clampPivot } from './clamp-pivot';
 import { reframeSlices } from './reframe-slices';
 import { SPRITE_CLIPPED } from './resize-anchor.constants';
-
-const clampPivot = (pivot: Pivot2, frame: Rect): Pivot2 => ({
-  x2: Math.min(2 * frame.width, Math.max(0, pivot.x2)),
-  y2: Math.min(2 * frame.height, Math.max(0, pivot.y2)),
-});
 
 const reframeSprite = (draft: Draft, spriteId: SpriteId, frame: Rect): number => {
   const sprite = requireSprite(draft.artwork, spriteId);

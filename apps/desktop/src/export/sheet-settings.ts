@@ -18,13 +18,14 @@ const packedWidth = (targets: readonly Target[], settings: ExportSettings): numb
     0,
   );
   const wanted = nextPower(Math.max(widest, Math.ceil(Math.sqrt(area))));
-  return Math.min(EXPORT_LIMITS.maxSide, Math.max(EXPORT_LIMITS.minPackedWidth, wanted));
+  const ceiling = settings.pageSide > 0 ? settings.pageSide : EXPORT_LIMITS.maxSide;
+  return Math.min(ceiling, Math.max(EXPORT_LIMITS.minPackedWidth, wanted));
 };
 
 const sheetSettings = (targets: readonly Target[], settings: ExportSettings): PackSettings => {
   const { padding, extrusion } = settings;
   if (settings.layout === 'packed') {
-    return { layout: { kind: 'packed', maxWidth: packedWidth(targets, settings), padding }, margin: 0, extrude: extrusion };
+    return { layout: { kind: 'packed', maxWidth: packedWidth(targets, settings), padding }, margin: 0, extrude: extrusion, powerOfTwo: settings.powerOfTwo };
   }
   return {
     layout: {
@@ -38,6 +39,7 @@ const sheetSettings = (targets: readonly Target[], settings: ExportSettings): Pa
     },
     margin: 0,
     extrude: extrusion,
+    powerOfTwo: settings.powerOfTwo,
   };
 };
 
