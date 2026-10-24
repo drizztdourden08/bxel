@@ -29,4 +29,5 @@ export default defineBrockConfig({
   },
   targets: ['desktop'],
   modules: ['updater'],
+  helpers: { 'bxel-mcp': 'src/helper/main.ts' },
 });

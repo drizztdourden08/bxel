@@ -25,6 +25,7 @@
   "dependencies": {
     "@bxel/document": "workspace:*",
     "@bxel/formats": "workspace:*",
+    "@bxel/mcp": "workspace:*",
     "@bxel/palette": "workspace:*",
     "@bxel/presets": "workspace:*",
     "@bxel/project": "workspace:*",
@@ -35,9 +36,11 @@
     "@drizztdourden08/brock-updater": "^0.83.0",
     "@drizztdourden08/tessera": "catalog:",
     "@electron-toolkit/utils": "catalog:",
+    "@modelcontextprotocol/sdk": "1.32.1",
     "react": "catalog:",
     "react-dom": "catalog:",
     "velopack": "catalog:",
+    "zod": "^4.6.7",
     "zustand": "catalog:"
   },
   "devDependencies": {
@@ -53,8 +56,8 @@
     "eslint": "catalog:",
     "jscpd": "catalog:",
     "knip": "catalog:",
-    "playwright-core": "catalog:",
     "markdownlint-cli2": "catalog:",
+    "playwright-core": "catalog:",
     "stylelint": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:"

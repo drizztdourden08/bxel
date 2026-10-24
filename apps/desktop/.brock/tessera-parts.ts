@@ -6,6 +6,7 @@ declare module '@drizztdourden08/tessera' {
     'bxel': {
       parts:
         | 'ApplyBar'
+        | 'AssistantPanel'
         | 'CanvasRuler'
         | 'ContextBar'
         | 'CreateDialog'

@@ -37,6 +37,7 @@ const createEngine = (options: EngineOptions): Engine => {
         store.listeners.delete(listener);
       };
     },
+    newest: () => store.history.entries[store.history.cursor - 1] ?? null,
     canUndo: () => store.history.cursor > 0,
     canRedo: () => store.history.cursor < store.history.entries.length,
     isClean: () => store.history.savedCursor === store.history.cursor,

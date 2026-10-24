@@ -1,0 +1,71 @@
+/* @layer helper @kind logic */
+import { CONTRACT_VERSION, MCP_ERROR_CODE, MCP_TIMEOUT_MS } from '@bxel/mcp';
+import type { HelloClient, McpResult, ToolReply, ToolRouteName } from '@bxel/mcp';
+import { connectBridge, readBridgeDiscovery } from '@drizztdourden08/brock-electron/bridge';
+import type { BridgeClient } from '@drizztdourden08/brock-electron/bridge';
+import { BYE_ROUTE, HELLO_ROUTE, TOOL_ROUTES } from '../assistant-bridge/bridge-routes.constants';
+import { bridgeFailure } from './bridge-failure';
+import { HELPER_INFO } from './helper.constants';
+import type { BridgeSession } from './helper.type';
+
+const createBridgeSession = (file: string): BridgeSession => {
+  const state = {
+    link: null as BridgeClient | null,
+    token: null as Promise<McpResult<string>> | null,
+    client: { name: null, version: null } as HelloClient,
+    launchToken: null as string | null,
+  };
+  const link = (): BridgeClient => {
+    state.link ??= connectBridge({ file, timeoutMs: MCP_TIMEOUT_MS.bridge });
+    return state.link;
+  };
+  const drop = (): void => {
+    state.link?.close();
+    state.link = null;
+    state.token = null;
+  };
+  const pair = async (): Promise<McpResult<string>> => {
+    const launch = state.launchToken === null ? {} : { launchToken: state.launchToken };
+    const reply = await link().request(HELLO_ROUTE, { contract: CONTRACT_VERSION, helperVersion: HELPER_INFO.version, client: state.client, ...launch });
+    return reply.ok ? { ok: true, value: reply.token } : reply;
+  };
+  const tokenOf = (): Promise<McpResult<string>> => {
+    state.token ??= pair().then((result) => {
+      if (!result.ok) state.token = null;
+      return result;
+    });
+    return state.token;
+  };
+  const attempt = async (tool: ToolRouteName, input: unknown): Promise<ToolReply> => {
+    const token = await tokenOf();
+    if (!token.ok) return { outcome: token, images: [] };
+    return link().request(TOOL_ROUTES[tool], token.value, input);
+  };
+  const call = async (tool: ToolRouteName, input: unknown): Promise<ToolReply> => {
+    try {
+      const first = await attempt(tool, input);
+      if (first.outcome.ok || first.outcome.error.code !== MCP_ERROR_CODE.SESSION_UNKNOWN) return first;
+      state.token = null;
+      return await attempt(tool, input);
+    } catch (error) {
+      drop();
+      return { outcome: bridgeFailure(error), images: [] };
+    }
+  };
+  const bye = async (): Promise<void> => {
+    const token = state.token === null ? null : await state.token;
+    if (token?.ok) await link().request(BYE_ROUTE, { token: token.value }).catch(() => false);
+    drop();
+  };
+  const isRunning = (): boolean => {
+    try {
+      readBridgeDiscovery(file);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  return { call, bye, isRunning, setClient: (client) => (state.client = client), setLaunchToken: (token) => (state.launchToken = token) };
+};
+
+export { createBridgeSession };
