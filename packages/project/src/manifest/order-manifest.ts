@@ -1,5 +1,4 @@
 /* @layer core @kind logic */
-import { ACCESS_SECTION_KEY } from './access-section.constants';
 import type { FolderLocation, ProjectFolder, ProjectManifest } from './manifest.type';
 
 const orderLocation = (location: FolderLocation) => ({ folderId: location.folderId, path: location.path });
@@ -17,7 +16,7 @@ const orderManifest = (manifest: ProjectManifest) => ({
     exports: orderLocation(manifest.settings.exports),
     palette: manifest.settings.palette === null ? null : orderLocation(manifest.settings.palette),
   },
-  [ACCESS_SECTION_KEY]: { access: manifest[ACCESS_SECTION_KEY].access },
+  assistant: { access: manifest.assistant.access },
 });
 
 export { orderManifest };

@@ -6,7 +6,6 @@ import { PATH_LIMITS } from '../paths/path.constants';
 import { checkManifestFolders } from './check-manifest-folders';
 import { checkManifestSettings } from './check-manifest-settings';
 import { folderSchema } from './folder-schema';
-import { ACCESS_SECTION_KEY } from './access-section.constants';
 import { ACCESS_LEVELS, MANIFEST_FORMAT, MANIFEST_VERSION } from './manifest.constants';
 import { settingsSchema } from './settings-schema';
 
@@ -23,7 +22,7 @@ const manifestSchema = z
     name: projectNameSchema,
     folders: z.array(folderSchema).min(1).max(PATH_LIMITS.maxFolders),
     settings: settingsSchema,
-    [ACCESS_SECTION_KEY]: z.strictObject({ access: z.enum(ACCESS_LEVELS) }),
+    assistant: z.strictObject({ access: z.enum(ACCESS_LEVELS) }),
   })
   .superRefine((manifest, context) => {
     const issues = [...checkManifestFolders(manifest.folders), ...checkManifestSettings(manifest.settings, manifest.folders)];

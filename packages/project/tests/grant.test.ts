@@ -1,5 +1,5 @@
 /* @layer tests @kind test */
-import { ACCESS_SECTION_KEY, effectiveGrant } from '@bxel/project';
+import { effectiveGrant } from '@bxel/project';
 import type { ProjectGrant } from '@bxel/project';
 import { describe, expect, it } from 'vitest';
 import { sampleManifest } from './sample-manifest';
@@ -31,7 +31,7 @@ describe('effective grant', () => {
       access: 'read',
       turnItOnHere: false,
     });
-    const off = { ...sampleManifest(), [ACCESS_SECTION_KEY]: { access: 'off' as const } };
+    const off = { ...sampleManifest(), assistant: { access: 'off' as const } };
     expect(effectiveGrant(off, ROOT, [grant()]).access).toBe('edit');
   });
 
@@ -52,12 +52,12 @@ describe('effective grant', () => {
   });
 
   it('does not offer a grant when the manifest is off too', () => {
-    const off = { ...sampleManifest(), [ACCESS_SECTION_KEY]: { access: 'off' as const } };
+    const off = { ...sampleManifest(), assistant: { access: 'off' as const } };
     expect(effectiveGrant(off, ROOT, [])).toEqual({ access: 'off', turnItOnHere: false });
   });
 
   it('grants nothing from a manifest edited to say edit', () => {
-    const edited = { ...sampleManifest(), [ACCESS_SECTION_KEY]: { access: 'edit' as const } };
+    const edited = { ...sampleManifest(), assistant: { access: 'edit' as const } };
     expect(effectiveGrant(edited, 'E:/Copy/Dungeon', [])).toMatchObject({ access: 'off' });
   });
 });

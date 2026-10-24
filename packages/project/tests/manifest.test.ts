@@ -1,5 +1,5 @@
 /* @layer tests @kind test */
-import { ACCESS_SECTION_KEY, parseManifest, PATH_LIMITS, PROJECT_ERROR_CODE, writeManifest } from '@bxel/project';
+import { parseManifest, PATH_LIMITS, PROJECT_ERROR_CODE, writeManifest } from '@bxel/project';
 import { describe, expect, it } from 'vitest';
 import { sampleManifest } from './sample-manifest';
 
@@ -20,7 +20,7 @@ const BROKEN: readonly (readonly [string, (manifest: Record<string, unknown>) =>
   ['a name that is too long', (manifest) => (manifest['name'] = 'a'.repeat(PATH_LIMITS.maxProjectName + 1))],
   ['a reserved name', (manifest) => (manifest['name'] = 'NUL')],
   ['an unknown key', (manifest) => (manifest['colour'] = 'red')],
-  ['an unknown access level', (manifest) => (manifest[ACCESS_SECTION_KEY] = { access: 'write' })],
+  ['an unknown access level', (manifest) => (manifest['assistant'] = { access: 'write' })],
   ['no folders', (manifest) => (manifest['folders'] = [])],
 ];
 
@@ -34,7 +34,7 @@ describe('manifest round trip', () => {
     const output = written();
     expect(output.endsWith('}\n')).toBe(true);
     const keys = Object.keys(JSON.parse(output) as object);
-    expect(keys).toEqual(['format', 'formatVersion', 'projectId', 'name', 'folders', 'settings', ACCESS_SECTION_KEY]);
+    expect(keys).toEqual(['format', 'formatVersion', 'projectId', 'name', 'folders', 'settings', 'assistant']);
     expect(output).toContain('"folderId": "fld_7r2k9m4q",\n      "name": "Dungeon",\n      "path": "."');
     expect(writeManifest(sampleManifest())).toEqual({ ok: true, value: output });
   });

@@ -1,6 +1,5 @@
 /* @layer core @kind types */
 import type { FolderId, ProjectId } from '../ids/id.type';
-import type { ACCESS_SECTION_KEY } from './access-section.constants';
 import type { ACCESS_LEVELS, MANIFEST_FORMAT, MANIFEST_VERSION } from './manifest.constants';
 
 type AccessLevel = (typeof ACCESS_LEVELS)[number];
@@ -29,7 +28,7 @@ type ProjectManifest = {
   readonly name: string;
   readonly folders: readonly ProjectFolder[];
   readonly settings: ProjectSettings;
-  readonly [ACCESS_SECTION_KEY]: { readonly access: AccessLevel };
+  readonly assistant: { readonly access: AccessLevel };
 };
 
 type ManifestIssue = {

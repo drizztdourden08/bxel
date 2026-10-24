@@ -16,7 +16,6 @@ export { createFolderId } from './ids/create-folder-id';
 export { createProjectId } from './ids/create-project-id';
 export { isFolderId } from './ids/is-folder-id';
 export { isProjectId } from './ids/is-project-id';
-export { ACCESS_SECTION_KEY } from './manifest/access-section.constants';
 export { ACCESS_LEVELS, MANIFEST_FORMAT, MANIFEST_VERSION, ROOT_FOLDER_PATH } from './manifest/manifest.constants';
 export { manifestSchema } from './manifest/manifest-schema';
 export { parseManifest } from './manifest/parse-manifest';
