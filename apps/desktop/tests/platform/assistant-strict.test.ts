@@ -2,7 +2,7 @@
 import { COMMAND_NAME, documentCommands } from '@bxel/document';
 import { paletteCommands } from '@bxel/palette';
 import { rasterCommands } from '@bxel/raster';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { TOOL_HANDLERS } from '../../src/assistant/tool-handlers.constants';
 import { APP_COMMANDS } from '../../src/documents/document-host.constants';
 import { storePathBook } from '../../src/files/store-path-book';
@@ -11,6 +11,8 @@ import { memoryDisk } from '../project/memory-disk';
 import { toolContext } from '../project/tool-context';
 import { artworkOf, chosen, platformFile, revisionOf, strictSnes } from './platform-harness';
 import type { PlatformFile } from './platform-harness';
+
+vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
 const assistantEdit = (file: PlatformFile, tool: 'apply_edits' | 'preview_edits', steps: readonly object[]) => {
   const handler = TOOL_HANDLERS[tool];
