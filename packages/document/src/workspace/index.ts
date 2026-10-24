@@ -9,6 +9,7 @@ export { assetsTouched } from './assets-touched';
 export { MERGE_ISSUE } from './merge-issue.constants';
 export { mergeSlices } from './merge-slices';
 export { fileSafeStem } from './file-safe-stem';
+export { presetsOf } from './presets-of';
 export { relativeLinkPath } from './relative-link-path';
 export { resolveLinkPath } from './resolve-link-path';
 export { sliceAsset } from './slice-asset';

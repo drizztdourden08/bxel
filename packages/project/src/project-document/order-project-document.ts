@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import type { PaletteDefault, PixelSize, ProjectDefaults } from '../defaults/asset-defaults.type';
+import { orderExportPreset } from './order-export-preset';
 import { FOLDER_ROLES } from './project-document.constants';
 import type { FolderRoles, DocumentFolder, ProjectDocument, ProjectExport } from './project-document.type';
 
@@ -34,6 +35,7 @@ const orderDefaults = (defaults: ProjectDefaults) => ({
 const orderExport = (settings: ProjectExport) => ({
   ...(settings.scale === undefined ? {} : { scale: settings.scale }),
   ...(settings.pathTemplate === undefined ? {} : { pathTemplate: settings.pathTemplate }),
+  ...(settings.presets === undefined ? {} : { presets: settings.presets.map(orderExportPreset) }),
 });
 
 const orderProjectDocument = (manifest: ProjectDocument) => ({

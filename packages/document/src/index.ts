@@ -190,6 +190,7 @@ export { spriteDeleteSchema } from './schema/sprite-delete-schema';
 export { spriteDuplicateSchema } from './schema/sprite-duplicate-schema';
 export { spriteReorderSchema } from './schema/sprite-reorder-schema';
 export { transactionRequestSchema } from './schema/transaction-schema';
+export * from './preset/index';
 export * from './tilemap/index';
 export * from './scope/index';
 export * from './workspace/index';

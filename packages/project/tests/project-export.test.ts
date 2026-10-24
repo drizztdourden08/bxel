@@ -1,4 +1,5 @@
 /* @layer tests @kind test */
+import type { ExportPreset, PresetId, SheetId, SpriteId } from '@bxel/document';
 import { parseProjectDocument, PROJECT_ERROR_CODE, writeProjectDocument } from '@bxel/project';
 import { describe, expect, it } from 'vitest';
 import { must } from './must';
@@ -43,5 +44,46 @@ describe('the export settings of a project', () => {
   it.each(JUNK)('refuse %s', (_label, settings) => {
     const manifest = { ...JSON.parse(must(writeProjectDocument(sampleDocument()))), export: settings } as object;
     expect(parseProjectDocument(JSON.stringify(manifest))).toMatchObject({ ok: false, code: PROJECT_ERROR_CODE.MANIFEST_INVALID });
+  });
+});
+
+const PRESET: ExportPreset = {
+  id: 'exp_000001' as PresetId,
+  name: 'Web 2x',
+  format: 'png',
+  scale: 2,
+  scope: { sprites: [], layers: { by: 'all' }, frames: { by: 'all' } },
+  sheetId: null,
+  pathTemplate: '{name}',
+  settings: { scale: 2, kind: 'sprite', sprites: 'all' },
+};
+
+describe('the export presets of a project', () => {
+  it('are written with their keys in a fixed order and read back unchanged', () => {
+    const document = { ...sampleDocument(), export: { scale: 2, presets: [PRESET] } };
+    const output = must(writeProjectDocument(document));
+    const written = (JSON.parse(output) as { export: { presets: object[] } }).export.presets[0] ?? {};
+    expect(Object.keys(written)).toEqual(['id', 'name', 'format', 'scale', 'scope', 'sheetId', 'pathTemplate', 'settings']);
+    expect(Object.keys((written as { settings: object }).settings)).toEqual(['kind', 'scale', 'sprites']);
+    expect(parseProjectDocument(output)).toEqual({ ok: true, value: document });
+    expect(must(writeProjectDocument(must(parseProjectDocument(output))))).toBe(output);
+  });
+
+  it('may be the only export setting', () => {
+    const document = { ...sampleDocument(), export: { presets: [PRESET] } };
+    expect(parseProjectDocument(must(writeProjectDocument(document)))).toEqual({ ok: true, value: document });
+  });
+
+  it('keep a preset that names sprites or a sheet', () => {
+    const named = { ...PRESET, sheetId: 'sht_000002' as SheetId, scope: { ...PRESET.scope, sprites: ['spr_000003' as SpriteId] } };
+    const document = { ...sampleDocument(), export: { presets: [named] } };
+    expect(parseProjectDocument(must(writeProjectDocument(document)))).toEqual({ ok: true, value: document });
+  });
+
+  it('refuse a preset with a bad id or scale', () => {
+    for (const bad of [{ ...PRESET, id: 'nope' }, { ...PRESET, scale: 0 }, { ...PRESET, format: 'bmp' }]) {
+      const manifest = { ...JSON.parse(must(writeProjectDocument(sampleDocument()))), export: { presets: [bad] } } as object;
+      expect(parseProjectDocument(JSON.stringify(manifest))).toMatchObject({ ok: false, code: PROJECT_ERROR_CODE.MANIFEST_INVALID });
+    }
   });
 });

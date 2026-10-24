@@ -4,7 +4,7 @@ import type { AssetKey } from './asset-key.type';
 import { presetHome } from './preset-home';
 import type { SliceContext } from './slice-context.type';
 
-const homedPresets = ({ artwork, owners }: SliceContext, key: AssetKey): readonly ExportPreset[] =>
+const homedPresets = ({ artwork, owners }: Pick<SliceContext, 'artwork' | 'owners'>, key: AssetKey): readonly ExportPreset[] =>
   artwork.presets.filter((preset) => {
     const home = presetHome(artwork, preset, owners);
     return home?.kind === key.kind && home.id === key.id;
