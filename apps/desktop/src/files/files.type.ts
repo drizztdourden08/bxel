@@ -26,6 +26,7 @@ type FileOutcome =
 type FileAction =
   | { readonly kind: 'save' }
   | { readonly kind: 'saveAs' }
+  | { readonly kind: 'saveAll' }
   | { readonly kind: 'open' }
   | { readonly kind: 'openPath'; readonly path: string }
   | { readonly kind: 'export' };

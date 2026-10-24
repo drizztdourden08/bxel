@@ -76,11 +76,6 @@ type DirtyDocument = {
 
 type CloseAnswer = 'save' | 'discard' | 'cancel';
 
-type CloseChoices = {
-  readonly save: readonly DocumentId[];
-  readonly discard: readonly DocumentId[];
-};
-
 type QuitDeps = {
   readonly dirty: () => readonly DirtyDocument[];
   readonly flush: () => Promise<void>;
@@ -91,7 +86,6 @@ type QuitDeps = {
 
 export type {
   CloseAnswer,
-  CloseChoices,
   DirtyDocument,
   QuitDeps,
   RecoverOps,

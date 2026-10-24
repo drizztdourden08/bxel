@@ -21,7 +21,7 @@ const linkFolder = (project: OpenProject, picked: string): ProjectResult<LinkedF
   }
   const stored = toStoredFolderPath(project.rootRealPath, picked);
   if (!stored.ok) return stored;
-  const folder = { folderId: createFolderId(randomBytes), name: folderLabel(picked), path: stored.value };
+  const folder = { folderId: createFolderId(randomBytes), name: folderLabel(picked), path: stored.value, roles: {} };
   const manifest = { ...project.manifest, folders: [...project.manifest.folders, folder] };
   const last = resolvedLast(project, manifest);
   return last.ok ? projectOk({ manifest, folder: last.value }) : last;

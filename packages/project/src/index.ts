@@ -73,6 +73,7 @@ export { encodeProject } from './container/encode-project';
 export { planMigration } from './migrate/plan-migration';
 export { MAX_PACKED_ASSETS, NATIVE_ASSET_EXTENSIONS } from './pack/pack.constants';
 export { isNativeAsset } from './pack/is-native-asset';
+export { isUnderRole } from './pack/is-under-role';
 export { packProject } from './pack/pack-project';
 export { unpackProject } from './pack/unpack-project';
 export { DEFAULT_ENTRY_KINDS, ENTRY_KINDS } from './listing/entry-kind.constants';

@@ -2,6 +2,7 @@
 import { StatusBar } from '@drizztdourden08/tessera';
 import { statusItems } from '../../editor/status-items';
 import { STATUS_TEXT } from '../../editor/status.constants';
+import { useActiveAsset } from '../../hooks/useActiveAsset';
 import { useActiveDocument } from '../../hooks/useActiveDocument';
 import { usePaletteSlots } from '../../hooks/usePaletteSlots';
 import { useReadoutStore } from '../../stores/useReadoutStore';
@@ -25,7 +26,8 @@ const EditorStatus = () => {
   const tileMode = useTilemapStore((state) => state.editMode);
   const recovered = useFileStore((state) => (view ? view.state.documentId in state.recovered : false));
   const colours = [slots[foreground] ?? null, slots[background] ?? null] as const;
-  const clean = view?.clean ?? true;
+  const asset = useActiveAsset();
+  const clean = asset ? !asset.dirty : true;
   return (
     <ActionHint hint={canvasHelp(tool, mode, tileMode)} placement="top" className="editor-status">
       <StatusBar className="editor-status__bar" label={STATUS_TEXT.region} items={statusItems({ pointer, zoom, colours, clean, recovered })} />

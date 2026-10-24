@@ -13,7 +13,11 @@ const PROJECT_COMMAND = {
   settings: 'project.settings',
 } as const;
 
-const PROJECT_SUBFOLDERS = { newFiles: 'newFiles', exports: 'exports' } as const;
+const PROJECT_FILE_EXTENSION = 'bxproject';
+
+const PROJECT_FILE_SUFFIX = `.${PROJECT_FILE_EXTENSION}`;
+
+const NEW_FILE_SUFFIX = '.bxsprite';
 
 const PROJECT_GROUP = 'Project';
 
@@ -76,6 +80,9 @@ const PROJECT_TEXT = {
   linkedRemoved: (name: string): string => `Unlinked the folder ${name}. Its files stay where they are.`,
   linkedSame: 'That folder is already part of the project.',
   done: 'Done',
+  migrated: 'Updated the project file to the new format.',
+  newSprite: 'New sprite',
+  packed: 'This project file is packed for sharing. Unpack it into a folder first.',
 } as const;
 
 const SIZE_UNITS = { step: 1024, wholeFrom: 10, names: ['B', 'KB', 'MB', 'GB'] } as const;
@@ -125,4 +132,4 @@ const ACCESS_LABEL = {
   edit: 'Read and edit',
 } as const;
 
-export { ACCESS_LABEL, FOLDER_PART_PATTERN, LINKED_NAME_MAX, PANEL_LIST_LIMIT, PANEL_TEXT, PROJECT_COMMAND, PROJECT_DEFAULTS, PROJECT_GROUP, PROJECT_SUBFOLDERS, PROJECT_TEXT, PROJECT_WIDGET_ID, SIZE_UNITS };
+export { ACCESS_LABEL, FOLDER_PART_PATTERN, LINKED_NAME_MAX, NEW_FILE_SUFFIX, PANEL_LIST_LIMIT, PANEL_TEXT, PROJECT_COMMAND, PROJECT_DEFAULTS, PROJECT_FILE_EXTENSION, PROJECT_FILE_SUFFIX, PROJECT_GROUP, PROJECT_TEXT, PROJECT_WIDGET_ID, SIZE_UNITS };
