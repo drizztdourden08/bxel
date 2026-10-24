@@ -21,8 +21,8 @@ const MODE_ORDER: readonly SpriteMode[] = ['sprite', 'sheet', 'tilemap'];
 
 const MODE_ICONS: Readonly<Record<SpriteMode, IconName>> = {
   sprite: 'image',
-  sheet: 'layout-dashboard',
-  tilemap: 'map',
+  sheet: 'pixel-atlas',
+  tilemap: 'pixel-tileset',
 };
 
 const MODE_HINTS: Readonly<Record<SpriteMode, HintSpec>> = {
@@ -93,10 +93,10 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
 const VIEW_TOGGLES: readonly ViewToggle[] = ['grid', 'gridMajor', 'gridTile', 'rulers'];
 
 const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
-  grid: 'hash',
+  grid: 'pixel-grid',
   gridMajor: 'layout-grid',
   gridTile: 'columns-3',
-  rulers: 'sliders-horizontal',
+  rulers: 'pixel-rulers',
 };
 
 const TILED_HINT: HintSpec = {

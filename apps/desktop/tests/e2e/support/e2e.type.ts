@@ -8,8 +8,6 @@ type Session = {
   readonly close: () => Promise<void>;
 };
 
-type LaunchedApp = Pick<Session, 'app' | 'page' | 'close'>;
-
 type Cell = { readonly x: number; readonly y: number };
 
 type SpriteSize = { readonly width: number; readonly height: number };
@@ -29,4 +27,4 @@ type CanvasLayout = {
   readonly zoom: number;
 };
 
-export type { CanvasLayout, Cell, CellMapper, DialogAnswers, LaunchedApp, Session, SpriteSize, Swatches };
+export type { CanvasLayout, Cell, CellMapper, DialogAnswers, Session, SpriteSize, Swatches };

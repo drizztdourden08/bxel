@@ -11,7 +11,7 @@ const layerMenu = (state: EditorMenuState): MenuItem => {
   return {
     key: MENU_KEYS.layer,
     label: MENU_TEXT.layer,
-    icon: 'layers',
+    icon: 'pixel-layers',
     children: [
       menuItem(COMMAND_ID.layerAdd, LAYER_LABEL.add, off),
       menuItem(COMMAND_ID.layerDuplicate, LAYER_LABEL.duplicate, off),

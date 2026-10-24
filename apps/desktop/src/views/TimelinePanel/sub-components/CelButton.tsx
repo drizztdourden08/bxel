@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind component */
-import { Box, Pressable } from '@drizztdourden08/tessera';
+import { Box, Icon, Pressable } from '@drizztdourden08/tessera';
 import { celKeyText } from '../../../timeline/cel-key-text';
 import { goToCel } from '../../../timeline/go-to-cel';
-import { PixelIcon } from '../../PixelIcon';
 import type { CelButtonProps } from '../TimelinePanel.type';
 
 const CelButton = ({ cell, drag }: CelButtonProps) => {
@@ -26,7 +25,7 @@ const CelButton = ({ cell, drag }: CelButtonProps) => {
         onClick={(event) => goToCel(key, event.shiftKey, event.ctrlKey || event.metaKey)}
         {...drag.handlers(key, cell.state !== 'empty')}
       >
-        {cell.state === 'linked' && <PixelIcon name="linkedCel" size={16} />}
+        {cell.state === 'linked' && <Icon name="pixel-linked-cel" size={16} />}
         {cell.state === 'filled' && <Box className="timeline-cel__dot" aria-hidden />}
       </Pressable>
     </Box>

@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind component */
+import { CanvasSizeDialog } from '../CanvasSizeDialog';
 import { ImportWizard } from '../ImportWizard';
 import { CreateDialog } from '../CreateDialog';
 import { ProjectCreateDialog } from '../ProjectCreateDialog';
@@ -11,6 +12,7 @@ const DialogHost = () => {
   return (
     <>
       <CreateDialog />
+      <CanvasSizeDialog />
       <ProjectCreateDialog />
       <ProjectSettingsDialog />
       <ImportWizard />

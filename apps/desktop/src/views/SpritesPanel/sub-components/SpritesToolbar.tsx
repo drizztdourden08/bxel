@@ -6,7 +6,6 @@ import { isolateSprite } from '../../../sheet/isolate-sprite';
 import { reorderSprites } from '../../../sheet/reorder-sprites';
 import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
 import { ActionHint } from '../../ActionHint';
-import { PixelIcon } from '../../PixelIcon';
 import { SPRITE_HINTS, SPRITE_STEPS } from '../SpritesPanel.constants';
 import type { ManagerToolbarProps } from '../SpritesPanel.type';
 import { ActionsMenu } from './ActionsMenu';
@@ -20,7 +19,7 @@ const SpritesToolbar = ({ model, groups, open }: ManagerToolbarProps) => {
       <ButtonGroup aria-label={MANAGER_TEXT.actions}>
         <ToolbarButton hint={SPRITE_HINTS.add} icon={<Icon name="plus" size={16} />} onClick={() => useCreateDialogStore.getState().show('sprite')} />
         <ToolbarButton hint={SPRITE_HINTS.duplicate} disabled={none} icon={<Icon name="copy" size={16} />} onClick={() => duplicateSprites(ids)} />
-        <ToolbarButton hint={SPRITE_HINTS.isolate} disabled={none} icon={<PixelIcon name="isolate" />} onClick={() => isolateSprite()} />
+        <ToolbarButton hint={SPRITE_HINTS.isolate} disabled={none} icon={<Icon name="pixel-isolate" />} onClick={() => isolateSprite()} />
         {SPRITE_STEPS.map((step) => (
           <ToolbarButton key={step.icon} hint={step.hint} disabled={none} icon={<Icon name={step.icon} size={16} />} onClick={() => reorderSprites(ids, { by: step.by })} />
         ))}

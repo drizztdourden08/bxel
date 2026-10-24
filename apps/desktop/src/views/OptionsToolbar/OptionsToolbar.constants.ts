@@ -55,7 +55,7 @@ const MAP_TOOL_OPTIONS: Readonly<Record<ToolId, readonly OptionKind[]>> = {
 
 const BRUSH_SHAPES: readonly BrushShape[] = ['square', 'circle'];
 
-const BRUSH_SHAPE_ICONS: Readonly<Record<BrushShape, IconName>> = { square: 'square', circle: 'circle' };
+const BRUSH_SHAPE_ICONS: Readonly<Record<BrushShape, IconName>> = { square: 'pixel-brush-square', circle: 'pixel-brush-circle' };
 
 const NEIGHBOUR_CHOICES: Readonly<Record<Connectivity, string>> = { 4: '4', 8: '8' };
 

@@ -21,8 +21,8 @@ const useMapSelectionItems = (): ToolbarItem[] => {
     buttonItem({
       id: 'replace-all', icon: 'layout-grid', hint: REPLACE_ALL_HINT, keys: allKeys, caption: TILE_OPTIONS_TEXT.replaceAllCaption, disabled, onSelect: () => replaceCells(true),
     }),
-    buttonItem({ id: 'make-unique', icon: 'copy', hint: UNIQUE_CELLS_HINT, keys: uniqueKeys, caption: TILE_OPTIONS_TEXT.uniqueCaption, disabled, onSelect: makeUnique }),
-    buttonItem({ id: 'clear-cells', icon: 'eraser', hint: CLEAR_CELLS_HINT, keys: clearKeys, caption: TILE_OPTIONS_TEXT.clearCaption, disabled, onSelect: clearCells }),
+    buttonItem({ id: 'make-unique', icon: 'pixel-tile-unique', hint: UNIQUE_CELLS_HINT, keys: uniqueKeys, caption: TILE_OPTIONS_TEXT.uniqueCaption, disabled, onSelect: makeUnique }),
+    buttonItem({ id: 'clear-cells', icon: 'pixel-map-erase', hint: CLEAR_CELLS_HINT, keys: clearKeys, caption: TILE_OPTIONS_TEXT.clearCaption, disabled, onSelect: clearCells }),
   ];
 };
 

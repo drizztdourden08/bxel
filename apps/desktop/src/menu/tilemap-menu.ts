@@ -13,7 +13,7 @@ const tilemapMenu = (state: EditorMenuState): MenuItem => {
   return {
     key: MENU_KEYS.tilemap,
     label: MENU_TEXT.tilemap,
-    icon: 'map',
+    icon: 'pixel-tileset',
     children: [
       menuItem(SHEET_COMMAND.modeTilemap, 'Tilemap mode', { ...off, checked: state.mode === 'tilemap' }),
       menuItem(ID.placeTiles, 'Place Tile', { ...off, checked: placing }),

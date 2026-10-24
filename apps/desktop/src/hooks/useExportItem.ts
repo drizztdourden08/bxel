@@ -12,7 +12,7 @@ const useExportItem = (): TitleBarButtonSpec => {
   return {
     kind: 'button',
     label: exporting ? FILE_TEXT.exportBusy : FILE_TEXT.exportReady,
-    icon: 'image',
+    icon: 'pixel-export-image',
     command: FILE_COMMAND.export,
     disabled: view === null || previewing,
   };

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { IconName, ShortcutKey, ToolbarChoices, ToolbarItem, ToolbarNumber } from '@drizztdourden08/tessera';
+import type { ShortcutKey, ToolbarChoices, ToolbarIcon, ToolbarItem, ToolbarNumber } from '@drizztdourden08/tessera';
 import type { ReactNode } from 'react';
 
 interface ToolbarPanelProps {
@@ -27,7 +27,7 @@ interface PanelTipProps {
 }
 
 interface PanelButtonProps {
-  icon: IconName;
+  icon: ToolbarIcon;
   label: string;
   tip: Omit<PanelTipProps, 'children'>;
   active: boolean | undefined;

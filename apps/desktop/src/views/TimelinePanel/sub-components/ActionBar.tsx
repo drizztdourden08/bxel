@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind component */
-import { ButtonGroup, IconButton, Tooltip } from '@drizztdourden08/tessera';
-import { PixelIcon } from '../../PixelIcon';
+import { ButtonGroup, Icon, IconButton, Tooltip } from '@drizztdourden08/tessera';
 import type { ActionBarProps } from '../TimelinePanel.type';
 
 const ActionBar = ({ label, actions }: ActionBarProps) => (
@@ -10,7 +9,7 @@ const ActionBar = ({ label, actions }: ActionBarProps) => (
       return (
         <Tooltip key={action.id} content={name} placement="top">
           <IconButton label={name} size="sm" onClick={() => action.run()}>
-            <PixelIcon name={action.icon} />
+            <Icon name={action.icon} />
           </IconButton>
         </Tooltip>
       );

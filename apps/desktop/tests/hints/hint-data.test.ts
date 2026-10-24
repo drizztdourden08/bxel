@@ -14,7 +14,7 @@ import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import { COMMON_ROWS, TOOL_ROWS } from '../../src/views/EditorStatus/EditorStatus.constants';
 import { LAYER_ACTIONS } from '../../src/views/LayersPanel/LayersPanel.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
-import { TRANSFORM_ACTIONS } from '../../src/views/CanvasToolbar/sub-components/TransformMenu.constants';
+import { CANVAS_ACTIONS, TRANSFORM_ACTIONS } from '../../src/views/CanvasToolbar/sub-components/TransformMenu.constants';
 import { allHints } from './all-hints';
 
 vi.mock('@drizztdourden08/brock-react', async () => {
@@ -43,7 +43,7 @@ describe('the hint texts', () => {
   });
 
   it('keep the key out of the names of buttons', () => {
-    const names = [...LAYER_ACTIONS.map((action) => action.hint.name), ...TRANSFORM_ACTIONS.map((action) => action.hint.name), ...Object.values(SPRITE_HINTS).map((hint) => hint.name)];
+    const names = [...LAYER_ACTIONS.map((action) => action.hint.name), ...TRANSFORM_ACTIONS.map((action) => action.hint.name), ...CANVAS_ACTIONS.map((action) => action.hint.name), ...Object.values(SPRITE_HINTS).map((hint) => hint.name)];
     for (const name of names) expect(name).not.toMatch(/[()+]|\b(Ctrl|Alt|Shift)\b/);
   });
 });

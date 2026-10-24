@@ -14,8 +14,8 @@ const useSymmetryItems = (): ToolbarItem[] => {
   const xKeys = useHintKeys(MIRROR_X_HINT);
   const yKeys = useHintKeys(MIRROR_Y_HINT);
   return [
-    toggleItem({ id: 'mirror-x', icon: 'arrow-left-right', hint: MIRROR_X_HINT, keys: xKeys, disabled, pressed: x, onChange: () => toggle('x') }),
-    toggleItem({ id: 'mirror-y', icon: 'arrow-up-down', hint: MIRROR_Y_HINT, keys: yKeys, disabled, pressed: y, onChange: () => toggle('y') }),
+    toggleItem({ id: 'mirror-x', icon: 'pixel-mirror-x', hint: MIRROR_X_HINT, keys: xKeys, disabled, pressed: x, onChange: () => toggle('x') }),
+    toggleItem({ id: 'mirror-y', icon: 'pixel-mirror-y', hint: MIRROR_Y_HINT, keys: yKeys, disabled, pressed: y, onChange: () => toggle('y') }),
   ];
 };
 

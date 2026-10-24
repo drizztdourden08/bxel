@@ -10,7 +10,7 @@ const useSaveItem = (): TitleBarButtonSpec => {
   const busy = useFileStore((state) => state.busy);
   const path = useFileStore((state) => (view ? state.paths[view.state.documentId] : undefined));
   const upToDate = view !== null && view.clean && path !== undefined && !view.state.readOnly;
-  return { kind: 'button', label: saveLabel(busy, upToDate), icon: 'save', command: FILE_COMMAND.save, disabled: view === null || upToDate };
+  return { kind: 'button', label: saveLabel(busy, upToDate), icon: 'pixel-save-file', command: FILE_COMMAND.save, disabled: view === null || upToDate };
 };
 
 export { useSaveItem };

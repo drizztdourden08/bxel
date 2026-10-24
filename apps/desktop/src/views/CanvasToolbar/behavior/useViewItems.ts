@@ -23,7 +23,7 @@ const useViewItems = (): ToolbarItem[] => {
   );
   const tiled = toggleItem({
     id: 'tiled',
-    icon: 'copy',
+    icon: 'pixel-tiled',
     hint: TILED_HINT,
     disabled,
     pressed: view.tiled !== 'off',
