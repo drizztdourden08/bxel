@@ -1,6 +1,7 @@
 /* @layer tests @kind test */
 import {
   canSee,
+  canSeeFolder,
   checkProjectAccess,
   checkToolMode,
   checkWrite,
@@ -106,5 +107,17 @@ describe('the mode table', () => {
     expect(checkToolMode('apply_edits', {}, 'edit')).toBeNull();
     expect(checkToolMode('preview_edits', {}, 'read')).toBeNull();
     expect(checkToolMode('read_pixels', {}, 'read')).toBeNull();
+  });
+});
+
+describe('the folders the owner shows the assistant', () => {
+  it('shows every folder when the project names none', () => {
+    expect(canSeeFolder(undefined, 'fld_a')).toBe(true);
+  });
+
+  it('shows only the named folders, and none for an empty list', () => {
+    expect(canSeeFolder(['fld_a', 'fld_b'], 'fld_b')).toBe(true);
+    expect(canSeeFolder(['fld_a'], 'fld_b')).toBe(false);
+    expect(canSeeFolder([], 'fld_a')).toBe(false);
   });
 });

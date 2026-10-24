@@ -7,6 +7,7 @@ import { exportDocument } from './tools/export-document';
 import { getDocument } from './tools/get-document';
 import { getSession } from './tools/get-session';
 import { listDocuments } from './tools/list-documents';
+import { listAssets } from './tools/list-assets';
 import { listFiles } from './tools/list-files';
 import { listPlaces } from './tools/list-places';
 import { openFile } from './tools/open-file';
@@ -15,12 +16,14 @@ import { readPalette } from './tools/read-palette';
 import { readPixels } from './tools/read-pixels';
 import { renderPreview } from './tools/render-preview';
 import { saveDocument } from './tools/save-document';
+import { splitLegacyFile } from './tools/split-legacy-file';
 import { undo } from './tools/undo';
 
 const TOOL_HANDLERS: ToolHandlers = {
   get_session: getSession,
   list_places: listPlaces,
   list_files: listFiles,
+  list_assets: listAssets,
   open_file: openFile,
   close_document: closeDocument,
   list_documents: listDocuments,
@@ -34,6 +37,7 @@ const TOOL_HANDLERS: ToolHandlers = {
   save_document: saveDocument,
   export_document: exportDocument,
   create_document: createDocument,
+  split_legacy_file: splitLegacyFile,
 };
 
 export { TOOL_HANDLERS };

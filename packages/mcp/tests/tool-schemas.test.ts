@@ -2,7 +2,11 @@
 import { documentCommands } from '@bxel/document';
 import { buildTools, describeTools, parseToolInput, TOOL_MODE, TOOL_NAME } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
-import { INPUT_EXAMPLES, OUTPUT_EXAMPLES } from './examples';
+import { ASSET_INPUT_EXAMPLES, ASSET_OUTPUT_EXAMPLES } from './asset-examples';
+import { INPUT_EXAMPLES as BASE_INPUTS, OUTPUT_EXAMPLES as BASE_OUTPUTS } from './examples';
+
+const INPUT_EXAMPLES = { ...BASE_INPUTS, ...ASSET_INPUT_EXAMPLES };
+const OUTPUT_EXAMPLES = { ...BASE_OUTPUTS, ...ASSET_OUTPUT_EXAMPLES };
 
 const tools = buildTools(documentCommands);
 const descriptors = describeTools(documentCommands);
@@ -16,16 +20,16 @@ const refsOf = (value: unknown): string[] => {
 };
 
 describe('the tool set', () => {
-  it('has the 19 tools of the contract, each with a mode', () => {
-    expect(tools).toHaveLength(19);
-    expect(new Set(tools.map((tool) => tool.name)).size).toBe(19);
+  it('has the 21 tools of the contract, each with a mode', () => {
+    expect(tools).toHaveLength(21);
+    expect(new Set(tools.map((tool) => tool.name)).size).toBe(21);
     expect(Object.values(TOOL_NAME).sort()).toEqual(tools.map((tool) => tool.name).sort());
     for (const tool of tools) expect(tool.mode).toBe(TOOL_MODE[tool.name]);
   });
 
-  it('needs edit for exactly the five editing tools', () => {
+  it('needs edit for exactly the six editing tools', () => {
     const editing = tools.filter((tool) => tool.mode === 'edit').map((tool) => tool.name);
-    expect(editing.sort()).toEqual(['apply_edits', 'create_document', 'export_document', 'save_document', 'undo']);
+    expect(editing.sort()).toEqual(['apply_edits', 'create_document', 'export_document', 'save_document', 'split_legacy_file', 'undo']);
   });
 
   it('sets openWorldHint false on every tool', () => {
@@ -96,5 +100,44 @@ describe('round trips', () => {
   it('rejects an unknown property on a strict input', () => {
     const tool = tools.find((candidate) => candidate.name === 'get_session');
     expect(tool && parseToolInput(tool, { extra: 1 }).ok).toBe(false);
+  });
+});
+
+describe('the asset tools', () => {
+  const tool = (name: string) => {
+    const found = tools.find((candidate) => candidate.name === name);
+    if (!found) throw new Error(`no ${name}`);
+    return found;
+  };
+  const parsed = (name: string, input: unknown): Record<string, unknown> => {
+    const result = parseToolInput(tool(name), input);
+    if (!result.ok) throw new Error('input refused');
+    return result.value as Record<string, unknown>;
+  };
+  const PROJECT_ID = 'prj_8d2k4m6q9x1v';
+  const DOCUMENT = 'doc_4k9m2q7x1v8c';
+
+  it('list_assets asks for a project and defaults to every asset kind', () => {
+    expect(parseToolInput(tool('list_assets'), {}).ok).toBe(false);
+    expect(parsed('list_assets', { projectId: PROJECT_ID }).kinds).toEqual(['sprite', 'sheet', 'palette', 'tileset', 'tilemap']);
+    expect(parseToolInput(tool('list_assets'), { projectId: PROJECT_ID, kinds: ['image'] }).ok).toBe(false);
+  });
+
+  it('create_document defaults to a sprite and takes the other kinds', () => {
+    const base = { name: 'Hero', bank: { name: 'Main', cap: 16, transparent: true, colors: [] } };
+    expect(parsed('create_document', base).kind).toBe('sprite');
+    expect(parseToolInput(tool('create_document'), { ...base, kind: 'tilemap', tileSize: { width: 8, height: 8 } }).ok).toBe(true);
+    expect(parseToolInput(tool('create_document'), { ...base, kind: 'project' }).ok).toBe(false);
+  });
+
+  it('save_document keeps the asset where it is unless moveAsset is asked for', () => {
+    const result = parsed('save_document', { documentId: DOCUMENT, target: { fileName: 'hero.bxsprite' } });
+    expect((result.target as { moveAsset: boolean }).moveAsset).toBe(false);
+    expect(parseToolInput(tool('save_document'), { documentId: DOCUMENT, asset: { kind: 'sheet', id: 'sht_1' }, target: 'current' }).ok).toBe(true);
+  });
+
+  it('names the new extensions in the descriptions', () => {
+    const text = descriptors.map((descriptor) => descriptor.description).join(' ');
+    for (const extension of ['.bxsprite', '.bxsheet', '.bxpalette', '.bxtiles', '.bxmap']) expect(text).toContain(extension);
   });
 });

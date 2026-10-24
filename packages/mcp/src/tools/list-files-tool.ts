@@ -21,7 +21,7 @@ const fileEntry = z.strictObject({
 const listFilesTool = defineTool(TOOL_NAME.listFiles, {
   title: 'List files',
   description:
-    'One folder of a granted project, one level deep, folders first, then files by name. Names that break the path rules are counted in skipped. Links that lead outside a granted folder are left out.',
+    'One folder of a granted project, one level deep, folders first, then files by name. Bxel files (.bxsprite, .bxsheet, .bxpalette, .bxtiles, .bxmap, .bxproject and the older .bxel) have kind bxel; list_assets gives them as assets across all folders. Names that break the path rules are counted in skipped. Folders the owner hid from the assistant and links that lead outside a granted folder are left out.',
   input: z.strictObject({
     projectId: PROJECT_ID_SCHEMA,
     folderId: FOLDER_ID_SCHEMA,

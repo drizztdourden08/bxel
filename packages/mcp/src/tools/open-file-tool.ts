@@ -9,7 +9,7 @@ import { TOOL_NAME } from './tool-name.constants';
 const openFileTool = defineTool(TOOL_NAME.openFile, {
   title: 'Open a file',
   description:
-    'Opens a Bxel file (sprite, sheet, palette, tileset, tilemap, project or older .bxel) and returns its workspace document and the asset. A file that is already open returns its existing document. A damaged but recoverable file opens read only.',
+    'Opens a Bxel file (.bxsprite, .bxsheet, .bxpalette, .bxtiles, .bxmap, .bxproject, or an older .bxel) and returns its workspace document and the asset. A file that is already open returns its existing document. A damaged but recoverable file opens read only, and so does an older .bxel that holds several assets (legacy: true).',
   input: z.strictObject({
     file: FILE_REF_SCHEMA,
     activate: z.boolean().default(false).describe("Make it the active tab. Off by default so the owner's view does not jump."),
@@ -22,6 +22,7 @@ const openFileTool = defineTool(TOOL_NAME.openFile, {
     outcome: z.enum(['ok', 'recoverable']),
     fileName: z.string(),
     asset: z.object({ kind: z.string(), id: z.string(), name: z.string().nullable() }).nullable().optional(),
+    legacy: z.boolean().optional().describe('True for an older .bxel file that holds several assets. It opens read only; split_legacy_file turns it into separate files.'),
   }),
 });
 
