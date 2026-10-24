@@ -1,7 +1,7 @@
 {
   "name": "@bxel/project",
   "version": "0.1.0",
-  "description": "Bxel's multi-file project container: the manifest, folder rules, path rules and the AI grant.",
+  "description": "Bxel's multi-file project container: the manifest, folder rules, path rules and the assistant access grant.",
   "type": "module",
   "private": true,
   "license": "UNLICENSED",
