@@ -104,6 +104,8 @@ type Progress = (done: number, total: number) => void;
 
 type AssetPick = { readonly path: string; readonly granted: boolean };
 
+type PickedPath = { readonly chosen: string; readonly path: string };
+
 type OpenTab = { readonly id: string; readonly documentId: DocumentId; readonly key: AssetKey };
 
 type NamedAsset = { readonly id: string; readonly name: string; readonly created?: number };
@@ -131,6 +133,7 @@ export type {
   NamedAsset,
   NameSync,
   OpenTab,
+  PickedPath,
   Progress,
   SavedAssets,
   SeededWorkspace,
