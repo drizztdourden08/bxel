@@ -1,0 +1,7 @@
+/* @layer renderer-app @kind style */
+.slot-toolbar {
+  display: flex;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  min-block-size: 0;
+}

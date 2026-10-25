@@ -13,10 +13,11 @@ const usage = {
   ],
   rules: [
     'Pass the items the toolbar owns and the slot from the dock. The view adds the label, the orientation and the drag handle.',
-    'Keep every value in the items. The view holds no state and no layout of its own, so the dock decides the side and the length.',
+    'Keep every value in the items. The view holds no state of its own, and its frame only fills the lane, so the dock decides the side and the length.',
   ],
   a11y: [
     'The toolbar has role toolbar, a name from its label and the orientation of its side. The handle is the first stop and can move the toolbar with the keyboard.',
+    'The frame is a focus region group with the same name, so F6 stops on the toolbar although the dock sits inside the editor main.',
   ],
   tree: {
     path: ['actions', 'several related buttons', 'tools in a row or column, with hints and options'],
