@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { Brush, Connectivity, FillMode, MaskView, Point, Rect, ShapeKind, Symmetry } from '@bxel/raster';
+import type { Brush, Connectivity, FillMode, MaskView, PerfectTrail, Point, Rect, ShapeKind, Symmetry } from '@bxel/raster';
 import type { DocumentId, FrameId, Layer, LayerId, PaletteBank, Sprite } from '@bxel/document';
 import type { ToolSettings } from '../stores/tool-store.type';
 import type { StrokeTool } from './tool.type';
@@ -28,6 +28,7 @@ interface Overlay {
   rgba: Uint8ClampedArray<ArrayBuffer>;
   table: Uint8ClampedArray<ArrayBuffer>;
   dirty: Rect | null;
+  revision: number;
   mask: MaskView | null;
 }
 
@@ -37,6 +38,7 @@ interface StrokeSession extends Overlay {
   index: number;
   options: BrushOptions;
   points: Point[];
+  trails: PerfectTrail[];
 }
 
 interface ShapeSpec {

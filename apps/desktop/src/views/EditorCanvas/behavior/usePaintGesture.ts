@@ -6,6 +6,7 @@ import { commitSession } from '../../../editor/commit-session';
 import { currentTarget } from '../../../editor/current-target';
 import type { PaintSession } from '../../../editor/editor.type';
 import { extendStroke } from '../../../editor/extend-stroke';
+import { handOffImage } from '../../../editor/hand-off-image';
 import { insideSprite } from '../../../editor/inside-sprite';
 import { pressPlan } from '../../../editor/press-plan';
 import { runInstant } from '../../../editor/run-instant';
@@ -19,6 +20,7 @@ import { zoomAtPointer } from './zoom-at-pointer';
 
 const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): PaintGesture => {
   const session = useRef<PaintSession | null>(null);
+  const image = useRef<ImageData | null>(null);
   const [live, setLive] = useState<ImageData | null>(null);
   return {
     live,
@@ -39,7 +41,8 @@ const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): Paint
       event.currentTarget.setPointerCapture(event.pointerId);
       const started = startSession(plan, target, at);
       session.current = started;
-      setLive(new ImageData(started.rgba, started.width, started.height));
+      image.current = new ImageData(started.rgba, started.width, started.height);
+      setLive(image.current);
     },
     move: (event) => {
       const active = session.current;
@@ -51,9 +54,13 @@ const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): Paint
     },
     up: () => {
       const done = session.current;
+      const shown = image.current;
       session.current = null;
+      image.current = null;
       setLive(null);
-      if (done) commitSession(done);
+      if (!done) return;
+      const result = commitSession(done);
+      if (shown) handOffImage(done, shown, result);
     },
   };
 };

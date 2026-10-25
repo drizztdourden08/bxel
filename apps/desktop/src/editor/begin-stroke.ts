@@ -13,6 +13,7 @@ const beginStroke = (start: StrokeStart): StrokeSession => {
     index: tool === 'eraser' ? ERASE_INDEX : index,
     options,
     points: [],
+    trails: [],
   };
   extendStroke(session, at);
   return session;

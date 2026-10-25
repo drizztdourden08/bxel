@@ -1,6 +1,7 @@
 /* @layer tests @kind bench */
-import { flattenFrame, frameToRgba } from '@bxel/document';
-import { decodeArtwork, encodeArtwork } from '@bxel/document/native';
+import { ASSET_KIND, flattenFrame, frameToRgba, patchFrameRgba } from '@bxel/document';
+import type { AssetSlice, MapLayerId, Tilemap, TilemapId, TilesetId } from '@bxel/document';
+import { assetDigest, decodeArtwork, encodeArtwork } from '@bxel/document/native';
 import { bench, describe } from 'vitest';
 import { benchArtwork } from './bench-artwork';
 
@@ -19,8 +20,28 @@ const hugeBank = huge.artwork.banks[0];
 const hugeFrame = hugeSprite?.frames[0]?.id;
 if (!hugeSprite || !hugeBank || !hugeFrame) throw new Error('the large fixture is incomplete');
 
+const hugeImage = frameToRgba(hugeSprite, hugeBank, hugeFrame);
 const library = benchArtwork(Array.from({ length: 200 }, (_, at) => ({ index: at + 1, side: 64, layers: 1, frames: 4 })));
 const container = encodeArtwork(library, null, clock);
+
+const MAP_SIDE = 1024;
+const MAP_LAYERS = 4;
+const tilesetId = 'tls_000001' as TilesetId;
+const mapLayers = Array.from({ length: MAP_LAYERS }, (_, row) => ({
+  id: `tml_00000${row + 1}` as MapLayerId,
+  name: `Layer ${row + 1}`,
+  visible: true,
+  locked: false,
+  cells: Uint32Array.from({ length: MAP_SIDE * MAP_SIDE }, (_cell, at) => (at + row) % 7),
+}));
+const bigMap: Tilemap = { id: 'tlm_000001' as TilemapId, name: 'Big map', tilesetId, columns: MAP_SIDE, rows: MAP_SIDE, layers: mapLayers };
+const mapSlice: AssetSlice = {
+  kind: ASSET_KIND.tilemap,
+  id: bigMap.id,
+  name: bigMap.name,
+  artwork: { tilemaps: [bigMap] },
+  links: [{ id: tilesetId, path: '../tiles/big.bxtileset' }],
+};
 
 describe('document reads, 512 sprite with 8 layers', () => {
   bench('flattenFrame (target 10 ms)', () => {
@@ -40,11 +61,23 @@ describe('document reads, 2048 sprite with 2 layers', () => {
   }, HEAVY);
 });
 
+describe('committed image after a stroke, 2048 sprite with 2 layers', () => {
+  bench('patch a 160 by 160 stroke rectangle (target 2 ms)', () => {
+    patchFrameRgba(hugeSprite, hugeBank, hugeFrame, { rgba: hugeImage, rect: { x: 300, y: 300, width: 160, height: 160 } });
+  }, HEAVY);
+});
+
 describe('.bxel container, 200 sprites of 64 by 64 with 4 frames', () => {
   bench('encode (target 400 ms)', () => {
     encodeArtwork(library, null, clock);
   }, HEAVY);
   bench('decode (target 400 ms)', () => {
     decodeArtwork(container);
+  }, HEAVY);
+});
+
+describe('asset change digest, 1024 by 1024 map with 4 layers', () => {
+  bench('digest of an unchanged tilemap (target 5 ms)', () => {
+    assetDigest(mapSlice);
   }, HEAVY);
 });

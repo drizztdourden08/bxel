@@ -23,8 +23,15 @@ const spriteId = host.view(documentId)?.state.artwork.sprites.find((sprite) => s
 const target = activeTarget(host.view(documentId), null, spriteId);
 if (!target) throw new Error('no target');
 
+const PERFECT: BrushOptions = { ...OPTIONS, pixelPerfect: true };
+const LONG = 2000;
+const stair = (at: number): { x: number; y: number } => ({ x: 100 + (Math.floor(at / 2) % 800), y: 100 + (Math.ceil(at / 2) % 800) });
+
 const session = beginStroke({ target, tool: 'pencil', index: 2, options: OPTIONS, at: { x: 100, y: 100 } });
+const perfect = beginStroke({ target, tool: 'pencil', index: 2, options: PERFECT, at: stair(0) });
+for (let at = 1; at < LONG; at += 1) extendStroke(perfect, stair(at));
 let step = 0;
+let along = LONG;
 
 describe('live stroke, 2048 sprite', () => {
   bench('press: build the overlay (target 40 ms)', () => {
@@ -33,5 +40,9 @@ describe('live stroke, 2048 sprite', () => {
   bench('one pointer move: paint and refresh pixels (target 1 ms)', () => {
     step += 1;
     extendStroke(session, { x: 100 + (step % 900), y: 100 + ((step * 7) % 900) });
+  }, HEAVY);
+  bench('one pixel perfect pointer move after 2000 points (target 1 ms)', () => {
+    along += 1;
+    extendStroke(perfect, stair(along));
   }, HEAVY);
 });
