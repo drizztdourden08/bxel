@@ -48,6 +48,7 @@ const reopened = (): Reopened => {
       recovered.add(documentId);
     },
     flush: (documentId: DocumentId) => session.tracker.flush(documentId),
+    project: () => Promise.resolve(null),
   };
   const ops = (found: RecoveredSnapshot | null): RecoverOps => ({
     restore: () => Promise.resolve(found),

@@ -4,6 +4,7 @@ import type { Clock } from '@bxel/document/native';
 import type { SnapshotMeta } from '@drizztdourden08/brock-core';
 import type { RecoveredSnapshot } from '@drizztdourden08/brock-react';
 import type { DocumentHost } from '../documents/document-host.type';
+import type { Workspace } from '../workspace/workspace.type';
 
 type SnapshotSink = {
   readonly snapshot: (key: string, data: Uint8Array, meta: SnapshotMeta) => Promise<void>;
@@ -56,6 +57,7 @@ type RestoreKit = {
   readonly remember: (documentId: DocumentId, path: string) => void;
   readonly markRecovered: (documentId: DocumentId) => void;
   readonly flush: (documentId: DocumentId) => Promise<void>;
+  readonly project: (projectFile: string) => Promise<Workspace | null>;
 };
 
 type RecoverOps = {
