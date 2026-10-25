@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { commandZone } from '@drizztdourden08/brock-react';
-import { Box, ContextMenu, Stack } from '@drizztdourden08/tessera';
+import { Box, ContextMenu, ScrollArea, Stack } from '@drizztdourden08/tessera';
 import { useZoneKey } from '../../../hooks/useZoneKey';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { SPRITE_SELECT_ALL_KEY } from '../../../keymap/zone-key.constants';
@@ -35,14 +35,18 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const groups = actionGroups({ model, sortKey, rename: rename.begin, open, selections });
   const renaming = model.scene.sprites.find((sprite) => sprite.id === rename.renamingId);
   return (
-    <Stack gap="sm">
-      <ManagerFilters model={model} />
+    <Stack gap="xs">
       <SpritesToolbar model={model} groups={groups} open={open} />
-      <ContextMenu groups={groups} label={MANAGER_TEXT.actions}>
-        <Box onKeyDown={onKeyDown} {...commandZone(COMMAND_ZONE.sprites)}>
-          <SpriteCollection model={model} affected={affected} dragFor={dragFor} handlersFor={handlersFor(model, rename.begin)} />
-        </Box>
-      </ContextMenu>
+      <ScrollArea axis="y" scrollbar="slim" fade={false} className="sprites-panel__scroll">
+        <Stack gap="xs">
+          <ManagerFilters model={model} />
+          <ContextMenu groups={groups} label={MANAGER_TEXT.actions}>
+            <Box onKeyDown={onKeyDown} {...commandZone(COMMAND_ZONE.sprites)}>
+              <SpriteCollection model={model} affected={affected} dragFor={dragFor} handlersFor={handlersFor(model, rename.begin)} />
+            </Box>
+          </ContextMenu>
+        </Stack>
+      </ScrollArea>
       {renaming && (
         <SpriteRename
           key={renaming.id}

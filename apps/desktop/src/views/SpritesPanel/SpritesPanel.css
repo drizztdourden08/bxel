@@ -1,4 +1,14 @@
 /* @layer renderer-app @kind style */
+.sprites-panel__picker {
+  flex: 1;
+  min-width: 0;
+}
+
+.sprites-panel__scroll {
+  flex: 1;
+  min-height: var(--size-40);
+}
+
 .sprites-panel__tile,
 .sprites-panel__row {
   position: relative;

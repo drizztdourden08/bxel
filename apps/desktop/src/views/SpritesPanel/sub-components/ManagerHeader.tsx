@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Flex, Stack, Tabs, Text } from '@drizztdourden08/tessera';
-import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
+import { Box, Flex, Tabs } from '@drizztdourden08/tessera';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { MANAGER_TABS } from '../SpritesPanel.constants';
 import type { ManagerModelProps } from '../SpritesPanel.type';
@@ -10,13 +9,12 @@ const ManagerHeader = ({ model }: ManagerModelProps) => {
   const tab = useManagerStore((state) => state.tab);
   const patch = useManagerStore((state) => state.patch);
   return (
-    <Stack gap="xs">
-      <Flex justify="between" align="center" gap="sm">
-        <Text variant="label">{MANAGER_TEXT.title(model.facts.length, model.scene.selected.length)}</Text>
-        <SheetPicker model={model} />
-      </Flex>
+    <Flex align="center" gap="sm">
       <Tabs tabs={MANAGER_TABS} activeTab={tab} onTabChange={(id) => patch({ tab: id === 'atlas' ? 'atlas' : 'sprites' })} />
-    </Stack>
+      <Box className="sprites-panel__picker">
+        <SheetPicker model={model} />
+      </Box>
+    </Flex>
   );
 };
 
