@@ -25,7 +25,7 @@ const sections: Section[] = [
       {
         id: 'background-preview',
         title: 'Preview',
-        items: [{ key: 'canvas.backgroundPreview', label: 'Background preview', description: 'The checkerboard inside the surround, as the canvas shows them.', hint: 'It changes as you edit the rows below.' }],
+        items: [{ key: 'canvas.backgroundPreview', layout: 'wide', label: 'Background preview', description: 'The checkerboard inside the surround, as the canvas shows them.', hint: 'It changes as you edit the rows below.' }],
       },
       {
         id: 'checkerboard',
@@ -64,7 +64,7 @@ const sections: Section[] = [
             control: { kind: 'range', min: RANGES.surroundScale.min, max: RANGES.surroundScale.max, step: 1, format: (value: number) => `${value} px` },
           },
           {
-            key: 'canvas.surroundCustom',
+            key: 'canvas.surroundCustom', layout: 'wide',
             label: 'Custom pattern',
             description: 'Click or drag cells to switch them between the two surround colours.',
             hint: 'Drawing a cell makes the pattern Custom. The arrow keys move the cell and Space switches it.',
@@ -80,7 +80,7 @@ const sections: Section[] = [
       {
         id: 'grid-preview',
         title: 'Preview',
-        items: [{ key: 'canvas.gridPreview', label: 'Grid preview', description: 'The grids that are on, over the checkerboard at a high zoom.', hint: 'It changes as you edit the rows below.' }],
+        items: [{ key: 'canvas.gridPreview', layout: 'wide', label: 'Grid preview', description: 'The grids that are on, over the checkerboard at a high zoom.', hint: 'It changes as you edit the rows below.' }],
       },
       {
         id: 'grid-pixel',

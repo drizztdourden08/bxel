@@ -79,7 +79,7 @@ const sections: Section[] = [
         actions: [{ id: 'export', label: 'Export...', icon: 'upload', onSelect: () => runInEditor(FILE_COMMAND.export) }],
       },
       {
-        key: 'sprite.exportPresets',
+        key: 'sprite.exportPresets', layout: 'wide',
         label: 'Saved presets',
         description: 'The sprite export settings you saved. Run opens the Export window with a preset in place.',
         hint: 'Save a preset in the Export window. It goes into this sprite file, or into the project file when it covers several sprites. Presets saved in the app are listed last.',

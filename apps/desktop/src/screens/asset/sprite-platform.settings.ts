@@ -24,7 +24,7 @@ const sections: Section[] = [
         hint: 'Follow the project uses the platform of the project. Pick one to give this sprite its own.',
       },
       {
-        key: 'sprite.platformReport',
+        key: 'sprite.platformReport', layout: 'wide',
         label: 'Rules and findings',
         description: 'What the platform asks for and what this sprite breaks.',
         hint: 'Enforce platform rules blocks a change that would break a rule marked Outside the rules.',
