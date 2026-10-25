@@ -6,6 +6,7 @@ import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
 import { useTimelinePlayback } from '../../hooks/useTimelinePlayback';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { ApplyBar } from '../ApplyBar';
+import { Announcer } from '../Announcer';
 import { AssetTabs } from '../AssetTabs';
 import { DialogHost } from '../DialogHost';
 import { EditorCanvas } from '../EditorCanvas';
@@ -22,6 +23,7 @@ import { TilemapCanvas } from '../TilemapCanvas';
 import { TilemapDialog } from '../TilemapDialog';
 import { TransformDialog } from '../TransformDialog';
 import { WorkspaceProgress } from '../WorkspaceProgress';
+import { EDITOR_SCREEN_LABEL } from './EditorScreen.constants';
 import './EditorScreen.css';
 
 const EditorScreen = () => {
@@ -30,7 +32,7 @@ const EditorScreen = () => {
   const editing = mode === 'tilemap' && !placing;
   useTimelinePlayback();
   return (
-    <Flex direction="column" className="editor-screen">
+    <Flex as="main" direction="column" className="editor-screen" aria-label={EDITOR_SCREEN_LABEL}>
       <AssetTabs />
       <WorkspaceProgress />
       <LegacyBar />
@@ -52,6 +54,7 @@ const EditorScreen = () => {
       <TilemapDialog />
       <SplitDialog />
       <DialogHost />
+      <Announcer />
     </Flex>
   );
 };

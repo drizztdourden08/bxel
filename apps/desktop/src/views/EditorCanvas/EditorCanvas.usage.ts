@@ -19,7 +19,9 @@ const usage = {
   ],
   a11y: [
     'The viewport is one Tab stop named Sprite canvas, with the zoom announced when it settles.',
-    'The tool keys, X, Ctrl+Z and Ctrl+Y work while focus is anywhere in the editor.',
+    'The arrow keys move a drawing cursor cell and announce the cell and its colour. Space paints it with the front colour, Enter with the back colour, Shift adds a line from the last point and Control picks the other two colours.',
+    'With the shapes tool the first press sets the corner and the second finishes the shape. Escape drops the corner.',
+    'Shift with an arrow pans the view. The tool keys, X, Ctrl+Z and Ctrl+Y work while focus is anywhere in the editor.',
   ],
   tree: {
     path: ['data', 'a drawing', 'in pixels'],

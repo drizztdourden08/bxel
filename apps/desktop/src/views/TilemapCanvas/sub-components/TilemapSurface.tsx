@@ -14,8 +14,8 @@ import { PixelViewport } from '../../PixelViewport';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import { MAP_CANVAS_CLASS } from '../TilemapCanvas.constants';
 import type { MapLive, TilemapSurfaceProps } from '../TilemapCanvas.type';
-import { mapKeyDown } from '../behavior/map-key-down';
 import { useMapGestures } from '../behavior/useMapGestures';
+import { useMapKeys } from '../behavior/useMapKeys';
 import { useMapPaint } from '../behavior/useMapPaint';
 import { useSelectionReset } from '../behavior/useSelectionReset';
 import { viewportClass } from '../behavior/viewport-class';
@@ -39,16 +39,18 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
   );
   const draw = useMapPaint(base, live, viewport);
   const gesture = useMapGestures(viewport, target, live);
+  const keys = useMapKeys(viewport, target, live, gesture);
   useViewportBridge(viewport, true);
   useSyncPending(useEditorTarget());
   useEscapeCancel();
   useSelectionReset();
   return (
-    <Box className={MAP_CANVAS_CLASS.surface} onContextMenu={(event) => event.preventDefault()}>
+    <Box className={MAP_CANVAS_CLASS.surface} onContextMenu={(event) => event.preventDefault()} onBlur={keys.onBlur}>
       <PixelViewport
         ref={viewport}
         className={viewportClass(tool)}
         label={TILEMAP_TEXT.canvasLabel}
+        hint={TILEMAP_TEXT.canvasHint}
         width={image.width}
         height={image.height}
         source={image}
@@ -56,11 +58,14 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
         look={look}
         grid={false}
         hand={tool === 'hand'}
-        onPointerPixel={gesture.hover}
+        onPointerPixel={(pixel) => {
+          keys.onPointerPixel();
+          gesture.hover(pixel);
+        }}
         onPointerDown={gesture.down}
         onPointerMove={gesture.move}
         onPointerUp={gesture.up}
-        onKeyDown={mapKeyDown(gesture)}
+        onKeyDown={keys.onKeyDown}
       />
     </Box>
   );

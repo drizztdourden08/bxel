@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import type { ScreenMeta } from '@drizztdourden08/brock-react';
 import { useConfigFlags } from '../asset-config/useConfigFlags';
+import { useEditorAnnouncements } from '../hooks/useEditorAnnouncements';
 import { useEditorNotices } from '../hooks/useEditorNotices';
 import { useOpenedFiles } from '../hooks/useOpenedFiles';
 import { useArtworkTitle } from '../hooks/useArtworkTitle';
@@ -19,6 +20,7 @@ const EditorBase = () => {
   useArtworkTitle();
   useOpenedFiles();
   useEditorNotices();
+  useEditorAnnouncements();
   return <EditorScreen />;
 };
 

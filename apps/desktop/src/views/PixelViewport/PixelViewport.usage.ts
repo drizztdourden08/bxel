@@ -19,6 +19,8 @@ const usage = {
     'The wheel zooms around the pointer by default; wheel="pan" makes it scroll instead, with Ctrl or a pinch to zoom. Shift turns a scroll sideways.',
     'Zoom steps are whole factors from 1 to 64 by default, set by zoomSteps; below 1 it halves down to the fit, and the fit is a whole factor when the image fits once or more.',
     'Leave zoom and pan out to fit the image on mount, or pass them with onZoomChange and onPanChange to drive them. pan is the image point at the centre of the view.',
+    'hint is a sentence of keys for a screen reader, linked to the viewport as its description. The app passes the keys its canvas answers.',
+    'The ref also has reveal, which pans the least that brings a pixel into view, for a keyboard cursor that walks off the edge.',
     'onPointerPixel reports the image pixel under the pointer, or null outside the image, for a StatusBar readout.',
     'The ref gives screenToPixel and pixelToScreen in client coordinates, fit, setZoom with an optional anchor, zoomIn, zoomOut, redraw and view.',
     'Pointer handlers passed in get every press the viewport does not take for a pan, so the app paints with the main button.',
@@ -59,7 +61,7 @@ const SpriteCanvas = ({ layers }: { layers: readonly ImageBitmap[] }) => {
   );
 };
 `,
-  propsHash: '553157175d61eaa3',
+  propsHash: 'ebf2b77f9934a484',
 } satisfies ComponentUsage;
 
 export { usage };

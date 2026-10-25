@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind types */
-import type { MouseEventHandler, PointerEvent, PointerEventHandler } from 'react';
+import type { FocusEventHandler, KeyboardEventHandler, MouseEventHandler, PointerEvent, PointerEventHandler, RefObject } from 'react';
 import type { CombineMode, MaskView, Point } from '@bxel/raster';
 import type { DragShape } from '../../../editor/selection/selection.type';
-import type { PixelDraw, PixelPoint } from '../../PixelViewport';
+import type { PixelDraw, PixelPoint, PixelViewportHandle } from '../../PixelViewport';
 
 interface PaintGesture {
   live: ImageData | null;
@@ -40,6 +40,18 @@ interface CanvasReadout {
   onPointerPixel: (pixel: PixelPoint | null) => void;
 }
 
+interface KeyContext {
+  viewport: RefObject<PixelViewportHandle | null>;
+  active: RefObject<boolean>;
+  anchor: RefObject<Point | null>;
+}
+
+interface CanvasKeys {
+  onKeyDown: KeyboardEventHandler<HTMLElement>;
+  onPointerPixel: () => void;
+  onBlur: FocusEventHandler<HTMLElement>;
+}
+
 interface OverlayLook {
   axis: string;
   cursor: string;
@@ -52,4 +64,4 @@ interface ClientPoint {
   clientY: number;
 }
 
-export type { ActiveDrag, AxisDrag, CanvasReadout, CanvasTools, ClientPoint, OverlayLook, PaintGesture, SelectGesture };
+export type { ActiveDrag, AxisDrag, CanvasKeys, CanvasReadout, CanvasTools, ClientPoint, KeyContext, OverlayLook, PaintGesture, SelectGesture };

@@ -26,6 +26,7 @@ const FrameHeader = ({ column, index, total, drag }: FrameHeaderProps) => (
       {...drag.handlers(index)}
     >
       <Text as="span" variant="caption" numeric>{column.number}</Text>
+      {' '}
       <Text as="span" variant="caption" tone="muted" numeric>{column.durationMs}</Text>
     </Pressable>
   </Box>
