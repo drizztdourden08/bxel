@@ -71,6 +71,11 @@ type GrantedProject = {
 
 type FoundFolder = GrantedProject & { readonly folder: ProjectFolderState };
 
+type FolderCover = {
+  readonly folders: readonly string[];
+  readonly projectFiles: readonly string[];
+};
+
 type ToolHandler = (input: unknown, context: ToolContext) => ToolReply | Promise<ToolReply>;
 
 type ToolHandlers = Readonly<Partial<Record<ToolName, ToolHandler>>>;
@@ -80,6 +85,7 @@ export type {
   AssistantSettings,
   AssistantSetup,
   ClientConfig,
+  FolderCover,
   FoundFolder,
   GrantedProject,
   SettingsPort,

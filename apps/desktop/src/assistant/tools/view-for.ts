@@ -5,11 +5,14 @@ import type { DocumentView } from '../../documents/document-host.type';
 import type { ToolContext } from '../assistant.type';
 import { documentHidden } from './document-hidden';
 import { hiddenAssets } from './hidden-assets';
+import { hiddenCover } from './hidden-cover';
+import { wholeCovered } from './whole-covered';
 
 const viewFor = (context: ToolContext, documentId: string): DocumentView | null => {
   if (!canSee(context.settings.assistantSee, 'open_document')) return null;
   const view = context.host.view(documentId as DocumentId);
-  return view && !documentHidden(view.state.artwork, hiddenAssets(context, documentId)) ? view : null;
+  if (!view || wholeCovered(context, documentId, hiddenCover(context))) return null;
+  return documentHidden(view.state.artwork, hiddenAssets(context, documentId)) ? null : view;
 };
 
 export { viewFor };

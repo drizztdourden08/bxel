@@ -5,14 +5,9 @@ import type { DocumentsPort } from '@drizztdourden08/brock-core';
 import { baseName } from '../files/base-name';
 import { onDisk } from './on-disk';
 import { parentOf } from './parent-of';
-import { toSlashes } from './to-slashes';
+import { takenIn } from './taken-in';
 import { uniquePath } from './unique-path';
 import type { Workspace } from './workspace.type';
-
-const takenIn = async (documents: DocumentsPort, dir: string): Promise<Set<string>> => {
-  const listing = await documents.list(dir).catch(() => ({ entries: [] }));
-  return new Set(listing.entries.map((entry) => toSlashes(entry.path).toLowerCase()));
-};
 
 const freePaths = async (
   documents: DocumentsPort,

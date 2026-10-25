@@ -36,7 +36,7 @@ const EditorCanvas = () => {
   const tiled = useViewStore((state) => state.tiled);
   const outcome = usePendingStore((state) => state.outcome);
   const look = useSpriteLook(target);
-  const committed = useCommittedImage(target);
+  const committed = useCommittedImage(target, viewport);
   const floating = usePendingImage(outcome);
   const tools = useCanvasTools(viewport);
   const readout = useCanvasReadout(viewport);

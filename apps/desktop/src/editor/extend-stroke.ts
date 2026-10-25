@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind logic */
 import type { Point } from '@bxel/raster';
 import type { StrokeSession } from './editor.type';
+import { extendPerfect } from './extend-perfect';
 import { paintPoints } from './paint-points';
 import { refreshRect } from './refresh-rect';
-import { repaintStroke } from './repaint-stroke';
 import { unionDirty } from './union-dirty';
 
 const extendStroke = (session: StrokeSession, at: Point): void => {
@@ -11,7 +11,7 @@ const extendStroke = (session: StrokeSession, at: Point): void => {
   if (last?.x === at.x && last.y === at.y) return;
   session.points.push(at);
   if (session.options.pixelPerfect) {
-    repaintStroke(session);
+    extendPerfect(session, at);
     return;
   }
   const painted = paintPoints(session, last ? [last, at] : [at]);

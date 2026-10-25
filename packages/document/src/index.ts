@@ -134,6 +134,7 @@ export { findSheet } from './read/find-sheet';
 export { findSprite } from './read/find-sprite';
 export { flattenFrame } from './read/flatten-frame';
 export { frameToRgba } from './read/frame-to-rgba';
+export { patchFrameRgba } from './read/patch-frame-rgba';
 export { requireBank } from './read/require-bank';
 export { requireSheet } from './read/require-sheet';
 export { requireSprite } from './read/require-sprite';

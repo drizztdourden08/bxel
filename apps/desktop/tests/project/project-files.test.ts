@@ -57,6 +57,14 @@ describe('a new file in the project', () => {
     expect(held.disk.writes).toEqual([]);
   });
 
+  it('refuses a taken name in a folder that holds more than 500 sprites', async () => {
+    for (let index = 0; index < 600; index += 1) held.disk.files.set(`${ROOT}/a${String(index).padStart(3, '0')}.bxsprite`, new Uint8Array(1));
+    held.disk.files.set(`${ROOT}/zz.bxsprite`, new Uint8Array(1));
+    const outcome = await newProjectFile(ROOT, 'zz');
+    expect(outcome).toMatchObject({ ok: false });
+    expect(held.disk.files.get(`${ROOT}/zz.bxsprite`)).toEqual(new Uint8Array(1));
+  });
+
   it.each(['', 'a/b', `a${String.fromCharCode(92)}b`, 'CON', '.hidden', 'x'.repeat(70)])('refuses the name "%s"', async (name) => {
     const outcome = await newProjectFile(ROOT, name);
     expect(outcome.ok).toBe(false);

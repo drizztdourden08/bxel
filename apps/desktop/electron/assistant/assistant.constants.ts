@@ -36,12 +36,12 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
 const NATIVE_PAIR_TEXT = {
   title: 'A program wants to use Bxel',
   message: (program: string) => `${program} started Bxel without a window and wants to use it. Programs report their own name, and Bxel cannot check it.`,
-  editDetail: 'Allow editing lets it change, save and export your files. Choose Not editing to decide on read only access next.',
-  editAllow: 'Allow editing',
-  editRefuse: 'Not editing',
-  readDetail: 'Read only lets it look at documents, read pixels and preview edits.',
+  readDetail: 'Read only lets it look at documents, read pixels and preview edits. It cannot change or save anything.',
   readAllow: 'Allow read only',
   readRefuse: 'Deny',
+  editDetail: 'Keep read only is the safe choice. Allow editing lets it change, save and export your files.',
+  editKeep: 'Keep read only',
+  editAllow: 'Allow editing',
 } as const;
 
 const MAIN_TEXT = {

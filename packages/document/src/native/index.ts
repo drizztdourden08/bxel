@@ -16,6 +16,7 @@ export type * from './v2/asset-manifest.type';
 export type * from './v2/asset-report.type';
 export type * from './v2/detected-kind.type';
 export { ASSET_FORMAT_VERSION, ASSET_MIN_READER_VERSION, RECOVERED_PALETTE_NAME } from './v2/asset-container.constants';
+export { checkAssetSlice } from './v2/check-asset-slice';
 export { decodePalette } from './v2/decode-palette';
 export { decodeSprite } from './v2/decode-sprite';
 export { detectAssetKind } from './v2/detect-asset-kind';

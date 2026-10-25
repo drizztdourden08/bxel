@@ -132,7 +132,7 @@ const assistantRefused = async (rig: ProjectRig): Promise<void> => {
   expect((await saveIntoProject(rig, NAME, 'sprites/refused.bxsprite')).code).toBe('PROJECT_NOT_GRANTED');
   expect((await exportIntoProject(rig, NAME, 'exports/refused.png')).code).toBe('PROJECT_NOT_GRANTED');
   await grant(rig, 'Off');
-  expect((await saveIntoProject(rig, NAME, 'sprites/refused.bxsprite', documentId)).code).toBe('PROJECT_NOT_FOUND');
+  expect((await saveIntoProject(rig, NAME, 'sprites/refused.bxsprite', documentId)).code).toBe('DOCUMENT_NOT_FOUND');
   expect(await readdir(join(rig.projectDir, 'sprites'))).toEqual(['copy.bxsprite']);
   expect(await readdir(join(rig.projectDir, 'exports'))).toEqual(['hero.png']);
 };

@@ -9,17 +9,18 @@ import { PROJECT_TEXT } from './project.constants';
 import { releaseFolders } from './release-folders';
 import { sameProject } from './same-project';
 
-const closeProject = async (): Promise<void> => {
+const closeProject = async (): Promise<boolean> => {
   const { project, held, close, setHeld } = useProjectStore.getState();
-  if (!project) return;
+  if (!project) return true;
   const documentId = projectWorkspaceId();
-  if (documentId !== null && !(await closeWorkspace(documentId))) return;
+  if (documentId !== null && !(await closeWorkspace(documentId))) return false;
   close();
   setHeld(held.filter((each) => !sameProject(each, project)));
   useProjectSetsStore.getState().close();
   toast(PROJECT_TEXT.closed(project.manifest.name), { variant: 'info' });
   const kit = fileKit();
   if (kit) await releaseFolders(kit.documents, project);
+  return true;
 };
 
 export { closeProject };

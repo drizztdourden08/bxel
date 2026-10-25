@@ -53,6 +53,7 @@ describe('retry values', () => {
     ['NAME_INVALID', 'fix_input'],
     ['PATH_INVALID', 'fix_input'],
     ['FILE_EXISTS', 'fix_input'],
+    ['FILE_IN_USE', 'fix_input'],
     ['NEEDS_FILE_NAME', 'fix_input'],
     ['RESULT_TOO_LARGE', 'fix_input'],
     ['APP_BUSY', 'later'],

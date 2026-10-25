@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME, splitIntoAssets } from '@bxel/document';
-import type { Artwork, CommandStep, DocumentId, SpriteId } from '@bxel/document';
+import type { Artwork, CommandStep, DocumentId, PaletteBank, SpriteId } from '@bxel/document';
+import { PALETTE_COMMAND_NAME } from '@bxel/palette';
 import { encodeArtwork } from '@bxel/document/native';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { commitRequest } from '../../src/editor/commit-request';
@@ -55,4 +56,10 @@ const paintSprite = (documentId: DocumentId, spriteId: SpriteId, index = 1): voi
   if (!result.ok) throw new Error(result.error.message);
 };
 
-export { legacyBytes, paintSprite, sampleArtwork, writeProjectAssets };
+const addRamp = (documentId: DocumentId, bank: PaletteBank, name: string): boolean => {
+  const swatches = bank.slots.slice(1, 3).map((slot) => slot.id);
+  const step = { name: PALETTE_COMMAND_NAME.rampAdd, targets: null, options: { bankId: bank.id, name, swatches } };
+  return runSteps(useDocumentStore.getState().host, documentId, 'Ramp', [step]).ok;
+};
+
+export { addRamp, legacyBytes, paintSprite, sampleArtwork, writeProjectAssets };

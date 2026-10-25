@@ -82,6 +82,7 @@ const PROJECT_TEXT = {
   linkedSame: 'That folder is already part of the project.',
   done: 'Done',
   migrated: 'Updated the project file to the new format.',
+  migrationKept: (file: string): string => `Some swatch sets could not be written as palettes, so ${file} was kept beside the new project file.`,
   newSprite: 'New sprite',
   packed: 'This project file is packed for sharing. Open the file itself to unpack it into a folder.',
 } as const;

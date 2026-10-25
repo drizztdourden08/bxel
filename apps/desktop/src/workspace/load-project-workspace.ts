@@ -49,7 +49,7 @@ const loadProjectWorkspace = async (kit: FileKit, project: OpenProject): Promise
     const documentId = attachWorkspace(kit.host, seed);
     kit.paths.remember(documentId, seed.projectFile ?? project.projectFile);
     restoreTabs(documentId, stored);
-    tellLoaded(found.length, paths.length - merged.paths.size, merged.dirty.size);
+    tellLoaded(found.length, paths.length - merged.loaded, merged.dirty.size);
     return documentId;
   } finally {
     store.setLoading(null);

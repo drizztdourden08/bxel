@@ -2,6 +2,7 @@
 import type { Artwork, DocumentId } from '@bxel/document';
 import type { FileKit } from '../files/files.type';
 import { reasonOf } from '../files/reason-of';
+import { leaveProject } from '../project/leave-project';
 import { openProject } from '../project/open-project';
 import { useProjectStore } from '../stores/useProjectStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
@@ -20,7 +21,7 @@ const intoProject = async (kit: FileKit, artwork: Artwork): Promise<SplitOutcome
 
 const beside = async (kit: FileKit, artwork: Artwork, legacy: LegacySource): Promise<SplitOutcome> => {
   const parent = await kit.documents.openFolder({ title: SPLIT_TEXT.pickParent, defaultPath: parentOf(legacy.path) });
-  if (parent === null) return { kind: 'cancelled' };
+  if (parent === null || !(await leaveProject(null))) return { kind: 'cancelled' };
   const root = await splitBeside(kit, artwork, parent);
   await openProject(root, true);
   return { kind: 'done' };

@@ -57,6 +57,8 @@ type WireAssetKind = Exclude<AssetKind, 'project'>;
 
 type AssetInput = { readonly kind: WireAssetKind; readonly id: string };
 
+type PathOwner = { readonly documentId: DocumentId; readonly id: string | null };
+
 type FileNameTarget = { readonly fileName: string; readonly overwrite: boolean; readonly moveAsset: boolean };
 
 type LocationTarget = { readonly location: ProjectLocation; readonly overwrite: boolean; readonly moveAsset: boolean };
@@ -137,6 +139,7 @@ type ListFilesInput = {
 type PlatformOptions = { platformStrict?: unknown; platformId?: unknown };
 
 export type {
+  PathOwner,
   ListMapLayersInput,
   ReadMapCellsInput,
   PlatformOptions,
