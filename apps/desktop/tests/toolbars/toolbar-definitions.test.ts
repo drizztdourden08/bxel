@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import * as React from 'react';
-import { createToolbarLayout, hideToolbar, isToolbarShown, migrateToolbarLayout, moveToolbar, showToolbar } from '@drizztdourden08/tessera';
+import { createToolbarLayout, hideToolbar, isToolbarShown, migrateToolbarLayout, moveToolbar, showToolbar, toolbarIdsOf } from '@drizztdourden08/tessera';
 import { describe, expect, it, vi } from 'vitest';
 
 Object.assign(globalThis, { React });
@@ -41,10 +41,10 @@ const saved = (value: unknown): unknown => JSON.parse(JSON.stringify(value));
 describe('the saved toolbar layout', () => {
   it('stacks the canvas toolbar over the option toolbar on top and puts the tools on the left', () => {
     const layout = createToolbarLayout(defs);
-    expect(layout.sides.top).toEqual(['canvas', 'options']);
-    expect(layout.sides.left).toEqual(['tools']);
-    expect(layout.sides.bottom).toEqual([]);
-    expect(layout.sides.right).toEqual([]);
+    expect(toolbarIdsOf(layout, 'top')).toEqual(['canvas', 'options']);
+    expect(toolbarIdsOf(layout, 'left')).toEqual(['tools']);
+    expect(toolbarIdsOf(layout, 'bottom')).toEqual([]);
+    expect(toolbarIdsOf(layout, 'right')).toEqual([]);
     expect(layout.hidden).toEqual([]);
   });
 
@@ -52,8 +52,8 @@ describe('the saved toolbar layout', () => {
     const moved = moveToolbar(createToolbarLayout(defs), 'tools', 'right', 0);
     const restored = migrateToolbarLayout(saved(moved), defs);
     expect(restored).toEqual(moved);
-    expect(restored.sides.right).toEqual(['tools']);
-    expect(restored.sides.left).toEqual([]);
+    expect(toolbarIdsOf(restored, 'right')).toEqual(['tools']);
+    expect(toolbarIdsOf(restored, 'left')).toEqual([]);
   });
 
   it('keeps at most two toolbars on a side', () => {
@@ -67,14 +67,14 @@ describe('the saved toolbar layout', () => {
     const restored = migrateToolbarLayout(saved(removed), defs);
     expect(isToolbarShown(restored, 'options')).toBe(false);
     expect(restored.hidden).toEqual(['options']);
-    expect(showToolbar(restored, 'options', defs).sides.top).toEqual(['canvas', 'options']);
+    expect(toolbarIdsOf(showToolbar(restored, 'options', defs), 'top')).toEqual(['canvas', 'options']);
   });
 
   it('places a toolbar that the saved layout does not know on its default side', () => {
     const older = createToolbarLayout(defs.filter((def) => def.id !== 'options'));
     const restored = migrateToolbarLayout(saved(older), defs);
-    expect(restored.sides.top).toContain('options');
-    expect(restored.sides.top).toContain('canvas');
+    expect(toolbarIdsOf(restored, 'top')).toContain('options');
+    expect(toolbarIdsOf(restored, 'top')).toContain('canvas');
   });
 
   it('drops a toolbar that no longer exists and starts again from the defaults on a broken value', () => {
