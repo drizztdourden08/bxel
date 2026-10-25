@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { answerDialogs } from './support/answer-dialogs';
 import { inFreshPlace } from './support/in-place';
+import { openAssetTab } from './support/open-asset-tab';
 import type { Session } from './support/e2e.type';
 import { openSession } from './support/open-session';
 import { assetRow } from './support/panel-assets';
@@ -35,7 +36,7 @@ const copiesAndOpens = async (session: Session, place: string): Promise<void> =>
   await timeline.getByText('3 frames, 1 layer').waitFor();
   await timeline.getByRole('button', { name: /^walk, Forward/ }).first().waitFor();
   await assetRow(session, 'party').click();
-  await session.page.getByRole('tablist', { name: 'Open assets' }).getByRole('tab', { name: /party/ }).waitFor();
+  await openAssetTab(session, /party/).waitFor();
 };
 
 const keepsEditsOnSecondOpen = async (session: Session, place: string): Promise<void> => {
