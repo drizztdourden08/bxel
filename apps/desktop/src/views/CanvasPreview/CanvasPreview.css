@@ -1,0 +1,9 @@
+/* @layer renderer-app @kind style */
+.canvas-preview {
+  display: block;
+  inline-size: 100%;
+  block-size: var(--size-160);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  image-rendering: pixelated;
+}

@@ -18,7 +18,18 @@ const sections: Section[] = [
     title: 'General',
     items: [
       { key: 'tileset.name', label: 'Name', description: 'The name of the tileset and of its file.', control: { kind: 'text', placeholder: 'Tileset name' } },
-      { key: 'palette.name', label: 'Palette name', description: 'The palette the tiles draw with.', control: { kind: 'text', placeholder: 'Palette name' } },
+    ],
+  },
+  {
+    id: 'palette',
+    title: 'Palette',
+    items: [
+      {
+        key: 'palette.name',
+        label: 'Palette name',
+        description: 'The name of the palette the tiles draw with. Every asset that shares it shows the new name.',
+        control: { kind: 'text', placeholder: 'Palette name' },
+      },
       { key: 'palette.cap', label: 'Colour limit', description: 'How many slots the palette holds.', hint: 'A new limit shows what changes first.' },
     ],
   },

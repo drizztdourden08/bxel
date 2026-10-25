@@ -30,6 +30,8 @@ const ASSET_LABEL = {
 const ASSET_TEXT = {
   noAsset: 'Open an asset to see its settings.',
   noAssetTitle: 'No asset open',
+  newAsset: 'New asset...',
+  openAsset: 'Open...',
   readOnly: 'This asset is open read only.',
   badNumber: 'Type a whole number.',
   failed: (reason: string): string => `Could not change the setting. ${reason}`,

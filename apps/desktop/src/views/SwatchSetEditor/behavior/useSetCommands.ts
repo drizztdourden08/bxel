@@ -11,7 +11,7 @@ import { withoutColor } from '../../../swatch-library/without-color';
 import type { EditorState, SetCommands } from '../SwatchSetEditor.type';
 
 const useSetCommands = (state: EditorState): SetCommands => {
-  const { sets, current, index, commit, select, remove, pick } = state;
+  const { sets, current, index, commit, select, pick } = state;
   return useMemo(
     () => ({
       create: (): void => {
@@ -35,11 +35,8 @@ const useSetCommands = (state: EditorState): SetCommands => {
       removeColor: (): void => {
         if (current) commit(withoutColor(current, index));
       },
-      deleteSet: (): void => {
-        if (current) remove(current.setId);
-      },
     }),
-    [commit, current, index, pick, remove, select, sets],
+    [commit, current, index, pick, select, sets],
   );
 };
 

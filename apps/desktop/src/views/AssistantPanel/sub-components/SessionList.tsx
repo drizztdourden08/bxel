@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind component */
-import { Button, Flex, ListItemList, ListItemRow, Stack, Text } from '@drizztdourden08/tessera';
+import { Button, Flex, ListItemList, ListItemRow, SettingsSection, Text } from '@drizztdourden08/tessera';
 import { PANEL_TEXT } from '../AssistantPanel.constants';
 import type { PanelPartProps } from '../AssistantPanel.type';
 
 const SessionList = ({ model }: PanelPartProps) => (
-  <Stack gap="sm">
-    <Text variant="label">{PANEL_TEXT.sessionsTitle}</Text>
+  <SettingsSection id="connected" title={PANEL_TEXT.sessionsTitle} description={PANEL_TEXT.sessionsHint}>
     {model.sessions.length === 0 ? (
       <Text tone="muted">{PANEL_TEXT.sessionsEmpty}</Text>
     ) : (
@@ -30,7 +29,7 @@ const SessionList = ({ model }: PanelPartProps) => (
         ))}
       </ListItemList>
     )}
-  </Stack>
+  </SettingsSection>
 );
 
 export { SessionList };

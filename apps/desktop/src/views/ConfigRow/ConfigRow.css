@@ -1,0 +1,10 @@
+/* @layer renderer-app @kind style */
+.config-row--inline > .config-row__text {
+  flex: 1 1 var(--size-256);
+  min-inline-size: 0;
+}
+
+.config-row__control {
+  flex: 0 1 auto;
+  min-inline-size: var(--size-256);
+}

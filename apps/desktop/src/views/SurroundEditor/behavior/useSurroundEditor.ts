@@ -17,7 +17,6 @@ const useSurroundEditor = (): SurroundModel => {
     look,
     kind: settings.surroundPattern,
     bits,
-    setKind: (kind) => patch({ surroundPattern: kind }),
     setBits,
     clear: () => setBits(BLANK_PATTERN),
     invert: () => setBits(invertBits(bits)),

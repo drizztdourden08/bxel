@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind component */
-import { ListItemList, ListItemRow, Stack, Text } from '@drizztdourden08/tessera';
+import { ListItemList, ListItemRow, SettingsSection, Text } from '@drizztdourden08/tessera';
 import { ACTIVITY_SHOWN, PANEL_TEXT } from '../AssistantPanel.constants';
 import type { PanelPartProps } from '../AssistantPanel.type';
 
 const ActivityList = ({ model }: PanelPartProps) => (
-  <Stack gap="sm">
-    <Text variant="label">{PANEL_TEXT.activityTitle}</Text>
+  <SettingsSection id="recent-calls" title={PANEL_TEXT.activityTitle} description={PANEL_TEXT.activityHint}>
     {model.activity.length === 0 ? (
       <Text tone="muted">{PANEL_TEXT.activityEmpty}</Text>
     ) : (
@@ -19,7 +18,7 @@ const ActivityList = ({ model }: PanelPartProps) => (
         ))}
       </ListItemList>
     )}
-  </Stack>
+  </SettingsSection>
 );
 
 export { ActivityList };
