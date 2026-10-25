@@ -17,7 +17,7 @@ const usage = {
   ],
   a11y: [
     'The toolbar has role toolbar, a name from its label and the orientation of its side. The handle is the first stop and can move the toolbar with the keyboard.',
-    'The frame is a focus region group with the same name, so F6 stops on the toolbar although the dock sits inside the editor main.',
+    'The docked toolbar bar is one F6 stop of its own, so the view adds no focus region.',
   ],
   tree: {
     path: ['actions', 'several related buttons', 'tools in a row or column, with hints and options'],
