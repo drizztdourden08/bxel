@@ -5,7 +5,6 @@ import type { HintSpec } from '../ActionHint';
 
 const MAP_LAYERS_TEXT = {
   empty: 'This file has no tilemap yet.',
-  title: 'Map layers',
   count: (total: number): string => (total === 1 ? '1 layer' : `${total} layers`),
   list: 'Map layers',
   actions: 'Map layer actions',

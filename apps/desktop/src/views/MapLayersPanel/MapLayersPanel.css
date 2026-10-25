@@ -1,4 +1,9 @@
 /* @layer renderer-app @kind style */
+.map-layers__list {
+  flex: 1;
+  min-height: var(--size-40);
+}
+
 .map-layers__items {
   display: flex;
   flex-direction: column;

@@ -9,7 +9,6 @@ import type { LayerAction, LayerToggle } from './LayersPanel.type';
 
 const LAYERS_PANEL_TEXT = {
   empty: 'No sprite is open.',
-  title: 'Layers',
   count: (total: number): string => (total === 1 ? '1 layer' : `${total} layers`),
   list: 'Layers',
   actions: 'Layer actions',
