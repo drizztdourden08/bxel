@@ -32,6 +32,8 @@ const TILE_SIZES: readonly { readonly token: VirtualSize; readonly px: number }[
 
 const TILE_EXTRA = { width: 24, height: 48 } as const;
 
+const MARQUEE_ITEM = '[data-marquee-key]';
+
 const GRID_CELL = '[role="gridcell"]';
 
 const VIRTUAL_LIST_MIN = 200;
@@ -111,4 +113,4 @@ const SPRITE_STEPS = [
   { hint: SPRITE_HINTS.later, icon: 'arrow-right', by: 1 },
 ] as const;
 
-export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, NO_SPRITES, SPRITE_HINTS, SPRITE_STEPS, TILE_EXTRA, TILE_SIZES, VIRTUAL_LIST_MIN };
+export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, MARQUEE_ITEM, NO_SPRITES, SPRITE_HINTS, SPRITE_STEPS, TILE_EXTRA, TILE_SIZES, VIRTUAL_LIST_MIN };

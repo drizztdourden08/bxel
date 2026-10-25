@@ -6,7 +6,7 @@ import type { RefObject } from 'react';
 import type { SpriteId } from '@bxel/document';
 import { selectIds } from '../../../sheet-manager/select-ids';
 import { clearSpriteSelection } from '../../../sheet/clear-selection';
-import { GRID_CELL } from '../SpritesPanel.constants';
+import { GRID_CELL, MARQUEE_ITEM } from '../SpritesPanel.constants';
 import type { ManagerModel, SpriteMarquee } from '../SpritesPanel.type';
 
 const useSpriteMarquee = (model: ManagerModel, grid: RefObject<VirtualGridHandle | null>): SpriteMarquee => {
@@ -15,6 +15,7 @@ const useSpriteMarquee = (model: ManagerModel, grid: RefObject<VirtualGridHandle
   const known = new Map(model.artwork.sprites.map((sprite): [string, SpriteId] => [sprite.id, sprite.id]));
   const marquee = useMarqueeSelect({
     containerRef: area,
+    itemSelector: MARQUEE_ITEM,
     getRects: () => grid.current?.getRects() ?? [],
     selected: model.ids,
     onChange: (keys) => {
