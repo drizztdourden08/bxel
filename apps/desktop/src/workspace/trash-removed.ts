@@ -5,6 +5,7 @@ import { fileName } from '../files/file-name';
 import type { FileKit } from '../files/files.type';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { keyId } from './key-id';
+import { withoutAsset } from './without-asset';
 import { WORKSPACE_TEXT } from './workspace.constants';
 
 const forget = (documentId: DocumentId, keys: readonly AssetKey[]): void =>
@@ -17,7 +18,7 @@ const forget = (documentId: DocumentId, keys: readonly AssetKey[]): void =>
       saved.delete(keyId(key));
       dirty.delete(keyId(key));
     }
-    return { ...workspace, paths, saved, dirty };
+    return { ...workspace, paths, saved, dirty, base: keys.reduce(withoutAsset, workspace.base) };
   });
 
 const trashRemoved = async (kit: FileKit, documentId: DocumentId, keys: readonly AssetKey[]): Promise<readonly string[]> => {
