@@ -15,7 +15,6 @@ import { appReview } from '../.brock/review';
 import { appTitleBar } from '../.brock/title-bar';
 import { appTours } from '../.brock/tours';
 import { appStartupPrompts } from '../.brock/startup';
-import { appToolbars } from '../.brock/toolbars';
 import { APP_COMMANDS } from './keymap/app-commands.constants';
 import { useAppMenu } from './hooks/useAppMenu';
 import { SETTINGS } from './main.constants';
@@ -45,7 +44,6 @@ const App = () => {
       menu={menu}
       onBeforeQuit={closeGuard}
       startupPrompts={appStartupPrompts}
-      toolbars={appToolbars}
     />
   );
 };
