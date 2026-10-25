@@ -3,6 +3,8 @@ import type { RuleTier } from '@bxel/presets';
 
 const NO_PLATFORM = 'none';
 
+const FOLLOW_PROJECT = 'project';
+
 const PLATFORM_LABEL = 'Change platform';
 
 const STRICT_LABEL = 'Change platform rules mode';
@@ -17,10 +19,10 @@ const PLATFORM_TEXT = {
   hint: 'A platform sets the size, colour count, palette and rules for a target. You can still change them. Anything outside the rules shows as a warning.',
   rulesTitle: 'Platform rules',
   noFindings: 'Everything fits the platform rules.',
+  noRules: 'This sprite has no platform, so there are no rules to check. Pick a platform above to see its rules.',
   changeFailed: (reason: string): string => `Could not change the platform. ${reason}`,
   unknown: (id: string): string => `This file was made for ${id}, which this version does not know.`,
-  rules: (name: string, slots: number, slot0: string, banks: number): string =>
-    `${name}: ${slots} slots, ${slot0}, up to ${banks} ${banks === 1 ? 'palette' : 'palettes'}.`,
+  rules: (slots: number, slot0: string, banks: number): string => `${slots} slots, ${slot0}, up to ${banks} ${banks === 1 ? 'palette' : 'palettes'}.`,
   slot0: {
     transparent: 'slot 0 transparent',
     background: 'slot 0 is the backdrop',
@@ -56,4 +58,4 @@ const TIER_LABELS: Readonly<Record<RuleTier, string>> = {
   advisory: 'Note',
 };
 
-export { AREA_TEXT, NO_PLATFORM, PLATFORM_LABEL, PLATFORM_TEXT, STRICT_LABEL, STRICT_TEXT, TIER_LABELS };
+export { AREA_TEXT, FOLLOW_PROJECT, NO_PLATFORM, PLATFORM_LABEL, PLATFORM_TEXT, STRICT_LABEL, STRICT_TEXT, TIER_LABELS };

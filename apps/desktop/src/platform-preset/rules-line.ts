@@ -8,7 +8,9 @@ const slot0Text = (preset: PlatformPreset): string => {
   return PLATFORM_TEXT.slot0[slot0];
 };
 
-const rulesLine = (preset: PlatformPreset): string =>
-  PLATFORM_TEXT.rules(preset.name, preset.banks.size, slot0Text(preset), preset.banks.count);
+const rulesLine = (preset: PlatformPreset, named = true): string => {
+  const line = PLATFORM_TEXT.rules(preset.banks.size, slot0Text(preset), preset.banks.count);
+  return named ? `${preset.name}: ${line}` : `${line.charAt(0).toUpperCase()}${line.slice(1)}`;
+};
 
 export { rulesLine };
