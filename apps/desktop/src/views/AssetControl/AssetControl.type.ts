@@ -28,6 +28,11 @@ interface PairControlProps {
   spec: PairSpec;
 }
 
+interface PairInputProps {
+  spec: PairSpec;
+  at: 0 | 1;
+}
+
 interface BankControlModel {
   options: readonly BankOption[];
   value: string;
@@ -90,4 +95,4 @@ interface PresetListModel {
   run: (name: string) => void;
 }
 
-export type { AssetControlProps, BankControlModel, PairControlProps, PairSpec, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowProps, ReportControlModel, SetLoaderModel, SnapRowModel };
+export type { AssetControlProps, BankControlModel, PairControlProps, PairInputProps, PairSpec, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowProps, ReportControlModel, SetLoaderModel, SnapRowModel };
