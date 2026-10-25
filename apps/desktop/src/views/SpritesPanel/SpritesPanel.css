@@ -20,6 +20,9 @@
 }
 
 .sprites-panel__tile {
+  inline-size: calc(100% + 2 * var(--space-xs));
+  block-size: calc(100% + 2 * var(--space-xs));
+  margin: calc(-1 * var(--space-xs));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -131,8 +134,26 @@
   cursor: pointer;
 }
 
+.sprites-panel__browser {
+  flex: 1;
+  min-height: 0;
+}
+
+.sprites-panel__zone {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sprites-panel__vlist {
+  flex: 1;
+  min-height: 0;
+}
+
 .sprites-panel__virtual {
-  block-size: var(--size-448);
+  flex: 1;
+  min-height: var(--size-96);
 }
 
 .sprites-panel__virtual .sprites-panel__row {

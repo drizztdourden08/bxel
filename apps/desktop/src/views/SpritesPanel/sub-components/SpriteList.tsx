@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Box, Stack, VirtualList } from '@drizztdourden08/tessera';
+import { Box, ScrollArea, Stack, VirtualList } from '@drizztdourden08/tessera';
 import { listItems } from '../../../sheet-manager/list-items';
 import type { ListItem } from '../../../sheet-manager/folders.type';
 import { stateOf } from '../behavior/state-of';
@@ -27,7 +27,7 @@ const SpriteList = ({ model, affected, dragFor, handlersFor }: SpriteViewProps) 
   };
   if (model.shown.length >= VIRTUAL_LIST_MIN) {
     return (
-      <Stack gap="2xs" className="sprites-panel__list">
+      <Stack gap="2xs" className="sprites-panel__vlist">
         <ListHeader />
         <Box className="sprites-panel__virtual">
           <VirtualList label="Sprites" items={items} getKey={(item) => item.key} renderItem={row} />
@@ -36,10 +36,12 @@ const SpriteList = ({ model, affected, dragFor, handlersFor }: SpriteViewProps) 
     );
   }
   return (
-    <Stack gap="2xs" role="group" aria-label="Sprites" className="sprites-panel__list">
-      <ListHeader />
-      {items.map(row)}
-    </Stack>
+    <ScrollArea axis="y" scrollbar="slim" fade={false} className="sprites-panel__scroll">
+      <Stack gap="2xs" role="group" aria-label="Sprites" className="sprites-panel__list">
+        <ListHeader />
+        {items.map(row)}
+      </Stack>
+    </ScrollArea>
   );
 };
 

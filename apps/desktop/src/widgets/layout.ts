@@ -6,7 +6,7 @@ const layout = defineLayoutPreset({
     ['main', 'palette'],
     ['timeline', 'sprites', 'tileset'],
   ],
-  widths: [[0.78, 0.22], [0.5, 0.3, 0.2]],
+  widths: [[0.8, 0.2], [0.5, 0.3, 0.2]],
   sizes: [0.68, 0.32],
 });
 

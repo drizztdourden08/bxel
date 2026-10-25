@@ -7,7 +7,7 @@ const meta: WidgetMeta = {
   icon: 'folder',
   defaultOpen: false,
   defaultSide: 'left',
-  defaultDockedSize: 300,
+  defaultDockedSize: 260,
   fill: true,
   popOut: false,
   defaultVisibility: 'context-only',
