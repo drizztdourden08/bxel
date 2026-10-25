@@ -6,8 +6,8 @@ import { drawPath } from '../path/draw-path';
 import type { PixelsShapeOptions } from './schema/pixels-options.type';
 
 const drawShapeOptions = (target: BufferView, options: PixelsShapeOptions): Rect | null => {
-  const { index, mask, filled, brush, symmetry } = options;
-  const base = { target, index, mask, filled, brush, symmetry };
+  const { index, mask, wrap, filled, brush, symmetry } = options;
+  const base = { target, index, mask, wrap, filled, brush, symmetry };
   switch (options.shape) {
     case 'polygon':
     case 'contour':

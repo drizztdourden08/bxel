@@ -6,8 +6,9 @@ import { commitSession } from '../../../editor/commit-session';
 import { currentTarget } from '../../../editor/current-target';
 import type { PaintSession } from '../../../editor/editor.type';
 import { extendStroke } from '../../../editor/extend-stroke';
+import { foldToSprite } from '../../../editor/fold-to-sprite';
 import { handOffImage } from '../../../editor/hand-off-image';
-import { insideSprite } from '../../../editor/inside-sprite';
+import { insidePaintArea } from '../../../editor/inside-paint-area';
 import { pressPlan } from '../../../editor/press-plan';
 import { runInstant } from '../../../editor/run-instant';
 import { startSession } from '../../../editor/start-session';
@@ -33,9 +34,9 @@ const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): Paint
         return;
       }
       const at = pixelAtEvent(viewport.current, event);
-      if (!insideSprite(target, at) || !allowPress(plan, target)) return;
+      if (!insidePaintArea(target, at) || !allowPress(plan, target)) return;
       if (plan.kind === 'pick' || plan.kind === 'fill') {
-        runInstant(plan.kind, target, at, plan.slot);
+        runInstant(plan.kind, target, foldToSprite(target, at), plan.slot);
         return;
       }
       event.currentTarget.setPointerCapture(event.pointerId);

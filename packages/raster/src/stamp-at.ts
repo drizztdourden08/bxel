@@ -2,6 +2,7 @@
 import type { BrushStamp } from './brush.type';
 import type { Point } from './geometry.type';
 import type { PixelWriter } from './paint.type';
+import { isWrapped } from './is-wrapped';
 import { stampRow } from './stamp-row';
 import { writePixel } from './write-pixel';
 
@@ -19,7 +20,7 @@ const stampMasked = (writer: PixelWriter, stamp: BrushStamp, left: number, top: 
 const stampAt = (writer: PixelWriter, stamp: BrushStamp, point: Point): void => {
   const left = point.x - stamp.offset;
   const top = point.y - stamp.offset;
-  if (writer.mask) {
+  if (writer.mask || isWrapped(writer.wrap)) {
     stampMasked(writer, stamp, left, top);
     return;
   }

@@ -1,14 +1,15 @@
 /* @layer core @kind logic */
 import { ERROR_CODE, fail, requireSprite } from '@bxel/document';
-import type { Artwork, SpriteId } from '@bxel/document';
-import type { Point } from '../geometry.type';
+import { foldPoint } from '../fold-point';
 import { targetIssue } from './target-issue';
+import type { SeedRules } from './seed-rules.type';
 
-const checkSeed = (artwork: Artwork, sprites: readonly SpriteId[], seed: Point): void => {
+const checkSeed = ({ artwork, sprites, seed, wrap }: SeedRules): void => {
   const outside = sprites
     .filter((spriteId) => {
       const sprite = requireSprite(artwork, spriteId);
-      return seed.x < 0 || seed.y < 0 || seed.x >= sprite.width || seed.y >= sprite.height;
+      const at = foldPoint(seed, sprite, wrap);
+      return at.x < 0 || at.y < 0 || at.x >= sprite.width || at.y >= sprite.height;
     })
     .map((spriteId) => targetIssue(spriteId, 'the seed point is outside the sprite'));
   if (outside.length > 0) {

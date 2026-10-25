@@ -101,7 +101,7 @@ const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
 
 const TILED_HINT: HintSpec = {
   name: 'Tiled preview',
-  description: 'Repeat the canvas around itself to check that a pattern joins without a seam.',
+  description: 'Repeat the canvas around itself to check that a pattern joins without a seam. Painting continues across the matching edge.',
 };
 
 const TILED_HINTS: Readonly<Record<TileMode, HintSpec>> = {

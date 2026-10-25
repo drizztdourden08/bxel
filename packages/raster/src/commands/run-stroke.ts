@@ -7,11 +7,11 @@ import { checkTargets } from './check-targets';
 import type { PixelsEraseOptions } from './schema/pixels-options.type';
 
 const runStroke = (draft: Draft, input: CommandInput<PixelsEraseOptions>, index: number): void => {
-  const { points, brush, pixelPerfect, symmetry, mask } = input.options;
+  const { points, brush, pixelPerfect, symmetry, mask, wrap } = input.options;
   checkPointCount(points.length, input.step);
   checkTargets({ artwork: draft.artwork, sprites: input.sprites, index, mask });
   applyToCels(draft, input.cels, (target) =>
-    paintStroke({ target, index, mask, points, brush, pixelPerfect, symmetry }),
+    paintStroke({ target, index, mask, wrap, points, brush, pixelPerfect, symmetry }),
   );
 };
 

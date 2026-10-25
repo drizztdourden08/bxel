@@ -1,24 +1,23 @@
 /* @layer renderer-app @kind logic */
-import type { BrushStamp, Point, Rect } from '@bxel/raster';
+import type { BrushStamp, Point, Rect, Wrap } from '@bxel/raster';
 import type { Overlay } from './editor.type';
 import { restoreRect } from './restore-rect';
 import { unionDirty } from './union-dirty';
+import { wrapRuns } from './wrap-runs';
 
-const footprint = (overlay: Overlay, stamp: BrushStamp, point: Point): Rect | null => {
-  const left = Math.max(0, point.x - stamp.offset);
-  const top = Math.max(0, point.y - stamp.offset);
-  const right = Math.min(overlay.width, point.x - stamp.offset + stamp.size);
-  const bottom = Math.min(overlay.height, point.y - stamp.offset + stamp.size);
-  return right > left && bottom > top ? { x: left, y: top, width: right - left, height: bottom - top } : null;
+const footprints = (overlay: Overlay, stamp: BrushStamp, point: Point, wrap: Wrap | undefined): Rect[] => {
+  const columns = wrapRuns({ start: point.x - stamp.offset, length: stamp.size, room: overlay.width, wrapped: wrap?.x === true });
+  const rows = wrapRuns({ start: point.y - stamp.offset, length: stamp.size, room: overlay.height, wrapped: wrap?.y === true });
+  return rows.flatMap((row) => columns.map((column) => ({ x: column.start, y: row.start, width: column.length, height: row.length })));
 };
 
-const clearFootprints = (overlay: Overlay, stamp: BrushStamp, points: readonly Point[]): Rect | null => {
+const clearFootprints = (overlay: Overlay, stamp: BrushStamp, points: readonly Point[], wrap?: Wrap): Rect | null => {
   let cleared: Rect | null = null;
   for (const point of points) {
-    const rect = footprint(overlay, stamp, point);
-    if (!rect) continue;
-    restoreRect(overlay, rect);
-    cleared = unionDirty(cleared, rect);
+    for (const rect of footprints(overlay, stamp, point, wrap)) {
+      restoreRect(overlay, rect);
+      cleared = unionDirty(cleared, rect);
+    }
   }
   return cleared;
 };

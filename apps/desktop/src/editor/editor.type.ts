@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { Brush, Connectivity, FillMode, MaskView, PerfectTrail, Point, Rect, ShapeKind, Symmetry } from '@bxel/raster';
+import type { Brush, Connectivity, FillMode, MaskView, PerfectTrail, Point, Rect, ShapeKind, Symmetry, Wrap } from '@bxel/raster';
 import type { DocumentId, FrameId, Layer, LayerId, PaletteBank, Sprite } from '@bxel/document';
 import type { ToolSettings } from '../stores/tool-store.type';
 import type { StrokeTool } from './tool.type';
@@ -18,6 +18,7 @@ interface BrushOptions {
   brush: Brush;
   pixelPerfect: boolean;
   symmetry: Symmetry;
+  wrap?: Wrap;
 }
 
 interface Overlay {
@@ -47,6 +48,7 @@ interface ShapeSpec {
   index: number;
   brush: Brush;
   symmetry: Symmetry;
+  wrap?: Wrap;
   from: Point;
   to: Point;
 }
@@ -75,6 +77,7 @@ interface FillChoice {
   index: number;
   mode: FillMode;
   connectivity: Connectivity;
+  wrap?: Wrap;
 }
 
 type SymmetryFields = Pick<ToolSettings, 'symmetryX' | 'symmetryY' | 'axisX' | 'axisY'>;

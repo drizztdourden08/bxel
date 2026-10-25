@@ -11,11 +11,11 @@ const pixelsFill = defineCommand({
   scope: 'cels',
   schema: pixelsFillSchema,
   run: (draft, input) => {
-    const { x, y, index, mode, connectivity, mask } = input.options;
+    const { x, y, index, mode, connectivity, mask, wrap } = input.options;
     const seed = { x, y };
     checkTargets({ artwork: draft.artwork, sprites: input.sprites, index, mask });
-    checkSeed(draft.artwork, input.sprites, seed);
-    applyToCels(draft, input.cels, (target) => floodFill({ target, seed, index, mode, connectivity, mask }));
+    checkSeed({ artwork: draft.artwork, sprites: input.sprites, seed, wrap });
+    applyToCels(draft, input.cels, (target) => floodFill({ target, seed, index, mode, connectivity, mask, wrap }));
   },
 });
 
