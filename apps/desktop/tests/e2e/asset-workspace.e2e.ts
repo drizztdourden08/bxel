@@ -11,6 +11,7 @@ import { canvasMapper } from './support/canvas-mapper';
 import { drawStroke } from './support/draw-stroke';
 import { inFreshPlace } from './support/in-place';
 import type { Session } from './support/e2e.type';
+import { openAssetTab } from './support/open-asset-tab';
 import { openFile } from './support/open-file';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
 import { openSession } from './support/open-session';
@@ -50,7 +51,7 @@ const paintsAndSavesAll = async (session: Session, place: string): Promise<void>
   const artwork = buildSampleArtwork();
   const paths = await writeSampleProject(root, artwork, SAMPLE.name);
   await openProjectAtInUi(session, root, SAMPLE.name);
-  await session.page.getByRole('tablist', { name: 'Open assets' }).getByRole('tab', { name: new RegExp(SAMPLE.sprites[0]) }).waitFor();
+  await openAssetTab(session, new RegExp(SAMPLE.sprites[0])).waitFor();
   const before = await snapshot(paths);
   const hero = heroOf(artwork);
   const map = await canvasMapper(session, SAMPLE.size);

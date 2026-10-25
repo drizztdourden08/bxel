@@ -6,6 +6,7 @@ import { answerDialogs } from './support/answer-dialogs';
 import { buildTwoPaletteArtwork, SECOND_PALETTE } from './support/build-two-palette-artwork';
 import type { Session } from './support/e2e.type';
 import { inFreshPlace } from './support/in-place';
+import { openAssetTab } from './support/open-asset-tab';
 import { openSession } from './support/open-session';
 import { projectOnDisk } from './support/project-on-disk';
 import { readSaved } from './support/read-saved';
@@ -27,7 +28,7 @@ const openProjectAt = async (session: Session, folder: string): Promise<void> =>
   await answerDialogs(session, { open: folder, save: null });
   await runMenu(session, [/^Project/, /^Open project/]);
   await waitText(session, new RegExp(`Opened the project ${SAMPLE.name}`));
-  await session.page.getByRole('tablist', { name: 'Open assets' }).getByRole('tab', { name: new RegExp(SAMPLE.sprites[0]) }).waitFor();
+  await openAssetTab(session, new RegExp(SAMPLE.sprites[0])).waitFor();
 };
 
 const movesBetweenHubs = async (session: Session): Promise<void> => {
