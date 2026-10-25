@@ -12,6 +12,7 @@ const meta: WidgetMeta = {
   defaultSide: 'right',
   defaultDockedSize: 260,
   popOut: false,
+  defaultVisibility: 'context-only',
 };
 
 const TilesetWidget = () => (

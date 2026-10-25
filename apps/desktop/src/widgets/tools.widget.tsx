@@ -3,7 +3,7 @@ import type { WidgetMeta } from '@drizztdourden08/brock-react';
 import { Toolbar } from '@drizztdourden08/tessera';
 import { TOOL_RAIL_TEXT, useRailItems } from '../views/ToolRail';
 
-const meta: WidgetMeta = { label: 'Tools', icon: 'wrench', defaultSide: 'right', defaultDockedSize: 232, popOut: false };
+const meta: WidgetMeta = { label: 'Tools', icon: 'wrench', defaultSide: 'right', defaultDockedSize: 232, popOut: false, defaultVisibility: 'context-only' };
 
 const ToolsWidget = () => <Toolbar layout="list" label={TOOL_RAIL_TEXT.region} items={useRailItems()} />;
 

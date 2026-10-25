@@ -9,6 +9,7 @@ const meta: WidgetMeta = {
   defaultSide: 'right',
   defaultDockedSize: 340,
   popOut: false,
+  defaultVisibility: 'context-only',
 };
 
 const SpritesWidget = () => <SpritesPanel />;

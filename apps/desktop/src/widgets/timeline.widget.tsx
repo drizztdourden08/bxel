@@ -9,6 +9,7 @@ const meta: WidgetMeta = {
   defaultSide: 'bottom',
   defaultDockedSize: 240,
   popOut: false,
+  defaultVisibility: 'context-only',
 };
 
 const TimelineWidget = () => <TimelinePanel />;
