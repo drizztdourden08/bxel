@@ -6,6 +6,7 @@ import { FILE_TEXT } from '../files/files.constants';
 import { assetName } from './asset-name';
 import { parentOf } from './parent-of';
 import { toSlashes } from './to-slashes';
+import { vetPickedPath } from './vet-picked-path';
 import { ASSET_FILE_LABEL, BXEL_ENDING, GRANT_LEVELS, NAME_FALLBACK } from './workspace.constants';
 import type { AssetPick, Workspace } from './workspace.type';
 
@@ -21,7 +22,10 @@ const pickAssetPath = async (documents: DocumentsPort, workspace: Workspace, art
     grantFolder: { ask: true, levels: GRANT_LEVELS },
   });
   if (picked === null) return null;
-  return { path: `${toSlashes(picked.path).replace(BXEL_ENDING, '')}${extension}`, granted: picked.folderGranted };
+  const chosen = toSlashes(picked.path);
+  const path = `${chosen.replace(BXEL_ENDING, '')}${extension}`;
+  if (!(await vetPickedPath(documents, { documentId: workspace.documentId, key }, { chosen, path }))) return null;
+  return { path, granted: picked.folderGranted };
 };
 
 export { pickAssetPath };

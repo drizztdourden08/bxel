@@ -61,11 +61,14 @@ type MergedWorkspace = {
   readonly paths: ReadonlyMap<string, string>;
   readonly dirty: ReadonlySet<string>;
   readonly issues: readonly string[];
+  readonly loaded: number;
 };
 
 type NameSync = { readonly paths: Map<string, string>; readonly referrers: readonly AssetKey[] };
 
 type WrittenAsset = { readonly key: AssetKey; readonly hash: string; readonly path: string };
+
+type EncodedAsset = WrittenAsset & { readonly bytes: Uint8Array };
 
 type SavedAssets = {
   readonly artwork: Artwork;
@@ -104,6 +107,10 @@ type Progress = (done: number, total: number) => void;
 
 type AssetPick = { readonly path: string; readonly granted: boolean };
 
+type PickedPath = { readonly chosen: string; readonly path: string };
+
+type SaveProblem = { readonly name: string; readonly reason: string };
+
 type OpenTab = { readonly id: string; readonly documentId: DocumentId; readonly key: AssetKey };
 
 type NamedAsset = { readonly id: string; readonly name: string; readonly created?: number };
@@ -118,6 +125,7 @@ export type {
   DecodedFile,
   DecodedPool,
   DirtyKeys,
+  EncodedAsset,
   DecodedFiles,
   Decoder,
   Encoder,
@@ -131,8 +139,10 @@ export type {
   NamedAsset,
   NameSync,
   OpenTab,
+  PickedPath,
   Progress,
   SavedAssets,
+  SaveProblem,
   SeededWorkspace,
   SplitDestination,
   SplitOutcome,

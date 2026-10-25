@@ -41,6 +41,7 @@ describe('the snapshots that are still waiting to be restored', () => {
       remember: () => undefined,
       markRecovered: () => undefined,
       flush: (documentId: DocumentId) => session.tracker.flush(documentId),
+      project: () => Promise.resolve(null),
     };
     const failure = await recoverSnapshot(OLD_KEY, {
       restore: () => Promise.resolve(found),

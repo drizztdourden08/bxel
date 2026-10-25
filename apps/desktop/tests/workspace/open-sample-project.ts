@@ -13,8 +13,13 @@ type SampleProject = {
   readonly documentId: DocumentId;
 };
 
-const openSampleProject = async (held: Rig, artwork: Artwork = sampleArtwork()): Promise<SampleProject> => {
+const openSampleProject = async (
+  held: Rig,
+  artwork: Artwork = sampleArtwork(),
+  prepare: (paths: ReadonlyMap<string, string>) => void = () => undefined,
+): Promise<SampleProject> => {
   const paths = writeProjectAssets(held.disk, ROOT, artwork);
+  prepare(paths);
   withManifest(held.disk);
   held.disk.picks.folder = ROOT;
   await openProject();
@@ -36,4 +41,11 @@ const artworkOf = (documentId: DocumentId) => {
   return found;
 };
 
-export { artworkOf, openSampleProject, workspaceOf };
+const spriteAndBank = (documentId: DocumentId) => {
+  const sprite = artworkOf(documentId).sprites[0];
+  const bank = artworkOf(documentId).banks.find((each) => each.id === sprite?.bankId);
+  if (!sprite || !bank) throw new Error('no sprite with a bank');
+  return { sprite, bank };
+};
+
+export { artworkOf, openSampleProject, spriteAndBank, workspaceOf };

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { mergeSlices } from '@bxel/document';
 import type { IdSource, WorkspaceMeta } from '@bxel/document';
+import { keepMissingLinks } from './keep-missing-links';
 import { keyId } from './key-id';
 import type { DecodedFiles, MergedWorkspace } from './workspace.type';
 
@@ -18,8 +19,10 @@ const mergeWorkspace = (decoded: DecodedFiles, ids: IdSource, meta?: WorkspaceMe
     paths.set(key.id, source.path);
     if (moved || source.relinked) dirty.add(keyId(key));
   }
+  keepMissingLinks(paths, decoded.reports, merged.artwork);
   const failed = decoded.reports.filter((each) => each.report.slice === null).map((each) => each.report.issues[0]?.message ?? each.path);
-  return { artwork: merged.artwork, paths, dirty, issues: [...failed, ...merged.issues.map((issue) => issue.message)] };
+  const issues = [...failed, ...merged.issues.map((issue) => issue.message)];
+  return { artwork: merged.artwork, paths, dirty, issues, loaded: decoded.sources.length };
 };
 
 export { mergeWorkspace };
