@@ -14,7 +14,7 @@ import { focusTab } from '../workspace/focus-tab';
 import { projectWorkspaceId } from '../workspace/project-workspace-id';
 import { saveTab } from '../workspace/save-tab';
 import { tabOf } from '../workspace/tab-of';
-import { listFolderEntries } from './list-folder-entries';
+import { fileNameTaken } from './file-name-taken';
 import { NEW_FILE_SUFFIX as SUFFIX, PROJECT_TEXT } from './project.constants';
 import type { ProjectOutcome } from './project.type';
 
@@ -47,8 +47,7 @@ const newProjectFile = async (folder: string, typed: string): Promise<ProjectOut
   const path = checked.ok ? joinInside(folder, name, 'bxsprite') : checked;
   if (!path.ok) return { ok: false, message: path.message };
   try {
-    const present = await listFolderEntries(kit.documents, folder, { kinds: ['sprite'], offset: 0, limit: 500 });
-    if (present.entries.some((entry) => entry.name.toLowerCase() === name.toLowerCase())) return { ok: false, message: PROJECT_TEXT.fileExists(name) };
+    if (await fileNameTaken(kit.documents, folder, path.value)) return { ok: false, message: PROJECT_TEXT.fileExists(name) };
     const spriteId = addSprite(kit.host, documentId, name.slice(0, -SUFFIX.length));
     if (spriteId === null) return { ok: false, message: PROJECT_TEXT.unavailable };
     const tab = tabOf(documentId, { kind: 'sprite', id: spriteId });
