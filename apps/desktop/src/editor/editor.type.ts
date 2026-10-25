@@ -28,6 +28,7 @@ interface Overlay {
   rgba: Uint8ClampedArray<ArrayBuffer>;
   table: Uint8ClampedArray<ArrayBuffer>;
   dirty: Rect | null;
+  revision: number;
   mask: MaskView | null;
 }
 

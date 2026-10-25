@@ -18,6 +18,7 @@ const createOverlay = (target: EditorTarget): Overlay => {
     rgba: new Uint8ClampedArray(sprite.width * sprite.height * CHANNELS),
     table: bankTable(bank),
     dirty: null,
+    revision: target.revision,
     mask: selectionMask(target),
   };
   trackPixels(overlay.rgba);

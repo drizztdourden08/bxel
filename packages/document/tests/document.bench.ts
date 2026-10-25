@@ -1,5 +1,5 @@
 /* @layer tests @kind bench */
-import { ASSET_KIND, flattenFrame, frameToRgba } from '@bxel/document';
+import { ASSET_KIND, flattenFrame, frameToRgba, patchFrameRgba } from '@bxel/document';
 import type { AssetSlice, MapLayerId, Tilemap, TilemapId, TilesetId } from '@bxel/document';
 import { assetDigest, decodeArtwork, encodeArtwork } from '@bxel/document/native';
 import { bench, describe } from 'vitest';
@@ -20,6 +20,7 @@ const hugeBank = huge.artwork.banks[0];
 const hugeFrame = hugeSprite?.frames[0]?.id;
 if (!hugeSprite || !hugeBank || !hugeFrame) throw new Error('the large fixture is incomplete');
 
+const hugeImage = frameToRgba(hugeSprite, hugeBank, hugeFrame);
 const library = benchArtwork(Array.from({ length: 200 }, (_, at) => ({ index: at + 1, side: 64, layers: 1, frames: 4 })));
 const container = encodeArtwork(library, null, clock);
 
@@ -57,6 +58,12 @@ describe('document reads, 2048 sprite with 2 layers', () => {
   }, HEAVY);
   bench('frameToRgba (target 40 ms)', () => {
     frameToRgba(hugeSprite, hugeBank, hugeFrame);
+  }, HEAVY);
+});
+
+describe('committed image after a stroke, 2048 sprite with 2 layers', () => {
+  bench('patch a 160 by 160 stroke rectangle (target 2 ms)', () => {
+    patchFrameRgba(hugeSprite, hugeBank, hugeFrame, { rgba: hugeImage, rect: { x: 300, y: 300, width: 160, height: 160 } });
   }, HEAVY);
 });
 

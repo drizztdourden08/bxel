@@ -15,7 +15,7 @@ const overlay = (): Overlay => {
   const table = Uint8ClampedArray.from({ length: SLOTS * CHANNELS }, (_, at) => (at * 37 + 11) % 256);
   const rgba = new Uint8ClampedArray(WIDTH * HEIGHT * CHANNELS);
   trackPixels(rgba);
-  return { width: WIDTH, height: HEIGHT, base: indices.slice(), indices, rgba, table, dirty: null, mask: null };
+  return { width: WIDTH, height: HEIGHT, base: indices.slice(), indices, rgba, table, dirty: null, mask: null, revision: 0 };
 };
 
 const reference = (source: Overlay, rect: { x: number; y: number; width: number; height: number }): number[] => {
