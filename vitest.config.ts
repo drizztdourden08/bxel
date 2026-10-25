@@ -7,6 +7,6 @@ export default defineConfig({
     passWithNoTests: true,
   },
   benchmark: {
-    include: ['packages/*/tests/**/*.bench.ts'],
+    include: ['packages/*/tests/**/*.bench.ts', 'apps/*/tests/**/*.bench.ts'],
   },
 });

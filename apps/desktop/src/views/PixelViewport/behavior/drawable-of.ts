@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { uploadImage } from '../../../canvas-dirty/upload-image';
 import type { PixelSource } from '../PixelViewport.type';
 
 const isImageData = (source: PixelSource): source is ImageData => 'data' in source && 'colorSpace' in source;
@@ -6,11 +7,9 @@ const isImageData = (source: PixelSource): source is ImageData => 'data' in sour
 const drawableOf = (source: PixelSource, scratch: () => HTMLCanvasElement): CanvasImageSource | null => {
   if (!isImageData(source)) return source;
   const canvas = scratch();
-  if (canvas.width !== source.width) canvas.width = source.width;
-  if (canvas.height !== source.height) canvas.height = source.height;
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
-  ctx.putImageData(source, 0, 0);
+  uploadImage(canvas, ctx, source);
   return canvas;
 };
 

@@ -1,16 +1,15 @@
 /* @layer renderer-app @kind logic */
 import { resolveLinkPath } from '@bxel/document';
 import type { AssetKind } from '@bxel/document';
-import { isSamePath } from '@bxel/project';
-import type { AssetFile, DecodedFile, LinkedSlice } from './workspace.type';
+import { poolById } from './pool-by-id';
+import { poolByPath } from './pool-by-path';
+import type { AssetFile, DecodedPool, LinkedSlice } from './workspace.type';
 
-const linkedSlice = (file: AssetFile, pool: readonly DecodedFile[], kind: AssetKind): LinkedSlice => {
-  const ofKind = pool.filter((each) => each.slice.kind === kind);
+const linkedSlice = (file: AssetFile, pool: DecodedPool, kind: AssetKind): LinkedSlice => {
   for (const link of file.manifest.links) {
-    const path = resolveLinkPath(file.path, link.path);
-    const byPath = ofKind.find((each) => isSamePath(each.path, path));
+    const byPath = poolByPath(pool, kind, resolveLinkPath(file.path, link.path));
     if (byPath) return { found: byPath, relinked: false };
-    const byId = ofKind.find((each) => each.slice.id === link.id);
+    const byId = poolById(pool, kind, link.id);
     if (byId) return { found: byId, relinked: true };
   }
   return { found: null, relinked: false };

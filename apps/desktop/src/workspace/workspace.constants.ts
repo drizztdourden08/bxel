@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { Artwork, AssetContent, AssetKind } from '@bxel/document';
 import { encodePalette, encodeSheet, encodeSprite, encodeTilemap, encodeTileset } from '@bxel/document/native';
-import type { Clock } from '@bxel/document/native';
 import { NATIVE_ASSET_EXTENSIONS } from '@bxel/project';
 import type { FolderRole } from '@bxel/project';
 import type { Encoder, NamedAsset } from './workspace.type';
@@ -68,8 +67,6 @@ const TABS_SAVE_DELAY_MS = 400;
 
 const NATIVE_EXTENSIONS: readonly string[] = NATIVE_ASSET_EXTENSIONS.map((extension) => extension.slice(1));
 
-const HASH_CLOCK: Clock = () => 0;
-
 const NAME_FALLBACK = 'asset';
 
 const GRANT_LEVELS = 2;
@@ -130,7 +127,6 @@ export {
   CONTENT_OF_KIND,
   DECODE_ORDER,
   GRANT_LEVELS,
-  HASH_CLOCK,
   KEY_SEPARATOR,
   MAX_STEP_NAMES,
   MAX_STORED_PROJECTS,

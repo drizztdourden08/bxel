@@ -2,9 +2,10 @@
 import { resolveLinkPath } from '@bxel/document';
 import type { AssetKind } from '@bxel/document';
 import { decodePalette, decodeSheet, decodeSprite, decodeTilemap, decodeTileset } from '@bxel/document/native';
-import { isSamePath } from '@bxel/project';
 import { linkedSlice } from './linked-slice';
-import type { AssetFile, Decoder, DecodedFile } from './workspace.type';
+import { poolById } from './pool-by-id';
+import { poolByPath } from './pool-by-path';
+import type { AssetFile, Decoder, DecodedFile, DecodedPool } from './workspace.type';
 
 const withLink =
   (decode: (bytes: Uint8Array, linked: DecodedFile['slice'] | null) => ReturnType<Decoder>['report'], kind: AssetKind): Decoder =>
@@ -13,15 +14,20 @@ const withLink =
     return { report: decode(file.bytes, linked.found?.slice ?? null), relinked: linked.relinked };
   };
 
-const sheetRelinked = (file: AssetFile, members: readonly DecodedFile[]): boolean =>
+const MEMBER_KINDS: readonly AssetKind[] = ['sprite', 'tileset'];
+
+const sheetRelinked = (file: AssetFile, pool: DecodedPool): boolean =>
   file.manifest.links.some((link) => {
     const path = resolveLinkPath(file.path, link.path);
-    return !members.some((each) => isSamePath(each.path, path)) && members.some((each) => each.slice.id === link.id);
+    return (
+      !MEMBER_KINDS.some((kind) => poolByPath(pool, kind, path) !== undefined) &&
+      MEMBER_KINDS.some((kind) => poolById(pool, kind, link.id) !== undefined)
+    );
   });
 
 const decodeSheetFile: Decoder = (file, pool) => {
-  const members = pool.filter((each) => each.slice.kind === 'sprite' || each.slice.kind === 'tileset');
-  return { report: decodeSheet(file.bytes, members.map((each) => each.slice)), relinked: sheetRelinked(file, members) };
+  const members = pool.all.filter((each) => each.slice.kind === 'sprite' || each.slice.kind === 'tileset');
+  return { report: decodeSheet(file.bytes, members.map((each) => each.slice)), relinked: sheetRelinked(file, pool) };
 };
 
 const ASSET_DECODERS: Readonly<Partial<Record<AssetKind, Decoder>>> = {

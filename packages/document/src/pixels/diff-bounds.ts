@@ -1,21 +1,25 @@
 /* @layer core @kind logic */
 import type { Rect } from '../model/geometry.type';
+import { diffPair } from './diff-pair';
+import { firstDiffIn } from './first-diff-in';
+import { lastDiffIn } from './last-diff-in';
 
 const diffBounds = (before: Uint8Array, after: Uint8Array, width: number): Rect | null => {
-  let minX = Number.POSITIVE_INFINITY;
-  let minY = Number.POSITIVE_INFINITY;
+  const pair = diffPair(before, after);
+  const first = firstDiffIn(pair, 0, after.length);
+  if (first < 0) return null;
+  const last = lastDiffIn(pair, first, after.length);
+  const minY = Math.floor(first / width);
+  const maxY = Math.floor(last / width);
+  let minX = width;
   let maxX = -1;
-  let maxY = -1;
-  for (const [index, value] of after.entries()) {
-    if (value === before[index]) continue;
-    const x = index % width;
-    const y = Math.floor(index / width);
-    minX = Math.min(minX, x);
-    maxX = Math.max(maxX, x);
-    minY = Math.min(minY, y);
-    maxY = Math.max(maxY, y);
+  for (let y = minY; y <= maxY; y += 1) {
+    const row = y * width;
+    const left = firstDiffIn(pair, row, row + minX);
+    if (left >= 0) minX = left - row;
+    const right = lastDiffIn(pair, row + maxX + 1, row + width);
+    if (right >= 0) maxX = right - row;
   }
-  if (maxX < 0) return null;
   return { x: minX, y: minY, width: maxX - minX + 1, height: maxY - minY + 1 };
 };
 

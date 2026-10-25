@@ -16,10 +16,12 @@ const previewCel = (sprite: Sprite, change: CelChange, previewPixels: number): P
 
 const buildPreview = ({
   artwork,
+  base,
   changes,
   previewPixels,
 }: {
   artwork: Artwork;
+  base: Artwork;
   changes: ChangeSet;
   previewPixels: number;
 }): PreviewData => {
@@ -32,7 +34,7 @@ const buildPreview = ({
     cels.push(...change.cels.map((celChange) => previewCel(sprite, celChange, previewPixels)));
   }
   const truncated = cels.some((cel) => cel.pixels.length === 0);
-  return { cels, colorUse: colorUse(artwork, bankIds), truncated };
+  return { cels, colorUse: colorUse({ artwork, base, changes, bankIds }), truncated };
 };
 
 export { buildPreview };
