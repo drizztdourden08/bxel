@@ -35,6 +35,9 @@
         "src/**/*.{ts,tsx}",
         "electron/**/*.ts",
         ".brock/*.ts"
+      ],
+      "ignoreDependencies": [
+        "axe-core"
       ]
     }
   }
