@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
-import type { GridRow } from '../../sheet-manager/folders.type';
+import type { VirtualSize } from '@drizztdourden08/tessera';
 import { DIALOG_COMMAND } from '../../keymap/dialog-command-id.constants';
 import { SHEET_COMMAND } from '../../keymap/sheet-command-id.constants';
 import { MANAGER_TEXT } from '../../sheet-manager/manager-text.constants';
@@ -8,8 +8,6 @@ import type { HintSpec } from '../ActionHint';
 import type { ListColumn } from './SpritesPanel.type';
 
 const NO_SPRITES: readonly SpriteId[] = [];
-
-const NO_ROWS: readonly GridRow[] = [];
 
 const DRAG_TYPE = 'application/x-bxel-sprite';
 
@@ -19,13 +17,26 @@ const ARROW_STEP: Readonly<Record<string, number>> = { ArrowLeft: -1, ArrowRight
 
 const LIST_THUMB = 32;
 
+const TILE_SIZES: readonly { readonly token: VirtualSize; readonly px: number }[] = [
+  { token: 'size-48', px: 48 },
+  { token: 'size-56', px: 56 },
+  { token: 'size-64', px: 64 },
+  { token: 'size-80', px: 80 },
+  { token: 'size-96', px: 96 },
+  { token: 'size-128', px: 128 },
+  { token: 'size-160', px: 160 },
+  { token: 'size-192', px: 192 },
+  { token: 'size-224', px: 224 },
+  { token: 'size-256', px: 256 },
+];
+
+const TILE_EXTRA = { width: 24, height: 48 } as const;
+
 const MARQUEE_ITEM = '[data-marquee-key]';
 
+const GRID_CELL = '[role="gridcell"]';
+
 const VIRTUAL_LIST_MIN = 200;
-
-const VIRTUAL_GRID_MIN = 200;
-
-const GRID_START_WIDTH = 320;
 
 const END_INDEX = 100000;
 
@@ -102,4 +113,4 @@ const SPRITE_STEPS = [
   { hint: SPRITE_HINTS.later, icon: 'arrow-right', by: 1 },
 ] as const;
 
-export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_START_WIDTH, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, MARQUEE_ITEM, NO_ROWS, NO_SPRITES, SPRITE_HINTS, SPRITE_STEPS, VIRTUAL_GRID_MIN, VIRTUAL_LIST_MIN };
+export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, MARQUEE_ITEM, NO_SPRITES, SPRITE_HINTS, SPRITE_STEPS, TILE_EXTRA, TILE_SIZES, VIRTUAL_LIST_MIN };
