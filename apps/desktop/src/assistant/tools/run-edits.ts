@@ -4,8 +4,8 @@ import { checkPatchPixels, hiddenFailure, MCP_ERROR_CODE, mcpFailure } from '@bx
 import type { ToolReply } from '@bxel/mcp';
 import { usePendingStore } from '../../stores/usePendingStore';
 import type { ToolContext } from '../assistant.type';
-import { hiddenEdit } from './hidden-edit';
 import { platformLock } from './platform-lock';
+import { refusedEdit } from './refused-edit';
 import { reply } from './reply';
 import { toCommandSteps } from './to-command-steps';
 import type { EditInput } from './tool-input.type';
@@ -36,8 +36,8 @@ const runEdits = (input: EditInput, context: ToolContext, mode: TransactionMode)
     steps: steps.value,
     previewPixels: mode === 'preview' ? (input.previewPixels ?? 0) : 0,
   };
-  const hidden = hiddenEdit(context, request, view.state.artwork);
-  if (hidden) return reply(hidden);
+  const refused = refusedEdit(context, request, view.state.artwork);
+  if (refused) return reply(refused);
   const result = context.host.execute(request);
   return reply(wireTransaction(result));
 };

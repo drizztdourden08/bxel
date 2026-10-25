@@ -147,13 +147,13 @@ describe('open_file in a project', () => {
     expect(held.rig.kit.host.list()).toHaveLength(1);
   });
 
-  it('shows an open project file with its project place, or as ungranted when there is no grant', async () => {
+  it('shows an open project file with its project place, and not at all when there is no grant', async () => {
     putFile('hero.bxel', bxelBytes('hero'));
     await held.run('open_file', { file: location('hero.bxel'), activate: false }, granted());
     const listed = await held.run('list_documents', {}, granted());
     expect(rowsOf(listed, 'documents').find((row) => row.fileName === 'hero.bxel')).toMatchObject({ place: location('hero.bxel') });
     const hiddenListing = await held.run('list_documents', {}, []);
-    expect(rowsOf(hiddenListing, 'documents').find((row) => row.fileName === 'hero.bxel')).toMatchObject({ place: { project: { name: 'Dungeon', granted: false } } });
+    expect(rowsOf(hiddenListing, 'documents').find((row) => row.fileName === 'hero.bxel')).toBeUndefined();
   });
 
   it('refuses a damaged file with its own code and opens nothing', async () => {

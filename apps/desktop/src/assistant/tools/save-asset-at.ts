@@ -9,6 +9,7 @@ import { tabOf } from '../../workspace/tab-of';
 import { toSlashes } from '../../workspace/to-slashes';
 import type { ToolContext } from '../assistant.type';
 import { assetFor } from './asset-for';
+import { checkAssetSave } from './check-asset-save';
 import { copyAssetTo } from './copy-asset-to';
 import { reply } from './reply';
 import type { SaveInput } from './tool-input.type';
@@ -21,6 +22,8 @@ const saveAssetAt = async (context: ToolContext, documentId: DocumentId, path: s
   const key = assetFor(context, documentId, path, save.asset);
   if (!key) return reply(mcpFailure(MCP_ERROR_CODE.FILE_NOT_SUPPORTED, TOOL_TEXT.noAssetOfKind, { path: 'target' }));
   const hasFile = useWorkspaceStore.getState().workspaces[documentId]?.paths.has(key.id) ?? false;
+  const denied = checkAssetSave(context, documentId, key, { path, moving: hasFile && moves(save.target) });
+  if (denied) return reply(denied);
   if (hasFile && !moves(save.target)) return copyAssetTo(context, documentId, key, path);
   adoptPath(context.host, documentId, key, toSlashes(path));
   const outcome = await saveTab(toolKit(context), tabOf(documentId, key), true);

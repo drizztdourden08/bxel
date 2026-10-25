@@ -9,10 +9,12 @@ import { saveWorkspace } from '../../workspace/save-workspace';
 import type { ToolContext, ToolHandler } from '../assistant.type';
 import { checkRevision } from './check-revision';
 import { checkSaveAccess } from './check-save-access';
+import { hiddenAssets } from './hidden-assets';
 import { placeOf } from './place-of';
 import { reply } from './reply';
 import { saveAssetAt } from './save-asset-at';
 import { saveOneAsset } from './save-one-asset';
+import { saveVisible } from './save-visible';
 import type { SaveInput } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
 import { toolKit } from './tool-kit';
@@ -26,6 +28,9 @@ const saveInPlace = async (context: ToolContext, documentId: DocumentId): Promis
   if (dirtyKeys(workspace, view.state.artwork).live.some((key) => !workspace.paths.has(key.id))) {
     return reply(mcpFailure(MCP_ERROR_CODE.NEEDS_FILE_NAME, TOOL_TEXT.needsName, { path: 'target' }));
   }
+  const hidden = hiddenAssets(context, documentId);
+  const dirty = dirtyKeys(workspace, view.state.artwork);
+  if ([...dirty.live, ...dirty.gone].some((key) => hidden.has(key.id))) return saveVisible(context, documentId, hidden);
   const outcome = await saveWorkspace(toolKit(context), documentId);
   return outcome.kind === 'done' ? outcome.path : reply(mcpFailure(MCP_ERROR_CODE.PATH_NOT_ALLOWED, outcome.kind === 'failed' ? outcome.message : TOOL_TEXT.noTarget));
 };

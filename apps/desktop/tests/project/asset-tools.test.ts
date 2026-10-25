@@ -150,7 +150,7 @@ describe('save_document with an asset', () => {
     const readSession = await current.run('save_document', { documentId: documentOf(), target: 'current' }, current.grants('edit'), 'read');
     expect(readSession).toMatchObject({ ok: false, error: { code: 'PROJECT_NOT_GRANTED' } });
     const ungranted = await current.run('save_document', { documentId: documentOf(), target: 'current' }, []);
-    expect(ungranted).toMatchObject({ ok: false, error: { code: 'PROJECT_NOT_GRANTED' } });
+    expect(ungranted).toMatchObject({ ok: false, error: { code: 'DOCUMENT_NOT_FOUND' } });
     expect(current.rig.disk.writes).toEqual([]);
   });
 
