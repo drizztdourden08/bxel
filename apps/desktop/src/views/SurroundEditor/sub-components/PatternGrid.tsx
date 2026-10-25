@@ -12,8 +12,7 @@ const PatternGrid = (props: PatternGridProps) => {
       ref={grid.boxRef}
       className="surround-editor__grid"
       tabIndex={0}
-      {...focusRegion(SURROUND_EDITOR_TEXT.editorLabel, SURROUND_EDITOR_TEXT.editorLabel)}
-      role="application"
+      {...focusRegion(SURROUND_EDITOR_TEXT.editorLabel, SURROUND_EDITOR_TEXT.editorLabel, { role: 'application' })}
       onPointerDown={grid.onPointerDown}
       onPointerMove={grid.onPointerMove}
       onPointerUp={grid.onPointerUp}
