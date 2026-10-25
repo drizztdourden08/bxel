@@ -18,7 +18,7 @@ const ConfigRow = ({ field, children }: ConfigRowProps) => {
     );
   }
   return (
-    <Flex gap="xl" align="center" justify="between" wrap className="config-row">
+    <Flex gap="xl" align="center" justify="between" wrap className="config-row config-row--inline">
       <RowHeading text={text} />
       <Box className="config-row__control">{children}</Box>
     </Flex>

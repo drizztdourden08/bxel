@@ -22,7 +22,7 @@ const usage = {
 
 const CoverRow = () => <ConfigRow field="project.cover">{null}</ConfigRow>;
 `,
-  propsHash: '0000000000000000',
+  propsHash: '570831140b523cc7',
 } satisfies ComponentUsage;
 
 export { usage };

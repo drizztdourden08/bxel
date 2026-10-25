@@ -13,14 +13,15 @@ const usage = {
   ],
   rules: [
     'It takes no props. It reads and writes the swatch sets in the app settings, which Brock saves in the user data.',
+    'The sets are a list beside the editor of the picked set. Each colour is its own picker, and the selected colour shows its name and Remove.',
     'A set holds 1 to 256 colours. The last colour of a set cannot be removed.',
     'Import reads GPL, PAL and palette PNG files through the same reader as the New dialog.',
     'Platform preset sets are built in and read only: copy one to change it.',
     'Copy to the open project shows only while a project is open.',
   ],
   a11y: [
-    'Every control has a label that says what it sets. Each colour swatch names its place and its value.',
-    'Delete needs a second press and says so when armed.',
+    'Every control has a label that says what it sets. Each colour swatch names its place and its value and opens its picker.',
+    'The list keeps the keys of ItemList; Delete asks once before a set goes.',
   ],
   tree: {
     path: ['a value the user sets', 'a whole record', 'edit it in place'],

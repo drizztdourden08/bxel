@@ -21,7 +21,6 @@ interface SetCommands {
   recolor: (rgb: string) => void;
   nameColor: (name: string) => void;
   removeColor: () => void;
-  deleteSet: () => void;
 }
 
 interface SetSources {
@@ -38,4 +37,14 @@ interface SetBarProps {
   model: SwatchSetEditorModel;
 }
 
-export type { EditorState, SetBarProps, SetCommands, SetSources, SwatchSetEditorModel };
+interface ColorCellProps {
+  rgb: string;
+  label: string;
+  selected: boolean;
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+  onChange: (rgb: string) => void;
+}
+
+export type { ColorCellProps, EditorState, SetBarProps, SetCommands, SetSources, SwatchSetEditorModel };

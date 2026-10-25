@@ -10,7 +10,6 @@ import AppDefaultsSettings, { meta as appDefaultsSettingsMeta } from '../src/scr
 import AppGeneralSettings, { meta as appGeneralSettingsMeta } from '../src/screens/app/general.settings';
 import { meta as appPresetsCustomMeta } from '../src/screens/app/presets.custom';
 import { meta as appStoragePageMeta } from '../src/screens/app/storage.page';
-import { meta as appSurroundCustomMeta } from '../src/screens/app/surround.custom';
 import { meta as appSwatchesCustomMeta } from '../src/screens/app/swatches.custom';
 import { meta as assetNoneCustomMeta } from '../src/screens/asset/none.custom';
 import AssetPaletteSettings, { meta as assetPaletteSettingsMeta } from '../src/screens/asset/palette.settings';
@@ -39,7 +38,6 @@ const screenTree = buildScreenTree(config, [
   { kind: 'settings', bucket: 'app', id: 'general', sections: AppGeneralSettings, meta: appGeneralSettingsMeta },
   { kind: 'custom', bucket: 'app', id: 'presets', component: lazyComponent(() => import('../src/screens/app/presets.custom')), meta: appPresetsCustomMeta },
   { kind: 'page', bucket: 'app', id: 'storage', component: lazyComponent(() => import('../src/screens/app/storage.page')), meta: appStoragePageMeta },
-  { kind: 'custom', bucket: 'app', id: 'surround', component: lazyComponent(() => import('../src/screens/app/surround.custom')), meta: appSurroundCustomMeta },
   { kind: 'custom', bucket: 'app', id: 'swatches', component: lazyComponent(() => import('../src/screens/app/swatches.custom')), meta: appSwatchesCustomMeta },
   { kind: 'custom', bucket: 'asset', id: 'none', component: lazyComponent(() => import('../src/screens/asset/none.custom')), meta: assetNoneCustomMeta },
   { kind: 'settings', bucket: 'asset', id: 'palette', sections: AssetPaletteSettings, meta: assetPaletteSettingsMeta },

@@ -6,7 +6,6 @@ interface SurroundModel {
   look: CanvasLook;
   kind: SurroundKind;
   bits: string;
-  setKind: (kind: SurroundKind) => void;
   setBits: (bits: string) => void;
   clear: () => void;
   invert: () => void;
@@ -36,8 +35,4 @@ interface PatternGridProps {
   onChange: (bits: string) => void;
 }
 
-interface SurroundPreviewProps {
-  look: CanvasLook;
-}
-
-export type { PatternGridArgs, PatternGridModel, PatternGridProps, SurroundModel, SurroundPreviewProps };
+export type { PatternGridArgs, PatternGridModel, PatternGridProps, SurroundModel };

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind style */
-.config-row__text {
+.config-row--inline > .config-row__text {
   flex: 1 1 var(--size-256);
   min-inline-size: 0;
 }
