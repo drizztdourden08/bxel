@@ -17,8 +17,7 @@ const PixelViewport = (props: PixelViewportProps) => {
       ref={viewport.rootRef}
       className={pixelViewportClass(className, hand === true)}
       tabIndex={0}
-      {...focusRegion(label, label)}
-      role="application"
+      {...focusRegion(label, label, { role: 'application' })}
       aria-roledescription={PIXEL_VIEWPORT_STRINGS.role}
       aria-describedby={hint ? hintId : undefined}
       {...viewport.handlers}
