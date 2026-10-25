@@ -4,6 +4,7 @@ export { celClearSchema } from './cel-clear-schema';
 export { celSlotSchema } from './cel-slot-schema';
 export { celTransferSchema } from './cel-transfer-schema';
 export { celUnlinkSchema } from './cel-unlink-schema';
+export { durationSchema } from './duration-schema';
 export { frameAddSchema } from './frame-add-schema';
 export { frameDeleteSchema } from './frame-delete-schema';
 export { frameDuplicateSchema } from './frame-duplicate-schema';

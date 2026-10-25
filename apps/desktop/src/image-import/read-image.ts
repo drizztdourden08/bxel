@@ -1,13 +1,13 @@
 /* @layer renderer-app @kind logic */
-import { decodePng } from '@bxel/formats';
+import { decodeSource } from './decode-source';
 import { IMPORT_TEXT } from './image-import.constants';
 import type { ImageRead } from './image-import.type';
 
 const readImage = (bytes: Uint8Array, fileName: string): ImageRead => {
   try {
-    const decoded = decodePng(bytes);
-    if (!decoded.ok) return { ok: false, message: IMPORT_TEXT.unreadable };
-    return { ok: true, image: { fileName, width: decoded.width, height: decoded.height, data: decoded.data } };
+    const decoded = decodeSource(bytes);
+    if (decoded === null) return { ok: false, message: IMPORT_TEXT.unreadable };
+    return { ok: true, image: { fileName, ...decoded } };
   } catch {
     return { ok: false, message: IMPORT_TEXT.unreadable };
   }

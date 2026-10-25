@@ -3,11 +3,29 @@ import type { DocumentId, LayoutRequest, PaletteBank, Point } from '@bxel/docume
 import type { BankDraft, PaletteSource } from '../palette-source/palette-source.type';
 import type { TiledImportData } from '../tiled-import/tiled-import.type';
 
+interface SourceFrame {
+  data: Uint8ClampedArray;
+  delayMs: number;
+}
+
 interface SourceImage {
   fileName: string;
   width: number;
   height: number;
   data: Uint8ClampedArray;
+  frames?: readonly SourceFrame[];
+}
+
+interface FrameOptions {
+  durationMs?: number;
+  frames?: readonly { readonly rgba: Uint8Array; readonly durationMs: number }[];
+}
+
+interface DecodedSource {
+  width: number;
+  height: number;
+  data: Uint8ClampedArray;
+  frames?: readonly SourceFrame[];
 }
 
 type ImageRead = { ok: true; image: SourceImage } | { ok: false; message: string };
@@ -152,8 +170,10 @@ export type {
   BankOption,
   ChoiceOption,
   ColorsForm,
+  DecodedSource,
   DitherName,
   ErrorInput,
+  FrameOptions,
   ImageExtent,
   ImageRead,
   ImportContext,

@@ -59,9 +59,11 @@ const STEPS_BY_KIND: Readonly<Record<ImportKind, readonly ImportStep[]>> = {
   tiled: ['source', 'colors'],
 };
 
-const PNG_MIME = 'image/png';
+const IMAGE_MIMES: readonly string[] = ['image/png', 'image/apng', 'image/gif'];
 
-const PNG_FILTERS = [{ name: 'PNG image', extensions: ['png'] }];
+const IMAGE_EXTENSIONS: readonly string[] = ['.png', '.apng', '.gif'];
+
+const IMAGE_FILTERS = [{ name: 'Image', extensions: ['png', 'apng', 'gif'] }];
 
 const FALLBACK_SLOT = '#000000';
 
@@ -80,7 +82,7 @@ const IMPORT_TEXT = {
   imageLine: (width: number, height: number): string => `Image ${width} x ${height} pixels`,
   tooLarge: (width: number, height: number): string =>
     `This image is ${width} x ${height}. The largest sprite is ${MAX_SPRITE_SIZE} x ${MAX_SPRITE_SIZE}.`,
-  unreadable: 'Cannot read that file. Bxel imports PNG images.',
+  unreadable: 'Cannot read that file. Bxel imports PNG, GIF and APNG images.',
   tooMany: (count: number, limit: number): string =>
     `This image has ${count} colours. The limit is ${limit}. Choose how to reduce them before importing.`,
   original: (count: number): string => `Original, ${count} colours`,
@@ -128,7 +130,8 @@ const IMPORT_TEXT = {
   imported: (names: readonly string[]): string =>
     names.length === 1 ? `Imported sprite ${names[0] ?? ''}.` : `Imported ${names.length} sprites.`,
   pickTitle: 'Import image',
-  dropped: 'Drop a PNG image to import it.',
+  dropped: 'Drop a PNG, GIF or APNG image to import it.',
+  animation: (frames: number): string => `Animation with ${frames} frames. Each picture becomes a frame with its own duration.`,
 } as const;
 
 const IMPORT_LABEL = {
@@ -143,13 +146,14 @@ export {
   DITHER_SIZE,
   FALLBACK_SLOT,
   FORM_BASE,
+  IMAGE_EXTENSIONS,
+  IMAGE_FILTERS,
+  IMAGE_MIMES,
   IMPORT_LABEL,
   IMPORT_TEXT,
   MAX_IMPORT_SPRITES,
   NAME_ROOM,
   PERCENT,
-  PNG_FILTERS,
-  PNG_MIME,
   RGBA_BYTES,
   SHIFT,
   STEPS_BY_KIND,

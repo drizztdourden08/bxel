@@ -14,10 +14,11 @@ const SourceStep = ({ image, wizard }: StepProps) => {
   return (
     <Stack gap="md">
       {wizard.tiled ? <TiledSummary tiled={wizard.tiled} /> : <Text tone="muted">{IMPORT_TEXT.imageLine(image.width, image.height)}</Text>}
+      {image.frames && <Text tone="muted">{IMPORT_TEXT.animation(image.frames.length)}</Text>}
       <Field label={IMPORT_TEXT.target}>
         <SegmentedControl aria-label={IMPORT_TEXT.target} value={form.target} options={targets} onChange={setTarget} />
       </Field>
-      {form.kind !== 'tiled' && (
+      {form.kind !== 'tiled' && !image.frames && (
         <Field label={IMPORT_TEXT.kind}>
           <SegmentedControl aria-label={IMPORT_TEXT.kind} value={form.kind} options={KIND_OPTIONS} onChange={(kind) => update({ kind })} />
         </Field>

@@ -57,6 +57,9 @@ describe('wrapped painting', () => {
     expect(toRows(target)).toEqual(['11...1', '11...1', '11...1']);
   });
 
+});
+
+describe('wrapped shapes', () => {
   test('a line crossing the bottom edge wraps to the top', () => {
     const target = blankBuffer(3, 4);
     drawShape({ target, index: 1, shape: 'line', from: { x: 1, y: 2 }, to: { x: 1, y: 5 }, wrap: { y: true } });
@@ -84,6 +87,9 @@ describe('wrapped painting', () => {
     expect(inkOf(toRows(kept))).toBeGreaterThan(inkOf(toRows(clipped)));
   });
 
+});
+
+describe('wrapped fills', () => {
   test('a fill crosses the seam to reach the far columns', () => {
     const plain = fromRows(['..1..']);
     const wrapped = fromRows(['..1..']);

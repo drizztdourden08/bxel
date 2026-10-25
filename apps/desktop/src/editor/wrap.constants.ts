@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind constants */
-import type { Wrap } from '@bxel/raster';
 import type { TileMode } from '../stores/view-store.type';
 
-const WRAP_OF: Readonly<Record<TileMode, Wrap>> = {
+const WRAP_OF: Readonly<Record<TileMode, { x: boolean; y: boolean }>> = {
   off: { x: false, y: false },
   x: { x: true, y: false },
   y: { x: false, y: true },

@@ -7,6 +7,7 @@ import { bankPlan } from '../palette-source/bank-plan';
 import { FALLBACK_BACKGROUND } from '../palette-source/palette-source.constants';
 import type { BankDraft } from '../palette-source/palette-source.type';
 import { alphaThreshold } from './alpha-threshold';
+import { analysisImage } from './analysis-image';
 import { FALLBACK_SLOT, NAME_ROOM } from './image-import.constants';
 import type { ColorsForm, ReductionPlan, SourceImage } from './image-import.type';
 
@@ -34,7 +35,7 @@ const fromDraft = (draft: BankDraft, dropped: number): ReductionPlan => ({
 });
 
 const extracted = (form: ColorsForm, image: SourceImage): ReductionPlan => {
-  const found = extractPalette(image, {
+  const found = extractPalette(analysisImage(image), {
     maxColors: opaqueSlots(form.limit, form.transparent),
     alphaThreshold: alphaThreshold(form.alphaPercent),
   });

@@ -27,8 +27,7 @@ const pushNeighbours = (plan: FillPlan, stack: number[], at: { readonly x: numbe
 const fillWrapped = (plan: FillPlan): Rect | null => {
   const writer = createWriter(plan);
   const stack: number[] = [plan.seed.x, plan.seed.y];
-  while (stack.length > 0) {
-    const y = stack.pop() ?? 0;
+  for (let y = stack.pop(); y !== undefined; y = stack.pop()) {
     const x = stack.pop() ?? 0;
     if (isOpen(plan, x, y)) {
       writePixel(writer, x, y);
