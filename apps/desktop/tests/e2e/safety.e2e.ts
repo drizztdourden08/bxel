@@ -59,6 +59,4 @@ describe('check 8: damaged input and failed writes change nothing', () => {
     await waitUnsaved(session);
     await chmod(path, 0o666);
   });
-
-  test.skip('invalid indices, out-of-bounds pixels and a disallowed path are refused over MCP (pending: the MCP server is not built yet)', () => undefined);
 });

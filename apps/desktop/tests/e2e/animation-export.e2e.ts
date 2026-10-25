@@ -3,29 +3,15 @@ import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 import { frameToRgba, requireBank } from '@bxel/document';
 import type { Sprite } from '@bxel/document';
 import { decodeApng, decodeGif } from '@bxel/formats';
-import type { AnimationDecodeResult } from '@bxel/formats';
 import { ANIMATION } from './support/animation.constants';
 import { buildAnimationFile } from './support/build-animation-file';
 import type { Session } from './support/e2e.type';
+import { expectAnimation } from './support/expect-animation';
 import { exportAnimation } from './support/export-animation';
 import { openFile } from './support/open-file';
 import { openSession } from './support/open-session';
 import { readSaved } from './support/read-saved';
 import { spriteOf } from './support/sprite-of';
-
-const SIDE = ANIMATION.side;
-
-const checkAnimation = (result: AnimationDecodeResult, sprite: Sprite, rgba: (frameAt: number) => Uint8Array) => {
-  if (!result.ok) throw new Error(result.message);
-  expect([result.width, result.height]).toEqual([SIDE, SIDE]);
-  expect(result.frames.map((frame) => frame.delayMs)).toEqual([...ANIMATION.durations]);
-  sprite.frames.forEach((_, frameAt) => {
-    const expected = rgba(frameAt);
-    const got = result.frames[frameAt]?.data ?? new Uint8ClampedArray();
-    const visible = (data: ArrayLike<number>) => Array.from({ length: SIDE * SIDE }, (__, at) => ((data[at * 4 + 3] ?? 0) === 0 ? [0] : [data[at * 4], data[at * 4 + 1], data[at * 4 + 2]]));
-    expect(visible(got), `frame ${frameAt} pixels`).toEqual(visible(expected));
-  });
-};
 
 describe('check 6: an animation exports its frames and durations', () => {
   const state: { session?: Session; sprite?: Sprite; rgba?: (frameAt: number) => Uint8Array } = {};
@@ -59,11 +45,11 @@ describe('check 6: an animation exports its frames and durations', () => {
 
   test('GIF export keeps the frame order, timing and pixels', async () => {
     const { session, sprite, rgba } = live();
-    checkAnimation(decodeGif(await exportAnimation(session, 'GIF')), sprite, rgba);
+    expectAnimation(decodeGif(await exportAnimation(session, 'GIF')), sprite, ANIMATION.durations, rgba);
   });
 
   test('APNG export keeps the frame order, timing and pixels', async () => {
     const { session, sprite, rgba } = live();
-    checkAnimation(decodeApng(await exportAnimation(session, 'APNG')), sprite, rgba);
+    expectAnimation(decodeApng(await exportAnimation(session, 'APNG')), sprite, ANIMATION.durations, rgba);
   });
 });
