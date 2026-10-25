@@ -5,18 +5,18 @@ import { useRef } from 'react';
 import type { SpriteFacts } from '../../../sheet-manager/manager.type';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { activeIndex } from '../behavior/active-index';
+import { gridSection } from '../behavior/grid-section';
 import { tileSize } from '../behavior/tile-size';
 import { useScrollToActive } from '../behavior/useScrollToActive';
 import { useSpriteMarquee } from '../behavior/useSpriteMarquee';
 import { visibleGroups } from '../behavior/visible-groups';
 import type { SpriteGridProps } from '../SpritesPanel.type';
 import { GridTile } from './GridTile';
-import { SectionLabel } from './SectionLabel';
 
 const SpriteGrid = (props: SpriteGridProps) => {
   const { model, box } = props;
   const grid = useRef<VirtualGridHandle>(null);
-  const marquee = useSpriteMarquee(model);
+  const marquee = useSpriteMarquee(model, grid);
   const closed = useManagerStore((state) => state.collapsed);
   const toggle = useManagerStore((state) => state.toggleFolder);
   const groups = visibleGroups(model.groups);
@@ -41,7 +41,7 @@ const SpriteGrid = (props: SpriteGridProps) => {
       ) : (
         <VirtualGrid
           {...common}
-          sections={groups.map((group) => ({ key: group.path, label: <SectionLabel group={group} />, items: group.facts }))}
+          sections={groups.map(gridSection)}
           collapsed={closed}
           onToggleSection={(path) => toggle(path)}
         />
