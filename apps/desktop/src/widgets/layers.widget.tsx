@@ -11,6 +11,7 @@ const meta: WidgetMeta = {
   defaultSide: 'right',
   defaultDockedSize: 232,
   popOut: false,
+  defaultVisibility: 'context-only',
 };
 
 const LayersWidget = () => (useMapPlacing() ? <MapLayersPanel /> : <LayersPanel />);
