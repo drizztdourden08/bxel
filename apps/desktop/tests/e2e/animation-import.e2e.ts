@@ -22,7 +22,7 @@ const importFile = async (session: Session, path: string): Promise<void> => {
   const dialog = session.page.getByRole('dialog', { name: /^Import image/ });
   await dialog.getByText(/^Animation with 3 frames/).waitFor();
   await dialog.getByRole('button', { name: 'Next: Colours' }).click();
-  await dialog.getByRole('radio', { name: /^Extract the best/ }).check();
+  await dialog.getByText(/^Extract the best/).click();
   await dialog.getByRole('button', { name: 'Import sprite' }).click();
   await dialog.waitFor({ state: 'detached' });
 };
