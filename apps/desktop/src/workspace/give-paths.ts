@@ -6,8 +6,8 @@ import { adoptPath } from './adopt-path';
 import { pathInDir } from './path-in-dir';
 import { pickAssetPath } from './pick-asset-path';
 
-const givePaths = async (kit: FileKit, documentId: DocumentId, keys: readonly AssetKey[]): Promise<boolean> => {
-  let granted = false;
+const givePaths = async (kit: FileKit, documentId: DocumentId, keys: readonly AssetKey[], folderGranted = false): Promise<boolean> => {
+  let granted = folderGranted;
   for (const key of keys) {
     const workspace = useWorkspaceStore.getState().workspaces[documentId];
     const view = kit.host.view(documentId);

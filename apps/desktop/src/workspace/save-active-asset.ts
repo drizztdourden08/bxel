@@ -19,12 +19,14 @@ const saveActiveAsset = async (kit: FileKit, asNew: boolean): Promise<FileOutcom
   const known = workspace.paths.get(tab.key.id);
   if (!asNew && known !== undefined && !workspace.dirty.has(keyId(tab.key)) && onDisk(workspace, tab.key)) return { kind: 'done', path: known, notice: null };
   const needsPath = asNew || known === undefined;
+  let granted = false;
   if (needsPath) {
     const picked = await pickAssetPath(kit.documents, workspace, view.state.artwork, tab.key);
     if (picked === null) return CANCELLED;
+    granted = picked.granted;
     adoptPath(kit.host, tab.documentId, tab.key, picked.path);
   }
-  return saveTab(kit, tab, needsPath);
+  return saveTab(kit, tab, needsPath, granted);
 };
 
 export { saveActiveAsset };
