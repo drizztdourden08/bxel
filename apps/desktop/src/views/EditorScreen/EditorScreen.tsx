@@ -6,7 +6,6 @@ import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
 import { useTimelinePlayback } from '../../hooks/useTimelinePlayback';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { ApplyBar } from '../ApplyBar';
-import { Announcer } from '../Announcer';
 import { AssetTabs } from '../AssetTabs';
 import { DialogHost } from '../DialogHost';
 import { EditorCanvas } from '../EditorCanvas';
@@ -54,7 +53,6 @@ const EditorScreen = () => {
       <TilemapDialog />
       <SplitDialog />
       <DialogHost />
-      <Announcer />
     </Flex>
   );
 };

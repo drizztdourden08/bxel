@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { announce } from '../../../announce/announce';
+import { announce } from '@drizztdourden08/brock-react';
 import { ANNOUNCE_TEXT } from '../../../announce/announce.constants';
 import { useToolStore } from '../../../stores/useToolStore';
 import { MAP_TOOL_OF } from '../../../tilemap/tilemap.constants';

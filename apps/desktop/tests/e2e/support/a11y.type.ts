@@ -6,4 +6,11 @@ type A11yFinding = {
   readonly targets: readonly string[];
 };
 
-export type { A11yFinding };
+type A11yGap = {
+  readonly rule: string;
+  readonly target: string;
+  readonly owner: string;
+  readonly why: string;
+};
+
+export type { A11yFinding, A11yGap };

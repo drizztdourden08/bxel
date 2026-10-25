@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { announce } from '../../../announce/announce';
+import { announce } from '@drizztdourden08/brock-react';
 import { ANNOUNCE_TEXT } from '../../../announce/announce.constants';
 import { ARROW_DELTAS } from '../../../editor/selection/selection.constants';
 import { useReadoutStore } from '../../../stores/useReadoutStore';

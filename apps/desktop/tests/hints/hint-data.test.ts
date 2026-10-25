@@ -25,6 +25,8 @@ vi.mock('@drizztdourden08/brock-react', async () => {
 
 const DASHES = /[–—]/;
 
+const BROCK_COMMANDS = ['brock.region.next'];
+
 describe('the hint texts', () => {
   it('give every hint a name and a one line description in plain prose', () => {
     for (const hint of allHints()) {
@@ -36,7 +38,7 @@ describe('the hint texts', () => {
   });
 
   it('point only at commands that exist in the keymap', () => {
-    const ids = new Set(APP_COMMANDS.map((def) => def.id));
+    const ids = new Set([...APP_COMMANDS.map((def) => def.id), ...BROCK_COMMANDS]);
     const used = allHints().flatMap((hint) => hint.shortcuts ?? []).flatMap((shortcut) => shortcut.command ?? []);
     expect(used.length).toBeGreaterThan(20);
     expect(used.filter((command) => !ids.has(command))).toEqual([]);

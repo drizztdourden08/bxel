@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind component */
+import { focusRegion } from '@drizztdourden08/brock-react';
 import { useId } from 'react';
 import { Box, Canvas, Text } from '@drizztdourden08/tessera';
 import { PIXEL_VIEWPORT_STRINGS } from './PixelViewport.constants';
@@ -16,8 +17,8 @@ const PixelViewport = (props: PixelViewportProps) => {
       ref={viewport.rootRef}
       className={pixelViewportClass(className, hand === true)}
       tabIndex={0}
+      {...focusRegion(label, label)}
       role="application"
-      aria-label={label}
       aria-roledescription={PIXEL_VIEWPORT_STRINGS.role}
       aria-describedby={hint ? hintId : undefined}
       {...viewport.handlers}

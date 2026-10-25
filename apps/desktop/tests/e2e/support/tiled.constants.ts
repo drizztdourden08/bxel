@@ -13,8 +13,8 @@ const TILED_E2E = {
     [40, 40, 200],
     [200, 200, 40],
   ],
-  project: 'Tiles',
-  saveAll: 'Control+Alt+s',
+  savedMap: 'level.bxmap',
+  savedTiles: 'ground.bxtiles',
 } as const;
 
 const TILED_MAP = `<?xml version="1.0"?>

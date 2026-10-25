@@ -21,7 +21,7 @@ export default defineBrockConfig({
       { ext: 'bxtiles', name: 'Bxel tileset', description: 'A Bxel tileset', progId: 'Bxel.Tileset', mimeType: 'application/vnd.bxel.tileset+zip', icon: 'filetypes/bxtiles' },
       { ext: 'bxmap', name: 'Bxel tilemap', description: 'A Bxel tilemap', progId: 'Bxel.Tilemap', mimeType: 'application/vnd.bxel.tilemap+zip', icon: 'filetypes/bxmap' },
       { ext: 'bxproject', name: 'Bxel project', description: 'A Bxel project', progId: 'Bxel.Project', mimeType: 'application/vnd.bxel.project+zip', icon: 'filetypes/bxproject' },
-      { ext: 'bxel', name: 'Bxel file (older format)', description: 'An older Bxel file', progId: 'Bxel.Document', mimeType: 'application/vnd.bxel+zip', icon: 'filetypes/bxsprite' },
+      { ext: 'bxel', name: 'Bxel file (older format)', description: 'An older Bxel file', progId: 'Bxel.Document', mimeType: 'application/vnd.bxel+zip', icon: 'filetypes/bxel' },
     ],
   },
   targets: ['desktop'],

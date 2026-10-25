@@ -10,6 +10,7 @@ import { POLL_MS, SHORTCUT } from './support/e2e.constants';
 import { inFreshPlace } from './support/in-place';
 import type { Session } from './support/e2e.type';
 import { MANY } from './support/many.constants';
+import { openAssetTab } from './support/open-asset-tab';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
 import { openSession } from './support/open-session';
 import { assetList, assetRow, chip } from './support/panel-assets';
@@ -72,7 +73,7 @@ const rowMenu = async (session: Session): Promise<void> => {
 
 const opensATab = async (session: Session): Promise<void> => {
   await assetRow(session, 's005').click();
-  await session.page.getByRole('tablist', { name: 'Open assets' }).getByRole('tab', { name: /s005/ }).waitFor();
+  await openAssetTab(session, /s005/).waitFor();
 };
 
 const bytesOf = async (root: string, base = root): Promise<Map<string, Buffer>> => {

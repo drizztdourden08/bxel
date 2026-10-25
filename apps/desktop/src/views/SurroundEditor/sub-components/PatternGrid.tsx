@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind component */
+import { focusRegion } from '@drizztdourden08/brock-react';
 import { Box, Canvas } from '@drizztdourden08/tessera';
 import { usePatternGrid } from '../behavior/usePatternGrid';
 import { SURROUND_EDITOR_TEXT } from '../SurroundEditor.constants';
@@ -11,8 +12,8 @@ const PatternGrid = (props: PatternGridProps) => {
       ref={grid.boxRef}
       className="surround-editor__grid"
       tabIndex={0}
+      {...focusRegion(SURROUND_EDITOR_TEXT.editorLabel, SURROUND_EDITOR_TEXT.editorLabel)}
       role="application"
-      aria-label={SURROUND_EDITOR_TEXT.editorLabel}
       onPointerDown={grid.onPointerDown}
       onPointerMove={grid.onPointerMove}
       onPointerUp={grid.onPointerUp}

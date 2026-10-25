@@ -9,8 +9,8 @@ type TilemapRig = {
   readonly mapper: () => Promise<CellMapper>;
 };
 
-const openTilemapRig = async (): Promise<TilemapRig> => {
-  const session = await openSession();
+const openTilemapRig = async (args: readonly string[] = []): Promise<TilemapRig> => {
+  const session = await openSession(args);
   const { page } = session;
   await page.getByRole('toolbar', { name: 'Canvas' }).getByRole('button', { name: 'Tilemap', exact: true }).click();
   await page.getByRole('button', { name: 'New tileset', exact: true }).click();

@@ -1,13 +1,4 @@
 /* @layer renderer-app @kind style */
-.sprites-panel__grid {
-  position: relative;
-  min-block-size: var(--size-96);
-}
-
-.sprites-panel__strip {
-  align-items: flex-start;
-}
-
 .sprites-panel__tile,
 .sprites-panel__row {
   position: relative;

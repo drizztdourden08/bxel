@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
-import { DocumentTabs } from '@drizztdourden08/tessera';
+import { focusRegion } from '@drizztdourden08/brock-react';
+import { Box, DocumentTabs } from '@drizztdourden08/tessera';
 import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 import { closeTab } from '../../workspace/close-tab';
 import { focusTab } from '../../workspace/focus-tab';
@@ -16,15 +17,17 @@ const AssetTabs = () => {
   const moveTab = useWorkspaceStore((state) => state.moveTab);
   if (tabs.length === 0) return null;
   return (
-    <DocumentTabs
-      label={ASSET_TABS_TEXT.label}
-      tabs={tabs}
-      {...(activeId === undefined ? {} : { activeId })}
-      onActivate={activate}
-      onClose={(tabId) => void closeTab(tabId)}
-      onMove={moveTab}
-      overflowMenu
-    />
+    <Box {...focusRegion(ASSET_TABS_TEXT.label, ASSET_TABS_TEXT.label)}>
+      <DocumentTabs
+        label={ASSET_TABS_TEXT.label}
+        tabs={tabs}
+        {...(activeId === undefined ? {} : { activeId })}
+        onActivate={activate}
+        onClose={(tabId) => void closeTab(tabId)}
+        onMove={moveTab}
+        overflowMenu
+      />
+    </Box>
   );
 };
 

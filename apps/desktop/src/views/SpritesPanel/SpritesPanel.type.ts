@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind types */
 import type { DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, RefObject } from 'react';
-import type { MenuGroup } from '@drizztdourden08/tessera';
+import type { MenuGroup, VirtualSize } from '@drizztdourden08/tessera';
 import type { Artwork, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
-import type { FolderGroup, GridRow, SavedSelection } from '../../sheet-manager/folders.type';
+import type { FolderGroup, SavedSelection } from '../../sheet-manager/folders.type';
 import type { ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
 import type { HintSpec } from '../ActionHint';
 
@@ -118,17 +118,6 @@ interface GridTileProps {
   fact: SpriteFacts;
 }
 
-interface GridSpacerProps {
-  at: number;
-  rows: number;
-}
-
-interface GridRowViewProps {
-  view: SpriteGridProps;
-  row: GridRow;
-  at: number;
-}
-
 interface FolderHeaderProps {
   group: FolderGroup;
 }
@@ -163,6 +152,11 @@ interface ManagerToolbarProps {
   groups: readonly MenuGroup[];
 }
 
+interface TileSize {
+  width: VirtualSize;
+  height: VirtualSize;
+}
+
 interface SpriteMarquee {
   area: RefObject<HTMLElement | null>;
   rect: Rect | null;
@@ -188,8 +182,6 @@ export type {
   FilterActions,
   FilterOptions,
   FolderHeaderProps,
-  GridRowViewProps,
-  GridSpacerProps,
   GridTileProps,
   KeyAction,
   KeyShape,
@@ -212,5 +204,6 @@ export type {
   SpriteThumbProps,
   SpriteTileProps,
   SpriteViewProps,
+  TileSize,
   ToolbarButtonProps,
 };
