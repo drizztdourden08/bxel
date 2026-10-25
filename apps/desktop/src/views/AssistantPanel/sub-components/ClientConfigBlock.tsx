@@ -1,25 +1,21 @@
 /* @layer renderer-app @kind component */
-import { CodeBlock, CopyButton, Flex, Stack, Text } from '@drizztdourden08/tessera';
+import { CodeBlock, CopyButton, Flex, SettingsSection, Stack, Text } from '@drizztdourden08/tessera';
 import { PANEL_TEXT } from '../AssistantPanel.constants';
 import type { PanelPartProps } from '../AssistantPanel.type';
 
 const ClientConfigBlock = ({ model }: PanelPartProps) => (
-  <Stack gap="sm">
-    <Text variant="label">{PANEL_TEXT.configTitle}</Text>
-    <Text variant="caption" tone="muted">
-      {PANEL_TEXT.configHint}
-    </Text>
+  <SettingsSection id="client-config" title={PANEL_TEXT.configTitle} description={PANEL_TEXT.configHint}>
     {model.config === null ? (
       <Text tone="muted">{PANEL_TEXT.configLoading}</Text>
     ) : (
       <Stack gap="sm">
-        <CodeBlock code={model.config} language="json" wrap />
-        <Flex>
+        <Flex justify="end">
           <CopyButton text={model.config} label={PANEL_TEXT.copy} showLabel />
         </Flex>
+        <CodeBlock code={model.config} language="json" wrap />
       </Stack>
     )}
-  </Stack>
+  </SettingsSection>
 );
 
 export { ClientConfigBlock };
