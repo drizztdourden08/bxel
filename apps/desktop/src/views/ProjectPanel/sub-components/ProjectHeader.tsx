@@ -6,7 +6,7 @@ import type { PanelPartProps } from '../ProjectPanel.type';
 import { AddAssetMenu } from './AddAssetMenu';
 
 const ProjectHeader = ({ model, project }: PanelPartProps & { readonly project: OpenProject }) => (
-  <Flex justify="between" align="center" gap="sm">
+  <Flex justify="between" align="center" gap="sm" wrap>
     <Flex direction="column">
       <Text variant="label">{project.manifest.name}</Text>
       <Text variant="caption" tone="muted">

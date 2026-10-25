@@ -1,0 +1,5 @@
+/* @layer renderer-app @kind style */
+.project-panel__scroll {
+  flex: 1;
+  min-height: var(--size-96);
+}
