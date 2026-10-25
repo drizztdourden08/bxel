@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind test */
+import { spawnSync } from 'node:child_process';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -30,7 +31,7 @@ const shownNow = async (session: Session): Promise<number[]> =>
   [...await readDisplayed(session, await canvasMapper(session, SIZE), SIZE, await readSwatches(session))];
 
 afterAll(async () => {
-  if (held.dir) await rm(held.dir, { recursive: true, force: true, maxRetries: 20, retryDelay: 500 });
+  if (held.dir) await rm(held.dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 300 }).catch(() => undefined);
 });
 
 describe('release blocker: a crash loses at most the last few seconds of work', () => {
@@ -47,8 +48,9 @@ describe('release blocker: a crash loses at most the last few seconds of work', 
     const drawn = await shownNow(first);
     expect(drawn.some((index) => index !== 0)).toBe(true);
     await first.page.waitForTimeout(SNAPSHOT_WAIT_MS);
-    first.app.process().kill('SIGKILL');
-    await first.app.waitForEvent('close').catch(() => undefined);
+    const pid = first.app.process().pid ?? 0;
+    spawnSync('taskkill', ['/F', '/T', '/PID', String(pid)]);
+    await new Promise((done) => setTimeout(done, 1500));
     const second = await launch(join(dir, 'profile'));
     try {
       const dialog = second.page.getByRole('dialog', { name: 'Recover unsaved work' });
