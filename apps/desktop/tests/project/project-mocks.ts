@@ -6,6 +6,8 @@ const toast = vi.fn();
 
 const confirmAction = vi.fn((_options: unknown) => Promise.resolve(true));
 
+const confirmSave = vi.fn((_options: unknown): Promise<'save' | 'discard' | 'cancel'> => Promise.resolve('save'));
+
 const openWidget = vi.fn();
 
 const held: { documents: DocumentsPort | undefined } = { documents: undefined };
@@ -13,8 +15,9 @@ const held: { documents: DocumentsPort | undefined } = { documents: undefined };
 const brockReactMock = () => ({
   toast,
   confirmAction,
+  confirmSave,
   getPlatform: () => ({ documents: held.documents }),
   useWidgetLayoutStore: { getState: () => ({ open: openWidget }) },
 });
 
-export { brockReactMock, confirmAction, held, openWidget, toast };
+export { brockReactMock, confirmAction, confirmSave, held, openWidget, toast };
