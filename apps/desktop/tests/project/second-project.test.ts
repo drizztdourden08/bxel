@@ -5,7 +5,9 @@ import { openProject } from '../../src/project/open-project';
 import { useProjectStore } from '../../src/stores/useProjectStore';
 import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
 import { artworkOf, openSampleProject, workspaceOf } from '../workspace/open-sample-project';
-import { paintSprite } from '../workspace/workspace-harness';
+import { openPath } from '../../src/workspace/open-path';
+import { runSplit } from '../../src/workspace/run-split';
+import { legacyBytes, paintSprite, sampleArtwork } from '../workspace/workspace-harness';
 import { manifestOf, rig, ROOT, withManifest } from './project-harness';
 import type { Rig } from './project-harness';
 import { confirmSave } from './project-mocks';
@@ -55,6 +57,25 @@ describe('opening a second project while one has unsaved work', () => {
     await openCave();
     expect(useProjectStore.getState().project?.manifest.name).toBe('Dungeon');
     expect(held.disk.revoked).toEqual([]);
+    expect(workspaceOf(documentId).dirty.size).toBe(1);
+  });
+});
+
+describe('splitting an older file into a new project while one has unsaved work', () => {
+  it('asks about the open project first and splits nothing when that is cancelled', async () => {
+    const { documentId } = await paintedDungeon();
+    const elder = 'C:/Elder';
+    held.disk.granted.add(elder.toLowerCase());
+    held.disk.dirs.add(elder);
+    held.disk.files.set(`${elder}/old.bxel`, legacyBytes(sampleArtwork()));
+    await openPath(held.kit, `${elder}/old.bxel`);
+    const legacy = Object.values(useWorkspaceStore.getState().workspaces).find((each) => each.legacy !== null);
+    if (!legacy) throw new Error('no older file');
+    held.disk.picks.folder = elder;
+    confirmSave.mockResolvedValueOnce('cancel');
+    expect(await runSplit(legacy.documentId, 'beside')).toEqual({ kind: 'cancelled' });
+    expect([...held.disk.files.keys()].filter((path) => path.startsWith(`${elder}/`))).toEqual([`${elder}/old.bxel`]);
+    expect(useProjectStore.getState().project?.manifest.name).toBe('Dungeon');
     expect(workspaceOf(documentId).dirty.size).toBe(1);
   });
 });
