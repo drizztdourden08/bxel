@@ -23,7 +23,7 @@
     "@bxel/palette": "workspace:*"
   },
   "devDependencies": {
-    "@drizztdourden08/brock-lint-config": "^0.93.0",
+    "@drizztdourden08/brock-lint-config": "^0.94.0",
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:"
