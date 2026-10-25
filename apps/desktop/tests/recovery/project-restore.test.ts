@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind test */
 import type { DocumentId } from '@bxel/document';
-import { PALETTE_COMMAND_NAME } from '@bxel/palette';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { artworkBytes } from '../../src/files/artwork-bytes';
 import { openProject } from '../../src/project/open-project';
 import type { RestoreKit } from '../../src/recovery/recovery.type';
@@ -9,18 +8,17 @@ import { restoreRecovered } from '../../src/recovery/restore-recovered';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useProjectStore } from '../../src/stores/useProjectStore';
 import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
-import { runSteps } from '../../src/transactions/run-steps';
 import { saveWorkspace } from '../../src/workspace/save-workspace';
-import { rig, ROOT } from '../project/project-harness';
-import type { Rig } from '../project/project-harness';
-import { artworkOf, openSampleProject, workspaceOf } from '../workspace/open-sample-project';
-import { paintSprite } from '../workspace/workspace-harness';
+import { ROOT } from '../project/project-harness';
+import { heldRig } from '../workspace/held-rig';
+import { openSampleProject, spriteAndBank, workspaceOf } from '../workspace/open-sample-project';
+import { addRamp, paintSprite } from '../workspace/workspace-harness';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
 const PROJECT_FILE = `${ROOT}/Dungeon.bxproject`;
 
-let held: Rig;
+const held = heldRig();
 
 const kitOf = (): RestoreKit => ({
   host: useDocumentStore.getState().host,
@@ -34,25 +32,18 @@ const kitOf = (): RestoreKit => ({
 });
 
 const crashed = async () => {
-  const { documentId, paths } = await openSampleProject(held);
-  const sprite = artworkOf(documentId).sprites[0];
-  const bank = artworkOf(documentId).banks.find((each) => each.id === sprite?.bankId);
-  if (!sprite || !bank) throw new Error('no sample');
+  const { documentId, paths } = await openSampleProject(held.rig);
+  const { sprite, bank } = spriteAndBank(documentId);
   paintSprite(documentId, sprite.id);
-  const swatches = bank.slots.slice(1, 3).map((slot) => slot.id);
-  runSteps(useDocumentStore.getState().host, documentId, 'Ramp', [{ name: PALETTE_COMMAND_NAME.rampAdd, targets: null, options: { bankId: bank.id, name: 'glow', swatches } }]);
+  addRamp(documentId, bank, 'glow');
   const view = useDocumentStore.getState().host.view(documentId);
   if (!view) throw new Error('no view');
   const bytes = artworkBytes(view.state, () => 1_700_000_000_000);
   useDocumentStore.getState().host.close(documentId);
   useProjectStore.getState().close();
-  held.disk.writes.length = 0;
+  held.rig.disk.writes.length = 0;
   return { bytes, paths, sprite, bank };
 };
-
-beforeEach(() => {
-  held = rig();
-});
 
 describe('restoring a recovered copy of a project', () => {
   it('restores into the project workspace with the asset paths and the unsaved assets, shared palettes included', async () => {
@@ -63,8 +54,8 @@ describe('restoring a recovered copy of a project', () => {
     expect(workspace.paths).toEqual(paths);
     expect([...workspace.dirty]).toEqual(expect.arrayContaining([`palette:${bank.id}`, `sprite:${sprite.id}`]));
     expect([...workspace.dirty].some((key) => key.startsWith('sheet:'))).toBe(false);
-    await saveWorkspace(held.kit, documentId);
-    expect(held.disk.writes).toEqual(expect.arrayContaining([paths.get(sprite.id), paths.get(bank.id)]));
+    await saveWorkspace(held.rig.kit, documentId);
+    expect(held.rig.disk.writes).toEqual(expect.arrayContaining([paths.get(sprite.id), paths.get(bank.id)]));
   });
 });
 

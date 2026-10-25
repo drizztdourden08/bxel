@@ -6,14 +6,10 @@ import type { MigrationPlan, ResolvedFolder } from '@bxel/project';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
 import { baseName } from '../files/base-name';
 import { parentOf } from '../workspace/parent-of';
+import { takenIn } from '../workspace/taken-in';
 import { toSlashes } from '../workspace/to-slashes';
 import { uniquePath } from '../workspace/unique-path';
 import { locationPath } from './location-path';
-
-const takenIn = async (documents: DocumentsPort, dir: string): Promise<Set<string>> => {
-  const listing = await documents.list(dir).catch(() => ({ entries: [] }));
-  return new Set(listing.entries.map((entry) => toSlashes(entry.path).toLowerCase()));
-};
 
 const freePath = async (documents: DocumentsPort, planned: string, taken: Map<string, Set<string>>): Promise<string> => {
   const dir = parentOf(planned);
