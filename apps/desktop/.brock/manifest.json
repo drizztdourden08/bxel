@@ -1,11 +1,11 @@
 {
-  "brock": "0.94.0",
-  "generatedAt": "2026-10-25T03:18:24.344Z",
+  "brock": "0.95.0",
+  "generatedAt": "2026-10-25T03:40:27.324Z",
   "modules": [
     {
       "id": "updater",
       "package": "@drizztdourden08/brock-updater",
-      "version": "0.94.0"
+      "version": "0.95.0"
     }
   ]
 }
