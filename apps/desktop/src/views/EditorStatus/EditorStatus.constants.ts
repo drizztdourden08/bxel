@@ -1,9 +1,10 @@
 /* @layer renderer-app @kind constants */
 import type { ToolId } from '../../editor/tool.type';
-import { REGION_COMMAND } from '../../regions/regions.constants';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import { SELECTION_COMMAND_ID } from '../../keymap/selection-command-id.constants';
 import type { HintShortcut } from '../ActionHint';
+
+const NEXT_REGION = 'brock.region.next';
 
 const CANVAS_HELP_TEXT = {
   name: 'Canvas controls',
@@ -23,7 +24,7 @@ const COMMON_ROWS: readonly HintShortcut[] = [
   { label: 'Actual size', command: COMMAND_ID.zoomActual },
   { label: 'Cancel a preview or stroke', keys: ['esc'] },
   { label: 'Paint at the keyboard cursor', keys: ['space'] },
-  { label: 'Next region', command: REGION_COMMAND.next },
+  { label: 'Next region', command: NEXT_REGION },
 ];
 
 const STRAIGHT_LINE: HintShortcut = { label: 'Straight line', keys: ['shift'], mouse: 'drag' };

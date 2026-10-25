@@ -3,35 +3,46 @@ import { describe, expect, it, vi } from 'vitest';
 import { askNativePair } from '../../electron/assistant/ask-native-pair';
 import { NATIVE_PAIR_TEXT } from '../../electron/assistant/assistant.constants';
 
-const contextAnswering = (answers: readonly boolean[]) => {
-  const confirm = vi.fn();
-  for (const answer of answers) confirm.mockResolvedValueOnce(answer);
-  return { confirm, ctx: { dialogs: { confirm } } };
+const contextPicking = (id: string) => {
+  const choose = vi.fn().mockResolvedValue(id);
+  return { choose, ctx: { dialogs: { confirm: vi.fn(), choose } } };
 };
 
 describe('the native question of a headless Bxel', () => {
-  it('asks about read only first, so the default answer is read only', async () => {
-    const { ctx, confirm } = contextAnswering([true, true]);
+  it('asks once, with read only as the button for Enter, for Esc and for closing the box', async () => {
+    const { ctx, choose } = contextPicking('read');
     expect(await askNativePair(ctx, 'Check')).toBe('read');
-    expect(confirm.mock.calls[0]?.[0]).toMatchObject({ confirmLabel: NATIVE_PAIR_TEXT.readAllow, cancelLabel: NATIVE_PAIR_TEXT.readRefuse });
+    expect(choose).toHaveBeenCalledTimes(1);
+    expect(choose.mock.calls[0]?.[0]).toMatchObject({ defaultId: 'read', cancelId: 'read' });
   });
 
-  it('answers blocked when read only is refused, after one dialog', async () => {
-    const { ctx, confirm } = contextAnswering([false]);
-    expect(await askNativePair(ctx, null)).toBe('blocked');
-    expect(confirm).toHaveBeenCalledTimes(1);
+  it('gives editing only when the owner picks it', async () => {
+    expect(await askNativePair(contextPicking('edit').ctx, 'Check')).toBe('edit');
+    expect(await askNativePair(contextPicking('read').ctx, 'Check')).toBe('read');
   });
 
-  it('offers editing only after read only, with keeping read only as the default button', async () => {
-    const { ctx, confirm } = contextAnswering([true, false]);
-    expect(await askNativePair(ctx, 'Check')).toBe('edit');
-    expect(confirm).toHaveBeenCalledTimes(2);
-    expect(confirm.mock.calls[1]?.[0]).toMatchObject({ confirmLabel: NATIVE_PAIR_TEXT.editKeep, cancelLabel: NATIVE_PAIR_TEXT.editAllow });
+  it('answers blocked when the owner denies', async () => {
+    expect(await askNativePair(contextPicking('blocked').ctx, null)).toBe('blocked');
   });
 
-  it('shows the dialogs on an automation launch, which is how a headless Bxel starts', async () => {
-    const { ctx, confirm } = contextAnswering([true, true]);
+  it('turns an answer it does not know into read only', async () => {
+    expect(await askNativePair(contextPicking('other').ctx, 'Check')).toBe('read');
+  });
+
+  it('offers read only, editing and deny by name, and never uses confirm', async () => {
+    const { ctx, choose } = contextPicking('read');
     await askNativePair(ctx, 'Check');
-    for (const [options] of confirm.mock.calls) expect(options).toMatchObject({ showOnAutomation: true });
+    expect(choose.mock.calls[0]?.[0].choices).toEqual([
+      { id: 'read', label: NATIVE_PAIR_TEXT.readLabel },
+      { id: 'edit', label: NATIVE_PAIR_TEXT.editLabel },
+      { id: 'blocked', label: NATIVE_PAIR_TEXT.denyLabel },
+    ]);
+    expect(ctx.dialogs.confirm).not.toHaveBeenCalled();
+  });
+
+  it('shows the dialog on an automation launch, which is how a headless Bxel starts', async () => {
+    const { ctx, choose } = contextPicking('read');
+    await askNativePair(ctx, 'Check');
+    expect(choose.mock.calls[0]?.[0]).toMatchObject({ showOnAutomation: true });
   });
 });

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useRef } from 'react';
-import { announce } from '../announce/announce';
+import { announce } from '@drizztdourden08/brock-react';
 import { ANNOUNCE_TEXT } from '../announce/announce.constants';
 import { TOOLS } from '../editor/tools.constants';
 import { useToolStore } from '../stores/useToolStore';

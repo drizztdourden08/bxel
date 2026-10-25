@@ -6,9 +6,9 @@ import { launchAppForTest } from '@drizztdourden08/brock-build/testing';
 import { APP_DIR, CANVAS_LABEL, TEMP_PREFIX } from './e2e.constants';
 import type { Session } from './e2e.type';
 
-const openSession = async (): Promise<Session> => {
+const openSession = async (args: readonly string[] = []): Promise<Session> => {
   const dir = await mkdtemp(join(tmpdir(), TEMP_PREFIX));
-  const launched = await launchAppForTest({ appDir: APP_DIR });
+  const launched = await launchAppForTest({ appDir: APP_DIR, args: [...args] });
   await launched.page.getByRole('application', { name: CANVAS_LABEL }).waitFor();
   return {
     app: launched.app,

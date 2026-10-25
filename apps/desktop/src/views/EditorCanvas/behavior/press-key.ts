@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { KeyboardEvent } from 'react';
-import { announce } from '../../../announce/announce';
+import { announce } from '@drizztdourden08/brock-react';
 import { currentTarget } from '../../../editor/current-target';
 import { pressCell } from '../../../editor/press-cell';
 import { PRIMARY_BUTTON, SECONDARY_BUTTON } from '../../../editor/tools.constants';

@@ -17,6 +17,8 @@ const SWATCH_PATTERN = /^Swatch (\d+), [^,]+, (#[0-9A-F]{6})/;
 
 const CURSOR_PARK = { x: 4, y: 4 } as const;
 
+const GRANT_FOLDERS = ['--answer-folder-grants=grant'] as const;
+
 const POLL_MS = 15000;
 
 const LAYOUT_SETTLE = { attempts: 40, steady: 4, gapMs: 100 } as const;
@@ -25,6 +27,7 @@ const SHORTCUT = {
   newFile: 'Control+n',
   saveAs: 'Control+Shift+s',
   save: 'Control+s',
+  saveAll: 'Control+Alt+s',
   open: 'Control+o',
   importImage: 'Control+i',
   exportImages: 'Control+Shift+e',
@@ -36,6 +39,7 @@ export {
   APP_DIR,
   CANVAS_LABEL,
   CURSOR_PARK,
+  GRANT_FOLDERS,
   LAYOUT_SETTLE,
   POLL_MS,
   PROJECT_PARENT,

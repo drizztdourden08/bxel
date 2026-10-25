@@ -1,6 +1,6 @@
 /* @layer electron-main @kind constants */
 import { MCP_TIMEOUT_MS } from '@bxel/mcp';
-import type { ToolRouteName } from '@bxel/mcp';
+import type { ProgramMode, ToolRouteName } from '@bxel/mcp';
 
 const FOLDER_NAME = 'Bxel Assistant';
 
@@ -36,13 +36,17 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
 const NATIVE_PAIR_TEXT = {
   title: 'A program wants to use Bxel',
   message: (program: string) => `${program} started Bxel without a window and wants to use it. Programs report their own name, and Bxel cannot check it.`,
-  readDetail: 'Read only lets it look at documents, read pixels and preview edits. It cannot change or save anything.',
-  readAllow: 'Allow read only',
-  readRefuse: 'Deny',
-  editDetail: 'Keep read only is the safe choice. Allow editing lets it change, save and export your files.',
-  editKeep: 'Keep read only',
-  editAllow: 'Allow editing',
+  detail: 'Read only lets it look at documents, read pixels and preview edits. It cannot change or save anything. Enter, Esc and closing this box all choose read only. Allow editing lets it change, save and export your files, and only that button gives it.',
+  readLabel: 'Allow read only',
+  editLabel: 'Allow editing',
+  denyLabel: 'Deny',
 } as const;
+
+const NATIVE_PAIR_CHOICES: { id: ProgramMode; label: string }[] = [
+  { id: 'read', label: NATIVE_PAIR_TEXT.readLabel },
+  { id: 'edit', label: NATIVE_PAIR_TEXT.editLabel },
+  { id: 'blocked', label: NATIVE_PAIR_TEXT.denyLabel },
+];
 
 const MAIN_TEXT = {
   unknown: 'Bxel does not know this session. The helper pairs again on its own.',
@@ -56,4 +60,4 @@ const MAIN_TEXT = {
   tray: (names: string) => `Bxel is running for ${names}`,
 } as const;
 
-export { FOLDER_NAME, MAIN_TEXT, NATIVE_PAIR_TEXT, QUIT_DELAY_MS, TOOL_TIMEOUT };
+export { FOLDER_NAME, MAIN_TEXT, NATIVE_PAIR_CHOICES, NATIVE_PAIR_TEXT, QUIT_DELAY_MS, TOOL_TIMEOUT };

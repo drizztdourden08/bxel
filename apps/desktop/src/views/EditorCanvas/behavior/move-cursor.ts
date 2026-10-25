@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { Point } from '@bxel/raster';
-import { announce } from '../../../announce/announce';
+import { announce } from '@drizztdourden08/brock-react';
 import { ANNOUNCE_TEXT } from '../../../announce/announce.constants';
 import { cellColourName } from '../../../editor/cell-colour-name';
 import { currentTarget } from '../../../editor/current-target';
