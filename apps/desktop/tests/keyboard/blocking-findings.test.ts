@@ -13,8 +13,8 @@ describe('which axe findings fail the accessibility test', () => {
 
   it('drops a gap that is on the Tessera list and keeps a new one of the same rule', () => {
     const found = blockingFindings([
-      { rule: 'target-size', impact: 'serious', help: 'x', targets: ['.collapse-toggle :: small', '.my-button :: small'] },
+      { rule: 'label-content-name-mismatch', impact: 'serious', help: 'x', targets: ['button[aria-label="Source, step 1"] :: mismatch', 'button[aria-label="Save"] :: mismatch'] },
     ]);
-    expect(found).toEqual([{ rule: 'target-size', impact: 'serious', help: 'x', targets: ['.my-button :: small'] }]);
+    expect(found).toEqual([{ rule: 'label-content-name-mismatch', impact: 'serious', help: 'x', targets: ['button[aria-label="Save"] :: mismatch'] }]);
   });
 });
