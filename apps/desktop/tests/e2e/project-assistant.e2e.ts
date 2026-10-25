@@ -97,7 +97,7 @@ const opened = async (rig: ProjectRig): Promise<void> => {
 
 const offAgain = async (rig: ProjectRig): Promise<void> => {
   await grant(rig, 'Off');
-  expect((await manifestOnDisk(rig)).assistant.access).toBe('off');
+  await expect.poll(async () => (await manifestOnDisk(rig)).assistant.access).toBe('off');
   expect((await places(rig)).projects).toEqual([]);
   expect((await filesOf(rig)).code).toBe('PROJECT_NOT_FOUND');
 };
