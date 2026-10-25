@@ -66,8 +66,9 @@ describe('save_document into a project', () => {
   });
 
   it('answers PROJECT_NOT_FOUND for a project without a grant, as for one that does not exist', async () => {
-    const id = await documentOf();
-    const ungranted = await current.run('save_document', saveInput(id, 'copy.bxsprite'), []);
+    const bank = { name: 'Main', cap: 16, transparent: true, colors: [{ rgb: '#ff0000' }] };
+    const made = await current.run('create_document', { name: 'fresh', kind: 'sprite', bank, sprite: { name: 'fresh', width: 8, height: 8 } }, []);
+    const ungranted = await current.run('save_document', saveInput(String(fieldOf(made, 'documentId')), 'copy.bxsprite'), []);
     expect(code(ungranted)).toBe('PROJECT_NOT_FOUND');
     expect(current.rig.disk.writes).toEqual([]);
   });
