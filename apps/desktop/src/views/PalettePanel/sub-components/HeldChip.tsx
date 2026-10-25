@@ -6,7 +6,7 @@ import type { HeldChipProps } from '../PalettePanel.type';
 
 const HeldChip = ({ chip, slot, onEdit }: HeldChipProps) => (
   <Flex direction="column" align="center" gap="2xs" className="palette-panel__chip">
-    <ActionHint hint={chipHint(chip)} placement="top">
+    <ActionHint hint={chipHint(chip)} placement="top" className="palette-panel__anchor">
       <ColorSwatch
         className="palette-panel__chip-colour"
         color={slot?.hex ?? ''}
@@ -17,7 +17,7 @@ const HeldChip = ({ chip, slot, onEdit }: HeldChipProps) => (
         onClick={(event) => slot && onEdit(slot.index, event.currentTarget)}
       />
     </ActionHint>
-    <Shortcut size="xs" keys={chip.draw.keys} mouse={chip.draw.mouse} />
+    <Shortcut size="xs" legend="symbol" keys={chip.pick.keys} mouse={chip.pick.mouse} />
   </Flex>
 );
 
