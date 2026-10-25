@@ -5,4 +5,10 @@ interface PresetMoveModel {
   keep: () => void;
 }
 
-export type { PresetMoveModel };
+interface PresetOffer {
+  inProject: boolean;
+  presets: number;
+  offered: readonly string[];
+}
+
+export type { PresetMoveModel, PresetOffer };
