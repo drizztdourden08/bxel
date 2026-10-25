@@ -2,6 +2,7 @@
 import type { FlushReport, PairOutcome, PairRequest, ProgramMode, SessionMode, SessionView, ToolCall, ToolReply } from '@bxel/mcp';
 import { ask, defineChannels, event, invoke } from '@drizztdourden08/brock-core';
 import type { AssistantSetup, ClientConfig } from '../assistant/assistant.type';
+import type { DemoCopyOutcome } from '../demo/demo.type';
 
 const APP_CHANNELS = defineChannels({
   assistantSessions: invoke<() => Promise<SessionView[]>>()('assistant:sessions'),
@@ -10,6 +11,7 @@ const APP_CHANNELS = defineChannels({
   assistantClientConfig: invoke<() => Promise<ClientConfig>>()('assistant:client-config'),
   assistantSetup: invoke<(setup: AssistantSetup) => Promise<void>>()('assistant:setup'),
   assistantNativePair: invoke<(program: string | null) => Promise<ProgramMode>>()('assistant:native-pair'),
+  demoCopy: invoke<(parent: string) => Promise<DemoCopyOutcome>>()('demo:copy'),
   assistantSessionsChanged: event<(sessions: SessionView[]) => void>()('assistant:sessions-changed'),
   assistantPair: ask<(request: PairRequest) => Promise<PairOutcome>>()('assistant:pair'),
   assistantTool: ask<(call: ToolCall) => Promise<ToolReply>>()('assistant:tool'),
