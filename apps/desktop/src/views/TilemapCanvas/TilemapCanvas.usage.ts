@@ -19,7 +19,8 @@ const usage = {
   ],
   a11y: [
     'The viewport is one Tab stop named Tilemap canvas, with the zoom announced when it settles.',
-    'Escape drops the cell selection and any drag in progress.',
+    'The arrow keys move a cell cursor and announce the cell and its tile. Space or Enter applies the current tool to that cell.',
+    'With the rectangle and select tools the first press sets a corner and the second finishes. Escape drops the cell selection and any drag in progress.',
   ],
   tree: {
     path: ['data', 'a drawing', 'in pixels'],

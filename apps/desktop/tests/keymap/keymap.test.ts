@@ -41,6 +41,7 @@ const fakeHandle = (): PixelViewportHandle => ({
   zoomIn: vi.fn(),
   zoomOut: vi.fn(),
   redraw: vi.fn(),
+  reveal: vi.fn(),
   view: fakeView,
 });
 

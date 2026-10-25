@@ -18,6 +18,7 @@ const TILEMAP_TEXT = {
   needFirstTile: 'Add a tile to this tileset first.',
   emptyCanvas: 'Open a file to edit tilemaps.',
   canvasLabel: 'Tilemap canvas',
+  canvasHint: 'Arrow keys move the cell cursor. Space or Enter applies the current tool to the cell. With the rectangle and select tools, press once for the first corner and again for the last. Escape drops the corner.',
   previewOpen: 'Apply or cancel the preview first.',
 } as const;
 

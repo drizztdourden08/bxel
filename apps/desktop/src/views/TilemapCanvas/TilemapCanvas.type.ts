@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind types */
-import type { PointerEvent } from 'react';
+import type { FocusEventHandler, KeyboardEventHandler, PointerEvent, RefObject } from 'react';
 import type { CellFlags, Point, Rect } from '@bxel/document';
 import type { CanvasLook } from '../../canvas-look/canvas-look.type';
 import type { MapSelection, TileStamp } from '../../stores/tilemap-store.type';
 import type { MapTarget, MapTool } from '../../tilemap/tilemap.type';
-import type { PixelPoint } from '../PixelViewport';
+import type { PixelPoint, PixelViewportHandle } from '../PixelViewport';
 
 type MapDrag =
   | { kind: 'stroke'; tool: 'place' | 'erase'; cells: Point[] }
@@ -57,6 +57,19 @@ interface MapGesture {
   cancel: () => void;
 }
 
+interface MapKeyContext {
+  viewport: RefObject<PixelViewportHandle | null>;
+  target: MapTarget;
+  live: RefObject<MapLive>;
+  active: RefObject<boolean>;
+}
+
+interface MapKeys {
+  onKeyDown: KeyboardEventHandler<HTMLElement>;
+  onPointerPixel: () => void;
+  onBlur: FocusEventHandler<HTMLElement>;
+}
+
 interface MapView {
   target: MapTarget;
   image: ImageData;
@@ -66,4 +79,4 @@ interface TilemapSurfaceProps {
   view: MapView;
 }
 
-export type { BoxStyle, CellRegion, MapDrag, MapGesture, MapLive, MapLook, MapPaintBase, MapPaintState, MapView, TilemapSurfaceProps };
+export type { BoxStyle, CellRegion, MapDrag, MapGesture, MapKeyContext, MapKeys, MapLive, MapLook, MapPaintBase, MapPaintState, MapView, TilemapSurfaceProps };

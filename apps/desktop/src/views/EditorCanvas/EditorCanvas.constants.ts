@@ -4,6 +4,7 @@ import type { PixelTiling } from '../PixelViewport';
 
 const EDITOR_CANVAS_TEXT = {
   label: 'Sprite canvas',
+  hint: 'Arrow keys move the drawing cursor. Space paints with the front colour and Enter with the back colour. Shift with Space draws a line from the last point. Control picks the third and fourth colours. With the shapes tool, press once to start and again to finish. Shift with an arrow pans the view.',
   empty: 'No sprite is open.',
 } as const;
 

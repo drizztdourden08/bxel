@@ -10,9 +10,9 @@ import { PixelViewport } from '../PixelViewport';
 import type { PixelViewportHandle } from '../PixelViewport';
 import { EDITOR_CANVAS_TEXT, TILING_OF } from './EditorCanvas.constants';
 import { canvasClass } from './behavior/canvas-class';
-import { canvasKeyDown } from './behavior/canvas-key-down';
 import { useAreaRedraw } from './behavior/useAreaRedraw';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
+import { useCanvasKeys } from './behavior/useCanvasKeys';
 import { useCanvasTools } from './behavior/useCanvasTools';
 import { useCommittedImage } from './behavior/useCommittedImage';
 import { useEscapeCancel } from './behavior/useEscapeCancel';
@@ -40,6 +40,7 @@ const EditorCanvas = () => {
   const floating = usePendingImage(outcome);
   const tools = useCanvasTools(viewport);
   const readout = useCanvasReadout(viewport);
+  const keys = useCanvasKeys(viewport);
   useViewDefaults();
   useViewportBridge(viewport, target !== null);
   useMarchingAnts(viewport);
@@ -48,12 +49,13 @@ const EditorCanvas = () => {
   useEscapeCancel();
   if (!target) return <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;
   return (
-    <Box className={canvasClass(rulers)} onContextMenu={tools.onContextMenu}>
+    <Box className={canvasClass(rulers)} onContextMenu={tools.onContextMenu} onBlur={keys.onBlur}>
       {rulers && <RulerBars />}
       <PixelViewport
         ref={viewport}
         className={viewportClass(tool)}
         label={EDITOR_CANVAS_TEXT.label}
+        hint={EDITOR_CANVAS_TEXT.hint}
         width={outcome?.width ?? target.sprite.width}
         height={outcome?.height ?? target.sprite.height}
         source={floating ?? tools.live ?? committed ?? undefined}
@@ -64,11 +66,14 @@ const EditorCanvas = () => {
         gridTile={gridTile}
         hand={tool === 'hand'}
         tiled={TILING_OF[tiled]}
-        onPointerPixel={readout.onPointerPixel}
+        onPointerPixel={(pixel) => {
+          keys.onPointerPixel();
+          readout.onPointerPixel(pixel);
+        }}
         onPointerDown={tools.onPointerDown}
         onPointerMove={tools.onPointerMove}
         onPointerUp={tools.onPointerUp}
-        onKeyDown={canvasKeyDown}
+        onKeyDown={keys.onKeyDown}
       />
     </Box>
   );

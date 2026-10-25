@@ -4,6 +4,7 @@ import type { Ref } from 'react';
 import type { PixelPoint, PixelViewportHandle } from '../PixelViewport.type';
 import type { ViewportParts } from './viewport.type';
 import { pixelToScreen } from './pixel-to-screen';
+import { revealDelta } from './reveal-delta';
 import { rootOrigin } from './root-origin';
 import { screenToPixel } from './screen-to-pixel';
 import { viewOf } from './view-of';
@@ -32,6 +33,10 @@ const useViewportHandle = (ref: Ref<PixelViewportHandle> | undefined, parts: Vie
       zoomIn: (anchor) => live.current.view.zoomStep(1, local(anchor)),
       zoomOut: (anchor) => live.current.view.zoomStep(-1, local(anchor)),
       redraw,
+      reveal: (pixel) => {
+        const delta = revealDelta(pixel, target(), live.current.box);
+        if (delta.x !== 0 || delta.y !== 0) live.current.view.panBy(delta.x, delta.y);
+      },
       view: () => viewOf(target(), live.current.box, live.current.image),
     };
   }, [redraw]);

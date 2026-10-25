@@ -38,6 +38,7 @@ interface PixelViewportHandle {
   zoomIn: (anchor?: PixelPoint) => void;
   zoomOut: (anchor?: PixelPoint) => void;
   redraw: () => void;
+  reveal: (pixel: PixelPoint) => void;
   view: () => PixelView;
 }
 
@@ -45,6 +46,7 @@ interface PixelViewportProps {
   width: number;
   height: number;
   label: string;
+  hint?: string;
   draw?: PixelDraw;
   source?: PixelSource;
   zoom?: number;
