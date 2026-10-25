@@ -5,6 +5,7 @@ import { describe, expect, test } from 'vitest';
 import { canvasMapper } from './support/canvas-mapper';
 import { exportSheetFiles } from './support/export-sheet-files';
 import { flatIndices } from './support/flat-indices';
+import { openAssetTab } from './support/open-asset-tab';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
 import { openSession } from './support/open-session';
 import { assetRow } from './support/panel-assets';
@@ -59,10 +60,9 @@ const reopensIdentical = async (rig: SheetRig): Promise<void> => {
   const second = await openSession();
   try {
     await openProjectAtInUi(second, rig.root, 'Sheets');
-    const tabs = second.page.getByRole('tablist', { name: 'Open assets' });
     for (const name of PART_NAMES) await assetRow(second, name).waitFor();
     await assetRow(second, 'part_02').click();
-    await tabs.getByRole('tab', { name: /^part_02/ }).waitFor();
+    await openAssetTab(second, /^part_02/).waitFor();
     const size = { width: SIDE, height: SIDE };
     const map = await canvasMapper(second, size);
     const sprite = spriteOf(saved(rig, 'part_02'), 'part_02');

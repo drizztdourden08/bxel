@@ -3,8 +3,7 @@ import { ERROR_CODE } from '@bxel/document';
 import type { DocumentId } from '@bxel/document';
 import { hiddenFailure, MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { ToolHandler } from '../assistant.type';
-import { lockedDocument } from './locked-document';
-import { lockedFailure } from './locked-failure';
+import { lockedReply } from './locked-reply';
 import { reply } from './reply';
 import type { UndoInput } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
@@ -15,7 +14,8 @@ const undo: ToolHandler = (input, context) => {
   const { documentId, expectedRevision } = input as UndoInput;
   const view = viewFor(context, documentId);
   if (!view) return reply(hiddenFailure('document'));
-  if (lockedDocument(context, documentId)) return reply(lockedFailure());
+  const locked = lockedReply(context, documentId);
+  if (locked) return locked;
   const current = view.state.revision;
   if (current !== expectedRevision) {
     return reply(mcpFailure(ERROR_CODE.STALE_REVISION, TOOL_TEXT.stale(current), { currentRevision: current }));

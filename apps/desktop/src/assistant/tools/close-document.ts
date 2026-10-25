@@ -2,8 +2,7 @@
 import type { DocumentId } from '@bxel/document';
 import { hiddenFailure, MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { ToolHandler } from '../assistant.type';
-import { lockedDocument } from './locked-document';
-import { lockedFailure } from './locked-failure';
+import { lockedReply } from './locked-reply';
 import { reply } from './reply';
 import type { CloseInput } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
@@ -13,7 +12,8 @@ const closeDocument: ToolHandler = (input, context) => {
   const { documentId, discard } = input as CloseInput;
   const view = viewFor(context, documentId);
   if (!view) return reply(hiddenFailure('document'));
-  if (discard && !view.clean && lockedDocument(context, documentId)) return reply(lockedFailure());
+  const locked = discard && !view.clean ? lockedReply(context, documentId) : null;
+  if (locked) return locked;
   if (!view.clean && !discard) return reply(mcpFailure(MCP_ERROR_CODE.UNSAVED_CHANGES, TOOL_TEXT.unsaved));
   const closed = context.host.close(documentId as DocumentId);
   return reply({ ok: true, closed, discarded: closed && !view.clean });

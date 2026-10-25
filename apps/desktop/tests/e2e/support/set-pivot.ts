@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { Session } from './e2e.type';
+import { openAssetTab } from './open-asset-tab';
 
 const set = async (session: Session, label: string, value: number): Promise<void> => {
   const field = session.page.getByRole('spinbutton', { name: label, exact: true });
@@ -10,7 +11,7 @@ const set = async (session: Session, label: string, value: number): Promise<void
 
 const setPivot = async (session: Session, sprite: string, x: number, y: number): Promise<void> => {
   const { page } = session;
-  await page.getByRole('tablist', { name: 'Open assets' }).getByRole('tab', { name: new RegExp(`^${sprite}`) }).click();
+  await openAssetTab(session, new RegExp(`^${sprite}`)).click();
   await page.keyboard.press('Alt+Enter');
   await page.getByRole('spinbutton', { name: 'Pivot x', exact: true }).waitFor();
   await set(session, 'Pivot x', x);
