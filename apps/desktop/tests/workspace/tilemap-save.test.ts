@@ -31,6 +31,13 @@ const mapDocument = (): { documentId: DocumentId; tilemapId: string } => {
   return { documentId, tilemapId: String(made.created.map) };
 };
 
+const showMap = (): void => {
+  const { documentId, tilemapId } = mapDocument();
+  const tab = tabOf(documentId, { kind: 'tilemap', id: tilemapId });
+  useWorkspaceStore.getState().addTab(tab);
+  useWorkspaceStore.getState().setActiveTab(tab.id);
+};
+
 beforeEach(() => {
   held = rig();
   held.disk.granted.add(DIR.toLowerCase());
@@ -39,10 +46,7 @@ beforeEach(() => {
 
 describe('saving a tilemap of a new file', () => {
   it('asks where the new tileset it needs goes, and writes both', async () => {
-    const { documentId, tilemapId } = mapDocument();
-    const tab = tabOf(documentId, { kind: 'tilemap', id: tilemapId });
-    useWorkspaceStore.getState().addTab(tab);
-    useWorkspaceStore.getState().setActiveTab(tab.id);
+    showMap();
     vi.spyOn(held.disk.port, 'saveAs').mockImplementation(documentPicker(() => `${DIR}/level.bxmap`));
     const outcome = await saveActiveAsset(held.kit, true);
     expect(outcome).toMatchObject({ kind: 'done', path: `${DIR}/level.bxmap` });
@@ -51,5 +55,17 @@ describe('saving a tilemap of a new file', () => {
     const map = decodeTilemap(held.disk.files.get(`${DIR}/level.bxmap`) as Uint8Array, tileset.slice);
     expect(map.outcome).toBe('ok');
     expect(map.slice?.name).toBe('level');
+  });
+
+  it('asks once and puts the new tileset beside the map when the folder is granted', async () => {
+    showMap();
+    const picks = [{ path: `${DIR}/level.bxmap`, folderGranted: true }, { path: 'C:/Elsewhere/second.bxmap', folderGranted: true }];
+    const saveAs = vi.spyOn(held.disk.port, 'saveAs').mockImplementation((() => Promise.resolve(picks.shift() ?? null)) as never);
+    const outcome = await saveActiveAsset(held.kit, true);
+    expect(outcome).toMatchObject({ kind: 'done', path: `${DIR}/level.bxmap` });
+    expect(saveAs).toHaveBeenCalledTimes(1);
+    const tilesets = [...held.disk.files.keys()].filter((path) => path.endsWith('.bxtiles'));
+    expect(tilesets).toHaveLength(1);
+    expect(tilesets[0]?.startsWith(`${DIR}/`)).toBe(true);
   });
 });

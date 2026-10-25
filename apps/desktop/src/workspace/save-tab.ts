@@ -15,15 +15,15 @@ import { workspaceTarget } from './workspace-target';
 import type { OpenTab } from './workspace.type';
 import { writeAssets } from './write-assets';
 
-const giveLinkedPaths = (kit: FileKit, tab: OpenTab): Promise<boolean> => {
+const giveLinkedPaths = (kit: FileKit, tab: OpenTab, granted: boolean): Promise<boolean> => {
   const target = workspaceTarget(kit, tab.documentId);
   if ('kind' in target) return Promise.resolve(false);
   const missing = linkedKeys(target.view.state.artwork, tab.key).filter((key) => !onDisk(target.workspace, key));
-  return givePaths(kit, tab.documentId, missing);
+  return givePaths(kit, tab.documentId, missing, granted);
 };
 
-const saveTab = async (kit: FileKit, tab: OpenTab, chosen: boolean): Promise<FileOutcome> => {
-  if (!(await giveLinkedPaths(kit, tab))) return CANCELLED;
+const saveTab = async (kit: FileKit, tab: OpenTab, chosen: boolean, granted = false): Promise<FileOutcome> => {
+  if (!(await giveLinkedPaths(kit, tab, granted))) return CANCELLED;
   const target = workspaceTarget(kit, tab.documentId);
   if ('kind' in target) return target;
   const path = target.workspace.paths.get(tab.key.id);
