@@ -9,28 +9,23 @@ import { demoFiles } from './demo-files';
 
 const ROOT = join(import.meta.dirname, '../../demo', DEMO_NAME);
 
-const WRITE = process.env['BXEL_WRITE_DEMO'] === '1';
-
 const files = demoFiles(buildDemoArtwork());
 
-const loaded = () => readSaved(join(ROOT, 'sheets', 'party.bxsheet'));
+if (process.env['BXEL_WRITE_DEMO'] === '1') {
+  for (const [path, bytes] of files) {
+    mkdirSync(dirname(join(ROOT, path)), { recursive: true });
+    writeFileSync(join(ROOT, path), bytes);
+  }
+}
 
 describe('the demo project', () => {
-  test.skipIf(!WRITE)('writes the demo project from the real encoders', () => {
-    for (const [path, bytes] of files) {
-      mkdirSync(dirname(join(ROOT, path)), { recursive: true });
-      writeFileSync(join(ROOT, path), bytes);
-    }
-    expect(files.size).toBeGreaterThan(5);
-  });
-
-  test.skipIf(WRITE)('every committed file is what the encoders write today', () => {
+  test('every committed file is what the encoders write today (BXEL_WRITE_DEMO=1 rewrites them)', () => {
     expect([...files.keys()].sort()).toContain(`${DEMO_NAME}.bxproject`);
     for (const [path, bytes] of files) expect(Buffer.compare(readFileSync(join(ROOT, path)), Buffer.from(bytes)), path).toBe(0);
   });
 
-  test.skipIf(WRITE)('holds a tagged animation, a sheet of two sprites, a palette, a tileset and a tilemap', () => {
-    const artwork = loaded();
+  test('holds a tagged animation, a sheet of two sprites, a palette, a tileset and a tilemap', () => {
+    const artwork = readSaved(join(ROOT, 'sheets', 'party.bxsheet'));
     const hero = artwork.sprites.find((sprite) => sprite.name === 'hero');
     expect(hero?.frames.map((frame) => frame.durationMs)).toEqual([...FRAME_MS]);
     expect(hero?.tags.map((tag) => tag.name)).toEqual(['walk']);
