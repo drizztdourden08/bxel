@@ -35,11 +35,11 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const groups = actionGroups({ model, sortKey, rename: rename.begin, open, selections });
   const renaming = model.scene.sprites.find((sprite) => sprite.id === rename.renamingId);
   return (
-    <Stack gap="sm">
-      <ManagerFilters model={model} />
+    <Stack gap="xs" className="sprites-panel__browser">
       <SpritesToolbar model={model} groups={groups} open={open} />
+      <ManagerFilters model={model} />
       <ContextMenu groups={groups} label={MANAGER_TEXT.actions}>
-        <Box onKeyDown={onKeyDown} {...commandZone(COMMAND_ZONE.sprites)}>
+        <Box onKeyDown={onKeyDown} className="sprites-panel__zone" {...commandZone(COMMAND_ZONE.sprites)}>
           <SpriteCollection model={model} affected={affected} dragFor={dragFor} handlersFor={handlersFor(model, rename.begin)} />
         </Box>
       </ContextMenu>

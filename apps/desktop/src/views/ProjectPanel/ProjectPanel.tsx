@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { commandZone } from '@drizztdourden08/brock-react';
-import { Stack } from '@drizztdourden08/tessera';
+import { ScrollArea, Stack } from '@drizztdourden08/tessera';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
 import { useProjectKeys } from './behavior/useProjectKeys';
 import { useProjectPanel } from './behavior/useProjectPanel';
@@ -13,6 +13,7 @@ import { ProjectStart } from './sub-components/ProjectStart';
 import { RenameRow } from './sub-components/RenameRow';
 import { AssetsView } from './sub-components/AssetsView';
 import { ViewBar } from './sub-components/ViewBar';
+import './ProjectPanel.css';
 
 const ProjectPanel = () => {
   const model = useProjectPanel();
@@ -31,7 +32,9 @@ const ProjectPanel = () => {
         <>
           <FolderBar model={model} project={project} />
           {model.renaming !== null && <RenameRow key={model.renaming} model={model} />}
-          <EntryList model={model} />
+          <ScrollArea axis="y" scrollbar="slim" fade={false} className="project-panel__scroll">
+            <EntryList model={model} />
+          </ScrollArea>
         </>
       )}
     </Stack>

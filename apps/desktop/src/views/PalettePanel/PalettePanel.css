@@ -1,12 +1,25 @@
 /* @layer renderer-app @kind style */
+.palette-panel__swatches {
+  flex: 1;
+  min-height: var(--size-40);
+}
+
+.palette-panel__anchor {
+  width: 100%;
+}
+
 .palette-panel__swatch {
   width: 100%;
   height: auto;
   aspect-ratio: 1;
 }
 
+.palette-panel__chip {
+  min-width: 0;
+}
+
 .palette-panel__chip-colour {
   width: 100%;
-  height: var(--size-28);
+  height: var(--size-32);
   align-items: center;
 }

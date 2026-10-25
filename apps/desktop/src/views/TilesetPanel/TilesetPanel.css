@@ -1,4 +1,9 @@
 /* @layer renderer-app @kind style */
+.tileset-panel__scroll {
+  flex: 1;
+  min-height: var(--size-40);
+}
+
 .tileset-panel__grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));

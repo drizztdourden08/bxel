@@ -1,8 +1,5 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
-import { commandZone } from '@drizztdourden08/brock-react';
-import { Box } from '@drizztdourden08/tessera';
-import { COMMAND_ZONE } from '../keymap/command-zone.constants';
 import { TilesetPanel } from '../views/TilesetPanel';
 
 const meta: WidgetMeta = {
@@ -11,15 +8,12 @@ const meta: WidgetMeta = {
   defaultOpen: true,
   defaultSide: 'right',
   defaultDockedSize: 260,
+  fill: true,
   popOut: false,
   defaultVisibility: 'context-only',
 };
 
-const TilesetWidget = () => (
-  <Box {...commandZone(COMMAND_ZONE.tileset)}>
-    <TilesetPanel />
-  </Box>
-);
+const TilesetWidget = () => <TilesetPanel />;
 
 export default TilesetWidget;
 export { meta };

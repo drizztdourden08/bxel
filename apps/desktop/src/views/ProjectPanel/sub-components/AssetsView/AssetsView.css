@@ -1,5 +1,10 @@
 /* @layer renderer-app @kind style */
+.project-assets {
+  flex: 1;
+  min-height: 0;
+}
+
 .project-assets__list {
-  block-size: var(--size-448);
-  max-block-size: 70vh;
+  flex: 1;
+  min-height: var(--size-96);
 }

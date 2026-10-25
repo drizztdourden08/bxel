@@ -4,7 +4,6 @@ import type { HintSpec } from '../ActionHint';
 
 const TILESET_TEXT = {
   region: 'Tileset',
-  title: 'Tiles',
   empty: 'Open a file to see its tiles.',
   noTileset: 'This file has no tileset yet.',
   noTiles: 'This tileset has no tiles yet. Add one, then draw it with Edit tile.',

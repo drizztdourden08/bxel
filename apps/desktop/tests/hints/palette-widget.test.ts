@@ -19,7 +19,7 @@ describe('the palette widget', () => {
     const html = render(createElement(HeldRow, { slots: slots(), held, onEdit: () => undefined }));
     for (const chip of HELD_CHIPS) expect(html).toContain(`aria-label="Colour ${chip.position}, Swatch`);
     expect(html.match(/<kbd/g)?.length).toBeGreaterThanOrEqual(4);
-    expect(html).toContain('Control');
+    expect(html).toContain('Shift');
   });
 
   it('fills the grid with every swatch and marks the held colours by their numbers', () => {

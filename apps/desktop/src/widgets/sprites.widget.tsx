@@ -8,6 +8,7 @@ const meta: WidgetMeta = {
   defaultOpen: true,
   defaultSide: 'right',
   defaultDockedSize: 340,
+  fill: true,
   popOut: false,
   defaultVisibility: 'context-only',
 };

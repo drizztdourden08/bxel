@@ -7,7 +7,7 @@ import type { PaletteSwatchProps } from '../PalettePanel.type';
 const PaletteSwatch = (props: PaletteSwatchProps) => {
   const { slot, marks, onPick, onEdit } = props;
   return (
-    <ActionHint hint={swatchHint(slot.label)} placement="top">
+    <ActionHint hint={swatchHint(slot.label)} placement="top" className="palette-panel__anchor">
       <ColorSwatch
         className="palette-panel__swatch"
         color={slot.hex}

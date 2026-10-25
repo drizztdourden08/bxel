@@ -29,7 +29,7 @@ const TimelinePanel = () => {
   const hintId = useId();
   const onKeyDown = useTimelineKeys();
   const model = useMemo(() => (target ? timelineModel(target, selection, tagId) : null), [target, selection, tagId]);
-  if (!target || !model) return <EmptyState message={TIMELINE_TEXT.empty} />;
+  if (!target || !model) return <EmptyState size="sm" message={TIMELINE_TEXT.empty} />;
   const { sprite, frameId } = target;
   const tag = sprite.tags.find((each) => each.id === tagId);
   const duration = sprite.frames.find((frame) => frame.id === frameId)?.durationMs ?? 0;

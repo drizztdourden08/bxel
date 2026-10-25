@@ -9,7 +9,8 @@ const meta: WidgetMeta = {
   icon: 'layers',
   defaultOpen: true,
   defaultSide: 'right',
-  defaultDockedSize: 232,
+  defaultDockedSize: 280,
+  fill: true,
   popOut: false,
   defaultVisibility: 'context-only',
 };

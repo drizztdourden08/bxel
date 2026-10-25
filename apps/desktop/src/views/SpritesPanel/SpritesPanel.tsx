@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { EmptyState, Stack } from '@drizztdourden08/tessera';
+import { Center, EmptyState, ScrollArea, Stack } from '@drizztdourden08/tessera';
 import { MANAGER_TEXT } from '../../sheet-manager/manager-text.constants';
 import { useManagerStore } from '../../stores/useManagerStore';
 import { useManagerModel } from './behavior/useManagerModel';
@@ -14,11 +14,23 @@ const SpritesPanel = () => {
   const model = useManagerModel();
   const tab = useManagerStore((state) => state.tab);
   useSheetView(model?.sheet?.id ?? null);
-  if (!model) return <EmptyState message={MANAGER_TEXT.empty} />;
+  if (!model) {
+    return (
+      <Center direction="column">
+        <EmptyState size="sm" message={MANAGER_TEXT.empty} />
+      </Center>
+    );
+  }
   return (
-    <Stack gap="sm">
+    <Stack gap="xs">
       <ManagerHeader model={model} />
-      {tab === 'atlas' ? <AtlasView model={model} /> : <SpriteBrowser model={model} />}
+      {tab === 'atlas' ? (
+        <ScrollArea axis="y" scrollbar="slim" fade={false} className="sprites-panel__scroll">
+          <AtlasView model={model} />
+        </ScrollArea>
+      ) : (
+        <SpriteBrowser model={model} />
+      )}
       <ManagerDialogs model={model} />
     </Stack>
   );

@@ -14,7 +14,7 @@ const PALETTE_PANEL_TEXT = {
   chipName: (position: number): string => `Colour ${position}`,
 } as const;
 
-const SWATCH_MIN_WIDTH = 24;
+const SWATCH_MIN_WIDTH = 28;
 
 const CONFIG_HINT: HintSpec = {
   name: 'Palette settings',
