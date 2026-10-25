@@ -15,8 +15,10 @@ import { appReview } from '../.brock/review';
 import { appTitleBar } from '../.brock/title-bar';
 import { appTours } from '../.brock/tours';
 import { appStartupPrompts } from '../.brock/startup';
+import { appToolbars } from '../.brock/toolbars';
 import { APP_COMMANDS } from './keymap/app-commands.constants';
 import { useAppMenu } from './hooks/useAppMenu';
+import { useToolbarDefinitions } from './hooks/useToolbarDefinitions';
 import { SETTINGS } from './main.constants';
 import { product } from './product';
 import { closeGuard } from './recovery/close-guard';
@@ -27,6 +29,7 @@ if (!root) throw new Error('index.html has no #root element');
 
 const App = () => {
   const menu = useAppMenu();
+  useToolbarDefinitions(appToolbars);
   return (
     <BrockApp<AppSettings>
       product={product}
