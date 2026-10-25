@@ -7,6 +7,7 @@ export default defineBrockConfig({
     name: 'Bxel',
     appId: 'com.drizztdourden08.bxel',
     ports: { base: 23600 },
+    repo: { owner: 'drizztdourden08', name: 'bxel' },
     description: 'A palette constrained pixel art editor for sprites, animation and sprite sheets.',
     author: { name: 'Drizztdourden_', email: '36481532+drizztdourden08@users.noreply.github.com' },
     icons: {
