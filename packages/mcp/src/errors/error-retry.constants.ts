@@ -70,6 +70,7 @@ const RETRY_TABLE: readonly (readonly [Retry, readonly string[]])[] = [
       MCP_ERROR_CODE.NAME_INVALID,
       MCP_ERROR_CODE.PATH_INVALID,
       MCP_ERROR_CODE.FILE_EXISTS,
+      MCP_ERROR_CODE.FILE_IN_USE,
       MCP_ERROR_CODE.NEEDS_FILE_NAME,
       MCP_ERROR_CODE.RESULT_TOO_LARGE,
     ],
