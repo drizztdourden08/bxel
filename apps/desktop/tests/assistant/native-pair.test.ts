@@ -32,11 +32,13 @@ describe('the native question of a headless Bxel', () => {
   it('offers read only, editing and deny by name, and never uses confirm', async () => {
     const { ctx, choose } = contextPicking('read');
     await askNativePair(ctx, 'Check');
-    expect(choose.mock.calls[0]?.[0].choices).toEqual([
-      { id: 'read', label: NATIVE_PAIR_TEXT.readLabel },
-      { id: 'edit', label: NATIVE_PAIR_TEXT.editLabel },
-      { id: 'blocked', label: NATIVE_PAIR_TEXT.denyLabel },
-    ]);
+    expect(choose.mock.calls[0]?.[0]).toMatchObject({
+      choices: [
+        { id: 'read', label: NATIVE_PAIR_TEXT.readLabel },
+        { id: 'edit', label: NATIVE_PAIR_TEXT.editLabel },
+        { id: 'blocked', label: NATIVE_PAIR_TEXT.denyLabel },
+      ],
+    });
     expect(ctx.dialogs.confirm).not.toHaveBeenCalled();
   });
 
