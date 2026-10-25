@@ -6,6 +6,7 @@ declare module '@drizztdourden08/tessera' {
     'bxel': {
       parts:
         | 'ActionHint'
+        | 'Announcer'
         | 'AppControl'
         | 'ApplyBar'
         | 'AssetControl'

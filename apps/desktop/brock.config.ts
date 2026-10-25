@@ -26,6 +26,7 @@ export default defineBrockConfig({
   },
   targets: ['desktop'],
   packaging: {
+    extraResources: [{ from: 'demo/Bxel Demo', to: 'demo' }],
     fileAssociations: {
       bxsprite: { role: 'Editor' },
       bxsheet: { role: 'Editor' },
