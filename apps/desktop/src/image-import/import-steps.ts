@@ -4,6 +4,7 @@ import { PALETTE_COMMAND_NAME, sheetImportSteps } from '@bxel/palette';
 import type { SheetImportCell } from '@bxel/palette';
 import { alphaThreshold } from './alpha-threshold';
 import { cropRgba } from './crop-rgba';
+import { frameOptions } from './frame-options';
 import { BANK_REF } from './image-import.constants';
 import type { BankOption, ImportRun } from './image-import.type';
 import { sheetLayoutOf } from './sheet-layout-of';
@@ -43,7 +44,7 @@ const importSteps = (run: ImportRun, bankId: string | null): CommandStep[] => {
   const sprites = cells.map((cell): CommandStep => ({
     name: PALETTE_COMMAND_NAME.spriteImport,
     targets: null,
-    options: { name: cell.name, image: cell.image, bank, mapping: cell.mapping },
+    options: { name: cell.name, image: cell.image, bank, mapping: cell.mapping, ...frameOptions(run.image) },
   }));
   return [...bankStep(run), ...sprites];
 };

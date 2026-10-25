@@ -11,6 +11,7 @@ const paintPoints = (session: StrokeSession, points: readonly Point[]): Rect | n
     brush: session.options.brush,
     pixelPerfect: session.options.pixelPerfect,
     symmetry: session.options.symmetry,
+    wrap: session.options.wrap,
     mask: session.mask,
   });
 

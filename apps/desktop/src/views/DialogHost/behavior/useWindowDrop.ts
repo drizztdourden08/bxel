@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useEffect } from 'react';
 import { dropImage } from '../../../image-import/drop-image';
-import { isPngFile } from '../../../image-import/is-png-file';
+import { isImageFile } from '../../../image-import/is-image-file';
 
 const carriesFiles = (event: DragEvent): boolean => event.dataTransfer?.types.includes('Files') === true;
 
@@ -11,7 +11,7 @@ const useWindowDrop = (): void => {
       if (carriesFiles(event)) event.preventDefault();
     };
     const drop = (event: DragEvent): void => {
-      const file = Array.from(event.dataTransfer?.files ?? []).find(isPngFile);
+      const file = Array.from(event.dataTransfer?.files ?? []).find(isImageFile);
       if (event.defaultPrevented || !file) return;
       event.preventDefault();
       void dropImage(file);

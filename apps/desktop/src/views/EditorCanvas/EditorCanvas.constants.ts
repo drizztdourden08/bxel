@@ -1,7 +1,4 @@
 /* @layer renderer-app @kind constants */
-import type { TileMode } from '../../stores/view-store.type';
-import type { PixelTiling } from '../PixelViewport';
-
 const EDITOR_CANVAS_TEXT = {
   label: 'Sprite canvas',
   hint: 'Arrow keys move the drawing cursor. Space paints with the front colour and Enter with the back colour. Shift with Space draws a line from the last point. Control picks the third and fourth colours. With the shapes tool, press once to start and again to finish. Shift with an arrow pans the view.',
@@ -13,13 +10,6 @@ const CANVAS_CLASS = {
   rulers: 'editor-canvas editor-canvas--rulers',
   viewport: 'editor-canvas__viewport',
 } as const;
-
-const TILING_OF: Readonly<Record<TileMode, PixelTiling>> = {
-  off: { x: false, y: false },
-  x: { x: true, y: false },
-  y: { x: false, y: true },
-  both: { x: true, y: true },
-};
 
 const OVERLAY_TOKENS = {
   axis: '--c-tertiary',
@@ -50,5 +40,5 @@ const AXIS_GRIP = 5;
 
 export {
   ANT_DASH, ANT_PERIOD, ANT_STEP_MS, AREA_FILL_ALPHA, AREA_LINE, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, EDITOR_CANVAS_TEXT, OUTLINE_PATHS, OVERLAY_TOKENS,
-  REDUCED_MOTION, TILING_OF,
+  REDUCED_MOTION,
 };

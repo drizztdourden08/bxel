@@ -7,17 +7,14 @@ import { colorsView } from '../../src/image-import/colors-view';
 import { importContext } from '../../src/image-import/import-context';
 import { importErrors } from '../../src/image-import/import-errors';
 import { importNames } from '../../src/image-import/import-names';
-import type { ImportContext, ImportForm, ImportRun, SourceImage } from '../../src/image-import/image-import.type';
-import { initialImportForm } from '../../src/image-import/initial-import-form';
+import type { SourceImage } from '../../src/image-import/image-import.type';
 import { runImport } from '../../src/image-import/run-import';
 import { sliceRects } from '../../src/image-import/slice-rects';
 import { slicingLine } from '../../src/image-import/slicing-line';
 import { stepIssue } from '../../src/image-import/step-issue';
-import { NEW_MEMORY_DEFAULT } from '../../src/new-sprite/new-sprite.constants';
 import { useImportStore } from '../../src/stores/useImportStore';
 import { hostWithFile, newHost, revisionOf, sourceImage, sprites } from './dialog-harness';
-
-const NONE: ImportContext = { documentId: null, bank: null, taken: [], sheetNames: [], tilesetNames: [], tilemapNames: [], spriteCount: 0 };
+import { formFor, NONE, runOf } from './import-run-harness';
 
 const noise = (side: number): SourceImage => sourceImage(side, side, (x, y) => [x * 9 + 3, y * 11 + 5, (x + y) * 5 + 1, 255]);
 
@@ -30,18 +27,6 @@ const quad = (): SourceImage =>
     if (x % 18 >= 16) return CLEAR;
     return x >= 18 ? GREEN : RED;
   });
-
-const formFor = (image: SourceImage, context: ImportContext, patch: Partial<ImportForm>): ImportForm => ({
-  ...initialImportForm(image, context, NEW_MEMORY_DEFAULT),
-  ...patch,
-});
-
-const runOf = (form: ImportForm, image: SourceImage, context: ImportContext): ImportRun => {
-  const plan = colorsView(form, image, context).plan;
-  if (!plan) throw new Error('no plan');
-  const rects = activeRects(form, image);
-  return { form, image, plan, rects, names: importNames(form, rects), context, tiled: null };
-};
 
 describe('slicing rectangles', () => {
   const grid = { cellWidth: 16, cellHeight: 16, offsetX: 1, offsetY: 0, spacingX: 2, spacingY: 2, order: 'rows', names: '' } as const;

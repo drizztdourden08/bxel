@@ -4,11 +4,13 @@ import type { Bounds } from './bounds.type';
 import type { Brush, BrushStamp } from './brush.type';
 import type { Corners, Point } from './geometry.type';
 import type { Symmetry } from './symmetry.type';
+import type { Wrap } from './wrap.type';
 
 type PaintTarget = {
   readonly target: BufferView;
   readonly index: number;
   readonly mask?: MaskView | null;
+  readonly wrap?: Wrap;
 };
 
 type StrokeOptions = PaintTarget & {
@@ -31,6 +33,7 @@ type ShapeOptions = PaintTarget &
 type PixelWriter = {
   readonly target: BufferView;
   readonly mask: MaskView | null;
+  readonly wrap: Wrap;
   readonly index: number;
   readonly bounds: Bounds;
 };

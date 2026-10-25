@@ -6,6 +6,7 @@ import type { EditorTarget } from './editor.type';
 import { fillRequest } from './fill-request';
 import type { ColourSlot } from './press-plan.type';
 import { samplePixel } from './sample-pixel';
+import { wrapOf } from './wrap-of';
 
 const pickColour = (target: EditorTarget, at: Point, slot: ColourSlot): void => {
   const index = samplePixel(target, at);
@@ -20,7 +21,7 @@ const runInstant = (kind: 'pick' | 'fill', target: EditorTarget, at: Point, slot
     return;
   }
   const tools = useToolStore.getState();
-  const choice = { index: tools[slot], mode: tools.fillMode, connectivity: tools.connectivity };
+  const choice = { index: tools[slot], mode: tools.fillMode, connectivity: tools.connectivity, wrap: wrapOf() };
   useDocumentStore.getState().host.execute(fillRequest(target, at, choice));
 };
 

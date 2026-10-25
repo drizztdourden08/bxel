@@ -1,10 +1,12 @@
 /* @layer core @kind logic */
+import { foldPoint } from './fold-point';
 import { growBounds } from './grow-bounds';
 import { maskAllows } from './mask-allows';
 import type { PixelWriter } from './paint.type';
 
-const writePixel = (writer: PixelWriter, x: number, y: number): void => {
+const writePixel = (writer: PixelWriter, rawX: number, rawY: number): void => {
   const { target } = writer;
+  const { x, y } = foldPoint({ x: rawX, y: rawY }, target, writer.wrap);
   if (x < 0 || y < 0 || x >= target.width || y >= target.height) {
     return;
   }

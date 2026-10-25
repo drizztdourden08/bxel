@@ -34,7 +34,9 @@ an exported sprite sheet. The labels are the ones on screen.
    Hold Ctrl for Colour 3 and Colour 4.
 3. Draw on the canvas with the Pencil. Hold Shift for a straight line. Mirror X paints the opposite
    side as well. One stroke is one undo step (Ctrl+Z, Ctrl+Y).
-4. Turn on Tiled preview in the View menu to see whether a pattern repeats.
+4. Turn on Tiled preview in the View menu to see whether a pattern repeats. While it is on, a stroke,
+   line, shape or fill that leaves one edge continues from the opposite edge, and the whole stroke
+   is still one undo step.
 5. Transform opens flips and turns. A preview opens first. Choose Apply or Cancel on the bar.
    Flips and quarter turns never add a colour.
 
@@ -46,7 +48,8 @@ an exported sprite sheet. The labels are the ones on screen.
   puts it back.
 - The Palette menu holds Delete swatch, Merge swatch and Change colour limit. Each shows what
   will change before it does.
-- Import image (Ctrl+I) reads a PNG. The Colours step shows the original beside the reduced
+- Import image (Ctrl+I) reads a PNG, GIF or APNG. An animated file arrives as one sprite with a frame for
+  each picture and keeps the duration of each frame. The Colours step shows the original beside the reduced
   picture. Choose to map to the file palette, extract the best colours or use a palette file.
   Dithering is off unless you turn it on, and Cancel leaves the file untouched.
 

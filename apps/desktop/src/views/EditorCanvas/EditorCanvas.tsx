@@ -2,13 +2,14 @@
 import { useRef } from 'react';
 import { Box, EmptyState } from '@drizztdourden08/tessera';
 import { useSpriteLook } from '../../canvas-look/useSpriteLook';
+import { WRAP_OF } from '../../editor/wrap.constants';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { usePendingStore } from '../../stores/usePendingStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { useViewStore } from '../../stores/useViewStore';
 import { PixelViewport } from '../PixelViewport';
 import type { PixelViewportHandle } from '../PixelViewport';
-import { EDITOR_CANVAS_TEXT, TILING_OF } from './EditorCanvas.constants';
+import { EDITOR_CANVAS_TEXT } from './EditorCanvas.constants';
 import { canvasClass } from './behavior/canvas-class';
 import { useAreaRedraw } from './behavior/useAreaRedraw';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
@@ -65,7 +66,7 @@ const EditorCanvas = () => {
         gridMajor={gridMajor}
         gridTile={gridTile}
         hand={tool === 'hand'}
-        tiled={TILING_OF[tiled]}
+        tiled={WRAP_OF[tiled]}
         onPointerPixel={(pixel) => {
           keys.onPointerPixel();
           readout.onPointerPixel(pixel);

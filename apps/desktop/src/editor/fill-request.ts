@@ -19,7 +19,7 @@ const fillRequest = (target: EditorTarget, at: Point, choice: FillChoice): Trans
     FILL_LABEL,
     {
       name: COMMAND_NAME.pixelsFill,
-      options: { x: at.x, y: at.y, index: choice.index, mode: choice.mode, connectivity: choice.connectivity, ...maskPart(target) },
+      options: { x: at.x, y: at.y, index: choice.index, mode: choice.mode, connectivity: choice.connectivity, wrap: choice.wrap, ...maskPart(target) },
     },
     paintScope(target),
   );

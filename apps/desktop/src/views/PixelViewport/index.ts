@@ -1,3 +1,3 @@
 /* @layer renderer-app @kind barrel */
 export { PixelViewport } from './PixelViewport';
-export type { PixelDraw, PixelPoint, PixelTiling, PixelView, PixelViewportHandle } from './PixelViewport.type';
+export type { PixelDraw, PixelPoint, PixelView, PixelViewportHandle } from './PixelViewport.type';
