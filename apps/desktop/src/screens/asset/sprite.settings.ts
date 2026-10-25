@@ -11,7 +11,7 @@ const meta: ScreenMeta = {
   order: 1,
   source: ASSET_SOURCE,
   when: showForKind('sprite'),
-  keywords: ['sprite', 'name', 'size', 'resize', 'pivot', 'frame', 'duration', 'grid', 'export'],
+  keywords: ['sprite', 'name', 'size', 'width', 'height', 'resize', 'pivot', 'frame', 'duration', 'grid', 'export'],
 };
 
 const sections: Section[] = [
@@ -21,21 +21,17 @@ const sections: Section[] = [
     items: [
       { key: 'sprite.name', label: 'Name', description: 'The name of the sprite and of its file.', hint: 'The file takes the name when you save.', control: { kind: 'text', placeholder: 'Sprite name' } },
       {
-        key: 'sprite.width',
-        label: 'Width',
-        description: 'Pixels across.',
-        hint: 'Changing the size resizes every layer and frame, around the centre. One undo step undoes it.',
-        control: { kind: 'number', min: 1, max: 2048, step: 1, unit: 'px' },
+        key: 'sprite.size',
+        label: 'Size',
+        description: 'Pixels across and down.',
+        hint: 'Changing the size resizes every layer and frame, around the centre. One undo step undoes each change.',
       },
-      { key: 'sprite.height', label: 'Height', description: 'Pixels down.', hint: 'Changing the size resizes every layer and frame, around the centre.', control: { kind: 'number', min: 1, max: 2048, step: 1, unit: 'px' } },
-    ],
-  },
-  {
-    id: 'pivot',
-    title: 'Pivot',
-    items: [
-      { key: 'sprite.pivotX', label: 'Pivot x', description: 'Where the sprite turns and is placed, across.', hint: 'Half pixels are allowed.', control: { kind: 'number', min: 0, step: 0.5, unit: 'px' } },
-      { key: 'sprite.pivotY', label: 'Pivot y', description: 'Where the sprite turns and is placed, down.', hint: 'Half pixels are allowed.', control: { kind: 'number', min: 0, step: 0.5, unit: 'px' } },
+      {
+        key: 'sprite.pivot',
+        label: 'Pivot',
+        description: 'Where the sprite turns and is placed, from the top left corner.',
+        hint: 'Half pixels are allowed.',
+      },
     ],
   },
   {
@@ -53,24 +49,22 @@ const sections: Section[] = [
   },
   {
     id: 'grid',
-    title: 'Grid',
+    title: 'Pixel grid',
     items: [
       {
-        key: 'sprite.gridWidth',
-        label: 'Pixel grid across',
-        description: 'Pixels between grid lines across. 1 draws a line between every pixel.',
+        key: 'sprite.pixelGrid',
+        label: 'Grid cell',
+        description: 'Pixels between grid lines, across and down. 1 by 1 draws a line between every pixel.',
         hint: 'Saved with the sprite. A new sprite takes it from the defaults.',
-        control: { kind: 'number', min: 1, max: 2048, step: 1, unit: 'px' },
       },
-      {
-        key: 'sprite.gridHeight',
-        label: 'Pixel grid down',
-        description: 'Pixels between grid lines down.',
-        hint: 'Saved with the sprite.',
-        control: { kind: 'number', min: 1, max: 2048, step: 1, unit: 'px' },
-      },
-      { key: 'view.grid', label: 'Pixel grid', description: 'Draw a line between pixels when zoomed in.', hint: 'This is a view setting. It does not change the file.' },
-      { key: 'view.gridTile', label: 'Tile grid', description: 'Draw the boundaries of tiles of a set size.', hint: 'The tile size is set on the App Canvas page.' },
+    ],
+  },
+  {
+    id: 'view',
+    title: 'Show on the canvas',
+    items: [
+      { key: 'view.grid', label: 'Pixel grid', description: 'Draw the grid lines when zoomed in.', hint: 'This is a view setting. It does not change the file.' },
+      { key: 'view.gridTile', label: 'Tile grid', description: 'Draw the boundaries of tiles of a set size.', hint: 'The tile size and the grid colours are set on the App Canvas page.' },
     ],
   },
   {
@@ -79,7 +73,7 @@ const sections: Section[] = [
     items: [
       {
         key: 'sprite.export',
-        label: 'Export presets',
+        label: 'Export',
         description: 'Save the sprite as a PNG, a strip or an animation.',
         hint: 'The presets you save are kept in the sprite file.',
         actions: [{ id: 'export', label: 'Export...', icon: 'upload', onSelect: () => runInEditor(FILE_COMMAND.export) }],

@@ -10,6 +10,24 @@ interface AssetControlProps {
   field: string;
 }
 
+interface PairPart {
+  key: string;
+  label: string;
+}
+
+interface PairSpec {
+  parts: readonly [PairPart, PairPart];
+  joiner: string;
+  unit: string;
+  min: number;
+  max?: number;
+  step: number;
+}
+
+interface PairControlProps {
+  spec: PairSpec;
+}
+
 interface BankControlModel {
   options: readonly BankOption[];
   value: string;
@@ -72,4 +90,4 @@ interface PresetListModel {
   run: (name: string) => void;
 }
 
-export type { AssetControlProps, BankControlModel, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowProps, ReportControlModel, SetLoaderModel, SnapRowModel };
+export type { AssetControlProps, BankControlModel, PairControlProps, PairSpec, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowProps, ReportControlModel, SetLoaderModel, SnapRowModel };

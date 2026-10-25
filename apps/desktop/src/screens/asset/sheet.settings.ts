@@ -67,7 +67,7 @@ const sections: Section[] = [
       },
       {
         key: 'sheet.export',
-        label: 'Export presets',
+        label: 'Export',
         description: 'Save the sheet as an image with its data file.',
         actions: [{ id: 'export', label: 'Export...', icon: 'download', onSelect: () => runInEditor(FILE_COMMAND.export) }],
       },

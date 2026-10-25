@@ -1,0 +1,4 @@
+/* @layer renderer-app @kind style */
+.pair-control__part {
+  inline-size: var(--size-128);
+}

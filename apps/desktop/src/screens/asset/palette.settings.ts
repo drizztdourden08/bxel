@@ -24,7 +24,7 @@ const sections: Section[] = [
   },
   {
     id: 'swatches',
-    title: 'Colours',
+    title: 'Swatch set',
     items: [
       {
         key: 'palette.set',
