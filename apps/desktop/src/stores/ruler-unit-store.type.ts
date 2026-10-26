@@ -12,4 +12,4 @@ interface RulerUnitState {
   choose: (unit: RulerUnit) => void;
 }
 
-export type { RulerUnitState, UnitWriter };
+export type { RulerUnitState };

@@ -24,7 +24,7 @@
     "zod": "^4.0.0"
   },
   "devDependencies": {
-    "@drizztdourden08/brock-lint-config": "^0.106.0",
+    "@drizztdourden08/brock-lint-config": "^0.106.1",
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:"

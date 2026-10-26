@@ -72,7 +72,7 @@ const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
   grid: 'pixel-grid',
   gridMajor: 'layout-grid',
   gridTile: 'columns-3',
-  guides: 'split',
+  guides: 'guides',
   rulers: 'pixel-rulers',
 };
 

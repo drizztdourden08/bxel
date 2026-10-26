@@ -1,20 +1,11 @@
 {
-<<<<<<< HEAD
-  "brock": "0.106.0",
-  "generatedAt": "2026-10-26T09:29:55.330Z",
-=======
-  "brock": "0.101.0",
-  "generatedAt": "2026-10-26T16:54:25.755Z",
->>>>>>> main
+  "brock": "0.106.1",
+  "generatedAt": "2026-10-26T17:34:37.612Z",
   "modules": [
     {
       "id": "updater",
       "package": "@drizztdourden08/brock-updater",
-<<<<<<< HEAD
-      "version": "0.106.0"
-=======
-      "version": "0.101.0"
->>>>>>> main
+      "version": "0.106.1"
     }
   ]
 }
