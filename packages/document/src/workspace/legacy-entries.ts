@@ -13,6 +13,7 @@ const legacyEntries = (artwork: Artwork): readonly SplitEntry[] => {
   return [
     ...entriesOf(ASSET_KIND.palette, artwork.banks),
     ...entriesOf(ASSET_KIND.sprite, artwork.sprites.filter((sprite) => !owners.has(sprite.id))),
+    ...entriesOf(ASSET_KIND.animation, artwork.animations),
     ...entriesOf(ASSET_KIND.sheet, artwork.sheets),
     ...entriesOf(ASSET_KIND.tileset, artwork.tilesets),
     ...entriesOf(ASSET_KIND.tilemap, artwork.tilemaps),

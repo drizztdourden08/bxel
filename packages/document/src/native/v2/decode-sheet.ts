@@ -6,6 +6,7 @@ import { fatalAssetReport } from './fatal-asset-report';
 import { finishAssetReport } from './finish-asset-report';
 import { readAsset } from './read-asset';
 import { sheetPlaceholders } from './sheet-placeholders';
+import { suppliesAnimation } from './supplies-animation';
 import { suppliesSprite } from './supplies-sprite';
 import { validateSheetFile } from './validate-sheet-file';
 
@@ -16,7 +17,7 @@ const decodeSheet = (bytes: Uint8Array, sprites: readonly AssetSlice[] = []): As
   const file = validateSheetFile(json, opened.manifest);
   if (!file.ok) return fatalAssetReport(file.issues);
   const { sheet, presets } = file.value;
-  const missing = opened.manifest.links.filter((link) => !suppliesSprite(sprites, link.id));
+  const missing = opened.manifest.links.filter((link) => !suppliesSprite(sprites, link.id) && !suppliesAnimation(sprites, link.id));
   const slice = {
     kind: ASSET_KIND.sheet,
     id: sheet.id,

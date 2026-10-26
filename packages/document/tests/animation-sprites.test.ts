@@ -66,6 +66,17 @@ describe('spriteOwners and assetsTouched', () => {
     expect(owners.size).toBe(2);
   });
 
+  it('keys a new animation and the sprites it owns to the animation', () => {
+    const { engine, a } = buildAnimWorld();
+    const before = engine.state().artwork;
+    const done = apply(engine, [step('animation.create', { name: 'walk', source: { kind: 'sprite', sprite: a, mode: 'copy' } }, 'anim')]);
+    expect(assetsTouched(done.changes, before, engine.state().artwork)).toEqual([{ kind: 'animation', id: done.created['anim'] }]);
+    const owned = engine.state().artwork.sprites.find((sprite) => sprite.role === 'frame');
+    const mid = engine.state().artwork;
+    const edit = apply(engine, [{ ...step('pixels.patch', { rect: { x: 0, y: 0, width: 1, height: 1 }, pixels: new Uint8Array([9]) }), targets: target(owned?.id ?? '') }]);
+    expect(assetsTouched(edit.changes, mid, engine.state().artwork).map((key) => key.kind)).toEqual(['animation']);
+  });
+
   it('lists the tileset as the owner of a tile sprite and the sprite itself for a project sprite', () => {
     const { engine, a } = buildAnimWorld();
     const before = engine.state().artwork;

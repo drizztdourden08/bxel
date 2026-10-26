@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { ID_PREFIX } from '../ids/id-prefix.constants';
-import type { SheetId, SpriteId } from '../model/ids.type';
+import type { AnimationId, SheetId, SpriteId, TagId } from '../model/ids.type';
 import { brandedIdSchema } from './branded-id-schema';
 import { createdSchema } from './created-schema';
 import { nameSchema } from './name-schema';
@@ -28,6 +28,12 @@ const entrySchema = z.object({
   source: rectSchema.nullable(),
 });
 
+const animationEntrySchema = z.object({
+  animationId: brandedIdSchema<AnimationId>(ID_PREFIX.animation),
+  tagId: brandedIdSchema<TagId>(ID_PREFIX.tag).nullable(),
+  at: pointSchema,
+});
+
 const sheetSchema = z.object({
   id: brandedIdSchema<SheetId>(ID_PREFIX.sheet),
   name: nameSchema,
@@ -36,6 +42,7 @@ const sheetSchema = z.object({
   spacing: pointSchema,
   margin: z.number().int().min(0),
   entries: z.array(entrySchema),
+  animationEntries: z.array(animationEntrySchema).optional(),
 });
 
 export { sheetSchema };

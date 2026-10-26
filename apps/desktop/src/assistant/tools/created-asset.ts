@@ -6,6 +6,7 @@ const created = (artwork: Artwork, request: CreateInput): { readonly kind: Creat
   const named = <T extends { readonly id: string; readonly name: string }>(items: readonly T[], name: string): string | undefined => items.find((item) => item.name === name)?.id;
   const found: Readonly<Record<CreateInput['kind'], string | undefined>> = {
     sprite: artwork.sprites.find((sprite) => sprite.role !== 'tile')?.id,
+    animation: named(artwork.animations, request.name),
     sheet: named(artwork.sheets, request.name),
     palette: artwork.banks[0]?.id,
     tileset: named(artwork.tilesets, request.name),

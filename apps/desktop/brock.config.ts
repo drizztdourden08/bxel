@@ -18,6 +18,7 @@ export default defineBrockConfig({
     menu: { home: false, entries: { settings: { group: 'end', before: 'about' } } },
     fileAssociations: [
       { ext: 'bxsprite', name: 'Bxel sprite', description: 'A Bxel sprite', progId: 'Bxel.Sprite', mimeType: 'application/vnd.bxel.sprite+zip', icon: 'filetypes/bxsprite' },
+      { ext: 'bxanim', name: 'Bxel animation', description: 'A Bxel animation', progId: 'Bxel.Animation', mimeType: 'application/vnd.bxel.animation+zip', icon: 'filetypes/bxanim' },
       { ext: 'bxsheet', name: 'Bxel spritesheet', description: 'A Bxel spritesheet', progId: 'Bxel.Sheet', mimeType: 'application/vnd.bxel.sheet+zip', icon: 'filetypes/bxsheet' },
       { ext: 'bxpalette', name: 'Bxel palette', description: 'A Bxel palette', progId: 'Bxel.Palette', mimeType: 'application/vnd.bxel.palette+zip', icon: 'filetypes/bxpalette' },
       { ext: 'bxtiles', name: 'Bxel tileset', description: 'A Bxel tileset', progId: 'Bxel.Tileset', mimeType: 'application/vnd.bxel.tileset+zip', icon: 'filetypes/bxtiles' },
@@ -31,6 +32,7 @@ export default defineBrockConfig({
     extraResources: [{ from: 'demo/Bxel Demo', to: 'demo' }],
     fileAssociations: {
       bxsprite: { role: 'Editor' },
+      bxanim: { role: 'Editor' },
       bxsheet: { role: 'Editor' },
       bxpalette: { role: 'Editor' },
       bxtiles: { role: 'Editor' },

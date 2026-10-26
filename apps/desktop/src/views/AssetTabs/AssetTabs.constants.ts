@@ -4,6 +4,7 @@ import type { IconName } from '@drizztdourden08/tessera';
 
 const ASSET_ICON: Readonly<Record<AssetKind, IconName>> = {
   sprite: 'pixel-sprite',
+  animation: 'pixel-animation',
   sheet: 'pixel-atlas',
   palette: 'pixel-palette',
   tileset: 'pixel-tileset',

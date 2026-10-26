@@ -6,6 +6,7 @@ const rolePathSchema = locationPathSchema(true).optional();
 
 const rolesSchema = z.strictObject({
   sprites: rolePathSchema,
+  animations: rolePathSchema,
   sheets: rolePathSchema,
   palettes: rolePathSchema,
   tilemaps: rolePathSchema,

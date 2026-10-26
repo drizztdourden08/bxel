@@ -14,6 +14,9 @@ const paletteDelete = defineCommand({
     if (bank.id === draft.artwork.defaultBankId) {
       throw fail(ERROR_CODE.DEFAULT_BANK, 'The default palette cannot be deleted.', { path: 'options.bankId' });
     }
+    if (draft.artwork.animations.some((animation) => animation.bankId === bank.id)) {
+      throw fail(ERROR_CODE.BANK_IN_USE, `An animation still uses palette "${bank.name}".`, { path: 'options.bankId' });
+    }
     const users = bankSprites(draft.artwork, bank.id);
     if (users.length > 0) {
       throw fail(ERROR_CODE.BANK_IN_USE, `${users.length} sprites still use palette "${bank.name}".`, {

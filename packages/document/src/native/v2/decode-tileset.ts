@@ -6,10 +6,14 @@ import { fatalAssetReport } from './fatal-asset-report';
 import { finishAssetReport } from './finish-asset-report';
 import { readTilesetFile } from './read-tileset-file';
 
-const decodeTileset = (bytes: Uint8Array, palette: AssetSlice | null = null): AssetReport => {
+const decodeTileset = (
+  bytes: Uint8Array,
+  palette: AssetSlice | null = null,
+  providers: readonly AssetSlice[] = [],
+): AssetReport => {
   const read = readTilesetFile(bytes);
   if (!read.ok) return fatalAssetReport(read.issues);
-  const built = buildTilesetSlice(read.value, palette);
+  const built = buildTilesetSlice(read.value, palette, providers);
   return finishAssetReport({ opened: read.value.opened, check: read.value.check, ...built });
 };
 

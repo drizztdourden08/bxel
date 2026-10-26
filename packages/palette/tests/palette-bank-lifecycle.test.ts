@@ -32,6 +32,15 @@ describe('palette.delete', () => {
     expect(failed.ok ? [] : failed.error.details.map((issue) => issue.spriteId)).toEqual([second]);
     expect(rejectionCode(rig, () => execute(rig, [step('palette.delete', { bankId: 'bnk_zzzzzz' })]))).toBe('TARGET_NOT_FOUND');
   });
+
+  it('refuses a bank an animation uses, even when no sprite does', () => {
+    const rig = makeRig();
+    const bankId = createBank(rig, ['#112233', '#445566'], true);
+    succeed(execute(rig, [step('animation.create', { name: 'idle', source: { kind: 'blank', width: 2, height: 2, bankId } })]));
+    const failed = execute(rig, [step('palette.delete', { bankId })]);
+    expect(failed.ok ? null : failed.error.code).toBe('BANK_IN_USE');
+    expect(failed.ok ? '' : failed.error.message).toContain('animation');
+  });
 });
 
 describe('palette.detach', () => {

@@ -22,6 +22,7 @@ const SORT_OPTIONS: readonly SortOption[] = [
 
 const CHIP_OF_KIND: Readonly<Record<RowKind, AssetChip>> = {
   sprite: 'sprite',
+  animation: 'sprite',
   sheet: 'sheet',
   palette: 'palette',
   tileset: 'tilemap',
@@ -30,10 +31,11 @@ const CHIP_OF_KIND: Readonly<Record<RowKind, AssetChip>> = {
   other: 'other',
 };
 
-const KIND_ORDER: readonly RowKind[] = ['sprite', 'sheet', 'palette', 'tileset', 'tilemap', 'image', 'other'];
+const KIND_ORDER: readonly RowKind[] = ['sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap', 'image', 'other'];
 
 const KIND_LABEL: Readonly<Record<RowKind, string>> = {
   sprite: 'Sprite',
+  animation: 'Animation',
   sheet: 'Sheet',
   palette: 'Palette',
   tileset: 'Tileset',
@@ -46,6 +48,7 @@ const DEFAULT_QUERY: AssetQuery = { chip: 'all', sort: 'name', search: '', usedB
 
 const KIND_ICON: Readonly<Record<RowKind, IconName>> = {
   sprite: 'pixel-sprite',
+  animation: 'pixel-animation',
   sheet: 'pixel-atlas',
   palette: 'pixel-palette',
   tileset: 'pixel-tileset',

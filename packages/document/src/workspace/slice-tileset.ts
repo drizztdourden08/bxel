@@ -21,7 +21,10 @@ const sliceTileset = (context: SliceContext, id: string): AssetSlice => {
       sprites: tileset.tiles.map((tile) => requireSprite(artwork, tile.spriteId)),
       tilesets: [tileset],
     },
-    links: linkTo(context, [bank.id]),
+    links: linkTo(context, [
+      bank.id,
+      ...tileset.tiles.flatMap((tile) => (tile.animation ? [tile.animation.animationId] : [])),
+    ]),
   };
 };
 

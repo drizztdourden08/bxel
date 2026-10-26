@@ -1,11 +1,13 @@
 /* @layer core @kind test */
 import type { AssetKind, AssetSlice, SliceSource } from '@bxel/document';
 import {
+  decodeAnimation,
   decodePalette,
   decodeSheet,
   decodeSprite,
   decodeTilemap,
   decodeTileset,
+  encodeAnimation,
   encodePalette,
   encodeSheet,
   encodeSprite,
@@ -23,6 +25,7 @@ type Decoded = { readonly sources: readonly SliceSource[]; readonly reports: rea
 const ENCODERS: Partial<Record<AssetKind, Encoder>> = {
   palette: encodePalette,
   sprite: encodeSprite,
+  animation: encodeAnimation,
   sheet: encodeSheet,
   tileset: encodeTileset,
   tilemap: encodeTilemap,
@@ -55,11 +58,12 @@ const decodeFiles = (files: readonly StoredFile[]): Decoded => {
   };
   const palettes = of('palette').map((file) => run(file, decodePalette(file.bytes)));
   const sprites = of('sprite').map((file) => run(file, decodeSprite(file.bytes, linkedSlice(file.bytes, palettes))));
-  const tilesets = of('tileset').map((file) => run(file, decodeTileset(file.bytes, linkedSlice(file.bytes, palettes))));
-  const sheets = of('sheet').map((file) => run(file, decodeSheet(file.bytes, [...sprites, ...tilesets])));
+  const animations = of('animation').map((file) => run(file, decodeAnimation(file.bytes, linkedSlice(file.bytes, palettes), sprites)));
+  const tilesets = of('tileset').map((file) => run(file, decodeTileset(file.bytes, linkedSlice(file.bytes, palettes), animations)));
+  const sheets = of('sheet').map((file) => run(file, decodeSheet(file.bytes, [...sprites, ...tilesets, ...animations])));
   const maps = of('tilemap').map((file) => run(file, decodeTilemap(file.bytes, linkedSlice(file.bytes, tilesets))));
   const pathOf = (slice: AssetSlice): string => files.find((file) => readAssetManifest(file.bytes)?.assetId === slice.id)?.path ?? '';
-  const sources = [...palettes, ...sprites, ...tilesets, ...sheets, ...maps].map((slice) => ({ path: pathOf(slice), slice }));
+  const sources = [...palettes, ...sprites, ...animations, ...tilesets, ...sheets, ...maps].map((slice) => ({ path: pathOf(slice), slice }));
   return { sources, reports: [...reports.values()] };
 };
 

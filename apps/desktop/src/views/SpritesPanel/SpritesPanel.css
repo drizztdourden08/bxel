@@ -105,6 +105,17 @@
   min-block-size: var(--size-128);
 }
 
+.sprites-panel__rowname {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sprites-panel__table .sprites-panel__thumb {
+  flex: none;
+}
+
 .sprites-panel__virtual {
   flex: 1;
   min-height: var(--size-96);

@@ -10,6 +10,7 @@ const REQUEST_MEMORY_MAX = 200;
 
 const WIRE_KIND_OF: Readonly<Record<EntryKind, WireFileKind>> = {
   sprite: 'bxel',
+  animation: 'bxel',
   sheet: 'bxel',
   tileset: 'bxel',
   tilemap: 'bxel',
