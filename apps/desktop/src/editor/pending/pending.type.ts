@@ -46,7 +46,6 @@ interface PendingOutcome {
 interface PendingScopeText {
   targets: string;
   layers: string;
-  frames: string;
 }
 
 export type { DialogSpec, OtherFrame, PendingEdit, PendingOutcome, PendingScopeText, PendingSpec, PreviewFrame };

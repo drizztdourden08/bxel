@@ -50,10 +50,11 @@ const KIND_GRID = {
   map: { columns: 32, rows: 24 },
 } as const;
 
-const KIND_NAME: Readonly<Record<CreationKind, string>> = { sprite: 'sprite', sheet: 'sprite', palette: 'palette', tileset: 'tileset', tilemap: 'map' };
+const KIND_NAME: Readonly<Record<CreationKind, string>> = { sprite: 'sprite', animation: 'animation', sheet: 'sprite', palette: 'palette', tileset: 'tileset', tilemap: 'map' };
 
 const KIND_NAMES_OF: Readonly<Record<CreationKind, (artwork: Artwork) => string[]>> = {
   sprite: (artwork) => artwork.sprites.map((sprite) => sprite.name),
+  animation: (artwork) => artwork.animations.map((animation) => animation.name),
   sheet: (artwork) => artwork.sprites.map((sprite) => sprite.name),
   palette: (artwork) => artwork.banks.map((bank) => bank.name),
   tileset: (artwork) => artwork.tilesets.map((tileset) => tileset.name),
@@ -92,6 +93,7 @@ const NEW_TEXT = {
   titleSprite: 'New sprite',
   kind: 'Type',
   sprite: 'Sprite',
+  animation: 'Animation',
   sheet: 'Sheet of sprites',
   name: 'Name',
   size: 'Size',
@@ -113,6 +115,8 @@ const NEW_TEXT = {
   result: 'Result',
   create: 'Create sprite',
   createSheet: 'Create sheet',
+  createAnimation: 'Create animation',
+  animationNote: 'An animation starts with one empty frame. Add more frames in the timeline.',
   cancel: 'Cancel',
   nothing: 'Nothing is created until you choose Create.',
   sheetNote: (count: number, first: string, last: string): string =>

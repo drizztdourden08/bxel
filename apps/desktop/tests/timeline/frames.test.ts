@@ -1,177 +1,123 @@
 /* @layer renderer-app @kind test */
-import { flattenFrame } from '@bxel/document';
-import type { FrameId } from '@bxel/document';
+import { findSprite } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { stepHistory } from '../../src/editor/step-history';
+import { useDocumentStore } from '../../src/stores/useDocumentStore';
+import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { addFrame } from '../../src/timeline/add-frame';
 import { deleteFrames } from '../../src/timeline/delete-frames';
 import { dragFrame } from '../../src/timeline/drag-frame';
 import { duplicateFrames } from '../../src/timeline/duplicate-frames';
+import { goToFrame } from '../../src/timeline/go-to-frame';
 import { moveFrames } from '../../src/timeline/move-frames';
 import { setDuration } from '../../src/timeline/set-duration';
-import { useTimelineStore } from '../../src/stores/useTimelineStore';
-import { durations, frameAt, frameIds, freshDocument, live, noticeText, paintCel, pickRange, revision, withFrames } from './timeline-harness';
+import { stepFrame } from '../../src/timeline/step-frame';
+import { animationOf, durations, frameAt, frameIds, freshAnimation, live, noticeText, paintFrame, pickRange, withFrames } from './timeline-harness';
 
-beforeEach(freshDocument);
+beforeEach(() => {
+  freshAnimation();
+});
+
+const spriteIds = (): (string | null)[] => animationOf().frames.map((frame) => frame.spriteId);
 
 describe('adding a frame', () => {
-  it('adds a blank frame after the current one, picks it and undoes in one step', () => {
-    const [first] = frameIds();
-    const before = revision();
+  it('puts a blank frame of its own after the current one and picks it', () => {
+    withFrames(2);
     addFrame();
-    const ids = frameIds();
-    expect(ids).toHaveLength(2);
-    expect(ids[0]).toBe(first);
-    expect(live().frameId).toBe(ids[1]);
-    expect(useTimelineStore.getState().selection.frames).toEqual([ids[1]]);
-    expect(revision()).toBe(before + 1);
-    stepHistory('undo');
-    expect(frameIds()).toEqual([first]);
+    expect(frameIds()).toHaveLength(3);
+    expect(useTimelineStore.getState().frameId).toBe(frameAt(1));
+    const sprite = findSprite(live().artwork, spriteIds()[1] as never);
+    expect(sprite?.role).toBe('frame');
+    expect(spriteIds().filter((id) => id !== null)).toHaveLength(3);
   });
 
-  it('inserts after the current frame, not at the end', () => {
-    const [a, b] = withFrames(2);
-    pickRange(0, 0);
+  it('is one undo step', () => {
+    withFrames(2);
     addFrame();
-    const ids = frameIds();
-    expect(ids[0]).toBe(a);
-    expect(ids[2]).toBe(b);
-    expect(live().frameId).toBe(ids[1]);
+    useDocumentStore.getState().host.undo(live().documentId);
+    expect(frameIds()).toHaveLength(2);
+    expect(live().artwork.sprites.filter((sprite) => sprite.role === 'frame')).toHaveLength(2);
   });
 });
 
 describe('duplicating frames', () => {
-  it('copies a picked range after the range, with its pixels and durations, as one undo step', () => {
-    const [a, b, c] = withFrames(3);
-    paintCel(0, 1, 2);
-    paintCel(1, 2, 3);
+  it('copies the sprite each owned frame draws on, in order, and picks the copies', () => {
+    withFrames(3);
+    paintFrame(0, 1, 1, 2);
+    paintFrame(1, 2, 2, 3);
     pickRange(0, 1);
-    setDuration(250);
-    const before = revision();
     duplicateFrames();
-    const ids = frameIds();
+    const ids = spriteIds();
     expect(ids).toHaveLength(5);
-    expect(ids.slice(0, 2)).toEqual([a, b]);
-    expect(ids[4]).toBe(c);
-    const { sprite } = live();
-    expect(Array.from(flattenFrame(sprite, frameAt(2)))).toEqual(Array.from(flattenFrame(sprite, frameAt(0))));
-    expect(Array.from(flattenFrame(sprite, frameAt(3)))).toEqual(Array.from(flattenFrame(sprite, frameAt(1))));
-    expect(durations()).toEqual([250, 250, 250, 250, 100]);
-    expect(useTimelineStore.getState().selection.frames).toEqual([ids[2], ids[3]]);
-    expect(revision()).toBe(before + 1);
-    stepHistory('undo');
-    expect(frameIds()).toEqual([a, b, c]);
-  });
-
-  it('gives each copy its own pixels', () => {
-    const [a] = withFrames(2);
-    paintCel(0, 1, 2);
-    pickRange(0, 0);
-    duplicateFrames();
-    const layer = live().sprite.layers[0];
-    expect(layer?.cels[a as FrameId]).toBeDefined();
-    expect(layer?.cels[frameAt(1)]).not.toBe(layer?.cels[a as FrameId]);
+    expect(new Set(ids).size).toBe(5);
+    expect(useTimelineStore.getState().selection.frames).toEqual([frameAt(2), frameAt(3)]);
+    const [original, , copy] = ids.map((id) => findSprite(live().artwork, id as never));
+    expect(copy?.cels).not.toBe(original?.cels);
+    expect(Object.values(copy?.cels ?? {})[0]?.pixels).toEqual(Object.values(original?.cels ?? {})[0]?.pixels);
   });
 });
 
 describe('deleting frames', () => {
-  it('deletes only the picked range, lands on the frame that took its place and undoes in one step', () => {
-    const [a, b, c, d] = withFrames(4);
+  it('removes the picked frames and picks the next one', () => {
+    withFrames(4);
     pickRange(1, 2);
-    const before = revision();
     deleteFrames();
-    expect(frameIds()).toEqual([a, d]);
-    expect(live().frameId).toBe(d);
-    expect(revision()).toBe(before + 1);
-    stepHistory('undo');
-    expect(frameIds()).toEqual([a, b, c, d]);
+    expect(frameIds()).toHaveLength(2);
+    expect(useTimelineStore.getState().frameId).toBe(frameAt(1));
   });
 
-  it('refuses to delete every frame and changes nothing', () => {
-    withFrames(3);
-    pickRange(0, 2);
-    const before = revision();
+  it('keeps the last frame and says why', () => {
+    withFrames(2);
+    pickRange(0, 1);
     deleteFrames();
-    expect(frameIds()).toHaveLength(3);
-    expect(revision()).toBe(before);
-    expect(noticeText()).toBe('A sprite keeps at least one frame.');
+    expect(frameIds()).toHaveLength(2);
+    expect(noticeText()).toMatch(/keeps at least one frame/);
   });
 });
 
 describe('moving frames', () => {
-  it('moves one frame by a step and keeps it current', () => {
+  it('moves the picked frames by their keys and by dragging', () => {
     const [a, b, c] = withFrames(3);
-    pickRange(0, 0);
-    expect(moveFrames(1)).toBe(true);
+    moveFrames(1);
     expect(frameIds()).toEqual([b, a, c]);
-    expect(live().frameId).toBe(a);
-  });
-
-  it('moves a picked range as one block in one undo step', () => {
-    const [a, b, c, d] = withFrames(4);
-    pickRange(0, 1);
-    const before = revision();
-    expect(moveFrames(2)).toBe(true);
-    expect(frameIds()).toEqual([c, d, a, b]);
-    expect(revision()).toBe(before + 1);
-    stepHistory('undo');
-    expect(frameIds()).toEqual([a, b, c, d]);
-  });
-
-  it('stops at the ends instead of failing', () => {
-    const [a, b, c] = withFrames(3);
-    pickRange(1, 2);
-    expect(moveFrames(5)).toBe(false);
-    expect(frameIds()).toEqual([a, b, c]);
-    expect(moveFrames(-5)).toBe(true);
-    expect(frameIds()).toEqual([b, c, a]);
-  });
-
-  it('moves a dragged frame by its drop place, and the whole range when the frame is in it', () => {
-    const [a, b, c, d] = withFrames(4);
-    pickRange(0, 0);
     expect(dragFrame(2, 0)).toBe(true);
-    expect(frameIds()).toEqual([c, a, b, d]);
-    pickRange(1, 2);
-    expect(dragFrame(1, 2)).toBe(true);
-    expect(frameIds()).toEqual([c, d, a, b]);
+    expect(frameIds()).toEqual([c, b, a]);
+    expect(moveFrames(-1, [frameAt(0)])).toBe(false);
   });
 });
 
-describe('frame durations', () => {
-  it('sets the duration of the picked range only', () => {
-    withFrames(4);
-    pickRange(1, 2);
-    expect(setDuration(40)).toBe(true);
-    expect(durations()).toEqual([100, 40, 40, 100]);
-  });
-
-  it('sets only the current frame when none is picked as a range', () => {
+describe('timing', () => {
+  it('sets the time of every picked frame at once', () => {
     withFrames(3);
-    pickRange(2, 2);
-    setDuration(500);
-    expect(durations()).toEqual([100, 100, 500]);
+    pickRange(0, 1);
+    expect(setDuration(240)).toBe(true);
+    expect(durations()).toEqual([240, 240, 100]);
   });
 
-  it('keeps a duration inside the document limits and ignores a blank value', () => {
+  it('refuses a time that is not a number', () => {
     withFrames(2);
-    pickRange(0, 0);
-    setDuration(0);
-    expect(durations()[0]).toBe(1);
-    setDuration(900_000);
-    expect(durations()[0]).toBe(65_535);
-    const before = revision();
     expect(setDuration(Number.NaN)).toBe(false);
-    expect(revision()).toBe(before);
+    expect(durations()).toEqual([100, 100]);
+  });
+});
+
+describe('moving along the frames', () => {
+  it('steps to the neighbour and stays at the ends', () => {
+    withFrames(3);
+    stepFrame(1);
+    expect(useTimelineStore.getState().frameId).toBe(frameAt(1));
+    stepFrame(5);
+    expect(useTimelineStore.getState().frameId).toBe(frameAt(2));
+    stepFrame(-9);
+    expect(useTimelineStore.getState().frameId).toBe(frameAt(0));
   });
 
-  it('is one undo step for a range', () => {
-    withFrames(3);
-    pickRange(0, 2);
-    const before = revision();
-    setDuration(60);
-    expect(revision()).toBe(before + 1);
-    stepHistory('undo');
-    expect(durations()).toEqual([100, 100, 100]);
+  it('extends the pick with Shift and adds with Control', () => {
+    withFrames(4);
+    goToFrame(frameAt(2), true);
+    expect(useTimelineStore.getState().selection.frames).toEqual([frameAt(0), frameAt(1), frameAt(2)]);
+    goToFrame(frameAt(3), false, true);
+    expect(useTimelineStore.getState().selection.frames).toEqual([frameAt(0), frameAt(1), frameAt(2), frameAt(3)]);
+    goToFrame(frameAt(1), false, true);
+    expect(useTimelineStore.getState().selection.frames).toEqual([frameAt(0), frameAt(2), frameAt(3)]);
   });
 });

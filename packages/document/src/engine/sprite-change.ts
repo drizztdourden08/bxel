@@ -9,7 +9,8 @@ const optionsChanged = (before: Sprite, after: Sprite): boolean =>
   before.platformId !== after.platformId ||
   before.platformStrict !== after.platformStrict ||
   before.pixelGrid?.width !== after.pixelGrid?.width ||
-  before.pixelGrid?.height !== after.pixelGrid?.height;
+  before.pixelGrid?.height !== after.pixelGrid?.height ||
+  before.guides !== after.guides;
 
 const metaChanged = (before: Sprite, after: Sprite): boolean =>
   before.name !== after.name ||

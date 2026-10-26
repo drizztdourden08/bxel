@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { Artwork, AssetKey, AssetKind, AssetSlice, DocumentId } from '@bxel/document';
+import type { AnimatedConversion, Artwork, AssetKey, AssetKind, AssetSlice, DocumentId } from '@bxel/document';
 import type { AssetManifest, AssetReport, Clock } from '@bxel/document/native';
 import type { DocumentView } from '../documents/document-host.type';
 
@@ -24,12 +24,14 @@ type Workspace = {
   readonly base: Artwork;
   readonly last: Artwork;
   readonly legacy: LegacySource | null;
+  readonly migration: AnimatedMigration | null;
   readonly steps: HistorySteps;
 };
 
 type HistorySteps = { readonly undo: readonly string[]; readonly redo: readonly string[] };
 
-type WorkspaceSeed = Omit<Workspace, 'documentId' | 'base' | 'last' | 'saved' | 'steps'> & {
+type WorkspaceSeed = Omit<Workspace, 'documentId' | 'base' | 'last' | 'saved' | 'steps' | 'migration'> & {
+  readonly migration?: AnimatedMigration;
   readonly artwork: Artwork;
   readonly readOnly: boolean;
   readonly unsaved: boolean;
@@ -56,7 +58,14 @@ type FileReport = { readonly path: string; readonly report: AssetReport };
 
 type DecodedFiles = { readonly sources: readonly DecodedFile[]; readonly reports: readonly FileReport[] };
 
+type AnimatedMigration = {
+  readonly notice: string;
+  readonly conversions: readonly AnimatedConversion[];
+  readonly keys: readonly AssetKey[];
+};
+
 type MergedWorkspace = {
+  readonly migration?: AnimatedMigration;
   readonly artwork: Artwork;
   readonly paths: ReadonlyMap<string, string>;
   readonly dirty: ReadonlySet<string>;
@@ -119,6 +128,7 @@ type Encoder = (slice: AssetSlice, preview: Uint8Array | null, clock: Clock) => 
 
 export type {
   ActiveAsset,
+  AnimatedMigration,
   AssetDirs,
   AssetPick,
   AssetFile,

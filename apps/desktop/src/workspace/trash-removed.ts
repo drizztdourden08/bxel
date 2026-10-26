@@ -31,9 +31,11 @@ const trashRemoved = async (kit: FileKit, documentId: DocumentId, keys: readonly
     forget(documentId, keys);
     return [];
   }
+  const migrated = keys.every((key) => workspace?.migration?.keys.some((each) => keyId(each) === keyId(key)));
+  const names = files.map(fileName).join(', ');
   const sure = await confirmAction({
-    title: WORKSPACE_TEXT.trashTitle,
-    message: WORKSPACE_TEXT.trashMessage(files.map(fileName).join(', ')),
+    title: migrated ? WORKSPACE_TEXT.migratedTitle : WORKSPACE_TEXT.trashTitle,
+    message: migrated ? WORKSPACE_TEXT.migratedMessage(names) : WORKSPACE_TEXT.trashMessage(names),
     confirmLabel: WORKSPACE_TEXT.trashConfirm,
     cancelLabel: WORKSPACE_TEXT.trashCancel,
   });

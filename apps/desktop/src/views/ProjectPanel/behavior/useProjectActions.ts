@@ -10,6 +10,7 @@ import type { ProjectActions, ProjectActionsInput } from '../ProjectPanel.type';
 const useProjectActions = ({ dir, enter, refresh }: ProjectActionsInput): ProjectActions => {
   const [naming, setNaming] = useState(false);
   const [nameError, setNameError] = useState<string | null>(null);
+  const [target, setTarget] = useState<string | null>(null);
 
   const openEntry = useCallback(
     (entry: ListedEntry): void => {
@@ -23,23 +24,33 @@ const useProjectActions = ({ dir, enter, refresh }: ProjectActionsInput): Projec
 
   const createFile = useCallback(
     (name: string): void => {
-      if (dir === null) return;
-      void newProjectFile(dir, name).then((outcome) => {
+      const where = target ?? dir;
+      if (where === null) return;
+      void newProjectFile(where, name).then((outcome) => {
         setNameError(outcome.ok ? null : outcome.message);
         if (!outcome.ok) return;
         setNaming(false);
+        setTarget(null);
         refresh();
       });
     },
-    [dir, refresh],
+    [dir, target, refresh],
   );
 
-  const startNaming = useCallback(() => setNaming(true), []);
+  const startNaming = useCallback(() => {
+    setTarget(null);
+    setNaming(true);
+  }, []);
+  const startNamingIn = useCallback((where: string) => {
+    setTarget(where);
+    setNaming(true);
+  }, []);
   const stopNaming = useCallback(() => {
     setNaming(false);
     setNameError(null);
+    setTarget(null);
   }, []);
-  return { naming, nameError, openEntry, startNaming, stopNaming, createFile };
+  return { naming, nameError, openEntry, startNaming, startNamingIn, stopNaming, createFile };
 };
 
 export { useProjectActions };

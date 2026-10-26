@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { artworkCreate, COMMAND_NAME, counterIdSource, createEngine, documentCommands } from '@bxel/document';
+import { artworkCreate, COMMAND_NAME, counterIdSource, createEngine, documentCommands, splitAnimatedSprites } from '@bxel/document';
 import type { Artwork, Engine, SpriteId, TargetScope } from '@bxel/document';
 import { ANIMATION_COLORS } from './animation.constants';
 import { GALLERY } from './gallery.constants';
@@ -77,7 +77,7 @@ const buildGalleryArtwork = (): Artwork => {
   const both = { sprites: engine.state().artwork.sprites.map((each) => each.id), layers: { by: 'all' }, frames: { by: 'all' } } satisfies TargetScope;
   runStep(engine, COMMAND_NAME.sheetAdd, { sheet: sheet?.id }, both);
   buildMap(engine);
-  return engine.state().artwork;
+  return splitAnimatedSprites(engine.state().artwork, new Map(), counterIdSource(GALLERY.splitIds)).artwork;
 };
 
 export { buildGalleryArtwork };

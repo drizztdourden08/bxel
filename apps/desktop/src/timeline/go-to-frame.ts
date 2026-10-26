@@ -1,20 +1,23 @@
 /* @layer renderer-app @kind logic */
-import type { FrameId } from '@bxel/document';
-import { currentTarget } from '../editor/current-target';
+import type { AnimFrameId } from '@bxel/document';
 import { useTimelineStore } from '../stores/useTimelineStore';
-import { addFramePick } from './add-frame-pick';
+import { currentFocus } from './current-focus';
 import { currentSelection } from './current-selection';
-import { selectFrames } from './select-frames';
+import { spanBetween } from './span-between';
 
-const goToFrame = (frameId: FrameId, extend = false, add = false): void => {
-  const target = currentTarget();
-  if (!target) return;
+const goToFrame = (frameId: AnimFrameId, extend = false, add = false): void => {
+  const focus = currentFocus();
+  if (!focus) return;
   const timeline = useTimelineStore.getState();
-  const key = { layerId: target.layerId, frameId };
-  const next = add
-    ? addFramePick(target.sprite, currentSelection(target).frames, timeline.selection.layers, key)
-    : selectFrames(target.sprite, timeline.selection, key, extend);
-  timeline.select(next, frameId);
+  const order = focus.animation.frames.map((frame) => frame.id);
+  if (add) {
+    const held = currentSelection(focus);
+    const next = held.includes(frameId) && held.length > 1 ? held.filter((id) => id !== frameId) : [...held.filter((id) => id !== frameId), frameId];
+    timeline.select({ frames: order.filter((id) => next.includes(id)), anchor: frameId }, frameId);
+    return;
+  }
+  const anchor = extend && timeline.selection.anchor !== null ? timeline.selection.anchor : frameId;
+  timeline.select({ frames: spanBetween(order, anchor, frameId), anchor }, frameId);
 };
 
 export { goToFrame };

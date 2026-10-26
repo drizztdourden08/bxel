@@ -13,7 +13,6 @@ const useSpriteStore = create<SpriteState>()((set) => ({
   setBroadcast: (broadcast) => set({ broadcast, gap: null }),
   setSpritesScope: (spritesScope) => set({ spritesScope }),
   setLayerScope: (layerScope) => set({ layerScope }),
-  setFrameScope: (frameScope) => set({ frameScope }),
   setGap: (gap) => set({ gap }),
   setSliceDraw: (sliceDraw) => set({ sliceDraw }),
   setRenaming: (renamingId) => set({ renamingId }),

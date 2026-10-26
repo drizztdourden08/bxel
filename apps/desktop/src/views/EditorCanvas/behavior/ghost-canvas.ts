@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind logic */
-import type { Sprite } from '@bxel/document';
+import type { Size } from '@bxel/raster';
 
-const ghostCanvas = (doc: Document, sprite: Sprite, pixels: Uint8ClampedArray<ArrayBuffer>): HTMLCanvasElement => {
+const ghostCanvas = (doc: Document, size: Size, pixels: Uint8ClampedArray<ArrayBuffer>): HTMLCanvasElement => {
   const canvas = doc.createElement('canvas');
-  canvas.width = sprite.width;
-  canvas.height = sprite.height;
-  canvas.getContext('2d')?.putImageData(new ImageData(pixels, sprite.width, sprite.height), 0, 0);
+  canvas.width = size.width;
+  canvas.height = size.height;
+  canvas.getContext('2d')?.putImageData(new ImageData(pixels, size.width, size.height), 0, 0);
   return canvas;
 };
 

@@ -14,3 +14,4 @@ const heldRig = (): Held => {
 };
 
 export { heldRig };
+export type { Held };

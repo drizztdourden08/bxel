@@ -40,7 +40,7 @@ const spriteMenuEntries = (context: ContextMenuContext): readonly ContextMenuEnt
     },
     selectEntries(manager),
     'separator',
-    { command: ID.askDeleteSprite },
+    { command: ID.askDeleteSprite, tone: 'danger' },
   ];
 };
 

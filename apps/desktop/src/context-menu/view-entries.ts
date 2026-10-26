@@ -15,6 +15,7 @@ const viewEntries = (parts: ViewParts): ContextMenuEntry => ({
     COMMAND_ID.pixelGrid,
     { command: COMMAND_ID.majorGrid, hidden: !parts.major },
     { command: COMMAND_ID.tileGrid, hidden: !parts.tile },
+    { command: COMMAND_ID.guides, hidden: !parts.guides },
     COMMAND_ID.rulers,
     {
       label: 'Tiled preview',

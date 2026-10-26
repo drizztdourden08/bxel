@@ -3,6 +3,7 @@ import type { FileTypeChoice } from './FileTypePicker.type';
 
 const FILE_TYPE_CHOICES: readonly FileTypeChoice[] = [
   { kind: 'sprite', label: 'Sprite' },
+  { kind: 'animation', label: 'Animation' },
   { kind: 'sheet', label: 'Spritesheet' },
   { kind: 'palette', label: 'Palette' },
   { kind: 'tileset', label: 'Tileset' },

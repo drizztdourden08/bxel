@@ -29,7 +29,7 @@ const canvasBaseEntries = (here: Point | null, tile: boolean): readonly ContextM
   'separator',
   ...historyEntries(),
   'separator',
-  viewEntries({ major: true, tile: true, tiled: true }),
+  viewEntries({ major: true, tile: true, tiled: true, guides: true }),
   symmetryEntries(here),
   {
     label: CANVAS_MENU.canvas,

@@ -13,6 +13,7 @@ import { focusTab } from './focus-tab';
 import { looseFileSeed } from './loose-file-seed';
 import { looseMeta } from './loose-meta';
 import { mergeWorkspace } from './merge-workspace';
+import { migrateAnimated } from './migrate-animated';
 import type { LooseLoad } from './workspace.type';
 
 const loadLoose = async (kit: FileKit, path: string): Promise<LooseLoad | FileOutcome> => {
@@ -35,7 +36,7 @@ const openAssetPath = async (kit: FileKit, path: string): Promise<FileOutcome> =
   if ('kind' in loaded) return loaded;
   const { first, report, decoded } = loaded;
   const ids = browserIdSource();
-  const documentId = attachWorkspace(kit.host, looseFileSeed(first, report, mergeWorkspace(decoded, ids, looseMeta(ids, report.slice?.name ?? ''))));
+  const documentId = attachWorkspace(kit.host, looseFileSeed(first, report, migrateAnimated(mergeWorkspace(decoded, ids, looseMeta(ids, report.slice?.name ?? '')), ids, false)));
   kit.paths.remember(documentId, first.path);
   const notice = report.readOnly ? (report.notice ?? FILE_TEXT.readOnly) : report.notice;
   return { kind: 'done', path, notice };

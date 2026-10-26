@@ -8,7 +8,7 @@ const meta: ScreenMeta = {
   showHeader: true,
   icon: 'layout-dashboard',
   order: 0,
-  when: showForKind('sprite', 'sheet', 'palette', 'tileset', 'tilemap'),
+  when: showForKind('sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap'),
   keywords: ['overview', 'preview', 'name', 'rename', 'file', 'path', 'size', 'colours', 'created', 'links', 'duplicate', 'export', 'flip', 'rotate', 'resize'],
 };
 

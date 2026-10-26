@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind logic */
-import { currentTarget } from '../editor/current-target';
+import { currentFocus } from './current-focus';
 import { selectFrameIds } from './select-frame-ids';
 
 const selectAllFrames = (): void => {
-  const target = currentTarget();
-  if (target) selectFrameIds(target.layerId, target.sprite.frames.map((frame) => frame.id), target.frameId);
+  const focus = currentFocus();
+  if (focus) selectFrameIds(focus.animation.frames.map((frame) => frame.id), focus.frame.id);
 };
 
 export { selectAllFrames };

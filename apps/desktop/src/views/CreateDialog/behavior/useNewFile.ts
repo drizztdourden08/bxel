@@ -8,6 +8,8 @@ import { hasErrors } from '../../../new-sprite/has-errors';
 import { KIND_NAMES_OF, NEW_TEXT } from '../../../new-sprite/new-sprite.constants';
 import type { CreationKind, FormNames } from '../../../new-sprite/new-sprite.type';
 import { openCreatedAsset } from '../../../new-sprite/open-created-asset';
+import { placeCreatedAsset } from '../../../new-sprite/place-created-asset';
+import { useCreateDialogStore } from '../../../stores/useCreateDialogStore';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
 import { useWorkspaceStore } from '../../../stores/useWorkspaceStore';
 import { focusDocument } from '../../../transactions/focus-document';
@@ -35,7 +37,10 @@ const useNewFile = (): CreateFormState => {
     const { host } = useDocumentStore.getState();
     if (documentId !== null && targetFor(form.kind)) {
       const made = createAsset(host, documentId, form);
-      if (settle(made) && made.ok && made.key) void openCreatedAsset(documentId, made.key).then(report);
+      const { dir } = useCreateDialogStore.getState();
+      if (!settle(made) || !made.ok || !made.key) return;
+      if (dir !== null) placeCreatedAsset(host, documentId, made.key, dir);
+      void openCreatedAsset(documentId, made.key).then(report);
       return;
     }
     const outcome = createNewFile(host, form);

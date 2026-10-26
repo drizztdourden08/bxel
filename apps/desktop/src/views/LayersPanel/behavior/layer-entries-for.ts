@@ -30,7 +30,7 @@ const layerEntriesFor = (layerId: string | undefined): readonly ContextMenuEntry
     { command: 'layer.move_up', args, ...unless(at < layers.length - 1, LAYER_MENU.top) },
     { command: 'layer.move_down', args, ...unless(at > 0, LAYER_MENU.bottom) },
     'separator',
-    { command: COMMAND_ID.layerDelete, ...unless(!only, LAYER_TEXT.lastLayer) },
+    { command: COMMAND_ID.layerDelete, tone: 'danger', ...unless(!only, LAYER_TEXT.lastLayer) },
   ];
 };
 

@@ -11,6 +11,7 @@ interface EditorMenuState {
   grid: boolean;
   gridMajor: boolean;
   gridTile: boolean;
+  guides: boolean;
   rulers: boolean;
   tiled: TileMode;
   symmetryX: boolean;

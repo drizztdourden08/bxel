@@ -4,6 +4,7 @@ import type { CelId, SpriteId } from '../model/ids.type';
 import type { Cel } from '../model/sprite.type';
 import { requireSprite } from '../read/require-sprite';
 import { checkGeometry } from './check-geometry';
+import { clipGuides } from './clip-guides';
 import type { Draft } from './draft.type';
 import type { SpriteGeometry } from './resize-sprite.type';
 import { snapshotOwned } from './snapshot-owned';
@@ -25,14 +26,12 @@ const resizeSprite = (draft: Draft, spriteId: SpriteId, geometry: SpriteGeometry
   recordPending(draft);
   snapshotOwned(draft);
   const cels = celsOf(draft, geometry);
-  updateSprite(draft, spriteId, (sprite) => ({
-    ...sprite,
-    width: geometry.width,
-    height: geometry.height,
-    pivot: geometry.pivot,
-    slices: geometry.slices ?? sprite.slices,
-    cels,
-  }));
+  updateSprite(draft, spriteId, (sprite) =>
+    clipGuides(
+      { ...sprite, width: geometry.width, height: geometry.height, pivot: geometry.pivot, slices: geometry.slices ?? sprite.slices, cels },
+      geometry,
+    ),
+  );
   recordPending(draft);
 };
 

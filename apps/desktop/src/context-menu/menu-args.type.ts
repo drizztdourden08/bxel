@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { TagDirection } from '@bxel/document';
+import type { AnimDirection } from '@bxel/document';
 import type { AlignMode } from '../sheet-manager/align.type';
 import type { CreatableKind } from '../stores/creation-store.type';
 
@@ -70,6 +70,10 @@ interface AxisArgs {
   position: number;
 }
 
+interface UnitArgs {
+  unit: string;
+}
+
 interface FrameArgs {
   frameId: string;
 }
@@ -80,7 +84,7 @@ interface DurationArgs {
 
 interface TagArgs {
   tagId: string;
-  direction: TagDirection;
+  direction: AnimDirection;
   colour: string | null;
 }
 
@@ -89,4 +93,4 @@ interface ByColourArgs extends Partial<PixelArgs> {
   mode: 'region' | 'everywhere';
 }
 
-export type { AlignArgs, AxisArgs, ByColourArgs, DurationArgs, FrameArgs, LayerArgs, NameArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SheetArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TraitArgs, ZoomArgs };
+export type { AlignArgs, AxisArgs, ByColourArgs, DurationArgs, FrameArgs, LayerArgs, NameArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SheetArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TraitArgs, UnitArgs, ZoomArgs };

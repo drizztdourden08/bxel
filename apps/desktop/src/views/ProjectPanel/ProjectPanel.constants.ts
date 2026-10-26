@@ -7,9 +7,9 @@ const EMPTY_LISTING: ListingState = { listing: null, error: null };
 
 const START_LOCATION: ProjectLocation = { folderId: '', segments: [] };
 
-const OPENED_KINDS: readonly string[] = ['sprite', 'sheet', 'palette', 'tileset', 'tilemap', 'project', 'legacy'];
+const OPENED_KINDS: readonly string[] = ['sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap', 'project', 'legacy'];
 
-const NEW_ASSET_KINDS: readonly CreatableKind[] = ['sprite', 'sheet', 'palette', 'tileset', 'tilemap'];
+const NEW_ASSET_KINDS: readonly CreatableKind[] = ['sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap'];
 
 const PROJECT_MENU = {
   zone: 'project.start',
@@ -18,6 +18,8 @@ const PROJECT_MENU = {
   entryRow: '[data-entry-name]',
   newAsset: 'New asset',
   newFolder: 'New folder',
+  newAssetHere: 'New asset here',
+  newFolderHere: 'New folder here',
   refresh: 'Refresh',
   revealRoot: 'Reveal the project folder',
   export: 'Export...',

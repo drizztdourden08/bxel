@@ -2,13 +2,16 @@
 import { OVERLAY_TOKENS } from '../EditorCanvas.constants';
 import type { OverlayLook } from './canvas-tools.type';
 
+const tokenOf = (style: CSSStyleDeclaration | undefined, name: string): string => style?.getPropertyValue(name).trim() ?? '';
+
 const overlayLook = (canvas: HTMLCanvasElement): OverlayLook => {
   const style = canvas.ownerDocument.defaultView?.getComputedStyle(canvas);
   return {
-    axis: style?.getPropertyValue(OVERLAY_TOKENS.axis).trim() ?? '',
-    cursor: style?.getPropertyValue(OVERLAY_TOKENS.cursor).trim() ?? '',
-    ink: style?.getPropertyValue(OVERLAY_TOKENS.ink).trim() ?? '',
-    ground: style?.getPropertyValue(OVERLAY_TOKENS.ground).trim() ?? '',
+    axis: tokenOf(style, OVERLAY_TOKENS.axis),
+    guide: tokenOf(style, OVERLAY_TOKENS.guide),
+    cursor: tokenOf(style, OVERLAY_TOKENS.cursor),
+    ink: tokenOf(style, OVERLAY_TOKENS.ink),
+    ground: tokenOf(style, OVERLAY_TOKENS.ground),
   };
 };
 

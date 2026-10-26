@@ -9,9 +9,14 @@ import { referrersOf } from '../workspace/referrers-of';
 import type { Workspace } from '../workspace/workspace.type';
 import type { AssetRow, FileStat, RowKind } from './asset-list.type';
 import { folderLabel } from './folder-label';
+import { animationThumb } from './animation-thumb';
 import { spriteThumb } from './sprite-thumb';
 
 const thumbOf = (artwork: Artwork, key: AssetKey): string | null => {
+  if (key.kind === 'animation') {
+    const animation = artwork.animations.find((each) => each.id === key.id);
+    return animation ? animationThumb(artwork, animation) : null;
+  }
   const sprite = key.kind === 'sprite' ? findSprite(artwork, key.id as SpriteId) : undefined;
   return sprite ? spriteThumb(artwork, sprite) : null;
 };

@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind logic */
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { artworkCreate, COMMAND_NAME, counterIdSource, createEngine, documentCommands, sliceAsset } from '@bxel/document';
+import { COMMAND_NAME, sliceAsset } from '@bxel/document';
 import type { Engine, Sprite, TargetScope } from '@bxel/document';
 import { encodeSprite } from '@bxel/document/native';
-import { ANIMATION, ANIMATION_COLORS } from './animation.constants';
+import { ANIMATION } from './animation.constants';
 import { runStep } from './run-step';
+import { startEngine } from './start-engine';
 
 const SIDE = ANIMATION.side;
 
@@ -26,13 +27,7 @@ const paintFrame = (engine: Engine, frameAt: number): void => {
 };
 
 const buildAnimationFile = async (dir: string): Promise<string> => {
-  const ids = counterIdSource();
-  const created = artworkCreate({
-    options: { name: 'Walk', bank: { name: 'Walk 16', cap: 16, transparent: true, colors: ANIMATION_COLORS }, sprite: { name: ANIMATION.spriteName, width: SIDE, height: SIDE } },
-    ids,
-  });
-  if (!created.ok) throw new Error(created.error.message);
-  const engine = createEngine({ state: created.state, ids, commands: documentCommands });
+  const engine = startEngine({ name: 'Walk', palette: 'Walk 16', sprite: { name: ANIMATION.spriteName, width: SIDE, height: SIDE } });
   const all = (): TargetScope => ({ sprites: [firstSprite(engine).id], layers: { by: 'all' }, frames: { by: 'all' } });
   runStep(engine, COMMAND_NAME.frameAdd, { durationMs: ANIMATION.durations[1] }, all());
   runStep(engine, COMMAND_NAME.frameAdd, { durationMs: ANIMATION.durations[2] }, all());

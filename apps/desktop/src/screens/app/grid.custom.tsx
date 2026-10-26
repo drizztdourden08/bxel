@@ -16,6 +16,7 @@ const searchEntries: SearchEntrySeed[] = [
   { label: 'Major grid', anchor: 'gridMajor', keywords: ['grid', 'spacing', 'lines', 'colour', 'opacity'] },
   { label: 'Tile grid', anchor: 'gridTile', keywords: ['grid', 'tile', 'size', 'lines', 'colour', 'opacity'] },
   { label: 'Show rulers', anchor: 'rulers', keywords: ['rulers', 'coordinates', 'mirror', 'guides'] },
+  { label: 'Ruler units', anchor: 'rulerUnit', keywords: ['rulers', 'units', 'pixels', 'tiles', 'percent'] },
 ];
 
 const GridScreen = () => <SettingsSplit sections={GRID_SECTIONS} preview={<CanvasPreview kind="grid" />} />;

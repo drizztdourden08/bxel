@@ -5,11 +5,11 @@ import type { MaskView, Point } from '@bxel/raster';
 import { paintScope } from '../sheet/paint-scope';
 import { commitRequest } from './commit-request';
 import type { EditorTarget, FillChoice } from './editor.type';
-import { selectionMask } from './selection/selection-mask';
+import { editMask } from './edit-mask';
 import { FILL_LABEL } from './stroke.constants';
 
 const maskPart = (target: EditorTarget): { mask?: MaskView } => {
-  const mask = selectionMask(target);
+  const mask = editMask(target);
   return mask ? { mask } : {};
 };
 

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
-import { FIELD_SELECTOR } from './is-field.constants';
+import { FIELD } from './is-field.constants';
 
-const isField = (target: EventTarget): boolean => target instanceof HTMLElement && target.closest(FIELD_SELECTOR) !== null;
+const isField = (target: EventTarget): boolean => target instanceof Element && target.closest(FIELD) !== null;
 
 export { isField };

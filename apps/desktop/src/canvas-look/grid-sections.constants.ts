@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { Section } from '@drizztdourden08/brock-react';
 import { RANGES } from './canvas-look.constants';
+import { RULER_UNIT_LABELS, RULER_UNIT_TEXT, RULER_UNITS } from '../ruler/ruler-unit.constants';
 import { OPACITY_CONTROL } from './sections.constants';
 
 const GRID_SECTIONS: Section[] = [
@@ -41,7 +42,14 @@ const GRID_SECTIONS: Section[] = [
         key: 'rulers',
         label: 'Show rulers',
         description: 'Draw rulers on the top and left edges of the canvas.',
-        hint: 'The rulers show pixel coordinates and hold the handles for the mirror lines. View, Rulers switches them for the session.',
+        hint: 'The rulers show coordinates and hold the handles for the mirror lines. Drag from a ruler to pull out a guide. View, Rulers switches them for the session.',
+      },
+      {
+        key: 'rulerUnit',
+        label: RULER_UNIT_TEXT.setting,
+        description: RULER_UNIT_TEXT.settingDescription,
+        hint: RULER_UNIT_TEXT.settingHint,
+        control: { kind: 'choice', look: 'radio', options: RULER_UNITS.map((unit) => ({ value: unit, label: RULER_UNIT_LABELS[unit] })) },
       },
     ],
   },

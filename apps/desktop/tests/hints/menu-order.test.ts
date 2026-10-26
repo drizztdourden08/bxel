@@ -15,6 +15,7 @@ const state: EditorMenuState = {
   grid: true,
   gridMajor: false,
   gridTile: false,
+  guides: true,
   rulers: false,
   tiled: 'off',
   symmetryX: false,
@@ -102,7 +103,7 @@ describe('the view menu', () => {
   it('lists only what the open asset can use', () => {
     expect(childLabels(editorMenu({ ...state, surface: 'sheet', kind: 'sheet' }), 'View')).toEqual(['Zoom']);
     expect(childLabels(editorMenu({ ...state, surface: 'map', kind: 'tilemap' }), 'View')).toEqual(['Zoom', 'Grid', 'Rulers']);
-    expect(childLabels(editorMenu(state), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Symmetry', 'Tiled preview']);
+    expect(childLabels(editorMenu(state), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Symmetry', 'Tiled preview']);
   });
 });
 

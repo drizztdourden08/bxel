@@ -3,7 +3,7 @@ import type { DocumentId } from '@bxel/document';
 import type { PaletteSource } from '../palette-source/palette-source.type';
 import type { PlatformReport } from '../platform-preset/platform-preset.type';
 
-type CreationKind = 'sprite' | 'sheet' | 'palette' | 'tileset' | 'tilemap';
+type CreationKind = 'sprite' | 'animation' | 'sheet' | 'palette' | 'tileset' | 'tilemap';
 
 type BackgroundKind = 'transparent' | 'opaque';
 

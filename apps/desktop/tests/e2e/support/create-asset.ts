@@ -2,7 +2,7 @@
 import { SHORTCUT } from './e2e.constants';
 import type { Session } from './e2e.type';
 
-type AssetKindName = 'Sprite' | 'Sheet of sprites' | 'Palette' | 'Tileset' | 'Tilemap';
+type AssetKindName = 'Sprite' | 'Animation' | 'Sheet of sprites' | 'Palette' | 'Tileset' | 'Tilemap';
 
 type MapSize = { readonly columns: number; readonly rows: number };
 

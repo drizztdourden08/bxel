@@ -1,8 +1,13 @@
 /* @layer renderer-app @kind types */
 import type { Brush, Connectivity, FillMode, MaskView, PerfectTrail, Point, Rect, ShapeKind, Symmetry, Wrap } from '@bxel/raster';
-import type { DocumentId, FrameId, Layer, LayerId, PaletteBank, Sprite } from '@bxel/document';
+import type { AnimFrame, Animation, DocumentId, FrameId, Layer, LayerId, PaletteBank, Sprite } from '@bxel/document';
 import type { ToolSettings } from '../stores/tool-store.type';
 import type { StrokeTool } from './tool.type';
+
+interface AnimationContext {
+  animation: Animation;
+  frame: AnimFrame;
+}
 
 interface EditorTarget {
   documentId: DocumentId;
@@ -12,6 +17,7 @@ interface EditorTarget {
   layer: Layer;
   layerId: LayerId;
   frameId: FrameId;
+  animation?: AnimationContext;
 }
 
 interface BrushOptions {
@@ -87,6 +93,6 @@ type ZoomStep = 'in' | 'out' | 'fit' | 'actual';
 type HistoryDirection = 'undo' | 'redo';
 
 export type {
-  BrushOptions, EditorTarget, FillChoice, HistoryDirection, Overlay, PaintSession, ShapeSession, ShapeSpec, ShapeStart, StrokeSession, StrokeStart,
+  AnimationContext, BrushOptions, EditorTarget, FillChoice, HistoryDirection, Overlay, PaintSession, ShapeSession, ShapeSpec, ShapeStart, StrokeSession, StrokeStart,
   SymmetryFields, ZoomStep,
 };
