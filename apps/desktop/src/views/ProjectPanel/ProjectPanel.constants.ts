@@ -18,6 +18,8 @@ const PROJECT_MENU = {
   entryRow: '[data-entry-name]',
   newAsset: 'New asset',
   newFolder: 'New folder',
+  newAssetHere: 'New asset here',
+  newFolderHere: 'New folder here',
   refresh: 'Refresh',
   revealRoot: 'Reveal the project folder',
   export: 'Export...',

@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind logic */
 import type { ListedEntry } from '@bxel/project';
-import { joinInside } from '@bxel/project';
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { ASSET_LIST_TEXT } from '../../../asset-list/asset-list-text.constants';
 import type { AssetRow } from '../../../asset-list/asset-list.type';
@@ -8,14 +7,15 @@ import { canCopyForSheet } from '../../../asset-list/can-copy-for-sheet';
 import { canDuplicate } from '../../../asset-list/can-duplicate';
 import { canExport } from '../../../asset-list/can-export';
 import { menuTarget } from '../../../context-menu/menu-target';
-import { folderDir } from '../../../project/folder-dir';
 import { PROJECT_COMMAND } from '../../../project/project.constants';
 import { NEW_ASSET_KINDS, OPENED_KINDS, PROJECT_MENU } from '../ProjectPanel.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
+import { entryPath } from './entry-path';
 
-const newAssetMenu = (): ContextMenuEntry => ({
-  label: PROJECT_MENU.newAsset,
-  items: NEW_ASSET_KINDS.map((kind) => ({ command: 'project.new_asset', label: ASSET_LIST_TEXT.newKinds[kind], args: { kind } })),
+const newAssetMenu = (name?: string, hidden = false): ContextMenuEntry => ({
+  label: name === undefined ? PROJECT_MENU.newAsset : PROJECT_MENU.newAssetHere,
+  hidden,
+  items: NEW_ASSET_KINDS.map((kind) => ({ command: 'project.new_asset', label: ASSET_LIST_TEXT.newKinds[kind], args: { kind, name } })),
 });
 
 const assetEntries = (row: AssetRow): readonly ContextMenuEntry[] => {
@@ -35,17 +35,14 @@ const assetEntries = (row: AssetRow): readonly ContextMenuEntry[] => {
   ];
 };
 
-const entryPath = (model: ProjectPanelModel, entry: ListedEntry): string => {
-  const dir = model.folder ? folderDir(model.folder.path, model.segments) : null;
-  const joined = dir === null ? null : joinInside(dir, entry.name);
-  return joined?.ok ? joined.value : '';
-};
-
 const folderEntries = (model: ProjectPanelModel, entry: ListedEntry): readonly ContextMenuEntry[] => {
   const args = { name: entry.name };
   const path = entryPath(model, entry);
+  const isFolder = entry.kind === 'folder';
   return [
-    { command: 'project.open_entry', label: ASSET_LIST_TEXT.open, args, hidden: entry.kind !== 'folder' && !OPENED_KINDS.includes(entry.kind) },
+    { command: 'project.open_entry', label: ASSET_LIST_TEXT.open, args, hidden: !isFolder && !OPENED_KINDS.includes(entry.kind) },
+    newAssetMenu(entry.name, !isFolder || path === ''),
+    { command: 'project.new_folder', label: PROJECT_MENU.newFolderHere, args, hidden: !isFolder || path === '' },
     { command: 'project.rename_entry', label: ASSET_LIST_TEXT.rename, args },
     { command: 'asset.reveal', label: ASSET_LIST_TEXT.reveal, args: { path }, hidden: path === '' },
     { command: 'asset.copy_path', label: ASSET_LIST_TEXT.copyPath, args: { path }, hidden: path === '' },

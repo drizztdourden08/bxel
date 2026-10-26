@@ -57,7 +57,7 @@ const ANT_STEP_MS = 90;
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
-const GUIDE_ALPHA = 0.85;
+const GUIDE_ALPHA = 1;
 
 const AXIS_GRAB = { across: 6, along: 14 } as const;
 

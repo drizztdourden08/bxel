@@ -54,6 +54,7 @@ const useProjectPanel = (): ProjectPanelModel => {
     setSearch,
     assets,
     newAsset: (kind) => (kind === 'sprite' ? actions.startNaming() : startNewAsset(kind)),
+    newAssetIn: (kind, where) => (kind === 'sprite' ? actions.startNamingIn(where) : startNewAsset(kind, where)),
     chooseFolder: location.chooseFolder,
     up: location.up,
     newProject: () => useProjectStore.getState().showDialog(true),
