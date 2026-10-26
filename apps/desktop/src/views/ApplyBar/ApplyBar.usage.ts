@@ -5,7 +5,7 @@ const usage = {
   job: 'Tells what a pending edit will touch and holds Cancel and Apply in a Tessera FloatingPrompt, so a transform, move or paste is committed only after the user has seen it on the canvas.',
   useWhen: [
     'A flip, turn, rotate, scale, move or paste is previewed on the canvas and waits for a decision.',
-    'The user must see the targets, layers, frames and clipping before one undo step is written.',
+    'The user must see the targets, layers and clipping before one undo step is written.',
   ],
   avoidWhen: [
     { case: 'The edit applies at once, such as a pencil stroke or a layer command.', use: 'OptionsToolbar' },

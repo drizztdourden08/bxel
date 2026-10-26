@@ -30,6 +30,7 @@ const paletteUser = (bankId: string): string | undefined => {
 
 const showAsset = (key: AssetKey): void => {
   if (key.kind === 'sprite') showSprite(key.id);
+  else if (key.kind === 'animation') showSprite(undefined);
   else if (key.kind === 'palette') showSprite(paletteUser(key.id));
   else if (key.kind === 'tilemap') showMap(key.id, null);
   else if (key.kind === 'tileset') showMap(null, key.id);

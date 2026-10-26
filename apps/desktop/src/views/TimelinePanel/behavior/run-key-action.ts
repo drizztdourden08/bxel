@@ -1,34 +1,13 @@
 /* @layer renderer-app @kind logic */
-import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { jumpFrame } from '../../../timeline/jump-frame';
-import { moveCels } from '../../../timeline/move-cels';
-import { moveCursor } from '../../../timeline/move-cursor';
 import { moveFrames } from '../../../timeline/move-frames';
+import { stepFrame } from '../../../timeline/step-frame';
 import type { TimelineKeyAction } from '../TimelinePanel.type';
-import { isLaneAction } from './is-lane-action';
-import { runLaneAction } from './run-lane-action';
 
 const runKeyAction = (action: TimelineKeyAction): void => {
-  if (isLaneAction(action)) {
-    runLaneAction(action);
-    return;
-  }
-  switch (action.kind) {
-    case 'play':
-      useTimelineStore.getState().togglePlay();
-      return;
-    case 'cursor':
-      moveCursor(action.by, action.extend);
-      return;
-    case 'edge':
-      jumpFrame(action.end);
-      return;
-    case 'moveFrames':
-      moveFrames(action.delta);
-      return;
-    case 'moveCels':
-      moveCels(action.by);
-  }
+  if (action.kind === 'step') stepFrame(action.delta, action.extend);
+  else if (action.kind === 'edge') jumpFrame(action.end, action.extend);
+  else moveFrames(action.delta);
 };
 
 export { runKeyAction };

@@ -1,18 +1,13 @@
 /* @layer renderer-app @kind logic */
-import type { EditorTarget } from '../editor/editor.type';
-import type { TimelineSelection } from '../stores/timeline-store.type';
 import type { TagId } from '@bxel/document';
-import { frameColumns } from './frame-columns';
-import { layerRows } from './layer-rows';
+import type { TimelineSelection } from '../stores/timeline-store.type';
+import { frameCells } from './frame-cells';
 import { tagLanes } from './tag-lanes';
-import type { TimelineModel } from './timeline.type';
+import type { AnimationFocus, TimelineModel } from './timeline.type';
 
-const timelineModel = (target: EditorTarget, selection: TimelineSelection, tagId: TagId | null): TimelineModel => {
-  return {
-    columns: frameColumns(target, selection),
-    rows: layerRows(target, selection),
-    tagLanes: tagLanes(target.sprite, tagId),
-  };
-};
+const timelineModel = (focus: AnimationFocus, selection: TimelineSelection, tagId: TagId | null): TimelineModel => ({
+  cells: frameCells(focus, selection),
+  tagLanes: tagLanes(focus.animation, tagId),
+});
 
 export { timelineModel };

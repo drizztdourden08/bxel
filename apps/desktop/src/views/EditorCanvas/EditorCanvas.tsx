@@ -2,6 +2,7 @@
 import { useRef } from 'react';
 import { Box, EmptyState } from '@drizztdourden08/tessera';
 import { useSpriteLook } from '../../canvas-look/useSpriteLook';
+import { useAnimationFocus } from '../../hooks/useAnimationFocus';
 import { WRAP_OF } from '../../editor/wrap.constants';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { usePendingStore } from '../../stores/usePendingStore';
@@ -12,6 +13,7 @@ import type { PixelViewportHandle } from '../PixelViewport';
 import { EDITOR_CANVAS_TEXT } from './EditorCanvas.constants';
 import { canvasClass } from './behavior/canvas-class';
 import { useAreaRedraw } from './behavior/useAreaRedraw';
+import { paintGuides } from './behavior/paint-guides';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasKeys } from './behavior/useCanvasKeys';
 import { useCanvasTools } from './behavior/useCanvasTools';
@@ -19,15 +21,19 @@ import { useCommittedImage } from './behavior/useCommittedImage';
 import { useEscapeCancel } from './behavior/useEscapeCancel';
 import { useMarchingAnts } from './behavior/useMarchingAnts';
 import { usePendingImage } from './behavior/usePendingImage';
+import { usePlaybackImage } from './behavior/usePlaybackImage';
 import { useSyncPending } from './behavior/useSyncPending';
 import { useViewDefaults } from './behavior/useViewDefaults';
 import { useViewportBridge } from './behavior/useViewportBridge';
 import { viewportClass } from './behavior/viewport-class';
+import { EmptyFrame } from './sub-components/EmptyFrame';
 import { RulerBars } from './sub-components/RulerBars';
 import './EditorCanvas.css';
 
 const EditorCanvas = () => {
   const target = useEditorTarget();
+  const focus = useAnimationFocus();
+  const preview = usePlaybackImage();
   const viewport = useRef<PixelViewportHandle>(null);
   const tool = useToolStore((state) => state.tool);
   const grid = useViewStore((state) => state.grid);
@@ -48,7 +54,7 @@ const EditorCanvas = () => {
   useAreaRedraw(viewport);
   useSyncPending(target);
   useEscapeCancel();
-  if (!target) return <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;
+  if (!target && !preview) return focus ? <EmptyFrame readOnly={focus.readOnly} /> : <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;
   return (
     <Box className={canvasClass(rulers)} onContextMenu={tools.onContextMenu} onBlur={keys.onBlur}>
       {rulers && <RulerBars />}
@@ -57,10 +63,11 @@ const EditorCanvas = () => {
         className={viewportClass(tool)}
         label={EDITOR_CANVAS_TEXT.label}
         hint={EDITOR_CANVAS_TEXT.hint}
-        width={outcome?.width ?? target.sprite.width}
-        height={outcome?.height ?? target.sprite.height}
-        source={floating ?? tools.live ?? committed ?? undefined}
+        width={preview?.width ?? outcome?.width ?? target?.sprite.width ?? 1}
+        height={preview?.height ?? outcome?.height ?? target?.sprite.height ?? 1}
+        source={preview ?? floating ?? tools.live ?? committed ?? undefined}
         draw={readout.draw}
+        guides={preview ? undefined : paintGuides}
         look={look}
         grid={grid}
         gridMajor={gridMajor}

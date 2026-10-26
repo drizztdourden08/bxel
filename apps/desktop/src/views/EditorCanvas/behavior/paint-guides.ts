@@ -1,0 +1,57 @@
+/* @layer renderer-app @kind logic */
+import { animFramePivot } from '@bxel/document';
+import { currentTarget } from '../../../editor/current-target';
+import { useDocumentStore } from '../../../stores/useDocumentStore';
+import { useTimelineStore } from '../../../stores/useTimelineStore';
+import { canvasOrigin } from '../../../timeline/canvas-origin';
+import type { PixelDraw } from '../../PixelViewport';
+import { AXIS_DASH, AXIS_GRIP, ANCHOR_ARM } from '../EditorCanvas.constants';
+import { overlayLook } from './overlay-look';
+import { paintOnion } from './paint-onion';
+
+const paintGuides: PixelDraw = (ctx, view) => {
+  const target = currentTarget();
+  const artwork = target ? useDocumentStore.getState().host.view(target.documentId)?.state.artwork : undefined;
+  if (!target?.animation || !artwork) return;
+  const { animation, frame } = target.animation;
+  const look = overlayLook(ctx.canvas);
+  const origin = canvasOrigin(artwork, animation, frame);
+  const pixel = 1 / view.zoom;
+  paintOnion(ctx);
+  ctx.save();
+  ctx.lineWidth = pixel;
+  ctx.strokeStyle = look.ink;
+  ctx.setLineDash(AXIS_DASH.map((part) => part * pixel));
+  ctx.strokeRect(origin.x, origin.y, animation.width, animation.height);
+  ctx.setLineDash([]);
+  const anchorX = origin.x + animation.anchor.x2 / 2;
+  const anchorY = origin.y + animation.anchor.y2 / 2;
+  const arm = ANCHOR_ARM * pixel;
+  ctx.strokeStyle = look.cursor;
+  ctx.beginPath();
+  ctx.moveTo(anchorX - arm, anchorY);
+  ctx.lineTo(anchorX + arm, anchorY);
+  ctx.moveTo(anchorX, anchorY - arm);
+  ctx.lineTo(anchorX, anchorY + arm);
+  ctx.stroke();
+  const draft = useTimelineStore.getState().pivotDraft;
+  const pivot = draft ?? animFramePivot(artwork, animation, frame);
+  const pivotX = (frame.clip?.x ?? 0) + pivot.x2 / 2;
+  const pivotY = (frame.clip?.y ?? 0) + pivot.y2 / 2;
+  const grip = AXIS_GRIP * pixel;
+  ctx.strokeStyle = look.axis;
+  ctx.fillStyle = look.axis;
+  ctx.setLineDash(AXIS_DASH.map((part) => part * pixel));
+  ctx.beginPath();
+  ctx.moveTo(pivotX, 0);
+  ctx.lineTo(pivotX, view.imageHeight);
+  ctx.moveTo(0, pivotY);
+  ctx.lineTo(view.imageWidth, pivotY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillRect(pivotX - grip / 2, 0, grip, grip);
+  ctx.fillRect(0, pivotY - grip / 2, grip, grip);
+  ctx.restore();
+};
+
+export { paintGuides };

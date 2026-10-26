@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { OnionSettings, TimelineSelection, TimelineSettings } from './timeline-store.type';
 
-const NO_SELECTION: TimelineSelection = { frames: [], layers: [], anchor: null };
+const NO_SELECTION: TimelineSelection = { frames: [], anchor: null };
 
 const ONION_DEFAULTS: OnionSettings = { on: false, before: 1, after: 1, opacity: 40, tint: 'split' };
 
@@ -16,10 +16,9 @@ const TIMELINE_DEFAULTS: TimelineSettings = {
   tagId: null,
   playing: false,
   loop: true,
-  pingPong: false,
   cursor: -1,
-  zone: 'cel',
   onion: ONION_DEFAULTS,
+  pivotDraft: null,
 };
 
 export { NO_SELECTION, ONION_DEFAULTS, ONION_LIMITS, TIMELINE_DEFAULTS };

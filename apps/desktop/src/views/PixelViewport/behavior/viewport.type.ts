@@ -46,6 +46,7 @@ interface FrameInput {
   box: ViewBox;
   image: ImageSize;
   draw?: PixelDraw;
+  guides?: PixelDraw;
   source?: PixelSource;
   gridFrom: number;
   grids: GridFlags;

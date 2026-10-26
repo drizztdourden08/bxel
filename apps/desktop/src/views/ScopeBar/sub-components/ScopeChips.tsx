@@ -14,9 +14,8 @@ const ScopeChips = () => {
   const model = useSpriteScene();
   const spritesScope = useSpriteStore((state) => state.spritesScope);
   const layerScope = useSpriteStore((state) => state.layerScope);
-  const frameScope = useSpriteStore((state) => state.frameScope);
   if (!target || !model) return null;
-  const chips = scopeChipModel(model.scene, target, { sprites: spritesScope, layers: layerScope, frames: frameScope });
+  const chips = scopeChipModel(model.scene, target, { sprites: spritesScope, layers: layerScope });
   if (chips.multi) return <ScopeMenus chips={chips} />;
   return (
     <Flex gap="xs" align="center" role="group" aria-label={SCOPE_TEXT.region}>

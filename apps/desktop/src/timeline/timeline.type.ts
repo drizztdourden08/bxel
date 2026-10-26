@@ -1,33 +1,24 @@
 /* @layer renderer-app @kind types */
-import type { FrameId, LayerId, TagId } from '@bxel/document';
-import type { TimelineSelection } from '../stores/timeline-store.type';
+import type { AnimFlip, AnimFrame, AnimFrameId, Animation, Artwork, DocumentId, TagId } from '@bxel/document';
 
-type CelState = 'empty' | 'filled' | 'linked';
+interface AnimationFocus {
+  documentId: DocumentId;
+  artwork: Artwork;
+  animation: Animation;
+  frame: AnimFrame;
+  readOnly: boolean;
+}
 
-interface FrameColumn {
-  id: FrameId;
+type FrameBadge = 'owned' | 'shared' | 'clip' | 'empty';
+
+interface FrameCell {
+  id: AnimFrameId;
   number: number;
   durationMs: number;
   current: boolean;
   selected: boolean;
-}
-
-interface CelCell {
-  layerId: LayerId;
-  frameId: FrameId;
-  state: CelState;
-  current: boolean;
-  selected: boolean;
+  badges: readonly FrameBadge[];
   label: string;
-}
-
-interface LayerRow {
-  id: LayerId;
-  name: string;
-  visible: boolean;
-  locked: boolean;
-  active: boolean;
-  cells: readonly CelCell[];
 }
 
 type TagEdge = 'only' | 'start' | 'mid' | 'end';
@@ -40,6 +31,7 @@ interface TagCell {
   edge: TagEdge;
   selected: boolean;
   roving: boolean;
+  mirror: boolean;
   label: string;
 }
 
@@ -51,37 +43,13 @@ interface TagColourChoice {
 }
 
 interface TimelineModel {
-  columns: readonly FrameColumn[];
-  rows: readonly LayerRow[];
+  cells: readonly FrameCell[];
   tagLanes: readonly (readonly (TagCell | null)[])[];
 }
 
-interface EffectiveSelection {
-  frames: readonly FrameId[];
-  layers: readonly LayerId[];
+interface PlayStep {
+  frameId: AnimFrameId;
+  flip: AnimFlip | null;
 }
 
-interface PlayOptions {
-  pingPong: boolean;
-  tagId: TagId | null;
-}
-
-interface CelMove {
-  frames: number;
-  layers: number;
-}
-
-interface ShiftedSelection {
-  selection: TimelineSelection;
-  frameId: FrameId;
-  layerId: LayerId;
-}
-
-interface CelStep {
-  layerId: LayerId;
-  frameId: FrameId;
-  toLayer: LayerId;
-  toFrame: FrameId;
-}
-
-export type { CelCell, CelMove, CelState, CelStep, EffectiveSelection, FrameColumn, LayerRow, PlayOptions, ShiftedSelection, TagCell, TagColourChoice, TagEdge, TagLook, TimelineModel };
+export type { AnimationFocus, FrameBadge, FrameCell, PlayStep, TagCell, TagColourChoice, TagEdge, TagLook, TimelineModel };

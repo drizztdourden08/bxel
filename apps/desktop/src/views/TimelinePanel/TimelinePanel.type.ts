@@ -1,23 +1,8 @@
 /* @layer renderer-app @kind types */
-import type { DragEvent } from 'react';
-import type { FrameId, Tag } from '@bxel/document';
+import type { AnimFacing, AnimSpanTag } from '@bxel/document';
 import type { ReorderDrag } from '@drizztdourden08/tessera';
-import type { CelKey, TimelineZone } from '../../stores/timeline-store.type';
 import type { PixelIconName } from '../../icons/pixel-icon.type';
-import type { CelCell, CelMove, FrameColumn, LayerRow, TagCell, TimelineModel } from '../../timeline/timeline.type';
-
-interface CelDragHandlers {
-  draggable: boolean;
-  onDragStart: (event: DragEvent<HTMLElement>) => void;
-  onDragOver: (event: DragEvent<HTMLElement>) => void;
-  onDrop: (event: DragEvent<HTMLElement>) => void;
-  onDragEnd: () => void;
-}
-
-interface CelDrag {
-  over: string | null;
-  handlers: (key: CelKey, draggable: boolean) => CelDragHandlers;
-}
+import type { AnimationFocus, FrameCell, TagCell, TimelineModel } from '../../timeline/timeline.type';
 
 interface TimelineAction {
   id: string;
@@ -27,22 +12,6 @@ interface TimelineAction {
   run: () => unknown;
 }
 
-type CelKeyAction =
-  | { kind: 'play' }
-  | { kind: 'cursor'; by: CelMove; extend: boolean }
-  | { kind: 'edge'; end: 'first' | 'last' }
-  | { kind: 'moveFrames'; delta: number }
-  | { kind: 'moveCels'; by: CelMove };
-
-type LaneKeyAction =
-  | { kind: 'park'; by: CelMove }
-  | { kind: 'addPick' }
-  | { kind: 'frame'; delta: number; extend: boolean }
-  | { kind: 'zone'; zone: TimelineZone }
-  | { kind: 'tag'; delta: number };
-
-type TimelineKeyAction = CelKeyAction | LaneKeyAction;
-
 interface TimelineKeyInfo {
   key: string;
   shiftKey: boolean;
@@ -51,61 +20,72 @@ interface TimelineKeyInfo {
   metaKey: boolean;
 }
 
-interface TimelineGridProps {
-  model: TimelineModel;
-  frameId: FrameId;
+type TimelineKeyAction =
+  | { kind: 'step'; delta: number; extend: boolean }
+  | { kind: 'edge'; end: 'first' | 'last'; extend: boolean }
+  | { kind: 'move'; delta: number };
+
+interface FocusProps {
+  focus: AnimationFocus;
 }
 
-interface FrameHeaderProps {
-  column: FrameColumn;
+interface FrameStripProps extends FocusProps {
+  model: TimelineModel;
+}
+
+interface FrameCellViewProps extends FocusProps {
+  cell: FrameCell;
   index: number;
   total: number;
   drag: ReorderDrag;
+}
+
+interface FrameThumbProps extends FocusProps {
+  cell: FrameCell;
 }
 
 interface TagLaneProps {
   cells: readonly (TagCell | null)[];
 }
 
-interface LayerRowViewProps {
-  row: LayerRow;
-  frameId: FrameId;
-  drag: CelDrag;
-}
-
-interface CelButtonProps {
-  cell: CelCell;
-  drag: CelDrag;
-}
-
-interface DurationFieldProps {
-  value: number;
-  onCommit: (durationMs: number) => boolean;
-}
-
 interface TagEditorProps {
-  tag: Tag;
+  tag: AnimSpanTag;
+  readOnly: boolean;
 }
 
 interface ActionBarProps {
   label: string;
   actions: readonly TimelineAction[];
+  disabled: boolean;
+}
+
+interface NumberFieldProps {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  disabled?: boolean;
+  onCommit: (value: number) => boolean;
+}
+
+interface FacingButtonProps {
+  facing: AnimFacing;
+  found: boolean;
+  pressed: boolean;
 }
 
 export type {
   ActionBarProps,
-  CelButtonProps,
-  CelDrag,
-  CelDragHandlers,
-  CelKeyAction,
-  DurationFieldProps,
-  FrameHeaderProps,
-  LaneKeyAction,
-  LayerRowViewProps,
+  FacingButtonProps,
+  FocusProps,
+  FrameCellViewProps,
+  FrameStripProps,
+  FrameThumbProps,
+  NumberFieldProps,
   TagEditorProps,
   TagLaneProps,
   TimelineAction,
-  TimelineGridProps,
   TimelineKeyAction,
   TimelineKeyInfo,
 };

@@ -1,17 +1,22 @@
 /* @layer renderer-app @kind logic */
 import type { TagId } from '@bxel/document';
-import { currentTarget } from '../editor/current-target';
 import { useTimelineStore } from '../stores/useTimelineStore';
+import { currentFocus } from './current-focus';
 import { selectFrameIds } from './select-frame-ids';
-import { tagFrames } from './tag-frames';
+import { spanTagOf, tagById } from './span-tag-of';
 
 const selectTag = (tagId: TagId): void => {
-  const target = currentTarget();
-  const tag = target?.sprite.tags.find((each) => each.id === tagId);
-  if (!target || !tag) return;
-  const frames = tagFrames(target.sprite, tag);
+  const focus = currentFocus();
+  if (!focus) return;
+  const tag = spanTagOf(focus.animation, tagById(focus.animation, tagId));
+  if (!tag) return;
+  const order = focus.animation.frames.map((frame) => frame.id);
+  const from = order.indexOf(tag.from);
+  const to = order.indexOf(tag.to);
   useTimelineStore.getState().selectTag(tagId);
-  selectFrameIds(target.layerId, frames, frames.includes(target.frameId) ? target.frameId : undefined);
+  if (from < 0 || to < 0) return;
+  const frames = order.slice(Math.min(from, to), Math.max(from, to) + 1);
+  selectFrameIds(frames, frames.includes(focus.frame.id) ? focus.frame.id : undefined);
 };
 
 export { selectTag };

@@ -76,7 +76,6 @@ interface ScopeChipModel {
   multi: boolean;
   sprites: string;
   layers: string;
-  frames: string;
 }
 
 interface SheetPrelude {

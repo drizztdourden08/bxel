@@ -14,6 +14,12 @@ const paintImage = (args: PaintTools, frame: FrameInput): void => {
   if (drawable) ctx.drawImage(drawable, 0, 0);
   if (primary) frame.draw?.(ctx, view);
   ctx.restore();
+  if (!primary || !frame.guides) return;
+  ctx.save();
+  ctx.setTransform(placed.scale, 0, 0, placed.scale, placed.x, placed.y);
+  ctx.imageSmoothingEnabled = false;
+  frame.guides(ctx, view);
+  ctx.restore();
 };
 
 export { paintImage };

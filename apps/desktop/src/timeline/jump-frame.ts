@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind logic */
-import { currentTarget } from '../editor/current-target';
-import { goToCel } from './go-to-cel';
+import { currentFocus } from './current-focus';
+import { goToFrame } from './go-to-frame';
 
-const jumpFrame = (end: 'first' | 'last'): void => {
-  const target = currentTarget();
-  const frame = end === 'first' ? target?.sprite.frames.at(0) : target?.sprite.frames.at(-1);
-  if (target && frame) goToCel({ layerId: target.layerId, frameId: frame.id });
+const jumpFrame = (end: 'first' | 'last', extend = false): void => {
+  const focus = currentFocus();
+  const frame = end === 'first' ? focus?.animation.frames[0] : focus?.animation.frames.at(-1);
+  if (frame) goToFrame(frame.id, extend);
 };
 
 export { jumpFrame };

@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind types */
-import type { FrameId } from '@bxel/document';
+import type { AnimFlip, AnimFrameId } from '@bxel/document';
 import type { OnionTint } from '../stores/timeline-store.type';
 
 type OnionSide = 'before' | 'after';
 
 interface OnionLayer {
-  frameId: FrameId;
+  frameId: AnimFrameId;
+  flip: AnimFlip | null;
   side: OnionSide;
   alpha: number;
 }
@@ -13,7 +14,8 @@ interface OnionLayer {
 type Rgb = readonly [number, number, number];
 
 interface OnionGhost {
-  frameId: FrameId;
+  frameId: AnimFrameId;
+  flip: AnimFlip | null;
   side: OnionSide;
   tint: OnionTint;
 }

@@ -1,38 +1,39 @@
 /* @layer renderer-app @kind component */
 import { useId, useMemo } from 'react';
 import { commandZone } from '@drizztdourden08/brock-react';
-import { Box, Disclosure, Divider, EmptyState, Flex, Text } from '@drizztdourden08/tessera';
+import { Box, Disclosure, Divider, Flex, Text } from '@drizztdourden08/tessera';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
-import { useEditorTarget } from '../../hooks/useEditorTarget';
+import { useAnimationFocus } from '../../hooks/useAnimationFocus';
 import { useTimelineStore } from '../../stores/useTimelineStore';
 import { ONION_TEXT } from '../../timeline/onion.constants';
-import { setDuration } from '../../timeline/set-duration';
-import { statusText } from '../../timeline/status-text';
+import { spanTagOf, tagById } from '../../timeline/span-tag-of';
+import { statusText } from '../../timeline/totals-text';
 import { TIMELINE_TEXT } from '../../timeline/timeline.constants';
 import { timelineModel } from '../../timeline/timeline-model';
-import { CEL_ACTIONS, FRAME_ACTIONS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT } from './TimelinePanel.constants';
+import { FRAME_ACTIONS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT } from './TimelinePanel.constants';
 import { useTimelineKeys } from './behavior/useTimelineKeys';
 import { ActionBar } from './sub-components/ActionBar';
-import { DurationField } from './sub-components/DurationField';
+import { DirectionPad } from './sub-components/DirectionPad';
+import { EmptyTimeline } from './sub-components/EmptyTimeline';
+import { FrameFields } from './sub-components/FrameFields';
+import { FrameStrip } from './sub-components/FrameStrip';
 import { OnionControls } from './sub-components/OnionControls';
 import { OnionToggle } from './sub-components/OnionToggle';
 import { TagEditor } from './sub-components/TagEditor';
-import { TimelineGrid } from './sub-components/TimelineGrid';
 import { TransportBar } from './sub-components/TransportBar';
 import './TimelinePanel.css';
 
 const TimelinePanel = () => {
-  const target = useEditorTarget();
+  const focus = useAnimationFocus();
   const selection = useTimelineStore((state) => state.selection);
   const tagId = useTimelineStore((state) => state.tagId);
-  const pingPong = useTimelineStore((state) => state.pingPong);
   const hintId = useId();
   const onKeyDown = useTimelineKeys();
-  const model = useMemo(() => (target ? timelineModel(target, selection, tagId) : null), [target, selection, tagId]);
-  if (!target || !model) return <EmptyState size="sm" message={TIMELINE_TEXT.empty} />;
-  const { sprite, frameId } = target;
-  const tag = sprite.tags.find((each) => each.id === tagId);
-  const duration = sprite.frames.find((frame) => frame.id === frameId)?.durationMs ?? 0;
+  const model = useMemo(() => (focus ? timelineModel(focus, selection, tagId) : null), [focus, selection, tagId]);
+  if (!focus || !model) return <EmptyTimeline />;
+  const { animation } = focus;
+  const tag = tagById(animation, tagId);
+  const span = spanTagOf(animation, tag);
   return (
     <Box
       role="group"
@@ -44,24 +45,24 @@ const TimelinePanel = () => {
       onKeyDown={onKeyDown}
     >
       <Flex gap="md" align="center" wrap className="timeline__bar">
-        <TransportBar />
+        <TransportBar focus={focus} />
         <Divider orientation="vertical" />
-        <ActionBar label={TIMELINE_PANEL_TEXT.frames} actions={FRAME_ACTIONS} />
-        <DurationField key={`${frameId}:${duration}`} value={duration} onCommit={setDuration} />
-        <Divider orientation="vertical" />
-        <ActionBar label={TIMELINE_PANEL_TEXT.cels} actions={CEL_ACTIONS} />
+        <ActionBar label={TIMELINE_PANEL_TEXT.frames} actions={FRAME_ACTIONS} disabled={focus.readOnly} />
         <Divider orientation="vertical" />
         <OnionToggle />
-        <Text variant="caption" tone="muted" role="status" aria-live="polite">{statusText(target, { pingPong, tagId })}</Text>
+        <Text variant="caption" tone="muted" role="status" aria-live="polite">{statusText(focus)}</Text>
       </Flex>
-      <Disclosure summary={TIMELINE_TEXT.count(sprite.frames.length, sprite.layers.length)} size="sm" defaultOpen>
-        <TimelineGrid model={model} frameId={frameId} />
-        {tag && <TagEditor tag={tag} />}
+      {animation.directions !== 'none' && <DirectionPad focus={focus} />}
+      <FrameFields focus={focus} />
+      <Disclosure summary={TIMELINE_TEXT.count(animation.frames.length)} size="sm" defaultOpen>
+        <FrameStrip focus={focus} model={model} />
+        {tag?.kind === 'span' && <TagEditor key={tag.id} tag={tag} readOnly={focus.readOnly} />}
+        {tag?.kind === 'mirror' && span && <Text variant="caption" tone="muted">{TIMELINE_PANEL_TEXT.tagMirror(tag.flip)}</Text>}
         <Disclosure summary={ONION_TEXT.toggle} size="sm">
           <OnionControls />
         </Disclosure>
       </Disclosure>
-      <Box id={hintId} className="visually-hidden">{`${TIMELINE_TEXT.playHint} ${TIMELINE_TEXT.moveHint} ${TIMELINE_TEXT.pickHint} ${TIMELINE_TEXT.laneHint}`}</Box>
+      <Box id={hintId} className="visually-hidden">{`${TIMELINE_TEXT.playHint} ${TIMELINE_TEXT.moveHint} ${TIMELINE_TEXT.stripHint}`}</Box>
     </Box>
   );
 };
