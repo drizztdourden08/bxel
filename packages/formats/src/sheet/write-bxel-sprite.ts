@@ -23,6 +23,9 @@ const tagJson = (tag: SheetTagEntry): JsonValue => ({
   direction: tag.direction,
   repeat: tag.repeat,
   ...(tag.colour === undefined ? {} : { colour: tag.colour }),
+  ...(tag.facing === undefined ? {} : { facing: tag.facing }),
+  ...(tag.mirrorOf === undefined ? {} : { mirrorOf: tag.mirrorOf }),
+  ...(tag.flip === undefined ? {} : { flip: tag.flip }),
 });
 
 const sliceJson = (slice: SheetSliceEntry): JsonValue => ({

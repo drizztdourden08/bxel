@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { ASEPRITE_DIRECTION } from './hash-tags-json.constants';
 import { SHEET_JSON } from './sheet-json.constants';
 import type { JsonValue, SheetSpriteEntry } from './sheet-metadata.type';
 
@@ -11,7 +12,7 @@ const hashTagsJson = (
       name: tag.name,
       from: (offsets[i] ?? 0) + tag.from,
       to: (offsets[i] ?? 0) + tag.to,
-      direction: tag.direction,
+      direction: ASEPRITE_DIRECTION[tag.direction],
       color: tag.colour === undefined ? SHEET_JSON.TAG_COLOR : `${tag.colour}ff`,
       ...(tag.repeat > 0 ? { repeat: String(tag.repeat) } : {}),
     })),

@@ -8,9 +8,10 @@ type AtlasPlanInput = {
   readonly settings: PackSettings;
   readonly trim: boolean;
   readonly pageSide: number;
+  readonly mergeIdentical?: boolean;
 };
 
-type AtlasPlan = {
+type AtlasPlan= {
   readonly ok: true;
   readonly cells: readonly SheetCell[];
   readonly pages: readonly PackedPage[];

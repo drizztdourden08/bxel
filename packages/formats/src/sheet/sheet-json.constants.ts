@@ -3,6 +3,7 @@
 const SHEET_JSON = {
   FORMAT: 'bxel-sheet',
   VERSION: 1,
+  ANIMATION_VERSION: 2,
   APP: 'Bxel',
   HASH_PIXEL_FORMAT: 'RGBA8888',
   TAG_COLOR: '#000000ff',

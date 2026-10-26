@@ -2,7 +2,7 @@
 import { boxJson } from './box-json';
 import type { JsonValue, SheetFrameEntry, SheetSpriteEntry } from './sheet-metadata.type';
 
-const hashFrameJson = (sprite: SheetSpriteEntry, frame: SheetFrameEntry): JsonValue => ({
+const hashFrameJson = (sprite: SheetSpriteEntry, frame: SheetFrameEntry): Record<string, JsonValue> => ({
   frame: boxJson(frame.box),
   rotated: frame.rotated,
   trimmed: frame.trimmed,
