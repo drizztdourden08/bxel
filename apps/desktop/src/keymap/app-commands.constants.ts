@@ -12,6 +12,7 @@ import { HELP_COMMANDS } from './help-commands.constants';
 import { LAYER_MENU_COMMANDS } from './layer-menu-commands.constants';
 import { PALETTE_MENU_COMMANDS } from './palette-menu-commands.constants';
 import { PROJECT_COMMANDS } from './project-commands.constants';
+import { RULER_UNIT_COMMANDS } from './ruler-unit-commands.constants';
 import { SELECTION_COMMANDS } from './selection-commands.constants';
 import { SHEET_EDITOR_COMMANDS } from './sheet-commands.constants';
 import { SPRITE_MENU_COMMANDS } from './sprite-menu-commands.constants';
@@ -48,6 +49,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TIMELINE_MENU_COMMANDS,
   ...SYMMETRY_MENU_COMMANDS,
   ...GUIDE_MENU_COMMANDS,
+  ...RULER_UNIT_COMMANDS,
   ...HELP_COMMANDS,
 ];
 

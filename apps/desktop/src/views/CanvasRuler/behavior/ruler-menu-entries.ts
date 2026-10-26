@@ -10,6 +10,7 @@ import { useRulerStore } from '../../../stores/useRulerStore';
 import { RULER_MENU } from '../CanvasRuler.constants';
 import type { RulerArgs } from '../CanvasRuler.type';
 import { rulerAlong } from './ruler-along';
+import { unitEntries } from './unit-entries';
 import { rulerAxisState } from './ruler-axis-state';
 import { rulerSpan } from './ruler-span';
 
@@ -27,6 +28,7 @@ const rulerMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntr
     { command: axis === 'x' ? COMMAND_ID.symmetryX : COMMAND_ID.symmetryY, label: RULER_MENU.mirror },
     { command: 'symmetry.axis_centre', label: RULER_MENU.centre, args: { axis }, ...unless(!centred, RULER_MENU.centred) },
     'separator',
+    unitEntries(),
     COMMAND_ID.rulers,
     'separator',
     { command: 'guide.clear', label: RULER_MENU.clearGuides, ...unless(hasGuides(), RULER_MENU.noGuides) },

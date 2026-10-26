@@ -70,6 +70,10 @@ interface AxisArgs {
   position: number;
 }
 
+interface UnitArgs {
+  unit: string;
+}
+
 interface FrameArgs {
   frameId: string;
 }
@@ -89,4 +93,4 @@ interface ByColourArgs extends Partial<PixelArgs> {
   mode: 'region' | 'everywhere';
 }
 
-export type { AlignArgs, AxisArgs, ByColourArgs, DurationArgs, FrameArgs, LayerArgs, NameArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SheetArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TraitArgs, ZoomArgs };
+export type { AlignArgs, AxisArgs, ByColourArgs, DurationArgs, FrameArgs, LayerArgs, NameArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SheetArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TraitArgs, UnitArgs, ZoomArgs };

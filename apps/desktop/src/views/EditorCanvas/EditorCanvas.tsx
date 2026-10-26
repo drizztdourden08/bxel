@@ -23,6 +23,7 @@ import { useEscapeCancel } from './behavior/useEscapeCancel';
 import { useMarchingAnts } from './behavior/useMarchingAnts';
 import { usePendingImage } from './behavior/usePendingImage';
 import { useSyncPending } from './behavior/useSyncPending';
+import { useRulerUnits } from './behavior/useRulerUnits';
 import { useViewDefaults } from './behavior/useViewDefaults';
 import { useViewportBridge } from './behavior/useViewportBridge';
 import { viewportClass } from './behavior/viewport-class';
@@ -47,6 +48,7 @@ const EditorCanvas = () => {
   const keys = useCanvasKeys(viewport);
   useCanvasMenu(viewport);
   useViewDefaults();
+  useRulerUnits();
   useViewportBridge(viewport, target !== null);
   useMarchingAnts(viewport);
   useAreaRedraw(viewport);
