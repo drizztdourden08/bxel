@@ -8,7 +8,9 @@ import type { AssetFields, AssetFocus, AssetOutcome } from './asset-config.type'
 import { focusAssetOf } from './focus-asset-of';
 import { gridEdit } from './grid-edit';
 import type { GridCell } from './grid-edit.type';
+import { half } from './half-number';
 import { runField } from './run-field';
+import { whole } from './whole-number';
 
 const spriteOf = (focus: AssetFocus) => focusAssetOf(focus, 'sprite');
 
@@ -17,10 +19,6 @@ const stepFor = (focus: AssetFocus, name: string, options: unknown): CommandStep
   targets: spritesTarget([focus.key.id as SpriteId]),
   options,
 });
-
-const whole = (value: unknown): number | null => (typeof value === 'number' && Number.isInteger(value) ? value : null);
-
-const half = (value: unknown): number | null => (typeof value === 'number' && Number.isFinite(value) ? Math.round(value * 2) : null);
 
 const rename = (focus: AssetFocus, value: unknown): AssetOutcome =>
   typeof value === 'string' ? runField(focus, ASSET_LABEL.rename, [stepFor(focus, COMMAND_NAME.spriteUpdate, { name: value.trim() })]) : null;

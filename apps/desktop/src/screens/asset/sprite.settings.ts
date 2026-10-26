@@ -3,6 +3,7 @@ import type { ScreenMeta, Section } from '@drizztdourden08/brock-react';
 import { ASSET_SOURCE } from '../../asset-config/asset-source.constants';
 import { runInEditor } from '../../asset-config/run-in-editor';
 import { showForKind } from '../../asset-config/show-for-kind';
+import { VIEW_SECTION } from '../../asset-config/view-section.constants';
 import { FILE_COMMAND } from '../../files/files.constants';
 
 const meta: ScreenMeta = {
@@ -46,14 +47,7 @@ const sections: Section[] = [
       },
     ],
   },
-  {
-    id: 'view',
-    title: 'Show on the canvas',
-    items: [
-      { key: 'view.grid', label: 'Pixel grid', description: 'Draw the grid lines when zoomed in.', hint: 'This is a view setting. It does not change the file.' },
-      { key: 'view.gridTile', label: 'Tile grid', description: 'Draw the boundaries of tiles of a set size.', hint: 'The tile size and the grid colours are set on the App Canvas page.' },
-    ],
-  },
+  VIEW_SECTION,
   {
     id: 'export',
     title: 'Export',

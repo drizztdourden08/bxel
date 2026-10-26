@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { strokeCross } from '../../../../../canvas-look/stroke-cross';
 import { atlasExtent } from '../../../../../sheet-manager/atlas-extent';
 import { atlasPivotSpot } from '../../../../../sheet-manager/atlas-pivot-spot';
 import type { AtlasItem } from '../../../../../sheet-manager/manager.type';
@@ -13,16 +14,8 @@ const outline = (ctx: CanvasRenderingContext2D, item: AtlasItem, scale: number, 
 
 const cross = (ctx: CanvasRenderingContext2D, item: AtlasItem, scale: number): void => {
   const spot = atlasPivotSpot(item);
-  const x = spot.x * scale;
-  const y = spot.y * scale;
-  const arm = Math.max(3, scale);
   ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(x - arm, y);
-  ctx.lineTo(x + arm, y);
-  ctx.moveTo(x, y - arm);
-  ctx.lineTo(x, y + arm);
-  ctx.stroke();
+  strokeCross(ctx, spot.x * scale, spot.y * scale, Math.max(3, scale));
 };
 
 const drawAtlasMarks = (canvas: HTMLCanvasElement, view: AtlasDraw): void => {

@@ -69,8 +69,25 @@ interface NumberFieldProps {
   onCommit: (value: number) => boolean;
 }
 
+interface AxisField {
+  label: string;
+  value: number;
+  onCommit: (value: number) => boolean;
+}
+
+interface AxisFieldsProps {
+  frameId: string;
+  x: AxisField;
+  y: AxisField;
+  min: number;
+  max: number;
+  step: number;
+  disabled: boolean;
+}
+
 export type {
   ActionBarProps,
+  AxisFieldsProps,
   FocusProps,
   FrameCellViewProps,
   FrameStripProps,

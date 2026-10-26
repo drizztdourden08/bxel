@@ -4,14 +4,14 @@ import { describe, expect, it, vi } from 'vitest';
 import { saveWorkspace } from '../../src/workspace/save-workspace';
 import { confirmAction } from '../project/project-mocks';
 import { animatedSampleArtwork } from './animated-sample';
-import { heldRig } from './held-rig';
-import { artworkOf, openSampleProject, workspaceOf } from './open-sample-project';
+import { heldProject } from './held-project';
+import { artworkOf, workspaceOf } from './open-sample-project';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
-const held = heldRig();
+const { held, open } = heldProject();
 
-const opened = () => openSampleProject(held.rig, animatedSampleArtwork());
+const opened = () => open(animatedSampleArtwork());
 
 describe('opening a project with a sprite that has frames', () => {
   it('turns the sprite into an animation in memory and leaves the files as they were', async () => {

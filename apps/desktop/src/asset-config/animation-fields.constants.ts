@@ -4,7 +4,9 @@ import type { Animation } from '@bxel/document';
 import { ASSET_LABEL } from './asset-config.constants';
 import type { AssetFields, AssetFocus, AssetOutcome } from './asset-config.type';
 import { focusAssetOf } from './focus-asset-of';
+import { half } from './half-number';
 import { runField } from './run-field';
+import { whole } from './whole-number';
 
 const REPEAT_LIMIT = 255;
 
@@ -15,10 +17,6 @@ const update = (focus: AssetFocus, label: string, options: object): AssetOutcome
   if (!animation) return null;
   return runField(focus, label, [{ name: COMMAND_NAME.animationUpdate, targets: null, options: { animation: animation.id, ...options } }]);
 };
-
-const whole = (value: unknown): number | null => (typeof value === 'number' && Number.isInteger(value) ? value : null);
-
-const half = (value: unknown): number | null => (typeof value === 'number' && Number.isFinite(value) ? Math.round(value * 2) : null);
 
 const sizeTo = (focus: AssetFocus, key: 'width' | 'height', value: unknown): AssetOutcome => {
   const next = whole(value);

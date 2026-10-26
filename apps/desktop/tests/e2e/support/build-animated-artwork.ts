@@ -1,15 +1,10 @@
 /* @layer renderer-app @kind logic */
-import { artworkCreate, COMMAND_NAME, counterIdSource, createEngine, documentCommands } from '@bxel/document';
+import { COMMAND_NAME } from '@bxel/document';
 import type { Artwork, Engine, Sprite, TargetScope } from '@bxel/document';
 import { ANIMATED } from './animated-project.constants';
-import { ANIMATION_COLORS } from './animation.constants';
 import { runStep } from './run-step';
-
-const spriteNamed = (engine: Engine, name: string): Sprite => {
-  const found = engine.state().artwork.sprites.find((sprite) => sprite.name === name);
-  if (!found) throw new Error(`no sprite named ${name}`);
-  return found;
-};
+import { spriteNamed } from './sprite-named';
+import { startEngine } from './start-engine';
 
 const mark = (engine: Engine, sprite: Sprite, frameAt: number, at: { x: number; y: number; index: number }): void => {
   const frame = sprite.frames[frameAt];
@@ -19,17 +14,7 @@ const mark = (engine: Engine, sprite: Sprite, frameAt: number, at: { x: number; 
 };
 
 const buildAnimatedArtwork = (): Artwork => {
-  const ids = counterIdSource();
-  const created = artworkCreate({
-    options: {
-      name: ANIMATED.project,
-      bank: { name: ANIMATED.palette, cap: 16, transparent: true, colors: ANIMATION_COLORS },
-      sprite: { name: ANIMATED.hero, width: ANIMATED.side, height: ANIMATED.side },
-    },
-    ids,
-  });
-  if (!created.ok) throw new Error(created.error.message);
-  const engine = createEngine({ state: created.state, ids, commands: documentCommands });
+  const engine = startEngine({ name: ANIMATED.project, palette: ANIMATED.palette, sprite: { name: ANIMATED.hero, width: ANIMATED.side, height: ANIMATED.side } });
   const hero = spriteNamed(engine, ANIMATED.hero);
   const heroScope: TargetScope = { sprites: [hero.id], layers: { by: 'all' }, frames: { by: 'all' } };
   runStep(engine, COMMAND_NAME.frameAdd, {}, heroScope);

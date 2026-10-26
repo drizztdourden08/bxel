@@ -3,17 +3,15 @@ import { COMMAND_NAME } from '@bxel/document';
 import type { AnimFrameId } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
 import { animationStep } from './animation-step';
-import { currentFocus } from './current-focus';
-import { currentSelection } from './current-selection';
+import { framePick } from './frame-pick';
 import { idRef } from './id-ref';
 import { selectFrameIds } from './select-frame-ids';
 import { TIMELINE_LABEL, TIMELINE_REF } from './timeline.constants';
 
 const duplicateFrames = (): void => {
-  const focus = currentFocus();
-  if (!focus) return;
-  const picked = currentSelection(focus);
-  const order = focus.animation.frames.map((frame) => frame.id);
+  const pick = framePick();
+  if (!pick) return;
+  const { focus, picked, order } = pick;
   const last = Math.max(...picked.map((id) => order.indexOf(id)));
   const refOf = (index: number): string => `${TIMELINE_REF.copy}${index}`;
   const steps = picked.map((id, index) =>
