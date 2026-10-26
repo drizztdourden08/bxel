@@ -14,14 +14,8 @@ const HEADER_WHY = 'Tessera 0.66 widget header buttons are 20px with about 4px b
 const HEADER_BUTTONS = ['Close Sheet', 'Tileset options', 'Close Tileset'];
 
 const A11Y_KNOWN_GAPS: readonly A11yGap[] = [
-<<<<<<< HEAD
-  { rule: 'target-size', target: 'corner"]', owner: 'Tessera', why: CORNER_WHY },
-  { rule: 'target-size', target: '.dock-corner--row', owner: 'Tessera', why: CORNER_WHY },
-  ...WIDGET_BUTTONS.map((name) => ({ rule: 'target-size', target: `"${name}"`, owner: 'Tessera', why: CORNER_WHY })),
-=======
   { rule: 'target-size', target: 'partially obscured', owner: 'Tessera', why: CORNER_WHY },
   ...HEADER_BUTTONS.map((name) => ({ rule: 'target-size', target: `"${name}"`, owner: 'Tessera', why: HEADER_WHY })),
->>>>>>> main
 ];
 
 export { A11Y_BLOCKING, A11Y_KNOWN_GAPS, A11Y_SAMPLE_LIMIT, A11Y_TAGS };
