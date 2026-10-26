@@ -30,7 +30,7 @@ describe('canvas settings defaults', () => {
       CANVAS_DEFAULTS.gridMajorColor,
       CANVAS_DEFAULTS.gridTileColor,
     ].forEach((colour) => expect(COLOUR_PATTERN.test(colour)).toBe(true));
-    expect(CANVAS_DEFAULTS.surroundA).toBe('#140b26');
+    expect(CANVAS_DEFAULTS.surroundA).toBe('#0a0a0c');
   });
 
   it('keep every number inside its range', () => {

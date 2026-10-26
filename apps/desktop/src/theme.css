@@ -2,7 +2,15 @@
 :root {
   --p-primary: #e0245e;
   --p-secondary: #7b3fe4;
-  --p-surface: #4b1fa0;
-  --c-focus: var(--p-secondary);
-  --c-selected: color-mix(in srgb, var(--p-secondary) 32%, transparent);
+  --p-tertiary: #b5b5b9;
+  --p-surface: #dcdce5;
+  --p-white: #f5f5f7;
+  --p-black: #151517;
+  --p-gradient-dark-from: #151517;
+  --p-gradient-dark-to: #050506;
+  --p-on-primary: var(--p-pure-black);
+  --c-bg: #050506;
+  --c-hover: color-mix(in srgb, var(--p-pure-white) 8%, transparent);
+  --c-focus: var(--c-secondary-bright);
+  --c-selected: color-mix(in srgb, var(--p-secondary) 24%, transparent);
 }
