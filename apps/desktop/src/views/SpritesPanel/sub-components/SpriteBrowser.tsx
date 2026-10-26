@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind component */
 import { commandZone } from '@drizztdourden08/brock-react';
 import { Box, ContextMenu, Stack } from '@drizztdourden08/tessera';
+import type { DataTableHandle } from '@drizztdourden08/tessera';
+import { useRef } from 'react';
 import { useZoneKey } from '../../../hooks/useZoneKey';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { SPRITE_SELECT_ALL_KEY } from '../../../keymap/zone-key.constants';
@@ -24,12 +26,13 @@ import { SpritesToolbar } from './SpritesToolbar';
 
 const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const rename = useSpriteRename();
+  const table = useRef<DataTableHandle>(null);
   const sortKey = useManagerStore((state) => state.sortKey);
   const patch = useManagerStore((state) => state.patch);
   const affected = usePendingStore((state) => state.pending?.sprites ?? NO_SPRITES);
   const open = (dialog: ManagerDialog): void => patch({ dialog });
   useZoneKey(SPRITE_SELECT_ALL_KEY, model.scene.active ? () => selectIds(model.order) : null);
-  const onKeyDown = useSpritesKeys(model);
+  const onKeyDown = useSpritesKeys(model, table);
   const dragFor = useSpriteDrag(model);
   const selections = useManagerStore((state) => state.selections);
   const groups = actionGroups({ model, sortKey, rename: rename.begin, open, selections });
@@ -40,7 +43,7 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
       <ManagerFilters model={model} />
       <ContextMenu groups={groups} label={MANAGER_TEXT.actions}>
         <Box onKeyDown={onKeyDown} className="sprites-panel__zone" {...commandZone(COMMAND_ZONE.sprites)}>
-          <SpriteCollection model={model} affected={affected} dragFor={dragFor} handlersFor={handlersFor(model, rename.begin)} />
+          <SpriteCollection model={model} table={table} affected={affected} dragFor={dragFor} handlersFor={handlersFor(model, rename.begin)} />
         </Box>
       </ContextMenu>
       {renaming && (

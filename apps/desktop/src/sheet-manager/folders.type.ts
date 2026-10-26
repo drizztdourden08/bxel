@@ -15,10 +15,4 @@ interface SavedSelection {
   ids: readonly SpriteId[];
 }
 
-interface ListItem {
-  key: string;
-  group: FolderGroup | null;
-  fact: SpriteFacts | null;
-}
-
-export type { FolderGroup, ListItem, SavedSelection };
+export type { FolderGroup, SavedSelection };

@@ -12,12 +12,11 @@ import { planRenames } from '../../src/sheet-manager/plan-renames';
 import { selectionIds } from '../../src/sheet/selection-ids';
 import { spriteScene } from '../../src/sheet/sprite-scene';
 import { actionGroups } from '../../src/views/SpritesPanel/behavior/action-groups';
+import { listRows } from '../../src/views/SpritesPanel/behavior/list-rows';
 import { AtlasCanvas } from '../../src/views/SpritesPanel/sub-components/AtlasView/sub-components/AtlasCanvas';
 import { AtlasControls } from '../../src/views/SpritesPanel/sub-components/AtlasView/sub-components/AtlasControls';
 import { RenamePreview } from '../../src/views/SpritesPanel/sub-components/ManagerDialogs/sub-components/RenamePreview';
 import { ResizeFields } from '../../src/views/SpritesPanel/sub-components/ManagerDialogs/sub-components/ResizeFields';
-import { ListHeader } from '../../src/views/SpritesPanel/sub-components/ListHeader';
-import { SpriteRow } from '../../src/views/SpritesPanel/sub-components/SpriteRow';
 import { SpriteTile } from '../../src/views/SpritesPanel/sub-components/SpriteTile';
 import type { ManagerModel, SpriteHandlers } from '../../src/views/SpritesPanel/SpritesPanel.type';
 import { artwork, idOf, openFile } from '../sheet/sheet-harness';
@@ -59,7 +58,7 @@ const cell: VirtualGridCellBind = {
   onKeyDown: vi.fn(),
 };
 
-describe('the sprite tile and row', () => {
+describe('the sprite tile', () => {
   it('names the sprite and its size and marks a picked sprite', () => {
     const fact = allFacts(artwork(), null).find((each) => each.sprite.name === 'walk_1');
     if (!fact) throw new Error('no fact');
@@ -70,23 +69,16 @@ describe('the sprite tile and row', () => {
     expect(tile).toContain('role="gridcell"');
     expect(tile).toContain('sprites-panel__tile--loose');
     expect(tile).toContain(`data-sprite-id="${idOf('walk_1')}"`);
-    const row = renderToString(createElement(SpriteRow, { fact, artwork: artwork(), state, drag, handlers }));
-    expect(row).toContain('sprites-panel__row');
-    expect(row).toContain('role="row"');
-    expect(row).toContain('aria-selected="true"');
-    expect(row).not.toContain('aria-label');
-    expect(row.match(/role="gridcell"/g)).toHaveLength(7);
-    expect(row).toContain('8x8');
-    expect(row).toContain('4, 4');
   });
 });
 
-describe('the list header', () => {
-  it('has a column header for every column and sort state only on the sortable ones', () => {
-    const head = renderToString(createElement(ListHeader));
-    expect(head.match(/role="columnheader"/g)).toHaveLength(7);
-    expect(head.match(/aria-sort=/g)).toHaveLength(5);
-    expect(head).not.toContain('<button aria-sort');
+describe('the list rows', () => {
+  it('has one row for every sprite with its size, pivot, palette and folder', () => {
+    const art = artwork();
+    const rows = listRows(art, folderGroups(allFacts(art, null), new Set()));
+    const walk = rows.find((row) => row.name === 'walk_1');
+    expect(rows).toHaveLength(art.sprites.length);
+    expect(walk).toMatchObject({ width: 8, height: 8, pivot: '4, 4', folder: 'No folder' });
   });
 });
 

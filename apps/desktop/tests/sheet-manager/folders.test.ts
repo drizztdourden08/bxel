@@ -7,7 +7,6 @@ import { applySelection } from '../../src/sheet-manager/apply-selection';
 import { baseName } from '../../src/sheet-manager/base-name';
 import { folderGroups } from '../../src/sheet-manager/folder-groups';
 import { folderPath } from '../../src/sheet-manager/folder-path';
-import { listItems } from '../../src/sheet-manager/list-items';
 import { managerSheet } from '../../src/sheet-manager/manager-sheet';
 import { normalizeFolder } from '../../src/sheet-manager/normalize-folder';
 import { planFolder } from '../../src/sheet-manager/plan-folder';
@@ -16,7 +15,7 @@ import { visibleOrder } from '../../src/sheet-manager/visible-order';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useManagerStore } from '../../src/stores/useManagerStore';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
-import { artwork, idOf, lastNotice, namesOf, openFile, revision } from '../sheet/sheet-harness';
+import { artwork, lastNotice, namesOf, openFile, revision } from '../sheet/sheet-harness';
 import { idsOf } from './manager-harness';
 
 const NAMES = ['hero/walk_1', 'hero/walk_2', 'hero/idle', 'fx/spark', 'solo', 'a/y', 'a/b/x'];
@@ -55,7 +54,6 @@ describe('name paths', () => {
     expect(groups.find((group) => group.path === 'hero')).toMatchObject({ closed: true, hidden: false });
     expect(groups.find((group) => group.path === 'a/b')).toMatchObject({ closed: false, hidden: true });
     expect(visibleOrder(groups)).toEqual(idsOf('solo', 'fx/spark'));
-    expect(listItems(groups).map((item) => item.key)).toEqual([idOf('solo'), 'folder:a', 'folder:fx', idOf('fx/spark'), 'folder:hero']);
   });
 
   it('remembers which folders are closed', () => {

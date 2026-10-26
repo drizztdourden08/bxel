@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind types */
-import type { CSSProperties, DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, RefObject } from 'react';
-import type { MenuGroup, VirtualGridCellBind, VirtualSize } from '@drizztdourden08/tessera';
+import type { DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, RefObject } from 'react';
+import type { DataTableHandle, MenuGroup, VirtualGridCellBind, VirtualSize } from '@drizztdourden08/tessera';
 import type { Artwork, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
-import type { FolderGroup, ListItem, SavedSelection } from '../../sheet-manager/folders.type';
+import type { FolderGroup, SavedSelection } from '../../sheet-manager/folders.type';
 import type { ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
 import type { HintSpec } from '../ActionHint';
 
@@ -77,21 +77,6 @@ interface SpriteItemProps {
   handlers: SpriteHandlers;
 }
 
-interface RowPlace {
-  style: CSSProperties;
-  'aria-rowindex': number;
-  'data-row-index': number;
-}
-
-interface SpriteRowProps extends SpriteItemProps {
-  place?: RowPlace;
-}
-
-interface SpriteRowsProps {
-  items: readonly ListItem[];
-  rowOf: (item: ListItem, place?: RowPlace) => ReactNode;
-}
-
 interface SpriteTileProps extends SpriteItemProps {
   box: number;
   cell: VirtualGridCellBind;
@@ -102,8 +87,28 @@ interface SpriteButtonProps extends Omit<SpriteTileProps, 'artwork' | 'box'> {
   children: ReactNode;
 }
 
+interface ListRow {
+  id: SpriteId;
+  name: string;
+  folder: string;
+  width: number;
+  height: number;
+  pivot: string;
+  frames: number;
+  tags: number;
+  bank: string;
+}
+
+interface ListData {
+  rows: readonly ListRow[];
+  selected: ReadonlySet<string>;
+  known: ReadonlyMap<string, SpriteId>;
+  folders: readonly string[];
+}
+
 interface SpriteViewProps {
   model: ManagerModel;
+  table: RefObject<DataTableHandle | null>;
   affected: readonly SpriteId[];
   dragFor: (id: SpriteId) => SpriteDragHandlers;
   handlersFor: (id: SpriteId) => SpriteHandlers;
@@ -124,26 +129,10 @@ interface FilterActions {
   clear: () => void;
 }
 
-interface ListColumn {
-  key: SortKey | null;
-  label: 'name' | 'size' | 'pivot' | 'frames' | 'tags' | 'bank';
-}
-
-interface ListHeadCellProps {
-  column: ListColumn;
-  order: 'ascending' | 'descending' | 'none';
-  onSort: () => void;
-}
-
 interface GridTileProps {
   view: SpriteGridProps;
   fact: SpriteFacts;
   cell: VirtualGridCellBind;
-}
-
-interface FolderHeaderProps {
-  group: FolderGroup;
-  place?: RowPlace;
 }
 
 interface SpriteBadgesProps {
@@ -204,16 +193,14 @@ export type {
   ActionsMenuProps,
   FilterActions,
   FilterOptions,
-  FolderHeaderProps,
   GridTileProps,
   KeyAction,
   KeyShape,
-  ListColumn,
-  ListHeadCellProps,
+  ListData,
+  ListRow,
   ManagerModel,
   ManagerModelProps,
   ManagerToolbarProps,
-  RowPlace,
   SpriteBadgesProps,
   SpriteButtonProps,
   SpriteDragHandlers,
@@ -224,8 +211,6 @@ export type {
   SpriteMarquee,
   SpriteRenameProps,
   SpriteRenameState,
-  SpriteRowProps,
-  SpriteRowsProps,
   SpriteState,
   SpriteThumbProps,
   SpriteTileProps,
