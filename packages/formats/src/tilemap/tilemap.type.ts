@@ -46,6 +46,17 @@ type TilesetImageResult = TilesetImage | FormatFailure;
 
 type TilesetEntry = TilesetPlacement & { readonly collision?: TileShape };
 
+type TileAnimationFrame = {
+  readonly key: number;
+  readonly durationMs: number;
+};
+
+type TileAnimationEntry = {
+  readonly key: number;
+  readonly start: 'together' | 'random';
+  readonly frames: readonly TileAnimationFrame[];
+};
+
 type TilesetDescriptor = {
   readonly name: string;
   readonly image: string;
@@ -56,6 +67,7 @@ type TilesetDescriptor = {
   readonly margin: number;
   readonly tiles: readonly TilesetEntry[];
   readonly terrain?: { readonly kind: string; readonly keys: readonly number[] };
+  readonly animations?: readonly TileAnimationEntry[];
 };
 
 type TilemapLayerInput = {
@@ -90,6 +102,8 @@ export type {
   TilemapExportInput,
   TilemapJsonResult,
   TilemapLayerInput,
+  TileAnimationEntry,
+  TileAnimationFrame,
   TileShape,
   TileSize,
   TilesetDescriptor,

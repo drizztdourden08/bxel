@@ -116,6 +116,8 @@ export type {
   TilemapExportInput,
   TilemapJsonResult,
   TilemapLayerInput,
+  TileAnimationEntry,
+  TileAnimationFrame,
   TileShape,
   TileSize,
   TilesetDescriptor,
