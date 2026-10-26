@@ -55,4 +55,4 @@ interface AddFramesState {
   hide: () => void;
 }
 
-export type { AddFramesRequest, AddFramesState, AddMode, AddRequest, FrameMode, SheetAdd, SpritesAdd, StripAdd, StripBy, StripPlan, StripResult, StripSpec };
+export type { AddFramesState, AddRequest, FrameMode, StripPlan, StripResult, StripSpec };

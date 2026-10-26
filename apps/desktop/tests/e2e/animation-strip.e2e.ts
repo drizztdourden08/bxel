@@ -23,6 +23,15 @@ const picturesOf = (artwork: Artwork): string[] => {
 
 const savedWalk = async (root: string): Promise<Artwork> => readSaved(await fileNamed(root, `${STRIP.animation}.bxanim`));
 
+const walkIsSplit = async (root: string): Promise<boolean> => {
+  try {
+    const frames = (await savedWalk(root)).animations[0]?.frames ?? [];
+    return frames.length > 1 && frames.slice(1).every((frame) => frame.clip === null);
+  } catch {
+    return false;
+  }
+};
+
 const addsTheStrip = async (session: Session, root: string): Promise<void> => {
   await openAnimationTab(session, STRIP.animation);
   const timeline = timelineOf(session);
@@ -52,6 +61,7 @@ const splitsToSprites = async (session: Session, root: string): Promise<void> =>
   expect(await frameButton(session, 2).getAttribute('aria-label')).toBe('Frame 2, 100 milliseconds, shared');
   await session.page.keyboard.press(SHORTCUT.saveAll);
   await expect.poll(async () => (await assetFiles(root)).length, { timeout: POLL_MS }).toBe((held.fileCount ?? 0) + STRIP.cells);
+  await expect.poll(() => walkIsSplit(root), { timeout: POLL_MS }).toBe(true);
   const artwork = await savedWalk(root);
   const frames = artwork.animations[0]?.frames ?? [];
   expect(frames.slice(1).every((frame) => frame.clip === null)).toBe(true);

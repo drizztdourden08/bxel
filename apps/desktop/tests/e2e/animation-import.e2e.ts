@@ -4,7 +4,7 @@ import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Artwork } from '@bxel/document';
 import { encodePngRgba } from '@bxel/formats';
-import { afterAll, beforeAll, describe, expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { answerDialogs } from './support/answer-dialogs';
 import { apngBytes } from './support/apng-bytes';
 import { SHORTCUT } from './support/e2e.constants';
@@ -16,6 +16,7 @@ import { openAssetTab } from './support/open-asset-tab';
 import { openSession } from './support/open-session';
 import { readSaved } from './support/read-saved';
 import { saveFile } from './support/save-file';
+import { useRig } from './support/use-rig';
 
 const { delaysMs, gifFile, apngFile, gifName, apngName } = IMPORTED_ANIMATION;
 
@@ -39,27 +40,18 @@ const firstIndexes = (artwork: Artwork): (number | undefined)[] => {
 };
 
 describe('a GIF and an APNG import as an animation with frame durations', () => {
-  const state: { session?: Session } = {};
-  const live = () => {
-    if (!state.session) throw new Error('no session');
-    return state.session;
-  };
-
-  beforeAll(async () => {
-    state.session = await openSession();
-    await writeFile(join(live().dir, gifFile), gifBytes(delaysMs.length));
-    await writeFile(join(live().dir, apngFile), apngBytes(delaysMs.length));
-  });
-
-  afterAll(async () => {
-    await state.session?.close();
+  const rig = useRig(async () => {
+    const session = await openSession();
+    await writeFile(join(session.dir, gifFile), gifBytes(delaysMs.length));
+    await writeFile(join(session.dir, apngFile), apngBytes(delaysMs.length));
+    return { session };
   });
 
   test.each([
     ['GIF', gifFile, gifName],
     ['APNG', apngFile, apngName],
   ])('the %s arrives as one animation with a frame for every picture and saves as a .bxanim', async (_, file, name) => {
-    const session = live();
+    const { session } = rig();
     await importFile(session, join(session.dir, file));
     await openAssetTab(session, new RegExp(name)).click();
     const path = join(session.dir, `${name}-saved.bxanim`);
@@ -83,23 +75,14 @@ const stripPixels = (): Uint8ClampedArray =>
   Uint8ClampedArray.from(Array.from({ length: 12 * 4 }, (_, at) => STRIP_CELLS[Math.floor((at % 12) / 4)] ?? STRIP_CELLS[0]).flat());
 
 describe('a strip imports as an animation with a frame for every cell', () => {
-  const state: { session?: Session } = {};
-  const live = () => {
-    if (!state.session) throw new Error('no session');
-    return state.session;
-  };
-
-  beforeAll(async () => {
-    state.session = await openSession();
-    await writeFile(join(live().dir, 'walk.png'), bytesOf(encodePngRgba({ width: 12, height: 4, data: stripPixels() })));
-  });
-
-  afterAll(async () => {
-    await state.session?.close();
+  const rig = useRig(async () => {
+    const session = await openSession();
+    await writeFile(join(session.dir, 'walk.png'), bytesOf(encodePngRgba({ width: 12, height: 4, data: stripPixels() })));
+    return { session };
   });
 
   test('the cells become frames of one animation saved as a .bxanim', async () => {
-    const session = live();
+    const { session } = rig();
     await answerDialogs(session, { open: join(session.dir, 'walk.png'), save: null });
     await session.page.keyboard.press(SHORTCUT.importImage);
     const dialog = session.page.getByRole('dialog', { name: /^Import image/ });

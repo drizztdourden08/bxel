@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind test */
-import { createHash } from 'node:crypto';
-import { readdir, readFile, access } from 'node:fs/promises';
+import { access } from 'node:fs/promises';
 import { join } from 'node:path';
 import { findAnimation, flattenFrame } from '@bxel/document';
 import { describe, expect, test } from 'vitest';
@@ -12,33 +11,13 @@ import { POLL_MS, SHORTCUT } from './support/e2e.constants';
 import type { Cell, Session } from './support/e2e.type';
 import { openAnimatedRig } from './support/open-animated-rig';
 import { pickSwatch } from './support/pick-swatch';
+import { assetDigests, fileNamed } from './support/project-files';
 import { readSaved } from './support/read-saved';
 import { sampleCanvas } from './support/sample-canvas';
 import { useRig } from './support/use-rig';
 import { waitText } from './support/wait-text';
 
 const SIZE = { width: ANIMATED.side, height: ANIMATED.side };
-
-const filesUnder = async (folder: string): Promise<string[]> => {
-  const entries = await readdir(folder, { withFileTypes: true });
-  const nested = await Promise.all(entries.map((entry) => (entry.isDirectory() ? filesUnder(join(folder, entry.name)) : Promise.resolve([join(folder, entry.name)]))));
-  return nested.flat();
-};
-
-const named = async (root: string, file: string): Promise<string> => {
-  const found = (await filesUnder(root)).find((path) => path.replaceAll('\\', '/').endsWith(`/${file}`));
-  if (!found) throw new Error(`no file ${file} under the project`);
-  return found;
-};
-
-const digests = async (root: string): Promise<Map<string, string>> => {
-  const entries = await Promise.all(
-    (await filesUnder(root))
-      .filter((path) => /\.bx(sprite|anim|sheet|palette)$/.test(path))
-      .map(async (path) => [path.replaceAll('\\', '/').split('/').at(-1) ?? path, createHash('sha256').update(await readFile(path)).digest('hex')] as const),
-  );
-  return new Map(entries);
-};
 
 const changedFiles = (before: ReadonlyMap<string, string>, after: ReadonlyMap<string, string>): string[] =>
   [...after].filter(([name, hash]) => before.get(name) !== hash).map(([name]) => name).sort();
@@ -69,7 +48,7 @@ const migrates = async (session: Session, root: string): Promise<void> => {
   await bar(session).getByRole('button', { name: 'Save all' }).click();
   await session.page.getByRole('button', { name: 'Move to trash', exact: true }).click();
   await bar(session).waitFor({ state: 'detached' });
-  const saved = await named(root, 'hero.bxanim');
+  const saved = await fileNamed(root, 'hero.bxanim');
   const artwork = readSaved(saved);
   const hero = artwork.animations.find((animation) => animation.name === ANIMATED.hero);
   expect(hero?.frames).toHaveLength(3);
@@ -120,20 +99,20 @@ const sharesTheSprite = async (session: Session, root: string): Promise<void> =>
   await openAnimationTab(session, ANIMATED.blink);
   await session.page.getByText('Also used by world.').waitFor();
   await session.page.getByRole('button', { name: 'Open sprite' }).waitFor();
-  const before = await digests(root);
+  const before = await assetDigests(root);
   await paintShared(session, { x: 6, y: 6 }, 3);
   await session.page.keyboard.press(SHORTCUT.saveAll);
-  await expect.poll(async () => changedFiles(before, await digests(root)), { timeout: POLL_MS }).toEqual(['tree.bxsprite']);
+  await expect.poll(async () => changedFiles(before, await assetDigests(root)), { timeout: POLL_MS }).toEqual(['tree.bxsprite']);
 };
 
 const copiesTheSprite = async (session: Session, root: string): Promise<void> => {
-  const tree = await digests(root);
+  const tree = await assetDigests(root);
   await session.page.getByRole('button', { name: 'Make a copy for this animation' }).click();
   await waitText(session, /owned by this animation/);
   await paintShared(session, { x: 1, y: 6 }, 4);
   await session.page.keyboard.press(SHORTCUT.saveAll);
-  await expect.poll(async () => changedFiles(tree, await digests(root)), { timeout: POLL_MS }).toEqual(['blink.bxanim']);
-  const artwork = readSaved(await named(root, 'blink.bxanim'));
+  await expect.poll(async () => changedFiles(tree, await assetDigests(root)), { timeout: POLL_MS }).toEqual(['blink.bxanim']);
+  const artwork = readSaved(await fileNamed(root, 'blink.bxanim'));
   const blink = artwork.animations.find((animation) => animation.name === ANIMATED.blink);
   const frame = blink?.frames[0];
   const sprite = artwork.sprites.find((each) => each.id === frame?.spriteId);
