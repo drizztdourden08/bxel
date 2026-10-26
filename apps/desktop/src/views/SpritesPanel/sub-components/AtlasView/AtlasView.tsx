@@ -21,7 +21,7 @@ const AtlasView = ({ model }: ManagerModelProps) => {
     () => (sheet ? atlasModel({ sheet, artwork: model.artwork, extrude, trim, powerOfTwo, rotate, pageSide, page }) : null),
     [sheet, model.artwork, extrude, trim, powerOfTwo, rotate, pageSide, page],
   );
-  if (!sheet || !atlas || (atlas.items.length === 0 && atlas.failure === null)) {
+  if (!sheet || !atlas || (atlas.items.length === 0 && atlas.animations.length === 0 && atlas.failure === null)) {
     return (
       <Stack gap="sm">
         <EmptyState message={ATLAS_TEXT.empty} />

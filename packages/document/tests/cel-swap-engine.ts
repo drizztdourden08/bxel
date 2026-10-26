@@ -1,5 +1,5 @@
 /* @layer core @kind test */
-import { counterIdSource, createEngine, defineCommand, documentCommands, remapBank, resizeSprite, updateSprite } from '@bxel/document';
+import { counterIdSource, createEngine, defineCommand, documentCommands, legacyFrameCommands, remapBank, resizeSprite, updateSprite } from '@bxel/document';
 import type { BankId, Cel, CelId, CommandDef, Engine, Artwork, SpriteId } from '@bxel/document';
 import { z } from 'zod';
 import { brand, fixtureToArtwork } from './fixture-to-artwork';
@@ -79,7 +79,7 @@ const swapEngine = (): Engine =>
   createEngine({
     state: { documentId, revision: 1, artwork: wideArtwork(), readOnly: false },
     ids: counterIdSource(100),
-    commands: [...documentCommands, ...swapCommands],
+    commands: [...documentCommands, ...legacyFrameCommands, ...swapCommands],
   });
 
 export { CEL_A, CEL_B, PIXELS_A, PIXELS_B, swapEngine, TURNED_A, TURNED_B, WIDE };

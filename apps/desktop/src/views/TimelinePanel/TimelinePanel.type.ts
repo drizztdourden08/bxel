@@ -25,6 +25,10 @@ type TimelineKeyAction =
   | { kind: 'edge'; end: 'first' | 'last'; extend: boolean }
   | { kind: 'move'; delta: number };
 
+interface MenuProps {
+  disabled: boolean;
+}
+
 interface FocusProps {
   focus: AnimationFocus;
 }
@@ -92,6 +96,7 @@ export type {
   FrameCellViewProps,
   FrameStripProps,
   FrameThumbProps,
+  MenuProps,
   NumberFieldProps,
   TagEditorProps,
   TagLaneProps,

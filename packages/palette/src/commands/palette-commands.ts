@@ -12,6 +12,7 @@ import { paletteUpdate } from './palette-update';
 import { rampAdd } from './ramp-add';
 import { rampDelete } from './ramp-delete';
 import { rampUpdate } from './ramp-update';
+import { animationImport } from './animation-import';
 import { spriteImport } from './sprite-import';
 import { swatchAdd } from './swatch-add';
 import { tilesetImport } from './tileset-import';
@@ -37,6 +38,7 @@ const paletteCommands: readonly CommandDef[] = [
   rampUpdate,
   rampDelete,
   spriteImport,
+  animationImport,
   tilesetImport,
 ];
 

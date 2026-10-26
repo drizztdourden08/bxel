@@ -14,7 +14,7 @@ const nameIssue = (input: ErrorInput): string | null =>
   input.form.kind === 'sheet' ? null : nameError(input.form.name, takenIn(input));
 
 const sizeIssue = ({ form, image }: ErrorInput): string | null =>
-  form.kind === 'sprite' && (image.width > MAX_SPRITE_SIZE || image.height > MAX_SPRITE_SIZE)
+  (form.kind === 'sprite' || form.kind === 'animation') && (image.width > MAX_SPRITE_SIZE || image.height > MAX_SPRITE_SIZE)
     ? IMPORT_TEXT.tooLarge(image.width, image.height)
     : null;
 
@@ -33,7 +33,7 @@ const importErrors = (input: ErrorInput): ImportErrors => {
     size: sizeIssue(input),
     limit: makesBank(form) ? limitError(form.limit) : null,
     palette: form.reduce === 'palette' && form.source.kind === 'file' && form.source.file === null ? SOURCE_TEXT.choose : null,
-    slice: form.kind === 'sheet' ? sliceError(form.slice, rects.length) : null,
+    slice: form.kind === 'sheet' || form.kind === 'strip' ? sliceError(form.slice, rects.length) : null,
     naming: namingIssue(input),
   };
 };

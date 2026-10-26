@@ -2,6 +2,7 @@
 import { addReport } from '../../draft/add-report';
 import { addWarning } from '../../draft/add-warning';
 import { detachTileAnimation } from '../../draft/detach-tile-animation';
+import { dropSheetAnimations } from '../../draft/drop-sheet-animations';
 import { dropOrphanFrames } from '../../draft/drop-orphan-frames';
 import { updateArtwork } from '../../draft/update-artwork';
 import { animationDeleteSchema } from '../../schema/animation-delete-schema';
@@ -20,6 +21,7 @@ const animationDelete = defineCommand({
       animations: artwork.animations.filter((item) => item.id !== animation.id),
     }));
     const tiles = detachTileAnimation(draft, animation.id);
+    dropSheetAnimations(draft, animation.id);
     addReport(draft, 'sprites', dropOrphanFrames(draft));
     if (tiles > 0) {
       addReport(draft, 'tiles', tiles);

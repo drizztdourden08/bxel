@@ -1,13 +1,11 @@
 /* @layer renderer-app @kind logic */
-import { writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { COMMAND_NAME, sliceAsset } from '@bxel/document';
+import { COMMAND_NAME } from '@bxel/document';
 import type { TargetScope } from '@bxel/document';
-import { encodeAnimation } from '@bxel/document/native';
 import { ANIMATION } from './animation.constants';
 import { runStep } from './run-step';
 import { spriteNamed } from './sprite-named';
 import { startEngine } from './start-engine';
+import { writeAnimationFile } from './write-animation-file';
 
 const SIDE = ANIMATION.side;
 
@@ -30,9 +28,7 @@ const buildAnimationAsset = async (dir: string): Promise<string> => {
   });
   const span = { name: ANIMATION.tagName, from: { by: 'index', index: 0 }, to: { by: 'index', index: 2 } };
   runStep(engine, COMMAND_NAME.animationTagAdd, { animation: animation.id, kind: 'span', ...span });
-  const path = join(dir, `${ANIMATION.spriteName}.bxanim`);
-  await writeFile(path, encodeAnimation(sliceAsset(engine.state().artwork, { kind: 'animation', id: animation.id }, new Map()), null, () => 0));
-  return path;
+  return writeAnimationFile(dir, ANIMATION.spriteName, engine.state().artwork);
 };
 
 export { buildAnimationAsset };

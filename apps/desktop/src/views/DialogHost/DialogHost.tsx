@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind component */
+import { AddFramesDialog } from '../AddFramesDialog';
 import { CanvasSizeDialog } from '../CanvasSizeDialog';
+import { DirectionSetDialog } from '../DirectionSetDialog';
 import { ImportWizard } from '../ImportWizard';
 import { CreateDialog } from '../CreateDialog';
 import { ProjectCreateDialog } from '../ProjectCreateDialog';
@@ -12,6 +14,8 @@ const DialogHost = () => {
     <>
       <CreateDialog />
       <CanvasSizeDialog />
+      <AddFramesDialog />
+      <DirectionSetDialog />
       <ProjectCreateDialog />
       <ImportWizard />
       <PaletteChangeDialog />

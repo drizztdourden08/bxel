@@ -6,7 +6,7 @@ import type { ImportContext, ImportForm, ImportRun, SourceImage } from '../../sr
 import { initialImportForm } from '../../src/image-import/initial-import-form';
 import { NEW_MEMORY_DEFAULT } from '../../src/new-sprite/new-sprite.constants';
 
-const NONE: ImportContext = { documentId: null, bank: null, taken: [], sheetNames: [], tilesetNames: [], tilemapNames: [], spriteCount: 0 };
+const NONE: ImportContext = { documentId: null, bank: null, taken: [], animationNames: [], sheetNames: [], tilesetNames: [], tilemapNames: [], spriteCount: 0 };
 
 const formFor = (image: SourceImage, context: ImportContext, patch: Partial<ImportForm>): ImportForm => ({
   ...initialImportForm(image, context, NEW_MEMORY_DEFAULT),

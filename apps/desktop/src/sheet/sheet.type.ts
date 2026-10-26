@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { Artwork, CommandStep, Point, Sheet, SheetId, SheetOverlap, Size, Sprite, SpriteId } from '@bxel/document';
+import type { AnimationId, Artwork, CommandStep, Point, Sheet, SheetId, SheetOverlap, Size, Sprite, SpriteId, TagId } from '@bxel/document';
 import type { SpriteSettings } from '../stores/sprite-store.type';
 
 type PickHow = 'replace' | 'toggle' | 'range';
@@ -40,9 +40,19 @@ interface SheetItem {
   onSheet: boolean;
 }
 
+interface SheetAnimationItem {
+  animationId: AnimationId;
+  tagId: TagId | null;
+  name: string;
+  at: Point;
+  spacing: number;
+  images: readonly FrameImage[];
+}
+
 interface SheetModel {
   sheet: Sheet | null;
   items: readonly SheetItem[];
+  animations: readonly SheetAnimationItem[];
   extent: Size;
   overlaps: readonly SheetOverlap[];
 }
@@ -91,6 +101,7 @@ interface CurrentModel {
 interface ModelInput {
   artwork: Artwork;
   activeId: SpriteId | null;
+  sheetId?: SheetId | null;
 }
 
-export type { ArrangeKind, BroadcastCheck, CurrentModel, FrameImage, Mismatch, MismatchModel, ModelInput, PickHow, PickInput, PickResult, ScopeChipModel, SceneInput, SceneModel, SheetItem, SheetModel, SheetPrelude, SpriteScene };
+export type { ArrangeKind, BroadcastCheck, CurrentModel, FrameImage, Mismatch, MismatchModel, ModelInput, PickHow, PickInput, PickResult, ScopeChipModel, SceneInput, SceneModel, SheetAnimationItem, SheetItem, SheetModel, SheetPrelude, SpriteScene };

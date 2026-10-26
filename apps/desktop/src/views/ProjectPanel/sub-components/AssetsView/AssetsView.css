@@ -8,3 +8,7 @@
   flex: 1;
   min-height: var(--size-96);
 }
+
+.project-assets__row {
+  display: block;
+}

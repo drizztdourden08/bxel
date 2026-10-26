@@ -16,11 +16,6 @@ interface SourceImage {
   frames?: readonly SourceFrame[];
 }
 
-interface FrameOptions {
-  durationMs?: number;
-  frames?: readonly { readonly rgba: Uint8Array; readonly durationMs: number }[];
-}
-
 interface DecodedSource {
   width: number;
   height: number;
@@ -32,7 +27,7 @@ type ImageRead = { ok: true; image: SourceImage } | { ok: false; message: string
 
 type ImportTarget = 'new' | 'file';
 
-type ImportKind = 'sprite' | 'sheet' | 'tiled';
+type ImportKind = 'sprite' | 'sheet' | 'tiled' | 'animation' | 'strip';
 
 type ReduceMode = 'map' | 'extract' | 'palette';
 
@@ -82,6 +77,7 @@ interface ImportContext {
   documentId: DocumentId | null;
   bank: PaletteBank | null;
   taken: readonly string[];
+  animationNames: readonly string[];
   sheetNames: readonly string[];
   tilesetNames: readonly string[];
   tilemapNames: readonly string[];
@@ -173,7 +169,6 @@ export type {
   DecodedSource,
   DitherName,
   ErrorInput,
-  FrameOptions,
   ImageExtent,
   ImageRead,
   ImportContext,

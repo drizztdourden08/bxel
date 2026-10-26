@@ -12,6 +12,7 @@ import { importSteps } from './import-steps';
 
 const labelOf = (run: ImportRun): string => {
   if (run.form.kind === 'tiled') return TILED_LABEL;
+  if (run.form.kind === 'animation' || run.form.kind === 'strip') return IMPORT_LABEL.animation;
   return run.names.length === 1 ? IMPORT_LABEL.sprite : IMPORT_LABEL.sprites(run.names.length);
 };
 

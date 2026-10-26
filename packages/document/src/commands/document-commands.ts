@@ -1,15 +1,5 @@
 /* @layer core @kind logic */
 import type { CommandDef } from './command-def.type';
-import { celClear } from './cel/cel-clear';
-import { celCopy } from './cel/cel-copy';
-import { celLink } from './cel/cel-link';
-import { celMove } from './cel/cel-move';
-import { celUnlink } from './cel/cel-unlink';
-import { frameAdd } from './frame/frame-add';
-import { frameDelete } from './frame/frame-delete';
-import { frameDuplicate } from './frame/frame-duplicate';
-import { frameReorder } from './frame/frame-reorder';
-import { frameUpdate } from './frame/frame-update';
 import { layerAdd } from './layer/layer-add';
 import { layerDelete } from './layer/layer-delete';
 import { layerDuplicate } from './layer/layer-duplicate';
@@ -24,6 +14,8 @@ import { presetDelete } from './preset/preset-delete';
 import { presetRename } from './preset/preset-rename';
 import { presetUpdate } from './preset/preset-update';
 import { sheetAdd } from './sheet/sheet-add';
+import { sheetAnimationAdd } from './sheet/sheet-animation-add';
+import { sheetAnimationRemove } from './sheet/sheet-animation-remove';
 import { sheetArrange } from './sheet/sheet-arrange';
 import { sheetCreate } from './sheet/sheet-create';
 import { sheetDelete } from './sheet/sheet-delete';
@@ -42,9 +34,6 @@ import { spriteDelete } from './sprite/sprite-delete';
 import { spriteDuplicate } from './sprite/sprite-duplicate';
 import { spriteReorder } from './sprite/sprite-reorder';
 import { spriteUpdate } from './sprite/sprite-update';
-import { tagAdd } from './tag/tag-add';
-import { tagDelete } from './tag/tag-delete';
-import { tagUpdate } from './tag/tag-update';
 import { mapErase } from './map/map-erase';
 import { mapFill } from './map/map-fill';
 import { mapPaint } from './map/map-paint';
@@ -70,6 +59,7 @@ import { animationTagAdd } from './animation/animation-tag-add';
 import { animationTagUpdate } from './animation/animation-tag-update';
 import { animationTagDelete } from './animation/animation-tag-delete';
 import { animationDirections } from './animation/animation-directions';
+import { animationFacingDraw } from './animation/animation-facing-draw';
 import { animationSplit } from './animation/animation-split';
 import { tileAnimation } from './tile/tile-animation';
 import { tileAdd } from './tile/tile-add';
@@ -103,6 +93,8 @@ const documentCommands: readonly CommandDef[] = [
   sheetRemove,
   sheetPlace,
   sheetArrange,
+  sheetAnimationAdd,
+  sheetAnimationRemove,
   presetAdd,
   presetUpdate,
   presetRename,
@@ -122,19 +114,6 @@ const documentCommands: readonly CommandDef[] = [
   layerDuplicate,
   layerMerge,
   layerFlatten,
-  frameAdd,
-  frameDelete,
-  frameDuplicate,
-  frameReorder,
-  frameUpdate,
-  tagAdd,
-  tagUpdate,
-  tagDelete,
-  celClear,
-  celCopy,
-  celMove,
-  celLink,
-  celUnlink,
   tilesetCreate,
   tilesetUpdate,
   tilesetDelete,
@@ -158,6 +137,7 @@ const documentCommands: readonly CommandDef[] = [
   animationTagDelete,
   animationDirections,
   animationSplit,
+  animationFacingDraw,
   tileAnimation,
   tilesetTerrain,
   tilemapCreate,

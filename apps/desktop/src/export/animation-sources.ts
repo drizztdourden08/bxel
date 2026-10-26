@@ -5,6 +5,7 @@ import { animationExport } from './animation-export';
 import { EXPORT_TEXT } from './export.constants';
 import type { ExportSettings } from './export.type';
 import type { AnimationSources } from './export-parts.type';
+import { wholeAnimationSource } from './whole-animation-source';
 
 const entrySprite = (artwork: Artwork, entry: SheetAnimationEntry): ExportSprite | string => {
   const animation: Animation | undefined = artwork.animations.find((each) => each.id === entry.animationId);
@@ -33,11 +34,8 @@ const sheetSources = (artwork: Artwork, sheet: Sheet): AnimationSources | string
 };
 
 const animationSources = (artwork: Artwork, settings: ExportSettings): AnimationSources | string | null => {
-  if (settings.animationId !== '' && (settings.kind === 'animation' || settings.kind === 'sheet')) {
-    const animation = artwork.animations.find((each) => each.id === settings.animationId);
-    if (!animation) return EXPORT_TEXT.noAnimation;
-    const sprite = animationExport(artwork, animation);
-    return typeof sprite === 'string' ? sprite : { sprites: [sprite], only: true, title: animation.name };
+  if (settings.animationId !== '' && (settings.kind === 'animation' || settings.kind === 'sheet' || settings.kind === 'frames')) {
+    return wholeAnimationSource(artwork, settings);
   }
   if (settings.kind !== 'sheet' || settings.sprites !== 'sheet') return null;
   const sheet = artwork.sheets.find((each) => each.id === settings.sheetId);

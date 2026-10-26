@@ -21,6 +21,8 @@ const GRANT_FOLDERS = ['--answer-folder-grants=grant'] as const;
 
 const POLL_MS = 15000;
 
+const EXPORT_DONE_MS = 60000;
+
 const LAYOUT_SETTLE = { attempts: 40, steady: 4, gapMs: 100 } as const;
 
 const SHORTCUT = {
@@ -39,6 +41,7 @@ export {
   APP_DIR,
   CANVAS_LABEL,
   CURSOR_PARK,
+  EXPORT_DONE_MS,
   GRANT_FOLDERS,
   LAYOUT_SETTLE,
   POLL_MS,

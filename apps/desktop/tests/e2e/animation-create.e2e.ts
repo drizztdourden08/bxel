@@ -62,7 +62,7 @@ const offersAnAnimationOnASprite = async (session: Session): Promise<void> => {
   const tabs = session.page.getByRole('tablist', { name: 'Open assets' }).getByRole('tab');
   const before = await tabs.count();
   await openAssetTab(session, /^sprite$/i).last().click();
-  await timelineOf(session).getByText('Sprites are still images. An animation holds the frames.').waitFor();
+  await timelineOf(session).getByText('Sprites are still images. Use an animation for frames.').waitFor();
   await timelineOf(session).getByRole('button', { name: 'Open an animation' }).click();
   await session.page.getByRole('menuitem', { name: 'walk', exact: true }).click();
   await timelineOf(session).getByRole('list', { name: 'Frames' }).waitFor();

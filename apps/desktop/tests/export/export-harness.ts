@@ -4,6 +4,7 @@ import type { Artwork, CommandStep, DocumentId, PaletteBank, TargetScope } from 
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
+import { LEGACY_APP_COMMANDS } from '../legacy/legacy-app-commands';
 import { DEFAULT_EXPORT_SETTINGS } from '../../src/export/export.constants';
 import type { ExportJob, ExportSettings, ExportSink, PlanInput, PlannedFile } from '../../src/export/export.type';
 
@@ -21,7 +22,7 @@ type MemorySink = {
 };
 
 const harness = (): ExportHarness => {
-  const host = createDocumentHost({ ids: counterIdSource() });
+  const host = createDocumentHost({ ids: counterIdSource(), commands: LEGACY_APP_COMMANDS });
   return { host, documentId: createDefaultArtwork(host) };
 };
 

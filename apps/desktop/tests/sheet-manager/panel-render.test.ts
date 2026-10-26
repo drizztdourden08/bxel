@@ -133,7 +133,7 @@ describe('the action menu', () => {
   it('has the groups for editing, combining, ordering, the sheet, transforms and selecting', () => {
     const groups = actionGroups({ model: modelOf(), sortKey: 'manual', rename: none, open: none, selections: [] });
     expect(groups.map((group) => group.id)).toEqual(['edit', 'combine', 'order', 'sheet', 'layout', 'transform', 'select', 'find', 'saved']);
-    expect(itemIds(groups)).toEqual(expect.arrayContaining(['rename', 'rename-many', 'duplicate', 'delete', 'merge', 'split', 'slice', 'sort-name', 'add-to-sheet', 'pivot', 'trim', 'flip-h', 'turn-half', 'select-invert', 'select-duplicates', 'compare']));
+    expect(itemIds(groups)).toEqual(expect.arrayContaining(['rename', 'rename-many', 'duplicate', 'delete', 'animate', 'strip', 'slice', 'sort-name', 'add-to-sheet', 'pivot', 'trim', 'flip-h', 'turn-half', 'select-invert', 'select-duplicates', 'compare']));
   });
 
   it('turns the item off when nothing is picked and offers the view order only when sorted', () => {

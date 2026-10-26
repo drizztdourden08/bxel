@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME } from '@bxel/document';
 import { PALETTE_COMMAND_NAME } from '@bxel/palette';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { stepHistory } from '../../src/editor/step-history';
 import { runDocument } from '../../src/sheet/run-document';
 import { spritesTarget } from '../../src/sheet/sprites-target';
@@ -10,22 +10,22 @@ import { allFacts } from '../../src/sheet-manager/all-facts';
 import { assignBank } from '../../src/sheet-manager/assign-bank';
 import { bankPlan } from '../../src/sheet-manager/bank-plan';
 import { idsByTrait } from '../../src/sheet-manager/ids-by-trait';
-import { NO_FILTER } from '../../src/sheet-manager/manager.constants';
-import type { ListQuery } from '../../src/sheet-manager/manager.type';
 import { managerSheet } from '../../src/sheet-manager/manager-sheet';
 import { tagOptions } from '../../src/sheet-manager/tag-options';
 import { visibleFacts } from '../../src/sheet-manager/visible-facts';
+import { NO_FILTER } from '../../src/sheet-manager/manager.constants';
+import type { ListQuery } from '../../src/sheet-manager/manager.type';
 import { artwork, idOf, lastNotice, openFile, patch, revision, spriteOf } from '../sheet/sheet-harness';
-import { idsOf } from './manager-harness';
+import { BASE_QUERY, idsOf } from './manager-harness';
 
-const base: ListQuery = { query: '', filter: NO_FILTER, sortKey: 'manual', sortDown: false };
+vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 
 const factsOf = () => {
   const art = artwork();
   return allFacts(art, managerSheet(art, null, null));
 };
 
-const shown = (change: Partial<ListQuery>): string[] => visibleFacts(factsOf(), { ...base, ...change }).map((fact) => fact.sprite.name);
+const shown = (change: Partial<ListQuery>): string[] => visibleFacts(factsOf(), { ...BASE_QUERY, ...change }).map((fact) => fact.sprite.name);
 
 const addTag = (name: string, sprite: string): void => {
   runDocument('Tag', [

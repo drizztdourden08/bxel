@@ -8,6 +8,8 @@ const MAX_IMPORT_SPRITES = 128;
 
 const BANK_REF = 'bank';
 
+const ANIMATION_REF = 'animation';
+
 const ALPHA_PERCENT_DEFAULT = 50;
 
 const BYTE_MAX = 255;
@@ -57,6 +59,8 @@ const STEPS_BY_KIND: Readonly<Record<ImportKind, readonly ImportStep[]>> = {
   sprite: ['source', 'colors'],
   sheet: ['source', 'colors', 'slicing'],
   tiled: ['source', 'colors'],
+  animation: ['source', 'colors'],
+  strip: ['source', 'colors', 'slicing'],
 };
 
 const IMAGE_MIMES: readonly string[] = ['image/png', 'image/apng', 'image/gif'];
@@ -78,6 +82,7 @@ const IMPORT_TEXT = {
   kind: 'Import as',
   sprite: 'Sprite',
   sheet: 'Sheet',
+  animationKind: 'Animation',
   name: 'Name',
   imageLine: (width: number, height: number): string => `Image ${width} x ${height} pixels`,
   tooLarge: (width: number, height: number): string =>
@@ -107,6 +112,7 @@ const IMPORT_TEXT = {
   cancel: 'Cancel',
   importSprite: 'Import sprite',
   importSprites: (count: number): string => `Import ${count} sprites`,
+  importAnimation: 'Import animation',
   cell: 'Cell size',
   offset: 'Offset',
   spacing: 'Spacing',
@@ -129,17 +135,21 @@ const IMPORT_TEXT = {
   failed: (reason: string): string => `Could not import the image. ${reason}`,
   imported: (names: readonly string[]): string =>
     names.length === 1 ? `Imported sprite ${names[0] ?? ''}.` : `Imported ${names.length} sprites.`,
+  importedAnimation: (name: string, frames: number): string => `Imported animation ${name} with ${frames} frames.`,
+  stripFrames: (frames: number, width: number, height: number): string => `${frames} frames of ${width} by ${height} pixels will be made.`,
   pickTitle: 'Import image',
   dropped: 'Drop a PNG, GIF or APNG image to import it.',
   animation: (frames: number): string => `Animation with ${frames} frames. Each picture becomes a frame with its own duration.`,
 } as const;
 
 const IMPORT_LABEL = {
+  animation: 'Import animation',
   sprite: 'Import sprite',
   sprites: (count: number): string => `Import ${count} sprites`,
 } as const;
 
 export {
+  ANIMATION_REF,
   BANK_REF,
   BYTE_MAX,
   DITHER_CHOICES,

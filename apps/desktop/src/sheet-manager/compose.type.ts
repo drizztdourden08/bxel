@@ -1,21 +1,29 @@
 /* @layer renderer-app @kind types */
 import type { SliceGrid, SliceRequest } from '@bxel/raster';
-import type { Anchor } from '@drizztdourden08/tessera';
+import type { FrameMode, StripResult, StripSpec } from '../add-frames/add-frames.type';
 
 type SliceBy = 'count' | 'size';
 
-interface MergeSpec {
+interface AnimateSpec {
   name: string;
-  anchor: Anchor;
-  keep: boolean;
+  mode: FrameMode;
+  durationMs: number;
 }
 
-interface MergePlan {
+interface AnimatePlan {
   width: number;
   height: number;
   frames: number;
   mixed: boolean;
+  name: string;
   blocker: string | null;
+}
+
+interface CutStripSpec {
+  name: string;
+  strip: StripSpec;
+  result: StripResult;
+  durationMs: number;
 }
 
 interface SplitSpec {
@@ -53,4 +61,4 @@ interface SlicePlan extends PiecePlan {
   leftOut: number;
 }
 
-export type { MergePlan, MergeSpec, PiecePlan, SliceOptions, SlicePlan, SliceSpec, SplitSpec };
+export type { AnimatePlan, AnimateSpec, CutStripSpec, PiecePlan, SliceOptions, SlicePlan, SliceSpec, SplitSpec };

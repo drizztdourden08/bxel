@@ -2,6 +2,7 @@
 import { useId, useMemo } from 'react';
 import { commandZone } from '@drizztdourden08/brock-react';
 import { Box, Disclosure, Divider, Flex, Text } from '@drizztdourden08/tessera';
+import { ADD_TEXT } from '../../add-frames/add-frames.constants';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
 import { useAnimationFocus } from '../../hooks/useAnimationFocus';
 import { useTimelineStore } from '../../stores/useTimelineStore';
@@ -15,6 +16,7 @@ import { FRAME_ACTIONS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT } from './TimelinePan
 import { useTimelineKeys } from './behavior/useTimelineKeys';
 import { useTimelineMenu } from './behavior/useTimelineMenu';
 import { ActionBar } from './sub-components/ActionBar';
+import { AddFramesMenu } from './sub-components/AddFramesMenu';
 import { DirectionPad } from './sub-components/DirectionPad';
 import { EmptyTimeline } from './sub-components/EmptyTimeline';
 import { FrameFields } from './sub-components/FrameFields';
@@ -22,6 +24,7 @@ import { FrameStrip } from './sub-components/FrameStrip';
 import { OnionControls } from './sub-components/OnionControls';
 import { OnionToggle } from './sub-components/OnionToggle';
 import { TagEditor } from './sub-components/TagEditor';
+import { TransformMenu } from './sub-components/TransformMenu';
 import { TransportBar } from './sub-components/TransportBar';
 import './TimelinePanel.css';
 
@@ -51,6 +54,8 @@ const TimelinePanel = () => {
         <TransportBar focus={focus} />
         <Divider orientation="vertical" />
         <ActionBar label={TIMELINE_PANEL_TEXT.frames} actions={FRAME_ACTIONS} disabled={focus.readOnly} />
+        <AddFramesMenu disabled={focus.readOnly} />
+        <TransformMenu disabled={focus.readOnly} />
         <Divider orientation="vertical" />
         <OnionToggle />
         <Text variant="caption" tone="muted" role="status" aria-live="polite">{statusText(focus)}</Text>
@@ -65,7 +70,7 @@ const TimelinePanel = () => {
           <OnionControls />
         </Disclosure>
       </Disclosure>
-      <Box id={hintId} className="visually-hidden">{`${TIMELINE_TEXT.playHint} ${TIMELINE_TEXT.moveHint} ${TIMELINE_TEXT.stripHint}`}</Box>
+      <Box id={hintId} className="visually-hidden">{`${TIMELINE_TEXT.playHint} ${TIMELINE_TEXT.moveHint} ${TIMELINE_TEXT.stripHint} ${ADD_TEXT.dropHint}`}</Box>
     </Box>
   );
 };

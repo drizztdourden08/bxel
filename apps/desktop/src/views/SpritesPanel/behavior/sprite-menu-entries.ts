@@ -16,9 +16,8 @@ import { transformEntries } from './transform-entries';
 const spriteMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[] => {
   const manager = currentManager();
   if (!manager || menuTarget(context, MARQUEE_ITEM) === null) return EMPTY_ENTRIES;
-  const { ids, facts } = manager;
+  const { ids } = manager;
   const picked = new Set(ids);
-  const animated = facts.some((fact) => picked.has(fact.sprite.id) && fact.frames > 1);
   const pick = unless(ids.length > 0, MANAGER_TEXT.none);
   return [
     { command: ID.isolate, label: SPRITE_MENU.edit, ...pick },
@@ -33,8 +32,8 @@ const spriteMenuEntries = (context: ContextMenuContext): readonly ContextMenuEnt
     {
       label: COMPOSE_TEXT.group,
       items: [
-        { command: 'sprite.merge', label: COMPOSE_TEXT.merge, ...unless(picked.size > 1, COMPOSE_TEXT.needTwo) },
-        { command: 'sprite.split', label: COMPOSE_TEXT.split, ...unless(animated, SPRITE_MENU.notAnimated) },
+        { command: 'sprite.make_animation', label: COMPOSE_TEXT.merge, ...pick },
+        { command: 'sprite.cut_strip', label: COMPOSE_TEXT.strip, ...unless(picked.size === 1, COMPOSE_TEXT.needStrip) },
         { command: 'sprite.slice', label: COMPOSE_TEXT.slice, ...pick },
       ],
     },

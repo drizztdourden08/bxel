@@ -2,7 +2,7 @@
 import { COMMAND_NAME } from '@bxel/document';
 import { decodePng, readBxelSheetJson } from '@bxel/formats';
 import type { SheetMetadata } from '@bxel/formats';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DEFAULT_EXPORT_SETTINGS } from '../../src/export/export.constants';
 import { planExport } from '../../src/export/plan-export';
 import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
@@ -14,6 +14,8 @@ import { runDocument } from '../../src/sheet/run-document';
 import { spritesTarget } from '../../src/sheet/sprites-target';
 import { artwork, openFile, patch } from '../sheet/sheet-harness';
 import { idsOf, PLAIN_ATLAS } from './manager-harness';
+
+vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 
 type Pack = typeof PLAIN_ATLAS & { extrude: number };
 

@@ -1,7 +1,7 @@
 /* @layer tests @kind logic */
-import { counterIdSource, createEngine, documentCommands } from '@bxel/document';
+import { counterIdSource, createEngine, documentCommands, legacyFrameCommands } from '@bxel/document';
 import type { CommandStep, DocumentId, Engine, Artwork, SpriteId, TargetScope, TransactionRequest } from '@bxel/document';
-import { rasterCommands } from '@bxel/raster';
+import { legacyRasterCommands, rasterCommands } from '@bxel/raster';
 import { brand } from './brand';
 
 const documentId = brand<DocumentId>('doc_000001');
@@ -10,7 +10,7 @@ const pixelEngine = (artwork: Artwork, clock?: () => number): Engine =>
   createEngine({
     state: { documentId, revision: 1, artwork, readOnly: false },
     ids: counterIdSource(100),
-    commands: [...documentCommands, ...rasterCommands],
+    commands: [...documentCommands, ...legacyFrameCommands, ...rasterCommands, ...legacyRasterCommands],
     ...(clock ? { clock } : {}),
   });
 

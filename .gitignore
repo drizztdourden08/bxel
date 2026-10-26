@@ -38,3 +38,6 @@ apps/desktop/public/logos/icon-bot.ico
 apps/desktop/public/logos/icon-bot-256.png
 apps/desktop/public/logos/mark.svg
 # brock sync: generated icon files, end.
+
+# e2e export output folders
+e2e-out-*/

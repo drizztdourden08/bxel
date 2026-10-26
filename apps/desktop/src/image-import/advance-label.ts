@@ -8,6 +8,7 @@ const advanceLabel = (step: ImportStep, steps: readonly ImportStep[], count: num
   if (following === 'colors') return IMPORT_TEXT.nextColors;
   if (following === 'slicing') return IMPORT_TEXT.nextSlicing;
   if (kind === 'tiled') return TILED_TEXT.button;
+  if (kind === 'animation' || kind === 'strip') return IMPORT_TEXT.importAnimation;
   return count === 1 ? IMPORT_TEXT.importSprite : IMPORT_TEXT.importSprites(count);
 };
 

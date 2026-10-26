@@ -1,5 +1,5 @@
 /* @layer core @kind test */
-import { counterIdSource, createEngine, documentCommands } from '@bxel/document';
+import { counterIdSource, createEngine, documentCommands, legacyFrameCommands } from '@bxel/document';
 import type {
   CommandStep,
   DocumentId,
@@ -26,7 +26,7 @@ const heartEngine = (limits?: HistoryLimits): { engine: Engine; ids: IdSource } 
   const engine = createEngine({
     state: { documentId, revision: 1, artwork: fixtureToArtwork(heartPairFixture), readOnly: false },
     ids,
-    commands: documentCommands,
+    commands: [...documentCommands, ...legacyFrameCommands],
     limits,
   });
   return { engine, ids };
