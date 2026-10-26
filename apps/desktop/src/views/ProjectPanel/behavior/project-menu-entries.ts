@@ -31,7 +31,7 @@ const assetEntries = (row: AssetRow): readonly ContextMenuEntry[] => {
     { command: 'asset.reveal', label: ASSET_LIST_TEXT.reveal, args: { path: row.path }, hidden: row.path === '' },
     { command: 'asset.copy_path', label: ASSET_LIST_TEXT.copyPath, args: { path: row.path }, hidden: row.path === '' },
     'separator',
-    { command: 'project.trash_entry', label: ASSET_LIST_TEXT.trash, args },
+    { command: 'project.trash_entry', label: ASSET_LIST_TEXT.trash, args, tone: 'danger' },
   ];
 };
 
@@ -47,7 +47,7 @@ const folderEntries = (model: ProjectPanelModel, entry: ListedEntry): readonly C
     { command: 'asset.reveal', label: ASSET_LIST_TEXT.reveal, args: { path }, hidden: path === '' },
     { command: 'asset.copy_path', label: ASSET_LIST_TEXT.copyPath, args: { path }, hidden: path === '' },
     'separator',
-    { command: 'project.trash_entry', label: PROJECT_MENU.trash, args },
+    { command: 'project.trash_entry', label: PROJECT_MENU.trash, args, tone: 'danger' },
   ];
 };
 
