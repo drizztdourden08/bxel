@@ -6,6 +6,7 @@ import { hasIndexAtLeast } from '../pixels/has-index-at-least';
 import { findBank } from '../read/find-bank';
 import { findSprite } from '../read/find-sprite';
 import { nameKey } from '../validate/name-key';
+import { checkAnimations } from './check-animations';
 import { checkSheets } from './check-sheets';
 import { checkTiles } from './check-tiles';
 
@@ -44,6 +45,7 @@ const checkDraft = (draft: Draft): void => {
   checkNames(draft);
   checkIndices(draft);
   checkSheets(draft.artwork, draft.base);
+  checkAnimations(draft);
   checkTiles(draft);
 };
 

@@ -10,7 +10,7 @@ const checkEntries = (artwork: Artwork, sheet: Sheet): void => {
   const seen = new Set<string>();
   for (const entry of sheet.entries) {
     const sprite = findSprite(artwork, entry.spriteId);
-    if (!sprite || sprite.role === 'tile' || seen.has(entry.spriteId)) {
+    if (sprite?.role !== 'sprite' || seen.has(entry.spriteId)) {
       throw fail(ERROR_CODE.REFERENCE_BROKEN, `Sheet "${sheet.name}" holds an entry that is not one sprite of the file.`);
     }
     seen.add(entry.spriteId);

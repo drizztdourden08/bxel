@@ -8,7 +8,7 @@ type SpriteJson = Omit<Sprite, 'cels'> & { readonly celIds: readonly CelId[] };
 type MapLayerJson = Omit<MapLayer, 'cells'>;
 type TilemapJson = Omit<Tilemap, 'layers'> & { readonly layers: readonly MapLayerJson[] };
 
-type DocumentJson = Omit<Artwork, 'sprites' | 'tilemaps'> & {
+type DocumentJson = Omit<Artwork, 'sprites' | 'tilemaps' | 'animations'> & {
   readonly sprites: readonly SpriteJson[];
   readonly tilemaps: readonly TilemapJson[];
 };

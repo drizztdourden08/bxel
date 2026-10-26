@@ -27,7 +27,7 @@ const spriteDuplicate = defineCommand({
     const created: SpriteId[] = [];
     for (const id of input.sprites) {
       const source = requireSprite(draft.artwork, id);
-      if (source.role === 'tile') throw fail(ERROR_CODE.INVALID_OPTION, `Sprite "${source.name}" is a tile and cannot be duplicated.`);
+      if (source.role !== 'sprite') throw fail(ERROR_CODE.INVALID_OPTION, `Sprite "${source.name}" belongs to a tileset or an animation and cannot be duplicated.`);
       const taken = draft.artwork.sprites.map((sprite) => sprite.name);
       const label = name === undefined ? freeName(taken, `${source.name}${COPY_SUFFIX}`) : checkName(name);
       if (name !== undefined) assertNameFree(taken, label);

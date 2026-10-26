@@ -87,6 +87,7 @@ const benchArtwork = (specs: readonly SpriteSpec[]): DocumentState => {
     presets: [],
     tilesets: [],
     tilemaps: [],
+    animations: [],
   };
   return { documentId: 'doc_000001' as DocumentState['documentId'], revision: 1, artwork, readOnly: false };
 };

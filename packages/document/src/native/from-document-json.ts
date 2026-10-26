@@ -40,6 +40,7 @@ const fromDocumentJson = (document: DocumentJson, source: EntryCheck): BuiltArtw
     presets: document.presets,
     tilesets: document.tilesets,
     tilemaps,
+    animations: [],
   };
   return { artwork, damage, mapDamage };
 };

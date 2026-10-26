@@ -2,7 +2,7 @@
 import type { Pivot2, Rect, Size } from './geometry.type';
 import type { BankId, CelId, FrameId, LayerId, SliceId, SpriteId, TagId } from './ids.type';
 
-type SpriteRole = 'sprite' | 'tile';
+type SpriteRole = 'sprite' | 'tile' | 'frame';
 type TagDirection = 'forward' | 'reverse' | 'pingpong';
 
 type Cel = { readonly id: CelId; readonly pixels: Uint8Array };

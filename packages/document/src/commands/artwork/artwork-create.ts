@@ -31,6 +31,7 @@ const buildDocument = (options: ArtworkCreateOptions, ids: IdSource, created: nu
     presets: [],
     tilesets: [],
     tilemaps: [],
+    animations: [],
   };
   return { documentId: ids.next('doc') as DocumentId, revision: 1, artwork, readOnly: false };
 };

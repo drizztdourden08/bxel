@@ -2,10 +2,10 @@
 import type { Artwork } from '../model/artwork.type';
 import type { ExportPreset } from '../model/export-preset.type';
 import { presetHome } from './preset-home';
-import { tileOwners } from './tile-owners';
+import { spriteOwners } from './sprite-owners';
 
 const projectPresets = (artwork: Artwork): readonly ExportPreset[] => {
-  const owners = tileOwners(artwork);
+  const owners = spriteOwners(artwork);
   return artwork.presets.filter((preset) => presetHome(artwork, preset, owners) === null);
 };
 

@@ -6,7 +6,7 @@ import { noiseRig } from './noise-rig';
 import type { NoiseRig } from './noise-rig';
 
 const SIDE = 300;
-const WANT = '34cce5f0880c effcee0d21b4 712b2736747c 077f022a56b9 fe74b0847845 15688a743ae3 d7364b892528 b9ab685bcce7 1f23d2388ef0';
+const WANT = '279e99b46e2d 682c9cab6c73 a1f72e8294a2 4d01293e6a99 efc74430f922 fd03ae3c8d90 8271a35c90c0 7fd2c4e6fb93 2b0acc1cd299';
 
 const hexBytes = (_key: string, item: unknown): unknown => (item instanceof Uint8Array ? Buffer.from(item).toString('hex') : item);
 

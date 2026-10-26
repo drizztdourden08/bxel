@@ -18,8 +18,12 @@ type TilesetId = Brand<string, 'tls'>;
 type TileId = Brand<string, 'til'>;
 type TilemapId = Brand<string, 'tlm'>;
 type MapLayerId = Brand<string, 'tml'>;
+type AnimationId = Brand<string, 'anm'>;
+type AnimFrameId = Brand<string, 'afr'>;
 
 export type {
+  AnimationId,
+  AnimFrameId,
   BankId,
   Brand,
   CelId,
