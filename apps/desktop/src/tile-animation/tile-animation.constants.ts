@@ -21,11 +21,14 @@ const TILE_ANIMATION_TEXT = {
   sizeIssue: (name: string, width: number, height: number, tile: string): string =>
     `"${name}" is ${width} by ${height} pixels. A tile animation must be ${tile}, the tile size.`,
   paletteIssue: (name: string): string => `"${name}" uses another palette. Remap a copy of it to the palette of this tileset first.`,
-  noAnimation: 'its animation does not exist.',
-  noTag: 'its tag is not a span tag of the animation.',
   newName: (key: number): string => `Tile ${key}`,
   badge: 'Plays an animation',
 } as const;
+
+const TILE_START_OPTIONS = [
+  { value: 'together', label: TILE_ANIMATION_TEXT.together },
+  { value: 'random', label: TILE_ANIMATION_TEXT.random },
+] as const;
 
 const TILE_ANIMATION_LABEL = {
   set: 'Set tile animation',
@@ -37,6 +40,4 @@ const TILE_ANIMATION_REF = { animation: 'tile_animation', sprite: 'tile_frame' }
 
 const WHOLE_TAG = '';
 
-const PREVIEW_BOX = 64;
-
-export { PREVIEW_BOX, TILE_ANIMATION_LABEL, TILE_ANIMATION_REF, TILE_ANIMATION_TEXT, WHOLE_TAG };
+export { TILE_ANIMATION_LABEL, TILE_ANIMATION_REF, TILE_ANIMATION_TEXT, TILE_START_OPTIONS, WHOLE_TAG };

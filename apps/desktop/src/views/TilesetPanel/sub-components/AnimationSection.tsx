@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Button, Stack, Text } from '@drizztdourden08/tessera';
-import { animationFromTile } from '../../../tile-animation/tile-animation-actions';
+import { animationFromTile } from '../../../tile-animation/animation-from-tile';
 import { TILE_ANIMATION_TEXT } from '../../../tile-animation/tile-animation.constants';
 import type { TilesetHeaderProps } from '../TilesetPanel.type';
 import { AnimationChoose } from './AnimationChoose';

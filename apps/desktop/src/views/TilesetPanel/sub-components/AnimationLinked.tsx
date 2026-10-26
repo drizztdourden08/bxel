@@ -4,16 +4,12 @@ import type { TagId, TileAnimationStart } from '@bxel/document';
 import { Button, Flex, Select, Stack, Text } from '@drizztdourden08/tessera';
 import { openAnimation } from '../../../timeline/open-animation';
 import { animationFileName } from '../../../tile-animation/animation-file-name';
-import { detachTile, linkTile } from '../../../tile-animation/tile-animation-actions';
-import { TILE_ANIMATION_TEXT, WHOLE_TAG } from '../../../tile-animation/tile-animation.constants';
+import { detachTile } from '../../../tile-animation/detach-tile';
+import { linkTile } from '../../../tile-animation/link-tile';
+import { TILE_ANIMATION_TEXT, TILE_START_OPTIONS, WHOLE_TAG } from '../../../tile-animation/tile-animation.constants';
 import type { AnimationPartProps } from '../TilesetPanel.type';
 import { AnimationChoose } from './AnimationChoose';
 import { AnimationPreview } from './AnimationPreview';
-
-const START_OPTIONS = [
-  { value: 'together', label: TILE_ANIMATION_TEXT.together },
-  { value: 'random', label: TILE_ANIMATION_TEXT.random },
-] as const;
 
 const AnimationLinked = (props: AnimationPartProps) => {
   const { artwork, tileset, tile } = props;
@@ -25,7 +21,7 @@ const AnimationLinked = (props: AnimationPartProps) => {
   const change = (next: { readonly tag?: TagId | null; readonly start?: TileAnimationStart }): void => {
     linkTile(tileset, tile.key, { animation: animation.id, tag: next.tag === undefined ? link.tagId : next.tag, start: next.start ?? link.start });
   };
-  const spans = animation.tags.flatMap((tag) => (tag.kind === 'span' ? [{ value: tag.id as string, label: tag.name }] : []));
+  const spans = animation.tags.flatMap((tag) => (tag.kind === 'span' ? [{ value: tag.id, label: tag.name }] : []));
   return (
     <Stack gap="xs">
       {issue === null ? <AnimationPreview {...props} /> : null}
@@ -45,7 +41,7 @@ const AnimationLinked = (props: AnimationPartProps) => {
         <Select
           size="sm"
           aria-label={TILE_ANIMATION_TEXT.start}
-          options={[...START_OPTIONS]}
+          options={[...TILE_START_OPTIONS]}
           value={link.start}
           onChange={(value) => change({ start: value as TileAnimationStart })}
         />

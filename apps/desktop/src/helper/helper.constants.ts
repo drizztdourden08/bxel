@@ -15,6 +15,8 @@ const ANIMATION_PREVIEW_URI = /^bxel:\/\/(doc_[0-9a-z]+)\/animation\/(anm_[0-9a-
 
 const ANIMATION_PREVIEW_TEMPLATE = 'bxel://{documentId}/animation/{animationId}/{frame|tag|strip}/preview.png{?scale,rev}';
 
+const DEFAULT_PREVIEW_SCALE = '4';
+
 const PREVIEW_TEMPLATE = 'bxel://{documentId}/sprite/{spriteId}/frame/{frameId}/preview.png{?scale,rev}';
 
 const HELPER_TEXT = {
@@ -34,4 +36,4 @@ const HELPER_TEXT = {
   previewName: 'Bxel preview',
 } as const;
 
-export { ANIMATION_PREVIEW_TEMPLATE, ANIMATION_PREVIEW_URI, APP_ID, HELPER_INFO, HELPER_TEXT, NOT_RUNNING, PREVIEW_TEMPLATE, PREVIEW_URI, STOP_WAIT_MS };
+export { ANIMATION_PREVIEW_TEMPLATE, ANIMATION_PREVIEW_URI, APP_ID, DEFAULT_PREVIEW_SCALE, HELPER_INFO, HELPER_TEXT, NOT_RUNNING, PREVIEW_TEMPLATE, PREVIEW_URI, STOP_WAIT_MS };

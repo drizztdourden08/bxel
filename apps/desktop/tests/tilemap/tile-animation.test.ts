@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME, findBank, flattenTilemap, NO_FLAGS } from '@bxel/document';
-import type { Rect } from '@bxel/document';
+import type { Animation, Rect, Tile } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { takeDirty } from '../../src/canvas-dirty/take-dirty';
 import { trackPixels } from '../../src/canvas-dirty/track-pixels';
@@ -8,7 +8,7 @@ import { bankRgba } from '../../src/export/bank-rgba';
 import { runDocument } from '../../src/sheet/run-document';
 import { useTilemapStore } from '../../src/stores/useTilemapStore';
 import { createAnimator } from '../../src/tile-animation/create-animator';
-import { animationFromTile } from '../../src/tile-animation/tile-animation-actions';
+import { animationFromTile } from '../../src/tile-animation/animation-from-tile';
 import { tilePlan } from '../../src/tile-animation/tile-plan';
 import { strokePlace } from '../../src/tilemap/stroke-place';
 import { artworkNow, mapNow, openMapFile, tilesetNow } from './map-harness';
@@ -18,8 +18,8 @@ const DEAD = [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 2 }];
 
 const lit = (): void => {
   openMapFile();
-  expect(animationFromTile(artworkNow(), tilesetNow(), tilesetNow().tiles[1]!)).toBe(true);
-  const id = artworkNow().animations[0]!.id;
+  expect(animationFromTile(artworkNow(), tilesetNow(), tilesetNow().tiles[1] as Tile)).toBe(true);
+  const id = (artworkNow().animations[0] as Animation).id;
   const more = runDocument('Second frame', [
     { name: COMMAND_NAME.animationFrameAdd, targets: null, options: { animation: id, source: { kind: 'empty', count: 1 }, durationMs: 100 } },
     { name: COMMAND_NAME.animationFrameOwn, targets: null, options: { animation: id, frame: { by: 'index', index: 1 } }, ref: 'own' },
@@ -89,7 +89,7 @@ describe('animated tiles on the map', () => {
 
   it('starts a random cell at its own point, the same every time', () => {
     const { artwork, tilemap, image, table } = world();
-    const id = artwork.animations[0]!.id;
+    const id = (artwork.animations[0] as Animation).id;
     expect(runDocument('Random start', [{ name: COMMAND_NAME.tileAnimation, targets: null, options: { tileset: tilesetNow().id, key: 2, change: { kind: 'set', animation: id, start: 'random' } } }])).not.toBeNull();
     const next = artworkNow();
     const plan = tilePlan(next, mapNow());

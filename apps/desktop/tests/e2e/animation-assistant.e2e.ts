@@ -37,7 +37,8 @@ const lists = async (rig: ProjectRig): Promise<void> => {
   const assets = await assetsOf(rig, ['animation', 'tileset', 'sprite']);
   const animation = assets.find((asset) => asset.kind === 'animation');
   const tileset = assets.find((asset) => asset.kind === 'tileset');
-  expect(animation).toMatchObject({ name: TIDE.animation, location: { path: expect.stringMatching(/\.bxanim$/) } });
+  expect(animation?.name).toBe(TIDE.animation);
+  expect(animation?.location.path.endsWith('.bxanim')).toBe(true);
   expect(animation?.usedBy).toEqual([tileset?.id]);
   expect(assets.filter((asset) => asset.kind === 'sprite').map((asset) => asset.name)).toEqual(['hero']);
 };

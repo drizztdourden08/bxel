@@ -1,23 +1,8 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
-import type { AnimationId, CommandStep, TagId, TileAnimationStart, Tileset } from '@bxel/document';
+import type { CommandStep, Tileset } from '@bxel/document';
 import { TILE_ANIMATION_REF } from './tile-animation.constants';
-
-type TileLink = { readonly animation: AnimationId; readonly tag: TagId | null; readonly start: TileAnimationStart };
-
-type TileStill = { readonly name: string; readonly pixels: Uint8Array };
-
-const setStep = (tileset: Tileset, key: number, link: TileLink): CommandStep => ({
-  name: COMMAND_NAME.tileAnimation,
-  targets: null,
-  options: { tileset: tileset.id, key, change: { kind: 'set', animation: link.animation, tag: link.tag, start: link.start } },
-});
-
-const detachStep = (tileset: Tileset, key: number): CommandStep => ({
-  name: COMMAND_NAME.tileAnimation,
-  targets: null,
-  options: { tileset: tileset.id, key, change: { kind: 'clear' } },
-});
+import type { TileStill } from './tile-animation-steps.type';
 
 const fromTileSteps = (tileset: Tileset, key: number, still: TileStill): readonly CommandStep[] => {
   const { tileWidth: width, tileHeight: height } = tileset;
@@ -48,5 +33,4 @@ const fromTileSteps = (tileset: Tileset, key: number, still: TileStill): readonl
   ];
 };
 
-export { detachStep, fromTileSteps, setStep };
-export type { TileLink };
+export { fromTileSteps };

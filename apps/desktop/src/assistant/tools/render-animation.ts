@@ -8,10 +8,11 @@ import { animationUri } from './animation-uri';
 import { drawnAnimation } from './animation-frames';
 import { indexHash } from './index-hash';
 import { reply } from './reply';
-import type { AnimationSource } from './tool-input.type';
+import type { AnimationSource, RenderInput } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
 
-const renderAnimation = async (context: ToolContext, view: DocumentView, documentId: string, source: AnimationSource, scale: number): Promise<ToolReply> => {
+const renderAnimation = async (context: ToolContext, view: DocumentView, input: RenderInput, source: AnimationSource): Promise<ToolReply> => {
+  const { documentId, scale } = input;
   const drawn = drawnAnimation(context, view.state.artwork, documentId, source);
   if (!drawn.ok) return reply(drawn);
   const png = animationPng(drawn.value.strip, scale);

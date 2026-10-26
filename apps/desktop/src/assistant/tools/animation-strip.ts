@@ -3,9 +3,8 @@ import { composeAnimationFrame } from '@bxel/document';
 import type { AnimStep, Animation, Artwork } from '@bxel/document';
 import type { RgbaImage } from '@bxel/formats';
 import { composedRgba } from '../../timeline/composed-rgba';
+import { CHANNELS } from './animation-strip.constants';
 import type { AnimationStrip } from './tool-input.type';
-
-const CHANNELS = 4;
 
 const animationStrip = (artwork: Artwork, animation: Animation, steps: readonly AnimStep[]): AnimationStrip | null => {
   const width = animation.width * steps.length;

@@ -22,7 +22,7 @@ const useAnimationPreview = (artwork: Artwork, tileset: Tileset, tile: Tile): Re
       const frame = playback.frames[at];
       if (at === shown || !frame) return;
       shown = at;
-      drawPlaybackFrame(element, frame, table, tileset.tileWidth, tileset.tileHeight);
+      drawPlaybackFrame(element, { indices: frame, table, width: tileset.tileWidth, height: tileset.tileHeight });
     };
     show(0);
     if (!animate) return undefined;

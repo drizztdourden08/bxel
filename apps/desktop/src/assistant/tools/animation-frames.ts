@@ -1,20 +1,15 @@
 /* @layer renderer-app @kind logic */
-import type { AnimStep, Animation, Artwork } from '@bxel/document';
+import type { Artwork } from '@bxel/document';
 import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { McpResult } from '@bxel/mcp';
 import type { ToolContext } from '../assistant.type';
 import { animationFor } from './animation-for';
+import type { DrawnAnimation } from './animation-frames.type';
 import { animationStrip } from './animation-strip';
 import { animationSteps } from './animation-steps';
 import { hiddenAssets } from './hidden-assets';
-import type { AnimationSource, AnimationStrip } from './tool-input.type';
+import type { AnimationSource } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
-
-type DrawnAnimation = {
-  readonly animation: Animation;
-  readonly steps: readonly AnimStep[];
-  readonly strip: AnimationStrip;
-};
 
 const drawnAnimation = (context: ToolContext, artwork: Artwork, documentId: string, source: AnimationSource): McpResult<DrawnAnimation> => {
   const found = animationFor(artwork, source.animationId, hiddenAssets(context, documentId));
@@ -26,4 +21,3 @@ const drawnAnimation = (context: ToolContext, artwork: Artwork, documentId: stri
 };
 
 export { drawnAnimation };
-export type { DrawnAnimation };

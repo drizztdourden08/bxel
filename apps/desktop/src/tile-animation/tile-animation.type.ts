@@ -16,9 +16,16 @@ type TilePlan = {
 
 type MapPixels = Pick<ImageData, 'data' | 'width' | 'height'>;
 
+type PlaybackFrame = {
+  readonly indices: Uint8Array;
+  readonly table: Uint8Array;
+  readonly width: number;
+  readonly height: number;
+};
+
 type Animator = {
   readonly advance: (now: number) => boolean;
   readonly restore: () => void;
 };
 
-export type { Animator, MapPixels, PlannedCell, TilePlan };
+export type { Animator, MapPixels, PlannedCell, PlaybackFrame, TilePlan };

@@ -5,13 +5,9 @@ import type { ToolContext } from '../assistant.type';
 import { animationGif } from './animation-gif';
 import { drawnAnimation } from './animation-frames';
 import { animationPng } from './animation-png';
+import type { ExportedAnimation } from './export-animation.type';
 import { indexHash } from './index-hash';
-import type { AnimationSource, ExportInput, FramePng } from './tool-input.type';
-
-type ExportedAnimation = {
-  readonly file: FramePng;
-  readonly hash: string;
-};
+import type { AnimationSource, ExportInput } from './tool-input.type';
 
 const exportedAnimation = async (context: ToolContext, view: DocumentView, job: ExportInput, source: AnimationSource): Promise<McpResult<ExportedAnimation>> => {
   const drawn = drawnAnimation(context, view.state.artwork, job.documentId, source);

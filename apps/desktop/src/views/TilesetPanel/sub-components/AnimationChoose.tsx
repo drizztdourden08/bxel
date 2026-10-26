@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Select, Stack, Text } from '@drizztdourden08/tessera';
 import { animationFit } from '../../../tile-animation/animation-fit';
-import { linkTile } from '../../../tile-animation/tile-animation-actions';
+import { linkTile } from '../../../tile-animation/link-tile';
 import { TILE_ANIMATION_TEXT, WHOLE_TAG } from '../../../tile-animation/tile-animation.constants';
 import type { AnimationPartProps } from '../TilesetPanel.type';
 

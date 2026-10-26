@@ -209,7 +209,7 @@ describe('create_document and export_document with an animation', () => {
     const gif = await current.run('export_document', { documentId: documentOf(), format: 'gif', source: { animationId: water().id }, scale: 2, location: current.locate('exports/water.gif') }, current.grants('edit'));
     expect(gif).toMatchObject({ ok: true, files: [{ fileName: 'water.gif' }] });
     const bytes = current.rig.disk.files.get(`${ROOT}/exports/water.gif`);
-    expect(String.fromCharCode(...(bytes?.slice(0, 3) ?? []))).toBe('GIF');
+    expect(Buffer.from(bytes ?? []).subarray(0, 3).toString('latin1')).toBe('GIF');
     const png = await current.run('export_document', { documentId: documentOf(), format: 'png', source: { animationId: water().id, tagId: water().tags[0]?.id }, scale: 1, location: current.locate('exports/water.png') }, current.grants('edit'));
     expect(png).toMatchObject({ ok: true, files: [{ fileName: 'water.png' }] });
     expect(current.rig.disk.files.has(`${ROOT}/exports/water.png`)).toBe(true);

@@ -1,8 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { CHANNELS } from '../sheet/sheet.constants';
+import type { PlaybackFrame } from './tile-animation.type';
 
-const drawPlaybackFrame = (canvas: HTMLCanvasElement, indices: Uint8Array, table: Uint8Array, width: number, height: number): void => {
+const drawPlaybackFrame = (canvas: HTMLCanvasElement, frame: PlaybackFrame): void => {
   const ctx = canvas.getContext('2d');
+  const { indices, table, width, height } = frame;
   if (!ctx) return;
   if (canvas.width !== width) canvas.width = width;
   if (canvas.height !== height) canvas.height = height;

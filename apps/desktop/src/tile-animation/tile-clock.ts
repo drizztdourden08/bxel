@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-type ClockListener = (now: number) => void;
+import type { ClockListener } from './tile-clock.type';
 
 const listeners = new Set<ClockListener>();
 let frame = 0;

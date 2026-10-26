@@ -5,7 +5,7 @@ import type { PlannedCell, TilePlan } from './tile-animation.type';
 
 const tilePlan = (artwork: Artwork, tilemap: Tilemap): TilePlan => {
   const tileset = findTileset(artwork, tilemap.tilesetId);
-  if (!tileset || !tileset.tiles.some((tile) => tile.animation)) return { artwork, tilemap, cells: [] };
+  if (!tileset?.tiles.some((tile) => tile.animation)) return { artwork, tilemap, cells: [] };
   const playbacks = new Map<number, TilePlayback | null>();
   for (const tile of tileset.tiles) playbacks.set(tile.key, tile.animation ? tilePlayback(artwork, tileset, tile) : null);
   const cells: PlannedCell[] = [];
