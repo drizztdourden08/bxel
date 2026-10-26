@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind test */
+import { existsSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import type { Artwork } from '@bxel/document';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 import { answerDialogs } from './support/answer-dialogs';
 import { apngBytes } from './support/apng-bytes';
@@ -12,7 +14,6 @@ import { openAssetTab } from './support/open-asset-tab';
 import { openSession } from './support/open-session';
 import { readSaved } from './support/read-saved';
 import { saveFile } from './support/save-file';
-import { spriteOf } from './support/sprite-of';
 
 const { delaysMs, gifFile, apngFile, gifName, apngName } = IMPORTED_ANIMATION;
 
@@ -23,17 +24,19 @@ const importFile = async (session: Session, path: string): Promise<void> => {
   await dialog.getByText(/^Animation with 3 frames/).waitFor();
   await dialog.getByRole('button', { name: 'Next: Colours' }).click();
   await dialog.getByText(/^Extract the best/).click();
-  await dialog.getByRole('button', { name: 'Import sprite' }).click();
+  await dialog.getByRole('button', { name: 'Import animation' }).click();
   await dialog.waitFor({ state: 'detached' });
 };
 
-const firstIndexes = (sprite: ReturnType<typeof spriteOf>): (number | undefined)[] =>
-  sprite.frames.map((frame) => {
-    const celId = sprite.layers[0]?.cels[frame.id];
-    return celId ? sprite.cels[celId]?.pixels[0] : undefined;
+const firstIndexes = (artwork: Artwork): (number | undefined)[] => {
+  const frames = artwork.animations[0]?.frames ?? [];
+  return frames.map((frame) => {
+    const sprite = artwork.sprites.find((each) => each.id === frame.spriteId);
+    return Object.values(sprite?.cels ?? {})[0]?.pixels[0];
   });
+};
 
-describe('a GIF and an APNG import as frames with their durations', () => {
+describe('a GIF and an APNG import as an animation with frame durations', () => {
   const state: { session?: Session } = {};
   const live = () => {
     if (!state.session) throw new Error('no session');
@@ -53,14 +56,17 @@ describe('a GIF and an APNG import as frames with their durations', () => {
   test.each([
     ['GIF', gifFile, gifName],
     ['APNG', apngFile, apngName],
-  ])('the %s arrives as one sprite with a frame for every picture', async (_, file, name) => {
+  ])('the %s arrives as one animation with a frame for every picture and saves as a .bxanim', async (_, file, name) => {
     const session = live();
     await importFile(session, join(session.dir, file));
     await openAssetTab(session, new RegExp(name)).click();
-    const path = join(session.dir, `${name}-saved.bxsprite`);
+    const path = join(session.dir, `${name}-saved.bxanim`);
     await saveFile(session, path);
-    const sprite = spriteOf(readSaved(path), `${name}-saved`);
-    expect(sprite.frames.map((frame) => frame.durationMs)).toEqual(delaysMs);
-    expect(new Set(firstIndexes(sprite)).size).toBe(delaysMs.length);
+    expect(existsSync(path)).toBe(true);
+    const artwork = readSaved(path);
+    expect(artwork.animations).toHaveLength(1);
+    expect(artwork.sprites.filter((sprite) => sprite.role === 'sprite')).toHaveLength(0);
+    expect(artwork.animations[0]?.frames.map((frame) => frame.durationMs)).toEqual(delaysMs);
+    expect(new Set(firstIndexes(artwork)).size).toBe(delaysMs.length);
   });
 });

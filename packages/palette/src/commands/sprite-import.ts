@@ -1,6 +1,5 @@
 /* @layer core @kind logic */
 import { defineCommand, ERROR_CODE, fail, spriteCreate } from '@bxel/document';
-import { addImportFrames } from './add-import-frames';
 import { mapImportImage } from './map-import-image';
 import { PALETTE_COMMAND_NAME } from './palette-command-name.constants';
 import { resolveImportBank } from './resolve-import-bank';
@@ -19,7 +18,6 @@ const spriteImport = defineCommand({
     const sprite = draft.artwork.sprites.at(-1);
     if (!sprite) throw fail(ERROR_CODE.TARGET_NOT_FOUND, 'The imported sprite was not created.');
     writeImportCel(draft, sprite, mapImportImage(image, bank, mapping));
-    addImportFrames(draft, sprite.id, bank, input.options);
   },
 });
 

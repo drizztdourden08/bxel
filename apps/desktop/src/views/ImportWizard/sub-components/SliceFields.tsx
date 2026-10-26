@@ -42,9 +42,11 @@ const SliceFields = ({ wizard }: WizardActionsProps) => {
       <Field label={IMPORT_TEXT.order}>
         <SegmentedControl size="sm" aria-label={IMPORT_TEXT.order} value={slice.order} options={ORDER_OPTIONS} onChange={(order) => setSlice({ order })} />
       </Field>
-      <Field label={IMPORT_TEXT.names} hint={IMPORT_TEXT.namesHint} error={errors.naming ?? undefined}>
-        <TextInput value={slice.names} onChange={(event) => setSlice({ names: event.target.value })} />
-      </Field>
+      {form.kind === 'sheet' && (
+        <Field label={IMPORT_TEXT.names} hint={IMPORT_TEXT.namesHint} error={errors.naming ?? undefined}>
+          <TextInput value={slice.names} onChange={(event) => setSlice({ names: event.target.value })} />
+        </Field>
+      )}
     </Stack>
   );
 };

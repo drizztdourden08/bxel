@@ -1,6 +1,6 @@
 /* @layer core @kind test */
 import type { Artwork, DocumentId } from '@bxel/document';
-import { counterIdSource, createEngine, documentCommands, splitAnimatedSprites } from '@bxel/document';
+import { counterIdSource, createEngine, documentCommands, legacyFrameCommands, splitAnimatedSprites } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { animatedArtwork, HERO, pathsOf } from './animated-fixture';
 import { brand } from './fixture-to-artwork';
@@ -83,7 +83,7 @@ describe('splitAnimatedSprites links and notice', () => {
     const engine = createEngine({
       state: { documentId: brand<DocumentId>('doc_000001'), revision: 1, artwork: after.artwork, readOnly: false },
       ids: counterIdSource(9000),
-      commands: documentCommands,
+      commands: [...documentCommands, ...legacyFrameCommands],
     });
     const ground = named(after.artwork, 'ground 1');
     const result = engine.execute({

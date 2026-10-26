@@ -15,7 +15,7 @@ import type { TiledImportData } from '../../src/tiled-import/tiled-import.type';
 import { hostWithFile, newHost } from '../dialogs/dialog-harness';
 import { files, stubFiles } from './tiled-rig';
 
-const NONE: ImportContext = { documentId: null, bank: null, taken: [], sheetNames: [], tilesetNames: [], tilemapNames: [], spriteCount: 0 };
+const NONE: ImportContext = { documentId: null, bank: null, taken: [], animationNames: [], sheetNames: [], tilesetNames: [], tilemapNames: [], spriteCount: 0 };
 
 const readOk = async (store = files()): Promise<{ image: SourceImage; tiled: TiledImportData }> => {
   const read = await readTiledFiles(stubFiles(store), 'C:/maps/level.tmx');

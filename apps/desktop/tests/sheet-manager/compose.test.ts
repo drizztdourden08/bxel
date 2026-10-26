@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME } from '@bxel/document';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { stepHistory } from '../../src/editor/step-history';
 import { runDocument } from '../../src/sheet/run-document';
 import { spritesTarget } from '../../src/sheet/sprites-target';
@@ -15,6 +15,8 @@ import { splitSprites } from '../../src/sheet-manager/split-sprites';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
 import { artwork, idOf, lastNotice, namesOf, openFile, patch, revision, spriteOf } from '../sheet/sheet-harness';
 import { idsOf } from './manager-harness';
+
+vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 
 const targets = (...names: string[]) => artwork().sprites.filter((sprite) => names.includes(sprite.name));
 

@@ -1,5 +1,5 @@
 /* @layer core @kind test */
-import { counterIdSource, createEngine, defineCommand, documentCommands, writableCel } from '@bxel/document';
+import { counterIdSource, createEngine, defineCommand, documentCommands, legacyFrameCommands, writableCel } from '@bxel/document';
 import type { Engine } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
@@ -27,7 +27,7 @@ const touchEngine = (): Engine =>
   createEngine({
     state: { documentId, revision: 1, artwork: fixtureToArtwork(frameFixture), readOnly: false },
     ids: counterIdSource(500),
-    commands: [...documentCommands, touch],
+    commands: [...documentCommands, ...legacyFrameCommands, touch],
   });
 
 const lastPixel = (engine: ReturnType<typeof frameEngine>, celId: string | undefined): number | undefined =>

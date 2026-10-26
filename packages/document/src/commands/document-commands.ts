@@ -1,15 +1,5 @@
 /* @layer core @kind logic */
 import type { CommandDef } from './command-def.type';
-import { celClear } from './cel/cel-clear';
-import { celCopy } from './cel/cel-copy';
-import { celLink } from './cel/cel-link';
-import { celMove } from './cel/cel-move';
-import { celUnlink } from './cel/cel-unlink';
-import { frameAdd } from './frame/frame-add';
-import { frameDelete } from './frame/frame-delete';
-import { frameDuplicate } from './frame/frame-duplicate';
-import { frameReorder } from './frame/frame-reorder';
-import { frameUpdate } from './frame/frame-update';
 import { layerAdd } from './layer/layer-add';
 import { layerDelete } from './layer/layer-delete';
 import { layerDuplicate } from './layer/layer-duplicate';
@@ -38,9 +28,6 @@ import { spriteDelete } from './sprite/sprite-delete';
 import { spriteDuplicate } from './sprite/sprite-duplicate';
 import { spriteReorder } from './sprite/sprite-reorder';
 import { spriteUpdate } from './sprite/sprite-update';
-import { tagAdd } from './tag/tag-add';
-import { tagDelete } from './tag/tag-delete';
-import { tagUpdate } from './tag/tag-update';
 import { mapErase } from './map/map-erase';
 import { mapFill } from './map/map-fill';
 import { mapPaint } from './map/map-paint';
@@ -114,19 +101,6 @@ const documentCommands: readonly CommandDef[] = [
   layerDuplicate,
   layerMerge,
   layerFlatten,
-  frameAdd,
-  frameDelete,
-  frameDuplicate,
-  frameReorder,
-  frameUpdate,
-  tagAdd,
-  tagUpdate,
-  tagDelete,
-  celClear,
-  celCopy,
-  celMove,
-  celLink,
-  celUnlink,
   tilesetCreate,
   tilesetUpdate,
   tilesetDelete,

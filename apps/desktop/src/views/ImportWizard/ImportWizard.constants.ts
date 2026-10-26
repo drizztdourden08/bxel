@@ -10,6 +10,7 @@ const TARGET_OPTIONS: ChoiceOption<ImportTarget>[] = [
 const KIND_OPTIONS: ChoiceOption<ImportKind>[] = [
   { value: 'sprite', label: IMPORT_TEXT.sprite },
   { value: 'sheet', label: IMPORT_TEXT.sheet },
+  { value: 'strip', label: IMPORT_TEXT.animationKind },
 ];
 
 const ORDER_OPTIONS: ChoiceOption<SliceOrder>[] = [

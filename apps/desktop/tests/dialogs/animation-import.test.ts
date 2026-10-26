@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind test */
+import type { DocumentId, Sprite } from '@bxel/document';
 import { encodePngRgba } from '@bxel/formats';
 import { describe, expect, it } from 'vitest';
 import { colorsView } from '../../src/image-import/colors-view';
@@ -10,7 +11,7 @@ import { bytesOf } from '../e2e/support/bytes-of';
 import { gifBytes } from '../e2e/support/gif-bytes';
 import { IMPORTED_ANIMATION } from '../e2e/support/imported-animation.constants';
 import { solidRgba } from '../e2e/support/solid-rgba';
-import { newHost, sprites } from './dialog-harness';
+import { newHost, sourceImage, sprites } from './dialog-harness';
 import { formFor, NONE, runOf } from './import-run-harness';
 
 const { side, delaysMs, colours } = IMPORTED_ANIMATION;
@@ -53,24 +54,48 @@ describe('reading an animated image', () => {
   });
 });
 
+const firstPixel = (owned: readonly Sprite[], id: string | null): number | undefined =>
+  Object.values(owned.find((each) => each.id === id)?.cels ?? {})[0]?.pixels[0];
+
+const stripPaint = (x: number): readonly [number, number, number, number] => {
+  const channel = Math.min(2, Math.floor(x / 4));
+  return [channel === 0 ? 255 : 0, channel === 1 ? 255 : 0, channel === 2 ? 255 : 0, 255];
+};
+
+const animationsOf = (host: ReturnType<typeof newHost>, documentId: DocumentId) => host.view(documentId)?.state.artwork.animations ?? [];
+
 describe('importing an animated image', () => {
-  it.each(FORMATS)('makes one sprite with a frame for each picture of a %s, in one undo step', (_, bytes, fileName) => {
+  it.each(FORMATS)('makes one animation with a frame for each picture of a %s, in one undo step', (_, bytes, fileName) => {
     const host = newHost();
     const image = imageOf(bytes, fileName);
-    const form = formFor(image, NONE, { reduce: 'extract', name: 'run' });
+    const form = formFor(image, NONE, { kind: 'animation', reduce: 'extract', name: 'run' });
     const outcome = runImport(host, runOf(form, image, NONE));
     expect(outcome.ok).toBe(true);
     if (!outcome.ok) return;
-    const [sprite] = sprites(host, outcome.documentId);
-    expect(sprites(host, outcome.documentId)).toHaveLength(1);
-    expect(sprite?.frames.map((frame) => frame.durationMs)).toEqual(delaysMs);
-    expect(Object.keys(sprite?.cels ?? {})).toHaveLength(3);
-    const firsts = sprite?.frames.map((frame) => {
-      const celId = sprite.layers[0]?.cels[frame.id];
-      return celId ? sprite.cels[celId]?.pixels[0] : undefined;
-    });
-    expect(new Set(firsts).size).toBe(3);
+    const [animation] = animationsOf(host, outcome.documentId);
+    expect(animationsOf(host, outcome.documentId)).toHaveLength(1);
+    expect(outcome.created['animation']).toBe(animation?.id);
+    expect(animation?.frames.map((frame) => frame.durationMs)).toEqual(delaysMs);
+    const owned = sprites(host, outcome.documentId);
+    expect(owned.filter((sprite) => sprite.role === 'sprite')).toHaveLength(0);
+    expect(owned.filter((sprite) => sprite.role === 'frame')).toHaveLength(3);
+    expect(new Set(animation?.frames.map((frame) => firstPixel(owned, frame.spriteId))).size).toBe(3);
     expect(host.undo(outcome.documentId).ok).toBe(true);
-    expect(sprites(host, outcome.documentId)).toHaveLength(0);
+    expect(animationsOf(host, outcome.documentId)).toHaveLength(0);
+  });
+
+  it('makes an animation of a strip, one frame for every cell', () => {
+    const host = newHost();
+    const image = sourceImage(12, 4, stripPaint, 'walk.png');
+    const slice = { cellWidth: 4, cellHeight: 4, offsetX: 0, offsetY: 0, spacingX: 0, spacingY: 0, order: 'rows' as const, names: '' };
+    const form = formFor(image, NONE, { kind: 'strip', reduce: 'extract', name: 'walk', slice });
+    const run = runOf(form, image, NONE);
+    expect(run.rects).toHaveLength(3);
+    const outcome = runImport(host, run);
+    expect(outcome.ok).toBe(true);
+    if (!outcome.ok) return;
+    const [animation] = animationsOf(host, outcome.documentId);
+    expect([animation?.width, animation?.height, animation?.frames.length]).toEqual([4, 4, 3]);
+    expect(sprites(host, outcome.documentId).every((sprite) => sprite.role === 'frame')).toBe(true);
   });
 });

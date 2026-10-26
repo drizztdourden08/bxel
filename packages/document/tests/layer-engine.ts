@@ -1,5 +1,5 @@
 /* @layer core @kind test */
-import { counterIdSource, createEngine, documentCommands } from '@bxel/document';
+import { counterIdSource, createEngine, documentCommands, legacyFrameCommands } from '@bxel/document';
 import type {
   CommandStep,
   Engine,
@@ -23,7 +23,7 @@ const layerEngine = (): Engine =>
   createEngine({
     state: { documentId, revision: 1, artwork: fixtureToArtwork(layerFixture), readOnly: false },
     ids: counterIdSource(500),
-    commands: documentCommands,
+    commands: [...documentCommands, ...legacyFrameCommands],
   });
 
 const layerStep = (name: string, options: unknown, sprites: readonly SpriteId[] = [MUSHROOM], ref?: string): CommandStep => ({

@@ -1,5 +1,5 @@
 /* @layer core @kind test */
-import { counterIdSource, createEngine, documentCommands } from '@bxel/document';
+import { counterIdSource, createEngine, documentCommands, legacyFrameCommands } from '@bxel/document';
 import type { CommandStep, Engine, FrameId, FrameSelector, LayerSelector, SpriteId } from '@bxel/document';
 import { brand, fixtureToArtwork } from './fixture-to-artwork';
 import { documentId } from './heart-engine';
@@ -20,7 +20,7 @@ const frameEngine = (): Engine =>
   createEngine({
     state: { documentId, revision: 1, artwork: fixtureToArtwork(frameFixture), readOnly: false },
     ids: counterIdSource(500),
-    commands: documentCommands,
+    commands: [...documentCommands, ...legacyFrameCommands],
   });
 
 const byIndex = (index: number) => ({ by: 'index', index }) as const;

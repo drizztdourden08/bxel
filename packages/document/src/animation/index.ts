@@ -30,3 +30,5 @@ export { animFrameImage } from '../read/anim-frame-image';
 export { animFramePivot } from '../read/anim-frame-pivot';
 export { animFrameOrigin } from '../read/anim-frame-origin';
 export { tileAnimationIssue } from '../read/tile-animation-issue';
+export { ownedBlank } from '../commands/animation/owned-blank';
+export { updateAnimation } from '../draft/update-animation';

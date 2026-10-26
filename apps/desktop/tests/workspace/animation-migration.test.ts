@@ -7,6 +7,7 @@ import { animatedSampleArtwork } from './animated-sample';
 import { heldProject } from './held-project';
 import { artworkOf, workspaceOf } from './open-sample-project';
 
+vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
 const { held, open } = heldProject();

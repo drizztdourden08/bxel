@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME } from '@bxel/document';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { runDocument } from '../../src/sheet/run-document';
 import { spritesTarget } from '../../src/sheet/sprites-target';
 import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
@@ -14,6 +14,8 @@ import { sizeOptions } from '../../src/sheet-manager/size-options';
 import { visibleFacts } from '../../src/sheet-manager/visible-facts';
 import { artwork, idOf, openFile } from '../sheet/sheet-harness';
 import { idsOf } from './manager-harness';
+
+vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 
 const base: ListQuery = { query: '', filter: NO_FILTER, sortKey: 'manual', sortDown: false };
 

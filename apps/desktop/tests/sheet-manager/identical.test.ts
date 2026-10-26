@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME } from '@bxel/document';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { runDocument } from '../../src/sheet/run-document';
 import { spriteImage } from '../../src/sheet/sprite-image';
 import { spritesTarget } from '../../src/sheet/sprites-target';
@@ -15,6 +15,8 @@ import { twinIds } from '../../src/sheet-manager/twin-ids';
 import { visibleFacts } from '../../src/sheet-manager/visible-facts';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
 import { artwork, idOf, lastNotice, openFile, patch, spriteOf } from '../sheet/sheet-harness';
+
+vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 
 const dot = (x: number, y: number) => ({ x, y, width: 1, height: 1 });
 

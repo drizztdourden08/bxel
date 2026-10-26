@@ -3,9 +3,9 @@ import type { CommandStep } from '@bxel/document';
 import { PALETTE_COMMAND_NAME, sheetImportSteps } from '@bxel/palette';
 import type { SheetImportCell } from '@bxel/palette';
 import { sourceColorText } from '../palette-source/source-color-text';
+import { animationSteps } from './animation-steps';
 import { alphaThreshold } from './alpha-threshold';
 import { cropRgba } from './crop-rgba';
-import { frameOptions } from './frame-options';
 import { BANK_REF } from './image-import.constants';
 import type { BankOption, ImportRun } from './image-import.type';
 import { sheetLayoutOf } from './sheet-layout-of';
@@ -37,6 +37,7 @@ const bankOption = (run: ImportRun, bankId: string | null): BankOption => {
 const importSteps = (run: ImportRun, bankId: string | null): CommandStep[] => {
   const bank = bankOption(run, bankId);
   if (run.form.kind === 'tiled') return [...bankStep(run), ...tiledSteps(run, bank)];
+  if (run.form.kind === 'animation' || run.form.kind === 'strip') return [...bankStep(run), ...animationSteps(run, bank)];
   const cells = run.rects.flatMap((_, at) => cellOf(run, at) ?? []);
   if (run.form.kind === 'sheet') {
     const layout = sheetLayoutOf(run);
@@ -45,7 +46,7 @@ const importSteps = (run: ImportRun, bankId: string | null): CommandStep[] => {
   const sprites = cells.map((cell): CommandStep => ({
     name: PALETTE_COMMAND_NAME.spriteImport,
     targets: null,
-    options: { name: cell.name, image: cell.image, bank, mapping: cell.mapping, ...frameOptions(run.image) },
+    options: { name: cell.name, image: cell.image, bank, mapping: cell.mapping },
   }));
   return [...bankStep(run), ...sprites];
 };

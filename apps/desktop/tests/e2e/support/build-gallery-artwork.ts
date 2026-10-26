@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { artworkCreate, COMMAND_NAME, counterIdSource, createEngine, documentCommands, splitAnimatedSprites } from '@bxel/document';
+import { artworkCreate, COMMAND_NAME, counterIdSource, createEngine, documentCommands, legacyFrameCommands, splitAnimatedSprites } from '@bxel/document';
 import type { Artwork, Engine, SpriteId, TargetScope } from '@bxel/document';
 import { ANIMATION_COLORS } from './animation.constants';
 import { GALLERY } from './gallery.constants';
@@ -62,7 +62,7 @@ const buildGalleryArtwork = (): Artwork => {
     ids,
   });
   if (!created.ok) throw new Error(created.error.message);
-  const engine = createEngine({ state: created.state, ids, commands: documentCommands });
+  const engine = createEngine({ state: created.state, ids, commands: [...documentCommands, ...legacyFrameCommands] });
   const hero = engine.state().artwork.sprites[0];
   if (!hero) throw new Error('no hero');
   runStep(engine, COMMAND_NAME.frameAdd, { durationMs: GALLERY.frameMs }, frameScope(hero.id, null, engine));

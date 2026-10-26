@@ -1,5 +1,5 @@
 /* @layer core @kind test */
-import { counterIdSource, createEngine, documentCommands } from '@bxel/document';
+import { counterIdSource, createEngine, documentCommands, legacyFrameCommands } from '@bxel/document';
 import type { CommandStep, Engine, Sheet, SpriteId, TransactionOk } from '@bxel/document';
 import { expect } from 'vitest';
 import { canonicalArtwork } from './canonical-artwork';
@@ -36,7 +36,7 @@ const engineAltered = (patch: Partial<ArtworkFixture>): Engine =>
   createEngine({
     state: { documentId, revision: 1, artwork: fixtureToArtwork({ ...heartPairFixture, ...patch }), readOnly: false },
     ids: counterIdSource(100),
-    commands: documentCommands,
+    commands: [...documentCommands, ...legacyFrameCommands],
   });
 
 const rejection = (engine: Engine, ...steps: CommandStep[]) => {
