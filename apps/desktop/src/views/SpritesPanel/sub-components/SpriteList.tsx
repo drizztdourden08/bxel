@@ -1,18 +1,19 @@
 /* @layer renderer-app @kind component */
-import { Box, ScrollArea, Stack, VirtualList } from '@drizztdourden08/tessera';
+import { ScrollArea, Stack } from '@drizztdourden08/tessera';
 import { listItems } from '../../../sheet-manager/list-items';
 import type { ListItem } from '../../../sheet-manager/folders.type';
 import { stateOf } from '../behavior/state-of';
-import { VIRTUAL_LIST_MIN } from '../SpritesPanel.constants';
-import type { SpriteViewProps } from '../SpritesPanel.type';
+import { HEADER_ROWS, VIRTUAL_LIST_MIN } from '../SpritesPanel.constants';
+import type { RowPlace, SpriteViewProps } from '../SpritesPanel.type';
 import { FolderHeader } from './FolderHeader';
 import { ListHeader } from './ListHeader';
 import { SpriteRow } from './SpriteRow';
+import { SpriteRows } from './SpriteRows';
 
 const SpriteList = ({ model, affected, dragFor, handlersFor }: SpriteViewProps) => {
   const items = listItems(model.groups);
-  const row = (item: ListItem) => {
-    if (item.group) return <FolderHeader key={item.key} group={item.group} />;
+  const rowOf = (item: ListItem, place?: RowPlace) => {
+    if (item.group) return <FolderHeader key={item.key} group={item.group} place={place} />;
     if (!item.fact) return null;
     return (
       <SpriteRow
@@ -22,24 +23,23 @@ const SpriteList = ({ model, affected, dragFor, handlersFor }: SpriteViewProps) 
         state={stateOf(model, item.fact, affected)}
         drag={dragFor(item.fact.sprite.id)}
         handlers={handlersFor(item.fact.sprite.id)}
+        place={place}
       />
     );
   };
   if (model.shown.length >= VIRTUAL_LIST_MIN) {
     return (
-      <Stack gap="2xs" className="sprites-panel__vlist">
+      <Stack gap="2xs" role="grid" aria-label="Sprites" aria-multiselectable aria-rowcount={items.length + HEADER_ROWS} className="sprites-panel__vlist">
         <ListHeader />
-        <Box className="sprites-panel__virtual">
-          <VirtualList label="Sprites" items={items} getKey={(item) => item.key} renderItem={row} />
-        </Box>
+        <SpriteRows items={items} rowOf={rowOf} />
       </Stack>
     );
   }
   return (
     <ScrollArea axis="y" scrollbar="slim" fade={false} className="sprites-panel__scroll">
-      <Stack gap="2xs" role="group" aria-label="Sprites" className="sprites-panel__list">
+      <Stack gap="2xs" role="grid" aria-label="Sprites" aria-multiselectable className="sprites-panel__list">
         <ListHeader />
-        {items.map(row)}
+        {items.map((item) => rowOf(item))}
       </Stack>
     </ScrollArea>
   );

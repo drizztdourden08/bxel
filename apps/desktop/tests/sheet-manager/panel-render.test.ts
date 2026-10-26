@@ -16,6 +16,7 @@ import { AtlasCanvas } from '../../src/views/SpritesPanel/sub-components/AtlasVi
 import { AtlasControls } from '../../src/views/SpritesPanel/sub-components/AtlasView/sub-components/AtlasControls';
 import { RenamePreview } from '../../src/views/SpritesPanel/sub-components/ManagerDialogs/sub-components/RenamePreview';
 import { ResizeFields } from '../../src/views/SpritesPanel/sub-components/ManagerDialogs/sub-components/ResizeFields';
+import { ListHeader } from '../../src/views/SpritesPanel/sub-components/ListHeader';
 import { SpriteRow } from '../../src/views/SpritesPanel/sub-components/SpriteRow';
 import { SpriteTile } from '../../src/views/SpritesPanel/sub-components/SpriteTile';
 import type { ManagerModel, SpriteHandlers } from '../../src/views/SpritesPanel/SpritesPanel.type';
@@ -58,8 +59,21 @@ describe('the sprite tile and row', () => {
     expect(tile).toContain(`data-sprite-id="${idOf('walk_1')}"`);
     const row = renderToString(createElement(SpriteRow, { fact, artwork: artwork(), state, drag, handlers }));
     expect(row).toContain('sprites-panel__row');
+    expect(row).toContain('role="row"');
+    expect(row).toContain('aria-selected="true"');
+    expect(row).not.toContain('aria-label');
+    expect(row.match(/role="gridcell"/g)).toHaveLength(7);
     expect(row).toContain('8x8');
     expect(row).toContain('4, 4');
+  });
+});
+
+describe('the list header', () => {
+  it('has a column header for every column and sort state only on the sortable ones', () => {
+    const head = renderToString(createElement(ListHeader));
+    expect(head.match(/role="columnheader"/g)).toHaveLength(7);
+    expect(head.match(/aria-sort=/g)).toHaveLength(5);
+    expect(head).not.toContain('<button aria-sort');
   });
 });
 

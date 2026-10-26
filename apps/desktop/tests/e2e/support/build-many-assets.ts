@@ -7,7 +7,7 @@ import { MANY } from './many.constants';
 
 const pad = (number: number): string => String(number).padStart(MANY.padding, '0');
 
-const buildManyAssets = (): Artwork => {
+const buildManyAssets = (sprites: number = MANY.sprites): Artwork => {
   const ids = counterIdSource();
   const created = artworkCreate({
     options: { name: MANY.name, bank: { name: MANY.palette, cap: 16, transparent: true, colors: ANIMATION_COLORS }, sprite: { name: `s${pad(1)}`, ...MANY.size } },
@@ -15,7 +15,7 @@ const buildManyAssets = (): Artwork => {
   });
   if (!created.ok) throw new Error(created.error.message);
   const engine = createEngine({ state: created.state, ids, commands: documentCommands });
-  for (let index = 2; index <= MANY.sprites; index += 1) runStep(engine, COMMAND_NAME.spriteCreate, { name: `s${pad(index)}`, ...MANY.size });
+  for (let index = 2; index <= sprites; index += 1) runStep(engine, COMMAND_NAME.spriteCreate, { name: `s${pad(index)}`, ...MANY.size });
   const spriteIds = engine.state().artwork.sprites.map((sprite) => sprite.id);
   for (let index = 1; index <= MANY.sheets; index += 1) {
     runStep(engine, COMMAND_NAME.sheetCreate, { name: `sh${pad(index)}` });

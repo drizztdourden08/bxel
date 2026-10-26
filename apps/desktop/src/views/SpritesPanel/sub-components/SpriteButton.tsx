@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Pressable } from '@drizztdourden08/tessera';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
-import { pickHow } from '../../../sheet/pick-how';
+import { spriteEvents } from '../behavior/sprite-events';
 import { tileClass } from '../behavior/tile-class';
 import type { SpriteButtonProps } from '../SpritesPanel.type';
 
@@ -16,9 +16,7 @@ const SpriteButton = ({ fact, base, state, drag, handlers, children }: SpriteBut
       title={state.loose ? MANAGER_TEXT.badgeUnplaced : MANAGER_TEXT.badgeSheets(fact.sheets)}
       data-sprite-id={sprite.id}
       draggable
-      onClick={(event) => handlers.onPick(pickHow(event) ?? 'replace')}
-      onDoubleClick={handlers.onRename}
-      onContextMenu={() => handlers.onMenu()}
+      {...spriteEvents(handlers)}
       {...drag}
     >
       {children}

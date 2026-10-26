@@ -33,7 +33,7 @@
 .sprites-panel__row,
 .sprites-panel__head {
   display: grid;
-  grid-template-columns: var(--size-32) minmax(0, 1fr) var(--size-56) var(--size-48) var(--size-40) var(--size-32) var(--size-64);
+  grid-template-columns: var(--size-32) minmax(var(--size-64), 1fr) var(--size-56) var(--size-48) var(--size-48) var(--size-40) var(--size-64);
   align-items: center;
   gap: var(--space-xs);
 }
@@ -49,7 +49,7 @@
 }
 
 .sprites-panel__tile[aria-pressed='true'],
-.sprites-panel__row[aria-pressed='true'] {
+.sprites-panel__row[aria-selected='true'] {
   border-color: var(--c-primary-bright);
   background: var(--c-selected);
 }
@@ -102,10 +102,16 @@
   padding-inline: var(--space-xs);
 }
 
+.sprites-panel__head-cell {
+  min-inline-size: 0;
+}
+
 .sprites-panel__head-sort {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
+  min-block-size: var(--size-24);
+  min-inline-size: var(--size-24);
   padding: 0;
   border: none;
   background: transparent;
@@ -146,9 +152,26 @@
   min-height: 0;
 }
 
+.sprites-panel__vlist,
+.sprites-panel__list {
+  container: sprites-list / inline-size;
+}
+
 .sprites-panel__vlist {
   flex: 1;
-  min-height: 0;
+  min-height: var(--size-128);
+}
+
+@container sprites-list (max-width: 420px) {
+  .sprites-panel__row,
+  .sprites-panel__head {
+    grid-template-columns: var(--size-32) minmax(var(--size-64), 1fr) var(--size-56) var(--size-64);
+  }
+
+  .sprites-panel__row > :nth-child(n + 4):nth-child(-n + 6),
+  .sprites-panel__head > :nth-child(n + 4):nth-child(-n + 6) {
+    display: none;
+  }
 }
 
 .sprites-panel__virtual {
@@ -156,9 +179,35 @@
   min-height: var(--size-96);
 }
 
-.sprites-panel__virtual .sprites-panel__row {
+.sprites-panel__rowscroll {
+  position: relative;
   flex: 1;
-  min-inline-size: 0;
+  min-block-size: var(--size-96);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-bg);
+}
+
+.sprites-panel__rows {
+  position: relative;
+  inline-size: 100%;
+  block-size: calc(var(--sprites-count) * var(--size-40));
+}
+
+.sprites-panel__rows > [role='row'] {
+  position: absolute;
+  inset-block-start: calc(var(--sprites-index) * var(--size-40));
+  inset-inline-start: 0;
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: var(--size-40);
+}
+
+.sprites-panel__row:focus-visible {
+  outline: var(--border-width-thick) solid var(--c-focus);
+  outline-offset: calc(-1 * var(--border-width-thick));
 }
 
 .sprites-panel__folder {

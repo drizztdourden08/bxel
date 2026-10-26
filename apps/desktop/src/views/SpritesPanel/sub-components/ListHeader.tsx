@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
-import { Flex, Text } from '@drizztdourden08/tessera';
+import { Box, Flex } from '@drizztdourden08/tessera';
+import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { sortOrder } from '../behavior/sort-order';
 import { LIST_COLUMNS } from '../SpritesPanel.constants';
@@ -10,8 +11,8 @@ const ListHeader = () => {
   const sortDown = useManagerStore((state) => state.sortDown);
   const patch = useManagerStore((state) => state.patch);
   return (
-    <Flex role="row" className="sprites-panel__head">
-      <Text as="span" variant="caption" className="sprites-panel__head-spacer" />
+    <Flex role="row" aria-rowindex={1} className="sprites-panel__head">
+      <Box role="columnheader" aria-label={MANAGER_TEXT.columns.preview} className="sprites-panel__head-spacer" />
       {LIST_COLUMNS.map((column) => {
         const order = sortOrder(column.key, sortKey, sortDown);
         return (
