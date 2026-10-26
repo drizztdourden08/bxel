@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { CSSProperties, DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, RefObject } from 'react';
-import type { MenuGroup, VirtualSize } from '@drizztdourden08/tessera';
+import type { MenuGroup, VirtualGridCellBind, VirtualSize } from '@drizztdourden08/tessera';
 import type { Artwork, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
 import type { FolderGroup, ListItem, SavedSelection } from '../../sheet-manager/folders.type';
@@ -94,10 +94,12 @@ interface SpriteRowsProps {
 
 interface SpriteTileProps extends SpriteItemProps {
   box: number;
+  cell: VirtualGridCellBind;
 }
 
 interface SpriteButtonProps extends Omit<SpriteItemProps, 'artwork'> {
   base: string;
+  cell: VirtualGridCellBind;
   children: ReactNode;
 }
 
@@ -137,6 +139,7 @@ interface ListHeadCellProps {
 interface GridTileProps {
   view: SpriteGridProps;
   fact: SpriteFacts;
+  cell: VirtualGridCellBind;
 }
 
 interface FolderHeaderProps {
