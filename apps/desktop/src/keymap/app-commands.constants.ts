@@ -2,6 +2,7 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { FILE_COMMANDS } from '../files/file-commands.constants';
 import { BRUSH_COMMANDS } from './brush-commands.constants';
+import { ANIMATION_COMMANDS } from './animation-commands.constants';
 import { COLLISION_COMMANDS } from './collision-commands.constants';
 import { CONFIG_COMMANDS } from './config-commands.constants';
 import { CANVAS_SIZE_COMMANDS } from './canvas-size-commands.constants';
@@ -39,6 +40,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TILEMAP_COMMANDS,
   ...COLLISION_COMMANDS,
   ...TERRAIN_COMMANDS,
+  ...ANIMATION_COMMANDS,
   ...TIMELINE_COMMANDS,
   ...LAYER_MENU_COMMANDS,
   ...PALETTE_MENU_COMMANDS,

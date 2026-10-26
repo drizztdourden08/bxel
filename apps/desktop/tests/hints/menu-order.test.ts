@@ -27,6 +27,7 @@ const state: EditorMenuState = {
   tileMode: 'place',
   collision: false,
   terrainBrush: false,
+  animateTiles: false,
 };
 
 const keysOf = (item: MenuEntry | undefined): string[] =>
@@ -96,6 +97,17 @@ describe('the menus of the open asset', () => {
       const labels = editorMenu({ ...state, surface }).flatMap((entry) => (entry === 'separator' ? [] : childLabels([entry], entry.label)));
       expect(labels.filter((label) => /mode$/i.test(label))).toEqual([]);
     }
+  });
+});
+
+describe('the tilemap menu overlays', () => {
+  it('puts Animate tiles after Show collision and Terrain brush and reflects its state', () => {
+    const labels = childLabels(editorMenu({ ...state, surface: 'map', kind: 'tilemap' }), 'Tilemap');
+    expect(labels.slice(labels.indexOf('Show collision'), labels.indexOf('Show collision') + 3)).toEqual(['Show collision', 'Terrain brush', 'Animate tiles']);
+    const tilemap = editorMenu({ ...state, surface: 'map', kind: 'tilemap', animateTiles: true }).find((entry): entry is MenuItem => entry !== 'separator' && entry.label === 'Tilemap');
+    const animate = (tilemap?.children ?? []).find((child): child is MenuItem => child !== 'separator' && child.label === 'Animate tiles');
+    expect(animate?.command).toBe('animation.toggle_tiles');
+    expect(animate?.checked).toBe(true);
   });
 });
 
