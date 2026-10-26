@@ -1,26 +1,21 @@
 /* @layer renderer-app @kind component */
-import { Button, EmptyState, Flex } from '@drizztdourden08/tessera';
+import { Button, EmptyState } from '@drizztdourden08/tessera';
 import { useMapContext } from '../../../hooks/useMapContext';
 import { useTilemapDialogStore } from '../../../stores/useTilemapDialogStore';
 import { TILEMAP_TEXT } from '../../../tilemap/tilemap.constants';
+import { TilesetStage } from '../../TilesetPanel';
 
 const TilemapEmpty = () => {
   const context = useMapContext();
   const show = useTilemapDialogStore((state) => state.show);
   if (!context) return <EmptyState message={TILEMAP_TEXT.emptyCanvas} />;
-  const needsSet = context.tileset === null;
-  const message = needsSet ? TILEMAP_TEXT.noTileset : TILEMAP_TEXT.noMap;
+  if (context.tileset !== null) return <TilesetStage />;
   const action = (
-    <Flex gap="sm">
-      <Button variant={needsSet ? 'primary' : 'secondary'} onClick={() => show('tileset')}>
-        {TILEMAP_TEXT.newTileset}
-      </Button>
-      <Button variant="primary" disabled={needsSet} onClick={() => show('tilemap')}>
-        {TILEMAP_TEXT.newTilemap}
-      </Button>
-    </Flex>
+    <Button variant="primary" onClick={() => show('tileset')}>
+      {TILEMAP_TEXT.newTileset}
+    </Button>
   );
-  return <EmptyState message={message} action={action} />;
+  return <EmptyState message={TILEMAP_TEXT.noTileset} action={action} />;
 };
 
 export { TilemapEmpty };

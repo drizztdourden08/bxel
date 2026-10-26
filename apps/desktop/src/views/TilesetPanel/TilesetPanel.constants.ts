@@ -11,6 +11,7 @@ const TILESET_TEXT = {
   actions: 'Tile actions',
   newTileset: 'New tileset...',
   newTilemap: 'New tilemap...',
+  newTilemapFromSet: 'New tilemap from this tileset',
   tile: (key: number, uses: number): string => `Tile ${key}, used ${uses} ${uses === 1 ? 'time' : 'times'}`,
   summary: (name: string, width: number, height: number, count: number): string =>
     `${name}: ${count} ${count === 1 ? 'tile' : 'tiles'} of ${width} x ${height} px`,

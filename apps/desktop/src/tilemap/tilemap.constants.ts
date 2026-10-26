@@ -9,7 +9,6 @@ const TILEMAP_TEXT = {
   newTilemap: 'New tilemap',
   noFile: 'Open a file first.',
   noTileset: 'This file has no tileset yet. A tileset holds the tiles a map is built from.',
-  noMap: 'This file has no tilemap yet. A tilemap places tiles on a grid.',
   noTarget: 'Create a tileset with a tile and a tilemap first.',
   noTile: 'Pick or add a tile first.',
   noTiles: 'This tileset has no tiles yet.',

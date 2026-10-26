@@ -45,6 +45,11 @@ const NEW_FORM_BASE: CreationForm = {
   pixelGrid: { width: 1, height: 1 },
 };
 
+const KIND_GRID = {
+  sheet: { columns: NEW_FORM_BASE.columns, rows: NEW_FORM_BASE.rows },
+  map: { columns: 32, rows: 24 },
+} as const;
+
 const KIND_NAME: Readonly<Record<CreationKind, string>> = { sprite: 'sprite', sheet: 'sprite', palette: 'palette', tileset: 'tileset', tilemap: 'map' };
 
 const KIND_NAMES_OF: Readonly<Record<CreationKind, (artwork: Artwork) => string[]>> = {
@@ -123,5 +128,5 @@ const NEW_TEXT = {
 } as const;
 
 export {
-  BANK_NAME_ROOM, KIND_NAME, KIND_NAMES_OF, MAX_MAP_SIDE, MAX_NEW_BANKS, MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_REF, NEW_SHEET_REF, NEW_SHEET_STEM, NEW_TEXT, NO_ERRORS, SIZE_PRESETS,
+  BANK_NAME_ROOM, KIND_GRID, KIND_NAME, KIND_NAMES_OF, MAX_MAP_SIDE, MAX_NEW_BANKS, MAX_SHEET_SPRITES, NEW_FILE_NAME, NEW_FORM_BASE, NEW_LABEL, NEW_MEMORY_DEFAULT, NEW_REF, NEW_SHEET_REF, NEW_SHEET_STEM, NEW_TEXT, NO_ERRORS, SIZE_PRESETS,
 };
