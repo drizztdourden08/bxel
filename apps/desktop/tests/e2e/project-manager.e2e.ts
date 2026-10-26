@@ -2,6 +2,7 @@
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { buildGalleryArtwork } from './support/build-gallery-artwork';
+import { chooseManagerAsset } from './support/choose-manager-asset';
 import { POLL_MS } from './support/e2e.constants';
 import type { Session } from './support/e2e.type';
 import { inFreshPlace } from './support/in-place';
@@ -52,9 +53,7 @@ const listsEveryProject = async (session: Session, place: string): Promise<void>
 
 const offersTheTwoWays = async (session: Session, place: string): Promise<void> => {
   const { sample } = await writeBoth(place);
-  await openProjectAtInUi(session, sample, SAMPLE.name);
-  await openHub(session, 'Project');
-  await assetRow(session, SAMPLE.sprites[1]).click();
+  await chooseManagerAsset(session, sample, SAMPLE.sprites[1]);
   const choice = session.page.getByRole('group', { name: `What to do with ${SAMPLE.sprites[1]}` });
   await choice.getByRole('button', { name: 'Open to edit' }).waitFor();
   await shoot(session, 'a145-manager-choice');
@@ -70,9 +69,7 @@ const offersTheTwoWays = async (session: Session, place: string): Promise<void> 
 
 const changesTheAsset = async (session: Session, place: string): Promise<void> => {
   const { sample } = await writeBoth(place);
-  await openProjectAtInUi(session, sample, SAMPLE.name);
-  await openHub(session, 'Project');
-  await assetRow(session, SAMPLE.sprites[1]).click();
+  await chooseManagerAsset(session, sample, SAMPLE.sprites[1]);
   await session.page.getByRole('button', { name: 'Open in Asset settings' }).click();
   const name = session.page.getByRole('textbox', { name: 'Name' });
   await name.fill('blob');

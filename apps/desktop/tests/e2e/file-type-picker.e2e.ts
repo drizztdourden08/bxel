@@ -11,7 +11,7 @@ const picker = (session: Session) => session.page.getByRole('region', { name: 'N
 const checksPicker = async (session: Session): Promise<void> => {
   await createSprite(session);
   const tabs = session.page.getByRole('tablist', { name: 'Open assets' });
-  await session.page.getByRole('button', { name: 'New file', exact: true }).click();
+  await session.page.getByRole('button', { name: 'New document', exact: true }).click();
   for (const name of FILE_TYPES) await picker(session).getByRole('button', { name, exact: true }).waitFor();
   await picker(session).getByRole('button', { name: 'Palette', exact: true }).click();
   const dialog = session.page.getByRole('dialog', { name: 'New asset' });

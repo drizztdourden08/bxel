@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { focusRegion } from '@drizztdourden08/brock-react';
-import { Box, DocumentTabs, Flex, Icon, IconButton } from '@drizztdourden08/tessera';
+import { Box, DocumentTabs, Flex } from '@drizztdourden08/tessera';
 import { useFileTypePanelStore } from '../../stores/useFileTypePanelStore';
 import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 import { closeTab } from '../../workspace/close-tab';
@@ -32,12 +32,8 @@ const AssetTabs = () => {
           onClose={(tabId) => void closeTab(tabId)}
           onMove={moveTab}
           overflowMenu
+          onAdd={show}
         />
-        <Flex className="asset-tabs__rest">
-          <IconButton variant="ghost" size="sm" label={ASSET_TABS_TEXT.add} active={adding} aria-pressed={adding} onClick={show}>
-            <Icon name="plus" />
-          </IconButton>
-        </Flex>
       </Flex>
     </Box>
   );

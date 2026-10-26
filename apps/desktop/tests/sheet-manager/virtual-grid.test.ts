@@ -55,6 +55,7 @@ describe('the drawn grid of a large sheet', () => {
   it('draws a grid with its name and not every tile', () => {
     const props: SpriteGridProps = {
       model: modelOf(),
+      table: { current: null },
       affected: [],
       box: 48,
       dragFor: () => ({ onDragStart: none, onDragOver: none, onDrop: none }),

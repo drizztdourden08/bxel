@@ -9,17 +9,13 @@
   min-height: var(--size-40);
 }
 
-.sprites-panel__tile,
-.sprites-panel__row {
+.sprites-panel__tile {
   position: relative;
   border: var(--border-width-thin) solid var(--c-border);
   border-radius: var(--radius-md);
   background: var(--c-surface);
   color: var(--c-text);
   cursor: pointer;
-}
-
-.sprites-panel__tile {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,43 +23,25 @@
   padding: var(--space-xs);
 }
 
-.sprites-panel__row,
-.sprites-panel__head {
-  display: grid;
-  grid-template-columns: var(--size-32) minmax(var(--size-64), 1fr) var(--size-56) var(--size-48) var(--size-48) var(--size-40) var(--size-64);
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.sprites-panel__row {
-  padding: var(--space-2xs) var(--space-xs);
-  text-align: start;
-}
-
-.sprites-panel__tile:hover,
-.sprites-panel__row:hover {
+.sprites-panel__tile:hover {
   background: var(--c-hover);
 }
 
-.sprites-panel__tile[aria-selected='true'],
-.sprites-panel__row[aria-selected='true'] {
+.sprites-panel__tile[aria-selected='true'] {
   border-color: var(--c-primary-bright);
   background: var(--c-selected);
 }
 
-.sprites-panel__tile--active,
-.sprites-panel__row--active {
+.sprites-panel__tile--active {
   border-width: var(--border-width-thick);
 }
 
-.sprites-panel__tile--affected,
-.sprites-panel__row--affected {
+.sprites-panel__tile--affected {
   outline: var(--border-width-thin) dashed var(--c-danger);
   outline-offset: var(--size-2);
 }
 
-.sprites-panel__tile--loose,
-.sprites-panel__row--loose {
+.sprites-panel__tile--loose {
   border-style: dashed;
 }
 
@@ -95,34 +73,6 @@
   background: var(--c-surface);
 }
 
-.sprites-panel__head {
-  padding-inline: var(--space-xs);
-}
-
-.sprites-panel__head-cell {
-  min-inline-size: 0;
-}
-
-.sprites-panel__head-sort {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  min-block-size: var(--size-24);
-  min-inline-size: var(--size-24);
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: var(--c-text);
-  cursor: pointer;
-  text-align: start;
-}
-
-.sprites-panel__cell {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .sprites-panel__atlas {
   overflow: auto;
   max-block-size: var(--size-448);
@@ -149,88 +99,13 @@
   min-height: 0;
 }
 
-.sprites-panel__vlist,
-.sprites-panel__list {
-  container: sprites-list / inline-size;
-}
-
-.sprites-panel__vlist {
+.sprites-panel__table {
+  display: flex;
   flex: 1;
-  min-height: var(--size-128);
-}
-
-@container sprites-list (max-width: 420px) {
-  .sprites-panel__row,
-  .sprites-panel__head {
-    grid-template-columns: var(--size-32) minmax(var(--size-64), 1fr) var(--size-56) var(--size-64);
-  }
-
-  .sprites-panel__row > :nth-child(n + 4):nth-child(-n + 6),
-  .sprites-panel__head > :nth-child(n + 4):nth-child(-n + 6) {
-    display: none;
-  }
+  min-block-size: var(--size-128);
 }
 
 .sprites-panel__virtual {
   flex: 1;
   min-height: var(--size-96);
-}
-
-.sprites-panel__rowscroll {
-  position: relative;
-  flex: 1;
-  min-block-size: var(--size-96);
-  overflow: auto;
-  overscroll-behavior: contain;
-  border: var(--border-width-thin) solid var(--c-border);
-  border-radius: var(--radius-md);
-  background: var(--c-bg);
-}
-
-.sprites-panel__rows {
-  position: relative;
-  inline-size: 100%;
-  block-size: calc(var(--sprites-count) * var(--size-40));
-}
-
-.sprites-panel__rows > [role='row'] {
-  position: absolute;
-  inset-block-start: calc(var(--sprites-index) * var(--size-40));
-  inset-inline-start: 0;
-  box-sizing: border-box;
-  inline-size: 100%;
-  block-size: var(--size-40);
-}
-
-.sprites-panel__row:focus-visible {
-  outline: var(--border-width-thick) solid var(--c-focus);
-  outline-offset: calc(-1 * var(--border-width-thick));
-}
-
-.sprites-panel__folder {
-  min-block-size: var(--size-32);
-  padding-inline-start: var(--space-2xs);
-}
-
-.sprites-panel__folder[data-depth='2'] {
-  padding-inline-start: var(--space-md);
-}
-
-.sprites-panel__folder[data-depth='3'] {
-  padding-inline-start: var(--space-lg);
-}
-
-.sprites-panel__folder[data-depth='4'] {
-  padding-inline-start: var(--space-xl);
-}
-
-.sprites-panel__folder-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: var(--c-text);
-  cursor: pointer;
 }

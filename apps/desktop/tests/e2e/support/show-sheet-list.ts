@@ -6,7 +6,7 @@ const showSheetList = async (session: Session): Promise<void> => {
   const list = page.getByRole('radiogroup', { name: 'View', exact: true }).getByRole('radio', { name: 'List view' });
   if (!(await list.isVisible())) await page.getByText('Search, view and filters', { exact: true }).click();
   await list.click();
-  await page.getByRole('grid', { name: 'Sprites', exact: true }).waitFor();
+  await page.getByRole('region', { name: 'Sprites', exact: true }).getByRole('grid').waitFor();
 };
 
 export { showSheetList };
