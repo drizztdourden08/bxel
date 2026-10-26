@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import type { CommandStep } from '@bxel/document';
-import { harness } from './export-harness';
+import { commitSteps, harness } from './export-harness';
 import type { ExportHarness } from './export-harness';
 
 type Created = Readonly<Record<string, string>>;
@@ -22,21 +22,7 @@ const spriteStep = (name: string, options: unknown, sprite: string): CommandStep
   options,
 });
 
-const run = (h: ExportHarness, steps: readonly CommandStep[]): Created => {
-  const view = h.host.view(h.documentId);
-  if (!view) throw new Error('the document is missing');
-  const result = h.host.execute({
-    documentId: h.documentId,
-    baseRevision: view.state.revision,
-    mode: 'commit',
-    origin: 'ui',
-    label: 'Test edit',
-    steps,
-    previewPixels: 0,
-  });
-  if (!result.ok) throw new Error(`${result.error.code}: ${result.error.message}`);
-  return result.created;
-};
+const run = (h: ExportHarness, steps: readonly CommandStep[]): Created => commitSteps(h, 'Test edit', steps);
 
 const grid = (width: number, height: number, points: readonly (readonly [number, number, number])[]) => {
   const pixels = new Uint8Array(width * height);
