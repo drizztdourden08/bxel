@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
+import type { SheetFlavour } from '@bxel/formats';
 import type { DocumentDialogOptions, JobStepDef } from '@drizztdourden08/brock-core';
 import type { AnimationFormat, ExportKind, ExportResult, ExportSettings, IndexedStatus, SavedPreset, SpriteChoice } from './export.type';
 
@@ -25,6 +26,8 @@ const DEFAULT_EXPORT_SETTINGS: ExportSettings = {
   pageSide: 0,
   sheetId: '',
   flavour: 'bxel',
+  mergeFrames: true,
+  animationId: '',
   mapFormat: 'bxel',
   folder: '',
   fileName: '',
@@ -70,6 +73,13 @@ const IMAGE_EXTENSION = /\.(png|gif|apng|json|tmj)$/i;
 
 const EXPORT_FALLBACK_NAME = 'export';
 
+const SHEET_JSON_EXTENSION: Readonly<Record<SheetFlavour, string>> = {
+  bxel: '.json',
+  hash: '.json',
+  array: '.json',
+  tiled: '.tsj',
+};
+
 const EXPORT_TEXT = {
   noSprite: 'This file has no sprite to export.',
   noSheetSprites: 'The sheet has no sprites to export.',
@@ -79,6 +89,16 @@ const EXPORT_TEXT = {
   unknownReason: 'The cause is unknown',
   needApproval: 'Approve the combined palette to export an indexed PNG.',
   noFiles: 'There is nothing to export with these settings.',
+  noAnimation: 'The animation to export is not in this file.',
+  noAnimationPalette: (name: string): string => `Animation ${name} has no palette to export.`,
+  noAnimationTag: (name: string): string => `Animation ${name} has no such tag.`,
+  noClip: (name: string, tag: string): string =>
+    `Animation ${name} has no tag named ${tag}. Choose another tag or all frames.`,
+  indexedSheetAnimations: 'Indexed PNG is off: this sheet holds animations. Export RGBA PNG.',
+  tiledSheetNote:
+    'A Tiled tileset uses a grid without trim, rotation or extrusion. Every frame keeps its own tile, so identical frames are not merged.',
+  clipNote: (count: number): string =>
+    count === 1 ? 'One file for the animation.' : `One file for each of the ${count} tags and facings.`,
   noTag: (sprite: string, tag: string): string => `Sprite ${sprite} has no tag named ${tag}. Choose another tag or all frames.`,
   noFrames: (sprite: string): string => `Sprite ${sprite} has no frames to export.`,
   clash: (name: string): string => `Two files would be named ${name}. Rename a sprite or change the file name.`,
@@ -179,6 +199,7 @@ export {
   NO_PRESETS,
   NO_SPRITES,
   PREVIEW_MIME,
+  SHEET_JSON_EXTENSION,
   TRAILING_SEPARATORS,
   TRANSPARENT_RGBA,
   UNSAFE_NAME_CHARS,

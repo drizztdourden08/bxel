@@ -1,9 +1,10 @@
 /* @layer renderer-app @kind logic */
-import type { Tilemap, Tileset } from '@bxel/document';
-import type { TilemapExportInput, TilesetImage } from '@bxel/formats';
+import type { TilemapExportInput } from '@bxel/formats';
+import type { MapPick } from './export.type';
+import type { TileHeld } from './export-parts.type';
 import { MAP_EXPORT } from './map-export.constants';
 
-const mapExportInput = (tilemap: Tilemap, tileset: Tileset, sheet: TilesetImage, imageName: string): TilemapExportInput => ({
+const mapExportInput = ({ tilemap, tileset }: MapPick, held: TileHeld): TilemapExportInput => ({
   name: tilemap.name,
   columns: tilemap.columns,
   rows: tilemap.rows,
@@ -12,14 +13,15 @@ const mapExportInput = (tilemap: Tilemap, tileset: Tileset, sheet: TilesetImage,
   ...(tilemap.orientation ? { orientation: tilemap.orientation } : {}),
   tileset: {
     name: tileset.name,
-    image: imageName,
-    imageWidth: sheet.image.width,
-    imageHeight: sheet.image.height,
-    columns: sheet.columns,
+    image: held.imageName,
+    imageWidth: held.sheet.image.width,
+    imageHeight: held.sheet.image.height,
+    columns: held.sheet.columns,
     spacing: MAP_EXPORT.spacing,
     margin: MAP_EXPORT.margin,
     ...(tileset.terrain ? { terrain: tileset.terrain } : {}),
-    tiles: sheet.tiles.map((placement) => {
+    ...(held.animations.length > 0 ? { animations: held.animations } : {}),
+    tiles: held.sheet.tiles.map((placement) => {
       const collision = tileset.tiles.find((tile) => tile.key === placement.key)?.collision;
       return collision ? { ...placement, collision } : placement;
     }),

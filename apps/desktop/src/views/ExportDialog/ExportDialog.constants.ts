@@ -20,6 +20,8 @@ const EXPORT_DIALOG_TEXT = {
   rotateHint: 'Rotation works with a packed layout.',
   trim: 'Trim transparent edges',
   powerOfTwo: 'Power of two size',
+  mergeFrames: 'Merge identical frames',
+  mergeFramesHint: 'Identical frames share one picture on the sheet. A Tiled tileset keeps every frame.',
   pageSide: 'Largest page side in pixels',
   pageSideHint: '0 keeps one page. A bigger sheet is split over several pages.',
   onSheet: (name: string): string => `On sheet ${name}`,
@@ -87,7 +89,9 @@ const LAYOUT_OPTIONS: { value: LayoutChoice; label: string }[] = [
 
 const FLAVOUR_OPTIONS = [
   { value: 'bxel', label: 'Bxel' },
-  { value: 'hash', label: 'Hash' },
+  { value: 'hash', label: 'Aseprite hash' },
+  { value: 'array', label: 'TexturePacker array' },
+  { value: 'tiled', label: 'Tiled tileset' },
 ] as const;
 
 const COLOUR_OPTIONS: { value: ColourMode; label: string }[] = [

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { sheetExtent } from '@bxel/document';
 import { nextPowerOfTwo } from '@bxel/formats';
-import type { PackedPage, SheetCell } from '@bxel/formats';
+import type { PackedItem, PackedPage, SheetCell } from '@bxel/formats';
 import { atlasHeld } from './atlas-held';
 import { EMPTY_ATLAS } from './atlas-model.constants';
 import { atlasPlan } from './atlas-plan';
@@ -21,7 +21,8 @@ const itemOf = ({ sprite, at, source }: AtlasHeld): AtlasItem => ({
 });
 
 const finish = (size: { width: number; height: number }, items: readonly AtlasItem[], pages: { page: number; pageCount: number }): AtlasModel => {
-  const used = items.reduce((sum, item) => sum + item.width * item.height, 0);
+  const shared = new Map(items.map((item) => [`${item.x},${item.y},${item.width},${item.height}`, item.width * item.height]));
+  const used = [...shared.values()].reduce((sum, area) => sum + area, 0);
   const total = size.width * size.height;
   return { ...size, items, used, empty: total === 0 ? 0 : Math.max(0, 1 - used / total), failure: null, ...pages };
 };
@@ -36,13 +37,17 @@ const manualModel = ({ sheet, artwork, powerOfTwo }: AtlasInput): AtlasModel => 
 
 const pageItems = (planned: Extract<AtlasPlanned, { ok: true }>, page: PackedPage): AtlasItem[] => {
   const cells: SheetCell[] = page.groups.flatMap((group) => planned.plan.cells.filter((cell) => cell.spriteIndex === group));
-  return page.packed.items.flatMap((packed, at) => {
-    const cell = cells[at];
-    const sprite = cell ? planned.targets[cell.spriteIndex]?.sprite : undefined;
-    if (!cell || !sprite) return [];
+  const placed = new Map<string, PackedItem>();
+  let next = 0;
+  return cells.flatMap((cell) => {
+    const sprite = planned.targets[cell.spriteIndex]?.sprite;
+    const own = cell.twin === undefined ? page.packed.items[next] : placed.get(`${cell.spriteIndex}:${cell.twin}`);
+    if (cell.twin === undefined) next += 1;
+    if (!own || !sprite) return [];
+    placed.set(`${cell.spriteIndex}:${cell.frameIndex}`, own);
     const { image, offsetX, offsetY } = cell.trimmed;
     const source = { x: offsetX, y: offsetY, width: image.width, height: image.height };
-    const { x, y, width, height, rotated } = packed;
+    const { x, y, width, height, rotated } = own;
     return [{ id: sprite.id, name: sprite.name, frame: cell.frameIndex, x, y, width, height, rotated, pivot: sprite.pivot, source }];
   });
 };

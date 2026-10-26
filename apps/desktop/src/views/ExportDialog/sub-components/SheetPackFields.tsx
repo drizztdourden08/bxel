@@ -11,6 +11,14 @@ const SheetPackFields = ({ settings, change }: FieldsProps) => (
       <Checkbox size="sm" label={EXPORT_DIALOG_TEXT.powerOfTwo} checked={settings.powerOfTwo} onChange={(powerOfTwo) => change({ powerOfTwo })} />
       <Checkbox
         size="sm"
+        label={EXPORT_DIALOG_TEXT.mergeFrames}
+        title={EXPORT_DIALOG_TEXT.mergeFramesHint}
+        disabled={settings.flavour === 'tiled'}
+        checked={settings.mergeFrames && settings.flavour !== 'tiled'}
+        onChange={(mergeFrames) => change({ mergeFrames })}
+      />
+      <Checkbox
+        size="sm"
         label={EXPORT_DIALOG_TEXT.rotate}
         disabled={settings.layout !== 'packed'}
         title={EXPORT_DIALOG_TEXT.rotateHint}
