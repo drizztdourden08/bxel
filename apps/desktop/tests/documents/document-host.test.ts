@@ -89,6 +89,10 @@ describe('DocumentHost transactions', () => {
     expect(host.view(documentId)?.clean).toBe(true);
     expect(host.undo(documentId).ok).toBe(true);
     expect(host.view(documentId)?.clean).toBe(false);
+    expect(host.redo(documentId).ok).toBe(true);
+    expect(host.view(documentId)?.clean).toBe(true);
+    expect(host.markUnsaved(documentId)).toBe(true);
+    expect(host.view(documentId)).toMatchObject({ clean: false, canUndo: true });
   });
 
 });
@@ -165,6 +169,7 @@ describe('DocumentHost missing documents', () => {
     const result = host.undo(documentId);
     expect(result.ok ? null : result.error.code).toBe('DOCUMENT_NOT_FOUND');
     expect(host.markSaved(documentId)).toBe(false);
+    expect(host.markUnsaved(documentId)).toBe(false);
   });
 
   it('reports a rejected artwork without opening a document', () => {
