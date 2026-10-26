@@ -3,23 +3,25 @@ import type { RefObject } from 'react';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import type { CanvasTools } from './canvas-tools.type';
 import { useAxisDrag } from './useAxisDrag';
+import { useGuideGrab } from './useGuideGrab';
 import { usePaintGesture } from './usePaintGesture';
 import { useSelectGesture } from './useSelectGesture';
 
 const useCanvasTools = (viewport: RefObject<PixelViewportHandle | null>): CanvasTools => {
   const paint = usePaintGesture(viewport);
+  const guide = useGuideGrab(viewport);
   const axis = useAxisDrag(viewport);
   const select = useSelectGesture(viewport);
   return {
     live: paint.live,
     onPointerDown: (event) => {
-      if (!axis.down(event) && !select.down(event)) paint.down(event);
+      if (!guide.down(event) && !axis.down(event) && !select.down(event)) paint.down(event);
     },
     onPointerMove: (event) => {
-      if (!axis.move(event) && !select.move(event)) paint.move(event);
+      if (!guide.move(event) && !axis.move(event) && !select.move(event)) paint.move(event);
     },
     onPointerUp: () => {
-      if (!axis.up() && !select.up()) paint.up();
+      if (!guide.up() && !axis.up() && !select.up()) paint.up();
     },
   };
 };

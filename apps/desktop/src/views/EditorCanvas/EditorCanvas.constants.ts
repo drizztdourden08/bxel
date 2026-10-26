@@ -37,6 +37,7 @@ const MENU_TOOLS: readonly string[] = ['hand', 'select', 'move'];
 
 const OVERLAY_TOKENS = {
   axis: '--c-tertiary',
+  guide: '--c-info',
   cursor: '--c-danger',
   ink: '--c-primary',
   ground: '--c-sunken',
@@ -56,6 +57,8 @@ const ANT_STEP_MS = 90;
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
+const GUIDE_ALPHA = 0.85;
+
 const AXIS_GRAB = { across: 6, along: 14 } as const;
 
 const AXIS_DASH: readonly number[] = [4, 3];
@@ -63,6 +66,6 @@ const AXIS_DASH: readonly number[] = [4, 3];
 const AXIS_GRIP = 5;
 
 export {
-  ANT_DASH, ANT_PERIOD, ANT_STEP_MS, AREA_FILL_ALPHA, AREA_LINE, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, CANVAS_MENU, EDITOR_CANVAS_TEXT, MENU_TOOLS, OUTLINE_PATHS, OVERLAY_TOKENS,
+  ANT_DASH, ANT_PERIOD, ANT_STEP_MS, AREA_FILL_ALPHA, AREA_LINE, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, CANVAS_MENU, EDITOR_CANVAS_TEXT, GUIDE_ALPHA, MENU_TOOLS, OUTLINE_PATHS, OVERLAY_TOKENS,
   REDUCED_MOTION,
 };

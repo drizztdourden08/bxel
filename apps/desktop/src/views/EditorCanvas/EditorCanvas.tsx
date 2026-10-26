@@ -18,6 +18,7 @@ import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasKeys } from './behavior/useCanvasKeys';
 import { useCanvasTools } from './behavior/useCanvasTools';
 import { useCommittedImage } from './behavior/useCommittedImage';
+import { useGuideRedraw } from './behavior/useGuideRedraw';
 import { useEscapeCancel } from './behavior/useEscapeCancel';
 import { useMarchingAnts } from './behavior/useMarchingAnts';
 import { usePendingImage } from './behavior/usePendingImage';
@@ -49,6 +50,7 @@ const EditorCanvas = () => {
   useViewportBridge(viewport, target !== null);
   useMarchingAnts(viewport);
   useAreaRedraw(viewport);
+  useGuideRedraw(viewport, target);
   useSyncPending(target);
   useEscapeCancel();
   if (!target) return <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;

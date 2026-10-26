@@ -6,6 +6,7 @@ import { overlayLook } from './overlay-look';
 import { paintAreas } from './paint-areas';
 import { paintAxes } from './paint-axes';
 import { paintCursor } from './paint-cursor';
+import { paintGuides } from './paint-guides';
 import { paintOnion } from './paint-onion';
 import { paintSelection } from './paint-selection';
 
@@ -15,6 +16,7 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   paintOnion(ctx);
   paintAreas(ctx, view, look);
   paintSelection(ctx, view, look);
+  paintGuides(ctx, view, look);
   paintAxes(ctx, view, symmetry, look);
   paintCursor(ctx, view, symmetry, look);
 };
