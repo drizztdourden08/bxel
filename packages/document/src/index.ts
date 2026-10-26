@@ -197,3 +197,4 @@ export * from './preset/index';
 export * from './tilemap/index';
 export * from './scope/index';
 export * from './workspace/index';
+export * from './animation/index';

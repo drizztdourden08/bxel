@@ -6,7 +6,7 @@ const TILEMAP_PATH = 'artwork.tilemaps';
 const SPRITE_PREFIX = 'sprite:';
 const SHELL_PREFIX = 'shell:';
 const CEL_PREFIX = 'cel:';
-const COLLECTION_KEYS = ['banks', 'sheets', 'presets', 'tilesets', 'tilemaps'] as const;
+const COLLECTION_KEYS = ['banks', 'sheets', 'presets', 'tilesets', 'tilemaps', 'animations'] as const;
 const SHELL_KEYS = ['name', 'role', 'bankId', 'width', 'height', 'pivot', 'platformId', 'platformStrict', 'pixelGrid', 'layers', 'frames', 'tags', 'slices'] as const;
 
 export { CEL_PREFIX, COLLECTION_KEYS, COLLECTION_PREFIX, META_PATH, ORDER_PATH, SHELL_KEYS, SHELL_PREFIX, SPRITE_PREFIX, TILEMAP_PATH };

@@ -15,6 +15,8 @@ const ID_PREFIX = {
   tileset: 'tls',
   tile: 'til',
   tilemap: 'tlm',
+  animation: 'anm',
+  animFrame: 'afr',
   mapLayer: 'tml',
   document: 'doc',
 } as const;

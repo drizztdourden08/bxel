@@ -1,4 +1,5 @@
 /* @layer core @kind types */
+import type { Animation } from './animation.type';
 import type { ExportPreset } from './export-preset.type';
 import type { BankId, DocumentId, ArtworkId, SpriteId } from './ids.type';
 import type { PaletteBank } from './palette.type';
@@ -19,6 +20,7 @@ type Artwork = {
   readonly presets: readonly ExportPreset[];
   readonly tilesets: readonly Tileset[];
   readonly tilemaps: readonly Tilemap[];
+  readonly animations: readonly Animation[];
 };
 
 type DocumentState = {

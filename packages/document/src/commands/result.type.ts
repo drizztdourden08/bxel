@@ -1,6 +1,7 @@
 /* @layer core @kind types */
 import type { Rect } from '../model/geometry.type';
 import type {
+  AnimationId,
   BankId,
   CelId,
   FrameId,
@@ -38,6 +39,7 @@ type ChangeSet = {
   readonly presets: readonly EntityChange<PresetId>[];
   readonly tilesets: readonly EntityChange<TilesetId>[];
   readonly tilemaps: readonly EntityChange<TilemapId>[];
+  readonly animations: readonly EntityChange<AnimationId>[];
 };
 
 type PreviewCel = CelChange & { readonly pixels: Uint8Array };

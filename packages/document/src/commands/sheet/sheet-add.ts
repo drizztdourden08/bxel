@@ -23,7 +23,7 @@ const sheetAdd = defineCommand({
     }
     for (const [index, spriteId] of input.sprites.entries()) {
       const sprite = requireSprite(draft.artwork, spriteId);
-      if (sprite.role === 'tile') throw fail(ERROR_CODE.INVALID_OPTION, `Sprite "${sprite.name}" is a tile and cannot be on a sheet.`);
+      if (sprite.role !== 'sprite') throw fail(ERROR_CODE.INVALID_OPTION, `Sprite "${sprite.name}" belongs to a tileset or an animation and cannot be on a sheet.`);
       if (hasSheetEntry(requireSheet(draft.artwork, sheet.id), spriteId)) {
         throw fail(ERROR_CODE.INVALID_OPTION, `Sprite "${sprite.name}" is already on sheet "${sheet.name}".`);
       }

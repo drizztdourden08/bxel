@@ -52,6 +52,22 @@ import { mapLayerAdd } from './map-layer/map-layer-add';
 import { mapLayerDelete } from './map-layer/map-layer-delete';
 import { mapLayerReorder } from './map-layer/map-layer-reorder';
 import { mapLayerUpdate } from './map-layer/map-layer-update';
+import { animationCreate } from './animation/animation-create';
+import { animationUpdate } from './animation/animation-update';
+import { animationDelete } from './animation/animation-delete';
+import { animationDuplicate } from './animation/animation-duplicate';
+import { animationFrameAdd } from './animation/animation-frame-add';
+import { animationFrameUpdate } from './animation/animation-frame-update';
+import { animationFrameDelete } from './animation/animation-frame-delete';
+import { animationFrameReorder } from './animation/animation-frame-reorder';
+import { animationFrameOwn } from './animation/animation-frame-own';
+import { animationFrameRelease } from './animation/animation-frame-release';
+import { animationTagAdd } from './animation/animation-tag-add';
+import { animationTagUpdate } from './animation/animation-tag-update';
+import { animationTagDelete } from './animation/animation-tag-delete';
+import { animationDirections } from './animation/animation-directions';
+import { animationSplit } from './animation/animation-split';
+import { tileAnimation } from './tile/tile-animation';
 import { tileAdd } from './tile/tile-add';
 import { tileCollision } from './tile/tile-collision';
 import { tileDelete } from './tile/tile-delete';
@@ -119,6 +135,22 @@ const documentCommands: readonly CommandDef[] = [
   tileDelete,
   tileUnique,
   tileCollision,
+  animationCreate,
+  animationUpdate,
+  animationDelete,
+  animationDuplicate,
+  animationFrameAdd,
+  animationFrameUpdate,
+  animationFrameDelete,
+  animationFrameReorder,
+  animationFrameOwn,
+  animationFrameRelease,
+  animationTagAdd,
+  animationTagUpdate,
+  animationTagDelete,
+  animationDirections,
+  animationSplit,
+  tileAnimation,
   tilesetTerrain,
   tilemapCreate,
   tilemapUpdate,

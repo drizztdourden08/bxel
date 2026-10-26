@@ -167,6 +167,7 @@ const fixtureToArtwork = (fixture: ArtworkFixture): Artwork => ({
   presets: fixture.presets.map(toPreset),
   tilesets: [],
   tilemaps: [],
+  animations: [],
 });
 
 export { brand, fixtureToArtwork };

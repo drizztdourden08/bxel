@@ -5,12 +5,13 @@ import { fail } from '../commands/fail';
 import type { Draft } from '../draft/draft.type';
 import type { Artwork } from '../model/artwork.type';
 import type { Sprite } from '../model/sprite.type';
-import type { Tileset } from '../model/tilemap.type';
+import type { Tile, Tileset } from '../model/tilemap.type';
 import { findSprite } from '../read/find-sprite';
 import { collisionIssue } from '../read/collision-issue';
 import { findTileset } from '../read/find-tileset';
 import { orientationIssue } from '../read/orientation-issue';
 import { terrainIssue } from '../read/terrain-issue';
+import { tileAnimationIssue } from '../read/tile-animation-issue';
 import { cellKey } from '../tilemap/cell-key';
 
 const broken = (message: string): CommandFailure => fail(ERROR_CODE.REFERENCE_BROKEN, message);
@@ -20,6 +21,11 @@ const fits = (sprite: Sprite, tileset: Tileset): boolean =>
   sprite.width === tileset.tileWidth &&
   sprite.height === tileset.tileHeight &&
   sprite.bankId === tileset.bankId;
+
+const tileIssue = (artwork: Artwork, tileset: Tileset, tile: Tile): string | null => {
+  const shape = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
+  return shape ?? tileAnimationIssue(artwork, tileset, tile);
+};
 
 const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
   const keys = new Set<number>();
@@ -31,7 +37,7 @@ const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
     if (keys.has(tile.key) || tile.key >= tileset.nextKey) {
       throw broken(`Tile key ${tile.key} of tileset "${tileset.name}" is not unique or not issued.`);
     }
-    const issue = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
+    const issue = tileIssue(artwork, tileset, tile);
     if (issue !== null) throw broken(`Tile ${tile.key} of tileset "${tileset.name}": ${issue}`);
     keys.add(tile.key);
   }
@@ -61,7 +67,7 @@ const checkMaps = (draft: Draft): void => {
 const checkTiles = (draft: Draft): void => {
   const { artwork, base } = draft;
   if (artwork.tilesets.length === 0 && artwork.tilemaps.length === 0) return;
-  if (artwork.sprites !== base.sprites || artwork.tilesets !== base.tilesets) {
+  if (artwork.sprites !== base.sprites || artwork.tilesets !== base.tilesets || artwork.animations !== base.animations) {
     for (const tileset of artwork.tilesets) checkTileset(artwork, tileset);
   }
   if (artwork.tilemaps !== base.tilemaps || artwork.tilesets !== base.tilesets) checkMaps(draft);
