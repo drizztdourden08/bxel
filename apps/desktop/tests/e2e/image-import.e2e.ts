@@ -6,6 +6,7 @@ import { BLOCKS } from './support/blocks.constants';
 import { SHORTCUT } from './support/e2e.constants';
 import type { Session } from './support/e2e.type';
 import { flatIndices } from './support/flat-indices';
+import { nothingToUndo } from './support/nothing-to-undo';
 import { openAssetTab } from './support/open-asset-tab';
 import { openSession } from './support/open-session';
 import { readSaved } from './support/read-saved';
@@ -43,7 +44,7 @@ describe('check 2: a PNG with more than 16 colours is reduced to the palette', (
     const dialog = await wizardFor(session, state.png ?? '');
     await dialog.getByRole('button', { name: 'Cancel' }).click();
     await dialog.waitFor({ state: 'detached' });
-    expect(await session.page.getByRole('button', { name: 'Nothing to undo' }).count()).toBe(1);
+    expect(await nothingToUndo(session)).toBe(1);
     expect(await session.page.getByText('sprite.bxsprite - Bxel').count()).toBe(1);
     await waitSaved(session);
   });
