@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { ID_PREFIX } from '../ids/id-prefix.constants';
-import type { BankId, SpriteId, TileId, TilesetId } from '../model/ids.type';
+import type { AnimationId, BankId, SpriteId, TagId, TileId, TilesetId } from '../model/ids.type';
 import { MAX_SPRITE_SIZE, MIN_SPRITE_SIZE } from '../model/limits.constants';
 import { brandedIdSchema } from './branded-id-schema';
 import { collisionSchema } from './collision-schema';
@@ -12,11 +12,18 @@ import { MAX_TILE_KEY } from './tileset-schema.constants';
 
 const sizeSchema = z.number().int().min(MIN_SPRITE_SIZE).max(MAX_SPRITE_SIZE);
 
+const tilePlaySchema = z.object({
+  animationId: brandedIdSchema<AnimationId>(ID_PREFIX.animation),
+  tagId: brandedIdSchema<TagId>(ID_PREFIX.tag).nullable(),
+  start: z.enum(['together', 'random']),
+});
+
 const tileSchema = z.object({
   id: brandedIdSchema<TileId>(ID_PREFIX.tile),
   key: z.number().int().min(1).max(MAX_TILE_KEY),
   spriteId: brandedIdSchema<SpriteId>(ID_PREFIX.sprite),
   collision: collisionSchema.optional(),
+  animation: tilePlaySchema.optional(),
 });
 
 const tilesetSchema = z.object({

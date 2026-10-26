@@ -16,7 +16,11 @@ const sliceSheet = (context: SliceContext, id: string): AssetSlice => {
     id,
     name: sheet.name,
     artwork: { sheets: [sheet], presets },
-    links: linkTo(context, [...sheet.entries.map((entry) => entry.spriteId), ...exported]),
+    links: linkTo(context, [
+      ...sheet.entries.map((entry) => entry.spriteId),
+      ...(sheet.animationEntries ?? []).map((entry) => entry.animationId),
+      ...exported,
+    ]),
   };
 };
 

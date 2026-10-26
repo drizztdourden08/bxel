@@ -1,8 +1,11 @@
 /* @layer core @kind config */
-const ASSET_FORMAT_VERSION = 2;
-const ASSET_MIN_READER_VERSION = 2;
+const ASSET_BASE_VERSION = 2;
+const ASSET_ANIMATED_VERSION = 3;
+const ASSET_FORMAT_VERSION = 3;
+const ASSET_MIN_READER_VERSION = ASSET_BASE_VERSION;
 const ASSET_DOCUMENT_ENTRY = {
   sprite: 'sprite.json',
+  animation: 'animation.json',
   sheet: 'sheet.json',
   palette: 'palette.json',
   tileset: 'tileset.json',
@@ -16,6 +19,8 @@ const JSON_INDENT = 2;
 const LEGACY_FILE_MESSAGE = 'This is an older Bxel file (.bxel). Open it as a project or split it into assets.';
 
 export {
+  ASSET_ANIMATED_VERSION,
+  ASSET_BASE_VERSION,
   ASSET_DOCUMENT_ENTRY,
   ASSET_FORMAT_VERSION,
   ASSET_MIN_READER_VERSION,
