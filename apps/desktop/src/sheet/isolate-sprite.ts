@@ -4,14 +4,19 @@ import { useSpriteStore } from '../stores/useSpriteStore';
 import { busy } from './busy';
 import { chooseSprites } from './choose-sprites';
 import { currentScene } from './current-scene';
+import type { SpriteScene } from './sheet.type';
+
+const keptSelection = (scene: SpriteScene, wanted: SpriteId): SpriteId[] => {
+  const picked = scene.selected.map((sprite) => sprite.id);
+  return picked.length > 1 && picked.includes(wanted) ? picked : [wanted];
+};
 
 const isolateSprite = (id?: SpriteId): void => {
   const scene = currentScene();
   if (!scene || busy()) return;
   const wanted = id ?? scene.active?.id ?? scene.selected[0]?.id;
   if (wanted === undefined) return;
-  const several = id === undefined && scene.selected.length > 1 && scene.selected.some((sprite) => sprite.id === wanted);
-  chooseSprites({ selected: several ? scene.selected.map((sprite) => sprite.id) : [wanted], anchor: wanted, active: wanted });
+  chooseSprites({ selected: id === undefined ? keptSelection(scene, wanted) : [wanted], anchor: wanted, active: wanted });
   useSpriteStore.getState().setMode('sprite', true);
 };
 

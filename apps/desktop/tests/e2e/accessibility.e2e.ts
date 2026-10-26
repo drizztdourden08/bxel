@@ -14,6 +14,7 @@ import { expectAccessible } from './support/expect-accessible';
 import { inFreshPlace } from './support/in-place';
 import { openFile } from './support/open-file';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
+import { openSheetTab } from './support/open-sheet-tab';
 import { openSession } from './support/open-session';
 import { openTilemapRig } from './support/open-tilemap-rig';
 import { SAMPLE } from './support/sample.constants';
@@ -79,7 +80,7 @@ const checksProject = async (session: Session, place: string): Promise<void> => 
   await expectAccessible(session, 'Project panel, Assets view');
   await showPanelView(session, 'Folders');
   await expectAccessible(session, 'Project panel, Folders view');
-  await session.page.getByRole('toolbar', { name: 'Canvas' }).getByRole('button', { name: 'Sheet', exact: true }).click();
+  await openSheetTab(session, SAMPLE.sheets[0]);
   await expectAccessible(session, 'Sheet mode with the sheet manager');
   await showSheetList(session);
   await expectAccessible(session, 'Sheet manager, list view');
@@ -89,7 +90,7 @@ const checksLongList = async (session: Session, place: string): Promise<void> =>
   const root = join(place, 'Long');
   await writeSampleProject(root, buildManyAssets(LONG_LIST), SAMPLE.name);
   await openProjectAtInUi(session, root, SAMPLE.name);
-  await session.page.getByRole('toolbar', { name: 'Canvas' }).getByRole('button', { name: 'Sheet', exact: true }).click();
+  await openSheetTab(session, 'sh001');
   await showSheetList(session);
   await expectAccessible(session, 'Sheet manager, long list view');
 };

@@ -13,6 +13,7 @@ const WIDGET_BUTTONS = ['Timeline options', 'Close Timeline', 'Tileset options',
 
 const A11Y_KNOWN_GAPS: readonly A11yGap[] = [
   { rule: 'target-size', target: 'corner"]', owner: 'Tessera', why: CORNER_WHY },
+  { rule: 'target-size', target: '.dock-corner--row', owner: 'Tessera', why: CORNER_WHY },
   ...WIDGET_BUTTONS.map((name) => ({ rule: 'target-size', target: `"${name}"`, owner: 'Tessera', why: CORNER_WHY })),
 ];
 

@@ -1,14 +1,10 @@
 /* @layer renderer-app @kind test */
-import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
-import { buildSampleArtwork } from './support/build-sample-artwork';
 import type { Session } from './support/e2e.type';
 import { inFreshPlace } from './support/in-place';
-import { openProjectAtInUi } from './support/open-project-at-in-ui';
+import { openSampleSheet } from './support/open-sample-sheet';
 import { openSession } from './support/open-session';
-import { SAMPLE } from './support/sample.constants';
 import { showSheetList } from './support/show-sheet-list';
-import { writeSampleProject } from './support/write-sample-project';
 
 const gridOf = (session: Session) => session.page.getByRole('grid', { name: 'Sprites', exact: true });
 
@@ -16,10 +12,7 @@ const selected = (session: Session, name: string): Promise<string | null> =>
   gridOf(session).getByRole('row', { name: new RegExp(`^${name}`) }).getAttribute('aria-selected');
 
 const checksKeys = async (session: Session, place: string): Promise<void> => {
-  const root = join(place, 'Sample');
-  await writeSampleProject(root, buildSampleArtwork(), SAMPLE.name);
-  await openProjectAtInUi(session, root, SAMPLE.name);
-  await session.page.getByRole('toolbar', { name: 'Canvas' }).getByRole('button', { name: 'Sheet', exact: true }).click();
+  await openSampleSheet(session, place);
   await showSheetList(session);
   const grid = gridOf(session);
   await grid.getByRole('columnheader', { name: 'Name' }).waitFor();

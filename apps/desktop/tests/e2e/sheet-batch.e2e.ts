@@ -7,6 +7,7 @@ import { flipGrid } from './support/flip-grid';
 import { openSheetRig, PART_NAMES } from './support/open-sheet-rig';
 import { PADDED_MARKS, PADDED_SHEET } from './support/padded-sheet.constants';
 import { pickSwatch } from './support/pick-swatch';
+import { runMenu } from './support/run-menu';
 import type { SheetRig } from './support/sheet-rig.type';
 import { turnGrid } from './support/turn-grid';
 import { useRig } from './support/use-rig';
@@ -49,11 +50,17 @@ const slicesTheGrid = async (rig: SheetRig): Promise<void> => {
   expect(new Set(held.start.map((part) => part.join(','))).size).toBe(PART_NAMES.length);
 };
 
+const isolateAll = async (rig: SheetRig): Promise<void> => {
+  await selectAll(rig);
+  await rig.session.page.getByRole('button', { name: 'Sprites: 3 selected' }).waitFor();
+  await runMenu(rig.session, [/^Sheet$/, /^Isolate sprite/]);
+};
+
+const backToSheet = (rig: SheetRig): Promise<void> => runMenu(rig.session, [/^Sheet$/, /^Back to sheet/]);
+
 const paintsOneSharedStroke = async (rig: SheetRig): Promise<void> => {
   const { page } = rig.session;
-  await selectAll(rig);
-  await page.getByRole('button', { name: 'Sprites: 3 selected' }).waitFor();
-  await page.keyboard.press('Alt+1');
+  await isolateAll(rig);
   await page.keyboard.press('Alt+b');
   await page.getByText('Painting 3 sprites').waitFor();
   await pickSwatch(rig.session, INK);
@@ -68,7 +75,8 @@ const flipsAndTurnsAsOneStepEach = async (rig: SheetRig): Promise<void> => {
   await same(rig, held.stroked.map((part) => flipGrid(part, SIDE)));
   await page.keyboard.press(SHORTCUT.undo);
   await same(rig, held.stroked);
-  await selectAll(rig);
+  await backToSheet(rig);
+  await isolateAll(rig);
   await applyTransform(rig.session, 'Rotate 90 clockwise');
   await same(rig, held.stroked.map((part) => turnGrid(part, SIDE)));
   await page.keyboard.press(SHORTCUT.undo);
