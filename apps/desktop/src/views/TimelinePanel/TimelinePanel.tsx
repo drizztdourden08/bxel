@@ -2,6 +2,7 @@
 import { useId, useMemo } from 'react';
 import { commandZone } from '@drizztdourden08/brock-react';
 import { Box, Disclosure, Divider, Flex, Text } from '@drizztdourden08/tessera';
+import { ADD_TEXT } from '../../add-frames/add-frames.constants';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
 import { useAnimationFocus } from '../../hooks/useAnimationFocus';
 import { useTimelineStore } from '../../stores/useTimelineStore';
@@ -69,7 +70,7 @@ const TimelinePanel = () => {
           <OnionControls />
         </Disclosure>
       </Disclosure>
-      <Box id={hintId} className="visually-hidden">{`${TIMELINE_TEXT.playHint} ${TIMELINE_TEXT.moveHint} ${TIMELINE_TEXT.stripHint}`}</Box>
+      <Box id={hintId} className="visually-hidden">{`${TIMELINE_TEXT.playHint} ${TIMELINE_TEXT.moveHint} ${TIMELINE_TEXT.stripHint} ${ADD_TEXT.dropHint}`}</Box>
     </Box>
   );
 };

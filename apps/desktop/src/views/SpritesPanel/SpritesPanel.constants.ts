@@ -5,12 +5,13 @@ import { DIALOG_COMMAND } from '../../keymap/dialog-command-id.constants';
 import { SHEET_COMMAND } from '../../keymap/sheet-command-id.constants';
 import { FOLDER_TEXT } from '../../sheet-manager/folder-text.constants';
 import { MANAGER_TEXT } from '../../sheet-manager/manager-text.constants';
+import { SPRITE_DRAG_TYPE } from '../../sheet/sprite-drag.constants';
 import type { HintSpec } from '../ActionHint';
 import type { ListRow } from './SpritesPanel.type';
 
 const NO_SPRITES: readonly SpriteId[] = [];
 
-const DRAG_TYPE = 'application/x-bxel-sprite';
+const DRAG_TYPE = SPRITE_DRAG_TYPE;
 
 const ANY_SIZE = 'any';
 

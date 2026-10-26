@@ -46,6 +46,8 @@ const ADD_TEXT = {
   willAddSprites: (frames: number): string => (frames === 1 ? '1 frame will be added.' : `${frames} frames will be added.`),
   pickOne: 'Pick at least one sprite.',
   unavailable: 'Open an animation first.',
+  notDroppable: 'Only a sprite of the same palette as the animation can be dropped here.',
+  dropHint: 'Drop a sprite from the Sprites panel or the Assets list on the strip to add it as a frame. Hold Alt to add a copy.',
 } as const;
 
 const MODE_OPTIONS: readonly { value: FrameMode; label: string; description: string }[] = [
