@@ -97,9 +97,8 @@ interface SpriteTileProps extends SpriteItemProps {
   cell: VirtualGridCellBind;
 }
 
-interface SpriteButtonProps extends Omit<SpriteItemProps, 'artwork'> {
+interface SpriteButtonProps extends Omit<SpriteTileProps, 'artwork' | 'box'> {
   base: string;
-  cell: VirtualGridCellBind;
   children: ReactNode;
 }
 
@@ -171,10 +170,9 @@ interface ActionsMenuProps {
   groups: readonly MenuGroup[];
 }
 
-interface ManagerToolbarProps {
+interface ManagerToolbarProps extends ActionsMenuProps {
   open: (dialog: ManagerDialog) => void;
   model: ManagerModel;
-  groups: readonly MenuGroup[];
 }
 
 interface TileSize {
