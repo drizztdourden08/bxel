@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { addReport } from '../../draft/add-report';
+import { registerRef } from '../../draft/register-ref';
 import { updateAnimation } from '../../draft/update-animation';
 import { findSprite } from '../../read/find-sprite';
 import { animationFramePickSchema } from '../../schema/animation-frame-pick-schema';
@@ -18,7 +19,10 @@ const animationFrameOwn = defineCommand({
     const animation = pickAnimation(draft, input.options.animation);
     const { frame } = pickAnimFrame(animation, input.options.frame, 'options.frame');
     const source = frame.spriteId === null ? undefined : findSprite(draft.artwork, frame.spriteId);
-    if (source?.role === 'frame') return;
+    if (source?.role === 'frame') {
+      registerRef(draft, input.ref, source.id);
+      return;
+    }
     const owned = source
       ? ownedCopy(draft, animation.name, source)
       : ownedBlank(draft, animation.name, animation, animation.bankId);
@@ -27,6 +31,7 @@ const animationFrameOwn = defineCommand({
       frames: current.frames.map((item) => (item.id === frame.id ? { ...item, spriteId: owned.id } : item)),
     }));
     addReport(draft, 'sprites', 1);
+    registerRef(draft, input.ref, owned.id);
   },
 });
 

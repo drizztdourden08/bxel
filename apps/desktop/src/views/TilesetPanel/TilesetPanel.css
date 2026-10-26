@@ -48,6 +48,27 @@
   background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
 }
 
+.tileset-panel__badge {
+  position: absolute;
+  inset-block-start: var(--space-2xs);
+  inset-inline-end: var(--space-2xs);
+  padding: var(--border-width-thin);
+  border-radius: var(--radius-sm);
+  background: var(--c-surface);
+  color: var(--c-primary-bright);
+}
+
+.tileset-panel__preview {
+  display: block;
+  inline-size: var(--size-64);
+  block-size: var(--size-64);
+  object-fit: contain;
+  image-rendering: pixelated;
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
+}
+
 .tileset-panel__key {
   font-variant-numeric: tabular-nums;
 }
