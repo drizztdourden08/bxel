@@ -14,6 +14,7 @@ const useViewItems = (): ToolbarItem[] => {
     grid: useHintKeys(VIEW_HINTS.grid),
     gridMajor: useHintKeys(VIEW_HINTS.gridMajor),
     gridTile: useHintKeys(VIEW_HINTS.gridTile),
+    guides: useHintKeys(VIEW_HINTS.guides),
     rulers: useHintKeys(VIEW_HINTS.rulers),
   };
   const toggles = VIEW_TOGGLES.map((toggle) =>

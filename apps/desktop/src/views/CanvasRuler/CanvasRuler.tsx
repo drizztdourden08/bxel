@@ -25,7 +25,7 @@ const CanvasRuler = (props: CanvasRulerProps) => {
       onPointerDown={ruler.onPointerDown}
       onPointerMove={ruler.onPointerMove}
       onPointerUp={ruler.onPointerUp}
-      onPointerCancel={ruler.onPointerUp}
+      onPointerCancel={ruler.onPointerCancel}
       onDoubleClick={ruler.onDoubleClick}
     >
       <Canvas ref={ruler.canvasRef} className="canvas-ruler__canvas" aria-hidden="true" />

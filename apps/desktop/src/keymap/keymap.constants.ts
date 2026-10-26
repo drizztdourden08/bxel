@@ -35,6 +35,7 @@ const COMMAND_ID = {
   pixelGrid: 'view.toggle_pixel_grid',
   majorGrid: 'view.toggle_major_grid',
   tileGrid: 'view.toggle_tile_grid',
+  guides: 'view.toggle_guides',
   rulers: 'view.toggle_rulers',
   tiledOff: 'view.tiled_off',
   tiledX: 'view.tiled_x',

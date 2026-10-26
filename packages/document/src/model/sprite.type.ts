@@ -35,6 +35,8 @@ type Slice = {
   readonly center: Rect | null;
 };
 
+type Guides = { readonly x: readonly number[]; readonly y: readonly number[] };
+
 type Sprite = {
   readonly id: SpriteId;
   readonly name: string;
@@ -47,6 +49,7 @@ type Sprite = {
   readonly platformId?: string;
   readonly platformStrict?: boolean;
   readonly pixelGrid?: Size;
+  readonly guides?: Guides;
   readonly layers: readonly Layer[];
   readonly frames: readonly Frame[];
   readonly tags: readonly Tag[];
@@ -56,4 +59,4 @@ type Sprite = {
 
 type SpriteShell = Omit<Sprite, 'cels'>;
 
-export type { Cel, Frame, Layer, Slice, Sprite, SpriteRole, SpriteShell, Tag, TagDirection };
+export type { Cel, Frame, Guides, Layer, Slice, Sprite, SpriteRole, SpriteShell, Tag, TagDirection };

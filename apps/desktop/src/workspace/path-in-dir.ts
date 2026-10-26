@@ -6,8 +6,8 @@ import { uniquePath } from './unique-path';
 import { NAME_FALLBACK } from './workspace.constants';
 import type { Workspace } from './workspace.type';
 
-const pathInDir = (workspace: Workspace, artwork: Artwork, key: AssetKey): string | null => {
-  const dir = workspace.dirs[key.kind];
+const pathInDir = (workspace: Workspace, artwork: Artwork, key: AssetKey, given?: string): string | null => {
+  const dir = given ?? workspace.dirs[key.kind];
   const name = assetName(artwork, key);
   if (dir === undefined || name === null || key.kind === 'project') return null;
   const taken = new Set([...workspace.paths.values()].map((path) => path.toLowerCase()));

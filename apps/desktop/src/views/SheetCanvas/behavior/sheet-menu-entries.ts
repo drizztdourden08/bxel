@@ -23,7 +23,7 @@ const sheetMenuEntries = (context: ContextMenuContext, viewport: PixelViewportHa
     { command: ID.importSheet, label: SHEET_MENU.sliceGrid },
     { command: SELECTION_COMMAND_ID.selectAll, label: SHEET_MENU.selectAll },
     { label: SHEET_MENU.arrange, items: arrangeKindEntries(manager?.sheet ?? null) },
-    viewEntries({ major: false, tile: false, tiled: false }),
+    viewEntries({ major: false, tile: false, tiled: false, guides: false }),
     { command: FILE_COMMAND.export, label: SHEET_MENU.export },
   ];
 };

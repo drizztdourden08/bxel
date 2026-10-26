@@ -36,7 +36,7 @@ const canvasSelectionEntries = (here: Point | null, pending: boolean, tile: bool
     pickHereEntries(here),
     'separator',
     ID.clear,
-    ID.delete,
+    { command: ID.delete, tone: 'danger' },
   ];
 };
 

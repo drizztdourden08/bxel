@@ -29,6 +29,8 @@ const RULER_SIZES = {
 
 const CURSOR_ALPHA = 0.35;
 
+const TEXT_DIGITS = 2;
+
 const FALLBACK_FONT = 'sans-serif';
 
 const EMPTY_RULER_VIEW: RulerView = { originX: 0, originY: 0, zoom: 1, width: 0, height: 0, imageWidth: 0, imageHeight: 0 };
@@ -38,4 +40,4 @@ const RULER_TEXT = {
   y: 'Vertical ruler',
 } as const;
 
-export { CURSOR_ALPHA, EMPTY_RULER_VIEW, FALLBACK_FONT, LABEL_BASES, LABEL_DECADES, LABEL_GAP, MIN_ZOOM, RULER_SIZES, RULER_TEXT, RULER_TOKENS };
+export { CURSOR_ALPHA, EMPTY_RULER_VIEW, FALLBACK_FONT, LABEL_BASES, LABEL_DECADES, LABEL_GAP, MIN_ZOOM, RULER_SIZES, RULER_TEXT, RULER_TOKENS, TEXT_DIGITS };

@@ -14,6 +14,7 @@ type ProjectPanelModel = EntryActions &
     readonly setView: (view: PanelView) => void;
     readonly setSearch: (search: string) => void;
     readonly newAsset: (kind: CreatableKind) => void;
+    readonly newAssetIn: (kind: CreatableKind, dir: string) => void;
     readonly project: OpenProject | null;
     readonly recents: readonly RecentProject[];
     readonly folder: ProjectFolderState | null;
@@ -59,6 +60,7 @@ type ProjectActions = {
   readonly nameError: string | null;
   readonly openEntry: (entry: ListedEntry) => void;
   readonly startNaming: () => void;
+  readonly startNamingIn: (dir: string) => void;
   readonly stopNaming: () => void;
   readonly createFile: (name: string) => void;
 };
@@ -73,6 +75,7 @@ type EntryActions = {
   readonly rename: (name: string) => void;
   readonly trash: (entry: ListedEntry) => void;
   readonly startFolder: () => void;
+  readonly startFolderIn: (parent: string) => void;
   readonly stopFolder: () => void;
   readonly createFolder: (name: string) => void;
 };
@@ -84,7 +87,7 @@ type FolderScope = {
 
 type RenameState = Pick<EntryActions, 'renaming' | 'renameError' | 'startRename' | 'stopRename' | 'rename'>;
 
-type FolderMakerState = Pick<EntryActions, 'makingFolder' | 'folderError' | 'startFolder' | 'stopFolder' | 'createFolder'>;
+type FolderMakerState = Pick<EntryActions, 'makingFolder' | 'folderError' | 'startFolder' | 'startFolderIn' | 'stopFolder' | 'createFolder'>;
 
 type EntryRowProps = PanelPartProps & { readonly entry: ListedEntry };
 

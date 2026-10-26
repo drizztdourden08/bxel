@@ -73,6 +73,7 @@ interface CanvasKeys {
 
 interface OverlayLook {
   axis: string;
+  guide: string;
   cursor: string;
   ink: string;
   ground: string;

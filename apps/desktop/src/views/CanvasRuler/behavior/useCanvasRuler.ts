@@ -4,6 +4,8 @@ import { useResizeRedraw } from '../../../hooks/useResizeRedraw';
 import { paintRuler } from '../../../ruler/paint-ruler';
 import type { RulerSpan } from '../../../ruler/ruler.type';
 import { clampAxis } from '../../../editor/clamp-axis';
+import { unitScale } from '../../../ruler/unit-scale';
+import { useRulerUnitStore } from '../../../stores/useRulerUnitStore';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
 import { useRulerStore } from '../../../stores/useRulerStore';
 import { useToolStore } from '../../../stores/useToolStore';
@@ -21,7 +23,9 @@ const useCanvasRuler = ({ axis }: CanvasRulerProps): CanvasRulerModel => {
   const cursor = useReadoutStore((state) => (horizontal ? state.pointer?.x : state.pointer?.y) ?? null);
   const on = useToolStore((state) => (horizontal ? state.symmetryX : state.symmetryY));
   const placed = useToolStore((state) => (horizontal ? state.axisX : state.axisY));
-  const span = useMemo<RulerSpan>(() => ({ origin, zoom, length, count }), [origin, zoom, length, count]);
+  const unit = useRulerUnitStore((state) => state.unit);
+  const tile = useRulerUnitStore((state) => state.tile);
+  const span = useMemo<RulerSpan>(() => ({ origin, zoom, length, count, unit: unitScale(unit, count, tile) }), [origin, zoom, length, count, unit, tile]);
   const handle = on ? clampAxis(placed, count) : null;
   const paint = useCallback(() => {
     if (canvasRef.current) paintRuler(canvasRef.current, { axis, span, cursor, handle });

@@ -31,7 +31,7 @@ const paintRulerTicks = (frame: RulerFrame, span: RulerSpan): void => {
     fillAlong(frame, { along: Math.round(tick.at), across: thickness - size, alongSize: 1, acrossSize: size });
     if (!tick.label) return;
     ctx.fillStyle = look.text;
-    paintLabel(frame, String(tick.value), Math.round(tick.at));
+    paintLabel(frame, tick.text, Math.round(tick.at));
   });
 };
 

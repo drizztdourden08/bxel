@@ -24,7 +24,7 @@ const mapLayerMenuEntries = (context: ContextMenuContext): readonly ContextMenuE
     { command: TILEMAP_COMMAND.layerUp, label: MAP_LAYER_MENU.up, ...unless(at < layers.length - 1, MAP_LAYER_MENU.top) },
     { command: TILEMAP_COMMAND.layerDown, label: MAP_LAYER_MENU.down, ...unless(at > 0, MAP_LAYER_MENU.bottom) },
     'separator',
-    { command: COMMAND_ID.layerDelete, label: MAP_LAYER_MENU.remove, ...unless(layers.length > 1, MAP_LAYER_MENU.last) },
+    { command: COMMAND_ID.layerDelete, label: MAP_LAYER_MENU.remove, tone: 'danger', ...unless(layers.length > 1, MAP_LAYER_MENU.last) },
   ];
 };
 
