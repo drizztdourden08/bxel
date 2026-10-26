@@ -1,0 +1,19 @@
+/* @layer renderer-app @kind style */
+.frame-bar {
+  padding: var(--space-2xs) var(--space-sm);
+  border-block-end: var(--border-width-thin) solid var(--c-border);
+  background: var(--c-surface);
+}
+
+.frame-bar__path {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.frame-bar__actions {
+  margin-inline-start: auto;
+}

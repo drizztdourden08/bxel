@@ -2,7 +2,6 @@
 import { COMMAND_NAME } from '@bxel/document';
 import type { CommandStep, SpriteId } from '@bxel/document';
 import { TRANSFORM_COMMAND } from '@bxel/raster';
-import { idRef } from '../timeline/id-ref';
 import { spritesTarget } from '../sheet/sprites-target';
 import { ASSET_LABEL } from './asset-config.constants';
 import type { AssetFields, AssetFocus, AssetOutcome } from './asset-config.type';
@@ -48,16 +47,6 @@ const gridTo = (focus: AssetFocus, cell: GridCell): AssetOutcome => {
   return pixelGrid === undefined ? null : runField(focus, ASSET_LABEL.pixelGrid, [stepFor(focus, COMMAND_NAME.spriteUpdate, { pixelGrid })]);
 };
 
-const frameTime = (focus: AssetFocus, value: unknown): AssetOutcome => {
-  const sprite = spriteOf(focus);
-  const durationMs = whole(value);
-  if (!sprite || durationMs === null) return null;
-  const steps = sprite.frames
-    .filter((frame) => frame.durationMs !== durationMs)
-    .map((frame) => stepFor(focus, COMMAND_NAME.frameUpdate, { frame: idRef(frame.id), durationMs }));
-  return runField(focus, ASSET_LABEL.frameTime, steps);
-};
-
 const SPRITE_FIELDS: AssetFields = {
   'sprite.name': { read: (focus) => spriteOf(focus)?.name ?? '', write: rename, buffered: true },
   'sprite.width': { read: (focus) => spriteOf(focus)?.width ?? 0, write: (focus, value) => resizeTo(focus, { width: whole(value), height: null }), buffered: true },
@@ -66,7 +55,6 @@ const SPRITE_FIELDS: AssetFields = {
   'sprite.pivotY': { read: (focus) => (spriteOf(focus)?.pivot.y2 ?? 0) / 2, write: (focus, value) => pivotTo(focus, { y2: half(value) }), buffered: true },
   'sprite.gridWidth': { read: (focus) => spriteOf(focus)?.pixelGrid?.width ?? 1, write: (focus, value) => gridTo(focus, { width: whole(value) }), buffered: true },
   'sprite.gridHeight': { read: (focus) => spriteOf(focus)?.pixelGrid?.height ?? 1, write: (focus, value) => gridTo(focus, { height: whole(value) }), buffered: true },
-  'sprite.frameMs': { read: (focus) => spriteOf(focus)?.frames[0]?.durationMs ?? 0, write: frameTime, buffered: true },
 };
 
 export { SPRITE_FIELDS };

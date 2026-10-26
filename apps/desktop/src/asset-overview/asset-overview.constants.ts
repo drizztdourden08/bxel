@@ -40,6 +40,8 @@ const OVERVIEW_TEXT = {
   colours: 'Colours',
   size: 'Size',
   frames: 'Frames',
+  duration: 'Length',
+  milliseconds: (total: number): string => `${total} ms`,
   layers: 'Layers',
   palette: 'Palette',
   sprites: 'Sprites on the sheet',

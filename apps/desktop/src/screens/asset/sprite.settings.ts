@@ -11,7 +11,7 @@ const meta: ScreenMeta = {
   order: 1,
   source: ASSET_SOURCE,
   when: showForKind('sprite'),
-  keywords: ['sprite', 'name', 'size', 'width', 'height', 'resize', 'pivot', 'frame', 'duration', 'grid', 'export'],
+  keywords: ['sprite', 'name', 'size', 'width', 'height', 'resize', 'pivot', 'grid', 'export'],
 };
 
 const sections: Section[] = [
@@ -31,19 +31,6 @@ const sections: Section[] = [
         label: 'Pivot',
         description: 'Where the sprite turns and is placed, from the top left corner.',
         hint: 'Half pixels are allowed.',
-      },
-    ],
-  },
-  {
-    id: 'animation',
-    title: 'Animation',
-    items: [
-      {
-        key: 'sprite.frameMs',
-        label: 'Frame time',
-        description: 'How long every frame shows.',
-        hint: 'Sets all frames of the sprite. The timeline sets one frame at a time.',
-        control: { kind: 'number', min: 1, max: 65535, step: 10, unit: 'ms' },
       },
     ],
   },

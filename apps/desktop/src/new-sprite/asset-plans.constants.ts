@@ -65,9 +65,10 @@ const animationPlan = ({ form, bankId }: PlanInput): AssetPlan => ({
     {
       name: COMMAND_NAME.animationCreate,
       targets: null,
-      options: { name: form.name.trim(), source: { kind: 'blank', width: form.width, height: form.height, frames: 1, ...(bankId === null ? {} : { bankId }) } },
+      options: { name: form.name.trim(), source: { kind: 'blank', width: form.width, height: form.height, frames: 1, durationMs: form.frameMs, ...(bankId === null ? {} : { bankId }) } },
       ref: NEW_REF,
     },
+    { name: COMMAND_NAME.animationFrameOwn, targets: null, options: { animation: { ref: NEW_REF }, frame: { by: 'index', index: 0 } } },
   ],
   keyOf: keyFrom('animation', NEW_REF),
 });

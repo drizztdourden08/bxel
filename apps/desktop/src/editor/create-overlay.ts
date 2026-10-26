@@ -5,7 +5,7 @@ import { bankTable } from './bank-table';
 import { CHANNELS } from './bank-table.constants';
 import type { EditorTarget, Overlay } from './editor.type';
 import { refreshRect } from './refresh-rect';
-import { selectionMask } from './selection/selection-mask';
+import { editMask } from './edit-mask';
 
 const createOverlay = (target: EditorTarget): Overlay => {
   const { sprite, bank, frameId } = target;
@@ -19,7 +19,7 @@ const createOverlay = (target: EditorTarget): Overlay => {
     table: bankTable(bank),
     dirty: null,
     revision: target.revision,
-    mask: selectionMask(target),
+    mask: editMask(target),
   };
   trackPixels(overlay.rgba);
   refreshRect(overlay, { x: 0, y: 0, width: sprite.width, height: sprite.height });

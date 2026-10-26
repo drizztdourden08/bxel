@@ -4,7 +4,7 @@ import type { AssetSection } from './config-entry.type';
 
 const ASSET_PAGES: Readonly<Record<AssetKind, Readonly<Record<AssetSection, string>>>> = {
   sprite: { main: 'sprite', palette: 'sprite-palette', platform: 'sprite-platform', overview: 'overview' },
-  animation: { main: 'none', palette: 'none', platform: 'none', overview: 'overview' },
+  animation: { main: 'animation', palette: 'animation', platform: 'animation', overview: 'overview' },
   sheet: { main: 'sheet', palette: 'sheet', platform: 'sheet', overview: 'overview' },
   palette: { main: 'palette', palette: 'palette', platform: 'palette', overview: 'overview' },
   tileset: { main: 'tileset', palette: 'tileset', platform: 'tileset', overview: 'overview' },

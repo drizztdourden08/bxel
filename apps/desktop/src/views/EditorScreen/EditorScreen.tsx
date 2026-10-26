@@ -10,6 +10,7 @@ import { ApplyBar } from '../ApplyBar';
 import { AssetTabs } from '../AssetTabs';
 import { DialogHost } from '../DialogHost';
 import { EditorStatus } from '../EditorStatus';
+import { FrameBar } from '../FrameBar';
 import { ExportDialog } from '../ExportDialog';
 import { LegacyBar } from '../LegacyBar';
 import { MigrationBar } from '../MigrationBar';
@@ -39,6 +40,7 @@ const EditorScreen = () => {
       <WorkspaceProgress />
       <LegacyBar />
       <MigrationBar />
+      <FrameBar />
       <PresetMoveBar />
       <Flex className="editor-screen__body" {...commandZone(COMMAND_ZONE.canvas)}>
         <ToolbarHost>
