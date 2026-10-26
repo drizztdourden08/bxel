@@ -5,7 +5,7 @@ import { fail } from '../commands/fail';
 import type { Draft } from '../draft/draft.type';
 import type { Artwork } from '../model/artwork.type';
 import type { Sprite } from '../model/sprite.type';
-import type { Tileset } from '../model/tilemap.type';
+import type { Tile, Tileset } from '../model/tilemap.type';
 import { findSprite } from '../read/find-sprite';
 import { collisionIssue } from '../read/collision-issue';
 import { findTileset } from '../read/find-tileset';
@@ -22,6 +22,11 @@ const fits = (sprite: Sprite, tileset: Tileset): boolean =>
   sprite.height === tileset.tileHeight &&
   sprite.bankId === tileset.bankId;
 
+const tileIssue = (artwork: Artwork, tileset: Tileset, tile: Tile): string | null => {
+  const shape = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
+  return shape ?? tileAnimationIssue(artwork, tileset, tile);
+};
+
 const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
   const keys = new Set<number>();
   for (const tile of tileset.tiles) {
@@ -32,10 +37,8 @@ const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
     if (keys.has(tile.key) || tile.key >= tileset.nextKey) {
       throw broken(`Tile key ${tile.key} of tileset "${tileset.name}" is not unique or not issued.`);
     }
-    const issue = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
+    const issue = tileIssue(artwork, tileset, tile);
     if (issue !== null) throw broken(`Tile ${tile.key} of tileset "${tileset.name}": ${issue}`);
-    const animated = tileAnimationIssue(artwork, tileset, tile);
-    if (animated !== null) throw broken(`Tile ${tile.key} of tileset "${tileset.name}": ${animated}`);
     keys.add(tile.key);
   }
   const rules = tileset.terrain ? terrainIssue(tileset.terrain, tileset) : null;

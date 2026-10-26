@@ -8,8 +8,8 @@ import type { CollisionEdit } from './set-tile-collision.type';
 import { updateTileset } from './update-tileset';
 
 const withCollision = (tile: Tile, collision: TileCollision | undefined): Tile => {
-  const { id, key, spriteId } = tile;
-  return collision ? { id, key, spriteId, collision } : { id, key, spriteId };
+  const { collision: _collision, ...rest } = tile;
+  return collision ? { ...rest, collision } : rest;
 };
 
 const setTileCollision = (draft: Draft, tileset: Tileset, edit: CollisionEdit): void => {
