@@ -23,6 +23,7 @@ interface EditorMenuState {
   tileMode: TileEditMode;
   collision: boolean;
   terrainBrush: boolean;
+  animateTiles: boolean;
 }
 
 export type { EditorMenuState };

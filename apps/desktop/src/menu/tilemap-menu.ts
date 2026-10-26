@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { MenuEntry } from '@drizztdourden08/brock-react';
+import { ANIMATION_COMMAND } from '../keymap/animation-command-id.constants';
 import { COLLISION_COMMAND } from '../keymap/collision-command-id.constants';
 import { TERRAIN_COMMAND } from '../keymap/terrain-command-id.constants';
 import { TILEMAP_COMMAND as ID } from '../keymap/tilemap-command-id.constants';
@@ -33,6 +34,7 @@ const cellEntries = (state: EditorMenuState): MenuEntry[] => [
   'separator',
   menuItem(COLLISION_COMMAND.toggleOverlay, 'Show collision', { checked: state.collision }),
   menuItem(TERRAIN_COMMAND.toggleBrush, 'Terrain brush', { checked: state.terrainBrush }),
+  menuItem(ANIMATION_COMMAND.toggleTiles, 'Animate tiles', { checked: state.animateTiles }),
 ];
 
 const tilemapItems = (state: EditorMenuState): MenuEntry[] => [...modeEntries(state), ...(state.surface === 'map' ? cellEntries(state) : [])];

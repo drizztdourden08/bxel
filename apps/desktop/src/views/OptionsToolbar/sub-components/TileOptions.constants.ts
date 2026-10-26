@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { IconName } from '@drizztdourden08/tessera';
+import { ANIMATION_COMMAND } from '../../../keymap/animation-command-id.constants';
 import { COLLISION_COMMAND } from '../../../keymap/collision-command-id.constants';
 import { TERRAIN_COMMAND } from '../../../keymap/terrain-command-id.constants';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
@@ -86,6 +87,7 @@ const TERRAIN_BRUSH_HINT: HintSpec = {
 const ANIMATE_TILES_HINT: HintSpec = {
   name: 'Animate tiles',
   description: 'Play the animated tiles on the map. It pauses while you drag, and starts off when the system asks for less motion.',
+  shortcuts: [{ command: ANIMATION_COMMAND.toggleTiles }],
 };
 
 const FILLED_MAP_HINT: HintSpec = {
