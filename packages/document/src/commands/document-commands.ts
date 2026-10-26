@@ -30,6 +30,10 @@ import { sheetDelete } from './sheet/sheet-delete';
 import { sheetPlace } from './sheet/sheet-place';
 import { sheetRemove } from './sheet/sheet-remove';
 import { sheetUpdate } from './sheet/sheet-update';
+import { guideAdd } from './guide/guide-add';
+import { guideClear } from './guide/guide-clear';
+import { guideMove } from './guide/guide-move';
+import { guideRemove } from './guide/guide-remove';
 import { sliceAdd } from './slice/slice-add';
 import { sliceDelete } from './slice/slice-delete';
 import { sliceUpdate } from './slice/slice-update';
@@ -106,6 +110,10 @@ const documentCommands: readonly CommandDef[] = [
   sliceAdd,
   sliceUpdate,
   sliceDelete,
+  guideAdd,
+  guideMove,
+  guideRemove,
+  guideClear,
   pixelsPatch,
   layerAdd,
   layerDelete,
