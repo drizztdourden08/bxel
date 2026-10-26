@@ -26,7 +26,7 @@ const usage = {
     'Pointer handlers passed in get every press the viewport does not take for a pan, so the app paints with the main button.',
     'Pass hand to let the main button drag the view, for a hand tool; the middle button and Space with the main button always pan.',
     'Pass tiled with x, y or both to repeat the image across the view for a tile preview; the app overlay stays on the first copy, and screenToPixel maps the pointer in every copy so a stroke can cross the edge.',
-    'look carries the checkerboard colours and size, the surround pattern and the grid lines, and the viewport paints them on its canvas with no CSS token; without it the defaults apply.',
+    'look carries the checkerboard colours and size and the grid lines, and the viewport paints them on its canvas with no CSS token; without it the defaults apply. The viewport is transparent around the image, so the surround behind it (SurroundBackdrop) shows through.',
     'grid, gridMajor and gridTile switch the pixel grid, the major grid and the tile grid; the lines draw only where they are far enough apart to read.',
     'The viewport takes no zoom keys of its own. The app binds zoom in, zoom out, fit and actual size to its keymap and calls the ref.',
   ],

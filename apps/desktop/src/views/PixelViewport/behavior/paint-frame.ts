@@ -25,7 +25,6 @@ const paintFrame = (canvas: HTMLCanvasElement, frame: FrameInput, cache: FrameCa
   const view = viewOf(frame.target, frame.box, frame.image);
   const placed = placeImage(view);
   refreshTiles(canvas.ownerDocument, frame.look, view.dpr, cache);
-  if (cache.surround) fillTiled(ctx, cache.surround, { x: 0, y: 0, width: canvas.width, height: canvas.height });
   const layers = gridLayers(frame.look, frame.grids, view.zoom, frame.gridFrom);
   const scratch = () => {
     cache.scratch ??= canvas.ownerDocument.createElement('canvas');
