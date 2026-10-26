@@ -5,7 +5,7 @@ type Rgb = `#${string}`;
 
 type Swatch =
   | { readonly id: SwatchId; readonly kind: 'transparent' }
-  | { readonly id: SwatchId; readonly kind: 'color'; readonly rgb: Rgb; readonly name: string };
+  | { readonly id: SwatchId; readonly kind: 'color'; readonly rgb: Rgb; readonly alpha?: number; readonly name: string };
 
 type Ramp = { readonly id: RampId; readonly name: string; readonly swatches: readonly SwatchId[] };
 

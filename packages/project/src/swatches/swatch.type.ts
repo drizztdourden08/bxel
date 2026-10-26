@@ -3,6 +3,7 @@ import type { SwatchSetId } from '../ids/id.type';
 
 type SwatchColor = {
   readonly rgb: string;
+  readonly alpha?: number;
   readonly name: string;
 };
 

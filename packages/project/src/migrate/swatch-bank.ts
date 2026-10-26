@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { ID_PREFIX } from '@bxel/document';
+import { formatSwatchColor, ID_PREFIX, swatchFields } from '@bxel/document';
 import type { BankId, IdSource, PaletteBank, Rgb, SwatchId } from '@bxel/document';
 import type { SwatchSet } from '../swatches/swatch.type';
 
@@ -11,8 +11,8 @@ const swatchBank = (set: SwatchSet, ids: IdSource): PaletteBank => ({
   slots: set.colors.map((color) => ({
     id: ids.next(ID_PREFIX.swatch) as SwatchId,
     kind: 'color',
-    rgb: color.rgb as Rgb,
-    name: color.name === '' ? color.rgb : color.name,
+    ...swatchFields(color.rgb as Rgb, color.alpha),
+    name: color.name === '' ? formatSwatchColor(color.rgb as Rgb, color.alpha) : color.name,
   })),
   ramps: [],
 });

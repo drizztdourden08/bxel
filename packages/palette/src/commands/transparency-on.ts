@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { BACKGROUND_LABEL, ERROR_CODE, fail } from '@bxel/document';
+import { BACKGROUND_LABEL, ERROR_CODE, fail, formatSwatchColor } from '@bxel/document';
 import type { Draft, PaletteBank, Swatch, SwatchId } from '@bxel/document';
 import { identityTable } from '../identity-table';
 import { bankSprites } from './bank-sprites';
@@ -21,7 +21,7 @@ const transparencyOn = (draft: Draft, bank: PaletteBank, fillBackground: boolean
     table,
   );
   const lead: Swatch = { id: draft.ids.next('sw') as SwatchId, kind: 'transparent' };
-  const shifted = bank.slots.map((slot) => (slot.kind === 'color' && slot.name === BACKGROUND_LABEL ? { ...slot, name: slot.rgb } : slot));
+  const shifted = bank.slots.map((slot) => (slot.kind === 'color' && slot.name === BACKGROUND_LABEL ? { ...slot, name: formatSwatchColor(slot.rgb, slot.alpha) } : slot));
   updateBank(draft, bank.id, (current) => ({ ...current, transparent: true, slots: [lead, ...shifted] }));
 };
 

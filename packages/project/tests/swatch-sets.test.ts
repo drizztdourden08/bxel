@@ -73,6 +73,19 @@ describe('manifest swatch sets', () => {
     expect(parsed).toMatchObject({ ok: true, value: { swatchSets: [{ colors: [{ rgb: '#ffcd75', name: 'Sand' }] }] } });
   });
 
+  it('keeps the alpha of a colour and writes nothing for an opaque one', () => {
+    const glass: SwatchSet = { ...setOf(8), colors: [{ rgb: '#ffcd75', alpha: 128, name: 'Sand' }, { rgb: '#1a1c2c', name: 'Ink' }] };
+    const output = written({ swatchSets: [glass] });
+    expect(output).not.toContain('"alpha": 255');
+    expect(parseManifest(output)).toMatchObject({ ok: true, value: { swatchSets: [glass] } });
+    expect((JSON.parse(output) as { swatchSets: { colors: object[] }[] }).swatchSets[0]?.colors[1]).toEqual({ rgb: '#1a1c2c', name: 'Ink' });
+  });
+
+  it('refuses an alpha outside 0 to 255', () => {
+    const broken: SwatchSet = { ...setOf(10), colors: [{ rgb: '#ffcd75', alpha: 256, name: 'Sand' }] };
+    expect(parseManifest(JSON.stringify({ ...sampleManifest(), swatchSets: [broken] })).ok).toBe(false);
+  });
+
   it('refuses a repeated set id with the field named', () => {
     const result = parseManifest(JSON.stringify({ ...sampleManifest(), swatchSets: [setOf(3), setOf(3, 'Copy')] }));
     expect(result).toMatchObject({ ok: false, code: PROJECT_ERROR_CODE.MANIFEST_INVALID });

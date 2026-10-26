@@ -9,7 +9,7 @@ const orderFolder = (folder: ProjectFolder) => ({ folderId: folder.folderId, nam
 const orderSet = (set: SwatchSet) => ({
   setId: set.setId,
   name: set.name,
-  colors: set.colors.map((color) => ({ rgb: color.rgb, name: color.name })),
+  colors: set.colors.map((color) => ({ rgb: color.rgb, ...(color.alpha === undefined ? {} : { alpha: color.alpha }), name: color.name })),
 });
 
 const orderManifest = (manifest: ProjectManifest) => ({
