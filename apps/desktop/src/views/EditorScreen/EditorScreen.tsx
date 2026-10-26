@@ -12,6 +12,7 @@ import { DialogHost } from '../DialogHost';
 import { EditorStatus } from '../EditorStatus';
 import { ExportDialog } from '../ExportDialog';
 import { LegacyBar } from '../LegacyBar';
+import { MigrationBar } from '../MigrationBar';
 import { MismatchBar } from '../MismatchBar';
 import { PresetMoveBar } from '../PresetMoveBar';
 import { RecoveryDialog } from '../RecoveryDialog';
@@ -37,6 +38,7 @@ const EditorScreen = () => {
       <AssetTabs />
       <WorkspaceProgress />
       <LegacyBar />
+      <MigrationBar />
       <PresetMoveBar />
       <Flex className="editor-screen__body" {...commandZone(COMMAND_ZONE.canvas)}>
         <ToolbarHost>

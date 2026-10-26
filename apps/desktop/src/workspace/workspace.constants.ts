@@ -94,6 +94,8 @@ const WORKSPACE_TEXT = {
   rekeyed: (count: number): string => (count === 1 ? 'One copied file had the same ids as another and was given new ones.' : `${count} copied files had the same ids as others and were given new ones.`),
   trashTitle: 'Move deleted assets to the trash?',
   trashMessage: (names: string): string => `These files belong to assets you deleted: ${names}. They move to the trash. You can restore them from there.`,
+  migratedTitle: 'Move the old sprite files to the trash?',
+  migratedMessage: (names: string): string => `These sprites became animations: ${names}. The old files move to the trash. You can restore them from there.`,
   trashConfirm: 'Move to trash',
   trashCancel: 'Keep the files',
   saved: (count: number): string => (count === 1 ? 'Saved one file.' : `Saved ${count} files.`),
