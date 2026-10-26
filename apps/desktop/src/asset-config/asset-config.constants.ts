@@ -5,6 +5,7 @@ const EDIT_DELAY_MS = 450;
 
 const FOCUS_PICKERS = {
   sprite: (artwork: Artwork, id: string) => artwork.sprites.find((sprite) => sprite.id === id),
+  animation: (artwork: Artwork, id: string) => artwork.animations.find((animation) => animation.id === id),
   sheet: (artwork: Artwork, id: string) => artwork.sheets.find((sheet) => sheet.id === id),
   palette: (artwork: Artwork, id: string) => artwork.banks.find((bank) => bank.id === id),
   tileset: (artwork: Artwork, id: string) => artwork.tilesets.find((tileset) => tileset.id === id),
@@ -15,7 +16,9 @@ const ASSET_LABEL = {
   rename: 'Rename',
   resize: 'Resize sprite',
   pivot: 'Move the pivot',
-  frameTime: 'Set the frame time',
+  animationSize: 'Resize animation canvas',
+  anchor: 'Move the anchor',
+  loop: 'Set the loop',
   paletteName: 'Rename palette',
   paletteLimit: 'Change colour limit',
   transparent: 'Change the transparent slot',

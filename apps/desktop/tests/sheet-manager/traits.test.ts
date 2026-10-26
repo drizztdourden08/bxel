@@ -69,9 +69,7 @@ describe('filters and selecting by trait', () => {
     expect(idsByTrait(factsOf(), { kind: 'bank', value: spriteOf('a').bankId })).toHaveLength(4);
   });
 
-  it('sorts by the number of tags and by the name of the palette', () => {
-    addTag('run', 'c');
-    expect(shown({ sortKey: 'tags', sortDown: true }).at(0)).toBe('c');
+  it('sorts by the name of the palette', () => {
     expect(shown({ sortKey: 'bank' })).toHaveLength(4);
   });
 });

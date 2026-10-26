@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { TagDirection } from '@bxel/document';
+import type { AnimDirection } from '@bxel/document';
 import type { AlignMode } from '../sheet-manager/align.type';
 import type { CreatableKind } from '../stores/creation-store.type';
 
@@ -84,7 +84,7 @@ interface DurationArgs {
 
 interface TagArgs {
   tagId: string;
-  direction: TagDirection;
+  direction: AnimDirection;
   colour: string | null;
 }
 

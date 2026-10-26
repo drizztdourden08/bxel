@@ -7,7 +7,7 @@ import { folderOf } from '../../../export/folder-of';
 import { joinPath } from '../../../export/join-path';
 import { safeName } from '../../../export/safe-name';
 import { startExport } from '../../../export/start-export';
-import { FOLDER_KINDS } from '../../../export/export.constants';
+import { picksFolder } from '../../../export/picks-folder';
 import { useExportStore } from '../../../export/useExportStore';
 import { fileName } from '../../../files/file-name';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
@@ -27,7 +27,7 @@ const useExportActions = ({ settings, change }: DraftModel, selectedIds: readonl
   };
   const browse = (): void => {
     const documents = getPlatform().documents;
-    if (FOLDER_KINDS.includes(settings.kind)) {
+    if (picksFolder(settings)) {
       void documents?.openFolder({ title: EXPORT_DIALOG_TEXT.browseFolderTitle, defaultPath: settings.folder === '' ? undefined : settings.folder }).then((path) => {
         if (path !== null) change({ folder: path });
       });

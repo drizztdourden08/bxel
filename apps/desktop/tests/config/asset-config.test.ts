@@ -1,7 +1,12 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it, vi } from 'vitest';
 import { ASSET_SOURCE } from '../../src/asset-config/asset-source.constants';
-import { firstSprite, openedProject, revisionOf, undoOnce } from './config-harness';
+import { COMMAND_NAME } from '@bxel/document';
+import { useDocumentStore } from '../../src/stores/useDocumentStore';
+import { runSteps } from '../../src/transactions/run-steps';
+import { focusTab } from '../../src/workspace/focus-tab';
+import { tabOf } from '../../src/workspace/tab-of';
+import { firstSprite, liveArtwork, openedProject, revisionOf, undoOnce } from './config-harness';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
@@ -11,7 +16,6 @@ describe('the value source over the open asset', () => {
     const sprite = firstSprite(documentId);
     expect(ASSET_SOURCE.get('sprite.name')).toBe(sprite.name);
     expect([ASSET_SOURCE.get('sprite.width'), ASSET_SOURCE.get('sprite.height')]).toEqual([sprite.width, sprite.height]);
-    expect(ASSET_SOURCE.get('sprite.frameMs')).toBe(sprite.frames[0]?.durationMs);
   });
 
   it('renames the sprite once after typing stops, and one undo puts the name back', async () => {
@@ -41,15 +45,13 @@ describe('the value source over the open asset', () => {
 
 });
 
-describe('the value source over pivot, frame time and platform', () => {
-  it('moves the pivot in half pixels and sets every frame time', async () => {
+describe('the value source over pivot, grid and platform', () => {
+  it('moves the pivot in half pixels', async () => {
     const { documentId } = await openedProject();
     await ASSET_SOURCE.set('sprite.pivotX', 2.5);
-    await ASSET_SOURCE.set('sprite.frameMs', 250);
     await ASSET_SOURCE.flush();
     const sprite = firstSprite(documentId);
     expect(sprite.pivot.x2).toBe(5);
-    expect(sprite.frames.every((frame) => frame.durationMs === 250)).toBe(true);
   });
 
   it('stores a pixel grid on the sprite, keeps one cell when the other changes, and clears it at 1 by 1', async () => {
@@ -97,5 +99,23 @@ describe('the value source over pivot, frame time and platform', () => {
     stop?.();
     expect(listener).toHaveBeenCalled();
     expect(firstSprite(documentId).pivot.y2).toBe(2);
+  });
+});
+
+describe('the value source over an animation', () => {
+  it('reads and changes the canvas, the anchor and the loop of the animation in focus', async () => {
+    const { documentId } = await openedProject();
+    const made = runSteps(useDocumentStore.getState().host, documentId, 'Animation', [
+      { name: COMMAND_NAME.animationCreate, targets: null, options: { name: 'walk', source: { kind: 'blank', width: 8, height: 8, frames: 1 } }, ref: 'anim' },
+    ]);
+    if (!made.ok) throw new Error(made.error.message);
+    focusTab(tabOf(documentId, { kind: 'animation', id: made.created['anim'] ?? '' }));
+    expect([ASSET_SOURCE.get('animation.name'), ASSET_SOURCE.get('animation.width'), ASSET_SOURCE.get('animation.anchorX')]).toEqual(['walk', 8, 4]);
+    await ASSET_SOURCE.set('animation.width', 12);
+    await ASSET_SOURCE.set('animation.anchorX', 2.5);
+    await ASSET_SOURCE.set('animation.loopDirection', 'pingpong');
+    await ASSET_SOURCE.flush();
+    const animation = liveArtwork(documentId).animations[0];
+    expect(animation).toMatchObject({ width: 12, anchor: { x2: 5, y2: 8 }, loop: { direction: 'pingpong' } });
   });
 });

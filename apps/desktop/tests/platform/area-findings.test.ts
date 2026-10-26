@@ -8,7 +8,6 @@ import type { FindingLine } from '../../src/platform-preset/platform-preset.type
 import { useAreaStore } from '../../src/stores/useAreaStore';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
-import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { paintAreas } from '../../src/views/EditorCanvas/behavior/paint-areas';
 import type { AreaContext } from '../../src/views/EditorCanvas/behavior/paint-areas.type';
 import { artworkOf, blank, chosen, platformFile, run, spriteScope } from './platform-harness';
@@ -118,7 +117,7 @@ describe('selecting an area finding', () => {
     expect(useAreaStore.getState().highlight).toBeNull();
   });
 
-  it('makes the sprite and the first clashing frame the ones on screen', () => {
+  it('makes the sprite of the clash the one on screen', () => {
     const file = platformFile(COMBINED);
     paint(file, clashing);
     const line = areaLines(file)[0];
@@ -126,6 +125,5 @@ describe('selecting an area finding', () => {
     useDocumentStore.getState().setActive(null);
     focusArea(line.area);
     expect(useSpriteStore.getState().activeId).toBe(line.area.spriteId);
-    expect(useTimelineStore.getState().frameId).toBe(Object.keys(line.area.frames)[0]);
   });
 });

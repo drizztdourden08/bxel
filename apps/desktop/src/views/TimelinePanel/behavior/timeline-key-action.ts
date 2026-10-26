@@ -1,23 +1,19 @@
 /* @layer renderer-app @kind logic */
-import type { TimelineZone } from '../../../stores/timeline-store.type';
-import { STEP_KEYS } from '../TimelinePanel.constants';
+import { EDGE_KEYS, MOVE_KEYS, STEP_KEYS } from '../TimelinePanel.constants';
 import type { TimelineKeyAction, TimelineKeyInfo } from '../TimelinePanel.type';
-import { celKeyAction } from './cel-key-action';
-import { ctrlKeyAction } from './ctrl-key-action';
-import { headKeyAction } from './head-key-action';
-import { tagKeyAction } from './tag-key-action';
 
-const zoneAction = (info: TimelineKeyInfo, zone: TimelineZone | null): TimelineKeyAction | null => {
-  if (zone === 'cel') return celKeyAction(info);
-  if (zone === 'head') return headKeyAction(info);
-  return zone === 'tag' ? tagKeyAction(info) : null;
+const plainAction = (info: TimelineKeyInfo): TimelineKeyAction | null => {
+  const delta = STEP_KEYS[info.key];
+  if (delta !== undefined) return { kind: 'step', delta, extend: info.shiftKey && info.key.startsWith('Arrow') };
+  const end = EDGE_KEYS[info.key];
+  return end === undefined ? null : { kind: 'edge', end, extend: info.shiftKey };
 };
 
-const timelineKeyAction = (info: TimelineKeyInfo, zone: TimelineZone | null): TimelineKeyAction | null => {
-  if (info.ctrlKey || info.metaKey) return zone === 'cel' ? ctrlKeyAction(info) : null;
-  const step = STEP_KEYS[info.key];
-  if (step !== undefined && !info.altKey) return { kind: 'cursor', by: { frames: step, layers: 0 }, extend: false };
-  return zoneAction(info, zone);
+const timelineKeyAction = (info: TimelineKeyInfo): TimelineKeyAction | null => {
+  if (info.ctrlKey || info.metaKey) return null;
+  if (!info.altKey) return plainAction(info);
+  const delta = MOVE_KEYS[info.key];
+  return delta === undefined ? null : { kind: 'move', delta };
 };
 
 export { timelineKeyAction };

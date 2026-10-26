@@ -24,13 +24,14 @@ describe('the demo project', () => {
     for (const [path, bytes] of files) expect(Buffer.compare(readFileSync(join(ROOT, path)), Buffer.from(bytes)), path).toBe(0);
   });
 
-  test('holds a tagged animation, a sheet of two sprites, a palette, a tileset and a tilemap', () => {
+  test('holds a tagged animation, a sheet of a sprite and the animation, a palette, a tileset and a tilemap', () => {
     const artwork = readSaved(join(ROOT, 'sheets', 'party.bxsheet'));
-    const hero = artwork.sprites.find((sprite) => sprite.name === 'hero');
+    const hero = artwork.animations.find((animation) => animation.name === 'hero');
     expect(hero?.frames.map((frame) => frame.durationMs)).toEqual([...FRAME_MS]);
-    expect(hero?.tags.map((tag) => tag.name)).toEqual(['walk']);
+    expect(hero?.tags.map((tag) => (tag.kind === 'span' ? tag.name : ''))).toEqual(['walk']);
     expect(artwork.sheets).toHaveLength(1);
-    expect(artwork.sheets[0]?.entries).toHaveLength(2);
+    expect(artwork.sheets[0]?.entries).toHaveLength(1);
+    expect(artwork.sheets[0]?.animationEntries).toHaveLength(1);
     expect(artwork.banks.map((bank) => [bank.name, bank.cap])).toEqual([['Demo 16', 16]]);
     const map = readSaved(join(ROOT, 'tilemaps', 'meadow.bxmap'));
     expect(map.tilesets[0]?.tiles).toHaveLength(3);

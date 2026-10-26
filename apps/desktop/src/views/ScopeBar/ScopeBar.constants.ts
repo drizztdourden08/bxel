@@ -6,7 +6,6 @@ const SCOPE_TEXT = {
   lockedIcon: 'Locked',
   sprite: (name: string): string => `Sprite: ${name}`,
   layer: (name: string, state: string): string => (state === '' ? `Layer: ${name}` : `Layer: ${name} (${state})`),
-  frame: (at: number, total: number): string => `Frame: ${at} of ${total}`,
   painting: (count: number): string => `Painting ${count} sprites`,
 } as const;
 
@@ -30,7 +29,6 @@ const SCOPE_DESCRIPTION = 'The part of the file your edits change.';
 const SCOPE_HINTS = {
   sprites: { name: 'Sprites', description: 'Choose which sprites your edits change.' },
   layers: { name: 'Layers', description: 'Choose which layers your edits change.' },
-  frames: { name: 'Frames', description: 'Choose which frames your edits change.' },
 } as const satisfies Record<string, HintSpec>;
 
 export { MAP_TEXT, SCOPE_DESCRIPTION, SCOPE_HINTS, SCOPE_TEXT };

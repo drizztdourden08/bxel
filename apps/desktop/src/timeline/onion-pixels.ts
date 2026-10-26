@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind logic */
-import { flattenFrame, TRANSPARENT_INDEX } from '@bxel/document';
-import type { FrameId, PaletteBank, Sprite } from '@bxel/document';
+import { composeAnimationFrame, TRANSPARENT_INDEX } from '@bxel/document';
+import type { AnimFrameId } from '@bxel/document';
 import { bankRgba } from '../export/bank-rgba';
 import { GREY_WEIGHTS, ONION_TINTS } from './onion.constants';
-import type { OnionGhost, Rgb } from './onion.type';
+import type { OnionGhost, OnionSource, Rgb } from './onion.type';
 
 const tinted = (rgba: Uint8Array, at: number, ghost: OnionGhost): Rgb => {
   const own: Rgb = [rgba[at] ?? 0, rgba[at + 1] ?? 0, rgba[at + 2] ?? 0];
@@ -13,10 +13,11 @@ const tinted = (rgba: Uint8Array, at: number, ghost: OnionGhost): Rgb => {
   return [grey, grey, grey];
 };
 
-const onionPixels = (sprite: Sprite, bank: PaletteBank, shown: FrameId, ghost: OnionGhost): Uint8ClampedArray<ArrayBuffer> => {
+const onionPixels = (source: OnionSource, shown: AnimFrameId, ghost: OnionGhost): Uint8ClampedArray<ArrayBuffer> => {
+  const { artwork, animation, bank } = source;
   const table = bankRgba(bank);
-  const current = flattenFrame(sprite, shown);
-  const indices = flattenFrame(sprite, ghost.frameId);
+  const current = composeAnimationFrame(artwork, animation, shown);
+  const indices = composeAnimationFrame(artwork, animation, ghost.frameId, ghost.flip);
   const out = new Uint8ClampedArray(indices.length * 4);
   for (const [position, index] of indices.entries()) {
     if (index === TRANSPARENT_INDEX || current[position] !== TRANSPARENT_INDEX) continue;

@@ -6,7 +6,7 @@ const UI_ANIMATION = {
   durations: [100, 250, 400],
   swatches: [2, 3, 4],
   tag: 'run',
-  file: 'run.bxsprite',
+  file: 'run.bxanim',
   strokes: [
     [{ x: 1, y: 1 }, { x: 4, y: 1 }],
     [{ x: 1, y: 4 }, { x: 4, y: 4 }],

@@ -4,6 +4,7 @@ import type { PixelViewportHandle } from '../../PixelViewport';
 import type { CanvasTools } from './canvas-tools.type';
 import { useAxisDrag } from './useAxisDrag';
 import { useGuideGrab } from './useGuideGrab';
+import { usePivotDrag } from './usePivotDrag';
 import { usePaintGesture } from './usePaintGesture';
 import { useSelectGesture } from './useSelectGesture';
 
@@ -11,17 +12,18 @@ const useCanvasTools = (viewport: RefObject<PixelViewportHandle | null>): Canvas
   const paint = usePaintGesture(viewport);
   const guide = useGuideGrab(viewport);
   const axis = useAxisDrag(viewport);
+  const pivot = usePivotDrag(viewport);
   const select = useSelectGesture(viewport);
   return {
     live: paint.live,
     onPointerDown: (event) => {
-      if (!guide.down(event) && !axis.down(event) && !select.down(event)) paint.down(event);
+      if (!guide.down(event) && !pivot.down(event) && !axis.down(event) && !select.down(event)) paint.down(event);
     },
     onPointerMove: (event) => {
-      if (!guide.move(event) && !axis.move(event) && !select.move(event)) paint.move(event);
+      if (!guide.move(event) && !pivot.move(event) && !axis.move(event) && !select.move(event)) paint.move(event);
     },
     onPointerUp: () => {
-      if (!guide.up() && !axis.up() && !select.up()) paint.up();
+      if (!guide.up() && !pivot.up() && !axis.up() && !select.up()) paint.up();
     },
   };
 };

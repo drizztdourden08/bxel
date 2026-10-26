@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { Sprite, Tag, TagId } from '@bxel/document';
+import type { AnimTag, Animation, TagId } from '@bxel/document';
+import { spanTagOf } from './span-tag-of';
 import { TAG_COLOURS, TAG_DIRECTION_TEXT, TIMELINE_TEXT } from './timeline.constants';
 import type { TagCell, TagEdge, TagLook } from './timeline.type';
 
@@ -9,31 +10,37 @@ const edgeOf = (position: number, start: number, end: number): TagEdge => {
   return position === end ? 'end' : 'mid';
 };
 
-const cellOf = (tag: Tag, look: TagLook): TagCell => {
+const cellOf = (animation: Animation, tag: AnimTag, look: TagLook): TagCell | null => {
+  const base = spanTagOf(animation, tag);
+  if (!base) return null;
   const leading = look.edge === 'start' || look.edge === 'only';
+  const mirror = tag.kind === 'mirror';
   return {
     tagId: tag.id,
-    name: leading ? tag.name : '',
+    name: leading ? base.name : '',
     colour: look.colour,
-    custom: tag.colour ?? null,
+    custom: base.colour ?? null,
     edge: look.edge,
     selected: look.selected,
     roving: look.roving && leading,
-    label: TIMELINE_TEXT.tagLabel(tag.name, TAG_DIRECTION_TEXT[tag.direction]),
+    mirror,
+    label: tag.kind === 'mirror' ? TIMELINE_TEXT.mirrorLabel(base.name, tag.flip) : TIMELINE_TEXT.tagLabel(base.name, TAG_DIRECTION_TEXT[base.direction]),
   };
 };
 
-const rovingTag = (sprite: Sprite, selectedId: TagId | null): TagId | null =>
-  (sprite.tags.find((tag) => tag.id === selectedId) ?? sprite.tags[0])?.id ?? null;
+const rovingTag = (animation: Animation, selectedId: TagId | null): TagId | null =>
+  (animation.tags.find((tag) => tag.id === selectedId) ?? animation.tags[0])?.id ?? null;
 
-const tagLanes = (sprite: Sprite, selectedId: TagId | null): (TagCell | null)[][] => {
-  const order = sprite.frames.map((frame) => frame.id);
-  const roving = rovingTag(sprite, selectedId);
+const tagLanes = (animation: Animation, selectedId: TagId | null): (TagCell | null)[][] => {
+  const order = animation.frames.map((frame) => frame.id);
+  const roving = rovingTag(animation, selectedId);
   const lanes: (TagCell | null)[][] = [];
   const ends: number[] = [];
-  sprite.tags.forEach((tag, index) => {
-    const from = order.indexOf(tag.from);
-    const to = order.indexOf(tag.to);
+  animation.tags.forEach((tag, index) => {
+    const base = spanTagOf(animation, tag);
+    if (!base) return;
+    const from = order.indexOf(base.from);
+    const to = order.indexOf(base.to);
     if (from < 0 || to < 0) return;
     const start = Math.min(from, to);
     const end = Math.max(from, to);
@@ -44,7 +51,7 @@ const tagLanes = (sprite: Sprite, selectedId: TagId | null): (TagCell | null)[][
     const colour = TAG_COLOURS[index % TAG_COLOURS.length] ?? 'blue';
     const selected = tag.id === selectedId;
     for (let position = start; position <= end; position += 1) {
-      cells[position] = cellOf(tag, { colour, edge: edgeOf(position, start, end), selected, roving: tag.id === roving });
+      cells[position] = cellOf(animation, tag, { colour, edge: edgeOf(position, start, end), selected, roving: tag.id === roving });
     }
     lanes[lane] = cells;
   });

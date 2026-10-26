@@ -43,7 +43,7 @@ describe('a flip on picked sprites', () => {
     expect(outcome?.others).toHaveLength(2);
     const target = currentTarget();
     if (!target || !pending) throw new Error('no preview');
-    expect(scopeText(target, pending)).toEqual({ targets: '3 sprites', layers: 'All layers', frames: 'All frames (1)' });
+    expect(scopeText(target, pending)).toEqual({ targets: '3 sprites', layers: 'All layers' });
     cancelPending();
   });
 

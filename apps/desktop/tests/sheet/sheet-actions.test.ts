@@ -150,21 +150,20 @@ describe('the sprite list', () => {
 });
 
 describe('the scope chips', () => {
-  it('say how many sprites are picked and what the layer and frame scopes are', () => {
+  it('say how many sprites are picked and what the layer scope is', () => {
     pickSpriteById(idOf('sprite'), 'replace');
     pickSpriteById(idOf('b'), 'toggle');
     pickSpriteById(idOf('c'), 'toggle');
     const scene = currentScene();
     const target = currentTarget();
     if (!scene || !target) throw new Error('no scene');
-    const all = { sprites: 'selected', layers: 'all', frames: 'all' } as const;
+    const all = { sprites: 'selected', layers: 'all' } as const;
     expect(scopeChipModel(scene, target, all)).toEqual({
       multi: true,
       sprites: 'Sprites: 3 selected',
       layers: 'Layers: All (1)',
-      frames: 'Frames: Current (1 of 1)',
     });
-    expect(scopeChipModel(scene, target, { sprites: 'current', layers: 'active', frames: 'current' })).toMatchObject({
+    expect(scopeChipModel(scene, target, { sprites: 'current', layers: 'active' })).toMatchObject({
       sprites: 'Sprite: c',
       layers: 'Layers: Layer 1',
     });
@@ -175,6 +174,6 @@ describe('the scope chips', () => {
     const scene = currentScene();
     const target = currentTarget();
     if (!scene || !target) throw new Error('no scene');
-    expect(scopeChipModel(scene, target, { sprites: 'selected', layers: 'all', frames: 'all' }).multi).toBe(false);
+    expect(scopeChipModel(scene, target, { sprites: 'selected', layers: 'all' }).multi).toBe(false);
   });
 });

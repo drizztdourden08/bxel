@@ -4,7 +4,7 @@ import { createSprite } from './support/create-sprite';
 import type { Session } from './support/e2e.type';
 import { openSession } from './support/open-session';
 
-const FILE_TYPES = ['Sprite', 'Spritesheet', 'Palette', 'Tileset', 'Tilemap'];
+const FILE_TYPES = ['Sprite', 'Animation', 'Spritesheet', 'Palette', 'Tileset', 'Tilemap'];
 
 const picker = (session: Session) => session.page.getByRole('region', { name: 'New file' });
 

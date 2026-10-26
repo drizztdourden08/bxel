@@ -94,8 +94,6 @@ interface ListRow {
   width: number;
   height: number;
   pivot: string;
-  frames: number;
-  tags: number;
   bank: string;
   loose: boolean;
 }

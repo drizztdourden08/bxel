@@ -1,9 +1,13 @@
 /* @layer renderer-app @kind logic */
+import type { AssetKey } from '@bxel/document';
 import type { AssetReport } from '@bxel/document/native';
 import { keyAt } from './key-at';
 import { parentOf } from './parent-of';
 import { sameDirs } from './same-dirs';
 import type { AssetFile, MergedWorkspace, WorkspaceSeed } from './workspace.type';
+
+const migratedFocus = (merged: MergedWorkspace): AssetKey | null =>
+  merged.migration?.keys.find((key) => key.kind === 'animation') ?? null;
 
 const looseFileSeed = (first: AssetFile, report: AssetReport, merged: MergedWorkspace): WorkspaceSeed => {
   const dir = parentOf(first.path);
@@ -19,7 +23,8 @@ const looseFileSeed = (first: AssetFile, report: AssetReport, merged: MergedWork
     artwork: merged.artwork,
     readOnly: report.readOnly,
     unsaved: false,
-    focus: keyAt(merged.paths, first.path, first.manifest.kind),
+    ...(merged.migration ? { migration: merged.migration } : {}),
+    focus: migratedFocus(merged) ?? keyAt(merged.paths, first.path, first.manifest.kind),
   };
 };
 

@@ -1,152 +1,147 @@
 /* @layer renderer-app @kind test */
+import { COMMAND_NAME } from '@bxel/document';
+import type { TagId } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { stepHistory } from '../../src/editor/step-history';
+import { useDocumentStore } from '../../src/stores/useDocumentStore';
+import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { addTag } from '../../src/timeline/add-tag';
 import { changeTag } from '../../src/timeline/change-tag';
+import { deletePickedTag } from '../../src/timeline/delete-picked-tag';
 import { deleteTag } from '../../src/timeline/delete-tag';
-import { moveFrames } from '../../src/timeline/move-frames';
-import { selectTag } from '../../src/timeline/select-tag';
+import { facingTag } from '../../src/timeline/facing-tag';
+import { pickFacing } from '../../src/timeline/pick-facing';
+import { setTagColour } from '../../src/timeline/set-tag-colour';
 import { setTagRange } from '../../src/timeline/set-tag-range';
 import { tagLanes } from '../../src/timeline/tag-lanes';
-import { useTimelineStore } from '../../src/stores/useTimelineStore';
-import { frameIds, freshDocument, live, noticeText, pickRange, revision, withFrames } from './timeline-harness';
+import { tagOptions } from '../../src/timeline/tag-options';
+import { animationOf, frameAt, freshAnimation, live, noticeText, pickRange, run, withFrames } from './timeline-harness';
 
-beforeEach(freshDocument);
+beforeEach(() => {
+  freshAnimation();
+});
 
-const tags = () => live().sprite.tags;
+const tags = () => animationOf().tags;
 
-describe('tags', () => {
-  it('adds a tag over the picked frames only and picks it', () => {
-    const [, b, c] = withFrames(4);
+describe('tags on the picked frames', () => {
+  it('adds a numbered tag over the picked span and picks it', () => {
+    withFrames(4);
     pickRange(1, 2);
-    const before = revision();
     addTag();
-    expect(tags()).toHaveLength(1);
-    expect(tags()[0]).toMatchObject({ from: b, to: c, direction: 'forward' });
+    expect(tags()).toMatchObject([{ kind: 'span', name: 'Tag 1', from: frameAt(1), to: frameAt(2), direction: 'forward' }]);
     expect(useTimelineStore.getState().tagId).toBe(tags()[0]?.id);
-    expect(revision()).toBe(before + 1);
-    stepHistory('undo');
-    expect(tags()).toHaveLength(0);
-  });
-
-  it('gives a second tag a name of its own', () => {
-    withFrames(3);
     pickRange(0, 0);
     addTag();
-    pickRange(1, 2);
-    addTag();
-    const names = tags().map((tag) => tag.name);
-    expect(new Set(names).size).toBe(2);
+    expect(tags().map((tag) => (tag.kind === 'span' ? tag.name : ''))).toEqual(['Tag 1', 'Tag 2']);
   });
 
-  it('renames and sets the loop mode without touching the range', () => {
-    const [a, , c] = withFrames(3);
+  it('changes the loop mode, the repeat count and the colour, each as one undo step', () => {
+    withFrames(3);
     pickRange(0, 2);
     addTag();
-    const id = tags()[0]?.id;
-    if (!id) throw new Error('no tag');
-    expect(changeTag('Rename tag', id, { name: 'walk' })).toBe(true);
-    expect(changeTag('Change tag', id, { direction: 'pingpong' })).toBe(true);
-    expect(tags()[0]).toMatchObject({ name: 'walk', direction: 'pingpong', from: a, to: c });
+    const id = tags()[0]?.id as TagId;
+    expect(changeTag('Change tag', id, { direction: 'pingpong', repeat: 3 })).toBe(true);
+    expect(setTagColour(id, '#6f9cf0')).toBe(true);
+    expect(tags()[0]).toMatchObject({ direction: 'pingpong', repeat: 3, colour: '#6f9cf0' });
+    useDocumentStore.getState().host.undo(live().documentId);
+    expect(tags()[0]).not.toHaveProperty('colour', '#6f9cf0');
+    expect(tags()[0]).toMatchObject({ direction: 'pingpong', repeat: 3 });
   });
 
-  it('refuses a name another tag has and changes nothing', () => {
+  it('moves the range to the picked frames', () => {
+    withFrames(4);
+    pickRange(0, 1);
+    addTag();
+    const id = tags()[0]?.id as TagId;
+    pickRange(2, 3);
+    expect(setTagRange(id)).toBe(true);
+    expect(tags()[0]).toMatchObject({ from: frameAt(2), to: frameAt(3) });
+  });
+
+  it('refuses a name that is taken and says so', () => {
     withFrames(3);
     pickRange(0, 0);
     addTag();
     pickRange(1, 1);
     addTag();
-    const [first, second] = tags();
-    if (!first || !second) throw new Error('no tags');
-    const before = revision();
-    expect(changeTag('Rename tag', second.id, { name: first.name })).toBe(false);
-    expect(revision()).toBe(before);
+    const second = tags()[1]?.id as TagId;
+    expect(changeTag('Rename tag', second, { name: 'Tag 1' })).toBe(false);
     expect(noticeText()).toBeDefined();
-    expect(new Set(tags().map((tag) => tag.name)).size).toBe(2);
   });
 
-});
-
-describe('tag ranges', () => {
-  it('sets the range to the picked frames and leaves the other tags alone', () => {
-    const [a, b, c, d] = withFrames(4);
-    pickRange(0, 0);
-    addTag();
-    pickRange(2, 3);
-    addTag();
-    const [first, second] = tags();
-    if (!first || !second) throw new Error('no tags');
-    pickRange(1, 2);
-    expect(setTagRange(first.id)).toBe(true);
-    expect(tags()[0]).toMatchObject({ from: b, to: c });
-    expect(tags()[1]).toMatchObject({ from: c, to: d });
-    expect(frameIds()).toEqual([a, b, c, d]);
-  });
-
-  it('follows its frames when they move', () => {
-    const [a, b, c] = withFrames(3);
-    pickRange(0, 1);
-    addTag();
-    pickRange(2, 2);
-    moveFrames(-2);
-    expect(frameIds()).toEqual([c, a, b]);
-    expect(tags()[0]).toMatchObject({ from: a, to: b });
-  });
-
-  it('deletes a tag in one step and leaves the frames', () => {
+  it('deletes the picked tag and lets go of it', () => {
     withFrames(3);
     pickRange(0, 1);
     addTag();
-    const id = tags()[0]?.id;
-    if (!id) throw new Error('no tag');
-    expect(deleteTag(id)).toBe(true);
-    expect(tags()).toHaveLength(0);
-    expect(frameIds()).toHaveLength(3);
+    expect(deletePickedTag()).toBe(true);
+    expect(tags()).toEqual([]);
     expect(useTimelineStore.getState().tagId).toBeNull();
-    stepHistory('undo');
-    expect(tags()).toHaveLength(1);
-  });
-
-  it('picks the frames of a tag when its bar is clicked', () => {
-    const [, b, c] = withFrames(4);
-    pickRange(1, 2);
-    addTag();
-    pickRange(3, 3);
-    const id = tags()[0]?.id;
-    if (!id) throw new Error('no tag');
-    selectTag(id);
-    expect(useTimelineStore.getState().selection.frames).toEqual([b, c]);
-    expect(live().frameId).toBe(b);
-  });
-
-  it('reports an unknown tag in plain words', () => {
-    withFrames(2);
-    expect(changeTag('Rename tag', 'tag_none' as never, { name: 'x' })).toBe(false);
-    expect(noticeText()).toBeDefined();
+    expect(deletePickedTag()).toBe(false);
   });
 });
 
-describe('tag bars', () => {
-  it('lays overlapping tags on separate lanes with marked ends', () => {
+describe('the tag lanes', () => {
+  it('draw each tag over its frames and put overlapping tags in lanes of their own', () => {
     withFrames(4);
     pickRange(0, 2);
     addTag();
     pickRange(1, 3);
     addTag();
-    const lanes = tagLanes(live().sprite, null);
+    const lanes = tagLanes(animationOf(), null);
     expect(lanes).toHaveLength(2);
     expect(lanes[0]?.map((cell) => cell?.edge ?? null)).toEqual(['start', 'mid', 'end', null]);
     expect(lanes[1]?.map((cell) => cell?.edge ?? null)).toEqual([null, 'start', 'mid', 'end']);
-    expect(lanes[0]?.[0]?.name).not.toBe('');
+    expect(lanes[0]?.[0]?.name).toBe('Tag 1');
     expect(lanes[0]?.[1]?.name).toBe('');
   });
 
-  it('puts a tag that ends before another begins on the same lane', () => {
-    withFrames(4);
+  it('drop a tag whose frames are gone', () => {
+    withFrames(3);
+    pickRange(1, 2);
+    addTag();
+    const id = tags()[0]?.id as TagId;
+    deleteTag(id);
+    expect(tagLanes(animationOf(), null)).toEqual([]);
+  });
+});
+
+describe('directions', () => {
+  const eightWays = (): void => {
+    withFrames(3);
+    const animation = animationOf().id;
     pickRange(0, 1);
     addTag();
-    pickRange(2, 3);
-    addTag();
-    expect(tagLanes(live().sprite, null)).toHaveLength(1);
+    const east = tags()[0]?.id;
+    run('Directions', [
+      { name: COMMAND_NAME.animationUpdate, targets: null, options: { animation, directions: 'eight' } },
+      { name: COMMAND_NAME.animationTagUpdate, targets: null, options: { animation, tag: { by: 'id', id: east }, facing: 'e' } },
+      { name: COMMAND_NAME.animationTagAdd, targets: null, options: { animation, kind: 'mirror', of: { by: 'id', id: east }, flip: 'x', facing: 'w' } },
+    ]);
+  };
+
+  it('finds the tag of a facing, mirrors included', () => {
+    eightWays();
+    expect(facingTag(animationOf(), 'e')?.kind).toBe('span');
+    expect(facingTag(animationOf(), 'w')?.kind).toBe('mirror');
+    expect(facingTag(animationOf(), 'n')).toBeUndefined();
+  });
+
+  it('jumps to the frames of a facing and plays its tag', () => {
+    eightWays();
+    expect(pickFacing('n')).toBe(false);
+    pickRange(2, 2);
+    expect(pickFacing('w')).toBe(true);
+    expect(useTimelineStore.getState().tagId).toBe(facingTag(animationOf(), 'w')?.id);
+    expect(useTimelineStore.getState().selection.frames).toEqual([frameAt(0), frameAt(1)]);
+  });
+
+  it('lists the tags to play, a mirrored one by the tag it copies', () => {
+    eightWays();
+    expect(tagOptions(animationOf()).map((option) => option.label)).toEqual(['Whole animation', 'Tag 1 (east)', 'Tag 1 (west, mirrored)']);
+  });
+
+  it('draws a mirrored tag over the frames of the tag it copies', () => {
+    eightWays();
+    const lanes = tagLanes(animationOf(), null);
+    expect(lanes.flat().filter((cell) => cell?.mirror === true)).toHaveLength(2);
   });
 });

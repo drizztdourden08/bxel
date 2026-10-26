@@ -1,18 +1,29 @@
 /* @layer renderer-app @kind logic */
-import { mkdir } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
+import { expect } from 'vitest';
+import { POLL_MS } from './e2e.constants';
 import type { Session } from './e2e.type';
-import { finishExport } from './finish-export';
 import { openExportDialog } from './open-export-dialog';
 
 const exportAnimation = async (session: Session, format: 'GIF' | 'APNG'): Promise<Uint8Array> => {
-  const folder = join(session.dir, `out-${format}`);
-  const file = join(folder, `walk.${format === 'GIF' ? 'gif' : 'png'}`);
-  await mkdir(folder, { recursive: true });
-  const dialog = await openExportDialog(session, { open: null, save: file });
-  await dialog.getByRole('radio', { name: 'Animation' }).check();
-  await dialog.getByRole('radio', { name: format, exact: true }).check();
-  return finishExport(dialog, file);
+  const extension = format === 'GIF' ? '.gif' : '.png';
+  const folder = await mkdtemp(join(process.cwd(), 'e2e-out-'));
+  try {
+    const dialog = await openExportDialog(session, { open: folder, save: null });
+    await dialog.getByRole('radio', { name: 'Animation', checked: true }).waitFor();
+    await dialog.getByRole('radio', { name: format, exact: true }).check();
+    await dialog.getByRole('button', { name: 'Browse...' }).click();
+    await expect.poll(() => dialog.getByRole('textbox', { name: 'Folder to save to' }).inputValue(), { timeout: POLL_MS }).toContain('e2e-out-');
+    await dialog.getByRole('button', { name: /^Export 1 file/ }).click();
+    const written = async (): Promise<string[]> => (await readdir(folder)).filter((name) => name.endsWith(extension));
+    await expect.poll(async () => (await written()).length, { timeout: POLL_MS }).toBe(1);
+    await dialog.waitFor({ state: 'detached' });
+    const [name] = await written();
+    return new Uint8Array(await readFile(join(folder, name ?? '')));
+  } finally {
+    await rm(folder, { recursive: true, force: true });
+  }
 };
 
 export { exportAnimation };

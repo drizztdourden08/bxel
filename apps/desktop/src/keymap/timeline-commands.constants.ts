@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
-import { deleteInZone } from '../timeline/delete-in-zone';
+import { deleteFrames } from '../timeline/delete-frames';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
@@ -8,12 +8,12 @@ import { COMMAND_GROUP } from './keymap.constants';
 const TIMELINE_COMMANDS: readonly CommandDef[] = [
   {
     id: 'timeline.delete',
-    label: 'Clear the picked cels or delete the picked tag',
+    label: 'Delete the picked frames',
     group: COMMAND_GROUP.timeline,
     chord: 'Delete',
     zone: COMMAND_ZONE.timeline,
     whileTyping: false,
-    run: deleteInZone,
+    run: deleteFrames,
   },
 ].map(editorCommand);
 

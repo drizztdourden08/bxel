@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
-import { findBank, findSheet, findSprite, findTilemap, findTileset, sheetExtent, sheetSizes } from '@bxel/document';
-import type { Artwork, AssetKey, BankId, SheetId, SpriteId, TilemapId, TilesetId } from '@bxel/document';
+import { findAnimation, findBank, findSheet, findSprite, findTilemap, findTileset, sheetExtent, sheetSizes } from '@bxel/document';
+import type { AnimationId, Artwork, AssetKey, BankId, SheetId, SpriteId, TilemapId, TilesetId } from '@bxel/document';
 import { OVERVIEW_TEXT } from './asset-overview.constants';
 import type { OverviewFact } from './asset-overview.type';
 
@@ -11,9 +11,19 @@ const spriteFacts = (artwork: Artwork, id: string): readonly OverviewFact[] => {
   if (!sprite) return [];
   return [
     fact(OVERVIEW_TEXT.size, OVERVIEW_TEXT.pixelSize(sprite.width, sprite.height)),
-    fact(OVERVIEW_TEXT.frames, String(sprite.frames.length)),
     fact(OVERVIEW_TEXT.layers, String(sprite.layers.length)),
     fact(OVERVIEW_TEXT.palette, findBank(artwork, sprite.bankId)?.name ?? OVERVIEW_TEXT.unknown),
+  ];
+};
+
+const animationFacts = (artwork: Artwork, id: string): readonly OverviewFact[] => {
+  const animation = findAnimation(artwork, id as AnimationId);
+  if (!animation) return [];
+  return [
+    fact(OVERVIEW_TEXT.size, OVERVIEW_TEXT.pixelSize(animation.width, animation.height)),
+    fact(OVERVIEW_TEXT.frames, String(animation.frames.length)),
+    fact(OVERVIEW_TEXT.duration, OVERVIEW_TEXT.milliseconds(animation.frames.reduce((sum, frame) => sum + frame.durationMs, 0))),
+    fact(OVERVIEW_TEXT.palette, findBank(artwork, animation.bankId)?.name ?? OVERVIEW_TEXT.unknown),
   ];
 };
 
@@ -23,7 +33,7 @@ const sheetFacts = (artwork: Artwork, id: string): readonly OverviewFact[] => {
   const extent = sheetExtent(sheet, sheetSizes(artwork));
   return [
     fact(OVERVIEW_TEXT.size, OVERVIEW_TEXT.pixelSize(extent.width, extent.height)),
-    fact(OVERVIEW_TEXT.sprites, String(sheet.entries.length)),
+    fact(OVERVIEW_TEXT.sprites, String(sheet.entries.length + (sheet.animationEntries?.length ?? 0))),
     fact(OVERVIEW_TEXT.layout, sheet.layout.kind),
   ];
 };
@@ -56,6 +66,7 @@ const tilemapFacts = (artwork: Artwork, id: string): readonly OverviewFact[] => 
 
 const kindFacts = (artwork: Artwork, key: AssetKey): readonly OverviewFact[] => {
   if (key.kind === 'sprite') return spriteFacts(artwork, key.id);
+  if (key.kind === 'animation') return animationFacts(artwork, key.id);
   if (key.kind === 'sheet') return sheetFacts(artwork, key.id);
   if (key.kind === 'palette') return paletteFacts(artwork, key.id);
   if (key.kind === 'tileset') return tilesetFacts(artwork, key.id);

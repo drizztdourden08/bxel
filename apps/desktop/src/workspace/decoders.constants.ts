@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import { resolveLinkPath } from '@bxel/document';
 import type { AssetKind } from '@bxel/document';
-import { decodePalette, decodeSheet, decodeSprite, decodeTilemap, decodeTileset } from '@bxel/document/native';
+import { decodeAnimation, decodePalette, decodeSheet, decodeSprite, decodeTilemap, decodeTileset } from '@bxel/document/native';
 import { linkedSlice } from './linked-slice';
 import { poolById } from './pool-by-id';
 import { poolByPath } from './pool-by-path';
@@ -14,7 +14,7 @@ const withLink =
     return { report: decode(file.bytes, linked.found?.slice ?? null), relinked: linked.relinked };
   };
 
-const MEMBER_KINDS: readonly AssetKind[] = ['sprite', 'tileset'];
+const MEMBER_KINDS: readonly AssetKind[] = ['sprite', 'animation', 'tileset'];
 
 const sheetRelinked = (file: AssetFile, pool: DecodedPool): boolean =>
   file.manifest.links.some((link) => {
@@ -26,14 +26,27 @@ const sheetRelinked = (file: AssetFile, pool: DecodedPool): boolean =>
   });
 
 const decodeSheetFile: Decoder = (file, pool) => {
-  const members = pool.all.filter((each) => each.slice.kind === 'sprite' || each.slice.kind === 'tileset');
+  const members = pool.all.filter((each) => MEMBER_KINDS.includes(each.slice.kind));
   return { report: decodeSheet(file.bytes, members.map((each) => each.slice)), relinked: sheetRelinked(file, pool) };
+};
+
+const decodeAnimationFile: Decoder = (file, pool) => {
+  const linked = linkedSlice(file, pool, 'palette');
+  const sprites = pool.all.filter((each) => each.slice.kind === 'sprite').map((each) => each.slice);
+  return { report: decodeAnimation(file.bytes, linked.found?.slice ?? null, sprites), relinked: linked.relinked };
+};
+
+const decodeTilesetFile: Decoder = (file, pool) => {
+  const linked = linkedSlice(file, pool, 'palette');
+  const animations = pool.all.filter((each) => each.slice.kind === 'animation').map((each) => each.slice);
+  return { report: decodeTileset(file.bytes, linked.found?.slice ?? null, animations), relinked: linked.relinked };
 };
 
 const ASSET_DECODERS: Readonly<Partial<Record<AssetKind, Decoder>>> = {
   palette: (file) => ({ report: decodePalette(file.bytes), relinked: false }),
   sprite: withLink(decodeSprite, 'palette'),
-  tileset: withLink(decodeTileset, 'palette'),
+  animation: decodeAnimationFile,
+  tileset: decodeTilesetFile,
   sheet: decodeSheetFile,
   tilemap: withLink(decodeTilemap, 'tileset'),
 };

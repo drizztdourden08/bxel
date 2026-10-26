@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { Tag } from '@bxel/document';
-import { currentTarget } from '../editor/current-target';
+import type { AnimTag, Animation, TagId } from '@bxel/document';
 
-const tagById = (tagId: string | undefined): Tag | undefined => currentTarget()?.sprite.tags.find((each) => each.id === tagId);
+const tagById = (animation: Animation, tagId: TagId | null): AnimTag | undefined => animation.tags.find((tag) => tag.id === tagId);
 
 export { tagById };

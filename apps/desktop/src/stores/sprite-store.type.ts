@@ -5,8 +5,6 @@ type SpriteMode = 'sprite' | 'sheet' | 'tilemap';
 
 type LayerScope = 'active' | 'visible' | 'all';
 
-type FrameScope = 'current' | 'all';
-
 type SpritesScope = 'selected' | 'current';
 
 interface SpriteSettings {
@@ -18,7 +16,6 @@ interface SpriteSettings {
   isolated: boolean;
   spritesScope: SpritesScope;
   layerScope: LayerScope;
-  frameScope: FrameScope;
   gap: string | null;
   sliceDraw: boolean;
   renamingId: SpriteId | null;
@@ -32,10 +29,9 @@ interface SpriteState extends SpriteSettings {
   setBroadcast: (broadcast: boolean) => void;
   setSpritesScope: (scope: SpritesScope) => void;
   setLayerScope: (scope: LayerScope) => void;
-  setFrameScope: (scope: FrameScope) => void;
   setGap: (layerName: string | null) => void;
   setSliceDraw: (on: boolean) => void;
   setRenaming: (spriteId: SpriteId | null) => void;
 }
 
-export type { FrameScope, LayerScope, SpriteMode, SpriteSettings, SpriteState, SpritesScope };
+export type { LayerScope, SpriteMode, SpriteSettings, SpriteState, SpritesScope };

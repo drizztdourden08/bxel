@@ -2,22 +2,16 @@
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { menuTarget } from '../../../context-menu/menu-target';
 import { TIMELINE_MENU } from '../TimelinePanel.constants';
-import { layerEntriesFor } from '../../LayersPanel';
-import { celEntries } from './cel-entries';
 import { frameEntries } from './frame-entries';
 import { tagEntries } from './tag-entries';
 
 const timelineMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[] => {
   const tag = menuTarget(context, TIMELINE_MENU.tag);
-  const cel = menuTarget(context, TIMELINE_MENU.cel);
-  const head = menuTarget(context, TIMELINE_MENU.head);
-  const label = menuTarget(context, TIMELINE_MENU.rowLabel);
+  const frame = menuTarget(context, TIMELINE_MENU.frame);
   if (tag) return tagEntries(tag.dataset.tagId);
-  if (cel) return celEntries(cel.dataset.layerId);
-  if (head) return frameEntries(head.dataset.frameId);
-  if (label) return layerEntriesFor(label.dataset.layerId);
+  if (frame) return frameEntries(frame.dataset.frameId);
   const lane = menuTarget(context, TIMELINE_MENU.lane) !== null;
-  return lane ? ['timeline.add_tag', 'timeline.select_all_frames'] : celEntries(undefined);
+  return lane ? ['timeline.add_tag', 'timeline.select_all_frames'] : ['timeline.add_frame', 'timeline.toggle_onion', 'timeline.select_all_frames'];
 };
 
 export { timelineMenuEntries };

@@ -15,6 +15,7 @@ const usage = {
   rules: [
     'Pass width and height in image pixels, and either draw or source. The viewport owns the view only; the app owns the pixels.',
     'draw(ctx, view) is called on each frame that needs paint, with the transform set, so one unit is one image pixel. Keep draw stable with useCallback, or call redraw on the ref when the pixels change.',
+    'pivotGrips(ctx, view) draws after draw, with the same transform but no clip, so the pivot grips and the ghosts of an animation can reach beyond the image into the room around it.',
     'source takes an ImageData, an ImageBitmap, an image or a canvas and is painted at the origin; a new source repaints on its own, and redraw repaints after the same ImageData changed in place.',
     'The wheel zooms around the pointer by default; wheel="pan" makes it scroll instead, with Ctrl or a pinch to zoom. Shift turns a scroll sideways.',
     'Zoom steps are whole factors from 1 to 64 by default, set by zoomSteps; below 1 it halves down to the fit, and the fit is a whole factor when the image fits once or more.',
@@ -61,7 +62,7 @@ const SpriteCanvas = ({ layers }: { layers: readonly ImageBitmap[] }) => {
   );
 };
 `,
-  propsHash: 'ebf2b77f9934a484',
+  propsHash: '828aef2469ac5fd5',
 } satisfies ComponentUsage;
 
 export { usage };
