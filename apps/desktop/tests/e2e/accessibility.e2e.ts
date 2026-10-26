@@ -5,6 +5,7 @@ import type { DocumentId } from '@bxel/document';
 import { encodeArtwork } from '@bxel/document/native';
 import { describe, test } from 'vitest';
 import { answerDialogs } from './support/answer-dialogs';
+import { buildManyAssets } from './support/build-many-assets';
 import { buildSampleArtwork } from './support/build-sample-artwork';
 import { createSprite } from './support/create-sprite';
 import { SHORTCUT } from './support/e2e.constants';
@@ -17,10 +18,13 @@ import { openSession } from './support/open-session';
 import { openTilemapRig } from './support/open-tilemap-rig';
 import { SAMPLE } from './support/sample.constants';
 import { showPanelView } from './support/show-folder-view';
+import { showSheetList } from './support/show-sheet-list';
 import { writeBlocksPng } from './support/write-blocks-png';
 import { writeSampleProject } from './support/write-sample-project';
 
 const SETTINGS = 'Control+,';
+
+const LONG_LIST = 210;
 
 const reduceMotion = (session: Session): Promise<void> => session.page.emulateMedia({ reducedMotion: 'reduce' });
 
@@ -77,6 +81,17 @@ const checksProject = async (session: Session, place: string): Promise<void> => 
   await expectAccessible(session, 'Project panel, Folders view');
   await session.page.getByRole('toolbar', { name: 'Canvas' }).getByRole('button', { name: 'Sheet', exact: true }).click();
   await expectAccessible(session, 'Sheet mode with the sheet manager');
+  await showSheetList(session);
+  await expectAccessible(session, 'Sheet manager, list view');
+};
+
+const checksLongList = async (session: Session, place: string): Promise<void> => {
+  const root = join(place, 'Long');
+  await writeSampleProject(root, buildManyAssets(LONG_LIST), SAMPLE.name);
+  await openProjectAtInUi(session, root, SAMPLE.name);
+  await session.page.getByRole('toolbar', { name: 'Canvas' }).getByRole('button', { name: 'Sheet', exact: true }).click();
+  await showSheetList(session);
+  await expectAccessible(session, 'Sheet manager, long list view');
 };
 
 const checksSplit = async (session: Session, place: string): Promise<void> => {
@@ -120,6 +135,16 @@ describe('accessibility: no serious or critical axe finding', () => {
     try {
       await reduceMotion(session);
       await inFreshPlace((place) => checksProject(session, place));
+    } finally {
+      await session.close();
+    }
+  });
+
+  test('the sheet manager list view with a long list of sprites', async () => {
+    const session = await openSession();
+    try {
+      await reduceMotion(session);
+      await inFreshPlace((place) => checksLongList(session, place));
     } finally {
       await session.close();
     }

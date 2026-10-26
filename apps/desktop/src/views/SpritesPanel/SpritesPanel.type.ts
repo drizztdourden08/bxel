@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind types */
-import type { DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, RefObject } from 'react';
+import type { CSSProperties, DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, RefObject } from 'react';
 import type { MenuGroup, VirtualSize } from '@drizztdourden08/tessera';
 import type { Artwork, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
 import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
-import type { FolderGroup, SavedSelection } from '../../sheet-manager/folders.type';
+import type { FolderGroup, ListItem, SavedSelection } from '../../sheet-manager/folders.type';
 import type { ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
 import type { HintSpec } from '../ActionHint';
 
@@ -63,12 +63,33 @@ interface SpriteHandlers {
   onMenu: () => void;
 }
 
+interface SpriteEvents {
+  onClick: (event: MouseEvent<HTMLElement>) => void;
+  onDoubleClick: () => void;
+  onContextMenu: () => void;
+}
+
 interface SpriteItemProps {
   fact: SpriteFacts;
   artwork: Artwork;
   state: SpriteState;
   drag: SpriteDragHandlers;
   handlers: SpriteHandlers;
+}
+
+interface RowPlace {
+  style: CSSProperties;
+  'aria-rowindex': number;
+  'data-row-index': number;
+}
+
+interface SpriteRowProps extends SpriteItemProps {
+  place?: RowPlace;
+}
+
+interface SpriteRowsProps {
+  items: readonly ListItem[];
+  rowOf: (item: ListItem, place?: RowPlace) => ReactNode;
 }
 
 interface SpriteTileProps extends SpriteItemProps {
@@ -120,6 +141,7 @@ interface GridTileProps {
 
 interface FolderHeaderProps {
   group: FolderGroup;
+  place?: RowPlace;
 }
 
 interface SpriteBadgesProps {
@@ -190,16 +212,19 @@ export type {
   ManagerModel,
   ManagerModelProps,
   ManagerToolbarProps,
+  RowPlace,
   SpriteBadgesProps,
   SpriteButtonProps,
   SpriteDragHandlers,
+  SpriteEvents,
   SpriteGridProps,
   SpriteHandlers,
-  SpriteItemProps,
   SpriteKeyHandler,
   SpriteMarquee,
   SpriteRenameProps,
   SpriteRenameState,
+  SpriteRowProps,
+  SpriteRowsProps,
   SpriteState,
   SpriteThumbProps,
   SpriteTileProps,
