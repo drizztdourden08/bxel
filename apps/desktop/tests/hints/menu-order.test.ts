@@ -47,6 +47,11 @@ describe('the file menu', () => {
     ]);
   });
 
+  it('keeps Save and Save as at the top level beside File', () => {
+    const entries = fileMenu(recentMenuItem([], { open: () => undefined, clear: () => undefined }));
+    expect(entries.map((entry) => (entry === 'separator' ? entry : entry.label))).toEqual(['File', 'Save', 'Save as...']);
+  });
+
   it('keeps the settings entry out of the file menu', () => {
     const [file] = fileMenu(recentMenuItem([], { open: () => undefined, clear: () => undefined }));
     expect(keysOf(file)).not.toContain('file-settings');

@@ -29,6 +29,8 @@ const fileMenu = (recent: MenuItem): MenuEntry[] => [
       },
     ],
   },
+  { key: 'save-top', label: 'Save', icon: 'pixel-save-file', command: FILE_COMMAND.save },
+  { key: 'save-as-top', label: 'Save as...', command: FILE_COMMAND.saveAs },
 ];
 
 export { fileMenu };

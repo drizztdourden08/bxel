@@ -18,7 +18,7 @@ import { appStartupPrompts } from '../.brock/startup';
 import { appToolbars } from '../.brock/toolbars';
 import { APP_COMMANDS } from './keymap/app-commands.constants';
 import { useAppMenu } from './hooks/useAppMenu';
-import { SETTINGS } from './main.constants';
+import { SETTINGS, TITLE_BAR_MENU } from './main.constants';
 import { product } from './product';
 import { closeGuard } from './recovery/close-guard';
 import type { AppSettings } from './settings.type';
@@ -40,6 +40,7 @@ const App = () => {
       widgetKits={appWidgetKits}
       review={appReview}
       titleBar={appTitleBar}
+      titleBarMenu={TITLE_BAR_MENU}
       tours={appTours}
       commands={APP_COMMANDS}
       menu={menu}
