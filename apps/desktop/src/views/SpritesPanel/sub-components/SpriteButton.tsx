@@ -13,7 +13,7 @@ const SpriteButton = ({ fact, base, cell, state, drag, handlers, children }: Spr
       type="button"
       {...bind}
       className={`${className} ${tileClass(base, state)}`}
-      aria-pressed={state.selected}
+      aria-selected={state.selected}
       aria-label={MANAGER_TEXT.tile(sprite.name, sprite.width, sprite.height)}
       title={state.loose ? MANAGER_TEXT.badgeUnplaced : MANAGER_TEXT.badgeSheets(fact.sheets)}
       data-sprite-id={sprite.id}

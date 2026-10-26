@@ -66,7 +66,7 @@ describe('the sprite tile and row', () => {
     const state = { selected: true, active: true, affected: false, loose: true, twin: false };
     const tile = renderToString(createElement(SpriteTile, { fact, artwork: artwork(), box: 48, state, drag, handlers, cell }));
     expect(tile).toContain('aria-label="walk_1, 8 by 8"');
-    expect(tile).toContain('aria-pressed="true"');
+    expect(tile).toContain('aria-selected="true"');
     expect(tile).toContain('role="gridcell"');
     expect(tile).toContain('sprites-panel__tile--loose');
     expect(tile).toContain(`data-sprite-id="${idOf('walk_1')}"`);

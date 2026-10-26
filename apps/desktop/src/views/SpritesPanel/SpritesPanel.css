@@ -45,7 +45,7 @@
   background: var(--c-hover);
 }
 
-.sprites-panel__tile[aria-pressed='true'],
+.sprites-panel__tile[aria-selected='true'],
 .sprites-panel__row[aria-selected='true'] {
   border-color: var(--c-primary-bright);
   background: var(--c-selected);
