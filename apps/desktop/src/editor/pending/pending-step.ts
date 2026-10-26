@@ -7,6 +7,7 @@ import type { EditorTarget } from '../editor.type';
 import type { PendingEdit } from './pending.type';
 import type { SpecOf } from './pending-step.type';
 import { clipRect } from './clip-rect';
+import { lockPastePixels } from './lock-paste-pixels';
 import { regionBox } from './region-box';
 
 const maskPart = (mask: MaskView | null): { mask?: MaskView } => (mask ? { mask } : {});
@@ -41,6 +42,12 @@ const scaleStep = (spec: SpecOf<'scale'>, mask: MaskView | null): CommitStep => 
   },
 });
 
+const pasteStep = (target: EditorTarget, spec: SpecOf<'paste'>): CommitStep => {
+  const rect = clipRect(spec.clip, spec.offset);
+  const limit = target.animation?.frame.clip ?? null;
+  return { name: COMMAND_NAME.pixelsPatch, options: { rect, pixels: lockPastePixels(rect, spec.clip.pixels, limit), skipZero: true } };
+};
+
 const pendingStep = (target: EditorTarget, pending: PendingEdit): CommitStep => {
   const { spec, mask } = pending;
   switch (spec.kind) {
@@ -55,10 +62,7 @@ const pendingStep = (target: EditorTarget, pending: PendingEdit): CommitStep => 
     case 'move':
       return { name: ADVANCED_COMMAND.pixelsMove, options: { offset: spec.offset, skipZero: false, ...maskPart(mask) } };
     case 'paste':
-      return {
-        name: COMMAND_NAME.pixelsPatch,
-        options: { rect: clipRect(spec.clip, spec.offset), pixels: spec.clip.pixels, skipZero: true },
-      };
+      return pasteStep(target, spec);
   }
 };
 

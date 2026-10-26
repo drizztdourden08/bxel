@@ -4,6 +4,7 @@ import type { Artwork, Sprite } from '@bxel/document';
 import type { AtlasItem } from '../../../../../sheet-manager/manager.type';
 import type { AtlasDraw } from '../AtlasView.type';
 import { canvasTone } from './canvas-tone';
+import { drawAtlasAnimations } from './draw-atlas-animations';
 import { drawAtlasMarks } from './draw-atlas-marks';
 import { frameCanvas } from '../../../behavior/frame-canvas';
 
@@ -40,6 +41,7 @@ const drawAtlas = (canvas: HTMLCanvasElement, view: AtlasDraw): void => {
     const image = sprite ? frameOf(artwork, sprite, item.frame) : null;
     if (image) drawItem(ctx, frameCanvas(canvas.ownerDocument, image), item, scale);
   }
+  drawAtlasAnimations(ctx, atlas, canvas.ownerDocument, scale);
   drawAtlasMarks(canvas, view);
 };
 

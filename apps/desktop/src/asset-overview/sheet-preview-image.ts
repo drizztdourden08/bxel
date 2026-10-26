@@ -2,6 +2,7 @@
 import { findSheet, findSprite, sheetExtent, sheetSizes } from '@bxel/document';
 import type { Artwork, SheetId } from '@bxel/document';
 import { renderSheet } from '../sheet/render-sheet';
+import { sheetAnimationItems } from '../sheet/sheet-animation-items';
 import type { SheetItem } from '../sheet/sheet.type';
 import type { OverviewPreview } from './asset-overview.type';
 
@@ -12,9 +13,10 @@ const sheetPreviewImage = (artwork: Artwork, id: string): OverviewPreview => {
     const sprite = findSprite(artwork, entry.spriteId);
     return sprite ? [{ sprite, at: entry.at, onSheet: true }] : [];
   });
-  const extent = sheetExtent(sheet, sheetSizes(artwork));
-  if (items.length === 0 || extent.width < 1 || extent.height < 1) return { kind: 'none' };
-  const atlas = renderSheet(artwork, { sheet, items, extent, overlaps: [] }, new Map());
+  const animations = sheetAnimationItems(artwork, sheet);
+  const extent = sheetExtent(sheet, sheetSizes(artwork), artwork.animations);
+  if ((items.length === 0 && animations.length === 0) || extent.width < 1 || extent.height < 1) return { kind: 'none' };
+  const atlas = renderSheet(artwork, { sheet, items, animations, extent, overlaps: [] }, new Map());
   return { kind: 'image', image: { data: atlas.rgba, width: atlas.width, height: atlas.height } };
 };
 

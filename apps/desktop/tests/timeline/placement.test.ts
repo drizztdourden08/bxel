@@ -1,11 +1,15 @@
 /* @layer renderer-app @kind test */
-import { animFramePivot, COMMAND_NAME, findBank, findSprite } from '@bxel/document';
+import { animFramePivot, COMMAND_NAME, findBank, findSprite, flattenFrame } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { editMask } from '../../src/editor/edit-mask';
+import { commitPending } from '../../src/editor/pending/commit-pending';
+import { pasteClip } from '../../src/editor/selection/paste-clip';
 import { fillRequest } from '../../src/editor/fill-request';
 import { createOverlay } from '../../src/editor/create-overlay';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
+import { usePendingStore } from '../../src/stores/usePendingStore';
+import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { TIMELINE_DEFAULTS } from '../../src/stores/timeline-store.constants';
 import { canvasOrigin } from '../../src/timeline/canvas-origin';
@@ -119,6 +123,21 @@ describe('a frame that is a cell of a strip', () => {
     const request = fillRequest(target(), { x: 5, y: 1 }, { index: 2, mode: 'contiguous', connectivity: 4 });
     const options = request.steps[0]?.options as { mask?: unknown };
     expect(options.mask).toBeDefined();
+  });
+
+  it('keeps a paste inside its cell and lands only the pasted pixels that stay in it', () => {
+    stripAnimation();
+    paintFrame(1, 6, 1, 9);
+    const pixels = Uint8Array.from({ length: 16 }, () => 5);
+    useSelectionStore.setState({ clipboard: { width: 4, height: 4, origin: { x: 2, y: 0 }, pixels, bits: Uint8Array.from({ length: 16 }, () => 1) } });
+    expect(pasteClip()).toBe(true);
+    const landed = usePendingStore.getState().outcome?.frame?.indices ?? new Uint8Array();
+    const at = (x: number, y: number): number => landed[y * 16 + x] ?? 0;
+    expect([at(3, 0), at(4, 0), at(5, 3), at(6, 3)]).toEqual([0, 5, 5, 0]);
+    expect(commitPending()).toBe(true);
+    const sprite = target().sprite;
+    const written = flattenFrame(sprite, sprite.frames[0]?.id as never);
+    expect([written[2], written[3], written[4], written[5]]).toEqual([0, 0, 5, 5]);
   });
 
   it('puts the animation canvas over the cell it shows', () => {

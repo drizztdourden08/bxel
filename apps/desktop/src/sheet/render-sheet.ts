@@ -12,6 +12,13 @@ const renderSheet = (artwork: Artwork, model: SheetModel, overrides: ReadonlyMap
     const image = overrides.get(item.sprite.id) ?? spriteImage(artwork, item.sprite);
     if (image) blitImage(canvas, image, item.at, item.onSheet ? 1 : OFF_SHEET_ALPHA);
   }
+  for (const item of model.animations) {
+    let x = item.at.x;
+    for (const image of item.images) {
+      blitImage(canvas, image, { x, y: item.at.y }, 1);
+      x += image.width + item.spacing;
+    }
+  }
   return canvas;
 };
 

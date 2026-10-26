@@ -2,6 +2,7 @@
 import { sheetExtent } from '@bxel/document';
 import { nextPowerOfTwo } from '@bxel/formats';
 import type { PackedItem, PackedPage, SheetCell } from '@bxel/formats';
+import { atlasAnimations } from './atlas-animations';
 import { atlasHeld } from './atlas-held';
 import { EMPTY_ATLAS } from './atlas-model.constants';
 import { atlasPlan } from './atlas-plan';
@@ -24,7 +25,7 @@ const finish = (size: { width: number; height: number }, items: readonly AtlasIt
   const shared = new Map(items.map((item) => [`${item.x},${item.y},${item.width},${item.height}`, item.width * item.height]));
   const used = [...shared.values()].reduce((sum, area) => sum + area, 0);
   const total = size.width * size.height;
-  return { ...size, items, used, empty: total === 0 ? 0 : Math.max(0, 1 - used / total), failure: null, ...pages };
+  return { ...size, items, animations: [], used, empty: total === 0 ? 0 : Math.max(0, 1 - used / total), failure: null, ...pages };
 };
 
 const manualModel = ({ sheet, artwork, powerOfTwo }: AtlasInput): AtlasModel => {
@@ -52,7 +53,7 @@ const pageItems = (planned: Extract<AtlasPlanned, { ok: true }>, page: PackedPag
   });
 };
 
-const atlasModel = (input: AtlasInput): AtlasModel => {
+const spriteAtlas = (input: AtlasInput): AtlasModel => {
   if (input.sheet.entries.length === 0) return EMPTY_ATLAS;
   if (input.sheet.layout.kind === 'manual') return manualModel(input);
   const planned = atlasPlan(input);
@@ -63,5 +64,7 @@ const atlasModel = (input: AtlasInput): AtlasModel => {
   const size = { width: shown.packed.width, height: shown.packed.height };
   return finish(size, pageItems(planned, shown), { page, pageCount: planned.plan.pages.length });
 };
+
+const atlasModel = (input: AtlasInput): AtlasModel => atlasAnimations(spriteAtlas(input), input);
 
 export { atlasModel };

@@ -3,7 +3,7 @@ import type { Artwork, Point, Rect, Sheet, Sprite, SpriteId } from '@bxel/docume
 import type { AtlasPlan } from '@bxel/formats';
 import type { Anchor } from '@drizztdourden08/tessera';
 import type { Target } from '../export/export.type';
-import type { ArrangeKind, SpriteScene } from '../sheet/sheet.type';
+import type { ArrangeKind, FrameImage, SpriteScene } from '../sheet/sheet.type';
 import type { IdenticalMode } from './identical.type';
 
 type ManagerTab = 'sprites' | 'atlas';
@@ -109,10 +109,19 @@ interface AtlasItem {
   source: Rect;
 }
 
+interface AtlasAnimation {
+  name: string;
+  x: number;
+  y: number;
+  spacing: number;
+  images: readonly FrameImage[];
+}
+
 interface AtlasModel {
   width: number;
   height: number;
   items: readonly AtlasItem[];
+  animations: readonly AtlasAnimation[];
   used: number;
   empty: number;
   failure: string | null;
@@ -160,6 +169,7 @@ interface CurrentManager {
 export type {
   AtlasHeld,
   AtlasInput,
+  AtlasAnimation,
   AtlasItem,
   AtlasModel,
   AtlasPack,
