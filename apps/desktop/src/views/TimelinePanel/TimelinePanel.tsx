@@ -15,6 +15,7 @@ import { FRAME_ACTIONS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT } from './TimelinePan
 import { useTimelineKeys } from './behavior/useTimelineKeys';
 import { useTimelineMenu } from './behavior/useTimelineMenu';
 import { ActionBar } from './sub-components/ActionBar';
+import { AddFramesMenu } from './sub-components/AddFramesMenu';
 import { DirectionPad } from './sub-components/DirectionPad';
 import { EmptyTimeline } from './sub-components/EmptyTimeline';
 import { FrameFields } from './sub-components/FrameFields';
@@ -22,6 +23,7 @@ import { FrameStrip } from './sub-components/FrameStrip';
 import { OnionControls } from './sub-components/OnionControls';
 import { OnionToggle } from './sub-components/OnionToggle';
 import { TagEditor } from './sub-components/TagEditor';
+import { TransformMenu } from './sub-components/TransformMenu';
 import { TransportBar } from './sub-components/TransportBar';
 import './TimelinePanel.css';
 
@@ -51,6 +53,8 @@ const TimelinePanel = () => {
         <TransportBar focus={focus} />
         <Divider orientation="vertical" />
         <ActionBar label={TIMELINE_PANEL_TEXT.frames} actions={FRAME_ACTIONS} disabled={focus.readOnly} />
+        <AddFramesMenu disabled={focus.readOnly} />
+        <TransformMenu disabled={focus.readOnly} />
         <Divider orientation="vertical" />
         <OnionToggle />
         <Text variant="caption" tone="muted" role="status" aria-live="polite">{statusText(focus)}</Text>

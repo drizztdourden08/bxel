@@ -1,21 +1,22 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, Sprite } from '@bxel/document';
-import type { MergePlan, MergeSpec, PiecePlan, SlicePlan, SliceSpec, SplitSpec } from './compose.type';
+import type { AnimatePlan, AnimateSpec, CutStripSpec, PiecePlan, SlicePlan, SliceSpec, SplitSpec } from './compose.type';
+import type { StripPlan } from '../add-frames/add-frames.type';
 import type { SpriteComparison } from './identical.type';
 
-interface MergeForm {
-  spec: MergeSpec;
-  plan: MergePlan;
+interface AnimateForm {
+  spec: AnimateSpec;
+  plan: AnimatePlan;
   targets: readonly Sprite[];
-  update: (change: Partial<MergeSpec>) => void;
+  update: (change: Partial<AnimateSpec>) => void;
 }
 
-interface SplitForm {
-  spec: SplitSpec;
-  plan: PiecePlan;
-  targets: readonly Sprite[];
-  skipped: number;
-  update: (change: Partial<SplitSpec>) => void;
+interface CutStripForm {
+  spec: CutStripSpec;
+  plan: StripPlan;
+  target: Sprite | null;
+  blocker: string | null;
+  update: (change: Partial<CutStripSpec>) => void;
 }
 
 interface SliceForm {
@@ -25,14 +26,8 @@ interface SliceForm {
   update: (change: Partial<SliceSpec>) => void;
 }
 
-interface MergeFieldsProps {
-  spec: MergeSpec;
-  first: string;
-  update: (change: Partial<MergeSpec>) => void;
-}
-
-interface MergeNoteProps {
-  plan: MergePlan;
+interface AnimateNoteProps {
+  plan: AnimatePlan;
 }
 
 interface PieceFieldsProps {
@@ -73,16 +68,15 @@ interface CompareVerdictProps {
 }
 
 export type {
+  AnimateForm,
+  AnimateNoteProps,
   CompareDiffProps,
   CompareSideProps,
   CompareVerdictProps,
-  MergeFieldsProps,
-  MergeForm,
-  MergeNoteProps,
   PieceFieldsProps,
   PieceNamesProps,
   SliceFieldsProps,
   SliceForm,
   SliceNoteProps,
-  SplitForm,
+  CutStripForm,
 };

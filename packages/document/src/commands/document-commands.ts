@@ -59,6 +59,7 @@ import { animationTagAdd } from './animation/animation-tag-add';
 import { animationTagUpdate } from './animation/animation-tag-update';
 import { animationTagDelete } from './animation/animation-tag-delete';
 import { animationDirections } from './animation/animation-directions';
+import { animationFacingDraw } from './animation/animation-facing-draw';
 import { animationSplit } from './animation/animation-split';
 import { tileAnimation } from './tile/tile-animation';
 import { tileAdd } from './tile/tile-add';
@@ -136,6 +137,7 @@ const documentCommands: readonly CommandDef[] = [
   animationTagDelete,
   animationDirections,
   animationSplit,
+  animationFacingDraw,
   tileAnimation,
   tilesetTerrain,
   tilemapCreate,

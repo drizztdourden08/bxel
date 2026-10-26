@@ -71,6 +71,7 @@ const COMMAND_NAME = {
   animationTagDelete: 'animation.tag.delete',
   animationDirections: 'animation.directions',
   animationSplit: 'animation.split',
+  animationFacingDraw: 'animation.facing.draw',
   tilesetTerrain: 'tileset.terrain',
   mapTerrain: 'map.terrain',
   tilemapCreate: 'tilemap.create',

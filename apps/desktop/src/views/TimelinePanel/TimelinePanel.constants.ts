@@ -26,6 +26,14 @@ const TIMELINE_PANEL_TEXT = {
   pixelUnit: 'px',
 } as const;
 
+const TRANSFORM_TEXT = {
+  menu: 'Transform animation',
+  directions: 'New direction set...',
+  spritesheet: 'Make spritesheet',
+  split: 'Split to sprites',
+  frames: 'Export frames as images',
+} as const;
+
 const FRAME_ACTIONS: readonly TimelineAction[] = [
   { id: 'add', label: 'Add frame', shortcut: null, icon: 'pixel-frame-add', run: addFrame },
   { id: 'duplicate', label: 'Duplicate frames', shortcut: null, icon: 'pixel-frame-duplicate', run: duplicateFrames },
@@ -41,6 +49,15 @@ const TIMELINE_MENU = {
   addTag: 'Add tag on the selected frames',
   onion: 'Onion skin',
   addFrame: 'Add frame',
+  addFrom: 'Add frames from',
+  fromSprites: 'Sprites...',
+  fromStrip: 'A strip...',
+  fromSheet: 'A sheet...',
+  transform: 'Transform animation',
+  directionSet: 'New direction set...',
+  spritesheet: 'Make spritesheet',
+  splitToSprites: 'Split to sprites',
+  exportFrames: 'Export frames as images',
   duplicateFrames: 'Duplicate frames',
   earlier: 'Move earlier',
   later: 'Move later',
@@ -85,4 +102,4 @@ const REPEAT_MAX = 255;
 
 const FACING_ABBREVIATION = { n: 'N', ne: 'NE', e: 'E', se: 'SE', s: 'S', sw: 'SW', w: 'W', nw: 'NW' } as const;
 
-export { DURATION_CHOICES, DURATION_STEP, EDGE_KEYS, FACING_ABBREVIATION, FRAME_ACTIONS, MOVE_KEYS, NO_FACING, OFFSET_LIMIT, REPEAT_MAX, STEP_KEYS, TIMELINE_KEYS, TIMELINE_MENU, TIMELINE_PANEL_TEXT };
+export { DURATION_CHOICES, DURATION_STEP, EDGE_KEYS, FACING_ABBREVIATION, FRAME_ACTIONS, MOVE_KEYS, NO_FACING, OFFSET_LIMIT, REPEAT_MAX, STEP_KEYS, TIMELINE_KEYS, TIMELINE_MENU, TIMELINE_PANEL_TEXT, TRANSFORM_TEXT };

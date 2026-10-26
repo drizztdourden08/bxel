@@ -3,7 +3,7 @@ import type { AnimDirection, AnimFacing } from '@bxel/document';
 import type { FrameBadge } from './timeline.type';
 
 const TIMELINE_TEXT = {
-  empty: 'Sprites are still images. An animation holds the frames.',
+  empty: 'Sprites are still images. Use an animation for frames.',
   emptyTitle: 'No animation is open',
   makeFromSprite: 'Make an animation from this sprite',
   openAnimation: 'Open an animation',
@@ -40,6 +40,11 @@ const TIMELINE_TEXT = {
   pivotY: 'Frame pivot down',
   frameGroup: 'Frame placement',
   directions: 'Directions',
+  splitDone: (count: number): string => (count === 1 ? '1 sprite was made from the frames.' : `${count} sprites were made from the frames.`),
+  nothingToSplit: 'Every frame is already a sprite of its own.',
+  spritesheetDone: (name: string): string => `Made the sheet ${name}. It follows the animation.`,
+  stillImages: 'Sprites are still images. Use an animation for frames.',
+  drawFacing: 'Draw this facing',
   facingLabel: (facing: string, found: boolean): string => (found ? `Face ${facing}` : `Face ${facing}, no tag`),
 } as const;
 
@@ -67,6 +72,11 @@ const TIMELINE_LABEL = {
   own: 'Draw on this frame',
   copy: 'Make a copy for this animation',
   make: 'Make an animation',
+  split: 'Split to sprites',
+  spritesheet: 'Make spritesheet',
+  directions: 'New direction set',
+  drawFacing: 'Draw this facing',
+  addFrames: 'Add frames',
 } as const;
 
 const FIELD_LABEL = {
@@ -74,7 +84,7 @@ const FIELD_LABEL = {
   tagName: 'Tag name',
 } as const;
 
-const TIMELINE_REF = { frame: 'frame', tag: 'tag', copy: 'copy', animation: 'animation' } as const;
+const TIMELINE_REF = { frame: 'frame', tag: 'tag', copy: 'copy', animation: 'animation', sheet: 'sheet' } as const;
 
 const NEW_TAG_NAME = 'Tag';
 

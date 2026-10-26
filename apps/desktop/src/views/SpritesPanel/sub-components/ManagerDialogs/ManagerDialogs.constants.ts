@@ -12,13 +12,13 @@ import { CompareDialog } from './sub-components/CompareDialog';
 import { DeleteDialog } from './sub-components/DeleteDialog';
 import { DuplicateDialog } from './sub-components/DuplicateDialog';
 import { FolderDialog } from './sub-components/FolderDialog';
-import { MergeDialog } from './sub-components/MergeDialog';
+import { AnimateDialog } from './sub-components/AnimateDialog';
+import { CutStripDialog } from './sub-components/CutStripDialog';
 import { PivotDialog } from './sub-components/PivotDialog';
 import { RenameDialog } from './sub-components/RenameDialog';
 import { ResizeDialog } from './sub-components/ResizeDialog';
 import { SelectionDialog } from './sub-components/SelectionDialog';
 import { SliceDialog } from './sub-components/SliceDialog';
-import { SplitDialog } from './sub-components/SplitDialog';
 
 const RENAME_START: RenameSpec = { pattern: DEFAULT_PATTERN, find: '', replace: '', start: FIRST_NUMBER };
 
@@ -51,8 +51,8 @@ const DIALOG_VIEWS: Readonly<Record<Exclude<ManagerDialog, null>, ComponentType<
   compare: CompareDialog,
   pivot: PivotDialog,
   resize: ResizeDialog,
-  merge: MergeDialog,
-  split: SplitDialog,
+  animate: AnimateDialog,
+  strip: CutStripDialog,
   slice: SliceDialog,
 };
 

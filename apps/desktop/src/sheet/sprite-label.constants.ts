@@ -6,7 +6,6 @@ const SPRITE_LABEL = {
   reorder: 'Move sprite',
   place: (count: number): string => (count === 1 ? 'Move sprite on sheet' : `Move ${count} sprites on sheet`),
   arrange: { grid: 'Arrange sheet as grid', packed: 'Arrange sheet packed', manual: 'Arrange sheet by hand' },
-  frame: (count: number): string => (count === 1 ? 'Duplicate frame' : `Duplicate frame on ${count} sprites`),
   slice: 'Add slice',
   removeSlices: 'Remove slices',
 } as const;

@@ -5,12 +5,17 @@ import { commandArgs } from '../context-menu/command-args';
 import type { DurationArgs, FrameArgs, TagArgs } from '../context-menu/menu-args.type';
 import { useTimelineStore } from '../stores/useTimelineStore';
 import { addFrame } from '../timeline/add-frame';
+import { useAddFramesStore } from '../stores/useAddFramesStore';
+import { useDirectionSetStore } from '../stores/useDirectionSetStore';
 import { addTag } from '../timeline/add-tag';
 import { changeTag } from '../timeline/change-tag';
 import { currentFocus } from '../timeline/current-focus';
 import { deleteFrames } from '../timeline/delete-frames';
 import { deleteTag } from '../timeline/delete-tag';
 import { duplicateFrames } from '../timeline/duplicate-frames';
+import { exportFrames } from '../timeline/export-frames';
+import { makeSpritesheet } from '../timeline/make-spritesheet';
+import { splitToSprites } from '../timeline/split-to-sprites';
 import { focusField } from '../timeline/focus-field';
 import { goToFrame } from '../timeline/go-to-frame';
 import { moveFrames } from '../timeline/move-frames';
@@ -39,6 +44,13 @@ const withTag = (run: (tagId: TagId, args: Partial<TagArgs>) => unknown) => (con
 const FRAME_COMMANDS: readonly CommandDef[] = [
   { id: 'timeline.add_frame', label: 'Add a frame', group, run: () => addFrame() },
   { id: 'timeline.duplicate_frames', label: 'Duplicate the selected frames', group, run: () => duplicateFrames() },
+  { id: 'timeline.add_from_sprites', label: 'Add frames from sprites', group, run: () => useAddFramesStore.getState().show('sprites') },
+  { id: 'timeline.add_from_strip', label: 'Add frames from a strip', group, run: () => useAddFramesStore.getState().show('strip') },
+  { id: 'timeline.add_from_sheet', label: 'Add frames from a sheet', group, run: () => useAddFramesStore.getState().show('sheet') },
+  { id: 'timeline.new_direction_set', label: 'Make a new direction set', group, run: () => useDirectionSetStore.getState().show() },
+  { id: 'timeline.split_to_sprites', label: 'Split the frames into sprites', group, run: () => void splitToSprites() },
+  { id: 'timeline.make_spritesheet', label: 'Make a spritesheet of the animation', group, run: () => void makeSpritesheet() },
+  { id: 'timeline.export_frames', label: 'Export the frames as images', group, run: () => exportFrames() },
   { id: 'timeline.delete_frames', label: 'Delete the selected frames', group, run: () => deleteFrames() },
   { id: 'timeline.move_frames_earlier', label: 'Move the selected frames earlier', group, run: () => void moveFrames(-1) },
   { id: 'timeline.move_frames_later', label: 'Move the selected frames later', group, run: () => void moveFrames(1) },

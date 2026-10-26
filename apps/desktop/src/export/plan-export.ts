@@ -9,6 +9,7 @@ import type { ExportPlan, ExportSettings, IndexedStatus, PlanInput, PlanParts, P
 import type { AnimationSources } from './export-parts.type';
 import { indexedStatus } from './indexed-status';
 import { planAnimation } from './plan-animation';
+import { planAnimationFrames } from './plan-animation-frames';
 import { planClips } from './plan-clips';
 import { planImages } from './plan-images';
 import { planMap } from './plan-map';
@@ -21,6 +22,7 @@ import { sizeProblem } from './size-problem';
 const filesOf = (parts: PlanParts): PlannedFile[] | string => {
   const { kind } = parts.settings;
   if (kind === 'sheet') return planSheet(parts);
+  if (kind === 'frames' && parts.extra.length > 0) return planAnimationFrames(parts);
   if (kind !== 'animation') return planImages(parts);
   return parts.extra.length > 0 ? planClips(parts) : planAnimation(parts);
 };

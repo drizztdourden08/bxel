@@ -1,10 +1,11 @@
 /* @layer renderer-app @kind constants */
 import { DEFAULT_PIECE_PATTERN } from '@bxel/document';
-import type { MergeSpec, SliceSpec, SplitSpec } from './compose.type';
+import { DURATION_START, STRIP_START } from '../add-frames/add-frames.constants';
+import type { AnimateSpec, CutStripSpec, SliceSpec } from './compose.type';
 
-const MERGE_START: MergeSpec = { name: '', anchor: 'center', keep: false };
+const ANIMATE_START: AnimateSpec = { name: '', mode: 'reference', durationMs: DURATION_START };
 
-const SPLIT_START: SplitSpec = { pattern: DEFAULT_PIECE_PATTERN, start: 1, keep: false };
+const CUT_STRIP_START: CutStripSpec = { name: '', strip: STRIP_START, result: 'cells', durationMs: DURATION_START };
 
 const SLICE_START: SliceSpec = {
   by: 'count',
@@ -20,4 +21,4 @@ const SLICE_START: SliceSpec = {
 
 const PREVIEW_NAMES = 6;
 
-export { MERGE_START, PREVIEW_NAMES, SLICE_START, SPLIT_START };
+export { ANIMATE_START, CUT_STRIP_START, PREVIEW_NAMES, SLICE_START };

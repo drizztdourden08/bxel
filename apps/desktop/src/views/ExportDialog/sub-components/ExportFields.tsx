@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Stack } from '@drizztdourden08/tessera';
+import { framesOfAnimation } from '../../../export/frames-of-animation';
 import type { ExportFieldsProps } from '../ExportDialog.type';
 import { AnimationFields } from './AnimationFields';
 import { ColourField } from './ColourField';
@@ -19,7 +20,7 @@ const ExportFields = ({ model, onEnter }: ExportFieldsProps) => {
       <KindField settings={settings} change={change} />
       {!imagery && <MapFormatField settings={settings} change={change} />}
       {settings.kind === 'animation' && <AnimationFields settings={settings} change={change} />}
-      {imagery && (
+      {imagery && !framesOfAnimation(settings) && (
         <TargetFields
           settings={settings}
           change={change}

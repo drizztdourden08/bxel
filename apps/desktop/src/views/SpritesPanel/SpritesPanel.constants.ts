@@ -51,7 +51,6 @@ const SPRITE_MENU = {
   palette: 'Palette...',
   oneBank: 'This file has only one palette.',
   noSheet: 'There is no sheet.',
-  notAnimated: 'Pick a sprite with more than one frame.',
   drop: (name: string): string => `Delete saved selection ${name}`,
 } as const;
 
