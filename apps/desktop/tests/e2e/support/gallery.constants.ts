@@ -11,6 +11,7 @@ const GALLERY = {
   columns: 8,
   rows: 5,
   frameMs: 200,
+  splitIds: 5000,
   ring: 2,
   eyeTone: 11,
   eyes: { left: 5, right: 10, row: 6 },

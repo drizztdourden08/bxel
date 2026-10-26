@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
-import type { Artwork, AssetKey, BankId, CommandStep, SheetId, SpriteId, TilemapId, TilesetId } from '@bxel/document';
+import type { AnimationId, Artwork, AssetKey, BankId, CommandStep, SheetId, SpriteId, TilemapId, TilesetId } from '@bxel/document';
 import { PALETTE_COMMAND_NAME } from '@bxel/palette';
 import { spritesTarget } from '../sheet/sprites-target';
 import type { DuplicatePlan } from './duplicate-steps.type';
@@ -11,6 +11,13 @@ const spriteCopy = (artwork: Artwork, id: SpriteId): DuplicatePlan | null => {
   if (!sprite) return null;
   const name = copyName(artwork.sprites.map((each) => each.name), sprite.name);
   return { name, steps: [{ name: COMMAND_NAME.spriteDuplicate, targets: spritesTarget([id]), options: { name } }] };
+};
+
+const animationCopy = (artwork: Artwork, id: AnimationId): DuplicatePlan | null => {
+  const animation = artwork.animations.find((each) => each.id === id);
+  if (!animation) return null;
+  const name = copyName(artwork.animations.map((each) => each.name), animation.name);
+  return { name, steps: [{ name: COMMAND_NAME.animationDuplicate, targets: null, options: { animation: id, name } }] };
 };
 
 const sheetCopy = (artwork: Artwork, id: SheetId): DuplicatePlan | null => {
@@ -52,6 +59,7 @@ const tilemapCopy = (artwork: Artwork, id: TilemapId): DuplicatePlan | null => {
 
 const duplicateSteps = (artwork: Artwork, key: AssetKey): DuplicatePlan | null => {
   if (key.kind === 'sprite') return spriteCopy(artwork, key.id as SpriteId);
+  if (key.kind === 'animation') return animationCopy(artwork, key.id as AnimationId);
   if (key.kind === 'sheet') return sheetCopy(artwork, key.id as SheetId);
   if (key.kind === 'palette') return paletteCopy(artwork, key.id as BankId);
   if (key.kind === 'tileset') return tilesetCopy(artwork, key.id as TilesetId);

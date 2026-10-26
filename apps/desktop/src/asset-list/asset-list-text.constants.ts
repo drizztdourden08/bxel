@@ -17,7 +17,7 @@ const ASSET_LIST_TEXT = {
   showingUsers: (name: string): string => `Sheets that use ${name}`,
   clearUsers: 'Show all',
   newAsset: 'New asset',
-  newKinds: { sprite: 'Sprite', sheet: 'Sheet', palette: 'Palette', tileset: 'Tileset', tilemap: 'Tilemap' },
+  newKinds: { sprite: 'Sprite', animation: 'Animation', sheet: 'Sheet', palette: 'Palette', tileset: 'Tileset', tilemap: 'Tilemap' },
   actions: (name: string): string => `Actions for ${name}`,
   open: 'Open',
   rename: 'Rename',

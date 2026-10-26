@@ -8,7 +8,7 @@ import { usePendingStore } from '../../stores/usePendingStore';
 import { useNoticeStore } from '../../stores/useNoticeStore';
 import { currentTarget } from '../current-target';
 import { layerBlock } from '../layer-block';
-import { selectionMask } from '../selection/selection-mask';
+import { editMask } from '../edit-mask';
 import type { PendingEdit, PendingSpec } from './pending.type';
 import { wholeSprite } from './whole-sprite';
 
@@ -24,7 +24,7 @@ const spritesFor = (pending: Omit<PendingEdit, 'sprites'>, active: SpriteId): re
 const beginPending = (spec: PendingSpec, editing = false): boolean => {
   const target = currentTarget();
   if (!target) return false;
-  const base = { documentId: target.documentId, spec, mask: maskFor(spec, selectionMask(target)), editing };
+  const base = { documentId: target.documentId, spec, mask: maskFor(spec, editMask(target)), editing };
   const pending: PendingEdit = { ...base, sprites: spritesFor(base, target.sprite.id) };
   const blocked = wholeSprite(pending) ? null : layerBlock(target.layer);
   if (blocked !== null) {

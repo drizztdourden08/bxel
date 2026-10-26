@@ -17,6 +17,26 @@ interface AxisDrag {
   up: () => boolean;
 }
 
+type PivotAxis = 'x' | 'y';
+
+interface GripLines {
+  x: number;
+  y: number;
+  allowX: boolean;
+  allowY: boolean;
+}
+
+interface PivotFrame {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  imageWidth: number;
+  imageHeight: number;
+}
+
+type PivotDrag = AxisDrag;
+
 type ActiveDrag =
   | { kind: 'shape'; shape: DragShape; base: MaskView | null; mode: CombineMode }
   | { kind: 'float'; start: Point; origin: Point };
@@ -63,4 +83,4 @@ interface ClientPoint {
   clientY: number;
 }
 
-export type { ActiveDrag, AxisDrag, CanvasKeys, CanvasReadout, CanvasTools, ClientPoint, KeyContext, OverlayLook, PaintGesture, SelectGesture };
+export type { ActiveDrag, AxisDrag, CanvasKeys, CanvasReadout, CanvasTools, ClientPoint, GripLines, KeyContext, OverlayLook, PaintGesture, PivotAxis, PivotDrag, PivotFrame, SelectGesture };

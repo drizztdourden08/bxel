@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import type { CreateFieldsProps } from '../CreateDialog.type';
+import { AnimationFields } from './AnimationFields';
 import { MapFields } from './MapFields';
 import { PaletteBlock } from './PaletteBlock';
 import { SizeFields } from './SizeFields';
@@ -13,6 +14,8 @@ const KindFields = (props: CreateFieldsProps) => {
       return <SizeFields {...props} />;
     case 'tilemap':
       return <MapFields {...props} />;
+    case 'animation':
+      return <AnimationFields {...props} />;
     case 'sprite':
     case 'sheet':
       return <SpriteKindFields {...props} />;

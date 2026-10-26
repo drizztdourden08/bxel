@@ -5,6 +5,7 @@ import type { OpenProject } from '../project/project.type';
 import { decodeAssetFiles } from './decode-asset-files';
 import { firstTabKey } from './first-tab-key';
 import { mergeWorkspace } from './merge-workspace';
+import { migrateAnimated } from './migrate-animated';
 import { projectDirs } from './project-dirs';
 import { toSlashes } from './to-slashes';
 import type { AssetFile, SeededWorkspace, WorkspaceSeed } from './workspace.type';
@@ -12,7 +13,7 @@ import type { AssetFile, SeededWorkspace, WorkspaceSeed } from './workspace.type
 const projectSeed = (project: OpenProject, files: readonly AssetFile[]): SeededWorkspace => {
   const ids = browserIdSource();
   const decoded = decodeAssetFiles(files);
-  const merged = mergeWorkspace(decoded, ids, metaFromManifest(project.manifest, project.folders, ids, decoded.sources));
+  const merged = migrateAnimated(mergeWorkspace(decoded, ids, metaFromManifest(project.manifest, project.folders, ids, decoded.sources)), ids, true);
   const seed: WorkspaceSeed = {
     kind: 'project',
     name: project.manifest.name,
@@ -22,6 +23,7 @@ const projectSeed = (project: OpenProject, files: readonly AssetFile[]): SeededW
     paths: merged.paths,
     dirty: merged.dirty,
     legacy: null,
+    ...(merged.migration ? { migration: merged.migration } : {}),
     artwork: merged.artwork,
     readOnly: false,
     unsaved: false,

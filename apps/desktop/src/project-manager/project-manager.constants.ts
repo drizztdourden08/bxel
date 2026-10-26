@@ -16,7 +16,7 @@ const PNG_MIME = 'image/png';
 
 const NOTHING_LOADED: ReadonlySet<string> = new Set();
 
-const PREVIEW_ENTRY_KIND = 'sprite';
+const PREVIEW_ENTRY_KINDS = ['sprite', 'animation'] as const;
 
 const MANAGER_TEXT = {
   listTitle: 'Projects',
@@ -75,4 +75,4 @@ const MANAGER_TEXT = {
   nameEmpty: 'Type a name.',
 } as const;
 
-export { CONFIG_PAGES, MANAGER_TEXT, MAX_DISK_PREVIEWS, NOTHING_LOADED, PNG_MIME, PREVIEW_ENTRY_KIND };
+export { CONFIG_PAGES, MANAGER_TEXT, MAX_DISK_PREVIEWS, NOTHING_LOADED, PNG_MIME, PREVIEW_ENTRY_KINDS };

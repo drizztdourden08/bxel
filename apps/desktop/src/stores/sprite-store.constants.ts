@@ -10,7 +10,6 @@ const SPRITE_DEFAULTS: SpriteSettings = {
   isolated: false,
   spritesScope: 'selected',
   layerScope: 'all',
-  frameScope: 'all',
   gap: null,
   sliceDraw: false,
   renamingId: null,

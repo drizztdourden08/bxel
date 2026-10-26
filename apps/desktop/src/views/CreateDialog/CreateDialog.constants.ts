@@ -6,6 +6,7 @@ import type { BackgroundOption, KindOption } from './CreateDialog.type';
 
 const KIND_OPTIONS: KindOption[] = [
   { value: 'sprite', label: NEW_TEXT.sprite },
+  { value: 'animation', label: NEW_TEXT.animation },
   { value: 'sheet', label: NEW_TEXT.sheet },
   { value: 'palette', label: NEW_TEXT.paletteKind },
   { value: 'tileset', label: NEW_TEXT.tileset },
@@ -14,6 +15,7 @@ const KIND_OPTIONS: KindOption[] = [
 
 const CREATE_LABEL: Readonly<Record<CreationKind, string>> = {
   sprite: NEW_TEXT.create,
+  animation: NEW_TEXT.createAnimation,
   sheet: NEW_TEXT.createSheet,
   palette: NEW_TEXT.createPalette,
   tileset: NEW_TEXT.createTileset,
@@ -27,7 +29,7 @@ const BACKGROUND_OPTIONS: BackgroundOption[] = [
 
 const PLATFORM_GROUPS = platformGroups();
 
-const WORKSPACE_KINDS: readonly CreationKind[] = ['palette', 'tileset', 'tilemap'];
+const WORKSPACE_KINDS: readonly CreationKind[] = ['animation', 'palette', 'tileset', 'tilemap'];
 
 const NO_NAMES: readonly string[] = [];
 

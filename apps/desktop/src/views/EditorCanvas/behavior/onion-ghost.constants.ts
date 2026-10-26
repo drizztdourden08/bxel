@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
-import type { PaletteBank, Sprite } from '@bxel/document';
+import type { Artwork } from '@bxel/document';
 
-const GHOSTS = new WeakMap<PaletteBank, WeakMap<Sprite, Map<string, HTMLCanvasElement>>>();
+const GHOSTS = new WeakMap<Artwork, Map<string, HTMLCanvasElement>>();
 
 export { GHOSTS };

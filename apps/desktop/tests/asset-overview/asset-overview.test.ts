@@ -47,14 +47,14 @@ const slimeOf = (held: Rig): Sprite => {
 const spriteKey = (held: Rig): AssetKey => ({ kind: 'sprite', id: slimeOf(held).id });
 
 describe('the overview of an asset', () => {
-  it('previews a sprite with its frames and counts the colours it uses', () => {
+  it('previews a sprite as one image and counts the colours it uses', () => {
     const held = rig();
     const key = spriteKey(held);
     const focus = held.focus(key);
     const preview = previewOf(focus.artwork, key);
-    expect(preview.kind).toBe('frames');
+    expect(preview.kind).toBe('image');
     const labels = factsOf(focus, preview, NO_FILE).map((fact) => fact.label);
-    expect(labels).toEqual(expect.arrayContaining(['Kind', 'Size', 'Frames', 'Colours', 'Created', 'File size', 'File']));
+    expect(labels).toEqual(expect.arrayContaining(['Kind', 'Size', 'Layers', 'Colours', 'Created', 'File size', 'File']));
   });
 
   it('previews a palette as its swatches', () => {

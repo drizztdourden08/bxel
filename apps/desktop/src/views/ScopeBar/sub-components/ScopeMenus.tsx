@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind component */
 import { DropdownMenu, Flex } from '@drizztdourden08/tessera';
-import { framesGroups } from '../../../sheet/frames-groups';
 import { layersGroups } from '../../../sheet/layers-groups';
 import { SHEET_TEXT } from '../../../sheet/sheet.constants';
 import { spritesGroups } from '../../../sheet/sprites-groups';
@@ -20,9 +19,6 @@ const ScopeMenus = ({ chips }: ScopeMenusProps) => {
       </ActionHint>
       <ActionHint hint={SCOPE_HINTS.layers}>
         <DropdownMenu size="sm" disabled={locked} trigger={{ label: chips.layers }} groups={layersGroups(scopes.layerScope, scopes.setLayerScope)} />
-      </ActionHint>
-      <ActionHint hint={SCOPE_HINTS.frames}>
-        <DropdownMenu size="sm" disabled={locked} trigger={{ label: chips.frames }} groups={framesGroups(scopes.frameScope, scopes.setFrameScope)} />
       </ActionHint>
     </Flex>
   );

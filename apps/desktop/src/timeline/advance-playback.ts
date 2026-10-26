@@ -1,20 +1,20 @@
 /* @layer renderer-app @kind logic */
-import { currentTarget } from '../editor/current-target';
 import { useTimelineStore } from '../stores/useTimelineStore';
+import { currentFocus } from './current-focus';
 import { nextCursor } from './next-cursor';
-import { playSequence } from './play-sequence';
+import { playSteps } from './play-steps';
 
 const advancePlayback = (): boolean => {
-  const target = currentTarget();
+  const focus = currentFocus();
   const state = useTimelineStore.getState();
-  if (!target) {
+  if (!focus) {
     state.pause();
     return false;
   }
-  const sequence = playSequence(target.sprite, target.frameId, { pingPong: state.pingPong, tagId: state.tagId });
-  const at = sequence[state.cursor] === target.frameId ? state.cursor : Math.max(0, sequence.indexOf(target.frameId));
-  const next = nextCursor(sequence.length, at, state.loop);
-  const frameId = next === null ? undefined : sequence[next];
+  const { steps } = playSteps(focus.animation, state.tagId);
+  const at = steps[state.cursor]?.frameId === focus.frame.id ? state.cursor : Math.max(0, steps.findIndex((step) => step.frameId === focus.frame.id));
+  const next = nextCursor(steps.length, at, state.loop);
+  const frameId = next === null ? undefined : steps[next]?.frameId;
   if (next === null || frameId === undefined) {
     state.pause();
     return false;

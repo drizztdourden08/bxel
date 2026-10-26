@@ -4,6 +4,8 @@ import { ONION_LIMITS } from '../../../stores/timeline-store.constants';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { ONION_TEXT, ONION_TINT_ORDER } from '../../../timeline/onion.constants';
 
+const clampFrames = (value: number): number => Math.min(Math.max(Math.round(value) || 0, ONION_LIMITS.frames.min), ONION_LIMITS.frames.max);
+
 const OnionControls = () => {
   const onion = useTimelineStore((state) => state.onion);
   const setOnion = useTimelineStore((state) => state.setOnion);
@@ -19,7 +21,7 @@ const OnionControls = () => {
         value={onion.before}
         disabled={!onion.on}
         aria-label={ONION_TEXT.before}
-        onChange={(before) => setOnion({ before: Math.min(Math.max(Math.round(before) || 0, frames.min), frames.max) })}
+        onChange={(before) => setOnion({ before: clampFrames(before) })}
       />
       <NumberInput
         size="sm"
@@ -30,7 +32,7 @@ const OnionControls = () => {
         value={onion.after}
         disabled={!onion.on}
         aria-label={ONION_TEXT.after}
-        onChange={(after) => setOnion({ after: Math.min(Math.max(Math.round(after) || 0, frames.min), frames.max) })}
+        onChange={(after) => setOnion({ after: clampFrames(after) })}
       />
       <Slider
         min={opacity.min}

@@ -27,8 +27,8 @@ beforeEach(() => {
 });
 
 describe('the scope chips of the scope bar', () => {
-  it('lists the sprite, layer and frame chips in order', () => {
-    expect(scopeChipList(live()).map((chip) => chip.key)).toEqual(['sprite', 'layer', 'frame']);
+  it('lists the sprite and layer chips in order', () => {
+    expect(scopeChipList(live()).map((chip) => chip.key)).toEqual(['sprite', 'layer']);
   });
 
   it('keeps the layer chip short and neutral for a normal layer', () => {

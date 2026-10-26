@@ -11,11 +11,6 @@ const SpriteBadges = ({ fact, twin }: SpriteBadgesProps) => (
         =
       </Text>
     )}
-    {fact.frames > 1 && (
-      <Text as="span" variant="caption" className="sprites-panel__badge" title={MANAGER_TEXT.badgeFrames(fact.frames)}>
-        {fact.frames}
-      </Text>
-    )}
     {fact.slices > 0 && (
       <Text as="span" variant="caption" className="sprites-panel__badge" title={MANAGER_TEXT.badgeSlices(fact.slices)}>
         {`S${fact.slices}`}

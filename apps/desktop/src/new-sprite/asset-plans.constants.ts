@@ -60,6 +60,19 @@ const tilemapPlan = ({ form }: PlanInput): AssetPlan => ({
   keyOf: keyFrom('tilemap', NEW_REF),
 });
 
-const ASSET_PLANS = { sprite: spritePlan, sheet: sheetPlan, palette: palettePlan, tileset: tilesetPlan, tilemap: tilemapPlan } as const;
+const animationPlan = ({ form, bankId }: PlanInput): AssetPlan => ({
+  steps: [
+    {
+      name: COMMAND_NAME.animationCreate,
+      targets: null,
+      options: { name: form.name.trim(), source: { kind: 'blank', width: form.width, height: form.height, frames: 1, durationMs: form.frameMs, ...(bankId === null ? {} : { bankId }) } },
+      ref: NEW_REF,
+    },
+    { name: COMMAND_NAME.animationFrameOwn, targets: null, options: { animation: { ref: NEW_REF }, frame: { by: 'index', index: 0 } } },
+  ],
+  keyOf: keyFrom('animation', NEW_REF),
+});
+
+const ASSET_PLANS = { sprite: spritePlan, animation: animationPlan, sheet: sheetPlan, palette: palettePlan, tileset: tilesetPlan, tilemap: tilemapPlan } as const;
 
 export { ASSET_PLANS };

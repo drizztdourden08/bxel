@@ -3,18 +3,16 @@ import type { TagId } from '@bxel/document';
 import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
 import { commandArgs } from '../context-menu/command-args';
 import type { DurationArgs, FrameArgs, TagArgs } from '../context-menu/menu-args.type';
-import { currentTarget } from '../editor/current-target';
 import { useTimelineStore } from '../stores/useTimelineStore';
 import { addFrame } from '../timeline/add-frame';
 import { addTag } from '../timeline/add-tag';
 import { changeTag } from '../timeline/change-tag';
-import { clearCels } from '../timeline/clear-cels';
+import { currentFocus } from '../timeline/current-focus';
 import { deleteFrames } from '../timeline/delete-frames';
 import { deleteTag } from '../timeline/delete-tag';
 import { duplicateFrames } from '../timeline/duplicate-frames';
 import { focusField } from '../timeline/focus-field';
 import { goToFrame } from '../timeline/go-to-frame';
-import { linkCels } from '../timeline/link-cels';
 import { moveFrames } from '../timeline/move-frames';
 import { playFrom } from '../timeline/play-from';
 import { playTag } from '../timeline/play-tag';
@@ -25,7 +23,6 @@ import { setTagColour } from '../timeline/set-tag-colour';
 import { setTagRange } from '../timeline/set-tag-range';
 import { tagById } from '../timeline/tag-by-id';
 import { FIELD_LABEL, TIMELINE_LABEL } from '../timeline/timeline.constants';
-import { unlinkCels } from '../timeline/unlink-cels';
 import { COMMAND_GROUP } from './keymap.constants';
 import { onSurface } from './on-surface';
 
@@ -33,7 +30,9 @@ const group = COMMAND_GROUP.timeline;
 
 const withTag = (run: (tagId: TagId, args: Partial<TagArgs>) => unknown) => (context?: CommandContext): void => {
   const args = commandArgs<TagArgs>(context);
-  const tag = tagById(args.tagId);
+  const focus = currentFocus();
+  const id = (args.tagId as TagId | undefined) ?? null;
+  const tag = focus ? tagById(focus.animation, id) : undefined;
   if (tag) run(tag.id, args);
 };
 
@@ -50,7 +49,7 @@ const FRAME_COMMANDS: readonly CommandDef[] = [
     label: 'Go to a frame',
     group,
     run: (context?: CommandContext) => {
-      const frame = currentTarget()?.sprite.frames.find((each) => each.id === commandArgs<FrameArgs>(context).frameId);
+      const frame = currentFocus()?.animation.frames.find((each) => each.id === commandArgs<FrameArgs>(context).frameId);
       if (frame) goToFrame(frame.id);
     },
   },
@@ -65,12 +64,6 @@ const FRAME_COMMANDS: readonly CommandDef[] = [
     },
   },
   { id: 'timeline.focus_duration', label: 'Type a frame duration', group, run: () => focusField(FIELD_LABEL.duration) },
-];
-
-const CEL_COMMANDS: readonly CommandDef[] = [
-  { id: 'timeline.link_cels', label: 'Link cels across the selected frames', group, run: () => linkCels() },
-  { id: 'timeline.unlink_cels', label: 'Unlink the selected cels', group, run: () => unlinkCels() },
-  { id: 'timeline.clear_cels', label: 'Clear the selected cels', group, run: () => clearCels() },
   {
     id: 'timeline.toggle_onion',
     label: 'Turn onion skin on or off',
@@ -83,10 +76,15 @@ const CEL_COMMANDS: readonly CommandDef[] = [
 const TAG_COMMANDS: readonly CommandDef[] = [
   { id: 'tag.play', label: 'Play a tag', group, run: withTag((tagId) => playTag(tagId)) },
   { id: 'tag.select_frames', label: 'Select the frames of a tag', group, run: withTag((tagId) => selectTag(tagId)) },
-  { id: 'tag.rename', label: 'Rename a tag', group, run: withTag((tagId) => {
-    selectTag(tagId);
-    focusField(FIELD_LABEL.tagName);
-  }) },
+  {
+    id: 'tag.rename',
+    label: 'Rename a tag',
+    group,
+    run: withTag((tagId) => {
+      selectTag(tagId);
+      focusField(FIELD_LABEL.tagName);
+    }),
+  },
   {
     id: 'tag.set_direction',
     label: 'Set the direction of a tag',
@@ -98,6 +96,6 @@ const TAG_COMMANDS: readonly CommandDef[] = [
   { id: 'tag.delete', label: 'Delete a tag', group, run: withTag((tagId) => deleteTag(tagId)) },
 ];
 
-const TIMELINE_MENU_COMMANDS: readonly CommandDef[] = [...FRAME_COMMANDS, ...CEL_COMMANDS, ...TAG_COMMANDS].map(onSurface('sprite', 'tile'));
+const TIMELINE_MENU_COMMANDS: readonly CommandDef[] = [...FRAME_COMMANDS, ...TAG_COMMANDS].map(onSurface('sprite', 'tile'));
 
 export { TIMELINE_MENU_COMMANDS };

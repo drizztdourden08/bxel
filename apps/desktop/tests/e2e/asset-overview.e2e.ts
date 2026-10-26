@@ -15,7 +15,7 @@ import { useRig } from './support/use-rig';
 import { writeSampleProject } from './support/write-sample-project';
 
 const KINDS = [
-  { name: 'hero', kind: 'Sprite', fact: '2' },
+  { name: 'hero', kind: 'Animation', fact: '2' },
   { name: GALLERY.sheet, kind: 'Sheet', fact: '2' },
   { name: GALLERY.palette, kind: 'Palette', fact: '16' },
   { name: GALLERY.tileset, kind: 'Tileset', fact: '2' },

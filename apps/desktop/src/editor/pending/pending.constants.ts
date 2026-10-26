@@ -33,8 +33,6 @@ const PENDING_TEXT = {
   activeLayer: (name: string): string => `Active layer (${name})`,
   allLayers: 'All layers',
   visibleLayers: 'Visible layers',
-  currentFrame: (at: number, total: number): string => `Current frame (${at} of ${total})`,
-  allFrames: (total: number): string => `All frames (${total})`,
   onSprites: (label: string, count: number): string => `${label} on ${count} sprites`,
   overlaps: (count: number): string => (count === 1 ? '1 pair of sprites would overlap on the sheet' : `${count} pairs of sprites would overlap on the sheet`),
   noClipping: 'none',

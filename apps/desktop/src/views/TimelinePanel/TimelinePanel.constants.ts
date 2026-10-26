@@ -1,68 +1,50 @@
 /* @layer renderer-app @kind constants */
 import { addFrame } from '../../timeline/add-frame';
 import { addTag } from '../../timeline/add-tag';
-import { clearCels } from '../../timeline/clear-cels';
 import { deleteFrames } from '../../timeline/delete-frames';
 import { duplicateFrames } from '../../timeline/duplicate-frames';
-import { FIELD_LABEL } from '../../timeline/timeline.constants';
-import { linkCels } from '../../timeline/link-cels';
-import { unlinkCels } from '../../timeline/unlink-cels';
 import type { TimelineAction } from './TimelinePanel.type';
 
 const TIMELINE_PANEL_TEXT = {
   frames: 'Frame actions',
-  cels: 'Cel actions',
   transport: 'Playback',
   previous: 'Previous frame',
   next: 'Next frame',
   play: 'Play',
   pause: 'Pause',
-  loop: 'Loop playback',
-  pingPong: 'Ping-pong playback',
-  durationLabel: FIELD_LABEL.duration,
-  durationUnit: 'ms',
-  tagName: FIELD_LABEL.tagName,
+  loop: 'Loop preview',
+  tagPick: 'Tag to play',
+  tagName: 'Tag name',
   tagDirection: 'Tag loop mode',
-  tagRange: 'Set range to selected frames',
+  tagRepeat: 'Tag repeat count, 0 plays forever',
+  tagFacing: 'Tag facing',
+  tagNoFacing: 'No facing',
+  tagRange: 'Set range to picked frames',
   tagDelete: 'Delete tag',
-  layerHidden: 'Hidden',
-  layerLocked: 'Locked',
+  tagMirror: (flip: string): string => `A mirror of another tag, flipped ${flip}`,
+  durationUnit: 'ms',
+  pixelUnit: 'px',
 } as const;
 
 const FRAME_ACTIONS: readonly TimelineAction[] = [
   { id: 'add', label: 'Add frame', shortcut: null, icon: 'pixel-frame-add', run: addFrame },
   { id: 'duplicate', label: 'Duplicate frames', shortcut: null, icon: 'pixel-frame-duplicate', run: duplicateFrames },
-  { id: 'delete', label: 'Delete frames', shortcut: null, icon: 'pixel-frame-delete', run: deleteFrames },
-  { id: 'tag', label: 'Add tag on the selected frames', shortcut: null, icon: 'pixel-tag-add', run: addTag },
-];
-
-const CEL_ACTIONS: readonly TimelineAction[] = [
-  { id: 'link', label: 'Link cels across the selected frames', shortcut: null, icon: 'pixel-linked-cel', run: linkCels },
-  { id: 'unlink', label: 'Unlink cels', shortcut: null, icon: 'pixel-unlink-cel', run: unlinkCels },
-  { id: 'clear', label: 'Clear cels', shortcut: 'Delete', icon: 'pixel-eraser', run: clearCels },
+  { id: 'delete', label: 'Delete frames', shortcut: 'Delete', icon: 'pixel-frame-delete', run: deleteFrames },
+  { id: 'tag', label: 'Add tag on the picked frames', shortcut: null, icon: 'pixel-tag-add', run: addTag },
 ];
 
 const TIMELINE_MENU = {
   label: 'Timeline actions',
   tag: '[data-tag-id]',
-  cel: '[data-frame-id][data-layer-id]',
-  head: '[data-frame-id]',
-  rowLabel: '[data-layer-id]:not([data-frame-id])',
+  frame: '[data-frame-id]',
   lane: '[data-tag-lane]',
-  link: 'Link cels across the selected frames',
-  unlink: 'Unlink cels',
   addTag: 'Add tag on the selected frames',
   onion: 'Onion skin',
-  frame: 'Frame',
-  layer: 'Layer',
-  visible: 'Visible',
-  locked: 'Locked',
   addFrame: 'Add frame',
   duplicateFrames: 'Duplicate frames',
   earlier: 'Move earlier',
   later: 'Move later',
   deleteFrames: 'Delete frames',
-  clearCels: 'Clear cels',
   goTo: 'Go to frame',
   playFrom: 'Play from here',
   duration: 'Duration',
@@ -77,31 +59,30 @@ const TIMELINE_MENU = {
   alreadyAutomatic: 'The tag already has an automatic colour.',
   setRange: 'Set range to the selected frames',
   deleteTag: 'Delete tag',
-  needFrames: 'Pick two or more frames first.',
-  oneFrame: 'A sprite keeps at least one frame.',
+  needFrames: 'Pick a frame first.',
+  oneFrame: 'An animation keeps at least one frame.',
   firstFrame: 'The first frame is already at the start.',
   lastFrame: 'The last frame is already at the end.',
 } as const;
 
 const DURATION_CHOICES: readonly number[] = [50, 100, 200, 500];
 
-const ZONE_ATTRIBUTE = 'data-timeline-zone';
-
-const LANE_KINDS: ReadonlySet<string> = new Set(['park', 'addPick', 'frame', 'zone', 'tag']);
-
-const FAR_FRAME = Number.POSITIVE_INFINITY;
-
 const DURATION_STEP = 10;
 
-const TIMELINE_KEYS = 'Enter Space Comma Period ArrowLeft ArrowRight ArrowUp ArrowDown Home End Delete';
+const TIMELINE_KEYS = 'Comma Period ArrowLeft ArrowRight Home End Delete';
 
-const ARROWS: Readonly<Record<string, readonly [number, number]>> = {
-  ArrowLeft: [-1, 0],
-  ArrowRight: [1, 0],
-  ArrowUp: [0, 1],
-  ArrowDown: [0, -1],
-};
+const STEP_KEYS: Readonly<Record<string, number>> = { ',': -1, '.': 1, ArrowLeft: -1, ArrowRight: 1 };
 
-const STEP_KEYS: Readonly<Record<string, number>> = { ',': -1, '.': 1 };
+const MOVE_KEYS: Readonly<Record<string, number>> = { ArrowLeft: -1, ArrowRight: 1 };
 
-export { ARROWS, CEL_ACTIONS, DURATION_CHOICES, DURATION_STEP, FAR_FRAME, FRAME_ACTIONS, LANE_KINDS, STEP_KEYS, TIMELINE_KEYS, TIMELINE_MENU, TIMELINE_PANEL_TEXT, ZONE_ATTRIBUTE };
+const EDGE_KEYS: Readonly<Record<string, 'first' | 'last'>> = { Home: 'first', End: 'last' };
+
+const NO_FACING = '';
+
+const OFFSET_LIMIT = 4096;
+
+const REPEAT_MAX = 255;
+
+const FACING_ABBREVIATION = { n: 'N', ne: 'NE', e: 'E', se: 'SE', s: 'S', sw: 'SW', w: 'W', nw: 'NW' } as const;
+
+export { DURATION_CHOICES, DURATION_STEP, EDGE_KEYS, FACING_ABBREVIATION, FRAME_ACTIONS, MOVE_KEYS, NO_FACING, OFFSET_LIMIT, REPEAT_MAX, STEP_KEYS, TIMELINE_KEYS, TIMELINE_MENU, TIMELINE_PANEL_TEXT };

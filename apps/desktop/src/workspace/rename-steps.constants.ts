@@ -6,6 +6,7 @@ import { spritesTarget } from '../sheet/sprites-target';
 
 const RENAME_STEP: Readonly<Partial<Record<AssetKind, (id: string, name: string) => CommandStep>>> = {
   sprite: (id, name) => ({ name: COMMAND_NAME.spriteUpdate, targets: spritesTarget([id as SpriteId]), options: { name } }),
+  animation: (id, name) => ({ name: COMMAND_NAME.animationUpdate, targets: null, options: { animation: id, name } }),
   sheet: (id, name) => ({ name: COMMAND_NAME.sheetUpdate, targets: null, options: { sheet: id, name } }),
   tileset: (id, name) => ({ name: COMMAND_NAME.tilesetUpdate, targets: null, options: { tileset: id, name } }),
   tilemap: (id, name) => ({ name: COMMAND_NAME.tilemapUpdate, targets: null, options: { tilemap: id, name } }),

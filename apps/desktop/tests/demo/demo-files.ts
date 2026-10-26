@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { splitIntoAssets } from '@bxel/document';
+import { counterIdSource, splitAnimatedSprites, splitIntoAssets } from '@bxel/document';
 import type { Artwork } from '@bxel/document';
 import { createFolderId, createProjectDocument, createProjectId, encodeProject } from '@bxel/project';
 import { encodeAsset } from '../../src/workspace/encode-asset';
@@ -8,7 +8,8 @@ import { DEMO_NAME } from './demo-art.constants';
 
 const idBytes = (length: number): Uint8Array => Uint8Array.from({ length }, (_unused, at) => at + 21);
 
-const demoFiles = (artwork: Artwork): ReadonlyMap<string, Uint8Array> => {
+const demoFiles = (made: Artwork): ReadonlyMap<string, Uint8Array> => {
+  const artwork = splitAnimatedSprites(made, new Map(), counterIdSource(5000)).artwork;
   const plan = splitIntoAssets(artwork);
   const paths = new Map(plan.files.map((file) => [file.key.id, `/${file.path}`] as const));
   const files = new Map<string, Uint8Array>();

@@ -1,10 +1,12 @@
 /* @layer renderer-app @kind logic */
-import type { EditorTarget } from '../editor/editor.type';
+import type { AnimFrameId } from '@bxel/document';
 import { useTimelineStore } from '../stores/useTimelineStore';
-import { effectiveSelection } from './effective-selection';
-import type { EffectiveSelection } from './timeline.type';
+import type { AnimationFocus } from './timeline.type';
 
-const currentSelection = (target: EditorTarget): EffectiveSelection =>
-  effectiveSelection(target.sprite, useTimelineStore.getState().selection, { layerId: target.layerId, frameId: target.frameId });
+const currentSelection = (focus: AnimationFocus): readonly AnimFrameId[] => {
+  const picked = useTimelineStore.getState().selection.frames;
+  const frames = focus.animation.frames.filter((frame) => picked.includes(frame.id)).map((frame) => frame.id);
+  return frames.length > 0 ? frames : [focus.frame.id];
+};
 
 export { currentSelection };

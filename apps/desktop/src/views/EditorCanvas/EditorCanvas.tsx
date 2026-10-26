@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { useRef } from 'react';
 import { contextMenuZone } from '@drizztdourden08/brock-react';
-import { Box, EmptyState } from '@drizztdourden08/tessera';
+import { Box } from '@drizztdourden08/tessera';
 import { useSpriteLook } from '../../canvas-look/useSpriteLook';
 import { WRAP_OF } from '../../editor/wrap.constants';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
@@ -13,6 +13,9 @@ import type { PixelViewportHandle } from '../PixelViewport';
 import { CANVAS_MENU, EDITOR_CANVAS_TEXT } from './EditorCanvas.constants';
 import { canvasClass } from './behavior/canvas-class';
 import { useAreaRedraw } from './behavior/useAreaRedraw';
+import { canvasSize } from './behavior/canvas-size';
+import { canvasSource } from './behavior/canvas-source';
+import { paintPivotGrips } from './behavior/paint-pivot-grips';
 import { useCanvasMenu } from './behavior/useCanvasMenu';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasKeys } from './behavior/useCanvasKeys';
@@ -21,15 +24,18 @@ import { useCommittedImage } from './behavior/useCommittedImage';
 import { useEscapeCancel } from './behavior/useEscapeCancel';
 import { useMarchingAnts } from './behavior/useMarchingAnts';
 import { usePendingImage } from './behavior/usePendingImage';
+import { usePlaybackImage } from './behavior/usePlaybackImage';
 import { useSyncPending } from './behavior/useSyncPending';
 import { useViewDefaults } from './behavior/useViewDefaults';
 import { useViewportBridge } from './behavior/useViewportBridge';
 import { viewportClass } from './behavior/viewport-class';
+import { EmptyCanvas } from './sub-components/EmptyCanvas';
 import { RulerBars } from './sub-components/RulerBars';
 import './EditorCanvas.css';
 
 const EditorCanvas = () => {
   const target = useEditorTarget();
+  const preview = usePlaybackImage();
   const viewport = useRef<PixelViewportHandle>(null);
   const tool = useToolStore((state) => state.tool);
   const grid = useViewStore((state) => state.grid);
@@ -51,7 +57,8 @@ const EditorCanvas = () => {
   useAreaRedraw(viewport);
   useSyncPending(target);
   useEscapeCancel();
-  if (!target) return <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;
+  if (!target && !preview) return <EmptyCanvas />;
+  const size = canvasSize(preview, outcome, target);
   return (
     <Box className={canvasClass(rulers)} onBlur={keys.onBlur} {...contextMenuZone(CANVAS_MENU.zone)}>
       {rulers && <RulerBars />}
@@ -60,10 +67,11 @@ const EditorCanvas = () => {
         className={viewportClass(tool)}
         label={EDITOR_CANVAS_TEXT.label}
         hint={EDITOR_CANVAS_TEXT.hint}
-        width={outcome?.width ?? target.sprite.width}
-        height={outcome?.height ?? target.sprite.height}
-        source={floating ?? tools.live ?? committed ?? undefined}
+        width={size.width}
+        height={size.height}
+        source={canvasSource(preview, floating, tools.live, committed)}
         draw={readout.draw}
+        pivotGrips={preview ? undefined : paintPivotGrips}
         look={look}
         grid={grid}
         gridMajor={gridMajor}
