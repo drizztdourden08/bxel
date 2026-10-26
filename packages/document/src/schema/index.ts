@@ -1,5 +1,6 @@
 /* @layer core @kind barrel */
 export type * from './command-options.type';
+export { alphaSchema } from './alpha-schema';
 export { celClearSchema } from './cel-clear-schema';
 export { celSlotSchema } from './cel-slot-schema';
 export { celTransferSchema } from './cel-transfer-schema';

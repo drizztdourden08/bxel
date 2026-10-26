@@ -1,16 +1,18 @@
 /* @layer renderer-app @kind logic */
+import { formatSwatchColor } from '@bxel/document';
 import type { PaletteBank } from '@bxel/document';
+import { sourceColorText } from '../palette-source/source-color-text';
 import type { SourceColor } from '../palette-source/palette-source.type';
 import type { LoadMode, LoadPlan } from './swatch-library.type';
 
 const presentColors = (bank: PaletteBank): Set<string> =>
-  new Set(bank.slots.flatMap((slot) => (slot.kind === 'color' ? [slot.rgb.toLowerCase()] : [])));
+  new Set(bank.slots.flatMap((slot) => (slot.kind === 'color' ? [formatSwatchColor(slot.rgb, slot.alpha).toLowerCase()] : [])));
 
-const distinct = (colors: readonly SourceColor[]): string[] => [...new Set(colors.map((color) => color.rgb.toLowerCase()))];
+const distinct = (colors: readonly SourceColor[]): string[] => [...new Set(colors.map((color) => sourceColorText(color).toLowerCase()))];
 
 const appendPlan = (bank: PaletteBank, colors: readonly SourceColor[]): LoadPlan => {
   const present = presentColors(bank);
-  const fresh = distinct(colors).filter((rgb) => !present.has(rgb));
+  const fresh = distinct(colors).filter((text) => !present.has(text));
   const free = Math.max(0, bank.cap - bank.slots.length);
   const kept = fresh.slice(0, free);
   return { mode: 'append', colors: kept, dropped: fresh.length - kept.length, skipped: distinct(colors).length - fresh.length };

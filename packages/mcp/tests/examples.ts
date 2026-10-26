@@ -178,8 +178,8 @@ const OUTPUT_EXAMPLES: Record<string, unknown> = {
     cap: 16,
     transparent: true,
     slots: [
-      { index: 0, swatchId: 'sw_4k9m2q7x1v8c', hex: null, name: 'Transparent' },
-      { index: 1, swatchId: 'sw_5k9m2q7x1v8c', hex: '#140B26', name: 'Outline' },
+      { index: 0, swatchId: 'sw_4k9m2q7x1v8c', hex: null, alpha: 0, name: 'Transparent' },
+      { index: 1, swatchId: 'sw_5k9m2q7x1v8c', hex: '#140B26', alpha: 255, name: 'Outline' },
     ],
     ramps: [{ rampId: 'rmp_4k9m2q7x1v8c', name: 'Skin', indexes: [3, 4, 5] }],
   },

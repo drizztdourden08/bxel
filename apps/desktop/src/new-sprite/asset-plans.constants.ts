@@ -3,6 +3,7 @@ import { COMMAND_NAME } from '@bxel/document';
 import type { AssetKey } from '@bxel/document';
 import { PALETTE_COMMAND_NAME } from '@bxel/palette';
 import { bankPlan } from '../palette-source/bank-plan';
+import { sourceColorText } from '../palette-source/source-color-text';
 import type { AssetPlan, PlanInput } from './asset-plan.type';
 import { extraSpriteSteps } from './extra-sprite-steps';
 import { NEW_REF, NEW_SHEET_REF } from './new-sprite.constants';
@@ -36,7 +37,7 @@ const sheetPlan = (input: PlanInput): AssetPlan => {
 
 const palettePlan = ({ form }: PlanInput): AssetPlan => {
   const { bank } = bankPlan(form.source, form.limit, form.transparent);
-  const options = { name: form.name.trim(), cap: bank.cap, transparent: bank.transparent, colors: bank.colors.map((color) => color.rgb) };
+  const options = { name: form.name.trim(), cap: bank.cap, transparent: bank.transparent, colors: bank.colors.map(sourceColorText) };
   return { steps: [{ name: PALETTE_COMMAND_NAME.paletteCreate, targets: null, options, ref: NEW_REF }], keyOf: keyFrom('palette', NEW_REF) };
 };
 

@@ -4,6 +4,7 @@ interface PaletteSlot {
   hex: string;
   name: string;
   transparent: boolean;
+  alpha: number;
   label: string;
 }
 

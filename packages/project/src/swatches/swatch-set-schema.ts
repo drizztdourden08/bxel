@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { alphaSchema } from '@bxel/document/schema';
 import { z } from 'zod';
 import { swatchSetIdSchema } from '../ids/swatch-set-id-schema';
 import { hasControlCharacters } from '../manifest/has-control-characters';
@@ -11,6 +12,7 @@ const swatchColorSchema = z.strictObject({
     .string()
     .regex(SWATCH_RGB_REGEX, { message: 'A colour looks like #1a2b3c.' })
     .transform((value) => value.toLowerCase()),
+  alpha: alphaSchema.optional(),
   name: z.string().max(MAX_COLOR_NAME).refine(printable, { message: 'A colour name has printable characters only.' }),
 });
 

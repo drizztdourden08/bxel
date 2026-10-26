@@ -11,6 +11,7 @@ const slot = z.strictObject({
   index: COUNT_SCHEMA,
   swatchId: idSchemaOf('sw'),
   hex: HEX_COLOR_SCHEMA.nullable(),
+  alpha: z.number().int().min(0).max(255).describe('0 is clear and 255 is solid. A missing alpha in the file reads as 255.'),
   name: z.string(),
 });
 
@@ -22,7 +23,7 @@ const ramp = z.strictObject({
 
 const readPaletteTool = defineTool(TOOL_NAME.readPalette, {
   title: 'Read a palette',
-  description: 'One bank with its slots in index order. Index 0 of a transparent bank has hex null.',
+  description: 'One bank with its slots in index order. Index 0 of a transparent bank has hex null and alpha 0. A colour has an alpha from 0 to 255.',
   input: z.strictObject({
     documentId: DOCUMENT_ID_SCHEMA,
     bankId: BANK_ID_SCHEMA.optional().describe("Default: the artwork's default bank."),

@@ -26,8 +26,8 @@ const useSetCommands = (state: EditorState): SetCommands => {
         const next = withAddedColor(current, ADDED_COLOR);
         if (commit(next)) pick(next.colors.length - 1);
       },
-      recolor: (rgb: string): void => {
-        if (current) commit(recolorSet(current, index, rgb));
+      recolor: (rgb: string, alpha: number): void => {
+        if (current) commit(recolorSet(current, index, rgb, alpha));
       },
       nameColor: (name: string): void => {
         if (current) commit(withColor(current, index, { name }));

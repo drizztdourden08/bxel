@@ -24,6 +24,7 @@ declare module '@drizztdourden08/tessera' {
         | 'EditorScreen'
         | 'EditorStatus'
         | 'ExportDialog'
+        | 'FileTypePicker'
         | 'ImagePreview'
         | 'ImportWizard'
         | 'LayersPanel'

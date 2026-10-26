@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind component */
+import { OPAQUE_ALPHA } from '@bxel/document';
 import { Flex, Icon, IconButton } from '@drizztdourden08/tessera';
 import { useState } from 'react';
 import { colorEntries } from '../../../swatch-library/color-entries';
@@ -18,6 +19,7 @@ const ColorGrid = ({ model }: SetBarProps) => {
         <ColorCell
           key={entry.id}
           rgb={entry.color.rgb}
+          alpha={entry.color.alpha ?? OPAQUE_ALPHA}
           label={SWATCH_EDITOR_TEXT.colorLabel(entry.at, entry.color.rgb)}
           selected={entry.at === model.index}
           open={openAt === entry.at}
