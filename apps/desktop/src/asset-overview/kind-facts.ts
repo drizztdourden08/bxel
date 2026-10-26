@@ -33,7 +33,7 @@ const sheetFacts = (artwork: Artwork, id: string): readonly OverviewFact[] => {
   const extent = sheetExtent(sheet, sheetSizes(artwork));
   return [
     fact(OVERVIEW_TEXT.size, OVERVIEW_TEXT.pixelSize(extent.width, extent.height)),
-    fact(OVERVIEW_TEXT.sprites, String(sheet.entries.length)),
+    fact(OVERVIEW_TEXT.sprites, String(sheet.entries.length + (sheet.animationEntries?.length ?? 0))),
     fact(OVERVIEW_TEXT.layout, sheet.layout.kind),
   ];
 };

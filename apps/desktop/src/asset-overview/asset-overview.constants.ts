@@ -44,7 +44,7 @@ const OVERVIEW_TEXT = {
   milliseconds: (total: number): string => `${total} ms`,
   layers: 'Layers',
   palette: 'Palette',
-  sprites: 'Sprites on the sheet',
+  sprites: 'Sprites and animations on the sheet',
   layout: 'Layout',
   tiles: 'Tiles',
   tileSize: 'Tile size',
