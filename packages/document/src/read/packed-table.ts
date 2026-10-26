@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import type { PaletteBank } from '../model/palette.type';
-import { paletteRgba } from './palette-rgba';
+import { paletteRgba } from '../color/palette-rgba';
 
 const packedTable = (bank: PaletteBank): Uint32Array => {
   const bytes = paletteRgba(bank);

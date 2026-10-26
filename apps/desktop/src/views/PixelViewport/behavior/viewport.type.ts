@@ -72,8 +72,6 @@ interface PaintTools {
 interface FrameCache {
   tile: HTMLCanvasElement | null;
   tileKey: string;
-  surround: HTMLCanvasElement | null;
-  surroundKey: string;
   scratch: HTMLCanvasElement | null;
 }
 

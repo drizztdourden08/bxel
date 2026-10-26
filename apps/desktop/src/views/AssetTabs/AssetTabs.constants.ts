@@ -11,6 +11,6 @@ const ASSET_ICON: Readonly<Record<AssetKind, IconName>> = {
   project: 'pixel-project',
 };
 
-const ASSET_TABS_TEXT = { label: 'Open assets' } as const;
+const ASSET_TABS_TEXT = { label: 'Open assets', add: 'New file' } as const;
 
 export { ASSET_ICON, ASSET_TABS_TEXT };

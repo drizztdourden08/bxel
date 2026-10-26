@@ -22,7 +22,7 @@ const usage = {
     'A sheet of 200 sprites or more draws only the rows in view and keeps the room of the others.',
   ],
   a11y: [
-    'The thumbnails are a group named Sprites and each tile or row is one button that carries aria-pressed when picked.',
+    'The thumbnails are a grid named Sprites and each tile is one gridcell and each row one row, and both carry aria-selected when picked.',
     'Arrow keys move the pick, Home and End jump, Space toggles, Enter isolates, Ctrl and A picks all, Left and Right with Alt move the picked sprites, F2 renames, Delete asks to remove.',
     'A folder header is a button that carries aria-expanded.',
     'Each tile is named by the sprite name and its size, and the sortable list headers carry aria-sort.',

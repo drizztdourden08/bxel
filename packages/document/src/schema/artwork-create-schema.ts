@@ -1,8 +1,9 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
+import { alphaSchema } from './alpha-schema';
 import { platformIdSchema } from './platform-id-schema';
 
-const colorSchema = z.strictObject({ rgb: z.string(), name: z.string().optional() });
+const colorSchema = z.strictObject({ rgb: z.string(), alpha: alphaSchema.optional(), name: z.string().optional() });
 
 const bankSchema = z.strictObject({
   name: z.string(),

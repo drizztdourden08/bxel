@@ -1,12 +1,15 @@
 /* @layer renderer-app @kind logic */
+import { formatSwatchColor, swatchFields } from '@bxel/document';
+import type { Rgb } from '@bxel/document';
 import type { SwatchSet } from '@bxel/project';
-import { withColor } from './with-color';
 
-const recolorSet = (set: SwatchSet, index: number, rgb: string): SwatchSet => {
-  const next = rgb.toLowerCase();
+const recolorSet = (set: SwatchSet, index: number, rgb: string, alpha?: number): SwatchSet => {
+  const next = rgb.toLowerCase() as Rgb;
   const previous = set.colors[index];
-  const name = previous === undefined || previous.name === previous.rgb ? next : previous.name;
-  return withColor(set, index, { rgb: next, name });
+  const kept = alpha ?? previous?.alpha;
+  const unnamed = previous === undefined || previous.name === formatSwatchColor(previous.rgb as Rgb, previous.alpha);
+  const name = unnamed ? formatSwatchColor(next, kept) : previous.name;
+  return { ...set, colors: set.colors.map((color, at) => (at === index ? { ...swatchFields(next, kept), name } : color)) };
 };
 
 export { recolorSet };

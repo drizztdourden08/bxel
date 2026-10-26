@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { CanvasSettings, CheckerPreset, NumberRange, SurroundKind } from './canvas-look.type';
+import type { CanvasSettings, CheckerPreset, NumberRange, PreviewSample, SurroundKind } from './canvas-look.type';
 
 const PATTERN_SIZE = 16;
 
@@ -74,6 +74,13 @@ const COLOUR_PATTERN = /^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
 
 const PREVIEW_INSET = { width: 0.4, height: 0.5 } as const;
 
+const PREVIEW_SAMPLES: readonly PreviewSample[] = [
+  { x: 0.12, y: 0.2, width: 0.3, height: 0.6, colour: '#e0475b', alpha: 1 },
+  { x: 0.46, y: 0.3, width: 0.3, height: 0.5, colour: '#3aa0ff', alpha: 0.5 },
+];
+
+const PALETTE_COLUMNS = 16;
+
 const PATTERN_GRID_ALPHA = 0.25;
 
 const PATTERN_MARK_ALPHA = 0.35;
@@ -92,6 +99,6 @@ const MAJOR_MIN_GAP = 8;
 const TILE_MIN_GAP = 8;
 
 export {
-  BLANK_PATTERN, CANVAS_DEFAULTS, CELL_STEPS, CHECKER_PRESET_LABELS, CHECKER_PRESETS, COLOUR_PATTERN, MAJOR_MIN_GAP, PATTERN_CELLS, PATTERN_GRID_ALPHA, PATTERN_MARK_ALPHA, PATTERN_SIZE,
-  PREVIEW_INSET, PREVIEW_ZOOM, RANGES, SURROUND_KINDS, SURROUND_LABELS, SURROUND_RULES, TILE_MIN_GAP,
+  BLANK_PATTERN, CANVAS_DEFAULTS, CELL_STEPS, CHECKER_PRESET_LABELS, CHECKER_PRESETS, COLOUR_PATTERN, MAJOR_MIN_GAP, PALETTE_COLUMNS, PATTERN_CELLS, PATTERN_GRID_ALPHA, PATTERN_MARK_ALPHA, PATTERN_SIZE,
+  PREVIEW_INSET, PREVIEW_SAMPLES, PREVIEW_ZOOM, RANGES, SURROUND_KINDS, SURROUND_LABELS, SURROUND_RULES, TILE_MIN_GAP,
 };

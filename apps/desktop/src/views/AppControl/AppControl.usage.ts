@@ -2,7 +2,7 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Draws the rows of the App settings that set the defaults for new assets: size, colour limit, palette, platform, transparent slot and frame time.',
+  job: 'Draws the rows of the App settings that set the defaults for new assets: size, colour limit, palette, platform, transparent slot and frame time, and the custom surround pattern row of the Surround pattern page.',
   useWhen: [
     'An App settings row names a field such as app.default.size.',
     'The owner changes what every new asset starts with.',

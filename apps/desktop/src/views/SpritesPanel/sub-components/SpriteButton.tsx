@@ -5,13 +5,15 @@ import { spriteEvents } from '../behavior/sprite-events';
 import { tileClass } from '../behavior/tile-class';
 import type { SpriteButtonProps } from '../SpritesPanel.type';
 
-const SpriteButton = ({ fact, base, state, drag, handlers, children }: SpriteButtonProps) => {
+const SpriteButton = ({ fact, base, cell, state, drag, handlers, children }: SpriteButtonProps) => {
   const { sprite } = fact;
+  const { className, ...bind } = cell;
   return (
     <Pressable
       type="button"
-      className={tileClass(base, state)}
-      aria-pressed={state.selected}
+      {...bind}
+      className={`${className} ${tileClass(base, state)}`}
+      aria-selected={state.selected}
       aria-label={MANAGER_TEXT.tile(sprite.name, sprite.width, sprite.height)}
       title={state.loose ? MANAGER_TEXT.badgeUnplaced : MANAGER_TEXT.badgeSheets(fact.sheets)}
       data-sprite-id={sprite.id}

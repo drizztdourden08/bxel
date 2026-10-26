@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 const DEFAULT_PREFIX = 'app.default.';
 
-const CANVAS_FIELDS = { backgroundPreview: 'canvas.backgroundPreview', gridPreview: 'canvas.gridPreview', surroundCustom: 'canvas.surroundCustom' } as const;
+const CANVAS_FIELDS = { surroundCustom: 'canvas.surroundCustom' } as const;
 
 const APP_CONTROL_FIELDS: readonly string[] = [
   ...Object.values(CANVAS_FIELDS),

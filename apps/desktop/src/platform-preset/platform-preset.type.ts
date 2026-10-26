@@ -39,4 +39,9 @@ interface EffectivePlatform {
   inherited: boolean;
 }
 
-export type { AreaHighlight, EffectivePlatform, FindingLine, PlatformGroup, PlatformOutcome, PlatformReport };
+interface PresetFact {
+  label: string;
+  value: string;
+}
+
+export type { AreaHighlight, EffectivePlatform, FindingLine, PlatformGroup, PlatformOutcome, PlatformReport, PresetFact };

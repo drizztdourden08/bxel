@@ -4,7 +4,6 @@
   overflow: hidden;
   min-block-size: var(--size-128);
   border-radius: var(--radius-md);
-  background: var(--c-sunken);
   cursor: crosshair;
   touch-action: none;
   user-select: none;

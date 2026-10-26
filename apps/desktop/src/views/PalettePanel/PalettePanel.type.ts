@@ -49,14 +49,17 @@ interface HeldChipProps {
 interface SwatchDraft {
   index: number;
   value: string;
+  alpha: number;
 }
 
 interface SwatchEditModel {
   index: number | null;
   value: string;
+  alpha: number;
   anchor: RefObject<HTMLElement | null>;
   open: EditSwatch;
   change: (hex: string) => void;
+  changeAlpha: (alpha: number) => void;
   close: () => void;
 }
 

@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { formatSwatchColor, MIN_ALPHA, parseSwatchColor, swatchFields } from '@bxel/document';
 import { readGpl, readJascPal, readPalettePng } from '@bxel/formats';
 import type { PaletteFile, PaletteReadResult } from '@bxel/formats';
 import { baseName } from '../files/base-name';
@@ -17,11 +18,12 @@ const distinctColors = (file: PaletteFile): SourceColor[] => {
   const seen = new Set<string>();
   const colors: SourceColor[] = [];
   for (const entry of file.colors) {
-    if (!HEX_COLOR.test(entry.hex) || entry.hex.slice(7) === '00') continue;
-    const rgb = entry.hex.slice(0, 7).toLowerCase();
-    if (seen.has(rgb)) continue;
-    seen.add(rgb);
-    colors.push({ rgb, name: entry.name.trim() === '' ? rgb : entry.name.trim() });
+    const parsed = HEX_COLOR.test(entry.hex) ? parseSwatchColor(entry.hex) : null;
+    if (parsed === null || parsed.alpha === MIN_ALPHA) continue;
+    const text = formatSwatchColor(parsed.rgb, parsed.alpha);
+    if (seen.has(text)) continue;
+    seen.add(text);
+    colors.push({ ...swatchFields(parsed.rgb, parsed.alpha), name: entry.name.trim() === '' ? text : entry.name.trim() });
   }
   return colors;
 };

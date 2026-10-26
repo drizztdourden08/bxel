@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { BACKGROUND_LABEL, ERROR_CODE, findBank } from '@bxel/document';
+import { BACKGROUND_LABEL, ERROR_CODE, findBank, swatchAlpha } from '@bxel/document';
 import type { BankId, PaletteBank, Swatch } from '@bxel/document';
 import { hiddenFailure, mcpFailure } from '@bxel/mcp';
 import type { ToolHandler } from '../assistant.type';
@@ -11,8 +11,8 @@ import { viewFor } from './view-for';
 
 const slotOf = (swatch: Swatch, index: number) =>
   swatch.kind === 'transparent'
-    ? { index, swatchId: swatch.id, hex: null, name: BACKGROUND_LABEL }
-    : { index, swatchId: swatch.id, hex: swatch.rgb.toUpperCase(), name: swatch.name };
+    ? { index, swatchId: swatch.id, hex: null, alpha: swatchAlpha(swatch), name: BACKGROUND_LABEL }
+    : { index, swatchId: swatch.id, hex: swatch.rgb.toUpperCase(), alpha: swatchAlpha(swatch), name: swatch.name };
 
 const rampsOf = (bank: PaletteBank) =>
   bank.ramps.map((ramp) => ({

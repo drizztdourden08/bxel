@@ -1,0 +1,20 @@
+/* @layer renderer-app @kind style */
+.color-backing {
+  display: block;
+  inline-size: 100%;
+  border-radius: var(--radius-sm);
+}
+
+.color-backing--inline {
+  display: inline-flex;
+  inline-size: auto;
+}
+
+.color-backing--clear {
+  background-color: var(--c-checker-a);
+  background-image:
+    linear-gradient(45deg, var(--c-checker-b) 25%, transparent 25% 75%, var(--c-checker-b) 75%),
+    linear-gradient(45deg, var(--c-checker-b) 25%, transparent 25% 75%, var(--c-checker-b) 75%);
+  background-size: var(--checker-size) var(--checker-size);
+  background-position: 0 0, calc(var(--checker-size) / 2) calc(var(--checker-size) / 2);
+}

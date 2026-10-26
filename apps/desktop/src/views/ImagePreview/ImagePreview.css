@@ -1,4 +1,11 @@
 /* @layer renderer-app @kind style */
+.image-preview-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
 .pixel-viewport.image-preview {
   inline-size: 100%;
   block-size: var(--size-224);

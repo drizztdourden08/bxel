@@ -33,9 +33,9 @@ const same = async (rig: SheetRig, expected: readonly Uint8Array[]): Promise<voi
 
 const selectAll = async (rig: SheetRig): Promise<void> => {
   const sprites = rig.session.page.getByRole('grid', { name: 'Sprites', exact: true });
-  await sprites.getByRole('button', { name: /^part_01/ }).click();
-  await sprites.getByRole('button', { name: /^part_02/ }).click({ modifiers: ['Control'] });
-  await sprites.getByRole('button', { name: /^part_03/ }).click({ modifiers: ['Control'] });
+  await sprites.getByRole('gridcell', { name: /^part_01/ }).click();
+  await sprites.getByRole('gridcell', { name: /^part_02/ }).click({ modifiers: ['Control'] });
+  await sprites.getByRole('gridcell', { name: /^part_03/ }).click({ modifiers: ['Control'] });
 };
 
 const slicesTheGrid = async (rig: SheetRig): Promise<void> => {

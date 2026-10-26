@@ -1,13 +1,16 @@
 /* @layer renderer-app @kind component */
 import { focusRegion } from '@drizztdourden08/brock-react';
-import { Box, DocumentTabs } from '@drizztdourden08/tessera';
+import { Box, DocumentTabs, Flex, Icon, IconButton } from '@drizztdourden08/tessera';
+import { useFileTypePanelStore } from '../../stores/useFileTypePanelStore';
 import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 import { closeTab } from '../../workspace/close-tab';
 import { focusTab } from '../../workspace/focus-tab';
 import { ASSET_TABS_TEXT } from './AssetTabs.constants';
 import { useAssetTabs } from './behavior/useAssetTabs';
+import './AssetTabs.css';
 
 const activate = (tabId: string): void => {
+  useFileTypePanelStore.getState().hide();
   const tab = useWorkspaceStore.getState().tabs.find((each) => each.id === tabId);
   if (tab) focusTab(tab);
 };
@@ -15,18 +18,27 @@ const activate = (tabId: string): void => {
 const AssetTabs = () => {
   const { tabs, activeId } = useAssetTabs();
   const moveTab = useWorkspaceStore((state) => state.moveTab);
-  if (tabs.length === 0) return null;
+  const adding = useFileTypePanelStore((state) => state.open);
+  const show = useFileTypePanelStore((state) => state.show);
   return (
     <Box {...focusRegion(ASSET_TABS_TEXT.label, ASSET_TABS_TEXT.label)}>
-      <DocumentTabs
-        label={ASSET_TABS_TEXT.label}
-        tabs={tabs}
-        {...(activeId === undefined ? {} : { activeId })}
-        onActivate={activate}
-        onClose={(tabId) => void closeTab(tabId)}
-        onMove={moveTab}
-        overflowMenu
-      />
+      <Flex className="asset-tabs">
+        <DocumentTabs
+          className="asset-tabs__tabs"
+          label={ASSET_TABS_TEXT.label}
+          tabs={tabs}
+          {...(activeId === undefined || adding ? {} : { activeId })}
+          onActivate={activate}
+          onClose={(tabId) => void closeTab(tabId)}
+          onMove={moveTab}
+          overflowMenu
+        />
+        <Flex className="asset-tabs__rest">
+          <IconButton variant="ghost" size="sm" label={ASSET_TABS_TEXT.add} active={adding} aria-pressed={adding} onClick={show}>
+            <Icon name="plus" />
+          </IconButton>
+        </Flex>
+      </Flex>
     </Box>
   );
 };

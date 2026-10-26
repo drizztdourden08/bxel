@@ -27,6 +27,8 @@ const SETTINGS = 'Control+,';
 
 const LONG_LIST = 210;
 
+const APP_PAGES = ['Grid and rulers', 'Surround pattern', 'Canvas', 'Palette library', 'Platform presets'] as const;
+
 const reduceMotion = (session: Session): Promise<void> => session.page.emulateMedia({ reducedMotion: 'reduce' });
 
 const checksSettingsHubs = async (session: Session): Promise<void> => {
@@ -34,6 +36,11 @@ const checksSettingsHubs = async (session: Session): Promise<void> => {
   await page.keyboard.press(SETTINGS);
   await page.getByText('Window mode', { exact: true }).waitFor();
   await expectAccessible(session, 'settings, App hub');
+  for (const name of APP_PAGES) {
+    await page.getByRole('button', { name, exact: true }).first().click();
+    await expectAccessible(session, `settings, App hub, ${name}`);
+  }
+  await page.getByRole('button', { name: 'General', exact: true }).first().click();
   for (const hub of ['Asset', 'Project']) {
     await page.getByRole('navigation', { name: 'Switch hub' }).getByRole('button', { name: hub, exact: true }).click();
     await expectAccessible(session, `settings, ${hub} hub`);
