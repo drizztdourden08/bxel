@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 const CASES: readonly (readonly [string, string])[] = [
   ['hero.bxsprite', 'sprite'],
+  ['walk.bxanim', 'animation'],
   ['main.bxsheet', 'sheet'],
   ['dawn.bxpalette', 'palette'],
   ['dawn.gpl', 'palette'],

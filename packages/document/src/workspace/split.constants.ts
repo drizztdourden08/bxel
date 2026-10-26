@@ -3,6 +3,7 @@ import type { AssetKind } from '../model/asset.type';
 
 const SPLIT_FOLDER: Readonly<Record<AssetKind, string>> = {
   sprite: 'sprites',
+  animation: 'sprites',
   sheet: 'sheets',
   palette: 'palettes',
   tileset: 'tilemaps',

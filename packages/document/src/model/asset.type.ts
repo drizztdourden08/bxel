@@ -6,7 +6,7 @@ type AssetKind = (typeof ASSET_KIND)[keyof typeof ASSET_KIND];
 
 type AssetRef = { readonly id: string; readonly path: string };
 
-type AssetContent = Partial<Pick<Artwork, 'banks' | 'sprites' | 'sheets' | 'presets' | 'tilesets' | 'tilemaps'>>;
+type AssetContent = Partial<Pick<Artwork, 'banks' | 'sprites' | 'sheets' | 'presets' | 'tilesets' | 'tilemaps' | 'animations'>>;
 
 type AssetSlice = {
   readonly kind: AssetKind;

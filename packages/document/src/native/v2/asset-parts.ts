@@ -7,8 +7,10 @@ import { canonicalJson } from './canonical-json';
 const assetParts = (header: AssetHeader, file: unknown, extras: AssetExtras, clock: Clock): AssetParts => ({
   header,
   savedAt: clock(),
+  ...(extras.readerVersion === undefined ? {} : { readerVersion: extras.readerVersion }),
   documentBytes: strToU8(canonicalJson(file)),
-  ...extras,
+  preview: extras.preview,
+  blobs: extras.blobs,
 });
 
 export { assetParts };

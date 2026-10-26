@@ -1,11 +1,14 @@
 /* @layer core @kind barrel */
+export type * from './animated/animated-split.type';
 export type * from './asset-key.type';
 export type * from './asset-paths.type';
 export type * from './merge-result.type';
 export type * from './slice-source.type';
 export type * from './split-plan.type';
 export type * from './workspace-meta.type';
+export { splitAnimatedSprites } from './animated/split-animated-sprites';
 export { assetsTouched } from './assets-touched';
+export { ASSET_LOAD_ORDER } from './load-order.constants';
 export { MERGE_ISSUE } from './merge-issue.constants';
 export { mergeSlices } from './merge-slices';
 export { fileSafeStem } from './file-safe-stem';

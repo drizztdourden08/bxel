@@ -16,9 +16,9 @@ const keysOf = (kind: AssetKind, changes: readonly { readonly id: string }[]): r
 const spriteKeys = (changes: ChangeSet, owners: ReadonlyMap<string, string>): readonly AssetKey[] =>
   changes.sprites.map((change) => {
     const owner = owners.get(change.id);
-    return owner !== undefined && isId(owner, ID_PREFIX.tileset)
-      ? { kind: ASSET_KIND.tileset, id: owner }
-      : { kind: ASSET_KIND.sprite, id: change.id };
+    if (owner !== undefined && isId(owner, ID_PREFIX.tileset)) return { kind: ASSET_KIND.tileset, id: owner };
+    if (owner !== undefined && isId(owner, ID_PREFIX.animation)) return { kind: ASSET_KIND.animation, id: owner };
+    return { kind: ASSET_KIND.sprite, id: change.id };
   });
 
 const assetsTouched = (changes: ChangeSet, before: Artwork, after: Artwork): readonly AssetKey[] => {
@@ -27,6 +27,7 @@ const assetsTouched = (changes: ChangeSet, before: Artwork, after: Artwork): rea
     ...(changes.artwork ? [{ kind: ASSET_KIND.project, id: after.id }] : []),
     ...keysOf(ASSET_KIND.palette, changes.banks),
     ...spriteKeys(changes, owners),
+    ...keysOf(ASSET_KIND.animation, changes.animations),
     ...keysOf(ASSET_KIND.sheet, changes.sheets),
     ...touchedPresetKeys(changes.presets, [before, after], owners),
     ...keysOf(ASSET_KIND.tileset, changes.tilesets),

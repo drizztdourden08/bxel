@@ -34,7 +34,7 @@ const composeArtwork = (accepted: readonly AcceptedSource[], meta: WorkspaceMeta
     presets: presets.items,
     tilesets: gatherContent(accepted, 'tilesets').items,
     tilemaps: gatherContent(accepted, 'tilemaps').items,
-    animations: [],
+    animations: gatherContent(accepted, 'animations').items,
   };
   return { artwork, issues: [...banks.divergent.map(divergentIssue), ...settled.issues] };
 };

@@ -154,14 +154,14 @@ describe('native asset v2: links and recovery', () => {
 
   it('opens a newer format read-only and refuses a newer minimum reader', () => {
     const newer = editManifest(spriteBytes(), (manifest) => {
-      manifest.formatVersion = 3;
+      manifest.formatVersion = 4;
     });
     const report = decodeSprite(newer, sliceOf(decodePalette(paletteBytes())));
     expect(report.readOnly).toBe(true);
     expect(report.notice).toContain('newer Bxel');
     const tooNew = editManifest(spriteBytes(), (manifest) => {
-      manifest.formatVersion = 3;
-      manifest.minReaderVersion = 3;
+      manifest.formatVersion = 4;
+      manifest.minReaderVersion = 4;
     });
     const refused = decodeSprite(tooNew);
     expect(refused.outcome).toBe('fatal');
@@ -208,9 +208,9 @@ describe('native asset v2: kind', () => {
 
   it('lists a distinct mime type, extension and progId for every kind', () => {
     const formats = Object.values(ASSET_FORMAT);
-    expect(new Set(formats.map((format) => format.mime)).size).toBe(6);
-    expect(new Set(formats.map((format) => format.extension)).size).toBe(6);
-    expect(new Set(formats.map((format) => format.progId)).size).toBe(6);
+    expect(new Set(formats.map((format) => format.mime)).size).toBe(7);
+    expect(new Set(formats.map((format) => format.extension)).size).toBe(7);
+    expect(new Set(formats.map((format) => format.progId)).size).toBe(7);
     expect(LEGACY_FORMAT.extension).toBe('.bxel');
   });
 });

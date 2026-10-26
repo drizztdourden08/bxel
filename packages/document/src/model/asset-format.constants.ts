@@ -1,6 +1,7 @@
 /* @layer core @kind config */
 const ASSET_KIND = {
   sprite: 'sprite',
+  animation: 'animation',
   sheet: 'sheet',
   palette: 'palette',
   tileset: 'tileset',
@@ -10,6 +11,7 @@ const ASSET_KIND = {
 
 const ASSET_FORMAT = {
   sprite: { extension: '.bxsprite', mime: 'application/vnd.bxel.sprite+zip', progId: 'Bxel.Sprite' },
+  animation: { extension: '.bxanim', mime: 'application/vnd.bxel.animation+zip', progId: 'Bxel.Animation' },
   sheet: { extension: '.bxsheet', mime: 'application/vnd.bxel.sheet+zip', progId: 'Bxel.Sheet' },
   palette: { extension: '.bxpalette', mime: 'application/vnd.bxel.palette+zip', progId: 'Bxel.Palette' },
   tileset: { extension: '.bxtiles', mime: 'application/vnd.bxel.tileset+zip', progId: 'Bxel.Tileset' },
