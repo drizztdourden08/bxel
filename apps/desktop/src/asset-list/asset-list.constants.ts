@@ -48,7 +48,7 @@ const DEFAULT_QUERY: AssetQuery = { chip: 'all', sort: 'name', search: '', usedB
 
 const KIND_ICON: Readonly<Record<RowKind, IconName>> = {
   sprite: 'pixel-sprite',
-  animation: 'pixel-sprite',
+  animation: 'pixel-animation',
   sheet: 'pixel-atlas',
   palette: 'pixel-palette',
   tileset: 'pixel-tileset',

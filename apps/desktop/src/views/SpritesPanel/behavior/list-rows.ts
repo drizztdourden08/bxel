@@ -6,9 +6,9 @@ import type { FolderGroup } from '../../../sheet-manager/folders.type';
 import { pivotLabel } from '../../../sheet-manager/pivot-label';
 import type { ListRow } from '../SpritesPanel.type';
 
-const listRows = (artwork: Artwork, groups: readonly FolderGroup[]): ListRow[] =>
+const listRows = (artwork: Artwork, groups: readonly FolderGroup[], onSheets: boolean): ListRow[] =>
   groups.flatMap((group) =>
-    group.facts.map(({ sprite, frames, tags }) => ({
+    group.facts.map(({ sprite, frames, tags, onSheet }) => ({
       id: sprite.id,
       name: sprite.name,
       folder: group.path === '' ? FOLDER_TEXT.root : group.path,
@@ -18,6 +18,7 @@ const listRows = (artwork: Artwork, groups: readonly FolderGroup[]): ListRow[] =
       frames,
       tags,
       bank: findBank(artwork, sprite.bankId)?.name ?? '',
+      loose: onSheets && !onSheet,
     })),
   );
 
