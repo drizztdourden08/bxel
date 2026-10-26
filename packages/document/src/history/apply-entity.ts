@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import type { Animation } from '../model/animation.type';
 import type { ExportPreset } from '../model/export-preset.type';
 import type { CelId, SpriteId } from '../model/ids.type';
 import type { PaletteBank } from '../model/palette.type';
@@ -23,6 +24,8 @@ const setCollection = (artwork: Artwork, key: CollectionKey, value: unknown): Ar
       return { ...artwork, tilesets: value as readonly Tileset[] };
     case 'tilemaps':
       return { ...artwork, tilemaps: value as readonly Tilemap[] };
+    case 'animations':
+      return { ...artwork, animations: value as readonly Animation[] };
   }
 };
 

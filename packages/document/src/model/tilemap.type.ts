@@ -1,6 +1,6 @@
 /* @layer core @kind types */
 import type { Point } from './geometry.type';
-import type { BankId, MapLayerId, SpriteId, TileId, TilemapId, TilesetId } from './ids.type';
+import type { AnimationId, BankId, MapLayerId, SpriteId, TagId, TileId, TilemapId, TilesetId } from './ids.type';
 
 type TileCollision =
   | { readonly kind: 'full' }
@@ -18,11 +18,20 @@ type MapOrientation = {
   readonly hexSideLength: number;
 };
 
+type TileAnimationStart = 'together' | 'random';
+
+type TileAnimation = {
+  readonly animationId: AnimationId;
+  readonly tagId: TagId | null;
+  readonly start: TileAnimationStart;
+};
+
 type Tile = {
   readonly id: TileId;
   readonly key: number;
   readonly spriteId: SpriteId;
   readonly collision?: TileCollision;
+  readonly animation?: TileAnimation;
 };
 
 type Tileset = {
@@ -56,4 +65,15 @@ type Tilemap = {
   readonly orientation?: MapOrientation;
 };
 
-export type { MapLayer, MapOrientation, TerrainKind, TerrainRules, Tile, TileCollision, Tilemap, Tileset };
+export type {
+  MapLayer,
+  MapOrientation,
+  TerrainKind,
+  TerrainRules,
+  Tile,
+  TileAnimation,
+  TileAnimationStart,
+  TileCollision,
+  Tilemap,
+  Tileset,
+};

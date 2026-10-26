@@ -11,6 +11,7 @@ import { collisionIssue } from '../read/collision-issue';
 import { findTileset } from '../read/find-tileset';
 import { orientationIssue } from '../read/orientation-issue';
 import { terrainIssue } from '../read/terrain-issue';
+import { tileAnimationIssue } from '../read/tile-animation-issue';
 import { cellKey } from '../tilemap/cell-key';
 
 const broken = (message: string): CommandFailure => fail(ERROR_CODE.REFERENCE_BROKEN, message);
@@ -33,6 +34,8 @@ const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
     }
     const issue = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
     if (issue !== null) throw broken(`Tile ${tile.key} of tileset "${tileset.name}": ${issue}`);
+    const animated = tileAnimationIssue(artwork, tileset, tile);
+    if (animated !== null) throw broken(`Tile ${tile.key} of tileset "${tileset.name}": ${animated}`);
     keys.add(tile.key);
   }
   const rules = tileset.terrain ? terrainIssue(tileset.terrain, tileset) : null;
@@ -61,7 +64,7 @@ const checkMaps = (draft: Draft): void => {
 const checkTiles = (draft: Draft): void => {
   const { artwork, base } = draft;
   if (artwork.tilesets.length === 0 && artwork.tilemaps.length === 0) return;
-  if (artwork.sprites !== base.sprites || artwork.tilesets !== base.tilesets) {
+  if (artwork.sprites !== base.sprites || artwork.tilesets !== base.tilesets || artwork.animations !== base.animations) {
     for (const tileset of artwork.tilesets) checkTileset(artwork, tileset);
   }
   if (artwork.tilemaps !== base.tilemaps || artwork.tilesets !== base.tilesets) checkMaps(draft);

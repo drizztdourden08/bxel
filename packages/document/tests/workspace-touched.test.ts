@@ -45,6 +45,7 @@ const everything = (artwork: Artwork): ChangeSet => {
     presets: ['Hearts at 4x', 'Tree alone', 'Characters sheet'].map((name) => ({ id: presetId(artwork, name), kind: 'updated' })),
     tilesets: [{ id: tileset.id, kind: 'updated' }],
     tilemaps: [{ id: firstOf(artwork.tilemaps).id, kind: 'updated' }],
+    animations: [],
   };
 };
 

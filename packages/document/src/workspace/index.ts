@@ -13,4 +13,5 @@ export { presetsOf } from './presets-of';
 export { relativeLinkPath } from './relative-link-path';
 export { resolveLinkPath } from './resolve-link-path';
 export { sliceAsset } from './slice-asset';
+export { spriteOwners } from './sprite-owners';
 export { splitIntoAssets } from './split-into-assets';
