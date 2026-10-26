@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { detachTileTags } from '../../draft/detach-tile-tags';
+import { dropSheetAnimations } from '../../draft/drop-sheet-animations';
 import { updateAnimation } from '../../draft/update-animation';
 import { animationTagDeleteSchema } from '../../schema/animation-tag-delete-schema';
 import { COMMAND_NAME } from '../command-name.constants';
@@ -17,6 +18,7 @@ const animationTagDelete = defineCommand({
     const gone = new Set([tag.id, ...animation.tags.flatMap((item) => (item.kind === 'mirror' && item.of === tag.id ? [item.id] : []))]);
     updateAnimation(draft, animation.id, (current) => ({ ...current, tags: current.tags.filter((item) => !gone.has(item.id)) }));
     detachTileTags(draft, animation.id, gone);
+    dropSheetAnimations(draft, animation.id, gone);
   },
 });
 

@@ -13,6 +13,8 @@ const COMMAND_NAME = {
   sheetRemove: 'sheet.remove',
   sheetPlace: 'sheet.place',
   sheetArrange: 'sheet.arrange',
+  sheetAnimationAdd: 'sheet.animation.add',
+  sheetAnimationRemove: 'sheet.animation.remove',
   presetAdd: 'preset.add',
   presetUpdate: 'preset.update',
   presetRename: 'preset.rename',
