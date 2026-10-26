@@ -14,7 +14,7 @@ const usage = {
   rules: [
     'The strip reads the workspace store and takes no props.',
     'A tab shows a dot while its asset has unsaved changes, and its hover text is the file of the asset.',
-    'A plus button after the last tab opens the file type picker in the canvas area; picking a type opens the create dialog for it.',
+    'A plus button at the end of the strip opens the file type picker in the canvas area; picking a type opens the create dialog for it.',
     'Closing the last tab of a loose workspace closes it and asks first about unsaved assets; a project stays open.',
   ],
   a11y: [
