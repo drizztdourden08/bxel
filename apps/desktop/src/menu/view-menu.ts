@@ -37,6 +37,8 @@ const gridEntries = (state: EditorMenuState): MenuEntry[] => [
   menuItem(COMMAND_ID.rulers, 'Rulers', { ...off(state), checked: state.rulers }),
 ];
 
+const guideEntries = (state: EditorMenuState): MenuEntry[] => [menuItem(COMMAND_ID.guides, 'Guides', { ...off(state), checked: state.guides })];
+
 const symmetryEntries = (state: EditorMenuState): MenuEntry[] => [
   {
     key: 'view-symmetry',
@@ -66,6 +68,7 @@ const viewMenu = (state: EditorMenuState): MenuItem => {
     children: [
       ...(has('zoom') ? zoomEntries(state) : []),
       ...(has('view') ? gridEntries(state) : []),
+      ...(has('guides') ? guideEntries(state) : []),
       ...(has('symmetry') ? symmetryEntries(state) : []),
       ...(has('tiled') ? tiledEntries(state) : []),
     ],

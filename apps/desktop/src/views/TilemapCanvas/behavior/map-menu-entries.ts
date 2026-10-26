@@ -33,9 +33,9 @@ const mapMenuEntries = (target: MapTarget, here: Point | null): readonly Context
     SELECTION_COMMAND_ID.selectAll,
     { command: SELECTION_COMMAND_ID.clear, ...needCells },
     mapSubmenuEntries(target),
-    viewEntries({ major: false, tile: true, tiled: false }),
+    viewEntries({ major: false, tile: true, tiled: false, guides: false }),
     'separator',
-    { command: ID.clearCells, ...needCells },
+    { command: ID.clearCells, tone: 'danger', ...needCells },
   ];
 };
 

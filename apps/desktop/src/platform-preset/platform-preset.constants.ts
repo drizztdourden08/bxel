@@ -5,10 +5,6 @@ const NO_PLATFORM = 'none';
 
 const FOLLOW_PROJECT = 'project';
 
-const PRESET_PICK_KEY = 'presetPick';
-
-const PRESET_FACTS_KEY = 'presetFacts';
-
 const PLATFORM_LABEL = 'Change platform';
 
 const STRICT_LABEL = 'Change platform rules mode';
@@ -62,4 +58,4 @@ const TIER_LABELS: Readonly<Record<RuleTier, string>> = {
   advisory: 'Note',
 };
 
-export { AREA_TEXT, FOLLOW_PROJECT, NO_PLATFORM, PLATFORM_LABEL, PLATFORM_TEXT, PRESET_FACTS_KEY, PRESET_PICK_KEY, STRICT_LABEL, STRICT_TEXT, TIER_LABELS };
+export { AREA_TEXT, FOLLOW_PROJECT, NO_PLATFORM, PLATFORM_LABEL, PLATFORM_TEXT, STRICT_LABEL, STRICT_TEXT, TIER_LABELS };

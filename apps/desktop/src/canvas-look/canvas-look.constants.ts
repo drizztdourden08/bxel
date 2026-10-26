@@ -32,6 +32,7 @@ const CANVAS_DEFAULTS: CanvasSettings = {
   gridTileColor: '#46c8ff',
   gridTileOpacity: 0.6,
   rulers: true,
+  rulerUnit: 'pixels',
 };
 
 const SURROUND_RULES: Readonly<Record<Exclude<SurroundKind, 'custom'>, (x: number, y: number) => boolean>> = {

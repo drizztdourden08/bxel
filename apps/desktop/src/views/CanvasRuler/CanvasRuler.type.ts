@@ -18,6 +18,7 @@ interface RulerDrag {
   onPointerDown: PointerEventHandler<HTMLElement>;
   onPointerMove: PointerEventHandler<HTMLElement>;
   onPointerUp: PointerEventHandler<HTMLElement>;
+  onPointerCancel: PointerEventHandler<HTMLElement>;
   onDoubleClick: MouseEventHandler<HTMLElement>;
 }
 

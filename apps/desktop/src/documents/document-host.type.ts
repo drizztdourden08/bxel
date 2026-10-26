@@ -62,6 +62,7 @@ type DocumentHost = {
   readonly undo: (documentId: DocumentId) => TransactionResult;
   readonly redo: (documentId: DocumentId) => TransactionResult;
   readonly markSaved: (documentId: DocumentId) => boolean;
+  readonly markUnsaved: (documentId: DocumentId) => boolean;
   readonly subscribe: (listener: DocumentListener) => () => void;
   readonly watch: (documentId: DocumentId, listener: DocumentListener) => () => void;
   readonly subscribeChanges: (listener: HostChangeListener) => () => void;

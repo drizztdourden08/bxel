@@ -14,7 +14,8 @@ import { useZoomItems } from './useZoomItems';
 const useCanvasItems = (): ToolbarItem[] => {
   const surface = useSurface();
   const tiled = hasPart(surface, 'tiled');
-  const view = useViewItems().filter((item) => tiled || item.id !== 'tiled');
+  const guides = hasPart(surface, 'guides');
+  const view = useViewItems().filter((item) => (tiled || item.id !== 'tiled') && (guides || item.id !== 'guides'));
   return canvasGroups(surface, [
     { id: GROUP_IDS.scope, part: null, items: useScopeItems() },
     { id: GROUP_IDS.symmetry, part: 'symmetry', items: useSymmetryItems() },

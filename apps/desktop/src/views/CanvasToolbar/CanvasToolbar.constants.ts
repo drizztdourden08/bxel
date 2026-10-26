@@ -54,6 +54,11 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
     description: 'Draw the borders of the tiles over the canvas.',
     shortcuts: [{ command: COMMAND_ID.tileGrid }],
   },
+  guides: {
+    name: 'Guides',
+    description: 'Show the guide lines you dragged out of the rulers.',
+    shortcuts: [{ command: COMMAND_ID.guides }],
+  },
   rulers: {
     name: 'Rulers',
     description: 'Show the pixel rulers along the top and the left of the canvas.',
@@ -61,12 +66,13 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
   },
 };
 
-const VIEW_TOGGLES: readonly ViewToggle[] = ['grid', 'gridMajor', 'gridTile', 'rulers'];
+const VIEW_TOGGLES: readonly ViewToggle[] = ['grid', 'gridMajor', 'gridTile', 'guides', 'rulers'];
 
 const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
   grid: 'pixel-grid',
   gridMajor: 'layout-grid',
   gridTile: 'columns-3',
+  guides: 'guides',
   rulers: 'pixel-rulers',
 };
 

@@ -31,6 +31,7 @@ type Engine = {
   readonly canRedo: () => boolean;
   readonly isClean: () => boolean;
   readonly markSaved: () => void;
+  readonly markUnsaved: () => void;
 };
 
 type EngineStore = {
