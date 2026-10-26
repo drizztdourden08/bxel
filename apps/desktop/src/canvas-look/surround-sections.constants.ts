@@ -9,7 +9,7 @@ const SURROUND_SECTIONS: Section[] = [
     id: 'surround',
     title: 'Surround',
     items: [
-      { key: 'surroundPattern', label: 'Surround pattern', description: 'The texture behind the whole work area.', hint: 'Pick a stripe, dot or solid texture, or Custom to use the pattern you draw below.', control: { kind: 'select', options: surroundOptions } },
+      { key: 'surroundPattern', label: 'Surround pattern', description: 'The texture behind the picture in the canvas.', hint: 'Pick a stripe, dot or solid texture, or Custom to use the pattern you draw below.', control: { kind: 'select', options: surroundOptions } },
       { key: 'surroundA', label: 'Surround colour A', description: 'The base colour of the surround.', hint: 'Keep it close to colour B so the texture stays quiet.', control: { kind: 'color' } },
       { key: 'surroundB', label: 'Surround colour B', description: 'The colour of the pattern marks.', control: { kind: 'color' } },
       {
