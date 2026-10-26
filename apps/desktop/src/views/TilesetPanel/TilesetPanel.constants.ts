@@ -20,6 +20,15 @@ const TILESET_TEXT = {
   editing: 'Editing',
 } as const;
 
+const TILE_MENU = {
+  label: 'Tile actions',
+  tile: '[data-tile-key]',
+  edit: 'Edit tile',
+  place: 'Place with this tile',
+  remove: 'Delete tile...',
+  needCells: 'Select some cells on the map first.',
+} as const;
+
 const TILE_COLUMNS = 5;
 
 const THUMB_BOX = 40;
@@ -66,4 +75,4 @@ const NEW_TILEMAP_HINT: HintSpec = {
   shortcuts: [{ command: TILEMAP_COMMAND.newTilemap }],
 };
 
-export { ADD_HINT, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, NEW_TILEMAP_HINT, NEW_TILESET_HINT, THUMB_BOX, TILE_COLUMNS, TILESET_TEXT, UNIQUE_HINT };
+export { ADD_HINT, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, NEW_TILEMAP_HINT, NEW_TILESET_HINT, THUMB_BOX, TILE_COLUMNS, TILE_MENU, TILESET_TEXT, UNIQUE_HINT };

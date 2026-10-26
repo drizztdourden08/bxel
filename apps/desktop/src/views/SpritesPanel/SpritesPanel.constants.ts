@@ -41,6 +41,20 @@ const VIRTUAL_LIST_MIN = 200;
 
 const END_INDEX = 100000;
 
+const SPRITE_MENU = {
+  label: 'Sprite actions',
+  edit: 'Edit sprite',
+  renameMany: 'Rename several...',
+  needTwo: 'Pick at least two sprites.',
+  duplicateNamed: 'Duplicate with a name...',
+  moveToFolder: 'Move to folder...',
+  palette: 'Palette...',
+  oneBank: 'This file has only one palette.',
+  noSheet: 'There is no sheet.',
+  notAnimated: 'Pick a sprite with more than one frame.',
+  drop: (name: string): string => `Delete saved selection ${name}`,
+} as const;
+
 const FOLDER_DEPTH_LIMIT = 4;
 
 const MANAGER_TABS = [
@@ -136,4 +150,4 @@ const SPRITE_STEPS = [
   { hint: SPRITE_HINTS.later, icon: 'arrow-right', by: 1 },
 ] as const;
 
-export { ANY_SIZE, ARROW_STEP, CHECKBOX, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_COUNT_LABEL, LIST_HEAD_ROOM, LIST_LABEL, LIST_SCHEMA, LIST_VIEW_KEY, MANAGER_TABS, MARQUEE_ITEM, MARQUEE_SKIP, NO_SPRITES, SPRITE_HINTS, SPRITE_STEPS, TEXT_ENTRY, TILE_EXTRA, TILE_SIZES, VIRTUAL_LIST_MIN };
+export { ANY_SIZE, ARROW_STEP, CHECKBOX, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_COUNT_LABEL, LIST_HEAD_ROOM, LIST_LABEL, LIST_SCHEMA, LIST_VIEW_KEY, MANAGER_TABS, MARQUEE_ITEM, MARQUEE_SKIP, NO_SPRITES, SPRITE_HINTS, SPRITE_MENU, SPRITE_STEPS, TEXT_ENTRY, TILE_EXTRA, TILE_SIZES, VIRTUAL_LIST_MIN };

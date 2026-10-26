@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind component */
-import { StatusBar } from '@drizztdourden08/tessera';
+import { contextMenuZone, useContextMenu } from '@drizztdourden08/brock-react';
+import { Box, StatusBar } from '@drizztdourden08/tessera';
+import { openMenuFrom } from '../../context-menu/open-menu-from';
 import { statusItems } from '../../editor/status-items';
 import { STATUS_TEXT } from '../../editor/status.constants';
 import { useActiveAsset } from '../../hooks/useActiveAsset';
@@ -12,6 +14,8 @@ import { useTilemapStore } from '../../stores/useTilemapStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { ActionHint } from '../ActionHint';
 import { canvasHelp } from './behavior/canvas-help';
+import { statusMenuEntries } from './behavior/status-menu-entries';
+import { STATUS_MENU } from './EditorStatus.constants';
 import './EditorStatus.css';
 
 const EditorStatus = () => {
@@ -28,9 +32,17 @@ const EditorStatus = () => {
   const colours = [slots[foreground] ?? null, slots[background] ?? null] as const;
   const asset = useActiveAsset();
   const clean = asset ? !asset.dirty : true;
+  useContextMenu(STATUS_MENU.zone, { label: STATUS_MENU.label, entries: statusMenuEntries });
   return (
     <ActionHint hint={canvasHelp(tool, mode, tileMode)} placement="top" className="editor-status">
-      <StatusBar className="editor-status__bar" label={STATUS_TEXT.region} items={statusItems({ pointer, zoom, colours, clean, recovered })} />
+      <Box className="editor-status__zone" {...contextMenuZone(STATUS_MENU.zone)}>
+        <StatusBar
+          className="editor-status__bar"
+          label={STATUS_TEXT.region}
+          items={statusItems({ pointer, zoom, colours, clean, recovered })}
+          onItemContextMenu={(item, event) => openMenuFrom(STATUS_MENU.zone, { item }, event)}
+        />
+      </Box>
     </ActionHint>
   );
 };

@@ -10,6 +10,7 @@ const TERRAIN_COMMANDS: readonly CommandDef[] = [
     id: ID.toggleBrush,
     label: 'Turn the terrain brush on or off',
     group: COMMAND_GROUP.tilemap,
+    checked: () => useTilemapStore.getState().terrainBrush,
     run: () => useTilemapStore.getState().setTerrainBrush(!useTilemapStore.getState().terrainBrush),
   },
 ].map(onSurface('map', 'tile'));

@@ -10,6 +10,7 @@ const COLLISION_COMMANDS: readonly CommandDef[] = [
     id: ID.toggleOverlay,
     label: 'Show or hide tile collision on the map',
     group: COMMAND_GROUP.tilemap,
+    checked: () => useTilemapStore.getState().showCollision,
     run: () => useTilemapStore.getState().setShowCollision(!useTilemapStore.getState().showCollision),
   },
 ].map(onSurface('map', 'tile'));
