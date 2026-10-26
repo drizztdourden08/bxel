@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { Surface, SurfacePart } from './surface.type';
 
-const PIXEL_PARTS: readonly SurfacePart[] = ['symmetry', 'view', 'tiled', 'playback', 'zoom', 'transform', 'options', 'paint', 'layers'];
+const PIXEL_PARTS: readonly SurfacePart[] = ['symmetry', 'view', 'tiled', 'playback', 'zoom', 'transform', 'options', 'paint', 'layers', 'guides'];
 
 const SURFACE_PARTS: Readonly<Record<Surface, readonly SurfacePart[]>> = {
   none: [],

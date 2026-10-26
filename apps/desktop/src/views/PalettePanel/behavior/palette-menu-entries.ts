@@ -37,7 +37,7 @@ const swatchEntries = (slot: PaletteSlot): readonly ContextMenuEntry[] => {
     { command: 'palette.copy_hex', label: PALETTE_MENU.copy, args, ...unless(!slot.transparent, PALETTE_MENU.transparent) },
     { command: DIALOG_COMMAND.mergeSwatch, label: PALETTE_MENU.merge, args, ...unless(!fixed, PALETTE_MENU.fixed) },
     'separator',
-    { command: DIALOG_COMMAND.deleteSwatch, label: PALETTE_MENU.remove, args, ...unless(!fixed, PALETTE_MENU.fixed) },
+    { command: DIALOG_COMMAND.deleteSwatch, label: PALETTE_MENU.remove, args, tone: 'danger', ...unless(!fixed, PALETTE_MENU.fixed) },
   ];
 };
 

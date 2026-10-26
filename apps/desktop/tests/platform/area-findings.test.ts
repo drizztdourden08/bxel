@@ -94,7 +94,7 @@ describe('selecting an area finding', () => {
       lineWidth: 1,
       globalAlpha: 1,
     };
-    const look = { axis: '', cursor: '#ff0000', ink: '', ground: '' };
+    const look = { axis: '', guide: '', cursor: '#ff0000', ink: '', ground: '' };
     paintAreas(ctx, { zoom: 8 }, look);
     expect(calls).toContain('fill 0,0,16,16');
     expect(calls.filter((call) => call === 'stroke')).toHaveLength(1);

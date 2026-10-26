@@ -7,6 +7,7 @@ import type { ProjectArgs, TabArgs } from '../../../context-menu/menu-args.type'
 import { PROJECT_GROUP } from '../../../project/project.constants';
 import { useWorkspaceStore } from '../../../stores/useWorkspaceStore';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
+import { entryPath } from './entry-path';
 
 const rowOf = (model: ProjectPanelModel, context: CommandContext | undefined): AssetRow | undefined => {
   const { rowId } = commandArgs<ProjectArgs>(context);
@@ -14,6 +15,12 @@ const rowOf = (model: ProjectPanelModel, context: CommandContext | undefined): A
   const { tabs } = useWorkspaceStore.getState();
   const assetId = tabs.find((tab) => tab.id === tabId)?.key.id;
   return model.assets.rows.find((row) => (rowId === undefined ? row.assetId === assetId : row.id === rowId));
+};
+
+const folderPathOf = (model: ProjectPanelModel, name: string): string | null => {
+  const entry = model.listing?.entries.find((each) => each.name === name && each.kind === 'folder');
+  const path = entry === undefined ? '' : entryPath(model, entry);
+  return path === '' ? null : path;
 };
 
 const onRow = (model: ProjectPanelModel, run: (row: AssetRow) => void) => (context?: CommandContext): void => {
@@ -51,11 +58,24 @@ const projectMenuCommands = (model: ProjectPanelModel): readonly CommandDef[] =>
     label: 'New asset of a kind',
     group: PROJECT_GROUP,
     run: (context?: CommandContext) => {
-      const { kind } = commandArgs<ProjectArgs>(context);
-      if (kind !== undefined) model.newAsset(kind);
+      const { kind, name } = commandArgs<ProjectArgs>(context);
+      if (kind === undefined) return;
+      const where = name === undefined ? null : folderPathOf(model, name);
+      if (where === null) model.newAsset(kind);
+      else model.newAssetIn(kind, where);
     },
   },
-  { id: 'project.new_folder', label: 'New folder', group: PROJECT_GROUP, run: () => model.startFolder() },
+  {
+    id: 'project.new_folder',
+    label: 'New folder',
+    group: PROJECT_GROUP,
+    run: (context?: CommandContext) => {
+      const { name } = commandArgs<ProjectArgs>(context);
+      const where = name === undefined ? null : folderPathOf(model, name);
+      if (where === null) model.startFolder();
+      else model.startFolderIn(where);
+    },
+  },
   { id: 'project.refresh', label: 'Refresh the project', group: PROJECT_GROUP, run: () => model.refresh() },
   { id: 'project.reveal_root', label: 'Show the project folder', group: PROJECT_GROUP, run: () => revealRow({ path: model.project?.rootRealPath ?? '' }) },
 ];

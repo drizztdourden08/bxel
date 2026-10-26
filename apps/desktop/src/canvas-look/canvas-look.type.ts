@@ -1,4 +1,6 @@
 /* @layer renderer-app @kind types */
+import type { RulerUnit } from '../ruler/ruler-unit.type';
+
 type PreviewKind = 'canvas' | 'grid' | 'surround';
 
 type SurroundKind ='diagonal' | 'horizontal' | 'vertical' | 'dots' | 'solid' | 'custom';
@@ -28,6 +30,7 @@ interface CanvasSettings {
   gridTileColor: string;
   gridTileOpacity: number;
   rulers: boolean;
+  rulerUnit: RulerUnit;
 }
 
 interface GridLine {

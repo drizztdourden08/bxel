@@ -8,7 +8,8 @@ type CreatableKind = Exclude<AssetKind, 'project'>;
 interface CreationState {
   mode: CreationMode;
   kind: CreatableKind | null;
-  show: (mode: 'file' | 'sprite', kind?: CreatableKind) => void;
+  dir: string | null;
+  show: (mode: 'file' | 'sprite', kind?: CreatableKind, dir?: string) => void;
   hide: () => void;
 }
 

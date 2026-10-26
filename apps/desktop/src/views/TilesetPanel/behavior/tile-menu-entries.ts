@@ -21,7 +21,7 @@ const tileMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry
     COLLISION_COMMAND.toggleOverlay,
     TERRAIN_COMMAND.toggleBrush,
     'separator',
-    { command: ID.deleteTile, label: TILE_MENU.remove },
+    { command: ID.deleteTile, label: TILE_MENU.remove, tone: 'danger' },
   ];
 };
 

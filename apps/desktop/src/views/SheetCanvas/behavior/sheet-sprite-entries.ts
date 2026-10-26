@@ -30,7 +30,7 @@ const sheetSpriteEntries = (): readonly ContextMenuEntry[] => {
     { command: SELECTION_COMMAND_ID.selectAll, label: SHEET_MENU.selectAll },
     'separator',
     { command: 'sprite.remove_from_sheet', label: SHEET_MENU.removeFromSheet, ...unless(onSheet > 0, SHEET_MENU.notOnSheet) },
-    { command: ID.askDeleteSprite },
+    { command: ID.askDeleteSprite, tone: 'danger' },
   ];
 };
 
