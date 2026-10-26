@@ -1,6 +1,6 @@
 /* @layer core @kind types */
 import type { Point, Rect } from './geometry.type';
-import type { SheetId, SpriteId } from './ids.type';
+import type { AnimationId, SheetId, SpriteId, TagId } from './ids.type';
 
 type SheetLayout =
   | { readonly kind: 'manual' }
@@ -15,6 +15,12 @@ type SheetLayout =
 
 type SheetEntry = { readonly spriteId: SpriteId; readonly at: Point; readonly source: Rect | null };
 
+type SheetAnimationEntry = {
+  readonly animationId: AnimationId;
+  readonly tagId: TagId | null;
+  readonly at: Point;
+};
+
 type Sheet = {
   readonly id: SheetId;
   readonly name: string;
@@ -23,6 +29,7 @@ type Sheet = {
   readonly spacing: Point;
   readonly margin: number;
   readonly entries: readonly SheetEntry[];
+  readonly animationEntries?: readonly SheetAnimationEntry[];
 };
 
-export type { Sheet, SheetEntry, SheetLayout };
+export type { Sheet, SheetAnimationEntry, SheetEntry, SheetLayout };

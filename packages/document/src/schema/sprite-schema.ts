@@ -56,7 +56,7 @@ const spriteShellSchema = z.object({
   id: brandedIdSchema<SpriteId>(ID_PREFIX.sprite),
   name: nameSchema,
   created: createdSchema.optional(),
-  role: z.enum(['sprite', 'tile']),
+  role: z.enum(['sprite', 'tile', 'frame']),
   bankId: brandedIdSchema<BankId>(ID_PREFIX.bank),
   width: sizeSchema,
   height: sizeSchema,

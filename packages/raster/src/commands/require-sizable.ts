@@ -7,6 +7,9 @@ const requireSizable = (draft: Draft, spriteId: SpriteId): Sprite => {
   if (sprite.role === 'tile') {
     throw fail(ERROR_CODE.INVALID_OPTION, `Sprite "${sprite.name}" is a tile and keeps the size of its tileset.`);
   }
+  if (sprite.role === 'frame') {
+    throw fail(ERROR_CODE.INVALID_OPTION, `Sprite "${sprite.name}" is a frame of an animation. Resize the animation instead.`);
+  }
   return sprite;
 };
 

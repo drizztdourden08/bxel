@@ -5,6 +5,7 @@ const MAX_PACKED_ASSETS = 2000;
 
 const NATIVE_ASSET_EXTENSIONS: readonly string[] = [
   ASSET_FORMAT.sprite.extension,
+  ASSET_FORMAT.animation.extension,
   ASSET_FORMAT.sheet.extension,
   ASSET_FORMAT.palette.extension,
   ASSET_FORMAT.tileset.extension,

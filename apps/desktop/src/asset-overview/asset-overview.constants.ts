@@ -4,6 +4,7 @@ import type { OverviewPreview, SpriteMove } from './asset-overview.type';
 
 const OVERVIEW_KIND_LABEL: Readonly<Record<AssetKind, string>> = {
   sprite: 'Sprite',
+  animation: 'Animation',
   sheet: 'Sheet',
   palette: 'Palette',
   tileset: 'Tileset',
