@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind style */
 .swatch-set-editor {
-  max-inline-size: var(--size-896);
+  block-size: 100%;
+  min-block-size: 0;
 }
