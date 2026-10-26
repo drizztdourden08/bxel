@@ -14,7 +14,7 @@ const expectGolden = (name: string, actual: string | Uint8Array): void => {
     return;
   }
   const expected = readFileSync(path);
-  if (typeof actual === 'string') expect(actual).toBe(expected.toString('utf8'));
+  if (typeof actual === 'string') expect(actual).toBe(expected.toString('utf8').replaceAll('\r\n', '\n'));
   else expect(Array.from(actual)).toEqual(Array.from(expected));
 };
 
