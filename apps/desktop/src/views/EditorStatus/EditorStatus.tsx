@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind component */
-import { contextMenuZone, useContextMenu } from '@drizztdourden08/brock-react';
+import { contextMenuHandler, contextMenuZone, useContextMenu } from '@drizztdourden08/brock-react';
 import { Box, StatusBar } from '@drizztdourden08/tessera';
-import { openMenuFrom } from '../../context-menu/open-menu-from';
 import { statusItems } from '../../editor/status-items';
 import { STATUS_TEXT } from '../../editor/status.constants';
 import { useActiveAsset } from '../../hooks/useActiveAsset';
@@ -40,7 +39,7 @@ const EditorStatus = () => {
           className="editor-status__bar"
           label={STATUS_TEXT.region}
           items={statusItems({ pointer, zoom, colours, clean, recovered })}
-          onItemContextMenu={(item, event) => openMenuFrom(STATUS_MENU.zone, { item }, event)}
+          onItemContextMenu={(item, event) => contextMenuHandler(STATUS_MENU.zone, { item })(event)}
         />
       </Box>
     </ActionHint>

@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind component */
-import { contextMenuZone, focusRegion } from '@drizztdourden08/brock-react';
+import { contextMenuHandler, contextMenuZone, focusRegion } from '@drizztdourden08/brock-react';
 import { Box, DocumentTabs, Flex } from '@drizztdourden08/tessera';
-import { openMenuFrom } from '../../context-menu/open-menu-from';
 import { useFileTypePanelStore } from '../../stores/useFileTypePanelStore';
 import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 import { closeTab } from '../../workspace/close-tab';
@@ -28,7 +27,7 @@ const AssetTabs = () => {
           onActivate={activateTab}
           onClose={(tabId) => void closeTab(tabId)}
           onMove={moveTab}
-          onTabContextMenu={(tabId, event) => openMenuFrom(TAB_MENU.zone, { tabId }, event)}
+          onTabContextMenu={(tabId, event) => contextMenuHandler(TAB_MENU.zone, { tabId })(event)}
           overflowMenu
           onAdd={show}
         />
