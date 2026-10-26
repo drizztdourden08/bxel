@@ -4,6 +4,7 @@ import { setTagColour } from '../../../timeline/set-tag-colour';
 import { TAG_COLOUR_CHOICES } from '../../../timeline/tag-colour.constants';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
 import type { TagEditorProps } from '../TimelinePanel.type';
+import { TagColourPicker } from './TagColourPicker';
 
 const TagColours = ({ tag, readOnly }: TagEditorProps) => (
   <Flex gap="xs" align="center" wrap role="group" aria-label={TIMELINE_TEXT.tagColour}>
@@ -19,6 +20,7 @@ const TagColours = ({ tag, readOnly }: TagEditorProps) => (
         onClick={() => setTagColour(tag.id, choice.hex)}
       />
     ))}
+    <TagColourPicker tag={tag} readOnly={readOnly} />
     <Button size="sm" variant="secondary" disabled={tag.colour === undefined || readOnly} onClick={() => setTagColour(tag.id, null)}>
       {TIMELINE_TEXT.tagColourAuto}
     </Button>

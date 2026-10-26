@@ -73,6 +73,7 @@ const TIMELINE_MENU = {
   direction: 'Direction',
   colour: 'Colour',
   automaticColour: 'Automatic colour',
+  customColour: 'Custom...',
   alreadyAutomatic: 'The tag already has an automatic colour.',
   setRange: 'Set range to the selected frames',
   deleteTag: 'Delete tag',

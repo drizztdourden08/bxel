@@ -19,6 +19,7 @@ const TIMELINE_DEFAULTS: TimelineSettings = {
   cursor: -1,
   onion: ONION_DEFAULTS,
   pivotDraft: null,
+  colourPicker: false,
 };
 
 export { ONION_LIMITS, TIMELINE_DEFAULTS };
