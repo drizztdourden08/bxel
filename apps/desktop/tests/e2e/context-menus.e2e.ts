@@ -8,6 +8,12 @@ const filled = (grid: Uint8Array): number => [...grid].filter((index) => index !
 
 const menuItem = (session: Session, name: RegExp) => session.page.getByRole('menu').getByRole('menuitem', { name });
 
+const paint = async (session: Session, move: string): Promise<void> => {
+  await session.page.getByRole('application', { name: 'Sprite canvas' }).focus();
+  await session.page.keyboard.press(move);
+  await session.page.keyboard.press(' ');
+};
+
 describe('context menus: opened by a right click and by the keyboard, each running an item', () => {
   const rig = useRig(openSpriteRig);
 
@@ -15,9 +21,7 @@ describe('context menus: opened by a right click and by the keyboard, each runni
     const { session, shown } = rig();
     const { page } = session;
     const canvas = page.getByRole('application', { name: 'Sprite canvas' });
-    await canvas.focus();
-    await page.keyboard.press('ArrowRight');
-    await page.keyboard.press(' ');
+    await paint(session, 'ArrowUp');
     expect(filled(await shown())).toBe(1);
     await page.keyboard.press('h');
     await canvas.click({ button: 'right' });
@@ -29,9 +33,7 @@ describe('context menus: opened by a right click and by the keyboard, each runni
   test('the canvas menu runs Undo from Shift+F10 at the keyboard cursor', async () => {
     const { session, shown } = rig();
     const { page } = session;
-    await page.getByRole('application', { name: 'Sprite canvas' }).focus();
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press(' ');
+    await paint(session, 'ArrowDown');
     expect(filled(await shown())).toBe(1);
     await page.keyboard.press('Shift+F10');
     await menuItem(session, /^Undo/).click();

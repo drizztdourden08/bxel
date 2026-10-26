@@ -18,6 +18,7 @@ const TAB_MENU = {
   zone: 'asset.tabs',
   tab: '[data-reorder-key]',
   label: 'Tab actions',
+  rename: 'Rename',
   reveal: 'Reveal in folder',
   copyPath: 'Copy path',
   move: 'Move tab',

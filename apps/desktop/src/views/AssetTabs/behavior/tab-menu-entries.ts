@@ -21,6 +21,7 @@ const tabMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[
   return [
     { command: FILE_COMMAND.save, ...unless(workspace?.dirty.has(keyId(tab.key)) ?? false, TAB_MENU.saved) },
     FILE_COMMAND.saveAs,
+    { command: 'asset.rename', label: TAB_MENU.rename, args },
     ASSET_SETTINGS_COMMAND,
     { command: FILE_COMMAND.saveAll, ...unless(Object.values(workspaces).some((each) => each.dirty.size > 0), TAB_MENU.allSaved) },
     'separator',

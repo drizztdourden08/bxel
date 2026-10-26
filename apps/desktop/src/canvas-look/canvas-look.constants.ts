@@ -10,6 +10,7 @@ const BLANK_PATTERN = '0'.repeat(PATTERN_CELLS);
 const DITHER_PATTERN = ('10'.repeat(PATTERN_SIZE / 2) + '01'.repeat(PATTERN_SIZE / 2)).repeat(PATTERN_SIZE / 2);
 
 const CANVAS_DEFAULTS: CanvasSettings = {
+  canvasRightClick: 'back-colour',
   checkerA: '#b4b0c2',
   checkerB: '#8c8899',
   checkerPreset: '8',
