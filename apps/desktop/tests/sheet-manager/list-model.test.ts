@@ -5,24 +5,22 @@ import { runDocument } from '../../src/sheet/run-document';
 import { spritesTarget } from '../../src/sheet/sprites-target';
 import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
 import { allFacts } from '../../src/sheet-manager/all-facts';
-import { NO_FILTER } from '../../src/sheet-manager/manager.constants';
 import { resizeSprites } from '../../src/sheet-manager/resize-sprites';
-import type { ListQuery } from '../../src/sheet-manager/manager.type';
 import { managerSheet } from '../../src/sheet-manager/manager-sheet';
 import { nameMatches } from '../../src/sheet-manager/name-matches';
 import { sizeOptions } from '../../src/sheet-manager/size-options';
 import { visibleFacts } from '../../src/sheet-manager/visible-facts';
+import { NO_FILTER } from '../../src/sheet-manager/manager.constants';
+import type { ListQuery } from '../../src/sheet-manager/manager.type';
 import { artwork, idOf, openFile } from '../sheet/sheet-harness';
-import { idsOf } from './manager-harness';
+import { BASE_QUERY, idsOf } from './manager-harness';
 
 vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
-
-const base: ListQuery = { query: '', filter: NO_FILTER, sortKey: 'manual', sortDown: false };
 
 const shown = (change: Partial<ListQuery>): string[] => {
   const art = artwork();
   const facts = allFacts(art, managerSheet(art, null, null));
-  return visibleFacts(facts, { ...base, ...change }).map((fact) => fact.sprite.name);
+  return visibleFacts(facts, { ...BASE_QUERY, ...change }).map((fact) => fact.sprite.name);
 };
 
 beforeEach(() => openFile(['walk_10', 'walk_2', 'idle', 'Walk_1'], 8));
@@ -75,7 +73,7 @@ describe('the shown list', () => {
     const stamps: Record<string, number> = { walk_2: 30, idle: 10, walk_10: 20 };
     const stamped = { ...art, sprites: art.sprites.map((sprite) => ({ ...sprite, created: stamps[sprite.name] })) };
     const facts = allFacts(stamped, managerSheet(stamped, null, null));
-    const names = (sortDown: boolean): string[] => visibleFacts(facts, { ...base, sortKey: 'created', sortDown }).map((fact) => fact.sprite.name);
+    const names = (sortDown: boolean): string[] => visibleFacts(facts, { ...BASE_QUERY, sortKey: 'created', sortDown }).map((fact) => fact.sprite.name);
     expect(names(false)).toEqual(['idle', 'walk_10', 'walk_2', 'sprite', 'Walk_1']);
     expect(names(true)).toEqual(['walk_2', 'walk_10', 'idle', 'sprite', 'Walk_1']);
   });
