@@ -4,7 +4,7 @@ import type { OpenProject } from '../project/project.type';
 import { toSlashes } from '../workspace/to-slashes';
 import type { ListedFile } from './asset-list.type';
 
-const listProjectFiles = async (documents: DocumentsPort, project: OpenProject): Promise<readonly ListedFile[]> => {
+const listProjectFiles = async (documents: DocumentsPort, project: Pick<OpenProject, 'folders'>): Promise<readonly ListedFile[]> => {
   const found: ListedFile[] = [];
   for (const folder of project.folders.filter((each) => each.granted)) {
     const listing = await documents.list(folder.path, { recursive: true }).catch(() => ({ entries: [] }));

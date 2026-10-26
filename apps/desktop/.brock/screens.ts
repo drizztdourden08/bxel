@@ -26,7 +26,7 @@ import ProjectDefaultsSettings, { meta as projectDefaultsSettingsMeta } from '..
 import ProjectExportSettings, { meta as projectExportSettingsMeta } from '../src/screens/project/export.settings';
 import ProjectFoldersSettings, { meta as projectFoldersSettingsMeta } from '../src/screens/project/folders.settings';
 import ProjectGeneralSettings, { meta as projectGeneralSettingsMeta } from '../src/screens/project/general.settings';
-import { meta as projectNoneCustomMeta } from '../src/screens/project/none.custom';
+import { meta as projectManagerCustomMeta } from '../src/screens/project/manager.custom';
 import ProjectPalettesSettings, { meta as projectPalettesSettingsMeta } from '../src/screens/project/palettes.settings';
 
 const screenTree = buildScreenTree(config, [
@@ -54,7 +54,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'settings', bucket: 'project', id: 'export', sections: ProjectExportSettings, meta: projectExportSettingsMeta },
   { kind: 'settings', bucket: 'project', id: 'folders', sections: ProjectFoldersSettings, meta: projectFoldersSettingsMeta },
   { kind: 'settings', bucket: 'project', id: 'general', sections: ProjectGeneralSettings, meta: projectGeneralSettingsMeta },
-  { kind: 'custom', bucket: 'project', id: 'none', component: lazyComponent(() => import('../src/screens/project/none.custom')), meta: projectNoneCustomMeta },
+  { kind: 'custom', bucket: 'project', id: 'manager', component: lazyComponent(() => import('../src/screens/project/manager.custom')), meta: projectManagerCustomMeta },
   { kind: 'settings', bucket: 'project', id: 'palettes', sections: ProjectPalettesSettings, meta: projectPalettesSettingsMeta },
 ], searchIndex);
 

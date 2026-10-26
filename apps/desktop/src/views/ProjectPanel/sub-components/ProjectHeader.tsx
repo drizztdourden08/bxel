@@ -14,7 +14,7 @@ const ProjectHeader = ({ model, project }: PanelPartProps & { readonly project: 
       </Text>
     </Flex>
     <Flex gap="xs">
-      <AddAssetMenu model={model} />
+      <AddAssetMenu onPick={model.newAsset} />
       <IconButton label={PANEL_TEXT.newFolder} size="sm" onClick={model.startFolder}>
         <Icon name="folder" />
       </IconButton>
