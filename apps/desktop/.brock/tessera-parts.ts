@@ -9,6 +9,7 @@ declare module '@drizztdourden08/tessera' {
         | 'AppControl'
         | 'ApplyBar'
         | 'AssetControl'
+        | 'AssetOverview'
         | 'AssetTabs'
         | 'AssistantPanel'
         | 'AssistantProjects'

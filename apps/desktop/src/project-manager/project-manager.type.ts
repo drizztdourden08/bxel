@@ -48,4 +48,4 @@ type ConfigPage = {
 
 type ProjectFact = { readonly label: string; readonly value: string };
 
-export type { ConfigPage, DiskManifest, DiskManifestResult, DiskOutcome, DiskProject, DiskState, KnownProject, KnownSource, ProjectFact };
+export type { ConfigPage, DiskManifestResult, DiskOutcome, DiskProject, DiskState, KnownProject, KnownSource, ProjectFact };
