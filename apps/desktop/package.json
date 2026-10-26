@@ -30,10 +30,10 @@
     "@bxel/presets": "workspace:*",
     "@bxel/project": "workspace:*",
     "@bxel/raster": "workspace:*",
-    "@drizztdourden08/brock-core": "^0.101.0",
-    "@drizztdourden08/brock-electron": "^0.101.0",
-    "@drizztdourden08/brock-react": "^0.101.0",
-    "@drizztdourden08/brock-updater": "^0.101.0",
+    "@drizztdourden08/brock-core": "^0.103.0",
+    "@drizztdourden08/brock-electron": "^0.103.0",
+    "@drizztdourden08/brock-react": "^0.103.0",
+    "@drizztdourden08/brock-updater": "^0.103.0",
     "@drizztdourden08/tessera": "catalog:",
     "@electron-toolkit/utils": "catalog:",
     "@modelcontextprotocol/sdk": "1.32.1",
@@ -44,8 +44,8 @@
     "zustand": "catalog:"
   },
   "devDependencies": {
-    "@drizztdourden08/brock-build": "^0.101.0",
-    "@drizztdourden08/brock-lint-config": "^0.101.0",
+    "@drizztdourden08/brock-build": "^0.103.0",
+    "@drizztdourden08/brock-lint-config": "^0.103.0",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -64,7 +64,7 @@
     "vite": "catalog:"
   },
   "brock": {
-    "version": "0.101.0",
+    "version": "0.103.0",
     "tessera": "0.67.0"
   }
 }
