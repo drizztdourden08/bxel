@@ -17,8 +17,6 @@ const SwatchSetEditor = () => {
         detailLabel={SWATCH_EDITOR_TEXT.detailLabel}
         detail={model.current === null ? null : <SetDetail model={model} />}
         emptyDetail={<EmptyState size="sm" title={SWATCH_EDITOR_TEXT.emptyTitle} message={SWATCH_EDITOR_TEXT.emptyMessage} />}
-        listScroll={false}
-        detailScroll={false}
         storageKey={SWATCH_EDITOR_TEXT.storageKey}
       />
     </Stack>

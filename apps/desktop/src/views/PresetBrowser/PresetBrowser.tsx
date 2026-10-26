@@ -1,27 +1,27 @@
 /* @layer renderer-app @kind component */
 import { listPresets } from '@bxel/presets';
-import { Icon, ListItemList, ListItemRow, SettingsSection, Stack, Text } from '@drizztdourden08/tessera';
-import { rulesLine } from '../../platform-preset/rules-line';
+import { Field, Select, Stack, Text } from '@drizztdourden08/tessera';
+import { useMemo, useState } from 'react';
+import { platformGroups } from '../../platform-preset/platform-groups';
+import { presetById } from '../../platform-preset/preset-by-id';
+import { PreviewSplit } from '../PreviewSplit';
 import { PRESET_BROWSER_TEXT } from './PresetBrowser.constants';
+import { PresetFacts } from './sub-components/PresetFacts';
+import { PresetPreview } from './sub-components/PresetPreview';
 
-const PresetBrowser = () => (
-  <Stack gap="lg">
-    <Text tone="muted">{PRESET_BROWSER_TEXT.intro}</Text>
-    {listPresets().map((family) => (
-      <SettingsSection key={family.family} id={family.family} title={family.family}>
-        <ListItemList label={family.family}>
-          {family.presets.map((preset) => (
-            <ListItemRow
-              key={preset.id}
-              icon={<Icon name="gamepad-2" />}
-              name={preset.name}
-              meta={`${rulesLine(preset, false)} ${PRESET_BROWSER_TEXT.canvas(preset.sizes.canvasDefault[0], preset.sizes.canvasDefault[1])}`}
-            />
-          ))}
-        </ListItemList>
-      </SettingsSection>
-    ))}
-  </Stack>
-);
+const PresetBrowser = () => {
+  const groups = useMemo(() => platformGroups().slice(1), []);
+  const [picked, setPicked] = useState(() => listPresets()[0]?.presets[0]?.id ?? '');
+  const preset = presetById(picked);
+  return (
+    <Stack gap="md">
+      <Text tone="muted">{PRESET_BROWSER_TEXT.intro}</Text>
+      <Field label={PRESET_BROWSER_TEXT.pickLabel} hint={PRESET_BROWSER_TEXT.pickHint}>
+        <Select value={picked} onChange={setPicked} groups={groups} searchable />
+      </Field>
+      {preset !== null && <PreviewSplit main={<PresetFacts preset={preset} />} preview={<PresetPreview preset={preset} />} />}
+    </Stack>
+  );
+};
 
 export { PresetBrowser };

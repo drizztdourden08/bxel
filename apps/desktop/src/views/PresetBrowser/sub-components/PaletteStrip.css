@@ -1,0 +1,7 @@
+/* @layer renderer-app @kind style */
+.preset-browser__palette {
+  display: block;
+  inline-size: 100%;
+  block-size: var(--size-128);
+  image-rendering: pixelated;
+}

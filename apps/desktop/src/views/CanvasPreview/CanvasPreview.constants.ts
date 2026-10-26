@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind constants */
-import type { CanvasPreviewKind } from './CanvasPreview.type';
+import type { PreviewKind } from '../../canvas-look/canvas-look.type';
 
-const PREVIEW_LABEL: Readonly<Record<CanvasPreviewKind, string>> = {
-  background: 'Preview of the checkerboard inside the canvas surround',
+const PREVIEW_LABEL: Readonly<Record<PreviewKind, string>> = {
+  canvas: 'Preview of the checkerboard behind transparent pixels',
+  surround: 'Preview of the surround pattern behind the canvas',
   grid: 'Preview of the pixel, major and tile grids over the checkerboard',
 };
 

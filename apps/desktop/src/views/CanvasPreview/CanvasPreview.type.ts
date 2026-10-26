@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind types */
-type CanvasPreviewKind = 'background' | 'grid';
+import type { PreviewKind } from '../../canvas-look/canvas-look.type';
 
 interface CanvasPreviewProps {
-  kind: CanvasPreviewKind;
+  kind: PreviewKind;
 }
 
-export type { CanvasPreviewKind, CanvasPreviewProps };
+export type { CanvasPreviewProps };

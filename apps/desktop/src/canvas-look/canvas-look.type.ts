@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind types */
-type SurroundKind = 'diagonal' | 'horizontal' | 'vertical' | 'dots' | 'solid' | 'custom';
+type PreviewKind = 'canvas' | 'grid' | 'surround';
+
+type SurroundKind ='diagonal' | 'horizontal' | 'vertical' | 'dots' | 'solid' | 'custom';
 
 type CheckerPreset = '4' | '8' | '16' | '32' | 'custom';
 
@@ -70,6 +72,21 @@ interface LineDefaults {
   every: number;
 }
 
+interface PreviewSample {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  colour: string;
+  alpha: number;
+}
+
+interface SampleSprite {
+  size: readonly [number, number];
+  tile: readonly [number, number] | null;
+  colours: readonly string[];
+}
+
 interface TileRect {
   x: number;
   y: number;
@@ -77,4 +94,4 @@ interface TileRect {
   height: number;
 }
 
-export type { CanvasLook, CanvasSettings, CheckerPreset, GridFlags, GridLine, LineDefaults, LineFields, NumberRange, SurroundKind, TileRect };
+export type { CanvasLook, CanvasSettings, CheckerPreset, GridFlags, GridLine, LineDefaults, LineFields, NumberRange, PreviewKind, PreviewSample, SampleSprite, SurroundKind, TileRect };

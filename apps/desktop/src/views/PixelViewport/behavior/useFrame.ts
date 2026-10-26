@@ -8,7 +8,7 @@ import { windowOf } from './window-of';
 const useFrame = (rootRef: RefObject<HTMLElement | null>, canvasRef: RefObject<HTMLCanvasElement | null>, frame: FrameInput): (() => void) => {
   const input = useRef(frame);
   const pending = useRef<number | null>(null);
-  const cache = useRef<FrameCache>({ tile: null, tileKey: '', surround: null, surroundKey: '', scratch: null });
+  const cache = useRef<FrameCache>({ tile: null, tileKey: '', scratch: null });
 
   const schedule = useCallback(() => {
     const root = rootRef.current;

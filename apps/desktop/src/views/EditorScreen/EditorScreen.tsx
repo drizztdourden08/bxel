@@ -18,6 +18,7 @@ import { RecoveryDialog } from '../RecoveryDialog';
 import { ScopeBar } from '../ScopeBar';
 import { SheetCanvas } from '../SheetCanvas';
 import { SplitDialog } from '../SplitDialog';
+import { SurroundBackdrop } from '../SurroundBackdrop';
 import { TilemapCanvas } from '../TilemapCanvas';
 import { TilemapDialog } from '../TilemapDialog';
 import { TransformDialog } from '../TransformDialog';
@@ -32,6 +33,7 @@ const EditorScreen = () => {
   useTimelinePlayback();
   return (
     <Flex as="main" direction="column" className="editor-screen" aria-label={EDITOR_SCREEN_LABEL}>
+      <SurroundBackdrop />
       <AssetTabs />
       <WorkspaceProgress />
       <LegacyBar />

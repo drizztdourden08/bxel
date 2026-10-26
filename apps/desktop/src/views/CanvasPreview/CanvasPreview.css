@@ -2,7 +2,7 @@
 .canvas-preview {
   display: block;
   inline-size: 100%;
-  block-size: var(--size-160);
+  block-size: var(--size-256);
   border: var(--border-width-thin) solid var(--c-border);
   border-radius: var(--radius-md);
   image-rendering: pixelated;
