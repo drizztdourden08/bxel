@@ -8,6 +8,7 @@ import { CANVAS_SIZE_COMMANDS } from './canvas-size-commands.constants';
 import { DIALOG_COMMANDS } from './dialog-commands.constants';
 import { EDIT_COMMANDS } from './edit-commands.constants';
 import { HELP_COMMANDS } from './help-commands.constants';
+import { LAYER_MENU_COMMANDS } from './layer-menu-commands.constants';
 import { PROJECT_COMMANDS } from './project-commands.constants';
 import { SELECTION_COMMANDS } from './selection-commands.constants';
 import { SHEET_EDITOR_COMMANDS } from './sheet-commands.constants';
@@ -30,6 +31,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...COLLISION_COMMANDS,
   ...TERRAIN_COMMANDS,
   ...TIMELINE_COMMANDS,
+  ...LAYER_MENU_COMMANDS,
   ...HELP_COMMANDS,
 ];
 

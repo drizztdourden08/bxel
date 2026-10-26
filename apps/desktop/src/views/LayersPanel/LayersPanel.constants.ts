@@ -18,6 +18,18 @@ const LAYERS_PANEL_TEXT = {
   renameKey: 'F2',
 } as const;
 
+const LAYER_MENU = {
+  row: '[data-reorder-key]',
+  label: 'Layer actions',
+  visible: 'Visible',
+  locked: 'Locked',
+  rename: 'Rename',
+  mergeDown: 'Merge down',
+  oneLayer: 'A sprite with one layer has nothing else to show or hide.',
+  top: 'This is the top layer.',
+  bottom: 'This is the bottom layer.',
+} as const;
+
 const LAYER_LIST_TEXT = {
   moved: (name: string, position: number, total: number): string => `${name} moved to position ${position} of ${total}`,
   moveHint: 'Alt and Up or Down moves the row',
@@ -83,4 +95,4 @@ const LAYER_ACTIONS: readonly LayerAction[] = [
   },
 ];
 
-export { LAYER_ACTIONS, LAYER_FOCUS_KEYS, LAYER_LIST_TEXT, LAYER_MOVE_KEYS, LAYER_TOGGLES, LAYERS_PANEL_TEXT };
+export { LAYER_ACTIONS, LAYER_FOCUS_KEYS, LAYER_LIST_TEXT, LAYER_MENU, LAYER_MOVE_KEYS, LAYER_TOGGLES, LAYERS_PANEL_TEXT };

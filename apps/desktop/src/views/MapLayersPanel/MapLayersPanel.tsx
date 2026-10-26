@@ -8,6 +8,7 @@ import { LAYER_RENAME_KEY } from '../../keymap/zone-key.constants';
 import { useMapContext } from '../../hooks/useMapContext';
 import { useTilemapStore } from '../../stores/useTilemapStore';
 import { MAP_LAYERS_TEXT } from './MapLayersPanel.constants';
+import { useMapLayersMenu } from './behavior/useMapLayersMenu';
 import { MapLayerRename } from './sub-components/MapLayerRename';
 import { MapLayerRow } from './sub-components/MapLayerRow';
 import { MapLayerToolbar } from './sub-components/MapLayerToolbar';
@@ -18,6 +19,7 @@ const MapLayersPanel = () => {
   const context = useMapContext();
   const setLayer = useTilemapStore((state) => state.setLayer);
   const [renaming, setRenaming] = useState(false);
+  useMapLayersMenu();
   useZoneKey(LAYER_RENAME_KEY, context?.tilemap && context.layer ? () => setRenaming(true) : null);
   if (!context?.tilemap || !context.layer) return <EmptyState size="sm" message={MAP_LAYERS_TEXT.empty} />;
   const { tilemap, layer } = context;

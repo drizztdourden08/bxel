@@ -21,6 +21,7 @@ const LAYER_LABEL = {
   visible: 'Show or hide layer',
   locked: 'Lock or unlock layer',
   move: 'Move layer',
+  solo: 'Show only one layer',
 } as const;
 
 const LAYER_REF = 'layer';

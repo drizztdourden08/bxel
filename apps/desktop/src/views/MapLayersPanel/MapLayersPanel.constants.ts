@@ -54,4 +54,19 @@ const LOCKED_HINT: HintSpec = {
   description: 'Lock this map layer so no tile can be placed on it by mistake.',
 };
 
-export { ADD_LAYER_HINT, DELETE_LAYER_HINT, DOWN_LAYER_HINT, LOCKED_HINT, MAP_LAYERS_TEXT, RENAME_LAYER_HINT, UP_LAYER_HINT, VISIBLE_HINT };
+const MAP_LAYER_MENU = {
+  row: '[data-layer-id]',
+  label: 'Map layer actions',
+  add: 'New map layer',
+  visible: 'Visible',
+  locked: 'Locked',
+  rename: 'Rename',
+  up: 'Move up',
+  down: 'Move down',
+  remove: 'Delete layer',
+  top: 'This is the top layer.',
+  bottom: 'This is the bottom layer.',
+  last: 'A tilemap keeps at least one layer.',
+} as const;
+
+export { ADD_LAYER_HINT, MAP_LAYER_MENU, DELETE_LAYER_HINT, DOWN_LAYER_HINT, LOCKED_HINT, MAP_LAYERS_TEXT, RENAME_LAYER_HINT, UP_LAYER_HINT, VISIBLE_HINT };
