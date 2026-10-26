@@ -30,7 +30,7 @@ describe('Tilemap mode', () => {
     switchMode('tilemap');
     expect(useSpriteStore.getState().mode).toBe('tilemap');
     expect(inMapPlace()).toBe(true);
-    expect(allowed(SELECTION_COMMAND_ID.selectAll)).toBe(false);
+    expect(allowed(SELECTION_COMMAND_ID.selectAll)).toBe(true);
     expect(allowed(SELECTION_COMMAND_ID.copy)).toBe(false);
     expect(allowed(SELECTION_COMMAND_ID.apply)).toBe(false);
   });
@@ -84,6 +84,8 @@ describe('Place Tile and Edit Tile', () => {
   it('registers every tilemap command once on a known group', () => {
     const ids = APP_COMMANDS.filter((def) => def.id.startsWith('tilemap.')).map((def) => def.id);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(ids.sort()).toEqual(Object.values(TILEMAP_COMMAND).sort());
+    const menuOnly = ['tilemap.edit_tile_here', 'tilemap.pick_tile_here', 'tilemap.use_tile'];
+    expect(ids.filter((id) => !menuOnly.includes(id)).sort()).toEqual(Object.values(TILEMAP_COMMAND).sort());
+    expect(ids.filter((id) => menuOnly.includes(id))).toHaveLength(menuOnly.length);
   });
 });
