@@ -1,33 +1,37 @@
 /* @layer renderer-app @kind test */
-import { COMMAND_NAME } from '@bxel/document';
-import type { Artwork, CommandStep } from '@bxel/document';
+import type { Artwork } from '@bxel/document';
+import { beforeEach } from 'vitest';
+import { waterSteps } from '../water-steps';
+import { writeProjectAssets } from '../workspace/workspace-harness';
 import { artworkFromSteps } from './artwork-from-steps';
+import { ROOT } from './project-harness';
+import { toolRig } from './project-tool-rig';
+import type { ToolRig } from './project-tool-rig';
 
-const step = (name: string, options: unknown, ref?: string): CommandStep => ({ name, targets: null, options, ...(ref ? { ref } : {}) });
+type AnimatedWorld = {
+  readonly rig: ToolRig;
+  readonly artwork: Artwork;
+  readonly paths: ReadonlyMap<string, string>;
+};
 
-const paint = (sprite: string, value: number): CommandStep => ({
-  name: COMMAND_NAME.pixelsPatch,
-  targets: { sprites: [{ ref: sprite }], layers: { by: 'all' }, frames: { by: 'all' } },
-  options: { rect: { x: 0, y: 0, width: 8, height: 8 }, pixels: Uint8Array.from(Array.from({ length: 64 }, () => value)), skipZero: false },
-});
+const animatedArtwork = (): Artwork => artworkFromSteps('Water', waterSteps({ side: 8, frameMs: 100, indexes: [1, 2], columns: 4, rows: 3 }));
 
-const at = (index: number) => ({ by: 'index', index });
+const openAnimatedWorld = (): (() => AnimatedWorld) => {
+  const held: { world?: AnimatedWorld } = {};
+  beforeEach(async () => {
+    const artwork = animatedArtwork();
+    let paths: ReadonlyMap<string, string> = new Map();
+    const rig = await toolRig({
+      seed: (disk) => {
+        paths = writeProjectAssets(disk, ROOT, artwork);
+      },
+    });
+    held.world = { rig, artwork, paths };
+  });
+  return () => {
+    if (!held.world) throw new Error('the project did not open');
+    return held.world;
+  };
+};
 
-const owned = (index: number): CommandStep =>
-  step(COMMAND_NAME.animationFrameOwn, { animation: { ref: 'water' }, frame: at(index) }, `frame${index}`);
-
-const animatedArtwork = (): Artwork =>
-  artworkFromSteps('Water', [
-    step(COMMAND_NAME.animationCreate, { name: 'water', source: { kind: 'blank', width: 8, height: 8, frames: 2, durationMs: 100 } }, 'water'),
-    owned(0),
-    owned(1),
-    paint('frame0', 1),
-    paint('frame1', 2),
-    step(COMMAND_NAME.animationTagAdd, { animation: { ref: 'water' }, kind: 'span', name: 'flow', from: at(0), to: at(1) }),
-    step(COMMAND_NAME.tilesetCreate, { name: 'ground', tileWidth: 8, tileHeight: 8 }, 'ground'),
-    step(COMMAND_NAME.tileAdd, { tileset: { ref: 'ground' } }),
-    step(COMMAND_NAME.tileAnimation, { tileset: { ref: 'ground' }, key: 1, change: { kind: 'set', animation: { ref: 'water' } } }),
-    step(COMMAND_NAME.tilemapCreate, { name: 'sea', tileset: { ref: 'ground' }, columns: 4, rows: 3 }),
-  ]);
-
-export { animatedArtwork };
+export { openAnimatedWorld };
