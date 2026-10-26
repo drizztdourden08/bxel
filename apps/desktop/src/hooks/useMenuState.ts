@@ -18,7 +18,7 @@ const useMenuState = (): EditorMenuState => {
   const shown = useViewStore(useShallow((s) => ({ grid: s.grid, gridMajor: s.gridMajor, gridTile: s.gridTile, guides: s.guides, rulers: s.rulers, tiled: s.tiled })));
   const mirror = useToolStore(useShallow((s) => ({ symmetryX: s.symmetryX, symmetryY: s.symmetryY })));
   const isolated = useSpriteStore((s) => s.isolated);
-  const map = useTilemapStore(useShallow((s) => ({ tileMode: s.editMode, collision: s.showCollision, terrainBrush: s.terrainBrush })));
+  const map = useTilemapStore(useShallow((s) => ({ tileMode: s.editMode, collision: s.showCollision, terrainBrush: s.terrainBrush, animateTiles: s.animateTiles })));
   const settings = kind === null ? CONFIG_ENTRY_TEXT.noAsset : CONFIG_ENTRY_TEXT.title(kind);
   const [hasDocument, canUndo, canRedo] = [view !== null, view?.canUndo ?? false, view?.canRedo ?? false];
   return useMemo(

@@ -40,3 +40,8 @@ export { stripCells } from '../commands/animation/strip-cells';
 export { ownedBlank } from '../commands/animation/owned-blank';
 export { updateAnimation } from '../draft/update-animation';
 export type { AnimStripGrid } from '../schema/animation-options.type';
+export type * from '../read/tile-playback.type';
+export { tilePlayback } from '../read/tile-playback';
+export { tileStepAt } from '../read/tile-step-at';
+export { tileStartOffset } from '../read/tile-start-offset';
+export { composeMapCell } from '../read/compose-map-cell';

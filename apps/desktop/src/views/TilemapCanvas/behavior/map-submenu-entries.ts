@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { unless } from '../../../context-menu/unless';
+import { ANIMATION_COMMAND } from '../../../keymap/animation-command-id.constants';
 import { COLLISION_COMMAND } from '../../../keymap/collision-command-id.constants';
 import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { TERRAIN_COMMAND } from '../../../keymap/terrain-command-id.constants';
@@ -16,6 +17,7 @@ const mapSubmenuEntries = (target: MapTarget): ContextMenuEntry => {
     items: [
       COLLISION_COMMAND.toggleOverlay,
       TERRAIN_COMMAND.toggleBrush,
+      ANIMATION_COMMAND.toggleTiles,
       { command: COMMAND_ID.layerAdd, label: MAP_MENU.addLayer },
       { command: ID.layerUp, ...unless(at < layers.length - 1, MAP_MENU.top) },
       { command: ID.layerDown, ...unless(at > 0, MAP_MENU.bottom) },

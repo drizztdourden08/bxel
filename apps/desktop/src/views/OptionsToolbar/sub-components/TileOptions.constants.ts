@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { IconName } from '@drizztdourden08/tessera';
+import { ANIMATION_COMMAND } from '../../../keymap/animation-command-id.constants';
 import { COLLISION_COMMAND } from '../../../keymap/collision-command-id.constants';
 import { TERRAIN_COMMAND } from '../../../keymap/terrain-command-id.constants';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
@@ -17,6 +18,7 @@ const TILE_OPTIONS_TEXT = {
   filledCaption: 'Filled',
   collisionCaption: 'Collision',
   terrainCaption: 'Terrain',
+  animateCaption: 'Animate tiles',
   replaceInCaption: 'In selection',
   replaceAllCaption: 'Everywhere',
   uniqueCaption: 'Unique',
@@ -82,6 +84,12 @@ const TERRAIN_BRUSH_HINT: HintSpec = {
   shortcuts: [{ command: TERRAIN_COMMAND.toggleBrush }],
 };
 
+const ANIMATE_TILES_HINT: HintSpec = {
+  name: 'Animate tiles',
+  description: 'Play the animated tiles on the map. It pauses while you drag, and starts off when the system asks for less motion.',
+  shortcuts: [{ command: ANIMATION_COMMAND.toggleTiles }],
+};
+
 const FILLED_MAP_HINT: HintSpec = {
   name: 'Filled',
   description: 'Fill the inside of the rectangle. Off draws only the outline.',
@@ -112,6 +120,6 @@ const UNIQUE_CELLS_HINT: HintSpec = {
 };
 
 export {
-  CLEAR_CELLS_HINT, COLLISION_OVERLAY_HINT, FILLED_MAP_HINT, TERRAIN_BRUSH_HINT, FLAG_ACTIONS, FLAG_HINTS, REPLACE_ALL_HINT, REPLACE_IN_HINT, TILE_MODE_HINTS, TILE_MODE_ICONS, TILE_MODE_ORDER,
+  ANIMATE_TILES_HINT, CLEAR_CELLS_HINT, COLLISION_OVERLAY_HINT, FILLED_MAP_HINT, TERRAIN_BRUSH_HINT, FLAG_ACTIONS, FLAG_HINTS, REPLACE_ALL_HINT, REPLACE_IN_HINT, TILE_MODE_HINTS, TILE_MODE_ICONS, TILE_MODE_ORDER,
   TILE_OPTIONS_TEXT, UNIQUE_CELLS_HINT,
 };

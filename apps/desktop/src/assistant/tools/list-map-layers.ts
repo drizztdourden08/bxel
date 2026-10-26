@@ -24,7 +24,7 @@ const tilesetEntry = (tileset: Tileset, includeTiles: boolean) => ({
   tileHeight: tileset.tileHeight,
   tileCount: tileset.tiles.length,
   terrain: tileset.terrain?.kind ?? null,
-  tiles: includeTiles ? tileset.tiles.map((tile) => ({ key: tile.key, spriteId: tile.spriteId, collision: tile.collision?.kind ?? null })) : [],
+  tiles: includeTiles ? tileset.tiles.map((tile) => ({ key: tile.key, spriteId: tile.spriteId, collision: tile.collision?.kind ?? null, animation: tile.animation ?? null })) : [],
 });
 
 const visibleMaps = (artwork: Artwork, hidden: ReadonlySet<string>, wanted: string | undefined): Tilemap[] =>

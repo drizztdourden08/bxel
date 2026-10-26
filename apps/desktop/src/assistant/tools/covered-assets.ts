@@ -16,8 +16,9 @@ const coveredAssets = (context: ToolContext, documentId: string, cover: FolderCo
   const workspace = useWorkspaceStore.getState().workspaces[documentId];
   const ids = new Set([...(workspace?.paths ?? [])].filter(([, path]) => insideCover(cover, path)).map(([id]) => id));
   const tiles = artwork.tilesets.filter((tileset) => ids.has(tileset.id)).flatMap((tileset) => tileset.tiles.map((tile) => tile.spriteId));
+  const frames = artwork.animations.filter((animation) => ids.has(animation.id)).flatMap((animation) => animation.frames.flatMap((frame) => (frame.spriteId === null ? [] : [frame.spriteId])));
   const maps = artwork.tilemaps.filter((tilemap) => ids.has(tilemap.tilesetId)).map((tilemap) => tilemap.id);
-  return new Set([...ids, ...tiles, ...maps]);
+  return new Set([...ids, ...tiles, ...frames, ...maps]);
 };
 
 export { coveredAssets };

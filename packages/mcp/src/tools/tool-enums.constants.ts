@@ -7,7 +7,7 @@ const SESSION_MODE_SCHEMA = z.enum(['read', 'edit']);
 const FILE_KIND_VALUES = ['bxel', 'image', 'palette', 'sheet_json', 'other'] as const;
 const FILE_KIND_SCHEMA = z.enum(FILE_KIND_VALUES);
 const DEFAULT_FILE_KINDS = ['bxel', 'image', 'palette', 'sheet_json'] as const;
-const EXPORT_FORMAT_VALUES = ['png', 'png-indexed'] as const;
+const EXPORT_FORMAT_VALUES = ['png', 'png-indexed', 'gif'] as const;
 const NO_INPUT_SCHEMA = z.strictObject({});
 
 export {

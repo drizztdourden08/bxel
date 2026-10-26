@@ -16,12 +16,14 @@ const folderTarget = (input: ExportInput, context: ToolContext): McpResult<strin
 };
 
 const exportTarget = async (input: ExportInput, context: ToolContext): Promise<McpResult<ExportTarget>> => {
-  if (input.format !== 'png') return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.formatMissing, { path: 'format' });
-  if (!('spriteId' in input.source)) return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.noSheet, { path: 'source' });
+  const { source, format } = input;
+  if ('sheetId' in source) return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.noSheet, { path: 'source' });
+  if ('spriteId' in source && format === 'gif') return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.gifSprite, { path: 'format' });
+  if (format !== 'png' && format !== 'gif') return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.formatMissing, { path: 'format' });
   const path = input.location
-    ? await projectWriteTarget(context, { location: input.location, kind: 'png', overwrite: input.overwrite ?? false })
+    ? await projectWriteTarget(context, { location: input.location, kind: format, overwrite: input.overwrite ?? false })
     : folderTarget(input, context);
-  return path.ok ? { ok: true, value: { path: path.value, source: input.source } } : path;
+  return path.ok ? { ok: true, value: { path: path.value, source } } : path;
 };
 
 export { exportTarget };

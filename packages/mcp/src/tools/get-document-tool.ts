@@ -2,6 +2,7 @@
 import { z } from 'zod';
 import { SPRITES_PAGE_DEFAULT, SPRITES_PAGE_MAX } from '../limits/limits.constants';
 import {
+  ANIMATION_ID_SCHEMA,
   BANK_ID_SCHEMA,
   DOCUMENT_ID_SCHEMA,
   FRAME_ID_SCHEMA,
@@ -52,10 +53,19 @@ const sheet = z.strictObject({
   entries: COUNT_SCHEMA,
 });
 
+const animation = z.strictObject({
+  animationId: ANIMATION_ID_SCHEMA,
+  name: z.string(),
+  width: COUNT_SCHEMA,
+  height: COUNT_SCHEMA,
+  frames: COUNT_SCHEMA,
+  tags: COUNT_SCHEMA,
+});
+
 const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
   title: 'Get a document',
   description:
-    'The structure to read before editing: banks, sprites, layers, frames, tags and sheets. Sprites page by 128, up to 512 a call.',
+    'The structure to read before editing: banks, sprites, layers, frames, tags, animations and sheets. Sprites page by 128, up to 512 a call.',
   input: z.strictObject({
     documentId: DOCUMENT_ID_SCHEMA,
     spriteOffset: z.number().int().min(0).default(0),
@@ -72,6 +82,7 @@ const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
     sprites: z.array(sprite),
     spritesTotal: COUNT_SCHEMA,
     truncated: z.boolean(),
+    animations: z.array(animation).describe('The animations. Read one with get_animation. The frame sprites an animation owns are not in sprites.'),
     sheets: z.array(sheet),
   }),
 });

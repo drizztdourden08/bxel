@@ -4,9 +4,9 @@ import { TILEMAP_DEFAULTS } from './tilemap-store.constants';
 import type { TilemapState } from './tilemap-store.type';
 import { useDocumentStore } from './useDocumentStore';
 
-const useTilemapStore = create<TilemapState>()((set) => ({
+const useTilemapStore = create<TilemapState>()((set, get) => ({
   ...TILEMAP_DEFAULTS,
-  reset: () => set(TILEMAP_DEFAULTS),
+  reset: () => set({ ...TILEMAP_DEFAULTS, animateTiles: get().animateTiles }),
   setTileset: (tilesetId) => set({ tilesetId }),
   setMap: (mapId) => set({ mapId, layerId: null, selection: null }),
   setLayer: (layerId) => set({ layerId, selection: null }),
@@ -18,6 +18,7 @@ const useTilemapStore = create<TilemapState>()((set) => ({
   setSelection: (selection) => set({ selection }),
   setShowCollision: (showCollision) => set({ showCollision }),
   setTerrainBrush: (terrainBrush) => set({ terrainBrush }),
+  setAnimateTiles: (animateTiles) => set({ animateTiles }),
 }));
 
 useDocumentStore.subscribe((state, previous) => {

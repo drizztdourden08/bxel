@@ -28,6 +28,7 @@ const MCP_ROUTE = {
   splitLegacyFile: 'bxel:mcp:split_legacy_file',
   listMapLayers: 'bxel:mcp:list_map_layers',
   readMapCells: 'bxel:mcp:read_map_cells',
+  getAnimation: 'bxel:mcp:get_animation',
 } as const;
 
 const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
@@ -53,6 +54,7 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   split_legacy_file: MCP_ROUTE.splitLegacyFile,
   list_map_layers: MCP_ROUTE.listMapLayers,
   read_map_cells: MCP_ROUTE.readMapCells,
+  get_animation: MCP_ROUTE.getAnimation,
 };
 
 const MCP_ASK = {

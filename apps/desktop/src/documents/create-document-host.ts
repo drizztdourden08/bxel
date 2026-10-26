@@ -42,6 +42,11 @@ const createDocumentHost = (options: DocumentHostOptions = {}): DocumentHost => 
       entry?.engine.markSaved();
       return entry !== undefined;
     },
+    markUnsaved: (documentId) => {
+      const entry = store.entries.get(documentId);
+      entry?.engine.markUnsaved();
+      return entry !== undefined;
+    },
     subscribe: (listener) => subscribeTo(store.listeners, listener),
     watch: (documentId, listener) =>
       subscribeTo(store.listeners, (event) => {

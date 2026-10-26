@@ -45,6 +45,12 @@ interface TileThumbProps {
   sprite: Sprite;
 }
 
+interface AnimationPartProps {
+  artwork: Artwork;
+  tileset: Tileset;
+  tile: Tile;
+}
+
 interface TilesetActionsProps {
   model: TilesetModel;
   onDelete: (key: number) => void;
@@ -96,4 +102,4 @@ interface CollisionPaint {
   colour: string;
 }
 
-export type { TerrainActionsProps, TerrainSlotProps, TerrainSlotsProps, CollisionCanvasHandle, CollisionPaint, CollisionProps, TileButtonProps, TileCell, TileGridProps, TileHandlers, TileThumbProps, TilesetActionsProps, TilesetHeaderProps, TilesetModel };
+export type { AnimationPartProps, TerrainActionsProps, TerrainSlotProps, TerrainSlotsProps, CollisionCanvasHandle, CollisionPaint, CollisionProps, TileButtonProps, TileCell, TileGridProps, TileHandlers, TileThumbProps, TilesetActionsProps, TilesetHeaderProps, TilesetModel };

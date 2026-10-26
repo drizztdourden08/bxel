@@ -27,6 +27,7 @@ interface TilemapSettings {
   selection: MapSelection | null;
   showCollision: boolean;
   terrainBrush: boolean;
+  animateTiles: boolean;
 }
 
 interface TilemapState extends TilemapSettings {
@@ -42,6 +43,7 @@ interface TilemapState extends TilemapSettings {
   setSelection: (selection: MapSelection | null) => void;
   setShowCollision: (showCollision: boolean) => void;
   setTerrainBrush: (terrainBrush: boolean) => void;
+  setAnimateTiles: (animateTiles: boolean) => void;
 }
 
 export type { MapSelection, TileEditMode, TileStamp, TilemapSettings, TilemapState };

@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { AssetKey, AssetKind, DocumentId, FrameId, PaletteBank, Sprite } from '@bxel/document';
+import type { RgbaImage } from '@bxel/formats';
 import type { FileKind } from '@bxel/project';
 
 type SpriteFrame = { readonly sprite: Sprite; readonly bank: PaletteBank; readonly frameId: FrameId };
@@ -14,7 +15,11 @@ type SpriteSource = { readonly spriteId: string; readonly frameId?: string };
 
 type SheetSource = { readonly sheetId: string };
 
-type ExportTarget = { readonly path: string; readonly source: SpriteSource };
+type AnimationSource = { readonly animationId: string; readonly frameId?: string; readonly tagId?: string };
+
+type AnimationStrip = { readonly image: RgbaImage; readonly indices: Uint8Array };
+
+type ExportTarget = { readonly path: string; readonly source: SpriteSource | AnimationSource };
 
 type GetDocumentInput = DocumentInput & { readonly spriteOffset: number; readonly spriteLimit: number };
 
@@ -32,7 +37,7 @@ type ReadPixelsInput = DocumentInput & {
 };
 
 type RenderInput = DocumentInput & {
-  readonly target: SpriteSource | SheetSource;
+  readonly target: SpriteSource | AnimationSource | SheetSource;
   readonly scale: number;
 };
 
@@ -63,6 +68,8 @@ type FileNameTarget = { readonly fileName: string; readonly overwrite: boolean; 
 
 type LocationTarget = { readonly location: ProjectLocation; readonly overwrite: boolean; readonly moveAsset: boolean };
 
+type GetAnimationInput = DocumentInput & { readonly animationId: string };
+
 type SaveInput = DocumentInput & {
   readonly asset?: AssetInput;
   readonly expectedRevision?: number;
@@ -72,7 +79,7 @@ type SaveInput = DocumentInput & {
 type ExportInput = DocumentInput & {
   readonly expectedRevision?: number;
   readonly format: string;
-  readonly source: SpriteSource | SheetSource;
+  readonly source: SpriteSource | AnimationSource | SheetSource;
   readonly scale: number;
   readonly overwrite?: boolean;
   readonly fileName?: string;
@@ -123,6 +130,7 @@ type CreateInput = {
   readonly sprite?: { readonly name: string; readonly width: number; readonly height: number };
   readonly tileSize?: { readonly width: number; readonly height: number };
   readonly mapSize?: { readonly columns: number; readonly rows: number };
+  readonly animation?: { readonly width: number; readonly height: number; readonly frames: number };
 };
 
 type WireFileKind = 'bxel' | 'image' | 'palette' | 'sheet_json' | 'other';
@@ -139,6 +147,9 @@ type ListFilesInput = {
 type PlatformOptions = { platformStrict?: unknown; platformId?: unknown };
 
 export type {
+  AnimationSource,
+  AnimationStrip,
+  GetAnimationInput,
   PathOwner,
   ListMapLayersInput,
   ReadMapCellsInput,
