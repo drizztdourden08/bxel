@@ -2,7 +2,9 @@
 import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
 import { commandArgs } from '../context-menu/command-args';
 import type { AxisArgs } from '../context-menu/menu-args.type';
-import { centreMirrorAxis, placeMirrorAxis, removeMirrorAxis } from '../editor/mirror-axis';
+import { centreMirrorAxis } from '../editor/centre-mirror-axis';
+import { placeMirrorAxis } from '../editor/place-mirror-axis';
+import { removeMirrorAxis } from '../editor/remove-mirror-axis';
 import { COMMAND_GROUP } from './keymap.constants';
 import { pixelCommand } from './pixel-command';
 import { editorCommand } from './editor-command';
