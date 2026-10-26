@@ -126,3 +126,19 @@ describe('the atlas preview and the export of the same sheet', () => {
     expect(previewed(PACK, 0).items.every((item) => !item.rotated)).toBe(true);
   });
 });
+
+describe('a sheet that places an animation', () => {
+  it('keeps every sprite where the export puts it, whatever the layout does with the animation entry', () => {
+    runDocument('Build', [
+      { name: COMMAND_NAME.animationCreate, targets: null, options: { name: 'walk', source: { kind: 'sprites', sprites: idsOf('a', 'b') } }, ref: 'anim' },
+      { name: COMMAND_NAME.sheetAnimationAdd, targets: null, options: { sheet: sheet().id, animation: { ref: 'anim' } } },
+    ]);
+    styleSheet(sheet().id, { layout: 'grid', columns: 3 });
+    const file = exported(PACK)[0];
+    if (!file) throw new Error('no export');
+    const { atlas, items } = previewed(PACK, 0);
+    expect(items).toEqual(boxesOf(file.metadata).filter((each) => !each.key.startsWith('walk#')));
+    expect(atlas.animations).toHaveLength(1);
+    expect(sheet().animationEntries?.[0]?.at).toEqual({ x: 0, y: 16 });
+  });
+});

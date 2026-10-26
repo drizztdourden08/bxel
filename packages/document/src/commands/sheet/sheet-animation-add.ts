@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { updateSheet } from '../../draft/update-sheet';
+import { arrangeSheet } from '../../sheet/arrange-sheet';
 import type { Point } from '../../model/geometry.type';
 import type { Sheet } from '../../model/sheet.type';
 import type { Artwork } from '../../model/artwork.type';
@@ -13,6 +14,7 @@ import { defineCommand } from '../define-command';
 import { ERROR_CODE } from '../error-code.constants';
 import { fail } from '../fail';
 import { pickSheet } from './pick-sheet';
+import { warnOverlaps } from './warn-overlaps';
 
 const belowContent = (artwork: Artwork, sheet: Sheet): Point => {
   const extent = sheetExtent(sheet, sheetSizes(artwork), artwork.animations);
@@ -34,10 +36,12 @@ const sheetAnimationAdd = defineCommand({
       throw fail(ERROR_CODE.INVALID_OPTION, `Animation "${animation.name}" is already on sheet "${sheet.name}" that way.`, { path: 'options.animation' });
     }
     const at = input.options.at ?? belowContent(draft.artwork, sheet);
-    updateSheet(draft, sheet.id, (current) => ({
-      ...current,
-      animationEntries: [...(current.animationEntries ?? []), { animationId: animation.id, tagId, at }],
-    }));
+    const sizes = sheetSizes(draft.artwork);
+    updateSheet(draft, sheet.id, (current) => {
+      const grown = { ...current, animationEntries: [...(current.animationEntries ?? []), { animationId: animation.id, tagId, at }] };
+      return input.options.at ? grown : arrangeSheet(grown, sizes, draft.artwork.animations);
+    });
+    warnOverlaps(draft, sheet.id);
   },
 });
 

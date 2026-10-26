@@ -4,7 +4,7 @@ import type { Animation, Sheet } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { animationNamed, apply, buildAnimWorld, checkOneUndoStep, createdAnimation, refuse } from './anim-engine';
 import type { AnimWorld } from './anim-engine';
-import { step } from './tile-engine';
+import { spriteStep, step } from './tile-engine';
 
 const started = (): AnimWorld & { readonly id: string; readonly sheet: string } => {
   const world = buildAnimWorld();
@@ -81,5 +81,97 @@ describe('sheet.animation.add and sheet.animation.remove', () => {
     checkOneUndoStep(world.engine, () => {
       apply(world.engine, [step('sheet.animation.add', { sheet: world.sheet, animation: world.id })]);
     });
+  });
+});
+
+const spots = (world: AnimWorld & { readonly sheet: string }): { sprites: string[]; strips: string[] } => ({
+  sprites: sheetOf(world).entries.map((entry) => `${entry.at.x},${entry.at.y}`),
+  strips: (sheetOf(world).animationEntries ?? []).map((entry) => `${entry.at.x},${entry.at.y}`),
+});
+
+const withSprites = (): AnimWorld & { readonly id: string; readonly sheet: string } => {
+  const world = started();
+  apply(world.engine, [
+    spriteStep('sheet.add', { sheet: world.sheet }, world.a),
+    spriteStep('sheet.add', { sheet: world.sheet }, world.b),
+    spriteStep('sheet.add', { sheet: world.sheet }, world.c),
+    step('animation.directions', { animation: world.id, mode: 'four', tag: 'walk', framesPerFacing: 2, mirrored: ['w'] }),
+  ]);
+  return world;
+};
+
+const north = { by: 'name', name: 'walk', facing: 'n' } as const;
+
+describe('animation entries in an arranged sheet', () => {
+  it('flows the strips under the cells of a grid and closes the gap when one goes', () => {
+    const world = withSprites();
+    apply(world.engine, [
+      step('sheet.arrange', { sheet: world.sheet, layout: { kind: 'grid', columns: 2, cellWidth: 4, cellHeight: 4 } }),
+      step('sheet.animation.add', { sheet: world.sheet, animation: world.id }),
+      step('sheet.animation.add', { sheet: world.sheet, animation: world.id, tag: north }),
+    ]);
+    expect(spots(world)).toEqual({ sprites: ['0,0', '4,0', '0,4'], strips: ['0,8', '0,12'] });
+    apply(world.engine, [step('sheet.animation.remove', { sheet: world.sheet, animation: world.id, tag: null })]);
+    expect(spots(world).strips).toEqual(['0,8']);
+  });
+
+  it('puts two narrow strips side by side on a wide grid', () => {
+    const world = withSprites();
+    apply(world.engine, [
+      step('sheet.arrange', { sheet: world.sheet, layout: { kind: 'grid', columns: 6, cellWidth: 4, cellHeight: 4 } }),
+      step('sheet.animation.add', { sheet: world.sheet, animation: world.id, tag: north }),
+      step('sheet.animation.add', { sheet: world.sheet, animation: world.id, tag: { by: 'name', name: 'walk', facing: 's' } }),
+    ]);
+    expect(spots(world).strips).toEqual(['0,4', '8,4']);
+  });
+
+  it('shelf-packs the strips with the sprites and never fails on a strip wider than the sheet', () => {
+    const world = withSprites();
+    apply(world.engine, [
+      step('sheet.animation.add', { sheet: world.sheet, animation: world.id }),
+      step('sheet.arrange', { sheet: world.sheet, layout: { kind: 'packed', maxWidth: 16 } }),
+    ]);
+    expect(spots(world)).toEqual({ sprites: ['0,4', '4,4', '8,4'], strips: ['0,0'] });
+    apply(world.engine, [step('sheet.arrange', { sheet: world.sheet, layout: { kind: 'packed', maxWidth: 8 } })]);
+    expect(spots(world).strips).toEqual(['0,0']);
+    expect(refuse(world.engine, [step('sheet.arrange', { sheet: world.sheet, layout: { kind: 'packed', maxWidth: 2 } })]).code).toBe('SIZE_OUT_OF_RANGE');
+  });
+
+  it('lets a packed sheet size itself to hold its strips', () => {
+    const world = withSprites();
+    apply(world.engine, [step('sheet.animation.add', { sheet: world.sheet, animation: world.id }), step('sheet.arrange', { sheet: world.sheet, layout: { kind: 'packed' } })]);
+    const layout = sheetOf(world).layout;
+    expect(layout.kind === 'packed' && layout.maxWidth >= 16).toBe(true);
+  });
+
+  it('keeps a manual sheet as it is and warns about a strip over a sprite', () => {
+    const world = started();
+    apply(world.engine, [spriteStep('sheet.add', { sheet: world.sheet, places: [{ at: { x: 2, y: 0 } }] }, world.a)]);
+    const done = apply(world.engine, [step('sheet.animation.add', { sheet: world.sheet, animation: world.id, at: { x: 0, y: 0 } })]);
+    expect(spots(world)).toEqual({ sprites: ['2,0'], strips: ['0,0'] });
+    const messages = done.warnings.filter((warning) => warning.code === 'SHEET_OVERLAP').map((warning) => warning.message);
+    expect(messages).toEqual(['Sprite "a" and animation "walk" overlap on sheet "sheet".']);
+  });
+
+  it('warns about two strips on top of each other', () => {
+    const world = withSprites();
+    const done = apply(world.engine, [
+      step('sheet.animation.add', { sheet: world.sheet, animation: world.id, at: { x: 40, y: 0 } }),
+      step('sheet.animation.add', { sheet: world.sheet, animation: world.id, tag: north, at: { x: 44, y: 0 } }),
+    ]);
+    expect(done.warnings.filter((warning) => warning.code === 'SHEET_OVERLAP').map((warning) => warning.message)).toContain(
+      'Animation "walk" and animation "walk walk" overlap on sheet "sheet".',
+    );
+  });
+
+  it('closes the gap when the animation of a strip is deleted', () => {
+    const world = withSprites();
+    apply(world.engine, [
+      step('sheet.arrange', { sheet: world.sheet, layout: { kind: 'grid', columns: 2, cellWidth: 4, cellHeight: 4 } }),
+      step('sheet.animation.add', { sheet: world.sheet, animation: world.id, tag: north }),
+    ]);
+    expect(spots(world).strips).toEqual(['0,8']);
+    apply(world.engine, [step('animation.delete', { animation: world.id })]);
+    expect(spots(world)).toEqual({ sprites: ['0,0', '4,0', '0,4'], strips: [] });
   });
 });

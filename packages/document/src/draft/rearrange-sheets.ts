@@ -8,7 +8,7 @@ const rearrangeSheets = (draft: Draft): void => {
   const sizes = sheetSizes(draft.artwork);
   updateArtwork(draft, (artwork) => ({
     ...artwork,
-    sheets: artwork.sheets.map((sheet) => arrangeSheet(sheet, sizes)),
+    sheets: artwork.sheets.map((sheet) => arrangeSheet(sheet, sizes, draft.artwork.animations)),
   }));
 };
 

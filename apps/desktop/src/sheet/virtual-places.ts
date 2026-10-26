@@ -15,6 +15,7 @@ const virtualPlaces = (artwork: Artwork, loose: readonly Sprite[], below: Point,
       entries: loose.map((sprite) => ({ spriteId: sprite.id, at: { x: 0, y: 0 }, source: null })),
     },
     sheetSizes(artwork),
+    artwork.animations,
   );
   return new Map(arranged.entries.map((entry) => [entry.spriteId, { x: below.x + entry.at.x, y: below.y + entry.at.y }] as const));
 };
