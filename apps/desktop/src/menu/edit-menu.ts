@@ -5,6 +5,7 @@ import { SELECTION_COMMAND_ID as ID } from '../keymap/selection-command-id.const
 import { MENU_KEYS, MENU_TEXT } from './editor-menu.constants';
 import type { EditorMenuState } from './editor-menu.type';
 import { menuItem } from './menu-item';
+import { hasPart } from '../surface/has-part';
 import { transformMenu } from './transform-menu';
 
 const editMenu = (state: EditorMenuState): MenuItem => {
@@ -27,8 +28,7 @@ const editMenu = (state: EditorMenuState): MenuItem => {
       menuItem(ID.invert, 'Invert selection', off),
       menuItem(ID.expand, 'Expand selection by 1 pixel', off),
       menuItem(ID.shrink, 'Shrink selection by 1 pixel', off),
-      'separator',
-      transformMenu(state),
+      ...(hasPart(state.hasDocument ? state.surface : 'sprite', 'transform') ? ['separator' as const, transformMenu(state)] : []),
     ],
   };
 };

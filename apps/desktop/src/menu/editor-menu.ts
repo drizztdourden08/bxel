@@ -2,21 +2,12 @@
 import type { MenuEntry } from '@drizztdourden08/brock-react';
 import { editMenu } from './edit-menu';
 import type { EditorMenuState } from './editor-menu.type';
-import { helpMenu } from './help-menu';
-import { layerMenu } from './layer-menu';
-import { sheetMenu } from './sheet-menu';
-import { tilemapMenu } from './tilemap-menu';
-import { paletteMenu } from './palette-menu';
+import { kindMenu } from './kind-menu';
 import { viewMenu } from './view-menu';
 
-const editorMenu = (state: EditorMenuState): MenuEntry[] => [
-  editMenu(state),
-  paletteMenu(state),
-  layerMenu(state),
-  sheetMenu(state),
-  tilemapMenu(state),
-  viewMenu(state),
-  helpMenu(),
-];
+const editorMenu = (state: EditorMenuState): MenuEntry[] => {
+  const kind = kindMenu(state);
+  return [editMenu(state), ...(kind ? [kind] : []), viewMenu(state)];
+};
 
 export { editorMenu };
