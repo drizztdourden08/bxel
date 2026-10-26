@@ -8,6 +8,7 @@ const keysOf = (kind: AssetKey['kind'], changes: readonly EntityChange<string>[]
 const changedKeys = (changes: ChangeSet, artwork: Artwork, wanted: (change: EntityChange<string>) => boolean): readonly AssetKey[] =>
   [
     ...keysOf('sprite', changes.sprites, wanted),
+    ...keysOf('animation', changes.animations, wanted),
     ...keysOf('sheet', changes.sheets, wanted),
     ...keysOf('tilemap', changes.tilemaps, wanted),
     ...keysOf('tileset', changes.tilesets, wanted),

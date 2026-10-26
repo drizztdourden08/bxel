@@ -101,12 +101,9 @@ const COMPASS: readonly (readonly (AnimFacing | null)[])[] = [
   ['sw', 's', 'se'],
 ];
 
-const DEFAULT_ANIMATION_STEP = 1;
-
 export {
   BADGE_TEXT,
   COMPASS,
-  DEFAULT_ANIMATION_STEP,
   FACING_TEXT,
   NEW_TAG_NAME,
   TAG_COLOURS,

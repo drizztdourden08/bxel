@@ -21,4 +21,4 @@ const TIMELINE_DEFAULTS: TimelineSettings = {
   pivotDraft: null,
 };
 
-export { NO_SELECTION, ONION_DEFAULTS, ONION_LIMITS, TIMELINE_DEFAULTS };
+export { ONION_LIMITS, TIMELINE_DEFAULTS };

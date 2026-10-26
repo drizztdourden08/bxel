@@ -11,7 +11,7 @@
 }
 
 .frame-strip {
-  --frame-cell: var(--size-72);
+  --frame-cell: var(--size-80);
 
   border: var(--border-width-thin) solid var(--c-border);
   border-radius: var(--radius-md);

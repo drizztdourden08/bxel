@@ -16,4 +16,4 @@ const animationFocus = (view: DocumentView | null, tab: OpenTab | null | undefin
   return { documentId: view.state.documentId, artwork: view.state.artwork, animation, frame, readOnly: view.state.readOnly };
 };
 
-export { animationFocus, validFrame };
+export { animationFocus };

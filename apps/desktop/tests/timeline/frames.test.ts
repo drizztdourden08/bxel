@@ -81,7 +81,7 @@ describe('moving frames', () => {
     expect(frameIds()).toEqual([b, a, c]);
     expect(dragFrame(2, 0)).toBe(true);
     expect(frameIds()).toEqual([c, b, a]);
-    expect(moveFrames(-1, [c])).toBe(false);
+    expect(moveFrames(-1, [frameAt(0)])).toBe(false);
   });
 });
 

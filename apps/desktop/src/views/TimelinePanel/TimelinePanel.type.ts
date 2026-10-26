@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { AnimFacing, AnimSpanTag } from '@bxel/document';
+import type { AnimSpanTag } from '@bxel/document';
 import type { ReorderDrag } from '@drizztdourden08/tessera';
 import type { PixelIconName } from '../../icons/pixel-icon.type';
 import type { AnimationFocus, FrameCell, TagCell, TimelineModel } from '../../timeline/timeline.type';
@@ -69,15 +69,8 @@ interface NumberFieldProps {
   onCommit: (value: number) => boolean;
 }
 
-interface FacingButtonProps {
-  facing: AnimFacing;
-  found: boolean;
-  pressed: boolean;
-}
-
 export type {
   ActionBarProps,
-  FacingButtonProps,
   FocusProps,
   FrameCellViewProps,
   FrameStripProps,

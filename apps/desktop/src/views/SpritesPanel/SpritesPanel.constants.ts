@@ -65,8 +65,6 @@ const LIST_FIELDS: readonly { readonly path: keyof ListRow; readonly label: stri
   { path: 'width', label: MANAGER_TEXT.columns.width, kind: 'number', width: 120 },
   { path: 'height', label: MANAGER_TEXT.columns.height, kind: 'number', width: 120 },
   { path: 'pivot', label: MANAGER_TEXT.columns.pivot, kind: 'string', width: 128 },
-  { path: 'frames', label: MANAGER_TEXT.columns.frames, kind: 'number', width: 120 },
-  { path: 'tags', label: MANAGER_TEXT.columns.tags, kind: 'number', width: 112 },
   { path: 'bank', label: MANAGER_TEXT.columns.bank, kind: 'string', width: 120 },
 ];
 

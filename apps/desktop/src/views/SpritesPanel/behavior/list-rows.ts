@@ -8,15 +8,13 @@ import type { ListRow } from '../SpritesPanel.type';
 
 const listRows = (artwork: Artwork, groups: readonly FolderGroup[]): ListRow[] =>
   groups.flatMap((group) =>
-    group.facts.map(({ sprite, frames, tags }) => ({
+    group.facts.map(({ sprite }) => ({
       id: sprite.id,
       name: sprite.name,
       folder: group.path === '' ? FOLDER_TEXT.root : group.path,
       width: sprite.width,
       height: sprite.height,
       pivot: pivotLabel(sprite),
-      frames,
-      tags,
       bank: findBank(artwork, sprite.bankId)?.name ?? '',
     })),
   );

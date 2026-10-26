@@ -14,4 +14,3 @@ const tagOptions = (animation: Animation): readonly TagOption[] => [
 ];
 
 export { tagOptions };
-export type { TagOption };
