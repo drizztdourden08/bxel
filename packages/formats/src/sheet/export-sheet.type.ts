@@ -12,6 +12,7 @@ import type {
 type ExportFrame = {
   readonly layers: readonly Uint8Array[];
   readonly durationMs: number;
+  readonly label?: string;
 };
 
 type ExportSprite = {
@@ -25,7 +26,7 @@ type ExportSprite = {
   readonly slices: readonly SheetSliceEntry[];
 };
 
-type SheetFlavour = 'bxel' | 'hash';
+type SheetFlavour = 'bxel' | 'hash' | 'array' | 'tiled';
 
 type ExportSheetInput = {
   readonly imageName: string;
@@ -34,6 +35,7 @@ type ExportSheetInput = {
   readonly trim: boolean;
   readonly scale: number;
   readonly flavour: SheetFlavour;
+  readonly mergeIdentical?: boolean;
 };
 
 type ExportedSheet = {
@@ -52,6 +54,8 @@ type SheetCell = {
   readonly frameIndex: number;
   readonly durationMs: number;
   readonly trimmed: TrimmedImage;
+  readonly twin?: number;
+  readonly label?: string;
 };
 
 export type {
