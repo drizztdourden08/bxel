@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import type { MenuGroup } from '@drizztdourden08/tessera';
+import type { MenuGroup, VirtualGridCellBind } from '@drizztdourden08/tessera';
 import * as React from 'react';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
@@ -47,14 +47,27 @@ const modelOf = (): ManagerModel => {
 
 beforeEach(() => openFile(['walk_1', 'walk_2'], 8));
 
+const cell: VirtualGridCellBind = {
+  role: 'gridcell',
+  className: 'virtual-grid__cell virtual-grid__cell--bare',
+  tabIndex: 0,
+  'aria-colindex': 1,
+  'data-vg-index': 0,
+  'data-vg-kind': 'tile',
+  'data-marquee-key': 'a',
+  onFocus: vi.fn(),
+  onKeyDown: vi.fn(),
+};
+
 describe('the sprite tile and row', () => {
   it('names the sprite and its size and marks a picked sprite', () => {
     const fact = allFacts(artwork(), null).find((each) => each.sprite.name === 'walk_1');
     if (!fact) throw new Error('no fact');
     const state = { selected: true, active: true, affected: false, loose: true, twin: false };
-    const tile = renderToString(createElement(SpriteTile, { fact, artwork: artwork(), box: 48, state, drag, handlers }));
+    const tile = renderToString(createElement(SpriteTile, { fact, artwork: artwork(), box: 48, state, drag, handlers, cell }));
     expect(tile).toContain('aria-label="walk_1, 8 by 8"');
-    expect(tile).toContain('aria-pressed="true"');
+    expect(tile).toContain('aria-selected="true"');
+    expect(tile).toContain('role="gridcell"');
     expect(tile).toContain('sprites-panel__tile--loose');
     expect(tile).toContain(`data-sprite-id="${idOf('walk_1')}"`);
     const row = renderToString(createElement(SpriteRow, { fact, artwork: artwork(), state, drag, handlers }));

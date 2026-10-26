@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Box, MarqueeBox, VirtualGrid } from '@drizztdourden08/tessera';
-import type { VirtualGridHandle } from '@drizztdourden08/tessera';
+import type { VirtualGridCellBind, VirtualGridHandle } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
 import type { SpriteFacts } from '../../../sheet-manager/manager.type';
 import { useManagerStore } from '../../../stores/useManagerStore';
@@ -25,7 +25,7 @@ const SpriteGrid = (props: SpriteGridProps) => {
   const common = {
     label: 'Sprites',
     getKey: (fact: SpriteFacts) => fact.sprite.id,
-    renderItem: (fact: SpriteFacts) => <GridTile view={props} fact={fact} />,
+    renderTile: (fact: SpriteFacts, _index: number, cell: VirtualGridCellBind) => <GridTile view={props} fact={fact} cell={cell} />,
     scrollRef: marquee.area,
     bind: { onPointerDown: marquee.onPointerDown },
     overlay: <MarqueeBox rect={marquee.rect} />,

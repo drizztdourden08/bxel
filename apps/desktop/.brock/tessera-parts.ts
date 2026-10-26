@@ -17,7 +17,6 @@ declare module '@drizztdourden08/tessera' {
         | 'CanvasSizeDialog'
         | 'CanvasToolbar'
         | 'ConfigEmpty'
-        | 'ConfigRow'
         | 'CreateDialog'
         | 'DefaultsEditor'
         | 'DialogHost'
