@@ -2,8 +2,7 @@
 import { useSettings } from '@drizztdourden08/brock-react';
 import { Canvas } from '@drizztdourden08/tessera';
 import { useCallback, useEffect, useRef } from 'react';
-import { paintGridPreview } from '../../canvas-look/paint-grid-preview';
-import { paintSurroundPreview } from '../../canvas-look/paint-surround-preview';
+import { paintPreview } from '../../canvas-look/paint-preview';
 import { useCanvasLook } from '../../canvas-look/useCanvasLook';
 import { useResizeRedraw } from '../../hooks/useResizeRedraw';
 import type { AppSettings } from '../../settings.type';
@@ -19,8 +18,7 @@ const CanvasPreview = ({ kind }: CanvasPreviewProps) => {
   const paint = useCallback(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    if (kind === 'grid') paintGridPreview(canvas, look, { pixel, major, tile });
-    else paintSurroundPreview(canvas, look);
+    paintPreview(canvas, kind, look, { pixel, major, tile });
   }, [kind, look, pixel, major, tile]);
   useEffect(paint, [paint]);
   useResizeRedraw(ref, paint);

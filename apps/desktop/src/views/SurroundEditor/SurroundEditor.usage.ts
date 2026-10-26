@@ -2,9 +2,9 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Lets the user draw a custom 16 by 16 surround pattern, cell by cell, in the Surround settings of the Canvas page.',
+  job: 'Lets the user draw a custom 16 by 16 surround pattern, cell by cell, on the Surround pattern page.',
   useWhen: [
-    'The Surround settings need the custom pattern editor under the pattern, colour and size rows.',
+    'The Surround pattern page needs the custom pattern editor under the pattern, colour and size rows.',
     'A pattern of two colours is drawn cell by cell.',
   ],
   avoidWhen: [

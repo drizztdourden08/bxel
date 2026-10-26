@@ -5,11 +5,13 @@ import { searchIndex } from './search';
 import { meta as appAssistantProgramsCustomMeta } from '../src/screens/app/assistant-programs.custom';
 import { meta as appAssistantProjectsCustomMeta } from '../src/screens/app/assistant-projects.custom';
 import AppAssistantSettings, { meta as appAssistantSettingsMeta } from '../src/screens/app/assistant.settings';
-import AppCanvasSettings, { meta as appCanvasSettingsMeta } from '../src/screens/app/canvas.settings';
+import { meta as appCanvasCustomMeta } from '../src/screens/app/canvas.custom';
 import AppDefaultsSettings, { meta as appDefaultsSettingsMeta } from '../src/screens/app/defaults.settings';
 import AppGeneralSettings, { meta as appGeneralSettingsMeta } from '../src/screens/app/general.settings';
+import { meta as appGridCustomMeta } from '../src/screens/app/grid.custom';
 import { meta as appPresetsCustomMeta } from '../src/screens/app/presets.custom';
 import { meta as appStoragePageMeta } from '../src/screens/app/storage.page';
+import { meta as appSurroundCustomMeta } from '../src/screens/app/surround.custom';
 import { meta as appSwatchesCustomMeta } from '../src/screens/app/swatches.custom';
 import { meta as assetNoneCustomMeta } from '../src/screens/asset/none.custom';
 import AssetPaletteSettings, { meta as assetPaletteSettingsMeta } from '../src/screens/asset/palette.settings';
@@ -33,11 +35,13 @@ const screenTree = buildScreenTree(config, [
   { kind: 'custom', bucket: 'app', id: 'assistant-programs', component: lazyComponent(() => import('../src/screens/app/assistant-programs.custom')), meta: appAssistantProgramsCustomMeta },
   { kind: 'custom', bucket: 'app', id: 'assistant-projects', component: lazyComponent(() => import('../src/screens/app/assistant-projects.custom')), meta: appAssistantProjectsCustomMeta },
   { kind: 'settings', bucket: 'app', id: 'assistant', sections: AppAssistantSettings, meta: appAssistantSettingsMeta },
-  { kind: 'settings', bucket: 'app', id: 'canvas', sections: AppCanvasSettings, meta: appCanvasSettingsMeta },
+  { kind: 'custom', bucket: 'app', id: 'canvas', component: lazyComponent(() => import('../src/screens/app/canvas.custom')), meta: appCanvasCustomMeta },
   { kind: 'settings', bucket: 'app', id: 'defaults', sections: AppDefaultsSettings, meta: appDefaultsSettingsMeta },
   { kind: 'settings', bucket: 'app', id: 'general', sections: AppGeneralSettings, meta: appGeneralSettingsMeta },
+  { kind: 'custom', bucket: 'app', id: 'grid', component: lazyComponent(() => import('../src/screens/app/grid.custom')), meta: appGridCustomMeta },
   { kind: 'custom', bucket: 'app', id: 'presets', component: lazyComponent(() => import('../src/screens/app/presets.custom')), meta: appPresetsCustomMeta },
   { kind: 'page', bucket: 'app', id: 'storage', component: lazyComponent(() => import('../src/screens/app/storage.page')), meta: appStoragePageMeta },
+  { kind: 'custom', bucket: 'app', id: 'surround', component: lazyComponent(() => import('../src/screens/app/surround.custom')), meta: appSurroundCustomMeta },
   { kind: 'custom', bucket: 'app', id: 'swatches', component: lazyComponent(() => import('../src/screens/app/swatches.custom')), meta: appSwatchesCustomMeta },
   { kind: 'custom', bucket: 'asset', id: 'none', component: lazyComponent(() => import('../src/screens/asset/none.custom')), meta: assetNoneCustomMeta },
   { kind: 'settings', bucket: 'asset', id: 'palette', sections: AssetPaletteSettings, meta: assetPaletteSettingsMeta },
