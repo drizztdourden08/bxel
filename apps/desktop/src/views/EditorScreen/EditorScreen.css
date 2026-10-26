@@ -10,7 +10,6 @@
 .editor-screen__body {
   flex: 1;
   min-block-size: 0;
-  padding: var(--space-sm);
 }
 
 .editor-screen__stage {

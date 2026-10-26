@@ -2,6 +2,7 @@
 import { focusRegion } from '@drizztdourden08/brock-react';
 import { useId } from 'react';
 import { Box, Canvas, Text } from '@drizztdourden08/tessera';
+import { SurroundBackdrop } from '../SurroundBackdrop';
 import { PIXEL_VIEWPORT_STRINGS } from './PixelViewport.constants';
 import { pixelViewportClass } from './behavior/pixel-viewport-class';
 import { usePixelViewport } from './behavior/usePixelViewport';
@@ -23,6 +24,7 @@ const PixelViewport = (props: PixelViewportProps) => {
       {...viewport.handlers}
     >
       {hint && <Text as="span" id={hintId} className="visually-hidden">{hint}</Text>}
+      <SurroundBackdrop />
       <Canvas ref={viewport.canvasRef} className="pixel-viewport__canvas" aria-hidden="true" />
       <Text as="span" className="pixel-viewport__status" aria-live="polite">{viewport.announcement}</Text>
     </Box>
