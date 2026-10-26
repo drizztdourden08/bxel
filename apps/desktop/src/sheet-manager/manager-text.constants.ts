@@ -30,7 +30,7 @@ const MANAGER_TEXT = {
   anySize: 'Any size',
   sizeFilter: 'Size',
   clearFilters: 'Clear filters',
-  columns: { preview: 'Preview', name: 'Name', size: 'Size', pivot: 'Pivot', frames: 'Frames', tags: 'Tags', bank: 'Palette', sheet: 'Sheet' },
+  columns: { preview: 'Preview', name: 'Name', size: 'Size', width: 'Width', height: 'Height', pivot: 'Pivot', frames: 'Frames', tags: 'Tags', bank: 'Palette', sheet: 'Sheet' },
   badgeFrames: (count: number): string => `${count} frames`,
   badgeSlices: (count: number): string => (count === 1 ? '1 slice' : `${count} slices`),
   badgeUnplaced: 'Not on the sheet',

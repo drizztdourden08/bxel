@@ -5,6 +5,7 @@ import { drawStroke } from './support/draw-stroke';
 import { SHORTCUT } from './support/e2e.constants';
 import type { Cell } from './support/e2e.type';
 import { MARKS_SIDE } from './support/marks.constants';
+import { nothingToUndo } from './support/nothing-to-undo';
 import { openSpriteRig } from './support/open-sprite-rig';
 import { useRig } from './support/use-rig';
 
@@ -29,7 +30,7 @@ describe('painting wraps across the edge when the tiled preview is on', () => {
     expect(filled(await shownNow())).toEqual(cells([13, 14, 15, 0, 1, 2]));
     await session.page.keyboard.press(SHORTCUT.undo);
     expect(filled(await shownNow())).toEqual([]);
-    expect(await session.page.getByRole('button', { name: 'Nothing to undo' }).count()).toBe(1);
+    expect(await nothingToUndo(session)).toBe(1);
   });
 
   test('the same stroke is clipped at the edge when the preview is off', async () => {

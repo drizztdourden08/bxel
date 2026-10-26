@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
-import type { VirtualSize } from '@drizztdourden08/tessera';
+import type { FieldDescriptor, TableColumn, VirtualSize } from '@drizztdourden08/tessera';
 import { DIALOG_COMMAND } from '../../keymap/dialog-command-id.constants';
 import { SHEET_COMMAND } from '../../keymap/sheet-command-id.constants';
+import { FOLDER_TEXT } from '../../sheet-manager/folder-text.constants';
 import { MANAGER_TEXT } from '../../sheet-manager/manager-text.constants';
 import type { HintSpec } from '../ActionHint';
-import type { ListColumn } from './SpritesPanel.type';
+import type { ListRow } from './SpritesPanel.type';
 
 const NO_SPRITES: readonly SpriteId[] = [];
 
@@ -14,8 +15,6 @@ const DRAG_TYPE = 'application/x-bxel-sprite';
 const ANY_SIZE = 'any';
 
 const ARROW_STEP: Readonly<Record<string, number>> = { ArrowLeft: -1, ArrowRight: 1 };
-
-const LIST_THUMB = 32;
 
 const TILE_SIZES: readonly { readonly token: VirtualSize; readonly px: number }[] = [
   { token: 'size-48', px: 48 },
@@ -34,17 +33,11 @@ const TILE_EXTRA = { width: 24, height: 48 } as const;
 
 const MARQUEE_ITEM = '[data-marquee-key]';
 
+const MARQUEE_SKIP = 'button, input, [role="columnheader"]';
+
 const GRID_CELL = '[role="gridcell"]';
 
 const VIRTUAL_LIST_MIN = 200;
-
-const ROW_INDEX_ATTRIBUTE = 'data-row-index';
-
-const ROW_COUNT_PROPERTY = '--sprites-count';
-
-const ROW_INDEX_PROPERTY = '--sprites-index';
-
-const HEADER_ROWS = 1;
 
 const END_INDEX = 100000;
 
@@ -55,14 +48,36 @@ const MANAGER_TABS = [
   { id: 'atlas', label: MANAGER_TEXT.tabs.atlas },
 ];
 
-const LIST_COLUMNS: readonly ListColumn[] = [
-  { key: 'name', label: 'name' },
-  { key: 'size', label: 'size' },
-  { key: null, label: 'pivot' },
-  { key: 'frames', label: 'frames' },
-  { key: 'tags', label: 'tags' },
-  { key: 'bank', label: 'bank' },
+const TEXT_ENTRY = 'input:not([type="checkbox"]), textarea, [contenteditable="true"]';
+
+const CHECKBOX = 'input[type="checkbox"]';
+
+const LIST_HEAD_ROOM = 48;
+
+const LIST_LABEL = 'Sprites';
+
+const LIST_VIEW_KEY = 'bxel:sprite-list';
+
+const LIST_COUNT_LABEL = ['sprite', 'sprites'] as const;
+
+const LIST_FIELDS: readonly { readonly path: keyof ListRow; readonly label: string; readonly kind: 'string' | 'number'; readonly width: number }[] = [
+  { path: 'name', label: MANAGER_TEXT.columns.name, kind: 'string', width: 192 },
+  { path: 'width', label: MANAGER_TEXT.columns.width, kind: 'number', width: 120 },
+  { path: 'height', label: MANAGER_TEXT.columns.height, kind: 'number', width: 120 },
+  { path: 'pivot', label: MANAGER_TEXT.columns.pivot, kind: 'string', width: 128 },
+  { path: 'frames', label: MANAGER_TEXT.columns.frames, kind: 'number', width: 120 },
+  { path: 'tags', label: MANAGER_TEXT.columns.tags, kind: 'number', width: 112 },
+  { path: 'bank', label: MANAGER_TEXT.columns.bank, kind: 'string', width: 120 },
 ];
+
+const LIST_FOLDER_FIELD: FieldDescriptor = { path: 'folder', label: FOLDER_TEXT.field, kind: 'string', optional: false, hidden: true };
+
+const LIST_SCHEMA: readonly FieldDescriptor[] = [
+  ...LIST_FIELDS.map(({ path, label, kind }): FieldDescriptor => ({ path, label, kind, optional: false })),
+  LIST_FOLDER_FIELD,
+];
+
+const LIST_COLUMNS: readonly TableColumn[] = LIST_FIELDS.map(({ path, width }) => ({ path, width }));
 
 const IN_LIST = 'In the list';
 
@@ -121,4 +136,4 @@ const SPRITE_STEPS = [
   { hint: SPRITE_HINTS.later, icon: 'arrow-right', by: 1 },
 ] as const;
 
-export { ANY_SIZE, ARROW_STEP, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_CELL, HEADER_ROWS, LIST_COLUMNS, LIST_THUMB, MANAGER_TABS, MARQUEE_ITEM, NO_SPRITES, ROW_COUNT_PROPERTY, ROW_INDEX_ATTRIBUTE, ROW_INDEX_PROPERTY, SPRITE_HINTS, SPRITE_STEPS, TILE_EXTRA, TILE_SIZES, VIRTUAL_LIST_MIN };
+export { ANY_SIZE, ARROW_STEP, CHECKBOX, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_COUNT_LABEL, LIST_HEAD_ROOM, LIST_LABEL, LIST_SCHEMA, LIST_VIEW_KEY, MANAGER_TABS, MARQUEE_ITEM, MARQUEE_SKIP, NO_SPRITES, SPRITE_HINTS, SPRITE_STEPS, TEXT_ENTRY, TILE_EXTRA, TILE_SIZES, VIRTUAL_LIST_MIN };

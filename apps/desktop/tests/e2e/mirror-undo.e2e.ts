@@ -5,6 +5,7 @@ import { drawStroke } from './support/draw-stroke';
 import { SHORTCUT } from './support/e2e.constants';
 import type { Cell, CellMapper } from './support/e2e.type';
 import { MARKS_SIDE } from './support/marks.constants';
+import { nothingToUndo } from './support/nothing-to-undo';
 import { openSpriteRig } from './support/open-sprite-rig';
 import { readCopy } from './support/read-copy';
 import { readSwatches } from './support/read-swatches';
@@ -40,7 +41,7 @@ describe('check 3: symmetry and tiling', () => {
     expect(filled(await shown())).toEqual(expected);
     await session.page.keyboard.press(SHORTCUT.undo);
     expect(filled(await shown())).toEqual([]);
-    expect(await session.page.getByRole('button', { name: 'Nothing to undo' }).count()).toBe(1);
+    expect(await nothingToUndo(session)).toBe(1);
     await session.page.keyboard.press(SHORTCUT.redo);
     expect(filled(await shown())).toEqual(expected);
     await session.page.getByRole('button', { name: /^Mirror X/ }).click();
