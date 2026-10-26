@@ -27,6 +27,9 @@ const migrated = (): Artwork => {
 
 const ofKind = (files: readonly SplitFile[], kind: AssetKind): SplitFile[] => files.filter((file) => file.key.kind === kind);
 
+const animatedSheet = (files: readonly SplitFile[]): SplitFile | undefined =>
+  ofKind(files, 'sheet').find((file) => (file.slice.artwork.sheets?.[0]?.animationEntries ?? []).length > 0);
+
 const bytesOf = (file: SplitFile): Uint8Array => encodeSlice(file.slice);
 
 describe('animation files', () => {
@@ -80,7 +83,7 @@ describe('animation files', () => {
 
   it('are refused by a reader that stops at version 2, when they need version 3', () => {
     const plan = splitIntoAssets(migrated());
-    const sheet = ofKind(plan.files, 'sheet').find((file) => (file.slice.artwork.sheets?.[0]?.animationEntries ?? []).length > 0);
+    const sheet = animatedSheet(plan.files);
     const manifest = readAssetManifest(sheet ? bytesOf(sheet) : new Uint8Array());
     if (!manifest) throw new Error('No manifest.');
     expect(gateVersions(manifest, 2).issue?.code).toBe('VERSION_TOO_NEW');
@@ -92,20 +95,27 @@ describe('animation files', () => {
 });
 
 describe('animation links', () => {
-  it('open with placeholders when the animation file is missing from a sheet or a tileset', () => {
-    const plan = splitIntoAssets(migrated());
-    const sheet = ofKind(plan.files, 'sheet').find((file) => (file.slice.artwork.sheets?.[0]?.animationEntries ?? []).length > 0);
-    const tileset = ofKind(plan.files, 'tileset')[0];
-    if (!sheet || !tileset) throw new Error('The fixture has an animated sheet and tileset.');
+  it('open a sheet with a placeholder when the animation file is missing', () => {
+    const sheet = animatedSheet(splitIntoAssets(migrated()).files);
+    if (!sheet) throw new Error('The fixture has an animated sheet.');
     const missingSheet = decodeSheet(bytesOf(sheet), []);
     expect(missingSheet.outcome).toBe('recoverable');
-    const wanted = sheet.slice.artwork.sheets?.[0]?.animationEntries?.[0]?.animationId;
+    const [entry] = sheet.slice.artwork.sheets?.[0]?.animationEntries ?? [];
+    const wanted = entry?.animationId;
     expect(missingSheet.slice?.artwork.animations?.map((animation) => animation.id)).toEqual([wanted]);
+  });
+
+  it('open a tileset with a placeholder when the animation file is missing', () => {
+    const tileset = ofKind(splitIntoAssets(migrated()).files, 'tileset')[0];
+    if (!tileset) throw new Error('The fixture has a tileset.');
     const missingTiles = decodeTileset(bytesOf(tileset), null, []);
     expect(missingTiles.outcome).toBe('recoverable');
-    const [placeholder] = missingTiles.slice?.artwork.animations ?? [];
-    const tile = missingTiles.slice?.artwork.tilesets?.[0]?.tiles.find((item) => item.animation);
-    expect([placeholder?.id, placeholder?.width]).toEqual([tile?.animation?.animationId, 2]);
+    const artwork = missingTiles.slice?.artwork;
+    const [placeholder] = artwork?.animations ?? [];
+    const [loaded] = artwork?.tilesets ?? [];
+    const linked = loaded?.tiles.map((item) => item.animation?.animationId).filter((id) => id !== undefined);
+    expect(linked).toEqual([placeholder?.id]);
+    expect(placeholder?.width).toBe(2);
   });
 
   it('open with a placeholder sprite when a linked sprite file is missing', () => {

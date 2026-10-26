@@ -17,6 +17,9 @@ const named = (artwork: Artwork, name: string) => {
   return found;
 };
 
+const ownedBy = (artwork: Artwork, animation: ReturnType<typeof named>) =>
+  artwork.sprites.filter((sprite) => sprite.role === 'frame' && animation.frames.some((frame) => frame.spriteId === sprite.id));
+
 describe('splitAnimatedSprites', () => {
   it('turns every multi frame sprite and multi frame tile into an animation', () => {
     const { before, after } = migrate();
@@ -34,7 +37,7 @@ describe('splitAnimatedSprites', () => {
     const { after } = migrate();
     const hero = named(after.artwork, 'Hero');
     expect(new Set(hero.frames.map((frame) => frame.spriteId)).size).toBe(2);
-    const owned = after.artwork.sprites.filter((sprite) => sprite.role === 'frame' && hero.frames.some((frame) => frame.spriteId === sprite.id));
+    const owned = ownedBy(after.artwork, hero);
     expect(owned.map((sprite) => sprite.name)).toEqual(['Hero_1', 'Hero_2']);
     expect(owned.every((sprite) => sprite.frames.length === 1 && sprite.layers.length === 1 && sprite.layers[0]?.name === 'Body')).toBe(true);
     expect(hero.frames[2]?.spriteId).toBe(hero.frames[1]?.spriteId);
@@ -42,6 +45,9 @@ describe('splitAnimatedSprites', () => {
     expect(hero.anchor).toEqual({ x2: 0, y2: 0 });
   });
 
+});
+
+describe('splitAnimatedSprites links and notice', () => {
   it('retargets the sheet, the preset, the paths and the tile', () => {
     const { before, after } = migrate();
     const hero = named(after.artwork, 'Hero');

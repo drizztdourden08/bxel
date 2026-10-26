@@ -14,7 +14,8 @@ const ASSET_ENCODERS: Readonly<Partial<Record<AssetKind, Encoder>>> = {
 };
 
 const ASSETS_OF: Readonly<Record<AssetKind, (artwork: Artwork) => readonly NamedAsset[]>> = {
-  sprite: (artwork) => artwork.sprites.filter((sprite) => sprite.role !== 'tile'),
+  sprite: (artwork) => artwork.sprites.filter((sprite) => sprite.role === 'sprite'),
+  animation: (artwork) => artwork.animations,
   sheet: (artwork) => artwork.sheets,
   palette: (artwork) => artwork.banks,
   tileset: (artwork) => artwork.tilesets,
@@ -24,6 +25,7 @@ const ASSETS_OF: Readonly<Record<AssetKind, (artwork: Artwork) => readonly Named
 
 const ASSET_FILE_LABEL: Readonly<Record<AssetKind, string>> = {
   sprite: 'Bxel sprite',
+  animation: 'Bxel animation',
   sheet: 'Bxel spritesheet',
   palette: 'Bxel palette',
   tileset: 'Bxel tileset',
@@ -71,7 +73,7 @@ const NAME_FALLBACK = 'asset';
 
 const GRANT_LEVELS = 2;
 
-const BXEL_ENDING = /\.(?:bxsprite|bxsheet|bxpalette|bxtiles|bxmap|bxproject|bxel)$/i;
+const BXEL_ENDING = /\.(?:bxsprite|bxanim|bxsheet|bxpalette|bxtiles|bxmap|bxproject|bxel)$/i;
 
 const NO_BANK_ID = 'bnk_000000';
 

@@ -2,8 +2,7 @@
 import type { IdSource } from '../../ids/id-source.type';
 import type { CelId, FrameId, LayerId, SliceId, SpriteId } from '../../model/ids.type';
 import type { Cel, Frame, Layer, Sprite } from '../../model/sprite.type';
-
-type Pieces = { readonly layers: readonly Layer[]; readonly cels: Readonly<Record<CelId, Cel>> };
+import type { Pieces } from './frame-sprite.type';
 
 const piecesOf = (ids: IdSource, source: Sprite, frame: Frame, frameId: FrameId): Pieces => {
   const cels: Record<CelId, Cel> = {};

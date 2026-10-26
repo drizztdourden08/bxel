@@ -3,6 +3,7 @@ import { ASSET_FORMAT, LEGACY_FORMAT } from '@bxel/document';
 
 const ENTRY_KINDS = [
   'sprite',
+  'animation',
   'sheet',
   'palette',
   'tileset',
@@ -20,6 +21,7 @@ const bare = (extension: string): string => extension.slice(1);
 
 const KIND_OF_ENTRY_EXTENSION: Readonly<Record<string, (typeof ENTRY_KINDS)[number]>> = {
   [bare(ASSET_FORMAT.sprite.extension)]: 'sprite',
+  [bare(ASSET_FORMAT.animation.extension)]: 'animation',
   [bare(ASSET_FORMAT.sheet.extension)]: 'sheet',
   [bare(ASSET_FORMAT.palette.extension)]: 'palette',
   [bare(ASSET_FORMAT.tileset.extension)]: 'tileset',
