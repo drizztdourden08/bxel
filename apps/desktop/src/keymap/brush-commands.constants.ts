@@ -25,6 +25,7 @@ const BRUSH_COMMANDS: readonly CommandDef[] = [
     label: 'Symmetry X',
     group: COMMAND_GROUP.brush,
     chord: 'Alt+X',
+    checked: () => useToolStore.getState().symmetryX,
     run: () => useToolStore.getState().toggleSymmetry('x'),
   },
   {
@@ -32,6 +33,7 @@ const BRUSH_COMMANDS: readonly CommandDef[] = [
     label: 'Symmetry Y',
     group: COMMAND_GROUP.brush,
     chord: 'Alt+Y',
+    checked: () => useToolStore.getState().symmetryY,
     run: () => useToolStore.getState().toggleSymmetry('y'),
   },
   {

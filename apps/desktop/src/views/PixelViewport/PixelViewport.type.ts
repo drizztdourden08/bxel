@@ -48,7 +48,7 @@ interface PixelViewportProps {
   label: string;
   hint?: string;
   draw?: PixelDraw;
-  guides?: PixelDraw;
+  pivotGrips?: PixelDraw;
   source?: PixelSource;
   zoom?: number;
   onZoomChange?: (zoom: number) => void;

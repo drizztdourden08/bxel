@@ -26,4 +26,8 @@ interface CanvasRulerModel extends RulerDrag {
   boxRef: RefObject<HTMLElement | null>;
 }
 
-export type { CanvasRulerModel, CanvasRulerProps, RulerDrag, RulerDragArgs };
+interface RulerArgs {
+  axis: SymmetryAxis;
+}
+
+export type { CanvasRulerModel, RulerArgs, CanvasRulerProps, RulerDrag, RulerDragArgs };

@@ -8,12 +8,13 @@ const meta: ScreenMeta = {
   title: 'Canvas',
   icon: 'image',
   order: 2.4,
-  keywords: ['canvas', 'checkerboard', 'transparency', 'transparent', 'cell size', 'preview', 'sixteen'],
+  keywords: ['canvas', 'checkerboard', 'transparency', 'transparent', 'cell size', 'preview', 'sixteen', 'right click', 'context menu'],
 };
 
 const searchEntries: SearchEntrySeed[] = [
   { label: 'Checkerboard colours', anchor: 'checkerA', keywords: ['canvas', 'transparency', 'transparent', 'colour'] },
   { label: 'Checkerboard cell size', anchor: 'checkerPreset', keywords: ['canvas', 'transparency', 'size', 'cell'] },
+  { label: 'Right click on the canvas', anchor: 'canvasRightClick', keywords: ['canvas', 'context menu', 'back colour', 'palette', 'mouse'] },
 ];
 
 const CanvasScreen = () => <SettingsSplit sections={CANVAS_SECTIONS} preview={<CanvasPreview kind="canvas" />} />;

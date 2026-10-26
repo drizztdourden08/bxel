@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import { useRef } from 'react';
+import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Box } from '@drizztdourden08/tessera';
 import { useSpriteLook } from '../../canvas-look/useSpriteLook';
 import { WRAP_OF } from '../../editor/wrap.constants';
@@ -9,12 +10,13 @@ import { useToolStore } from '../../stores/useToolStore';
 import { useViewStore } from '../../stores/useViewStore';
 import { PixelViewport } from '../PixelViewport';
 import type { PixelViewportHandle } from '../PixelViewport';
-import { EDITOR_CANVAS_TEXT } from './EditorCanvas.constants';
+import { CANVAS_MENU, EDITOR_CANVAS_TEXT } from './EditorCanvas.constants';
 import { canvasClass } from './behavior/canvas-class';
 import { useAreaRedraw } from './behavior/useAreaRedraw';
 import { canvasSize } from './behavior/canvas-size';
 import { canvasSource } from './behavior/canvas-source';
-import { paintGuides } from './behavior/paint-guides';
+import { paintPivotGrips } from './behavior/paint-pivot-grips';
+import { useCanvasMenu } from './behavior/useCanvasMenu';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasKeys } from './behavior/useCanvasKeys';
 import { useCanvasTools } from './behavior/useCanvasTools';
@@ -48,6 +50,7 @@ const EditorCanvas = () => {
   const tools = useCanvasTools(viewport);
   const readout = useCanvasReadout(viewport);
   const keys = useCanvasKeys(viewport);
+  useCanvasMenu(viewport);
   useViewDefaults();
   useViewportBridge(viewport, target !== null);
   useMarchingAnts(viewport);
@@ -57,7 +60,7 @@ const EditorCanvas = () => {
   if (!target && !preview) return <EmptyCanvas />;
   const size = canvasSize(preview, outcome, target);
   return (
-    <Box className={canvasClass(rulers)} onContextMenu={tools.onContextMenu} onBlur={keys.onBlur}>
+    <Box className={canvasClass(rulers)} onBlur={keys.onBlur} {...contextMenuZone(CANVAS_MENU.zone)}>
       {rulers && <RulerBars />}
       <PixelViewport
         ref={viewport}
@@ -68,7 +71,7 @@ const EditorCanvas = () => {
         height={size.height}
         source={canvasSource(preview, floating, tools.live, committed)}
         draw={readout.draw}
-        guides={preview ? undefined : paintGuides}
+        pivotGrips={preview ? undefined : paintPivotGrips}
         look={look}
         grid={grid}
         gridMajor={gridMajor}

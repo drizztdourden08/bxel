@@ -6,6 +6,7 @@ type SurroundKind ='diagonal' | 'horizontal' | 'vertical' | 'dots' | 'solid' | '
 type CheckerPreset = '4' | '8' | '16' | '32' | 'custom';
 
 interface CanvasSettings {
+  canvasRightClick: 'back-colour' | 'menu';
   checkerA: string;
   checkerB: string;
   checkerPreset: CheckerPreset;

@@ -1,0 +1,78 @@
+{
+  "type": "map",
+  "version": "1.10",
+  "tiledversion": "1.10.2",
+  "orientation": "orthogonal",
+  "renderorder": "right-down",
+  "infinite": false,
+  "compressionlevel": -1,
+  "width": 3,
+  "height": 2,
+  "tilewidth": 2,
+  "tileheight": 2,
+  "nextlayerid": 2,
+  "nextobjectid": 2,
+  "layers": [
+    {
+      "id": 1,
+      "name": "Ground",
+      "type": "tilelayer",
+      "visible": true,
+      "locked": false,
+      "opacity": 1,
+      "x": 0,
+      "y": 0,
+      "width": 3,
+      "height": 2,
+      "data": [
+        2,
+        1,
+        0,
+        0,
+        0,
+        2
+      ]
+    }
+  ],
+  "tilesets": [
+    {
+      "firstgid": 1,
+      "name": "ground",
+      "image": "level-tiles.png",
+      "imagewidth": 10,
+      "imageheight": 2,
+      "tilewidth": 2,
+      "tileheight": 2,
+      "tilecount": 5,
+      "columns": 5,
+      "spacing": 0,
+      "margin": 0,
+      "tiles": [
+        {
+          "id": 1,
+          "animation": [
+            {
+              "tileid": 2,
+              "duration": 200
+            },
+            {
+              "tileid": 3,
+              "duration": 300
+            },
+            {
+              "tileid": 4,
+              "duration": 400
+            }
+          ],
+          "properties": [
+            {
+              "name": "bxelStart",
+              "type": "string",
+              "value": "random"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

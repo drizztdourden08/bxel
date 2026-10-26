@@ -13,6 +13,7 @@ import { TIMELINE_TEXT } from '../../timeline/timeline.constants';
 import { timelineModel } from '../../timeline/timeline-model';
 import { FRAME_ACTIONS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT } from './TimelinePanel.constants';
 import { useTimelineKeys } from './behavior/useTimelineKeys';
+import { useTimelineMenu } from './behavior/useTimelineMenu';
 import { ActionBar } from './sub-components/ActionBar';
 import { DirectionPad } from './sub-components/DirectionPad';
 import { EmptyTimeline } from './sub-components/EmptyTimeline';
@@ -30,6 +31,7 @@ const TimelinePanel = () => {
   const tagId = useTimelineStore((state) => state.tagId);
   const hintId = useId();
   const onKeyDown = useTimelineKeys();
+  useTimelineMenu();
   const model = useMemo(() => (focus ? timelineModel(focus, selection, tagId) : null), [focus, selection, tagId]);
   if (!focus || !model) return <EmptyTimeline />;
   const { animation } = focus;

@@ -6,10 +6,10 @@ import { useToolStore } from '../stores/useToolStore';
 import type { ChangeKind } from './palette-change.type';
 import { proposeChange } from './propose-change';
 
-const startChange = (kind: ChangeKind): void => {
+const startChange = (kind: ChangeKind, swatch?: number): void => {
   const { host, activeId } = useDocumentStore.getState();
   const { foreground, background } = useToolStore.getState();
-  const proposed = proposeChange(kind, activeId === null ? null : host.view(activeId), { foreground, background });
+  const proposed = proposeChange(kind, activeId === null ? null : host.view(activeId), { foreground: swatch ?? foreground, background });
   if (proposed.ok) useChangeStore.getState().propose(proposed.request);
   else toast(proposed.message, { variant: 'info' });
 };

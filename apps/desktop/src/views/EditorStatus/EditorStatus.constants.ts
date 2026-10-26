@@ -91,4 +91,17 @@ const SHEET_ROWS: readonly HintShortcut[] = [
   { label: 'Nudge with the arrow keys, Shift for 8 pixels' },
 ];
 
-export { CANVAS_HELP_TEXT, COMMON_ROWS, MAP_ROWS, SHEET_ROWS, TOOL_ROWS };
+const STATUS_MENU = {
+  zone: 'editor.status',
+  label: 'Status bar actions',
+  zoomTo: 'Zoom to',
+  edit: 'Edit colour...',
+  reveal: 'Reveal in folder',
+  copyPath: 'Copy path',
+  saved: 'This asset has no unsaved changes.',
+  outside: 'The pointer is outside the image.',
+} as const;
+
+const ZOOM_PERCENTS: readonly number[] = [100, 200, 400, 800, 1600];
+
+export { CANVAS_HELP_TEXT, COMMON_ROWS, MAP_ROWS, SHEET_ROWS, STATUS_MENU, TOOL_ROWS, ZOOM_PERCENTS };

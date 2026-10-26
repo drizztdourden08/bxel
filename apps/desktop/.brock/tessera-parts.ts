@@ -42,7 +42,6 @@ declare module '@drizztdourden08/tessera' {
         | 'PlatformFindings'
         | 'PresetBrowser'
         | 'PresetMoveBar'
-        | 'PreviewSplit'
         | 'ProjectControl'
         | 'ProjectCreateDialog'
         | 'ProjectManager'

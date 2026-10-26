@@ -1,11 +1,13 @@
 /* @layer renderer-app @kind component */
+import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Button, EmptyState, Flex, Icon, IconButton, ListItemList, ListItemRow, ScrollArea, Stack, Text } from '@drizztdourden08/tessera';
 import { PANEL_TEXT } from '../../../project/project.constants';
+import { PROJECT_MENU } from '../ProjectPanel.constants';
 import type { PanelPartProps } from '../ProjectPanel.type';
 
 const ProjectStart = ({ model }: PanelPartProps) => (
   <ScrollArea axis="y" scrollbar="slim" fade={false}>
-    <Stack gap="md">
+    <Stack gap="md" {...contextMenuZone(PROJECT_MENU.zone)}>
       <EmptyState
         title={PANEL_TEXT.emptyTitle}
         message={PANEL_TEXT.emptyMessage}

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, Frame, PaletteBank, Sprite, SpriteId, Tag, Tilemap, Tileset } from '@bxel/document';
-import type { ExportSheetInput, SheetFlavour } from '@bxel/formats';
+import type { ExportSheetInput, ExportSprite, SheetFlavour } from '@bxel/formats';
 import type { CurrentPick } from '../editor/current-pick.type';
 
 type ExportKind = 'sprite' | 'frames' | 'animation' | 'sheet' | 'map';
@@ -41,6 +41,8 @@ type ExportSettings = {
   readonly pageSide: number;
   readonly sheetId: string;
   readonly flavour: SheetFlavour;
+  readonly mergeFrames: boolean;
+  readonly animationId: string;
   readonly mapFormat: MapFormat;
   readonly folder: string;
   readonly fileName: string;
@@ -177,6 +179,7 @@ type PlanParts = {
   readonly settings: ExportSettings;
   readonly base: string;
   readonly map: ColourMap | null;
+  readonly extra: readonly ExportSprite[];
 };
 
 export type {

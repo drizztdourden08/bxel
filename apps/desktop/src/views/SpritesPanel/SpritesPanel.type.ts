@@ -95,13 +95,21 @@ interface ListRow {
   height: number;
   pivot: string;
   bank: string;
+  loose: boolean;
 }
 
 interface ListData {
   rows: readonly ListRow[];
   selected: ReadonlySet<string>;
   known: ReadonlyMap<string, SpriteId>;
+  sprites: ReadonlyMap<string, Sprite>;
   folders: readonly string[];
+}
+
+interface SpriteNameCellProps {
+  artwork: Artwork;
+  sprite: Sprite;
+  loose: boolean;
 }
 
 interface SpriteViewProps {
@@ -206,6 +214,7 @@ export type {
   SpriteGridProps,
   SpriteHandlers,
   SpriteKeyHandler,
+  SpriteNameCellProps,
   SpriteMarquee,
   SpriteRenameProps,
   SpriteRenameState,

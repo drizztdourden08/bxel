@@ -23,7 +23,6 @@ const useCanvasTools = (viewport: RefObject<PixelViewportHandle | null>): Canvas
     onPointerUp: () => {
       if (!pivot.up() && !axis.up() && !select.up()) paint.up();
     },
-    onContextMenu: (event) => event.preventDefault(),
   };
 };
 

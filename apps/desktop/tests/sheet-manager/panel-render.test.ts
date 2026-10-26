@@ -13,6 +13,7 @@ import { selectionIds } from '../../src/sheet/selection-ids';
 import { spriteScene } from '../../src/sheet/sprite-scene';
 import { actionGroups } from '../../src/views/SpritesPanel/behavior/action-groups';
 import { listRows } from '../../src/views/SpritesPanel/behavior/list-rows';
+import { rowStateOf } from '../../src/views/SpritesPanel/behavior/row-state';
 import { AtlasCanvas } from '../../src/views/SpritesPanel/sub-components/AtlasView/sub-components/AtlasCanvas';
 import { AtlasControls } from '../../src/views/SpritesPanel/sub-components/AtlasView/sub-components/AtlasControls';
 import { RenamePreview } from '../../src/views/SpritesPanel/sub-components/ManagerDialogs/sub-components/RenamePreview';
@@ -75,10 +76,21 @@ describe('the sprite tile', () => {
 describe('the list rows', () => {
   it('has one row for every sprite with its size, pivot, palette and folder', () => {
     const art = artwork();
-    const rows = listRows(art, folderGroups(allFacts(art, null), new Set()));
+    const rows = listRows(art, folderGroups(allFacts(art, null), new Set()), false);
     const walk = rows.find((row) => row.name === 'walk_1');
     expect(rows).toHaveLength(art.sprites.length);
     expect(walk).toMatchObject({ width: 8, height: 8, pivot: '4, 4', folder: 'No folder' });
+  });
+
+  it('marks the pending sprite, the active sprite and a sprite that is not on the sheet', () => {
+    const model = modelOf();
+    const walk = listRows(model.artwork, model.groups, true).find((row) => row.name === 'walk_1');
+    if (!walk) throw new Error('no row');
+    const other = { ...walk, id: idOf('walk_2'), loose: false };
+    expect(rowStateOf(model, [walk.id])(walk)).toBe('pending');
+    expect(rowStateOf(model, [])(walk)).toBe('active');
+    expect(rowStateOf(model, [])(other)).toBeUndefined();
+    expect(rowStateOf(model, [])({ ...other, loose: true })).toBe('muted');
   });
 });
 

@@ -2,7 +2,7 @@
 import { buildMapFiles } from './build-map-files';
 import { EXPORT_FALLBACK_NAME, NO_INDEXED } from './export.constants';
 import type { ExportPlan, PlanInput } from './export.type';
-import { MAP_EXPORT_TEXT } from './map-export.constants';
+import { mapNotes } from './map-notes';
 import { pickExportMap } from './pick-export-map';
 import { safeName } from './safe-name';
 
@@ -15,8 +15,7 @@ const planMap = (input: PlanInput): ExportPlan => {
   const base = safeName(settings.fileName) || safeName(pick.tilemap.name) || EXPORT_FALLBACK_NAME;
   const files = buildMapFiles(artwork, pick, settings, base);
   if (typeof files === 'string') return { ...common, files: [], notes: [], problem: files };
-  const note = settings.mapFormat === 'tiled' ? MAP_EXPORT_TEXT.tiledNote : MAP_EXPORT_TEXT.bxelNote;
-  return { ...common, files, notes: [note], problem: null };
+  return { ...common, files, notes: mapNotes(artwork, pick, settings), problem: null };
 };
 
 export { planMap };

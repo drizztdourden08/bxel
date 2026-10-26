@@ -7,7 +7,7 @@ const usage = {
   avoidWhen: [{ case: 'The user sets the pattern.', use: 'SurroundEditor' }],
   rules: [
     'It takes no props. It reads the surround pattern, its colours and its size from the canvas settings.',
-    'Mount it first inside a frame that is positioned and isolates its stacking, so it sits behind the other children.',
+    'Pass it as the BrockApp background, which keeps it behind the whole app. A frame that is positioned and isolates its stacking can also mount it first, as the image preview does.',
     'It repaints on every change of the settings and when its box resizes.',
   ],
   a11y: ['It is hidden from assistive technology and takes no pointer input.'],

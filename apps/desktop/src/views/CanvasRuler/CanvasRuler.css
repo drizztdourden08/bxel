@@ -16,6 +16,11 @@
   grid-area: 2 / 1;
 }
 
+.canvas-ruler:focus-visible {
+  outline: var(--border-width-thick) solid var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thick));
+}
+
 .canvas-ruler[data-grab] {
   cursor: grab;
 }

@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { buildFolderArtwork } from './support/build-folder-artwork';
 import type { Session } from './support/e2e.type';
-import { FOLDER_SHEET } from './support/folder-artwork.constants';
+import { FOLDER_SHEET, FOLDER_STRAY } from './support/folder-artwork.constants';
 import { inFreshPlace } from './support/in-place';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
 import { openSession } from './support/open-session';
@@ -20,6 +20,17 @@ const selected = (session: Session, name: string): Promise<string | null> => row
 const shownNames = async (session: Session): Promise<string[]> => {
   const texts = await tableOf(session).locator('[data-marquee-key]').allInnerTexts();
   return texts.map((text) => text.split('\n')[0] ?? '');
+};
+
+const stateOf = (session: Session, name: string): Promise<string | null> => rowOf(session, name).getAttribute('data-state');
+
+const checksMarks = async (session: Session): Promise<void> => {
+  expect(await rowOf(session, 'hero').locator('canvas').count()).toBe(1);
+  await rowOf(session, 'hero').click();
+  await expect.poll(() => stateOf(session, 'hero')).toBe('active');
+  expect(await stateOf(session, 'slime')).toBeNull();
+  expect(await stateOf(session, FOLDER_STRAY)).toBe('muted');
+  expect(await rowOf(session, FOLDER_STRAY).getByTitle('Not on the sheet').count()).toBe(1);
 };
 
 const checksSelection = async (session: Session): Promise<void> => {
@@ -39,10 +50,10 @@ const checksSelection = async (session: Session): Promise<void> => {
 };
 
 const checksSortAndKeys = async (session: Session): Promise<void> => {
-  expect(await shownNames(session)).toEqual(['fx/glow', 'fx/spark', 'hero', 'slime', 'tiny']);
+  expect(await shownNames(session)).toEqual(['fx/glow', 'fx/spark', 'hero', 'slime', FOLDER_STRAY, 'tiny']);
   await tableOf(session).getByRole('columnheader', { name: /Width/ }).first().hover();
   await tableOf(session).getByRole('button', { name: 'Sort by Width', exact: true }).click();
-  await expect.poll(() => shownNames(session)).toEqual(['fx/glow', 'fx/spark', 'tiny', 'hero', 'slime']);
+  await expect.poll(() => shownNames(session)).toEqual(['fx/glow', 'fx/spark', 'tiny', 'hero', 'slime', FOLDER_STRAY]);
   await rowOf(session, 'fx/spark').click();
   await session.page.keyboard.press('ArrowRight');
   await rowOf(session, 'fx/spark').getByRole('checkbox').focus();
@@ -58,12 +69,13 @@ const checksList = async (session: Session, place: string): Promise<void> => {
   await openSheetTab(session, FOLDER_SHEET);
   await showSheetList(session);
   await tableOf(session).getByRole('columnheader', { name: /Name/ }).first().waitFor();
+  await checksMarks(session);
   await checksSelection(session);
   await checksSortAndKeys(session);
 };
 
 describe('the sheet manager list view', () => {
-  test('selects rows and folders, sorts from the column headers and walks the rows in the order shown', async () => {
+  test('shows thumbnails and row marks, selects rows and folders, sorts from the column headers and walks the rows in the order shown', async () => {
     const session = await openSession();
     try {
       await inFreshPlace((place) => checksList(session, place));

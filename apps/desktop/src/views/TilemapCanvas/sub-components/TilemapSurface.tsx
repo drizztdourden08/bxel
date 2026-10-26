@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import { useMemo, useRef } from 'react';
+import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Box } from '@drizztdourden08/tessera';
 import { useCanvasLook } from '../../../canvas-look/useCanvasLook';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
@@ -12,10 +13,11 @@ import { useSyncPending } from '../../EditorCanvas/behavior/useSyncPending';
 import { useViewportBridge } from '../../EditorCanvas/behavior/useViewportBridge';
 import { PixelViewport } from '../../PixelViewport';
 import type { PixelViewportHandle } from '../../PixelViewport';
-import { MAP_CANVAS_CLASS } from '../TilemapCanvas.constants';
+import { MAP_CANVAS_CLASS, MAP_MENU } from '../TilemapCanvas.constants';
 import type { MapLive, TilemapSurfaceProps } from '../TilemapCanvas.type';
 import { useMapGestures } from '../behavior/useMapGestures';
 import { useMapKeys } from '../behavior/useMapKeys';
+import { useMapMenu } from '../behavior/useMapMenu';
 import { useMapPaint } from '../behavior/useMapPaint';
 import { useSelectionReset } from '../behavior/useSelectionReset';
 import { viewportClass } from '../behavior/viewport-class';
@@ -40,12 +42,13 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
   const draw = useMapPaint(base, live, viewport);
   const gesture = useMapGestures(viewport, target, live);
   const keys = useMapKeys(viewport, target, live, gesture);
+  useMapMenu(viewport, target, live);
   useViewportBridge(viewport, true);
   useSyncPending(useEditorTarget());
   useEscapeCancel();
   useSelectionReset();
   return (
-    <Box className={MAP_CANVAS_CLASS.surface} onContextMenu={(event) => event.preventDefault()} onBlur={keys.onBlur}>
+    <Box className={MAP_CANVAS_CLASS.surface} onBlur={keys.onBlur} {...contextMenuZone(MAP_MENU.zone)}>
       <PixelViewport
         ref={viewport}
         className={viewportClass(tool)}

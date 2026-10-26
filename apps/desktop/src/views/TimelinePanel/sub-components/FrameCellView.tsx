@@ -11,6 +11,7 @@ const FrameCellView = ({ focus, cell, index, total, drag }: FrameCellViewProps) 
     className="frame-cell"
     data-reorder-index={index}
     data-reorder-key={cell.id}
+    data-frame-id={cell.id}
     data-drop={drag.dropMark(index, total)}
     data-dragging={drag.dragging === index ? 'yes' : undefined}
     data-current={cell.current ? 'yes' : 'no'}

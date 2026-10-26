@@ -12,6 +12,7 @@ import { useZoneKey } from '../../hooks/useZoneKey';
 import { useToolStore } from '../../stores/useToolStore';
 import { LAYERS_PANEL_TEXT } from './LayersPanel.constants';
 import { useLayerRename } from './behavior/useLayerRename';
+import { useLayersMenu } from './behavior/useLayersMenu';
 import { LayerList } from './sub-components/LayerList';
 import { LayerRename } from './sub-components/LayerRename';
 import { LayersToolbar } from './sub-components/LayersToolbar';
@@ -22,6 +23,7 @@ const LayersPanel = () => {
   const setLayer = useToolStore((state) => state.setLayer);
   const rename = useLayerRename();
   const renameLayerId = target?.layerId ?? null;
+  useLayersMenu();
   useZoneKey(LAYER_RENAME_KEY, renameLayerId === null ? null : () => rename.begin(renameLayerId));
   if (!target) return <EmptyState size="sm" message={LAYERS_PANEL_TEXT.empty} />;
   const { sprite, layerId } = target;

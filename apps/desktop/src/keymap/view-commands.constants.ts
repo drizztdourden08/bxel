@@ -10,6 +10,7 @@ const TILED_COMMANDS: readonly CommandDef[] = TILE_MODES.map((mode) => ({
   id: TILED_COMMAND[mode],
   label: `Tiled preview: ${TILE_LABELS[mode]}`,
   group: COMMAND_GROUP.view,
+  checked: () => useViewStore.getState().tiled === mode,
   run: () => useViewStore.getState().setTiled(mode),
 }));
 
@@ -18,6 +19,7 @@ const TOGGLE_COMMANDS: readonly CommandDef[] = VIEW_TOGGLE_ROWS.map((row) => ({
   label: row.label,
   group: COMMAND_GROUP.view,
   chord: row.chord,
+  checked: () => useViewStore.getState()[row.toggle],
   run: () => useViewStore.getState().toggleView(row.toggle),
 }));
 

@@ -1,12 +1,12 @@
 /* @layer renderer-app @kind logic */
-import type { ExportedSheet } from '@bxel/formats';
+import type { ExportedSheet, SheetFlavour } from '@bxel/formats';
 import { encodeImage } from './encode-image';
-import { EXPORT_TEXT, IMAGE_EXTENSION } from './export.constants';
+import { EXPORT_TEXT, IMAGE_EXTENSION, SHEET_JSON_EXTENSION } from './export.constants';
 import type { ColourMap, PlannedFile } from './export.type';
 
-const sheetFiles = (sheet: ExportedSheet, map: ColourMap | null, spriteIndex: number): PlannedFile[] => {
+const sheetFiles = (sheet: ExportedSheet, map: ColourMap | null, spriteIndex: number, flavour: SheetFlavour): PlannedFile[] => {
   const imageName = sheet.metadata.image;
-  const jsonName = imageName.replace(IMAGE_EXTENSION, '.json');
+  const jsonName = imageName.replace(IMAGE_EXTENSION, SHEET_JSON_EXTENSION[flavour]);
   const { width, height } = sheet.image;
   return [
     {
