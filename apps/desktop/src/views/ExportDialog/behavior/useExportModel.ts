@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind hook */
+import { animationClipNames } from '../../../export/animation-clip-names';
 import { exportBlocker } from '../../../export/export-blocker';
 import { sheetLabel } from '../../../export/sheet-label';
 import { IMAGE_EXTENSION } from '../../../export/export.constants';
@@ -26,7 +27,8 @@ const useExportModel = (): ExportModel | null => {
   const artwork = useActiveDocument()?.state.artwork;
   if (!plan || !artwork) return null;
   const sprites = listSprites(artwork);
-  const tags = sprites[0]?.tags.map((tag) => tag.name) ?? [];
+  const animation = artwork.animations.find((each) => each.id === draft.settings.animationId);
+  const tags = animation ? animationClipNames(animation) : (sprites[0]?.tags.map((tag) => tag.name) ?? []);
   const blocker = exportBlocker(plan, draft.settings);
   return {
     draft,

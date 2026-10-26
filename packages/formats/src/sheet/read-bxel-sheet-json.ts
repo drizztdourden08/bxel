@@ -29,7 +29,8 @@ const readBxelSheetJson = (text: string): SheetMetadataResult => {
   if (!parsed) return bad('The text is not valid JSON');
   const root = parsed.value;
   if (!isRecord(root) || root['format'] !== SHEET_JSON.FORMAT) return bad('Not a Bxel sheet file');
-  if (root['version'] !== SHEET_JSON.VERSION) return bad('Unsupported Bxel sheet version');
+  const version = root['version'];
+  if (version !== SHEET_JSON.VERSION && version !== SHEET_JSON.ANIMATION_VERSION) return bad('Unsupported Bxel sheet version');
   const metadata = build(root);
   if (!metadata || !isValidMetadata(metadata)) return bad('The sheet metadata is malformed');
   return { ok: true, metadata };

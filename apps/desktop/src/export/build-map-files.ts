@@ -4,21 +4,23 @@ import type { Artwork } from '@bxel/document';
 import type { ExportSettings, MapPick, PlannedFile } from './export.type';
 import { mapExportInput } from './map-export-input';
 import { MAP_EXPORT, MAP_EXPORT_TEXT } from './map-export.constants';
+import { tileAnimationFrames } from './tile-animation-frames';
 import { tileSheetInput } from './tile-sheet-input';
 
 const buildMapFiles = (artwork: Artwork, pick: MapPick, settings: ExportSettings, base: string): PlannedFile[] | string => {
   const { tilemap, tileset } = pick;
   const imageName = `${base}${MAP_EXPORT.suffix}.png`;
   const mapName = `${base}.${MAP_EXPORT.extensions[settings.mapFormat]}`;
-  const sheet = exportTilesetImage(tileSheetInput(artwork, tileset));
+  const frames = tileAnimationFrames(artwork, tileset);
+  const sheet = exportTilesetImage(tileSheetInput(artwork, tileset, frames.tiles));
   if (!sheet.ok) return sheet.message;
-  const mapInput = mapExportInput(tilemap, tileset, sheet, imageName);
+  const mapInput = mapExportInput(pick, { sheet, imageName, animations: frames.animations });
   const json = settings.mapFormat === 'tiled' ? writeTiledJson(mapInput) : writeTilemapJson(mapInput);
   if (!json.ok) return json.message;
   return [
     {
       name: imageName,
-      detail: MAP_EXPORT_TEXT.tilesDetail(imageName, sheet.image.width, sheet.image.height, tileset.tiles.length),
+      detail: MAP_EXPORT_TEXT.tilesDetail(imageName, sheet.image.width, sheet.image.height, sheet.tiles.length),
       spriteIndex: 0,
       width: sheet.image.width,
       height: sheet.image.height,

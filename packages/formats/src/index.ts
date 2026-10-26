@@ -66,6 +66,7 @@ export { readBxelSheetJson } from './sheet/read-bxel-sheet-json';
 export { sheetFrameKey } from './sheet/sheet-frame-key';
 export type {
   JsonValue,
+  SheetFlip,
   SheetFrameEntry,
   SheetMetadata,
   SheetMetadataResult,
@@ -88,6 +89,7 @@ export type {
   SheetLayoutSpec,
   TrimmedImage,
 } from './sheet/sheet.type';
+export { tagPlayOrder } from './sheet/tag-play-order';
 export { trimRgba } from './sheet/trim-rgba';
 export { untrimRgba } from './sheet/untrim-rgba';
 export { writeBxelSheetJson } from './sheet/write-bxel-sheet-json';
@@ -114,6 +116,8 @@ export type {
   TilemapExportInput,
   TilemapJsonResult,
   TilemapLayerInput,
+  TileAnimationEntry,
+  TileAnimationFrame,
   TileShape,
   TileSize,
   TilesetDescriptor,

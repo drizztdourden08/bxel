@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME, counterIdSource } from '@bxel/document';
-import type { Artwork, DocumentId, PaletteBank, TargetScope } from '@bxel/document';
+import type { Artwork, CommandStep, DocumentId, PaletteBank, TargetScope } from '@bxel/document';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
@@ -43,7 +43,7 @@ const spriteScope = (h: ExportHarness): TargetScope => {
   return { sprites: [sprite.id], layers: { by: 'all' }, frames: { by: 'all' } };
 };
 
-const step = (h: ExportHarness, name: string, options: unknown, targets: TargetScope | null = null): void => {
+const commitSteps = (h: ExportHarness, label: string, steps: readonly CommandStep[]): Readonly<Record<string, string>> => {
   const view = h.host.view(h.documentId);
   if (!view) throw new Error('the document is missing');
   const result = h.host.execute({
@@ -51,11 +51,16 @@ const step = (h: ExportHarness, name: string, options: unknown, targets: TargetS
     baseRevision: view.state.revision,
     mode: 'commit',
     origin: 'ui',
-    label: name,
-    steps: [{ name, targets: targets ?? spriteScope(h), options }],
+    label,
+    steps,
     previewPixels: 0,
   });
-  if (!result.ok) throw new Error(result.error.message);
+  if (!result.ok) throw new Error(`${result.error.code}: ${result.error.message}`);
+  return result.created;
+};
+
+const step = (h: ExportHarness, name: string, options: unknown, targets: TargetScope | null = null): void => {
+  commitSteps(h, name, [{ name, targets: targets ?? spriteScope(h), options }]);
 };
 
 const addFrame = (h: ExportHarness, durationMs: number): void => {
@@ -141,5 +146,5 @@ const stubJob = (signal: AbortSignal = new AbortController().signal): ExportJob 
   };
 };
 
-export { addFrame, artworkOf, bytesOf, frozenOf, harness, memorySink, paint, settingsOf, step, stubJob, textOf, threeFrames, withBank };
+export { addFrame, artworkOf, bytesOf, commitSteps, frozenOf, harness, memorySink, paint, settingsOf, step, stubJob, textOf, threeFrames, withBank };
 export type { ExportHarness, MemorySink };

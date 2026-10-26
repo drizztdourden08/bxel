@@ -12,7 +12,9 @@ type JsonValue =
 
 type SheetPivot = { readonly x2: number; readonly y2: number };
 
-type SheetTagDirection = 'forward' | 'reverse' | 'pingpong';
+type SheetTagDirection = 'forward' | 'reverse' | 'pingpong' | 'pingpongReverse';
+
+type SheetFlip = 'x' | 'y';
 
 type SheetFrameEntry = {
   readonly box: Box;
@@ -21,6 +23,7 @@ type SheetFrameEntry = {
   readonly sourceX: number;
   readonly sourceY: number;
   readonly durationMs: number;
+  readonly label?: string;
 };
 
 type SheetTagEntry = {
@@ -30,6 +33,9 @@ type SheetTagEntry = {
   readonly direction: SheetTagDirection;
   readonly repeat: number;
   readonly colour?: string;
+  readonly facing?: string;
+  readonly mirrorOf?: string;
+  readonly flip?: SheetFlip;
 };
 
 type SheetSliceEntry = {
@@ -63,6 +69,7 @@ type SheetMetadataResult =
 
 export type {
   JsonValue,
+  SheetFlip,
   SheetFrameEntry,
   SheetMetadata,
   SheetMetadataResult,
