@@ -3,6 +3,7 @@ import type { Artwork, DocumentId } from '@bxel/document';
 import { PALETTE_COMMAND_NAME } from '@bxel/palette';
 import type { DocumentHost } from '../documents/document-host.type';
 import { bankPlan } from '../palette-source/bank-plan';
+import { sourceColorText } from '../palette-source/source-color-text';
 import { runSteps } from '../transactions/run-steps';
 import type { AssetCreation } from './asset-plan.type';
 import { ASSET_PLANS } from './asset-plans.constants';
@@ -21,7 +22,7 @@ const ensureBank = (host: DocumentHost, documentId: DocumentId, form: CreationFo
   const found = usableBank(artwork);
   if (found !== null) return found;
   const { bank } = bankPlan(form.source, form.limit, form.transparent);
-  const options = { name: bank.name, cap: bank.cap, transparent: bank.transparent, colors: bank.colors.map((color) => color.rgb) };
+  const options = { name: bank.name, cap: bank.cap, transparent: bank.transparent, colors: bank.colors.map(sourceColorText) };
   const made = runSteps(host, documentId, NEW_LABEL.sprite, [{ name: PALETTE_COMMAND_NAME.paletteCreate, targets: null, options, ref: NEW_REF }]);
   return made.ok ? (host.view(documentId)?.state.artwork.banks[0]?.id ?? null) : null;
 };

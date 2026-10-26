@@ -63,6 +63,9 @@ describe('swatch alpha in commands', () => {
     expect(rejectionCode(rig, () => execute(rig, [step('swatch.add', { bankId: rig.bankId, rgb: '#0000000' })]))).toBe('INVALID_COLOR');
   });
 
+});
+
+describe('swatch alpha in banks', () => {
   it('creates a bank whose colours carry alpha', () => {
     const rig = makeRig();
     succeed(execute(rig, [step('palette.create', { name: 'Glass', cap: 16, transparent: true, colors: ['#ff0000', '#00ff0080', '#0000ff00'] })]));

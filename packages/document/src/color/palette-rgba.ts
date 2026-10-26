@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import type { PaletteBank } from '../model/palette.type';
-import { rgbBytes } from './rgb-bytes';
+import { rgbBytes } from '../read/rgb-bytes';
 import { swatchAlpha } from './swatch-alpha';
 
 const paletteRgba = (bank: PaletteBank): Uint8Array => {

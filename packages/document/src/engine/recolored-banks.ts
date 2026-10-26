@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import type { BankId } from '../model/ids.type';
 import type { PaletteBank, Swatch } from '../model/palette.type';
-import { formatSwatchColor } from '../read/format-swatch-color';
+import { formatSwatchColor } from '../color/format-swatch-color';
 import type { Artwork } from '../model/artwork.type';
 
 const slotColor = (slot: Swatch): string => (slot.kind === 'color' ? formatSwatchColor(slot.rgb, slot.alpha) : '');

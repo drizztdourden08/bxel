@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 interface SourceColor {
   rgb: string;
+  alpha?: number;
   name: string;
 }
 

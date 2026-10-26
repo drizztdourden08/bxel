@@ -2,6 +2,7 @@
 import type { CommandStep } from '@bxel/document';
 import { PALETTE_COMMAND_NAME, sheetImportSteps } from '@bxel/palette';
 import type { SheetImportCell } from '@bxel/palette';
+import { sourceColorText } from '../palette-source/source-color-text';
 import { alphaThreshold } from './alpha-threshold';
 import { cropRgba } from './crop-rgba';
 import { frameOptions } from './frame-options';
@@ -14,7 +15,7 @@ import { tiledSteps } from '../tiled-import/tiled-steps';
 const bankStep = (run: ImportRun): CommandStep[] => {
   const draft = run.plan.bank;
   if (!draft || run.form.target === 'new') return [];
-  const options = { name: draft.name, cap: draft.cap, transparent: draft.transparent, colors: draft.colors.map((color) => color.rgb) };
+  const options = { name: draft.name, cap: draft.cap, transparent: draft.transparent, colors: draft.colors.map(sourceColorText) };
   return [{ name: PALETTE_COMMAND_NAME.paletteCreate, targets: null, options, ref: BANK_REF }];
 };
 

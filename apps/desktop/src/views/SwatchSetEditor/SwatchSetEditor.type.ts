@@ -18,7 +18,7 @@ interface SetCommands {
   create: () => void;
   rename: (name: string) => void;
   addColor: () => void;
-  recolor: (rgb: string) => void;
+  recolor: (rgb: string, alpha: number) => void;
   nameColor: (name: string) => void;
   removeColor: () => void;
 }
@@ -39,12 +39,13 @@ interface SetBarProps {
 
 interface ColorCellProps {
   rgb: string;
+  alpha: number;
   label: string;
   selected: boolean;
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
-  onChange: (rgb: string) => void;
+  onChange: (rgb: string, alpha: number) => void;
 }
 
 export type { ColorCellProps, EditorState, SetBarProps, SetCommands, SetSources, SwatchSetEditorModel };

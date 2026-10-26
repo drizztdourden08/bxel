@@ -3,7 +3,7 @@ import type { IdSource } from '../../ids/id-source.type';
 import type { BankId, SwatchId } from '../../model/ids.type';
 import type { PaletteBank, Rgb, Swatch } from '../../model/palette.type';
 import { BACKGROUND_LABEL } from '../../model/transparent.constants';
-import { swatchFields } from '../../read/swatch-fields';
+import { swatchFields } from '../../color/swatch-fields';
 import type { ArtworkCreateOptions } from '../../schema/command-options.type';
 
 const buildBank = (ids: IdSource, bank: ArtworkCreateOptions['bank'], created: number | undefined): PaletteBank => {

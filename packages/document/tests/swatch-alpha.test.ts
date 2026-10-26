@@ -40,11 +40,11 @@ describe('swatch alpha: reading colours', () => {
     expect(parseSwatchColor('#A1B2C380')).toEqual({ rgb: '#a1b2c3', alpha: HALF });
     expect(parseSwatchColor('#a1b2c')).toBeNull();
     expect(parseSwatchColor('a1b2c3')).toBeNull();
-    expect(formatSwatchColor('#a1b2c3' as Rgb, undefined)).toBe('#a1b2c3');
-    expect(formatSwatchColor('#a1b2c3' as Rgb, 255)).toBe('#a1b2c3');
-    expect(formatSwatchColor('#a1b2c3' as Rgb, 5)).toBe('#a1b2c305');
-    expect(swatchFields('#a1b2c3' as Rgb, 255)).toEqual({ rgb: '#a1b2c3' });
-    expect(swatchFields('#a1b2c3' as Rgb, 0)).toEqual({ rgb: '#a1b2c3', alpha: 0 });
+    expect(formatSwatchColor('#a1b2c3', undefined)).toBe('#a1b2c3');
+    expect(formatSwatchColor('#a1b2c3', 255)).toBe('#a1b2c3');
+    expect(formatSwatchColor('#a1b2c3', 5)).toBe('#a1b2c305');
+    expect(swatchFields('#a1b2c3', 255)).toEqual({ rgb: '#a1b2c3' });
+    expect(swatchFields('#a1b2c3', 0)).toEqual({ rgb: '#a1b2c3', alpha: 0 });
   });
 });
 
