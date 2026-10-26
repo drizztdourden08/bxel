@@ -2,7 +2,7 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Draws the settings sections of an App page in one column with a live preview beside them when the page is wide.',
+  job: 'Draws the settings sections of an App page with a live preview in the preview column of the Brock settings layout: beside the rows when the page is wide, above them when it is narrow.',
   useWhen: [
     'A custom App page has settings rows and a sample that reacts to them.',
     'The Grid and rulers, Surround pattern and Canvas pages show their rows and their preview.',
