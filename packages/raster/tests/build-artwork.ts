@@ -62,6 +62,7 @@ const buildArtwork = (sprites: readonly SpriteSpec[]): Artwork => ({
   presets: [],
   tilesets: [],
   tilemaps: [],
+  animations: [],
 });
 
 export { buildArtwork };
