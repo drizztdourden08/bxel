@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Animation } from '@bxel/document';
+import type { TagOption } from './tag-options.type';
 import { FACING_TEXT, TIMELINE_TEXT } from './timeline.constants';
-
-type TagOption = { readonly value: string; readonly label: string };
 
 const tagOptions = (animation: Animation): readonly TagOption[] => [
   { value: '', label: TIMELINE_TEXT.wholeAnimation },

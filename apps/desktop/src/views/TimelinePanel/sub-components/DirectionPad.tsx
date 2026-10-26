@@ -22,9 +22,9 @@ const DirectionPad = ({ focus }: FocusProps) => {
             <Button
               key={facing}
               size="sm"
-              variant={tag !== undefined && tag.id === tagId ? 'primary' : 'secondary'}
+              variant={tag?.id === tagId ? 'primary' : 'secondary'}
               disabled={tag === undefined}
-              aria-pressed={tag !== undefined && tag.id === tagId}
+              aria-pressed={tag?.id === tagId}
               aria-label={TIMELINE_TEXT.facingLabel(FACING_TEXT[facing], tag !== undefined)}
               onClick={() => pickFacing(facing)}
             >

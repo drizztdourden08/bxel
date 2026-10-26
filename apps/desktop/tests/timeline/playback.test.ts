@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME } from '@bxel/document';
-import type { AnimFrameId, TagId } from '@bxel/document';
+import type { TagId } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { allowPress } from '../../src/editor/allow-press';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
@@ -15,7 +15,8 @@ import { nextCursor } from '../../src/timeline/next-cursor';
 import { playSteps } from '../../src/timeline/play-steps';
 import { selectTag } from '../../src/timeline/select-tag';
 import { setDuration } from '../../src/timeline/set-duration';
-import { statusText, totalsText } from '../../src/timeline/totals-text';
+import { statusText } from '../../src/timeline/status-text';
+import { totalsText } from '../../src/timeline/totals-text';
 import { animationOf, frameAt, frameIds, freshAnimation, live, pickRange, revision, run, target, withFrames } from './timeline-harness';
 
 beforeEach(() => {
@@ -181,7 +182,7 @@ describe('timing', () => {
     withFrames(4);
     pickRange(1, 1);
     expect(statusText(live())).toBe('Frame 2 of 4, 100 ms');
-    expect(frameIds().indexOf(live().frame.id as AnimFrameId)).toBe(1);
+    expect(frameIds().indexOf(live().frame.id)).toBe(1);
     expect(useDocumentStore.getState().activeId).not.toBeNull();
   });
 });

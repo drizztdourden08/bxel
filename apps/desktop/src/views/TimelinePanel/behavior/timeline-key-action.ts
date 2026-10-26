@@ -1,14 +1,19 @@
 /* @layer renderer-app @kind logic */
-import { STEP_KEYS } from '../TimelinePanel.constants';
+import { EDGE_KEYS, MOVE_KEYS, STEP_KEYS } from '../TimelinePanel.constants';
 import type { TimelineKeyAction, TimelineKeyInfo } from '../TimelinePanel.type';
+
+const plainAction = (info: TimelineKeyInfo): TimelineKeyAction | null => {
+  const delta = STEP_KEYS[info.key];
+  if (delta !== undefined) return { kind: 'step', delta, extend: info.shiftKey && info.key.startsWith('Arrow') };
+  const end = EDGE_KEYS[info.key];
+  return end === undefined ? null : { kind: 'edge', end, extend: info.shiftKey };
+};
 
 const timelineKeyAction = (info: TimelineKeyInfo): TimelineKeyAction | null => {
   if (info.ctrlKey || info.metaKey) return null;
-  const delta = STEP_KEYS[info.key];
-  if (info.altKey) return delta !== undefined && (info.key === 'ArrowLeft' || info.key === 'ArrowRight') ? { kind: 'move', delta } : null;
-  if (delta !== undefined) return { kind: 'step', delta, extend: info.shiftKey && info.key.startsWith('Arrow') };
-  if (info.key === 'Home') return { kind: 'edge', end: 'first', extend: info.shiftKey };
-  return info.key === 'End' ? { kind: 'edge', end: 'last', extend: info.shiftKey } : null;
+  if (!info.altKey) return plainAction(info);
+  const delta = MOVE_KEYS[info.key];
+  return delta === undefined ? null : { kind: 'move', delta };
 };
 
 export { timelineKeyAction };

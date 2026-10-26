@@ -1,41 +1,25 @@
 /* @layer renderer-app @kind hook */
-import { animFramePivot } from '@bxel/document';
 import { useRef } from 'react';
 import type { RefObject } from 'react';
 import { currentTarget } from '../../../editor/current-target';
-import { useDocumentStore } from '../../../stores/useDocumentStore';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { setPivot } from '../../../timeline/set-pivot';
 import type { PixelViewportHandle } from '../../PixelViewport';
-import type { PivotDrag, PivotAxis, PivotFrame } from './canvas-tools.type';
+import type { PivotAxis, PivotDrag } from './canvas-tools.type';
+import { pivotFrame } from './pivot-frame';
 import { pivotGrip } from './pivot-grip';
+import { pivotNow } from './pivot-now';
 import { pivotPosition } from './pivot-position';
-
-const frameOf = (): PivotFrame | null => {
-  const target = currentTarget();
-  const clip = target?.animation?.frame.clip;
-  return target ? { x: clip?.x ?? 0, y: clip?.y ?? 0, width: clip?.width ?? target.sprite.width, height: clip?.height ?? target.sprite.height } : null;
-};
-
-const pivotNow = () => {
-  const target = currentTarget();
-  const artwork = target ? useDocumentStore.getState().host.view(target.documentId)?.state.artwork : undefined;
-  if (!target?.animation || !artwork) return null;
-  const { animation, frame } = target.animation;
-  return useTimelineStore.getState().pivotDraft ?? animFramePivot(artwork, animation, frame);
-};
 
 const usePivotDrag = (viewport: RefObject<PixelViewportHandle | null>): PivotDrag => {
   const held = useRef<PivotAxis | null>(null);
   return {
     down: (event) => {
-      const handle = viewport.current;
       const target = currentTarget();
-      const frame = frameOf();
       const pivot = pivotNow();
-      if (!handle || !target?.animation || !frame || !pivot) return false;
-      const grabbed = pivotGrip(handle, frame, pivot, target.sprite, event);
-      if (!grabbed) return false;
+      const handle = viewport.current;
+      const grabbed = handle && target?.animation && pivot ? pivotGrip(handle, pivotFrame(target), pivot, event) : null;
+      if (!grabbed || !pivot) return false;
       held.current = grabbed;
       useTimelineStore.getState().setPivotDraft(pivot);
       event.currentTarget.setPointerCapture(event.pointerId);
@@ -43,12 +27,11 @@ const usePivotDrag = (viewport: RefObject<PixelViewportHandle | null>): PivotDra
     },
     move: (event) => {
       const axis = held.current;
-      const handle = viewport.current;
-      const frame = frameOf();
+      const target = currentTarget();
       const pivot = useTimelineStore.getState().pivotDraft;
       if (!axis) return false;
-      if (handle && frame && pivot) {
-        const along = pivotPosition(handle, axis, frame, event);
+      if (viewport.current && target && pivot) {
+        const along = pivotPosition(viewport.current, axis, pivotFrame(target), event);
         useTimelineStore.getState().setPivotDraft(axis === 'x' ? { ...pivot, x2: along } : { ...pivot, y2: along });
       }
       return true;

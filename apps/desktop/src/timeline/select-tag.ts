@@ -3,7 +3,8 @@ import type { TagId } from '@bxel/document';
 import { useTimelineStore } from '../stores/useTimelineStore';
 import { currentFocus } from './current-focus';
 import { selectFrameIds } from './select-frame-ids';
-import { spanTagOf, tagById } from './span-tag-of';
+import { spanTagOf } from './span-tag-of';
+import { tagById } from './tag-by-id';
 
 const selectTag = (tagId: TagId): void => {
   const focus = currentFocus();

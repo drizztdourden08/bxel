@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button, Flex, Text } from '@drizztdourden08/tessera';
+import { Box, Button, Flex, Text } from '@drizztdourden08/tessera';
 import { useFrameBar } from './behavior/useFrameBar';
 import { FRAME_BAR_TEXT } from './FrameBar.constants';
 import './FrameBar.css';
@@ -10,14 +10,14 @@ const FrameBar = () => {
   return (
     <Flex wrap gap="md" align="center" className="frame-bar">
       <Flex as="nav" aria-label={FRAME_BAR_TEXT.region}>
-        <ol className="frame-bar__path">
+        <Flex role="list" gap="xs" align="center" className="frame-bar__path">
           {bar.path.map((step, index) => (
-            <li key={step}>
+            <Box key={step} role="listitem">
               {index > 0 && <Text as="span" tone="muted" aria-hidden="true">{`${FRAME_BAR_TEXT.separator} `}</Text>}
               <Text as="span" variant="label">{step}</Text>
-            </li>
+            </Box>
           ))}
-        </ol>
+        </Flex>
       </Flex>
       {bar.notes.map((note) => (
         <Text key={note} variant="caption" tone="muted" role="status">{note}</Text>

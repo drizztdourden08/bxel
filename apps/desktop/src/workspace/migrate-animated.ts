@@ -4,9 +4,7 @@ import type { AnimatedSplit, Artwork, AssetKey, IdSource } from '@bxel/document'
 import { keyId } from './key-id';
 import type { AnimatedMigration, MergedWorkspace } from './workspace.type';
 
-type Changed = { readonly id: string };
-
-const changedIn = <T extends Changed>(before: readonly T[], after: readonly T[]): readonly T[] => {
+const changedIn = <T extends { readonly id: string }>(before: readonly T[], after: readonly T[]): readonly T[] => {
   const was = new Map(before.map((item) => [item.id, item]));
   return after.filter((item) => was.get(item.id) !== item);
 };

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import type { AnimSpanTag, AnimTag, Animation, TagId } from '@bxel/document';
+import type { AnimSpanTag, AnimTag, Animation } from '@bxel/document';
 
 const spanTagOf = (animation: Animation, tag: AnimTag | undefined): AnimSpanTag | undefined => {
   if (!tag) return undefined;
@@ -8,6 +8,4 @@ const spanTagOf = (animation: Animation, tag: AnimTag | undefined): AnimSpanTag 
   return base?.kind === 'span' ? base : undefined;
 };
 
-const tagById = (animation: Animation, tagId: TagId | null): AnimTag | undefined => animation.tags.find((tag) => tag.id === tagId);
-
-export { spanTagOf, tagById };
+export { spanTagOf };

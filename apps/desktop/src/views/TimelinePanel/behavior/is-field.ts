@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-const FIELD = 'input, textarea, select, [contenteditable="true"], [role="combobox"], [role="listbox"], [role="slider"]';
+import { FIELD } from './is-field.constants';
 
 const isField = (target: EventTarget): boolean => target instanceof Element && target.closest(FIELD) !== null;
 

@@ -5,8 +5,10 @@ import { currentFocus } from './current-focus';
 
 const openSprite = (): boolean => {
   const focus = currentFocus();
-  const sprite = focus?.frame.spriteId == null ? undefined : findSprite(focus.artwork, focus.frame.spriteId);
-  if (!sprite || sprite.role !== 'sprite') return false;
+  if (!focus) return false;
+  const id = focus.frame.spriteId;
+  const sprite = id === null ? undefined : findSprite(focus.artwork, id);
+  if (sprite?.role !== 'sprite') return false;
   pickTab({ kind: 'sprite', id: sprite.id });
   return true;
 };

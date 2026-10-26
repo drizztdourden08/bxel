@@ -1,9 +1,7 @@
 /* @layer renderer-app @kind logic */
-import { findSprite } from '@bxel/document';
 import type { FrameId, LayerId, Sprite, SpriteId } from '@bxel/document';
 import type { DocumentView } from '../documents/document-host.type';
 import { listSprites } from '../sheet/list-sprites';
-import type { AnimationFocus } from '../timeline/timeline.type';
 import type { EditorTarget } from './editor.type';
 import { spriteTarget } from './sprite-target';
 
@@ -24,10 +22,4 @@ const activeTarget = (
   return sprite ? spriteTarget(view, sprite, layerId, frameId) : null;
 };
 
-const animationTarget = (view: DocumentView, focus: AnimationFocus, layerId: LayerId | null = null): EditorTarget | null => {
-  const sprite = focus.frame.spriteId === null ? undefined : findSprite(view.state.artwork, focus.frame.spriteId);
-  const target = sprite ? spriteTarget(view, sprite, layerId) : null;
-  return target ? { ...target, animation: { animation: focus.animation, frame: focus.frame } } : null;
-};
-
-export { activeTarget, animationTarget };
+export { activeTarget };

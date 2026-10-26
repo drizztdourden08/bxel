@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useMemo } from 'react';
-import { activeTarget, animationTarget } from '../editor/active-target';
+import { activeTarget } from '../editor/active-target';
+import { animationTarget } from '../editor/animation-target';
 import { editSpriteId } from '../editor/edit-sprite-id';
 import type { EditorTarget } from '../editor/editor.type';
 import { useSpriteStore } from '../stores/useSpriteStore';

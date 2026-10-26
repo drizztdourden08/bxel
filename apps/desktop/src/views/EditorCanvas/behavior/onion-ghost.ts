@@ -13,7 +13,7 @@ const onionGhost = (canvas: HTMLCanvasElement, artwork: Artwork, target: EditorT
   const key = `${animation.id}|${frame.id}|${ghost.frameId}|${ghost.flip ?? ''}|${ghost.side}|${ghost.tint}`;
   const hit = made.get(key);
   if (hit) return hit;
-  const pixels = onionPixels(artwork, animation, target.bank, frame.id, ghost);
+  const pixels = onionPixels({ artwork, animation, bank: target.bank }, frame.id, ghost);
   const fresh = ghostCanvas(canvas.ownerDocument, animation, pixels);
   made.set(key, fresh);
   return fresh;

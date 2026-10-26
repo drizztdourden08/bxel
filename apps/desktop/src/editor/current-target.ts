@@ -6,7 +6,8 @@ import { useTilemapStore } from '../stores/useTilemapStore';
 import { useTimelineStore } from '../stores/useTimelineStore';
 import { useToolStore } from '../stores/useToolStore';
 import { currentTab } from '../workspace/current-tab';
-import { activeTarget, animationTarget } from './active-target';
+import { activeTarget } from './active-target';
+import { animationTarget } from './animation-target';
 import { editSpriteId } from './edit-sprite-id';
 import type { EditorTarget } from './editor.type';
 

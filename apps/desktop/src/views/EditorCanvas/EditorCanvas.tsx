@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind component */
 import { useRef } from 'react';
-import { Box, EmptyState } from '@drizztdourden08/tessera';
+import { Box } from '@drizztdourden08/tessera';
 import { useSpriteLook } from '../../canvas-look/useSpriteLook';
-import { useAnimationFocus } from '../../hooks/useAnimationFocus';
 import { WRAP_OF } from '../../editor/wrap.constants';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { usePendingStore } from '../../stores/usePendingStore';
@@ -13,6 +12,8 @@ import type { PixelViewportHandle } from '../PixelViewport';
 import { EDITOR_CANVAS_TEXT } from './EditorCanvas.constants';
 import { canvasClass } from './behavior/canvas-class';
 import { useAreaRedraw } from './behavior/useAreaRedraw';
+import { canvasSize } from './behavior/canvas-size';
+import { canvasSource } from './behavior/canvas-source';
 import { paintGuides } from './behavior/paint-guides';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasKeys } from './behavior/useCanvasKeys';
@@ -26,13 +27,12 @@ import { useSyncPending } from './behavior/useSyncPending';
 import { useViewDefaults } from './behavior/useViewDefaults';
 import { useViewportBridge } from './behavior/useViewportBridge';
 import { viewportClass } from './behavior/viewport-class';
-import { EmptyFrame } from './sub-components/EmptyFrame';
+import { EmptyCanvas } from './sub-components/EmptyCanvas';
 import { RulerBars } from './sub-components/RulerBars';
 import './EditorCanvas.css';
 
 const EditorCanvas = () => {
   const target = useEditorTarget();
-  const focus = useAnimationFocus();
   const preview = usePlaybackImage();
   const viewport = useRef<PixelViewportHandle>(null);
   const tool = useToolStore((state) => state.tool);
@@ -54,7 +54,8 @@ const EditorCanvas = () => {
   useAreaRedraw(viewport);
   useSyncPending(target);
   useEscapeCancel();
-  if (!target && !preview) return focus ? <EmptyFrame readOnly={focus.readOnly} /> : <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;
+  if (!target && !preview) return <EmptyCanvas />;
+  const size = canvasSize(preview, outcome, target);
   return (
     <Box className={canvasClass(rulers)} onContextMenu={tools.onContextMenu} onBlur={keys.onBlur}>
       {rulers && <RulerBars />}
@@ -63,9 +64,9 @@ const EditorCanvas = () => {
         className={viewportClass(tool)}
         label={EDITOR_CANVAS_TEXT.label}
         hint={EDITOR_CANVAS_TEXT.hint}
-        width={preview?.width ?? outcome?.width ?? target?.sprite.width ?? 1}
-        height={preview?.height ?? outcome?.height ?? target?.sprite.height ?? 1}
-        source={preview ?? floating ?? tools.live ?? committed ?? undefined}
+        width={size.width}
+        height={size.height}
+        source={canvasSource(preview, floating, tools.live, committed)}
         draw={readout.draw}
         guides={preview ? undefined : paintGuides}
         look={look}

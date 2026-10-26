@@ -24,6 +24,8 @@ interface PivotFrame {
   y: number;
   width: number;
   height: number;
+  imageWidth: number;
+  imageHeight: number;
 }
 
 type PivotDrag = AxisDrag;

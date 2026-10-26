@@ -39,8 +39,16 @@ const TIMELINE_KEYS = 'Comma Period ArrowLeft ArrowRight Home End Delete';
 
 const STEP_KEYS: Readonly<Record<string, number>> = { ',': -1, '.': 1, ArrowLeft: -1, ArrowRight: 1 };
 
+const MOVE_KEYS: Readonly<Record<string, number>> = { ArrowLeft: -1, ArrowRight: 1 };
+
+const EDGE_KEYS: Readonly<Record<string, 'first' | 'last'>> = { Home: 'first', End: 'last' };
+
+const NO_FACING = '';
+
+const OFFSET_LIMIT = 4096;
+
 const REPEAT_MAX = 255;
 
 const FACING_ABBREVIATION = { n: 'N', ne: 'NE', e: 'E', se: 'SE', s: 'S', sw: 'SW', w: 'W', nw: 'NW' } as const;
 
-export { DURATION_STEP, FACING_ABBREVIATION, FRAME_ACTIONS, REPEAT_MAX, STEP_KEYS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT };
+export { DURATION_STEP, EDGE_KEYS, FACING_ABBREVIATION, FRAME_ACTIONS, MOVE_KEYS, NO_FACING, OFFSET_LIMIT, REPEAT_MAX, STEP_KEYS, TIMELINE_KEYS, TIMELINE_PANEL_TEXT };

@@ -12,7 +12,7 @@ const makeAnimation = async (): Promise<string | null> => {
   const target = currentTarget();
   const { host, activeId } = useDocumentStore.getState();
   const artwork = activeId === null ? undefined : host.view(activeId)?.state.artwork;
-  if (!target || target.sprite.role !== 'sprite' || !artwork || activeId === null) return null;
+  if (target?.sprite.role !== 'sprite' || !artwork || activeId === null) return null;
   const name = uniqueName(
     target.sprite.name,
     artwork.animations.map((animation) => animation.name),

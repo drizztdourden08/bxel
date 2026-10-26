@@ -10,10 +10,4 @@ const totalsText = (focus: AnimationFocus, tagId: TagId | null): string => {
   return TIMELINE_TEXT.total(sequence.steps.length, sequence.cycleMs, TIMELINE_TEXT.fps(fpsOf(sequence)));
 };
 
-const statusText = (focus: AnimationFocus): string => {
-  const { frames } = focus.animation;
-  const at = frames.findIndex((frame) => frame.id === focus.frame.id);
-  return TIMELINE_TEXT.status(at + 1, frames.length, focus.frame.durationMs);
-};
-
-export { statusText, totalsText };
+export { totalsText };

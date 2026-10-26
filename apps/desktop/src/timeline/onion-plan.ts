@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind logic */
 import type { AnimFrameId, Animation, TagId } from '@bxel/document';
 import type { OnionSettings } from '../stores/timeline-store.type';
-import type { OnionLayer, OnionSide } from './onion.type';
+import type { OnionAround, OnionLayer, OnionSide } from './onion.type';
 import { playSteps } from './play-steps';
 import type { PlayStep } from './timeline.type';
 
-const side = (steps: readonly PlayStep[], at: number, kind: OnionSide, onion: OnionSettings, shown: AnimFrameId): OnionLayer[] => {
+const side = (steps: readonly PlayStep[], at: number, kind: OnionSide, around: OnionAround): OnionLayer[] => {
+  const { onion, shown } = around;
   const count = kind === 'before' ? onion.before : onion.after;
   return Array.from({ length: count }, (_, step) => {
     const found = steps[kind === 'before' ? at - step - 1 : at + step + 1];
@@ -20,7 +21,8 @@ const onionPlan = (animation: Animation, frameId: AnimFrameId, tagId: TagId | nu
   const steps = inTag.some((step) => step.frameId === frameId) ? inTag : playSteps(animation, null).steps;
   const at = steps.findIndex((step) => step.frameId === frameId);
   if (at < 0) return [];
-  return [...side(steps, at, 'before', onion, frameId), ...side(steps, at, 'after', onion, frameId)];
+  const around = { onion, shown: frameId };
+  return [...side(steps, at, 'before', around), ...side(steps, at, 'after', around)];
 };
 
 export { onionPlan };

@@ -1,16 +1,13 @@
 /* @layer renderer-app @kind component */
 import { ALL_FACINGS } from '@bxel/document';
-import type { AnimDirection, AnimFacing } from '@bxel/document';
 import { Button, Flex, Icon, IconButton, NumberInput, Select, TextInput, Tooltip } from '@drizztdourden08/tessera';
 import { changeTag } from '../../../timeline/change-tag';
 import { deleteTag } from '../../../timeline/delete-tag';
 import { setTagRange } from '../../../timeline/set-tag-range';
 import { FACING_TEXT, TAG_DIRECTION_TEXT, TAG_DIRECTIONS, TIMELINE_LABEL } from '../../../timeline/timeline.constants';
-import { REPEAT_MAX, TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
+import { NO_FACING, REPEAT_MAX, TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { TagEditorProps } from '../TimelinePanel.type';
 import { TagColours } from './TagColours';
-
-const NO_FACING = '';
 
 const facingOptions = [
   { value: NO_FACING, label: TIMELINE_PANEL_TEXT.tagNoFacing },
@@ -38,7 +35,7 @@ const TagEditor = ({ tag, readOnly }: TagEditorProps) => {
         aria-label={TIMELINE_PANEL_TEXT.tagDirection}
         options={TAG_DIRECTIONS.map((direction) => ({ value: direction, label: TAG_DIRECTION_TEXT[direction] }))}
         value={tag.direction}
-        onChange={(direction) => changeTag(TIMELINE_LABEL.updateTag, tag.id, { direction: direction as AnimDirection })}
+        onChange={(direction) => changeTag(TIMELINE_LABEL.updateTag, tag.id, { direction })}
       />
       <NumberInput
         key={`${tag.id}:${tag.repeat}`}
@@ -57,7 +54,7 @@ const TagEditor = ({ tag, readOnly }: TagEditorProps) => {
         aria-label={TIMELINE_PANEL_TEXT.tagFacing}
         options={facingOptions}
         value={tag.facing ?? NO_FACING}
-        onChange={(facing) => changeTag(TIMELINE_LABEL.updateTag, tag.id, { facing: facing === NO_FACING ? null : (facing as AnimFacing) })}
+        onChange={(facing) => changeTag(TIMELINE_LABEL.updateTag, tag.id, { facing: facing === NO_FACING ? null : facing })}
       />
       <TagColours tag={tag} readOnly={readOnly} />
       <Button size="sm" variant="secondary" disabled={readOnly} onClick={() => setTagRange(tag.id)}>
