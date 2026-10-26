@@ -30,3 +30,8 @@ export { animFrameImage } from '../read/anim-frame-image';
 export { animFramePivot } from '../read/anim-frame-pivot';
 export { animFrameOrigin } from '../read/anim-frame-origin';
 export { tileAnimationIssue } from '../read/tile-animation-issue';
+export type * from '../read/tile-playback.type';
+export { tilePlayback } from '../read/tile-playback';
+export { tileStepAt } from '../read/tile-step-at';
+export { tileStartOffset } from '../read/tile-start-offset';
+export { composeMapCell } from '../read/compose-map-cell';

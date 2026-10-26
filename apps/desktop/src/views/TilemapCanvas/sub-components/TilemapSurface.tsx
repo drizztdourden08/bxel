@@ -20,6 +20,7 @@ import { useMapKeys } from '../behavior/useMapKeys';
 import { useMapMenu } from '../behavior/useMapMenu';
 import { useMapPaint } from '../behavior/useMapPaint';
 import { useSelectionReset } from '../behavior/useSelectionReset';
+import { useTileAnimation } from '../behavior/useTileAnimation';
 import { viewportClass } from '../behavior/viewport-class';
 
 const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
@@ -40,6 +41,7 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
     [target, tool, stamp, flags, selection, filled, collision, grid, gridTile, look],
   );
   const draw = useMapPaint(base, live, viewport);
+  useTileAnimation(view, live, viewport);
   const gesture = useMapGestures(viewport, target, live);
   const keys = useMapKeys(viewport, target, live, gesture);
   useMapMenu(viewport, target, live);

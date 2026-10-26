@@ -25,6 +25,7 @@ const TOOL_NAME = {
   splitLegacyFile: 'split_legacy_file',
   listMapLayers: 'list_map_layers',
   readMapCells: 'read_map_cells',
+  getAnimation: 'get_animation',
 } as const;
 
 const TOOL_MODE = {
@@ -51,6 +52,7 @@ const TOOL_MODE = {
   split_legacy_file: 'edit',
   list_map_layers: 'read',
   read_map_cells: 'read',
+  get_animation: 'read',
 } as const satisfies Record<ToolName, 'read' | 'edit'>;
 
 const TOOLS_WITHOUT_SESSION: readonly string[] = [TOOL_NAME.startBxel];

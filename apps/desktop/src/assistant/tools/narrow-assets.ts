@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { searchRows } from '../../asset-list/search-rows';
 import { sortRows } from '../../asset-list/sort-rows';
-import { usingRows } from '../../asset-list/using-rows';
 import type { AssetRow } from '../../asset-list/asset-list.type';
 import type { OpenProject } from '../../project/project.type';
 import { locateInProject } from './locate-in-project';
+import { usingAssets } from './using-assets';
 import type { ListAssetsInput } from './tool-input.type';
 
 const inFolder = (project: OpenProject, request: ListAssetsInput) => (row: AssetRow): boolean => {
@@ -17,7 +17,7 @@ const inFolder = (project: OpenProject, request: ListAssetsInput) => (row: Asset
 const narrowAssets = (rows: readonly AssetRow[], project: OpenProject, request: ListAssetsInput): readonly AssetRow[] => {
   const kinds = new Set<string>(request.kinds);
   const wanted = rows.filter((row) => kinds.has(row.kind)).filter(inFolder(project, request));
-  return sortRows(usingRows(searchRows(wanted, request.search ?? ''), request.usedBy ?? null), 'name');
+  return sortRows(usingAssets(searchRows(wanted, request.search ?? ''), rows, request.usedBy ?? null), 'name');
 };
 
 export { narrowAssets };

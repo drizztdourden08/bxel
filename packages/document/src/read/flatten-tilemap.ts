@@ -7,9 +7,10 @@ import { blitTile } from './blit-tile';
 import type { FlatTilemap } from './flat-tilemap.type';
 import { requireTilemap } from './require-tilemap';
 import { requireTileset } from './require-tileset';
+import type { TileFrameOf } from './tile-playback.type';
 import { tileSources } from './tile-sources';
 
-const flattenTilemap = (artwork: Artwork, tilemapId: TilemapId): FlatTilemap => {
+const flattenTilemap = (artwork: Artwork, tilemapId: TilemapId, frameOf?: TileFrameOf): FlatTilemap => {
   const tilemap = requireTilemap(artwork, tilemapId);
   const tileset = requireTileset(artwork, tilemap.tilesetId);
   const tile = { width: tileset.tileWidth, height: tileset.tileHeight };
@@ -18,7 +19,8 @@ const flattenTilemap = (artwork: Artwork, tilemapId: TilemapId): FlatTilemap => 
   const sourceOf = tileSources(artwork, tileset);
   for (const layer of tilemap.layers.filter((item) => item.visible)) {
     for (const [index, cell] of layer.cells.entries()) {
-      const source = cellKey(cell) === 0 ? null : sourceOf(cellKey(cell));
+      const key = cellKey(cell);
+      const source = key === 0 ? null : (frameOf?.(layer.id, index, key) ?? sourceOf(key));
       if (!source) continue;
       const column = index % tilemap.columns;
       const origin = geometry.originOf(column, (index - column) / tilemap.columns);

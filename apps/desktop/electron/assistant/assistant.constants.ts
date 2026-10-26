@@ -31,6 +31,7 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   split_legacy_file: saveExport,
   list_map_layers: read,
   read_map_cells: read,
+  get_animation: read,
 };
 
 const NATIVE_PAIR_TEXT = {

@@ -4,6 +4,7 @@ import { applyEdits } from './tools/apply-edits';
 import { closeDocument } from './tools/close-document';
 import { createDocument } from './tools/create-document';
 import { exportDocument } from './tools/export-document';
+import { getAnimation } from './tools/get-animation';
 import { getDocument } from './tools/get-document';
 import { getSession } from './tools/get-session';
 import { listDocuments } from './tools/list-documents';
@@ -30,6 +31,7 @@ const TOOL_HANDLERS: ToolHandlers = {
   close_document: closeDocument,
   list_documents: listDocuments,
   get_document: getDocument,
+  get_animation: getAnimation,
   read_palette: readPalette,
   read_pixels: readPixels,
   render_preview: renderPreview,

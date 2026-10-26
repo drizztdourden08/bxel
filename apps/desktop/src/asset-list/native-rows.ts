@@ -37,7 +37,7 @@ const nativeRow = (workspace: Workspace, artwork: Artwork, stats: ReadonlyMap<st
     created,
     dirty: path === '' || workspace.dirty.has(keyId(key)),
     loaded: true,
-    usedBy: key.kind === 'sprite' ? referrersOf(artwork, key).map((each) => each.id) : [],
+    usedBy: key.kind === 'sprite' || key.kind === 'animation' ? referrersOf(artwork, key).map((each) => each.id) : [],
     preview: thumbOf(artwork, key),
   };
 };

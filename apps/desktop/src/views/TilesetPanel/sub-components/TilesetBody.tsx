@@ -6,6 +6,7 @@ import { askDeleteTile } from '../../../tilemap/ask-delete-tile';
 import { TILESET_TEXT } from '../TilesetPanel.constants';
 import type { TilesetHeaderProps } from '../TilesetPanel.type';
 import { useTileHandlers } from '../behavior/useTileHandlers';
+import { AnimationSection } from './AnimationSection';
 import { CollisionSection } from './CollisionSection';
 import { TerrainSection } from './TerrainSection';
 import { TileGrid } from './TileGrid';
@@ -22,6 +23,7 @@ const TilesetBody = ({ model }: TilesetHeaderProps) => {
         <Stack gap="sm">
           <TilesetHeader model={model} />
           {model.cells.length === 0 ? <EmptyState size="sm" message={TILESET_TEXT.noTiles} /> : <TileGrid model={model} handlers={handlers} />}
+          <AnimationSection model={model} />
           <CollisionSection model={model} />
           <TerrainSection model={model} />
           <TilesetNew />

@@ -2,7 +2,7 @@
 import { COMMAND_NAME } from '@bxel/document';
 import type { Artwork, CommandStep } from '@bxel/document';
 import { spritesTarget } from '../../sheet/sprites-target';
-import { TILE_SIZE_DEFAULT } from './create-steps.constants';
+import { ANIMATION_SIZE_DEFAULT, TILE_SIZE_DEFAULT } from './create-steps.constants';
 import type { CreateInput } from './tool-input.type';
 
 const sheetSteps = (request: CreateInput, artwork: Artwork): readonly CommandStep[] => {
@@ -23,6 +23,15 @@ const tilesetStep = (request: CreateInput, artwork: Artwork): CommandStep => {
   };
 };
 
+const animationStep = (request: CreateInput): CommandStep => {
+  const { width, height, frames } = request.animation ?? ANIMATION_SIZE_DEFAULT;
+  return {
+    name: COMMAND_NAME.animationCreate,
+    targets: null,
+    options: { name: request.name, source: { kind: 'blank', width, height, frames } },
+  };
+};
+
 const mapStep = (request: CreateInput): CommandStep => {
   const { columns, rows } = request.mapSize ?? TILE_SIZE_DEFAULT.map;
   return { name: COMMAND_NAME.tilemapCreate, targets: null, options: { name: request.name, tileset: { ref: 'tileset' }, columns, rows } };
@@ -30,6 +39,7 @@ const mapStep = (request: CreateInput): CommandStep => {
 
 const createSteps = (request: CreateInput, artwork: Artwork): readonly CommandStep[] => {
   if (request.kind === 'sheet') return sheetSteps(request, artwork);
+  if (request.kind === 'animation') return [animationStep(request)];
   if (request.kind === 'tileset') return [tilesetStep(request, artwork)];
   return request.kind === 'tilemap' ? [tilesetStep(request, artwork), mapStep(request)] : [];
 };
