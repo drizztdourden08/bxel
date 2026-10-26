@@ -16,6 +16,7 @@ const ManagerAssetRow = (props: ManagerRowProps) => {
   const label = ASSET_LIST_TEXT.actions(row.name);
   const item = (
     <ListItemRow
+      className="project-manager__row"
       media={<AssetThumb row={row} />}
       mediaWidth={THUMB_WIDTH}
       name={<AssetName row={row} />}

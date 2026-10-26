@@ -13,6 +13,7 @@ const ProjectManager = () => {
       className="project-manager"
       listContainers={[{ title: MANAGER_TEXT.listTitle, content: <ProjectList model={model} /> }]}
       listLabel={MANAGER_TEXT.listLabel}
+      listShowTitle={false}
       detailLabel={MANAGER_TEXT.detailLabel}
       detail={model.selected === null ? null : <ProjectDetail model={model} />}
       emptyDetail={<EmptyState size="sm" title={MANAGER_TEXT.emptyTitle} message={MANAGER_TEXT.emptyMessage} />}

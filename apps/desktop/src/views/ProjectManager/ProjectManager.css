@@ -6,3 +6,7 @@
 .project-manager__assets {
   block-size: var(--size-448);
 }
+
+.project-manager__row {
+  inline-size: 100%;
+}

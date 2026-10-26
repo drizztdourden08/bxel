@@ -59,6 +59,7 @@ const MANAGER_TEXT = {
   configOpenOnly: 'The settings pages change the open project. Open this one first.',
   configLabel: (page: string): string => `Open the ${page} settings`,
   assetsTitle: 'Assets',
+  assetsListLabel: 'Assets of the project',
   newAsset: 'New asset',
   searchLabel: 'Search the assets of the project',
   searchPlaceholder: 'Search',

@@ -12,7 +12,9 @@ import { SHORTCUT } from './support/e2e.constants';
 import type { Session } from './support/e2e.type';
 import { expectAccessible } from './support/expect-accessible';
 import { inFreshPlace } from './support/in-place';
+import { managerAssets } from './support/manager-assets';
 import { openFile } from './support/open-file';
+import { openHub } from './support/open-hub';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
 import { openSession } from './support/open-session';
 import { openTilemapRig } from './support/open-tilemap-rig';
@@ -71,6 +73,16 @@ const checksImportWizard = async (session: Session): Promise<void> => {
   await wizard.waitFor({ state: 'detached' });
 };
 
+const checksManager = async (session: Session): Promise<void> => {
+  await openHub(session, 'Project');
+  await expectAccessible(session, 'Project hub, project manager');
+  await managerAssets(session).getByRole('listitem').filter({ hasText: SAMPLE.sprites[0] }).first().click();
+  await session.page.getByRole('group', { name: `What to do with ${SAMPLE.sprites[0]}` }).getByRole('button', { name: 'Open in Asset settings' }).click();
+  await session.page.getByRole('textbox', { name: 'Name' }).waitFor();
+  await expectAccessible(session, 'Asset hub, overview');
+  await session.page.keyboard.press('Escape');
+};
+
 const checksProject = async (session: Session, place: string): Promise<void> => {
   const root = join(place, 'Sample');
   await writeSampleProject(root, buildSampleArtwork(), SAMPLE.name);
@@ -83,6 +95,7 @@ const checksProject = async (session: Session, place: string): Promise<void> => 
   await expectAccessible(session, 'Sheet mode with the sheet manager');
   await showSheetList(session);
   await expectAccessible(session, 'Sheet manager, list view');
+  await checksManager(session);
 };
 
 const checksLongList = async (session: Session, place: string): Promise<void> => {

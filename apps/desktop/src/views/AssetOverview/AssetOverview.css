@@ -17,3 +17,7 @@
   object-fit: contain;
   image-rendering: pixelated;
 }
+
+.asset-overview__number {
+  inline-size: var(--size-128);
+}

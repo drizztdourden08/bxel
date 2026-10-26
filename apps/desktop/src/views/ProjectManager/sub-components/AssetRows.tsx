@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { EmptyState, VirtualList } from '@drizztdourden08/tessera';
 import { ASSET_LIST_TEXT } from '../../../asset-list/asset-list-text.constants';
+import { MANAGER_TEXT } from '../../../project-manager/project-manager.constants';
 import type { ManagerPartProps } from '../ProjectManager.type';
 import { ManagerAssetRow } from './ManagerAssetRow';
 
@@ -10,7 +11,7 @@ const AssetRows = ({ model }: ManagerPartProps) => {
   return (
     <VirtualList
       className="project-manager__assets"
-      label={ASSET_LIST_TEXT.listLabel}
+      label={MANAGER_TEXT.assetsListLabel}
       rowSize="roomy"
       items={rows}
       getKey={(row) => row.id}
