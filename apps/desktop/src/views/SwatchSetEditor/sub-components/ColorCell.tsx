@@ -6,7 +6,6 @@ import { ColorPickerPopover } from '@drizztdourden08/tessera/color-picker-popove
 import { useRef } from 'react';
 import { alphaToUnit } from '../../../palette-bank/alpha-to-unit';
 import { unitToAlpha } from '../../../palette-bank/unit-to-alpha';
-import { ColorBacking } from '../../ColorBacking';
 import type { ColorCellProps } from '../SwatchSetEditor.type';
 
 const ColorCell = ({ rgb, alpha, label, selected, open, onOpen, onClose, onChange }: ColorCellProps) => {
@@ -19,9 +18,7 @@ const ColorCell = ({ rgb, alpha, label, selected, open, onOpen, onClose, onChang
   };
   return (
     <Span ref={anchor}>
-      <ColorBacking alpha={alpha} inline>
-        <ColorSwatch color={formatSwatchColor(rgb as Rgb, alpha)} selected={selected} aria-label={label} aria-expanded={open} aria-haspopup="dialog" onClick={onOpen} />
-      </ColorBacking>
+      <ColorSwatch color={formatSwatchColor(rgb as Rgb, alpha)} selected={selected} aria-label={label} aria-expanded={open} aria-haspopup="dialog" onClick={onOpen} />
       <ColorPickerPopover
         open={open}
         anchorRef={anchor}
