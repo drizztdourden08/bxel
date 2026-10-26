@@ -17,9 +17,14 @@ an exported sprite sheet. The labels are the ones on screen.
 ## The screen
 
 - The title bar holds the Menu button, Search, Undo, Redo, Save file and Export images and sheet data.
-- The Canvas toolbar switches the mode (Sprite, Sheet, Tilemap), mirrors strokes (Mirror X, Mirror Y),
-  shows the pixel grid, major grid, tile grid and rulers, previews tiling (Tiled preview), plays the
-  animation (Onion skin, Play), zooms (Fit, 1:1) and opens Transform.
+- The open asset decides what shows. A sprite shows the drawing tools, the Palette, Layers and
+  Timeline panels and the Sprite menu. A sheet shows the Sheet panel and the Sheet menu. A tileset or
+  a tilemap shows the Tileset panel, the map tools and the Tilemap menu. There is no mode to switch.
+- The Canvas toolbar mirrors strokes (Mirror X, Mirror Y), shows the pixel grid, major grid, tile
+  grid and rulers, previews tiling (Tiled preview), plays the animation (Onion skin, Play), zooms
+  (Fit, 1:1) and opens Transform. A sheet shows only the zoom buttons.
+- The menu lists File, Edit, the menu of the open asset, View, Project and Help, then Settings,
+  About and Quit. New, Open, Open recent, Save, Save as, Save all, Export and Import are in File.
 - The Tools toolbar holds Pencil (B), Eraser (E), Fill (G), Picker (I), Shapes (U), Select (M),
   Move (V), Zoom (Z) and Hand (H). Tool options sit in the toolbar above it.
 - The panels are Palette, Layers, Sheet, Tileset and Timeline, with Project on the left.
@@ -46,7 +51,7 @@ an exported sprite sheet. The labels are the ones on screen.
   A sprite can never hold more swatches than its limit.
 - Double click a swatch to change its colour. Every pixel that uses it follows, and one undo
   puts it back.
-- The Palette menu holds Delete swatch, Merge swatch and Change colour limit. Each shows what
+- The Palette entry of the Sprite menu holds Delete swatch, Merge swatch and Change colour limit. Each shows what
   will change before it does.
 - Import image (Ctrl+I) reads a PNG, GIF or APNG. An animated file arrives as one sprite with a frame for
   each picture and keeps the duration of each frame. The Colours step shows the original beside the reduced
@@ -60,19 +65,23 @@ an exported sprite sheet. The labels are the ones on screen.
   Onion skin shows the neighbour frames on the canvas.
 - Import image with Import as set to Sheet cuts a sheet into sprites. Set the cell size, the
   offset and the spacing, and name them with a pattern such as part_{n}.
-- Sheet mode (Alt+2) shows every sprite of the file on one sheet. Pick sprites in the Sheet panel
-  with a click and Ctrl+click. Paint all selected (Alt+B) paints one stroke on every picked sprite.
-  Transform on a picked group is one undo step for all of them.
+- A sheet is its own file. New, then Sheet of sprites, makes one, and a sheet you open from the Project
+  panel shows every sprite of the sheet on one canvas. Only the sheet tools show: zoom, the Sheet
+  panel and the Sheet menu. Pick sprites in the Sheet panel with a click and Ctrl+click. Isolate sprite
+  in the Sheet menu opens the picked sprites for painting, and Back returns to the sheet. Paint all
+  selected (Alt+B) paints one stroke on every picked sprite. Transform on a picked group is one undo
+  step for all of them.
 - Asset settings (Alt+Enter) holds the sprite name, size and Pivot x and Pivot y.
 - Export (Ctrl+Shift+E) writes Sprite PNG, Frames, Animation (GIF or APNG), Sheet and JSON or
   Tilemap. Scale is a whole number from 1 to 8 and is never blurred. Save preset keeps your choices.
 
 ## Tilemaps
 
-Switch to Tilemap mode (Alt+3). New tileset makes a tileset, Add tile adds a tile, and New tilemap
-makes a map that uses it. In Place Tile you put tiles on the map without changing them. Alt+T
-switches to Edit Tile, where a change to a tile shows in every cell that uses it. Import Tiled map
-in the File menu reads a TMX map with its tileset.
+New, then Tileset, makes a tileset, and New, then Tilemap, makes a map that uses it. A tileset or a
+tilemap shows the Tileset panel and the map tools, and the Tilemap menu. Add tile adds a tile. In
+Place Tile you put tiles on the map without changing them. Alt+T
+switches to Edit Tile, where a change to a tile shows in every cell that uses it. Import, then Tiled
+map, in the File menu reads a TMX map with its tileset.
 
 ## Projects and the asset files
 

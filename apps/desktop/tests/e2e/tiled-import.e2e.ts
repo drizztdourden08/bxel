@@ -19,7 +19,7 @@ describe('Tiled import: a map with its tileset and image becomes a tileset and a
       const session = await openSession(GRANT_FOLDERS);
       try {
         await answerDialogs(session, { open: mapPath, save: null });
-        await runMenu(session, [/^File/, /^Import Tiled map/]);
+        await runMenu(session, [/^File/, /^Import$/, /^Tiled map/]);
         const dialog = session.page.getByRole('dialog', { name: /^Import Tiled map/ });
         await dialog.getByRole('button', { name: 'Next: Colours' }).click();
         await dialog.getByRole('application', { name: /^Original, 4 colours/ }).waitFor();

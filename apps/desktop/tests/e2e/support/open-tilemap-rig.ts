@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { canvasMapper } from './canvas-mapper';
+import { createAsset } from './create-asset';
 import type { CellMapper, Session } from './e2e.type';
 import { openSession } from './open-session';
 import { TILEMAP_E2E } from './tilemap.constants';
@@ -12,15 +13,8 @@ type TilemapRig = {
 const openTilemapRig = async (args: readonly string[] = []): Promise<TilemapRig> => {
   const session = await openSession(args);
   const { page } = session;
-  await page.getByRole('toolbar', { name: 'Canvas' }).getByRole('button', { name: 'Tilemap', exact: true }).click();
-  await page.getByRole('button', { name: 'New tileset', exact: true }).click();
-  const tileset = page.getByRole('dialog', { name: 'New tileset' });
-  await tileset.getByRole('button', { name: 'Create' }).click();
-  await tileset.waitFor({ state: 'detached' });
-  await page.getByRole('button', { name: 'New tilemap', exact: true }).click();
-  const tilemap = page.getByRole('dialog', { name: 'New tilemap' });
-  await tilemap.getByRole('button', { name: 'Create' }).click();
-  await tilemap.waitFor({ state: 'detached' });
+  await createAsset(session, 'Tileset');
+  await createAsset(session, 'Tilemap', { columns: TILEMAP_E2E.columns, rows: TILEMAP_E2E.rows });
   await page.getByRole('application', { name: TILEMAP_E2E.label }).waitFor();
   const add = page.getByRole('region', { name: 'Tileset' }).getByRole('button', { name: 'Add tile' });
   await add.click();

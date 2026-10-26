@@ -2,8 +2,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
 import { SELECTION_COMMAND_ID } from '../../src/keymap/selection-command-id.constants';
-import { SHEET_COMMAND } from '../../src/keymap/sheet-command-id.constants';
 import { TILEMAP_COMMAND } from '../../src/keymap/tilemap-command-id.constants';
+import { switchMode } from '../../src/sheet/switch-mode';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
 import { useTilemapStore } from '../../src/stores/useTilemapStore';
 import { useToolStore } from '../../src/stores/useToolStore';
@@ -24,10 +24,10 @@ const allowed = (id: string): boolean => {
 beforeEach(openMapFile);
 
 describe('Tilemap mode', () => {
-  it('opens with Alt+3 and leaves the pixel commands off while tiles are placed', () => {
-    expect(findCommand(SHEET_COMMAND.modeTilemap).chord).toBe('Alt+3');
+  it('opens with a tilemap asset and leaves the pixel commands off while tiles are placed', () => {
+    expect(APP_COMMANDS.some((command) => command.id.startsWith('mode.set_'))).toBe(false);
     expect(allowed(SELECTION_COMMAND_ID.selectAll)).toBe(true);
-    run(SHEET_COMMAND.modeTilemap);
+    switchMode('tilemap');
     expect(useSpriteStore.getState().mode).toBe('tilemap');
     expect(inMapPlace()).toBe(true);
     expect(allowed(SELECTION_COMMAND_ID.selectAll)).toBe(false);
@@ -36,7 +36,7 @@ describe('Tilemap mode', () => {
   });
 
   it('keeps the tool keys and maps them to the map tools', () => {
-    run(SHEET_COMMAND.modeTilemap);
+    switchMode('tilemap');
     run('tool.select_shape');
     expect(useToolStore.getState().tool).toBe('shape');
     run('tool.select_eraser');
@@ -45,12 +45,12 @@ describe('Tilemap mode', () => {
 
   it('turns the tool Move into Place when the map opens', () => {
     useToolStore.getState().selectTool('move');
-    run(SHEET_COMMAND.modeTilemap);
+    switchMode('tilemap');
     expect(useToolStore.getState().tool).toBe('pencil');
   });
 
   it('flips the tile to place with the flip keys instead of starting a pixel flip', () => {
-    run(SHEET_COMMAND.modeTilemap);
+    switchMode('tilemap');
     run(SELECTION_COMMAND_ID.flipHorizontal);
     run(SELECTION_COMMAND_ID.flipVertical);
     expect(useTilemapStore.getState().flags).toEqual({ flipX: true, flipY: true, diagonal: false });
@@ -59,7 +59,7 @@ describe('Tilemap mode', () => {
   });
 
   it('clears the selected cells with Delete and drops the selection with Deselect', () => {
-    run(SHEET_COMMAND.modeTilemap);
+    switchMode('tilemap');
     placeStampAt([{ x: 0, y: 0 }, { x: 1, y: 0 }]);
     useTilemapStore.getState().setSelection({ rect: { x: 0, y: 0, width: 1, height: 1 }, from: 2 });
     run(SELECTION_COMMAND_ID.delete);

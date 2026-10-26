@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
+import { WIDGET_CONTEXT } from '../surface/surface.constants';
 import { useMapPlacing } from '../hooks/useMapPlacing';
 import { LayersPanel } from '../views/LayersPanel';
 import { MapLayersPanel } from '../views/MapLayersPanel';
@@ -14,6 +15,7 @@ const meta: WidgetMeta = {
   fill: true,
   popOut: false,
   defaultVisibility: 'context-only',
+  context: WIDGET_CONTEXT.options,
 };
 
 const LayersWidget = () => (useMapPlacing() ? <MapLayersPanel /> : <LayersPanel />);

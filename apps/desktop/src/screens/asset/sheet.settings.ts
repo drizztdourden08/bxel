@@ -4,7 +4,6 @@ import { ASSET_SOURCE } from '../../asset-config/asset-source.constants';
 import { runInEditor } from '../../asset-config/run-in-editor';
 import { showForKind } from '../../asset-config/show-for-kind';
 import { FILE_COMMAND } from '../../files/files.constants';
-import { SHEET_COMMAND } from '../../keymap/sheet-command-id.constants';
 
 const meta: ScreenMeta = {
   title: 'Sheet',
@@ -59,12 +58,6 @@ const sections: Section[] = [
     id: 'tools',
     title: 'Sprites and export',
     items: [
-      {
-        key: 'sheet.manager',
-        label: 'Sheet manager',
-        description: 'Sort, rename, resize and arrange the sprites of the sheet.',
-        actions: [{ id: 'manager', label: 'Open the sheet mode', icon: 'layout-grid', onSelect: () => runInEditor(SHEET_COMMAND.modeSheet) }],
-      },
       {
         key: 'sheet.export',
         label: 'Export',

@@ -3,6 +3,7 @@ const MENU_TEXT = {
   edit: 'Edit',
   palette: 'Palette',
   layer: 'Layer',
+  sprite: 'Sprite',
   sheet: 'Sheet',
   tilemap: 'Tilemap',
   arrange: 'Arrange',
@@ -15,6 +16,7 @@ const MENU_TEXT = {
   transform: 'Transform',
   mirrorX: 'Mirror horizontally (X)',
   mirrorY: 'Mirror vertically (Y)',
+  backToSheet: 'Back to sheet',
   noDocument: 'Open or create a file first.',
 } as const;
 
@@ -23,8 +25,10 @@ const MENU_KEYS = {
   transform: 'edit-transform',
   palette: 'palette',
   layer: 'layer',
-  sheet: 'sheet',
-  tilemap: 'tilemap',
+  sprite: 'asset-sprite',
+  sheet: 'asset-sheet',
+  tilemap: 'asset-tilemap',
+  paletteAsset: 'asset-palette',
   arrange: 'sheet-arrange',
   view: 'view',
   help: 'help',

@@ -33,6 +33,7 @@ const FILE_TEXT = {
   busy: 'Wait for the current operation.',
   noDocument:'Open or create a file first.',
   readOnly: 'This file opens read-only.',
+  importGroup: 'Import',
   recentLabel: 'Open recent',
   recentNone: 'No recent files',
   recentClear: 'Clear recent files',

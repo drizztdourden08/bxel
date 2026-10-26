@@ -2,46 +2,17 @@
 import type { IconName } from '@drizztdourden08/tessera';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import { SHEET_COMMAND } from '../../keymap/sheet-command-id.constants';
-import type { SpriteMode } from '../../stores/sprite-store.type';
 import type { TileMode, ViewToggle } from '../../stores/view-store.type';
 import type { HintSpec } from '../ActionHint';
 
 const CANVAS_TEXT = {
   region: 'Canvas',
-  mode: 'Mode',
-  modeDescription: 'What the canvas shows and edits.',
   backCaption: 'Back',
   paintAllCaption: 'Paint all',
   fitCaption: 'Fit',
   actualCaption: '1:1',
   tiledOptions: 'Tiled preview',
 } as const;
-
-const MODE_ORDER: readonly SpriteMode[] = ['sprite', 'sheet', 'tilemap'];
-
-const MODE_ICONS: Readonly<Record<SpriteMode, IconName>> = {
-  sprite: 'image',
-  sheet: 'pixel-atlas',
-  tilemap: 'pixel-tileset',
-};
-
-const MODE_HINTS: Readonly<Record<SpriteMode, HintSpec>> = {
-  sprite: {
-    name: 'Sprite',
-    description: 'Edit one sprite at a time.',
-    shortcuts: [{ command: SHEET_COMMAND.modeSprite }],
-  },
-  sheet: {
-    name: 'Sheet',
-    description: 'See every sprite on one sheet and arrange them.',
-    shortcuts: [{ command: SHEET_COMMAND.modeSheet }],
-  },
-  tilemap: {
-    name: 'Tilemap',
-    description: 'Build a map from reusable tiles. Placing a tile never changes its pixels.',
-    shortcuts: [{ command: SHEET_COMMAND.modeTilemap }],
-  },
-};
 
 const BACK_HINT: HintSpec = {
   name: 'Back to sheet',
@@ -138,15 +109,16 @@ const ZOOM_ACTUAL_HINT: HintSpec = {
   shortcuts: [{ command: COMMAND_ID.zoomActual }],
 };
 
-const SEPARATORS = {
-  mode: 'after-mode',
-  symmetry: 'after-symmetry',
-  view: 'after-view',
-  playback: 'after-playback',
-  zoom: 'after-zoom',
+const GROUP_IDS = {
+  scope: 'scope',
+  symmetry: 'symmetry',
+  view: 'view',
+  playback: 'playback',
+  zoom: 'zoom',
+  transform: 'transform',
 } as const;
 
 export {
-  BACK_HINT, CANVAS_TEXT, MIRROR_X_HINT, MIRROR_Y_HINT, MODE_HINTS, MODE_ICONS, MODE_ORDER, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT, SEPARATORS,
+  BACK_HINT, CANVAS_TEXT, GROUP_IDS, MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT,
   TILED_HINT, TILED_HINTS, VIEW_HINTS, VIEW_ICONS, VIEW_TOGGLES, ZOOM_ACTUAL_HINT, ZOOM_FIT_HINT,
 };

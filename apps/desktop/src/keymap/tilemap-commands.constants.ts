@@ -15,6 +15,7 @@ import { toggleEdit } from '../tilemap/toggle-edit';
 import { turnCells } from '../tilemap/turn-cells';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { editorCommand } from './editor-command';
+import { onSurface } from './on-surface';
 import { COMMAND_GROUP } from './keymap.constants';
 import { TILEMAP_COMMAND as ID } from './tilemap-command-id.constants';
 
@@ -25,9 +26,12 @@ const onPicked = (run: (key: number) => unknown) => (): void => {
   if (key !== null) run(key);
 };
 
-const TILE_COMMANDS: readonly CommandDef[] = [
+const NEW_COMMANDS: readonly CommandDef[] = [
   { id: ID.newTileset, label: 'New tileset', group, run: () => useTilemapDialogStore.getState().show('tileset') },
   { id: ID.newTilemap, label: 'New tilemap', group, run: () => useTilemapDialogStore.getState().show('tilemap') },
+];
+
+const TILE_COMMANDS: readonly CommandDef[] = [
   { id: ID.addTile, label: 'Add tile', group, run: () => void addTile() },
   { id: ID.duplicateTile, label: 'Duplicate tile', group, run: onPicked(duplicateTile) },
   {
@@ -56,6 +60,9 @@ const CELL_COMMANDS: readonly CommandDef[] = [
   { id: ID.layerDown, label: 'Move map layer down', group, run: () => void moveMapLayer(-1) },
 ];
 
-const TILEMAP_COMMANDS: readonly CommandDef[] = [...TILE_COMMANDS, ...CELL_COMMANDS].map(editorCommand);
+const TILEMAP_COMMANDS: readonly CommandDef[] = [
+  ...NEW_COMMANDS.map(editorCommand),
+  ...[...TILE_COMMANDS, ...CELL_COMMANDS].map(onSurface('map', 'tile')),
+];
 
 export { TILEMAP_COMMANDS };

@@ -15,15 +15,10 @@ const CHANNELS = 4;
 
 const OFF_SHEET_ALPHA = 0.5;
 
-const MIN_SHEET_SPRITES = 2;
-
 const SHEET_TEXT = {
   sprite: 'Sprite',
   sheet: 'Sheet',
   tilemap: 'Tilemap',
-  mode: 'Mode',
-  modeSheetOff: 'Add a second sprite to use Sheet mode.',
-  modePreviewOff: 'Apply or cancel the preview first.',
   back: 'Back to sheet',
   paintAll: 'Paint all selected',
   painting: (count: number): string => `Painting ${count} sprites`,
@@ -66,6 +61,6 @@ const MISMATCH_TEXT = {
 
 export {
   MISMATCH_TEXT,
-  CHANNELS, MIN_SHEET_SPRITES, OFF_SHEET_ALPHA, SHEET_GAP, SHEET_NAME, SHEET_REF, SHEET_TEXT, SLICE_NAME, VIRTUAL_MIN_WIDTH,
+  CHANNELS, OFF_SHEET_ALPHA, SHEET_GAP, SHEET_NAME, SHEET_REF, SHEET_TEXT, SLICE_NAME, VIRTUAL_MIN_WIDTH,
   VIRTUAL_SPACING,
 };

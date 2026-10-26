@@ -97,11 +97,10 @@ describe('picking sprites in the open file', () => {
 });
 
 describe('the modes', () => {
-  it('disables Sheet mode with one sprite and says why', () => {
+  it('opens the sheet canvas for a sheet with one sprite', () => {
     openFile([]);
-    expect(switchMode('sheet')).toBe(false);
-    expect(lastNotice()).toBe('Add a second sprite to use Sheet mode.');
-    expect(useSpriteStore.getState().mode).toBe('sprite');
+    expect(switchMode('sheet')).toBe(true);
+    expect(useSpriteStore.getState().mode).toBe('sheet');
   });
 
   it('switches to Sheet mode and keeps the current sprite', () => {
@@ -129,5 +128,14 @@ describe('the modes', () => {
     expect(useSpriteStore.getState()).toMatchObject({ mode: 'sprite', isolated: true, activeId: idOf('c'), selected: [idOf('c')] });
     backToSheet();
     expect(useSpriteStore.getState()).toMatchObject({ mode: 'sheet', isolated: false });
+  });
+
+  it('keeps several picked sprites when the sheet is isolated, so Paint all still has its group', () => {
+    openFile(['b', 'c', 'd']);
+    switchMode('sheet');
+    selectAllSprites();
+    isolateSprite();
+    const { mode, isolated, selected } = useSpriteStore.getState();
+    expect({ mode, isolated, count: selected.length }).toEqual({ mode: 'sprite', isolated: true, count: 4 });
   });
 });

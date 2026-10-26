@@ -21,6 +21,7 @@ export type * from './palette-report.type';
 export { paletteCommands } from './commands/palette-commands';
 export type * from './commands/sheet-import.type';
 export { sheetImportSteps } from './commands/sheet-import-steps';
+export { SHEET_IMPORT_REF } from './commands/sheet-import.constants';
 export { PALETTE_COMMAND_NAME } from './commands/palette-command-name.constants';
 export { parseHex } from './parse-hex';
 export type * from './remap.type';

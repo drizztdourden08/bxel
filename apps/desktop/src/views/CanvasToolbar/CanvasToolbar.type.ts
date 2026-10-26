@@ -1,20 +1,22 @@
 /* @layer renderer-app @kind types */
-import type { IconName, ShortcutKey, ToolbarSlot } from '@drizztdourden08/tessera';
-import type { SpriteMode } from '../../stores/sprite-store.type';
+import type { IconName, ShortcutKey, ToolbarItem, ToolbarSlot } from '@drizztdourden08/tessera';
+import type { SurfacePart } from '../../surface/surface.type';
 import type { HintSpec } from '../ActionHint';
 
 interface CanvasToolbarProps {
   slot: ToolbarSlot;
 }
 
-interface ModeModel {
-  mode: SpriteMode;
+interface ScopeModel {
   isolated: boolean;
   broadcast: boolean;
   canBroadcast: boolean;
-  previewing: boolean;
-  total: number;
-  present: boolean;
+}
+
+interface CanvasGroup {
+  id: string;
+  part: SurfacePart | null;
+  items: readonly ToolbarItem[];
 }
 
 interface TransformAction {
@@ -27,6 +29,4 @@ interface TransformAction {
 
 type TransformKeys = Readonly<Record<string, readonly ShortcutKey[] | undefined>>;
 
-type ModeKeys =Readonly<Record<SpriteMode, readonly ShortcutKey[] | undefined>>;
-
-export type { CanvasToolbarProps, ModeKeys, ModeModel, TransformAction, TransformKeys };
+export type { CanvasGroup, CanvasToolbarProps, ScopeModel, TransformAction, TransformKeys };

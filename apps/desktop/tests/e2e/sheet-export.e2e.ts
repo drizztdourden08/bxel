@@ -67,6 +67,7 @@ const reopensIdentical = async (rig: SheetRig): Promise<void> => {
     const map = await canvasMapper(second, size);
     const sprite = spriteOf(saved(rig, 'part_02'), 'part_02');
     expect([...await readDisplayed(second, map, size, await readSwatches(second))]).toEqual([...flatIndices(sprite)]);
+    await assetRow(second, 'padded-sheet').click();
     await second.page.getByRole('combobox', { name: 'Sheet' }).getByText('padded-sheet (3)').waitFor();
   } finally {
     await second.close();

@@ -47,7 +47,7 @@ describe('check 1: a 16 slot sprite survives save and reopen', () => {
     await pickSwatch(session, 5);
     await drawStroke(session, map, row(5, 3, 6));
     await pickSwatch(session, 2);
-    await runMenu(session, [/^Palette$/, /^Merge swatch/]);
+    await runMenu(session, [/^Sprite$/, /^Palette$/, /^Merge swatch/]);
     const dialog = session.page.getByRole('dialog', { name: 'Merge swatch' });
     await dialog.getByRole('combobox').click();
     await session.page.getByRole('option', { name: /Swatch 3/ }).click();

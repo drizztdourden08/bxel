@@ -1,8 +1,5 @@
 /* @layer renderer-app @kind constants */
 const SHEET_COMMAND = {
-  modeSprite: 'mode.set_sprite',
-  modeSheet: 'mode.set_sheet',
-  modeTilemap: 'mode.set_tilemap',
   isolate: 'sprite.isolate',
   back: 'sprite.back',
   broadcast: 'scope.set_broadcast',
