@@ -18,7 +18,7 @@ const searchEntries: SearchEntrySeed[] = [];
 const NoAssetScreen = () => {
   const focus = useAssetFocus();
   useEffect(() => {
-    if (focus) openAssetSettings();
+    if (focus) openAssetSettings('overview');
   }, [focus]);
   if (focus) return null;
   return (

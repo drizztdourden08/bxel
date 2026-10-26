@@ -36,6 +36,8 @@ const movesBetweenHubs = async (session: Session): Promise<void> => {
   await page.keyboard.press(OPEN_SETTINGS);
   await page.getByText('Window mode', { exact: true }).waitFor();
   await switchTo(session, 'Asset');
+  await page.getByRole('textbox', { name: 'Name', exact: true }).waitFor();
+  await page.getByRole('navigation').filter({ hasText: 'Overview' }).getByText('Sprite', { exact: true }).click();
   await page.getByRole('spinbutton', { name: 'Pivot x', exact: true }).waitFor();
   await switchTo(session, 'Project');
   await page.getByText('No project open', { exact: true }).waitFor();

@@ -14,6 +14,7 @@ import { meta as appStoragePageMeta } from '../src/screens/app/storage.page';
 import { meta as appSurroundCustomMeta } from '../src/screens/app/surround.custom';
 import { meta as appSwatchesCustomMeta } from '../src/screens/app/swatches.custom';
 import { meta as assetNoneCustomMeta } from '../src/screens/asset/none.custom';
+import { meta as assetOverviewCustomMeta } from '../src/screens/asset/overview.custom';
 import AssetPaletteSettings, { meta as assetPaletteSettingsMeta } from '../src/screens/asset/palette.settings';
 import AssetSheetSettings, { meta as assetSheetSettingsMeta } from '../src/screens/asset/sheet.settings';
 import AssetSpritePaletteSettings, { meta as assetSpritePaletteSettingsMeta } from '../src/screens/asset/sprite-palette.settings';
@@ -28,7 +29,7 @@ import ProjectDefaultsSettings, { meta as projectDefaultsSettingsMeta } from '..
 import ProjectExportSettings, { meta as projectExportSettingsMeta } from '../src/screens/project/export.settings';
 import ProjectFoldersSettings, { meta as projectFoldersSettingsMeta } from '../src/screens/project/folders.settings';
 import ProjectGeneralSettings, { meta as projectGeneralSettingsMeta } from '../src/screens/project/general.settings';
-import { meta as projectNoneCustomMeta } from '../src/screens/project/none.custom';
+import { meta as projectManagerCustomMeta } from '../src/screens/project/manager.custom';
 import ProjectPalettesSettings, { meta as projectPalettesSettingsMeta } from '../src/screens/project/palettes.settings';
 
 const screenTree = buildScreenTree(config, [
@@ -44,6 +45,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'custom', bucket: 'app', id: 'surround', component: lazyComponent(() => import('../src/screens/app/surround.custom')), meta: appSurroundCustomMeta },
   { kind: 'custom', bucket: 'app', id: 'swatches', component: lazyComponent(() => import('../src/screens/app/swatches.custom')), meta: appSwatchesCustomMeta },
   { kind: 'custom', bucket: 'asset', id: 'none', component: lazyComponent(() => import('../src/screens/asset/none.custom')), meta: assetNoneCustomMeta },
+  { kind: 'custom', bucket: 'asset', id: 'overview', component: lazyComponent(() => import('../src/screens/asset/overview.custom')), meta: assetOverviewCustomMeta },
   { kind: 'settings', bucket: 'asset', id: 'palette', sections: AssetPaletteSettings, meta: assetPaletteSettingsMeta },
   { kind: 'settings', bucket: 'asset', id: 'sheet', sections: AssetSheetSettings, meta: assetSheetSettingsMeta },
   { kind: 'settings', bucket: 'asset', id: 'sprite-palette', sections: AssetSpritePaletteSettings, meta: assetSpritePaletteSettingsMeta },
@@ -58,7 +60,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'settings', bucket: 'project', id: 'export', sections: ProjectExportSettings, meta: projectExportSettingsMeta },
   { kind: 'settings', bucket: 'project', id: 'folders', sections: ProjectFoldersSettings, meta: projectFoldersSettingsMeta },
   { kind: 'settings', bucket: 'project', id: 'general', sections: ProjectGeneralSettings, meta: projectGeneralSettingsMeta },
-  { kind: 'custom', bucket: 'project', id: 'none', component: lazyComponent(() => import('../src/screens/project/none.custom')), meta: projectNoneCustomMeta },
+  { kind: 'custom', bucket: 'project', id: 'manager', component: lazyComponent(() => import('../src/screens/project/manager.custom')), meta: projectManagerCustomMeta },
   { kind: 'settings', bucket: 'project', id: 'palettes', sections: ProjectPalettesSettings, meta: projectPalettesSettingsMeta },
 ], searchIndex);
 

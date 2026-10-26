@@ -3,12 +3,12 @@ import type { AssetKind } from '@bxel/document';
 import type { AssetSection } from './config-entry.type';
 
 const ASSET_PAGES: Readonly<Record<AssetKind, Readonly<Record<AssetSection, string>>>> = {
-  sprite: { main: 'sprite', palette: 'sprite-palette', platform: 'sprite-platform' },
-  sheet: { main: 'sheet', palette: 'sheet', platform: 'sheet' },
-  palette: { main: 'palette', palette: 'palette', platform: 'palette' },
-  tileset: { main: 'tileset', palette: 'tileset', platform: 'tileset' },
-  tilemap: { main: 'tilemap', palette: 'tilemap', platform: 'tilemap' },
-  project: { main: 'none', palette: 'none', platform: 'none' },
+  sprite: { main: 'sprite', palette: 'sprite-palette', platform: 'sprite-platform', overview: 'overview' },
+  sheet: { main: 'sheet', palette: 'sheet', platform: 'sheet', overview: 'overview' },
+  palette: { main: 'palette', palette: 'palette', platform: 'palette', overview: 'overview' },
+  tileset: { main: 'tileset', palette: 'tileset', platform: 'tileset', overview: 'overview' },
+  tilemap: { main: 'tilemap', palette: 'tilemap', platform: 'tilemap', overview: 'overview' },
+  project: { main: 'none', palette: 'none', platform: 'none', overview: 'none' },
 };
 
 const KIND_TITLE: Readonly<Record<AssetKind, string>> = {

@@ -36,6 +36,8 @@ type ProjectPanelModel = EntryActions &
 
 type PanelPartProps = { readonly model: ProjectPanelModel };
 
+type AddAssetProps = { readonly onPick: (kind: CreatableKind) => void };
+
 type ListingState = { readonly listing: Listing | null; readonly error: string | null };
 
 type Located = {
@@ -86,4 +88,4 @@ type FolderMakerState = Pick<EntryActions, 'makingFolder' | 'folderError' | 'sta
 
 type EntryRowProps = PanelPartProps & { readonly entry: ListedEntry };
 
-export type { EntryActions, EntryRowProps, FolderScope, ListingState, Located, FolderMakerState, PanelPartProps, PanelView, ProjectActions, ProjectActionsInput, ProjectPanelModel, RenameState };
+export type { AddAssetProps, EntryActions, EntryRowProps, FolderScope, ListingState, Located, FolderMakerState, PanelPartProps, PanelView, ProjectActions, ProjectActionsInput, ProjectPanelModel, RenameState };

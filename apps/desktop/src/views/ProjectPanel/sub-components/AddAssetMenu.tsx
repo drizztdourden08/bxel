@@ -2,10 +2,10 @@
 import { DropdownMenu } from '@drizztdourden08/tessera';
 import { ASSET_LIST_TEXT } from '../../../asset-list/asset-list-text.constants';
 import type { CreatableKind } from '../../../stores/creation-store.type';
-import type { PanelPartProps } from '../ProjectPanel.type';
+import type { AddAssetProps } from '../ProjectPanel.type';
 import { NEW_ASSET_KINDS } from '../ProjectPanel.constants';
 
-const AddAssetMenu = ({ model }: PanelPartProps) => (
+const AddAssetMenu = ({ onPick }: AddAssetProps) => (
   <DropdownMenu
     size="xs"
     label={ASSET_LIST_TEXT.newAsset}
@@ -16,7 +16,7 @@ const AddAssetMenu = ({ model }: PanelPartProps) => (
         items: NEW_ASSET_KINDS.map((kind: CreatableKind) => ({
           id: kind,
           label: ASSET_LIST_TEXT.newKinds[kind],
-          onSelect: () => model.newAsset(kind),
+          onSelect: () => onPick(kind),
         })),
       },
     ]}

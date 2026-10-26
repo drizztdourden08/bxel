@@ -1,4 +1,4 @@
 /* @layer renderer-app @kind types */
-type AssetSection = 'main' | 'palette' | 'platform';
+type AssetSection = 'main' | 'palette' | 'platform' | 'overview';
 
 export type { AssetSection };
