@@ -5,6 +5,7 @@ import { buildRegistry } from './build-registry';
 import type { Engine, EngineOptions, EngineStore } from './engine.type';
 import { executeTransaction } from './execute-transaction';
 import { markSaved } from './mark-saved';
+import { markUnsaved } from './mark-unsaved';
 import { stepHistory } from './step-history';
 
 const createEngine = (options: EngineOptions): Engine => {
@@ -44,6 +45,9 @@ const createEngine = (options: EngineOptions): Engine => {
     isClean: () => store.history.savedCursor === store.history.cursor,
     markSaved: () => {
       markSaved(store);
+    },
+    markUnsaved: () => {
+      markUnsaved(store);
     },
   };
 };
