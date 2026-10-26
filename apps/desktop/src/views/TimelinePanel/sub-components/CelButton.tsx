@@ -11,6 +11,8 @@ const CelButton = ({ cell, drag }: CelButtonProps) => {
       role="gridcell"
       aria-selected={cell.selected}
       className="timeline-cel"
+      data-layer-id={cell.layerId}
+      data-frame-id={cell.frameId}
       data-selected={cell.selected ? 'yes' : 'no'}
       data-drop={drag.over === celKeyText(key) ? 'yes' : undefined}
     >

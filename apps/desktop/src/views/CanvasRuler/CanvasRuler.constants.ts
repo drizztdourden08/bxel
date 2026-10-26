@@ -6,4 +6,14 @@ const RULER_CLASS: Readonly<Record<SymmetryAxis, string>> = {
   y: 'canvas-ruler canvas-ruler--y',
 };
 
-export { RULER_CLASS };
+const RULER_MENU = {
+  zone: (axis: SymmetryAxis): string => `canvas.ruler.${axis}`,
+  label: 'Ruler actions',
+  remove: 'Remove this mirror axis',
+  here: 'Put the mirror axis here',
+  mirror: 'Mirror this axis',
+  centre: 'Centre the mirror axis',
+  centred: 'The mirror axis is already at the centre.',
+} as const;
+
+export { RULER_CLASS, RULER_MENU };

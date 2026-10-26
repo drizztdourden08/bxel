@@ -9,6 +9,7 @@ const LayerRowView = ({ row, frameId, drag }: LayerRowViewProps) => (
     <Pressable
       className="timeline-label"
       role="rowheader"
+      data-layer-id={row.id}
       data-timeline-zone="cel"
       tabIndex={-1}
       onClick={() => goToCel({ layerId: row.id, frameId })}

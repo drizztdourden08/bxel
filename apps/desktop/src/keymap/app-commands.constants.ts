@@ -15,9 +15,11 @@ import { SELECTION_COMMANDS } from './selection-commands.constants';
 import { SHEET_EDITOR_COMMANDS } from './sheet-commands.constants';
 import { SPRITE_MENU_COMMANDS } from './sprite-menu-commands.constants';
 import { STATUS_MENU_COMMANDS } from './status-menu-commands.constants';
+import { SYMMETRY_MENU_COMMANDS } from './symmetry-menu-commands.constants';
 import { TAB_MENU_COMMANDS } from './tab-menu-commands.constants';
 import { TERRAIN_COMMANDS } from './terrain-commands.constants';
 import { TILED_COMMANDS } from './tiled-commands.constants';
+import { TIMELINE_MENU_COMMANDS } from './timeline-menu-commands.constants';
 import { TILE_MENU_COMMANDS } from './tile-menu-commands.constants';
 import { TILEMAP_COMMANDS } from './tilemap-commands.constants';
 import { TIMELINE_COMMANDS } from './timeline-commands.constants';
@@ -42,6 +44,8 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TAB_MENU_COMMANDS,
   ...STATUS_MENU_COMMANDS,
   ...SPRITE_MENU_COMMANDS,
+  ...TIMELINE_MENU_COMMANDS,
+  ...SYMMETRY_MENU_COMMANDS,
   ...HELP_COMMANDS,
 ];
 
