@@ -17,8 +17,8 @@ import { PresetMoveBar } from '../PresetMoveBar';
 import { RecoveryDialog } from '../RecoveryDialog';
 import { ScopeBar } from '../ScopeBar';
 import { SplitDialog } from '../SplitDialog';
-import { SurroundBackdrop } from '../SurroundBackdrop';
 import { TilemapDialog } from '../TilemapDialog';
+import { useTilesetMenu } from '../TilesetPanel';
 import { TransformDialog } from '../TransformDialog';
 import { WorkspaceProgress } from '../WorkspaceProgress';
 import { EDITOR_SCREEN_LABEL } from './EditorScreen.constants';
@@ -31,9 +31,9 @@ const EditorScreen = () => {
   const adding = useFileTypePanelStore((state) => state.open);
   const editing = mode === 'tilemap' && !placing && !adding;
   useTimelinePlayback();
+  useTilesetMenu();
   return (
     <Flex as="main" direction="column" className="editor-screen" aria-label={EDITOR_SCREEN_LABEL}>
-      <SurroundBackdrop />
       <AssetTabs />
       <WorkspaceProgress />
       <LegacyBar />

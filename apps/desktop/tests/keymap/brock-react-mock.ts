@@ -8,6 +8,7 @@ const brockReactMock = () => ({
   getPlatform: vi.fn(),
   commandZone: (zone: string) => ({ 'data-command-zone': zone }),
   useCommands: vi.fn(),
+  useContextMenu: vi.fn(),
   useRecentDocumentsStore: { getState: vi.fn() },
 });
 

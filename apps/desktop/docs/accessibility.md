@@ -50,6 +50,16 @@ With the sheet canvas focused, the arrow keys move the picked sprites by 1 pixel
 an arrow by 8. Enter isolates one sprite and Escape returns. Pick sprites in the Sheet panel,
 which is a grid of buttons you reach with F6.
 
+## Context menus
+
+Every place that has actions has a menu: the canvases, the file tabs, the rulers, the layers, the
+timeline, the palette, the tileset, the Sheet panel, the Project panel, the status bar and the
+toolbars. Shift+F10 or the Menu key opens the menu of the focused element, at the keyboard cursor
+on a canvas. Each entry shows its shortcut, and an entry that cannot run is greyed with the reason
+as its description. A right click on a canvas draws or picks with the back colour, so the menu opens
+there with the Hand, Select and Move tools; the setting "Right click on the canvas" in the Canvas
+settings opens it on every tool.
+
 ## What is spoken
 
 A polite live region says changes that have no focus move:

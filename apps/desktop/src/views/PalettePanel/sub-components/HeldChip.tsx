@@ -11,6 +11,7 @@ const HeldChip = ({ chip, slot, onEdit }: HeldChipProps) => (
         className="palette-panel__chip-colour"
         color={slot?.hex ?? ''}
         transparent={slot === undefined || slot.transparent}
+        data-held-slot={chip.position}
         caption={chip.position}
         disabled={slot === undefined}
         aria-label={slot ? PALETTE_PANEL_TEXT.chip(chip.position, slot.label) : PALETTE_PANEL_TEXT.chipEmpty(chip.position)}

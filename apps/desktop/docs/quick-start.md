@@ -36,7 +36,7 @@ an exported sprite sheet. The labels are the ones on screen.
 
 1. Press Ctrl+N and choose Create sprite in the New asset dialog.
 2. Pick a colour in the Palette panel. Left click sets Colour 1, right click sets Colour 2.
-   Hold Ctrl for Colour 3 and Colour 4.
+   Hold Ctrl for Colour 3 and Colour 4. Shift+F10 on a swatch opens its menu.
 3. Draw on the canvas with the Pencil. Hold Shift for a straight line. Mirror X paints the opposite
    side as well. One stroke is one undo step (Ctrl+Z, Ctrl+Y).
 4. Turn on Tiled preview in the View menu to see whether a pattern repeats. While it is on, a stroke,

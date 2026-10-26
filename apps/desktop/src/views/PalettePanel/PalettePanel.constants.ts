@@ -16,6 +16,26 @@ const PALETTE_PANEL_TEXT = {
 
 const SWATCH_MIN_WIDTH = 28;
 
+const PALETTE_MENU_ZONE = 'palette';
+
+const SWATCH_SELECTOR = '[data-swatch-index]';
+
+const PALETTE_MENU = {
+  label: 'Palette actions',
+  swatch: (label: string): string => `Actions for ${label}`,
+  useAs: (position: number): string => `Use as colour ${position}`,
+  edit: 'Edit colour...',
+  select: 'Select pixels of this colour',
+  copy: 'Copy hex',
+  merge: 'Merge into another swatch...',
+  remove: 'Delete swatch...',
+  reveal: 'Show in the palette',
+  settings: 'Palette settings',
+  transparent: 'The transparent swatch has no colour value.',
+  fixed: 'The first swatch is fixed.',
+  emptyChip: 'This colour holds no swatch.',
+} as const;
+
 const CONFIG_HINT: HintSpec = {
   name: 'Palette settings',
   description: 'Open the Asset settings on the palette: choose the palette, load a swatch set and set the platform rules for this file.',
@@ -51,4 +71,4 @@ const chipHint = (chip: HeldChipDef): HintSpec => ({
   ],
 });
 
-export { chipHint, CONFIG_HINT, HELD_CHIPS, PALETTE_PANEL_TEXT, SWATCH_MIN_WIDTH, swatchHint };
+export { chipHint, CONFIG_HINT, HELD_CHIPS, PALETTE_MENU, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, SWATCH_MIN_WIDTH, SWATCH_SELECTOR, swatchHint };

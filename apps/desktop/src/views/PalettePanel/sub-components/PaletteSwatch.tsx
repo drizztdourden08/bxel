@@ -12,6 +12,7 @@ const PaletteSwatch = (props: PaletteSwatchProps) => {
         className="palette-panel__swatch"
         color={slot.hex}
         transparent={slot.transparent}
+        data-swatch-index={slot.index}
         selected={marks.length > 0}
         caption={marks.length > 0 ? PALETTE_PANEL_TEXT.caption(marks) : undefined}
         aria-label={PALETTE_PANEL_TEXT.name(slot.label, marks)}

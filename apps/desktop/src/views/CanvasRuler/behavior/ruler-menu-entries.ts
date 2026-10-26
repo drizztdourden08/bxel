@@ -1,0 +1,32 @@
+/* @layer renderer-app @kind logic */
+import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
+import { menuData } from '../../../context-menu/menu-data';
+import { unless } from '../../../context-menu/unless';
+import { COMMAND_ID } from '../../../keymap/keymap.constants';
+import { handlePosition } from '../../../ruler/handle-position';
+import { nearHandle } from '../../../ruler/near-handle';
+import { useRulerStore } from '../../../stores/useRulerStore';
+import { RULER_MENU } from '../CanvasRuler.constants';
+import type { RulerArgs } from '../CanvasRuler.type';
+import { rulerAlong } from './ruler-along';
+import { rulerAxisState } from './ruler-axis-state';
+import { rulerSpan } from './ruler-span';
+
+const rulerMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[] => {
+  const { axis } = menuData<RulerArgs>(context);
+  if (axis === undefined) return [];
+  const span = rulerSpan(axis, useRulerStore.getState());
+  const along = rulerAlong(axis, context, span.length / 2);
+  const { handle, centred } = rulerAxisState(axis, span);
+  const onHandle = handle !== null && nearHandle(along, handlePosition(handle, span));
+  return [
+    { command: 'symmetry.axis_remove', label: RULER_MENU.remove, args: { axis }, hidden: !onHandle },
+    { command: 'symmetry.axis_here', label: RULER_MENU.here, args: { axis, position: (along - span.origin) / Math.max(span.zoom, 0.01) } },
+    { command: axis === 'x' ? COMMAND_ID.symmetryX : COMMAND_ID.symmetryY, label: RULER_MENU.mirror },
+    { command: 'symmetry.axis_centre', label: RULER_MENU.centre, args: { axis }, ...unless(!centred, RULER_MENU.centred) },
+    'separator',
+    COMMAND_ID.rulers,
+  ];
+};
+
+export { rulerMenuEntries };

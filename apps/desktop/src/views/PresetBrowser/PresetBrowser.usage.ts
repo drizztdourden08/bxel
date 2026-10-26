@@ -7,9 +7,9 @@ const usage = {
   avoidWhen: [{ case: 'The owner picks a platform for a project or a sprite.', use: 'AssetControl' }],
   rules: [
     'It takes no props and changes nothing.',
-    'A grouped picker chooses the preset, by family.',
+    'A searchable picker chooses the preset, named by family.',
     'The details show the kind, the colour count, the palettes, slot 0, the tile size, the sprite sizes, the new sprite size and the area rules, then the notes.',
-    'The preview shows the palette and a sample sprite at each size the preset allows, with the tile grid over it. Details and preview sit side by side when the page is wide.',
+    'The preview shows the palette and a sample sprite at each size the preset allows, with the tile grid over it. The preview sits in the preview column of the Brock settings layout: beside the details when the page is wide, above them when it is narrow.',
   ],
   a11y: ['The details are a labelled group of text rows; the palette and each sample are labelled images.'],
   tree: {

@@ -19,6 +19,7 @@ import { enterAction } from '../sheet/enter-action';
 import { enterReady } from '../sheet/enter-ready';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { clearCells } from '../tilemap/clear-cells';
+import { selectAllCells } from '../tilemap/select-all-cells';
 import { turnCells } from '../tilemap/turn-cells';
 import { editorCommand } from './editor-command';
 import { COMMAND_ZONE } from './command-zone.constants';
@@ -31,7 +32,7 @@ const group = COMMAND_GROUP.edit;
 const zone = COMMAND_ZONE.canvas;
 
 const SELECTION_EDITS: readonly CommandDef[] = [
-  pixelCommand({ id: ID.selectAll, label: 'Select all', group, chord: 'Mod+A', zone, whileTyping: false, run: selectAll }),
+  { id: ID.selectAll, label: 'Select all', group, chord: 'Mod+A', zone, whileTyping: false, run: mapOr(selectAllCells, selectAll) },
   {
     id: ID.clear,
     label: 'Deselect',

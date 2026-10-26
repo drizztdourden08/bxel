@@ -19,7 +19,7 @@ const useRulerDrag = ({ axis, span, handle }: RulerDragArgs): RulerDrag => {
   return {
     grab,
     onPointerDown: (event) => {
-      if (!onHandle(alongOf(event, axis === 'x'))) return;
+      if (event.button !== 0 || !onHandle(alongOf(event, axis === 'x'))) return;
       held.current = true;
       event.currentTarget.setPointerCapture(event.pointerId);
       setGrab(true);

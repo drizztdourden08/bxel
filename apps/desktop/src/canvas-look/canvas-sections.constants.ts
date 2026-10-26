@@ -27,6 +27,26 @@ const CANVAS_SECTIONS: Section[] = [
       },
     ],
   },
+  {
+    id: 'right-click',
+    title: 'Right click',
+    items: [
+      {
+        key: 'canvasRightClick',
+        label: 'Right click on the canvas',
+        description: 'What a right click does on the canvas and on the palette swatches.',
+        hint: 'A right click draws or picks with the back colour. The menu always opens from the Menu key, Shift and F10, or a long press.',
+        control: {
+          kind: 'choice',
+          look: 'radio',
+          options: [
+            { value: 'back-colour', label: 'Keep the back colour (default)' },
+            { value: 'menu', label: 'Open the menu on a click without drag' },
+          ],
+        },
+      },
+    ],
+  },
 ];
 
 export { CANVAS_SECTIONS };

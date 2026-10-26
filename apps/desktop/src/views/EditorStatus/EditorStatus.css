@@ -6,3 +6,9 @@
 .editor-status__bar {
   flex: 1;
 }
+
+.editor-status__zone {
+  display: flex;
+  flex: 1;
+  min-inline-size: 0;
+}

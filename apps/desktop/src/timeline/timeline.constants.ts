@@ -51,6 +51,11 @@ const TIMELINE_LABEL = {
   moveCel: 'Move cels',
 } as const;
 
+const FIELD_LABEL = {
+  duration: 'Frame duration in milliseconds, applied to the selected frames',
+  tagName: 'Tag name',
+} as const;
+
 const TIMELINE_REF = { frame: 'frame', tag: 'tag', copy: 'copy' } as const;
 
 const NEW_TAG_NAME = 'Tag';
@@ -67,6 +72,7 @@ const TAG_DIRECTION_TEXT: Readonly<Record<TagDirection, string>> = {
 
 export {
   CEL_STATE_TEXT,
+  FIELD_LABEL,
   NEW_TAG_NAME,
   TAG_COLOURS,
   TAG_DIRECTION_TEXT,

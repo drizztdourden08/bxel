@@ -6,7 +6,7 @@ import { LOCKED_HINT, VISIBLE_HINT } from '../MapLayersPanel.constants';
 import type { MapLayerRowProps } from '../MapLayersPanel.type';
 
 const MapLayerRow = ({ layer, selected, onSelect }: MapLayerRowProps) => (
-  <Box as="li" className="map-layers__item">
+  <Box as="li" className="map-layers__item" data-layer-id={layer.id}>
     <ListItemRow
       className="map-layers__row"
       name={layer.name}

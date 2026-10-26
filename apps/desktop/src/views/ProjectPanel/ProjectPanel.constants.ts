@@ -11,4 +11,18 @@ const OPENED_KINDS: readonly string[] = ['sprite', 'sheet', 'palette', 'tileset'
 
 const NEW_ASSET_KINDS: readonly CreatableKind[] = ['sprite', 'sheet', 'palette', 'tileset', 'tilemap'];
 
-export { EMPTY_LISTING, NEW_ASSET_KINDS, OPENED_KINDS, START_LOCATION };
+const PROJECT_MENU = {
+  zone: 'project.start',
+  label: 'Project actions',
+  assetRow: '[data-asset-id]',
+  entryRow: '[data-entry-name]',
+  newAsset: 'New asset',
+  newFolder: 'New folder',
+  refresh: 'Refresh',
+  revealRoot: 'Reveal the project folder',
+  export: 'Export...',
+  showUsers: 'Show the sheets that use it',
+  trash: 'Move to trash',
+} as const;
+
+export { EMPTY_LISTING, NEW_ASSET_KINDS, OPENED_KINDS, PROJECT_MENU, START_LOCATION };

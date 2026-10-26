@@ -33,6 +33,7 @@ const EntryList = ({ model }: PanelPartProps) => {
             icon={<Icon name={entry.kind === 'folder' ? 'folder' : 'file'} />}
             name={entry.name}
             meta={entry.kind === 'folder' ? undefined : formatSize(entry.bytes)}
+            data={{ 'data-entry-name': entry.name }}
             selected={model.selected === entry.name}
             action={<EntryMenu model={model} entry={entry} />}
             actionVisibility="always"

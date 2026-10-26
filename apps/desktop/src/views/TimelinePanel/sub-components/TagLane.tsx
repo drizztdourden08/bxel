@@ -5,7 +5,7 @@ import { tagLook } from '../../../timeline/tag-look';
 import type { TagLaneProps } from '../TimelinePanel.type';
 
 const TagLane = ({ cells }: TagLaneProps) => (
-  <Box role="row" className="timeline-grid__row timeline-grid__row--tags">
+  <Box role="row" className="timeline-grid__row timeline-grid__row--tags" data-tag-lane>
     <Box className="timeline-grid__corner" role="presentation" />
     {cells.map((cell, index) =>
       cell === null ? (
@@ -17,6 +17,7 @@ const TagLane = ({ cells }: TagLaneProps) => (
           style={cell.custom === null ? undefined : tagLook(cell.custom)}
           data-colour={cell.custom === null ? cell.colour : 'custom'}
           data-edge={cell.edge}
+          data-tag-id={cell.tagId}
           data-selected={cell.selected ? 'yes' : 'no'}
           data-timeline-zone={cell.edge === 'start' || cell.edge === 'only' ? 'tag' : undefined}
           data-roving={cell.roving ? 'yes' : 'no'}

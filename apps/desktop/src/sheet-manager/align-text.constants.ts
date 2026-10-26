@@ -4,6 +4,7 @@ import type { AlignMode } from './align.type';
 const ALIGN_TEXT = {
   group: 'Layout',
   byHand: 'Arrange by hand to align',
+  pickMore: 'Pick more sprites on the sheet.',
   modes: {
     left: 'Align left edges',
     center: 'Align centers',

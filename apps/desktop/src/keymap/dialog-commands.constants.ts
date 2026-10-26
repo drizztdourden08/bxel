@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind constants */
-import type { CommandDef } from '@drizztdourden08/brock-react';
+import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
+import { commandArgs } from '../context-menu/command-args';
+import type { SwatchArgs } from '../context-menu/menu-args.type';
 import { hasActiveDocument } from '../files/has-active-document';
 import { startImport } from '../image-import/start-import';
 import { startChange } from '../palette-change/start-change';
@@ -38,8 +40,8 @@ const FILE_DIALOG_COMMANDS: readonly CommandDef[] = [
 ];
 
 const PALETTE_DIALOG_COMMANDS: readonly CommandDef[] = [
-  { id: DIALOG_COMMAND.deleteSwatch, label: 'Delete swatch', group: COMMAND_GROUP.colours, run: () => startChange('delete') },
-  { id: DIALOG_COMMAND.mergeSwatch, label: 'Merge swatch', group: COMMAND_GROUP.colours, run: () => startChange('merge') },
+  { id: DIALOG_COMMAND.deleteSwatch, label: 'Delete swatch', group: COMMAND_GROUP.colours, run: (context?: CommandContext) => startChange('delete', commandArgs<SwatchArgs>(context).index) },
+  { id: DIALOG_COMMAND.mergeSwatch, label: 'Merge swatch', group: COMMAND_GROUP.colours, run: (context?: CommandContext) => startChange('merge', commandArgs<SwatchArgs>(context).index) },
   { id: DIALOG_COMMAND.changeLimit, label: 'Change colour limit', group: COMMAND_GROUP.colours, run: () => startChange('limit') },
 ].map(editorCommand);
 

@@ -11,6 +11,7 @@ const FrameHeader = ({ column, index, total, drag }: FrameHeaderProps) => (
     className="timeline-head"
     data-reorder-index={index}
     data-reorder-key={column.id}
+    data-frame-id={column.id}
     data-drop={drag.dropMark(index, total)}
     data-dragging={drag.dragging === index ? 'yes' : undefined}
     data-current={column.current ? 'yes' : 'no'}

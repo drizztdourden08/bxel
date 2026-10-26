@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { ContextMenu, DropdownMenu, ListItemRow } from '@drizztdourden08/tessera';
+import { DropdownMenu, ListItemRow } from '@drizztdourden08/tessera';
 import { KIND_LABEL } from '../../../../../asset-list/asset-list.constants';
 import { ASSET_LIST_TEXT } from '../../../../../asset-list/asset-list-text.constants';
 import { THUMB_WIDTH } from '../AssetsView.constants';
@@ -17,18 +17,17 @@ const AssetRowItem = (props: AssetRowProps) => {
   const groups = assetMenuGroups(props);
   const label = ASSET_LIST_TEXT.actions(row.name);
   return (
-    <ContextMenu groups={groups} label={label}>
-      <ListItemRow
-        media={<AssetThumb row={row} />}
-        mediaWidth={THUMB_WIDTH}
-        name={<AssetName row={row} />}
-        meta={metaOf(props)}
-        nameAction={<AssetUsers model={model} row={row} />}
-        action={<DropdownMenu size="xs" label={label} groups={groups} trigger={{ label, icon: 'ellipsis', iconOnly: true }} />}
-        actionVisibility="always"
-        onClick={() => model.open(row)}
-      />
-    </ContextMenu>
+    <ListItemRow
+      media={<AssetThumb row={row} />}
+      mediaWidth={THUMB_WIDTH}
+      name={<AssetName row={row} />}
+      meta={metaOf(props)}
+      nameAction={<AssetUsers model={model} row={row} />}
+      action={<DropdownMenu size="xs" label={label} groups={groups} trigger={{ label, icon: 'ellipsis', iconOnly: true }} />}
+      actionVisibility="always"
+      data={{ 'data-asset-id': row.id }}
+      onClick={() => model.open(row)}
+    />
   );
 };
 
