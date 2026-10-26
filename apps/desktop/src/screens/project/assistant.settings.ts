@@ -24,7 +24,7 @@ const sections: Section[] = [
         hint: 'The choice is kept for this copy of the project.',
       },
       {
-        key: 'project.assistantFolders',
+        key: 'project.assistantFolders', layout: 'wide',
         label: 'Folders an assistant can see',
         description: 'Leave every folder on to let it see the whole project.',
       },

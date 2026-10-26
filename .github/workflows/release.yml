@@ -3,7 +3,7 @@ run-name: Release ${{ inputs.version }}${{ inputs.prerelease && ' (pre-release)'
 
 # Managed by brock sync from the targets in brock.config.ts. Change the targets, then run brock sync.
 # Run it from the Actions tab or with `<repo> release <version> [--latest | --prerelease]`.
-# release-notes/v<version>.md must be on the default branch first and pass `brock release-notes check`:
+# apps/desktop/release-notes/v<version>.md must be on the default branch first and pass `brock release-notes check`:
 # it is the release body, and the updater shows it. Tags are v<version>.
 # Every build runs from the commit prepare checked; the release job commits the version, tags it
 # and publishes only once every build succeeded, so a failed build leaves no tag and the same
@@ -62,7 +62,7 @@ jobs:
           RAW="${{ inputs.version }}"
           VERSION="${RAW#v}"
           TAG="v$VERSION"
-          NOTES="release-notes/v$VERSION.md"
+          NOTES="apps/desktop/release-notes/v$VERSION.md"
           if [ "${{ inputs.prerelease }}" = "true" ] && [ "${{ inputs.set_latest }}" = "true" ]; then
             echo "::error::prerelease and set_latest exclude each other: a pre-release never becomes the latest release."
             exit 1
@@ -311,7 +311,7 @@ jobs:
           PRERELEASE: ${{ inputs.prerelease }}
         run: |
           TAG="${{ needs.prepare.outputs.tag }}"
-          NOTES="release-notes/v${{ needs.prepare.outputs.version }}.md"
+          NOTES="apps/desktop/release-notes/v${{ needs.prepare.outputs.version }}.md"
           BASE="https://github.com/${{ github.repository }}/releases/download/${TAG}"
           LATEST="https://github.com/${{ github.repository }}/releases/latest/download"
           link() { for f in $1; do if [ -f "$f" ]; then echo "- [$2]($BASE/$(basename "$f"))"; fi; done; }

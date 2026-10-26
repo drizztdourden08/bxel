@@ -18,7 +18,7 @@ const sections: Section[] = [
     title: 'Folders and roles',
     items: [
       {
-        key: 'project.folders',
+        key: 'project.folders', layout: 'wide',
         label: 'Folders',
         description: 'The project folder, the folders linked to it and where each kind of asset goes.',
         hint: 'A new asset is written to the folder of its kind. Leave a role empty to use the folder itself.',

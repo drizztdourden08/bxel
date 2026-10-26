@@ -72,7 +72,7 @@ const sections: Section[] = [
         actions: [{ id: 'export', label: 'Export...', icon: 'download', onSelect: () => runInEditor(FILE_COMMAND.export) }],
       },
       {
-        key: 'sheet.exportPresets',
+        key: 'sheet.exportPresets', layout: 'wide',
         label: 'Saved presets',
         description: 'The sheet export settings you saved. Run opens the Export window with a preset in place.',
         hint: 'Save a preset in the Export window. It goes into this sheet file. Presets saved in the app are listed last.',

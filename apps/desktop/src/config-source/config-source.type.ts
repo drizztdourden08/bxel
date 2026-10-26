@@ -26,10 +26,4 @@ type PendingEdit<C> = {
   readonly timer: ReturnType<typeof setTimeout>;
 };
 
-type RowText = {
-  readonly label: string;
-  readonly description?: string;
-  readonly hint?: string;
-};
-
-export type { ConfigSource, FieldResult, PendingEdit, RowText, SourceDriver, SourceField };
+export type { ConfigSource, FieldResult, PendingEdit, SourceDriver, SourceField };

@@ -18,7 +18,7 @@ const sections: Section[] = [
     title: 'Palette files',
     items: [
       {
-        key: 'project.palettes',
+        key: 'project.palettes', layout: 'wide',
         label: 'Project palettes',
         description: 'Palette files shared by the sprites of the project. Editing one recolours every sprite that uses it.',
         hint: 'Which palette a sprite uses is chosen in the Asset settings.',
