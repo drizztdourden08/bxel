@@ -1,25 +1,28 @@
 /* @layer renderer-app @kind hook */
 import type { ToolbarItem } from '@drizztdourden08/tessera';
-import { SEPARATORS } from '../CanvasToolbar.constants';
+import { useSurface } from '../../../hooks/useSurface';
+import { hasPart } from '../../../surface/has-part';
+import { GROUP_IDS } from '../CanvasToolbar.constants';
+import { canvasGroups } from './canvas-groups';
 import { usePlaybackItems } from './usePlaybackItems';
-import { useModeItems } from './useModeItems';
+import { useScopeItems } from './useScopeItems';
 import { useSymmetryItems } from './useSymmetryItems';
 import { useTransformItems } from './useTransformItems';
 import { useViewItems } from './useViewItems';
 import { useZoomItems } from './useZoomItems';
 
-const useCanvasItems = (): ToolbarItem[] => [
-  ...useModeItems(),
-  { kind: 'separator', id: SEPARATORS.mode },
-  ...useSymmetryItems(),
-  { kind: 'separator', id: SEPARATORS.symmetry },
-  ...useViewItems(),
-  { kind: 'separator', id: SEPARATORS.view },
-  ...usePlaybackItems(),
-  { kind: 'separator', id: SEPARATORS.playback },
-  ...useZoomItems(),
-  { kind: 'separator', id: SEPARATORS.zoom },
-  ...useTransformItems(),
-];
+const useCanvasItems = (): ToolbarItem[] => {
+  const surface = useSurface();
+  const tiled = hasPart(surface, 'tiled');
+  const view = useViewItems().filter((item) => tiled || item.id !== 'tiled');
+  return canvasGroups(surface, [
+    { id: GROUP_IDS.scope, part: null, items: useScopeItems() },
+    { id: GROUP_IDS.symmetry, part: 'symmetry', items: useSymmetryItems() },
+    { id: GROUP_IDS.view, part: 'view', items: view },
+    { id: GROUP_IDS.playback, part: 'playback', items: usePlaybackItems() },
+    { id: GROUP_IDS.zoom, part: 'zoom', items: useZoomItems() },
+    { id: GROUP_IDS.transform, part: 'transform', items: useTransformItems() },
+  ]);
+};
 
 export { useCanvasItems };

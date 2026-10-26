@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
+import { WIDGET_CONTEXT } from '../surface/surface.constants';
 import { TilesetPanel } from '../views/TilesetPanel';
 
 const meta: WidgetMeta = {
@@ -11,6 +12,7 @@ const meta: WidgetMeta = {
   fill: true,
   popOut: false,
   defaultVisibility: 'context-only',
+  context: WIDGET_CONTEXT.tileset,
 };
 
 const TilesetWidget = () => <TilesetPanel />;

@@ -17,9 +17,11 @@ const railItem = (def: ToolDef, context: RailItemContext): ToolbarItem => ({
 });
 
 const railItems = (context: RailItemContext): ToolbarItem[] =>
-  TOOL_GROUPS.flatMap((group, index): ToolbarItem[] => [
-    ...(index > 0 ? [{ kind: 'separator' as const, id: `after-${TOOL_GROUPS[index - 1]}` }] : []),
-    ...context.defs.filter((def) => def.group === group).map((def) => railItem(def, context)),
-  ]);
+  TOOL_GROUPS.map((group) => ({ group, defs: context.defs.filter((def) => def.group === group) }))
+    .filter((entry) => entry.defs.length > 0)
+    .flatMap((entry, index): ToolbarItem[] => [
+      ...(index > 0 ? [{ kind: 'separator' as const, id: `before-${entry.group}` }] : []),
+      ...entry.defs.map((def) => railItem(def, context)),
+    ]);
 
 export { railItems };

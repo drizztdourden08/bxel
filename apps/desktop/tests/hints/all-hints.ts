@@ -2,7 +2,7 @@
 import { TOOLS } from '../../src/editor/tools.constants';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import {
-  BACK_HINT, MIRROR_X_HINT, MIRROR_Y_HINT, MODE_HINTS, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT, TILED_HINT, TILED_HINTS, VIEW_HINTS, ZOOM_ACTUAL_HINT,
+  BACK_HINT, MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT, TILED_HINT, TILED_HINTS, VIEW_HINTS, ZOOM_ACTUAL_HINT,
   ZOOM_FIT_HINT,
 } from '../../src/views/CanvasToolbar/CanvasToolbar.constants';
 import {
@@ -63,7 +63,6 @@ const panelHints = (): HintSpec[] => [
 ];
 
 const toolbarHints = (): HintSpec[] => [
-  ...Object.values(MODE_HINTS),
   ...Object.values(BRUSH_SHAPE_HINTS),
   ...Object.values(FILL_HINTS),
   ...Object.values(NEIGHBOUR_HINTS),

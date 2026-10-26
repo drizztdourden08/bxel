@@ -10,7 +10,8 @@ const isolateSprite = (id?: SpriteId): void => {
   if (!scene || busy()) return;
   const wanted = id ?? scene.active?.id ?? scene.selected[0]?.id;
   if (wanted === undefined) return;
-  chooseSprites({ selected: [wanted], anchor: wanted, active: wanted });
+  const several = id === undefined && scene.selected.length > 1 && scene.selected.some((sprite) => sprite.id === wanted);
+  chooseSprites({ selected: several ? scene.selected.map((sprite) => sprite.id) : [wanted], anchor: wanted, active: wanted });
   useSpriteStore.getState().setMode('sprite', true);
 };
 
