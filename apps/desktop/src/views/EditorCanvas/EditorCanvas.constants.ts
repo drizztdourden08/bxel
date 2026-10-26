@@ -11,6 +11,30 @@ const CANVAS_CLASS = {
   viewport: 'editor-canvas__viewport',
 } as const;
 
+const CANVAS_MENU = {
+  zone: 'canvas.sprite',
+  label: 'Canvas actions',
+  slots: [1, 2, 3, 4],
+  asColour: (slot: number): string => `As colour ${slot}`,
+  pickHere: 'Pick colour here',
+  selectHere: 'Select here',
+  region: 'Region of this colour',
+  everywhere: 'Every pixel of this colour',
+  symmetry: 'Symmetry',
+  axisX: 'Put the X mirror axis here',
+  axisY: 'Put the Y mirror axis here',
+  axisCentre: 'Centre the mirror axes',
+  symmetryOff: 'Both symmetries are off.',
+  canvas: 'Canvas',
+  transform: 'Transform',
+  selection: 'Selection',
+  backToPlace: 'Back to Place Tile',
+  emptyClipboard: 'The clipboard holds no pixels.',
+  thin: 'The selection is too thin to shrink.',
+} as const;
+
+const MENU_TOOLS: readonly string[] = ['hand', 'select', 'move'];
+
 const OVERLAY_TOKENS = {
   axis: '--c-tertiary',
   cursor: '--c-danger',
@@ -39,6 +63,6 @@ const AXIS_DASH: readonly number[] = [4, 3];
 const AXIS_GRIP = 5;
 
 export {
-  ANT_DASH, ANT_PERIOD, ANT_STEP_MS, AREA_FILL_ALPHA, AREA_LINE, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, EDITOR_CANVAS_TEXT, OUTLINE_PATHS, OVERLAY_TOKENS,
+  ANT_DASH, ANT_PERIOD, ANT_STEP_MS, AREA_FILL_ALPHA, AREA_LINE, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, CANVAS_MENU, EDITOR_CANVAS_TEXT, MENU_TOOLS, OUTLINE_PATHS, OVERLAY_TOKENS,
   REDUCED_MOTION,
 };

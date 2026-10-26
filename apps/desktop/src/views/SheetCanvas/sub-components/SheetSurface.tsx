@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import { useMemo, useRef } from 'react';
+import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Box } from '@drizztdourden08/tessera';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
@@ -9,9 +10,10 @@ import { useSyncPending } from '../../EditorCanvas/behavior/useSyncPending';
 import { useViewportBridge } from '../../EditorCanvas/behavior/useViewportBridge';
 import { PixelViewport } from '../../PixelViewport';
 import type { PixelViewportHandle } from '../../PixelViewport';
-import { SHEET_CANVAS_TEXT } from '../SheetCanvas.constants';
+import { SHEET_CANVAS_TEXT, SHEET_MENU } from '../SheetCanvas.constants';
 import type { SheetDrag, SheetSurfaceProps } from '../SheetCanvas.type';
 import { sheetKeyDown } from '../behavior/sheet-key-down';
+import { useSheetMenu } from '../behavior/useSheetMenu';
 import { useSheetGestures } from '../behavior/useSheetGestures';
 import { useSheetPaint } from '../behavior/useSheetPaint';
 
@@ -26,11 +28,12 @@ const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
   );
   const draw = useSheetPaint(base, drag, viewport);
   const gestures = useSheetGestures(viewport, sheet, drag);
+  useSheetMenu(viewport, model.items);
   useViewportBridge(viewport, true);
   useSyncPending(useEditorTarget());
   useEscapeCancel();
   return (
-    <Box className="sheet-canvas">
+    <Box className="sheet-canvas" {...contextMenuZone(SHEET_MENU.zone)}>
       <PixelViewport
         ref={viewport}
         className="sheet-canvas__viewport"

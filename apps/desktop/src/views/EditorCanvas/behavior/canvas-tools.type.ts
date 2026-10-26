@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { FocusEventHandler, KeyboardEventHandler, MouseEventHandler, PointerEvent, PointerEventHandler, RefObject } from 'react';
+import type { FocusEventHandler, KeyboardEventHandler, PointerEvent, PointerEventHandler, RefObject } from 'react';
 import type { CombineMode, MaskView, Point } from '@bxel/raster';
 import type { DragShape } from '../../../editor/selection/selection.type';
 import type { PixelDraw, PixelPoint, PixelViewportHandle } from '../../PixelViewport';
@@ -32,7 +32,6 @@ interface CanvasTools {
   onPointerDown: PointerEventHandler<HTMLElement>;
   onPointerMove: PointerEventHandler<HTMLElement>;
   onPointerUp: PointerEventHandler<HTMLElement>;
-  onContextMenu: MouseEventHandler<HTMLElement>;
 }
 
 interface CanvasReadout {

@@ -4,6 +4,27 @@ const SHEET_CANVAS_TEXT = {
   empty: 'No sprite is open.',
 } as const;
 
+const SHEET_MENU = {
+  zone: 'canvas.sheet',
+  label: 'Sheet actions',
+  edit: 'Edit sprite',
+  rename: 'Rename',
+  duplicate: 'Duplicate',
+  paintAll: 'Paint all selected',
+  needTwo: 'Select at least two sprites.',
+  slice: 'Slice',
+  arrange: 'Arrange',
+  order: 'Order',
+  toStart: 'Move to start',
+  toEnd: 'Move to end',
+  selectAll: 'Select all sprites',
+  removeFromSheet: 'Remove from sheet',
+  notOnSheet: 'The sprite is not on this sheet.',
+  importImage: 'Import image...',
+  sliceGrid: 'Slice grid...',
+  export: 'Export...',
+} as const;
+
 const SHEET_TOKENS = {
   frame: '--c-text-muted',
   selected: '--c-danger',
@@ -26,4 +47,4 @@ const PIVOT_ARM = 3;
 
 const OVERLAP_ALPHA = 0.35;
 
-export { DOUBLE_CLICK_MS, LABEL_MIN_ZOOM, LABEL_SIZE, OVERLAP_ALPHA, PIVOT_ARM, SELECT_DASH, SHEET_CANVAS_TEXT, SHEET_TOKENS };
+export { DOUBLE_CLICK_MS, LABEL_MIN_ZOOM, LABEL_SIZE, OVERLAP_ALPHA, PIVOT_ARM, SELECT_DASH, SHEET_CANVAS_TEXT, SHEET_MENU, SHEET_TOKENS };
