@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { hiddenFailure } from '@bxel/mcp';
 import { sheetExtent, sheetSizes } from '@bxel/document';
-import type { Artwork, PaletteBank, Sheet } from '@bxel/document';
+import type { Animation, Artwork, PaletteBank, Sheet } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
 import { hiddenAssets } from './hidden-assets';
 import { reply } from './reply';
@@ -17,6 +17,15 @@ const bankSummary = (bank: PaletteBank) => ({
   transparent: bank.transparent,
 });
 
+const animationSummary = (animation: Animation) => ({
+  animationId: animation.id,
+  name: animation.name,
+  width: animation.width,
+  height: animation.height,
+  frames: animation.frames.length,
+  tags: animation.tags.length,
+});
+
 const sheetSummary = (artwork: Artwork) => (sheet: Sheet) => ({
   sheetId: sheet.id,
   name: sheet.name,
@@ -30,7 +39,7 @@ const getDocument: ToolHandler = (input, context) => {
   if (!view) return reply(hiddenFailure('document'));
   const { artwork, revision } = view.state;
   const hidden = hiddenAssets(context, documentId);
-  const seen = artwork.sprites.filter((sprite) => !hidden.has(sprite.id));
+  const seen = artwork.sprites.filter((sprite) => sprite.role !== 'frame' && !hidden.has(sprite.id));
   const sprites = seen.slice(spriteOffset, spriteOffset + spriteLimit);
   return reply({
     ok: true,
@@ -44,6 +53,7 @@ const getDocument: ToolHandler = (input, context) => {
     sprites: sprites.map(spriteSummary),
     spritesTotal: seen.length,
     truncated: spriteOffset + sprites.length < seen.length,
+    animations: artwork.animations.filter((animation) => !hidden.has(animation.id)).map(animationSummary),
     sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork)),
   });
 };

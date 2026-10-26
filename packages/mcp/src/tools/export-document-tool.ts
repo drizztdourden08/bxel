@@ -1,11 +1,14 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import {
+  ANIM_FRAME_ID_SCHEMA,
+  ANIMATION_ID_SCHEMA,
   DOCUMENT_ID_SCHEMA,
   FRAME_ID_SCHEMA,
   REVISION_SCHEMA,
   SHEET_ID_SCHEMA,
   SPRITE_ID_SCHEMA,
+  TAG_ID_SCHEMA,
 } from '../schema/ids.constants';
 import { LOCATION_SCHEMA } from '../schema/place.constants';
 import { COUNT_SCHEMA, FILE_NAME_SCHEMA, SHA256_SCHEMA } from '../schema/shapes.constants';
@@ -20,6 +23,7 @@ const base = z.strictObject({
   format: z.enum(EXPORT_FORMAT_VALUES),
   source: z.union([
     z.strictObject({ spriteId: SPRITE_ID_SCHEMA, frameId: FRAME_ID_SCHEMA.optional() }),
+    z.strictObject({ animationId: ANIMATION_ID_SCHEMA, frameId: ANIM_FRAME_ID_SCHEMA.optional(), tagId: TAG_ID_SCHEMA.optional() }),
     z.strictObject({ sheetId: SHEET_ID_SCHEMA }),
   ]),
   scale: z.number().int().min(1).max(16).default(1),
@@ -29,7 +33,7 @@ const base = z.strictObject({
 const exportDocumentTool = defineTool(TOOL_NAME.exportDocument, {
   title: 'Export a document',
   description:
-    'Exports one sprite frame or one sheet at a frozen revision, into a project granted editing or the assistant folder. Give exactly one of location and fileName. Exports stay off the recent files list.',
+    'Exports one sprite frame, one animation (format gif plays the whole animation or one tag; png draws one frame or a strip) or one sheet at a frozen revision, into a project granted editing or the assistant folder. Give exactly one of location and fileName. Exports stay off the recent files list.',
   input: z.xor([
     base.extend({ location: LOCATION_SCHEMA.describe('A project path granted editing.') }),
     base.extend({ fileName: FILE_NAME_SCHEMA.describe('Lands in the assistant folder.') }),

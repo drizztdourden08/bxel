@@ -4,6 +4,7 @@ import { buildApplyEditsTool } from './apply-edits-tool';
 import { closeDocumentTool } from './close-document-tool';
 import { createDocumentTool } from './create-document-tool';
 import { exportDocumentTool } from './export-document-tool';
+import { getAnimationTool } from './get-animation-tool';
 import { getDocumentTool } from './get-document-tool';
 import { getSessionTool } from './get-session-tool';
 import { listAssetsTool } from './list-assets-tool';
@@ -37,6 +38,7 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   closeDocumentTool,
   listDocumentsTool,
   getDocumentTool,
+  getAnimationTool,
   readPaletteTool,
   readPixelsTool,
   listMapLayersTool,

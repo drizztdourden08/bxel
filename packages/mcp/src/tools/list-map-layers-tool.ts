@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
-import { DOCUMENT_ID_SCHEMA, MAP_LAYER_ID_SCHEMA, REVISION_SCHEMA, SPRITE_ID_SCHEMA, TILEMAP_ID_SCHEMA, TILESET_ID_SCHEMA } from '../schema/ids.constants';
+import { ANIMATION_ID_SCHEMA, DOCUMENT_ID_SCHEMA, TAG_ID_SCHEMA, MAP_LAYER_ID_SCHEMA, REVISION_SCHEMA, SPRITE_ID_SCHEMA, TILEMAP_ID_SCHEMA, TILESET_ID_SCHEMA } from '../schema/ids.constants';
 import { COUNT_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
@@ -22,6 +22,10 @@ const tile = z.strictObject({
   key: COUNT_SCHEMA.describe('The number a map cell holds. 0 means an empty cell.'),
   spriteId: SPRITE_ID_SCHEMA,
   collision: z.enum(['full', 'rect', 'polygon']).nullable(),
+  animation: z
+    .strictObject({ animationId: ANIMATION_ID_SCHEMA, tagId: TAG_ID_SCHEMA.nullable(), start: z.enum(['together', 'random']) })
+    .nullable()
+    .describe('The animation the tile plays on a map, or null for a still tile. Set it with the tile.animation step.'),
 });
 
 const tileset = z.strictObject({

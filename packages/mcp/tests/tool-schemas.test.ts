@@ -20,9 +20,9 @@ const refsOf = (value: unknown): string[] => {
 };
 
 describe('the tool set', () => {
-  it('has the 23 tools of the contract, each with a mode', () => {
-    expect(tools).toHaveLength(23);
-    expect(new Set(tools.map((tool) => tool.name)).size).toBe(23);
+  it('has the 24 tools of the contract, each with a mode', () => {
+    expect(tools).toHaveLength(24);
+    expect(new Set(tools.map((tool) => tool.name)).size).toBe(24);
     expect(Object.values(TOOL_NAME).sort()).toEqual(tools.map((tool) => tool.name).sort());
     for (const tool of tools) expect(tool.mode).toBe(TOOL_MODE[tool.name]);
   });
@@ -119,7 +119,7 @@ describe('the asset tools', () => {
 
   it('list_assets asks for a project and defaults to every asset kind', () => {
     expect(parseToolInput(tool('list_assets'), {}).ok).toBe(false);
-    expect(parsed('list_assets', { projectId: PROJECT_ID }).kinds).toEqual(['sprite', 'sheet', 'palette', 'tileset', 'tilemap']);
+    expect(parsed('list_assets', { projectId: PROJECT_ID }).kinds).toEqual(['sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap']);
     expect(parseToolInput(tool('list_assets'), { projectId: PROJECT_ID, kinds: ['image'] }).ok).toBe(false);
   });
 
@@ -130,6 +130,16 @@ describe('the asset tools', () => {
     expect(parseToolInput(tool('create_document'), { ...base, kind: 'project' }).ok).toBe(false);
   });
 
+  it('create_document makes an animation and render_preview and export_document name one', () => {
+    const base = { name: 'Water', bank: { name: 'Main', cap: 16, transparent: true, colors: [] } };
+    expect(parseToolInput(tool('create_document'), { ...base, kind: 'animation', animation: { width: 16, height: 16, frames: 4 } }).ok).toBe(true);
+    const animation = 'anm_4k9m2q7x1v8c';
+    expect(parseToolInput(tool('render_preview'), { documentId: DOCUMENT, target: { animationId: animation } }).ok).toBe(true);
+    expect(parseToolInput(tool('render_preview'), { documentId: DOCUMENT, target: { animationId: animation, tagId: 'tag_4k9m2q7x1v8c' } }).ok).toBe(true);
+    expect(parseToolInput(tool('render_preview'), { documentId: DOCUMENT, target: { animationId: animation, frameId: 'afr_4k9m2q7x1v8c', tagId: 'tag_4k9m2q7x1v8c' } }).ok).toBe(false);
+    expect(parseToolInput(tool('export_document'), { documentId: DOCUMENT, format: 'gif', source: { animationId: animation }, fileName: 'water.gif' }).ok).toBe(true);
+  });
+
   it('save_document keeps the asset where it is unless moveAsset is asked for', () => {
     const result = parsed('save_document', { documentId: DOCUMENT, target: { fileName: 'hero.bxsprite' } });
     expect((result.target as { moveAsset: boolean }).moveAsset).toBe(false);
@@ -138,6 +148,6 @@ describe('the asset tools', () => {
 
   it('names the new extensions in the descriptions', () => {
     const text = descriptors.map((descriptor) => descriptor.description).join(' ');
-    for (const extension of ['.bxsprite', '.bxsheet', '.bxpalette', '.bxtiles', '.bxmap']) expect(text).toContain(extension);
+    for (const extension of ['.bxsprite', '.bxanim', '.bxsheet', '.bxpalette', '.bxtiles', '.bxmap']) expect(text).toContain(extension);
   });
 });

@@ -1,11 +1,11 @@
 /* @layer core @kind constants */
 import { z } from 'zod';
 
-const ASSET_KIND_VALUES = ['sprite', 'sheet', 'palette', 'tileset', 'tilemap'] as const;
+const ASSET_KIND_VALUES = ['sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap'] as const;
 
 const ASSET_KIND_SCHEMA = z.enum(ASSET_KIND_VALUES).meta({
   id: 'AssetKind',
-  description: 'sprite (.bxsprite), sheet (.bxsheet), palette (.bxpalette), tileset (.bxtiles) or tilemap (.bxmap).',
+  description: 'sprite (.bxsprite), animation (.bxanim), sheet (.bxsheet), palette (.bxpalette), tileset (.bxtiles) or tilemap (.bxmap).',
 });
 
 const ASSET_REF_SCHEMA = z

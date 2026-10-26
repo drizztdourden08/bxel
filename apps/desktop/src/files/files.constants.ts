@@ -2,7 +2,7 @@
 import type { DocumentDialogOptions, DocumentWriteOptions } from '@drizztdourden08/brock-core';
 import type { FileActionKind, FileBusy, FileOutcome } from './files.type';
 
-const BXEL_EXTENSIONS: readonly string[] = ['bxsprite', 'bxsheet', 'bxpalette', 'bxtiles', 'bxmap', 'bxproject', 'bxel'];
+const BXEL_EXTENSIONS: readonly string[] = ['bxsprite', 'bxanim', 'bxsheet', 'bxpalette', 'bxtiles', 'bxmap', 'bxproject', 'bxel'];
 
 const OPEN_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'Bxel files', extensions: [...BXEL_EXTENSIONS] }];
 

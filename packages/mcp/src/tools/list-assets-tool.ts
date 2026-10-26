@@ -17,7 +17,7 @@ const assetEntry = z.strictObject({
   location: LOCATION_SCHEMA.nullable(),
   dirty: z.boolean(),
   opened: z.boolean(),
-  usedBy: z.array(z.string()).describe('For a sprite, the ids of the sheets that use it.'),
+  usedBy: z.array(z.string()).describe('For a sprite, the ids of the sheets and animations that use it. For an animation, the ids of the sheets and tilesets that play it.'),
   documentId: DOCUMENT_ID_SCHEMA.nullable(),
   modifiedAt: TIMESTAMP_SCHEMA.nullable(),
 });
@@ -25,13 +25,13 @@ const assetEntry = z.strictObject({
 const listAssetsTool = defineTool(TOOL_NAME.listAssets, {
   title: 'List assets',
   description:
-    'Every Bxel asset of a granted project in one flat list: sprites (.bxsprite), sheets (.bxsheet), palettes (.bxpalette), tilesets (.bxtiles) and tilemaps (.bxmap), across all its folders the assistant may see. Narrow it with kinds, a folder, a name search, or usedBy to get only the sheets that use one sprite. Assets are sorted by name.',
+    'Every Bxel asset of a granted project in one flat list: sprites (.bxsprite), animations (.bxanim), sheets (.bxsheet), palettes (.bxpalette), tilesets (.bxtiles) and tilemaps (.bxmap), across all its folders the assistant may see. Narrow it with kinds, a folder, a name search, or usedBy to get only the assets that use one sprite or one animation. Assets are sorted by name.',
   input: z.strictObject({
     projectId: PROJECT_ID_SCHEMA,
     kinds: z.array(ASSET_KIND_SCHEMA).default([...ASSET_KIND_VALUES]),
     folderId: FOLDER_ID_SCHEMA.optional().describe('Only assets in this folder of the project.'),
     path: REL_PATH_SCHEMA.optional().describe('Only assets under this path of the folder. Needs folderId.'),
-    usedBy: z.string().min(1).max(64).optional().describe('A sprite id. Lists the sheets that use it.'),
+    usedBy: z.string().min(1).max(64).optional().describe('A sprite or animation id. Lists the assets that use it.'),
     search: z.string().max(64).optional().describe('Part of an asset name, any case.'),
     ...PAGING_SHAPE,
   }),

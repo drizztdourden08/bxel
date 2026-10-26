@@ -10,7 +10,7 @@ import { reply } from './reply';
 import type { CreateInput } from './tool-input.type';
 
 const baseOptions = (request: CreateInput): Record<string, unknown> => {
-  const { kind, tileSize: _tileSize, mapSize: _mapSize, sprite, ...rest } = request;
+  const { kind, tileSize: _tileSize, mapSize: _mapSize, animation: _animation, sprite, ...rest } = request;
   const first = kind === 'sheet' ? (sprite ?? { name: request.name, ...SHEET_SPRITE_SIZE }) : sprite;
   return kind === 'sprite' || kind === 'sheet' ? { ...rest, ...(first ? { sprite: first } : {}) } : rest;
 };

@@ -30,6 +30,7 @@ const TOOL_HINTS = {
   split_legacy_file: ACTION,
   list_map_layers: SAFE_READ,
   read_map_cells: SAFE_READ,
+  get_animation: SAFE_READ,
 } as const satisfies Record<string, ToolHints>;
 
 export { TOOL_HINTS };
