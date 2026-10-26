@@ -25,7 +25,7 @@ const showMap = (tilemapId: string | null, tilesetId: string | null): void => {
 const paletteUser = (bankId: string): string | undefined => {
   const { activeId, views } = useDocumentStore.getState();
   const artwork = activeId === null ? undefined : views[activeId]?.state.artwork;
-  return artwork?.sprites.find((sprite) => sprite.role !== 'tile' && sprite.bankId === bankId)?.id;
+  return artwork?.sprites.find((sprite) => sprite.role === 'sprite' && sprite.bankId === bankId)?.id;
 };
 
 const showAsset = (key: AssetKey): void => {

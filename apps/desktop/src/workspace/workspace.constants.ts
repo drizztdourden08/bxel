@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
+import { ASSET_LOAD_ORDER } from '@bxel/document';
 import type { Artwork, AssetContent, AssetKind } from '@bxel/document';
-import { encodePalette, encodeSheet, encodeSprite, encodeTilemap, encodeTileset } from '@bxel/document/native';
+import { encodeAnimation, encodePalette, encodeSheet, encodeSprite, encodeTilemap, encodeTileset } from '@bxel/document/native';
 import { NATIVE_ASSET_EXTENSIONS } from '@bxel/project';
 import type { FolderRole } from '@bxel/project';
 import type { Encoder, NamedAsset } from './workspace.type';
@@ -8,6 +9,7 @@ import type { Encoder, NamedAsset } from './workspace.type';
 const ASSET_ENCODERS: Readonly<Partial<Record<AssetKind, Encoder>>> = {
   palette: encodePalette,
   sprite: encodeSprite,
+  animation: encodeAnimation,
   sheet: encodeSheet,
   tileset: encodeTileset,
   tilemap: encodeTilemap,
@@ -33,10 +35,11 @@ const ASSET_FILE_LABEL: Readonly<Record<AssetKind, string>> = {
   project: 'Bxel project',
 };
 
-const DECODE_ORDER: readonly (readonly AssetKind[])[] = [['palette'], ['sprite', 'tileset'], ['sheet'], ['tilemap']];
+const DECODE_ORDER: readonly (readonly AssetKind[])[] = ASSET_LOAD_ORDER;
 
 const ROLE_OF_KIND: Readonly<Partial<Record<AssetKind, FolderRole>>> = {
   sprite: 'sprites',
+  animation: 'animations',
   sheet: 'sheets',
   palette: 'palettes',
   tileset: 'tilemaps',
@@ -45,17 +48,18 @@ const ROLE_OF_KIND: Readonly<Partial<Record<AssetKind, FolderRole>>> = {
 
 const CONTENT_OF_KIND: Readonly<Partial<Record<AssetKind, keyof AssetContent>>> = {
   sprite: 'sprites',
+  animation: 'animations',
   sheet: 'sheets',
   palette: 'banks',
   tileset: 'tilesets',
   tilemap: 'tilemaps',
 };
 
-const SAVE_ORDER: readonly AssetKind[] = ['palette', 'sprite', 'tileset', 'sheet', 'tilemap'];
+const SAVE_ORDER: readonly AssetKind[] = ['palette', 'sprite', 'animation', 'tileset', 'sheet', 'tilemap'];
 
-const ASSET_KINDS: readonly string[] = ['sprite', 'sheet', 'palette', 'tileset', 'tilemap'];
+const ASSET_KINDS: readonly string[] = ['sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap'];
 
-const TAB_KINDS: readonly AssetKind[] = ['sprite', 'sheet', 'tileset', 'tilemap', 'palette'];
+const TAB_KINDS: readonly AssetKind[] = ['sprite', 'animation', 'sheet', 'tileset', 'tilemap', 'palette'];
 
 const MAX_WORKSPACE_ASSETS = 2000;
 
@@ -95,7 +99,7 @@ const WORKSPACE_TEXT = {
   saved: (count: number): string => (count === 1 ? 'Saved one file.' : `Saved ${count} files.`),
   nothingToSave: 'Every asset is saved.',
   saveFailed: (file: string, reason: string): string => `Could not save ${file}. ${reason}`,
-  notNative: 'Bxel opens sprites, sheets, palettes, tilesets, tilemaps, projects and older .bxel files.',
+  notNative: 'Bxel opens sprites, animations, sheets, palettes, tilesets, tilemaps, projects and older .bxel files.',
   olderFileLocked: 'This older file opens read only. Split it into separate files to edit.',
 } as const;
 

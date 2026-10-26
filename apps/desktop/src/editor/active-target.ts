@@ -7,8 +7,8 @@ import { spriteTarget } from './sprite-target';
 
 const pickSprite = (view: DocumentView, spriteId: SpriteId | null): Sprite | undefined => {
   const sprites = listSprites(view.state.artwork);
-  const tile = view.state.artwork.sprites.find((each) => each.id === spriteId && each.role === 'tile');
-  return tile ?? sprites.find((each) => each.id === spriteId) ?? sprites[0];
+  const owned = view.state.artwork.sprites.find((each) => each.id === spriteId && each.role !== 'sprite');
+  return owned ?? sprites.find((each) => each.id === spriteId) ?? sprites[0];
 };
 
 const activeTarget = (

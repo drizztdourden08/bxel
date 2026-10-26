@@ -27,7 +27,7 @@ const ensureBank = (host: DocumentHost, documentId: DocumentId, form: CreationFo
   return made.ok ? (host.view(documentId)?.state.artwork.banks[0]?.id ?? null) : null;
 };
 
-const needsBank = (form: CreationForm): boolean => form.kind === 'sprite' || form.kind === 'sheet' || form.kind === 'tileset';
+const needsBank = (form: CreationForm): boolean => form.kind === 'sprite' || form.kind === 'animation' || form.kind === 'sheet' || form.kind === 'tileset';
 
 const createAsset = (host: DocumentHost, documentId: DocumentId, form: CreationForm): AssetCreation => {
   const artwork = host.view(documentId)?.state.artwork;

@@ -6,7 +6,7 @@ import { TILE_SIZE_DEFAULT } from './create-steps.constants';
 import type { CreateInput } from './tool-input.type';
 
 const sheetSteps = (request: CreateInput, artwork: Artwork): readonly CommandStep[] => {
-  const sprite = artwork.sprites.find((each) => each.role !== 'tile');
+  const sprite = artwork.sprites.find((each) => each.role === 'sprite');
   const create: CommandStep = { name: COMMAND_NAME.sheetCreate, targets: null, options: { name: request.name }, ref: 'sheet' };
   if (!sprite) return [create];
   return [create, { name: COMMAND_NAME.sheetAdd, targets: spritesTarget([sprite.id]), options: { sheet: { ref: 'sheet' } } }];
