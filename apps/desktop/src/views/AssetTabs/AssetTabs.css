@@ -1,0 +1,17 @@
+/* @layer renderer-app @kind style */
+.asset-tabs {
+  align-items: stretch;
+  min-inline-size: 0;
+}
+
+.asset-tabs__tabs {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+}
+
+.asset-tabs__rest {
+  flex: 1;
+  align-items: center;
+  padding-inline: var(--space-xs);
+  border-bottom: var(--border-width-thin) solid var(--c-border);
+}
