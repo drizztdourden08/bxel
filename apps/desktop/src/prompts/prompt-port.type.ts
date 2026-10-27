@@ -11,4 +11,4 @@ type PromptPort = {
 
 type PromptKind = keyof PromptPort | 'open' | 'openFolder' | 'regrant';
 
-export type { ConfirmOptions, PromptKind, PromptPort };
+export type { PromptKind, PromptPort };
