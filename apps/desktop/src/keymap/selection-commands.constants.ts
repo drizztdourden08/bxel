@@ -41,12 +41,12 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     whileTyping: false,
     run: mapOr(() => useTilemapStore.getState().setSelection(null), clearSelection),
   },
-  pixelCommand({ id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: invertSelection }),
-  pixelCommand({ id: ID.expand, label: 'Expand selection by 1 pixel', group, run: () => resizeSelection(1) }),
-  pixelCommand({ id: ID.shrink, label: 'Shrink selection by 1 pixel', group, run: () => resizeSelection(-1) }),
-  pixelCommand({ id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: copySelection }),
-  pixelCommand({ id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: cutSelection }),
-  pixelCommand({ id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: pasteClip }),
+  pixelCommand({ id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: () => void invertSelection() }),
+  pixelCommand({ id: ID.expand, label: 'Expand selection by 1 pixel', group, run: () => void resizeSelection(1) }),
+  pixelCommand({ id: ID.shrink, label: 'Shrink selection by 1 pixel', group, run: () => void resizeSelection(-1) }),
+  pixelCommand({ id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: () => void copySelection() }),
+  pixelCommand({ id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: () => void cutSelection() }),
+  pixelCommand({ id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: () => void pasteClip() }),
   {
     id: ID.delete,
     label: 'Delete',
@@ -73,7 +73,7 @@ const PREVIEW_COMMANDS: readonly CommandDef[] = [
     label: 'Cancel',
     group,
     when: () => hasActiveDocument() && hasPreview(),
-    run: cancelPreview,
+    run: () => void cancelPreview(),
   },
 ];
 
@@ -108,10 +108,10 @@ const TRANSFORM_COMMANDS: readonly CommandDef[] = [
     group,
     chord: 'Shift+Alt+R',
     whileTyping: false,
-    run: () => startTurn('counter-clockwise'),
+    run: () => void startTurn('counter-clockwise'),
   }),
-  pixelCommand({ id: ID.rotate, label: 'Rotate...', group, run: startRotate }),
-  pixelCommand({ id: ID.scale, label: 'Scale...', group, run: startScale }),
+  pixelCommand({ id: ID.rotate, label: 'Rotate...', group, run: () => void startRotate() }),
+  pixelCommand({ id: ID.scale, label: 'Scale...', group, run: () => void startScale() }),
 ];
 
 const SELECTION_COMMANDS: readonly CommandDef[] = [...SELECTION_EDITS, ...PREVIEW_COMMANDS, ...TRANSFORM_COMMANDS].map(editorCommand);
