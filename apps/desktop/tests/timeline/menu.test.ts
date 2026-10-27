@@ -75,4 +75,16 @@ describe('the menu of a tag', () => {
     run('tag.delete', { tagId });
     expect(animationOf().tags).toEqual([]);
   });
+
+  it('opens the custom colour picker from the colour submenu', () => {
+    withFrames(2);
+    pickRange(0, 1);
+    addTag();
+    const tagId = animationOf().tags[0]?.id ?? '';
+    expect(JSON.stringify(tagEntries(tagId))).toContain('tag.custom_colour');
+    run('tag.custom_colour', { tagId });
+    expect(useTimelineStore.getState()).toMatchObject({ tagId, colourPicker: true });
+    useTimelineStore.getState().selectTag(null);
+    expect(useTimelineStore.getState().colourPicker).toBe(false);
+  });
 });

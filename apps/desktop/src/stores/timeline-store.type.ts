@@ -25,6 +25,7 @@ interface TimelineSettings {
   cursor: number;
   onion: OnionSettings;
   pivotDraft: Pivot2 | null;
+  colourPicker: boolean;
 }
 
 interface TimelineState extends TimelineSettings {
@@ -39,6 +40,7 @@ interface TimelineState extends TimelineSettings {
   setCursor: (cursor: number) => void;
   setOnion: (patch: Partial<OnionSettings>) => void;
   setPivotDraft: (pivotDraft: Pivot2 | null) => void;
+  setColourPicker: (colourPicker: boolean) => void;
 }
 
 export type { OnionSettings, OnionTint, TimelineSelection, TimelineSettings, TimelineState };

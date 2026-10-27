@@ -17,6 +17,8 @@ const TIMELINE_TEXT = {
   tag: 'Tag',
   tagColour: 'Tag colour',
   tagColourAuto: 'Automatic colour',
+  tagColourCustom: 'Custom...',
+  tagColourCustomLabel: 'Custom tag colour',
   tagColourLabel: (name: string): string => `${name} tag colour`,
   wholeAnimation: 'Whole animation',
   frameLabel: (number: number, durationMs: number, badges: string): string =>

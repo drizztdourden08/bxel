@@ -14,4 +14,6 @@ const TAG_COLOUR_CHOICES: readonly TagColourChoice[] = [
   { name: 'Pink', hex: '#e57ac8' },
 ];
 
-export { TAG_COLOUR_CHOICES };
+const TAG_COLOUR_START = '#3b82f6';
+
+export { TAG_COLOUR_CHOICES, TAG_COLOUR_START };

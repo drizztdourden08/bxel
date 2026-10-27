@@ -30,6 +30,7 @@ const spanEntries = (tag: AnimSpanTag, picked: number): readonly ContextMenuEntr
         kind: 'radio' as const,
         checked: tag.colour === choice.hex,
       })),
+      { command: 'tag.custom_colour', label: TIMELINE_MENU.customColour, args: { tagId: tag.id } },
       { command: 'tag.set_colour', label: TIMELINE_MENU.automaticColour, args: { tagId: tag.id, colour: null }, ...unless(tag.colour !== undefined, TIMELINE_MENU.alreadyAutomatic) },
     ],
   },

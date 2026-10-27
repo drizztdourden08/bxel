@@ -104,6 +104,15 @@ const TAG_COMMANDS: readonly CommandDef[] = [
     run: withTag((tagId, args) => args.direction !== undefined && changeTag(TIMELINE_LABEL.updateTag, tagId, { direction: args.direction })),
   },
   { id: 'tag.set_colour', label: 'Set the colour of a tag', group, run: withTag((tagId, args) => args.colour !== undefined && setTagColour(tagId, args.colour)) },
+  {
+    id: 'tag.custom_colour',
+    label: 'Pick a custom colour for a tag',
+    group,
+    run: withTag((tagId) => {
+      selectTag(tagId);
+      useTimelineStore.getState().setColourPicker(true);
+    }),
+  },
   { id: 'tag.set_range', label: 'Set the range of a tag to the selected frames', group, run: withTag((tagId) => setTagRange(tagId)) },
   { id: 'tag.delete', label: 'Delete a tag', group, run: withTag((tagId) => deleteTag(tagId)) },
 ];

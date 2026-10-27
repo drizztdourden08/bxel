@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { findBank, frameToRgba } from '@bxel/document';
 import type { Artwork, Sprite } from '@bxel/document';
-import type { AtlasItem } from '../../../../../sheet-manager/manager.type';
 import type { AtlasDraw } from '../AtlasView.type';
 import { canvasTone } from './canvas-tone';
 import { drawAtlasAnimations } from './draw-atlas-animations';
+import { drawAtlasCell } from './draw-atlas-cell';
 import { drawAtlasMarks } from './draw-atlas-marks';
 import { frameCanvas } from '../../../behavior/frame-canvas';
 
@@ -13,17 +13,6 @@ const frameOf = (artwork: Artwork, sprite: Sprite, at: number) => {
   const frame = sprite.frames[at];
   if (!bank || !frame) return null;
   return { width: sprite.width, height: sprite.height, rgba: Uint8ClampedArray.from(frameToRgba(sprite, bank, frame.id)) };
-};
-
-const drawItem = (ctx: CanvasRenderingContext2D, source: HTMLCanvasElement, item: AtlasItem, scale: number): void => {
-  ctx.save();
-  ctx.translate(item.x * scale, item.y * scale);
-  if (item.rotated) {
-    ctx.translate(item.height * scale, 0);
-    ctx.rotate(Math.PI / 2);
-  }
-  ctx.drawImage(source, item.source.x, item.source.y, item.source.width, item.source.height, 0, 0, item.width * scale, item.height * scale);
-  ctx.restore();
 };
 
 const drawAtlas = (canvas: HTMLCanvasElement, view: AtlasDraw): void => {
@@ -39,7 +28,7 @@ const drawAtlas = (canvas: HTMLCanvasElement, view: AtlasDraw): void => {
   for (const item of atlas.items) {
     const sprite = sprites.get(item.id);
     const image = sprite ? frameOf(artwork, sprite, item.frame) : null;
-    if (image) drawItem(ctx, frameCanvas(canvas.ownerDocument, image), item, scale);
+    if (image) drawAtlasCell(ctx, frameCanvas(canvas.ownerDocument, image), item, scale);
   }
   drawAtlasAnimations(ctx, atlas, canvas.ownerDocument, scale);
   drawAtlasMarks(canvas, view);
