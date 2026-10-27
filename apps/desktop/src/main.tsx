@@ -20,7 +20,6 @@ import { APP_COMMANDS } from './keymap/app-commands.constants';
 import { useAppMenu } from './hooks/useAppMenu';
 import { SETTINGS, TITLE_BAR_MENU } from './main.constants';
 import { product } from './product';
-import { SurroundBackdrop } from './views/SurroundBackdrop';
 import { closeGuard } from './recovery/close-guard';
 import type { AppSettings } from './settings.type';
 
@@ -47,7 +46,6 @@ const App = () => {
       menu={menu}
       toolbars={appToolbars}
       toolbarPlacement="app"
-      background={<SurroundBackdrop />}
       onBeforeQuit={closeGuard}
       startupPrompts={appStartupPrompts}
     />

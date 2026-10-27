@@ -179,7 +179,6 @@ export type {
   AtlasHeld,
   AtlasInput,
   AtlasAnimation,
-  AtlasCell,
   AtlasItem,
   AtlasModel,
   AtlasPack,
