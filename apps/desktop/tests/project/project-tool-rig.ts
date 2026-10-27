@@ -71,7 +71,7 @@ const toolRig = async (options: RigOptions = {}): Promise<ToolRig> => {
   const runWith = async (tool: ToolName, input: unknown, { grants, mode = 'edit', settings, call }: RunSetup): Promise<ToolOutcome> => {
     const handler = TOOL_HANDLERS[tool];
     if (!handler) throw new Error(`no handler for ${tool}`);
-    const outcome = (await handler(input, toolContext(parts, grants, mode, settings, call))).outcome;
+    const outcome = (await handler(input, toolContext({ ...parts, call }, grants, mode, settings))).outcome;
     expectValid(tool, outcome);
     return outcome;
   };

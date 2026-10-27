@@ -8,7 +8,7 @@ import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 import { writeAssets } from '../../workspace/write-assets';
 import type { ToolContext } from '../assistant.type';
 import { placeDependencies } from './place-dependencies';
-import type { Roots } from './place-dependencies';
+import type { Roots } from './place-dependencies.type';
 import { reply } from './reply';
 import type { AlsoSaved } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';

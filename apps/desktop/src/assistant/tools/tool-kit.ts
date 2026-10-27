@@ -7,6 +7,7 @@ import type { ToolContext } from '../assistant.type';
 const toolKit = (context: ToolContext): FileKit => ({
   documents: guardDocuments(context.documents),
   prompts: refusingPrompts(),
+  keepStoredNames: true,
   host: context.host,
   paths: context.paths,
   clock: () => Date.now(),

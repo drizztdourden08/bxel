@@ -17,6 +17,7 @@ type FileKit = {
   readonly host: DocumentHost;
   readonly paths: PathBook;
   readonly clock: Clock;
+  readonly keepStoredNames?: boolean;
   readonly focus: (documentId: DocumentId) => void;
 };
 

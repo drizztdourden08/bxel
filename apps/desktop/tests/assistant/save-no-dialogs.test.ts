@@ -82,13 +82,8 @@ describe('save_document in the assistant folder', () => {
 describe('a dependency that cannot be given a file', () => {
   it('fails with DEPENDENCY_UNSAVED and lists the assets, and writes nothing', async () => {
     const id = await make('sheet');
-    const context = toolContext(
-      { host: current.rig.kit.host, paths: current.rig.kit.paths, documents: current.rig.disk.port },
-      [],
-      'edit',
-      { assistantWrite: 'projects_and_assistant_folder' },
-      { folder: FOLDER },
-    );
+    const parts = { host: current.rig.kit.host, paths: current.rig.kit.paths, documents: current.rig.disk.port, call: { folder: FOLDER } };
+    const context = toolContext(parts, [], 'edit', { assistantWrite: 'projects_and_assistant_folder' });
     const artwork = context.host.view(id as never)?.state.artwork;
     const sheet = artwork?.sheets[0];
     const result = await savedDependencies(context, id as never, { keys: [{ kind: 'sheet', id: sheet?.id ?? '' }] }, 'C:/Elsewhere');
@@ -100,7 +95,11 @@ describe('a dependency that cannot be given a file', () => {
 
 describe('the dialog guard', () => {
   it('turns a refused dialog into NEEDS_OWNER instead of opening it', async () => {
-    const handler = guardHandler(() => refusingPrompts().saveAs({ grantFolder: 'ask' }).then(() => ({ outcome: { ok: true as const }, images: [] })));
+    const opening = async () => {
+      await refusingPrompts().saveAs({ grantFolder: 'ask' });
+      return { outcome: { ok: true as const }, images: [] };
+    };
+    const handler = guardHandler(opening);
     const context = toolContext({ host: current.rig.kit.host, paths: current.rig.kit.paths, documents: current.rig.disk.port });
     const outcome = (await handler({}, context)).outcome;
     expect(outcome).toMatchObject({ ok: false, error: { code: 'NEEDS_OWNER', retry: 'after_owner' } });

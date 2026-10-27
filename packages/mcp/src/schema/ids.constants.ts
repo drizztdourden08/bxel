@@ -13,6 +13,7 @@ const FOLDER_ID_SCHEMA = idSchemaOf('fld').meta({ id: 'FolderId' });
 const RECENT_ID_SCHEMA = idSchemaOf('rcf').meta({ id: 'RecentId' });
 const ANIMATION_ID_SCHEMA = idSchemaOf('anm').meta({ id: 'AnimationId' });
 const ANIM_FRAME_ID_SCHEMA = idSchemaOf('afr').meta({ id: 'AnimFrameId' });
+const SLICE_ID_SCHEMA = idSchemaOf('slc').meta({ id: 'SliceId' });
 const TAG_ID_SCHEMA = idSchemaOf('tag').meta({ id: 'TagId' });
 const TILESET_ID_SCHEMA = idSchemaOf('tls').meta({ id: 'TilesetId' });
 const TILEMAP_ID_SCHEMA = idSchemaOf('tlm').meta({ id: 'TilemapId' });
@@ -32,6 +33,7 @@ export {
   RECENT_ID_SCHEMA,
   REVISION_SCHEMA,
   SHEET_ID_SCHEMA,
+  SLICE_ID_SCHEMA,
   SPRITE_ID_SCHEMA,
   TAG_ID_SCHEMA,
   TILEMAP_ID_SCHEMA,

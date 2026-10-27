@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { ToolHandlers } from './assistant.type';
-import { guardHandlers } from './guard-handler';
+import { guardHandlers } from './guard-handlers';
 import { applyEdits } from './tools/apply-edits';
 import { closeDocument } from './tools/close-document';
 import { createDocument } from './tools/create-document';

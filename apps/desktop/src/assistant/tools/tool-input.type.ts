@@ -19,7 +19,7 @@ type AnimationSource = { readonly animationId: string; readonly frameId?: string
 
 type AnimationStrip = { readonly image: RgbaImage; readonly indices: Uint8Array };
 
-type ExportTarget = { readonly path: string; readonly source: SpriteSource | AnimationSource };
+type ExportTarget = { readonly path: string; readonly source: SpriteSource | AnimationSource | SheetSource };
 
 type GetDocumentInput = DocumentInput & { readonly spriteOffset: number; readonly spriteLimit: number };
 
@@ -55,6 +55,8 @@ type EditInput = DocumentInput & {
   readonly previewPixels?: number;
   readonly clientRequestId?: string;
 };
+
+type PreviewInput = EditInput & { readonly render?: { readonly scale: number } };
 
 type UndoInput = DocumentInput & { readonly expectedRevision: number };
 
@@ -178,7 +180,9 @@ export type {
   ReadPaletteInput,
   ReadPixelsInput,
   RenderInput,
+  PreviewInput,
   SaveInput,
+  SheetSource,
   SavedAt,
   SpriteFrame,
   UndoInput,

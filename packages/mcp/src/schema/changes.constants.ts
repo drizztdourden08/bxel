@@ -3,7 +3,16 @@ import { targetScopeSchema } from '@bxel/document/schema';
 import { z } from 'zod';
 import { entityChangeSchema } from './entity-change-schema';
 import { idSchemaOf } from './id-schema-of';
-import { BANK_ID_SCHEMA, FRAME_ID_SCHEMA, LAYER_ID_SCHEMA, SHEET_ID_SCHEMA, SPRITE_ID_SCHEMA } from './ids.constants';
+import {
+  ANIMATION_ID_SCHEMA,
+  BANK_ID_SCHEMA,
+  FRAME_ID_SCHEMA,
+  LAYER_ID_SCHEMA,
+  SHEET_ID_SCHEMA,
+  SPRITE_ID_SCHEMA,
+  TILEMAP_ID_SCHEMA,
+  TILESET_ID_SCHEMA,
+} from './ids.constants';
 import { INDEXES_SCHEMA, RECT_SCHEMA } from './shapes.constants';
 
 const TARGET_SCOPE_SCHEMA = targetScopeSchema.meta({ id: 'TargetScope' });
@@ -29,6 +38,9 @@ const CHANGE_SET_SCHEMA = z
     sprites: z.array(SPRITE_CHANGE_SCHEMA),
     sheets: z.array(entityChangeSchema(SHEET_ID_SCHEMA)),
     presets: z.array(entityChangeSchema(idSchemaOf('exp'))),
+    tilesets: z.array(entityChangeSchema(TILESET_ID_SCHEMA)),
+    tilemaps: z.array(entityChangeSchema(TILEMAP_ID_SCHEMA)),
+    animations: z.array(entityChangeSchema(ANIMATION_ID_SCHEMA)),
   })
   .meta({ id: 'ChangeSet' });
 

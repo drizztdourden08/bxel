@@ -1,11 +1,9 @@
 /* @layer renderer-app @kind logic */
-import type { Artwork, AssetKey } from '@bxel/document';
+import type { AssetKey } from '@bxel/document';
 import { assetName } from '../../workspace/asset-name';
 import { keyId } from '../../workspace/key-id';
 import { linkedKeys } from '../../workspace/linked-keys';
-import type { Workspace } from '../../workspace/workspace.type';
-
-type Search = { readonly workspace: Workspace; readonly artwork: Artwork; readonly hidden: ReadonlySet<string>; readonly named: ReadonlySet<string> };
+import type { Search } from './unplaced-assets.type';
 
 const wantsFile = ({ workspace, artwork, hidden, named }: Search, key: AssetKey): boolean =>
   key.kind !== 'project' &&

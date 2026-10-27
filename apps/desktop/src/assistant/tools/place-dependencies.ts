@@ -13,38 +13,42 @@ import type { Workspace } from '../../workspace/workspace.type';
 import type { ToolContext } from '../assistant.type';
 import { checkNewPath } from './check-new-path';
 import { hiddenAssets } from './hidden-assets';
+import type { Blocked, Plan, Planned, Roots } from './place-dependencies.type';
 import { TOOL_TEXT } from './tools.constants';
 import { unplacedAssets } from './unplaced-assets';
-
-type Planned = { readonly key: AssetKey; readonly path: string };
-
-type Roots = { readonly keys: readonly AssetKey[]; readonly named?: readonly AssetKey[] };
 
 const takenPaths = (): Set<string> =>
   new Set(Object.values(useWorkspaceStore.getState().workspaces).flatMap((each) => [...each.paths.values()].map((path) => path.toLowerCase())));
 
 const describe = (artwork: Artwork, key: AssetKey): string => `${key.kind} "${assetName(artwork, key) ?? key.id}" (${key.id})`;
 
-const planFor = async (context: ToolContext, workspace: Workspace, artwork: Artwork, keys: readonly AssetKey[], dir: string | null) => {
+const planOne = async (
+  context: ToolContext,
+  artwork: Artwork,
+  step: { readonly key: AssetKey; readonly where: string | null },
+  taken: Set<string>,
+): Promise<Planned | Blocked> => {
+  const { key, where } = step;
+  const name = assetName(artwork, key);
+  if (where === null || name === null) return { key, reason: TOOL_TEXT.noFolderForAsset };
+  for (const onDisk of await takenIn(context.documents, where)) taken.add(onDisk);
+  const path = uniquePath(where, fileSafeStem(name, NAME_FALLBACK), ASSET_FORMAT[key.kind].extension, taken);
+  const denied = checkNewPath(context, path);
+  if (denied) return { key, reason: denied.error.message };
+  taken.add(path.toLowerCase());
+  return { key, path };
+};
+
+const planFor = async (context: ToolContext, workspace: Workspace, keys: readonly AssetKey[], dir: string | null): Promise<Plan> => {
+  const artwork = context.host.view(workspace.documentId)?.state.artwork;
   const taken = takenPaths();
   const planned: Planned[] = [];
-  const blocked: { readonly key: AssetKey; readonly reason: string }[] = [];
+  const blocked: Blocked[] = [];
   for (const key of keys) {
     const where = dir ?? workspace.dirs[key.kind] ?? workspace.root;
-    const name = assetName(artwork, key);
-    if (where === null || where === undefined || name === null) {
-      blocked.push({ key, reason: TOOL_TEXT.noFolderForAsset });
-      continue;
-    }
-    for (const onDisk of await takenIn(context.documents, where)) taken.add(onDisk);
-    const path = uniquePath(where, fileSafeStem(name, NAME_FALLBACK), ASSET_FORMAT[key.kind].extension, taken);
-    const denied = checkNewPath(context, path);
-    if (denied) {
-      blocked.push({ key, reason: denied.error.message });
-      continue;
-    }
-    taken.add(path.toLowerCase());
-    planned.push({ key, path });
+    const one = artwork ? await planOne(context, artwork, { key, where }, taken) : { key, reason: TOOL_TEXT.noFolderForAsset };
+    if ('path' in one) planned.push(one);
+    else blocked.push(one);
   }
   return { planned, blocked };
 };
@@ -54,7 +58,7 @@ const placeDependencies = async (context: ToolContext, documentId: DocumentId, r
   const artwork = context.host.view(documentId)?.state.artwork;
   if (!workspace || !artwork) return hiddenFailure('document');
   const missing = unplacedAssets({ workspace, artwork, hidden: hiddenAssets(context, documentId) }, roots.keys, roots.named);
-  const { planned, blocked } = await planFor(context, workspace, artwork, missing, dir);
+  const { planned, blocked } = await planFor(context, workspace, missing, dir);
   if (blocked.length > 0) {
     const list = blocked.map(({ key, reason }) => `${describe(artwork, key)}: ${reason}`).join('; ');
     return mcpFailure(MCP_ERROR_CODE.DEPENDENCY_UNSAVED, TOOL_TEXT.dependencyUnsaved(list), { path: 'target' });
@@ -64,4 +68,3 @@ const placeDependencies = async (context: ToolContext, documentId: DocumentId, r
 };
 
 export { placeDependencies };
-export type { Roots };

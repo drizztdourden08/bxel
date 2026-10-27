@@ -11,9 +11,10 @@ type ContextParts = {
   readonly host: DocumentHost;
   readonly paths: PathBook;
   readonly documents: DocumentsPort;
+  readonly call?: Partial<ToolCall>;
 };
 
-const toolContext = (parts: ContextParts, grants: readonly ProjectGrant[] = [], mode: SessionMode = 'edit', overrides: Partial<AssistantSettings> = {}, call: Partial<ToolCall> = {}): ToolContext => ({
+const toolContext = (parts: ContextParts, grants: readonly ProjectGrant[] = [], mode: SessionMode = 'edit', overrides: Partial<AssistantSettings> = {}): ToolContext => ({
   call: {
     tool: 'list_places',
     input: {},
@@ -22,7 +23,7 @@ const toolContext = (parts: ContextParts, grants: readonly ProjectGrant[] = [], 
     target: null,
     folder: 'C:/Assistant',
     version: '0.0.0',
-    ...call,
+    ...parts.call,
   },
   host: parts.host,
   settings: { ...ASSISTANT_DEFAULTS, assistantAccess: true, assistantProjects: grants, ...overrides },

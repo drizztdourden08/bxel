@@ -25,7 +25,7 @@ const reachable = (starts: readonly string[]): ReadonlySet<string> => {
   return seen;
 };
 
-const toolFiles = (): readonly string[] => [resolve(SRC, 'assistant/tool-handlers.constants.ts'), resolve(SRC, 'assistant/guard-handler.ts')];
+const toolFiles = (): readonly string[] => [resolve(SRC, 'assistant/tool-handlers.constants.ts'), resolve(SRC, 'assistant/guard-handlers.ts')];
 
 describe('every code path an assistant tool can reach', () => {
   it('has a handler for each tool the app answers, all behind the guard', () => {
