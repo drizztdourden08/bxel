@@ -13,11 +13,17 @@ const unsavedOf = (input: unknown): 'refuse' | 'recover' | 'discard' => {
   return value === 'recover' || value === 'discard' ? value : 'refuse';
 };
 
+const startedHeadless = (state: AssistantMain, session: LiveSession): boolean => session.launchedThis && state.instance.window === 'headless';
+
 const stopBxel = async (state: AssistantMain, session: LiveSession, input: unknown): Promise<ToolReply> => {
-  if (!session.launchedThis || state.instance.window !== 'headless') {
+  const own = startedHeadless(state, session);
+  if (!own && !session.grant.special.mayRestart) {
     return toolReply(mcpFailure(MCP_ERROR_CODE.STOP_NOT_ALLOWED, MAIN_TEXT.stopNotAllowed));
   }
   const unsaved = unsavedOf(input);
+  if (!own && unsaved === 'discard') {
+    return toolReply(mcpFailure(MCP_ERROR_CODE.STOP_NOT_ALLOWED, MAIN_TEXT.stopNoDiscard));
+  }
   const report = await askFlush(state, unsaved === 'recover' ? 'recover' : 'check');
   const ids = report.unsaved.map((entry) => entry.documentId);
   if (unsaved === 'refuse' && ids.length > 0) {

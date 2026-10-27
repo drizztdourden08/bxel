@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
-import type { FlushReport, PairOutcome, PairRequest, ProgramMode, SessionMode, SessionView, ToolCall, ToolReply } from '@bxel/mcp';
+import type { FlushReport, PairChoice, PairOutcome, PairRequest, SessionMode, SessionView, ToolCall, ToolReply } from '@bxel/mcp';
 import { ask, defineChannels, event, invoke } from '@drizztdourden08/brock-core';
-import type { AssistantSetup, ClientConfig } from '../assistant/assistant.type';
+import type { AssistantSetup, ClientConfig, ProgramGrant } from '../assistant/assistant.type';
 import type { DemoCopyOutcome } from '../demo/demo.type';
 
 const APP_CHANNELS = defineChannels({
@@ -11,7 +11,8 @@ const APP_CHANNELS = defineChannels({
   assistantClientConfig: invoke<() => Promise<ClientConfig>>()('assistant:client-config'),
   assistantClaimFiles: invoke<(paths: string[]) => Promise<string[]>>()('assistant:claim-files'),
   assistantSetup: invoke<(setup: AssistantSetup) => Promise<void>>()('assistant:setup'),
-  assistantNativePair: invoke<(program: string | null) => Promise<ProgramMode>>()('assistant:native-pair'),
+  assistantNativePair: invoke<(program: string | null) => Promise<PairChoice>>()('assistant:native-pair'),
+  assistantSyncGrants: invoke<(entries: readonly ProgramGrant[]) => Promise<void>>()('assistant:sync-grants'),
   demoCopy: invoke<(parent: string) => Promise<DemoCopyOutcome>>()('demo:copy'),
   assistantSessionsChanged: event<(sessions: SessionView[]) => void>()('assistant:sessions-changed'),
   assistantPair: ask<(request: PairRequest) => Promise<PairOutcome>>()('assistant:pair'),

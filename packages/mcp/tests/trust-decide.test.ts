@@ -1,5 +1,5 @@
 /* @layer tests @kind test */
-import { decideTrust, DEFAULT_TRUST_STORE, programKey } from '@bxel/mcp';
+import { decideTrust, DEFAULT_TRUST_STORE, grantOfMode, modeOfGrant, programKey } from '@bxel/mcp';
 import type { HelloClient, LaunchApproval, ProgramMode, TrustEntry, TrustLevel, TrustStore } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
 
@@ -9,6 +9,7 @@ const entry = (key: string, mode: ProgramMode): TrustEntry => ({
   key,
   displayName: key,
   mode,
+  grant: grantOfMode(mode),
   firstApproved: '2026-10-01T00:00:00Z',
   lastConnected: '2026-10-02T00:00:00Z',
   lastVersion: '1.0',
@@ -20,7 +21,7 @@ const storeAt = (level: TrustLevel, programs: TrustEntry[] = []): TrustStore => 
   programs,
 });
 
-const launch: LaunchApproval[] = [{ key: 'pixel-agent', mode: 'edit' }];
+const launch: LaunchApproval[] = [{ key: 'pixel-agent', grant: grantOfMode('edit') }];
 
 describe('program keys', () => {
   it('trims, lowercases and collapses inner spaces', () => {
@@ -61,8 +62,9 @@ describe('level: ask once until Bxel quits', () => {
   });
 
   it('pairs with the approved mode afterwards, ignoring the saved list', () => {
-    expect(decideTrust(client('Pixel-Agent'), store, [{ key: 'pixel-agent', mode: 'read' }])).toEqual({
+    expect(decideTrust(client('Pixel-Agent'), store, [{ key: 'pixel-agent', grant: grantOfMode('read') }])).toEqual({
       kind: 'pair',
+      grant: grantOfMode('read'),
       mode: 'read',
       trust: 'this_launch',
     });
@@ -86,7 +88,7 @@ describe('level: ask once and remember (default)', () => {
   it('pairs a remembered program with its mode', () => {
     for (const mode of ['read', 'edit'] as const) {
       const store = storeAt('ask_once_remember', [entry('pixel-agent', mode)]);
-      expect(decideTrust(client('  PIXEL-AGENT'), store)).toEqual({ kind: 'pair', mode, trust: 'remembered' });
+      expect(decideTrust(client('  PIXEL-AGENT'), store)).toEqual({ kind: 'pair', grant: grantOfMode(mode), mode, trust: 'remembered' });
     }
   });
 
@@ -108,13 +110,15 @@ describe('level: ask once and remember (default)', () => {
 describe('level: allow all', () => {
   it('pairs any program with the allow all mode, read only by default', () => {
     const store = storeAt('allow_all');
-    expect(decideTrust(client('whatever'), store)).toEqual({ kind: 'pair', mode: 'read', trust: 'allow_all' });
-    expect(decideTrust(client(null), store)).toEqual({ kind: 'pair', mode: 'read', trust: 'allow_all' });
+    const grant = grantOfMode('read');
+    expect(decideTrust(client('whatever'), store)).toEqual({ kind: 'pair', grant, mode: 'read', trust: 'allow_all' });
+    expect(decideTrust(client(null), store)).toEqual({ kind: 'pair', grant, mode: 'read', trust: 'allow_all' });
   });
 
   it('uses the mode set beside the option', () => {
     const store: TrustStore = { ...storeAt('allow_all'), allowAllMode: 'edit' };
-    expect(decideTrust(client('whatever'), store)).toEqual({ kind: 'pair', mode: 'edit', trust: 'allow_all' });
+    expect(decideTrust(client('whatever'), store)).toEqual({ kind: 'pair', grant: grantOfMode('edit'), mode: 'edit', trust: 'allow_all' });
+    expect(modeOfGrant(grantOfMode('edit'))).toBe('edit');
   });
 
   it('still blocks a program remembered as blocked', () => {

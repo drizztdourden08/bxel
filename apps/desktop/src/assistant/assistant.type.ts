@@ -27,6 +27,11 @@ interface AssistantSettings {
   assistantProjects: readonly ProjectGrant[];
 }
 
+type ProgramGrant = {
+  readonly key: string;
+  readonly grant: unknown;
+};
+
 type ClientConfig = {
   readonly command: string;
   readonly args: readonly string[];
@@ -89,6 +94,7 @@ export type {
   FolderCover,
   FoundFolder,
   GrantedProject,
+  ProgramGrant,
   SettingsPort,
   ToolContext,
   ToolHandler,

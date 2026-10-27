@@ -1,11 +1,13 @@
 /* @layer helper @kind logic */
-import { CONTRACT_VERSION, MCP_ERROR_CODE, MCP_TIMEOUT_MS } from '@bxel/mcp';
+import { MCP_ERROR_CODE } from '@bxel/mcp';
 import type { HelloClient, McpResult, ToolReply, ToolRouteName } from '@bxel/mcp';
-import { connectBridge, readBridgeDiscovery } from '@drizztdourden08/brock-electron/bridge';
 import type { BridgeClient } from '@drizztdourden08/brock-electron/bridge';
-import { BYE_ROUTE, HELLO_ROUTE, TOOL_ROUTES } from '../assistant-bridge/bridge-routes.constants';
+import { BYE_ROUTE, TOOL_ROUTES } from '../assistant-bridge/bridge-routes.constants';
 import { bridgeFailure } from './bridge-failure';
-import { HELPER_INFO } from './helper.constants';
+import { createGrantTracker } from './create-grant-tracker';
+import { isBridgeRunning } from './is-bridge-running';
+import { openBridge } from './open-bridge';
+import { requestHello } from './request-hello';
 import type { BridgeSession } from './helper.type';
 
 const createBridgeSession = (file: string): BridgeSession => {
@@ -15,8 +17,9 @@ const createBridgeSession = (file: string): BridgeSession => {
     client: { name: null, version: null } as HelloClient,
     launchToken: null as string | null,
   };
+  const tracker = createGrantTracker();
   const link = (): BridgeClient => {
-    state.link ??= connectBridge({ file, timeoutMs: MCP_TIMEOUT_MS.bridge });
+    state.link ??= openBridge(file, tracker);
     return state.link;
   };
   const drop = (): void => {
@@ -25,15 +28,16 @@ const createBridgeSession = (file: string): BridgeSession => {
     state.token = null;
   };
   const pair = async (): Promise<McpResult<string>> => {
-    const launch = state.launchToken === null ? {} : { launchToken: state.launchToken };
-    const reply = await link().request(HELLO_ROUTE, { contract: CONTRACT_VERSION, helperVersion: HELPER_INFO.version, client: state.client, ...launch });
-    return reply.ok ? { ok: true, value: reply.token } : reply;
+    const reply = await requestHello(link(), state.client, state.launchToken);
+    if (!reply.ok) {
+      state.token = null;
+      return reply;
+    }
+    tracker.accept(reply.sessionId, reply.grant);
+    return { ok: true, value: reply.token };
   };
   const tokenOf = (): Promise<McpResult<string>> => {
-    state.token ??= pair().then((result) => {
-      if (!result.ok) state.token = null;
-      return result;
-    });
+    state.token ??= pair();
     return state.token;
   };
   const attempt = async (tool: ToolRouteName, input: unknown): Promise<ToolReply> => {
@@ -57,15 +61,14 @@ const createBridgeSession = (file: string): BridgeSession => {
     if (token?.ok) await link().request(BYE_ROUTE, { token: token.value }).catch(() => false);
     drop();
   };
-  const isRunning = (): boolean => {
-    try {
-      readBridgeDiscovery(file);
-      return true;
-    } catch {
-      return false;
-    }
+  return {
+    call,
+    bye,
+    isRunning: () => isBridgeRunning(file),
+    setClient: (client) => (state.client = client),
+    setLaunchToken: (token) => (state.launchToken = token),
+    grant: tracker.current, onGrant: tracker.onChange,
   };
-  return { call, bye, isRunning, setClient: (client) => (state.client = client), setLaunchToken: (token) => (state.launchToken = token) };
 };
 
 export { createBridgeSession };

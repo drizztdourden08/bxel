@@ -1,5 +1,5 @@
 /* @layer helper @kind logic */
-import { checkPatchPixels, checkRequestSize, parseToolInput } from '@bxel/mcp';
+import { checkGrant, checkPatchPixels, checkRequestSize, parseToolInput } from '@bxel/mcp';
 import type { ToolOutcome, ToolReply, ToolRouteName } from '@bxel/mcp';
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
@@ -31,6 +31,9 @@ const callTool = async (state: HelperState, name: string, args: unknown): Promis
   if (!spec) throw new McpError(ErrorCode.InvalidParams, HELPER_TEXT.unknownTool(name));
   const parsed = parseToolInput(spec, args ?? {});
   if (!parsed.ok) return toCallResult(asReply(parsed));
+  const grant = state.session.grant();
+  const denied = name === 'start_bxel' && grant !== null ? checkGrant('start_bxel', parsed.value, grant) : null;
+  if (denied) return toCallResult(asReply(denied));
   return toCallResult(await route(state, name, parsed.value));
 };
 

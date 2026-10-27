@@ -1,17 +1,21 @@
 /* @layer core @kind logic */
+import { grantOfChoice } from '../grants/grant-of-choice';
+import { modeOfGrant } from '../grants/mode-of-grant';
 import { programKey } from './program-key';
 import { PROGRAM_KEY_MAX } from './trust.constants';
 import { trimPrograms } from './trim-programs';
-import type { HelloClient, ProgramMode, TrustStore } from './trust.type';
+import type { HelloClient, PairChoice, TrustStore } from './trust.type';
 
-const rememberProgram = (store: TrustStore, client: HelloClient, mode: ProgramMode, now: string): TrustStore => {
+const rememberProgram = (store: TrustStore, client: HelloClient, choice: PairChoice, now: string): TrustStore => {
   const key = programKey(client.name);
   if (key === null) return store;
   const earlier = store.programs.find((program) => program.key === key);
+  const grant = grantOfChoice(choice);
   const entry = {
     key,
     displayName: (client.name ?? key).trim().slice(0, PROGRAM_KEY_MAX),
-    mode,
+    mode: modeOfGrant(grant),
+    grant,
     firstApproved: earlier?.firstApproved ?? now,
     lastConnected: now,
     lastVersion: client.version,

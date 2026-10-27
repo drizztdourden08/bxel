@@ -10,7 +10,7 @@ const launchedBy = (state: AssistantMain, session: LiveSession): LaunchedBy => {
 const instanceView = (state: AssistantMain, session: LiveSession): InstanceView => ({
   window: state.instance.window,
   launchedBy: launchedBy(state, session),
-  canStop: session.launchedThis && state.instance.window === 'headless',
+  canStop: (session.launchedThis && state.instance.window === 'headless') || session.grant.special.mayRestart,
 });
 
 export { instanceView };

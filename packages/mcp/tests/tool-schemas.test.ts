@@ -1,6 +1,6 @@
 /* @layer tests @kind test */
 import { documentCommands } from '@bxel/document';
-import { buildTools, describeTools, parseToolInput, TOOL_MODE, TOOL_NAME } from '@bxel/mcp';
+import { buildTools, describeTools, parseToolInput, TOOL_CATALOGUE, TOOL_NAME } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
 import { ASSET_INPUT_EXAMPLES, ASSET_OUTPUT_EXAMPLES } from './asset-examples';
 import { INPUT_EXAMPLES as BASE_INPUTS, OUTPUT_EXAMPLES as BASE_OUTPUTS } from './examples';
@@ -20,15 +20,15 @@ const refsOf = (value: unknown): string[] => {
 };
 
 describe('the tool set', () => {
-  it('has the 24 tools of the contract, each with a mode', () => {
+  it('has the 24 tools of the contract, each in a bundle', () => {
     expect(tools).toHaveLength(24);
     expect(new Set(tools.map((tool) => tool.name)).size).toBe(24);
     expect(Object.values(TOOL_NAME).sort()).toEqual(tools.map((tool) => tool.name).sort());
-    for (const tool of tools) expect(tool.mode).toBe(TOOL_MODE[tool.name]);
+    for (const tool of tools) expect(tool).toMatchObject({ bundle: TOOL_CATALOGUE[tool.name].bundle, kind: TOOL_CATALOGUE[tool.name].kind });
   });
 
-  it('needs edit for exactly the six editing tools', () => {
-    const editing = tools.filter((tool) => tool.mode === 'edit').map((tool) => tool.name);
+  it('writes with exactly the six writing tools', () => {
+    const editing = tools.filter((tool) => tool.kind === 'write').map((tool) => tool.name);
     expect(editing.sort()).toEqual(['apply_edits', 'create_document', 'export_document', 'save_document', 'split_legacy_file', 'undo']);
   });
 

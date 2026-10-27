@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
-import type { ProgramMode, SessionMode, SessionView, TrustEntry, TrustLevel } from '@bxel/mcp';
+import type { Grant, SessionMode, SessionView, TrustEntry, TrustLevel } from '@bxel/mcp';
 import type { ActivityEntry } from '../../assistant/assistant.type';
+import type { PresetChoice } from './behavior/grant-rows.type';
 
 type AssistantPanelModel = {
   readonly level: TrustLevel;
@@ -9,9 +10,12 @@ type AssistantPanelModel = {
   readonly sessions: readonly SessionView[];
   readonly activity: readonly ActivityEntry[];
   readonly config: string | null;
+  readonly permissionsKey: string | null;
   readonly setLevel: (level: string) => void;
   readonly setAllowAllMode: (mode: string) => void;
-  readonly setProgramMode: (key: string, mode: ProgramMode) => void;
+  readonly setProgramGrant: (key: string, grant: Grant) => void;
+  readonly setProgramPreset: (key: string, choice: PresetChoice) => void;
+  readonly togglePermissions: (key: string) => void;
   readonly forget: (key: string) => void;
   readonly forgetAll: () => void;
   readonly disconnect: (sessionId: string) => void;

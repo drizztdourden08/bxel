@@ -7,7 +7,10 @@ import {
   normalizeTrustStore,
   REMEMBERED_PROGRAMS_MAX,
   rememberProgram,
-  setProgramMode,
+  setProgramGrant,
+  blockedGrant,
+  grantOfChoice,
+  PRESETS,
   touchProgram,
 } from '@bxel/mcp';
 import type { TrustState, TrustStore } from '@bxel/mcp';
@@ -27,7 +30,7 @@ describe('remembering programs', () => {
   it('stores the normalized key, the shown name, the mode and the times', () => {
     const store = rememberProgram(DEFAULT_TRUST_STORE, named('  Pixel   Agent '), 'edit', at(1));
     expect(store.programs).toEqual([
-      { key: 'pixel agent', displayName: 'Pixel   Agent', mode: 'edit', firstApproved: at(1), lastConnected: at(1), lastVersion: '1.0' },
+      { key: 'pixel agent', displayName: 'Pixel   Agent', mode: 'edit', grant: grantOfChoice('edit'), firstApproved: at(1), lastConnected: at(1), lastVersion: '1.0' },
     ]);
   });
 
@@ -66,10 +69,12 @@ describe('remembering programs', () => {
 describe('changing and forgetting', () => {
   const store = filled(3);
 
-  it('changes the mode of one program', () => {
-    const changed = setProgramMode(store, 'program-1', 'blocked');
-    expect(changed.programs.find((program) => program.key === 'program-1')?.mode).toBe('blocked');
+  it('changes the grant of one program and keeps the derived mode in step', () => {
+    const changed = setProgramGrant(store, 'program-1', blockedGrant());
+    expect(changed.programs.find((program) => program.key === 'program-1')).toMatchObject({ mode: 'blocked', grant: blockedGrant() });
     expect(changed.programs.find((program) => program.key === 'program-0')?.mode).toBe('read');
+    const edited = setProgramGrant(store, 'program-0', PRESETS.full_control.grant);
+    expect(edited.programs.find((program) => program.key === 'program-0')?.mode).toBe('edit');
   });
 
   it('forgets one program', () => {
@@ -92,39 +97,39 @@ describe('recording the owner answer', () => {
   const start = (level: TrustStore['level']): TrustState => ({ store: { ...DEFAULT_TRUST_STORE, level }, launch: [] });
 
   it('saves the choice at the remember level', () => {
-    const next = applyAnswer(start('ask_once_remember'), named('pixel-agent'), { mode: 'edit', remember: true }, at(1));
+    const next = applyAnswer(start('ask_once_remember'), named('pixel-agent'), { choice: 'edit', remember: true }, at(1));
     expect(next.store.programs[0]).toMatchObject({ key: 'pixel-agent', mode: 'edit' });
     expect(next.launch).toEqual([]);
   });
 
   it('saves a Deny as blocked', () => {
-    const next = applyAnswer(start('ask_once_remember'), named('pixel-agent'), { mode: 'blocked', remember: true }, at(1));
+    const next = applyAnswer(start('ask_once_remember'), named('pixel-agent'), { choice: 'blocked', remember: true }, at(1));
     expect(next.store.programs[0]?.mode).toBe('blocked');
   });
 
   it('saves nothing when the owner unticks Remember', () => {
     const state = start('ask_once_remember');
-    expect(applyAnswer(state, named('pixel-agent'), { mode: 'edit', remember: false }, at(1))).toBe(state);
+    expect(applyAnswer(state, named('pixel-agent'), { choice: 'edit', remember: false }, at(1))).toBe(state);
   });
 
   it('keeps the approval in memory only at the until-quit level', () => {
-    const next = applyAnswer(start('ask_once_session'), named('Pixel-Agent'), { mode: 'read', remember: true }, at(1));
-    expect(next.launch).toEqual([{ key: 'pixel-agent', mode: 'read' }]);
+    const next = applyAnswer(start('ask_once_session'), named('Pixel-Agent'), { choice: 'read', remember: true }, at(1));
+    expect(next.launch).toEqual([{ key: 'pixel-agent', grant: grantOfChoice('read') }]);
     expect(next.store.programs).toEqual([]);
   });
 
   it('does not keep a Deny at the until-quit level', () => {
     const state = start('ask_once_session');
-    expect(applyAnswer(state, named('pixel-agent'), { mode: 'blocked', remember: true }, at(1))).toBe(state);
+    expect(applyAnswer(state, named('pixel-agent'), { choice: 'blocked', remember: true }, at(1))).toBe(state);
   });
 
   it('remembers nothing at the other levels or for an unnamed program', () => {
     for (const level of ['ask_every', 'allow_all'] as const) {
       const state = start(level);
-      expect(applyAnswer(state, named('pixel-agent'), { mode: 'edit', remember: true }, at(1))).toBe(state);
+      expect(applyAnswer(state, named('pixel-agent'), { choice: 'edit', remember: true }, at(1))).toBe(state);
     }
     const state = start('ask_once_remember');
-    expect(applyAnswer(state, { name: null, version: null }, { mode: 'edit', remember: true }, at(1))).toBe(state);
+    expect(applyAnswer(state, { name: null, version: null }, { choice: 'edit', remember: true }, at(1))).toBe(state);
   });
 });
 

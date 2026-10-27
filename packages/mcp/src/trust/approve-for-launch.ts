@@ -1,10 +1,11 @@
 /* @layer core @kind logic */
-import type { LaunchApproval, SessionMode } from './trust.type';
+import type { Grant } from '../grants/grant.type';
+import type { LaunchApproval } from './trust.type';
 
 const approveForLaunch = (
   launch: readonly LaunchApproval[],
   key: string,
-  mode: SessionMode,
-): readonly LaunchApproval[] => [...launch.filter((approval) => approval.key !== key), { key, mode }];
+  grant: Grant,
+): readonly LaunchApproval[] => [...launch.filter((approval) => approval.key !== key), { key, grant }];
 
 export { approveForLaunch };

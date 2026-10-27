@@ -1,5 +1,5 @@
 /* @layer helper @kind logic */
-import { describeTools } from '@bxel/mcp';
+import { describeTools, PRESETS, toolsForGrant } from '@bxel/mcp';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import {
   CallToolRequestSchema,
@@ -15,12 +15,22 @@ import { ANIMATION_PREVIEW_TEMPLATE, HELPER_INFO, HELPER_TEXT, PREVIEW_TEMPLATE,
 import { helperLog } from './helper-log';
 import type { HelperState } from './helper.type';
 import { readResource } from './read-resource';
+import { signatureOf } from './signature-of';
 
 const createServer = (state: HelperState): McpServer => {
-  const mcp = new McpServer(HELPER_INFO, { capabilities: { tools: {}, resources: {} }, instructions: HELPER_TEXT.instructions });
+  const mcp = new McpServer(HELPER_INFO, { capabilities: { tools: { listChanged: true }, resources: {} }, instructions: HELPER_TEXT.instructions });
   const { server } = mcp;
   const tools = describeTools(APP_COMMANDS);
-  server.setRequestHandler(ListToolsRequestSchema, () => ({ tools: [...tools] }));
+  const listing = () => toolsForGrant(tools, state.session.grant() ?? PRESETS.full_control.grant);
+  const listed = { signature: '' };
+  server.setRequestHandler(ListToolsRequestSchema, () => {
+    const visible = listing();
+    listed.signature = signatureOf(visible);
+    return { tools: [...visible] };
+  });
+  state.session.onGrant(() => {
+    if (listed.signature !== '' && signatureOf(listing()) !== listed.signature) void server.sendToolListChanged().catch(() => undefined);
+  });
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const client = server.getClientVersion();
     state.session.setClient({ name: client?.name ?? null, version: client?.version ?? null });

@@ -31,6 +31,10 @@ const MCP_ROUTE = {
   getAnimation: 'bxel:mcp:get_animation',
 } as const;
 
+const MCP_EVENT = {
+  grant: 'bxel:mcp:grant',
+} as const;
+
 const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   show_window: MCP_ROUTE.showWindow,
   stop_bxel: MCP_ROUTE.stopBxel,
@@ -72,4 +76,4 @@ const MCP_ASK = {
 
 const SESSION_TOKEN_PATTERN = /^[0-9a-f]{64}$/;
 
-export { CONTRACT_VERSION, MCP_ASK, MCP_ROUTE, SESSION_TOKEN_PATTERN, TOOL_ROUTE };
+export { CONTRACT_VERSION, MCP_ASK, MCP_EVENT, MCP_ROUTE, SESSION_TOKEN_PATTERN, TOOL_ROUTE };

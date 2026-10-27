@@ -1,5 +1,5 @@
 /* @layer electron-main @kind logic */
-import { checkToolMode, parseToolInput } from '@bxel/mcp';
+import { checkGrant, parseToolInput } from '@bxel/mcp';
 import type { CallSession, ToolReply, ToolRouteName, ToolSpec } from '@bxel/mcp';
 import type { BridgeCall } from '@drizztdourden08/brock-electron/bridge';
 import { app } from 'electron';
@@ -14,9 +14,10 @@ import { showWindow } from './show-window';
 import { stopBxel } from './stop-bxel';
 import { toolReply } from './tool-reply';
 
-const callSession = ({ sessionId, mode, trust, client, displayName }: LiveSession): CallSession => ({
+const callSession = ({ sessionId, mode, grant, trust, client, displayName }: LiveSession): CallSession => ({
   sessionId,
   mode,
+  grant,
   trust,
   client,
   displayName,
@@ -48,7 +49,7 @@ const serveTool =
     const session = checked.value;
     const parsed = parseToolInput(spec, raw);
     if (!parsed.ok) return toolReply(parsed);
-    const denied = checkToolMode(tool, parsed.value, session.mode);
+    const denied = checkGrant(tool, parsed.value, session.grant, session.displayName);
     if (denied) return toolReply(denied);
     session.lastCallAt = Date.now();
     return forward(state, tool, session, parsed.value);

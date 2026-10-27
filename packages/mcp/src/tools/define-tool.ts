@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
+import { TOOL_CATALOGUE } from '../catalogue/tool-catalogue.constants';
 import { TOOL_HINTS } from './tool-hints.constants';
-import { TOOL_MODE } from './tool-name.constants';
 import type { ToolDefinition, ToolName, ToolSpec } from './tool.type';
 
 const defineTool = (name: ToolName, definition: ToolDefinition): ToolSpec => {
@@ -8,7 +8,8 @@ const defineTool = (name: ToolName, definition: ToolDefinition): ToolSpec => {
   return {
     ...definition,
     name,
-    mode: TOOL_MODE[name],
+    bundle: TOOL_CATALOGUE[name].bundle,
+    kind: TOOL_CATALOGUE[name].kind,
     annotations: {
       title: definition.title,
       readOnlyHint: hints.readOnly,

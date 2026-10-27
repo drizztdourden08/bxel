@@ -30,6 +30,8 @@ const ASSISTANT_TEXT = {
   readOnlyHint: 'It can look at documents, read pixels and preview edits.',
   editing: 'Allow editing',
   editingHint: 'It can also change, save and export your files. Each batch is one undo step.',
+  fullControl: 'Full control',
+  fullControlHint: 'It can also change the layout and settings, except the assistant settings. It cannot restart Bxel.',
   disabled: 'Assistant access is off in Settings.',
   denied: 'The owner denied the connection.',
   unnamed: 'Unnamed program',
