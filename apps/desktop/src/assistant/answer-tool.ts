@@ -1,7 +1,9 @@
 /* @layer renderer-app @kind logic */
 import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { ToolCall, ToolReply } from '@bxel/mcp';
+import { channelApi } from '@drizztdourden08/brock-react';
 import { fileKit } from '../files/file-kit';
+import { APP_CHANNELS } from '../ipc/contract.constants';
 import { reasonOf } from '../files/reason-of';
 import { useAssistantStore } from '../stores/useAssistantStore';
 import { activityOf } from './activity-of';
@@ -9,6 +11,8 @@ import { ASSISTANT_TEXT } from './assistant.constants';
 import { TOOL_HANDLERS } from './tool-handlers.constants';
 import { reply } from './tools/reply';
 import { TOOL_TEXT } from './tools/tools.constants';
+
+const claimFiles = (paths: readonly string[]): Promise<readonly string[]> => channelApi(APP_CHANNELS).assistantClaimFiles([...paths]);
 
 const runTool = async (call: ToolCall): Promise<ToolReply> => {
   const port = useAssistantStore.getState().port;
@@ -19,7 +23,7 @@ const runTool = async (call: ToolCall): Promise<ToolReply> => {
   const handler = TOOL_HANDLERS[call.tool];
   if (!handler) return reply(mcpFailure(MCP_ERROR_CODE.BRIDGE_ERROR, TOOL_TEXT.notHere));
   try {
-    return await handler(call.input, { call, host: kit.host, settings, documents: kit.documents, paths: kit.paths });
+    return await handler(call.input, { call, host: kit.host, settings, documents: kit.documents, paths: kit.paths, claim: claimFiles });
   } catch (error) {
     return reply(mcpFailure(MCP_ERROR_CODE.BRIDGE_ERROR, ASSISTANT_TEXT.failed(reasonOf(error)), { retry: 'later' }));
   }

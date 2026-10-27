@@ -63,7 +63,8 @@ const placeDependencies = async (context: ToolContext, documentId: DocumentId, r
     const list = blocked.map(({ key, reason }) => `${describe(artwork, key)}: ${reason}`).join('; ');
     return mcpFailure(MCP_ERROR_CODE.DEPENDENCY_UNSAVED, TOOL_TEXT.dependencyUnsaved(list), { path: 'target' });
   }
-  for (const { key, path } of planned) adoptPath(context.host, documentId, key, path);
+  const claimed = await context.claim(planned.map((each) => each.path));
+  for (const [at, { key, path }] of planned.entries()) adoptPath(context.host, documentId, key, claimed[at] ?? path);
   return { ok: true, value: planned.map((each) => each.key) };
 };
 

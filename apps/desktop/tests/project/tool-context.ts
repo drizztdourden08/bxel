@@ -29,6 +29,7 @@ const toolContext = (parts: ContextParts, grants: readonly ProjectGrant[] = [], 
   settings: { ...ASSISTANT_DEFAULTS, assistantAccess: true, assistantProjects: grants, ...overrides },
   documents: parts.documents,
   paths: parts.paths,
+  claim: (paths) => Promise.resolve(paths),
 });
 
 export { toolContext };

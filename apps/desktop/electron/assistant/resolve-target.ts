@@ -21,7 +21,17 @@ const wantedFile = (tool: ToolRouteName, input: unknown): WantedFile | null => {
   return { name, kind, overwrite: fieldOf(holder, 'overwrite') === true, path: tool === 'save_document' ? 'target.fileName' : 'fileName' };
 };
 
+const openFolder = async (ctx: MainContext, folder: string): Promise<void> => {
+  await mkdir(folder, { recursive: true });
+  try {
+    ctx.documents.allowFolder(folder);
+  } catch (error) {
+    ctx.log(`assistant: the assistant folder was not opened for saves: ${error instanceof Error ? error.message : String(error)}`, 'warn');
+  }
+};
+
 const resolveTarget = async (ctx: MainContext, folder: string, call: TargetCall): Promise<McpResult<string | null>> => {
+  if (call.tool === 'save_document') await openFolder(ctx, folder);
   const wanted = wantedFile(call.tool, call.input);
   if (!wanted) return { ok: true, value: null };
   const checked = checkFileName(wanted.name, wanted.kind);

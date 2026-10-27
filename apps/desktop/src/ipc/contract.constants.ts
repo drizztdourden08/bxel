@@ -9,6 +9,7 @@ const APP_CHANNELS = defineChannels({
   assistantDisconnect: invoke<(sessionId: string) => Promise<boolean>>()('assistant:disconnect'),
   assistantSetMode: invoke<(sessionId: string, mode: SessionMode) => Promise<boolean>>()('assistant:set-mode'),
   assistantClientConfig: invoke<() => Promise<ClientConfig>>()('assistant:client-config'),
+  assistantClaimFiles: invoke<(paths: string[]) => Promise<string[]>>()('assistant:claim-files'),
   assistantSetup: invoke<(setup: AssistantSetup) => Promise<void>>()('assistant:setup'),
   assistantNativePair: invoke<(program: string | null) => Promise<ProgramMode>>()('assistant:native-pair'),
   demoCopy: invoke<(parent: string) => Promise<DemoCopyOutcome>>()('demo:copy'),
