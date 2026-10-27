@@ -8,7 +8,7 @@ import { useDocumentStore } from '../../stores/useDocumentStore';
 import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 import { findAssetTab } from '../../workspace/find-asset-tab';
 import { focusTab } from '../../workspace/focus-tab';
-import { openPath } from '../../workspace/open-path';
+import { openArtworkPath } from '../../workspace/open-artwork-path';
 import type { ToolContext } from '../assistant.type';
 import { reply } from './reply';
 import { wireAsset } from './wire-asset';
@@ -50,7 +50,7 @@ const openTarget = async (context: ToolContext, target: OpenTarget, activate: bo
   if (path === null) return reply(hiddenFailure('file'));
   const { activeId } = useDocumentStore.getState();
   const { activeTab } = useWorkspaceStore.getState();
-  const outcome = await openPath(toolKit(context), path);
+  const outcome = await openArtworkPath(toolKit(context), path);
   if (outcome.kind === 'failed') return reply(mcpFailure(MCP_ERROR_CODE.FILE_NOT_SUPPORTED, outcome.message));
   const found = openedAt(context, path);
   if (!found) return reply(hiddenFailure('file'));

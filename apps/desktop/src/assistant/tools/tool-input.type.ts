@@ -19,7 +19,7 @@ type AnimationSource = { readonly animationId: string; readonly frameId?: string
 
 type AnimationStrip = { readonly image: RgbaImage; readonly indices: Uint8Array };
 
-type ExportTarget = { readonly path: string; readonly source: SpriteSource | AnimationSource };
+type ExportTarget = { readonly path: string; readonly source: SpriteSource | AnimationSource | SheetSource };
 
 type GetDocumentInput = DocumentInput & { readonly spriteOffset: number; readonly spriteLimit: number };
 
@@ -56,11 +56,17 @@ type EditInput = DocumentInput & {
   readonly clientRequestId?: string;
 };
 
+type PreviewInput = EditInput & { readonly render?: { readonly scale: number } };
+
 type UndoInput = DocumentInput & { readonly expectedRevision: number };
 
 type WireAssetKind = Exclude<AssetKind, 'project'>;
 
 type AssetInput = { readonly kind: WireAssetKind; readonly id: string };
+
+type AlsoSaved = { readonly fileName: string; readonly asset: AssetInput };
+
+type SavedAt = { readonly path: string; readonly also: readonly AlsoSaved[] };
 
 type PathOwner = { readonly documentId: DocumentId; readonly id: string | null };
 
@@ -147,6 +153,7 @@ type ListFilesInput = {
 type PlatformOptions = { platformStrict?: unknown; platformId?: unknown };
 
 export type {
+  AlsoSaved,
   AnimationSource,
   AnimationStrip,
   GetAnimationInput,
@@ -173,7 +180,10 @@ export type {
   ReadPaletteInput,
   ReadPixelsInput,
   RenderInput,
+  PreviewInput,
   SaveInput,
+  SheetSource,
+  SavedAt,
   SpriteFrame,
   UndoInput,
   WireFileKind,

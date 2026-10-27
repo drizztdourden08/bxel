@@ -24,7 +24,7 @@ const toAssistantFolder = z.strictObject({
 const saveDocumentTool = defineTool(TOOL_NAME.saveDocument, {
   title: 'Save a document',
   description:
-    'Runs the save job. The document is a workspace of assets. "current" writes every asset with unsaved changes to its own file, when the write setting allows it; with asset it writes only that asset. A new place (a project path, or a file name in the assistant folder) saves one asset there: the asset named by asset, or else the one whose kind matches the extension (.bxsprite, .bxsheet, .bxpalette, .bxtiles, .bxmap). An asset with no file yet takes the new place as its file. An asset that already has a file gets a copy at the new place unless moveAsset is true.',
+    'Runs the save job. The document is a workspace of assets. "current" writes every asset with unsaved changes to its own file, when the write setting allows it; with asset it writes only that asset. A new place (a project path, or a file name in the assistant folder) saves one asset there: the asset named by asset, or else the one whose kind matches the extension (.bxsprite, .bxsheet, .bxpalette, .bxtiles, .bxmap). An asset with no file yet takes the new place as its file. An asset that already has a file gets a copy at the new place unless moveAsset is true. Assets the saved asset links to (a sheet\'s sprites, a tilemap\'s tileset, an animation\'s sprites) that have no file yet are saved too, into the same folder, and listed in alsoSaved; if the write setting does not allow that place the call fails with DEPENDENCY_UNSAVED and lists them. A save never opens a dialog: a name already taken gets a number added, and a save that needs the owner fails with NEEDS_OWNER. Saves run one at a time; a parallel save waits its turn or answers APP_BUSY.',
   input: z.strictObject({
     documentId: DOCUMENT_ID_SCHEMA,
     expectedRevision: REVISION_SCHEMA.optional(),
@@ -38,6 +38,11 @@ const saveDocumentTool = defineTool(TOOL_NAME.saveDocument, {
     bytes: COUNT_SCHEMA,
     savedAt: TIMESTAMP_SCHEMA,
     asset: ASSET_REF_SCHEMA.nullable().optional(),
+    alsoSaved: z
+      .array(z.strictObject({ fileName: z.string(), asset: ASSET_REF_SCHEMA }))
+      .max(64)
+      .optional()
+      .describe('Assets the save had to give a file too, because the saved asset links to them. They land in the same folder.'),
   }),
 });
 

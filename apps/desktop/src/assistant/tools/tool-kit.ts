@@ -1,9 +1,13 @@
 /* @layer renderer-app @kind logic */
 import type { FileKit } from '../../files/files.type';
+import { guardDocuments } from '../../prompts/guard-documents';
+import { refusingPrompts } from '../../prompts/refusing-prompts';
 import type { ToolContext } from '../assistant.type';
 
 const toolKit = (context: ToolContext): FileKit => ({
-  documents: context.documents,
+  documents: guardDocuments(context.documents),
+  prompts: refusingPrompts(),
+  keepStoredNames: true,
   host: context.host,
   paths: context.paths,
   clock: () => Date.now(),

@@ -6,6 +6,9 @@ import { updateArtwork } from '../../draft/update-artwork';
 import { animationSplitSchema } from '../../schema/animation-split-schema';
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
+import { ERROR_CODE } from '../error-code.constants';
+import { fail } from '../fail';
+import { NOTHING_TO_SPLIT } from './animation-split.constants';
 import { pickAnimFrame } from './pick-anim-frame';
 import { pickAnimation } from './pick-animation';
 import { splitFrames } from './split-frames';
@@ -23,6 +26,9 @@ const animationSplit = defineCommand({
         : animation.frames.map((frame) => frame.id),
     );
     const { frames, promoted, made } = splitFrames(draft, animation, targets);
+    if (input.options.strict === true && made + promoted.size === 0) {
+      throw fail(ERROR_CODE.INVALID_OPTION, NOTHING_TO_SPLIT, { path: refs ? 'options.frames' : 'options.animation' });
+    }
     updateAnimation(draft, animation.id, (current) => ({ ...current, frames }));
     updateArtwork(draft, (artwork) => ({
       ...artwork,

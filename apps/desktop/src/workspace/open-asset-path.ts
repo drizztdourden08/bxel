@@ -20,7 +20,7 @@ const loadLoose = async (kit: FileKit, path: string): Promise<LooseLoad | FileOu
   const files = await collectLinked(kit.documents, path);
   const first = files[0];
   if (!first) return failed(FILE_TEXT.openFailed(fileName(path), FILE_TEXT.unreadable));
-  const decoded = decodeAssetFiles(files);
+  const decoded = decodeAssetFiles(files, kit.keepStoredNames === true);
   const report = decoded.reports.find((each) => isSamePath(each.path, first.path))?.report;
   if (!report?.slice) return failed(FILE_TEXT.openFailed(fileName(path), report?.issues[0]?.message ?? FILE_TEXT.unreadable));
   return { first, report, decoded };

@@ -19,6 +19,7 @@ const transactionRequestSchema = z.strictObject({
   label: z.string().min(1).max(200),
   steps: z.array(stepSchema),
   previewPixels: z.number().int().min(0),
+  withDraft: z.boolean().optional(),
 });
 
 export { transactionRequestSchema };

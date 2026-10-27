@@ -56,6 +56,8 @@ describe('retry values', () => {
     ['FILE_EXISTS', 'fix_input'],
     ['FILE_IN_USE', 'fix_input'],
     ['NEEDS_FILE_NAME', 'fix_input'],
+    ['NEEDS_OWNER', 'after_owner'],
+    ['DEPENDENCY_UNSAVED', 'fix_input'],
     ['RESULT_TOO_LARGE', 'fix_input'],
     ['APP_BUSY', 'later'],
     ['HELPER_OUTDATED', 'never'],

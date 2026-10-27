@@ -5,12 +5,15 @@ import { transformPivot } from '../transform/transform-pivot';
 import { transformRect } from '../transform/transform-rect';
 import { transformSize } from '../transform/transform-size';
 
-const reorientSlice = (slice: Slice, orientation: Orientation, size: Sprite): Slice => ({
-  ...slice,
-  rect: transformRect(orientation, size, slice.rect),
-  pivot: slice.pivot && transformPivot(orientation, size, slice.pivot),
-  center: slice.center && transformRect(orientation, size, slice.center),
-});
+const reorientSlice = (slice: Slice, orientation: Orientation, size: Sprite): Slice => {
+  const local = { width: slice.rect.width, height: slice.rect.height };
+  return {
+    ...slice,
+    rect: transformRect(orientation, size, slice.rect),
+    pivot: slice.pivot && transformPivot(orientation, local, slice.pivot),
+    center: slice.center && transformRect(orientation, local, slice.center),
+  };
+};
 
 const reorientSprite = (sprite: Sprite, orientation: Orientation): Sprite => {
   const pivot = transformPivot(orientation, sprite, sprite.pivot);

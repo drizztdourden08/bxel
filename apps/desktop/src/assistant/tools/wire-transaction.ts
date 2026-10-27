@@ -10,6 +10,9 @@ const wireChanges = (changes: ChangeSet) => ({
   sprites: changes.sprites,
   sheets: changes.sheets,
   presets: changes.presets,
+  tilesets: changes.tilesets,
+  tilemaps: changes.tilemaps,
+  animations: changes.animations,
 });
 
 const wirePreview = (preview: PreviewData | null) =>
