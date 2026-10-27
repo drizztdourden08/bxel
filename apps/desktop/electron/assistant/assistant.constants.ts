@@ -32,6 +32,11 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   list_map_layers: read,
   read_map_cells: read,
   get_animation: read,
+  list_commands: read,
+  run_command: edit,
+  get_view: read,
+  set_view: edit,
+  get_history: read,
 };
 
 const NATIVE_PAIR_TEXT = {

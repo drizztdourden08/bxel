@@ -10,6 +10,7 @@ import { askTool } from './ask-tool';
 import { instanceView } from './instance-view';
 import { resolveTarget } from './resolve-target';
 import { checkSession } from './check-session';
+import { raiseWindow } from './raise-window';
 import { showWindow } from './show-window';
 import { stopBxel } from './stop-bxel';
 import { toolReply } from './tool-reply';
@@ -38,7 +39,9 @@ const forward = async (state: AssistantMain, tool: ToolRouteName, session: LiveS
     folder: assistantFolder(state),
     version: app.getVersion(),
   };
-  return askTool(state, call, TOOL_TIMEOUT[tool]);
+  const answered = await askTool(state, call, TOOL_TIMEOUT[tool]);
+  if (tool === 'set_view' && answered.outcome.ok) raiseWindow(state, input);
+  return answered;
 };
 
 const serveTool =

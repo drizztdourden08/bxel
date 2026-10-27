@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { artworkCreate } from '@bxel/document';
 import type { DocumentId } from '@bxel/document';
+import { attributed } from './acting-as';
 import { attachEngine } from './attach-engine';
 import { browserIdSource } from './browser-id-source';
 import { closeEntry } from './close-entry';
@@ -33,10 +34,11 @@ const createDocumentHost = (options: DocumentHostOptions = {}): DocumentHost => 
     view: (documentId) => store.entries.get(documentId)?.view ?? null,
     execute: (request) => {
       const entry = store.entries.get(request.documentId);
-      return entry ? entry.engine.execute(request) : missingDocument(request.documentId, request.baseRevision);
+      return entry ? entry.engine.execute(attributed(request)) : missingDocument(request.documentId, request.baseRevision);
     },
     undo: (documentId) => runHistory(store, documentId, 'undo'),
     redo: (documentId) => runHistory(store, documentId, 'redo'),
+    history: (documentId) => store.entries.get(documentId)?.engine.history() ?? null,
     markSaved: (documentId) => {
       const entry = store.entries.get(documentId);
       entry?.engine.markSaved();

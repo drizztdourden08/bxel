@@ -29,6 +29,11 @@ const MCP_ROUTE = {
   listMapLayers: 'bxel:mcp:list_map_layers',
   readMapCells: 'bxel:mcp:read_map_cells',
   getAnimation: 'bxel:mcp:get_animation',
+  listCommands: 'bxel:mcp:list_commands',
+  runCommand: 'bxel:mcp:run_command',
+  getView: 'bxel:mcp:get_view',
+  setView: 'bxel:mcp:set_view',
+  getHistory: 'bxel:mcp:get_history',
 } as const;
 
 const MCP_EVENT = {
@@ -59,6 +64,11 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   list_map_layers: MCP_ROUTE.listMapLayers,
   read_map_cells: MCP_ROUTE.readMapCells,
   get_animation: MCP_ROUTE.getAnimation,
+  list_commands: MCP_ROUTE.listCommands,
+  run_command: MCP_ROUTE.runCommand,
+  get_view: MCP_ROUTE.getView,
+  set_view: MCP_ROUTE.setView,
+  get_history: MCP_ROUTE.getHistory,
 };
 
 const MCP_ASK = {

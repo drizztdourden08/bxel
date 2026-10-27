@@ -7,6 +7,7 @@ import { useSpriteStore } from '../../stores/useSpriteStore';
 import { usePendingStore } from '../../stores/usePendingStore';
 import { useNoticeStore } from '../../stores/useNoticeStore';
 import { currentTarget } from '../current-target';
+import type { EditorTarget } from '../editor.type';
 import { layerBlock } from '../layer-block';
 import { editMask } from '../edit-mask';
 import type { PendingEdit, PendingSpec } from './pending.type';
@@ -21,18 +22,25 @@ const spritesFor = (pending: Omit<PendingEdit, 'sprites'>, active: SpriteId): re
   return group.length > 1 ? group.map((sprite) => sprite.id) : [active];
 };
 
-const beginPending = (spec: PendingSpec, editing = false): boolean => {
+type Built = { readonly target: EditorTarget; readonly pending: PendingEdit; readonly blocked: string | null };
+
+const buildPending = (spec: PendingSpec, editing: boolean): Built | null => {
   const target = currentTarget();
-  if (!target) return false;
+  if (!target) return null;
   const base = { documentId: target.documentId, spec, mask: maskFor(spec, editMask(target)), editing };
   const pending: PendingEdit = { ...base, sprites: spritesFor(base, target.sprite.id) };
-  const blocked = wholeSprite(pending) ? null : layerBlock(target.layer);
-  if (blocked !== null) {
-    useNoticeStore.getState().post(blocked);
+  return { target, pending, blocked: wholeSprite(pending) ? null : layerBlock(target.layer) };
+};
+
+const beginPending = (spec: PendingSpec, editing = false): boolean => {
+  const built = buildPending(spec, editing);
+  if (!built) return false;
+  if (built.blocked !== null) {
+    useNoticeStore.getState().post(built.blocked);
     return false;
   }
-  usePendingStore.getState().begin(pending);
+  usePendingStore.getState().begin(built.pending);
   return true;
 };
 
-export { beginPending };
+export { beginPending, buildPending };

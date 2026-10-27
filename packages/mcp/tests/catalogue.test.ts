@@ -24,7 +24,11 @@ describe('the tool catalogue', () => {
     }
   });
 
-  it('tests the writing inputs of the two mixed tools', () => {
+  it('tests the writing inputs of the mixed tools', () => {
+    expect(TOOL_CATALOGUE.set_view.writes?.({ zoom: 'fit', toggles: { grid: true } })).toBe(false);
+    expect(TOOL_CATALOGUE.set_view.writes?.({ zoom: 'fit', selection: { shape: { kind: 'all' } } })).toBe(true);
+    for (const field of ['select', 'tool', 'colours', 'symmetry']) expect(TOOL_CATALOGUE.set_view.writes?.({ [field]: {} }), field).toBe(true);
+    expect(TOOL_CATALOGUE.run_command.routed).toBe('command');
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: true })).toBe(true);
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: false })).toBe(false);
     expect(TOOL_CATALOGUE.stop_bxel.writes?.({ unsaved: 'discard' })).toBe(true);

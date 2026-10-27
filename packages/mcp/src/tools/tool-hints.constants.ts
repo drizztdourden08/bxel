@@ -31,6 +31,11 @@ const TOOL_HINTS = {
   list_map_layers: SAFE_READ,
   read_map_cells: SAFE_READ,
   get_animation: SAFE_READ,
+  list_commands: SAFE_READ,
+  run_command: ACTION,
+  get_view: SAFE_READ,
+  set_view: SAFE_ACTION,
+  get_history: SAFE_READ,
 } as const satisfies Record<string, ToolHints>;
 
 export { TOOL_HINTS };

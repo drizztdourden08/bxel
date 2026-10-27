@@ -6,9 +6,12 @@ import { createDocumentTool } from './create-document-tool';
 import { exportDocumentTool } from './export-document-tool';
 import { getAnimationTool } from './get-animation-tool';
 import { getDocumentTool } from './get-document-tool';
+import { getHistoryTool } from './get-history-tool';
+import { getViewTool } from './get-view-tool';
 import { getSessionTool } from './get-session-tool';
 import { listAssetsTool } from './list-assets-tool';
 import { listDocumentsTool } from './list-documents-tool';
+import { listCommandsTool } from './list-commands-tool';
 import { listFilesTool } from './list-files-tool';
 import { listMapLayersTool } from './list-map-layers-tool';
 import { listPlacesTool } from './list-places-tool';
@@ -18,7 +21,9 @@ import { readMapCellsTool } from './read-map-cells-tool';
 import { readPaletteTool } from './read-palette-tool';
 import { readPixelsTool } from './read-pixels-tool';
 import { renderPreviewTool } from './render-preview-tool';
+import { runCommandTool } from './run-command-tool';
 import { saveDocumentTool } from './save-document-tool';
+import { setViewTool } from './set-view-tool';
 import { showWindowTool } from './show-window-tool';
 import { startBxelTool } from './start-bxel-tool';
 import { splitLegacyFileTool } from './split-legacy-file-tool';
@@ -51,6 +56,11 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   exportDocumentTool,
   createDocumentTool,
   splitLegacyFileTool,
+  listCommandsTool,
+  runCommandTool,
+  getViewTool,
+  setViewTool,
+  getHistoryTool,
 ];
 
 export { buildTools };

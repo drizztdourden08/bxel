@@ -39,6 +39,7 @@ interface PixelViewportHandle {
   zoomOut: (anchor?: PixelPoint) => void;
   redraw: () => void;
   reveal: (pixel: PixelPoint) => void;
+  panTo: (pixel: PixelPoint) => void;
   view: () => PixelView;
 }
 

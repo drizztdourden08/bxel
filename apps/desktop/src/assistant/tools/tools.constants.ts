@@ -56,6 +56,8 @@ const TOOL_TEXT = {
   formatMissing: 'Only png is offered for a sprite, and png or gif for an animation.',
   undoNotOwn: 'The newest change was made by the owner or another program. Ask the owner to undo in Bxel.',
   nothingToUndo: 'There is nothing to undo.',
+  nothingToRedo: 'There is nothing to redo.',
+  redoNotOwn: 'The next change to redo was made by the owner or another program. Ask the owner to redo in Bxel.',
 } as const;
 
 export { ASSISTANT_FOLDER_NAME, RECENT_ID_LENGTH, REQUEST_MEMORY_MAX, TOOL_TEXT, WIRE_KIND_OF };

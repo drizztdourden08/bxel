@@ -6,7 +6,10 @@ import { createDocument } from './tools/create-document';
 import { exportDocument } from './tools/export-document';
 import { getAnimation } from './tools/get-animation';
 import { getDocument } from './tools/get-document';
+import { getHistory } from './tools/get-history';
+import { getView } from './tools/get-view';
 import { getSession } from './tools/get-session';
+import { listCommands } from './tools/list-commands';
 import { listDocuments } from './tools/list-documents';
 import { listAssets } from './tools/list-assets';
 import { listFiles } from './tools/list-files';
@@ -18,7 +21,9 @@ import { readMapCells } from './tools/read-map-cells';
 import { readPalette } from './tools/read-palette';
 import { readPixels } from './tools/read-pixels';
 import { renderPreview } from './tools/render-preview';
+import { runCommand } from './tools/run-command';
 import { saveDocument } from './tools/save-document';
+import { setView } from './tools/set-view';
 import { splitLegacyFile } from './tools/split-legacy-file';
 import { undo } from './tools/undo';
 
@@ -44,6 +49,11 @@ const TOOL_HANDLERS: ToolHandlers = {
   split_legacy_file: splitLegacyFile,
   list_map_layers: listMapLayers,
   read_map_cells: readMapCells,
+  list_commands: listCommands,
+  run_command: runCommand,
+  get_view: getView,
+  set_view: setView,
+  get_history: getHistory,
 };
 
 export { TOOL_HANDLERS };

@@ -37,6 +37,7 @@ const useViewportHandle = (ref: Ref<PixelViewportHandle> | undefined, parts: Vie
         const delta = revealDelta(pixel, target(), live.current.box);
         if (delta.x !== 0 || delta.y !== 0) live.current.view.panBy(delta.x, delta.y);
       },
+      panTo: (pixel) => live.current.view.apply({ zoom: target().zoom, pan: pixel }),
       view: () => viewOf(target(), live.current.box, live.current.image),
     };
   }, [redraw]);

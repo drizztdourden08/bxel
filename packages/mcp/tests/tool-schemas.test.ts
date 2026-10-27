@@ -2,11 +2,12 @@
 import { documentCommands } from '@bxel/document';
 import { buildTools, describeTools, parseToolInput, TOOL_CATALOGUE, TOOL_NAME } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
+import { APP_INPUT_EXAMPLES, APP_OUTPUT_EXAMPLES } from './app-examples';
 import { ASSET_INPUT_EXAMPLES, ASSET_OUTPUT_EXAMPLES } from './asset-examples';
 import { INPUT_EXAMPLES as BASE_INPUTS, OUTPUT_EXAMPLES as BASE_OUTPUTS } from './examples';
 
-const INPUT_EXAMPLES = { ...BASE_INPUTS, ...ASSET_INPUT_EXAMPLES };
-const OUTPUT_EXAMPLES = { ...BASE_OUTPUTS, ...ASSET_OUTPUT_EXAMPLES };
+const INPUT_EXAMPLES = { ...BASE_INPUTS, ...ASSET_INPUT_EXAMPLES, ...APP_INPUT_EXAMPLES };
+const OUTPUT_EXAMPLES = { ...BASE_OUTPUTS, ...ASSET_OUTPUT_EXAMPLES, ...APP_OUTPUT_EXAMPLES };
 
 const tools = buildTools(documentCommands);
 const descriptors = describeTools(documentCommands);
@@ -20,9 +21,9 @@ const refsOf = (value: unknown): string[] => {
 };
 
 describe('the tool set', () => {
-  it('has the 24 tools of the contract, each in a bundle', () => {
-    expect(tools).toHaveLength(24);
-    expect(new Set(tools.map((tool) => tool.name)).size).toBe(24);
+  it('has the 29 tools of the contract, each in a bundle', () => {
+    expect(tools).toHaveLength(29);
+    expect(new Set(tools.map((tool) => tool.name)).size).toBe(29);
     expect(Object.values(TOOL_NAME).sort()).toEqual(tools.map((tool) => tool.name).sort());
     for (const tool of tools) expect(tool).toMatchObject({ bundle: TOOL_CATALOGUE[tool.name].bundle, kind: TOOL_CATALOGUE[tool.name].kind });
   });
