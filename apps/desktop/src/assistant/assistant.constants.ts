@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import { DEFAULT_SCOPE_SETTINGS, DEFAULT_TRUST_STORE } from '@bxel/mcp';
+import { DEFAULT_SCOPE_SETTINGS, DEFAULT_TRUST_STORE, EXPORT_FORMAT_VALUES } from '@bxel/mcp';
 import type { AssistantSettings } from './assistant.type';
 
 const ASSISTANT_DEFAULTS: AssistantSettings = {
@@ -18,7 +18,7 @@ const ACTIVITY_MAX = 500;
 
 const ASSISTANT_FOLDER_LABEL = 'Documents\\Bxel Assistant';
 
-const EXPORT_FORMATS: readonly string[] = ['png'];
+const EXPORT_FORMATS: readonly string[] = EXPORT_FORMAT_VALUES;
 
 const ASSISTANT_TEXT = {
   pairTitle: 'A program wants to use Bxel',

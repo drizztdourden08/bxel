@@ -1,4 +1,5 @@
 /* @layer core @kind types */
+import type { Artwork } from '../model/artwork.type';
 import type { Rect } from '../model/geometry.type';
 import type {
   AnimationId,
@@ -63,6 +64,7 @@ type TransactionOk = {
   readonly report: Readonly<Record<string, number>>;
   readonly warnings: readonly CommandWarning[];
   readonly preview: PreviewData | null;
+  readonly draft?: Artwork;
 };
 
 type TransactionFailed = {

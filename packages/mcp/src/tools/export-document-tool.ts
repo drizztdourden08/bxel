@@ -33,7 +33,7 @@ const base = z.strictObject({
 const exportDocumentTool = defineTool(TOOL_NAME.exportDocument, {
   title: 'Export a document',
   description:
-    'Exports one sprite frame, one animation (format gif plays the whole animation or one tag; png draws one frame or a strip) or one sheet at a frozen revision, into a project granted editing or the assistant folder. Give exactly one of location and fileName. Exports stay off the recent files list.',
+    'Exports one sprite frame, one animation (format gif plays the whole animation or one tag; png draws one frame or a strip) or one sheet at a frozen revision, into a project granted editing or the assistant folder. Formats: png (any source), png-indexed (a sprite frame or an animation, palette indexes kept), gif (an animation only); a sheet exports as png. The file name must end in .gif for format gif and in .png for the others. Give exactly one of location and fileName. Exports stay off the recent files list.',
   input: z.xor([
     base.extend({ location: LOCATION_SCHEMA.describe('A project path granted editing.') }),
     base.extend({ fileName: FILE_NAME_SCHEMA.describe('Lands in the assistant folder.') }),

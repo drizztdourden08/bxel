@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind logic */
 import type { AssetKey, DocumentId } from '@bxel/document';
-import { confirmAction } from '@drizztdourden08/brock-react';
 import { fileName } from '../files/file-name';
 import type { FileKit } from '../files/files.type';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
@@ -33,7 +32,7 @@ const trashRemoved = async (kit: FileKit, documentId: DocumentId, keys: readonly
   }
   const migrated = keys.every((key) => workspace?.migration?.keys.some((each) => keyId(each) === keyId(key)));
   const names = files.map(fileName).join(', ');
-  const sure = await confirmAction({
+  const sure = await kit.prompts.confirm({
     title: migrated ? WORKSPACE_TEXT.migratedTitle : WORKSPACE_TEXT.trashTitle,
     message: migrated ? WORKSPACE_TEXT.migratedMessage(names) : WORKSPACE_TEXT.trashMessage(names),
     confirmLabel: WORKSPACE_TEXT.trashConfirm,

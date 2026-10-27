@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { McpResult } from '@bxel/mcp';
-import { isArtworkPath } from '../../files/is-artwork-path';
+import { isOpenablePath } from './is-openable-path';
 import type { ToolContext } from '../assistant.type';
 import { fileExists } from './file-exists';
 import { projectFolder } from './project-folder';
@@ -14,7 +14,7 @@ const projectTarget = async (context: ToolContext, location: ProjectLocation): P
   if (!found.ok) return found;
   const path = projectPath(found.value.folder.path, location.path);
   if (!path.ok) return path;
-  if (!isArtworkPath(path.value)) return mcpFailure(MCP_ERROR_CODE.FILE_NOT_SUPPORTED, TOOL_TEXT.notBxel, { path: 'file.path' });
+  if (!isOpenablePath(path.value)) return mcpFailure(MCP_ERROR_CODE.FILE_NOT_SUPPORTED, TOOL_TEXT.notBxel, { path: 'file.path' });
   if (!(await fileExists(context.documents, path.value))) return mcpFailure(MCP_ERROR_CODE.FILE_NOT_FOUND, TOOL_TEXT.noFile, { path: 'file.path' });
   return { ok: true, value: { path: path.value, viaRecent: false } };
 };
