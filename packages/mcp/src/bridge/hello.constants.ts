@@ -1,5 +1,6 @@
 /* @layer core @kind constants */
 import { z } from 'zod';
+import { GRANT_SCHEMA } from '../grants/grant-schema.constants';
 import { withFailure } from '../schema/with-failure';
 import { SESSION_MODE_SCHEMA } from '../tools/tool-enums.constants';
 import { SESSION_TOKEN_PATTERN } from './bridge.constants';
@@ -20,6 +21,7 @@ const HELLO_REPLY_SCHEMA = withFailure({
   token: TOKEN_SCHEMA,
   sessionId: z.string(),
   mode: SESSION_MODE_SCHEMA,
+  grant: GRANT_SCHEMA,
   trust: z.enum(['prompted', 'this_launch', 'remembered', 'allow_all']),
 });
 
@@ -34,7 +36,7 @@ const PAIR_INFO_SCHEMA = z.strictObject({
 });
 
 const PAIR_ANSWER_SCHEMA = z.strictObject({
-  decision: z.enum(['read', 'edit', 'deny']),
+  decision: z.enum(['read', 'edit', 'full', 'deny']),
   remember: z.boolean(),
 });
 

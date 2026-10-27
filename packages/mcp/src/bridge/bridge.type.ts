@@ -1,6 +1,7 @@
 /* @layer core @kind types */
 import type { z } from 'zod';
 import type { Failure } from '../errors/error.type';
+import type { Grant } from '../grants/grant.type';
 import type { ToolOutcome } from '../tools/tool-result.type';
 import type { ToolName } from '../tools/tool.type';
 import type { TOOL_NAME } from '../tools/tool-name.constants';
@@ -40,7 +41,7 @@ type PairRequest = {
   readonly headless: boolean;
 };
 
-type PairOutcome = { readonly ok: true; readonly mode: SessionMode; readonly trust: SessionTrust } | Failure;
+type PairOutcome = { readonly ok: true; readonly mode: SessionMode; readonly grant: Grant; readonly trust: SessionTrust } | Failure;
 
 type InstanceView = {
   readonly window: InstanceWindow;
@@ -51,6 +52,7 @@ type InstanceView = {
 type CallSession = {
   readonly sessionId: string;
   readonly mode: SessionMode;
+  readonly grant: Grant;
   readonly trust: SessionTrust;
   readonly client: HelloClient;
   readonly displayName: string;

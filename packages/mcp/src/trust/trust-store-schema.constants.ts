@@ -1,11 +1,12 @@
 /* @layer core @kind constants */
 import { z } from 'zod';
-import { DEFAULT_TRUST_STORE, PROGRAM_MODES, SESSION_MODES, TRUST_LEVELS } from './trust.constants';
+import { DEFAULT_TRUST_STORE, SESSION_MODES, TRUST_LEVELS } from './trust.constants';
 
 const TRUST_ENTRY_SCHEMA = z.object({
   key: z.string(),
   displayName: z.string(),
-  mode: z.enum(PROGRAM_MODES),
+  mode: z.unknown().optional(),
+  grant: z.unknown().optional(),
   firstApproved: z.string(),
   lastConnected: z.string(),
   lastVersion: z.string().nullable().catch(null),

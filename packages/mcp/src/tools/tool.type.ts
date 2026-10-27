@@ -1,10 +1,9 @@
 /* @layer core @kind types */
 import type { z } from 'zod';
-import type { TOOL_MODE, TOOL_NAME } from './tool-name.constants';
+import type { BundleId, ToolKind } from '../catalogue/catalogue.type';
+import type { TOOL_NAME } from './tool-name.constants';
 
 type ToolName = (typeof TOOL_NAME)[keyof typeof TOOL_NAME];
-
-type ToolMode = 'read' | 'edit';
 
 type ToolHints = {
   readonly readOnly: boolean;
@@ -29,8 +28,9 @@ type ToolDefinition = {
 
 type ToolSpec = ToolDefinition & {
   readonly name: ToolName;
-  readonly mode: (typeof TOOL_MODE)[ToolName];
+  readonly bundle: BundleId;
+  readonly kind: ToolKind;
   readonly annotations: ToolAnnotations;
 };
 
-export type { ToolAnnotations, ToolDefinition, ToolHints, ToolMode, ToolName, ToolSpec };
+export type { ToolAnnotations, ToolDefinition, ToolHints, ToolName, ToolSpec };

@@ -1,4 +1,6 @@
 /* @layer core @kind logic */
+import { modeOfGrant } from '../grants/mode-of-grant';
+import { grantOfEntry } from './grant-of-entry';
 import { programKey } from './program-key';
 import { trimPrograms } from './trim-programs';
 import { DEFAULT_TRUST_STORE } from './trust.constants';
@@ -7,8 +9,12 @@ import type { TrustEntry, TrustStore } from './trust.type';
 
 const entryOf = (raw: unknown): TrustEntry[] => {
   const parsed = TRUST_ENTRY_SCHEMA.safeParse(raw);
-  const key = parsed.success ? programKey(parsed.data.key) : null;
-  return parsed.success && key !== null ? [{ ...parsed.data, key }] : [];
+  if (!parsed.success) return [];
+  const key = programKey(parsed.data.key);
+  const grant = grantOfEntry(parsed.data.mode, parsed.data.grant);
+  if (key === null || grant === null) return [];
+  const { displayName, firstApproved, lastConnected, lastVersion } = parsed.data;
+  return [{ key, displayName, mode: modeOfGrant(grant), grant, firstApproved, lastConnected, lastVersion }];
 };
 
 const normalizeTrustStore = (stored: unknown): TrustStore => {

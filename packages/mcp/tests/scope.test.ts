@@ -3,14 +3,12 @@ import {
   canSee,
   canSeeFolder,
   checkProjectAccess,
-  checkToolMode,
   checkWrite,
   DEFAULT_SCOPE_SETTINGS,
   effectiveAccess,
   filterVisible,
   hiddenFailure,
   normalizeScopeSettings,
-  toolNeedsEdit,
 } from '@bxel/mcp';
 import type { SeeTarget } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
@@ -88,25 +86,6 @@ describe('project grants and modes', () => {
     expect(checkProjectAccess('read', 'edit')?.error.code).toBe('PROJECT_NOT_GRANTED');
     expect(checkProjectAccess('read', 'read')).toBeNull();
     expect(checkProjectAccess('edit', 'edit')).toBeNull();
-  });
-});
-
-describe('the mode table', () => {
-  it('needs edit for discarding in two read tools', () => {
-    expect(toolNeedsEdit('close_document', { discard: true })).toBe(true);
-    expect(toolNeedsEdit('close_document', { discard: false })).toBe(false);
-    expect(toolNeedsEdit('stop_bxel', { unsaved: 'discard' })).toBe(true);
-    expect(toolNeedsEdit('stop_bxel', { unsaved: 'recover' })).toBe(false);
-    expect(toolNeedsEdit('stop_bxel', null)).toBe(false);
-  });
-
-  it('refuses edit tools in a read session with READ_ONLY_SESSION', () => {
-    const failure = checkToolMode('apply_edits', {}, 'read');
-    expect(failure?.error.code).toBe('READ_ONLY_SESSION');
-    expect(failure?.error.retry).toBe('after_owner');
-    expect(checkToolMode('apply_edits', {}, 'edit')).toBeNull();
-    expect(checkToolMode('preview_edits', {}, 'read')).toBeNull();
-    expect(checkToolMode('read_pixels', {}, 'read')).toBeNull();
   });
 });
 
