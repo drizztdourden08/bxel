@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { ToolHandlers } from './assistant.type';
+import { guardHandlers } from './guard-handler';
 import { applyEdits } from './tools/apply-edits';
 import { closeDocument } from './tools/close-document';
 import { createDocument } from './tools/create-document';
@@ -22,7 +23,7 @@ import { saveDocument } from './tools/save-document';
 import { splitLegacyFile } from './tools/split-legacy-file';
 import { undo } from './tools/undo';
 
-const TOOL_HANDLERS: ToolHandlers = {
+const RAW_HANDLERS: ToolHandlers = {
   get_session: getSession,
   list_places: listPlaces,
   list_files: listFiles,
@@ -45,5 +46,7 @@ const TOOL_HANDLERS: ToolHandlers = {
   list_map_layers: listMapLayers,
   read_map_cells: readMapCells,
 };
+
+const TOOL_HANDLERS: ToolHandlers = guardHandlers(RAW_HANDLERS);
 
 export { TOOL_HANDLERS };

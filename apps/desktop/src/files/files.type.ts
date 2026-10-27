@@ -3,6 +3,7 @@ import type { DocumentId } from '@bxel/document';
 import type { Clock, LoadReport } from '@bxel/document/native';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
 import type { DocumentHost } from '../documents/document-host.type';
+import type { PromptPort } from '../prompts/prompt-port.type';
 
 type PathBook = {
   readonly pathOf: (documentId: DocumentId) => string | undefined;
@@ -12,6 +13,7 @@ type PathBook = {
 
 type FileKit = {
   readonly documents: DocumentsPort;
+  readonly prompts: PromptPort;
   readonly host: DocumentHost;
   readonly paths: PathBook;
   readonly clock: Clock;

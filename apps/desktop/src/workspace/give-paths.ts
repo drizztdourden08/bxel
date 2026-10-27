@@ -18,7 +18,7 @@ const givePaths = async (kit: FileKit, documentId: DocumentId, keys: readonly As
       adoptPath(kit.host, documentId, key, beside);
       continue;
     }
-    const picked = await pickAssetPath(kit.documents, workspace, view.state.artwork, key);
+    const picked = await pickAssetPath(kit, workspace, view.state.artwork, key);
     if (picked === null) return false;
     granted = picked.granted;
     adoptPath(kit.host, documentId, key, picked.path);

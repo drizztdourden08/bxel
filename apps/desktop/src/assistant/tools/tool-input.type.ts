@@ -62,6 +62,10 @@ type WireAssetKind = Exclude<AssetKind, 'project'>;
 
 type AssetInput = { readonly kind: WireAssetKind; readonly id: string };
 
+type AlsoSaved = { readonly fileName: string; readonly asset: AssetInput };
+
+type SavedAt = { readonly path: string; readonly also: readonly AlsoSaved[] };
+
 type PathOwner = { readonly documentId: DocumentId; readonly id: string | null };
 
 type FileNameTarget = { readonly fileName: string; readonly overwrite: boolean; readonly moveAsset: boolean };
@@ -147,6 +151,7 @@ type ListFilesInput = {
 type PlatformOptions = { platformStrict?: unknown; platformId?: unknown };
 
 export type {
+  AlsoSaved,
   AnimationSource,
   AnimationStrip,
   GetAnimationInput,
@@ -174,6 +179,7 @@ export type {
   ReadPixelsInput,
   RenderInput,
   SaveInput,
+  SavedAt,
   SpriteFrame,
   UndoInput,
   WireFileKind,

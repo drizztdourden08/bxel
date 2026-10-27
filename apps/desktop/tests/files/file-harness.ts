@@ -8,6 +8,7 @@ import type { DocumentHost } from '../../src/documents/document-host.type';
 import { activeTarget } from '../../src/editor/active-target';
 import { commitRequest } from '../../src/editor/commit-request';
 import type { FileKit, PathBook } from '../../src/files/files.type';
+import { ownerPrompts } from '../../src/prompts/owner-prompts';
 import { quietDocuments } from '../project/quiet-documents';
 import { documentPicker } from './document-picker';
 
@@ -86,6 +87,7 @@ const harness = (): Harness => {
     host,
     paths: pathBook(host, paths),
     clock: () => 1_700_000_000_000,
+    prompts: ownerPrompts(memory.port),
     focus: (documentId) => {
       focused.push(documentId);
     },

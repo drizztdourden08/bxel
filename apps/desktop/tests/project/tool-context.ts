@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import type { SessionMode } from '@bxel/mcp';
+import type { SessionMode, ToolCall } from '@bxel/mcp';
 import type { ProjectGrant } from '@bxel/project';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
 import { ASSISTANT_DEFAULTS } from '../../src/assistant/assistant.constants';
@@ -13,7 +13,7 @@ type ContextParts = {
   readonly documents: DocumentsPort;
 };
 
-const toolContext = (parts: ContextParts, grants: readonly ProjectGrant[] = [], mode: SessionMode = 'edit', overrides: Partial<AssistantSettings> = {}): ToolContext => ({
+const toolContext = (parts: ContextParts, grants: readonly ProjectGrant[] = [], mode: SessionMode = 'edit', overrides: Partial<AssistantSettings> = {}, call: Partial<ToolCall> = {}): ToolContext => ({
   call: {
     tool: 'list_places',
     input: {},
@@ -22,6 +22,7 @@ const toolContext = (parts: ContextParts, grants: readonly ProjectGrant[] = [], 
     target: null,
     folder: 'C:/Assistant',
     version: '0.0.0',
+    ...call,
   },
   host: parts.host,
   settings: { ...ASSISTANT_DEFAULTS, assistantAccess: true, assistantProjects: grants, ...overrides },

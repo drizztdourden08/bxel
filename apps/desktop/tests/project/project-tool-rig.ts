@@ -2,7 +2,7 @@
 import { artworkCreate, counterIdSource, documentCommands } from '@bxel/document';
 import { encodeArtwork } from '@bxel/document/native';
 import { buildTools } from '@bxel/mcp';
-import type { SessionMode, ToolName, ToolOutcome } from '@bxel/mcp';
+import type { SessionMode, ToolCall, ToolName, ToolOutcome } from '@bxel/mcp';
 import type { ProjectDocument, ProjectGrant } from '@bxel/project';
 import type { AssistantSettings } from '../../src/assistant/assistant.type';
 import { TOOL_HANDLERS } from '../../src/assistant/tool-handlers.constants';
@@ -31,6 +31,7 @@ type RunSetup = {
   readonly grants: readonly ProjectGrant[];
   readonly mode?: SessionMode;
   readonly settings?: Partial<AssistantSettings>;
+  readonly call?: Partial<ToolCall>;
 };
 
 const tools = buildTools(documentCommands);
@@ -67,10 +68,10 @@ const toolRig = async (options: RigOptions = {}): Promise<ToolRig> => {
   const project = useProjectStore.getState().project;
   if (!project) throw new Error('the project did not open');
   const parts = { host: base.kit.host, paths: base.kit.paths, documents: base.disk.port };
-  const runWith = async (tool: ToolName, input: unknown, { grants, mode = 'edit', settings }: RunSetup): Promise<ToolOutcome> => {
+  const runWith = async (tool: ToolName, input: unknown, { grants, mode = 'edit', settings, call }: RunSetup): Promise<ToolOutcome> => {
     const handler = TOOL_HANDLERS[tool];
     if (!handler) throw new Error(`no handler for ${tool}`);
-    const outcome = (await handler(input, toolContext(parts, grants, mode, settings))).outcome;
+    const outcome = (await handler(input, toolContext(parts, grants, mode, settings, call))).outcome;
     expectValid(tool, outcome);
     return outcome;
   };
