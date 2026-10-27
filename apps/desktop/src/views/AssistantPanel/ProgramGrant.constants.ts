@@ -46,8 +46,8 @@ const GRANT_TEXT_UI = {
   noMatch: 'No tool matches the search.',
   noTools: 'No tools in this group yet.',
   routedGroup: 'Controls the edit steps of this group.',
-  toolCount: (count: number, overrides: number): string => {
-    const base = `${count} ${count === 1 ? 'tool' : 'tools'}`;
+  toolCount: (count: number, group: string, overrides: number): string => {
+    const base = `${count} ${count === 1 ? 'tool' : 'tools'} in ${group}`;
     return overrides === 0 ? base : `${base}, ${overrides} overridden`;
   },
   overrides: (count: number): string => `${count} ${count === 1 ? 'override' : 'overrides'}`,

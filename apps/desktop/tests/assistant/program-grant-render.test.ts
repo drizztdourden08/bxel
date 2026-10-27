@@ -44,7 +44,7 @@ describe('the permissions detail of one program', () => {
     expect(html).toContain('aria-label="create_document permission, overrides Files and saving"');
     expect(html).toContain('Follow bundle for create_document');
     expect(html).toContain('aria-label="1 override"');
-    expect(html).toContain('4 tools, 1 overridden');
+    expect(html).toContain('4 tools in Files and saving, 1 overridden');
   });
 
   it('greys impossible options and gives the reason', () => {

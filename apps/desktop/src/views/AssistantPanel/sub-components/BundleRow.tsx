@@ -24,7 +24,7 @@ const BundleRow = ({ row, searching, onBundle, onTool, onFollow }: BundleRowProp
       input={{ kind: 'custom', control: <LevelControl name={row.name} level={row.level} options={row.options} onChange={onBundle} /> }}
     />
     {row.tools.length > 0 && (
-      <Disclosure size="sm" summary={GRANT_TEXT_UI.toolCount(row.tools.length, row.overrides)} defaultOpen={searching}>
+      <Disclosure size="sm" summary={GRANT_TEXT_UI.toolCount(row.tools.length, row.label, row.overrides)} defaultOpen={searching}>
         <Stack gap="sm">
           {row.tools.map((tool) => (
             <ToolRow key={tool.id} row={tool} onChange={(level) => onTool(tool.id, level)} onFollow={() => onFollow(tool.id)} />
