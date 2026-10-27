@@ -2,8 +2,8 @@
 import type { MaskView, Size } from '@bxel/raster';
 import type { Runs } from './app-tool-input.type';
 
-const fillRun = (bits: Uint8Array, size: Size, run: readonly [number, number, number]): void => {
-  const [y, a, b] = run;
+const fillRun = (bits: Uint8Array, size: Size, run: readonly number[]): void => {
+  const [y = -1, a = 0, b = 0] = run;
   if (y < 0 || y >= size.height) return;
   for (let x = Math.max(0, Math.min(a, b)); x <= Math.min(size.width - 1, Math.max(a, b)); x += 1) bits[y * size.width + x] = 1;
 };

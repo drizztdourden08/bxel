@@ -11,7 +11,7 @@ const VIEW_RECT_SCHEMA = z.strictObject({
   height: z.number().int().min(1).max(100000),
 });
 
-const RUN_SCHEMA = z.tuple([COORDINATE_SCHEMA, COORDINATE_SCHEMA, COORDINATE_SCHEMA]).describe('One run of selected pixels: [y, x0, x1], x1 inclusive.');
+const RUN_SCHEMA = z.array(COORDINATE_SCHEMA).length(3).describe('One run of selected pixels: [y, x0, x1], x1 inclusive.');
 
 const RUNS_SCHEMA = z.array(RUN_SCHEMA).max(20000).meta({ id: 'Runs', description: 'A mask as row runs [[y, x0, x1], ...], never raw bits.' });
 

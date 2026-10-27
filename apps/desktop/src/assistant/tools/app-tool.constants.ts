@@ -14,6 +14,7 @@ const APP_TOOL_TEXT = {
   ranLine: (client: string, label: string) => `${client}: ${label}`,
   viewLine: (client: string, what: string) => `${client}: ${what}`,
   hidden: 'The owner has not allowed this program to work on the document that is on screen.',
+  pendingFailed: 'The change was started but could not be applied. The owner sees it as a preview they can apply or cancel.',
   failed: (id: string) => `${id} did not run.`,
   noTab: 'No open tab has that id. Call get_view for the tabs.',
   noViewport: 'No canvas is on screen to zoom. Focus a document tab first.',

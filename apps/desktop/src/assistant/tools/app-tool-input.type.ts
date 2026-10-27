@@ -19,6 +19,6 @@ type SetViewInput = z.infer<typeof SET_VIEW_INPUT_SCHEMA>;
 
 type GetHistoryInput = { readonly documentId: string; readonly limit: number };
 
-type Runs = readonly (readonly [number, number, number])[];
+type Runs = readonly (readonly number[])[];
 
 export type { GetHistoryInput, ListCommandsInput, RunCommandInput, Runs, SetViewInput };
