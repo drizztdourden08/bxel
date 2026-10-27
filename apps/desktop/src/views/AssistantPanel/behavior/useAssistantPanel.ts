@@ -1,13 +1,15 @@
 /* @layer renderer-app @kind hook */
-import { forgetAllPrograms, forgetProgram, grantOfMode, setProgramGrant, TRUST_LEVELS } from '@bxel/mcp';
-import type { SessionMode, TrustLevel } from '@bxel/mcp';
+import { forgetAllPrograms, forgetProgram, setProgramGrant, TRUST_LEVELS } from '@bxel/mcp';
+import type { Grant, SessionMode, TrustLevel } from '@bxel/mcp';
 import { confirmAction, useSettings } from '@drizztdourden08/brock-react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { trustStoreOf } from '../../../assistant/trust-store-of';
 import type { AppSettings } from '../../../settings.type';
 import { useAssistantStore } from '../../../stores/useAssistantStore';
 import { PANEL_TEXT } from '../AssistantPanel.constants';
 import type { AssistantPanelModel } from '../AssistantPanel.type';
+import type { PresetChoice } from './grant-rows.type';
+import { presetGrant } from './preset-grant';
 import { useClientConfig } from './useClientConfig';
 import { useSessionActions } from './useSessionActions';
 
@@ -23,6 +25,8 @@ const useAssistantPanel = (): AssistantPanelModel => {
   const config = useClientConfig();
   const actions = useSessionActions();
   const store = trustStoreOf(settings);
+  const [permissionsKey, setPermissionsKey] = useState<string | null>(null);
+  const setGrant = (key: string, grant: Grant) => patch({ assistantPrograms: setProgramGrant(store, key, grant).programs });
   const setLevel = useCallback(
     (value: string) => {
       if (!isLevel(value)) return;
@@ -50,7 +54,13 @@ const useAssistantPanel = (): AssistantPanelModel => {
     config,
     setLevel,
     setAllowAllMode,
-    setProgramMode: (key, mode) => patch({ assistantPrograms: setProgramGrant(store, key, grantOfMode(mode)).programs }),
+    permissionsKey: store.programs.some((program) => program.key === permissionsKey) ? permissionsKey : null,
+    setProgramGrant: setGrant,
+    setProgramPreset: (key: string, choice: PresetChoice) => {
+      const grant = presetGrant(choice);
+      if (grant !== null) setGrant(key, grant);
+    },
+    togglePermissions: (key: string) => setPermissionsKey((current) => (current === key ? null : key)),
     forget,
     forgetAll,
     disconnect: actions.disconnect,

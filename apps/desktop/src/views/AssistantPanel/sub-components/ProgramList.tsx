@@ -1,10 +1,9 @@
 /* @layer renderer-app @kind component */
-import type { ProgramMode } from '@bxel/mcp';
-import { Button, Flex, ListItemList, ListItemRow, Select, SettingsSection, Stack, Text } from '@drizztdourden08/tessera';
-import { PANEL_TEXT, PROGRAM_MODE_OPTIONS } from '../AssistantPanel.constants';
+import { Button, Flex, ListItemList, ListItemRow, SettingsSection, Stack, Text } from '@drizztdourden08/tessera';
+import { PANEL_TEXT } from '../AssistantPanel.constants';
 import type { PanelPartProps } from '../AssistantPanel.type';
-
-const asMode = (value: string): ProgramMode => (value === 'edit' || value === 'blocked' ? value : 'read');
+import { presetOf } from '../behavior/preset-of';
+import { PresetSelect } from './PresetSelect';
 
 const ProgramList = ({ model }: PanelPartProps) => (
   <SettingsSection id="remembered" title={PANEL_TEXT.programsTitle} description={PANEL_TEXT.programsHint}>
@@ -21,12 +20,20 @@ const ProgramList = ({ model }: PanelPartProps) => (
               actionVisibility="always"
               action={
                 <Flex gap="sm" align="center">
-                  <Select
-                    options={PROGRAM_MODE_OPTIONS}
-                    value={program.mode}
-                    onChange={(value) => model.setProgramMode(program.key, asMode(value))}
-                    aria-label={PANEL_TEXT.programMode(program.displayName)}
+                  <PresetSelect
+                    name={PANEL_TEXT.programPreset(program.displayName)}
+                    value={presetOf(program.grant)}
+                    onChange={(choice) => model.setProgramPreset(program.key, choice)}
                   />
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    aria-expanded={model.permissionsKey === program.key}
+                    aria-label={PANEL_TEXT.permissionsFor(program.displayName)}
+                    onClick={() => model.togglePermissions(program.key)}
+                  >
+                    {PANEL_TEXT.permissions}
+                  </Button>
                   <Button size="sm" variant="secondary" onClick={() => model.forget(program.key)}>
                     {PANEL_TEXT.forget}
                   </Button>

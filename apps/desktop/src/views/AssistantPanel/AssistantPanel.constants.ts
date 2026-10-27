@@ -11,8 +11,6 @@ const MODE_OPTIONS = [
   { value: 'edit', label: 'Editing' },
 ];
 
-const PROGRAM_MODE_OPTIONS = [...MODE_OPTIONS, { value: 'blocked', label: 'Blocked' }];
-
 const ACTIVITY_SHOWN = 20;
 
 const PANEL_TEXT = {
@@ -25,8 +23,10 @@ const PANEL_TEXT = {
   nameNote: 'Programs report their own name. A remembered name saves prompts; it does not prove who is calling.',
   programsTitle: 'Remembered programs',
   programsEmpty: 'No program is remembered yet.',
-  programsHint: 'Programs you approved or denied before. Pick what each one may do, or forget it so it asks again.',
-  programMode: (name: string): string => `What ${name} may do`,
+  programsHint: 'Programs you approved or denied before. Pick a preset for each one, open its permissions to fine tune it, or forget it so it asks again.',
+  programPreset: (name: string): string => `What ${name} may do`,
+  permissions: 'Permissions',
+  permissionsFor: (name: string): string => `Permissions for ${name}`,
   forget: 'Forget',
   forgetAll: 'Forget all',
   sessionsTitle: 'Connected now',
@@ -46,4 +46,4 @@ const PANEL_TEXT = {
   connected: (mode: string, trust: string) => `${mode}, ${trust}`,
 } as const;
 
-export { ACTIVITY_SHOWN, LEVEL_OPTIONS, MODE_OPTIONS, PANEL_TEXT, PROGRAM_MODE_OPTIONS };
+export { ACTIVITY_SHOWN, LEVEL_OPTIONS, MODE_OPTIONS, PANEL_TEXT };
