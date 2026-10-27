@@ -1,31 +1,13 @@
 /* @layer renderer-app @kind logic */
 import { announce } from '@drizztdourden08/brock-react';
-import { selectionMask } from '../../editor/selection/selection-mask';
 import { currentTarget } from '../../editor/current-target';
+import { selectionMask } from '../../editor/selection/selection-mask';
 import type { ToolHandler } from '../assistant.type';
 import { APP_TOOL_TEXT } from './app-tool.constants';
 import type { SetViewInput } from './app-tool-input.type';
-import { focusStep, pageStep } from './focus-step';
 import { reply } from './reply';
-import { selectionStep } from './selection-step';
-import { selectionReply } from './selection-runs';
-import { coloursStep, selectStep, symmetryStep, toolStep } from './state-steps';
-import type { ViewStep } from './view-steps.type';
-import { panStep, playbackStep, togglesStep, zoomStep } from './zoom-step';
-
-const STEPS: readonly (readonly [keyof SetViewInput, ViewStep])[] = [
-  ['focus', focusStep],
-  ['page', pageStep],
-  ['zoom', zoomStep],
-  ['pan', panStep],
-  ['toggles', togglesStep],
-  ['playback', playbackStep],
-  ['select', selectStep],
-  ['tool', toolStep],
-  ['colours', coloursStep],
-  ['symmetry', symmetryStep],
-  ['selection', selectionStep],
-];
+import { selectionReply } from './selection-reply';
+import { VIEW_STEPS } from './set-view.constants';
 
 const selectionNow = () => {
   const target = currentTarget();
@@ -35,7 +17,7 @@ const selectionNow = () => {
 const setView: ToolHandler = (input, context) => {
   const patch = input as SetViewInput;
   const applied: string[] = [];
-  for (const [field, step] of STEPS) {
+  for (const [field, step] of VIEW_STEPS) {
     if (patch[field] === undefined) continue;
     const failed = step(patch, context);
     if (failed) return failed;

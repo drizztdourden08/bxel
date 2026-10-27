@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind test */
-import { vi } from 'vitest';
-import { fake } from './app-tools-rig';
+import { brockReactMock } from '../keymap/brock-react-mock';
+import { fake } from './app-tools-fake';
 
 const find = (id: string) => fake.commands.find((command) => command.id === id);
 
 const brockMock = () => ({
-  toast: vi.fn(),
+  ...brockReactMock(),
   announce: (text: string) => fake.announced.push(text),
   commands: {
     list: () => fake.commands.map((command) => ({ id: command.id, label: command.label, group: 'Test' })),
@@ -31,11 +31,6 @@ const brockMock = () => ({
     },
   },
   dialogs: { current: () => null },
-  getPlatform: vi.fn(),
-  commandZone: (zone: string) => ({ 'data-command-zone': zone }),
-  useCommands: vi.fn(),
-  useContextMenu: vi.fn(),
-  useRecentDocumentsStore: { getState: vi.fn() },
 });
 
 export { brockMock };

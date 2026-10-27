@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import type { BundleId } from '../catalogue/catalogue.type';
 import { LEVEL_LABEL, LEVEL_RANK } from '../catalogue/level.constants';
+import { TOOL_CATALOGUE } from '../catalogue/tool-catalogue.constants';
 import type { Failure } from '../errors/error.type';
 import { MCP_ERROR_CODE } from '../errors/mcp-error-code.constants';
 import { mcpFailure } from '../errors/mcp-failure';
@@ -26,7 +27,12 @@ const checkCommand = (grant: Grant, tool: ToolName, item: CommandItem, program: 
   }
   if (atLeast(level, item.changes ? 'edit' : 'read')) return null;
   const fromTool = LEVEL_RANK[toolLevel(grant, tool)] < LEVEL_RANK[bundleLevel(grant, item.area)];
-  const text = fromTool ? GRANT_TEXT.needsTool(item.what, LEVEL_LABEL[level]) : GRANT_TEXT.needsBundle(item.what, bundleLabel(item.area), LEVEL_LABEL[level]);
+  const toolBundle = bundleLabel(TOOL_CATALOGUE[tool].bundle);
+  const overridden = grant.tools[tool] !== undefined;
+  const text =
+    fromTool && overridden
+      ? GRANT_TEXT.needsTool(item.what, LEVEL_LABEL[level])
+      : GRANT_TEXT.needsBundle(item.what, fromTool ? toolBundle : bundleLabel(item.area), LEVEL_LABEL[level]);
   return mcpFailure(MCP_ERROR_CODE.READ_LEVEL, `${text} ${GRANT_TEXT.where}`);
 };
 

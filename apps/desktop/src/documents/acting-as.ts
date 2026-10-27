@@ -1,9 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { TransactionRequest } from '@bxel/document';
-
-type ActingAs = { readonly actor: string; readonly label: (label: string) => string };
-
-const acting: { current: ActingAs | null } = { current: null };
+import { acting } from './acting-as.constants';
+import type { ActingAs } from './acting-as.type';
 
 const actAs = async <T>(who: ActingAs, run: () => T | Promise<T>): Promise<T> => {
   const before = acting.current;
@@ -15,10 +12,4 @@ const actAs = async <T>(who: ActingAs, run: () => T | Promise<T>): Promise<T> =>
   }
 };
 
-const attributed = (request: TransactionRequest): TransactionRequest => {
-  const who = acting.current;
-  if (who === null || request.mode === 'preview') return request;
-  return { ...request, origin: 'mcp', actor: who.actor, label: who.label(request.label) };
-};
-
-export { actAs, attributed };
+export { actAs };

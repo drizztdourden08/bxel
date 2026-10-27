@@ -16,4 +16,4 @@ type ManifestEntry = {
 
 type ManifestExtra = Partial<Pick<ManifestEntry, 'args' | 'dialog' | 'refuse'>>;
 
-export type { ArgsKind, CommandEffect, ManifestEntry, ManifestExtra };
+export type { CommandEffect, ManifestEntry, ManifestExtra };

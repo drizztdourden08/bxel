@@ -1,10 +1,9 @@
 /* @layer renderer-app @kind logic */
 import { useDocumentStore } from '../../stores/useDocumentStore';
-import { buildPending } from './begin-pending';
+import { buildPending } from './build-pending';
+import { NO_SPRITE } from './commit-spec.constants';
 import type { PendingSpec } from './pending.type';
 import { pendingRequest } from './pending-request';
-
-const NO_SPRITE = 'No sprite is open to change.';
 
 const commitSpec = (spec: PendingSpec): string | null => {
   const built = buildPending(spec, false);

@@ -13,9 +13,8 @@ import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 import { activeAssetOf } from '../../workspace/active-asset-of';
 import { assetName } from '../../workspace/asset-name';
 import { keyId } from '../../workspace/key-id';
-import { selectionReply } from './selection-runs';
-
-type Sees = (documentId: string) => boolean;
+import { selectionReply } from './selection-reply';
+import type { Sees } from './view-snapshot.type';
 
 const tabsOf = (sees: Sees) => {
   const { tabs, activeTab, workspaces } = useWorkspaceStore.getState();

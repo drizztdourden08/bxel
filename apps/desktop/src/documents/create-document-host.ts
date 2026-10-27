@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { artworkCreate } from '@bxel/document';
 import type { DocumentId } from '@bxel/document';
-import { attributed } from './acting-as';
+import { attributed } from './attributed';
 import { attachEngine } from './attach-engine';
 import { browserIdSource } from './browser-id-source';
 import { closeEntry } from './close-entry';

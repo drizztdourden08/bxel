@@ -13,16 +13,7 @@ import { useSpriteStore } from '../../src/stores/useSpriteStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { useViewStore } from '../../src/stores/useViewStore';
 import { toolContext } from '../project/tool-context';
-
-type FakeCommand = { id: string; label: string; enabled?: boolean; reason?: string | null; ran?: unknown[] };
-
-const fake = {
-  commands: [] as FakeCommand[],
-  announced: [] as string[],
-  opened: [] as string[],
-  closed: 0,
-  routes: [{ route: 'settings', title: 'Settings' }],
-};
+import { fake } from './app-tools-fake';
 
 const panTo = vi.fn();
 const setZoom = vi.fn();
@@ -74,5 +65,4 @@ const call = async (tool: ToolName, input: unknown, context: ToolContext = conte
   return (await handler(input, context)).outcome;
 };
 
-export { call, contextWith, fake, openDocument, panTo, reset, setZoom, viewport };
-export type { FakeCommand };
+export { call, contextWith, openDocument, panTo, reset, setZoom, viewport };

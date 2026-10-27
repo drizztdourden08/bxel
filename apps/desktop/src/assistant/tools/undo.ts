@@ -6,16 +6,10 @@ import type { ToolReply } from '@bxel/mcp';
 import type { ToolContext, ToolHandler } from '../assistant.type';
 import { lockedReply } from './locked-reply';
 import { reply } from './reply';
-import type { UndoInput } from './tool-input.type';
+import type { Direction, Done, StepInput } from './undo.type';
 import { TOOL_TEXT } from './tools.constants';
 import { viewFor } from './view-for';
 import { wireTransaction } from './wire-transaction';
-
-type Direction = 'undo' | 'redo';
-
-type StepInput = UndoInput & { readonly direction?: Direction; readonly steps?: number };
-
-type Done = { revision: number; changes: unknown; label: string; origin: 'ui' | 'mcp'; count: number };
 
 const entryFor = (context: ToolContext, documentId: string, direction: Direction) => {
   const listed = context.host.history(documentId as DocumentId);
