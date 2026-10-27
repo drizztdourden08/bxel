@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, Point, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
-import type { AtlasPlan } from '@bxel/formats';
+import type { AtlasPlan, ExportSprite } from '@bxel/formats';
 import type { Anchor } from '@drizztdourden08/tessera';
 import type { Target } from '../export/export.type';
 import type { ArrangeKind, FrameImage, SpriteScene } from '../sheet/sheet.type';
@@ -109,12 +109,21 @@ interface AtlasItem {
   source: Rect;
 }
 
+interface AtlasCell {
+  frame: number;
+  width: number;
+  height: number;
+  rotated: boolean;
+  source: Rect;
+}
+
 interface AtlasAnimation {
   name: string;
   x: number;
   y: number;
   spacing: number;
   images: readonly FrameImage[];
+  cell?: AtlasCell;
 }
 
 interface AtlasModel {
@@ -144,7 +153,7 @@ interface AtlasInput extends AtlasPack {
 }
 
 type AtlasPlanned =
-  | { readonly ok: true; readonly targets: readonly Target[]; readonly plan: AtlasPlan }
+  | { readonly ok: true; readonly targets: readonly Target[]; readonly extra: readonly ExportSprite[]; readonly plan: AtlasPlan }
   | { readonly ok: false; readonly message: string };
 
 interface SheetStyle {
@@ -170,6 +179,7 @@ export type {
   AtlasHeld,
   AtlasInput,
   AtlasAnimation,
+  AtlasCell,
   AtlasItem,
   AtlasModel,
   AtlasPack,

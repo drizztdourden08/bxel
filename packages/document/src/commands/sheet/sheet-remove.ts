@@ -26,7 +26,7 @@ const sheetRemove = defineCommand({
     const gone = new Set(input.sprites);
     const sizes = sheetSizes(draft.artwork);
     updateSheet(draft, sheet.id, (current) =>
-      arrangeSheet({ ...current, entries: current.entries.filter((entry) => !gone.has(entry.spriteId)) }, sizes),
+      arrangeSheet({ ...current, entries: current.entries.filter((entry) => !gone.has(entry.spriteId)) }, sizes, draft.artwork.animations),
     );
   },
 });

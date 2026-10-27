@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import type { AnimationId, TagId } from '../model/ids.type';
 import type { Sheet } from '../model/sheet.type';
+import { rearrangeSheets } from './rearrange-sheets';
 import type { Draft } from './draft.type';
 import { updateArtwork } from './update-artwork';
 
@@ -15,6 +16,7 @@ const dropSheetAnimations = (draft: Draft, animationId: AnimationId, tags: Reado
     ...artwork,
     sheets: artwork.sheets.map((sheet) => withoutEntries(sheet, animationId, tags)),
   }));
+  rearrangeSheets(draft);
 };
 
 export { dropSheetAnimations };

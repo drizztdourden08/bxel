@@ -4,7 +4,8 @@ import { fail } from '../commands/fail';
 import type { Point, Size } from '../model/geometry.type';
 import { shelfOrder } from './shelf-order';
 
-const packedPoints = (sizes: readonly Size[], maxWidth: number, spacing: Point, margin: number): Point[] => {
+/** Places the boxes on shelves. Only the first `strict` boxes must fit the width; later ones (animation strips) get a shelf of their own when too wide. */
+const packedPoints = (sizes: readonly Size[], maxWidth: number, spacing: Point, margin: number, strict: number = sizes.length): Point[] => {
   const points: Point[] = sizes.map(() => ({ x: 0, y: 0 }));
   let x = margin;
   let y = margin;
@@ -12,7 +13,7 @@ const packedPoints = (sizes: readonly Size[], maxWidth: number, spacing: Point, 
   for (const index of shelfOrder(sizes)) {
     const size = sizes[index];
     if (!size) continue;
-    if (size.width > maxWidth - 2 * margin) {
+    if (index < strict && size.width > maxWidth - 2 * margin) {
       throw fail(ERROR_CODE.SIZE_OUT_OF_RANGE, `A sprite of ${size.width} pixels does not fit a sheet ${maxWidth} pixels wide.`);
     }
     if (x > margin && x + size.width > maxWidth - margin) {

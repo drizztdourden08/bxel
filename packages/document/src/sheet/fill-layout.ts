@@ -12,9 +12,9 @@ const packedWidth = (sizes: readonly Size[], margin: number): number => {
   return Math.max(wanted, biggest(sizes, 'width') + 2 * margin);
 };
 
-const fillLayout = (request: LayoutRequest, sizes: readonly Size[], margin: number): SheetLayout => {
+const fillLayout = (request: LayoutRequest, sizes: readonly Size[], margin: number, strips: readonly Size[] = []): SheetLayout => {
   if (request.kind === 'manual') return { kind: 'manual' };
-  if (request.kind === 'packed') return { kind: 'packed', maxWidth: request.maxWidth ?? packedWidth(sizes, margin) };
+  if (request.kind === 'packed') return { kind: 'packed', maxWidth: request.maxWidth ?? packedWidth([...sizes, ...strips], margin) };
   return {
     kind: 'grid',
     columns: request.columns ?? Math.max(1, Math.ceil(Math.sqrt(sizes.length))),

@@ -10,7 +10,7 @@ const useTimelineStore = create<TimelineState>()((set) => ({
   reset: () => set((state) => ({ ...TIMELINE_DEFAULTS, loop: state.loop, onion: state.onion })),
   setFrame: (frameId) => set({ frameId, selection: { frames: frameId === null ? [] : [frameId], anchor: frameId }, cursor: -1 }),
   select: (selection, frameId) => set({ selection, frameId, cursor: -1 }),
-  selectTag: (tagId) => set({ tagId, cursor: -1 }),
+  selectTag: (tagId) => set({ tagId, cursor: -1, colourPicker: false }),
   play: () => set({ playing: true, cursor: -1 }),
   pause: () => set({ playing: false }),
   togglePlay: () => set((state) => ({ playing: !state.playing, cursor: -1 })),
@@ -18,6 +18,7 @@ const useTimelineStore = create<TimelineState>()((set) => ({
   setCursor: (cursor) => set({ cursor }),
   setOnion: (patch) => set((state) => ({ onion: { ...state.onion, ...patch } })),
   setPivotDraft: (pivotDraft) => set({ pivotDraft }),
+  setColourPicker: (colourPicker) => set({ colourPicker }),
 }));
 
 const resetOnChange = (next: string | null, previous: string | null): void => {

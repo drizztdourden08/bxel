@@ -133,6 +133,7 @@ export { appendPoint } from './sheet/append-point';
 export { arrangeSheet } from './sheet/arrange-sheet';
 export { fillLayout } from './sheet/fill-layout';
 export { findOverlaps } from './sheet/find-overlaps';
+export { findPartOverlaps } from './sheet/find-part-overlaps';
 export { SHEET_WARNING } from './sheet/sheet-warning.constants';
 export { sheetExtent } from './sheet/sheet-extent';
 export { sheetSizes } from './sheet/sheet-sizes';

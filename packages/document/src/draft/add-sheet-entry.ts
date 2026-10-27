@@ -12,7 +12,7 @@ const addSheetEntry = (draft: Draft, sheetId: SheetId, spriteId: SpriteId, place
   updateSheet(draft, sheetId, (sheet) => {
     const at = place.at ?? appendPoint(sheet, sizes);
     const grown = { ...sheet, entries: [...sheet.entries, { spriteId, at, source: place.source ?? null }] };
-    return place.at ? grown : arrangeSheet(grown, sizes);
+    return place.at ? grown : arrangeSheet(grown, sizes, draft.artwork.animations);
   });
 };
 

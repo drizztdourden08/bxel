@@ -47,7 +47,8 @@ const boxesOf = (metadata: SheetMetadata) =>
 
 const previewed = (pack: Pack, page: number) => {
   const atlas = atlasModel({ sheet: sheet(), artwork: artwork(), ...pack, page });
-  const items = atlas.items.map((item) => ({
+  const cells = atlas.animations.flatMap((each) => (each.cell ? [{ name: each.name, x: each.x, y: each.y, ...each.cell }] : []));
+  const items = [...atlas.items.map((item) => ({ ...item })), ...cells].map((item) => ({
     key: `${item.name}#${item.frame}`,
     box: { x: item.x, y: item.y, width: item.width, height: item.height },
     rotated: item.rotated,
@@ -124,5 +125,46 @@ describe('the atlas preview and the export of the same sheet', () => {
     expect(previewed({ ...PACK, rotate: true }, 0).items.every((item) => !item.rotated)).toBe(true);
     styleSheet(sheet().id, { layout: 'packed', maxWidth: 24 });
     expect(previewed(PACK, 0).items.every((item) => !item.rotated)).toBe(true);
+  });
+});
+
+const walk = (sprites: string[], more: Parameters<typeof runDocument>[1] = []): void => {
+  const done = runDocument('Build', [
+    { name: COMMAND_NAME.animationCreate, targets: null, options: { name: 'walk', source: { kind: 'sprites', sprites: idsOf(...sprites) } }, ref: 'anim' },
+    ...more,
+    { name: COMMAND_NAME.sheetAnimationAdd, targets: null, options: { sheet: sheet().id, animation: { ref: 'anim' } } },
+  ]);
+  if (!done) throw new Error('the build failed');
+};
+
+describe('a sheet that places an animation', () => {
+  it('draws the frames of the animation where the export puts them, on a grid and packed', () => {
+    walk(['a', 'b']);
+    styleSheet(sheet().id, { layout: 'grid', columns: 3 });
+    expect(expectSame(PACK)).toBe(1);
+    expect(previewed(PACK, 0).atlas.animations).toHaveLength(2);
+    styleSheet(sheet().id, { layout: 'packed', maxWidth: 24, spacing: 1, margin: 1 });
+    expectSame({ ...PACK, extrude: 1 });
+    expectSame({ ...PACK, trim: true, powerOfTwo: true });
+  });
+
+  it('agrees on the pages, the turned frames and a mirrored tag', () => {
+    walk(['a', 'b', 'c', 'd'], [
+      { name: COMMAND_NAME.animationDirections, targets: null, options: { animation: { ref: 'anim' }, mode: 'four', tag: 'walk', framesPerFacing: 2, mirrored: ['w'] } },
+    ]);
+    styleSheet(sheet().id, { layout: 'grid', columns: 2, spacing: 0 });
+    expect(expectSame({ ...PACK, pageSide: 16 })).toBeGreaterThan(1);
+    resizeSprites(idsOf('b'), { width: 4, height: 20, anchor: 'top-left' });
+    styleSheet(sheet().id, { layout: 'packed', maxWidth: 24, spacing: 0 });
+    expectSame({ ...PACK, rotate: true });
+  });
+
+  it('shows a sheet that holds only animations', () => {
+    walk(['a', 'b']);
+    runDocument('Empty', [{ name: COMMAND_NAME.sheetRemove, targets: spritesTarget(idsOf('a', 'b', 'c', 'd', 'e')), options: { sheet: sheet().id } }]);
+    styleSheet(sheet().id, { layout: 'grid', columns: 2 });
+    expect(sheet().entries).toHaveLength(0);
+    expect(expectSame(PACK)).toBe(1);
+    expect(previewed(PACK, 0).atlas.animations).toHaveLength(2);
   });
 });
