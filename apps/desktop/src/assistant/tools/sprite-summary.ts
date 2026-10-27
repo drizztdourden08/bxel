@@ -21,6 +21,8 @@ const spriteSummary = (sprite: Sprite) => ({
   layers: sprite.layers.map((layer) => ({ layerId: layer.id, name: layer.name, visible: layer.visible, locked: layer.locked })),
   frames: sprite.frames.map((frame) => ({ frameId: frame.id, durationMs: frame.durationMs })),
   tags: sprite.tags.map((tag) => tagSummary(sprite, tag)),
+  slices: sprite.slices.map((slice) => ({ sliceId: slice.id, name: slice.name, rect: slice.rect, pivot: slice.pivot, center: slice.center })),
+  guides: { x: [...(sprite.guides?.x ?? [])], y: [...(sprite.guides?.y ?? [])] },
 });
 
 export { spriteSummary };

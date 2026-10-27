@@ -1,8 +1,11 @@
 /* @layer renderer-app @kind logic */
 import type { ToolHandler } from '../assistant.type';
 import { runEdits } from './run-edits';
-import type { EditInput } from './tool-input.type';
+import type { PreviewInput } from './tool-input.type';
 
-const previewEdits: ToolHandler = (input, context) => runEdits(input as EditInput, context, 'preview');
+const previewEdits: ToolHandler = (input, context) => {
+  const preview = input as PreviewInput;
+  return runEdits(preview, context, 'preview', preview.render?.scale);
+};
 
 export { previewEdits };

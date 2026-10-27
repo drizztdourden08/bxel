@@ -29,6 +29,7 @@ const RETRY_TABLE: readonly (readonly [Retry, readonly string[]])[] = [
       MCP_ERROR_CODE.READ_ONLY_SESSION,
       MCP_ERROR_CODE.PROJECT_NOT_GRANTED,
       MCP_ERROR_CODE.WRITE_NOT_ALLOWED,
+      MCP_ERROR_CODE.NEEDS_OWNER,
     ],
   ],
   [
@@ -72,6 +73,7 @@ const RETRY_TABLE: readonly (readonly [Retry, readonly string[]])[] = [
       MCP_ERROR_CODE.FILE_EXISTS,
       MCP_ERROR_CODE.FILE_IN_USE,
       MCP_ERROR_CODE.NEEDS_FILE_NAME,
+      MCP_ERROR_CODE.DEPENDENCY_UNSAVED,
       MCP_ERROR_CODE.RESULT_TOO_LARGE,
     ],
   ],

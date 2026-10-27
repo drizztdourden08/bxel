@@ -11,6 +11,7 @@ import { useProjectSetsStore } from '../../src/stores/useProjectSetsStore';
 import { useProjectStore } from '../../src/stores/useProjectStore';
 import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
 import { watchWorkspaces } from '../../src/workspace/watch-workspaces';
+import { ownerPrompts } from '../../src/prompts/owner-prompts';
 import { memoryDisk } from './memory-disk';
 import type { Disk } from './memory-disk';
 import { confirmAction, held, toast } from './project-mocks';
@@ -31,7 +32,7 @@ type Rig = {
 
 const kitFor = (disk: Disk): FileKit => {
   const { host, setActive } = useDocumentStore.getState();
-  return { documents: disk.port, host, paths: storePathBook(host), clock: () => 1_700_000_000_000, focus: setActive };
+  return { documents: disk.port, prompts: ownerPrompts(disk.port), host, paths: storePathBook(host), clock: () => 1_700_000_000_000, focus: setActive };
 };
 
 const resetStores = (): void => {

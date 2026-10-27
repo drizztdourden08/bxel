@@ -61,6 +61,7 @@ type ToolContext = {
   readonly settings: AssistantSettings;
   readonly documents: DocumentsPort;
   readonly paths: PathBook;
+  readonly claim: (paths: readonly string[]) => Promise<readonly string[]>;
 };
 
 type GrantedProject = {
