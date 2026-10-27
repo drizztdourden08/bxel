@@ -47,13 +47,17 @@ const freshBatch = async (rig: McpRig, steps: readonly unknown[]) => {
 
 const saveCall = (rig: McpRig) => callMcp(rig.link.client, 'save_document', { documentId: sprite().documentId, target: { fileName: 'p.bxsprite' } });
 
-const setsUp = async (rig: McpRig): Promise<void> => {
-  rig.link.client.setNotificationHandler(ToolListChangedNotificationSchema, () => {
+const countChanges = ({ link }: McpRig): void => {
+  link.client.setNotificationHandler(ToolListChangedNotificationSchema, () => {
     held.changes += 1;
   });
-  expect(await namesOf(rig)).toHaveLength(MCP_TOOL_COUNT);
-  held.sprite = await createMcpSprite(rig.link.client);
+};
+
+const setsUp = async (rig: McpRig): Promise<void> => {
   held.detail = await openPermissions(rig.session);
+  countChanges(rig);
+  held.sprite = await createMcpSprite(rig.link.client);
+  expect(await namesOf(rig)).toHaveLength(MCP_TOOL_COUNT);
   await presetIs(detail(), 'Edit documents');
 };
 

@@ -1,11 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Callout, SettingsSection, Stack, Toggle } from '@drizztdourden08/tessera';
 import { GRANT_TEXT_UI } from '../ProgramGrant.constants';
-
-type SpecialPermissionsProps = {
-  readonly mayRestart: boolean;
-  readonly onMayRestart: (on: boolean) => void;
-};
+import type { SpecialPermissionsProps } from './SpecialPermissions.type';
 
 const SpecialPermissions = ({ mayRestart, onMayRestart }: SpecialPermissionsProps) => (
   <SettingsSection id="special" title={GRANT_TEXT_UI.specialTitle} description={GRANT_TEXT_UI.specialHint}>

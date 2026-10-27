@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { Level, PresetId, ToolName } from '@bxel/mcp';
+import type { Level, ToolName } from '@bxel/mcp';
 
 const TOOL_TEXT: Readonly<Record<ToolName, string>> = {
   start_bxel: 'Starts a Bxel for the program to use.',
@@ -29,8 +29,6 @@ const TOOL_TEXT: Readonly<Record<ToolName, string>> = {
 };
 
 const LEVEL_NAME: Readonly<Record<Level, string>> = { disabled: 'Disabled', read: 'Read', edit: 'Edit' };
-
-const PRESET_OPTIONS_ORDER: readonly PresetId[] = ['read_only', 'edit_documents', 'full_control'];
 
 const GRANT_TEXT_UI = {
   customLabel: 'Custom',
@@ -75,4 +73,4 @@ const GRANT_TEXT_UI = {
   presetSet: (preset: string, program: string): string => `${program} set to ${preset}.`,
 } as const;
 
-export { GRANT_TEXT_UI, LEVEL_NAME, PRESET_OPTIONS_ORDER, TOOL_TEXT };
+export { GRANT_TEXT_UI, LEVEL_NAME, TOOL_TEXT };

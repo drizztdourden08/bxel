@@ -16,8 +16,8 @@ Object.assign(globalThis, { React });
 const none = (): void => undefined;
 
 const entry = (grant: Grant): TrustEntry => ({
-  key: 'claude code',
-  displayName: 'Claude Code',
+  key: 'pixel agent',
+  displayName: 'Pixel Agent',
   mode: 'edit',
   grant,
   firstApproved: '2026-10-01T00:00:00.000Z',
@@ -72,7 +72,8 @@ describe('the permissions detail of one program', () => {
 
 describe('the page text', () => {
   it('uses plain prose with no em or en dashes', () => {
-    const texts = [...Object.values(TOOL_TEXT), ...Object.values(GRANT_TEXT_UI).filter((value): value is string => typeof value === 'string')];
+    const labels: unknown[] = Object.values(GRANT_TEXT_UI);
+    const texts = [...Object.values(TOOL_TEXT), ...labels.filter((value) => typeof value === 'string')] as string[];
     for (const text of texts) expect(text).not.toMatch(/[–—]/);
   });
 });

@@ -1,18 +1,9 @@
 /* @layer renderer-app @kind component */
-import type { Level, ToolName } from '@bxel/mcp';
 import { Badge, Disclosure, SettingsRow, Stack } from '@drizztdourden08/tessera';
 import { GRANT_TEXT_UI } from '../ProgramGrant.constants';
-import type { BundleRowModel } from '../behavior/grant-rows.type';
+import type { BundleRowProps } from './BundleRow.type';
 import { LevelControl } from './LevelControl';
 import { ToolRow } from './ToolRow';
-
-type BundleRowProps = {
-  readonly row: BundleRowModel;
-  readonly searching: boolean;
-  readonly onBundle: (level: Level) => void;
-  readonly onTool: (tool: ToolName, level: Level) => void;
-  readonly onFollow: (tool: ToolName) => void;
-};
 
 const BundleRow = ({ row, searching, onBundle, onTool, onFollow }: BundleRowProps) => (
   <Stack gap="sm">

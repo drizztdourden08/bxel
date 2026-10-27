@@ -12,6 +12,8 @@ import { withToolLevel } from '../../src/views/AssistantPanel/behavior/with-tool
 
 const full: Grant = PRESETS.full_control.grant;
 
+const toolIds = (grant: Grant, query: string): ToolName[] => bundleRows(grant, query).flatMap((each) => each.tools.map((one) => one.id));
+
 const row = (grant: Grant, id: string, query = '') => bundleRows(grant, query).find((each) => each.id === id);
 
 const tool = (grant: Grant, id: ToolName) => {
@@ -24,7 +26,7 @@ describe('the permissions rows list the whole catalogue', () => {
   it('shows every bundle and every tool once, each with a description', () => {
     const rows = bundleRows(full, '');
     expect(rows.map((each) => each.id)).toEqual([...BUNDLE_IDS]);
-    const tools = rows.flatMap((each) => each.tools.map((one) => one.id)).sort();
+    const tools = toolIds(full, '').sort();
     expect(tools).toEqual((Object.keys(TOOL_CATALOGUE) as ToolName[]).sort());
     for (const one of Object.keys(TOOL_CATALOGUE)) expect(TOOL_TEXT[one as ToolName], one).not.toBe('');
   });
@@ -137,7 +139,7 @@ describe('search', () => {
   });
 
   it('matches on the tool description and on several words, and finds nothing for nonsense', () => {
-    expect(bundleRows(full, 'older file').flatMap((each) => each.tools.map((one) => one.id))).toEqual(['split_legacy_file']);
+    expect(toolIds(full, 'older file')).toEqual(['split_legacy_file']);
     expect(bundleRows(full, 'zzzz')).toEqual([]);
   });
 });

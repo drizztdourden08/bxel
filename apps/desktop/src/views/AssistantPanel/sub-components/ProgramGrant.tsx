@@ -1,17 +1,12 @@
 /* @layer renderer-app @kind component */
-import type { Grant, TrustEntry } from '@bxel/mcp';
 import { Callout, Field, SearchInput, SettingsSection, Stack, Text } from '@drizztdourden08/tessera';
 import { PANEL_TEXT } from '../AssistantPanel.constants';
 import { GRANT_TEXT_UI } from '../ProgramGrant.constants';
 import { useProgramGrant } from '../behavior/useProgramGrant';
 import { BundleRow } from './BundleRow';
 import { PresetSelect } from './PresetSelect';
+import type { ProgramGrantProps } from './ProgramGrant.type';
 import { SpecialPermissions } from './SpecialPermissions';
-
-type ProgramGrantProps = {
-  readonly program: TrustEntry;
-  readonly onGrant: (key: string, grant: Grant) => void;
-};
 
 const ProgramGrant = ({ program, onGrant }: ProgramGrantProps) => {
   const model = useProgramGrant(program, onGrant);

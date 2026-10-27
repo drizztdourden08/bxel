@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind hook */
 import { PRESETS } from '@bxel/mcp';
-import type { BundleId, Grant, Level, PresetId, ToolName, TrustEntry } from '@bxel/mcp';
+import type { BundleId, Grant, PresetId, TrustEntry } from '@bxel/mcp';
 import { announce } from '@drizztdourden08/brock-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { GRANT_TEXT_UI, LEVEL_NAME } from '../ProgramGrant.constants';
 import { bundleRows } from './bundle-rows';
-import type { BundleRowModel, PresetChoice } from './grant-rows.type';
+import type { PresetChoice } from './grant-rows.type';
 import { omitTool } from './omit-tool';
 import { presetGrant } from './preset-grant';
 import { presetOf } from './preset-of';
@@ -14,19 +14,7 @@ import { toolRow } from './tool-row';
 import { withBundleLevel } from './with-bundle-level';
 import { withMayRestart } from './with-may-restart';
 import { withToolLevel } from './with-tool-level';
-
-type ProgramGrantModel = {
-  readonly query: string;
-  readonly rows: readonly BundleRowModel[];
-  readonly shown: number;
-  readonly preset: PresetChoice;
-  readonly setQuery: (value: string) => void;
-  readonly setPreset: (choice: PresetChoice) => void;
-  readonly setBundle: (id: BundleId, level: Level) => void;
-  readonly setTool: (id: ToolName, level: Level) => void;
-  readonly followBundle: (id: ToolName) => void;
-  readonly setMayRestart: (on: boolean) => void;
-};
+import type { ProgramGrantModel } from './useProgramGrant.type';
 
 const presetName = (choice: PresetChoice): string => (choice === 'blocked' ? GRANT_TEXT_UI.blockedLabel : PRESETS[choice as PresetId].label);
 
@@ -74,4 +62,3 @@ const useProgramGrant = (program: TrustEntry, onGrant: (key: string, grant: Gran
 };
 
 export { useProgramGrant };
-export type { ProgramGrantModel };

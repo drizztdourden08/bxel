@@ -1,15 +1,8 @@
 /* @layer renderer-app @kind component */
-import type { Level } from '@bxel/mcp';
 import { Badge, Flex, Icon, IconButton, SettingsRow } from '@drizztdourden08/tessera';
 import { GRANT_TEXT_UI } from '../ProgramGrant.constants';
-import type { ToolRowModel } from '../behavior/grant-rows.type';
 import { LevelControl } from './LevelControl';
-
-type ToolRowProps = {
-  readonly row: ToolRowModel;
-  readonly onChange: (level: Level) => void;
-  readonly onFollow: () => void;
-};
+import type { ToolRowProps } from './ToolRow.type';
 
 const ToolRow = ({ row, onChange, onFollow }: ToolRowProps) => (
   <SettingsRow
