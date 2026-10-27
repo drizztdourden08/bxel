@@ -38,6 +38,7 @@ export { grantOfChoice } from './grants/grant-of-choice';
 export { grantOfMode } from './grants/grant-of-mode';
 export { itemLevel } from './grants/item-level';
 export { lowerLevel } from './grants/lower-level';
+export { sessionModeOf } from './grants/session-mode-of';
 export { toolLevel } from './grants/tool-level';
 export { GRANT_SCHEMA } from './grants/grant-schema.constants';
 export { isProtectedSettingKey } from './grants/is-protected-setting-key';

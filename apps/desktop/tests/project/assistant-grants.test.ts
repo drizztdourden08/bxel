@@ -83,9 +83,9 @@ describe('a project granted read only', () => {
     expect(rig.current.rig.kit.host.view(rig.documentId as never)).not.toBeNull();
   });
 
-  it('treats an edit grant under a read only session the same way', async () => {
+  it('refuses an edit grant under a read only session before the project is looked at', async () => {
     const refused = await rig.current.run('apply_edits', layerEdit(rig, 0), rig.current.grants('edit'), 'read');
-    expect(refused).toMatchObject({ ok: false, error: { code: 'PROJECT_NOT_GRANTED' } });
+    expect(refused).toMatchObject({ ok: false, error: { code: 'READ_LEVEL' } });
   });
 
   it('lets an edit grant change the document', async () => {

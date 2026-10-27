@@ -1,11 +1,9 @@
 /* @layer core @kind logic */
 import { grantOfMode } from '../grants/grant-of-mode';
 import type { Grant } from '../grants/grant.type';
-import { modeOfGrant } from '../grants/mode-of-grant';
+import { sessionModeOf } from '../grants/session-mode-of';
 import { programKey } from './program-key';
-import type { HelloClient, LaunchApproval, SessionMode, TrustDecision, TrustEntry, TrustSource, TrustStore } from './trust.type';
-
-const sessionModeOf = (grant: Grant): SessionMode => (modeOfGrant(grant) === 'edit' ? 'edit' : 'read');
+import type { HelloClient, LaunchApproval, TrustDecision, TrustEntry, TrustSource, TrustStore } from './trust.type';
 
 const pair = (grant: Grant, trust: TrustSource): TrustDecision => ({ kind: 'pair', grant, mode: sessionModeOf(grant), trust });
 

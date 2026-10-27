@@ -1,12 +1,15 @@
 /* @layer electron-main @kind types */
-import type { CallSession, HelloClient, InstanceWindow, SessionMode, SessionView, ToolRouteName } from '@bxel/mcp';
+import type { CallSession, Grant, HelloClient, InstanceWindow, SessionMode, SessionView, ToolRouteName } from '@bxel/mcp';
 import type { FileKind } from '@bxel/project';
+import type { BridgeServer } from '@drizztdourden08/brock-electron/bridge';
 import type { MainContext } from '@drizztdourden08/brock-electron/main';
 
 type LiveSession = CallSession & {
   readonly token: string;
   readonly connectionId: string;
   readonly launchedThis: boolean;
+  readonly granted: Grant;
+  readonly programKey: string | null;
   readonly connectedAt: number;
   lastCallAt: number;
 };
@@ -20,6 +23,8 @@ type SessionTable = {
   readonly revoke: (sessionId: string) => boolean;
   readonly revokeAll: () => void;
   readonly setMode: (sessionId: string, mode: SessionMode) => boolean;
+  readonly setGrant: (sessionId: string, grant: Grant, stored: boolean) => boolean;
+  readonly list: () => LiveSession[];
   readonly views: () => SessionView[];
   readonly size: () => number;
 };
@@ -36,6 +41,8 @@ type AssistantMain = {
   folder: string;
   readonly sessions: SessionTable;
   readonly instance: InstanceState;
+  bridge: BridgeServer | null;
+  readonly synced: Map<string, string>;
 };
 
 type SessionLink = {

@@ -18,6 +18,7 @@ const tokenFirst = (args: readonly unknown[]): boolean =>
 const registerAssistantBridge = (bridge: BridgeServer, ctx: MainContext): void => {
   const state = assistantMain;
   state.ctx = ctx;
+  state.bridge = bridge;
   bridge.handleWith(HELLO_ROUTE, serveHello(state), { validate: (args) => args.length === 1 });
   bridge.handleWith(BYE_ROUTE, serveBye(state), { validate: (args) => args.length === 1 });
   for (const tool of buildTools(APP_COMMANDS)) {

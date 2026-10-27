@@ -1,5 +1,5 @@
 /* @layer helper @kind types */
-import type { HelloClient, ToolReply, ToolRouteName, ToolSpec } from '@bxel/mcp';
+import type { Grant, HelloClient, ToolReply, ToolRouteName, ToolSpec } from '@bxel/mcp';
 import type { ChildProcess } from 'child_process';
 
 type BridgeSession = {
@@ -8,6 +8,8 @@ type BridgeSession = {
   readonly setClient: (client: HelloClient) => void;
   readonly setLaunchToken: (token: string) => void;
   readonly isRunning: () => boolean;
+  readonly grant: () => Grant | null;
+  readonly onGrant: (listener: () => void) => void;
 };
 
 type StartedChild = {

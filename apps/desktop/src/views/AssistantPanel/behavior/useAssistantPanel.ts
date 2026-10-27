@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind hook */
-import { forgetAllPrograms, forgetProgram, setProgramMode, TRUST_LEVELS } from '@bxel/mcp';
+import { forgetAllPrograms, forgetProgram, grantOfMode, setProgramGrant, TRUST_LEVELS } from '@bxel/mcp';
 import type { SessionMode, TrustLevel } from '@bxel/mcp';
 import { confirmAction, useSettings } from '@drizztdourden08/brock-react';
 import { useCallback } from 'react';
@@ -50,7 +50,7 @@ const useAssistantPanel = (): AssistantPanelModel => {
     config,
     setLevel,
     setAllowAllMode,
-    setProgramMode: (key, mode) => patch({ assistantPrograms: setProgramMode(store, key, mode).programs }),
+    setProgramMode: (key, mode) => patch({ assistantPrograms: setProgramGrant(store, key, grantOfMode(mode)).programs }),
     forget,
     forgetAll,
     disconnect: actions.disconnect,

@@ -16,8 +16,9 @@ describe('the native question of a headless Bxel', () => {
     expect(choose.mock.calls[0]?.[0]).toMatchObject({ defaultId: 'read', cancelId: 'read' });
   });
 
-  it('gives editing only when the owner picks it', async () => {
+  it('gives editing or full control only when the owner picks it', async () => {
     expect(await askNativePair(contextPicking('edit').ctx, 'Check')).toBe('edit');
+    expect(await askNativePair(contextPicking('full').ctx, 'Check')).toBe('full');
     expect(await askNativePair(contextPicking('read').ctx, 'Check')).toBe('read');
   });
 
@@ -29,13 +30,14 @@ describe('the native question of a headless Bxel', () => {
     expect(await askNativePair(contextPicking('other').ctx, 'Check')).toBe('read');
   });
 
-  it('offers read only, editing and deny by name, and never uses confirm', async () => {
+  it('offers read only, editing, full control and deny by name, and never uses confirm', async () => {
     const { ctx, choose } = contextPicking('read');
     await askNativePair(ctx, 'Check');
     expect(choose.mock.calls[0]?.[0]).toMatchObject({
       choices: [
         { id: 'read', label: NATIVE_PAIR_TEXT.readLabel },
         { id: 'edit', label: NATIVE_PAIR_TEXT.editLabel },
+        { id: 'full', label: NATIVE_PAIR_TEXT.fullLabel },
         { id: 'blocked', label: NATIVE_PAIR_TEXT.denyLabel },
       ],
     });

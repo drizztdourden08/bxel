@@ -1,9 +1,12 @@
 /* @layer electron-main @kind logic */
+import { canWriteDocuments, MIGRATED_EDIT_GRANT, PRESETS, sessionModeOf } from '@bxel/mcp';
+import type { Grant, SessionMode } from '@bxel/mcp';
 import type { LiveSession, SessionTable } from './assistant.type';
 
-const viewOf = ({ sessionId, mode, trust, client, displayName, connectedAt, lastCallAt }: LiveSession) => ({
+const viewOf = ({ sessionId, mode, grant, trust, client, displayName, connectedAt, lastCallAt }: LiveSession) => ({
   sessionId,
   mode,
+  grant,
   trust,
   client,
   displayName,
@@ -11,7 +14,12 @@ const viewOf = ({ sessionId, mode, trust, client, displayName, connectedAt, last
   lastCallAt,
 });
 
-const createSessionTable = (onChange: () => void): SessionTable => {
+const grantOfSessionMode = (session: LiveSession, mode: SessionMode): Grant => {
+  if (mode === 'read') return PRESETS.read_only.grant;
+  return canWriteDocuments(session.granted) ? session.granted : MIGRATED_EDIT_GRANT;
+};
+
+const createSessionTable = (onChange: () => void, onGrant: (session: LiveSession) => void): SessionTable => {
   const live = new Map<string, LiveSession>();
   const revoked = new Set<string>();
   const end = (token: string): LiveSession | undefined => {
@@ -20,6 +28,15 @@ const createSessionTable = (onChange: () => void): SessionTable => {
     return session;
   };
   const find = (sessionId: string) => [...live.values()].find((session) => session.sessionId === sessionId);
+  const setGrant: SessionTable['setGrant'] = (sessionId, grant, stored) => {
+    const session = find(sessionId);
+    if (!session) return false;
+    const next = { ...session, grant, mode: sessionModeOf(grant), granted: stored ? grant : session.granted };
+    live.set(session.token, next);
+    onChange();
+    onGrant(next);
+    return true;
+  };
   return {
     add: (session) => {
       live.set(session.token, session);
@@ -44,11 +61,10 @@ const createSessionTable = (onChange: () => void): SessionTable => {
     },
     setMode: (sessionId, mode) => {
       const session = find(sessionId);
-      if (!session) return false;
-      live.set(session.token, { ...session, mode });
-      onChange();
-      return true;
+      return session ? setGrant(sessionId, grantOfSessionMode(session, mode), false) : false;
     },
+    setGrant,
+    list: () => [...live.values()],
     views: () => [...live.values()].map(viewOf),
     size: () => live.size,
   };

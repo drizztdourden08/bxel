@@ -17,7 +17,7 @@ const serveHello =
     const { client, launchToken } = hello.value;
     const launchedThis = state.instance.launchToken !== null && launchToken === state.instance.launchToken;
     const outcome = await askPair(state, { client, headless: state.instance.window === 'headless' });
-    if (outcome.ok) return openSession(state, { connectionId: call.connectionId, client, launchedThis }, outcome.mode, outcome.trust);
+    if (outcome.ok) return openSession(state, { connectionId: call.connectionId, client, launchedThis }, outcome);
     if (launchedThis && state.sessions.size() === 0) void leaveHeadless(state);
     return outcome;
   };

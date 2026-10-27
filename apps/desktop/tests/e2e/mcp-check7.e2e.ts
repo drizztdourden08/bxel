@@ -97,7 +97,7 @@ const saveReopenExport = async ({ link, folder }: McpRig): Promise<void> => {
 const refusals = async ({ link, session, sessionId }: McpRig): Promise<void> => {
   await session.page.evaluate(`window.api.assistantSetMode(${JSON.stringify(sessionId)}, 'read')`);
   const refused = await callMcp(link.client, 'apply_edits', edit(sprite().revision, [patchStep(sprite(), MCP_DRAWN)]));
-  expect(refused.code).toBe('READ_ONLY_SESSION');
+  expect(refused.code).toBe('READ_LEVEL');
   await session.page.evaluate(`window.api.assistantDisconnect(${JSON.stringify(sessionId)})`);
   expect((await callMcp(link.client, 'list_documents')).code).toBe('SESSION_REVOKED');
   expect(link.stderr()).not.toMatch(/[0-9a-f]{64}/);

@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind hook */
+import { normalizeTrustStore } from '@bxel/mcp';
 import { answer, channelApi, hostApi, useSettings } from '@drizztdourden08/brock-react';
 import { useEffect, useRef } from 'react';
 import { answerFlush } from '../assistant/answer-flush';
@@ -30,6 +31,13 @@ const useAssistantHost = (): void => {
   useEffect(() => {
     if (hydrated && hostApi() !== null) void channelApi(APP_CHANNELS).assistantSetup({ access, start, folder });
   }, [hydrated, access, start, folder]);
+  const stored = settings.assistantPrograms;
+  useEffect(() => {
+    if (!hydrated) return;
+    const programs = normalizeTrustStore({ programs: stored }).programs;
+    if (JSON.stringify(stored) !== JSON.stringify(programs)) patch({ assistantPrograms: programs });
+    if (hostApi() !== null) void channelApi(APP_CHANNELS).assistantSyncGrants(programs.map(({ key, grant }) => ({ key, grant })));
+  }, [hydrated, stored, patch]);
   useEffect(() => {
     latest.current = settings;
   }, [settings]);

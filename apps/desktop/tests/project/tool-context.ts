@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind test */
+import { grantOfMode } from '@bxel/mcp';
 import type { SessionMode } from '@bxel/mcp';
 import type { ProjectGrant } from '@bxel/project';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
@@ -17,7 +18,7 @@ const toolContext = (parts: ContextParts, grants: readonly ProjectGrant[] = [], 
   call: {
     tool: 'list_places',
     input: {},
-    session: { sessionId: 's1', mode, trust: 'prompted', client: { name: 'check', version: null }, displayName: 'Check' },
+    session: { sessionId: 's1', mode, grant: grantOfMode(mode), trust: 'prompted', client: { name: 'check', version: null }, displayName: 'Check' },
     instance: { window: 'visible', launchedBy: 'owner', canStop: false },
     target: null,
     folder: 'C:/Assistant',

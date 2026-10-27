@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
-import { applyAnswer, decideTrust, MCP_ERROR_CODE, mcpFailure, touchProgram } from '@bxel/mcp';
-import type { PairOutcome, PairRequest, ProgramMode } from '@bxel/mcp';
+import { applyAnswer, decideTrust, grantOfChoice, MCP_ERROR_CODE, mcpFailure, sessionModeOf, touchProgram } from '@bxel/mcp';
+import type { PairChoice, PairOutcome, PairRequest } from '@bxel/mcp';
 import { useAssistantStore } from '../stores/useAssistantStore';
 import { ASSISTANT_TEXT } from './assistant.constants';
 import type { SettingsPort } from './assistant.type';
@@ -9,10 +9,10 @@ import { trustStoreOf } from './trust-store-of';
 
 const denied = (): PairOutcome => mcpFailure(MCP_ERROR_CODE.PAIRING_DENIED, ASSISTANT_TEXT.denied);
 
-const rememberChoice = (port: SettingsPort,request: PairRequest, mode: ProgramMode, remember: boolean): void => {
+const rememberChoice = (port: SettingsPort, request: PairRequest, choice: PairChoice, remember: boolean): void => {
   const store = useAssistantStore.getState();
   const state = { store: trustStoreOf(port.read()), launch: store.launch };
-  const next = applyAnswer(state, request.client, { mode, remember }, new Date().toISOString());
+  const next = applyAnswer(state, request.client, { choice, remember }, new Date().toISOString());
   if (next.launch !== state.launch) store.setLaunch(next.launch);
   if (next.store !== state.store) port.patch({ assistantPrograms: next.store.programs });
 };
@@ -27,11 +27,13 @@ const answerPair = async (request: PairRequest): Promise<PairOutcome> => {
   if (decision.kind === 'deny') return denied();
   if (decision.kind === 'pair') {
     if (decision.trust === 'remembered') port.patch({ assistantPrograms: touchProgram(trust, request.client, new Date().toISOString()).programs });
-    return { ok: true, mode: decision.mode, trust: decision.trust };
+    return { ok: true, mode: decision.mode, grant: decision.grant, trust: decision.trust };
   }
-  const mode = await askOwner(request.client, request.headless);
-  rememberChoice(port, request, mode, decision.remember !== 'none');
-  return mode === 'blocked' ? denied() : { ok: true, mode, trust: 'prompted' };
+  const choice = await askOwner(request.client, request.headless);
+  rememberChoice(port, request, choice, decision.remember !== 'none');
+  if (choice === 'blocked') return denied();
+  const grant = grantOfChoice(choice);
+  return { ok: true, mode: sessionModeOf(grant), grant, trust: 'prompted' };
 };
 
 export { answerPair };

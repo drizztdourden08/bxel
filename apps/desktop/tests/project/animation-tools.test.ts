@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import type { Animation } from '@bxel/document';
-import { checkToolMode } from '@bxel/mcp';
+import { checkGrant, grantOfMode } from '@bxel/mcp';
 import type { ToolName } from '@bxel/mcp';
 import { describe, expect, it, vi } from 'vitest';
 import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
@@ -146,7 +146,7 @@ describe('editing an animation in an edit granted project', () => {
       expect(refused).toMatchObject({ ok: false, error: { code: 'PROJECT_NOT_GRANTED' } });
     }
     const session = await world().rig.run('apply_edits', addFrame(), world().rig.grants('edit'), 'read');
-    expect(session).toMatchObject({ ok: false, error: { code: 'PROJECT_NOT_GRANTED' } });
+    expect(session).toMatchObject({ ok: false, error: { code: 'READ_LEVEL' } });
     const save = await world().rig.run('save_document', { documentId: documentOf(), asset: { kind: 'animation', id: water().id }, target: 'current' }, world().rig.grants('read'));
     expect(save).toMatchObject({ ok: false, error: { code: 'PROJECT_NOT_GRANTED' } });
     expect(revisionOf()).toBe(revision);
@@ -178,7 +178,7 @@ describe('create_document and export_document with an animation', () => {
     expect(created?.frames).toHaveLength(3);
   });
 
-  it('keeps every animation edit tool behind an edit session', () => {
+  it('keeps every animation edit tool behind an edit grant', () => {
     const inputs: Partial<Record<ToolName, unknown>> = {
       create_document: { name: 'nope', kind: 'animation', bank },
       apply_edits: addFrame(),
@@ -186,10 +186,10 @@ describe('create_document and export_document with an animation', () => {
       save_document: { documentId: documentOf(), asset: { kind: 'animation', id: water().id }, target: 'current' },
     };
     for (const [tool, input] of Object.entries(inputs)) {
-      expect(checkToolMode(tool as ToolName, input, 'read')).toMatchObject({ error: { code: 'READ_ONLY_SESSION' } });
-      expect(checkToolMode(tool as ToolName, input, 'edit')).toBeNull();
+      expect(checkGrant(tool as ToolName, input, grantOfMode('read'))).toMatchObject({ error: { code: 'READ_LEVEL' } });
+      expect(checkGrant(tool as ToolName, input, grantOfMode('edit'))).toBeNull();
     }
-    expect(checkToolMode('get_animation', { documentId: documentOf(), animationId: water().id }, 'read')).toBeNull();
+    expect(checkGrant('get_animation', { documentId: documentOf(), animationId: water().id }, grantOfMode('read'))).toBeNull();
   });
 
   it('exports an animation as a gif and a strip as a png into an edit granted project', async () => {

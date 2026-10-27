@@ -1,6 +1,6 @@
 /* @layer electron-main @kind constants */
 import { MCP_TIMEOUT_MS } from '@bxel/mcp';
-import type { ProgramMode, ToolRouteName } from '@bxel/mcp';
+import type { PairChoice, ToolRouteName } from '@bxel/mcp';
 
 const FOLDER_NAME = 'Bxel Assistant';
 
@@ -37,15 +37,17 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
 const NATIVE_PAIR_TEXT = {
   title: 'A program wants to use Bxel',
   message: (program: string) => `${program} started Bxel without a window and wants to use it. Programs report their own name, and Bxel cannot check it.`,
-  detail: 'Read only lets it look at documents, read pixels and preview edits. It cannot change or save anything. Enter, Esc and closing this box all choose read only. Allow editing lets it change, save and export your files, and only that button gives it.',
+  detail: 'Read only lets it look at documents, read pixels and preview edits. It cannot change or save anything. Enter, Esc and closing this box all choose read only. Allow editing lets it change, save and export your files. Full control also lets it change the layout and settings. Only those buttons give more than read only.',
   readLabel: 'Allow read only',
   editLabel: 'Allow editing',
+  fullLabel: 'Full control',
   denyLabel: 'Deny',
 } as const;
 
-const NATIVE_PAIR_CHOICES: { id: ProgramMode; label: string }[] = [
+const NATIVE_PAIR_CHOICES: { id: PairChoice; label: string }[] = [
   { id: 'read', label: NATIVE_PAIR_TEXT.readLabel },
   { id: 'edit', label: NATIVE_PAIR_TEXT.editLabel },
+  { id: 'full', label: NATIVE_PAIR_TEXT.fullLabel },
   { id: 'blocked', label: NATIVE_PAIR_TEXT.denyLabel },
 ];
 
@@ -55,7 +57,8 @@ const MAIN_TEXT = {
   busy: 'Bxel did not answer in time. The edit either landed whole or not at all; read the revision.',
   disabled: 'Assistant access is off in Settings.',
   timeout: 'Approve the connection in Bxel within 25 seconds, then try again.',
-  stopNotAllowed: 'Only the session that started a headless Bxel can stop it. The owner closes any other Bxel.',
+  stopNotAllowed: 'Only the session that started a headless Bxel can stop it, or a program the owner allowed to restart Bxel. The owner closes any other Bxel.',
+  stopNoDiscard: 'This Bxel was not started by this session, so it cannot be stopped with unsaved "discard". Save the documents, or pass unsaved "refuse" or "recover".',
   unsaved: 'Some documents have unsaved changes. Save them, or pass unsaved "recover" or "discard".',
   unnamed: 'Unnamed program',
   tray: (names: string) => `Bxel is running for ${names}`,
