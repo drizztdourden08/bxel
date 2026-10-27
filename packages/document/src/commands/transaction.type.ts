@@ -22,6 +22,7 @@ type TransactionRequest = {
   readonly label: string;
   readonly steps: readonly CommandStep[];
   readonly previewPixels: number;
+  readonly withDraft?: boolean;
 };
 
 type HistoryRequest = {
