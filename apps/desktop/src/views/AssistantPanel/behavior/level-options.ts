@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { LEVELS } from '@bxel/mcp';
-import { LEVEL_NAME } from '../ProgramGrant.constants';
+import { LEVEL_NAME } from '../sub-components/ProgramGrant.constants';
 import type { LevelLimits, LevelOption } from './grant-rows.type';
 
 const levelOptions = (limits: LevelLimits): readonly LevelOption[] =>

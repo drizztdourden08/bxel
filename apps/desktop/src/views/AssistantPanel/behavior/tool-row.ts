@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { TOOL_CATALOGUE, toolLevel } from '@bxel/mcp';
 import type { Grant, ToolName } from '@bxel/mcp';
-import { GRANT_TEXT_UI, TOOL_TEXT } from '../ProgramGrant.constants';
+import { GRANT_TEXT_UI, TOOL_TEXT } from '../sub-components/ProgramGrant.constants';
 import { bundleDef } from './bundle-def';
 import type { LevelLimits, ToolRowModel } from './grant-rows.type';
 import { levelOptions } from './level-options';

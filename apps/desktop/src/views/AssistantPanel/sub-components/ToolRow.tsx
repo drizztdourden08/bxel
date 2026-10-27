@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Badge, Flex, Icon, IconButton, SettingsRow } from '@drizztdourden08/tessera';
-import { GRANT_TEXT_UI } from '../ProgramGrant.constants';
+import { GRANT_TEXT_UI } from './ProgramGrant.constants';
 import { LevelControl } from './LevelControl';
 import type { ToolRowProps } from './ToolRow.type';
 

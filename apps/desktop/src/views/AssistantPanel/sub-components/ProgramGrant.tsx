@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Callout, Field, SearchInput, SettingsSection, Stack, Text } from '@drizztdourden08/tessera';
 import { PANEL_TEXT } from '../AssistantPanel.constants';
-import { GRANT_TEXT_UI } from '../ProgramGrant.constants';
+import { GRANT_TEXT_UI } from './ProgramGrant.constants';
 import { useProgramGrant } from '../behavior/useProgramGrant';
 import { BundleRow } from './BundleRow';
 import { PresetSelect } from './PresetSelect';

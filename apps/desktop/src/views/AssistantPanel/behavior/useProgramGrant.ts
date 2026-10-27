@@ -3,7 +3,7 @@ import { PRESETS } from '@bxel/mcp';
 import type { BundleId, Grant, PresetId, TrustEntry } from '@bxel/mcp';
 import { announce } from '@drizztdourden08/brock-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { GRANT_TEXT_UI, LEVEL_NAME } from '../ProgramGrant.constants';
+import { GRANT_TEXT_UI, LEVEL_NAME } from '../sub-components/ProgramGrant.constants';
 import { bundleRows } from './bundle-rows';
 import type { PresetChoice } from './grant-rows.type';
 import { omitTool } from './omit-tool';

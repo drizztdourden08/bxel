@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Badge, Disclosure, SettingsRow, Stack } from '@drizztdourden08/tessera';
-import { GRANT_TEXT_UI } from '../ProgramGrant.constants';
+import { GRANT_TEXT_UI } from './ProgramGrant.constants';
 import type { BundleRowProps } from './BundleRow.type';
 import { LevelControl } from './LevelControl';
 import { ToolRow } from './ToolRow';

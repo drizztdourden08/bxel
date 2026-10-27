@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 import { PRESET_IDS, PRESETS } from '@bxel/mcp';
-import { GRANT_TEXT_UI } from '../ProgramGrant.constants';
+import { GRANT_TEXT_UI } from './ProgramGrant.constants';
 
 const PRESET_CHOICES = [
   ...PRESET_IDS.map((id) => ({ value: id, label: PRESETS[id].label, description: PRESETS[id].description })),

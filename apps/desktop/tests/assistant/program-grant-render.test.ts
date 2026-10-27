@@ -5,7 +5,7 @@ import * as React from 'react';
 import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import { GRANT_TEXT_UI, TOOL_TEXT } from '../../src/views/AssistantPanel/ProgramGrant.constants';
+import { GRANT_TEXT_UI, TOOL_TEXT } from '../../src/views/AssistantPanel/sub-components/ProgramGrant.constants';
 import { withBundleLevel } from '../../src/views/AssistantPanel/behavior/with-bundle-level';
 import { withMayRestart } from '../../src/views/AssistantPanel/behavior/with-may-restart';
 import { withToolLevel } from '../../src/views/AssistantPanel/behavior/with-tool-level';

@@ -2,7 +2,7 @@
 import { BUNDLE_IDS, checkGrant, makeGrant, PRESETS, TOOL_CATALOGUE } from '@bxel/mcp';
 import type { Grant, ToolName } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
-import { TOOL_TEXT } from '../../src/views/AssistantPanel/ProgramGrant.constants';
+import { TOOL_TEXT } from '../../src/views/AssistantPanel/sub-components/ProgramGrant.constants';
 import { bundleRows } from '../../src/views/AssistantPanel/behavior/bundle-rows';
 import { presetGrant } from '../../src/views/AssistantPanel/behavior/preset-grant';
 import { presetOf } from '../../src/views/AssistantPanel/behavior/preset-of';
