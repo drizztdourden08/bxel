@@ -11,11 +11,13 @@ import { fieldOf } from '../../src/assistant-bridge/field-of';
 import { saveKindOf } from '../../src/assistant-bridge/save-kind-of';
 import type { TargetCall, WantedFile } from './assistant.type';
 
+const exportKindOf = (input: unknown): FileKind => (fieldOf(input, 'format') === 'gif' ? 'gif' : 'png');
+
 const wantedFile = (tool: ToolRouteName, input: unknown): WantedFile | null => {
   const holder = tool === 'save_document' ? fieldOf(input, 'target') : input;
   const name = fieldOf(holder, 'fileName');
   if (typeof name !== 'string' || (tool !== 'save_document' && tool !== 'export_document')) return null;
-  const kind: FileKind = tool === 'save_document' ? saveKindOf(name) : 'png';
+  const kind: FileKind = tool === 'save_document' ? saveKindOf(name) : exportKindOf(input);
   return { name, kind, overwrite: fieldOf(holder, 'overwrite') === true, path: tool === 'save_document' ? 'target.fileName' : 'fileName' };
 };
 

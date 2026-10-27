@@ -11,7 +11,7 @@ import {
 import { APP_COMMANDS } from '../documents/document-host.constants';
 import { callTool } from './call-tool';
 import { GUIDE_URI } from './guide.constants';
-import { ANIMATION_PREVIEW_TEMPLATE, HELPER_INFO, HELPER_TEXT, PREVIEW_TEMPLATE } from './helper.constants';
+import { ANIMATION_PREVIEW_TEMPLATE, HELPER_INFO, HELPER_TEXT, PREVIEW_TEMPLATE, SHEET_PREVIEW_TEMPLATE } from './helper.constants';
 import { helperLog } from './helper-log';
 import type { HelperState } from './helper.type';
 import { readResource } from './read-resource';
@@ -36,6 +36,7 @@ const createServer = (state: HelperState): McpServer => {
     resourceTemplates: [
       { uriTemplate: PREVIEW_TEMPLATE, name: 'Sprite frame preview', mimeType: 'image/png' },
       { uriTemplate: ANIMATION_PREVIEW_TEMPLATE, name: 'Animation preview', mimeType: 'image/png' },
+      { uriTemplate: SHEET_PREVIEW_TEMPLATE, name: 'Sheet preview', mimeType: 'image/png' },
     ],
   }));
   server.setRequestHandler(ReadResourceRequestSchema, (request) => readResource(state, request.params.uri));
