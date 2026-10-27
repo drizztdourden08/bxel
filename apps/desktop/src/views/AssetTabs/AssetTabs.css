@@ -5,6 +5,8 @@
 }
 
 .asset-tabs__tabs {
+  --document-tab-bg: var(--c-panel);
+  --document-tab-bg-selected: var(--c-surface);
   flex: 1;
   min-inline-size: 0;
 }
