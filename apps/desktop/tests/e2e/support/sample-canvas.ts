@@ -4,7 +4,7 @@ import type { Cell, Session } from './e2e.type';
 const sampleCanvas = (session: Session, points: readonly Cell[]): Promise<string[]> =>
   session.page.evaluate(async (list) => {
     await new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
-    const canvas = document.querySelector<HTMLCanvasElement>('[role="application"] canvas');
+    const canvas = document.querySelector<HTMLCanvasElement>('[role="application"] .pixel-viewport__canvas');
     const context = canvas?.getContext('2d');
     if (!canvas || !context) return list.map(() => '');
     const rect = canvas.getBoundingClientRect();

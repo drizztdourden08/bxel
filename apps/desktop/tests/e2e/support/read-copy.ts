@@ -7,7 +7,7 @@ type Box = { readonly x: number; readonly y: number; readonly width: number; rea
 
 const canvasBox = (session: Session): Promise<Box> =>
   session.page.evaluate(() => {
-    const rect = (document.querySelector('[role="application"] canvas') as HTMLCanvasElement).getBoundingClientRect();
+    const rect = (document.querySelector('[role="application"] .pixel-viewport__canvas') as HTMLCanvasElement).getBoundingClientRect();
     return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
   });
 
