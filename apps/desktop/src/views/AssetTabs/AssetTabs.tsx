@@ -21,6 +21,7 @@ const AssetTabs = () => {
       <Flex className="asset-tabs" {...contextMenuZone(TAB_MENU.zone)}>
         <DocumentTabs
           className="asset-tabs__tabs"
+          look="raised"
           label={ASSET_TABS_TEXT.label}
           tabs={tabs}
           {...(activeId === undefined || adding ? {} : { activeId })}
