@@ -22,8 +22,8 @@ import { trimSprites } from '../sheet-manager/trim-sprites';
 import { turnSprites } from '../sheet-manager/turn-sprites';
 import type { CurrentManager, ManagerDialog } from '../sheet-manager/manager.type';
 import { useManagerStore } from '../stores/useManagerStore';
-import { onSurface } from './on-surface';
 import { COMMAND_GROUP } from './keymap.constants';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.sheet;
 
@@ -146,6 +146,6 @@ const SPRITE_SELECT: readonly CommandDef[] = [
   },
 ];
 
-const SPRITE_MENU_COMMANDS: readonly CommandDef[] = [...SPRITE_ACTIONS, ...SPRITE_EDITS, ...SPRITE_ORDER, ...SPRITE_SHEET, ...SPRITE_SELECT].map(onSurface('sheet'));
+const SPRITE_MENU_COMMANDS: readonly CommandDef[] = [...SPRITE_ACTIONS, ...SPRITE_EDITS, ...SPRITE_ORDER, ...SPRITE_SHEET, ...SPRITE_SELECT].map(ruled);
 
 export { SPRITE_MENU_COMMANDS };

@@ -6,6 +6,11 @@ import { fieldIs } from './field-is';
 const read = (bundle: ToolEntry['bundle']): ToolEntry => ({ bundle, kind: 'read' });
 const write = (bundle: ToolEntry['bundle']): ToolEntry => ({ bundle, kind: 'write' });
 
+const STATE_FIELDS = ['select', 'tool', 'colours', 'symmetry', 'selection', 'dialog'] as const;
+
+const setsState = (input: unknown): boolean =>
+  typeof input === 'object' && input !== null && STATE_FIELDS.some((field) => Reflect.get(input, field) !== undefined);
+
 const TOOL_CATALOGUE: Readonly<Record<ToolName, ToolEntry>> = {
   start_bxel: read('session'),
   show_window: read('session'),
@@ -31,6 +36,16 @@ const TOOL_CATALOGUE: Readonly<Record<ToolName, ToolEntry>> = {
   export_document: write('files_saving'),
   create_document: write('files_saving'),
   split_legacy_file: write('files_saving'),
+  list_commands: read('app_control'),
+  run_command: { bundle: 'app_control', kind: 'mixed', writes: () => false, routed: 'command' },
+  get_view: read('app_control'),
+  set_view: { bundle: 'app_control', kind: 'mixed', writes: setsState },
+  get_history: read('read_documents'),
+  list_layout: read('layout'),
+  set_layout: write('layout'),
+  get_settings: read('settings'),
+  set_setting: write('settings'),
+  restart_bxel: { bundle: 'session', kind: 'write', special: 'mayRestart' },
 };
 
 export { TOOL_CATALOGUE };

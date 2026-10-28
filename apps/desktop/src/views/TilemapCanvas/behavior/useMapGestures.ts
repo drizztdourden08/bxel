@@ -8,6 +8,7 @@ import { MAP_TOOL_OF } from '../../../tilemap/tilemap.constants';
 import type { MapTarget } from '../../../tilemap/tilemap.type';
 import type { PixelPoint, PixelViewportHandle } from '../../PixelViewport';
 import type { MapGesture, MapLive } from '../TilemapCanvas.type';
+import { useGuideGrab } from '../../EditorCanvas/behavior/useGuideGrab';
 import { beginDrag } from './begin-drag';
 import { cellNearest } from './cell-nearest';
 import { cellOf } from './cell-of';
@@ -21,8 +22,10 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
   const cellNear = (event: PointerEvent<HTMLElement>): Point => cellNearest(pixelAt(event), target);
   const spanning = tool === 'rect' || tool === 'select';
   const redraw = (): void => viewport.current?.redraw();
+  const guide = useGuideGrab(viewport);
   return {
     down: (event) => {
+      if (guide.down(event)) return;
       if (tool === 'zoom') {
         if (event.button === 0) viewport.current?.zoomIn(pixelAt(event));
         if (event.button === 2) viewport.current?.zoomOut(pixelAt(event));
@@ -34,12 +37,14 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
       redraw();
     },
     move: (event) => {
+      if (guide.move(event)) return;
       const { drag } = live.current;
       if (drag) live.current.drag = extendDrag(drag, drag.kind === 'stroke' ? cellAt(event) : cellNear(event), useTilemapStore.getState().stamp, target);
       live.current.hover = cellAt(event);
       redraw();
     },
     up: () => {
+      if (guide.up()) return;
       const { drag } = live.current;
       live.current.drag = null;
       if (drag) finishDrag(drag, target);

@@ -2,68 +2,66 @@
 import { buildScreenTree, lazyComponent } from '@drizztdourden08/brock-react';
 import config from '../src/screens/screens.config';
 import { searchIndex } from './search';
-import { meta as appAssistantProgramsCustomMeta } from '../src/screens/app/assistant-programs.custom';
-import { meta as appAssistantProjectsCustomMeta } from '../src/screens/app/assistant-projects.custom';
-import AppAssistantSettings, { meta as appAssistantSettingsMeta } from '../src/screens/app/assistant.settings';
-import { meta as appCanvasCustomMeta } from '../src/screens/app/canvas.custom';
-import AppDefaultsSettings, { meta as appDefaultsSettingsMeta } from '../src/screens/app/defaults.settings';
-import AppGeneralSettings, { meta as appGeneralSettingsMeta } from '../src/screens/app/general.settings';
-import { meta as appGridCustomMeta } from '../src/screens/app/grid.custom';
-import { meta as appPresetsCustomMeta } from '../src/screens/app/presets.custom';
-import { meta as appStoragePageMeta } from '../src/screens/app/storage.page';
-import { meta as appSurroundCustomMeta } from '../src/screens/app/surround.custom';
-import { meta as appSwatchesCustomMeta } from '../src/screens/app/swatches.custom';
-import AssetAnimationSettings, { meta as assetAnimationSettingsMeta } from '../src/screens/asset/animation.settings';
-import { meta as assetNoneCustomMeta } from '../src/screens/asset/none.custom';
-import { meta as assetOverviewCustomMeta } from '../src/screens/asset/overview.custom';
-import AssetPaletteSettings, { meta as assetPaletteSettingsMeta } from '../src/screens/asset/palette.settings';
-import AssetSheetSettings, { meta as assetSheetSettingsMeta } from '../src/screens/asset/sheet.settings';
-import AssetSpritePaletteSettings, { meta as assetSpritePaletteSettingsMeta } from '../src/screens/asset/sprite-palette.settings';
-import AssetSpritePlatformSettings, { meta as assetSpritePlatformSettingsMeta } from '../src/screens/asset/sprite-platform.settings';
-import AssetSpriteSettings, { meta as assetSpriteSettingsMeta } from '../src/screens/asset/sprite.settings';
-import AssetTilemapSettings, { meta as assetTilemapSettingsMeta } from '../src/screens/asset/tilemap.settings';
-import AssetTilesetSettings, { meta as assetTilesetSettingsMeta } from '../src/screens/asset/tileset.settings';
 import { meta as creditsCardMeta } from '../src/screens/credits.card';
 import { meta as editorBaseMeta } from '../src/screens/editor.base';
-import ProjectAssistantSettings, { meta as projectAssistantSettingsMeta } from '../src/screens/project/assistant.settings';
-import ProjectDefaultsSettings, { meta as projectDefaultsSettingsMeta } from '../src/screens/project/defaults.settings';
-import ProjectExportSettings, { meta as projectExportSettingsMeta } from '../src/screens/project/export.settings';
-import ProjectFoldersSettings, { meta as projectFoldersSettingsMeta } from '../src/screens/project/folders.settings';
-import ProjectGeneralSettings, { meta as projectGeneralSettingsMeta } from '../src/screens/project/general.settings';
-import { meta as projectManagerCustomMeta } from '../src/screens/project/manager.custom';
-import ProjectPalettesSettings, { meta as projectPalettesSettingsMeta } from '../src/screens/project/palettes.settings';
+import { meta as optionsAssistantProgramsCustomMeta } from '../src/screens/options/assistant-programs.custom';
+import { meta as optionsAssistantProjectsCustomMeta } from '../src/screens/options/assistant-projects.custom';
+import OptionsAssistantSettings, { meta as optionsAssistantSettingsMeta } from '../src/screens/options/assistant.settings';
+import { meta as optionsCanvasCustomMeta } from '../src/screens/options/canvas.custom';
+import OptionsDefaultsSettings, { meta as optionsDefaultsSettingsMeta } from '../src/screens/options/defaults.settings';
+import OptionsGeneralSettings, { meta as optionsGeneralSettingsMeta } from '../src/screens/options/general.settings';
+import { meta as optionsGridCustomMeta } from '../src/screens/options/grid.custom';
+import { meta as optionsPresetsCustomMeta } from '../src/screens/options/presets.custom';
+import { meta as optionsStoragePageMeta } from '../src/screens/options/storage.page';
+import { meta as optionsSurroundCustomMeta } from '../src/screens/options/surround.custom';
+import { meta as optionsSwatchesCustomMeta } from '../src/screens/options/swatches.custom';
+import { meta as projectBrowseCustomMeta } from '../src/screens/project/browse.custom';
+import ProjectProjectSettingsDefaultsSettings, { meta as projectProjectSettingsDefaultsSettingsMeta } from '../src/screens/project/project-settings/defaults.settings';
+import ProjectProjectSettingsExportSettings, { meta as projectProjectSettingsExportSettingsMeta } from '../src/screens/project/project-settings/export.settings';
+import ProjectProjectSettingsFoldersSettings, { meta as projectProjectSettingsFoldersSettingsMeta } from '../src/screens/project/project-settings/folders.settings';
+import ProjectProjectSettingsGeneralSettings, { meta as projectProjectSettingsGeneralSettingsMeta } from '../src/screens/project/project-settings/general.settings';
+import { meta as projectProjectsCustomMeta } from '../src/screens/project/projects.custom';
+import PropertiesAnimationSettings, { meta as propertiesAnimationSettingsMeta } from '../src/screens/properties/animation.settings';
+import { meta as propertiesNoneCustomMeta } from '../src/screens/properties/none.custom';
+import { meta as propertiesOverviewCustomMeta } from '../src/screens/properties/overview.custom';
+import PropertiesPaletteSettings, { meta as propertiesPaletteSettingsMeta } from '../src/screens/properties/palette.settings';
+import PropertiesSheetSettings, { meta as propertiesSheetSettingsMeta } from '../src/screens/properties/sheet.settings';
+import PropertiesSpritePaletteSettings, { meta as propertiesSpritePaletteSettingsMeta } from '../src/screens/properties/sprite-palette.settings';
+import PropertiesSpritePlatformSettings, { meta as propertiesSpritePlatformSettingsMeta } from '../src/screens/properties/sprite-platform.settings';
+import PropertiesSpriteSettings, { meta as propertiesSpriteSettingsMeta } from '../src/screens/properties/sprite.settings';
+import PropertiesTilemapSettings, { meta as propertiesTilemapSettingsMeta } from '../src/screens/properties/tilemap.settings';
+import PropertiesTilesetSettings, { meta as propertiesTilesetSettingsMeta } from '../src/screens/properties/tileset.settings';
 
 const screenTree = buildScreenTree(config, [
-  { kind: 'custom', bucket: 'app', id: 'assistant-programs', component: lazyComponent(() => import('../src/screens/app/assistant-programs.custom')), meta: appAssistantProgramsCustomMeta },
-  { kind: 'custom', bucket: 'app', id: 'assistant-projects', component: lazyComponent(() => import('../src/screens/app/assistant-projects.custom')), meta: appAssistantProjectsCustomMeta },
-  { kind: 'settings', bucket: 'app', id: 'assistant', sections: AppAssistantSettings, meta: appAssistantSettingsMeta },
-  { kind: 'custom', bucket: 'app', id: 'canvas', component: lazyComponent(() => import('../src/screens/app/canvas.custom')), meta: appCanvasCustomMeta },
-  { kind: 'settings', bucket: 'app', id: 'defaults', sections: AppDefaultsSettings, meta: appDefaultsSettingsMeta },
-  { kind: 'settings', bucket: 'app', id: 'general', sections: AppGeneralSettings, meta: appGeneralSettingsMeta },
-  { kind: 'custom', bucket: 'app', id: 'grid', component: lazyComponent(() => import('../src/screens/app/grid.custom')), meta: appGridCustomMeta },
-  { kind: 'custom', bucket: 'app', id: 'presets', component: lazyComponent(() => import('../src/screens/app/presets.custom')), meta: appPresetsCustomMeta },
-  { kind: 'page', bucket: 'app', id: 'storage', component: lazyComponent(() => import('../src/screens/app/storage.page')), meta: appStoragePageMeta },
-  { kind: 'custom', bucket: 'app', id: 'surround', component: lazyComponent(() => import('../src/screens/app/surround.custom')), meta: appSurroundCustomMeta },
-  { kind: 'custom', bucket: 'app', id: 'swatches', component: lazyComponent(() => import('../src/screens/app/swatches.custom')), meta: appSwatchesCustomMeta },
-  { kind: 'settings', bucket: 'asset', id: 'animation', sections: AssetAnimationSettings, meta: assetAnimationSettingsMeta },
-  { kind: 'custom', bucket: 'asset', id: 'none', component: lazyComponent(() => import('../src/screens/asset/none.custom')), meta: assetNoneCustomMeta },
-  { kind: 'custom', bucket: 'asset', id: 'overview', component: lazyComponent(() => import('../src/screens/asset/overview.custom')), meta: assetOverviewCustomMeta },
-  { kind: 'settings', bucket: 'asset', id: 'palette', sections: AssetPaletteSettings, meta: assetPaletteSettingsMeta },
-  { kind: 'settings', bucket: 'asset', id: 'sheet', sections: AssetSheetSettings, meta: assetSheetSettingsMeta },
-  { kind: 'settings', bucket: 'asset', id: 'sprite-palette', sections: AssetSpritePaletteSettings, meta: assetSpritePaletteSettingsMeta },
-  { kind: 'settings', bucket: 'asset', id: 'sprite-platform', sections: AssetSpritePlatformSettings, meta: assetSpritePlatformSettingsMeta },
-  { kind: 'settings', bucket: 'asset', id: 'sprite', sections: AssetSpriteSettings, meta: assetSpriteSettingsMeta },
-  { kind: 'settings', bucket: 'asset', id: 'tilemap', sections: AssetTilemapSettings, meta: assetTilemapSettingsMeta },
-  { kind: 'settings', bucket: 'asset', id: 'tileset', sections: AssetTilesetSettings, meta: assetTilesetSettingsMeta },
   { kind: 'card', id: 'credits', component: lazyComponent(() => import('../src/screens/credits.card')), meta: creditsCardMeta },
   { kind: 'base', id: 'editor', component: lazyComponent(() => import('../src/screens/editor.base')), meta: editorBaseMeta },
-  { kind: 'settings', bucket: 'project', id: 'assistant', sections: ProjectAssistantSettings, meta: projectAssistantSettingsMeta },
-  { kind: 'settings', bucket: 'project', id: 'defaults', sections: ProjectDefaultsSettings, meta: projectDefaultsSettingsMeta },
-  { kind: 'settings', bucket: 'project', id: 'export', sections: ProjectExportSettings, meta: projectExportSettingsMeta },
-  { kind: 'settings', bucket: 'project', id: 'folders', sections: ProjectFoldersSettings, meta: projectFoldersSettingsMeta },
-  { kind: 'settings', bucket: 'project', id: 'general', sections: ProjectGeneralSettings, meta: projectGeneralSettingsMeta },
-  { kind: 'custom', bucket: 'project', id: 'manager', component: lazyComponent(() => import('../src/screens/project/manager.custom')), meta: projectManagerCustomMeta },
-  { kind: 'settings', bucket: 'project', id: 'palettes', sections: ProjectPalettesSettings, meta: projectPalettesSettingsMeta },
+  { kind: 'custom', bucket: 'options', id: 'assistant-programs', component: lazyComponent(() => import('../src/screens/options/assistant-programs.custom')), meta: optionsAssistantProgramsCustomMeta },
+  { kind: 'custom', bucket: 'options', id: 'assistant-projects', component: lazyComponent(() => import('../src/screens/options/assistant-projects.custom')), meta: optionsAssistantProjectsCustomMeta },
+  { kind: 'settings', bucket: 'options', id: 'assistant', sections: OptionsAssistantSettings, meta: optionsAssistantSettingsMeta },
+  { kind: 'custom', bucket: 'options', id: 'canvas', component: lazyComponent(() => import('../src/screens/options/canvas.custom')), meta: optionsCanvasCustomMeta },
+  { kind: 'settings', bucket: 'options', id: 'defaults', sections: OptionsDefaultsSettings, meta: optionsDefaultsSettingsMeta },
+  { kind: 'settings', bucket: 'options', id: 'general', sections: OptionsGeneralSettings, meta: optionsGeneralSettingsMeta },
+  { kind: 'custom', bucket: 'options', id: 'grid', component: lazyComponent(() => import('../src/screens/options/grid.custom')), meta: optionsGridCustomMeta },
+  { kind: 'custom', bucket: 'options', id: 'presets', component: lazyComponent(() => import('../src/screens/options/presets.custom')), meta: optionsPresetsCustomMeta },
+  { kind: 'page', bucket: 'options', id: 'storage', component: lazyComponent(() => import('../src/screens/options/storage.page')), meta: optionsStoragePageMeta },
+  { kind: 'custom', bucket: 'options', id: 'surround', component: lazyComponent(() => import('../src/screens/options/surround.custom')), meta: optionsSurroundCustomMeta },
+  { kind: 'custom', bucket: 'options', id: 'swatches', component: lazyComponent(() => import('../src/screens/options/swatches.custom')), meta: optionsSwatchesCustomMeta },
+  { kind: 'custom', bucket: 'project', id: 'browse', component: lazyComponent(() => import('../src/screens/project/browse.custom')), meta: projectBrowseCustomMeta },
+  { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'defaults', sections: ProjectProjectSettingsDefaultsSettings, meta: projectProjectSettingsDefaultsSettingsMeta },
+  { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'export', sections: ProjectProjectSettingsExportSettings, meta: projectProjectSettingsExportSettingsMeta },
+  { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'folders', sections: ProjectProjectSettingsFoldersSettings, meta: projectProjectSettingsFoldersSettingsMeta },
+  { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'general', sections: ProjectProjectSettingsGeneralSettings, meta: projectProjectSettingsGeneralSettingsMeta },
+  { kind: 'custom', bucket: 'project', id: 'projects', component: lazyComponent(() => import('../src/screens/project/projects.custom')), meta: projectProjectsCustomMeta },
+  { kind: 'settings', bucket: 'properties', id: 'animation', sections: PropertiesAnimationSettings, meta: propertiesAnimationSettingsMeta },
+  { kind: 'custom', bucket: 'properties', id: 'none', component: lazyComponent(() => import('../src/screens/properties/none.custom')), meta: propertiesNoneCustomMeta },
+  { kind: 'custom', bucket: 'properties', id: 'overview', component: lazyComponent(() => import('../src/screens/properties/overview.custom')), meta: propertiesOverviewCustomMeta },
+  { kind: 'settings', bucket: 'properties', id: 'palette', sections: PropertiesPaletteSettings, meta: propertiesPaletteSettingsMeta },
+  { kind: 'settings', bucket: 'properties', id: 'sheet', sections: PropertiesSheetSettings, meta: propertiesSheetSettingsMeta },
+  { kind: 'settings', bucket: 'properties', id: 'sprite-palette', sections: PropertiesSpritePaletteSettings, meta: propertiesSpritePaletteSettingsMeta },
+  { kind: 'settings', bucket: 'properties', id: 'sprite-platform', sections: PropertiesSpritePlatformSettings, meta: propertiesSpritePlatformSettingsMeta },
+  { kind: 'settings', bucket: 'properties', id: 'sprite', sections: PropertiesSpriteSettings, meta: propertiesSpriteSettingsMeta },
+  { kind: 'settings', bucket: 'properties', id: 'tilemap', sections: PropertiesTilemapSettings, meta: propertiesTilemapSettingsMeta },
+  { kind: 'settings', bucket: 'properties', id: 'tileset', sections: PropertiesTilesetSettings, meta: propertiesTilesetSettingsMeta },
 ], searchIndex);
 
 export { screenTree };

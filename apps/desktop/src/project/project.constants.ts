@@ -12,6 +12,7 @@ const PROJECT_COMMAND = {
   close: 'project.close',
   panel: 'project.panel',
   settings: 'project.settings',
+  window: 'project.window',
   pack: 'project.pack',
 } as const;
 
@@ -31,6 +32,7 @@ const PROJECT_TEXT = {
   recentNone: 'No recent projects',
   closeProject: 'Close project',
   settings: 'Project settings...',
+  window: 'Project window',
   showPanel: 'Show project panel',
   pickTitle: 'Choose the project folder',
   newTitle: 'New project',

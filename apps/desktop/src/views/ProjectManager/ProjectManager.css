@@ -1,8 +1,0 @@
-/* @layer renderer-app @kind style */
-.project-manager {
-  min-block-size: var(--size-640);
-}
-
-.project-manager__assets {
-  block-size: var(--size-448);
-}

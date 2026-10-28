@@ -34,11 +34,13 @@ const tilemapToJson = (tilemap: Tilemap): TilemapJson => ({
   columns: tilemap.columns,
   rows: tilemap.rows,
   ...(tilemap.orientation ? { orientation: tilemap.orientation } : {}),
+  ...(tilemap.guides ? { guides: tilemap.guides } : {}),
   layers: tilemap.layers.map((layer) => ({
     id: layer.id,
     name: layer.name,
     visible: layer.visible,
     locked: layer.locked,
+    ...(layer.colour === undefined ? {} : { colour: layer.colour }),
   })),
 });
 

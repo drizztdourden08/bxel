@@ -9,7 +9,7 @@ const usage = {
   ],
   avoidWhen: [
     { case: 'Sprites of a sheet are managed.', use: 'SpritesPanel' },
-    { case: 'The layers of one sprite are shown.', use: 'LayersPanel' },
+    { case: 'The layers of one sprite are shown.', use: 'LayerStack' },
   ],
   rules: [
     'The panel reads the active document and the tilemap store, so it takes no props.',

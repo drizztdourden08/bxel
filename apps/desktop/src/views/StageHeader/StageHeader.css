@@ -1,0 +1,44 @@
+/* @layer renderer-app @kind style */
+.stage-header {
+  box-sizing: border-box;
+  flex: none;
+  min-block-size: var(--size-32);
+  min-inline-size: 0;
+  padding: var(--space-2xs) var(--space-sm);
+  background: var(--c-surface);
+  border-block-end: var(--border-width-thin) solid var(--c-border);
+}
+
+.stage-header__trail {
+  min-inline-size: 0;
+}
+
+.stage-header__list {
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage-header__item {
+  min-inline-size: 0;
+}
+
+.stage-header__sep {
+  flex: none;
+  color: var(--c-text-faint);
+}
+
+.stage-header__crumb-box {
+  min-inline-size: 0;
+  max-inline-size: var(--size-224);
+}
+
+.stage-header__chips {
+  margin-inline-start: var(--space-sm);
+  min-inline-size: 0;
+}
+
+.stage-header__actions {
+  margin-inline-start: auto;
+}

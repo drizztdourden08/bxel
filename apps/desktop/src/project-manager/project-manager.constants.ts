@@ -1,14 +1,4 @@
 /* @layer renderer-app @kind constants */
-import type { ConfigPage } from './project-manager.type';
-
-const CONFIG_PAGES: readonly ConfigPage[] = [
-  { page: 'general', label: 'General', description: 'Name, cover and packing the project into one file.', icon: 'folder' },
-  { page: 'folders', label: 'Folders', description: 'The folders of the project and the role of each one.', icon: 'folder-open' },
-  { page: 'defaults', label: 'Defaults', description: 'Size, colours and platform for new assets.', icon: 'sliders-horizontal' },
-  { page: 'palettes', label: 'Palettes', description: 'The palette files shared by the sprites.', icon: 'palette' },
-  { page: 'assistant', label: 'Assistant', description: 'Whether an assistant may browse or edit the project.', icon: 'plug-zap' },
-  { page: 'export', label: 'Export', description: 'The default scale and file name template.', icon: 'upload' },
-];
 
 const MAX_DISK_PREVIEWS = 60;
 
@@ -75,4 +65,4 @@ const MANAGER_TEXT = {
   nameEmpty: 'Type a name.',
 } as const;
 
-export { CONFIG_PAGES, MANAGER_TEXT, MAX_DISK_PREVIEWS, NOTHING_LOADED, PNG_MIME, PREVIEW_ENTRY_KINDS };
+export { MANAGER_TEXT, MAX_DISK_PREVIEWS, NOTHING_LOADED, PNG_MIME, PREVIEW_ENTRY_KINDS };

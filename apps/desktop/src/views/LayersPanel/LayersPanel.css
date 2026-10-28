@@ -1,5 +1,0 @@
-/* @layer renderer-app @kind style */
-.layers-panel__list {
-  flex: 1;
-  min-height: var(--size-40);
-}

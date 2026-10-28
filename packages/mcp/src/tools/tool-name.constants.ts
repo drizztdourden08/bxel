@@ -24,6 +24,16 @@ const TOOL_NAME = {
   listMapLayers: 'list_map_layers',
   readMapCells: 'read_map_cells',
   getAnimation: 'get_animation',
+  listCommands: 'list_commands',
+  runCommand: 'run_command',
+  getView: 'get_view',
+  setView: 'set_view',
+  getHistory: 'get_history',
+  listLayout: 'list_layout',
+  setLayout: 'set_layout',
+  getSettings: 'get_settings',
+  setSetting: 'set_setting',
+  restartBxel: 'restart_bxel',
 } as const;
 
 const TOOLS_WITHOUT_SESSION: readonly string[] = [TOOL_NAME.startBxel];

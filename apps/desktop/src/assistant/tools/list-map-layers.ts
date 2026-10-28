@@ -14,7 +14,13 @@ const tilemapEntry = (map: Tilemap) => ({
   columns: map.columns,
   rows: map.rows,
   orientation: map.orientation?.kind ?? ('orthogonal' as const),
-  layers: map.layers.map((layer) => ({ layerId: layer.id, name: layer.name, visible: layer.visible, locked: layer.locked })),
+  layers: map.layers.map((layer) => ({
+    layerId: layer.id,
+    name: layer.name,
+    visible: layer.visible,
+    locked: layer.locked,
+    ...(layer.colour === undefined ? {} : { colour: layer.colour }),
+  })),
 });
 
 const tilesetEntry = (tileset: Tileset, includeTiles: boolean) => ({

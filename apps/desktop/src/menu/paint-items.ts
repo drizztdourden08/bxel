@@ -1,16 +1,16 @@
 /* @layer renderer-app @kind logic */
 import type { MenuEntry } from '@drizztdourden08/brock-react';
-import { SHEET_COMMAND } from '../keymap/sheet-command-id.constants';
-import { hasPart } from '../surface/has-part';
+import { evaluate } from '../ui-context/evaluate';
 import type { EditorMenuState } from './editor-menu.type';
 import { layerMenu } from './layer-menu';
-import { menuItem } from './menu-item';
 import { paletteMenu } from './palette-menu';
 
 const paintItems = (state: EditorMenuState): MenuEntry[] => {
-  if (!hasPart(state.surface, 'paint')) return [];
-  if (state.kind === 'palette') return paletteMenu(state).children ?? [];
-  return [layerMenu(state), paletteMenu(state), menuItem(SHEET_COMMAND.duplicateFrame, 'Duplicate frame')];
+  const { context } = state;
+  if (context.fileType === 'palette') return paletteMenu(state).children ?? [];
+  const layer = evaluate('menu.layer', context).state === 'hidden' ? [] : [layerMenu(state)];
+  const palette = evaluate('menu.palette', context).state === 'hidden' ? [] : [paletteMenu(state)];
+  return [...layer, ...palette];
 };
 
 export { paintItems };
