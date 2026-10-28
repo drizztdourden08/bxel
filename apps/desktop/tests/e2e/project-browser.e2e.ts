@@ -73,7 +73,7 @@ const browsesInThreeViews = async (session: Session, place: string): Promise<voi
   await shoot(session, 'pm-grid');
   await session.page.getByRole('radio', { name: 'List' }).click();
   await session.page.getByRole('group', { name: 'Search filters' }).getByText('kind:sprite').waitFor();
-  await session.page.getByRole('button', { name: /^Name$/ }).waitFor();
+  await session.page.getByRole('button', { name: /^Name/ }).waitFor();
   await shoot(session, 'pm-list');
   await session.page.getByRole('radio', { name: 'Columns' }).click();
   await shoot(session, 'pm-columns');
