@@ -32,6 +32,7 @@ export { animFramePivot } from '../read/anim-frame-pivot';
 export { animFrameOrigin } from '../read/anim-frame-origin';
 export { tileAnimationIssue } from '../read/tile-animation-issue';
 export { sheetAnimationAdd } from '../commands/sheet/sheet-animation-add';
+export { sheetAnimationMove } from '../commands/sheet/sheet-animation-move';
 export { sheetAnimationRemove } from '../commands/sheet/sheet-animation-remove';
 export { animationCells } from '../read/animation-cells';
 export type * from '../read/anim-cell.type';
