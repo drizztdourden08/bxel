@@ -2,7 +2,11 @@
 import type { PixelTiling } from './PixelViewport.type';
 import type { ViewBox } from './behavior/viewport.type';
 
-const PIXEL_ZOOM_STEPS: readonly number[] = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64];
+const PIXEL_ZOOM_STEPS: readonly number[] = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128];
+
+const ZOOM_FLOOR = 0.25;
+
+const RECT_ZOOM_FILL = 0.9;
 
 const PIXEL_GRID_FROM = 8;
 
@@ -51,5 +55,5 @@ const PIXEL_VIEWPORT_STRINGS = {
 
 export {
   ANNOUNCE_DELAY_MS, EMPTY_BOX, MAIN_BUTTON, MAPPING_EPSILON, MIDDLE_BUTTON, NO_TILING, PAN_FAST, PIXEL_FALLBACK, PIXEL_GRID_FROM, PIXEL_TOKENS,
-  PIXEL_VIEWPORT_STRINGS, PIXEL_ZOOM_STEPS, SPACE_KEY, TILE_REACH, WHEEL, ZOOM_EPSILON,
+  PIXEL_VIEWPORT_STRINGS, PIXEL_ZOOM_STEPS, RECT_ZOOM_FILL, SPACE_KEY, TILE_REACH, WHEEL, ZOOM_EPSILON, ZOOM_FLOOR,
 };

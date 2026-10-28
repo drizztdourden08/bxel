@@ -2,8 +2,8 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { deleteFrames } from '../timeline/delete-frames';
 import { COMMAND_ZONE } from './command-zone.constants';
-import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
+import { ruled } from './ruled';
 
 const TIMELINE_COMMANDS: readonly CommandDef[] = [
   {
@@ -15,6 +15,6 @@ const TIMELINE_COMMANDS: readonly CommandDef[] = [
     whileTyping: false,
     run: deleteFrames,
   },
-].map(editorCommand);
+].map(ruled);
 
 export { TIMELINE_COMMANDS };

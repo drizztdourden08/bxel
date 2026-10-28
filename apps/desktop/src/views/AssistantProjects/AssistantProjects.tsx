@@ -2,6 +2,7 @@
 import { Callout, ListItemList, SettingsSection, Stack, Text } from '@drizztdourden08/tessera';
 import { GRANTS_TEXT } from './AssistantProjects.constants';
 import { useAssistantProjects } from './behavior/useAssistantProjects';
+import { AssistantFolders } from './sub-components/AssistantFolders';
 import { GrantRowCard } from './sub-components/GrantRowCard';
 
 const AssistantProjects = () => {
@@ -18,6 +19,15 @@ const AssistantProjects = () => {
               <GrantRowCard key={`${row.projectId}:${row.rootRealPath}`} row={row} onChange={(value) => model.setAccess(row, value)} />
             ))}
           </ListItemList>
+        )}
+        {model.rows.some((row) => row.open) && (
+          <Stack gap="xs">
+            <Text variant="label">{GRANTS_TEXT.foldersTitle}</Text>
+            <Text variant="caption" tone="muted">
+              {GRANTS_TEXT.foldersHint}
+            </Text>
+            <AssistantFolders />
+          </Stack>
         )}
         <Text variant="caption" tone="muted">
           {GRANTS_TEXT.needsAccess}

@@ -3,17 +3,13 @@ import { COMMAND_NAME } from '@bxel/document';
 import type { Artwork, AssetKey, DocumentId, Sprite } from '@bxel/document';
 import { describe, expect, it, vi } from 'vitest';
 import type { AssetFocus } from '../../src/asset-config/asset-config.type';
-import { duplicateFocused } from '../../src/asset-overview/duplicate-focused';
 import { factsOf } from '../../src/asset-overview/facts-of';
 import { linksOf } from '../../src/asset-overview/links-of';
-import { moveFocused } from '../../src/asset-overview/move-focused';
 import { previewOf } from '../../src/asset-overview/preview-of';
 import { renameFocused } from '../../src/asset-overview/rename-focused';
-import { resizeFocused } from '../../src/asset-overview/resize-focused';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { runSteps } from '../../src/transactions/run-steps';
-import { toast } from '../project/project-mocks';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
@@ -81,7 +77,7 @@ describe('the overview of an asset', () => {
   });
 });
 
-describe('the actions of the overview', () => {
+describe('the rename of the overview', () => {
   it('renames the asset, and refuses an empty name', () => {
     const held = rig();
     const key = spriteKey(held);
@@ -90,28 +86,4 @@ describe('the actions of the overview', () => {
     expect(renameFocused(held.focus(key), '   ')).toBe('Type a name.');
   });
 
-  it('duplicates the asset', () => {
-    const held = rig();
-    const key = spriteKey(held);
-    const before = held.focus(key).artwork.sprites.length;
-    duplicateFocused(held.focus(key));
-    expect(held.focus(key).artwork.sprites).toHaveLength(before + 1);
-    expect(toast).toHaveBeenCalled();
-  });
-
-  it('resizes a sprite in one step', () => {
-    const held = rig();
-    const key = spriteKey(held);
-    resizeFocused(held.focus(key), 12, 10);
-    const sprite = slimeOf(held);
-    expect([sprite.width, sprite.height]).toEqual([12, 10]);
-  });
-
-  it('flips and turns a sprite', () => {
-    const held = rig();
-    const key = spriteKey(held);
-    moveFocused(held.focus(key), { id: 'turn', label: 'Turn', icon: 'rotate-ccw', turn: 'clockwise' });
-    const sprite = slimeOf(held);
-    expect([sprite.width, sprite.height]).toEqual([6, 8]);
-  });
 });

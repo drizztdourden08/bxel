@@ -1,24 +1,38 @@
 /* @layer renderer-app @kind component */
-import { Grid } from '@drizztdourden08/tessera';
-import { swatchMarks } from '../../../editor/swatch-marks';
-import { swatchSlot } from '../../../editor/swatch-slot';
-import { useToolStore } from '../../../stores/useToolStore';
-import { PALETTE_PANEL_TEXT, SWATCH_MIN_WIDTH } from '../PalettePanel.constants';
-import type { SwatchGridProps } from '../PalettePanel.type';
-import { PaletteSwatch } from './PaletteSwatch';
+import { Box, ScrollArea } from '@drizztdourden08/tessera';
+import { useRef } from 'react';
+import type { WheelEvent } from 'react';
+import { useGridControl } from '../behavior/useGridControl';
+import { wheelSize } from '../behavior/wheel-size';
+import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
+import type { PanelProps } from '../PalettePanel.type';
+import { AddTile } from './AddTile';
+import { GridCell } from './GridCell';
+import { SwatchReadout } from './SwatchReadout';
 
-const SwatchGrid = ({ slots, held, onEdit }: SwatchGridProps) => (
-  <Grid minColWidth={SWATCH_MIN_WIDTH} gap="2xs" role="group" aria-label={PALETTE_PANEL_TEXT.grid}>
-    {slots.map((slot) => (
-      <PaletteSwatch
-        key={slot.index}
-        slot={slot}
-        marks={swatchMarks(slot.index, held)}
-        onPick={(index, click) => useToolStore.getState().setColour(swatchSlot(click), index)}
-        onEdit={onEdit}
-      />
-    ))}
-  </Grid>
-);
+const SwatchGrid = ({ panel }: PanelProps) => {
+  const listRef = useRef<HTMLElement>(null);
+  const control = useGridControl(panel, listRef);
+  const onWheel = (event: WheelEvent<HTMLElement>) => {
+    if (!event.ctrlKey) return;
+    const size = wheelSize(panel.view.size, event.deltaY);
+    if (size !== panel.view.size) panel.view.change({ size });
+  };
+  return (
+    <>
+      <ScrollArea axis="y" scrollbar="slim" fade={false} className="palette-panel__swatches">
+        <Box className={`swatch-grid swatch-grid--size-${panel.view.size}`} onWheel={onWheel}>
+          <Box ref={listRef} role="listbox" aria-label={PALETTE_PANEL_TEXT.grid} aria-multiselectable="true" className="swatch-grid__list">
+            {panel.slots.map((slot) => (
+              <GridCell key={panel.target.bank.slots[slot.index]?.id ?? slot.index} slot={slot} panel={panel} control={control} />
+            ))}
+          </Box>
+          <AddTile panel={panel} />
+        </Box>
+      </ScrollArea>
+      <SwatchReadout panel={panel} />
+    </>
+  );
+};
 
 export { SwatchGrid };

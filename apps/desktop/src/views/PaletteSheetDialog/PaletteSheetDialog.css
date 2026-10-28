@@ -1,0 +1,9 @@
+/* @layer renderer-app @kind style */
+.palette-sheet__row {
+  min-width: 0;
+}
+
+.palette-sheet__label {
+  width: var(--size-48);
+  flex-shrink: 0;
+}

@@ -14,8 +14,9 @@ const usage = {
   rules: [
     'The toolbar reads and writes the view store, the tool store, the timeline store and the sprite store, so it takes only the slot the dock gives it.',
     'Every button has a hint with its name, one line and its key from the keymap. The key never sits on the button.',
-    'Back to sheet and Paint all selected appear only when they apply. A group that does not apply to the open asset is left out with its separator. The items turn off when no file is open.',
-    'The same items are offered with labels in the Canvas widget, from the same list.',
+    'A group that does not apply to the open asset is left out with its separator. The items turn off when no file is open.',
+    'This toolbar holds the quick toggles only. The View widget holds the depth: the navigator, the zoom field, grid spacing, onion skin settings and the background.',
+    'Back to sheet and Paint all selected live in the stage header above the canvas.',
   ],
   a11y: [
     'The toolbar is named Canvas. Arrow keys move between the items, and the first stop is the handle that moves the toolbar to another side.',

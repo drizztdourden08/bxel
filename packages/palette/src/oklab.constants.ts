@@ -1,0 +1,40 @@
+/* @layer core @kind constants */
+import type { Triple } from './oklab.type';
+
+const LINEAR_TO_LMS: readonly Triple[] = [
+  [0.4122214708, 0.5363325363, 0.0514459929],
+  [0.2119034982, 0.6806995451, 0.1073969566],
+  [0.0883024619, 0.2817188376, 0.6299787005],
+];
+
+const LMS_TO_OKLAB: readonly Triple[] = [
+  [0.2104542553, 0.793617785, -0.0040720468],
+  [1.9779984951, -2.428592205, 0.4505937099],
+  [0.0259040371, 0.7827717662, -0.808675766],
+];
+
+const OKLAB_TO_LMS: readonly Triple[] = [
+  [1, 0.3963377774, 0.2158037573],
+  [1, -0.1055613458, -0.0638541728],
+  [1, -0.0894841775, -1.291485548],
+];
+
+const LMS_TO_LINEAR: readonly Triple[] = [
+  [4.0767416621, -3.3077115913, 0.2309699292],
+  [-1.2684380046, 2.6097574011, -0.3413193965],
+  [-0.0041960863, -0.7034186147, 1.707614701],
+];
+
+const SRGB_GAMMA = { knee: 0.04045, linearKnee: 0.0031308, slope: 12.92, offset: 0.055, power: 2.4 } as const;
+
+const GAMUT_EPSILON = 0.0001;
+
+const CHROMA_SEARCH_STEPS = 24;
+
+const FULL_TURN = 360;
+
+const HALF_TURN = 180;
+
+const CHANNEL_MAX = 255;
+
+export { CHANNEL_MAX, CHROMA_SEARCH_STEPS, FULL_TURN, GAMUT_EPSILON, HALF_TURN, LINEAR_TO_LMS, LMS_TO_LINEAR, LMS_TO_OKLAB, OKLAB_TO_LMS, SRGB_GAMMA };

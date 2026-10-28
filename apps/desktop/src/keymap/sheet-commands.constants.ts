@@ -17,10 +17,9 @@ import { toggleBroadcast } from '../sheet/toggle-broadcast';
 import { useManagerStore } from '../stores/useManagerStore';
 import { useSpriteStore } from '../stores/useSpriteStore';
 import { COMMAND_ZONE } from './command-zone.constants';
-import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
-import { onSurface } from './on-surface';
 import { SHEET_COMMAND as ID } from './sheet-command-id.constants';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.sheet;
 
@@ -84,9 +83,9 @@ const SHEET_COMMANDS: readonly CommandDef[] = [
 ];
 
 const SHEET_EDITOR_COMMANDS: readonly CommandDef[] = [
-  ...SCOPE_COMMANDS.map(editorCommand),
-  ...FRAME_COMMANDS.map(onSurface('sprite', 'tile')),
-  ...[...SPRITE_COMMANDS, ...SHEET_COMMANDS].map(onSurface('sheet')),
+  ...SCOPE_COMMANDS.map(ruled),
+  ...FRAME_COMMANDS.map(ruled),
+  ...[...SPRITE_COMMANDS, ...SHEET_COMMANDS].map(ruled),
 ];
 
 export { SHEET_EDITOR_COMMANDS };

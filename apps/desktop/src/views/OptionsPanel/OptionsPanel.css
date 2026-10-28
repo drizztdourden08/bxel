@@ -1,0 +1,51 @@
+/* @layer renderer-app @kind style */
+.options-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-sm);
+  min-inline-size: 0;
+}
+
+.options-panel__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-surface);
+}
+
+.options-panel__title {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.options-panel__tool-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--size-48);
+  block-size: var(--size-48);
+}
+
+.options-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  grid-column: 1 / -1;
+}
+
+.options-panel__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.options-panel__heading {
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+}

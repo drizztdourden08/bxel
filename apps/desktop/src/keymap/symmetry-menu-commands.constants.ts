@@ -6,8 +6,7 @@ import { centreMirrorAxis } from '../editor/centre-mirror-axis';
 import { placeMirrorAxis } from '../editor/place-mirror-axis';
 import { removeMirrorAxis } from '../editor/remove-mirror-axis';
 import { COMMAND_GROUP } from './keymap.constants';
-import { pixelCommand } from './pixel-command';
-import { editorCommand } from './editor-command';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.brush;
 
@@ -15,8 +14,6 @@ const SYMMETRY_MENU_COMMANDS: readonly CommandDef[] = [
   { id: 'symmetry.axis_here', label: 'Put a mirror axis at a position', group, run: (context?: CommandContext) => placeMirrorAxis(commandArgs<AxisArgs>(context)) },
   { id: 'symmetry.axis_centre', label: 'Centre the mirror axes', group, run: (context?: CommandContext) => centreMirrorAxis(commandArgs<AxisArgs>(context)) },
   { id: 'symmetry.axis_remove', label: 'Remove a mirror axis', group, run: (context?: CommandContext) => removeMirrorAxis(commandArgs<AxisArgs>(context)) },
-]
-  .map(pixelCommand)
-  .map(editorCommand);
+].map(ruled);
 
 export { SYMMETRY_MENU_COMMANDS };

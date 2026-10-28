@@ -15,7 +15,7 @@ beforeEach(() => {
 const run = (id: string, args: object): void => {
   const command = TIMELINE_MENU_COMMANDS.find((each) => each.id === id);
   if (!command) throw new Error(`no command ${id}`);
-  command.run({ args } as never);
+  void command.run({ args } as never);
 };
 
 const labels = (entries: readonly ContextMenuEntry[]): string[] =>

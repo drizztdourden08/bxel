@@ -29,6 +29,16 @@ const MCP_ROUTE = {
   listMapLayers: 'bxel:mcp:list_map_layers',
   readMapCells: 'bxel:mcp:read_map_cells',
   getAnimation: 'bxel:mcp:get_animation',
+  listCommands: 'bxel:mcp:list_commands',
+  runCommand: 'bxel:mcp:run_command',
+  getView: 'bxel:mcp:get_view',
+  setView: 'bxel:mcp:set_view',
+  getHistory: 'bxel:mcp:get_history',
+  listLayout: 'bxel:mcp:list_layout',
+  setLayout: 'bxel:mcp:set_layout',
+  getSettings: 'bxel:mcp:get_settings',
+  setSetting: 'bxel:mcp:set_setting',
+  restartBxel: 'bxel:mcp:restart_bxel',
 } as const;
 
 const MCP_EVENT = {
@@ -59,6 +69,16 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   list_map_layers: MCP_ROUTE.listMapLayers,
   read_map_cells: MCP_ROUTE.readMapCells,
   get_animation: MCP_ROUTE.getAnimation,
+  list_commands: MCP_ROUTE.listCommands,
+  run_command: MCP_ROUTE.runCommand,
+  get_view: MCP_ROUTE.getView,
+  set_view: MCP_ROUTE.setView,
+  get_history: MCP_ROUTE.getHistory,
+  list_layout: MCP_ROUTE.listLayout,
+  set_layout: MCP_ROUTE.setLayout,
+  get_settings: MCP_ROUTE.getSettings,
+  set_setting: MCP_ROUTE.setSetting,
+  restart_bxel: MCP_ROUTE.restartBxel,
 };
 
 const MCP_ASK = {
