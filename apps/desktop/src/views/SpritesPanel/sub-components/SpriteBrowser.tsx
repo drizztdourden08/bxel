@@ -3,9 +3,10 @@ import { commandZone, useContextMenu } from '@drizztdourden08/brock-react';
 import { Box, SplitPane, Stack } from '@drizztdourden08/tessera';
 import type { DataTableHandle } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
+import type { MouseEvent } from 'react';
 import { useZoneKey } from '../../../hooks/useZoneKey';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
-import { SPRITE_ADD_KEY, SPRITE_SEARCH_KEY, SPRITE_SELECT_ALL_KEY } from '../../../keymap/zone-key.constants';
+import { SPRITE_ADD_KEY, SPRITE_REMOVE_KEY, SPRITE_SEARCH_KEY, SPRITE_SELECT_ALL_KEY } from '../../../keymap/zone-key.constants';
 import type { ManagerDialog } from '../../../sheet-manager/manager.type';
 import { renameSprite } from '../../../sheet/rename-sprite';
 import { SHEET_TEXT } from '../../../sheet-manager/sheet-text.constants';
@@ -28,7 +29,17 @@ import { SheetTitle } from './SheetTitle';
 import { SpriteCollection } from './SpriteCollection';
 import { SpriteRename } from './SpriteRename';
 import { ruledEntries } from '../../../context-menu/ruled-entries';
+import { removeEntries } from '../../../sheet-manager/remove-entries';
 import { selectEntries } from '../../../sheet-manager/select-entries';
+
+const keepFocus = (event: MouseEvent<HTMLElement>): void => {
+  const zone = event.currentTarget;
+  if (!(event.target instanceof Element) || event.target.closest('input, textarea') !== null) return;
+  zone.focus();
+  requestAnimationFrame(() => {
+    if (document.activeElement === document.body) zone.focus();
+  });
+};
 
 const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const rename = useSpriteRename();
@@ -42,6 +53,7 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const strips = model.animations.map((fact) => fact.key);
   useZoneKey(SPRITE_SELECT_ALL_KEY, model.scene.active ? () => selectEntries(model.order, strips) : null);
   useZoneKey(SPRITE_SEARCH_KEY, () => root.current?.querySelector<HTMLInputElement>('.sprites-panel__filters input')?.focus());
+  useZoneKey(SPRITE_REMOVE_KEY, () => removeEntries(model.ids, model.picked, model.sheet?.id ?? null));
   useZoneKey(SPRITE_ADD_KEY, () => patch({ libraryRequest: Date.now() }));
   const onKeyDown = useSpritesKeys(model, table);
   const drag = useSpriteDrag(model);
@@ -52,7 +64,7 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const body = (
     <Stack gap="xs" className="sprites-panel__main">
       <BatchBar model={model} groups={groups} open={open} />
-      <Box onKeyDown={onKeyDown} className="sprites-panel__zone" {...commandZone(COMMAND_ZONE.sprites)} {...drag.zone}>
+      <Box onKeyDown={onKeyDown} onClick={keepFocus} tabIndex={-1} className="sprites-panel__zone" {...commandZone(COMMAND_ZONE.sprites)} {...drag.zone}>
         <SpriteCollection model={model} table={table} affected={affected} dragFor={drag.dragFor} marks={drag.marks} handlersFor={handlersFor(model, rename.begin)} />
       </Box>
       <LayoutSection model={model} />

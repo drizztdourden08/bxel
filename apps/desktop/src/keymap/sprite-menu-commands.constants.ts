@@ -30,7 +30,6 @@ import { revealInProjectWindow } from '../project-browser/reveal-in-project-wind
 import { assetPathOf } from '../sheet-manager/asset-path-of';
 import { isolateSprite } from '../sheet/isolate-sprite';
 import { pickTab } from '../workspace/pick-tab';
-import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { ruled } from './ruled';
 
@@ -116,9 +115,6 @@ const SPRITE_SHEET: readonly CommandDef[] = [
     id: 'sprite.remove_from_sheet',
     label: 'Remove entries from the sheet',
     group,
-    chord: 'Backspace',
-    zone: COMMAND_ZONE.sprites,
-    whileTyping: false,
     run: withManager((manager) => removeEntries(manager.ids, manager.picked, manager.sheet?.id ?? null)),
   },
   {

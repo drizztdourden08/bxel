@@ -52,4 +52,12 @@ const SPRITE_ADD_KEY: ZoneKey = {
   zone: COMMAND_ZONE.sprites,
 };
 
-export { LAYER_RENAME_KEY, PROJECT_RENAME_KEY, PROJECT_TRASH_KEY, SPRITE_ADD_KEY, SPRITE_SEARCH_KEY, SPRITE_SELECT_ALL_KEY };
+const SPRITE_REMOVE_KEY: ZoneKey = {
+  id: 'sprite.remove_entries_key',
+  label: 'Remove from sheet',
+  group: COMMAND_GROUP.sheet,
+  chord: 'Backspace',
+  zone: COMMAND_ZONE.sprites,
+};
+
+export { LAYER_RENAME_KEY, PROJECT_RENAME_KEY, PROJECT_TRASH_KEY, SPRITE_ADD_KEY, SPRITE_REMOVE_KEY, SPRITE_SEARCH_KEY, SPRITE_SELECT_ALL_KEY };
