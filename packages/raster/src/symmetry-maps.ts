@@ -19,8 +19,8 @@ const generators = (symmetry: Symmetry, span: number): PointMap[] => {
   const axisY = symmetry.y2 ?? null;
   const maps: PointMap[] = [];
   const reach = 2 * stampOffset(span);
-  if (axisX !== null) maps.push((p) => ({ x: mirrorCoord(p.x, axisX, span), y: p.y }));
-  if (axisY !== null) maps.push((p) => ({ x: p.x, y: mirrorCoord(p.y, axisY, span) }));
+  if (axisX !== null && symmetry.mirrorX !== false) maps.push((p) => ({ x: mirrorCoord(p.x, axisX, span), y: p.y }));
+  if (axisY !== null && symmetry.mirrorY !== false) maps.push((p) => ({ x: p.x, y: mirrorCoord(p.y, axisY, span) }));
   if (axisX !== null && axisY !== null && symmetry.diagonal === true) {
     const shift = Math.trunc((axisX - axisY) / 2);
     maps.push((p) => ({ x: shift + p.y, y: p.x - shift }));

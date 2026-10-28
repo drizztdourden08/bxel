@@ -4,6 +4,6 @@ import { AXIS_LIMIT } from '../pixels-limits.constants';
 
 const axis = z.number().int().min(-AXIS_LIMIT).max(AXIS_LIMIT).optional();
 
-const symmetrySchema = z.strictObject({ x2: axis, y2: axis, diagonal: z.boolean().optional(), turn4: z.boolean().optional() }).default({});
+const symmetrySchema = z.strictObject({ x2: axis, y2: axis, mirrorX: z.boolean().optional(), mirrorY: z.boolean().optional(), diagonal: z.boolean().optional(), turn4: z.boolean().optional() }).default({});
 
 export { symmetrySchema };

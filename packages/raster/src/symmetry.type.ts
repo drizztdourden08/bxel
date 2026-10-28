@@ -4,6 +4,8 @@ import type { Point } from './geometry.type';
 type Symmetry = {
   readonly x2?: number | null;
   readonly y2?: number | null;
+  readonly mirrorX?: boolean;
+  readonly mirrorY?: boolean;
   readonly diagonal?: boolean;
   readonly turn4?: boolean;
 };
