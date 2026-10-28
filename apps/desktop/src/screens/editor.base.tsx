@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import type { ScreenMeta } from '@drizztdourden08/brock-react';
+import { useLegacyRoutes } from '../config-entry/useLegacyRoutes';
 import { useConfigFlags } from '../asset-config/useConfigFlags';
 import { useEditorAnnouncements } from '../hooks/useEditorAnnouncements';
 import { useEditorNotices } from '../hooks/useEditorNotices';
@@ -16,6 +17,7 @@ const meta: ScreenMeta = { title: 'Editor', icon: 'pencil' };
 const EditorBase = () => {
   useWorkspaceHost();
   useConfigFlags();
+  useLegacyRoutes();
   useAssistantHost();
   useProjectHost();
   useArtworkTitle();

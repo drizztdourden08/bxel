@@ -9,12 +9,11 @@ const meta: ScreenMeta = {
   icon: 'layout-dashboard',
   order: 0,
   when: showForKind('sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap'),
-  keywords: ['overview', 'preview', 'name', 'rename', 'file', 'path', 'size', 'colours', 'created', 'links', 'duplicate', 'export', 'flip', 'rotate', 'resize'],
+  keywords: ['overview', 'preview', 'name', 'rename', 'file', 'path', 'size', 'colours', 'created', 'links', 'uses', 'used by'],
 };
 
 const searchEntries: SearchEntrySeed[] = [
   { label: 'Asset overview', keywords: ['preview', 'metadata', 'name', 'file size', 'colour count', 'created'] },
-  { label: 'Flip or rotate a sprite', keywords: ['flip', 'rotate', 'turn', 'sprite', 'overview'] },
 ];
 
 const OverviewScreen = () => <AssetOverview />;

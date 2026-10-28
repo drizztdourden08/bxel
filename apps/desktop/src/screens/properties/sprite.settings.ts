@@ -1,10 +1,7 @@
 /* @layer renderer-app @kind config */
 import type { ScreenMeta, Section } from '@drizztdourden08/brock-react';
 import { ASSET_SOURCE } from '../../asset-config/asset-source.constants';
-import { runInEditor } from '../../asset-config/run-in-editor';
 import { showForKind } from '../../asset-config/show-for-kind';
-import { VIEW_SECTION } from '../../asset-config/view-section.constants';
-import { FILE_COMMAND } from '../../files/files.constants';
 
 const meta: ScreenMeta = {
   title: 'Sprite',
@@ -12,7 +9,7 @@ const meta: ScreenMeta = {
   order: 1,
   source: ASSET_SOURCE,
   when: showForKind('sprite'),
-  keywords: ['sprite', 'name', 'size', 'width', 'height', 'resize', 'pivot', 'grid', 'export'],
+  keywords: ['sprite', 'name', 'size', 'width', 'height', 'pivot', 'grid', 'export presets'],
 };
 
 const sections: Section[] = [
@@ -47,18 +44,10 @@ const sections: Section[] = [
       },
     ],
   },
-  VIEW_SECTION,
   {
     id: 'export',
-    title: 'Export',
+    title: 'Export presets',
     items: [
-      {
-        key: 'sprite.export',
-        label: 'Export',
-        description: 'Save the sprite as a PNG, a strip or an animation.',
-        hint: 'The presets you save are kept in the sprite file.',
-        actions: [{ id: 'export', label: 'Export...', icon: 'upload', onSelect: () => runInEditor(FILE_COMMAND.export) }],
-      },
       {
         key: 'sprite.exportPresets', layout: 'wide',
         label: 'Saved presets',

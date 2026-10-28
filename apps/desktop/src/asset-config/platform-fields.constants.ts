@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind constants */
 import { COMMAND_NAME } from '@bxel/document';
 import { spritesTarget } from '../sheet/sprites-target';
-import { useViewStore } from '../stores/useViewStore';
 import { ASSET_LABEL } from './asset-config.constants';
 import type { AssetFields, AssetFocus, AssetOutcome } from './asset-config.type';
 import { focusAssetOf } from './focus-asset-of';
@@ -25,21 +24,4 @@ const PLATFORM_FIELDS: AssetFields = {
   'sprite.strict': { read: (focus) => focusAssetOf(focus, 'sprite')?.platformStrict === true, write: setStrict },
 };
 
-const VIEW_FIELDS: AssetFields = {
-  'view.grid': {
-    read: () => useViewStore.getState().grid,
-    write: (_focus, value) => {
-      if (typeof value === 'boolean') useViewStore.getState().setToggles({ grid: value });
-      return null;
-    },
-  },
-  'view.gridTile': {
-    read: () => useViewStore.getState().gridTile,
-    write: (_focus, value) => {
-      if (typeof value === 'boolean') useViewStore.getState().setToggles({ gridTile: value });
-      return null;
-    },
-  },
-};
-
-export { PLATFORM_FIELDS, VIEW_FIELDS };
+export { PLATFORM_FIELDS };

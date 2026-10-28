@@ -1,9 +1,7 @@
 /* @layer renderer-app @kind config */
 import type { ScreenMeta, Section } from '@drizztdourden08/brock-react';
 import { ASSET_SOURCE } from '../../asset-config/asset-source.constants';
-import { runInEditor } from '../../asset-config/run-in-editor';
 import { showForKind } from '../../asset-config/show-for-kind';
-import { FILE_COMMAND } from '../../files/files.constants';
 
 const meta: ScreenMeta = {
   title: 'Sheet',
@@ -56,14 +54,8 @@ const sections: Section[] = [
   },
   {
     id: 'tools',
-    title: 'Sprites and export',
+    title: 'Export presets',
     items: [
-      {
-        key: 'sheet.export',
-        label: 'Export',
-        description: 'Save the sheet as an image with its data file.',
-        actions: [{ id: 'export', label: 'Export...', icon: 'download', onSelect: () => runInEditor(FILE_COMMAND.export) }],
-      },
       {
         key: 'sheet.exportPresets', layout: 'wide',
         label: 'Saved presets',

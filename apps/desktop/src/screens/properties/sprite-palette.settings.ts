@@ -43,18 +43,6 @@ const sections: Section[] = [
       },
     ],
   },
-  {
-    id: 'swatches',
-    title: 'Swatch set',
-    items: [
-      {
-        key: 'palette.set',
-        label: 'Load a swatch set',
-        description: 'Add the colours of a set to this palette, or replace the colours with them.',
-        hint: 'Sets come from the palette library in the App settings and from the palette files of the project.',
-      },
-    ],
-  },
 ];
 
 export default sections;

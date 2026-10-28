@@ -3,10 +3,10 @@ import { defineScreens } from '@drizztdourden08/brock-react';
 
 export default defineScreens({
   buckets: [
-    { id: 'asset', title: 'Asset', icon: 'image', menu: 'hidden' },
-    { id: 'project', title: 'Project', icon: 'folder', menu: 'hidden' },
-    { id: 'app', title: 'App', icon: 'settings', menu: 'entry' },
+    { id: 'project', title: 'Project', icon: 'folder', menu: 'entry', switcher: false },
+    { id: 'properties', title: 'Properties', icon: 'sliders-horizontal', menu: 'entry', switcher: false },
+    { id: 'options', title: 'Options', icon: 'settings', menu: 'hidden', switcher: false },
   ],
-  home: 'app',
-  settings: { bucket: 'app', page: 'general' },
+  home: 'project',
+  settings: { bucket: 'options', page: 'general' },
 });

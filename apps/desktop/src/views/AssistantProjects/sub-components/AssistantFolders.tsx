@@ -6,7 +6,7 @@ import { focusedProject } from '../../../project-config/focused-project';
 import { PROJECT_CONFIG_TEXT } from '../../../project-config/project-config.constants';
 import { setAssistantFolders } from '../../../project-config/set-assistant-folders';
 import { useProjectFocus } from '../../../project-config/useProjectFocus';
-import { useAssistantProjects } from '../../AssistantProjects/behavior/useAssistantProjects';
+import { useAssistantProjects } from '../behavior/useAssistantProjects';
 
 const AssistantFolders = () => {
   const focus = useProjectFocus();

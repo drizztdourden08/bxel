@@ -2,7 +2,6 @@
 import type { ScreenMeta, Section } from '@drizztdourden08/brock-react';
 import { ASSET_SOURCE } from '../../asset-config/asset-source.constants';
 import { showForKind } from '../../asset-config/show-for-kind';
-import { VIEW_SECTION } from '../../asset-config/view-section.constants';
 
 const meta: ScreenMeta = {
   title: 'Animation',
@@ -63,7 +62,6 @@ const sections: Section[] = [
       },
     ],
   },
-  VIEW_SECTION,
 ];
 
 export default sections;

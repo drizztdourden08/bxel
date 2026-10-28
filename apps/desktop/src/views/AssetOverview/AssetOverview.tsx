@@ -3,7 +3,6 @@ import { Grid, Stack } from '@drizztdourden08/tessera';
 import { ASSET_TEXT } from '../../asset-config/asset-config.constants';
 import { ConfigEmpty } from '../ConfigEmpty';
 import { useAssetOverview } from './behavior/useAssetOverview';
-import { ActionsPanel } from './sub-components/ActionsPanel';
 import { DetailsPanel } from './sub-components/DetailsPanel';
 import { LinksPanel } from './sub-components/LinksPanel';
 import { PreviewPanel } from './sub-components/PreviewPanel';
@@ -17,7 +16,6 @@ const AssetOverview = () => {
       <PreviewPanel model={model} />
       <Stack gap="md">
         <DetailsPanel model={model} />
-        <ActionsPanel model={model} />
         <LinksPanel model={model} />
       </Stack>
     </Grid>

@@ -22,18 +22,6 @@ const sections: Section[] = [
       { key: 'palette.transparent', label: 'Transparent slot', description: 'Slot 0 is transparent.', hint: 'Turning it off asks pixels that used slot 0 to take the first colour.' },
     ],
   },
-  {
-    id: 'swatches',
-    title: 'Swatch set',
-    items: [
-      {
-        key: 'palette.set',
-        label: 'Load a swatch set',
-        description: 'Add the colours of a set to this palette, or replace the colours with them.',
-        hint: 'Sets come from the palette library in the App settings.',
-      },
-    ],
-  },
 ];
 
 export default sections;
