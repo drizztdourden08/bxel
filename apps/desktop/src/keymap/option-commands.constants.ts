@@ -4,6 +4,7 @@ import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
 import { focusOptionsBar } from '../tool-menu/focus-options-bar';
 import { OPTIONS_WIDGET_ID } from '../tool-menu/tool-menu.constants';
 import { labelOfTool } from '../editor/tool-catalogue/label-of-tool';
+import { isRecord } from '../editor/tool-options/is-record';
 import { nextValue } from '../editor/tool-options/next-value';
 import { OPTION_SPECS } from '../editor/tool-options/option-specs.constants';
 import { optionSurface } from '../editor/tool-options/option-surface';
@@ -27,10 +28,15 @@ const specFor = (specs: readonly OptionSpec[]): OptionSpec | undefined => {
   return own.find((spec) => spec.tool === useToolStore.getState().tool) ?? (specs.length === 1 ? own[0] : undefined);
 };
 
+const valueOf = (spec: OptionSpec, args: unknown): unknown => {
+  const given = isRecord(args) ? args.value : args;
+  return given === undefined ? nextValue(spec) : given;
+};
+
 const runGenerated = (specs: readonly OptionSpec[]) => (context?: CommandContext) => {
   const spec = specFor(specs);
   if (!spec) return;
-  const value = context?.args === undefined ? nextValue(spec) : context.args;
+  const value = valueOf(spec, context?.args);
   if (value !== undefined) setOption(spec, value);
 };
 
@@ -78,4 +84,6 @@ const FIXED_DEFS: CommandDef[] = [
 
 const OPTION_COMMANDS: readonly CommandDef[] = [...GENERATED_COMMANDS, ...FIXED_DEFS.map(editorCommand)];
 
-export { OPTION_COMMANDS };
+const OPTION_VALUE_COMMAND_IDS: readonly string[] = GENERATED_COMMANDS.map((def) => def.id);
+
+export { OPTION_COMMANDS, OPTION_VALUE_COMMAND_IDS };

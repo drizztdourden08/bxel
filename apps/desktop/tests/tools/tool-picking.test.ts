@@ -33,39 +33,39 @@ beforeEach(() => {
 });
 
 describe('the tool keys', () => {
-  it('cycles the six selection shapes with M and back with Shift+M', () => {
-    findCommand(COMMAND_ID.tool('select')).run();
+  it('cycles the six selection shapes with M and back with Shift+M', async () => {
+    await findCommand(COMMAND_ID.tool('select')).run();
     expect(tools().tool).toBe('select');
     expect(useSelectionStore.getState().variant).toBe('rect');
-    findCommand(COMMAND_ID.tool('select')).run();
+    await findCommand(COMMAND_ID.tool('select')).run();
     expect(useSelectionStore.getState().variant).toBe('ellipse');
-    findCommand(COMMAND_ID.tool('select')).run();
+    await findCommand(COMMAND_ID.tool('select')).run();
     expect(useSelectionStore.getState().variant).toBe('lasso');
-    findCommand(TOOL_COMMAND.cycleBack('select')).run();
-    findCommand(TOOL_COMMAND.cycleBack('select')).run();
+    await findCommand(TOOL_COMMAND.cycleBack('select')).run();
+    await findCommand(TOOL_COMMAND.cycleBack('select')).run();
     expect(useSelectionStore.getState().variant).toBe('rect');
-    findCommand(TOOL_COMMAND.cycleBack('select')).run();
+    await findCommand(TOOL_COMMAND.cycleBack('select')).run();
     expect(useSelectionStore.getState().variant).toBe('colour');
   });
 
-  it('cycles the shape kind with U and the fill area with G', () => {
-    findCommand(COMMAND_ID.tool('shape')).run();
-    findCommand(COMMAND_ID.tool('shape')).run();
+  it('cycles the shape kind with U and the fill area with G', async () => {
+    await findCommand(COMMAND_ID.tool('shape')).run();
+    await findCommand(COMMAND_ID.tool('shape')).run();
     expect(tools().shape).toBe('rect');
-    findCommand(TOOL_COMMAND.cycleBack('shape')).run();
+    await findCommand(TOOL_COMMAND.cycleBack('shape')).run();
     expect(tools().shape).toBe('line');
-    findCommand(COMMAND_ID.tool('fill')).run();
-    findCommand(COMMAND_ID.tool('fill')).run();
+    await findCommand(COMMAND_ID.tool('fill')).run();
+    await findCommand(COMMAND_ID.tool('fill')).run();
     expect(tools().fillMode).toBe('global');
   });
 
-  it('swaps the last two tools with the previous tool command', () => {
+  it('swaps the last two tools with the previous tool command', async () => {
     tools().setTool('eraser');
     tools().setTool('fill');
     expect(tools().previousTool).toBe('eraser');
-    findCommand(TOOL_COMMAND.previous).run();
+    await findCommand(TOOL_COMMAND.previous).run();
     expect(tools().tool).toBe('eraser');
-    findCommand(TOOL_COMMAND.previous).run();
+    await findCommand(TOOL_COMMAND.previous).run();
     expect(tools().tool).toBe('fill');
   });
 
@@ -130,16 +130,16 @@ describe('the presets', () => {
     expect(BUILTIN_PRESETS).toHaveLength(6);
   });
 
-  it('answers Alt+1 to Alt+5 with the first five presets of the active tool', () => {
+  it('answers Alt+1 to Alt+5 with the first five presets of the active tool', async () => {
     tools().setTool('pencil');
     expect(quickPresets('pencil').map((preset) => preset.id)).toEqual(['builtin.pencil-1', 'builtin.pencil-2', 'builtin.pencil-3']);
-    findCommand(TOOL_COMMAND.quickPreset(2)).run();
+    await findCommand(TOOL_COMMAND.quickPreset(2)).run();
     expect(tools().brushSize).toBe(2);
     expect(findCommand(TOOL_COMMAND.quickPreset(5)).when?.()).toBe(false);
   });
 
-  it('applies a preset by id with the apply preset command', () => {
-    findCommand(TOOL_COMMAND.applyPreset).run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { id: 'builtin.fill-global' } });
+  it('applies a preset by id with the apply preset command', async () => {
+    await findCommand(TOOL_COMMAND.applyPreset).run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { id: 'builtin.fill-global' } });
     expect(tools()).toMatchObject({ tool: 'fill', fillMode: 'global' });
   });
 });

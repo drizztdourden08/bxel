@@ -110,25 +110,25 @@ describe('the option memory', () => {
 });
 
 describe('the option commands', () => {
-  it('sets any option by the options.set command and refuses a wrong value', () => {
+  it('sets any option by the options.set command and refuses a wrong value', async () => {
     const set = findCommand(OPTION_COMMAND.set);
-    set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { option: 'fill.area', value: 'global' } });
+    await set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { option: 'fill.area', value: 'global' } });
     expect(tools().fillMode).toBe('global');
-    set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { tool: 'select', option: 'mode', value: 'subtract' } });
+    await set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { tool: 'select', option: 'mode', value: 'subtract' } });
     expect(useSelectionStore.getState().mode).toBe('subtract');
-    set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { option: 'fill.area', value: 'nonsense' } });
+    await set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { option: 'fill.area', value: 'nonsense' } });
     expect(tools().fillMode).toBe('global');
-    set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { option: 'pencil.size', value: 900 } });
+    await set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { option: 'pencil.size', value: 900 } });
     tools().selectTool('pencil');
     expect(tools().brushSize).toBe(64);
   });
 
-  it('toggles pixel perfect and cycles the tip with their commands for the active tool only', () => {
-    findCommand(OPTION_COMMAND.pixelPerfect).run();
+  it('toggles pixel perfect and cycles the tip with their commands for the active tool only', async () => {
+    await findCommand(OPTION_COMMAND.pixelPerfect).run();
     expect(tools().pixelPerfect).toBe(true);
-    findCommand(OPTION_COMMAND.cycleTip).run();
+    await findCommand(OPTION_COMMAND.cycleTip).run();
     expect(tools().brushShape).toBe('circle');
-    findCommand(OPTION_COMMAND.sizeUpBy).run();
+    await findCommand(OPTION_COMMAND.sizeUpBy).run();
     expect(tools().brushSize).toBe(5);
   });
 

@@ -19,11 +19,9 @@ const OPTION_COMMAND = {
 
 const TOOL_COMMAND = {
   previous: 'tool.previous',
-  palette: 'tool.palette',
   savePreset: 'tool.save_preset',
   applyPreset: 'tool.apply_preset',
   resetOptions: 'tool.reset_options',
-  hideMember: 'tool.hide_member',
   cycleBack: (tool: string): string => `tool.cycle_back_${tool}`,
   quickPreset: (slot: number): string => `tool.apply_quick_preset_${slot}`,
 } as const;
