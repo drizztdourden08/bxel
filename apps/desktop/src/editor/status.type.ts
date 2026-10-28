@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { Point } from '@bxel/raster';
+import type { StatusExtras } from '../status-extras/status-extras.type';
 import type { BxelContext } from '../ui-context/bxel-context.type';
 import type { PaletteSlot } from './palette-slots.type';
 
@@ -11,6 +12,7 @@ interface StatusInput {
   recovered: boolean;
   context: BxelContext;
   tile: number | null;
+  extras?: StatusExtras;
 }
 
 export type { StatusInput };

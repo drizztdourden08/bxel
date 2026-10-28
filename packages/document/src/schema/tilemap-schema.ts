@@ -2,6 +2,7 @@
 import { z } from 'zod';
 import { ID_PREFIX } from '../ids/id-prefix.constants';
 import type { MapLayerId, TilemapId, TilesetId } from '../model/ids.type';
+import { assetGuidesSchema } from './asset-guides-schema';
 import { brandedIdSchema } from './branded-id-schema';
 import { createdSchema } from './created-schema';
 import { nameSchema } from './name-schema';
@@ -28,6 +29,7 @@ const tilemapShellSchema = z.object({
   rows: sideSchema,
   layers: z.array(mapLayerSchema),
   orientation: orientationSchema.optional(),
+  guides: assetGuidesSchema.optional(),
 });
 
 export { tilemapShellSchema };

@@ -6,7 +6,7 @@ import { family } from './family';
 import type { RuleTable } from './rule-table.type';
 import {
   ANY_SELECTED, CELLS_SELECTED, CLIPBOARD, DOC, DRAW, DRAW_STAGE, EDIT_STAGE, FILE, GRID_STAGE, MAP, NONE_OR_PIXEL, NOT_TILE_FILE,
-  ONION, PIXEL, PIXELS_SELECTED, SHEET, TILE_FILES, TIMELINE, WRITE, ZOOM_STAGE,
+  ONION, PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, TIMELINE, WRITE, ZOOM_STAGE,
 } from './groups.constants';
 
 const TOOLS: RuleTable = {
@@ -42,11 +42,14 @@ const BRUSH: RuleTable = {
   ...family(['symmetry.toggle_x', 'symmetry.toggle_y', 'symmetry.axis_here', 'symmetry.axis_centre', 'symmetry.axis_remove'], PIXEL, [], ONLY.pixels),
 };
 
+const ZOOM_DIGITS = [100, 200, 400, 800, 1600, 3200].map((percent) => `view.zoom_${percent}`);
+
 const VIEW: RuleTable = {
-  ...family(['view.zoom_in', 'view.zoom_out', 'view.zoom_fit', 'view.zoom_actual', 'view.zoom_to'], ZOOM_STAGE, [FILE]),
+  ...family(['view.zoom_in', 'view.zoom_out', 'view.zoom_fit', 'view.zoom_actual', 'view.zoom_to', 'view.zoom_selection', ...ZOOM_DIGITS], ZOOM_STAGE, [FILE]),
   ...family(['view.toggle_pixel_grid'], GRID_STAGE),
-  ...family(['view.toggle_major_grid', 'view.toggle_tile_grid', 'view.toggle_rulers', 'ruler.set_unit'], EDIT_STAGE),
-  ...family(['view.toggle_guides', 'guide.add_here', 'guide.clear', 'view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both'], PIXEL, [], ONLY.pixels),
+  ...family(['view.toggle_major_grid'], EDIT_STAGE),
+  ...family(['view.toggle_tile_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
+  ...family(['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both'], PIXEL, [], ONLY.pixels),
   ...family(['status.copy_cursor'], any(PIXEL, MAP, SHEET)),
 };
 

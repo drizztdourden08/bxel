@@ -19,6 +19,13 @@ interface PixelView {
   imageHeight: number;
 }
 
+interface PixelRect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 type PixelDraw = (ctx: CanvasRenderingContext2D, view: PixelView) => void;
 
 type PixelSource = ImageData | ImageBitmap | HTMLCanvasElement | HTMLImageElement | OffscreenCanvas;
@@ -40,6 +47,7 @@ interface PixelViewportHandle {
   redraw: () => void;
   reveal: (pixel: PixelPoint) => void;
   panTo: (pixel: PixelPoint) => void;
+  zoomToRect: (rect: PixelRect) => void;
   view: () => PixelView;
 }
 
@@ -64,6 +72,7 @@ interface PixelViewportProps {
   wheel?: PixelWheel;
   hand?: boolean;
   tiled?: PixelTiling;
+  onView?: (view: PixelView | null, source: PixelSource | undefined) => void;
   onPointerPixel?: (pixel: PixelPoint | null) => void;
   onPointerDown?: PointerEventHandler<HTMLElement>;
   onPointerMove?: PointerEventHandler<HTMLElement>;
@@ -74,4 +83,4 @@ interface PixelViewportProps {
   ref?: Ref<PixelViewportHandle>;
 }
 
-export type { PixelDraw, PixelPoint, PixelSource, PixelTiling, PixelView, PixelViewportHandle, PixelViewportProps, PixelWheel };
+export type { PixelDraw, PixelPoint, PixelRect, PixelSource, PixelTiling, PixelView, PixelViewportHandle, PixelViewportProps, PixelWheel };

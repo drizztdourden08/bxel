@@ -21,6 +21,7 @@ import { sheetCreate } from './sheet/sheet-create';
 import { sheetDelete } from './sheet/sheet-delete';
 import { sheetPlace } from './sheet/sheet-place';
 import { sheetRemove } from './sheet/sheet-remove';
+import { sheetGuides } from './sheet/sheet-guides';
 import { sheetUpdate } from './sheet/sheet-update';
 import { guideAdd } from './guide/guide-add';
 import { guideClear } from './guide/guide-clear';
@@ -72,6 +73,7 @@ import { tilemapCreate } from './tilemap/tilemap-create';
 import { tilemapDelete } from './tilemap/tilemap-delete';
 import { tilemapDuplicate } from './tilemap/tilemap-duplicate';
 import { tilemapImport } from './tilemap/tilemap-import';
+import { tilemapGuides } from './tilemap/tilemap-guides';
 import { tilemapOrient } from './tilemap/tilemap-orient';
 import { tilemapResize } from './tilemap/tilemap-resize';
 import { tilemapUpdate } from './tilemap/tilemap-update';
@@ -90,6 +92,7 @@ const documentCommands: readonly CommandDef[] = [
   spriteReorder,
   sheetCreate,
   sheetUpdate,
+  sheetGuides,
   sheetDelete,
   sheetAdd,
   sheetRemove,
@@ -149,6 +152,7 @@ const documentCommands: readonly CommandDef[] = [
   tilemapDuplicate,
   tilemapImport,
   tilemapOrient,
+  tilemapGuides,
   mapLayerAdd,
   mapLayerUpdate,
   mapLayerDelete,

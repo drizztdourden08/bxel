@@ -26,6 +26,29 @@ interface GuideRequest {
   axis: GuideAxis;
   length: number;
   whole: boolean;
+  step?: number | null;
 }
 
-export type { GuideAxis, GuideDrag, GuideFrame, GuideHit, GuidePoint, GuideRequest };
+interface GuideLines {
+  readonly x: readonly number[];
+  readonly y: readonly number[];
+}
+
+interface PersistedGuides {
+  lines: GuideLines | undefined;
+  size: () => { width: number; height: number } | null;
+  step: (axis: GuideAxis) => number | null;
+  write: (label: string, guides: GuideLines) => void;
+}
+
+interface GuideScope {
+  lines: () => GuideLines | undefined;
+  size: () => { width: number; height: number } | null;
+  step: (axis: GuideAxis) => number | null;
+  add: (axis: GuideAxis, position: number) => void;
+  move: (axis: GuideAxis, from: number, to: number) => void;
+  remove: (axis: GuideAxis, position: number) => void;
+  clear: () => void;
+}
+
+export type { GuideAxis, GuideDrag, GuideFrame, GuideHit, GuideLines, GuidePoint, GuideRequest, GuideScope, PersistedGuides };

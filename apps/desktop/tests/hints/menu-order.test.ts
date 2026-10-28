@@ -16,6 +16,7 @@ const stateOf = (column: Column, given: Partial<EditorMenuState> = {}): EditorMe
   gridTile: false,
   guides: true,
   rulers: false,
+  snap: false,
   tiled: 'off',
   symmetryX: false,
   symmetryY: false,
@@ -183,9 +184,9 @@ describe('the tilemap menu overlays', () => {
 
 describe('the view menu', () => {
   it('lists only what the open file can use', () => {
-    expect(childLabels(editorMenu(stateOf('Sh')), 'View')).toEqual(['Zoom']);
-    expect(childLabels(editorMenu(stateOf('Tm')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers']);
-    expect(childLabels(editorMenu(stateOf('Sp')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Symmetry', 'Tiled preview']);
+    expect(childLabels(editorMenu(stateOf('Sh')), 'View')).toEqual(['Zoom', 'Rulers', 'Guides', 'Snap']);
+    expect(childLabels(editorMenu(stateOf('Tm')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap']);
+    expect(childLabels(editorMenu(stateOf('Sp')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap', 'Symmetry', 'Tiled preview']);
     expect(childLabels(editorMenu(stateOf('Im')), 'View')).toEqual(['Zoom', 'Grid']);
   });
 });

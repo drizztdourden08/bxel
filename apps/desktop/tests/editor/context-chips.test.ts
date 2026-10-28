@@ -1,54 +1,36 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it } from 'vitest';
-import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
-import { currentTarget } from '../../src/editor/current-target';
-import type { EditorTarget } from '../../src/editor/editor.type';
 import { spriteLayerActions } from '../../src/editor/layer-actions';
-import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
-import { useDocumentStore } from '../../src/stores/useDocumentStore';
-import { useToolStore } from '../../src/stores/useToolStore';
-import { scopeChipList } from '../../src/views/ScopeBar/behavior/scope-chip-list';
+import { layerChips } from '../../src/stage-header/layer-chips';
+import { layerCrumb } from '../../src/stage-header/layer-crumb';
+import { readSpriteHeader } from '../../src/stage-header/read-sprite-header';
+import type { HeaderActions } from '../../src/stage-header/stage-header.type';
+import { live, resetEditor } from './option-harness';
 
-const live = (): EditorTarget => {
-  const target = currentTarget();
-  if (!target) throw new Error('the store holds no document');
-  return target;
-};
+const noActions = {} as HeaderActions;
 
-const layerChip = () => {
-  const chip = scopeChipList(live()).find((each) => each.key === 'layer');
-  if (!chip) throw new Error('no layer chip');
-  return chip;
-};
+const header = () =>
+  readSpriteHeader(live(), { mode: 'sprite', isolated: false, broadcast: false, spritesScope: 'current', layerScope: 'active', selected: 1 });
 
 beforeEach(() => {
-  useToolStore.setState({ ...TOOL_DEFAULTS });
-  createDefaultArtwork(useDocumentStore.getState().host);
+  resetEditor();
 });
 
-describe('the scope chips of the scope bar', () => {
-  it('lists the sprite and layer chips in order', () => {
-    expect(scopeChipList(live()).map((chip) => chip.key)).toEqual(['sprite', 'layer']);
+describe('the layer crumb and chips of the stage header, read from the live document', () => {
+  it('names the layer with no note and no chip for a normal layer', () => {
+    expect(layerCrumb(header(), noActions)).toMatchObject({ label: 'Layer 1', note: undefined });
+    expect(layerChips(header(), noActions, false)).toEqual([]);
   });
 
-  it('keeps the layer chip short and neutral for a normal layer', () => {
-    expect(layerChip()).toEqual({ key: 'layer', text: 'Layer: Layer 1', full: 'Layer: Layer 1', locked: false, danger: false });
-  });
-
-  it('shows a locked layer with the icon flag, the same short text and the full text for the hint', () => {
+  it('marks a locked layer on the crumb and shows a danger chip', () => {
     spriteLayerActions.setFlag([live().layerId], 'locked', true);
-    expect(layerChip()).toEqual({ key: 'layer', text: 'Layer: Layer 1', full: 'Layer: Layer 1 (locked)', locked: true, danger: true });
+    expect(layerCrumb(header(), noActions)).toMatchObject({ label: 'Layer 1', note: 'locked' });
+    expect(layerChips(header(), noActions, false)[0]).toMatchObject({ text: 'Layer locked', tone: 'danger' });
   });
 
-  it('keeps the word for a hidden layer and uses the danger tone', () => {
+  it('marks a hidden layer on the crumb and shows a warning chip', () => {
     spriteLayerActions.setFlag([live().layerId], 'visible', false);
-    expect(layerChip()).toEqual({
-      key: 'layer', text: 'Layer: Layer 1 (hidden)', full: 'Layer: Layer 1 (hidden)', locked: false, danger: true,
-    });
-  });
-
-  it('gives the other chips the same text for the chip and the hint', () => {
-    const others = scopeChipList(live()).filter((chip) => chip.key !== 'layer');
-    expect(others.every((chip) => chip.text === chip.full && !chip.locked && !chip.danger)).toBe(true);
+    expect(layerCrumb(header(), noActions)).toMatchObject({ label: 'Layer 1', note: 'hidden' });
+    expect(layerChips(header(), noActions, false)[0]).toMatchObject({ text: 'Layer hidden', tone: 'warning' });
   });
 });

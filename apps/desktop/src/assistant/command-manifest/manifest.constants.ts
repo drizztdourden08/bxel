@@ -12,7 +12,9 @@ const one = (id: string, area: BundleId, effect: CommandEffect, extra: ManifestE
 const OWN_HISTORY = 'Use the undo tool: it undoes only what this program changed, and get_history lists the entries.';
 
 const VIEW_ROWS = [
-  ...rows('app_control', 'show', ['view.zoom_in', 'view.zoom_out', 'view.zoom_fit', 'view.zoom_actual']),
+  ...rows('app_control', 'show', ['view.zoom_in', 'view.zoom_out', 'view.zoom_fit', 'view.zoom_actual', 'view.zoom_selection']),
+  ...rows('app_control', 'show', ['view.zoom_100', 'view.zoom_200', 'view.zoom_400', 'view.zoom_800', 'view.zoom_1600', 'view.zoom_3200']),
+  one('view.toggle_snap', 'app_control', 'app'),
   ...rows('app_control', 'show', ['view.toggle_pixel_grid', 'view.toggle_major_grid', 'view.toggle_tile_grid', 'view.toggle_guides', 'view.toggle_rulers']),
   ...rows('app_control', 'show', ['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both']),
   one('view.zoom_to', 'app_control', 'show', { args: 'zoom' }),

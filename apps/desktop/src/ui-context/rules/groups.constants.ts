@@ -17,6 +17,8 @@ const DRAW_STAGE: Pred = any(surface('none'), PIXEL, MAP);
 
 const EDIT_STAGE: Pred = any(PIXEL, MAP);
 
+const RULER_STAGE: Pred = any(PIXEL, MAP, SHEET);
+
 const ZOOM_STAGE: Pred = any(surface('none'), PIXEL, MAP, SHEET, surface('preview'));
 
 const VIEW_STAGE: Pred = any(PIXEL, MAP, SHEET, surface('preview'));
@@ -47,5 +49,5 @@ const CLIPBOARD: Need = [clip('pixels'), REASON.emptyClipboard];
 
 export {
   ANY_SELECTED, CELLS_SELECTED, CLIPBOARD, DOC, DRAW, DRAW_STAGE, EDIT_STAGE, FILE, GRID_STAGE, MAP, NONE_OR_PIXEL, NOT_TILE_FILE, ONION,
-  PIXEL, PIXELS_SELECTED, SHEET, TILE_FILES, TIMELINE, VIEW_STAGE, WRITE, ZOOM_STAGE,
+  PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, TIMELINE, VIEW_STAGE, WRITE, ZOOM_STAGE,
 };

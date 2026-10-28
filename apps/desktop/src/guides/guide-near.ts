@@ -1,9 +1,8 @@
 /* @layer renderer-app @kind logic */
-import type { Sprite } from '@bxel/document';
 import { GUIDE_AXES, GUIDE_GRAB } from './guide.constants';
-import type { GuideFrame, GuideHit, GuidePoint } from './guide.type';
+import type { GuideFrame, GuideHit, GuideLines, GuidePoint } from './guide.type';
 
-const guideNear = (handle: GuideFrame, sprite: Pick<Sprite, 'width' | 'height' | 'guides'>, at: GuidePoint): GuideHit | null => {
+const guideNear = (handle: GuideFrame, sprite: { width: number; height: number; guides?: GuideLines }, at: GuidePoint): GuideHit | null => {
   const { guides } = sprite;
   if (!guides) return null;
   const origin = handle.pixelToScreen(0, 0);

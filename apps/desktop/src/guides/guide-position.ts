@@ -6,7 +6,7 @@ const guidePosition = (handle: GuideFrame, request: GuideRequest, at: GuidePoint
   const origin = handle.pixelToScreen(0, 0);
   const { zoom } = handle.view();
   const along = request.axis === 'x' ? at.clientX - origin.x : at.clientY - origin.y;
-  return snapGuide(along / Math.max(zoom, 0.01), request.length, request.whole);
+  return snapGuide(along / Math.max(zoom, 0.01), request.length, request.whole, request.step ?? null);
 };
 
 export { guidePosition };

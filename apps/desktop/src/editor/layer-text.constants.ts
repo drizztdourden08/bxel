@@ -29,6 +29,4 @@ const LAYER_LABEL = {
 
 const LAYER_REF = 'layer';
 
-const LAYER_STATE = { locked: 'locked', hidden: 'hidden' } as const;
-
-export { LAYER_LABEL, LAYER_REF, LAYER_STATE, LAYER_TEXT };
+export { LAYER_LABEL, LAYER_REF, LAYER_TEXT };

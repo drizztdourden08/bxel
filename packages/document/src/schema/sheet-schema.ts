@@ -2,6 +2,7 @@
 import { z } from 'zod';
 import { ID_PREFIX } from '../ids/id-prefix.constants';
 import type { AnimationId, SheetId, SpriteId, TagId } from '../model/ids.type';
+import { assetGuidesSchema } from './asset-guides-schema';
 import { brandedIdSchema } from './branded-id-schema';
 import { createdSchema } from './created-schema';
 import { nameSchema } from './name-schema';
@@ -43,6 +44,7 @@ const sheetSchema = z.object({
   margin: z.number().int().min(0),
   entries: z.array(entrySchema),
   animationEntries: z.array(animationEntrySchema).optional(),
+  guides: assetGuidesSchema.optional(),
 });
 
 export { sheetSchema };

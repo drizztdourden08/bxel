@@ -12,7 +12,7 @@ const useWidgetRules = (): void => {
   useSetAppContext(WIDGET_CONTEXT.timeline, visible('timeline'));
   useSetAppContext(WIDGET_CONTEXT.options, visible('options'));
   useSetAppContext(WIDGET_CONTEXT.tools, visible('tools'));
-  useSetAppContext(WIDGET_CONTEXT.canvas, visible('canvas'));
+  useSetAppContext(WIDGET_CONTEXT.view, visible('view'));
   useSetAppContext(WIDGET_CONTEXT.sheet, visible('sheet'));
   useSetAppContext(WIDGET_CONTEXT.tileset, visible('tileset'));
 };

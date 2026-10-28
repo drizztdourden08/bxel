@@ -69,13 +69,13 @@ describe('the canvas toolbar per context', () => {
     expect(idsOn('An')).toEqual(['mirror-x', 'mirror-y', 'grid', 'guides', 'tiled', 'onion', 'play', 'zoom-fit', 'zoom-actual']);
   });
 
-  it('shows Back for an isolated sprite and the zoom alone on a sheet', () => {
+  it('shows Back for an isolated sprite and the guides and zoom on a sheet', () => {
     expect(idsOn('Si')[0]).toBe('back');
-    expect(idsOn('Sh')).toEqual(['zoom-fit', 'zoom-actual']);
+    expect(idsOn('Sh')).toEqual(['guides', 'zoom-fit', 'zoom-actual']);
   });
 
-  it('keeps the grid and no pixel aid on a map, and the pixel grid with the zoom on an image', () => {
-    expect(idsOn('Tm')).toEqual(['grid', 'zoom-fit', 'zoom-actual']);
+  it('keeps the grid and guides on a map, and the pixel grid with the zoom on an image', () => {
+    expect(idsOn('Tm')).toEqual(['grid', 'guides', 'zoom-fit', 'zoom-actual']);
     expect(idsOn('Im')).toEqual(['grid', 'zoom-fit', 'zoom-actual']);
   });
 

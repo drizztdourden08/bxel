@@ -3,7 +3,7 @@ import { file, isolated } from '../predicates.constants';
 import { ONLY } from '../reasons.constants';
 import { rule } from '../rule';
 import type { UiRule } from '../ui-rule.type';
-import { EDIT_STAGE, GRID_STAGE, MAP, ONION, PIXEL, TILE_FILES, VIEW_STAGE, WRITE } from './groups.constants';
+import { EDIT_STAGE, GRID_STAGE, MAP, ONION, PIXEL, RULER_STAGE, TILE_FILES, VIEW_STAGE, WRITE } from './groups.constants';
 
 const TOOLBAR_RULES: Record<string, UiRule> = {
   'item.back': rule({ applies: isolated, only: ONLY.sheets }),
@@ -12,9 +12,10 @@ const TOOLBAR_RULES: Record<string, UiRule> = {
   'item.mirror-y': rule({ applies: PIXEL, only: ONLY.pixels }),
   'item.grid': rule({ applies: GRID_STAGE }),
   'item.gridMajor': rule({ applies: EDIT_STAGE }),
-  'item.gridTile': rule({ applies: EDIT_STAGE }),
-  'item.rulers': rule({ applies: EDIT_STAGE }),
-  'item.guides': rule({ applies: PIXEL, only: ONLY.pixels }),
+  'item.gridTile': rule({ applies: RULER_STAGE }),
+  'item.rulers': rule({ applies: RULER_STAGE }),
+  'item.guides': rule({ applies: RULER_STAGE }),
+  'item.snap': rule({ applies: RULER_STAGE }),
   'item.tiled': rule({ applies: PIXEL, only: ONLY.pixels }),
   'item.onion': rule({ applies: ONION, only: ONLY.animations }),
   'item.play': rule({ applies: ONION, only: ONLY.animations }),

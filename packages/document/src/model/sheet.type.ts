@@ -1,6 +1,7 @@
 /* @layer core @kind types */
 import type { Point, Rect } from './geometry.type';
 import type { AnimationId, SheetId, SpriteId, TagId } from './ids.type';
+import type { Guides } from './sprite.type';
 
 type SheetLayout =
   | { readonly kind: 'manual' }
@@ -30,6 +31,7 @@ type Sheet = {
   readonly margin: number;
   readonly entries: readonly SheetEntry[];
   readonly animationEntries?: readonly SheetAnimationEntry[];
+  readonly guides?: Guides;
 };
 
 export type { Sheet, SheetAnimationEntry, SheetEntry, SheetLayout };

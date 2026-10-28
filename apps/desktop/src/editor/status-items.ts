@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { StatusBarEntry } from '@drizztdourden08/tessera';
+import { extraItems } from '../status-extras/extra-items';
 import { evaluate } from '../ui-context/evaluate';
 import type { PaletteSlot } from './palette-slots.type';
 import type { StatusInput } from './status.type';
@@ -10,17 +11,19 @@ const colourEntry = (colour: PaletteSlot | null, position: 1 | 2): StatusBarEntr
   label: STATUS_TEXT.colourLabel(position),
   value: colour ? STATUS_TEXT.colour(colour.index, colour.name) : STATUS_TEXT.outside,
   swatch: colour && !colour.transparent ? colour.hex : undefined,
+  priority: position === 1 ? 1 : 2,
 });
 
 const statusItems = (input: StatusInput): StatusBarEntry[] => {
-  const { pointer, zoom, colours, clean, recovered, context, tile } = input;
+  const { pointer, zoom, colours, clean, recovered, context, tile, extras } = input;
   const recovery: StatusBarEntry[] = recovered && !clean ? [{ id: 'recovered', label: 'Recovery', value: STATUS_TEXT.recovered, tone: 'warning', align: 'end' }] : [];
   const all: StatusBarEntry[] = [
     { id: 'cursor', label: 'Cursor', value: pointer ? STATUS_TEXT.cursor(pointer) : STATUS_TEXT.outside },
+    ...(extras ? extraItems(extras) : []),
     { id: 'zoom', label: 'Zoom', value: STATUS_TEXT.zoom(zoom) },
     colourEntry(colours[0], 1),
     colourEntry(colours[1], 2),
-    { id: 'tile', label: 'Tile', value: tile === null ? STATUS_TEXT.noTile : STATUS_TEXT.tile(tile) },
+    { id: 'tile', label: 'Tile', value: tile === null ? STATUS_TEXT.noTile : STATUS_TEXT.tile(tile), priority: 2 },
     {
       id: 'saved',
       label: 'File',

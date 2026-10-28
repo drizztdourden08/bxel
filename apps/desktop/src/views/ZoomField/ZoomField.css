@@ -1,0 +1,12 @@
+/* @layer renderer-app @kind style */
+.zoom-field {
+  min-inline-size: 0;
+}
+
+.zoom-field__presets {
+  min-inline-size: 0;
+}
+
+.zoom-field__actions {
+  flex-wrap: wrap;
+}

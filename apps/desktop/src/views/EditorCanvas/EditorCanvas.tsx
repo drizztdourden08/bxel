@@ -28,13 +28,13 @@ import { useMarchingAnts } from './behavior/useMarchingAnts';
 import { usePendingImage } from './behavior/usePendingImage';
 import { usePlaybackImage } from './behavior/usePlaybackImage';
 import { useSyncPending } from './behavior/useSyncPending';
-import { useRulerUnits } from './behavior/useRulerUnits';
-import { useViewDefaults } from './behavior/useViewDefaults';
+import { useViewSettings } from './behavior/useViewSettings';
 import { useViewportBridge } from './behavior/useViewportBridge';
 import { viewportClass } from './behavior/viewport-class';
 import { EmptyCanvas } from './sub-components/EmptyCanvas';
 import { RulerBars } from './sub-components/RulerBars';
 import './EditorCanvas.css';
+import { feedView } from '../../view-feed/feed-view';
 
 const EditorCanvas = () => {
   const target = useEditorTarget();
@@ -55,8 +55,7 @@ const EditorCanvas = () => {
   const readout = useCanvasReadout(viewport);
   const keys = useCanvasKeys(viewport);
   useCanvasMenu(viewport);
-  useViewDefaults();
-  useRulerUnits();
+  useViewSettings();
   useViewportBridge(viewport, target !== null);
   useMarchingAnts(viewport);
   useAreaRedraw(viewport);
@@ -83,6 +82,7 @@ const EditorCanvas = () => {
         gridMajor={gridMajor}
         gridTile={gridTile}
         hand={tool === 'hand'}
+        onView={feedView}
         tiled={WRAP_OF[tiled]}
         onPointerPixel={(pixel) => {
           keys.onPointerPixel();

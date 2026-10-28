@@ -5,7 +5,7 @@ const WIDGET_CONTEXT = {
   timeline: 'bxel.widget.timeline',
   options: 'bxel.widget.options',
   tools: 'bxel.widget.tools',
-  canvas: 'bxel.widget.canvas',
+  view: 'bxel.widget.view',
   sheet: 'bxel.widget.sheet',
   tileset: 'bxel.widget.tileset',
 } as const;

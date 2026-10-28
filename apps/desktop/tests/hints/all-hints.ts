@@ -6,10 +6,9 @@ import { OPTION_SPECS } from '../../src/editor/tool-options/option-specs.constan
 import type { OptionSpec } from '../../src/editor/tool-options/tool-options.type';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import {
-  BACK_HINT, MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT, TILED_HINT, TILED_HINTS, VIEW_HINTS, ZOOM_ACTUAL_HINT,
+  MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAUSE_HINT, PLAY_HINT, TILED_HINT, TILED_HINTS, VIEW_HINTS, ZOOM_ACTUAL_HINT,
   ZOOM_FIT_HINT,
 } from '../../src/views/CanvasToolbar/CanvasToolbar.constants';
-import { SCOPE_HINTS } from '../../src/views/ScopeBar/ScopeBar.constants';
 import { LAYER_BAR_HINTS, LAYER_FLAG_HINTS } from '../../src/views/LayerStack/LayerStack.constants';
 import { chipHint, CONFIG_HINT, HELD_CHIPS } from '../../src/views/PalettePanel/PalettePanel.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
@@ -54,7 +53,6 @@ const panelHints = (): HintSpec[] => [
 
 const toolbarHints = (): HintSpec[] => [
   ...OPTION_SPECS.flatMap(optionHint),
-  ...Object.values(SCOPE_HINTS),
   ...Object.values(VIEW_HINTS),
   ...Object.values(TILED_HINTS),
   TILED_HINT,
@@ -62,8 +60,6 @@ const toolbarHints = (): HintSpec[] => [
   ZOOM_FIT_HINT, ZOOM_ACTUAL_HINT,
   MIRROR_X_HINT,
   MIRROR_Y_HINT,
-  BACK_HINT,
-  PAINT_ALL_HINT,
   ...HELD_CHIPS.map(chipHint),
   CONFIG_HINT,
   ...toolIds().map((tool) => canvasHelp(tool, 'sprite')),

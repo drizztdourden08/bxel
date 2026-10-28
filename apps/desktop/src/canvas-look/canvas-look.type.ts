@@ -29,6 +29,7 @@ interface CanvasSettings {
   gridTileSize: number;
   gridTileColor: string;
   gridTileOpacity: number;
+  guideColor: string;
   rulers: boolean;
   rulerUnit: RulerUnit;
 }

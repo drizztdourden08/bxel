@@ -25,6 +25,7 @@ const viewMenu = (state: EditorMenuState): MenuItem => {
         item(COMMAND_ID.zoomOut, 'Zoom out'),
         item(COMMAND_ID.zoomFit, 'Zoom to fit'),
         item(COMMAND_ID.zoomActual, 'Actual size'),
+        item(COMMAND_ID.zoomSelection, 'Zoom to selection'),
       ]),
       group(state, 'menu.view.grid', { key: 'view-grid', label: MENU_TEXT.grid }, [
         item(COMMAND_ID.pixelGrid, 'Pixel grid', state.grid),
@@ -33,6 +34,7 @@ const viewMenu = (state: EditorMenuState): MenuItem => {
       ]),
       item(COMMAND_ID.rulers, 'Rulers', state.rulers),
       item(COMMAND_ID.guides, 'Guides', state.guides),
+      item(COMMAND_ID.snap, 'Snap', state.snap),
       group(state, 'menu.view.symmetry', { key: 'view-symmetry', label: MENU_TEXT.symmetry }, [
         item(COMMAND_ID.symmetryX, MENU_TEXT.mirrorX, state.symmetryX),
         item(COMMAND_ID.symmetryY, MENU_TEXT.mirrorY, state.symmetryY),

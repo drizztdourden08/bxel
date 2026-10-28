@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { FocusEventHandler, KeyboardEventHandler, MouseEventHandler, PointerEvent, PointerEventHandler, RefObject } from 'react';
 import type { CanvasLook, GridFlags } from '../../../canvas-look/canvas-look.type';
-import type { PixelDraw, PixelPoint, PixelSource, PixelTiling, PixelView } from '../PixelViewport.type';
+import type { PixelDraw, PixelPoint, PixelSource, PixelTiling, PixelView, PixelViewportProps } from '../PixelViewport.type';
 
 interface ImageSize {
   width: number;
@@ -52,6 +52,7 @@ interface FrameInput {
   grids: GridFlags;
   look: CanvasLook;
   tiled: PixelTiling;
+  onView?: PixelViewportProps['onView'];
 }
 
 interface PlacedImage {
