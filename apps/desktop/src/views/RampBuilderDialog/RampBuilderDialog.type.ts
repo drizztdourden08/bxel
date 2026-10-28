@@ -12,6 +12,8 @@ interface BuilderSettings {
   hueMode: RampHueMode;
   chromaCurve: boolean;
   snap: boolean;
+  snapDistance: number;
+  raise: number | null;
   span: readonly [number, number];
   name: string;
 }
@@ -24,6 +26,7 @@ interface BuilderState {
   build: RampBuild | null;
   free: number;
   fits: boolean;
+  room: number | null;
   failure: string | null;
   apply: () => void;
   cancel: () => void;
@@ -34,6 +37,7 @@ interface NumberSlider {
   max: number;
   value: number;
   set: (value: number) => void;
+  percent?: boolean;
 }
 
 interface BuilderDialogProps {

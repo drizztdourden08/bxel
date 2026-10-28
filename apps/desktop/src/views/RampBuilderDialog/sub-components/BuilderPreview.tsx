@@ -1,13 +1,13 @@
 /* @layer renderer-app @kind component */
 import { Box, Callout, Flex, Stack, Text } from '@drizztdourden08/tessera';
-import { RAMP_TEXT } from '../../../palette-ramps/palette-ramps.constants';
 import { SphereTest } from '../../SphereTest';
 import { SwatchStrip } from '../../SwatchStrip';
 import { BUILDER_TEXT } from '../RampBuilderDialog.constants';
 import type { BuilderPartProps } from '../RampBuilderDialog.type';
+import { FitNotice } from './FitNotice';
 
 const BuilderPreview = ({ state }: BuilderPartProps) => {
-  const { build, free, fits } = state;
+  const { build } = state;
   if (!build) return <Callout tone="warning">{BUILDER_TEXT.noBase}</Callout>;
   const colours = build.steps.map((step) => step.hex);
   const captions = build.steps.map((step) => (step.reuses === null ? BUILDER_TEXT.stepNew : BUILDER_TEXT.stepReuses(step.reuses)));
@@ -26,11 +26,7 @@ const BuilderPreview = ({ state }: BuilderPartProps) => {
           </Text>
         ))}
       </Box>
-      {fits ? (
-        <Text variant="caption" tone="muted">{RAMP_TEXT.fits(build.added, free)}</Text>
-      ) : (
-        <Callout tone="danger">{RAMP_TEXT.noRoom(build.added, free)}</Callout>
-      )}
+      <FitNotice state={state} />
     </Stack>
   );
 };

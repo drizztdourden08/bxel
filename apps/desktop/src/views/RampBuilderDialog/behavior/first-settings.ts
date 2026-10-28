@@ -17,6 +17,8 @@ const firstSettings = (bank: PaletteBank, baseIndex: number): BuilderSettings =>
     hueMode: RAMP_DEFAULTS.hueMode,
     chromaCurve: RAMP_DEFAULTS.chromaCurve,
     snap: true,
+    snapDistance: Math.round(RAMP_DEFAULTS.snap * SPAN_SCALE),
+    raise: null,
     span: [Math.round(span.dark * SPAN_SCALE), Math.round(span.light * SPAN_SCALE)],
     name: rampName(bank),
   };

@@ -14,6 +14,11 @@ const BUILDER_TEXT = {
   spanLight: 'Lightest lightness',
   chroma: 'Chroma drops at both ends',
   snap: 'Reuse swatches that are close',
+  snapDistance: 'How close, in hundredths of OKLab',
+  percent: (value: number): string => `${value}%`,
+  raise: (cap: number): string => `Raise the limit to ${cap}`,
+  reuseMore: 'Reuse more',
+  raised: (added: number, cap: number): string => `${added} new colours. The limit goes up to ${cap} with the ramp, in the same undo step.`,
   name: 'Ramp name',
   preview: 'Ramp preview',
   sphere: 'Shaded sphere test of the new ramp',
@@ -33,4 +38,8 @@ const HUE_MODES: SegmentOption<RampHueMode>[] = [
 
 const SPAN_SCALE = 100;
 
-export { BUILDER_TEXT, HUE_MODES, SPAN_SCALE };
+const SNAP_TOP = 20;
+
+const REUSE_MORE = 8;
+
+export { BUILDER_TEXT, HUE_MODES, REUSE_MORE, SNAP_TOP, SPAN_SCALE };

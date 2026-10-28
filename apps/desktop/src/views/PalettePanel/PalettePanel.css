@@ -150,12 +150,15 @@
 }
 
 .swatch-mark {
+  --mark: var(--size-10);
+  --mark-inset: var(--size-1);
+
   position: absolute;
-  min-width: var(--size-10);
-  height: var(--size-10);
+  min-width: var(--mark);
+  height: var(--mark);
   padding-inline: var(--size-1);
   font-size: var(--text-xs);
-  line-height: var(--size-10);
+  line-height: var(--mark);
   text-align: center;
   color: var(--c-text);
   background: var(--c-scrim);
@@ -164,34 +167,35 @@
   pointer-events: none;
 }
 
+.swatch-grid--size-32 .swatch-mark {
+  --mark: var(--size-12);
+  --mark-inset: var(--size-2);
+}
+
 .swatch-grid--size-16 .swatch-mark {
   display: none;
 }
 
 .swatch-mark--1 {
-  top: calc(-1 * var(--size-2));
-  left: calc(-1 * var(--size-2));
+  top: var(--mark-inset);
+  left: var(--mark-inset);
 }
 
 .swatch-mark--2 {
-  bottom: calc(-1 * var(--size-2));
-  left: calc(-1 * var(--size-2));
+  bottom: var(--mark-inset);
+  left: var(--mark-inset);
 }
 
 .swatch-mark--3 {
-  top: calc(-1 * var(--size-2));
-  right: calc(-1 * var(--size-2));
+  top: var(--mark-inset);
+  right: var(--mark-inset);
   border-radius: var(--radius-round);
 }
 
 .swatch-mark--4 {
-  bottom: calc(-1 * var(--size-2));
-  right: calc(-1 * var(--size-2));
+  bottom: var(--mark-inset);
+  right: var(--mark-inset);
   border-radius: var(--radius-round);
-}
-
-.swatch-grid--size-16 .grid-cell--marked {
-  box-shadow: 0 0 0 var(--border-width-thin) var(--c-text);
 }
 
 .swatch-grid__add {
@@ -282,10 +286,23 @@
   font-family: var(--font-mono);
 }
 
+.channel-slider__lane {
+  position: relative;
+}
+
 .channel-slider__track {
-  height: var(--size-8);
+  position: absolute;
+  inset-inline: var(--size-6);
+  top: 50%;
+  height: var(--size-12);
+  transform: translateY(-50%);
   border-radius: var(--radius-pill);
   border: var(--border-width-thin) solid var(--c-border);
+  pointer-events: none;
+}
+
+.channel-slider__slider {
+  position: relative;
 }
 
 .swatch-readout {

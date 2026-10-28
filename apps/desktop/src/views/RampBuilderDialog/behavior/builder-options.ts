@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind logic */
 import type { PaletteBank } from '@bxel/document';
-import { RAMP_DEFAULTS } from '@bxel/palette';
 import type { RampBuildOptions } from '@bxel/palette';
 import { SPAN_SCALE } from '../RampBuilderDialog.constants';
 import type { BuilderSettings } from '../RampBuilderDialog.type';
@@ -18,7 +17,7 @@ const builderOptions = (bank: PaletteBank, settings: BuilderSettings): RampBuild
     hueMode: settings.hueMode,
     span: { dark: settings.span[0] / SPAN_SCALE, light: settings.span[1] / SPAN_SCALE },
     chromaCurve: settings.chromaCurve,
-    snap: settings.snap ? RAMP_DEFAULTS.snap : 0,
+    snap: settings.snap ? settings.snapDistance / SPAN_SCALE : 0,
     existing,
   };
 };

@@ -12,6 +12,7 @@ import { useRampBuilderStore } from '../../../stores/useRampBuilderStore';
 import type { BuilderSettings, BuilderState } from '../RampBuilderDialog.type';
 import { builderOptions } from './builder-options';
 import { firstSettings } from './first-settings';
+import { roomFor } from './room-for';
 
 const useRampBuilder = (request: RampBuilderRequest, live: EditorTarget): BuilderState => {
   const view = useDocumentStore((state) => state.views[request.documentId] ?? null);
@@ -24,12 +25,14 @@ const useRampBuilder = (request: RampBuilderRequest, live: EditorTarget): Builde
     const options = builderOptions(bank, settings);
     return options ? buildRamp(options) : null;
   }, [bank, settings]);
-  const free = bank.cap - bank.slots.length;
+  const free = (settings.raise ?? bank.cap) - bank.slots.length;
   const fits = build !== null && build.added <= free;
+  const room = build ? roomFor(bank, build.added) : null;
   const cancel = useCallback(() => useRampBuilderStore.getState().close(), []);
   const apply = useCallback(() => {
     if (!build) return;
-    const outcome = applyRamp(currentTarget() ?? target, build.steps, settings.name.trim() || firstSettings(bank, settings.baseIndex).name);
+    const name = settings.name.trim() || firstSettings(bank, settings.baseIndex).name;
+    const outcome = applyRamp(currentTarget() ?? target, build.steps, name, settings.raise);
     if (!outcome.ok) {
       setFailure(outcome.message);
       return;
@@ -37,7 +40,7 @@ const useRampBuilder = (request: RampBuilderRequest, live: EditorTarget): Builde
     toast(outcome.message, { variant: 'success' });
     useRampBuilderStore.getState().close();
   }, [build, target, settings, bank]);
-  return { target, bank, settings, change, build, free, fits, failure, apply, cancel };
+  return { target, bank, settings, change, build, free, fits, room, failure, apply, cancel };
 };
 
 export { useRampBuilder };

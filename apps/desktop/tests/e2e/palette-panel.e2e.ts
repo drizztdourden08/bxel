@@ -78,9 +78,30 @@ const refusesFullRamp = async ({ session }: SpriteRig): Promise<void> => {
   await expectAccessible(session, 'ramp builder');
   await dialog.getByText(/This ramp needs \d+ new colours and the palette has 0 free slots/).waitFor();
   expect(await dialog.getByRole('button', { name: 'Add ramp' }).isDisabled()).toBe(true);
+  await dialog.getByRole('button', { name: /^Raise the limit to \d+$/ }).click();
+  await dialog.getByText(/The limit goes up to \d+ with the ramp/).waitFor();
+  await dialog.getByRole('button', { name: 'Add ramp' }).click();
+  await dialog.waitFor({ state: 'detached' });
+  const row = panel(session).getByRole('group', { name: 'Ramp 1' });
+  await row.waitFor();
+  await session.page.keyboard.press(SHORTCUT.undo);
+  await row.waitFor({ state: 'detached' });
+  await panel(session).getByRole('button', { name: /^16 of 16 colours used/ }).waitFor();
+  await panel(session).getByRole('radio', { name: 'Grid' }).click();
+};
+
+const keepsCanvasUnderSheet = async ({ session, map }: SpriteRig): Promise<void> => {
+  const before = await sampleCanvas(session, CELLS.map(map));
+  const empty = await nothingToUndo(session);
+  await panel(session).getByRole('button', { name: 'More palette actions' }).click();
+  await session.page.getByRole('menuitem', { name: /^Remove unused/ }).click();
+  const dialog = session.page.getByRole('dialog', { name: 'Remove unused colours' });
+  await dialog.waitFor();
+  expect(await sampleCanvas(session, CELLS.map(map))).toEqual(before);
   await dialog.getByRole('button', { name: 'Cancel' }).click();
   await dialog.waitFor({ state: 'detached' });
-  await panel(session).getByRole('radio', { name: 'Grid' }).click();
+  expect(await sampleCanvas(session, CELLS.map(map))).toEqual(before);
+  expect(await nothingToUndo(session)).toBe(empty);
 };
 
 const makesRamp = async ({ session }: SpriteRig): Promise<void> => {
@@ -112,7 +133,8 @@ describe('the palette panel', () => {
   test('Tab enters the grid once and the arrows move the focus', () => tabsOnce(rig()));
   test('Alt+Right moves swatch 5 to 6, the drawing looks the same, one undo restores it', () => movesByKeys(rig()));
   test('Escape in the colour editor changes nothing and leaves the history alone', () => cancelsEdit(rig()));
-  test('the ramp builder says when a ramp does not fit and adds nothing', () => refusesFullRamp(rig()));
+  test('the ramp builder says when a ramp does not fit, raises the limit in place, and one undo removes both', () => refusesFullRamp(rig()));
+  test('the Remove unused preview leaves the canvas and the history as they were', () => keepsCanvasUnderSheet(rig()));
   test('Make ramp from a selection adds a ramp in one undo step and the ramps view shows it', () => makesRamp(rig()));
   test('the grid and the list view pass the accessibility audit', () => auditsViews(rig()));
 });
