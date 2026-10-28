@@ -3,19 +3,12 @@ import { describe, expect, test } from 'vitest';
 import { answerDialogs } from './support/answer-dialogs';
 import { inFreshPlace } from './support/in-place';
 import { openAssetTab } from './support/open-asset-tab';
+import { openDemo } from './support/open-demo';
 import { openSession } from './support/open-session';
 import { assetRow } from './support/panel-assets';
-import { runMenu } from './support/run-menu';
 import { useRig } from './support/use-rig';
 import type { Session } from './support/e2e.type';
-import { waitText } from './support/wait-text';
 import { writeBlocksPng } from './support/write-blocks-png';
-
-const openDemo = async (session: Session, parent: string): Promise<void> => {
-  await answerDialogs(session, { open: parent, save: null });
-  await runMenu(session, [/^Help$/, /^Open the demo project$/]);
-  await waitText(session, /Opened the project Bxel Demo/);
-};
 
 const tools = (session: Session) => session.page.getByRole('toolbar', { name: 'Tools' });
 

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { FileType, SelectionKind, StageSurface, TileEditing } from './bxel-context.type';
+import type { FileType, SelectionKind, StageSurface } from './bxel-context.type';
 import type { Pred } from './ui-rule.type';
 
 const file =
@@ -11,11 +11,6 @@ const surface =
   (...surfaces: readonly StageSurface[]): Pred =>
   (context) =>
     surfaces.includes(context.surface);
-
-const mode =
-  (wanted: Exclude<TileEditing, null>): Pred =>
-  (context) =>
-    context.tileMode === wanted;
 
 const has =
   (...kinds: readonly SelectionKind[]): Pred =>
@@ -58,10 +53,8 @@ const canUndo: Pred = (context) => context.canUndo;
 
 const canRedo: Pred = (context) => context.canRedo;
 
-const pending: Pred = (context) => context.pending;
-
 const projectOpen: Pred = (context) => context.projectOpen;
 
 const animatedTile: Pred = (context) => context.animatedTile;
 
-export { all, always, animatedTile, any, canRedo, canUndo, clip, file, has, hasDocument, hasFile, isolated, mode, never, not, pending, projectOpen, surface, writable };
+export { all, always, animatedTile, any, canRedo, canUndo, clip, file, has, hasDocument, hasFile, isolated, never, not, projectOpen, surface, writable };

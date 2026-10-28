@@ -49,4 +49,4 @@ interface ContextInput {
   readonly canRedo: boolean;
 }
 
-export type { BxelContext, ClipboardKind, ContextInput, EditTarget, FileType, SelectionKind, StageSurface, TileEditing };
+export type { BxelContext, ContextInput, EditTarget, FileType, SelectionKind, StageSurface, TileEditing };

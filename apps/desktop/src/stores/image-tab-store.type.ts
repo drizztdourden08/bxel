@@ -20,4 +20,4 @@ interface ImageTabState extends ImageTabSlice {
   close: (id: string) => void;
 }
 
-export type { ImageTab, ImageTabSlice, ImageTabState };
+export type { ImageTab, ImageTabState };

@@ -25,4 +25,4 @@ interface RuleSpec {
   only?: string;
 }
 
-export type { Need, Pred, RuleSpec, UiRule, UiState, UiVisibility };
+export type { Need, Pred, RuleSpec, UiRule, UiState };
