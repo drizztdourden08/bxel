@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { MenuGroup } from '@drizztdourden08/tessera';
-import { FILTER_KINDS, FILTER_STATES, ITEM_ICON, PLURAL_LABEL, STATE_LABEL } from '../../../project-browser/project-browser.constants';
+import { FILTER_KINDS, FILTER_STATES, ITEM_ICON, PLURAL_LABEL, STATE_LABEL } from '../../../panel-browser/project-browser.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
 
 const filterMenuGroups = (model: ProjectPanelModel): readonly MenuGroup[] => {

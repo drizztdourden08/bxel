@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useSyncExternalStore } from 'react';
-import type { BrowserItem } from '../project-browser/project-browser.type';
+import type { BrowserItem } from '../panel-browser/project-browser.type';
 import { thumbRequestFor } from './thumb-request-for';
 import { thumbStore } from './thumb-store';
 

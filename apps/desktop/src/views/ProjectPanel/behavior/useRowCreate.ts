@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useCallback } from 'react';
-import { folderKeyOf } from '../../../project-browser/folder-key-of';
-import { newParentKey } from '../../../project-browser/new-parent-key';
+import { folderKeyOf } from '../../../panel-browser/folder-key-of';
+import { newParentKey } from '../../../panel-browser/new-parent-key';
 import { startNewAsset } from '../../../project/start-new-asset';
 import type { CreatableKind } from '../../../stores/creation-store.type';
 import { projectDirs } from '../../../workspace/project-dirs';

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { ASSET_LIST_TEXT } from '../../../asset-list/asset-list-text.constants';
-import type { BrowserItem } from '../../../project-browser/project-browser.type';
+import type { BrowserItem } from '../../../panel-browser/project-browser.type';
 import { PROJECT_MENU } from '../ProjectPanel.constants';
 import { newAssetEntry } from './new-asset-entry';
 

@@ -2,7 +2,7 @@
 import { VirtualGrid } from '@drizztdourden08/tessera';
 import type { VirtualGridCellBind } from '@drizztdourden08/tessera';
 import { useMemo } from 'react';
-import type { BrowserItem } from '../../../../project-browser/project-browser.type';
+import type { BrowserItem } from '../../../../panel-browser/project-browser.type';
 import { PANEL_UI, TILE_BOX } from '../../ProjectPanel.constants';
 import type { PanelPartProps } from '../../ProjectPanel.type';
 import { GridTile } from './sub-components/GridTile';

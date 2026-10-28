@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { ProjectArgs } from '../../../context-menu/menu-args.type';
-import type { BrowserItem } from '../../../project-browser/project-browser.type';
+import type { BrowserItem } from '../../../panel-browser/project-browser.type';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
 
 const itemOfArgs = (model: ProjectPanelModel, args: Partial<ProjectArgs>): BrowserItem | undefined => {

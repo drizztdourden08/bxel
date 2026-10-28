@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
 import type { AssetRow, RowKind } from '../../src/asset-list/asset-list.type';
-import { buildItemTree } from '../../src/project-browser/build-item-tree';
-import type { BrowserEntry, BrowserRoot, ItemTree } from '../../src/project-browser/project-browser.type';
+import { buildItemTree } from '../../src/panel-browser/build-item-tree';
+import type { BrowserEntry, BrowserRoot, ItemTree } from '../../src/panel-browser/project-browser.type';
 
 const ROOT = '/p/demo';
 const LINKED = '/p/shared';

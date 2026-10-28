@@ -14,7 +14,7 @@ import type {
   ProjectViewSettings,
   SelectionModel,
   ViewDensity,
-} from '../../project-browser/project-browser.type';
+} from '../../panel-browser/project-browser.type';
 import type { OpenProject } from '../../project/project.type';
 import type { CreatableKind } from '../../stores/creation-store.type';
 

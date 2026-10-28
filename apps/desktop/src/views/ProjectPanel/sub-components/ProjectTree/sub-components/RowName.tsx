@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Box, Text } from '@drizztdourden08/tessera';
 import { KIND_LABEL } from '../../../../../asset-list/asset-list.constants';
-import { listKindOf } from '../../../../../project-browser/list-kind-of';
+import { listKindOf } from '../../../../../panel-browser/list-kind-of';
 import type { RowNameProps } from '../ProjectTree.type';
 import './RowName.css';
 

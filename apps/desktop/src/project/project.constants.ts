@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import { DEFAULT_PROJECT_VIEW } from '../project-browser/project-browser.constants';
+import { DEFAULT_PROJECT_VIEW } from '../panel-browser/project-browser.constants';
 import type { ProjectSettings } from './project.type';
 
 const PROJECT_DEFAULTS: ProjectSettings = { projectRecents: [], projectTabs: {}, projectOpenOnClick: false, projectView: DEFAULT_PROJECT_VIEW };

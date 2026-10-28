@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind hook */
 import { useCallback, useRef } from 'react';
-import { isExpandable } from '../../../project-browser/is-expandable';
-import { openItem } from '../../../project-browser/open-item';
-import { SLOW_CLICK_MS } from '../../../project-browser/project-browser.constants';
-import type { BrowserItem } from '../../../project-browser/project-browser.type';
+import { isExpandable } from '../../../panel-browser/is-expandable';
+import { openItem } from '../../../panel-browser/open-item';
+import { SLOW_CLICK_MS } from '../../../panel-browser/project-browser.constants';
+import type { BrowserItem } from '../../../panel-browser/project-browser.type';
 import type { PanelParts, PickActions, PickMods } from '../ProjectPanel.type';
 
 const useRowPick = ({ view, browser, selection, edit }: PanelParts): PickActions => {

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { MenuGroup, MenuItem } from '@drizztdourden08/tessera';
 import { SORT_OPTIONS } from '../../../asset-list/asset-list.constants';
-import type { ProjectViewSettings } from '../../../project-browser/project-browser.type';
+import type { ProjectViewSettings } from '../../../panel-browser/project-browser.type';
 import { GROUP_CHOICES, PROJECT_MENU, TILE_CHOICES } from '../ProjectPanel.constants';
 import type { ProjectPanelModel, ViewSetter } from '../ProjectPanel.type';
 

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { scrollTopToShow } from '@drizztdourden08/tessera';
 import { useEffect, useRef } from 'react';
-import type { SelectionModel } from '../../../../../project-browser/project-browser.type';
+import type { SelectionModel } from '../../../../../panel-browser/project-browser.type';
 import { ITEM_ATTRIBUTE } from '../../../ProjectPanel.constants';
 import type { RevealInput } from '../ProjectTree.type';
 

@@ -2,7 +2,7 @@
 import type { CommandContext } from '@drizztdourden08/brock-react';
 import { commandArgs } from '../../../context-menu/command-args';
 import type { ProjectArgs } from '../../../context-menu/menu-args.type';
-import type { BrowserItem } from '../../../project-browser/project-browser.type';
+import type { BrowserItem } from '../../../panel-browser/project-browser.type';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
 import { itemOfArgs } from './item-of-args';
 

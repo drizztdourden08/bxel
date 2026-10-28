@@ -1,16 +1,16 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, test } from 'vitest';
-import { buildStatuses } from '../../src/project-browser/build-statuses';
-import { filterTree } from '../../src/project-browser/filter-tree';
-import { listRows } from '../../src/project-browser/list-rows';
-import { mergeQueries } from '../../src/project-browser/merge-queries';
-import { moveFocus } from '../../src/project-browser/move-focus';
-import { parseSearch } from '../../src/project-browser/parse-search';
-import { EMPTY_QUERY } from '../../src/project-browser/project-browser.constants';
-import { typeAhead } from '../../src/project-browser/type-ahead';
-import { usersOf } from '../../src/project-browser/users-of';
-import { visibleRows } from '../../src/project-browser/visible-rows';
-import { applyClick } from '../../src/project-browser/apply-click';
+import { buildStatuses } from '../../src/panel-browser/build-statuses';
+import { filterTree } from '../../src/panel-browser/filter-tree';
+import { listRows } from '../../src/panel-browser/list-rows';
+import { mergeQueries } from '../../src/panel-browser/merge-queries';
+import { moveFocus } from '../../src/panel-browser/move-focus';
+import { parseSearch } from '../../src/panel-browser/parse-search';
+import { EMPTY_QUERY } from '../../src/panel-browser/project-browser.constants';
+import { typeAhead } from '../../src/panel-browser/type-ahead';
+import { usersOf } from '../../src/panel-browser/users-of';
+import { visibleRows } from '../../src/panel-browser/visible-rows';
+import { applyClick } from '../../src/panel-browser/apply-click';
 import { LINKED, ROOT, row, treeOf } from './browser-fixture';
 
 const heroRow = row('sprite', `${ROOT}/sprites/hero.bxsprite`, { dirty: true });

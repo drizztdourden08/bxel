@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
-import { EMPTY_STATUS, NEW_MENU_KEY } from '../../../project-browser/project-browser.constants';
-import { isExpandable } from '../../../project-browser/is-expandable';
+import { EMPTY_STATUS, NEW_MENU_KEY } from '../../../panel-browser/project-browser.constants';
+import { isExpandable } from '../../../panel-browser/is-expandable';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
 import { assetEntries } from './asset-entries';
 import { backgroundEntries } from './background-entries';

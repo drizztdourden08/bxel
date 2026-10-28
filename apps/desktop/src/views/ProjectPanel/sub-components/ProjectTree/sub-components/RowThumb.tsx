@@ -2,7 +2,7 @@
 import { Box, Icon, Image } from '@drizztdourden08/tessera';
 import type { IconName } from '@drizztdourden08/tessera';
 import { useThumb } from '../../../../../asset-thumbs/useThumb';
-import { ITEM_ICON } from '../../../../../project-browser/project-browser.constants';
+import { ITEM_ICON } from '../../../../../panel-browser/project-browser.constants';
 import type { RowLeadProps } from '../ProjectTree.type';
 import './RowThumb.css';
 

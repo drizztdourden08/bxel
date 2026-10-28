@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Artwork, AssetKey } from '@bxel/document';
 import { fileKit } from '../files/file-kit';
-import type { BrowserItem } from '../project-browser/project-browser.type';
+import type { BrowserItem } from '../panel-browser/project-browser.type';
 import { LOADED_THUMB_KINDS } from './asset-thumbs.constants';
 import type { ThumbRequest } from './asset-thumbs.type';
 import { diskThumb } from './disk-thumb';

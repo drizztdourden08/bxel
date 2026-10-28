@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { VirtualMetrics } from '@drizztdourden08/tessera';
 import type { RefObject } from 'react';
-import type { BrowserItem, ItemStatus, SelectionModel, VisibleRow } from '../../../../project-browser/project-browser.type';
+import type { BrowserItem, ItemStatus, SelectionModel, VisibleRow } from '../../../../panel-browser/project-browser.type';
 import type { PanelPartProps } from '../../ProjectPanel.type';
 
 type RevealInput = {

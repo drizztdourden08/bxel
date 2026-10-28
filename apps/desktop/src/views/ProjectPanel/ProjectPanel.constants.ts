@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { IconName, VirtualSize } from '@drizztdourden08/tessera';
 import type { CreatableKind } from '../../stores/creation-store.type';
-import type { ListGroup, TileSize, ViewDensity } from '../../project-browser/project-browser.type';
+import type { ListGroup, TileSize, ViewDensity } from '../../panel-browser/project-browser.type';
 
 const CHIPS_SHOWN = 3;
 

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { ASSET_LIST_TEXT } from '../../../asset-list/asset-list-text.constants';
-import type { BrowserItem, ItemStatus } from '../../../project-browser/project-browser.type';
+import type { BrowserItem, ItemStatus } from '../../../panel-browser/project-browser.type';
 import { PROJECT_MENU } from '../ProjectPanel.constants';
 
 const ghostEntries = (item: BrowserItem, status: ItemStatus): readonly ContextMenuEntry[] => {

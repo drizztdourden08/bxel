@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { fileExtension } from '../../../../../files/file-extension';
-import { PLAIN_KINDS } from '../../../../../project-browser/project-browser.constants';
-import { uniqueName } from '../../../../../project-browser/unique-name';
+import { PLAIN_KINDS } from '../../../../../panel-browser/project-browser.constants';
+import { uniqueName } from '../../../../../panel-browser/unique-name';
 import { NEW_FILE_SUFFIX } from '../../../../../project/project.constants';
 import { PANEL_UI } from '../../../ProjectPanel.constants';
 import type { EditorDefaults, RowEditorProps } from '../ProjectTree.type';

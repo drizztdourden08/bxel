@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import type { SelectionState, VisibleRow } from '../../../../../project-browser/project-browser.type';
+import type { SelectionState, VisibleRow } from '../../../../../panel-browser/project-browser.type';
 
 const tabbableKey = (rows: readonly VisibleRow[], selection: SelectionState): string | undefined => {
   const has = (key: string | null): key is string => key !== null && rows.some((row) => row.item.key === key);

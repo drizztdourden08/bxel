@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
-import { PLURAL_LABEL, STATE_LABEL } from '../../../project-browser/project-browser.constants';
-import type { BrowserQueryState } from '../../../project-browser/project-browser.type';
+import { PLURAL_LABEL, STATE_LABEL } from '../../../panel-browser/project-browser.constants';
+import type { BrowserQueryState } from '../../../panel-browser/project-browser.type';
 import type { FilterChip } from '../ProjectPanel.type';
 
 const chipsOf = (query: BrowserQueryState): readonly FilterChip[] => {

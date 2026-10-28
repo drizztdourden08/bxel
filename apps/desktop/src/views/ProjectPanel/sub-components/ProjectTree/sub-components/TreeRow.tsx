@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind component */
 import { Box } from '@drizztdourden08/tessera';
 import type { CSSProperties, MouseEvent } from 'react';
-import { EMPTY_STATUS, FILE_NEW_KEY, FOLDER_NEW_KEY } from '../../../../../project-browser/project-browser.constants';
-import { rowLabel } from '../../../../../project-browser/row-label';
+import { EMPTY_STATUS, FILE_NEW_KEY, FOLDER_NEW_KEY } from '../../../../../panel-browser/project-browser.constants';
+import { rowLabel } from '../../../../../panel-browser/row-label';
 import { ITEM_ATTRIBUTE, ROW_INDEX_ATTRIBUTE } from '../../../ProjectPanel.constants';
 import type { TreeRowProps } from '../ProjectTree.type';
 import { RowBadges } from './RowBadges';

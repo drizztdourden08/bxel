@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind hook */
 import { openContextMenu } from '@drizztdourden08/brock-react';
 import { useCallback } from 'react';
-import { duplicateItems } from '../../../project-browser/duplicate-items';
-import { trashItems } from '../../../project-browser/trash-items';
+import { duplicateItems } from '../../../panel-browser/duplicate-items';
+import { trashItems } from '../../../panel-browser/trash-items';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { SEARCH_SELECTOR } from '../ProjectPanel.constants';
 import type { BulkActions, PanelParts } from '../ProjectPanel.type';

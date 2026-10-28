@@ -11,9 +11,9 @@ import {
   PROJECT_SELECT_ALL_KEY,
   PROJECT_TRASH_KEY,
 } from '../../../keymap/zone-key.constants';
-import { duplicateItems } from '../../../project-browser/duplicate-items';
-import { NEW_MENU_KEY } from '../../../project-browser/project-browser.constants';
-import { trashItems } from '../../../project-browser/trash-items';
+import { duplicateItems } from '../../../panel-browser/duplicate-items';
+import { NEW_MENU_KEY } from '../../../panel-browser/project-browser.constants';
+import { trashItems } from '../../../panel-browser/trash-items';
 import { NEW_BUTTON_SELECTOR } from '../ProjectPanel.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
 import { commandTargets } from './command-targets';

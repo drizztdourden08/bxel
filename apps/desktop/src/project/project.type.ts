@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { AccessLevel, ProjectDocument, ProjectGrant, RecentProject, ResolvedFolder } from '@bxel/project';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
-import type { ProjectViewSettings } from '../project-browser/project-browser.type';
+import type { ProjectViewSettings } from '../panel-browser/project-browser.type';
 import type { StoredTabsMap } from '../workspace/stored-tabs.type';
 
 type ProjectFolderState = ResolvedFolder & { readonly granted: boolean };

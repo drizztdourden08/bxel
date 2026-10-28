@@ -4,7 +4,7 @@ import { ASSET_LIST_TEXT } from '../../../asset-list/asset-list-text.constants';
 import { canCopyForSheet } from '../../../asset-list/can-copy-for-sheet';
 import { canDuplicate } from '../../../asset-list/can-duplicate';
 import { canExport } from '../../../asset-list/can-export';
-import type { BrowserItem, ItemStatus } from '../../../project-browser/project-browser.type';
+import type { BrowserItem, ItemStatus } from '../../../panel-browser/project-browser.type';
 import { PROJECT_MENU } from '../ProjectPanel.constants';
 
 const assetEntries = (item: BrowserItem, status: ItemStatus): readonly ContextMenuEntry[] => {

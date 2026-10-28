@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useRef } from 'react';
-import { ancestorsOf } from '../../../project-browser/ancestors-of';
+import { ancestorsOf } from '../../../panel-browser/ancestors-of';
 import type { PanelParts } from '../ProjectPanel.type';
 
 const useFollowActive = ({ data, view, selection }: PanelParts): void => {

@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind hook */
 import { useCallback, useRef } from 'react';
-import { isExpandable } from '../../../project-browser/is-expandable';
-import { moveFocus } from '../../../project-browser/move-focus';
-import { openItem } from '../../../project-browser/open-item';
-import { TYPE_AHEAD_MS } from '../../../project-browser/project-browser.constants';
-import { typeAhead } from '../../../project-browser/type-ahead';
+import { isExpandable } from '../../../panel-browser/is-expandable';
+import { moveFocus } from '../../../panel-browser/move-focus';
+import { openItem } from '../../../panel-browser/open-item';
+import { TYPE_AHEAD_MS } from '../../../panel-browser/project-browser.constants';
+import { typeAhead } from '../../../panel-browser/type-ahead';
 import { NAV_KEYS } from '../ProjectPanel.constants';
 import type { KeyboardEvent } from 'react';
 import type { PanelParts, PickActions, TreeKeys } from '../ProjectPanel.type';

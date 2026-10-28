@@ -2,8 +2,8 @@
 import { Badge, Box, Icon, Image, Text } from '@drizztdourden08/tessera';
 import type { MouseEvent } from 'react';
 import { useThumb } from '../../../../../asset-thumbs/useThumb';
-import { EMPTY_STATUS, ITEM_ICON } from '../../../../../project-browser/project-browser.constants';
-import { rowLabel } from '../../../../../project-browser/row-label';
+import { EMPTY_STATUS, ITEM_ICON } from '../../../../../panel-browser/project-browser.constants';
+import { rowLabel } from '../../../../../panel-browser/row-label';
 import { ITEM_ATTRIBUTE } from '../../../ProjectPanel.constants';
 import type { GridTileProps } from '../ProjectGrid.type';
 import './GridTile.css';
