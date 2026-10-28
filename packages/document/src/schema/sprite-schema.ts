@@ -29,6 +29,8 @@ const layerSchema = z.object({
   name: nameSchema,
   visible: z.boolean(),
   locked: z.boolean(),
+  lockTransparency: z.boolean().optional(),
+  colour: tagColourSchema.optional(),
   cels: z.record(z.string(), celId),
 });
 

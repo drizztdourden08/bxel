@@ -5,7 +5,7 @@ import { runMenu } from './run-menu';
 
 const setProjectAccessInUi = async (session: Session, project: string, choice: AccessChoice): Promise<void> => {
   const { page } = session;
-  await runMenu(session, [/^Settings/]);
+  await runMenu(session, [/^Options/]);
   await page.getByRole('navigation').getByText('Assistant projects', { exact: true }).click();
   await page.getByRole('combobox', { name: `Let the assistant browse ${project}` }).click();
   await page.getByRole('option', { name: choice, exact: true }).click();

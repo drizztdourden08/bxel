@@ -32,6 +32,16 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   list_map_layers: read,
   read_map_cells: read,
   get_animation: read,
+  list_commands: read,
+  run_command: edit,
+  get_view: read,
+  set_view: edit,
+  get_history: read,
+  list_layout: read,
+  set_layout: edit,
+  get_settings: read,
+  set_setting: edit,
+  restart_bxel: saveExport,
 };
 
 const NATIVE_PAIR_TEXT = {
@@ -59,6 +69,8 @@ const MAIN_TEXT = {
   timeout: 'Approve the connection in Bxel within 25 seconds, then try again.',
   stopNotAllowed: 'Only the session that started a headless Bxel can stop it, or a program the owner allowed to restart Bxel. The owner closes any other Bxel.',
   stopNoDiscard: 'This Bxel was not started by this session, so it cannot be stopped with unsaved "discard". Save the documents, or pass unsaved "refuse" or "recover".',
+  restartUnnamed: 'This program did not give a name, so Bxel cannot hand its permissions to the next start.',
+  unsavedRestart: 'Some documents have unsaved changes. Save them, or pass unsaved "recover" to keep them for recovery.',
   unsaved: 'Some documents have unsaved changes. Save them, or pass unsaved "recover" or "discard".',
   unnamed: 'Unnamed program',
   tray: (names: string) => `Bxel is running for ${names}`,

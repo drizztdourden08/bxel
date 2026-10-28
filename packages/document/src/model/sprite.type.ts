@@ -12,6 +12,8 @@ type Layer = {
   readonly name: string;
   readonly visible: boolean;
   readonly locked: boolean;
+  readonly lockTransparency?: boolean;
+  readonly colour?: string;
   readonly cels: Readonly<Record<FrameId, CelId>>;
 };
 

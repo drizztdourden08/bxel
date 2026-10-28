@@ -8,6 +8,7 @@ import type {
   DocumentState,
   Engine,
   HistoryEntry,
+  HistoryList,
   HistoryLimits,
   IdSource,
   Artwork,
@@ -61,6 +62,7 @@ type DocumentHost = {
   readonly execute: (request: TransactionRequest) => TransactionResult;
   readonly undo: (documentId: DocumentId) => TransactionResult;
   readonly redo: (documentId: DocumentId) => TransactionResult;
+  readonly history: (documentId: DocumentId) => HistoryList | null;
   readonly markSaved: (documentId: DocumentId) => boolean;
   readonly markUnsaved: (documentId: DocumentId) => boolean;
   readonly subscribe: (listener: DocumentListener) => () => void;

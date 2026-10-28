@@ -1,6 +1,7 @@
 /* @layer electron-main @kind types */
 import type { CallSession, Grant, HelloClient, InstanceWindow, SessionMode, SessionView, ToolRouteName } from '@bxel/mcp';
 import type { FileKind } from '@bxel/project';
+import type { RestartHandoff } from './restart-handoff.type';
 import type { BridgeServer } from '@drizztdourden08/brock-electron/bridge';
 import type { MainContext } from '@drizztdourden08/brock-electron/main';
 
@@ -43,6 +44,7 @@ type AssistantMain = {
   readonly instance: InstanceState;
   bridge: BridgeServer | null;
   readonly synced: Map<string, string>;
+  handoff: RestartHandoff | null;
 };
 
 type SessionLink = {

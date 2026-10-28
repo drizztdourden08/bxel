@@ -1,0 +1,12 @@
+/* @layer renderer-app @kind style */
+.image-stage {
+  flex: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 0;
+}
+
+.image-stage__header {
+  padding: var(--space-xs) var(--space-sm);
+  border-block-end: var(--border-width-thin) solid var(--c-border);
+}

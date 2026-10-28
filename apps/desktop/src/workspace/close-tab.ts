@@ -1,9 +1,15 @@
 /* @layer renderer-app @kind logic */
+import { useImageTabStore } from '../stores/useImageTabStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { closeWorkspace } from './close-workspace';
 import { focusTab } from './focus-tab';
 
 const closeTab = async (tabId: string): Promise<void> => {
+  const images = useImageTabStore.getState();
+  if (images.tabs.some((each) => each.id === tabId)) {
+    images.close(tabId);
+    return;
+  }
   const store = useWorkspaceStore.getState();
   const tab = store.tabs.find((each) => each.id === tabId);
   if (!tab) return;

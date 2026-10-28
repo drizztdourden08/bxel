@@ -4,8 +4,8 @@ import { commandArgs } from '../context-menu/command-args';
 import type { ZoomArgs } from '../context-menu/menu-args.type';
 import { copyCursor } from '../editor/copy-cursor';
 import { zoomTo } from '../editor/zoom-to';
-import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
+import { ruled } from './ruled';
 
 const STATUS_MENU_COMMANDS: readonly CommandDef[] = [
   { id: 'status.copy_cursor', label: 'Copy the cursor position', group: COMMAND_GROUP.view, run: () => void copyCursor() },
@@ -18,6 +18,6 @@ const STATUS_MENU_COMMANDS: readonly CommandDef[] = [
       if (percent !== undefined) zoomTo(percent);
     },
   },
-].map(editorCommand);
+].map(ruled);
 
 export { STATUS_MENU_COMMANDS };

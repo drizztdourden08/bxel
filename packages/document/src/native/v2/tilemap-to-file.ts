@@ -5,7 +5,13 @@ import type { MapLayerJson } from '../document-json.type';
 import { requireLinks } from './link-needs';
 import type { TilemapFileJson } from './tilemap-file.type';
 
-const layerShell = ({ id, name, visible, locked }: MapLayer): MapLayerJson => ({ id, name, visible, locked });
+const layerShell = ({ id, name, visible, locked, colour }: MapLayer): MapLayerJson => ({
+  id,
+  name,
+  visible,
+  locked,
+  ...(colour === undefined ? {} : { colour }),
+});
 
 const tilemapToFile = (slice: AssetSlice): TilemapFileJson => {
   const { tilemaps = [] } = slice.artwork;

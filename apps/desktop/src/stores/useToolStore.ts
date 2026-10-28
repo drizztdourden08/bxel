@@ -1,13 +1,22 @@
 /* @layer renderer-app @kind hook */
 import { create } from 'zustand';
 import { clampBrushSize } from '../editor/clamp-brush-size';
+import { surfaceKind } from '../editor/tool-catalogue/surface-kind';
+import { switchTool } from '../editor/switch-tool';
 import { toolChange } from '../editor/tool-change';
+import { enterSurfaceChange } from '../editor/tool-surface/enter-surface-change';
+import { recentChange } from '../editor/tool-surface/recent-change';
 import { TOOL_DEFAULTS } from './tool-store.constants';
 import type { ToolState } from './tool-store.type';
 
 const useToolStore = create<ToolState>()((set) => ({
   ...TOOL_DEFAULTS,
   selectTool: (tool) => set((state) => toolChange(state, tool)),
+  setTool: (tool) => set((state) => switchTool(state, tool)),
+  enterSurface: (surface) => set((state) => enterSurfaceChange(state, surfaceKind(surface), surface === 'none')),
+  recordMember: (memberId) => set((state) => recentChange(state, memberId)),
+  loadOptionMemory: (optionMemory) => set({ optionMemory }),
+  setShareBrush: (shareBrush) => set({ shareBrush }),
   setForeground: (foreground) => set({ foreground }),
   setBackground: (background) => set({ background }),
   setColour: (slot, index) => set({ [slot]: index }),

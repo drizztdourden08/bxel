@@ -19,6 +19,7 @@ const CanvasRuler = (props: CanvasRulerProps) => {
       onKeyDown={(event) => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
+        event.stopPropagation();
         openContextMenu(RULER_MENU.zone(props.axis), { axis: props.axis }, { trigger: 'keyboard' });
       }}
       data-grab={ruler.grab ? '' : undefined}
