@@ -5,7 +5,7 @@ import { createElement } from 'react';
 import { readOption } from '../../../editor/tool-options/read-option';
 import { setOption } from '../../../editor/tool-options/set-option';
 import type { OptionChoice, OptionSpec } from '../../../editor/tool-options/tool-options.type';
-import type { KeysOf } from '../../../hooks/useKeysOf.type';
+import type { KeysOf } from '../../../hooks/use-keys-of.type';
 
 const choiceOf = (choice: OptionChoice): ToolbarChoice => ({
   value: choice.value,

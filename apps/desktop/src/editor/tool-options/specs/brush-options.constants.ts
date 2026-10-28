@@ -6,7 +6,7 @@ import { BRUSH_SIZE } from '../../../stores/tool-store.constants';
 import { useToolStore } from '../../../stores/useToolStore';
 import { BRUSH_TIP_CHOICES, OPTION_TEXT } from '../tool-options.constants';
 import type { OptionBase, OptionSpec } from '../tool-options.type';
-import type { BrushTool } from './brush.options.type';
+import type { BrushTool } from './brush-options.type';
 
 const tools = () => useToolStore.getState();
 

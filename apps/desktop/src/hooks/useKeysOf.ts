@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { chordKeys, commands, useCommandChords, useIsMac } from '@drizztdourden08/brock-react';
-import { WATCHED_COMMAND } from './useKeysOf.constants';
-import type { KeysOf } from './useKeysOf.type';
+import { WATCHED_COMMAND } from './use-keys-of.constants';
+import type { KeysOf } from './use-keys-of.type';
 
 const useKeysOf = (): KeysOf => {
   const mac = useIsMac();

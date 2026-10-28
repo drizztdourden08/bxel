@@ -10,7 +10,7 @@ import { turnCells } from '../../../tilemap/turn-cells';
 import type { ToolId } from '../../tool.type';
 import { OPTION_TEXT } from '../tool-options.constants';
 import type { OptionSpec } from '../tool-options.type';
-import type { CellAction, TurnSpec } from './map.options.type';
+import type { CellAction, TurnSpec } from './map-options.type';
 
 const TURNS: readonly TurnSpec[] = [
   { op: 'flipX', flag: 'flipX', name: 'flip_x', label: OPTION_TEXT.flipX, description: OPTION_TEXT.flipXDescription, icon: 'pixel-flip-tile-x', command: SELECTION_COMMAND_ID.flipHorizontal, priority: 10 },

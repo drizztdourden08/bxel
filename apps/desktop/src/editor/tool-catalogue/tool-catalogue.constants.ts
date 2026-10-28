@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind constants */
-import { DRAW_SLOTS } from './slots/draw.slots.constants';
-import { MAP_SLOTS } from './slots/map.slots.constants';
-import { SELECT_SLOTS } from './slots/select.slots.constants';
-import { SHAPE_SLOTS } from './slots/shape.slots.constants';
-import { VIEW_SLOTS } from './slots/view.slots.constants';
+import { DRAW_SLOTS } from './slots/draw-slots.constants';
+import { MAP_SLOTS } from './slots/map-slots.constants';
+import { SELECT_SLOTS } from './slots/select-slots.constants';
+import { SHAPE_SLOTS } from './slots/shape-slots.constants';
+import { VIEW_SLOTS } from './slots/view-slots.constants';
 import type { SlotGroup, ToolSlot } from './tool-catalogue.type';
 
 const SLOT_GROUPS: readonly SlotGroup[] = [
