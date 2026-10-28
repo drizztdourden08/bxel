@@ -48,6 +48,7 @@ interface MapChoice {
 interface LayerStackModel {
   kind: LayerStackKind;
   owner: string;
+  ownerMeta: string | null;
   empty: string | null;
   rows: readonly LayerRowModel[];
   activeId: string | null;

@@ -58,6 +58,7 @@ const useSheetLayerModel = (): LayerStackModel => {
     return {
       kind: 'sheet',
       owner,
+      ownerMeta: null,
       empty: sprites.length === 0 ? LAYER_STACK_TEXT.noSprite : null,
       rows: sheetLayerRows(sprites).map(rowOf),
       activeId: anchor,

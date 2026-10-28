@@ -8,11 +8,11 @@ import type { LayerBarProps } from '../LayerStack.type';
 import './LayerBar.css';
 
 const LayerBar = ({ model }: LayerBarProps) => (
-  <Flex align="center" gap="xs" className="layer-bar">
+  <Flex align="center" gap="xs" wrap className="layer-bar">
     <ButtonGroup aria-label={LAYER_STACK_TEXT.newLayer} className="layer-bar__new">
       <ActionHint hint={LAYER_BAR_HINTS.add}>
-        <Button size="sm" variant="secondary" icon={<Icon name="plus" size={16} />} onClick={model.actions.add}>
-          {LAYER_STACK_TEXT.newLayer}
+        <Button size="sm" variant="secondary" icon={<Icon name="plus" size={16} />} aria-label={LAYER_STACK_TEXT.newLayer} onClick={model.actions.add}>
+          {LAYER_STACK_TEXT.newShort}
         </Button>
       </ActionHint>
       <DropdownMenu

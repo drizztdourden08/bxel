@@ -22,11 +22,12 @@ const useSpriteLayerModel = (): LayerStackModel => {
   return useMemo(() => {
     const empty = tileEdit ? LAYER_STACK_TEXT.noTile : LAYER_STACK_TEXT.noSprite;
     if (!target) {
-      return { kind: 'sprite', owner: '', empty, rows: [], activeId: null, locks: [], maps: NO_MAPS, mapId: null, onMap: noop, frames: 0, actions: spriteLayerActions };
+      return { kind: 'sprite', owner: '', ownerMeta: null, empty, rows: [], activeId: null, locks: [], maps: NO_MAPS, mapId: null, onMap: noop, frames: 0, actions: spriteLayerActions };
     }
     return {
       kind: 'sprite',
       owner: ownerOf(target),
+      ownerMeta: null,
       empty: null,
       rows: layerItems(target, frameSpread(target, scope)),
       activeId: target.layerId,

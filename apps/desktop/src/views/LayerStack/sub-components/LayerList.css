@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind style */
 .layer-list {
+  position: relative;
+  overflow-x: clip;
   display: flex;
   flex-direction: column;
   inline-size: 100%;

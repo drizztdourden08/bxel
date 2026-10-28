@@ -25,6 +25,7 @@ const row = (id: string): LayerRowModel => ({ id, name: id, visible: true, mixed
 const stackOf = (kind: LayerStackModel['kind']): LayerStackModel => ({
   kind,
   owner: 'test',
+  ownerMeta: null,
   empty: null,
   rows: [row('top'), row('bottom')],
   activeId: 'top',

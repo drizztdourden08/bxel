@@ -2,6 +2,7 @@
 .layer-stack {
   flex: 1;
   min-block-size: 0;
+  min-inline-size: 0;
 }
 
 .layer-stack__list {
@@ -14,11 +15,25 @@
 }
 
 .layer-stack__owner {
+  display: flex;
   flex: 1;
+  gap: var(--space-xs);
   min-inline-size: 0;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.layer-stack__owner-name {
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.layer-stack__owner-meta {
+  flex: 0 100 auto;
+  min-inline-size: 0;
+  overflow: hidden;
 }
 
 .layer-stack__count {

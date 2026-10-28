@@ -15,7 +15,7 @@ const useMapLayerModel = (): LayerStackModel => {
   return useMemo(() => {
     const { tilemap, layer } = context ?? {};
     if (!context || !tilemap || !layer) {
-      return { kind: 'map', owner: '', empty: LAYER_STACK_TEXT.noMap, rows: [], activeId: null, locks: [], maps: NO_MAPS, mapId: null, onMap, frames: 0, actions: mapLayerActions };
+      return { kind: 'map', owner: '', ownerMeta: null, empty: LAYER_STACK_TEXT.noMap, rows: [], activeId: null, locks: [], maps: NO_MAPS, mapId: null, onMap, frames: 0, actions: mapLayerActions };
     }
     const rows: LayerRowModel[] = tilemap.layers
       .map((each) => ({
@@ -33,7 +33,8 @@ const useMapLayerModel = (): LayerStackModel => {
     const maps = context.artwork.tilemaps.length > 1 ? context.artwork.tilemaps.map((each) => ({ value: each.id, label: LAYER_STACK_TEXT.map(each.name, each.columns, each.rows) })) : NO_MAPS;
     return {
       kind: 'map',
-      owner: LAYER_STACK_TEXT.map(tilemap.name, tilemap.columns, tilemap.rows),
+      owner: LAYER_STACK_TEXT.mapName(tilemap.name),
+      ownerMeta: LAYER_STACK_TEXT.mapSize(tilemap.columns, tilemap.rows),
       empty: null,
       rows,
       activeId: layer.id,

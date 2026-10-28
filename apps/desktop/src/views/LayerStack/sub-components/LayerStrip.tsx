@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Box, Flex, SegmentedControl } from '@drizztdourden08/tessera';
+import { Box, Flex, SegmentedControl, Text } from '@drizztdourden08/tessera';
 import type { LockKind } from '../../../editor/layer-lock.type';
 import { LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_SCOPES, LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerStripProps } from '../LayerStack.type';
@@ -21,9 +21,11 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
             value: kind,
             icon: LAYER_LOCK_ICONS[kind],
             hint: { label: LAYER_LOCK_TEXT[kind].name, description: LAYER_LOCK_TEXT[kind].description },
+            tooltip: { description: LAYER_LOCK_TEXT[kind].description },
           }))}
           onChange={(kind) => actions.setLock(picked, kind)}
         />
+        <Text as="span" variant="caption" tone="muted" className="layer-strip__lock-name">{LAYER_LOCK_TEXT[lead.lock].name}</Text>
         {model.frames > 0 && (
           <SegmentedControl
             aria-label={LAYER_STACK_TEXT.scope}
