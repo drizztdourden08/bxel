@@ -1,7 +1,12 @@
 /* @layer renderer-app @kind style */
-.tileset-panel {
+.tileset-panel__widget {
   flex: 1;
   min-block-size: 0;
+}
+
+.tileset-panel {
+  block-size: 100%;
+  min-block-size: var(--size-448);
   min-inline-size: 0;
 }
 
