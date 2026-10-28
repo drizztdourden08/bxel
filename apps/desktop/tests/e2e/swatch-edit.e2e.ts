@@ -21,7 +21,7 @@ const NEW_HEX = '#e0a030';
 const CELLS = [{ x: 4, y: 4 }, { x: 5, y: 4 }, { x: 6, y: 4 }];
 
 const swatchLabel = (session: Session, index: number) =>
-  session.page.getByRole('region', { name: 'Palette' }).getByRole('button', { name: new RegExp(`^Swatch ${index},`) });
+  session.page.getByRole('region', { name: 'Palette' }).getByRole('option', { name: new RegExp(`^Swatch ${index},`) });
 
 describe('check 1: editing a swatch colour recolours every pixel that uses it', () => {
   const rig = useRig(openSpriteRig);
@@ -36,12 +36,12 @@ describe('check 1: editing a swatch colour recolours every pixel that uses it', 
     expect(new Set(before).size).toBe(1);
     await swatchLabel(session, SWATCH).dblclick();
     await session.page.getByRole('textbox', { name: 'Hex' }).fill(NEW_HEX.slice(1));
-    await session.page.keyboard.press('Escape');
-    await session.page.getByRole('region', { name: 'Palette' }).getByRole('button', { name: new RegExp(`^Swatch ${SWATCH}, .*${NEW_HEX}`, 'i') }).waitFor();
+    await session.page.getByRole('dialog', { name: `Edit the colour of swatch ${SWATCH}` }).getByRole('button', { name: 'Done' }).click();
+    await session.page.getByRole('region', { name: 'Palette' }).getByRole('option', { name: new RegExp(`^Swatch ${SWATCH}, .*${NEW_HEX}`, 'i') }).waitFor();
     expect(await colours()).toEqual(CELLS.map(() => NEW_HEX));
     expect([...await shown()]).toEqual(indices);
     await session.page.keyboard.press(SHORTCUT.undo);
-    await session.page.getByRole('region', { name: 'Palette' }).getByRole('button', { name: new RegExp(`^Swatch ${SWATCH}, .*${before[0]}`, 'i') }).waitFor();
+    await session.page.getByRole('region', { name: 'Palette' }).getByRole('option', { name: new RegExp(`^Swatch ${SWATCH}, .*${before[0]}`, 'i') }).waitFor();
     expect(await colours()).toEqual(before);
     await session.page.keyboard.press(SHORTCUT.redo);
     expect(await colours()).toEqual(CELLS.map(() => NEW_HEX));

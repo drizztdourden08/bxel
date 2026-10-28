@@ -5,6 +5,7 @@ import { checkRampSwatches } from './check-ramp-swatches';
 import { findRamp } from './find-ramp';
 import { PALETTE_COMMAND_NAME } from './palette-command-name.constants';
 import { rampUpdateSchema } from './ramp-update-schema';
+import { resolveSwatchRefs } from './resolve-swatch-refs';
 import { updateBank } from './update-bank';
 
 const rampUpdate = defineCommand({
@@ -20,7 +21,7 @@ const rampUpdate = defineCommand({
       bank.ramps.filter((other) => other.id !== ramp.id).map((other) => other.name),
       name,
     );
-    const swatches = options.swatches === undefined ? ramp.swatches : checkRampSwatches(bank, options.swatches, 'options.swatches');
+    const swatches = options.swatches === undefined ? ramp.swatches : checkRampSwatches(bank, resolveSwatchRefs(draft, options.swatches, 'options.swatches'), 'options.swatches');
     if (name === ramp.name && swatches === ramp.swatches) return;
     updateBank(draft, bank.id, (current) => ({
       ...current,
