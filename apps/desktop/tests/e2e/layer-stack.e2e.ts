@@ -35,6 +35,7 @@ const tagAndLock = async (session: Session): Promise<void> => {
   await layerRow(session, 'Layer 3').click();
   await session.page.getByRole('button', { name: /^Colour tag/ }).click();
   await session.page.getByRole('menuitemradio', { name: 'Rose' }).click();
+  await session.page.keyboard.press('Escape');
   await session.page.getByRole('button', { name: /^Layer 3\s*,\s*Rose/ }).waitFor({ state: 'attached' });
   await session.page.getByRole('radio', { name: 'Lock transparency' }).click();
   await expect.poll(() => pressed(session, 'Layer 3', 'Locked')).toBe('true');
