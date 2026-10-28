@@ -25,8 +25,6 @@ const BOUNDS_LABELS: Readonly<Record<BoundsPolicy, string>> = {
 };
 
 const PENDING_TEXT = {
-  rotate: (angle: number): string => `Rotate ${angle} degrees`,
-  scale: (width: number, height: number): string => `Scale to ${width} by ${height}`,
   move: 'Move',
   paste: 'Paste',
   targets: (count: number): string => (count === 1 ? '1 sprite' : `${count} sprites`),
@@ -41,8 +39,4 @@ const PENDING_TEXT = {
   noPreview: 'The preview is too large to draw.',
 } as const;
 
-const ROTATE_RANGE = { min: -360, max: 360 } as const;
-
-const SCALE_RANGE = { min: 1, max: MAX_SPRITE_SIZE } as const;
-
-export { BOUNDS_CHOICES, BOUNDS_LABELS, FLIP_LABELS, PENDING_TEXT, PREVIEW_PIXELS, ROTATE_RANGE, SCALE_RANGE, TURN_LABELS };
+export { BOUNDS_CHOICES, BOUNDS_LABELS, FLIP_LABELS, PENDING_TEXT, PREVIEW_PIXELS, TURN_LABELS };

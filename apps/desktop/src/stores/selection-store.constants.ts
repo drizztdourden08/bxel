@@ -5,6 +5,7 @@ const SELECTION_DEFAULTS: SelectionSettings = {
   variant: 'rect',
   mode: 'replace',
   connectivity: 4,
+  sample: 'layer',
   owner: null,
   mask: null,
   draft: null,

@@ -76,6 +76,7 @@ export { countOpaque } from './region/count-opaque';
 export { landRegion } from './region/land-region';
 export { moveMover } from './region/move-mover';
 export { replaceIndex } from './region/replace-index';
+export { affineMatrix, determinant } from './region/affine-matrix';
 export { affineMover } from './region/affine-mover';
 export { distortMover } from './region/distort-mover';
 export { rotateMover } from './region/rotate-mover';

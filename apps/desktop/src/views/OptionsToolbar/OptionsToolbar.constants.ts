@@ -2,7 +2,7 @@
 import type { BrushShape, CombineMode, Connectivity, FillMode, ShapeKind } from '@bxel/raster';
 import type { IconName } from '@drizztdourden08/tessera';
 import { MODE_LABELS, SELECT_LABELS } from '../../editor/selection/selection.constants';
-import type { SelectVariant } from '../../editor/selection/selection.type';
+import type { SampleSource, SelectVariant } from '../../editor/selection/selection.type';
 import {
   CONNECTIVITY_DESCRIPTIONS, FILL_DESCRIPTIONS, MODE_DESCRIPTIONS, MODE_KEYS, SELECT_DESCRIPTIONS, SHAPE_DESCRIPTIONS,
 } from '../../editor/tool-descriptions.constants';
@@ -25,6 +25,7 @@ const OPTIONS_TEXT = {
   selectVariant: 'Selection shape',
   selectMode: 'Selection mode',
   wandNeighbours: 'Wand neighbours',
+  sampleSource: 'Sample from',
   expandCaption: 'Expand 1',
   shrinkCaption: 'Shrink 1',
   pixelPerfectCaption: 'Pixel perfect',
@@ -66,6 +67,15 @@ const NEIGHBOUR_VALUES: readonly string[] = [NEIGHBOUR_CHOICES[4], NEIGHBOUR_CHO
 const NEIGHBOUR_ICONS: Readonly<Record<Connectivity, IconName>> = { 4: 'plus', 8: 'sun' };
 
 const FILL_ICONS: Readonly<Record<FillMode, IconName>> = { contiguous: 'pixel-fill-bucket', global: 'pixel-fill-global' };
+
+const SAMPLE_VALUES: readonly SampleSource[] = ['layer', 'visible'];
+
+const SAMPLE_ICONS: Readonly<Record<SampleSource, IconName>> = { layer: 'layers', visible: 'eye' };
+
+const SAMPLE_HINTS: Readonly<Record<SampleSource, HintSpec>> = {
+  layer: { name: 'Active layer', description: 'The wand and Select by colour look at the active layer only.' },
+  visible: { name: 'All visible layers', description: 'The wand and Select by colour look at the picture as it shows, every visible layer flattened.' },
+};
 
 const SELECT_MODE_ICONS: Readonly<Record<CombineMode, IconName>> = {
   replace: 'pixel-select-rect',
@@ -144,6 +154,6 @@ const SHRINK_HINT: HintSpec = {
 
 export {
   BRUSH_SHAPE_HINTS, BRUSH_SHAPE_ICONS, BRUSH_SHAPES, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILL_ICONS, FILLED_HINT, MAP_TOOL_OPTIONS,
-  NEIGHBOUR_CHOICES, NEIGHBOUR_HINTS, NEIGHBOUR_ICONS, NEIGHBOUR_VALUES, OPTIONS_TEXT, PIXEL_PERFECT_HINT, SELECT_MODE_HINTS, SELECT_MODE_ICONS, SELECT_VARIANT_HINTS,
+  NEIGHBOUR_CHOICES, NEIGHBOUR_HINTS, SAMPLE_HINTS, SAMPLE_ICONS, SAMPLE_VALUES, NEIGHBOUR_ICONS, NEIGHBOUR_VALUES, OPTIONS_TEXT, PIXEL_PERFECT_HINT, SELECT_MODE_HINTS, SELECT_MODE_ICONS, SELECT_VARIANT_HINTS,
   SHAPE_HINTS, SHRINK_HINT, TOOL_OPTIONS,
 };

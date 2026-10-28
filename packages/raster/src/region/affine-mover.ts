@@ -2,22 +2,23 @@
 import type { ResampleAlgorithm, ResampleOptions } from '../resample/resample.type';
 import { affineMatrix, determinant } from './affine-matrix';
 import type { AffineSpec } from './affine.type';
+import { isExactMatrix } from './is-exact-matrix';
 import { pointsArea } from './points-area';
 import type { Mover } from './region.type';
 import { resampledMover } from './resampled-mover';
 
 /**
  * Scale, skew, turn and move the region about a pivot in one resampling pass.
- * The pivot defaults to the middle of the region.
+ * The pivot defaults to the middle of the region. Flips and right angle turns stay exact.
  */
-const affineMover = (spec: AffineSpec, algorithm: ResampleAlgorithm = 'nearest', options: ResampleOptions = {}): Mover =>
-  resampledMover({
-    algorithm,
+const affineMover = (spec: AffineSpec, algorithm: ResampleAlgorithm = 'nearest', options: ResampleOptions = {}): Mover => {
+  const m = affineMatrix(spec);
+  const det = determinant(m);
+  return resampledMover({
+    algorithm: isExactMatrix(m) ? 'nearest' : algorithm,
     options,
     scale: () => 1,
     geometry: ({ box }) => {
-      const m = affineMatrix(spec);
-      const det = determinant(m);
       const cx = spec.pivot ? spec.pivot.x2 / 2 : box.x + box.width / 2;
       const cy = spec.pivot ? spec.pivot.y2 / 2 : box.y + box.height / 2;
       const forward = (x: number, y: number) => ({
@@ -40,5 +41,6 @@ const affineMover = (spec: AffineSpec, algorithm: ResampleAlgorithm = 'nearest',
       };
     },
   });
+};
 
 export { affineMover };

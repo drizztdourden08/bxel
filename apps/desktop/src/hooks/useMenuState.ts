@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { CONFIG_ENTRY_TEXT } from '../config-entry/config-entry.constants';
 import type { EditorMenuState } from '../menu/editor-menu.type';
+import { useSelectionHistoryStore } from '../stores/useSelectionHistoryStore';
 import { useSpriteStore } from '../stores/useSpriteStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { useToolStore } from '../stores/useToolStore';
@@ -20,7 +21,9 @@ const useMenuState = (): EditorMenuState => {
   const isolated = useSpriteStore((s) => s.isolated);
   const map = useTilemapStore(useShallow((s) => ({ tileMode: s.editMode, collision: s.showCollision, terrainBrush: s.terrainBrush, animateTiles: s.animateTiles })));
   const settings = kind === null ? CONFIG_ENTRY_TEXT.noAsset : CONFIG_ENTRY_TEXT.title(kind);
-  const [hasDocument, canUndo, canRedo] = [view !== null, view?.canUndo ?? false, view?.canRedo ?? false];
+  const selectionUndo = useSelectionHistoryStore((s) => s.undo.length > 0);
+  const selectionRedo = useSelectionHistoryStore((s) => s.redo.length > 0);
+  const [hasDocument, canUndo, canRedo] = [view !== null, (view?.canUndo ?? false) || selectionUndo, (view?.canRedo ?? false) || selectionRedo];
   return useMemo(
     () => ({ hasDocument, canUndo, canRedo, ...shown, ...mirror, ...map, surface, kind, isolated, settings }),
     [hasDocument, canUndo, canRedo, shown, mirror, map, surface, kind, isolated, settings],

@@ -1,25 +1,29 @@
 /* @layer renderer-app @kind logic */
 import { indexMask } from '@bxel/raster';
 import type { ByColourArgs } from '../context-menu/menu-args.type';
-import { useToolStore } from '../stores/useToolStore';
+import { useSelectionStore } from '../stores/useSelectionStore';
 import { currentTarget } from './current-target';
-import { celPixels } from './selection/cel-pixels';
+import { commitSelection } from './selection/commit-selection';
+import { mergeMask } from './selection/merge-mask';
 import { pointMask } from './selection/point-mask';
-import { setSelection } from './selection/set-selection';
+import { samplePixels } from './selection/sample-pixels';
+import { selectionMask } from './selection/selection-mask';
 
 const selectByColour = (args: Partial<ByColourArgs>): void => {
   const target = currentTarget();
   if (!target) return;
   const { x, y } = args;
   const at = x === undefined || y === undefined ? null : { x, y };
+  const { mode } = useSelectionStore.getState();
+  const base = selectionMask(target);
   if (args.mode === 'region' && at) {
-    setSelection(target, pointMask(target, 'wand', at, useToolStore.getState().connectivity));
+    commitSelection(target, mergeMask(base, pointMask(target, 'wand', at), mode));
     return;
   }
   const { width, height } = target.sprite;
-  const pixels = celPixels(target);
+  const pixels = samplePixels(target);
   const index = args.index ?? (at ? pixels[at.y * width + at.x] : undefined);
-  if (index !== undefined) setSelection(target, indexMask({ pixels, width, height }, index));
+  if (index !== undefined) commitSelection(target, mergeMask(base, indexMask({ pixels, width, height }, index), mode));
 };
 
 export { selectByColour };

@@ -11,7 +11,7 @@ import { pickHereEntries } from './pick-here-entries';
 
 const transformEntries = (): ContextMenuEntry => ({
   label: CANVAS_MENU.transform,
-  items: [ID.flipHorizontal, ID.flipVertical, ID.turnClockwise, ID.turnCounterClockwise, ID.rotate, ID.scale],
+  items: [ID.flipHorizontal, ID.flipVertical, ID.turnClockwise, ID.turnCounterClockwise, ID.turnHalf, ID.transform, ID.rotate, ID.scale],
 });
 
 const thinSelection = (): boolean => {

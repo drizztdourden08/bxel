@@ -8,11 +8,14 @@ import { cutSelection } from '../editor/selection/cut-selection';
 import { deleteSelection } from '../editor/selection/delete-selection';
 import { invertSelection } from '../editor/selection/invert-selection';
 import { pasteClip } from '../editor/selection/paste-clip';
+import { reselect } from '../editor/selection/reselect';
+import { useSelectionNamesStore } from '../stores/useSelectionNamesStore';
 import { resizeSelection } from '../editor/selection/resize-selection';
 import { selectAll } from '../editor/selection/select-all';
 import { startFlip } from '../editor/transform/start-flip';
 import { startRotate } from '../editor/transform/start-rotate';
 import { startScale } from '../editor/transform/start-scale';
+import { startTransform } from '../editor/transform/start-transform';
 import { startTurn } from '../editor/transform/start-turn';
 import { hasActiveDocument } from '../files/has-active-document';
 import { enterAction } from '../sheet/enter-action';
@@ -42,6 +45,8 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     run: mapOr(() => useTilemapStore.getState().setSelection(null), clearSelection),
   },
   pixelCommand({ id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: invertSelection }),
+  pixelCommand({ id: ID.reselect, label: 'Reselect', group, chord: 'Mod+Alt+D', whileTyping: false, run: reselect }),
+  pixelCommand({ id: ID.save, label: 'Saved selections...', group, run: () => useSelectionNamesStore.getState().show() }),
   pixelCommand({ id: ID.expand, label: 'Expand selection by 1 pixel', group, run: () => resizeSelection(1) }),
   pixelCommand({ id: ID.shrink, label: 'Shrink selection by 1 pixel', group, run: () => resizeSelection(-1) }),
   pixelCommand({ id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: copySelection }),
@@ -110,6 +115,8 @@ const TRANSFORM_COMMANDS: readonly CommandDef[] = [
     whileTyping: false,
     run: () => startTurn('counter-clockwise'),
   }),
+  pixelCommand({ id: ID.turnHalf, label: 'Rotate 180', group, chord: 'Mod+Shift+R', whileTyping: false, run: () => startTurn('half') }),
+  pixelCommand({ id: ID.transform, label: 'Transform', group, chord: 'Mod+T', whileTyping: false, run: () => startTransform() }),
   pixelCommand({ id: ID.rotate, label: 'Rotate...', group, run: startRotate }),
   pixelCommand({ id: ID.scale, label: 'Scale...', group, run: startScale }),
 ];

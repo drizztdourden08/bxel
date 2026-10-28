@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { FocusEventHandler, KeyboardEventHandler, PointerEvent, PointerEventHandler, RefObject } from 'react';
 import type { CombineMode, MaskView, Point } from '@bxel/raster';
-import type { DragShape } from '../../../editor/selection/selection.type';
+import type { DragKeys, DragShape, ShapeHold } from '../../../editor/selection/selection.type';
 import type { PixelDraw, PixelPoint, PixelViewportHandle } from '../../PixelViewport';
 
 interface PaintGesture {
@@ -38,7 +38,8 @@ interface PivotFrame {
 type PivotDrag = AxisDrag;
 
 type ActiveDrag =
-  | { kind: 'shape'; shape: DragShape; base: MaskView | null; mode: CombineMode }
+  | { kind: 'shape'; shape: DragShape; base: MaskView | null; mode: CombineMode; keys: DragKeys; hold: ShapeHold }
+  | { kind: 'outline'; start: Point; base: MaskView }
   | { kind: 'float'; start: Point; origin: Point };
 
 interface SelectGesture {

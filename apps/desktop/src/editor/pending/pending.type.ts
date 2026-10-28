@@ -1,17 +1,15 @@
 /* @layer renderer-app @kind types */
 import type { DocumentId, FlipAxis, SpriteId, TurnDirection } from '@bxel/document';
-import type { BoundsPolicy, MaskView, Point } from '@bxel/raster';
+import type { MaskView, Point } from '@bxel/raster';
 import type { Clip } from '../selection/selection.type';
+import type { TransformSpec } from '../transform/transform.type';
 
 type PendingSpec =
   | { kind: 'flip'; axis: FlipAxis }
   | { kind: 'turn'; direction: TurnDirection }
-  | { kind: 'rotate'; angle: number; bounds: BoundsPolicy }
-  | { kind: 'scale'; width: number; height: number; bounds: BoundsPolicy }
+  | TransformSpec
   | { kind: 'move'; offset: Point }
   | { kind: 'paste'; clip: Clip; offset: Point };
-
-type DialogSpec = Extract<PendingSpec, { kind: 'rotate' | 'scale' }>;
 
 interface PendingEdit {
   documentId: DocumentId;
@@ -48,4 +46,4 @@ interface PendingScopeText {
   layers: string;
 }
 
-export type { DialogSpec, OtherFrame, PendingEdit, PendingOutcome, PendingScopeText, PendingSpec, PreviewFrame };
+export type { OtherFrame, PendingEdit, PendingOutcome, PendingScopeText, PendingSpec, PreviewFrame };

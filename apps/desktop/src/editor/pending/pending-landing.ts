@@ -6,6 +6,7 @@ import type { EditorTarget } from '../editor.type';
 import type { PendingEdit } from './pending.type';
 import { placeClip } from './place-clip';
 import { shiftMask } from './shift-mask';
+import { transformLanding } from '../transform/transform-landing';
 
 const pendingLanding = (target: EditorTarget, pending: PendingEdit): MaskView | null => {
   const { spec, mask } = pending;
@@ -14,6 +15,7 @@ const pendingLanding = (target: EditorTarget, pending: PendingEdit): MaskView | 
     const limit = clipMask(target);
     return limit ? combineMasks(placed, limit, 'intersect') : placed;
   }
+  if (spec.kind === 'transform') return mask ? transformLanding(target, mask, spec) : null;
   if (!mask) return null;
   if (spec.kind === 'flip') return transformMask(mask, FLIP_ORIENTATION[spec.axis]);
   if (spec.kind === 'turn') return transformMask(mask, TURN_ORIENTATION[spec.direction]);

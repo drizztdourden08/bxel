@@ -10,7 +10,7 @@ import { strokeOutline } from './stroke-outline';
 const paintSelection = (ctx: CanvasRenderingContext2D, view: PixelView, look: OverlayLook): void => {
   const { mask, draft, vertices } = useSelectionStore.getState();
   const { pending, outcome } = usePendingStore.getState();
-  const shown = pending ? (outcome?.landing ?? null) : (draft ?? mask);
+  const shown = pending ? (pending.spec.kind === 'transform' ? null : (outcome?.landing ?? null)) : (draft ?? mask);
   if (shown?.width === view.imageWidth && shown.height === view.imageHeight) strokeOutline(ctx, view, shown, look);
   const pointer = useReadoutStore.getState().pointer;
   if (vertices.length > 0) paintPolygon(ctx, view, pointer ? [...vertices, pointer] : vertices, look);

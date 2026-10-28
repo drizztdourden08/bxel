@@ -8,6 +8,7 @@ const useSelectionStore = create<SelectionState>()((set) => ({
   setVariant: (variant) => set({ variant, vertices: [], draft: null }),
   setMode: (mode) => set({ mode }),
   setConnectivity: (connectivity) => set({ connectivity }),
+  setSample: (sample) => set({ sample }),
   setMask: (mask, owner) => set({ mask, owner: mask ? owner : null, draft: null, vertices: [] }),
   setDraft: (draft) => set({ draft }),
   setVertices: (vertices) => set({ vertices }),

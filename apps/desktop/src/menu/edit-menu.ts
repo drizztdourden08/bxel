@@ -25,9 +25,11 @@ const editMenu = (state: EditorMenuState): MenuItem => {
       'separator',
       menuItem(ID.selectAll, 'Select all', off),
       menuItem(ID.clear, 'Deselect', off),
+      menuItem(ID.reselect, 'Reselect', off),
       menuItem(ID.invert, 'Invert selection', off),
       menuItem(ID.expand, 'Expand selection by 1 pixel', off),
       menuItem(ID.shrink, 'Shrink selection by 1 pixel', off),
+      menuItem(ID.save, 'Saved selections...', off),
       ...(hasPart(state.hasDocument ? state.surface : 'sprite', 'transform') ? ['separator' as const, transformMenu(state)] : []),
     ],
   };

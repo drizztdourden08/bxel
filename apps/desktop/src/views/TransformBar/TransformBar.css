@@ -1,0 +1,17 @@
+/* @layer renderer-app @kind style */
+.transform-bar {
+  flex: none;
+  padding: var(--space-xs) var(--space-sm);
+  border-block-end: var(--border-width-thin) solid var(--c-border);
+  background: var(--c-surface-raised);
+}
+
+.transform-bar__group {
+  padding-inline: var(--space-sm);
+  border-inline: var(--border-width-thin) solid var(--c-border);
+}
+
+.transform-bar__note {
+  min-inline-size: 0;
+  color: var(--c-text-dim);
+}

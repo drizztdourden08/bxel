@@ -9,7 +9,7 @@ const usage = {
   ],
   avoidWhen: [
     { case: 'The edit applies at once, such as a pencil stroke or a layer command.', use: 'OptionsToolbar' },
-    { case: 'The edit needs typed values before it can preview.', use: 'TransformDialog' },
+    { case: 'The edit needs typed values before it can preview.', use: 'TransformBar' },
   ],
   rules: [
     'The bar reads the pending edit and its preview from the pending store, so it takes no props and shows nothing when no edit waits.',

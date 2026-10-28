@@ -26,11 +26,14 @@ const SELECTION_TEXT = {
   nothingSelected: 'Select some pixels first.',
   nothingToPaste: 'Copy a selection first.',
   tooLarge: 'The copied pixels are larger than this sprite.',
+  savedSizeChanged: (name: string): string => `The saved selection "${name}" was made for another canvas size.`,
 } as const;
 
 const SELECTION_LABELS = {
   cut: 'Cut',
   delete: 'Delete selection',
+  save: (name: string): string => `Save selection ${name}`,
+  forget: (name: string): string => `Delete saved selection ${name}`,
 } as const;
 
 const NUDGE_STEP = 1;

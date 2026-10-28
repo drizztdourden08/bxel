@@ -7,7 +7,7 @@ import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { buttonItem, choose, hintChoice } from '../../../toolbar-items';
 import { useHintKeys } from '../../ActionHint';
 import {
-  EXPAND_HINT, OPTIONS_TEXT, SELECT_MODE_HINTS, SELECT_MODE_ICONS, SELECT_VARIANT_HINTS, SHRINK_HINT,
+  EXPAND_HINT, OPTIONS_TEXT, SAMPLE_HINTS, SAMPLE_ICONS, SAMPLE_VALUES, SELECT_MODE_HINTS, SELECT_MODE_ICONS, SELECT_VARIANT_HINTS, SHRINK_HINT,
 } from '../OptionsToolbar.constants';
 import { neighbourItem } from './neighbour-item';
 
@@ -18,6 +18,8 @@ const useSelectItems = (): ToolbarItem[] => {
   const setVariant = useSelectionStore((state) => state.setVariant);
   const setMode = useSelectionStore((state) => state.setMode);
   const setConnectivity = useSelectionStore((state) => state.setConnectivity);
+  const sample = useSelectionStore((state) => state.sample);
+  const setSample = useSelectionStore((state) => state.setSample);
   const expandKeys = useHintKeys(EXPAND_HINT);
   const shrinkKeys = useHintKeys(SHRINK_HINT);
   return [
@@ -38,6 +40,16 @@ const useSelectItems = (): ToolbarItem[] => {
       onChange: choose(SELECT_MODES, setMode),
     },
     ...(variant === 'wand' ? [neighbourItem('wand-neighbours', OPTIONS_TEXT.wandNeighbours, connectivity, setConnectivity)] : []),
+    ...(variant === 'wand' || variant === 'colour'
+      ? [{
+          kind: 'group' as const,
+          id: 'select-sample',
+          label: OPTIONS_TEXT.sampleSource,
+          value: sample,
+          choices: SAMPLE_VALUES.map((each) => hintChoice(each, SAMPLE_ICONS[each], SAMPLE_HINTS[each])),
+          onChange: choose(SAMPLE_VALUES, setSample),
+        }]
+      : []),
     buttonItem({ id: 'select-expand', icon: 'maximize-2', hint: EXPAND_HINT, keys: expandKeys, caption: OPTIONS_TEXT.expandCaption, onSelect: () => resizeSelection(1) }),
     buttonItem({ id: 'select-shrink', icon: 'minimize-2', hint: SHRINK_HINT, keys: shrinkKeys, caption: OPTIONS_TEXT.shrinkCaption, onSelect: () => resizeSelection(-1) }),
   ];

@@ -21,7 +21,7 @@ import { ScopeBar } from '../ScopeBar';
 import { SplitDialog } from '../SplitDialog';
 import { TilemapDialog } from '../TilemapDialog';
 import { useTilesetMenu } from '../TilesetPanel';
-import { TransformDialog } from '../TransformDialog';
+import { TransformBar } from '../TransformBar';
 import { WorkspaceProgress } from '../WorkspaceProgress';
 import { EDITOR_SCREEN_LABEL } from './EditorScreen.constants';
 import { StageBody } from './sub-components/StageBody';
@@ -41,6 +41,7 @@ const EditorScreen = () => {
       <LegacyBar />
       <MigrationBar />
       <FrameBar />
+      <TransformBar />
       <PresetMoveBar />
       <Flex className="editor-screen__body" {...commandZone(COMMAND_ZONE.canvas)}>
         <ToolbarHost>
@@ -55,7 +56,6 @@ const EditorScreen = () => {
       <EditorStatus />
       <RecoveryDialog />
       <ExportDialog />
-      <TransformDialog />
       <TilemapDialog />
       <SplitDialog />
       <DialogHost />

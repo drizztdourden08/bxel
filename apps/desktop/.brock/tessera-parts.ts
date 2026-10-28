@@ -65,7 +65,7 @@ declare module '@drizztdourden08/tessera' {
         | 'TilesetPanel'
         | 'TimelinePanel'
         | 'ToolRail'
-        | 'TransformDialog'
+        | 'TransformBar'
         | 'WorkspaceProgress';
     };
   }

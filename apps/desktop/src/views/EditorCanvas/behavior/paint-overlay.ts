@@ -8,6 +8,7 @@ import { paintAxes } from './paint-axes';
 import { paintCursor } from './paint-cursor';
 import { paintGuides } from './paint-guides';
 import { paintSelection } from './paint-selection';
+import { paintTransform } from './paint-transform';
 
 const paintOverlay: PixelDraw = (ctx, view) => {
   const look = overlayLook(ctx.canvas);
@@ -17,6 +18,7 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   paintGuides(ctx, view, look);
   paintAxes(ctx, view, symmetry, look);
   paintCursor(ctx, view, symmetry, look);
+  paintTransform(ctx, view, look);
 };
 
 export { paintOverlay };
