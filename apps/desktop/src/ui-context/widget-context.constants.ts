@@ -10,4 +10,10 @@ const WIDGET_CONTEXT = {
   tileset: 'bxel.widget.tileset',
 } as const;
 
-export { WIDGET_CONTEXT };
+const TOOLBAR_FLAG = {
+  tools: 'bxel.toolbar.tools',
+  canvas: 'bxel.toolbar.canvas',
+  options: 'bxel.toolbar.options',
+} as const;
+
+export { TOOLBAR_FLAG, WIDGET_CONTEXT };

@@ -1,9 +1,12 @@
 /* @layer renderer-app @kind types */
+import type { WidgetSized } from '@drizztdourden08/brock-react';
 import type { z } from 'zod';
 import type { LAYOUT_OP_SCHEMA } from '@bxel/mcp';
 
 type LayoutOp = z.infer<typeof LAYOUT_OP_SCHEMA>;
 
-type Runners = { readonly [K in LayoutOp['op']]: (op: Extract<LayoutOp, { op: K }>) => void };
+type LayoutRun = { readonly problem: string | null; readonly sized: WidgetSized | null };
 
-export type { LayoutOp, Runners };
+type Runners = { readonly [K in LayoutOp['op']]: (op: Extract<LayoutOp, { op: K }>) => WidgetSized | void };
+
+export type { LayoutOp, LayoutRun, Runners };

@@ -13,7 +13,7 @@ const LAYOUT_RUNNERS: Runners = {
   resize: (op) => {
     const to = op.rect ?? op.size;
     if (to === undefined) throw new Error('resize needs a size or a rect.');
-    widgets.resize(op.widget, to);
+    return widgets.resize(op.widget, to);
   },
   applyPreset: (op) => widgets.applyPreset(op.name),
   resetWidgets: () => widgets.reset(),

@@ -34,12 +34,12 @@ const Navigator = () => {
   const pointer = useNavigatorPointer(thumb?.scale ?? 1);
   useElementStyle(thumbBox, thumb ? { 'inline-size': `${thumb.width}px`, 'block-size': `${thumb.height}px` } : {});
   return (
-    <Box className="navigator" role="group" aria-label={NAVIGATOR_TEXT.region}>
-      <Box ref={stage} className="navigator__stage">
+    <Box className="view-map" role="group" aria-label={NAVIGATOR_TEXT.region}>
+      <Box ref={stage} className="view-map__stage">
         {thumb ? (
           <Box
             ref={thumbBox}
-            className="navigator__thumb"
+            className="view-map__thumb"
             tabIndex={0}
             role="application"
             aria-roledescription={NAVIGATOR_TEXT.roleDescription}
@@ -50,16 +50,16 @@ const Navigator = () => {
             }}
             {...pointer}
           >
-            <Canvas ref={canvas} className="navigator__canvas" aria-hidden="true" />
-            <Box ref={mark} className="navigator__mark" hidden aria-hidden="true" />
-            <Box ref={frame} className="navigator__frame" hidden aria-hidden="true" />
+            <Canvas ref={canvas} className="view-map__canvas" aria-hidden="true" />
+            <Box ref={mark} className="view-map__mark" hidden aria-hidden="true" />
+            <Box ref={frame} className="view-map__frame" hidden aria-hidden="true" />
           </Box>
         ) : (
           <Text variant="caption" tone="muted">{NAVIGATOR_TEXT.empty}</Text>
         )}
       </Box>
       <Text as="span" id={hintId} className="visually-hidden">{thumb ? said : NAVIGATOR_TEXT.hint}</Text>
-      {thumb && <Text as="span" variant="caption" tone="muted" className="navigator__caption" aria-hidden="true">{NAVIGATOR_TEXT.caption(width, height, percent)}</Text>}
+      {thumb && <Text as="span" variant="caption" tone="muted" className="view-map__caption" aria-hidden="true">{NAVIGATOR_TEXT.caption(width, height, percent)}</Text>}
     </Box>
   );
 };

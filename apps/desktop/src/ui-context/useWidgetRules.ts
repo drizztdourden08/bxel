@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind hook */
-import { useSetAppContext } from '@drizztdourden08/brock-react';
+import { useSetAppContext, useShowFlags } from '@drizztdourden08/brock-react';
 import { evaluate } from './evaluate';
 import { useBxelContext } from './useBxelContext';
-import { WIDGET_CONTEXT } from './widget-context.constants';
+import { TOOLBAR_FLAG, WIDGET_CONTEXT } from './widget-context.constants';
 
 const useWidgetRules = (): void => {
   const context = useBxelContext((current) => current);
@@ -15,6 +15,11 @@ const useWidgetRules = (): void => {
   useSetAppContext(WIDGET_CONTEXT.view, visible('view'));
   useSetAppContext(WIDGET_CONTEXT.sheet, visible('sheet'));
   useSetAppContext(WIDGET_CONTEXT.tileset, visible('tileset'));
+  useShowFlags({
+    [TOOLBAR_FLAG.tools]: visible('toolbar.tools'),
+    [TOOLBAR_FLAG.canvas]: visible('toolbar.canvas'),
+    [TOOLBAR_FLAG.options]: visible('toolbar.options'),
+  });
 };
 
 export { useWidgetRules };
