@@ -95,7 +95,7 @@ const checksManager = async (session: Session): Promise<void> => {
   await expectAccessible(session, 'Project window, columns');
   await page.getByRole('radio', { name: 'Grid' }).click();
   await page.getByRole('gridcell', { name: SAMPLE.sprites[0], exact: true }).first().click();
-  await page.getByRole('button', { name: 'Properties', exact: true }).click();
+  await page.getByRole('complementary', { name: 'Preview' }).getByRole('button', { name: 'Properties', exact: true }).click();
   await page.getByRole('textbox', { name: 'Name' }).waitFor();
   await expectAccessible(session, 'Properties window, pinned to a file');
   await page.keyboard.press('Escape');

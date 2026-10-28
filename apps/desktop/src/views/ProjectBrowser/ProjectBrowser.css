@@ -145,7 +145,19 @@
 }
 
 .browser-thumb__icon {
+  inline-size: 50%;
+  block-size: 50%;
   color: var(--c-text-muted);
+}
+
+.browser-view-controls__option {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.browser-view-controls__sort {
+  inline-size: var(--size-128);
 }
 
 .browser-name {
@@ -256,15 +268,24 @@
   .browser-row__cell--palette,
   .browser-row__cell--folder,
   .browser-row__cell--users,
-  .browser-head__cell.browser-row__cell--palette,
-  .browser-head__cell.browser-row__cell--folder,
-  .browser-head__cell.browser-row__cell--users {
+  .browser-row__cell--modified {
     display: none;
   }
 
   .browser-head,
   .browser-row {
-    grid-template-columns: minmax(var(--size-160), 3fr) repeat(4, minmax(0, 1fr));
+    grid-template-columns: minmax(var(--size-96), 3fr) repeat(3, minmax(var(--size-48), 1fr));
+  }
+}
+
+@container browser-list (width < 28rem) {
+  .browser-row__cell--frames {
+    display: none;
+  }
+
+  .browser-head,
+  .browser-row {
+    grid-template-columns: minmax(var(--size-96), 3fr) repeat(2, minmax(var(--size-48), 1fr));
   }
 }
 

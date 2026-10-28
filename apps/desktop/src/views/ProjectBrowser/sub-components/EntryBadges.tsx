@@ -1,23 +1,20 @@
 /* @layer renderer-app @kind component */
-import { Box, Icon, Text } from '@drizztdourden08/tessera';
+import { Box, Icon } from '@drizztdourden08/tessera';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
-import type { BrowserEntry } from '../../../project-browser/project-browser.type';
+import type { FileEntry } from '../../../project-browser/project-browser.type';
+import type { EntryProps } from '../ProjectBrowser.type';
+import { UsedByMark } from './UsedByMark';
 
-const EntryBadges = ({ entry }: { readonly entry: BrowserEntry }) => {
-  if (entry.kind === 'folder') return null;
-  const { row, facts, pinned } = entry;
-  const users = facts.usedBy.length;
-  if (!row.dirty && !facts.open && !pinned && users === 0) return null;
+const hasMarks = (entry: FileEntry): boolean => entry.row.dirty || entry.facts.open || entry.pinned || entry.facts.usedBy.length > 0;
+
+const EntryBadges = ({ entry }: EntryProps) => {
+  if (entry.kind === 'folder' || !hasMarks(entry)) return null;
   return (
     <Box className="browser-badges">
-      {row.dirty && <Icon className="browser-badges__unsaved" name="circle-dot" size="sm" aria-label={BROWSER_TEXT.unsavedBadge} />}
-      {facts.open && <Icon name="panel-right" size="sm" aria-label={BROWSER_TEXT.openBadge} />}
-      {pinned && <Icon name="pin" size="sm" aria-label={BROWSER_TEXT.pinnedBadge} />}
-      {users > 0 && (
-        <Text as="span" variant="caption" tone="muted" title={BROWSER_TEXT.usedBy(users)}>
-          {`x${users}`}
-        </Text>
-      )}
+      {entry.row.dirty && <Icon className="browser-badges__unsaved" name="circle-dot" size={14} aria-label={BROWSER_TEXT.unsavedBadge} />}
+      {entry.facts.open && <Icon name="panel-right" size={14} aria-label={BROWSER_TEXT.openBadge} />}
+      {entry.pinned && <Icon name="pin" size={14} aria-label={BROWSER_TEXT.pinnedBadge} />}
+      {entry.facts.usedBy.length > 0 && <UsedByMark users={entry.facts.usedBy.length} />}
     </Box>
   );
 };

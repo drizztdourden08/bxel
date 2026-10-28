@@ -13,11 +13,12 @@ const ViewControls = () => {
     <Box className="browser-view-controls">
       <SegmentedControl<BrowserView>
         size="sm"
-        label={BROWSER_TEXT.viewGroup}
+        aria-label={BROWSER_TEXT.viewGroup}
         value={view}
-        options={VIEW_OPTIONS.map((option) => ({ value: option.value, label: <Box as="span" className="browser-view-controls__option"><Icon name={option.icon} size="sm" />{option.label}</Box>, title: option.label }))}
+        options={VIEW_OPTIONS.map((option) => ({ value: option.value, label: <Box as="span" className="browser-view-controls__option"><Icon name={option.icon} size={14} />{option.label}</Box>, title: option.label }))}
         onChange={setView}
       />
+      <Box className="browser-view-controls__sort">
       <Select
         size="sm"
         aria-label={BROWSER_TEXT.sort}
@@ -25,6 +26,7 @@ const ViewControls = () => {
         value={sort.key}
         onChange={(value) => isSort(value) && setSort({ key: value, descending: sort.descending })}
       />
+      </Box>
       <IconButton
         label={sort.descending ? BROWSER_TEXT.descending : BROWSER_TEXT.ascending}
         size="sm"

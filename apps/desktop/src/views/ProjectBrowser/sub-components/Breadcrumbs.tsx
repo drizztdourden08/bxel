@@ -22,8 +22,8 @@ const Breadcrumbs = () => {
       ))}
       {hidden.length > 0 && (
         <>
-          <Icon name="chevron-right" size="sm" />
-          <DropdownMenu groups={hiddenGroups} label={BROWSER_TEXT.breadcrumbs} trigger={{ label: 'Hidden folders', icon: 'ellipsis', iconOnly: true }} size="xs" />
+          <Icon name="chevron-right" size={14} />
+          <DropdownMenu groups={hiddenGroups} label={BROWSER_TEXT.breadcrumbs} trigger={{ label: 'Hidden folders', icon: 'ellipsis', iconOnly: true }} size="sm" />
         </>
       )}
       {tail.map((crumb) => (

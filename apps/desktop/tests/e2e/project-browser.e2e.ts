@@ -20,9 +20,10 @@ const CAVE = 'Cave';
 const cell = (session: Session, name: string) => session.page.getByRole('gridcell', { name, exact: true }).first();
 
 const search = async (session: Session, text: string): Promise<void> => {
-  const box = session.page.getByRole('searchbox', { name: 'Search the project' }).or(session.page.getByRole('textbox', { name: 'Search the project' }));
-  await box.first().fill(text);
+  await session.page.getByLabel('Search the project').fill(text);
 };
+
+const preview = (session: Session) => session.page.getByRole('complementary', { name: 'Preview' });
 
 const projectRow = (session: Session, name: string) => session.page.getByRole('list', { name: 'Projects' }).getByRole('listitem').filter({ hasText: name });
 
@@ -64,9 +65,11 @@ const browsesInThreeViews = async (session: Session, place: string): Promise<voi
   await openGallery(session, place);
   await session.page.getByRole('toolbar', { name: 'Browse' }).waitFor({ timeout: POLL_MS });
   await search(session, 'kind:sprite');
-  await cell(session, 'hero').waitFor({ timeout: POLL_MS });
-  await cell(session, 'hero').click();
-  await session.page.getByRole('button', { name: 'Properties', exact: true }).waitFor();
+  const first = session.page.getByRole('gridcell').first();
+  await first.waitFor({ timeout: POLL_MS });
+  const name = (await first.getAttribute('aria-label')) ?? '';
+  await first.click();
+  await preview(session).getByRole('button', { name: 'Properties', exact: true }).waitFor();
   await shoot(session, 'pm-grid');
   await session.page.getByRole('radio', { name: 'List' }).click();
   await session.page.getByRole('group', { name: 'Search filters' }).getByText('kind:sprite').waitFor();
@@ -75,7 +78,7 @@ const browsesInThreeViews = async (session: Session, place: string): Promise<voi
   await session.page.getByRole('radio', { name: 'Columns' }).click();
   await shoot(session, 'pm-columns');
   await session.page.getByRole('radio', { name: 'Grid' }).click();
-  expect(await cell(session, 'hero').getAttribute('aria-selected')).toBe('true');
+  expect(await cell(session, name).getAttribute('aria-selected')).toBe('true');
 };
 
 const playsAnAnimation = async (session: Session, place: string): Promise<void> => {
@@ -87,10 +90,10 @@ const playsAnAnimation = async (session: Session, place: string): Promise<void> 
   const counter = session.page.getByRole('status').filter({ hasText: /^Frame \d+ of \d+$/ });
   await counter.waitFor({ timeout: POLL_MS });
   const before = await counter.textContent();
-  await session.page.getByRole('button', { name: 'Play', exact: true }).click();
+  await preview(session).getByRole('button', { name: 'Play', exact: true }).click();
   await expect.poll(() => counter.textContent(), { timeout: POLL_MS }).not.toBe(before);
   await shoot(session, 'pm-preview-playing');
-  await session.page.getByRole('button', { name: 'Pause', exact: true }).click();
+  await preview(session).getByRole('button', { name: 'Pause', exact: true }).click();
 };
 
 const opensTheFileOnDoubleClick = async (session: Session, place: string): Promise<void> => {

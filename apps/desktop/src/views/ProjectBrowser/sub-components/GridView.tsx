@@ -16,6 +16,7 @@ const GridView = () => {
     selected: selection,
     onChange: (ids) => useBrowserStore.getState().select({ ids, anchor: ids[0] ?? null }),
     getRects: () => grid.current?.getRects() ?? [],
+    canStart: (event) => !(event.target instanceof Element && event.target.closest('[data-marquee-key]')),
   });
   const tile = TILE_OF[thumb] ?? TILE_OF[96];
   return (

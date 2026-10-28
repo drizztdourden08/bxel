@@ -23,7 +23,7 @@ const sizeWindow = (session: Session): Promise<void> =>
     window?.setSize(1280, 800);
   });
 
-const search = (session: Session, text: string) => session.page.getByRole('textbox', { name: 'Search the project' }).fill(text);
+const search = (session: Session, text: string) => session.page.getByLabel('Search the project').fill(text);
 
 const demo = async (session: Session, place: string): Promise<void> => {
   const { page } = session;
@@ -40,7 +40,8 @@ const demo = async (session: Session, place: string): Promise<void> => {
   await page.waitForTimeout(800);
   await shot(session, 2, 'browse-grid-roots');
   await page.getByRole('gridcell', { name: 'sprites', exact: true }).first().dblclick();
-  await page.waitForTimeout(800);
+  await page.waitForTimeout(1200);
+  await shoot(session, 'dbg-after-dblclick');
   await page.getByRole('gridcell', { name: 'hero', exact: true }).first().click();
   await page.waitForTimeout(500);
   await shot(session, 3, 'browse-grid-selected');
@@ -63,7 +64,7 @@ const demo = async (session: Session, place: string): Promise<void> => {
   await shot(session, 8, 'browse-nothing-matches');
   await search(session, '');
   await page.getByRole('gridcell', { name: 'hero', exact: true }).first().click();
-  await page.getByRole('button', { name: 'Properties', exact: true }).click();
+  await page.getByRole('complementary', { name: 'Preview' }).getByRole('button', { name: 'Properties', exact: true }).click();
   await page.getByRole('textbox', { name: 'Name' }).waitFor();
   await page.waitForTimeout(500);
   await shot(session, 9, 'properties-pinned-from-browse');
@@ -84,10 +85,12 @@ const gallery = async (session: Session, place: string): Promise<void> => {
   await openHub(session, 'Project');
   await search(session, 'kind:animation');
   await page.getByRole('gridcell').first().click();
-  await page.getByRole('button', { name: 'Play', exact: true }).click();
+  await page.waitForTimeout(1200);
+  await shoot(session, 'dbg-after-animation-click');
+  await page.getByRole('complementary', { name: 'Preview' }).getByRole('button', { name: 'Play', exact: true }).click();
   await page.waitForTimeout(250);
   await shot(session, 11, 'preview-animation-playing');
-  await page.getByRole('button', { name: 'Pause', exact: true }).click();
+  await page.getByRole('complementary', { name: 'Preview' }).getByRole('button', { name: 'Pause', exact: true }).click();
   await search(session, 'kind:palette');
   await page.getByRole('gridcell').first().click();
   await page.waitForTimeout(400);

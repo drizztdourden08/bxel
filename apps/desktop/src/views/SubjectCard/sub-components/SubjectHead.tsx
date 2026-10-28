@@ -11,7 +11,7 @@ const SubjectHead = ({ subject }: SubjectPartProps) => {
   const kind = subject.kind === 'project' ? 'other' : subject.kind;
   return (
     <Box className="subject-card__head">
-      <Icon className="subject-card__icon" name={KIND_ICON[kind]} size="lg" />
+      <Icon className="subject-card__icon" name={KIND_ICON[kind]} size={24} />
       <Box className="subject-card__titles">
         <Text as="h2" variant="subtitle" className="subject-card__name" title={subject.name}>
           {subject.name}

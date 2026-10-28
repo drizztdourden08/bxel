@@ -8,11 +8,11 @@ import { ThumbCanvas } from './ThumbCanvas';
 
 const FileThumb = ({ entry }: { readonly entry: BrowserEntry }) => {
   const { model } = useBrowserContext();
-  if (entry.kind === 'folder') return <Icon className="browser-thumb__icon" name={entry.linked ? 'link' : 'folder'} size="lg" />;
+  if (entry.kind === 'folder') return <Icon className="browser-thumb__icon" name={entry.linked ? 'link' : 'folder'} />;
   const image = model.artwork && entry.key ? thumbImage(model.artwork, entry.key) : null;
   if (image) return <ThumbCanvas image={image} label={entry.row.name} />;
   if (entry.row.preview) return <Image className="browser-thumb__canvas" src={entry.row.preview} alt={entry.row.name} pixelated />;
-  return <Icon className="browser-thumb__icon" name={KIND_ICON[entry.row.kind]} size="lg" />;
+  return <Icon className="browser-thumb__icon" name={KIND_ICON[entry.row.kind]} />;
 };
 
 export { FileThumb };

@@ -37,7 +37,7 @@ const SourcesPane = () => {
         <Text as="p" variant="caption" tone="muted">{BROWSER_TEXT.noPinned}</Text>
       ) : (
         pinned.map((entry) => (
-          <Button key={entry.id} size="sm" variant="ghost" icon={<Icon name="pin" size="sm" />} onClick={() => useBrowserStore.getState().select({ ids: [entry.id], anchor: entry.id })}>
+          <Button key={entry.id} size="sm" variant="ghost" icon={<Icon name="pin" size={14} />} onClick={() => useBrowserStore.getState().select({ ids: [entry.id], anchor: entry.id })}>
             {entry.row.name}
           </Button>
         ))

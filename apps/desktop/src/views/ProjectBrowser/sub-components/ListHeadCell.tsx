@@ -18,7 +18,7 @@ const ListHeadCell = ({ column }: { readonly column: Column }) => {
       variant="ghost"
       className={`browser-head__cell ${column.className}`}
       aria-sort={sortState(sorted, sort.descending)}
-      icon={sorted ? <Icon name={sort.descending ? 'chevron-down' : 'chevron-up'} size="sm" /> : undefined}
+      icon={sorted ? <Icon name={sort.descending ? 'chevron-down' : 'chevron-up'} size={14} /> : undefined}
       onClick={() => useBrowserStore.getState().setSort({ key: column.key, descending: sorted && !sort.descending })}
     >
       {column.label}

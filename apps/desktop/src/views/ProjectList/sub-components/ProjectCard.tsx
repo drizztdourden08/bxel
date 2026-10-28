@@ -5,7 +5,7 @@ import type { ProjectPartProps } from '../ProjectList.type';
 
 const ProjectCard = ({ model, project }: ProjectPartProps) => (
   <ListItemRow
-    icon={<Icon name={project.open ? 'folder-open' : 'folder'} size="lg" />}
+    icon={<Icon name={project.open ? 'folder-open' : 'folder'} size={24} />}
     name={<Text variant="label">{project.name}</Text>}
     meta={project.rootRealPath}
     selected={model.selected?.key === project.key}

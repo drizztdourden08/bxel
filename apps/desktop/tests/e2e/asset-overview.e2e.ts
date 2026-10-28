@@ -24,9 +24,9 @@ const KINDS = [
 const showsProperties = async (session: Session, entry: (typeof KINDS)[number]): Promise<void> => {
   const { page } = session;
   await openHub(session, 'Project');
-  await page.getByRole('textbox', { name: 'Search the project' }).fill(`kind:${entry.kind.toLowerCase()} ${entry.name}`);
+  await page.getByLabel('Search the project').fill(`kind:${entry.kind.toLowerCase()} ${entry.name}`);
   await page.getByRole('gridcell', { name: entry.name, exact: true }).first().click();
-  await page.getByRole('button', { name: 'Properties', exact: true }).click();
+  await page.getByRole('complementary', { name: 'Preview' }).getByRole('button', { name: 'Properties', exact: true }).click();
   await page.getByRole('textbox', { name: 'Name' }).waitFor({ timeout: POLL_MS });
   await page.getByRole('button', { name: 'Unpin, follow the selected tab' }).waitFor();
   const preview = page.getByRole('img', { name: entry.name }).or(page.getByRole('group', { name: new RegExp(`^${entry.name}, `) }));

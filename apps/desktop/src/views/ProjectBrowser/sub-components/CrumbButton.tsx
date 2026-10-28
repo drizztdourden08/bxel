@@ -17,7 +17,7 @@ const CrumbButton = ({ crumb, last }: { readonly crumb: Crumb; readonly last: bo
       <Button size="sm" variant="ghost" aria-current={last ? 'page' : undefined} onClick={() => useBrowserStore.getState().goTo(crumb.path)}>
         {crumb.label}
       </Button>
-      {siblings.length > 0 && <DropdownMenu groups={groups} label={BROWSER_TEXT.siblings} trigger={{ label: `${BROWSER_TEXT.siblings}: ${crumb.label}`, icon: 'chevron-right', iconOnly: true }} size="xs" />}
+      {siblings.length > 0 && <DropdownMenu groups={groups} label={BROWSER_TEXT.siblings} trigger={{ label: `${BROWSER_TEXT.siblings}: ${crumb.label}`, icon: 'chevron-right', iconOnly: true }} size="sm" />}
     </Box>
   );
 };

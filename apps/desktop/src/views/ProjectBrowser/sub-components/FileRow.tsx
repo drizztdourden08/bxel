@@ -34,7 +34,7 @@ const FileRow = ({ entry, column = false, open = false }: RowProps) => {
           {!column && <EntryBadges entry={entry} />}
         </Box>
         {!column && <RowCells cells={rowCells(entry)} />}
-        {entry.kind === 'folder' && <Icon className="browser-row__chevron" name="chevron-right" size="sm" />}
+        {entry.kind === 'folder' && <Icon className="browser-row__chevron" name="chevron-right" size={14} />}
       </Box>
       <EntryMenu point={handlers.point} groups={handlers.groups} label={label} onClose={handlers.closeMenu} />
     </>
