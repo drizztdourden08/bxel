@@ -53,6 +53,7 @@ const toDocumentJson = (artwork: Artwork): DocumentJson => ({
   sprites: artwork.sprites.map(spriteToJson),
   sheets: artwork.sheets,
   presets: artwork.presets,
+  ...((artwork.brushes ?? []).length > 0 ? { brushes: artwork.brushes } : {}),
   tilesets: artwork.tilesets,
   tilemaps: artwork.tilemaps.map(tilemapToJson),
 });

@@ -6,7 +6,9 @@ const MAP_TOOLS: readonly ToolDef[] = [
   { id: 'eraser', label: 'Erase', description: 'Clear map cells. Drag to clear a line of cells.', key: 'e', group: 'draw' },
   { id: 'fill', label: 'Fill', description: 'Fill the connected area of equal cells with the picked tile.', key: 'g', group: 'draw' },
   { id: 'picker', label: 'Pick', description: 'Pick the tile and its turn from a map cell.', key: 'i', group: 'draw' },
-  { id: 'shape', label: 'Rectangle', description: 'Drag a rectangle of the picked tile, filled or as an outline.', key: 'u', group: 'draw' },
+  { id: 'rect', label: 'Rectangle', description: 'Drag a rectangle of the picked tile, filled or as an outline.', key: 'u', group: 'draw' },
+  { id: 'line', label: 'Line', description: 'Drag a line of the picked tile across the map cells.', key: 'l', group: 'draw' },
+  { id: 'spray', label: 'Random place', description: 'Drag to place tiles picked at random from the selected tiles. The same seed gives the same scatter.', key: 'Shift+B', group: 'draw' },
   {
     id: 'select',
     label: 'Select',

@@ -8,6 +8,7 @@ interface StatusInput {
   colours: readonly [PaletteSlot | null, PaletteSlot | null];
   clean: boolean;
   recovered: boolean;
+  hint?: string;
 }
 
 export type { StatusInput };

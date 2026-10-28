@@ -12,8 +12,6 @@ const TOOL_DEFAULTS: ToolSettings = {
   pixelPerfect: false,
   fillMode: 'contiguous',
   connectivity: 4,
-  shape: 'line',
-  filled: false,
   symmetryX: false,
   symmetryY: false,
   axisX: null,

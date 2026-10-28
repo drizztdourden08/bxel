@@ -63,6 +63,7 @@ interface KeyContext {
   viewport: RefObject<PixelViewportHandle | null>;
   active: RefObject<boolean>;
   anchor: RefObject<Point | null>;
+  points: RefObject<Point[]>;
 }
 
 interface CanvasKeys {

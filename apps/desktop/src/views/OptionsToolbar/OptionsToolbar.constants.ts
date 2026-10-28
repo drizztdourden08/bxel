@@ -1,13 +1,13 @@
 /* @layer renderer-app @kind constants */
-import type { BrushShape, CombineMode, Connectivity, FillMode, ShapeKind } from '@bxel/raster';
+import type { BrushShape, CombineMode, Connectivity, FillMode } from '@bxel/raster';
 import type { IconName } from '@drizztdourden08/tessera';
 import { MODE_LABELS, SELECT_LABELS } from '../../editor/selection/selection.constants';
 import type { SelectVariant } from '../../editor/selection/selection.type';
 import {
-  CONNECTIVITY_DESCRIPTIONS, FILL_DESCRIPTIONS, MODE_DESCRIPTIONS, MODE_KEYS, SELECT_DESCRIPTIONS, SHAPE_DESCRIPTIONS,
+  CONNECTIVITY_DESCRIPTIONS, FILL_DESCRIPTIONS, MODE_DESCRIPTIONS, MODE_KEYS, SELECT_DESCRIPTIONS,
 } from '../../editor/tool-descriptions.constants';
 import type { ToolId } from '../../editor/tool.type';
-import { FILL_LABELS, SHAPE_LABELS } from '../../editor/tools.constants';
+import { FILL_LABELS } from '../../editor/tools.constants';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import { SELECTION_COMMAND_ID } from '../../keymap/selection-command-id.constants';
 import type { HintSpec } from '../ActionHint';
@@ -21,22 +21,27 @@ const OPTIONS_TEXT = {
   brushShape: 'Brush shape',
   fillMode: 'Fill area',
   neighbours: 'Fill neighbours',
-  shapeKind: 'Shape kind',
   selectVariant: 'Selection shape',
   selectMode: 'Selection mode',
   wandNeighbours: 'Wand neighbours',
   expandCaption: 'Expand 1',
   shrinkCaption: 'Shrink 1',
   pixelPerfectCaption: 'Pixel perfect',
-  filledCaption: 'Filled',
 } as const;
 
 const TOOL_OPTIONS: Readonly<Record<ToolId, readonly OptionKind[]>> = {
-  pencil: ['brush', 'pixelPerfect'],
-  eraser: ['brush', 'pixelPerfect'],
-  fill: ['fill'],
-  picker: [],
-  shape: ['shape', 'brush'],
+  pencil: ['brush', 'pixelPerfect', 'ink', 'symmetry'],
+  eraser: ['brush', 'pixelPerfect', 'symmetry'],
+  spray: ['spray', 'ink', 'symmetry'],
+  fill: ['fill', 'fillExtras', 'ink', 'symmetry'],
+  gradient: ['gradient'],
+  picker: ['pick'],
+  line: ['brush', 'shapeExtras', 'ink', 'symmetry'],
+  curve: ['brush', 'filledShape', 'shapeExtras', 'ink', 'symmetry'],
+  rect: ['brush', 'filledShape', 'shapeExtras', 'ink', 'symmetry'],
+  ellipse: ['brush', 'filledShape', 'ink', 'symmetry'],
+  contour: ['brush', 'filledShape', 'shapeExtras', 'ink', 'symmetry'],
+  polygon: ['brush', 'filledShape', 'ink', 'symmetry'],
   zoom: [],
   hand: [],
   select: ['select'],
@@ -46,9 +51,16 @@ const TOOL_OPTIONS: Readonly<Record<ToolId, readonly OptionKind[]>> = {
 const MAP_TOOL_OPTIONS: Readonly<Record<ToolId, readonly OptionKind[]>> = {
   pencil: ['mapFlags'],
   eraser: [],
+  spray: ['mapFlags', 'mapRandom'],
   fill: ['mapFlags'],
+  gradient: [],
   picker: [],
-  shape: ['mapFlags', 'mapFilled'],
+  line: ['mapFlags'],
+  curve: [],
+  rect: ['mapFlags', 'mapFilled'],
+  ellipse: [],
+  contour: [],
+  polygon: [],
   zoom: [],
   hand: [],
   select: ['mapSelection', 'mapFlags'],
@@ -103,17 +115,6 @@ const NEIGHBOUR_HINTS: Readonly<Record<Connectivity, HintSpec>> = {
   8: { name: '8 neighbours', description: CONNECTIVITY_DESCRIPTIONS[8] },
 };
 
-const SHAPE_HINTS: Readonly<Record<ShapeKind, HintSpec>> = {
-  line: { name: SHAPE_LABELS.line, description: SHAPE_DESCRIPTIONS.line },
-  rect: { name: SHAPE_LABELS.rect, description: SHAPE_DESCRIPTIONS.rect },
-  ellipse: { name: SHAPE_LABELS.ellipse, description: SHAPE_DESCRIPTIONS.ellipse },
-};
-
-const FILLED_HINT: HintSpec = {
-  name: 'Filled',
-  description: 'Fill the inside of rectangles and ellipses. Lines have no inside.',
-};
-
 const SELECT_VARIANT_HINTS: Readonly<Record<SelectVariant, HintSpec>> = {
   rect: { name: SELECT_LABELS.rect, description: SELECT_DESCRIPTIONS.rect },
   ellipse: { name: SELECT_LABELS.ellipse, description: SELECT_DESCRIPTIONS.ellipse },
@@ -143,7 +144,7 @@ const SHRINK_HINT: HintSpec = {
 };
 
 export {
-  BRUSH_SHAPE_HINTS, BRUSH_SHAPE_ICONS, BRUSH_SHAPES, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILL_ICONS, FILLED_HINT, MAP_TOOL_OPTIONS,
+  BRUSH_SHAPE_HINTS, BRUSH_SHAPE_ICONS, BRUSH_SHAPES, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILL_ICONS, MAP_TOOL_OPTIONS,
   NEIGHBOUR_CHOICES, NEIGHBOUR_HINTS, NEIGHBOUR_ICONS, NEIGHBOUR_VALUES, OPTIONS_TEXT, PIXEL_PERFECT_HINT, SELECT_MODE_HINTS, SELECT_MODE_ICONS, SELECT_VARIANT_HINTS,
-  SHAPE_HINTS, SHRINK_HINT, TOOL_OPTIONS,
+  SHRINK_HINT, TOOL_OPTIONS,
 };

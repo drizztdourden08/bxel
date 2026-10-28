@@ -4,7 +4,23 @@ import type { IconName, ToolbarItem, ToolbarSlot } from '@drizztdourden08/tesser
 import type { FlagOp } from '../../tilemap/tilemap.type';
 import type { HintSpec } from '../ActionHint';
 
-type OptionKind = 'brush' | 'pixelPerfect' | 'fill' | 'shape' | 'select' | 'mapFlags' | 'mapFilled' | 'mapSelection';
+type OptionKind =
+  | 'brush'
+  | 'pixelPerfect'
+  | 'fill'
+  | 'select'
+  | 'mapFlags'
+  | 'mapFilled'
+  | 'mapSelection'
+  | 'ink'
+  | 'pick'
+  | 'fillExtras'
+  | 'spray'
+  | 'gradient'
+  | 'filledShape'
+  | 'shapeExtras'
+  | 'symmetry'
+  | 'mapRandom';
 
 type OptionItems = Readonly<Record<OptionKind, ToolbarItem[]>>;
 

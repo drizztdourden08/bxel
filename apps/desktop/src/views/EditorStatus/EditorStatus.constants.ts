@@ -29,6 +29,13 @@ const COMMON_ROWS: readonly HintShortcut[] = [
 
 const STRAIGHT_LINE: HintShortcut = { label: 'Straight line', keys: ['shift'], mouse: 'drag' };
 
+const SHAPE_ROWS: readonly HintShortcut[] = [
+  { label: 'Draw from the centre', keys: ['alt'], mouse: 'drag' },
+  { label: 'Move the shape while dragging', keys: ['space'], mouse: 'drag' },
+  { label: 'Draw with the back colour', mouse: 'right' },
+  PICK_COLOUR,
+];
+
 const TOOL_ROWS: Readonly<Record<ToolId, readonly HintShortcut[]>> = {
   pencil: [
     { label: 'Draw with the front colour', mouse: 'drag' },
@@ -39,10 +46,28 @@ const TOOL_ROWS: Readonly<Record<ToolId, readonly HintShortcut[]>> = {
   eraser: [{ label: 'Erase', mouse: 'drag' }, STRAIGHT_LINE, PICK_COLOUR],
   fill: [{ label: 'Fill with the front colour', mouse: 'left' }, { label: 'Fill with the back colour', mouse: 'right' }, PICK_COLOUR],
   picker: [{ label: 'Pick the front colour', mouse: 'left' }, { label: 'Pick the back colour', mouse: 'right' }],
-  shape: [
-    { label: 'Draw with the front colour', mouse: 'drag' },
-    { label: 'Keep square, round or snapped', keys: ['shift'], mouse: 'drag' },
-    { label: 'Draw with the back colour', mouse: 'right' },
+  spray: [{ label: 'Spray with the front colour', mouse: 'drag' }, { label: 'Spray with the back colour', mouse: 'right' }, PICK_COLOUR],
+  gradient: [
+    { label: 'Drag the gradient line', mouse: 'drag' },
+    { label: 'Snap the angle', keys: ['shift'], mouse: 'drag' },
+    { label: 'Run the gradient the other way', mouse: 'right' },
+    PICK_COLOUR,
+  ],
+  line: [{ label: 'Draw a line', mouse: 'drag' }, ...SHAPE_ROWS, { label: 'Snap to a clean ratio', keys: ['shift'], mouse: 'drag' }],
+  curve: [
+    { label: 'Drag the ends, release, then move to bend', mouse: 'drag' },
+    { label: 'Click to finish the curve', mouse: 'left' },
+    { label: 'Finish or cancel', keys: ['enter'] },
+    PICK_COLOUR,
+  ],
+  rect: [{ label: 'Draw a rectangle', mouse: 'drag' }, ...SHAPE_ROWS, { label: 'Keep it square', keys: ['shift'], mouse: 'drag' }],
+  ellipse: [{ label: 'Draw an ellipse', mouse: 'drag' }, ...SHAPE_ROWS, { label: 'Keep it round', keys: ['shift'], mouse: 'drag' }],
+  contour: [{ label: 'Draw a free outline', mouse: 'drag' }, { label: 'Draw with the back colour', mouse: 'right' }, PICK_COLOUR],
+  polygon: [
+    { label: 'Click each corner', mouse: 'left' },
+    { label: 'Snap the edge to a clean ratio', keys: ['shift'], mouse: 'left' },
+    { label: 'Close the polygon', keys: ['enter'] },
+    { label: 'Remove the last corner', keys: ['backspace'] },
     PICK_COLOUR,
   ],
   zoom: [{ label: 'Zoom in', mouse: 'left' }, { label: 'Zoom out', mouse: 'right' }],
@@ -70,7 +95,14 @@ const MAP_ROWS: Readonly<Record<ToolId, readonly HintShortcut[]>> = {
   eraser: [{ label: 'Clear cells', mouse: 'drag' }],
   fill: [{ label: 'Fill the connected cells with the picked tile', mouse: 'left' }, ...TURN_ROWS],
   picker: [{ label: 'Pick the tile and its turn', mouse: 'left' }],
-  shape: [{ label: 'Drag a rectangle of the picked tile', mouse: 'drag' }, ...TURN_ROWS],
+  rect: [{ label: 'Drag a rectangle of the picked tile', mouse: 'drag' }, ...TURN_ROWS],
+  line: [{ label: 'Drag a line of the picked tile', mouse: 'drag' }, ...TURN_ROWS],
+  spray: [{ label: 'Place random tiles from the selection', mouse: 'drag' }, ...TURN_ROWS],
+  gradient: [],
+  curve: [],
+  ellipse: [],
+  contour: [],
+  polygon: [],
   zoom: [{ label: 'Zoom in', mouse: 'left' }, { label: 'Zoom out', mouse: 'right' }],
   hand: [{ label: 'Move the map', mouse: 'drag' }],
   select: [

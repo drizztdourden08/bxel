@@ -5,12 +5,16 @@ import { beginShape } from '../../src/editor/begin-shape';
 import { constrainCorner } from '../../src/editor/constrain-corner';
 import type { ShapeSpec } from '../../src/editor/editor.type';
 import { shapeRequest } from '../../src/editor/shape-request';
+import type { ShapeMods } from '../../src/editor/shape-mods.type';
 import { updateShape } from '../../src/editor/update-shape';
 import { openEditor } from './editor-harness';
 
 const spec = (extra: Partial<ShapeSpec> = {}): ShapeSpec => ({
   shape: 'rect',
   filled: false,
+  radius: 0,
+  evenSteps: false,
+  rule: null,
   index: 5,
   brush: { shape: 'square', size: 1 },
   symmetry: {},
@@ -18,6 +22,8 @@ const spec = (extra: Partial<ShapeSpec> = {}): ShapeSpec => ({
   to: { x: 4, y: 5 },
   ...extra,
 });
+
+const PLAIN: ShapeMods = { constrain: false, centre: false, move: false };
 
 const KINDS: readonly ShapeKind[] = ['line', 'rect', 'ellipse'];
 
@@ -27,8 +33,8 @@ describe('a shape', () => {
     ({ shape, filled }) => {
       const { host, target, pixels } = openEditor();
       const session = beginShape({ target: target(), spec: spec({ shape, filled }) });
-      updateShape(session, { x: 20, y: 13 }, false);
-      updateShape(session, { x: 14, y: 11 }, false);
+      updateShape(session, { x: 20, y: 13 }, PLAIN);
+      updateShape(session, { x: 14, y: 11 }, PLAIN);
       const drawn = session.indices.filter((value) => value === 5).length;
       expect(drawn).toBeGreaterThan(1);
       expect(host.execute(shapeRequest(target(), session)).ok).toBe(true);
@@ -40,7 +46,7 @@ describe('a shape', () => {
     const { host, target, pixels } = openEditor();
     const brush = { shape: 'circle', size: 3 } as const;
     const session = beginShape({ target: target(), spec: spec({ shape: 'ellipse', brush, symmetry: { x2: 32, y2: 32 }, from: { x: 3, y: 3 }, to: { x: 3, y: 3 } }) });
-    updateShape(session, { x: 9, y: 7 }, false);
+    updateShape(session, { x: 9, y: 7 }, PLAIN);
     expect(session.indices[5 * 32 + 3]).toBe(5);
     expect(session.indices[5 * 32 + 28]).toBe(5);
     expect(session.indices[26 * 32 + 3]).toBe(5);
@@ -52,8 +58,8 @@ describe('a shape', () => {
   it('leaves no trace of an earlier corner when the pointer moves back', () => {
     const { target } = openEditor();
     const wandered = beginShape({ target: target(), spec: spec({ shape: 'line' }) });
-    updateShape(wandered, { x: 25, y: 25 }, false);
-    updateShape(wandered, { x: 9, y: 5 }, false);
+    updateShape(wandered, { x: 25, y: 25 }, PLAIN);
+    updateShape(wandered, { x: 9, y: 5 }, PLAIN);
     const direct = beginShape({ target: target(), spec: spec({ shape: 'line', to: { x: 9, y: 5 } }) });
     expect(wandered.indices).toEqual(direct.indices);
     expect(wandered.rgba).toEqual(direct.rgba);
@@ -62,7 +68,7 @@ describe('a shape', () => {
   it('is one undo step labelled with the shape', () => {
     const { host, documentId, target, pixels } = openEditor();
     const session = beginShape({ target: target(), spec: spec({ shape: 'ellipse' }) });
-    updateShape(session, { x: 12, y: 12 }, false);
+    updateShape(session, { x: 12, y: 12 }, PLAIN);
     host.execute(shapeRequest(target(), session));
     expect(host.view(documentId)?.lastEvent.label).toBe('Ellipse');
     expect(host.undo(documentId).ok).toBe(true);
@@ -71,11 +77,11 @@ describe('a shape', () => {
 });
 
 describe('Shift on a shape', () => {
-  it('snaps a line to the nearest of eight directions', () => {
+  it('snaps a line to the nearest clean ratio', () => {
     const from = { x: 10, y: 10 };
     expect(constrainCorner('line', from, { x: 20, y: 12 })).toEqual({ x: 20, y: 10 });
     expect(constrainCorner('line', from, { x: 11, y: 3 })).toEqual({ x: 10, y: 3 });
-    expect(constrainCorner('line', from, { x: 16, y: 14 })).toEqual({ x: 16, y: 16 });
+    expect(constrainCorner('line', from, { x: 16, y: 14 })).toEqual({ x: 16, y: 13 });
     expect(constrainCorner('line', from, { x: 4, y: 15 })).toEqual({ x: 4, y: 16 });
   });
 
@@ -89,9 +95,39 @@ describe('Shift on a shape', () => {
   it('draws the constrained shape on the overlay', () => {
     const { target } = openEditor();
     const constrained = beginShape({ target: target(), spec: spec({ shape: 'line', from: { x: 2, y: 2 }, to: { x: 2, y: 2 } }) });
-    updateShape(constrained, { x: 12, y: 4 }, true);
+    updateShape(constrained, { x: 12, y: 4 }, { ...PLAIN, constrain: true });
     expect(constrained.spec.to).toEqual({ x: 12, y: 2 });
     expect(constrained.indices[2 * 32 + 12]).toBe(5);
     expect(constrained.indices[4 * 32 + 12]).toBe(0);
+  });
+});
+
+describe('the modifiers during a shape drag', () => {
+  it('draws from the centre while Alt is held', () => {
+    const { target } = openEditor();
+    const session = beginShape({ target: target(), spec: spec({ shape: 'rect', from: { x: 10, y: 10 }, to: { x: 10, y: 10 } }) });
+    updateShape(session, { x: 14, y: 13 }, { ...PLAIN, centre: true });
+    expect(session.spec.from).toEqual({ x: 6, y: 7 });
+    expect(session.spec.to).toEqual({ x: 14, y: 13 });
+  });
+
+  it('moves the whole shape while Space is held and keeps its size', () => {
+    const { target } = openEditor();
+    const session = beginShape({ target: target(), spec: spec({ shape: 'rect', from: { x: 4, y: 4 }, to: { x: 4, y: 4 } }) });
+    updateShape(session, { x: 8, y: 7 }, PLAIN);
+    updateShape(session, { x: 11, y: 9 }, { ...PLAIN, move: true });
+    expect(session.spec.from).toEqual({ x: 7, y: 6 });
+    expect(session.spec.to).toEqual({ x: 11, y: 9 });
+    updateShape(session, { x: 14, y: 12 }, PLAIN);
+    expect(session.spec.from).toEqual({ x: 7, y: 6 });
+    expect(session.spec.to).toEqual({ x: 14, y: 12 });
+  });
+
+  it('shows the ratio of a snapped line', () => {
+    const { target } = openEditor();
+    const session = beginShape({ target: target(), spec: spec({ shape: 'line', from: { x: 2, y: 2 }, to: { x: 2, y: 2 } }) });
+    updateShape(session, { x: 12, y: 7 }, { ...PLAIN, constrain: true });
+    expect(session.label).toBe('2:1');
+    expect(session.spec.to).toEqual({ x: 12, y: 7 });
   });
 });

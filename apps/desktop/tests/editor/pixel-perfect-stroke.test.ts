@@ -32,6 +32,7 @@ const sessionOf = (target: EditorTarget, spec: Case, mask: MaskView | null): Str
   mask,
   kind: 'stroke',
   tool: 'pencil',
+  inverse: false,
   index: 5,
   options: { brush: spec.brush, pixelPerfect: true, symmetry: spec.symmetry },
   points: [],

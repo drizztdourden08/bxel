@@ -12,7 +12,10 @@ const plain = (event: KeyboardEvent<HTMLElement>): boolean => !event.altKey && !
 
 const handles = (event: KeyboardEvent<HTMLElement>, context: KeyContext): boolean => {
   if (event.key in ARROW_DELTAS) return !event.ctrlKey && !event.shiftKey && moveCursor(event.key, context);
-  if (event.key === 'Escape') context.anchor.current = null;
+  if (event.key === 'Escape') {
+    context.anchor.current = null;
+    context.points.current = [];
+  }
   const pressing = PRESS_KEYS.includes(event.key) && (event.key === 'Enter' || context.active.current);
   return pressing && pressKey(event, context);
 };

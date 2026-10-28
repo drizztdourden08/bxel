@@ -1,13 +1,17 @@
 /* @layer renderer-app @kind hook */
 import { create } from 'zustand';
 import { clampBrushSize } from '../editor/clamp-brush-size';
+import { repeatEffect } from '../editor/repeat-effect';
 import { toolChange } from '../editor/tool-change';
 import { TOOL_DEFAULTS } from './tool-store.constants';
 import type { ToolState } from './tool-store.type';
 
-const useToolStore = create<ToolState>()((set) => ({
+const useToolStore = create<ToolState>()((set, get) => ({
   ...TOOL_DEFAULTS,
-  selectTool: (tool) => set((state) => toolChange(state, tool)),
+  selectTool: (tool) => {
+    if (get().tool === tool) repeatEffect(tool);
+    set((state) => toolChange(state, tool));
+  },
   setForeground: (foreground) => set({ foreground }),
   setBackground: (background) => set({ background }),
   setColour: (slot, index) => set({ [slot]: index }),
@@ -21,8 +25,6 @@ const useToolStore = create<ToolState>()((set) => ({
   setPixelPerfect: (pixelPerfect) => set({ pixelPerfect }),
   setFillMode: (fillMode) => set({ fillMode }),
   setConnectivity: (connectivity) => set({ connectivity }),
-  setShape: (shape) => set({ shape }),
-  setFilled: (filled) => set({ filled }),
   toggleSymmetry: (axis) => set((state) => (axis === 'x' ? { symmetryX: !state.symmetryX } : { symmetryY: !state.symmetryY })),
   setAxis: (axis, doubled) => set(axis === 'x' ? { axisX: doubled } : { axisY: doubled }),
   setLastPoint: (lastPoint) => set({ lastPoint }),

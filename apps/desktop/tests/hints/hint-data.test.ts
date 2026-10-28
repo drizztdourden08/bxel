@@ -52,7 +52,7 @@ describe('the hint texts', () => {
 
 describe('the tool rail', () => {
   it('names a tool button with the tool alone and puts the key in the hint', () => {
-    const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
+    const keys = { pencil: undefined, eraser: undefined, spray: undefined, fill: undefined, gradient: undefined, picker: undefined, line: undefined, curve: undefined, rect: undefined, ellipse: undefined, contour: undefined, polygon: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
     const context: RailItemContext = { defs: MAP_TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
     const toggles = railItems(context).filter((item) => item.kind === 'toggle');
     expect(toggles.map((item) => item.label)).toEqual(MAP_TOOLS.map((def) => def.label));
@@ -60,7 +60,7 @@ describe('the tool rail', () => {
   });
 
   it('lists every tool of the editor as a toggle named with the tool alone', () => {
-    const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
+    const keys = { pencil: undefined, eraser: undefined, spray: undefined, fill: undefined, gradient: undefined, picker: undefined, line: undefined, curve: undefined, rect: undefined, ellipse: undefined, contour: undefined, polygon: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
     const context: RailItemContext = { defs: TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
     const toggles = railItems(context).filter((item) => item.kind === 'toggle');
     expect(toggles.map((item) => item.label).sort()).toEqual(TOOLS.map((def) => def.label).sort());

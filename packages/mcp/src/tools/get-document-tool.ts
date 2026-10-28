@@ -91,6 +91,13 @@ const sheet = z.strictObject({
   entries: COUNT_SCHEMA,
 });
 
+const brush = z.strictObject({
+  brushId: z.string(),
+  name: z.string(),
+  width: COUNT_SCHEMA,
+  height: COUNT_SCHEMA,
+});
+
 const animation = z.strictObject({
   animationId: ANIMATION_ID_SCHEMA,
   name: z.string(),
@@ -122,6 +129,7 @@ const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
     truncated: z.boolean(),
     animations: z.array(animation).describe('The animations. Read one with get_animation. The frame sprites an animation owns are not in sprites.'),
     sheets: z.array(sheet),
+    brushes: z.array(brush).describe('The custom brushes saved in the artwork. Add them with brush.add and stamp them with pixels.stamp.'),
     tilesets: z.array(tileset).describe('The tilesets. Read the tiles of one with list_map_layers.'),
     tilemaps: z.array(tilemap).describe('The tilemaps. Read the layers and cells of one with list_map_layers and read_map_cells.'),
   }),

@@ -1,7 +1,27 @@
 /* @layer renderer-app @kind types */
-type ToolId = 'pencil' | 'eraser' | 'fill' | 'picker' | 'shape' | 'zoom' | 'hand' | 'select' | 'move';
+type ToolId =
+  | 'pencil'
+  | 'eraser'
+  | 'spray'
+  | 'fill'
+  | 'gradient'
+  | 'picker'
+  | 'line'
+  | 'curve'
+  | 'rect'
+  | 'ellipse'
+  | 'contour'
+  | 'polygon'
+  | 'zoom'
+  | 'hand'
+  | 'select'
+  | 'move';
 
 type StrokeTool = 'pencil' | 'eraser';
+
+type ShapeTool = 'line' | 'rect' | 'ellipse';
+
+type PathTool = 'curve' | 'polygon' | 'contour';
 
 type ToolGroup = 'draw' | 'select' | 'view';
 
@@ -13,4 +33,4 @@ interface ToolDef {
   group: ToolGroup;
 }
 
-export type { StrokeTool, ToolDef, ToolGroup, ToolId };
+export type { PathTool, ShapeTool, StrokeTool, ToolDef, ToolGroup, ToolId };

@@ -8,7 +8,7 @@ import { TOOL_ICONS } from '../../src/icons/tool-icons.constants';
 import { hasPart } from '../../src/surface/has-part';
 import { surfaceOf } from '../../src/surface/surface-of';
 
-const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
+const keys = { pencil: undefined, eraser: undefined, spray: undefined, fill: undefined, gradient: undefined, picker: undefined, line: undefined, curve: undefined, rect: undefined, ellipse: undefined, contour: undefined, polygon: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
 
 const labelsOn = (surface: Parameters<typeof toolsOf>[0]): string[] =>
   railItems({ defs: toolsOf(surface, TOOLS), tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS }).flatMap((item) =>

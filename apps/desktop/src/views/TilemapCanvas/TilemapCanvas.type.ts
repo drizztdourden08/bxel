@@ -7,7 +7,8 @@ import type { MapTarget, MapTool } from '../../tilemap/tilemap.type';
 import type { PixelPoint, PixelViewportHandle } from '../PixelViewport';
 
 type MapDrag =
-  | { kind: 'stroke'; tool: 'place' | 'erase'; cells: Point[] }
+  | { kind: 'stroke'; tool: 'place' | 'erase' | 'scatter'; cells: Point[] }
+  | { kind: 'line'; from: Point; to: Point }
   | { kind: 'rect'; from: Point; to: Point }
   | { kind: 'select'; from: Point; to: Point };
 

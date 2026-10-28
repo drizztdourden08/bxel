@@ -16,10 +16,14 @@ const paintShape = (session: ShapeSession): void => {
     from: spec.from,
     to: spec.to,
     filled: spec.filled,
+    fillIndex: spec.fillIndex,
+    radius: spec.radius,
+    evenSteps: spec.evenSteps,
     brush: spec.brush,
     symmetry: spec.symmetry,
     wrap: spec.wrap,
     mask: session.mask,
+    ink: spec.rule,
   });
   session.dirty = painted;
   const changed = unionDirty(before, painted);

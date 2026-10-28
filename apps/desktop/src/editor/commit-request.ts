@@ -1,22 +1,36 @@
 /* @layer renderer-app @kind logic */
-import type { TargetScope, TransactionRequest } from '@bxel/document';
+import type { CommandStep, TargetScope, TransactionRequest } from '@bxel/document';
+import { useDrawingStore } from '../stores/useDrawingStore';
 import { cellScope } from './cell-scope';
 import type { CommitStep } from './commit-request.type';
 import type { EditorTarget } from './editor.type';
+import { isLinkedCel } from './linked-cel';
+
+const stepOf = (step: CommitStep, scope: TargetScope, allUses: boolean): CommandStep => ({
+  name: step.name,
+  targets: scope,
+  options: allUses ? { ...(step.options as object), allUses: true } : step.options,
+  ...(step.ref === undefined ? {} : { ref: step.ref }),
+});
 
 const commitRequest = (
   target: EditorTarget,
   label: string,
   step: CommitStep,
   scope: TargetScope = cellScope(target),
-): TransactionRequest => ({
-  documentId: target.documentId,
-  baseRevision: target.revision,
-  mode: 'commit',
-  origin: 'ui',
-  label,
-  steps: [{ name: step.name, targets: scope, options: step.options, ...(step.ref === undefined ? {} : { ref: step.ref }) }],
-  previewPixels: 0,
-});
+): TransactionRequest => {
+  const choice = useDrawingStore.getState().linkedChoice;
+  const linked = isLinkedCel(target);
+  const unlink: CommandStep[] = linked && choice === 'unlink' ? [{ name: 'cel.unlink', targets: scope, options: {} }] : [];
+  return {
+    documentId: target.documentId,
+    baseRevision: target.revision,
+    mode: 'commit',
+    origin: 'ui',
+    label,
+    steps: [...unlink, stepOf(step, scope, linked && choice === 'all')],
+    previewPixels: 0,
+  };
+};
 
 export { commitRequest };

@@ -10,7 +10,6 @@ import { MAP_TOOLS } from '../../../tilemap/map-tools.constants';
 import { railItems } from './rail-items';
 import { toolsOf } from './tools-of';
 import { useSelectOptions } from './useSelectOptions';
-import { useShapeOptions } from './useShapeOptions';
 import { useToolKeys } from './useToolKeys';
 
 const useRailItems = (): ToolbarItem[] => {
@@ -18,11 +17,12 @@ const useRailItems = (): ToolbarItem[] => {
   const pick = useToolStore((state) => state.selectTool);
   const placing = useMapPlacing();
   const surface = useSurface();
-  const shapeIcon = useToolIcon('shape');
+  const rectIcon = useToolIcon('rect');
+  const ellipseIcon = useToolIcon('ellipse');
   const selectIcon = useToolIcon('select');
   const keys = useToolKeys();
-  const menus = { shape: useShapeOptions(), select: useSelectOptions() };
-  const icons = placing ? MAP_TOOL_ICONS : { ...TOOL_ICONS, shape: shapeIcon, select: selectIcon };
+  const menus = { select: useSelectOptions() };
+  const icons = placing ? MAP_TOOL_ICONS : { ...TOOL_ICONS, rect: rectIcon, ellipse: ellipseIcon, select: selectIcon };
   return railItems({ tool, pick, keys, icons, defs: toolsOf(surface, placing ? MAP_TOOLS : TOOLS), options: placing || surface === 'sheet' ? {} : menus });
 };
 

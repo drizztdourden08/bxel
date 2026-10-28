@@ -2,6 +2,7 @@
 import { z } from 'zod';
 import { allUsesSchema } from './all-uses-schema';
 import { RAMP_POSITION_MAX } from '../advanced-commands.constants';
+import { indexSchema } from './index-schema';
 import { gradientLineSchema } from './gradient-line-schema';
 import { maskSchema } from './mask-schema';
 import { pointSchema } from './point-schema';
@@ -10,8 +11,10 @@ import { wrapSchema } from './wrap-schema';
 
 const position = z.number().int().min(0).max(RAMP_POSITION_MAX).optional();
 
-const pixelsGradientSchema = z.strictObject({
-  ramp: rampNameSchema,
+const pixelsGradientSchema = z
+  .strictObject({
+  ramp: rampNameSchema.optional(),
+  colors: z.array(indexSchema).min(2).max(RAMP_POSITION_MAX + 1).optional(),
   first: position,
   last: position,
   line: gradientLineSchema,
@@ -24,6 +27,10 @@ const pixelsGradientSchema = z.strictObject({
   mask: maskSchema,
   wrap: wrapSchema,
   allUses: allUsesSchema,
-});
+})
+  .refine((options) => (options.ramp === undefined) !== (options.colors === undefined), {
+    message: 'Give either a ramp name or a list of colours.',
+    path: ['ramp'],
+  });
 
 export { pixelsGradientSchema };

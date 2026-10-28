@@ -49,7 +49,7 @@ describe('the toolbar items', () => {
 
   it('put a separator between the kinds of options and none before the first', () => {
     const items: OptionItems = {
-      brush: [button('size')], pixelPerfect: [button('perfect')], fill: [], shape: [], select: [], mapFlags: [], mapFilled: [], mapSelection: [],
+      brush: [button('size')], pixelPerfect: [button('perfect')], fill: [], select: [], mapFlags: [], mapFilled: [], mapSelection: [], ink: [], pick: [], fillExtras: [], spray: [], gradient: [], filledShape: [], shapeExtras: [], symmetry: [], mapRandom: [],
     };
     const joined = joinOptions(['brush', 'pixelPerfect'], items);
     expect(joined.map((item) => item.id)).toEqual(['size', 'before-pixelPerfect', 'perfect']);

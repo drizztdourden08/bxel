@@ -6,9 +6,10 @@ import {
   ZOOM_FIT_HINT,
 } from '../../src/views/CanvasToolbar/CanvasToolbar.constants';
 import {
-  BRUSH_SHAPE_HINTS, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILLED_HINT, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SELECT_MODE_HINTS, SELECT_VARIANT_HINTS,
-  SHAPE_HINTS, SHRINK_HINT,
+  BRUSH_SHAPE_HINTS, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SELECT_MODE_HINTS, SELECT_VARIANT_HINTS,
+  SHRINK_HINT,
 } from '../../src/views/OptionsToolbar/OptionsToolbar.constants';
+import { HINTS as DRAWING_HINTS, INK_DESCRIPTIONS, INK_LABELS } from '../../src/views/OptionsToolbar/DrawingOptions.constants';
 import { SCOPE_HINTS } from '../../src/views/ScopeBar/ScopeBar.constants';
 import { LAYER_ACTIONS, LAYER_TOGGLES } from '../../src/views/LayersPanel/LayersPanel.constants';
 import { chipHint, CONFIG_HINT, HELD_CHIPS, swatchHint } from '../../src/views/PalettePanel/PalettePanel.constants';
@@ -66,7 +67,8 @@ const toolbarHints = (): HintSpec[] => [
   ...Object.values(BRUSH_SHAPE_HINTS),
   ...Object.values(FILL_HINTS),
   ...Object.values(NEIGHBOUR_HINTS),
-  ...Object.values(SHAPE_HINTS),
+  ...Object.values(DRAWING_HINTS),
+  ...(Object.keys(INK_LABELS) as (keyof typeof INK_LABELS)[]).map((kind) => ({ name: INK_LABELS[kind], description: INK_DESCRIPTIONS[kind] })),
   ...Object.values(SELECT_VARIANT_HINTS),
   ...Object.values(SELECT_MODE_HINTS),
   ...Object.values(SCOPE_HINTS),
@@ -81,7 +83,6 @@ const toolbarHints = (): HintSpec[] => [
   PAINT_ALL_HINT,
   BRUSH_SIZE_HINT,
   PIXEL_PERFECT_HINT,
-  FILLED_HINT,
   EXPAND_HINT,
   SHRINK_HINT,
   swatchHint('3 Blue'),

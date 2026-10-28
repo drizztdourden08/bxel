@@ -50,7 +50,11 @@ describe('press plans', () => {
     expect(pressPlan('pencil', press(0, { shiftKey: true }))).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: true });
     expect(pressPlan('eraser', press(0))).toEqual({ kind: 'stroke', tool: 'eraser', slot: 'foreground', line: false });
     expect(pressPlan('fill', press(0))).toEqual({ kind: 'fill', slot: 'foreground' });
-    expect(pressPlan('shape', press(2))).toEqual({ kind: 'shape', slot: 'background' });
+    expect(pressPlan('rect', press(2))).toEqual({ kind: 'shape', shape: 'rect', slot: 'background' });
+    expect(pressPlan('curve', press(0))).toEqual({ kind: 'path', tool: 'curve', slot: 'foreground' });
+    expect(pressPlan('gradient', press(2))).toEqual({ kind: 'gradient', slot: 'background' });
+    expect(pressPlan('spray', press(0))).toEqual({ kind: 'spray', slot: 'foreground' });
+    expect(pressPlan('pencil', press(0, { shiftKey: true, ctrlKey: true }))).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'third', line: true, snap: true });
     expect(pressPlan('picker', press(2))).toEqual({ kind: 'pick', slot: 'background' });
     expect(pressPlan('zoom', press(0))).toEqual({ kind: 'zoom', out: false });
     expect(pressPlan('zoom', press(2))).toEqual({ kind: 'zoom', out: true });
@@ -60,7 +64,7 @@ describe('press plans', () => {
 
   it('picks with any tool while Alt is held, even the shape and zoom tools', () => {
     expect(pressPlan('fill', press(0, { altKey: true }))).toEqual({ kind: 'pick', slot: 'foreground' });
-    expect(pressPlan('shape', press(0, { altKey: true }))).toEqual({ kind: 'pick', slot: 'foreground' });
+    expect(pressPlan('line', press(0, { altKey: true }))).toEqual({ kind: 'pick', slot: 'foreground' });
     expect(pressPlan('zoom', press(2, { altKey: true }))).toEqual({ kind: 'pick', slot: 'background' });
   });
 });

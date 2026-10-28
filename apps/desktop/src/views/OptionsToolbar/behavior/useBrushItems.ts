@@ -7,6 +7,7 @@ import { choose, hintChoice, hintFace } from '../../../toolbar-items';
 import { useCommandKeys } from '../../ActionHint';
 import { BRUSH_SHAPE_HINTS, BRUSH_SHAPE_ICONS, BRUSH_SHAPES, BRUSH_SIZE_HINT, OPTIONS_TEXT } from '../OptionsToolbar.constants';
 import { sizeShortcuts } from './size-shortcuts';
+import { useCustomBrushItems } from './useCustomBrushItems';
 
 const useBrushItems = (): ToolbarItem[] => {
   const size = useToolStore((state) => state.brushSize);
@@ -15,6 +16,7 @@ const useBrushItems = (): ToolbarItem[] => {
   const setShape = useToolStore((state) => state.setBrushShape);
   const smaller = useCommandKeys(COMMAND_ID.brushSmaller)[0];
   const larger = useCommandKeys(COMMAND_ID.brushLarger)[0];
+  const custom = useCustomBrushItems();
   return [
     {
       kind: 'number',
@@ -35,6 +37,7 @@ const useBrushItems = (): ToolbarItem[] => {
       choices: BRUSH_SHAPES.map((each) => hintChoice(each, BRUSH_SHAPE_ICONS[each], BRUSH_SHAPE_HINTS[each])),
       onChange: choose(BRUSH_SHAPES, setShape),
     },
+    ...custom,
   ];
 };
 

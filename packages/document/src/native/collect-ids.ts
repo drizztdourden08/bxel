@@ -23,6 +23,7 @@ const collectIds = (document: DocumentJson): readonly IdSite[] => [
   ...document.sprites.flatMap((sprite, index) => spriteIds(sprite, `$.sprites[${index}]`)),
   ...document.sheets.map((sheet, index) => at(sheet.id, `$.sheets[${index}]`)),
   ...document.presets.map((preset, index) => at(preset.id, `$.presets[${index}]`)),
+  ...(document.brushes ?? []).map((brush, index) => at(brush.id, `$.brushes[${index}]`)),
   ...document.tilesets.flatMap((tileset, index) => [
     at(tileset.id, `$.tilesets[${index}]`),
     ...tileset.tiles.map((tile, tileIndex) => at(tile.id, `$.tilesets[${index}].tiles[${tileIndex}]`)),

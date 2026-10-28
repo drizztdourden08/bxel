@@ -3,24 +3,24 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { brushOptions } from '../../src/editor/brush-options';
 import { changedAxes } from '../../src/editor/changed-axes';
 import { commitSession } from '../../src/editor/commit-session';
-import { pickShape } from '../../src/editor/pick-shape';
+import { useDrawingStore } from '../../src/stores/useDrawingStore';
 import { symmetryOf } from '../../src/editor/symmetry-of';
 import { flat, penStroke, resetEditor, tools } from './option-harness';
 
 beforeEach(resetEditor);
 
 describe('the tool keys', () => {
-  it('selects a tool, then cycles the shape kinds when its key comes again', () => {
-    tools().selectTool('shape');
-    expect(tools()).toMatchObject({ tool: 'shape', shape: 'line' });
-    tools().selectTool('shape');
-    expect(tools().shape).toBe('rect');
-    tools().selectTool('shape');
-    expect(tools().shape).toBe('ellipse');
-    tools().selectTool('shape');
-    expect(tools().shape).toBe('line');
-    tools().selectTool('pencil');
-    expect(tools()).toMatchObject({ tool: 'pencil', shape: 'line' });
+  it('selects a tool, then toggles filled on a second press of the rectangle key', () => {
+    tools().selectTool('rect');
+    expect(tools().tool).toBe('rect');
+    expect(useDrawingStore.getState().filled.rect).toBe(false);
+    tools().selectTool('rect');
+    expect(useDrawingStore.getState().filled.rect).toBe(true);
+    tools().selectTool('rect');
+    expect(useDrawingStore.getState().filled.rect).toBe(false);
+    tools().selectTool('line');
+    tools().selectTool('line');
+    expect(tools().tool).toBe('line');
   });
 
   it('cycles the fill area and leaves the other tools alone', () => {
@@ -32,13 +32,6 @@ describe('the tool keys', () => {
     tools().selectTool('hand');
     tools().selectTool('hand');
     expect(tools().tool).toBe('hand');
-  });
-
-  it('picks a shape from the flyout and selects the shape tool', () => {
-    pickShape('ellipse');
-    expect(tools()).toMatchObject({ tool: 'shape', shape: 'ellipse' });
-    pickShape('rect');
-    expect(tools()).toMatchObject({ tool: 'shape', shape: 'rect' });
   });
 });
 
@@ -73,6 +66,15 @@ describe('symmetry', () => {
     expect(symmetryOf(tools(), size)).toEqual({ x2: 17, y2: 48 });
     tools().setAxis('x', null);
     expect(symmetryOf(tools(), size).x2).toBe(32);
+  });
+
+  it('adds the crossing for the diagonal and the 4 way turn', () => {
+    const size = { width: 32, height: 24 };
+    useDrawingStore.getState().toggleSymmetryMode('diagonal');
+    expect(symmetryOf(tools(), size)).toEqual({ x2: 32, y2: 24, mirrorX: false, mirrorY: false, diagonal: true });
+    tools().toggleSymmetry('x');
+    useDrawingStore.getState().toggleSymmetryMode('turn');
+    expect(symmetryOf(tools(), size)).toEqual({ x2: 32, y2: 24, mirrorY: false, diagonal: true, turn4: true });
   });
 
   it('names the axes a toggle group changed', () => {
@@ -120,8 +122,16 @@ describe('the brush options', () => {
     tools().toggleSymmetry('y');
     expect(brushOptions(tools(), { width: 32, height: 32 })).toEqual({
       brush: { shape: 'circle', size: 5 },
-      pixelPerfect: true,
+      pixelPerfect: false,
       symmetry: { y2: 32 },
     });
+  });
+
+  it('keeps pixel perfect only at brush size 1', () => {
+    tools().setPixelPerfect(true);
+    expect(brushOptions(tools(), { width: 32, height: 32 }).pixelPerfect).toBe(true);
+    tools().setBrushSize(2);
+    expect(brushOptions(tools(), { width: 32, height: 32 }).pixelPerfect).toBe(false);
+    expect(tools().pixelPerfect).toBe(true);
   });
 });

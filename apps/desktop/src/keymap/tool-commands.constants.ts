@@ -10,7 +10,7 @@ const TOOL_COMMANDS: readonly CommandDef[] = TOOLS.map((tool) =>
     id: COMMAND_ID.tool(tool.id),
     label: tool.label,
     group: COMMAND_GROUP.tools,
-    chord: tool.key.toUpperCase(),
+    chord: tool.key.length === 1 ? tool.key.toUpperCase() : tool.key,
     run: () => useToolStore.getState().selectTool(tool.id),
   }),
 );

@@ -7,7 +7,11 @@ import type { MapDrag } from '../TilemapCanvas.type';
 import { clampCell } from './clamp-cell';
 
 const beginDrag = (tool: MapTool, cell: Point, target: MapTarget): MapDrag | null => {
-  if (tool === 'place' || tool === 'erase') return { kind: 'stroke', tool, cells: [cell] };
+  if (tool === 'place' || tool === 'erase' || tool === 'scatter') return { kind: 'stroke', tool, cells: [cell] };
+  if (tool === 'line') {
+    const edge = clampCell(cell, target.tilemap);
+    return { kind: 'line', from: edge, to: edge };
+  }
   if (tool === 'rect' || tool === 'select') {
     const edge = clampCell(cell, target.tilemap);
     return { kind: tool, from: edge, to: edge };
