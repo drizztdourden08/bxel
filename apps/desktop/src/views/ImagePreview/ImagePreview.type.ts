@@ -18,6 +18,7 @@ interface ImagePreviewProps {
   image: PreviewImage;
   label: string;
   view: SharedView;
+  fill?: boolean;
 }
 
 export type { ImagePreviewProps, SharedView };

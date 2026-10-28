@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { useTilemapStore } from '../stores/useTilemapStore';
-import { onSurface } from './on-surface';
 import { COMMAND_GROUP } from './keymap.constants';
 import { TERRAIN_COMMAND as ID } from './terrain-command-id.constants';
+import { ruled } from './ruled';
 
 const TERRAIN_COMMANDS: readonly CommandDef[] = [
   {
@@ -13,6 +13,6 @@ const TERRAIN_COMMANDS: readonly CommandDef[] = [
     checked: () => useTilemapStore.getState().terrainBrush,
     run: () => useTilemapStore.getState().setTerrainBrush(!useTilemapStore.getState().terrainBrush),
   },
-].map(onSurface('map', 'tile'));
+].map(ruled);
 
 export { TERRAIN_COMMANDS };

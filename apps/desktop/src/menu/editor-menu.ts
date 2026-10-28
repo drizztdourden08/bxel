@@ -7,7 +7,8 @@ import { viewMenu } from './view-menu';
 
 const editorMenu = (state: EditorMenuState): MenuEntry[] => {
   const kind = kindMenu(state);
-  return [editMenu(state), ...(kind ? [kind] : []), viewMenu(state)];
+  const view = viewMenu(state);
+  return [editMenu(state), ...(kind ? [kind] : []), ...(view.children && view.children.length > 0 ? [view] : [])];
 };
 
 export { editorMenu };

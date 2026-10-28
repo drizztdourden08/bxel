@@ -7,6 +7,7 @@ import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { currentMap } from '../../../tilemap/current-map';
 import { MAP_LAYER_MENU } from '../MapLayersPanel.constants';
 import { mapLayerMenuEntries } from './map-layer-menu-entries';
+import { ruledEntries } from '../../../context-menu/ruled-entries';
 
 const selectClicked = (context: ContextMenuContext): void => {
   const layer = currentMap()?.tilemap.layers.find((each) => each.id === menuTarget(context, MAP_LAYER_MENU.row)?.dataset.layerId);
@@ -14,7 +15,7 @@ const selectClicked = (context: ContextMenuContext): void => {
 };
 
 const useMapLayersMenu = (): void => {
-  useContextMenu(COMMAND_ZONE.layers, { label: MAP_LAYER_MENU.label, beforeOpen: selectClicked, entries: mapLayerMenuEntries });
+  useContextMenu(COMMAND_ZONE.layers, { label: MAP_LAYER_MENU.label, beforeOpen: selectClicked, entries: ruledEntries(mapLayerMenuEntries) });
 };
 
 export { useMapLayersMenu };
