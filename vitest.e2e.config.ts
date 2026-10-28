@@ -8,5 +8,7 @@ export default defineConfig({
     testTimeout: 180000,
     hookTimeout: 180000,
     fileParallelism: false,
+    globalSetup: ['apps/desktop/tests/e2e/global-setup.ts'],
+    setupFiles: ['apps/desktop/tests/e2e/setup-owned.ts'],
   },
 });
