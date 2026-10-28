@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-const SLACK = 0.5;
+import { CLIP_SLACK } from './has-truncation.constants';
 
 const textWidth = (element: HTMLElement): number => {
   const range = element.ownerDocument.createRange();
@@ -7,7 +7,7 @@ const textWidth = (element: HTMLElement): number => {
   return range.getBoundingClientRect().width;
 };
 
-const isClipped = (element: HTMLElement): boolean => element.children.length === 0 && textWidth(element) > element.getBoundingClientRect().width + SLACK;
+const isClipped = (element: HTMLElement): boolean => element.children.length === 0 && textWidth(element) > element.getBoundingClientRect().width + CLIP_SLACK;
 
 const hasTruncation = (zone: HTMLElement | null): boolean => {
   if (!zone) return false;
