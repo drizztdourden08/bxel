@@ -3,7 +3,7 @@ import { shortcutsHelp } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { currentTarget } from '../../src/editor/current-target';
-import { TOOLS } from '../../src/editor/tools.constants';
+import { toolIds } from '../../src/editor/tool-catalogue/tool-ids';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
 import { COMMAND_ID, EDITOR_SCOPE } from '../../src/keymap/keymap.constants';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
@@ -63,8 +63,10 @@ describe('the keymap table', () => {
   });
 
   it('puts every tool on its letter key', () => {
-    const letters = TOOLS.map((tool) => chordsOf(find(COMMAND_ID.tool(tool.id))));
-    expect(letters).toEqual([['B'], ['E'], ['G'], ['I'], ['U'], ['Z'], ['H'], ['M'], ['V']]);
+    const letters = Object.fromEntries(toolIds().map((tool) => [tool, chordsOf(find(COMMAND_ID.tool(tool)))]));
+    expect(letters).toEqual({
+      pencil: ['B'], eraser: ['E'], fill: ['G'], picker: ['I'], shape: ['U'], zoom: ['Z'], hand: ['H'], select: ['M'], move: ['V'],
+    });
   });
 
   it('keeps the chords of the contract for brush, symmetry, colours, view and help', () => {

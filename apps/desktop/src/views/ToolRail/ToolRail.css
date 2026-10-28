@@ -1,0 +1,7 @@
+/* @layer renderer-app @kind style */
+.tool-rail {
+  display: flex;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  min-block-size: 0;
+}

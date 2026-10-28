@@ -1,9 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { useToolStore } from '../stores/useToolStore';
+import { currentSurface } from '../surface/current-surface';
 
-const settleMapTool = (): void => {
-  const tools = useToolStore.getState();
-  if (tools.tool === 'move') tools.selectTool('pencil');
-};
+const settleMapTool = (): void => useToolStore.getState().enterSurface(currentSurface());
 
 export { settleMapTool };

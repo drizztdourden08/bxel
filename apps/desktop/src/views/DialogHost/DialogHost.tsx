@@ -6,6 +6,7 @@ import { ImportWizard } from '../ImportWizard';
 import { CreateDialog } from '../CreateDialog';
 import { ProjectCreateDialog } from '../ProjectCreateDialog';
 import { PaletteChangeDialog } from '../PaletteChangeDialog';
+import { PresetDialog } from '../PresetDialog';
 import { useWindowDrop } from './behavior/useWindowDrop';
 
 const DialogHost = () => {
@@ -19,6 +20,7 @@ const DialogHost = () => {
       <ProjectCreateDialog />
       <ImportWizard />
       <PaletteChangeDialog />
+      <PresetDialog />
     </>
   );
 };

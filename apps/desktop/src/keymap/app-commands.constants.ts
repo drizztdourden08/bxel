@@ -11,6 +11,7 @@ import { EDIT_COMMANDS } from './edit-commands.constants';
 import { GUIDE_MENU_COMMANDS } from './guide-menu-commands.constants';
 import { HELP_COMMANDS } from './help-commands.constants';
 import { LAYER_MENU_COMMANDS } from './layer-menu-commands.constants';
+import { OPTION_COMMANDS } from './option-commands.constants';
 import { PALETTE_MENU_COMMANDS } from './palette-menu-commands.constants';
 import { PROJECT_COMMANDS } from './project-commands.constants';
 import { RULER_UNIT_COMMANDS } from './ruler-unit-commands.constants';
@@ -32,6 +33,7 @@ import { VIEW_COMMANDS } from './view-commands.constants';
 const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TOOL_COMMANDS,
   ...BRUSH_COMMANDS,
+  ...OPTION_COMMANDS,
   ...VIEW_COMMANDS,
   ...EDIT_COMMANDS,
   ...SELECTION_COMMANDS,

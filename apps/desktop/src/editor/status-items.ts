@@ -12,13 +12,15 @@ const colourEntry = (colour: PaletteSlot | null, position: 1 | 2): StatusBarEntr
 });
 
 const statusItems = (input: StatusInput): StatusBarEntry[] => {
-  const { pointer, zoom, colours, clean, recovered } = input;
+  const { pointer, zoom, colours, clean, recovered, notice } = input;
+  const tool: StatusBarEntry[] = notice ? [{ id: 'tool-notice', label: STATUS_TEXT.tool, value: notice, icon: 'wrench', tone: 'info', align: 'end' }] : [];
   const recovery: StatusBarEntry[] = recovered && !clean ? [{ id: 'recovered', label: 'Recovery', value: STATUS_TEXT.recovered, tone: 'warning', align: 'end' }] : [];
   return [
     { id: 'cursor', label: 'Cursor', value: pointer ? STATUS_TEXT.cursor(pointer) : STATUS_TEXT.outside },
     { id: 'zoom', label: 'Zoom', value: STATUS_TEXT.zoom(zoom) },
     colourEntry(colours[0], 1),
     colourEntry(colours[1], 2),
+    ...tool,
     {
       id: 'saved',
       label: 'File',

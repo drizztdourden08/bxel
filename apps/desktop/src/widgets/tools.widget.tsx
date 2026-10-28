@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
-import { Toolbar } from '@drizztdourden08/tessera';
-import { TOOL_RAIL_TEXT, useRailItems } from '../views/ToolRail';
+import { ToolsPanel } from '../views/ToolsPanel';
 
-const meta: WidgetMeta = { label: 'Tools', icon: 'wrench', defaultSide: 'right', defaultDockedSize: 232, popOut: false, defaultVisibility: 'context-only' };
+const meta: WidgetMeta = { label: 'Tools', icon: 'wrench', defaultSide: 'right', defaultDockedSize: 280, popOut: false, defaultVisibility: 'context-only' };
 
-const ToolsWidget = () => <Toolbar layout="list" label={TOOL_RAIL_TEXT.region} items={useRailItems()} />;
+const ToolsWidget = () => <ToolsPanel />;
 
 export default ToolsWidget;
 export { meta };

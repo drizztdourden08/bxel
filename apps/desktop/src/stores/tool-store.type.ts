@@ -3,11 +3,21 @@ import type { LayerId } from '@bxel/document';
 import type { BrushShape, Connectivity, FillMode, Point, ShapeKind } from '@bxel/raster';
 import type { ColourSlot } from '../editor/press-plan.type';
 import type { ToolId } from '../editor/tool.type';
+import type { OptionValue } from '../editor/tool-options/tool-options.type';
+import type { Surface } from '../surface/surface.type';
 
 type SymmetryAxis = 'x' | 'y';
 
+type SurfaceKind = 'paint' | 'map' | 'sheet';
+
 interface ToolSettings {
   tool: ToolId;
+  previousTool: ToolId | null;
+  activeSurface: SurfaceKind;
+  surfaceTools: Readonly<Record<SurfaceKind, ToolId>>;
+  recentMembers: Readonly<Record<SurfaceKind, readonly string[]>>;
+  optionMemory: Readonly<Record<string, OptionValue>>;
+  shareBrush: boolean;
   foreground: number;
   background: number;
   third: number;
@@ -29,6 +39,11 @@ interface ToolSettings {
 
 interface ToolState extends ToolSettings {
   selectTool: (tool: ToolId) => void;
+  setTool: (tool: ToolId) => void;
+  enterSurface: (surface: Surface) => void;
+  recordMember: (memberId: string) => void;
+  loadOptionMemory: (memory: Readonly<Record<string, OptionValue>>) => void;
+  setShareBrush: (share: boolean) => void;
   setForeground: (index: number) => void;
   setBackground: (index: number) => void;
   setColour: (slot: ColourSlot, index: number) => void;
@@ -48,4 +63,4 @@ interface ToolState extends ToolSettings {
   setLastPoint: (point: Point | null) => void;
 }
 
-export type { SymmetryAxis, ToolSettings, ToolState };
+export type { SurfaceKind, SymmetryAxis, ToolSettings, ToolState };

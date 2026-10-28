@@ -1,19 +1,30 @@
 /* @layer renderer-app @kind hook */
-import { useEffect, useRef } from 'react';
 import { announce } from '@drizztdourden08/brock-react';
+import { useEffect, useRef } from 'react';
 import { ANNOUNCE_TEXT } from '../announce/announce.constants';
-import { TOOLS } from '../editor/tools.constants';
+import { CATALOGUE_TEXT } from '../editor/tool-catalogue/tool-catalogue.constants';
+import { slotOfTool } from '../editor/tool-catalogue/slot-of-tool';
+import { activeMember } from '../editor/tool-pick/active-member';
+import { useSelectionStore } from '../stores/useSelectionStore';
+import { useToolNoticeStore } from '../stores/useToolNoticeStore';
 import { useToolStore } from '../stores/useToolStore';
+import { currentSurface } from '../surface/current-surface';
 
 const useAnnounceTool = (): void => {
   const tool = useToolStore((state) => state.tool);
-  const seen = useRef(tool);
+  const shape = useToolStore((state) => state.shape);
+  const variant = useSelectionStore((state) => state.variant);
+  const seen = useRef({ tool, shape, variant });
   useEffect(() => {
-    if (seen.current === tool) return;
-    seen.current = tool;
-    const label = TOOLS.find((each) => each.id === tool)?.label;
-    if (label) announce(ANNOUNCE_TEXT.tool(label));
-  }, [tool]);
+    const before = seen.current;
+    seen.current = { tool, shape, variant };
+    if (before.tool === tool && before.shape === shape && before.variant === variant) return;
+    const member = activeMember();
+    if (!member) return;
+    announce(ANNOUNCE_TEXT.tool(member.label));
+    const slot = slotOfTool(currentSurface(), tool);
+    if (before.tool === tool && slot && slot.members.length > 1) useToolNoticeStore.getState().show(CATALOGUE_TEXT.cycleHint(member.label, slot.key));
+  }, [tool, shape, variant]);
 };
 
 export { useAnnounceTool };

@@ -8,6 +8,7 @@ const STATUS_TEXT = {
   unsaved: 'Unsaved changes',
   recovered: 'Recovered, not saved',
   help: 'Help',
+  tool: 'Tool',
   helpValue: 'Canvas controls',
   noCursor: 'Move the pointer over the image first.',
   cursorCopied: 'Copied the cursor position.',
