@@ -15,6 +15,8 @@ type SpriteSource = { readonly spriteId: string; readonly frameId?: string };
 
 type SheetSource = { readonly sheetId: string };
 
+type TilesetSource = { readonly tilesetId: string; readonly overlay?: 'none' | 'collision' };
+
 type AnimationSource = { readonly animationId: string; readonly frameId?: string; readonly tagId?: string };
 
 type AnimationStrip = { readonly image: RgbaImage; readonly indices: Uint8Array };
@@ -37,7 +39,7 @@ type ReadPixelsInput = DocumentInput & {
 };
 
 type RenderInput = DocumentInput & {
-  readonly target: SpriteSource | AnimationSource | SheetSource;
+  readonly target: SpriteSource | AnimationSource | SheetSource | TilesetSource;
   readonly scale: number;
 };
 
@@ -183,6 +185,7 @@ export type {
   PreviewInput,
   SaveInput,
   SheetSource,
+  TilesetSource,
   SavedAt,
   SpriteFrame,
   UndoInput,

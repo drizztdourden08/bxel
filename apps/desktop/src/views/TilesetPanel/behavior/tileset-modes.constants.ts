@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { IconName } from '@drizztdourden08/tessera';
-import type { TileFilter, TilesetMode } from '../../stores/tileset-view-store.type';
-import type { ZoomChoice } from './TilesetPanel.type';
+import type { TileFilter, TilesetMode } from '../../../stores/tileset-view-store.type';
+import type { ZoomChoice } from '../TilesetPanel.type';
 
 const MODES: readonly { value: TilesetMode; label: string; icon: IconName; description: string }[] = [
   { value: 'tiles', label: 'Tiles', icon: 'pixel-tileset', description: 'Pick tiles, set their name, type and probability.' },

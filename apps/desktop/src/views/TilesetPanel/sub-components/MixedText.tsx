@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind component */
 import { useState } from 'react';
 import { Field, TextInput } from '@drizztdourden08/tessera';
-import { TILESET_TEXT } from '../TilesetPanel.constants';
 import type { MixedTextProps } from '../TilesetPanel.type';
 
 const MixedText = ({ label, value, mixed, placeholder, disabled, onCommit }: MixedTextProps) => {
@@ -17,7 +16,8 @@ const MixedText = ({ label, value, mixed, placeholder, disabled, onCommit }: Mix
         size="sm"
         aria-label={label}
         value={shown}
-        placeholder={mixed ? TILESET_TEXT.mixed : placeholder}
+        mixed={mixed && draft === null}
+        placeholder={placeholder}
         disabled={disabled}
         onChange={(event) => setDraft(event.target.value)}
         onBlur={commit}

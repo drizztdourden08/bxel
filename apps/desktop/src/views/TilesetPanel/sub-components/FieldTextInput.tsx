@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { useState } from 'react';
 import { ColorSwatch, Flex, TextInput } from '@drizztdourden08/tessera';
-import { COLOUR_PATTERN, TILESET_TEXT } from '../TilesetPanel.constants';
+import { COLOUR_PATTERN } from '../TilesetPanel.constants';
 import type { FieldValueEditorProps } from '../TilesetPanel.type';
 
 const FieldTextInput = ({ field, value, mixed, onChange }: FieldValueEditorProps) => {
@@ -21,7 +21,8 @@ const FieldTextInput = ({ field, value, mixed, onChange }: FieldValueEditorProps
         aria-label={field.name}
         value={shown}
         invalid={field.kind === 'colour' && shown !== '' && !COLOUR_PATTERN.test(shown)}
-        placeholder={mixed ? TILESET_TEXT.mixed : String(field.default)}
+        mixed={mixed && draft === null}
+        placeholder={String(field.default)}
         onChange={(event) => setDraft(event.target.value)}
         onBlur={commit}
         onKeyDown={(event) => event.key === 'Enter' && commit()}

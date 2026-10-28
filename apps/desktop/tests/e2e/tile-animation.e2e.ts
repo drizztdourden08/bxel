@@ -34,7 +34,7 @@ const watch = async (rig: TideRig, cells: readonly Cell[]): Promise<string[][]> 
 };
 
 const pickWater = async (session: Session): Promise<void> => {
-  const tile = tileset(session).getByRole('button', { name: /^Tile 1,/ });
+  const tile = tileset(session).getByRole('gridcell', { name: /^Tile 1,/ });
   await tile.waitFor();
   expect(await tile.getAttribute('aria-label')).toContain('Plays an animation');
   await tile.click();

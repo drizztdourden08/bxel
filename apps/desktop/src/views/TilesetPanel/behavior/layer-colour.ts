@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { Tileset } from '@bxel/document';
-import { LAYER_COLOURS } from '../TilesetFields.constants';
+import { LAYER_COLOURS } from './tileset-fields.constants';
 
 const colourOf = (canvas: HTMLCanvasElement, name: string): string =>
   canvas.ownerDocument.defaultView?.getComputedStyle(canvas).getPropertyValue(name).trim() ?? '';

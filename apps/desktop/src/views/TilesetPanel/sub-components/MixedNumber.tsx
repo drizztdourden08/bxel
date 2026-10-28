@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind component */
 import { Field, NumberInput } from '@drizztdourden08/tessera';
-import { TILESET_TEXT } from '../TilesetPanel.constants';
 import type { MixedNumberProps } from '../TilesetPanel.type';
 
 const MixedNumber = ({ label, value, mixed, min, max, step, onCommit }: MixedNumberProps) => (
@@ -9,7 +8,7 @@ const MixedNumber = ({ label, value, mixed, min, max, step, onCommit }: MixedNum
       size="sm"
       aria-label={label}
       value={mixed ? '' : (value ?? '')}
-      placeholder={mixed ? TILESET_TEXT.mixed : undefined}
+      mixed={mixed}
       min={min}
       max={max}
       step={step}

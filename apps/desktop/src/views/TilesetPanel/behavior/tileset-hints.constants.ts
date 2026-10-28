@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind constants */
 import type { IconName } from '@drizztdourden08/tessera';
-import { TILEMAP_COMMAND } from '../../keymap/tilemap-command-id.constants';
-import type { StampTransform } from '../../tilemap/tilemap.type';
-import type { HintSpec } from '../ActionHint';
+import { TILEMAP_COMMAND } from '../../../keymap/tilemap-command-id.constants';
+import type { StampTransform } from '../../../tilemap/tilemap.type';
+import type { HintSpec } from '../../ActionHint';
 
 const ADD_HINT: HintSpec = {
   name: 'Add tile',
@@ -77,6 +77,15 @@ const BRUSH_ACTIONS: readonly { op: StampTransform; icon: IconName; hint: HintSp
     hint: { name: 'Rotate brush right', description: 'Turn the brush a quarter turn right. Needs square tiles.', shortcuts: [{ command: 'brush.larger' }] },
   },
   { op: 'reset', icon: 'rotate-ccw', hint: { name: 'Reset brush', description: 'Drop every flip and turn.' } },
+];
+
+const SHAPE_ACTIONS: readonly { id: 'box' | 'full' | 'shape' | 'trace' | 'copy' | 'paste'; icon: IconName; hint: HintSpec }[] = [
+  { id: 'box', icon: 'pixel-shape-rect', hint: { name: 'Add box', description: 'Add a box on the active layer. You can also drag a box on the tile.' } },
+  { id: 'full', icon: 'pixel-shape-rect-filled', hint: { name: 'Add full', description: 'Add a shape that covers the whole tile.' } },
+  { id: 'shape', icon: 'pixel-shape-polygon', hint: { name: 'Add shape', description: 'Add a triangle. Drag its points, double click to add or remove a point.' } },
+  { id: 'trace', icon: 'wand-sparkles', hint: { name: 'Trace pixels', description: 'Add a shape that hugs the opaque pixels of the tile.' } },
+  { id: 'copy', icon: 'copy', hint: { name: 'Copy shapes', description: 'Keep this tile shapes to paste onto other tiles.' } },
+  { id: 'paste', icon: 'pixel-layers', hint: { name: 'Paste shapes', description: 'Replace the shapes of the picked tiles with the copied ones.' } },
 ];
 
 export {

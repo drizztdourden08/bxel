@@ -93,8 +93,6 @@ const GRID_PADDING = 12;
 
 const CELL_FRAME = 8;
 
-const MIXED_VALUE = '__mixed__';
-
 const COLOUR_PATTERN = /^#[0-9a-fA-F]{6}$/;
 
 const STAMP_BOX = { size: 64, maxScale: 4 } as const;
@@ -107,13 +105,12 @@ export {
   CELL_FRAME,
   COLOUR_PATTERN,
   GRID_PADDING,
-  MIXED_VALUE,
   PAGE_ROWS,
   SPLIT_RATIO,
   STAMP_BOX,
   TILESET_TEXT,
   ZOOM_MAX,
 };
-export { ADD_HINT, BRUSH_ACTIONS, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, NEW_TILEMAP_HINT, NEW_TILESET_HINT, SHAPE_ACTIONS, TILE_MENU, UNIQUE_HINT } from './TilesetHints.constants';
-export { FILTERS, MODE_OPTIONS, MODES, ZOOMS } from './TilesetModes.constants';
-export { CHIP_COLOURS, FIELD_DEFAULTS, FIELD_KINDS, LAYER_COLOURS, PAINT_CHOICES, SHAPE_KIND_TEXT, TURN_CHOICES } from './TilesetFields.constants';
+export { ADD_HINT, BRUSH_ACTIONS, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, NEW_TILEMAP_HINT, NEW_TILESET_HINT, SHAPE_ACTIONS, TILE_MENU, UNIQUE_HINT } from './behavior/tileset-hints.constants';
+export { FILTERS, MODE_OPTIONS, MODES, ZOOMS } from './behavior/tileset-modes.constants';
+export { CHIP_COLOURS, FIELD_DEFAULTS, FIELD_KINDS, LAYER_COLOURS, PAINT_CHOICES, SHAPE_KIND_TEXT, TURN_CHOICES } from './behavior/tileset-fields.constants';
