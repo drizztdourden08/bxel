@@ -14,14 +14,13 @@ import { spriteScene } from '../../src/sheet/sprite-scene';
 import { actionGroups } from '../../src/views/SpritesPanel/behavior/action-groups';
 import { listRows } from '../../src/views/SpritesPanel/behavior/list-rows';
 import { rowStateOf } from '../../src/views/SpritesPanel/behavior/row-state';
-import { AtlasCanvas } from '../../src/views/SpritesPanel/sub-components/AtlasView/sub-components/AtlasCanvas';
-import { AtlasControls } from '../../src/views/SpritesPanel/sub-components/AtlasView/sub-components/AtlasControls';
+import { LayoutControls } from '../../src/views/SpritesPanel/sub-components/LayoutSection/sub-components/LayoutControls';
 import { RenamePreview } from '../../src/views/SpritesPanel/sub-components/ManagerDialogs/sub-components/RenamePreview';
 import { ResizeFields } from '../../src/views/SpritesPanel/sub-components/ManagerDialogs/sub-components/ResizeFields';
-import { SpriteTile } from '../../src/views/SpritesPanel/sub-components/SpriteTile';
+import { EntryTile } from '../../src/views/EntryTile';
 import type { ManagerModel, SpriteHandlers } from '../../src/views/SpritesPanel/SpritesPanel.type';
 import { artwork, idOf, openFile } from '../sheet/sheet-harness';
-import { idsOf, PLAIN_ATLAS } from './manager-harness';
+import { idsOf, modelFor, PLAIN_ATLAS } from './manager-harness';
 
 vi.mock('../../src/export/open-export', () => ({ openExport: () => undefined }));
 
@@ -29,7 +28,7 @@ Object.assign(globalThis, { React });
 
 const none = (): void => undefined;
 
-const handlers: SpriteHandlers = { onPick: none, onRename: none, onMenu: none };
+const handlers: SpriteHandlers = { onPick: none, onEdit: none, onRename: none, onMenu: none };
 
 const drag = { onDragStart: none, onDragOver: none, onDrop: none };
 
@@ -40,12 +39,13 @@ const hasItem =(group: MenuGroup | undefined, id: string): boolean => group?.ite
 
 const modelOf = (): ManagerModel => {
   const art = artwork();
-  const scene = spriteScene(art, { activeId: idOf('walk_1'), selected: idsOf('walk_1', 'walk_2') });
-  const facts = allFacts(art, art.sheets[0] ?? null);
-  return { artwork: art, scene, sheet: art.sheets[0] ?? null, facts, shown: facts, order: facts.map((fact) => fact.sprite.id), sizes: ['8x8'], tags: [], twins: new Set(), groups: folderGroups(facts, new Set()), ids: selectionIds(scene) };
+  return modelFor(art, art.sheets[0] ?? null, idsOf('walk_1', 'walk_2'));
 };
 
-beforeEach(() => openFile(['walk_1', 'walk_2'], 8));
+beforeEach(() => {
+  openFile(['walk_1', 'walk_2'], 8);
+  addToSheet(artwork().sprites.map((sprite) => sprite.id), null);
+});
 
 const cell: VirtualGridCellBind = {
   role: 'gridcell',
@@ -61,14 +61,15 @@ const cell: VirtualGridCellBind = {
 
 describe('the sprite tile', () => {
   it('names the sprite and its size and marks a picked sprite', () => {
-    const fact = allFacts(artwork(), null).find((each) => each.sprite.name === 'walk_1');
+    const art = artwork();
+    const fact = allFacts(art, art.sheets[0] ?? null).find((each) => each.sprite.name === 'walk_1');
     if (!fact) throw new Error('no fact');
-    const state = { selected: true, active: true, affected: false, loose: true, twin: false };
-    const tile = renderToString(createElement(SpriteTile, { fact, artwork: artwork(), box: 48, state, drag, handlers, cell }));
-    expect(tile).toContain('aria-label="walk_1, 8 by 8"');
+    const state = { mark: null, selected: true, active: true, affected: false, loose: true, twin: false };
+    const tile = renderToString(createElement(EntryTile, { fact, artwork: artwork(), box: 48, state, drag, handlers, cell }));
+    expect(tile).toContain('aria-label="walk_1, sprite, 8 by 8"');
     expect(tile).toContain('aria-selected="true"');
     expect(tile).toContain('role="gridcell"');
-    expect(tile).toContain('sprites-panel__tile--loose');
+    expect(tile).toContain('entry-tile--loose');
     expect(tile).toContain(`data-sprite-id="${idOf('walk_1')}"`);
   });
 });
@@ -76,18 +77,19 @@ describe('the sprite tile', () => {
 describe('the list rows', () => {
   it('has one row for every sprite with its size, pivot, palette and folder', () => {
     const art = artwork();
-    const rows = listRows(art, folderGroups(allFacts(art, null), new Set()), false);
+    const rows = listRows(art, folderGroups(allFacts(art, art.sheets[0] ?? null), new Set()), [], art.sheets[0] ?? null);
     const walk = rows.find((row) => row.name === 'walk_1');
     expect(rows).toHaveLength(art.sprites.length);
+    expect(rows.every((row) => row.kind === 'sprite')).toBe(true);
     expect(walk).toMatchObject({ width: 8, height: 8, pivot: '4, 4', folder: 'No folder' });
   });
 
   it('marks the pending sprite, the active sprite and a sprite that is not on the sheet', () => {
     const model = modelOf();
-    const walk = listRows(model.artwork, model.groups, true).find((row) => row.name === 'walk_1');
+    const walk = listRows(model.artwork, model.groups, [], model.sheet).find((row) => row.name === 'walk_1');
     if (!walk) throw new Error('no row');
-    const other = { ...walk, id: idOf('walk_2'), loose: false };
-    expect(rowStateOf(model, [walk.id])(walk)).toBe('pending');
+    const other = { ...walk, id: String(idOf('walk_2')), loose: false };
+    expect(rowStateOf(model, [idOf('walk_1')])(walk)).toBe('pending');
     expect(rowStateOf(model, [])(walk)).toBe('active');
     expect(rowStateOf(model, [])(other)).toBeUndefined();
     expect(rowStateOf(model, [])({ ...other, loose: true })).toBe('muted');
@@ -113,19 +115,17 @@ describe('the dialog pieces', () => {
   });
 });
 
-describe('the atlas pieces', () => {
-  it('draw the layout controls of a sheet and a canvas for its sprites', () => {
+describe('the layout pieces', () => {
+  it('draw the layout controls of a sheet', () => {
     addToSheet(idsOf('walk_1', 'walk_2'), null);
-    const model = modelOf();
     const sheet = artwork().sheets[0];
     if (!sheet) throw new Error('no sheet');
-    const controls = renderToString(createElement(AtlasControls, { sheet }));
+    const controls = renderToString(createElement(LayoutControls, { sheet }));
     expect(controls).toContain('Layout');
     expect(controls).toContain('Spacing');
     expect(controls).toContain('Allow rotation');
-    const atlas = atlasModel({ sheet, artwork: model.artwork, extrude: 0, ...PLAIN_ATLAS });
-    const canvas = renderToString(createElement(AtlasCanvas, { model, atlas }));
-    expect(canvas).toContain('sprites-panel__atlas-canvas');
+    const atlas = atlasModel({ sheet, artwork: artwork(), extrude: 0, ...PLAIN_ATLAS });
+    expect(atlas.items).toHaveLength(2);
   });
 });
 

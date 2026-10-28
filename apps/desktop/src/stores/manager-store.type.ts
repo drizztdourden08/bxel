@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind types */
+import type { SheetId } from '@bxel/document';
 import type { SavedSelection } from '../sheet-manager/folders.type';
 import type { AtlasSettings, ManagerDialog, ManagerFilter, ManagerView, SortKey } from '../sheet-manager/manager.type';
 
@@ -11,6 +12,7 @@ interface ManagerSettings {
   sortDown: boolean;
   dialog: ManagerDialog;
   picked: readonly string[];
+  sheetId: SheetId | null;
   layoutOpen: boolean;
   showExport: boolean;
   libraryRequest: number;

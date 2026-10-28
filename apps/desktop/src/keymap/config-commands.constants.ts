@@ -6,8 +6,8 @@ import { openAssetSettings } from '../config-entry/open-asset-settings';
 const CONFIG_COMMANDS: readonly CommandDef[] = [
   {
     id: ASSET_SETTINGS_COMMAND,
-    label: 'Asset settings',
-    icon: 'settings',
+    label: 'Properties',
+    icon: 'sliders-horizontal',
     group: 'File',
     chord: 'Alt+Enter',
     run: () => openAssetSettings(),

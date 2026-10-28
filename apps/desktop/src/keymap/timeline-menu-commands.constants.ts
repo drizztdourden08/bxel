@@ -29,7 +29,7 @@ import { setTagRange } from '../timeline/set-tag-range';
 import { tagById } from '../timeline/tag-by-id';
 import { FIELD_LABEL, TIMELINE_LABEL } from '../timeline/timeline.constants';
 import { COMMAND_GROUP } from './keymap.constants';
-import { onSurface } from './on-surface';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.timeline;
 
@@ -117,6 +117,6 @@ const TAG_COMMANDS: readonly CommandDef[] = [
   { id: 'tag.delete', label: 'Delete a tag', group, run: withTag((tagId) => deleteTag(tagId)) },
 ];
 
-const TIMELINE_MENU_COMMANDS: readonly CommandDef[] = [...FRAME_COMMANDS, ...TAG_COMMANDS].map(onSurface('sprite', 'tile'));
+const TIMELINE_MENU_COMMANDS: readonly CommandDef[] = [...FRAME_COMMANDS, ...TAG_COMMANDS].map(ruled);
 
 export { TIMELINE_MENU_COMMANDS };

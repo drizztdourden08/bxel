@@ -7,14 +7,15 @@ import { factsOf } from '../../../asset-overview/facts-of';
 import { linksOf } from '../../../asset-overview/links-of';
 import { previewOf } from '../../../asset-overview/preview-of';
 import { renameFocused } from '../../../asset-overview/rename-focused';
-import { useActiveAsset } from '../../../hooks/useActiveAsset';
+import { useSubject } from '../../../properties-subject/useSubject';
 import { assetName } from '../../../workspace/asset-name';
 import { useFileFacts } from './useFileFacts';
 
 const useAssetOverview = (): OverviewModel | null => {
   const focus = useAssetFocus();
-  const active = useActiveAsset();
-  const file = useFileFacts(active?.path, active?.dirty ?? false);
+  const state = useSubject();
+  const subject = state.status === 'ready' ? state.subject : null;
+  const file = useFileFacts(subject?.path ?? undefined, subject?.dirty ?? false);
   return useMemo(() => {
     if (focus === null) return null;
     const preview = previewOf(focus.artwork, focus.key);

@@ -36,7 +36,9 @@ const checkGrant = (tool: ToolName, input: unknown, grant: Grant, program: strin
   if (grant.blocked || toolLevel(grant, tool) === 'disabled') {
     return mcpFailure(MCP_ERROR_CODE.TOOL_DISABLED, GRANT_TEXT.toolOff(tool, program));
   }
-  return TOOL_CATALOGUE[tool].routed === undefined ? checkPlain(grant, tool, input) : checkRouted(grant, tool, input, program);
+  const { routed, special } = TOOL_CATALOGUE[tool];
+  if (special !== undefined && !grant.special[special]) return mcpFailure(MCP_ERROR_CODE.TOOL_DISABLED, GRANT_TEXT.restartOff(tool, program));
+  return routed === 'steps' ? checkRouted(grant, tool, input, program) : checkPlain(grant, tool, input);
 };
 
 export { checkGrant };

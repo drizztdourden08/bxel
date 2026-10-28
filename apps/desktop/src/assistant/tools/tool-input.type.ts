@@ -23,7 +23,7 @@ type ExportTarget = { readonly path: string; readonly source: SpriteSource | Ani
 
 type GetDocumentInput = DocumentInput & { readonly spriteOffset: number; readonly spriteLimit: number };
 
-type ReadPaletteInput = DocumentInput & { readonly bankId?: string };
+type ReadPaletteInput = DocumentInput & { readonly bankId?: string; readonly include?: readonly ('usage' | 'duplicates' | 'sharing')[] };
 
 type ListMapLayersInput = DocumentInput & { readonly tilemapId?: string; readonly includeTiles: boolean };
 

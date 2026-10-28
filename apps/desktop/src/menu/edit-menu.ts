@@ -2,34 +2,38 @@
 import type { MenuItem } from '@drizztdourden08/brock-react';
 import { COMMAND_ID } from '../keymap/keymap.constants';
 import { SELECTION_COMMAND_ID as ID } from '../keymap/selection-command-id.constants';
+import { evaluate } from '../ui-context/evaluate';
 import { MENU_KEYS, MENU_TEXT } from './editor-menu.constants';
 import type { EditorMenuState } from './editor-menu.type';
-import { menuItem } from './menu-item';
-import { hasPart } from '../surface/has-part';
+import { ruledItem } from './ruled-item';
+import { tidyMenu } from './tidy-menu';
 import { transformMenu } from './transform-menu';
 
 const editMenu = (state: EditorMenuState): MenuItem => {
-  const off = { disabled: !state.hasDocument };
+  const { context } = state;
+  const item = (id: string, label: string) => ruledItem(context, id, label);
+  const transform = evaluate('menu.edit.transform', context).state === 'hidden' ? null : transformMenu(state);
   return {
     key: MENU_KEYS.edit,
     label: MENU_TEXT.edit,
     icon: 'pencil',
-    children: [
-      menuItem(COMMAND_ID.undo, 'Undo', { disabled: !state.canUndo }),
-      menuItem(COMMAND_ID.redo, 'Redo', { disabled: !state.canRedo }),
+    children: tidyMenu([
+      item(COMMAND_ID.undo, 'Undo'),
+      item(COMMAND_ID.redo, 'Redo'),
       'separator',
-      menuItem(ID.cut, 'Cut', off),
-      menuItem(ID.copy, 'Copy', off),
-      menuItem(ID.paste, 'Paste', off),
-      menuItem(ID.delete, 'Delete', off),
+      item(ID.cut, 'Cut'),
+      item(ID.copy, 'Copy'),
+      item(ID.paste, 'Paste'),
+      item(ID.delete, 'Delete'),
       'separator',
-      menuItem(ID.selectAll, 'Select all', off),
-      menuItem(ID.clear, 'Deselect', off),
-      menuItem(ID.invert, 'Invert selection', off),
-      menuItem(ID.expand, 'Expand selection by 1 pixel', off),
-      menuItem(ID.shrink, 'Shrink selection by 1 pixel', off),
-      ...(hasPart(state.hasDocument ? state.surface : 'sprite', 'transform') ? ['separator' as const, transformMenu(state)] : []),
-    ],
+      item(ID.selectAll, 'Select all'),
+      item(ID.clear, 'Deselect'),
+      item(ID.invert, 'Invert selection'),
+      item(ID.expand, 'Expand selection by 1 pixel'),
+      item(ID.shrink, 'Shrink selection by 1 pixel'),
+      'separator',
+      transform,
+    ]),
   };
 };
 

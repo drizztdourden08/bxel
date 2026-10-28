@@ -2,8 +2,8 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { ANIMATION_COMMAND as ID } from './animation-command-id.constants';
-import { onSurface } from './on-surface';
 import { COMMAND_GROUP } from './keymap.constants';
+import { ruled } from './ruled';
 
 const ANIMATION_COMMANDS: readonly CommandDef[] = [
   {
@@ -13,6 +13,6 @@ const ANIMATION_COMMANDS: readonly CommandDef[] = [
     checked: () => useTilemapStore.getState().animateTiles,
     run: () => useTilemapStore.getState().setAnimateTiles(!useTilemapStore.getState().animateTiles),
   },
-].map(onSurface('map', 'tile'));
+].map(ruled);
 
 export { ANIMATION_COMMANDS };

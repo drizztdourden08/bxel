@@ -1,0 +1,12 @@
+/* @layer renderer-app @kind style */
+.palette-card {
+  flex: 1;
+  inline-size: 100%;
+  min-block-size: 0;
+}
+
+.palette-card__body {
+  max-inline-size: var(--size-640);
+  margin-inline: auto;
+  padding: var(--space-md);
+}

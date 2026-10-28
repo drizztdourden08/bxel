@@ -1,15 +1,14 @@
 /* @layer renderer-app @kind logic */
-import { COMMAND_NAME } from '@bxel/document';
 import type { LayerId } from '@bxel/document';
 import { currentTarget } from './current-target';
+import { layerErrorText } from './layer-error-text';
 import { LAYER_LABEL } from './layer-text.constants';
-import { runLayer } from './run-layer';
+import { runLayerUpdate } from './run-layer-update';
 
-const renameLayer = (layerId: LayerId, name: string): boolean => {
+const tryRenameLayer = (layerId: LayerId, name: string): string | null => {
+  const refused = runLayerUpdate([layerId], { name }, LAYER_LABEL.rename);
   const target = currentTarget();
-  if (!target) return false;
-  const options = { layer: { by: 'id', id: layerId }, name };
-  return runLayer(target, LAYER_LABEL.rename, { name: COMMAND_NAME.layerUpdate, options }) !== null;
+  return refused && target ? layerErrorText(refused, target.sprite) : null;
 };
 
-export { renameLayer };
+export { tryRenameLayer };

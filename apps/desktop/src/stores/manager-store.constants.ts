@@ -11,6 +11,7 @@ const MANAGER_DEFAULTS: ManagerSettings = {
   sortDown: false,
   dialog: null,
   picked: [],
+  sheetId: null,
   layoutOpen: false,
   showExport: false,
   libraryRequest: 0,

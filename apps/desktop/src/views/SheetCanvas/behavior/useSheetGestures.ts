@@ -8,29 +8,35 @@ import { pickSpriteById } from '../../../sheet/pick-sprite-by-id';
 import { placeSprites } from '../../../sheet/place-sprites';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import type { ClickMemo, SheetDrag, SheetGesture, SheetView } from '../SheetCanvas.type';
+import { useGuideGrab } from '../../EditorCanvas/behavior/useGuideGrab';
 import { sheetDown } from './sheet-down';
+import { snapSheetDelta } from './snap-sheet-delta';
 import { sliceBox } from './slice-box';
 
 const useSheetGestures = (viewport: RefObject<PixelViewportHandle | null>, sheet: SheetView, drag: RefObject<SheetDrag | null>): SheetGesture => {
   const memo = useRef<ClickMemo>({ id: null, at: 0 });
+  const guide = useGuideGrab(viewport);
   const pointer = (event: { clientX: number; clientY: number }): Point => viewport.current?.screenToPixel(event.clientX, event.clientY) ?? { x: 0, y: 0 };
   return {
     down: (event) => {
+      if (guide.down(event)) return;
       if (event.button !== 0) return;
       sheetDown({ event, at: pointer(event), items: sheet.model.items, drag, memo });
       if (drag.current) event.currentTarget.setPointerCapture(event.pointerId);
     },
     move: (event) => {
+      if (guide.move(event)) return;
       const active = drag.current;
       if (!active) return;
       const at = pointer(event);
       drag.current =
         active.kind === 'move'
-          ? { ...active, delta: clampDelta(sheet.model.items, active.ids, { x: at.x - active.start.x, y: at.y - active.start.y }) }
+          ? { ...active, delta: clampDelta(sheet.model.items, active.ids, snapSheetDelta({ items: sheet.model.items, drag: active, delta: { x: at.x - active.start.x, y: at.y - active.start.y }, invert: event.altKey, zoom: viewport.current?.view().zoom ?? 1 })) }
           : { ...active, end: { x: at.x - active.origin.x, y: at.y - active.origin.y } };
       viewport.current?.redraw();
     },
     up: () => {
+      if (guide.up()) return;
       const done = drag.current;
       drag.current = null;
       viewport.current?.redraw();

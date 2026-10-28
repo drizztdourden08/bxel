@@ -1,0 +1,17 @@
+/* @layer renderer-app @kind style */
+.option-preview {
+  display: block;
+  inline-size: var(--size-48);
+  block-size: var(--size-48);
+  flex: none;
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-surface);
+  color: var(--c-text);
+  image-rendering: pixelated;
+}
+
+.option-preview[data-size="small"] {
+  inline-size: var(--size-24);
+  block-size: var(--size-24);
+}

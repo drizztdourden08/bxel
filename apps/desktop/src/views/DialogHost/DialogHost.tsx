@@ -6,6 +6,9 @@ import { ImportWizard } from '../ImportWizard';
 import { CreateDialog } from '../CreateDialog';
 import { ProjectCreateDialog } from '../ProjectCreateDialog';
 import { PaletteChangeDialog } from '../PaletteChangeDialog';
+import { PresetDialog } from '../PresetDialog';
+import { PaletteSheetDialog } from '../PaletteSheetDialog';
+import { RampBuilderDialog } from '../RampBuilderDialog';
 import { useWindowDrop } from './behavior/useWindowDrop';
 
 const DialogHost = () => {
@@ -19,6 +22,9 @@ const DialogHost = () => {
       <ProjectCreateDialog />
       <ImportWizard />
       <PaletteChangeDialog />
+      <PresetDialog />
+      <RampBuilderDialog />
+      <PaletteSheetDialog />
     </>
   );
 };

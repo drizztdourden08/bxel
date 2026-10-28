@@ -26,6 +26,16 @@ const TOOL_TEXT: Readonly<Record<ToolName, string>> = {
   export_document: 'Exports a document as an image or a sheet.',
   create_document: 'Creates a new document.',
   split_legacy_file: 'Splits an older file into separate assets.',
+  list_commands: 'Lists the commands of the Bxel window and whether each is on.',
+  run_command: 'Runs a command of the window as if chosen from a menu. At Read only commands that change what is shown run. Each command also follows its own group.',
+  get_view: 'Reads what the window shows: tabs, tool, colours, zoom, selection.',
+  set_view: 'Changes what the window shows. Tool, colours, symmetry, sprite and layer choices and selections count as editing.',
+  get_history: 'Reads the undo history of a document.',
+  list_layout: 'Lists the widgets and toolbars and where they are.',
+  set_layout: 'Shows, hides, docks, floats and resizes widgets, and moves toolbars.',
+  get_settings: 'Reads the settings of the app, the open project or the open asset.',
+  set_setting: 'Changes a setting of the app, the open project or the open asset. Assistant and shortcut settings stay closed.',
+  restart_bxel: 'Restarts Bxel and reconnects with the same permissions. Needs May restart Bxel.',
 };
 
 const LEVEL_NAME: Readonly<Record<Level, string>> = { disabled: 'Disabled', read: 'Read', edit: 'Edit' };

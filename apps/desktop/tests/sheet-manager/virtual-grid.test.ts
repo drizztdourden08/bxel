@@ -4,12 +4,14 @@ import { createElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { allFacts } from '../../src/sheet-manager/all-facts';
+import { modelFor } from './manager-harness';
 import { folderGroups } from '../../src/sheet-manager/folder-groups';
 import { visibleOrder } from '../../src/sheet-manager/visible-order';
 import { selectionIds } from '../../src/sheet/selection-ids';
 import { spriteScene } from '../../src/sheet/sprite-scene';
+import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
 import { activeIndex } from '../../src/views/SpritesPanel/behavior/active-index';
-import { tileSize } from '../../src/views/SpritesPanel/behavior/tile-size';
+import { tileSize } from '../../src/views/EntryTile';
 import { SpriteGrid } from '../../src/views/SpritesPanel/sub-components/SpriteGrid';
 import type { ManagerModel, SpriteGridProps } from '../../src/views/SpritesPanel/SpritesPanel.type';
 import { artwork, openFile } from '../sheet/sheet-harness';
@@ -20,10 +22,7 @@ const none = (): void => undefined;
 
 const modelOf = (): ManagerModel => {
   const art = artwork();
-  const scene = spriteScene(art, { activeId: null, selected: [] });
-  const facts = allFacts(art, null);
-  const groups = folderGroups(facts, new Set());
-  return { artwork: art, scene, sheet: null, facts, shown: facts, groups, order: visibleOrder(groups), sizes: [], tags: [], twins: new Set(), ids: selectionIds(scene) };
+  return modelFor(art, art.sheets[0] ?? null);
 };
 
 describe('the tile of the grid', () => {
@@ -41,7 +40,8 @@ describe('the active sprite in the grid', () => {
   it('counts through all the folders in the order they are drawn', () => {
     const names = ['solo', 'hero/a', 'hero/b'];
     openFile(names, 8);
-    const facts = allFacts(artwork(), null).filter((fact) => names.includes(fact.sprite.name));
+    addToSheet(artwork().sprites.map((sprite) => sprite.id), null);
+    const facts = allFacts(artwork(), artwork().sheets[0] ?? null).filter((fact) => names.includes(fact.sprite.name));
     const groups = folderGroups(facts, new Set());
     const hero = groups.flatMap((group) => group.facts).find((fact) => fact.sprite.name === 'hero/b');
     expect(activeIndex(groups, hero?.sprite.id ?? null)).toBe(2);
@@ -50,7 +50,10 @@ describe('the active sprite in the grid', () => {
 });
 
 describe('the drawn grid of a large sheet', () => {
-  beforeEach(() => openFile(Array.from({ length: 250 }, (_unused, at) => `s${at}`), 8));
+  beforeEach(() => {
+    openFile(Array.from({ length: 250 }, (_unused, at) => `s${at}`), 8);
+    addToSheet(artwork().sprites.map((sprite) => sprite.id), null);
+  });
 
   it('draws a grid with its name and not every tile', () => {
     const props: SpriteGridProps = {
@@ -58,8 +61,9 @@ describe('the drawn grid of a large sheet', () => {
       table: { current: null },
       affected: [],
       box: 48,
+      marks: new Map(),
       dragFor: () => ({ onDragStart: none, onDragOver: none, onDrop: none }),
-      handlersFor: () => ({ onPick: none, onRename: none, onMenu: none }),
+      handlersFor: () => ({ onPick: none, onEdit: none, onRename: none, onMenu: none }),
     };
     const page = renderToString(createElement(SpriteGrid, props));
     expect(page).toContain('role="grid"');

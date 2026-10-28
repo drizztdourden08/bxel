@@ -8,8 +8,23 @@ type SheetDrag =
   | { kind: 'move'; ids: readonly SpriteId[]; start: Point; delta: Point; pending: SpriteId | null }
   | { kind: 'slice'; sprite: Sprite; origin: Point; start: Point; end: Point };
 
+interface SheetMarks {
+  labels: boolean;
+  overlaps: boolean;
+  pivots: boolean;
+}
+
+interface SnapSheetInput {
+  items: readonly SheetItem[];
+  drag: Extract<SheetDrag, { kind: 'move' }>;
+  delta: Point;
+  invert: boolean;
+  zoom: number;
+}
+
 interface SheetPaintBase {
   model: SheetModel;
+  marks: SheetMarks;
   selected: ReadonlySet<SpriteId>;
   active: SpriteId | null;
 }
@@ -71,4 +86,4 @@ interface ClickMemo {
   at: number;
 }
 
-export type { ClickMemo, DownInput, PressInput, StartMoveInput, SheetDrag, SheetGesture, SheetLook, SheetPaintBase, SheetPaintState, SheetSurfaceProps, SheetView };
+export type { ClickMemo, DownInput, PressInput, StartMoveInput, SheetDrag, SheetGesture, SheetLook, SheetPaintBase, SnapSheetInput, SheetPaintState, SheetSurfaceProps, SheetView };

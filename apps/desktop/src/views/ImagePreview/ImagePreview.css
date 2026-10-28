@@ -6,7 +6,17 @@
   border-radius: var(--radius-md);
 }
 
+.image-preview-frame--fill {
+  flex: 1;
+  min-block-size: 0;
+  border-radius: 0;
+}
+
 .pixel-viewport.image-preview {
   inline-size: 100%;
   block-size: var(--size-224);
+}
+
+.pixel-viewport.image-preview.image-preview--fill {
+  block-size: 100%;
 }

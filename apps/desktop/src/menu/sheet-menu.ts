@@ -1,29 +1,36 @@
 /* @layer renderer-app @kind logic */
 import type { MenuEntry } from '@drizztdourden08/brock-react';
 import { SHEET_COMMAND as ID } from '../keymap/sheet-command-id.constants';
+import { evaluate } from '../ui-context/evaluate';
 import { MENU_KEYS, MENU_TEXT } from './editor-menu.constants';
 import type { EditorMenuState } from './editor-menu.type';
-import { menuItem } from './menu-item';
+import { ruledItem } from './ruled-item';
+import { tidyMenu } from './tidy-menu';
 
-const sheetEntries = (): MenuEntry[] => [
-  menuItem(ID.isolate, 'Isolate sprite'),
-  menuItem(ID.renameSprite, 'Rename sprite'),
-  menuItem(ID.duplicateSprite, 'Duplicate sprite'),
-  menuItem(ID.deleteSprite, 'Delete sprite'),
-  menuItem(ID.moveEarlier, 'Move sprite earlier'),
-  menuItem(ID.moveLater, 'Move sprite later'),
-  'separator',
-  {
+const sheetEntries = (state: EditorMenuState): MenuEntry[] => {
+  const { context } = state;
+  const item = (id: string, label: string) => ruledItem(context, id, label);
+  const arrange = evaluate('menu.sheet.arrange', context).state === 'hidden' ? null : {
     key: MENU_KEYS.arrange,
     label: MENU_TEXT.arrange,
-    children: [menuItem(ID.arrangeGrid, 'Grid'), menuItem(ID.arrangePacked, 'Packed'), menuItem(ID.arrangeManual, 'By hand')],
-  },
-  menuItem(ID.sliceAdd, 'Add slice'),
-  menuItem(ID.sliceRemove, 'Remove slices'),
-  menuItem(ID.importSheet, 'Slice grid...'),
-];
+    children: tidyMenu([item(ID.arrangeGrid, 'Grid'), item(ID.arrangePacked, 'Packed'), item(ID.arrangeManual, 'By hand')]),
+  };
+  return tidyMenu([
+    item(ID.isolate, 'Isolate sprite'),
+    item(ID.renameSprite, 'Rename sprite'),
+    item(ID.duplicateSprite, 'Duplicate sprite'),
+    item(ID.deleteSprite, 'Delete sprite'),
+    item(ID.moveEarlier, 'Move sprite earlier'),
+    item(ID.moveLater, 'Move sprite later'),
+    'separator',
+    arrange,
+    item(ID.sliceAdd, 'Add slice'),
+    item(ID.sliceRemove, 'Remove slices'),
+    item(ID.importSheet, 'Slice grid...'),
+  ]);
+};
 
 const sheetItems = (state: EditorMenuState): MenuEntry[] =>
-  state.isolated ? [menuItem(ID.back, MENU_TEXT.backToSheet)] : sheetEntries();
+  state.context.isolated ? tidyMenu([ruledItem(state.context, ID.back, MENU_TEXT.backToSheet)]) : sheetEntries(state);
 
 export { sheetItems };

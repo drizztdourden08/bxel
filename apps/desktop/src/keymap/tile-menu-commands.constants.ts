@@ -7,7 +7,7 @@ import { editTile } from '../tilemap/edit-tile';
 import { pickAt } from '../tilemap/pick-at';
 import { placeWithTile } from '../tilemap/place-with-tile';
 import { COMMAND_GROUP } from './keymap.constants';
-import { onSurface } from './on-surface';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.tilemap;
 
@@ -40,6 +40,6 @@ const TILE_MENU_COMMANDS: readonly CommandDef[] = [
       if (key !== null) editTile(key);
     },
   },
-].map(onSurface('map', 'tile'));
+].map(ruled);
 
 export { TILE_MENU_COMMANDS };

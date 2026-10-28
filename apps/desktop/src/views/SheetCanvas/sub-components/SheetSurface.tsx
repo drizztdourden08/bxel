@@ -2,13 +2,21 @@
 import { useMemo, useRef } from 'react';
 import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Box } from '@drizztdourden08/tessera';
+import { useAssetView } from '../../../asset-view/useAssetView';
+import { useAssetLook } from '../../../asset-view/useAssetLook';
+import { useCanvasLook } from '../../../canvas-look/useCanvasLook';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
 import { useToolStore } from '../../../stores/useToolStore';
+import { useViewStore } from '../../../stores/useViewStore';
 import { useEscapeCancel } from '../../EditorCanvas/behavior/useEscapeCancel';
 import { useSyncPending } from '../../EditorCanvas/behavior/useSyncPending';
 import { useViewportBridge } from '../../EditorCanvas/behavior/useViewportBridge';
 import { PixelViewport } from '../../PixelViewport';
+import { FRAMED_VIEWPORT, RulerFrame } from '../../RulerFrame';
+import { useGuideRedraw } from '../../EditorCanvas/behavior/useGuideRedraw';
+import { useRulerUnits } from '../../EditorCanvas/behavior/useRulerUnits';
+import { useViewDefaults } from '../../EditorCanvas/behavior/useViewDefaults';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import { SHEET_CANVAS_TEXT, SHEET_MENU } from '../SheetCanvas.constants';
 import type { SheetDrag, SheetSurfaceProps } from '../SheetCanvas.type';
@@ -17,43 +25,57 @@ import { useSheetDrop } from '../behavior/useSheetDrop';
 import { useSheetMenu } from '../behavior/useSheetMenu';
 import { useSheetGestures } from '../behavior/useSheetGestures';
 import { useSheetPaint } from '../behavior/useSheetPaint';
+import { feedView } from '../../../view-feed/feed-view';
 import { SheetExportBar } from './SheetExportBar';
 
 const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
   const viewport = useRef<PixelViewportHandle>(null);
   const drag = useRef<SheetDrag | null>(null);
+  const look = useAssetLook(useCanvasLook());
+  const gridTile = useViewStore((state) => state.gridTile);
   const hand = useToolStore((state) => state.tool === 'hand');
   const { model, data, exported } = sheet;
+  const { view } = useAssetView();
+  const { labels, overlaps, pivots } = view;
+  const marks = useMemo(() => ({ labels, overlaps, pivots }), [labels, overlaps, pivots]);
   const base = useMemo(
-    () => ({ model, selected: new Set(data.scene.selected.map((sprite) => sprite.id)), active: data.scene.active?.id ?? null }),
-    [model, data.scene.selected, data.scene.active],
+    () => ({ model, marks, selected: new Set(data.scene.selected.map((sprite) => sprite.id)), active: data.scene.active?.id ?? null }),
+    [model, marks, data.scene.selected, data.scene.active],
   );
   const draw = useSheetPaint(base, drag, viewport);
   const gestures = useSheetGestures(viewport, sheet, drag);
   const dropping = useSheetDrop(viewport, model.sheet?.id ?? null, exported !== null);
   useSheetMenu(viewport, model.items);
   useViewportBridge(viewport, true);
+  useViewDefaults();
+  useRulerUnits();
+  useGuideRedraw(viewport, null);
   useSyncPending(useEditorTarget());
   useEscapeCancel();
   const reading = exported !== null;
   return (
     <Box className="sheet-canvas" {...contextMenuZone(SHEET_MENU.zone)} {...dropping}>
-      <PixelViewport
-        ref={viewport}
-        className="sheet-canvas__viewport"
-        label={reading ? SHEET_CANVAS_TEXT.exportLabel : SHEET_CANVAS_TEXT.label}
-        width={exported?.width ?? model.extent.width}
-        height={exported?.height ?? model.extent.height}
-        source={sheet.image}
-        draw={reading ? undefined : draw}
-        hand={hand}
-        grid={false}
-        onPointerPixel={(pixel) => useReadoutStore.getState().setPointer(pixel)}
-        onPointerDown={reading ? undefined : gestures.down}
-        onPointerMove={reading ? undefined : gestures.move}
-        onPointerUp={reading ? undefined : gestures.up}
-        onKeyDown={reading ? undefined : sheetKeyDown}
-      />
+      <RulerFrame>
+        <PixelViewport
+          ref={viewport}
+          className={`sheet-canvas__viewport ${FRAMED_VIEWPORT}`}
+          label={reading ? SHEET_CANVAS_TEXT.exportLabel : SHEET_CANVAS_TEXT.label}
+          width={exported?.width ?? model.extent.width}
+          height={exported?.height ?? model.extent.height}
+          source={sheet.image}
+          draw={reading ? undefined : draw}
+          look={look}
+          hand={hand}
+          onView={feedView}
+          grid={false}
+          gridTile={gridTile}
+          onPointerPixel={(pixel) => useReadoutStore.getState().setPointer(pixel)}
+          onPointerDown={reading ? undefined : gestures.down}
+          onPointerMove={reading ? undefined : gestures.move}
+          onPointerUp={reading ? undefined : gestures.up}
+          onKeyDown={reading ? undefined : sheetKeyDown}
+        />
+      </RulerFrame>
       <SheetExportBar sheet={sheet} />
     </Box>
   );

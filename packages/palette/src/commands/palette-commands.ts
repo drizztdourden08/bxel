@@ -6,8 +6,11 @@ import { paletteDelete } from './palette-delete';
 import { paletteDetach } from './palette-detach';
 import { paletteDuplicate } from './palette-duplicate';
 import { paletteImport } from './palette-import';
+import { paletteRemoveUnused } from './palette-remove-unused';
 import { paletteReorder } from './palette-reorder';
 import { paletteResize } from './palette-resize';
+import { paletteSort } from './palette-sort';
+import { paletteUniteDuplicates } from './palette-unite-duplicates';
 import { paletteUpdate } from './palette-update';
 import { rampAdd } from './ramp-add';
 import { rampDelete } from './ramp-delete';
@@ -26,6 +29,9 @@ const paletteCommands: readonly CommandDef[] = [
   swatchDelete,
   swatchMerge,
   paletteReorder,
+  paletteSort,
+  paletteRemoveUnused,
+  paletteUniteDuplicates,
   paletteResize,
   paletteCreate,
   paletteUpdate,

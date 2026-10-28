@@ -1,18 +1,18 @@
 /* @layer renderer-app @kind test */
+import { columnContext } from '../ui-context/columns';
 import { describe, expect, it, vi } from 'vitest';
 import { modeOf } from '../../src/editor/selection/mode-of';
 import { SELECT_MODES } from '../../src/editor/selection/selection.constants';
 import { statusItems } from '../../src/editor/status-items';
 import { MODE_KEYS } from '../../src/editor/tool-descriptions.constants';
-import { TOOLS } from '../../src/editor/tools.constants';
+import { slotsOf } from '../../src/editor/tool-catalogue/slots-of';
+import { TOOL_SLOTS } from '../../src/editor/tool-catalogue/tool-catalogue.constants';
+import { toolIds } from '../../src/editor/tool-catalogue/tool-ids';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
-import { TOOL_ICONS } from '../../src/icons/tool-icons.constants';
-import { MAP_TOOLS } from '../../src/tilemap/map-tools.constants';
-import { railItems } from '../../src/views/ToolRail/behavior/rail-items';
-import type { RailItemContext } from '../../src/views/ToolRail/ToolRail.type';
+import { railOf } from '../ui-context/rail-of';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import { COMMON_ROWS, TOOL_ROWS } from '../../src/views/EditorStatus/EditorStatus.constants';
-import { LAYER_ACTIONS } from '../../src/views/LayersPanel/LayersPanel.constants';
+import { LAYER_BAR_HINTS } from '../../src/views/LayerStack/LayerStack.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
 import { CANVAS_ACTIONS, TRANSFORM_ACTIONS } from '../../src/views/CanvasToolbar/sub-components/TransformMenu.constants';
 import { allHints } from './all-hints';
@@ -45,29 +45,27 @@ describe('the hint texts', () => {
   });
 
   it('keep the key out of the names of buttons', () => {
-    const names = [...LAYER_ACTIONS.map((action) => action.hint.name), ...TRANSFORM_ACTIONS.map((action) => action.hint.name), ...CANVAS_ACTIONS.map((action) => action.hint.name), ...Object.values(SPRITE_HINTS).map((hint) => hint.name)];
+    const names = [...Object.values(LAYER_BAR_HINTS).map((hint) => hint.name), ...TRANSFORM_ACTIONS.map((action) => action.hint.name), ...CANVAS_ACTIONS.map((action) => action.hint.name), ...Object.values(SPRITE_HINTS).map((hint) => hint.name)];
     for (const name of names) expect(name).not.toMatch(/[()+]|\b(Ctrl|Alt|Shift)\b/);
   });
 });
 
 describe('the tool rail', () => {
-  it('names a tool button with the tool alone and puts the key in the hint', () => {
-    const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
-    const context: RailItemContext = { defs: MAP_TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
-    const toggles = railItems(context).filter((item) => item.kind === 'toggle');
-    expect(toggles.map((item) => item.label)).toEqual(MAP_TOOLS.map((def) => def.label));
+  it('names a map tool button with the tool alone and puts the key in the hint', () => {
+    const toggles = railOf('Tm').filter((item) => item.kind === 'toggle');
+    expect(toggles.map((item) => item.label)).toEqual(slotsOf('map').map((slot) => slot.label));
     for (const item of toggles) expect(item.label).not.toMatch(/[()+]/);
   });
 
-  it('lists every tool of the editor as a toggle named with the tool alone', () => {
-    const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
-    const context: RailItemContext = { defs: TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
-    const toggles = railItems(context).filter((item) => item.kind === 'toggle');
-    expect(toggles.map((item) => item.label).sort()).toEqual(TOOLS.map((def) => def.label).sort());
+  it('lists every tool of the editor as a toggle named with the slot and its current member', () => {
+    const toggles = railOf('Sp').filter((item) => item.kind === 'toggle');
+    expect(toggles).toHaveLength(slotsOf('sprite').length);
+    expect(toggles.map((item) => item.label)).toContain('Shapes, Line');
+    expect(toggles.map((item) => item.label)).toContain('Select, Rectangle');
   });
 
   it('gives every tool a description', () => {
-    for (const def of TOOLS) expect(def.description.length).toBeGreaterThan(10);
+    for (const slot of TOOL_SLOTS) for (const member of slot.members) expect(member.description.length).toBeGreaterThan(10);
   });
 });
 
@@ -83,15 +81,15 @@ describe('the selection mode keys', () => {
 
 describe('the status bar help', () => {
   it('adds a help entry to the status bar', () => {
-    const items = statusItems({ pointer: null, zoom: 1, colours: [null, null], clean: true, recovered: false });
+    const items = statusItems({ pointer: null, zoom: 1, colours: [null, null], clean: true, recovered: false, context: columnContext('Sp'), tile: null });
     expect(items.map((item) => item.id)).toContain('help');
   });
 
   it('lists the rows of the current tool before the rows for every tool', () => {
-    for (const tool of TOOLS) {
-      const help = canvasHelp(tool.id, 'sprite');
-      expect(help.shortcuts).toEqual([...TOOL_ROWS[tool.id], ...COMMON_ROWS]);
-      expect(help.description).toContain(tool.label);
+    for (const tool of toolIds()) {
+      const help = canvasHelp(tool, 'sprite');
+      expect(help.shortcuts).toEqual([...TOOL_ROWS[tool], ...COMMON_ROWS]);
+      expect(help.description).toContain(slotsOf('sprite').find((slot) => slot.tool === tool)?.label ?? tool);
     }
   });
 

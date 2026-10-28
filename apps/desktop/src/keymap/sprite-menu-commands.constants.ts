@@ -30,8 +30,8 @@ import { PROJECT_WIDGET_ID } from '../project/project.constants';
 import { isolateSprite } from '../sheet/isolate-sprite';
 import { pickTab } from '../workspace/pick-tab';
 import { COMMAND_ZONE } from './command-zone.constants';
-import { onSurface } from './on-surface';
 import { COMMAND_GROUP } from './keymap.constants';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.sheet;
 
@@ -71,7 +71,7 @@ const SPRITE_EDITS: readonly CommandDef[] = [
       else isolateSprite();
     }),
   },
-  { id: 'sprite.make_tileset', label: 'Make a tileset from the picked sprites', group, run: withManager((manager) => makeTileset(manager.ids)) },
+  { id: 'sprite.make_tileset', label: 'Make a tileset from the picked sprites', group, run: withManager((manager) => void makeTileset(manager.ids)) },
   {
     id: 'sprite.show_in_project',
     label: 'Show in the Project panel',
@@ -187,6 +187,6 @@ const SPRITE_SELECT: readonly CommandDef[] = [
   },
 ];
 
-const SPRITE_MENU_COMMANDS: readonly CommandDef[] = [...SPRITE_ACTIONS, ...SPRITE_EDITS, ...SPRITE_ORDER, ...SPRITE_SHEET, ...SPRITE_SELECT].map(onSurface('sheet'));
+const SPRITE_MENU_COMMANDS: readonly CommandDef[] = [...SPRITE_ACTIONS, ...SPRITE_EDITS, ...SPRITE_ORDER, ...SPRITE_SHEET, ...SPRITE_SELECT].map(ruled);
 
 export { SPRITE_MENU_COMMANDS };

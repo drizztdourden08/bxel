@@ -10,6 +10,7 @@ interface RecolourChange {
   index: number;
   rgb: string;
   alpha?: number;
+  name?: string;
 }
 
 export type { BankOption, BankOutcome, RecolourChange };

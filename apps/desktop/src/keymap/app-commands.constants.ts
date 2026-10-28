@@ -11,7 +11,9 @@ import { EDIT_COMMANDS } from './edit-commands.constants';
 import { GUIDE_MENU_COMMANDS } from './guide-menu-commands.constants';
 import { HELP_COMMANDS } from './help-commands.constants';
 import { LAYER_MENU_COMMANDS } from './layer-menu-commands.constants';
+import { OPTION_COMMANDS } from './option-commands.constants';
 import { PALETTE_MENU_COMMANDS } from './palette-menu-commands.constants';
+import { PALETTE_PANEL_COMMANDS } from './palette-panel-commands.constants';
 import { PROJECT_COMMANDS } from './project-commands.constants';
 import { RULER_UNIT_COMMANDS } from './ruler-unit-commands.constants';
 import { SELECTION_COMMANDS } from './selection-commands.constants';
@@ -27,11 +29,13 @@ import { TILE_MENU_COMMANDS } from './tile-menu-commands.constants';
 import { TILEMAP_COMMANDS } from './tilemap-commands.constants';
 import { TIMELINE_COMMANDS } from './timeline-commands.constants';
 import { TOOL_COMMANDS } from './tool-commands.constants';
+import { gated } from './gated';
 import { VIEW_COMMANDS } from './view-commands.constants';
 
 const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TOOL_COMMANDS,
   ...BRUSH_COMMANDS,
+  ...OPTION_COMMANDS,
   ...VIEW_COMMANDS,
   ...EDIT_COMMANDS,
   ...SELECTION_COMMANDS,
@@ -44,8 +48,8 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TIMELINE_COMMANDS,
   ...LAYER_MENU_COMMANDS,
   ...PALETTE_MENU_COMMANDS,
+  ...PALETTE_PANEL_COMMANDS,
   ...TILE_MENU_COMMANDS,
-  ...TAB_MENU_COMMANDS,
   ...STATUS_MENU_COMMANDS,
   ...SPRITE_MENU_COMMANDS,
   ...TIMELINE_MENU_COMMANDS,
@@ -55,6 +59,8 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...HELP_COMMANDS,
 ];
 
-const APP_COMMANDS: readonly CommandDef[] = [...FILE_COMMANDS, ...CONFIG_COMMANDS, ...PROJECT_COMMANDS, ...DIALOG_COMMANDS, ...TILED_COMMANDS, ...EDITOR_COMMANDS];
+const PLAIN_COMMANDS: readonly CommandDef[] = [...FILE_COMMANDS, ...CONFIG_COMMANDS, ...PROJECT_COMMANDS, ...TILED_COMMANDS, ...TAB_MENU_COMMANDS].map(gated);
+
+const APP_COMMANDS: readonly CommandDef[] = [...PLAIN_COMMANDS, ...DIALOG_COMMANDS, ...EDITOR_COMMANDS];
 
 export { APP_COMMANDS };

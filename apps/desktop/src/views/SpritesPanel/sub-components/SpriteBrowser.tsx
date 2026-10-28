@@ -28,6 +28,7 @@ import { ManagerFilters } from './ManagerFilters';
 import { SheetTitle } from './SheetTitle';
 import { SpriteCollection } from './SpriteCollection';
 import { SpriteRename } from './SpriteRename';
+import { ruledEntries } from '../../../context-menu/ruled-entries';
 
 const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const rename = useSpriteRename();
@@ -45,7 +46,7 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const onKeyDown = useSpritesKeys(model, table);
   const drag = useSpriteDrag(model);
   const selections = useManagerStore((state) => state.selections);
-  useContextMenu(COMMAND_ZONE.sprites, { label: SPRITE_MENU.label, entries: spriteMenuEntries });
+  useContextMenu(COMMAND_ZONE.sprites, { label: SPRITE_MENU.label, entries: ruledEntries(spriteMenuEntries) });
   const groups = actionGroups({ model, sortKey, rename: rename.begin, open, selections });
   const renaming = model.scene.sprites.find((sprite) => sprite.id === rename.renamingId);
   const body = (

@@ -65,6 +65,8 @@ export { mapEraseSchema } from './map-erase-schema';
 export { mapFillSchema } from './map-fill-schema';
 export { mapLayerAddSchema } from './map-layer-add-schema';
 export { mapLayerDeleteSchema } from './map-layer-delete-schema';
+export { mapLayerDuplicateSchema } from './map-layer-duplicate-schema';
+export { mapLayerMergeSchema } from './map-layer-merge-schema';
 export { mapLayerRefSchema } from './map-layer-ref-schema';
 export { mapLayerReorderSchema } from './map-layer-reorder-schema';
 export { mapLayerUpdateSchema } from './map-layer-update-schema';

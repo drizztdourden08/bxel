@@ -13,6 +13,7 @@ const settingsOf = (state: ManagerState): ManagerSettings => ({
   sortDown: state.sortDown,
   dialog: null,
   picked: [],
+  sheetId: state.sheetId,
   layoutOpen: state.layoutOpen,
   showExport: state.showExport,
   libraryRequest: 0,

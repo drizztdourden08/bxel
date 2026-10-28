@@ -3,6 +3,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 import type { PixelDraw, PixelViewportHandle } from '../../PixelViewport';
 import type { MapLive, MapPaintBase } from '../TilemapCanvas.type';
+import { paintGuides } from '../../EditorCanvas/behavior/paint-guides';
 import { mapLook } from './map-look';
 import { paintCellGrid } from './paint-cell-grid';
 import { paintCollision } from './paint-collision';
@@ -29,6 +30,7 @@ const useMapPaint = (base: MapPaintBase, live: RefObject<MapLive>, viewport: Ref
       paintSelection(ctx, view, state, look);
       paintDrag(ctx, view, state, look);
       paintHover(ctx, view, state, look);
+      paintGuides(ctx, view);
     },
     [live],
   );
