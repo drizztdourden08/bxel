@@ -64,6 +64,11 @@ describe('the tileset widget', () => {
     await expect.poll(label(cellsIn(session).last()), { timeout: POLL_MS }).not.toContain('wall');
   });
 
+});
+
+describe('the tileset widget collision mode', () => {
+  const rig = useRig(openTilemapRig);
+
   test('paints Full collision across both tiles in one step, undone and redone as one', async () => {
     const { session } = rig();
     const { page } = session;
