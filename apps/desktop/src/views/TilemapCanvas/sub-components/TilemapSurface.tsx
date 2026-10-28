@@ -2,6 +2,7 @@
 import { useMemo, useRef } from 'react';
 import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Box } from '@drizztdourden08/tessera';
+import { useAssetLook } from '../../../asset-view/useAssetLook';
 import { useCanvasLook } from '../../../canvas-look/useCanvasLook';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
@@ -22,6 +23,7 @@ import { useMapPaint } from '../behavior/useMapPaint';
 import { useSelectionReset } from '../behavior/useSelectionReset';
 import { useTileAnimation } from '../behavior/useTileAnimation';
 import { viewportClass } from '../behavior/viewport-class';
+import { feedView } from '../../../view-feed/feed-view';
 
 const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
   const viewport = useRef<PixelViewportHandle>(null);
@@ -34,7 +36,7 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
   const collision = useTilemapStore((state) => state.showCollision);
   const grid = useViewStore((state) => state.grid);
   const gridTile = useViewStore((state) => state.gridTile);
-  const look = useCanvasLook();
+  const look = useAssetLook(useCanvasLook());
   const { target, image } = view;
   const base = useMemo(
     () => ({ target, tool: MAP_TOOL_OF[tool], stamp, flags, selection, filled, collision, cells: grid || gridTile, look }),
@@ -63,6 +65,7 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
         look={look}
         grid={false}
         hand={tool === 'hand'}
+        onView={feedView}
         onPointerPixel={(pixel) => {
           keys.onPointerPixel();
           gesture.hover(pixel);

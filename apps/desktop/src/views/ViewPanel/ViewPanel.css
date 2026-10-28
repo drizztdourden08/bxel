@@ -1,0 +1,56 @@
+/* @layer renderer-app @kind style */
+.view-panel {
+  min-inline-size: 0;
+  overflow-y: auto;
+}
+
+.view-panel__section {
+  border-block-end: var(--border-width-thin) solid var(--c-border);
+}
+
+.view-panel__body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xs) var(--space-sm) var(--space-sm);
+}
+
+.view-panel__row {
+  min-inline-size: 0;
+}
+
+.view-panel__spacing {
+  padding-inline-start: var(--space-lg);
+}
+
+.view-panel__field-label {
+  flex: none;
+}
+
+.view-panel__swatch {
+  flex: none;
+  box-sizing: border-box;
+  inline-size: var(--size-24);
+  block-size: var(--size-16);
+  margin-inline-start: auto;
+  background:
+    linear-gradient(to right, var(--swatch-line) var(--border-width-thin), transparent var(--border-width-thin)) 0 0 / var(--swatch-gap) var(--swatch-gap),
+    linear-gradient(to bottom, var(--swatch-line) var(--border-width-thin), transparent var(--border-width-thin)) 0 0 / var(--swatch-gap) var(--swatch-gap),
+    var(--c-checker-b);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-sm);
+}
+
+.view-panel__dot {
+  display: inline-block;
+  inline-size: var(--size-8);
+  block-size: var(--size-8);
+  border-radius: var(--radius-round);
+}
+
+.view-panel__glyph-main {
+  fill: var(--c-primary);
+}
+
+.view-panel__glyph-copy {
+  fill: var(--c-text-muted);
+}

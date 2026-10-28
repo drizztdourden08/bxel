@@ -1,0 +1,64 @@
+/* @layer renderer-app @kind style */
+.navigator {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+}
+
+.navigator__stage {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  block-size: var(--size-160);
+  padding: var(--space-xs);
+  overflow: hidden;
+  background: var(--c-sunken);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-sm);
+}
+
+.navigator__thumb {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  background: repeating-conic-gradient(var(--c-checker-a) 0 25%, var(--c-checker-b) 0 50%) 0 0 / var(--size-8) var(--size-8);
+}
+
+.navigator__thumb:focus-visible {
+  outline: var(--border-width-thick) solid var(--c-focus);
+  outline-offset: var(--border-width-thick);
+}
+
+.navigator__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.navigator__frame {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  border: var(--border-width-thick) solid var(--c-primary);
+  box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--c-bg) 55%, transparent);
+}
+
+.navigator__frame[hidden],
+.navigator__mark[hidden] {
+  display: none;
+}
+
+.navigator__mark {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  border: var(--border-width-thin) dashed var(--c-warning);
+}

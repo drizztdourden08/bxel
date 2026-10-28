@@ -24,16 +24,16 @@ describe('zoom at the pointer', () => {
   it.each([1, 2])('keeps the pixel under the pointer fixed through every step at DPR %i', (dpr) => {
     const box = boxOf(dpr);
     const levels = zoomLevels(PIXEL_ZOOM_STEPS, fitZoom(image, box));
-    let target: ViewTarget = { zoom: levels[0] ?? 1, pan: { x: 20, y: 14 } };
+    let target: ViewTarget = { zoom: 1, pan: { x: 20, y: 14 } };
     const pixel = { x: 9, y: 31 };
     const anchor = centreOfPixel(pixel, target, box);
     levels.forEach(() => {
       target = zoomAt(target, stepZoom(levels, target.zoom, 1), anchor, box);
       expect(screenToPixel(anchor, target, box)).toEqual(pixel);
     });
-    expect(target.zoom).toBe(64);
+    expect(target.zoom).toBe(128);
     target = zoomAt(target, stepZoom(levels, target.zoom, -1), anchor, box);
-    expect(target.zoom).toBe(48);
+    expect(target.zoom).toBe(96);
     expect(screenToPixel(anchor, target, box)).toEqual(pixel);
   });
 
@@ -49,13 +49,14 @@ describe('zoom at the pointer', () => {
 });
 
 describe('zoom levels', () => {
-  it('steps by whole factors at and above 1x', () => {
+  it('steps by whole factors at and above 1x, down to 25% and up to 128x', () => {
     const levels = zoomLevels(PIXEL_ZOOM_STEPS, 6);
-    expect(levels).toEqual([1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64]);
+    expect(levels).toEqual([0.25, 0.5, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128]);
     expect(stepZoom(levels, 4, 1)).toBe(6);
     expect(stepZoom(levels, 6, -1)).toBe(4);
-    expect(stepZoom(levels, 64, 1)).toBe(64);
-    expect(stepZoom(levels, 1, -1)).toBe(1);
+    expect(stepZoom(levels, 128, 1)).toBe(128);
+    expect(stepZoom(levels, 1, -1)).toBe(0.5);
+    expect(stepZoom(levels, 0.25, -1)).toBe(0.25);
   });
 
   it('snaps a fractional zoom to the next whole step', () => {
@@ -80,7 +81,7 @@ describe('zoom levels', () => {
   });
 
   it('takes the steps the app passes, rounded and sorted', () => {
-    expect(zoomLevels([8, 1, 4, 4, 2.4], 3)).toEqual([1, 2, 4, 8]);
+    expect(zoomLevels([8, 1, 4, 4, 2.4], 3)).toEqual([0.25, 0.5, 1, 2, 4, 8]);
   });
 });
 

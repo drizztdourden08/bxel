@@ -1,6 +1,9 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { zoomView } from '../editor/zoom-view';
+import { zoomAtPointer } from '../view-zoom/zoom-at-pointer';
+import { zoomSelection } from '../view-zoom/zoom-selection';
+import { DIGIT_ZOOM } from '../view-zoom/view-zoom.constants';
 import { useViewStore } from '../stores/useViewStore';
 import { TILE_LABELS, TILE_MODES, VIEW_TOGGLE_ROWS } from '../stores/view-store.constants';
 import { editorCommand } from './editor-command';
@@ -28,8 +31,17 @@ const ZOOM_COMMANDS: readonly CommandDef[] = [
   { id: COMMAND_ID.zoomOut, label: 'Zoom out', group: COMMAND_GROUP.view, chord: 'Minus', run: () => zoomView('out') },
   { id: COMMAND_ID.zoomFit, label: 'Zoom to fit', group: COMMAND_GROUP.view, chord: 'Mod+0', run: () => zoomView('fit') },
   { id: COMMAND_ID.zoomActual, label: 'Actual size', group: COMMAND_GROUP.view, chord: 'Mod+1', run: () => zoomView('actual') },
+  { id: COMMAND_ID.zoomSelection, label: 'Zoom to selection', group: COMMAND_GROUP.view, chord: 'Mod+Shift+0', run: zoomSelection },
 ];
 
-const VIEW_COMMANDS: readonly CommandDef[] = [...ZOOM_COMMANDS, ...TOGGLE_COMMANDS, ...TILED_COMMANDS].map(editorCommand);
+const DIGIT_COMMANDS: readonly CommandDef[] = Object.entries(DIGIT_ZOOM).map(([digit, percent]) => ({
+  id: COMMAND_ID.zoomPercent(percent),
+  label: `Zoom to ${percent}% at the pointer`,
+  group: COMMAND_GROUP.view,
+  chord: digit,
+  run: () => zoomAtPointer(percent),
+}));
+
+const VIEW_COMMANDS: readonly CommandDef[] = [...ZOOM_COMMANDS, ...DIGIT_COMMANDS, ...TOGGLE_COMMANDS, ...TILED_COMMANDS].map(editorCommand);
 
 export { VIEW_COMMANDS };

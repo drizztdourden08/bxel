@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
-import { Toolbar } from '@drizztdourden08/tessera';
-import { CANVAS_TEXT, useCanvasItems } from '../views/CanvasToolbar';
+import { ViewPanel, VIEW_PANEL_TEXT } from '../views/ViewPanel';
 
-const meta: WidgetMeta = { label: 'Canvas', icon: 'image', defaultSide: 'right', defaultDockedSize: 232, popOut: false, defaultVisibility: 'context-only' };
+const meta: WidgetMeta = { label: VIEW_PANEL_TEXT.region, icon: 'image', defaultSide: 'right', defaultDockedSize: 264, popOut: true, defaultVisibility: 'context-only' };
 
-const CanvasWidget = () => <Toolbar layout="list" label={CANVAS_TEXT.region} items={useCanvasItems()} />;
+const CanvasWidget = () => <ViewPanel />;
 
 export default CanvasWidget;
 export { meta };

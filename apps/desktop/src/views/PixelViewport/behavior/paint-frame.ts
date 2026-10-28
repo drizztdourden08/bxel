@@ -35,6 +35,7 @@ const paintFrame = (canvas: HTMLCanvasElement, frame: FrameInput, cache: FrameCa
     paintImage({ ctx, placed: tile, view, scratch, primary: at === 0 }, frame);
     layers.forEach((layer) => paintGrid(ctx, tile, frame.image, layer));
   });
+  frame.onView?.(view, frame.source);
 };
 
 export { paintFrame };

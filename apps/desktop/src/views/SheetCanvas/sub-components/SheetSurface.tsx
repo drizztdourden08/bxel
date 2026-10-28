@@ -2,6 +2,8 @@
 import { useMemo, useRef } from 'react';
 import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Box } from '@drizztdourden08/tessera';
+import { useAssetLook } from '../../../asset-view/useAssetLook';
+import { useCanvasLook } from '../../../canvas-look/useCanvasLook';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
 import { useToolStore } from '../../../stores/useToolStore';
@@ -16,10 +18,12 @@ import { sheetKeyDown } from '../behavior/sheet-key-down';
 import { useSheetMenu } from '../behavior/useSheetMenu';
 import { useSheetGestures } from '../behavior/useSheetGestures';
 import { useSheetPaint } from '../behavior/useSheetPaint';
+import { feedView } from '../../../view-feed/feed-view';
 
 const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
   const viewport = useRef<PixelViewportHandle>(null);
   const drag = useRef<SheetDrag | null>(null);
+  const look = useAssetLook(useCanvasLook());
   const hand = useToolStore((state) => state.tool === 'hand');
   const { model, data } = sheet;
   const base = useMemo(
@@ -42,7 +46,9 @@ const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
         height={model.extent.height}
         source={sheet.image}
         draw={draw}
+        look={look}
         hand={hand}
+        onView={feedView}
         grid={false}
         onPointerPixel={(pixel) => useReadoutStore.getState().setPointer(pixel)}
         onPointerDown={gestures.down}

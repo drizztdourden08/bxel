@@ -34,6 +34,7 @@ import { viewportClass } from './behavior/viewport-class';
 import { EmptyCanvas } from './sub-components/EmptyCanvas';
 import { RulerBars } from './sub-components/RulerBars';
 import './EditorCanvas.css';
+import { feedView } from '../../view-feed/feed-view';
 
 const EditorCanvas = () => {
   const target = useEditorTarget();
@@ -81,6 +82,7 @@ const EditorCanvas = () => {
         gridMajor={gridMajor}
         gridTile={gridTile}
         hand={tool === 'hand'}
+        onView={feedView}
         tiled={WRAP_OF[tiled]}
         onPointerPixel={(pixel) => {
           keys.onPointerPixel();
