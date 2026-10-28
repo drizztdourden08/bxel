@@ -4,7 +4,7 @@ import type { SettingScope } from './settings-scope.type';
 
 const settingsScope = (screen: CatalogScreen): SettingScope => {
   const group = screen.group.toLowerCase();
-  if (group.includes('asset')) return 'asset';
+  if (group.includes('asset') || group.includes('propert')) return 'asset';
   return group.includes('project') ? 'project' : 'app';
 };
 

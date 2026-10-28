@@ -27,6 +27,7 @@ const projectMenu = (recent: readonly RecentProject[], isOpen: boolean, open: (r
     menuItem(PROJECT_COMMAND.open, PROJECT_TEXT.openProject),
     { key: 'project-open-recent', label: PROJECT_TEXT.openRecent, children: recentEntries(recent, open) },
     'separator',
+    menuItem(PROJECT_COMMAND.window, PROJECT_TEXT.window),
     menuItem(PROJECT_COMMAND.panel, PROJECT_TEXT.showPanel),
     menuItem(PROJECT_COMMAND.settings, PROJECT_TEXT.settings, closed),
     menuItem(PROJECT_COMMAND.pack, PACK_TEXT.menu, closed),
