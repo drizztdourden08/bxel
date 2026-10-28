@@ -71,5 +71,22 @@ describe('the contextual chrome of each file type', () => {
     await preview.getByRole('button', { name: 'Import...' }).waitFor();
     expect(await tools(session).getByRole('button', { name: 'Pencil' }).count()).toBe(0);
     expect(await session.page.getByRole('application', { name: 'Sprite canvas' }).count()).toBe(0);
+    await session.page.getByText(/blocks.png - Bxel/).first().waitFor();
+  });
+});
+
+describe('the start state after the last tab closes', () => {
+  const rig = useRig(async () => ({ session: await openSession() }));
+
+  test('shows the start card with its actions and dims the tool rail with a hint', async () => {
+    const { session } = rig();
+    await session.page.getByRole('tablist', { name: 'Open assets' }).getByRole('tab').first().click({ button: 'middle' });
+    const start = session.page.getByRole('region', { name: 'Start' });
+    await start.waitFor();
+    await start.getByRole('button', { name: 'New asset' }).waitFor();
+    await start.getByRole('button', { name: 'Open', exact: true }).waitFor();
+    expect(await tools(session).getByRole('button', { name: 'Pencil' }).isDisabled()).toBe(true);
+    expect(await session.page.getByRole('region', { name: 'Timeline' }).count()).toBe(0);
+    expect(await session.page.getByRole('region', { name: 'Layers' }).count()).toBe(0);
   });
 });

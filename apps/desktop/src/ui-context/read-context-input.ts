@@ -9,6 +9,7 @@ import { useSpriteStore } from '../stores/useSpriteStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { useTimelineStore } from '../stores/useTimelineStore';
 import { useToolStore } from '../stores/useToolStore';
+import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { currentTileset } from '../tilemap/current-tileset';
 import { currentTab } from '../workspace/current-tab';
 import type { ContextInput } from './bxel-context.type';
@@ -24,8 +25,13 @@ const imageActive = (): boolean => {
   return activeId !== null && tabs.some((each) => each.id === activeId);
 };
 
-const tabKindOf = (open: boolean): ContextInput['tabKind'] => {
-  const kind = open ? (currentTab()?.key.kind ?? null) : null;
+const hasOwnTab = (activeId: string): boolean => {
+  const { tabs, workspaces } = useWorkspaceStore.getState();
+  return workspaces[activeId] === undefined || tabs.some((tab) => tab.documentId === activeId);
+};
+
+const tabKindOf = (activeId: string | null, open: boolean): ContextInput['tabKind'] => {
+  const kind = open && activeId !== null && hasOwnTab(activeId) ? (currentTab()?.key.kind ?? null) : null;
   return kind === 'project' ? null : kind;
 };
 
@@ -45,7 +51,7 @@ const readContextInput = (): ContextInput => {
   const view = activeId === null ? undefined : views[activeId];
   return {
     ...selectionInput(activeId),
-    tabKind: tabKindOf(view !== undefined),
+    tabKind: tabKindOf(activeId, view !== undefined),
     imageActive: imageActive(),
     isolated: useSpriteStore.getState().isolated,
     tileEdit: useTilemapStore.getState().editMode,

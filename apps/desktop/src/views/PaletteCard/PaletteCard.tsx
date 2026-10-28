@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind component */
 import { Card, EmptyState, Grid, ListItemList, ScrollArea, Stack, Text } from '@drizztdourden08/tessera';
 import { PALETTE_TEXT } from '../../editor/palette-text.constants';
+import { swatchColumns } from './behavior/swatch-columns';
 import { usePaletteCard } from './behavior/usePaletteCard';
-import { PALETTE_CARD_TEXT, SWATCH_COLUMN_WIDTH } from './PaletteCard.constants';
+import { PALETTE_CARD_TEXT } from './PaletteCard.constants';
 import { SwatchTile } from './sub-components/SwatchTile';
 import { UserRow } from './sub-components/UserRow';
 import './PaletteCard.css';
@@ -16,7 +17,7 @@ const PaletteCard = () => {
       <Stack gap="md" className="palette-card__body">
         <Card title={PALETTE_TEXT.title(bank.name)} subtitle={PALETTE_TEXT.count(bank.cap, bank.transparent)}>
           <Stack gap="sm">
-            <Grid minColWidth={SWATCH_COLUMN_WIDTH} gap="2xs" role="group" aria-label={PALETTE_CARD_TEXT.swatches}>
+            <Grid columns={swatchColumns(slots.length)} gap="2xs" role="group" aria-label={PALETTE_CARD_TEXT.swatches}>
               {slots.map((slot) => (
                 <SwatchTile key={slot.index} slot={slot} />
               ))}

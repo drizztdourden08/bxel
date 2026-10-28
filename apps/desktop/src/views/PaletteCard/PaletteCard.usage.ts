@@ -27,7 +27,7 @@ const usage = {
 
 const Stage = () => <PaletteCard />;
 `,
-  propsHash: 'none',
+  propsHash: '69a6789bb8733db8',
 } satisfies ComponentUsage;
 
 export { usage };

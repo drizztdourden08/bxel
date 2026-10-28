@@ -11,8 +11,10 @@ const PALETTE_CARD_TEXT = {
   size: (width: number, height: number): string => `${width} x ${height}`,
 } as const;
 
-const SWATCH_COLUMN_WIDTH = 36;
+const MAX_SWATCH_COLUMNS = 8;
+
+const MIN_EVEN_COLUMNS = 4;
 
 const THUMB_WIDTH = 40;
 
-export { PALETTE_CARD_TEXT, SWATCH_COLUMN_WIDTH, THUMB_WIDTH };
+export { MAX_SWATCH_COLUMNS, MIN_EVEN_COLUMNS, PALETTE_CARD_TEXT, THUMB_WIDTH };
