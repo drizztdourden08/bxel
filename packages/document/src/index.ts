@@ -76,6 +76,7 @@ export { remapBank } from './draft/remap-bank';
 export { resizeSprite } from './draft/resize-sprite';
 export { updateArtwork } from './draft/update-artwork';
 export { updateSprite } from './draft/update-sprite';
+export { MAX_SAVED_SELECTIONS } from './model/limits.constants';
 export { writableCel } from './draft/writable-cel';
 export * from './sprite-compose';
 export { computeChanges } from './engine/compute-changes';

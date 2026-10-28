@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { defineCommand } from '@bxel/document';
+import { paletteOptions } from './palette-options';
 import { scaleMover } from '../region/scale-mover';
 import { ADVANCED_COMMAND } from './advanced-commands.constants';
 import { runResample } from './run-resample';
@@ -10,8 +11,9 @@ const pixelsScale = defineCommand({
   scope: 'cels',
   schema: pixelsScaleSchema,
   run: (draft, input) => {
-    const { target, anchor, bounds, skipZero, mask } = input.options;
-    runResample(draft, input, { mover: scaleMover({ target, anchor }), mask, pivot: undefined, bounds, skipZero });
+    const { target, anchor, bounds, skipZero, mask, algorithm, similar } = input.options;
+    const options = paletteOptions(draft.artwork, input.sprites[0], similar);
+    runResample(draft, input, { mover: scaleMover({ target, anchor }, algorithm, options), mask, pivot: undefined, bounds, skipZero });
   },
 });
 

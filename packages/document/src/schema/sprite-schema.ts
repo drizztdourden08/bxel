@@ -4,6 +4,7 @@ import { ID_PREFIX } from '../ids/id-prefix.constants';
 import type { BankId, CelId, FrameId, LayerId, SliceId, SpriteId, TagId } from '../model/ids.type';
 import {
   MAX_DURATION_MS,
+  MAX_SAVED_SELECTIONS,
   MAX_SPRITE_SIZE,
   MIN_DURATION_MS,
   MIN_SPRITE_SIZE,
@@ -11,6 +12,7 @@ import {
 import { brandedIdSchema } from './branded-id-schema';
 import { createdSchema } from './created-schema';
 import { guidesSchema } from './guides-schema';
+import { savedSelectionSchema } from './saved-selection-schema';
 import { nameSchema } from './name-schema';
 import { pivotSchema } from './pivot-schema';
 import { pixelGridSchema } from './pixel-grid-schema';
@@ -66,6 +68,7 @@ const spriteShellSchema = z.object({
   platformStrict: z.boolean().optional(),
   pixelGrid: pixelGridSchema.optional(),
   guides: guidesSchema.optional(),
+  selections: z.array(savedSelectionSchema).max(MAX_SAVED_SELECTIONS).optional(),
   layers: z.array(layerSchema),
   frames: z.array(frameSchema),
   tags: z.array(tagSchema),

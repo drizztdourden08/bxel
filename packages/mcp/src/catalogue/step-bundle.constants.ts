@@ -11,6 +11,7 @@ const STEP_BUNDLE: Readonly<Record<string, BundleId>> = {
   ramp: 'edit_pixels',
   guide: 'edit_pixels',
   slice: 'edit_pixels',
+  selection: 'edit_pixels',
   preset: 'edit_pixels',
   artwork: 'edit_pixels',
   animation: 'animation',

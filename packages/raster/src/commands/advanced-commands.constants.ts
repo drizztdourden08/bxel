@@ -8,6 +8,8 @@ const ADVANCED_COMMAND = {
   pixelsMove: 'pixels.move',
   pixelsScale: 'pixels.scale',
   pixelsRotate: 'pixels.rotate',
+  pixelsTransform: 'pixels.transform',
+  pixelsDistort: 'pixels.distort',
 } as const;
 
 const SHADE_STEPS_MAX = 255;
