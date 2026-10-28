@@ -1,0 +1,26 @@
+/* @layer renderer-app @kind style */
+.layer-stack {
+  flex: 1;
+  min-block-size: 0;
+}
+
+.layer-stack__list {
+  flex: 1;
+  min-block-size: var(--size-96);
+}
+
+.layer-stack__header {
+  min-inline-size: 0;
+}
+
+.layer-stack__owner {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.layer-stack__count {
+  flex: none;
+}

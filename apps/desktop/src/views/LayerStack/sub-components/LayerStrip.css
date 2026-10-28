@@ -1,0 +1,10 @@
+/* @layer renderer-app @kind style */
+.layer-strip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--c-sunken);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+}

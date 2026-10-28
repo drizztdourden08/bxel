@@ -1,0 +1,16 @@
+/* @layer renderer-app @kind style */
+.layer-list {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.layer-list__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

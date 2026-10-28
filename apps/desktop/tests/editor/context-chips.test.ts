@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { currentTarget } from '../../src/editor/current-target';
 import type { EditorTarget } from '../../src/editor/editor.type';
-import { updateLayerFlag } from '../../src/editor/update-layer-flag';
+import { spriteLayerActions } from '../../src/editor/layer-actions';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useToolStore } from '../../src/stores/useToolStore';
@@ -36,12 +36,12 @@ describe('the scope chips of the scope bar', () => {
   });
 
   it('shows a locked layer with the icon flag, the same short text and the full text for the hint', () => {
-    updateLayerFlag(live().layerId, 'locked', true);
+    spriteLayerActions.setFlag([live().layerId], 'locked', true);
     expect(layerChip()).toEqual({ key: 'layer', text: 'Layer: Layer 1', full: 'Layer: Layer 1 (locked)', locked: true, danger: true });
   });
 
   it('keeps the word for a hidden layer and uses the danger tone', () => {
-    updateLayerFlag(live().layerId, 'visible', false);
+    spriteLayerActions.setFlag([live().layerId], 'visible', false);
     expect(layerChip()).toEqual({
       key: 'layer', text: 'Layer: Layer 1 (hidden)', full: 'Layer: Layer 1 (hidden)', locked: false, danger: true,
     });

@@ -9,6 +9,7 @@ const LAYER_TEXT = {
   noVisible: 'Show a layer first. Flatten copy joins the visible layers.',
   nameInvalid: 'A name has 1 to 64 characters you can print.',
   nameTaken: 'That name is already used. Choose another name.',
+  inFrames: (have: number, total: number): string => `in ${have} of ${total} frames`,
 } as const;
 
 const LAYER_LABEL = {
@@ -22,6 +23,8 @@ const LAYER_LABEL = {
   locked: 'Lock or unlock layer',
   move: 'Move layer',
   solo: 'Show only one layer',
+  colour: 'Set layer colour',
+  deleteMany: 'Delete layers',
 } as const;
 
 const LAYER_REF = 'layer';

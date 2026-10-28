@@ -10,6 +10,8 @@ import { stepHistory } from '../editor/step-history';
 import { stepLayer } from '../editor/step-layer';
 import { addMapLayer } from '../tilemap/add-map-layer';
 import { deleteMapLayer } from '../tilemap/delete-map-layer';
+import { duplicateMapLayer } from '../tilemap/duplicate-map-layer';
+import { mergeMapLayerDown } from '../tilemap/merge-map-layer-down';
 import { stepMapLayer } from '../tilemap/step-map-layer';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { editorCommand } from './editor-command';
@@ -38,8 +40,8 @@ const HISTORY_COMMANDS: readonly CommandDef[] = [
 
 const LAYER_COMMANDS: readonly CommandDef[] = [
   { id: COMMAND_ID.layerAdd, label: LAYER_LABEL.add, group: COMMAND_GROUP.layers, chord: 'Shift+N', run: mapOr(addMapLayer, addLayer) },
-  pixelCommand({ id: COMMAND_ID.layerDuplicate, label: LAYER_LABEL.duplicate, group: COMMAND_GROUP.layers, run: duplicateLayer }),
-  pixelCommand({ id: COMMAND_ID.layerMerge, label: LAYER_LABEL.merge, group: COMMAND_GROUP.layers, chord: 'Mod+E', run: mergeLayerDown }),
+  { id: COMMAND_ID.layerDuplicate, label: LAYER_LABEL.duplicate, group: COMMAND_GROUP.layers, run: mapOr(duplicateMapLayer, duplicateLayer) },
+  { id: COMMAND_ID.layerMerge, label: LAYER_LABEL.merge, group: COMMAND_GROUP.layers, chord: 'Mod+E', run: mapOr(mergeMapLayerDown, mergeLayerDown) },
   pixelCommand({ id: COMMAND_ID.layerFlatten, label: LAYER_LABEL.flatten, group: COMMAND_GROUP.layers, run: flattenLayers }),
   {
     id: COMMAND_ID.layerDelete,

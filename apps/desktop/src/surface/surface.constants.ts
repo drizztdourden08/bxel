@@ -14,6 +14,7 @@ const SURFACE_PARTS: Readonly<Record<Surface, readonly SurfacePart[]>> = {
 const WIDGET_CONTEXT = {
   paint: 'bxel-paint',
   options: 'bxel-options',
+  layers: 'bxel-layers',
   sheet: 'bxel-sheet',
   tileset: 'bxel-tileset',
 } as const;

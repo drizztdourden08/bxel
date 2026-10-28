@@ -1,0 +1,6 @@
+/* @layer renderer-app @kind style */
+.layer-bar {
+  justify-content: space-between;
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--border-width-thin) solid var(--c-border);
+}

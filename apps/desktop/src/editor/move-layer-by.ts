@@ -13,4 +13,15 @@ const moveLayerBy = (direction: 'up' | 'down', layerId?: string): void => {
   if (to >= 0 && to < layers.length) moveLayer(from, to);
 };
 
-export { moveLayerBy };
+const moveLayerToEdge = (edge: 'top' | 'bottom', layerId?: string): void => {
+  const target = currentTarget();
+  if (!target) return;
+  const { layers } = target.sprite;
+  const at = layers.findIndex((each) => each.id === (layerId ?? target.layerId));
+  if (at < 0) return;
+  const from = layers.length - 1 - at;
+  const to = edge === 'top' ? 0 : layers.length - 1;
+  if (from !== to) moveLayer(from, to);
+};
+
+export { moveLayerBy, moveLayerToEdge };

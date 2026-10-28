@@ -6,6 +6,7 @@ import type { ManagerViews } from './manager-views/manager-views.type';
 import type { CanvasSettings } from './canvas-look/canvas-look.type';
 import type { ExportSettings, SavedPreset } from './export/export.type';
 import type { ProjectSettings } from './project/project.type';
+import type { LayerThumbSize } from './stores/layer-view-store.type';
 
 interface AppSettings extends BaseSettings, CanvasSettings, AssistantSettings, ProjectSettings {
   assetDefaults: AssetDefaults;
@@ -14,6 +15,7 @@ interface AppSettings extends BaseSettings, CanvasSettings, AssistantSettings, P
   exportPresetsOfferedIn?: readonly string[];
   swatchSets?: readonly SwatchSet[];
   managerViews?: ManagerViews;
+  layerThumbSize?: LayerThumbSize;
 }
 
 export type { AppSettings };
