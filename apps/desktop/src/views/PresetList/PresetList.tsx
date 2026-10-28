@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button, Icon, Text } from '@drizztdourden08/tessera';
+import { Box, Button, Icon, Text } from '@drizztdourden08/tessera';
 import { allPresets } from '../../editor/presets/all-presets';
 import { matchingPreset } from '../../editor/presets/matching-preset';
 import { openSaveDraft } from '../../editor/presets/open-save-draft';
@@ -21,21 +21,21 @@ const PresetList = ({ tool }: PresetListProps) => {
   const matched = member ? matchingPreset(presets, member.id) : undefined;
   const quick = quickPresets(tool);
   return (
-    <section className="preset-list" aria-label={PRESET_TEXT.region}>
+    <Box as="section" className="preset-list" aria-label={PRESET_TEXT.region}>
       {presets.length === 0 && (
         <Text variant="caption" tone="muted">
           {PRESET_TEXT.empty}
         </Text>
       )}
-      <ul className="preset-list__rows" role="list">
+      <Box as="ul" className="preset-list__rows" role="list">
         {presets.map((preset) => (
           <PresetRow key={preset.id} preset={preset} active={matched?.id === preset.id} slot={quick.indexOf(preset) < 0 ? null : quick.indexOf(preset) + 1} />
         ))}
-      </ul>
+      </Box>
       <Button size="sm" variant="secondary" icon={<Icon name="save" />} onClick={() => void openSaveDraft()}>
         {PRESET_TEXT.save}
       </Button>
-    </section>
+    </Box>
   );
 };
 

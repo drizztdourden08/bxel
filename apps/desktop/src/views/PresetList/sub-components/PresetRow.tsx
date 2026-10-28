@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button, Shortcut, Tag, Text, TextInput } from '@drizztdourden08/tessera';
+import { Box, Button, Shortcut, Tag, Text, TextInput } from '@drizztdourden08/tessera';
 import { useState } from 'react';
 import { applyPreset } from '../../../editor/presets/apply-preset';
 import { presetSummary } from '../../../editor/presets/preset-summary';
@@ -20,9 +20,9 @@ const PresetRow = ({ preset, active, slot }: PresetRowProps) => {
     setName(null);
   };
   return (
-    <li className="preset-row" data-active={active}>
+    <Box as="li" className="preset-row" data-active={active}>
       <PresetPreview preset={preset} />
-      <div className="preset-row__text">
+      <Box className="preset-row__text">
         {name === null ? (
           <Text variant="label">{preset.name}</Text>
         ) : (
@@ -31,8 +31,8 @@ const PresetRow = ({ preset, active, slot }: PresetRowProps) => {
         <Text variant="caption" tone="muted">
           {preset.builtin === true ? `${PRESET_TEXT.builtIn}. ${presetSummary(preset)}` : presetSummary(preset)}
         </Text>
-      </div>
-      <div className="preset-row__actions">
+      </Box>
+      <Box className="preset-row__actions">
         {keys && <Shortcut size="xs" keys={keys} />}
         {active ? (
           <Tag color="primary">{PRESET_TEXT.inUse}</Tag>
@@ -42,8 +42,8 @@ const PresetRow = ({ preset, active, slot }: PresetRowProps) => {
           </Button>
         )}
         <PresetMenu preset={preset} onRename={() => setName(preset.name)} />
-      </div>
-    </li>
+      </Box>
+    </Box>
   );
 };
 

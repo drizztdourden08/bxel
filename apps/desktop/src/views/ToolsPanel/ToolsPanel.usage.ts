@@ -30,7 +30,7 @@ const usage = {
 
 const ToolsWidget = () => <ToolsPanel />;
 `,
-  propsHash: '0000000000000000',
+  propsHash: '69a6789bb8733db8',
 } satisfies ComponentUsage;
 
 export { usage };

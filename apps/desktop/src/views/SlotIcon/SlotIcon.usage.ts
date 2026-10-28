@@ -26,7 +26,7 @@ import type { ToolMember } from '../../editor/tool-catalogue/tool-catalogue.type
 
 const Example = ({ member }: { member: ToolMember }) => <SlotIcon member={member} filled={false} mark="corner" badge={null} />;
 `,
-  propsHash: '0000000000000000',
+  propsHash: 'd04feda33f258a8e',
 } satisfies ComponentUsage;
 
 export { usage };

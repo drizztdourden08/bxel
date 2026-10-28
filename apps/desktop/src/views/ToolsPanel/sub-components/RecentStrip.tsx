@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button, Icon, Stack, Text } from '@drizztdourden08/tessera';
+import { Box, Button, Icon, Stack, Text } from '@drizztdourden08/tessera';
 import { memberById } from '../../../editor/tool-catalogue/member-by-id';
 import { pickMember } from '../../../editor/tool-pick/pick-member';
 import { useToolStore } from '../../../stores/useToolStore';
@@ -19,13 +19,13 @@ const RecentStrip = () => {
           {TOOLS_PANEL_TEXT.recentEmpty}
         </Text>
       ) : (
-        <div className="tools-panel__recent">
+        <Box className="tools-panel__recent">
           {found.map((member) => (
             <Button key={member.id} size="xs" variant="ghost" icon={<Icon name={member.icon} />} onClick={() => pickMember(member)}>
               {member.label}
             </Button>
           ))}
-        </div>
+        </Box>
       )}
     </Stack>
   );

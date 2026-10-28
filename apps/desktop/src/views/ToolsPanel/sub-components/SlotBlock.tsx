@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Shortcut, Text } from '@drizztdourden08/tessera';
+import { Box, Flex, Shortcut, Text } from '@drizztdourden08/tessera';
 import { Fragment } from 'react';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { TOOLS_PANEL_TEXT } from '../ToolsPanel.constants';
@@ -10,16 +10,16 @@ import { ToolRow } from './ToolRow';
 const SlotBlock = ({ slot, shown, active, disabled, surface, keys }: SlotBlockProps) => {
   const hiddenMembers = useToolPrefsStore((state) => state.hiddenMembers);
   return (
-    <div className="tools-panel__group" role="group" aria-label={slot.label}>
-      <div className="tools-slot__head">
+    <Box className="tools-panel__group" role="group" aria-label={slot.label}>
+      <Flex className="tools-slot__head" align="center" justify="between" gap="sm">
         <Text variant="label">{slot.label}</Text>
-        <span>
+        <Flex as="span" align="center" gap="xs">
           <Text as="span" variant="caption" tone="muted">
             {TOOLS_PANEL_TEXT.cycles(slot.key)}
-          </Text>{' '}
+          </Text>
           {keys && <Shortcut size="xs" keys={keys} />}
-        </span>
-      </div>
+        </Flex>
+      </Flex>
       {slot.members.map((member) => {
         const isActive = active && member.id === shown.id;
         return (
@@ -29,7 +29,7 @@ const SlotBlock = ({ slot, shown, active, disabled, surface, keys }: SlotBlockPr
           </Fragment>
         );
       })}
-    </div>
+    </Box>
   );
 };
 

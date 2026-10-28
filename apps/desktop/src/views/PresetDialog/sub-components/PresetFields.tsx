@@ -5,7 +5,7 @@ import { memberById } from '../../../editor/tool-catalogue/member-by-id';
 import { readOption } from '../../../editor/tool-options/read-option';
 import { valueWords } from '../../../editor/tool-options/value-words';
 import { PRESET_DIALOG_TEXT } from '../PresetDialog.constants';
-import type { PresetForm } from '../behavior/usePresetForm';
+import type { PresetForm } from '../behavior/usePresetForm.type';
 
 const PresetFields = ({ member, form }: { member: string; form: PresetForm }) => {
   const tool = memberById(member)?.member.tool;

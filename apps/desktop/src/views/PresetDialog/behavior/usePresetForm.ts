@@ -1,14 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useState } from 'react';
 import type { PresetDraft } from '../../../editor/presets/tool-preset.type';
-
-interface PresetForm {
-  name: string;
-  ticked: readonly string[];
-  setName: (name: string) => void;
-  toggle: (id: string) => void;
-  valid: boolean;
-}
+import type { PresetForm } from './usePresetForm.type';
 
 const usePresetForm = (draft: PresetDraft): PresetForm => {
   const [name, setName] = useState(draft.name);
@@ -18,4 +11,3 @@ const usePresetForm = (draft: PresetDraft): PresetForm => {
 };
 
 export { usePresetForm };
-export type { PresetForm };

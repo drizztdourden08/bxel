@@ -8,7 +8,7 @@ import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { currentSurface } from '../../../surface/current-surface';
 import { RAIL_OPEN_KEYS, TOOL_RAIL_TEXT } from '../ToolRail.constants';
 import { flyoutModel } from '../../../tool-menu/flyout-model';
-import { stopOf } from '../../../tool-menu/stop-id-of';
+import { stopOf } from '../../../tool-menu/stop-of';
 
 const DRAG_LIMIT = 6;
 

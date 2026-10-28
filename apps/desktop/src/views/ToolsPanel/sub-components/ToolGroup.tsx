@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Text } from '@drizztdourden08/tessera';
+import { Box, Text } from '@drizztdourden08/tessera';
 import { Fragment } from 'react';
 import { shownMember } from '../../../editor/tool-catalogue/shown-member';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
@@ -12,7 +12,7 @@ const ToolGroup = ({ group, slots, surface, active, choice, keysOf }: ToolGroupP
   const hiddenMembers = useToolPrefsStore((state) => state.hiddenMembers);
   const disabled = surface === 'none';
   return (
-    <section className="tools-panel__group" aria-label={group.label}>
+    <Box as="section" className="tools-panel__group" aria-label={group.label}>
       <Text variant="overline" tone="muted" className="tools-panel__heading">
         {group.label}
       </Text>
@@ -27,7 +27,7 @@ const ToolGroup = ({ group, slots, surface, active, choice, keysOf }: ToolGroupP
           </Fragment>
         );
       })}
-    </section>
+    </Box>
   );
 };
 

@@ -6,11 +6,7 @@ import { updatePreset } from '../../../editor/presets/update-preset';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { PRESET_TEXT } from '../PresetList.constants';
 import type { ToolPreset } from '../../../editor/presets/tool-preset.type';
-
-interface PresetMenuProps {
-  preset: ToolPreset;
-  onRename: () => void;
-}
+import type { PresetMenuProps } from './PresetMenu.type';
 
 const userGroup = (preset: ToolPreset, onRename: () => void): MenuGroup => {
   const store = useToolPresetStore.getState();
