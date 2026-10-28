@@ -15,9 +15,10 @@
 }
 
 .swatch-strip--lg {
-  --strip-cell: var(--size-32);
+  --strip-cell: 0;
   --strip-height: var(--size-40);
 
+  width: 100%;
   gap: var(--space-2xs);
   overflow: visible;
 }
@@ -28,6 +29,7 @@
 
 .swatch-strip--lg .swatch-strip__step {
   flex: 1;
+  min-width: 0;
 }
 
 .swatch-strip__cell {
