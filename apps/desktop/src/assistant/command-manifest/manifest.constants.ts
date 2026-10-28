@@ -61,6 +61,11 @@ const EDIT_ROWS = [
   one('palette.delete_swatch', 'edit_pixels', 'edit', { args: 'deleteSwatch', dialog: 'palette_delete' }),
   one('palette.merge_swatch', 'edit_pixels', 'edit', { args: 'mergeSwatch', dialog: 'palette_merge' }),
   one('palette.change_limit', 'edit_pixels', 'edit', { args: 'colourLimit', dialog: 'palette_limit' }),
+  ...rows('edit_pixels', 'edit', ['palette.add_colour', 'palette.make_ramp', 'palette.make_ramp_by_lightness', 'palette.sort_selection']),
+  one('palette.new_ramp', 'edit_pixels', 'edit', { args: 'swatch', dialog: 'ramp_builder' }),
+  one('palette.gradient_between', 'edit_pixels', 'edit', { dialog: 'palette_gradient' }),
+  one('palette.remove_unused', 'edit_pixels', 'edit', { dialog: 'palette_remove_unused' }),
+  one('palette.unite_duplicates', 'edit_pixels', 'edit', { dialog: 'palette_unite' }),
   one('guide.add_here', 'edit_pixels', 'edit', { args: 'axis' }),
   one('guide.clear', 'edit_pixels', 'edit'),
 ];

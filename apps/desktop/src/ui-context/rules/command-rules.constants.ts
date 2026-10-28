@@ -137,6 +137,8 @@ const PALETTES: RuleTable = {
   ...family(['palette.delete_swatch', 'palette.merge_swatch', 'palette.change_limit'], PIXEL, [DOC, WRITE], ONLY.pixels),
   ...family(['palette.copy_hex', 'palette.reveal_swatch', 'palette.use_as'], PIXEL, [], ONLY.pixels),
   ...family(['palette.pick_here'], PIXEL, [], ONLY.pixels),
+  ...family(['palette.add_colour', 'palette.new_ramp', 'palette.make_ramp', 'palette.make_ramp_by_lightness', 'palette.gradient_between'], PIXEL, [DOC, WRITE], ONLY.pixels),
+  ...family(['palette.remove_unused', 'palette.unite_duplicates', 'palette.sort_selection'], PIXEL, [DOC, WRITE], ONLY.pixels),
 };
 
 const FILES: RuleTable = {

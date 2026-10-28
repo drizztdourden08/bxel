@@ -50,7 +50,7 @@ describe('check 1: a 16 slot sprite survives save and reopen', () => {
     await runMenu(session, [/^Sprite$/, /^Palette$/, /^Merge swatch/]);
     const dialog = session.page.getByRole('dialog', { name: 'Merge swatch' });
     await dialog.getByRole('combobox').click();
-    await session.page.getByRole('option', { name: /Swatch 3/ }).click();
+    await session.page.getByRole('option', { name: /Swatch 3/ }).and(session.page.locator(':not([data-swatch-index])')).click();
     await dialog.getByRole('button', { name: /^Merge swatches/ }).click();
     await dialog.waitFor({ state: 'detached' });
     await shiftLayer(session, 'Layer 2', 'Down');
