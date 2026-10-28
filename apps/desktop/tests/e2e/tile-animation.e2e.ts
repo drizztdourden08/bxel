@@ -38,6 +38,9 @@ const pickWater = async (session: Session): Promise<void> => {
   await tile.waitFor();
   expect(await tile.getAttribute('aria-label')).toContain('Plays an animation');
   await tile.click();
+  const show = tileset(session).getByRole('button', { name: 'Show Tile inspector' });
+  if ((await show.count()) > 0) await show.click();
+  await tileset(session).getByRole('radiogroup', { name: 'Tileset mode' }).getByRole('radio', { name: /Animation/ }).click();
   await tileset(session).getByText(`Plays ${TIDE.animation} (${TIDE.animation}.bxanim): 2 frames, ${TIDE.frameMs * 2} ms loop`).waitFor({ timeout: POLL_MS });
 };
 
