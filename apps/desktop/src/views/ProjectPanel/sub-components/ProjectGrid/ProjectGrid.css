@@ -1,0 +1,5 @@
+/* @layer renderer-app @kind style */
+.project-grid {
+  flex: 1;
+  min-block-size: var(--size-96);
+}

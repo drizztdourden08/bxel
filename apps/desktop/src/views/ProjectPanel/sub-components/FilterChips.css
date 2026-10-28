@@ -1,0 +1,6 @@
+/* @layer renderer-app @kind style */
+.project-chips {
+  flex-wrap: nowrap;
+  min-inline-size: 0;
+  overflow: hidden;
+}

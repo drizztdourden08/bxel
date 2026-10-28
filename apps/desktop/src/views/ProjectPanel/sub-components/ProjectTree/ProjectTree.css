@@ -1,0 +1,29 @@
+/* @layer renderer-app @kind style */
+.project-tree {
+  --tree-row-h: calc(var(--size-32) + var(--size-4));
+  --tree-thumb: var(--size-32);
+  position: relative;
+  flex: 1;
+  box-sizing: border-box;
+  min-block-size: var(--size-96);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: var(--radius-md);
+}
+
+.project-tree[data-density='compact'] {
+  --tree-row-h: var(--size-24);
+  --tree-thumb: var(--size-16);
+}
+
+.project-tree[data-drop='true'] {
+  background: var(--c-primary-soft);
+  outline: var(--border-width-thin) dashed var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thin));
+}
+
+.project-tree__body {
+  position: relative;
+  inline-size: 100%;
+  block-size: calc(var(--tree-count) * var(--tree-row-h));
+}

@@ -28,6 +28,46 @@ const PROJECT_TRASH_KEY: ZoneKey = {
   zone: COMMAND_ZONE.project,
 };
 
+const PROJECT_DUPLICATE_KEY: ZoneKey = {
+  id: 'project.duplicate_entry',
+  label: 'Duplicate the selected assets',
+  group: PROJECT_GROUP,
+  chord: 'Mod+D',
+  zone: COMMAND_ZONE.project,
+};
+
+const PROJECT_SELECT_ALL_KEY: ZoneKey = {
+  id: 'project.select_all',
+  label: 'Select all shown files',
+  group: PROJECT_GROUP,
+  chord: 'Mod+A',
+  zone: COMMAND_ZONE.project,
+};
+
+const PROJECT_NEW_FOLDER_KEY: ZoneKey = {
+  id: 'project.new_folder_here',
+  label: 'New folder in the focused folder',
+  group: PROJECT_GROUP,
+  chord: 'Mod+Shift+N',
+  zone: COMMAND_ZONE.project,
+};
+
+const PROJECT_NEW_MENU_KEY: ZoneKey = {
+  id: 'project.new_menu',
+  label: 'Open the New menu',
+  group: PROJECT_GROUP,
+  chord: 'Mod+N',
+  zone: COMMAND_ZONE.project,
+};
+
+const PROJECT_FIND_KEY: ZoneKey = {
+  id: 'project.find',
+  label: 'Search the project',
+  group: PROJECT_GROUP,
+  chord: 'Mod+F',
+  zone: COMMAND_ZONE.project,
+};
+
 const SPRITE_SELECT_ALL_KEY: ZoneKey = {
   id: 'sprite.select_visible',
   label: 'Select all shown sprites',
@@ -36,4 +76,14 @@ const SPRITE_SELECT_ALL_KEY: ZoneKey = {
   zone: COMMAND_ZONE.sprites,
 };
 
-export { LAYER_RENAME_KEY, PROJECT_RENAME_KEY, PROJECT_TRASH_KEY, SPRITE_SELECT_ALL_KEY };
+export {
+  LAYER_RENAME_KEY,
+  PROJECT_DUPLICATE_KEY,
+  PROJECT_FIND_KEY,
+  PROJECT_NEW_FOLDER_KEY,
+  PROJECT_NEW_MENU_KEY,
+  PROJECT_RENAME_KEY,
+  PROJECT_SELECT_ALL_KEY,
+  PROJECT_TRASH_KEY,
+  SPRITE_SELECT_ALL_KEY,
+};

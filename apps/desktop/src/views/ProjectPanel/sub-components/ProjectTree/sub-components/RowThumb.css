@@ -1,0 +1,31 @@
+/* @layer renderer-app @kind style */
+.project-thumb {
+  display: grid;
+  flex: none;
+  place-items: center;
+  box-sizing: border-box;
+  inline-size: var(--tree-thumb);
+  block-size: var(--tree-thumb);
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--c-sunken);
+  color: var(--c-text-dim);
+  font-size: var(--text-lg);
+}
+
+.project-thumb[data-plain='true'] {
+  background: transparent;
+}
+
+.project-thumb[data-ghost='true'] {
+  opacity: 0.5;
+}
+
+.project-thumb__img {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.project-tree[data-density='compact'] .project-thumb {
+  font-size: var(--text-base);
+}

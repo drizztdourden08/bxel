@@ -38,6 +38,18 @@ const sections: Section[] = [
     ],
   },
   {
+    id: 'project',
+    title: 'Project panel',
+    items: [
+      {
+        key: 'projectOpenOnClick',
+        label: 'Open assets with one click',
+        description: 'A single click in the Project panel opens an asset.',
+        hint: 'Off, a click selects a row and a double click or Enter opens it. On, a click opens an asset at once and Ctrl or Shift with a click still selects.',
+      },
+    ],
+  },
+  {
     id: 'developer',
     title: 'Developer',
     items: [

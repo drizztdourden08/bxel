@@ -1,5 +1,9 @@
 /* @layer renderer-app @kind style */
-.project-panel__scroll {
+.project-panel {
+  display: flex;
   flex: 1;
-  min-height: var(--size-96);
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-block-size: 0;
+  min-inline-size: 0;
 }

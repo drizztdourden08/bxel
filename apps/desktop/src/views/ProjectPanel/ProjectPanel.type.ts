@@ -1,94 +1,113 @@
 /* @layer renderer-app @kind types */
-import type { ListedEntry, Listing, RecentProject } from '@bxel/project';
-import type { OpenProject, ProjectFolderState } from '../../project/project.type';
+import type { RecentProject } from '@bxel/project';
+import type { KeyboardEvent, MouseEvent } from 'react';
+import type { RowKind } from '../../asset-list/asset-list.type';
+import type {
+  BrowserEdit,
+  BrowserItem,
+  BrowserModel,
+  BrowserQueryState,
+  BrowserRows,
+  BrowserSource,
+  BrowserView,
+  FilterCounts,
+  ProjectViewSettings,
+  SelectionModel,
+  ViewDensity,
+} from '../../project-browser/project-browser.type';
+import type { OpenProject } from '../../project/project.type';
 import type { CreatableKind } from '../../stores/creation-store.type';
-import type { AssetsModel } from './sub-components/AssetsView/AssetsView.type';
 
-type PanelView = 'assets' | 'folders';
+type PanelParts = {
+  readonly project: OpenProject | null;
+  readonly source: BrowserSource;
+  readonly data: BrowserModel;
+  readonly view: BrowserView;
+  readonly query: BrowserQueryState;
+  readonly browser: BrowserRows;
+  readonly selection: SelectionModel;
+  readonly edit: BrowserEdit;
+};
 
-type ProjectPanelModel = EntryActions &
+type FilterChip = { readonly id: string; readonly label: string; readonly remove: () => void };
+
+type ViewSetter = (change: Partial<ProjectViewSettings>) => void;
+
+type PickMods = { readonly shift: boolean; readonly toggle: boolean; readonly detail: number };
+
+type RowActions = {
+  readonly pick: (item: BrowserItem, mods: PickMods) => void;
+  readonly open: (item: BrowserItem) => void;
+  readonly toggle: (key: string) => void;
+  readonly collapseAll: () => void;
+  readonly newAsset: (kind: CreatableKind, parentKey?: string) => void;
+  readonly newFolder: (parentKey?: string) => void;
+  readonly newHere: string;
+  readonly trash: () => void;
+  readonly duplicate: () => void;
+  readonly rename: () => void;
+  readonly showMenu: (key: string, point: { readonly x: number; readonly y: number }) => void;
+  readonly keyDown: (event: KeyboardEvent<HTMLElement>) => void;
+  readonly focusSearch: () => void;
+};
+
+type DropSpring = { readonly start: (key: string) => void; readonly stop: () => void };
+
+type TreeKeys = (event: KeyboardEvent<HTMLElement>) => void;
+
+type PickActions = Pick<RowActions, 'pick' | 'open' | 'toggle' | 'collapseAll'>;
+
+type CreateActions = Pick<RowActions, 'newAsset' | 'newFolder' | 'newHere'>;
+
+type BulkActions = Pick<RowActions, 'trash' | 'duplicate' | 'rename' | 'showMenu' | 'focusSearch'>;
+
+type DragActions = {
+  readonly dropKey: string | null;
+  readonly dragProps: (item: BrowserItem) => Record<string, unknown>;
+  readonly dropProps: (item: BrowserItem | null) => Record<string, unknown>;
+};
+
+type StartActions = {
+  readonly newProject: () => void;
+  readonly openProject: () => void;
+  readonly openRecent: (root: string) => void;
+  readonly removeRecent: (entry: RecentProject) => void;
+  readonly openDemo: () => void;
+};
+
+type ProjectActions = {
+  readonly closeProject: () => void;
+  readonly openSettings: () => void;
+  readonly openHub: () => void;
+  readonly pack: () => void;
+  readonly refresh: () => void;
+  readonly grantFolder: (rootKey: string) => void;
+  readonly unlink: (rootKey: string) => void;
+};
+
+type ProjectPanelModel = StartActions &
   ProjectActions & {
-    readonly view: PanelView;
-    readonly search: string;
-    readonly assets: AssetsModel;
-    readonly setView: (view: PanelView) => void;
-    readonly setSearch: (search: string) => void;
-    readonly newAsset: (kind: CreatableKind) => void;
-    readonly newAssetIn: (kind: CreatableKind, dir: string) => void;
     readonly project: OpenProject | null;
     readonly recents: readonly RecentProject[];
-    readonly folder: ProjectFolderState | null;
-    readonly segments: readonly string[];
-    readonly listing: Listing | null;
-    readonly error: string | null;
-    readonly selected: string | null;
-    readonly chooseFolder: (folderId: string) => void;
-    readonly select: (name: string) => void;
-    readonly up: () => void;
-    readonly refresh: () => void;
-    readonly grantFolder: () => void;
-    readonly newProject: () => void;
-    readonly openProject: () => void;
-    readonly openRecent: (root: string) => void;
-    readonly closeProject: () => void;
-    readonly removeRecent: (entry: RecentProject) => void;
-    readonly openSettings: () => void;
+    readonly source: BrowserSource;
+    readonly data: BrowserModel;
+    readonly view: BrowserView;
+    readonly query: BrowserQueryState;
+    readonly browser: BrowserRows;
+    readonly selection: SelectionModel;
+    readonly edit: BrowserEdit;
+    readonly density: ViewDensity;
+    readonly counts: FilterCounts;
+    readonly roleKinds: ReadonlyMap<string, RowKind>;
+    readonly rowActions: RowActions;
+    readonly drag: DragActions;
+    readonly setWidth: (width: number) => void;
   };
 
 type PanelPartProps = { readonly model: ProjectPanelModel };
 
 type AddAssetProps = { readonly onPick: (kind: CreatableKind) => void };
 
-type ListingState = { readonly listing: Listing | null; readonly error: string | null };
+type RowEvent = MouseEvent<HTMLElement>;
 
-type Located = {
-  readonly folder: ProjectFolderState | null;
-  readonly segments: readonly string[];
-  readonly chooseFolder: (folderId: string) => void;
-  readonly enter: (name: string) => void;
-  readonly up: () => void;
-};
-
-type ProjectActionsInput = {
-  readonly dir: string | null;
-  readonly enter: (name: string) => void;
-  readonly refresh: () => void;
-};
-
-type ProjectActions = {
-  readonly naming: boolean;
-  readonly nameError: string | null;
-  readonly openEntry: (entry: ListedEntry) => void;
-  readonly startNaming: () => void;
-  readonly startNamingIn: (dir: string) => void;
-  readonly stopNaming: () => void;
-  readonly createFile: (name: string) => void;
-};
-
-type EntryActions = {
-  readonly renaming: string | null;
-  readonly renameError: string | null;
-  readonly makingFolder: boolean;
-  readonly folderError: string | null;
-  readonly startRename: (entry: ListedEntry) => void;
-  readonly stopRename: () => void;
-  readonly rename: (name: string) => void;
-  readonly trash: (entry: ListedEntry) => void;
-  readonly startFolder: () => void;
-  readonly startFolderIn: (parent: string) => void;
-  readonly stopFolder: () => void;
-  readonly createFolder: (name: string) => void;
-};
-
-type FolderScope = {
-  readonly dir: string | null;
-  readonly refresh: () => void;
-};
-
-type RenameState = Pick<EntryActions, 'renaming' | 'renameError' | 'startRename' | 'stopRename' | 'rename'>;
-
-type FolderMakerState = Pick<EntryActions, 'makingFolder' | 'folderError' | 'startFolder' | 'startFolderIn' | 'stopFolder' | 'createFolder'>;
-
-type EntryRowProps = PanelPartProps & { readonly entry: ListedEntry };
-
-export type { AddAssetProps, EntryActions, EntryRowProps, FolderScope, ListingState, Located, FolderMakerState, PanelPartProps, PanelView, ProjectActions, ProjectActionsInput, ProjectPanelModel, RenameState };
+export type { AddAssetProps, BulkActions, CreateActions, DragActions, DropSpring, FilterChip, PanelParts, PanelPartProps, PickActions, PickMods, ProjectActions, ProjectPanelModel, RowActions, RowEvent, StartActions, TreeKeys, ViewSetter };

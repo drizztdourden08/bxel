@@ -1,0 +1,20 @@
+/* @layer renderer-app @kind style */
+.project-chevron {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: var(--size-16);
+  block-size: var(--size-16);
+  color: var(--c-text-dim);
+  transition: transform var(--transition-fast);
+}
+
+.project-chevron[data-open='true'] {
+  transform: rotate(90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-chevron {
+    transition: none;
+  }
+}

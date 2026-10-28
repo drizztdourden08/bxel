@@ -1,0 +1,19 @@
+/* @layer renderer-app @kind style */
+.project-header {
+  flex-wrap: nowrap;
+  min-inline-size: 0;
+}
+
+.project-header__name {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.project-header__assistant {
+  flex: none;
+  color: var(--c-text-faint);
+}
+
+.project-header__assistant[data-on='true'] {
+  color: var(--c-success);
+}

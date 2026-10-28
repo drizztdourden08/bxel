@@ -1,0 +1,32 @@
+/* @layer renderer-app @kind style */
+.project-name {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-xs);
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+.project-name__text {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-name__meta {
+  flex-basis: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-tree[data-density='compact'] .project-name {
+  flex-wrap: nowrap;
+}
+
+.project-tree[data-density='compact'] .project-name__meta {
+  display: none;
+}

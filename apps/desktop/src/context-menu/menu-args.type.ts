@@ -43,8 +43,9 @@ interface StatusArgs {
 }
 
 interface ProjectArgs {
-  rowId: string;
-  name: string;
+  key: string;
+  path: string;
+  assetId: string;
   kind: CreatableKind;
 }
 

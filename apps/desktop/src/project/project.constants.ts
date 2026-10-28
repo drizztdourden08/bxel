@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind constants */
+import { DEFAULT_PROJECT_VIEW } from '../project-browser/project-browser.constants';
 import type { ProjectSettings } from './project.type';
 
-const PROJECT_DEFAULTS: ProjectSettings = { projectRecents: [], projectTabs: {} };
+const PROJECT_DEFAULTS: ProjectSettings = { projectRecents: [], projectTabs: {}, projectOpenOnClick: false, projectView: DEFAULT_PROJECT_VIEW };
 
 const PROJECT_WIDGET_ID = 'project';
 
@@ -62,6 +63,10 @@ const PROJECT_TEXT = {
     isFolder ? `The folder ${name} and everything in it moves to the trash. You can restore it from there.` : `${name} moves to the trash. You can restore it from there.`,
   trashConfirm: 'Move to trash',
   trashed: (name: string): string => `Moved ${name} to the trash.`,
+  trashManyMessage: (count: number): string => `${count} items move to the trash. You can restore them from there.`,
+  trashedMany: (count: number): string => `Moved ${count} items to the trash.`,
+  moveIntoSelf: (name: string): string => `${name} cannot move into itself.`,
+  moved: (count: number, name: string): string => (count === 1 ? `Moved ${name}.` : `Moved ${count} items into ${name}.`),
   renamed: (name: string): string => `Renamed to ${name}.`,
   folderCreated: (name: string): string => `Created the folder ${name}.`,
   inProject: (file: string, project: string): string => `${file} in ${project}`,

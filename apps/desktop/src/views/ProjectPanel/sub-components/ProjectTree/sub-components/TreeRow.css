@@ -1,0 +1,70 @@
+/* @layer renderer-app @kind style */
+.project-row {
+  position: absolute;
+  inset-block-start: calc(var(--tree-index) * var(--tree-row-h));
+  inset-inline: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  box-sizing: border-box;
+  block-size: var(--tree-row-h);
+  padding-inline: var(--space-xs);
+  padding-inline-start: calc(var(--space-xs) + var(--tree-depth) * var(--size-12));
+  border-radius: var(--radius-sm);
+  color: var(--c-text);
+  cursor: default;
+  user-select: none;
+  transition: background var(--transition-fast);
+}
+
+.project-row:hover {
+  background: var(--c-hover);
+}
+
+.project-row[aria-selected='true'] {
+  background: var(--c-selected);
+  box-shadow: inset var(--size-2) 0 0 var(--c-primary);
+}
+
+.project-row[data-active='true'] {
+  outline: var(--border-width-thin) solid var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thin));
+}
+
+.project-row:focus-visible {
+  outline: var(--border-width-thick) solid var(--c-focus);
+  outline-offset: calc(-1 * var(--border-width-thick));
+}
+
+.project-row[data-drop='true'] {
+  background: var(--c-primary-soft);
+  outline: var(--border-width-thin) dashed var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thin));
+}
+
+.project-row[data-ghost='true'] {
+  color: var(--c-text-faint);
+}
+
+.project-row[data-group='true'] {
+  color: var(--c-text-dim);
+}
+
+.project-row__more {
+  opacity: 0;
+  flex: none;
+  transition: opacity var(--transition-fast);
+}
+
+.project-row:hover .project-row__more,
+.project-row:focus-within .project-row__more,
+.project-row[aria-selected='true'] .project-row__more {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-row,
+  .project-row__more {
+    transition: none;
+  }
+}
