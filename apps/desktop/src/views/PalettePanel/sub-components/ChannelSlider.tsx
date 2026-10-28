@@ -10,7 +10,7 @@ const ChannelSlider = ({ label, value, min, max, step, stops, format, onChange }
     </Flex>
     <Box className="channel-slider__lane">
       <Box className="channel-slider__track" aria-hidden style={{ backgroundImage: `linear-gradient(to right, ${stops.join(', ')})` }} />
-      <Slider size="sm" aria-label={label} min={min} max={max} step={step} value={value} formatValue={format} onChange={onChange} className="channel-slider__slider" />
+      <Slider size="sm" aria-label={label} min={min} max={max} step={step} value={value} showValue={false} formatValue={format} onChange={onChange} className="channel-slider__slider" />
     </Box>
   </Stack>
 );

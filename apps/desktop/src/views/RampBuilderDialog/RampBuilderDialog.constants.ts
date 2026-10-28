@@ -14,7 +14,7 @@ const BUILDER_TEXT = {
   spanLight: 'Lightest lightness',
   chroma: 'Chroma drops at both ends',
   snap: 'Reuse swatches that are close',
-  snapDistance: 'How close, in hundredths of OKLab',
+  snapDistance: 'Match distance',
   percent: (value: number): string => `${value}%`,
   raise: (cap: number): string => `Raise the limit to ${cap}`,
   reuseMore: 'Reuse more',
