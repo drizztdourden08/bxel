@@ -7,7 +7,6 @@ import { PairControl } from './sub-components/PairControl';
 import { PlatformControl } from './sub-components/PlatformControl';
 import { PresetsControl } from './sub-components/PresetsControl';
 import { ReportControl } from './sub-components/ReportControl';
-import { SetControl } from './sub-components/SetControl';
 
 const AssetControl = ({ field }: AssetControlProps) => {
   switch (field) {
@@ -15,8 +14,6 @@ const AssetControl = ({ field }: AssetControlProps) => {
       return <BankControl />;
     case 'palette.cap':
       return <LimitControl />;
-    case 'palette.set':
-      return <SetControl />;
     case 'sprite.platform':
       return <PlatformControl />;
     case 'sprite.platformReport':

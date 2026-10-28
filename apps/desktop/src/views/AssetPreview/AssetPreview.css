@@ -1,0 +1,56 @@
+/* @layer renderer-app @kind style */
+.asset-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-inline-size: 0;
+}
+
+.asset-preview__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  block-size: var(--size-256);
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+}
+
+.asset-preview--compact .asset-preview__stage {
+  block-size: var(--size-160);
+}
+
+.asset-preview__canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.asset-preview__zoom {
+  position: absolute;
+  inset-block-end: var(--space-xs);
+  inset-inline-end: var(--space-xs);
+}
+
+.asset-preview__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.asset-preview__counter {
+  flex: none;
+  white-space: nowrap;
+}
+
+.asset-preview__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding: var(--space-sm);
+  background: var(--c-sunken);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+}

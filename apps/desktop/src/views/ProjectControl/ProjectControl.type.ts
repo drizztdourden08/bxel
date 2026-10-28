@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind types */
 import type { FolderRole } from '@bxel/project';
-import type { SourceGroup } from '../../palette-source/palette-source.type';
 
 interface ProjectControlProps {
   field: string;
@@ -12,19 +11,6 @@ interface PaletteFileRow {
   path: string;
   choice: string;
   users: number;
-}
-
-interface PalettesModel {
-  files: readonly PaletteFileRow[];
-  groups: SourceGroup[];
-  busy: boolean;
-  error: string | null;
-  create: () => void;
-  importFile: () => void;
-  addFromLibrary: (key: string) => void;
-  exportFile: (id: string) => void;
-  open: (id: string) => void;
-  reveal: (id: string) => void;
 }
 
 interface FoldersModel {
@@ -41,4 +27,4 @@ interface RoleFieldProps {
   onCommit: (path: string) => void;
 }
 
-export type { FoldersModel, PaletteFileRow, PalettesModel, ProjectControlProps, RoleFieldProps };
+export type { FoldersModel, PaletteFileRow, ProjectControlProps, RoleFieldProps };

@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind types */
-import type { AssetKey, FlipAxis, TurnDirection } from '@bxel/document';
+import type { AssetKey } from '@bxel/document';
 import type { RgbaImage } from '@bxel/formats';
-import type { IconName } from '@drizztdourden08/tessera';
 import type { AssetFocus } from '../asset-config/asset-config.type';
 
 type PreviewFrame = {
@@ -54,15 +53,4 @@ type OverviewModel = {
   readonly rename: (name: string) => string | null;
 };
 
-type SpriteMove = {
-  readonly id: string;
-  readonly label: string;
-  readonly icon: IconName;
-  readonly iconFlip?: 'horizontal' | 'vertical';
-  readonly flip?: FlipAxis;
-  readonly turn?: TurnDirection;
-};
-
-type SizeFields = { readonly widthLabel: string; readonly heightLabel: string; readonly width: number; readonly height: number };
-
-export type { FileFacts, FileFound, FileStat, LinkRelation, OverviewFact, OverviewLink, OverviewModel, OverviewPreview, PreviewColour, PreviewFrame, SizeFields, SpriteMove };
+export type { FileFacts, FileFound, FileStat, LinkRelation, OverviewFact, OverviewLink, OverviewModel, OverviewPreview, PreviewColour, PreviewFrame };
