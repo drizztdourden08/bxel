@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Callout, Field, Stack, TextInput } from '@drizztdourden08/tessera';
+import { Callout, Checkbox, Field, Stack, Text, TextInput } from '@drizztdourden08/tessera';
 import { COMPOSE_TEXT } from '../../../../../sheet-manager/compose-text.constants';
 import { cutStrip } from '../../../../../sheet-manager/cut-strip';
 import { FrameModeFields } from '../../../../FrameModeFields';
@@ -9,7 +9,7 @@ import { useCutStripForm } from '../behavior/useCutStripForm';
 import { DialogFrame } from './DialogFrame';
 
 const CutStripDialog = ({ model }: ManagerModelProps) => {
-  const { spec, plan, target, blocker, update } = useCutStripForm(model);
+  const { spec, plan, target, blocker, onSheet, hint, update } = useCutStripForm(model);
   const name = spec.name.trim() === '' ? (target?.name ?? '') : spec.name.trim();
   return (
     <DialogFrame
@@ -23,6 +23,7 @@ const CutStripDialog = ({ model }: ManagerModelProps) => {
         <Field label={COMPOSE_TEXT.name} hint={COMPOSE_TEXT.nameHint}>
           <TextInput autoFocus value={spec.name} placeholder={target?.name ?? ''} onChange={(event) => update({ name: event.target.value })} />
         </Field>
+        {hint !== null && <Text tone="dim">{COMPOSE_TEXT.stripHint(hint.cells)}</Text>}
         <StripFields
           spec={spec.strip}
           plan={plan}
@@ -31,6 +32,7 @@ const CutStripDialog = ({ model }: ManagerModelProps) => {
           onResult={(result) => update({ result })}
         />
         <FrameModeFields mode={null} durationMs={spec.durationMs} onMode={() => undefined} onDuration={(durationMs) => update({ durationMs })} />
+        {onSheet && <Checkbox label={COMPOSE_TEXT.swap} checked={spec.swap} onChange={(swap) => update({ swap })} />}
         {blocker !== null && plan.error === null && <Callout tone="danger">{blocker}</Callout>}
       </Stack>
     </DialogFrame>

@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind constants */
+import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
 import { commandArgs } from '../context-menu/command-args';
 import type { AlignArgs, NameArgs, SheetArgs, TraitArgs } from '../context-menu/menu-args.type';
@@ -13,6 +14,9 @@ import { currentManager } from '../sheet-manager/current-manager';
 import { flipSprites } from '../sheet-manager/flip-sprites';
 import { idsByTrait } from '../sheet-manager/ids-by-trait';
 import { invertIds } from '../sheet-manager/invert-ids';
+import { copyToSheet } from '../sheet-manager/copy-to-sheet';
+import { idsLike } from '../sheet-manager/ids-like';
+import { makeTileset } from '../sheet-manager/make-tileset';
 import { moveToSheet } from '../sheet-manager/move-to-sheet';
 import { removeEntries } from '../sheet-manager/remove-entries';
 import { selectDuplicates } from '../sheet-manager/select-duplicates';
@@ -22,6 +26,9 @@ import { trimSprites } from '../sheet-manager/trim-sprites';
 import { turnSprites } from '../sheet-manager/turn-sprites';
 import type { CurrentManager, ManagerDialog } from '../sheet-manager/manager.type';
 import { useManagerStore } from '../stores/useManagerStore';
+import { PROJECT_WIDGET_ID } from '../project/project.constants';
+import { isolateSprite } from '../sheet/isolate-sprite';
+import { pickTab } from '../workspace/pick-tab';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { onSurface } from './on-surface';
 import { COMMAND_GROUP } from './keymap.constants';
@@ -38,6 +45,7 @@ const withManager = (run: (manager: CurrentManager, context?: CommandContext) =>
 const dialog = (name: ManagerDialog) => withManager(() => useManagerStore.getState().patch({ dialog: name }));
 
 const SPRITE_ACTIONS: readonly CommandDef[] = [
+  { id: 'sprite.add_from_project', label: 'Add from the project', group, run: () => useManagerStore.getState().patch({ libraryRequest: Date.now() }) },
   { id: 'sprite.rename_many', label: 'Rename several sprites', group, run: dialog('rename') },
   { id: 'sprite.duplicate_named', label: 'Duplicate sprites with a name', group, run: dialog('duplicate') },
   { id: 'sprite.move_to_folder', label: 'Move sprites to a folder', group, run: dialog('folder') },
@@ -48,10 +56,28 @@ const SPRITE_ACTIONS: readonly CommandDef[] = [
   { id: 'sprite.cut_strip', label: 'Cut a strip into an animation', group, run: dialog('strip') },
   { id: 'sprite.slice', label: 'Slice sprites', group, run: dialog('slice') },
   { id: 'sprite.compare', label: 'Compare two sprites', group, run: dialog('compare') },
+  { id: 'sprite.folder_from_selection', label: 'New folder from the selected sprites', group, run: dialog('folder') },
   { id: 'sprite.save_selection', label: 'Save the sprite selection', group, run: dialog('selection') },
 ];
 
 const SPRITE_EDITS: readonly CommandDef[] = [
+  {
+    id: 'sprite.open_entry',
+    label: 'Edit the picked entry',
+    group,
+    run: withManager((manager) => {
+      const strip = manager.animations.find((fact) => manager.picked.includes(fact.key));
+      if (strip && manager.ids.length === 0) pickTab({ kind: 'animation', id: strip.animation.id });
+      else isolateSprite();
+    }),
+  },
+  { id: 'sprite.make_tileset', label: 'Make a tileset from the picked sprites', group, run: withManager((manager) => makeTileset(manager.ids)) },
+  {
+    id: 'sprite.show_in_project',
+    label: 'Show in the Project panel',
+    group,
+    run: () => useWidgetLayoutStore.getState().open(PROJECT_WIDGET_ID),
+  },
   { id: 'sprite.trim', label: 'Trim sprites to their content', group, run: withManager((manager) => trimSprites(manager.ids)) },
   { id: 'sprite.flip_horizontal', label: 'Flip sprites left to right', group, run: withManager((manager) => flipSprites(manager.ids, 'horizontal')) },
   { id: 'sprite.flip_vertical', label: 'Flip sprites top to bottom', group, run: withManager((manager) => flipSprites(manager.ids, 'vertical')) },
@@ -94,6 +120,16 @@ const SPRITE_SHEET: readonly CommandDef[] = [
     }),
   },
   {
+    id: 'sprite.copy_to_sheet',
+    label: 'Copy the picked entries to another sheet',
+    group,
+    run: withManager((manager, context) => {
+      const { sheetId } = commandArgs<SheetArgs>(context);
+      const sheet = manager.artwork.sheets.find((each) => each.id === sheetId);
+      if (sheet) copyToSheet(manager.ids, manager.picked, sheet.id);
+    }),
+  },
+  {
     id: 'sheet.align',
     label: 'Align the selected sprites',
     group,
@@ -107,6 +143,8 @@ const SPRITE_SHEET: readonly CommandDef[] = [
 const SPRITE_SELECT: readonly CommandDef[] = [
   { id: 'sprite.select_none', label: 'Select no sprites', group, run: () => clearSpriteSelection() },
   { id: 'sprite.select_invert', label: 'Invert the sprite selection', group, run: withManager((manager) => selectIds(invertIds(manager.order, manager.ids))) },
+  { id: 'sprite.select_same_size', label: 'Select sprites of the same size', group, run: withManager((manager) => selectIds(idsLike(manager.facts, manager.ids, 'size'))) },
+  { id: 'sprite.select_same_folder', label: 'Select sprites of the same folder', group, run: withManager((manager) => selectIds(idsLike(manager.facts, manager.ids, 'folder'))) },
   {
     id: 'sprite.select_duplicates',
     label: 'Select sprites that are identical',

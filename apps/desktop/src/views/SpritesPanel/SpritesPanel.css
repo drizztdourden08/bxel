@@ -144,3 +144,10 @@
   background: var(--c-primary-bright);
   color: var(--c-on-primary);
 }
+
+.slice-preview {
+  align-self: center;
+  max-inline-size: 100%;
+  image-rendering: pixelated;
+  background: repeating-conic-gradient(var(--c-checker-a) 0% 25%, var(--c-checker-b) 0% 50%) 0 0 / var(--size-8) var(--size-8);
+}

@@ -14,14 +14,15 @@ const spriteSliceSchema = z
     rows: count.optional(),
     cellWidth: count.optional(),
     cellHeight: count.optional(),
+    islands: z.strictObject({ minSize: z.number().int().min(1).max(MAX_SPRITE_SIZE), merge: z.number().int().min(0).max(MAX_SPRITE_SIZE) }).optional(),
     skipEmpty: z.boolean().default(true),
   })
   .refine(
     (value) =>
-      pair(value.columns, value.rows) &&
-      pair(value.cellWidth, value.cellHeight) &&
-      (value.columns === undefined) !== (value.cellWidth === undefined),
-    { message: 'Give columns and rows, or cellWidth and cellHeight.' },
+      value.islands === undefined
+        ? pair(value.columns, value.rows) && pair(value.cellWidth, value.cellHeight) && (value.columns === undefined) !== (value.cellWidth === undefined)
+        : value.columns === undefined && value.rows === undefined && value.cellWidth === undefined && value.cellHeight === undefined,
+    { message: 'Give columns and rows, cellWidth and cellHeight, or islands.' },
   );
 
 export { spriteSliceSchema };

@@ -10,6 +10,7 @@ const ENTRY_TILE_TEXT = {
   frames: (count: number): string => (count === 1 ? '1 frame' : `${count} frames`),
   slices: (count: number): string => (count === 1 ? '1 slice' : `${count} slices`),
   twin: 'Identical to another sprite',
+  strip: (cells: number): string => `Looks like a strip of ${cells}`,
   elsewhere: (names: readonly string[]): string => `Also on ${names.join(', ')}`,
   notOnSheet: 'Not on this sheet',
   onSheets: (names: readonly string[]): string => `On ${names.join(', ')}`,

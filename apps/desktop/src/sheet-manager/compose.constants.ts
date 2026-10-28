@@ -5,7 +5,7 @@ import type { AnimateSpec, CutStripSpec, SliceSpec } from './compose.type';
 
 const ANIMATE_START: AnimateSpec = { name: '', mode: 'reference', durationMs: DURATION_START };
 
-const CUT_STRIP_START: CutStripSpec = { name: '', strip: STRIP_START, result: 'cells', durationMs: DURATION_START };
+const CUT_STRIP_START: CutStripSpec = { name: '', strip: STRIP_START, result: 'cells', durationMs: DURATION_START, swap: false };
 
 const SLICE_START: SliceSpec = {
   by: 'count',
@@ -13,6 +13,8 @@ const SLICE_START: SliceSpec = {
   rows: 2,
   cellWidth: 8,
   cellHeight: 8,
+  minSize: 2,
+  merge: 0,
   pattern: DEFAULT_PIECE_PATTERN,
   start: 1,
   keep: false,

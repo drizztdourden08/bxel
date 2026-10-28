@@ -1,12 +1,11 @@
 /* @layer renderer-app @kind constants */
 const COMPOSE_TEXT = {
-  group: 'Animate',
+  group: 'Make',
   merge: 'Make an animation',
   strip: 'Cut strip into an animation',
-  slice: 'Slice into a grid of sprites',
   mergeTitle: (count: number): string => (count === 1 ? 'Make an animation from the sprite' : `Make an animation from ${count} sprites`),
   stripTitle: 'Cut strip into an animation',
-  sliceTitle: (count: number): string => (count === 1 ? 'Slice into a grid of sprites' : `Slice ${count} sprites into grids`),
+  sliceTitle: (count: number): string => (count === 1 ? 'Slice into sprites' : `Slice ${count} sprites`),
   needOne: 'Pick at least one sprite.',
   needStrip: 'Pick one sprite that holds a strip of frames.',
   tooMany: (limit: number): string => `An animation takes at most ${limit} frames.`,
@@ -24,6 +23,14 @@ const COMPOSE_TEXT = {
   by: 'Cut by',
   byCount: 'Number of cells',
   bySize: 'Size of a cell',
+  byIslands: 'By transparency',
+  minSize: 'Smallest island, in pixels',
+  mergeGap: 'Join islands closer than',
+  islandCount: (count: number): string => (count === 1 ? '1 island found.' : `${count} islands found.`),
+  noIslands: 'No island of pixels was found.',
+  tooManyPieces: (limit: number): string => `A slice makes at most ${limit} sprites.`,
+  previewLabel: 'Preview of the cuts',
+  slice: 'Slice into sprites',
   columns: 'Columns',
   rows: 'Rows',
   cellWidth: 'Cell width',
@@ -33,13 +40,16 @@ const COMPOSE_TEXT = {
   sliceEdge: (count: number): string => `${count} pixels at the edge fit no cell and are left out.`,
   previewNames: 'Names',
   more: (count: number): string => `and ${count} more`,
+  stripHint: (cells: number): string => `Looks like a strip of ${cells}.`,
+  swap: 'Put the animation on this sheet in its place',
+  swapHint: 'The sprite leaves the sheet. Its file is kept.',
   nameProblem: 'A name is not valid or is already used.',
 } as const;
 
 const COMPOSE_LABEL = {
   merge: (count: number): string => (count === 1 ? 'Make an animation' : `Make an animation from ${count} sprites`),
   strip: 'Cut strip into an animation',
-  slice: (count: number): string => (count === 1 ? 'Slice sprite into a grid' : `Slice ${count} sprites into grids`),
+  slice: (count: number): string => (count === 1 ? 'Slice sprite' : `Slice ${count} sprites`),
 } as const;
 
 export { COMPOSE_LABEL, COMPOSE_TEXT };

@@ -13,7 +13,8 @@ import './EntryTile.css';
 const labelOf = (fact: EntryTileProps['fact']): string => {
   if (fact.kind === 'animation') return ENTRY_TILE_TEXT.animation(fact.name, fact.frames);
   const { sprite } = fact;
-  return ENTRY_TILE_TEXT.sprite(sprite.name, sprite.width, sprite.height, '');
+  const hint = fact.strip === null ? '' : `, ${ENTRY_TILE_TEXT.strip(fact.strip)}`;
+  return `${ENTRY_TILE_TEXT.sprite(sprite.name, sprite.width, sprite.height, '')}${hint}`;
 };
 
 const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTileProps) => {

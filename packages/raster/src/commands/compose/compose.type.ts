@@ -57,7 +57,13 @@ type SliceRequest = {
   readonly cellHeight?: number | undefined;
 };
 
+type IslandRequest = {
+  readonly minSize: number;
+  readonly merge: number;
+};
+
 type SpriteSliceRequest = SliceRequest & {
+  readonly islands?: IslandRequest | undefined;
   readonly pattern: string;
   readonly start: number;
   readonly skipEmpty: boolean;
@@ -65,4 +71,4 @@ type SpriteSliceRequest = SliceRequest & {
 
 type CelCopier = (celId: CelId, pixels: () => Uint8Array) => CelId;
 
-export type { CelCopier, LayerBuild, MergeSource, MergeSpec, PieceSpec, SliceCell, SliceGrid, SliceRequest, SpriteParts, SpriteSliceRequest };
+export type { CelCopier, IslandRequest, LayerBuild, MergeSource, MergeSpec, PieceSpec, SliceCell, SliceGrid, SliceRequest, SpriteParts, SpriteSliceRequest };

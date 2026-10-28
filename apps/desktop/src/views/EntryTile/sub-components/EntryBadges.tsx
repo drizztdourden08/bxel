@@ -21,6 +21,11 @@ const EntryBadges = ({ fact, twin }: EntryBadgesProps) => (
         {`S${fact.slices}`}
       </Text>
     )}
+    {fact.kind === 'sprite' && fact.strip !== null && (
+      <Text as="span" variant="caption" className="entry-tile__badge" title={ENTRY_TILE_TEXT.strip(fact.strip)}>
+        {`x${fact.strip}`}
+      </Text>
+    )}
     {fact.sheets.length > 1 && (
       <Text as="span" variant="caption" className="entry-tile__badge" title={ENTRY_TILE_TEXT.onSheets(fact.sheets)}>
         <Icon name="link" size={12} />

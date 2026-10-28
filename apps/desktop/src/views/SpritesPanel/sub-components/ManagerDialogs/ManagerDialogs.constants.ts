@@ -35,6 +35,7 @@ const PIVOT_KINDS = [
 const SLICE_KINDS = [
   { value: 'count', label: COMPOSE_TEXT.byCount },
   { value: 'size', label: COMPOSE_TEXT.bySize },
+  { value: 'islands', label: COMPOSE_TEXT.byIslands },
 ] as const;
 
 const PREVIEW_ROWS = 8;

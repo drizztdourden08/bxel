@@ -50,3 +50,7 @@
   gap: var(--space-2xs);
   flex: none;
 }
+
+.entry-browser--tall .entry-browser__body {
+  min-height: var(--size-256);
+}

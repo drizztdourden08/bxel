@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind types */
-import type { SliceGrid, SliceRequest } from '@bxel/raster';
+import type { Rect } from '@bxel/document';
+import type { IslandRequest, SliceGrid, SliceRequest } from '@bxel/raster';
 import type { FrameMode, StripResult, StripSpec } from '../add-frames/add-frames.type';
 
-type SliceBy = 'count' | 'size';
+type SliceBy = 'count' | 'size' | 'islands';
 
 interface AnimateSpec {
   name: string;
@@ -24,6 +25,7 @@ interface CutStripSpec {
   strip: StripSpec;
   result: StripResult;
   durationMs: number;
+  swap: boolean;
 }
 
 interface SplitSpec {
@@ -38,6 +40,8 @@ interface SliceSpec {
   rows: number;
   cellWidth: number;
   cellHeight: number;
+  minSize: number;
+  merge: number;
   pattern: string;
   start: number;
   keep: boolean;
@@ -45,6 +49,7 @@ interface SliceSpec {
 }
 
 type SliceOptions = SliceRequest & {
+  islands?: IslandRequest;
   pattern: string;
   start: number;
   keep: boolean;
@@ -59,6 +64,7 @@ interface PiecePlan {
 interface SlicePlan extends PiecePlan {
   grid: SliceGrid | null;
   leftOut: number;
+  rects: readonly Rect[];
 }
 
 export type { AnimatePlan, AnimateSpec, CutStripSpec, PiecePlan, SliceOptions, SlicePlan, SliceSpec, SplitSpec };
