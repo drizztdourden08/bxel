@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { evaluate } from '../../src/ui-context/evaluate';
 import { COLUMN_NAMES, columnContext } from './columns';
 
-/* Columns, in order: N Sp Se An Pa Sh Si Ts Tm Te Ro Im. S shown, D shown disabled, H hidden. */
 const MATRIX: readonly (readonly [string, string])[] = [
   ['widget.layers', 'HSSSHHSSSSSH'],
   ['widget.palette', 'HSSSHHSSHSSH'],

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import { always, any, canRedo, canUndo, file, hasDocument, hasFile, isolated, never, not, projectOpen } from '../predicates.constants';
 import { ONLY, REASON } from '../reasons.constants';
+import { rule } from '../rule';
 import { family } from './family';
 import type { RuleTable } from './rule-table.type';
 import {
