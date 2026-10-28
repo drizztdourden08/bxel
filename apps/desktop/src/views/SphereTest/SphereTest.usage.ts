@@ -26,7 +26,7 @@ const usage = {
 
 const Preview = () => <SphereTest colours={['#1d2b53', '#7e2553', '#ff004d', '#ffa300']} label="Shaded sphere test" />;
 `,
-  propsHash: '0000000000000000',
+  propsHash: '9874c639ad862562',
 } satisfies ComponentUsage;
 
 export { usage };

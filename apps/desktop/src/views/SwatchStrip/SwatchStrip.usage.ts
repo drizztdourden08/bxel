@@ -27,7 +27,7 @@ const usage = {
 
 const RampPreview = () => <SwatchStrip size="lg" colours={['#1d2b53', '#7e2553', '#ff004d']} captions={['new', 'reuses 3', 'new']} label="Ramp preview" />;
 `,
-  propsHash: '0000000000000000',
+  propsHash: '077028bbd03498f3',
 } satisfies ComponentUsage;
 
 export { usage };
