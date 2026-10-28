@@ -11,6 +11,7 @@ import { useNavigatorPointer } from './behavior/useNavigatorPointer';
 import { useNavigatorWheel } from './behavior/useNavigatorWheel';
 import { useStageSize } from './behavior/useStageSize';
 import { describeView } from './behavior/describe-view';
+import { shownPercent } from './behavior/shown-percent';
 import { NAVIGATOR_TEXT } from './Navigator.constants';
 import './Navigator.css';
 
@@ -25,6 +26,7 @@ const Navigator = () => {
   const width = useViewFeedStore((state) => state.view?.imageWidth ?? 0);
   const height = useViewFeedStore((state) => state.view?.imageHeight ?? 0);
   const said = useViewFeedStore((state) => (state.view ? describeView(state.view) : ''));
+  const percent = useViewFeedStore((state) => (state.view ? shownPercent(state.view) : 100));
   const thumb = useMemo(() => (width > 0 && height > 0 && box.width > 0 ? fitThumb({ width, height }, box) : null), [width, height, box]);
   const parts = useMemo(() => ({ canvas, frame, mark }), []);
   useNavigatorDraw(parts, thumb, useSelectionRect());
@@ -56,9 +58,8 @@ const Navigator = () => {
           <Text variant="caption" tone="muted">{NAVIGATOR_TEXT.empty}</Text>
         )}
       </Box>
-      <Text as="span" id={hintId} variant="caption" tone="muted" aria-live="off">
-        {thumb ? `${NAVIGATOR_TEXT.size(width, height)}. ${said}` : NAVIGATOR_TEXT.hint}
-      </Text>
+      <Text as="span" id={hintId} className="visually-hidden">{thumb ? said : NAVIGATOR_TEXT.hint}</Text>
+      {thumb && <Text as="span" variant="caption" tone="muted" className="navigator__caption" aria-hidden="true">{NAVIGATOR_TEXT.caption(width, height, percent)}</Text>}
     </Box>
   );
 };

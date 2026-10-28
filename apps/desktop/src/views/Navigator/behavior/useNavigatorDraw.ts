@@ -4,10 +4,9 @@ import { useViewFeedStore } from '../../../stores/useViewFeedStore';
 import type { PixelRect, PixelSource } from '../../PixelViewport';
 import type { ThumbSize } from '../Navigator.type';
 import type { NavigatorParts } from './useNavigatorDraw.type';
-import { clipRect } from './clip-rect';
 import { paintThumb } from './paint-thumb';
 import { place } from './place-box';
-import { visibleRect } from './visible-rect';
+import { shownRect } from './shown-rect';
 
 const isStill = (source: PixelSource): boolean => 'data' in source && 'colorSpace' in source;
 
@@ -28,7 +27,7 @@ const useNavigatorDraw = (parts: NavigatorParts, thumb: ThumbSize | null, select
         paintThumb(canvas, source, thumb, () => (scratch.current ??= canvas.ownerDocument.createElement('canvas')));
         lastSource.current = source;
       }
-      place(parts.frame.current, clipRect(visibleRect(view), view), thumb.scale);
+      place(parts.frame.current, shownRect(view), thumb.scale);
       place(parts.mark.current, selection, thumb.scale);
     };
     draw();

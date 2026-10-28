@@ -2,6 +2,8 @@
 import { describe, expect, it } from 'vitest';
 import { clipRect } from '../../src/views/Navigator/behavior/clip-rect';
 import { fitThumb } from '../../src/views/Navigator/behavior/fit-thumb';
+import { describeView } from '../../src/views/Navigator/behavior/describe-view';
+import { shownPercent } from '../../src/views/Navigator/behavior/shown-percent';
 import { visibleRect } from '../../src/views/Navigator/behavior/visible-rect';
 import type { PixelView } from '../../src/views/PixelViewport';
 
@@ -23,5 +25,14 @@ describe('the navigator geometry', () => {
   it('cuts the rectangle to the image when the view reaches past an edge', () => {
     const rect = visibleRect(view(2, { x: 10, y: 10 }));
     expect(clipRect(rect, { width: 64, height: 32 })).toEqual({ x: 0, y: 0, width: 64, height: 32 });
+  });
+
+  it('reads one short caption share and clamps the spoken range to the image', () => {
+    const wide = view(2, { x: 10, y: 10 });
+    expect(shownPercent(wide)).toBe(100);
+    expect(describeView(wide)).toContain('x 0 to 64 and y 0 to 32 of an image 64 by 32 pixels');
+    const near = view(8, { x: 32, y: 16 });
+    expect(shownPercent(near)).toBe(Math.round(((50 * 25) / (64 * 32)) * 100));
+    expect(describeView(view(8, { x: 60, y: 16 }))).toContain('to 64');
   });
 });

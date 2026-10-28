@@ -80,6 +80,9 @@ describe('the canvas: View widget, stage header and floating Apply bar', () => {
     await header(session).getByText('slime').first().waitFor();
     for (const name of ['Navigator', 'Zoom', 'Overlays', 'Background']) await widget(session).getByText(name, { exact: true }).first().waitFor();
     expect(await header(session).getByRole('button').count()).toBeGreaterThan(0);
+    const caption = await widget(session).locator('.navigator__caption').boundingBox();
+    expect(caption?.height ?? 99).toBeLessThan(24);
+    await widget(session).getByText(/16 x 16 px, \d+% shown/).waitFor();
     await session.page.mouse.move(640, 300);
     await shoot(session, 'canvas-1-sprite');
     await expectAccessible(session, 'sprite with the View widget');
