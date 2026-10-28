@@ -16,7 +16,7 @@ const SymmetrySection = () => {
           <Flex gap="xs" align="center">
             <Text as="span" variant="caption" tone="muted">{doubled[axis] === null ? SYMMETRY_TEXT.centred : SYMMETRY_TEXT.at((doubled[axis] ?? 0) / 2)}</Text>
             <Button
-              size="xs"
+              size="sm"
               variant="ghost"
               disabled={doubled[axis] === null}
               aria-label={SYMMETRY_TEXT.centreLabel(axis.toUpperCase())}

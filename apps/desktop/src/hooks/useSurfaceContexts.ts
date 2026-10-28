@@ -10,6 +10,7 @@ const useSurfaceContexts = (): void => {
   useSetAppContext(WIDGET_CONTEXT.options, hasPart(surface, 'options'));
   useSetAppContext(WIDGET_CONTEXT.sheet, surface === 'sheet');
   useSetAppContext(WIDGET_CONTEXT.tileset, surface === 'map' || surface === 'tile');
+  useSetAppContext(WIDGET_CONTEXT.view, surface !== 'none');
 };
 
 export { useSurfaceContexts };

@@ -42,6 +42,8 @@ const openDemoRig = async (): Promise<{ session: Session }> => {
   await mkdir(parent, { recursive: true });
   const place = await mkdtemp(join(parent, TEMP_PREFIX));
   await openDemo(session, place);
+  await widget(session).waitFor();
+  await session.page.emulateMedia({ reducedMotion: 'reduce' });
   return { session: { ...session, close: () => session.close().then(() => rm(place, { recursive: true, force: true })) } };
 };
 
@@ -73,6 +75,7 @@ describe('the canvas: View widget, stage header and floating Apply bar', () => {
     await header(session).getByText('slime').first().waitFor();
     for (const name of ['Navigator', 'Zoom', 'Overlays', 'Background']) await widget(session).getByText(name, { exact: true }).first().waitFor();
     expect(await header(session).getByRole('button').count()).toBeGreaterThan(0);
+    await session.page.mouse.move(640, 300);
     await shoot(session, 'canvas-1-sprite');
     await expectAccessible(session, 'sprite with the View widget');
   });
@@ -124,7 +127,9 @@ describe('the canvas: animation header and the parity of sheet and map', () => {
     const { session } = rig();
     await openAssetRow(session, 'party');
     await session.page.getByRole('application', { name: 'Sheet canvas' }).waitFor();
+    await shoot(session, 'canvas-6a-sheet');
     await pullGuide(session, 'Vertical ruler');
+    await session.page.getByRole('application', { name: 'Sheet canvas' }).waitFor();
     await shoot(session, 'canvas-6-sheet-guides');
     await expectAccessible(session, 'sheet with rulers and a guide');
   });
@@ -133,8 +138,11 @@ describe('the canvas: animation header and the parity of sheet and map', () => {
     const { session } = rig();
     await openAssetRow(session, 'meadow');
     await session.page.getByRole('application', { name: 'Tilemap canvas' }).waitFor();
-    await pullGuide(session, 'Horizontal ruler');
     await widget(session).getByText('Collision shapes').first().waitFor();
+    await widget(session).getByRole('switch', { name: 'Cell grid' }).uncheck();
+    await session.page.getByRole('application', { name: 'Tilemap canvas' }).focus();
+    await session.page.keyboard.press("Control+'");
+    await pullGuide(session, 'Horizontal ruler');
     await shoot(session, 'canvas-7-map-guides');
     await expectAccessible(session, 'map with rulers and a guide');
   });

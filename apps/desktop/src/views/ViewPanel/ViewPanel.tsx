@@ -17,7 +17,7 @@ const ViewPanel = () => {
   const surface = useSurface();
   if (surface === 'none') return <EmptyState message={VIEW_PANEL_TEXT.empty} />;
   return (
-    <Flex direction="column" className="view-panel" role="region" aria-label={VIEW_PANEL_TEXT.region}>
+    <Flex direction="column" className="view-panel">
       <ViewSection title={VIEW_PANEL_TEXT.navigator} icon="pixel-map-pick">
         <Navigator />
       </ViewSection>

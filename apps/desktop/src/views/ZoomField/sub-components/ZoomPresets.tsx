@@ -9,7 +9,7 @@ const ZoomPresets = ({ percent, disabled }: ZoomPresetsProps) => (
     {ZOOM_PRESETS.map((preset) => (
       <Button
         key={preset}
-        size="xs"
+        size="sm"
         variant="ghost"
         active={percent === preset}
         aria-pressed={percent === preset}

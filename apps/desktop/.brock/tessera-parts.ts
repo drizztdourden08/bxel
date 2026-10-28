@@ -28,7 +28,6 @@ declare module '@drizztdourden08/tessera' {
         | 'EditorStatus'
         | 'ExportDialog'
         | 'FileTypePicker'
-        | 'FrameBar'
         | 'FrameModeFields'
         | 'ImagePreview'
         | 'ImportWizard'
@@ -37,6 +36,7 @@ declare module '@drizztdourden08/tessera' {
         | 'MapLayersPanel'
         | 'MigrationBar'
         | 'MismatchBar'
+        | 'Navigator'
         | 'OptionsToolbar'
         | 'PaletteChangeDialog'
         | 'PaletteFields'
@@ -50,12 +50,13 @@ declare module '@drizztdourden08/tessera' {
         | 'ProjectManager'
         | 'ProjectPanel'
         | 'RecoveryDialog'
-        | 'ScopeBar'
+        | 'RulerFrame'
         | 'SettingsSplit'
         | 'SheetCanvas'
         | 'SlotToolbar'
         | 'SplitDialog'
         | 'SpritesPanel'
+        | 'StageHeader'
         | 'StripFields'
         | 'SurroundBackdrop'
         | 'SurroundEditor'
@@ -66,7 +67,9 @@ declare module '@drizztdourden08/tessera' {
         | 'TimelinePanel'
         | 'ToolRail'
         | 'TransformDialog'
-        | 'WorkspaceProgress';
+        | 'ViewPanel'
+        | 'WorkspaceProgress'
+        | 'ZoomField';
     };
   }
 }

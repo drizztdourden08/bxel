@@ -45,7 +45,7 @@ const BackgroundSection = () => {
       )}
       <Flex gap="sm" align="center" justify="between">
         <Text variant="caption" tone="muted">{BACKGROUND_TEXT.hint}</Text>
-        <Button size="xs" variant="ghost" onClick={reset}>{BACKGROUND_TEXT.reset}</Button>
+        <Button size="sm" variant="ghost" onClick={reset}>{BACKGROUND_TEXT.reset}</Button>
       </Flex>
     </Flex>
   );

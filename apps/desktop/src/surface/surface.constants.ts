@@ -16,6 +16,7 @@ const WIDGET_CONTEXT = {
   options: 'bxel-options',
   sheet: 'bxel-sheet',
   tileset: 'bxel-tileset',
+  view: 'bxel-view',
 } as const;
 
 export { SURFACE_PARTS, WIDGET_CONTEXT };

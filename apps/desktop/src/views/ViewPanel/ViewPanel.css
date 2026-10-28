@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind style */
 .view-panel {
   min-inline-size: 0;
-  overflow-y: auto;
+  overflow: hidden auto;
 }
 
 .view-panel__section {

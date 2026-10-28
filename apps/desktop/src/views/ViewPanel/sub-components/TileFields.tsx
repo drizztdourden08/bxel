@@ -35,7 +35,7 @@ const TileFields = ({ fixed }: FixedProps) => {
           disabled={fixed}
           onChange={(value) => patch({ tileGrid: { width: tile.width, height: clampRange(value, GRID_SIZE_RANGE) } })}
         />
-        {own && <Button size="xs" variant="ghost" onClick={() => patch({ tileGrid: null })}>{OVERLAY_TEXT.reset}</Button>}
+        {own && <Button size="sm" variant="ghost" onClick={() => patch({ tileGrid: null })}>{OVERLAY_TEXT.reset}</Button>}
       </Flex>
       <Text variant="caption" tone="muted">{own ? ASSET_VIEW_TEXT.custom : ASSET_VIEW_TEXT.source[defaults.source]}</Text>
     </>
