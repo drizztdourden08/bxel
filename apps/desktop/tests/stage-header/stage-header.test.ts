@@ -128,7 +128,7 @@ describe('the stage header of an animation frame and a sheet', () => {
     const model = built({
       animation: { name: 'Run', frameAt: 3, frameCount: 8, spriteName: 'Hero', shared: true, notes: ['Also used by Idle.'], clip: true },
     }, given);
-    expect(labels(model)).toEqual(['Run', 'Frame 3 of 8', 'Hero (A sprite file)', 'Body']);
+    expect(labels(model)).toEqual(['Run', 'Frame 3 of 8', 'Hero (a sprite file)', 'Body']);
     expect(model.chips.map((chip) => chip.text)).toEqual([
       'Drawing here changes the sprite file.',
       'Also used by Idle.',
@@ -156,6 +156,13 @@ describe('the stage header of an animation frame and a sheet', () => {
 });
 
 describe('the stage header of a tile and a map', () => {
+  it('shows the edit scope menus after the sheet when several sprites are selected', () => {
+    const model = built({ surface: 'sheet', assetName: 'World', sheetSelected: 3, sprite: sprite({ multi: true, count: 3, spritesScope: 'selected' }) });
+    expect(labels(model)).toEqual(['World', 'Sprites: 3 selected', 'Layers: Body']);
+    expect(model.chips).toEqual([]);
+    expect(model.crumbs[1]?.menu?.length).toBe(1);
+  });
+
   it('shows Edit Tile with its way back and how many placements change', () => {
     const given = actions();
     const model = built({ surface: 'tile', tile: { key: 12, uses: 3 } }, given);

@@ -8,7 +8,7 @@ import type { HeaderActions, HeaderInput, HeaderModel } from './stage-header.typ
 import { tileHeader } from './tile-header';
 
 const surfaceHeader = (input: HeaderInput, actions: HeaderActions): HeaderModel => {
-  if (input.surface === 'sheet') return sheetHeader(input);
+  if (input.surface === 'sheet') return sheetHeader(input, actions);
   if (input.surface === 'map') return mapHeader(input, actions);
   if (input.surface === 'tile') return tileHeader(input, actions);
   return input.animation ? animationHeader(input, actions) : spriteHeader(input, actions);

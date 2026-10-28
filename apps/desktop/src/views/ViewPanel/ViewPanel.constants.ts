@@ -72,7 +72,7 @@ const BACKGROUND_TEXT = {
   kind: 'Behind the art',
   colour: 'Game colour',
   colourButton: 'Pick the colour',
-  hint: 'Only for this asset. It is never exported.',
+  hint: 'Kept for this file only and never exported.',
   reset: 'Reset view',
 } as const;
 

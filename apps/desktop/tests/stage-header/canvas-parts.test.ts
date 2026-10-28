@@ -96,7 +96,7 @@ describe('the status items', () => {
     const sprite = extraItems(readExtras({ ...none, mask: { ...mask, bits: mask.bits.map((_, at) => (at % 8 >= 2 && at % 8 < 6 && at >> 3 >= 1 && at >> 3 < 3 ? 1 : 0)) }, move: { x: 3, y: -2 } }));
     expect(sprite.map((item) => [item.id, item.value])).toEqual([['selection', '4 x 2 at 2, 1'], ['drag', '+3, -2']]);
     const map = extraItems(readExtras({ ...none, surface: 'map', cell: { at: { x: 3, y: 5 }, key: 12 } }));
-    expect(map.map((item) => [item.id, item.value])).toEqual([['cell', '3, 5'], ['tile', '12']]);
+    expect(map.map((item) => [item.id, item.value])).toEqual([['cell', '3, 5'], ['cell-tile', '12']]);
     expect(extraItems(readExtras({ ...none, surface: 'map', cell: { at: { x: 0, y: 0 }, key: null } })).at(-1)?.value).toBe('Empty');
   });
 });

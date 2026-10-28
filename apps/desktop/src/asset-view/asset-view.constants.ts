@@ -12,7 +12,7 @@ const BACKGROUND_KINDS: readonly BackgroundKind[] = ['checker', 'solid'];
 const ASSET_VIEW_TEXT = {
   checker: 'Checker',
   solid: 'Game colour',
-  custom: 'Set for this asset',
+  custom: 'Set for this file',
   source: {
     tileset: 'From the tileset tile size',
     map: 'From the map cell',
