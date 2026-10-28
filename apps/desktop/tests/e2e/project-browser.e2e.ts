@@ -53,11 +53,15 @@ const listsEveryProject = async (session: Session, place: string): Promise<void>
   await projectRow(session, CAVE).getByText('Open', { exact: true }).waitFor({ timeout: POLL_MS });
 };
 
-const browsesInThreeViews = async (session: Session, place: string): Promise<void> => {
+const openGallery = async (session: Session, place: string): Promise<void> => {
   const root = join(place, GALLERY.project);
   await writeSampleProject(root, buildGalleryArtwork(), GALLERY.project);
   await openProjectAtInUi(session, root, GALLERY.project);
   await openHub(session, 'Project');
+};
+
+const browsesInThreeViews = async (session: Session, place: string): Promise<void> => {
+  await openGallery(session, place);
   await session.page.getByRole('toolbar', { name: 'Browse' }).waitFor({ timeout: POLL_MS });
   await search(session, 'kind:sprite');
   await cell(session, 'hero').waitFor({ timeout: POLL_MS });
@@ -75,10 +79,7 @@ const browsesInThreeViews = async (session: Session, place: string): Promise<voi
 };
 
 const playsAnAnimation = async (session: Session, place: string): Promise<void> => {
-  const root = join(place, GALLERY.project);
-  await writeSampleProject(root, buildGalleryArtwork(), GALLERY.project);
-  await openProjectAtInUi(session, root, GALLERY.project);
-  await openHub(session, 'Project');
+  await openGallery(session, place);
   await search(session, 'kind:animation');
   const animation = session.page.getByRole('gridcell').first();
   await animation.waitFor({ timeout: POLL_MS });
@@ -93,10 +94,7 @@ const playsAnAnimation = async (session: Session, place: string): Promise<void> 
 };
 
 const opensTheFileOnDoubleClick = async (session: Session, place: string): Promise<void> => {
-  const root = join(place, GALLERY.project);
-  await writeSampleProject(root, buildGalleryArtwork(), GALLERY.project);
-  await openProjectAtInUi(session, root, GALLERY.project);
-  await openHub(session, 'Project');
+  await openGallery(session, place);
   await search(session, 'hero');
   await cell(session, 'hero').dblclick();
   await expect.poll(() => openAssetTab(session, /hero/).getAttribute('aria-selected'), { timeout: POLL_MS }).toBe('true');

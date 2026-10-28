@@ -21,13 +21,13 @@ const ProjectBrowser = ({ project, disk }: ProjectBrowserProps) => {
   const key = project ? projectKey(project.manifest.projectId, project.rootRealPath) : null;
   useBrowserPersistence(key);
   const { actions, renaming, renameError } = useBrowserActions(model);
-  const selection = useBrowserStore((state) => state.selection.ids);
   const preview = useBrowserStore((state) => state.preview);
   const thumb = useBrowserStore((state) => state.size);
   const onKeyDown = useBrowserKeys(model, actions);
+  const shownIds = useMemo(() => model.selected.map((entry) => entry.id), [model.selected]);
   const value = useMemo<BrowserContextValue>(
-    () => ({ model, actions, selection: model.selected.map((entry) => entry.id).length === selection.length ? selection : model.selected.map((entry) => entry.id), renaming, renameError, thumb }),
-    [model, actions, selection, renaming, renameError, thumb],
+    () => ({ model, actions, selection: shownIds, renaming, renameError, thumb }),
+    [model, actions, shownIds, renaming, renameError, thumb],
   );
   return (
     <BrowserContext.Provider value={value}>

@@ -2,6 +2,7 @@
 import { Box, Canvas, Text } from '@drizztdourden08/tessera';
 import { useEffect, useRef } from 'react';
 import { PREVIEW_TEXT } from '../../../asset-preview/asset-preview.constants';
+import { usePaintImage } from '../../../asset-preview/usePaintImage';
 import { fitZoom } from '../behavior/fit-zoom';
 import { useStageSize } from '../behavior/useStageSize';
 import type { PixelStageProps } from '../AssetPreview.type';
@@ -12,14 +13,7 @@ const PixelStage = ({ image, label }: PixelStageProps) => {
   const size = useStageSize(stage);
   const zoom = fitZoom(size, image.width, image.height);
 
-  useEffect(() => {
-    const element = canvas.current;
-    const context = element?.getContext('2d');
-    if (!element || !context) return;
-    element.width = image.width;
-    element.height = image.height;
-    context.putImageData(new ImageData(new Uint8ClampedArray(image.data), image.width, image.height), 0, 0);
-  }, [image]);
+  usePaintImage(canvas, image);
 
   useEffect(() => {
     const element = canvas.current;
@@ -29,7 +23,7 @@ const PixelStage = ({ image, label }: PixelStageProps) => {
   }, [image.width, image.height, zoom]);
 
   return (
-    <Box ref={stage} className="asset-preview__stage">
+    <Box ref={stage} className="asset-preview__stage pixel-checker">
       <Canvas ref={canvas} className="asset-preview__canvas" role="img" aria-label={label} />
       <Text as="span" variant="caption" tone="muted" className="asset-preview__zoom">
         {PREVIEW_TEXT.zoom(zoom)}

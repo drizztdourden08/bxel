@@ -41,8 +41,6 @@ const SORT_OPTIONS: readonly { readonly value: SortKey; readonly label: string }
   { value: 'usedBy', label: 'Used by' },
 ];
 
-const FLAG_LABEL: Readonly<Record<QueryFlag, string>> = { unused: 'Unused', unsaved: 'Unsaved', open: 'Open in a tab', pinned: 'Pinned' };
-
 const BUILT_IN_FILTERS: readonly SavedFilter[] = [
   { id: 'built-in:unsaved', name: 'Unsaved', query: 'is:unsaved' },
   { id: 'built-in:open', name: 'Open in a tab', query: 'is:open' },
@@ -165,4 +163,4 @@ const NO_KEYS: ReadonlyMap<string, AssetKey> = new Map();
 
 const EMPTY_CELLS: RowCells = { kind: '', size: '', frames: '', palette: '', folder: '', modified: '', users: '' };
 
-export { BROWSER_TEXT, NO_KEYS, EMPTY_CELLS, EMPTY_QUERY, EMPTY_SELECTION, KIND_ALIAS, LEAF_KINDS, NO_FACTS, NO_TREE, OVERFLOW_AFTER, QUERY_FLAGS, SWATCH_THUMB, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, FLAG_LABEL, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_STOPS, TILE_OF, VIEW_OPTIONS };
+export { BROWSER_TEXT, NO_KEYS, EMPTY_CELLS, EMPTY_QUERY, EMPTY_SELECTION, KIND_ALIAS, LEAF_KINDS, NO_FACTS, NO_TREE, OVERFLOW_AFTER, QUERY_FLAGS, SWATCH_THUMB, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_STOPS, TILE_OF, VIEW_OPTIONS };

@@ -1,10 +1,8 @@
 /* @layer renderer-app @kind types */
 import type { PresetOrigin } from '../../export/preset-entry.type';
 import type { BankOption } from '../../palette-bank/palette-bank.type';
-import type { SourceGroup } from '../../palette-source/palette-source.type';
 import type { PlatformGroup, PlatformReport } from '../../platform-preset/platform-preset.type';
 import type { SnapChange } from '../../platform-preset/snap-plan.type';
-import type { LoadMode } from '../../swatch-library/swatch-library.type';
 
 interface AssetControlProps {
   field: string;
@@ -66,14 +64,6 @@ interface ReportControlModel {
   toggleStrict: (on: boolean) => void;
 }
 
-interface SetLoaderModel {
-  groups: SourceGroup[];
-  value: string;
-  empty: boolean;
-  choose: (key: string) => void;
-  load: (mode: LoadMode) => void;
-}
-
 interface PresetRowModel {
   key: string;
   name: string;
@@ -95,4 +85,4 @@ interface PresetListModel {
   run: (name: string) => void;
 }
 
-export type { AssetControlProps, BankControlModel, PairControlProps, PairInputProps, PairSpec, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowProps, ReportControlModel, SetLoaderModel, SnapRowModel };
+export type { AssetControlProps, BankControlModel, PairControlProps, PairInputProps, PairSpec, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowProps, ReportControlModel, SnapRowModel };

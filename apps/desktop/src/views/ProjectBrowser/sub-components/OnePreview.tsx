@@ -16,7 +16,7 @@ const OnePreview = ({ entry }: { readonly entry: FileEntry }) => {
       {preview ? (
         <AssetPreview key={entry.id} preview={preview} name={entry.row.name} loop={loop} mode="large" />
       ) : (
-        <Box className="browser-preview__still">
+        <Box className="browser-preview__still pixel-checker">
           {entry.row.preview ? <Image src={entry.row.preview} alt={entry.row.name} pixelated /> : <Icon name={KIND_ICON[entry.row.kind]} size="lg" />}
         </Box>
       )}

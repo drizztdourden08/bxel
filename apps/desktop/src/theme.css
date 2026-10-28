@@ -11,3 +11,7 @@
   --c-focus: var(--c-secondary-bright);
   --c-selected: color-mix(in srgb, var(--p-secondary) 24%, transparent);
 }
+
+.pixel-checker {
+  background: repeating-conic-gradient(var(--c-checker-a) 0% 25%, var(--c-checker-b) 0% 50%) 50% / var(--size-16) var(--size-16);
+}

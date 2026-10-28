@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind logic */
-import { isSamePath } from '@bxel/project';
 import type { AssetKey } from '@bxel/document';
 import { assetFileName } from '../workspace/asset-file-name';
 import { assetKeys } from '../workspace/asset-keys';
 import { assetName } from '../workspace/asset-name';
 import { keyId } from '../workspace/key-id';
+import { findTabByPath } from '../workspace/find-tab-by-path';
 import { tabOf } from '../workspace/tab-of';
 import { toSlashes } from '../workspace/to-slashes';
 import type { OpenTab, Workspace } from '../workspace/workspace.type';
@@ -19,19 +19,8 @@ const keyHolds = (inputs: SubjectInputs, key: AssetKey): OpenTab | null => {
   return null;
 };
 
-const pathHolds = (inputs: SubjectInputs, path: string): OpenTab | null => {
-  const wanted = toSlashes(path);
-  for (const workspace of Object.values(inputs.workspaces)) {
-    const artwork = inputs.views[workspace.documentId]?.state.artwork;
-    const id = [...workspace.paths].find(([, known]) => isSamePath(known, wanted))?.[0];
-    const key = artwork && id !== undefined ? assetKeys(artwork).find((each) => each.id === id) : undefined;
-    if (key) return tabOf(workspace.documentId, key);
-  }
-  return null;
-};
-
 const pinnedTab = (inputs: SubjectInputs, pin: SubjectRef): OpenTab | null =>
-  (pin.path === null ? null : pathHolds(inputs, pin.path)) ?? (pin.key === null ? null : keyHolds(inputs, pin.key));
+  (pin.path === null ? null : findTabByPath(inputs.workspaces, inputs.views, pin.path)) ?? (pin.key === null ? null : keyHolds(inputs, pin.key));
 
 const relativeTo = (workspace: Workspace, path: string | undefined): string | null => {
   if (path === undefined) return null;

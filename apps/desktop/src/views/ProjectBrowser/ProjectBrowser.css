@@ -134,7 +134,6 @@
   inline-size: 100%;
   aspect-ratio: 1;
   overflow: hidden;
-  background: repeating-conic-gradient(var(--c-checker-a) 0% 25%, var(--c-checker-b) 0% 50%) 50% / var(--size-16) var(--size-16);
   border-radius: var(--radius-sm);
 }
 
@@ -313,7 +312,6 @@
   align-items: center;
   justify-content: center;
   block-size: var(--size-256);
-  background: repeating-conic-gradient(var(--c-checker-a) 0% 25%, var(--c-checker-b) 0% 50%) 50% / var(--size-16) var(--size-16);
   border: var(--border-width-thin) solid var(--c-border);
   border-radius: var(--radius-md);
 }

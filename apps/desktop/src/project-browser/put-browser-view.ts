@@ -13,7 +13,9 @@ const heldViews = (raw: unknown): [string, SavedBrowserView][] => {
   });
 };
 
-const putBrowserView = (raw: unknown, key: string, view: SavedBrowserView): BrowserViews =>
-  Object.fromEntries([...heldViews(raw).filter(([each]) => each !== key), [key, view]].slice(-MAX_SAVED_BROWSERS));
+const putBrowserView = (raw: unknown, key: string, view: SavedBrowserView): BrowserViews => {
+  const entries: [string, SavedBrowserView][] = [...heldViews(raw).filter(([each]) => each !== key), [key, view]];
+  return Object.fromEntries(entries.slice(-MAX_SAVED_BROWSERS));
+};
 
 export { putBrowserView };

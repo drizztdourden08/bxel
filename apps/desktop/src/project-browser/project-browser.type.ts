@@ -86,8 +86,6 @@ type SourceRoot = {
 
 type Crumb = { readonly label: string; readonly path: string | null };
 
-type BrowserMode = 'open' | 'disk';
-
 type RowCells = { readonly kind: string; readonly size: string; readonly frames: string; readonly palette: string; readonly folder: string; readonly modified: string; readonly users: string };
 
 type Selection = { readonly ids: readonly string[]; readonly anchor: string | null };
@@ -120,4 +118,4 @@ type Branch = { readonly path: string; readonly label: string; readonly linked: 
 
 type QueryChange = Partial<BrowserQuery> | null;
 
-export type { Branch, BrowserEntry, BrowserFacts, BrowserMode, BrowserQuery, BrowserSort, BrowserView, BrowserViews, Comparison, Compare, Crumb, EntryInput, FactsAndKeys, FileEntry, FolderEntry, FolderNode, Measure, Modifiers, NumberTest, ProjectTree, QueryChange, QueryChip, QueryFlag, RowCells, SavedBrowserView, SavedFilter, Selection, SortKey, SourceRoot };
+export type { Branch, BrowserEntry, BrowserFacts, BrowserQuery, BrowserSort, BrowserView, BrowserViews, Comparison, Compare, Crumb, EntryInput, FactsAndKeys, FileEntry, FolderEntry, FolderNode, Measure, Modifiers, NumberTest, ProjectTree, QueryChange, QueryChip, QueryFlag, RowCells, SavedBrowserView, SavedFilter, Selection, SortKey, SourceRoot };

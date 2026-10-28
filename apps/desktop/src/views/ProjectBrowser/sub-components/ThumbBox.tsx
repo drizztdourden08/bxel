@@ -4,7 +4,7 @@ import type { EntryProps } from '../ProjectBrowser.type';
 import { FileThumb } from './FileThumb';
 
 const ThumbBox = ({ entry }: EntryProps) => (
-  <Box className="browser-thumb">
+  <Box className="browser-thumb pixel-checker">
     <FileThumb entry={entry} />
   </Box>
 );

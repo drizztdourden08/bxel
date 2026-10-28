@@ -3,7 +3,7 @@ import { Box, Text, VirtualList } from '@drizztdourden08/tessera';
 import { useMemo } from 'react';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import { useBrowserContext } from '../behavior/useBrowserContext';
-import { ColumnItem } from './ColumnItem';
+import { FileRow } from './FileRow';
 
 const ColumnsView = () => {
   const { model } = useBrowserContext();
@@ -25,7 +25,7 @@ const ColumnsView = () => {
                 items={entries}
                 getKey={(entry) => entry.id}
                 rowSize="compact"
-                renderItem={(entry) => <ColumnItem entry={entry} open={entry.kind === 'folder' && next !== null && entry.path.toLowerCase() === next.toLowerCase()} />}
+                renderItem={(entry) => <FileRow entry={entry} column open={entry.kind === 'folder' && next !== null && entry.path.toLowerCase() === next.toLowerCase()} />}
               />
             )}
           </Box>

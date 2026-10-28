@@ -5,10 +5,10 @@ import { showForKind } from '../../asset-config/show-for-kind';
 import { SUBJECT_META } from '../../asset-config/subject-preview.constants';
 
 const meta: ScreenMeta = {
-  ...SUBJECT_META,
   title: 'Palette',
   icon: 'palette',
   order: 2,
+  ...SUBJECT_META,
   source: ASSET_SOURCE,
   when: showForKind('sprite'),
   keywords: ['palette', 'colours', 'colour limit', 'swatch set', 'transparent', 'background', 'remap', 'project palette'],
