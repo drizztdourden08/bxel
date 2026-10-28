@@ -1,0 +1,29 @@
+/* @layer renderer-app @kind logic */
+import { toast } from '@drizztdourden08/brock-react';
+import { fileName } from '../files/file-name';
+import { checkEntryName } from '../project/check-entry-name';
+import { fileKit } from '../files/file-kit';
+import { parentOf } from '../workspace/parent-of';
+import { toSlashes } from '../workspace/to-slashes';
+import { FILE_OPS_TEXT } from './file-ops.constants';
+import type { OpOutcome } from './file-ops.type';
+import { relocate } from './relocate';
+
+/** Renames a file or folder on disk and rewrites the files that link to it. The extension of a file is kept. */
+const renameEntryLinked = async (path: string, typed: string, isFolder: boolean): Promise<OpOutcome> => {
+  const kit = fileKit();
+  if (!kit) return { ok: false, message: FILE_OPS_TEXT.unavailable };
+  const from = toSlashes(path);
+  const dir = parentOf(from);
+  const old = fileName(from);
+  const ending = isFolder || !old.includes('.') ? '' : old.slice(old.lastIndexOf('.'));
+  const name = typed.trim().endsWith(ending) && ending !== '' ? typed.trim() : `${typed.trim()}${ending}`;
+  if (name === old) return { ok: true, rewritten: 0 };
+  const problem = await checkEntryName(kit.documents, dir, name, old);
+  if (problem !== null) return { ok: false, message: problem };
+  const outcome = await relocate([{ from, to: `${dir}/${name}` }]);
+  if (outcome.ok) toast(`Renamed to ${name}.`, { variant: 'success' });
+  return outcome;
+};
+
+export { renameEntryLinked };

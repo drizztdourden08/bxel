@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { z } from 'zod';
-import { DEFAULT_SORT, DEFAULT_VIEW, MAX_SAVED_BROWSERS, THUMB_SIZE } from './project-browser.constants';
+import { DEFAULT_SORT, DEFAULT_VIEW, MAX_SAVED_BROWSERS, THUMB_STOPS } from './project-browser.constants';
 import type { SavedBrowserView } from './project-browser.type';
 
 const sortSchema = z
@@ -9,7 +9,7 @@ const sortSchema = z
 
 const viewSchema = z.object({
   view: z.enum(['grid', 'list', 'columns']).catch(DEFAULT_VIEW.view),
-  size: z.number().int().min(THUMB_SIZE.min).max(THUMB_SIZE.max).catch(DEFAULT_VIEW.size),
+  size: z.number().int().refine((value) => THUMB_STOPS.includes(value)).catch(DEFAULT_VIEW.size),
   sort: sortSchema,
   preview: z.boolean().catch(DEFAULT_VIEW.preview),
   folder: z.string().nullable().catch(null),

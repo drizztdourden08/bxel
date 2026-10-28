@@ -1,12 +1,24 @@
 /* @layer renderer-app @kind constants */
-import type { IconName } from '@drizztdourden08/tessera';
+import type { IconName, VirtualSize } from '@drizztdourden08/tessera';
 import type { BrowserSort, BrowserView, QueryFlag, SavedBrowserView, SmartFilter, SortKey } from './project-browser.type';
 
 const DEFAULT_SORT: BrowserSort = { key: 'name', descending: false };
 
 const DEFAULT_VIEW: SavedBrowserView = { view: 'grid', size: 96, sort: DEFAULT_SORT, preview: true, folder: null, pinned: [], smart: [] };
 
-const THUMB_SIZE = { min: 48, max: 256, step: 16 } as const;
+const THUMB_STOPS: readonly number[] = [48, 64, 80, 96, 128, 160, 192, 224];
+
+/** The tile that carries a thumbnail of each stop: a token wide and a token tall, with room for the name. */
+const TILE_OF: Readonly<Record<number, { readonly width: VirtualSize; readonly height: VirtualSize }>> = {
+  48: { width: 'size-64', height: 'size-80' },
+  64: { width: 'size-80', height: 'size-96' },
+  80: { width: 'size-96', height: 'size-128' },
+  96: { width: 'size-128', height: 'size-128' },
+  128: { width: 'size-160', height: 'size-160' },
+  160: { width: 'size-192', height: 'size-192' },
+  192: { width: 'size-224', height: 'size-224' },
+  224: { width: 'size-256', height: 'size-256' },
+};
 
 const MAX_SAVED_BROWSERS = 100;
 
@@ -130,4 +142,4 @@ const BROWSER_TEXT = {
   copied: 'Copied the path.',
 } as const;
 
-export { BROWSER_TEXT, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, FLAG_LABEL, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_SIZE, VIEW_OPTIONS };
+export { BROWSER_TEXT, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, FLAG_LABEL, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_STOPS, TILE_OF, VIEW_OPTIONS };

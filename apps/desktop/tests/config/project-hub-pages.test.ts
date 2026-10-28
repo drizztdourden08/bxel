@@ -2,8 +2,8 @@
 import type { Section } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { packCurrentProject } from '../../src/project/pack-current-project';
-import exportSections, { meta as exportMeta } from '../../src/screens/project/export.settings';
-import generalSections from '../../src/screens/project/general.settings';
+import exportSections, { meta as exportMeta } from '../../src/screens/project/settings/export.settings';
+import generalSections from '../../src/screens/project/settings/general.settings';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 vi.mock('../../src/project/pack-current-project', () => ({ packCurrentProject: vi.fn() }));

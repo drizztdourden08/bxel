@@ -11,10 +11,10 @@ import { assetKeys } from '../workspace/asset-keys';
 import { keyId } from '../workspace/key-id';
 import type { AssetKey } from '@bxel/document';
 import type { BrowserModel } from './browser-model.type';
-import { buildEntries } from './build-entries';
+import { allFolders, buildEntries } from './build-entries';
 import { crumbsOf, parentFolderOf } from './crumbs-of';
 import { isSearching, parseQuery } from './parse-query';
-import type { BrowserEntry, BrowserFacts, FileEntry, FolderEntry, SourceRoot } from './project-browser.type';
+import type { BrowserEntry, BrowserFacts, FileEntry, SourceRoot } from './project-browser.type';
 import { NO_FACTS, rowFacts } from './row-facts';
 import { keepShown } from './selection';
 import { useBrowserStore } from './useBrowserStore';
@@ -70,11 +70,11 @@ const useBrowserModel = (project: OpenProject | null, disk: DiskProject | null):
     () => rows.map((row): FileEntry => ({ kind: 'file', id: row.id, row, facts: facts.get(row.id) ?? NO_FACTS, pinned: pinned.has(row.id), key: keys.get(row.id) ?? null })),
     [rows, facts, pinned, keys],
   );
-  const siblings = useCallback(
-    (path: string | null): readonly FolderEntry[] =>
-      buildEntries({ rows, facts, keys, roots, folders: tree.folders, folder: path, query: parseQuery(''), pinned, sort: store.sort }).filter((entry): entry is FolderEntry => entry.kind === 'folder'),
+  const entriesIn = useCallback(
+    (path: string | null): readonly BrowserEntry[] => buildEntries({ rows, facts, keys, roots, folders: tree.folders, folder: path, query: parseQuery(''), pinned, sort: store.sort }),
     [rows, facts, keys, roots, tree.folders, pinned, store.sort],
   );
+  const folderPaths = useMemo(() => allFolders(tree.folders, rows), [tree.folders, rows]);
 
   return {
     editable: live,
@@ -83,7 +83,8 @@ const useBrowserModel = (project: OpenProject | null, disk: DiskProject | null):
     roots,
     folder,
     crumbs: crumbsOf(projectName, roots, folder),
-    siblings,
+    entriesIn,
+    folderPaths,
     entries: entries as readonly BrowserEntry[],
     files,
     everyFile,

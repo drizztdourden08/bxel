@@ -73,5 +73,12 @@ const buildEntries = (input: EntryInput): readonly BrowserEntry[] => {
   return sortEntries([...folders, ...files], input.sort);
 };
 
-export { buildEntries };
+/** Every folder known: those on disk, and the folders that hold a file even when the listing missed them. */
+const allFolders = (folders: readonly string[], rows: readonly AssetRow[]): readonly string[] => {
+  const found = new Map<string, string>();
+  for (const path of [...folders, ...rows.filter((row) => row.path !== '').map((row) => parentOf(row.path))]) found.set(path.toLowerCase(), path);
+  return [...found.values()];
+};
+
+export { allFolders, buildEntries };
 export type { EntryInput };
