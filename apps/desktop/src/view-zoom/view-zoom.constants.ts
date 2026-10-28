@@ -7,6 +7,8 @@ const DIGIT_ZOOM: Readonly<Record<string, number>> = { '1': 100, '2': 200, '3': 
 
 const ZOOM_SLIDER = { min: 0, max: 1000 } as const;
 
+const SLIDER_SPAN = Math.log(ZOOM_PERCENT.max / ZOOM_PERCENT.min);
+
 const ZOOM_TEXT = {
   region: 'Zoom',
   field: 'Zoom percent',
@@ -22,4 +24,4 @@ const ZOOM_TEXT = {
   preset: (percent: number): string => `${percent}%`,
 } as const;
 
-export { DIGIT_ZOOM, ZOOM_PERCENT, ZOOM_PRESETS, ZOOM_SLIDER, ZOOM_TEXT };
+export { DIGIT_ZOOM, SLIDER_SPAN, ZOOM_PERCENT, ZOOM_PRESETS, ZOOM_SLIDER, ZOOM_TEXT };

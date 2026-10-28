@@ -20,4 +20,4 @@ interface AssetGridDefaults {
 
 type AssetGridSource = 'tileset' | 'map' | 'sheet' | 'setting';
 
-export type { AssetGridDefaults, AssetGridSource, AssetView, BackgroundKind };
+export type { AssetGridDefaults, AssetView, BackgroundKind };

@@ -2,7 +2,8 @@
 import { Flex, IconButton, Icon, Slider, TextInput } from '@drizztdourden08/tessera';
 import { zoomView } from '../../editor/zoom-view';
 import { zoomTo } from '../../editor/zoom-to';
-import { percentToSlider, sliderToPercent } from '../../view-zoom/slider-scale';
+import { percentToSlider } from '../../view-zoom/percent-to-slider';
+import { sliderToPercent } from '../../view-zoom/slider-to-percent';
 import { ZOOM_SLIDER, ZOOM_TEXT } from '../../view-zoom/view-zoom.constants';
 import { useZoomDraft } from './behavior/useZoomDraft';
 import { useZoomPercent } from './behavior/useZoomPercent';

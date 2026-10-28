@@ -52,7 +52,7 @@ const built = (patch: Partial<HeaderInput>, given = actions()): HeaderModel => {
 
 const labels = (model: HeaderModel): string[] => model.crumbs.map((crumb) => crumb.label);
 
-describe('the stage header', () => {
+describe('the stage header of a sprite', () => {
   it('shows nothing without an open asset', () => {
     expect(buildHeader(input({ surface: 'none' }), actions())).toBeNull();
   });
@@ -120,6 +120,9 @@ describe('the stage header', () => {
     expect(built({ hiddenGrids: true }).chips.map((chip) => chip.text)).toEqual(['Grid hidden at this zoom']);
   });
 
+});
+
+describe('the stage header of an animation frame and a sheet', () => {
   it('shows the path of an animation frame with the shared sprite notes and actions', () => {
     const given = actions();
     const model = built({
@@ -150,6 +153,9 @@ describe('the stage header', () => {
     expect(model.chips.map((chip) => chip.text)).toEqual(['2 sprites selected']);
   });
 
+});
+
+describe('the stage header of a tile and a map', () => {
   it('shows Edit Tile with its way back and how many placements change', () => {
     const given = actions();
     const model = built({ surface: 'tile', tile: { key: 12, uses: 3 } }, given);

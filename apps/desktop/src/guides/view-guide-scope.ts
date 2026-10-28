@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { currentAssetViewKey } from '../asset-view/asset-view-key';
+import { currentAssetViewKey } from '../asset-view/current-asset-view-key';
 import { currentMap } from '../tilemap/current-map';
 import { useSurfaceGuideStore } from '../stores/useSurfaceGuideStore';
 import { useViewFeedStore } from '../stores/useViewFeedStore';

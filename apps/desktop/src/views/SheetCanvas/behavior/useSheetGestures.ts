@@ -31,7 +31,7 @@ const useSheetGestures = (viewport: RefObject<PixelViewportHandle | null>, sheet
       const at = pointer(event);
       drag.current =
         active.kind === 'move'
-          ? { ...active, delta: clampDelta(sheet.model.items, active.ids, snapSheetDelta(sheet.model.items, active, { x: at.x - active.start.x, y: at.y - active.start.y }, event.altKey, viewport.current?.view().zoom ?? 1)) }
+          ? { ...active, delta: clampDelta(sheet.model.items, active.ids, snapSheetDelta({ items: sheet.model.items, drag: active, delta: { x: at.x - active.start.x, y: at.y - active.start.y }, invert: event.altKey, zoom: viewport.current?.view().zoom ?? 1 })) }
           : { ...active, end: { x: at.x - active.origin.x, y: at.y - active.origin.y } };
       viewport.current?.redraw();
     },

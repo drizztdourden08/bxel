@@ -1,16 +1,8 @@
 /* @layer renderer-app @kind hook */
 import { useState } from 'react';
-import type { ChangeEvent, KeyboardEvent } from 'react';
 import { zoomTo } from '../../../editor/zoom-to';
 import { parsePercent } from '../../../view-zoom/parse-percent';
-
-interface ZoomDraft {
-  text: string;
-  invalid: boolean;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur: () => void;
-  onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
-}
+import type { ZoomDraft } from './useZoomDraft.type';
 
 const useZoomDraft = (percent: number | null): ZoomDraft => {
   const [draft, setDraft] = useState<string | null>(null);
@@ -36,5 +28,4 @@ const useZoomDraft = (percent: number | null): ZoomDraft => {
   };
 };
 
-export type { ZoomDraft };
 export { useZoomDraft };

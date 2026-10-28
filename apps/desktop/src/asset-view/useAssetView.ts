@@ -4,14 +4,7 @@ import { useActiveAsset } from '../hooks/useActiveAsset';
 import { useAssetViewStore } from '../stores/useAssetViewStore';
 import { assetViewKeyOf } from './asset-view-key';
 import { ASSET_VIEW_DEFAULTS } from './asset-view.constants';
-import type { AssetView } from './asset-view.type';
-
-interface AssetViewModel {
-  key: string | null;
-  view: AssetView;
-  patch: (patch: Partial<AssetView>) => void;
-  reset: () => void;
-}
+import type { AssetViewModel } from './useAssetView.type';
 
 const useAssetView = (): AssetViewModel => {
   const tab = useActiveAsset()?.tab ?? null;

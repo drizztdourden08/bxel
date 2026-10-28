@@ -1,21 +1,13 @@
 /* @layer renderer-app @kind logic */
 import { HEADER_TEXT } from './stage-header.constants';
+import { stateChip } from './state-chip';
 import type { HeaderActions, HeaderChip, HeaderInput, HeaderModel, MapHeader } from './stage-header.type';
 
 const layerChip = (map: MapHeader, actions: HeaderActions, readOnly: boolean): HeaderChip[] => {
   if (map.layerState === '' || map.layerId === null) return [];
   const locked = map.layerState === 'locked';
   const layerId = map.layerId;
-  return [
-    {
-      id: 'layer-state',
-      text: locked ? HEADER_TEXT.locked : HEADER_TEXT.hidden,
-      tone: locked ? 'danger' : 'warning',
-      icon: locked ? 'pixel-lock' : 'eye-off',
-      title: locked ? HEADER_TEXT.lockedTitle : HEADER_TEXT.hiddenTitle,
-      action: { label: locked ? HEADER_TEXT.unlock : HEADER_TEXT.show, disabled: readOnly, run: () => actions.flagMapLayer(locked ? 'locked' : 'visible', layerId) },
-    },
-  ];
+  return [stateChip({ locked, readOnly, run: () => actions.flagMapLayer(locked ? 'locked' : 'visible', layerId) })];
 };
 
 const mapHeader = (input: HeaderInput, actions: HeaderActions): HeaderModel => {

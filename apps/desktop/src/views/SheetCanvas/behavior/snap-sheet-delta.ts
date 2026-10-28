@@ -1,14 +1,12 @@
 /* @layer renderer-app @kind logic */
-import type { Point } from '@bxel/document';
 import { guideScope } from '../../../guides/guide-scope';
 import { snapDelta } from '../../../sheet/snap-delta';
-import type { SheetItem } from '../../../sheet/sheet.type';
 import { useSnapGridStore } from '../../../stores/useSnapGridStore';
 import { useViewStore } from '../../../stores/useViewStore';
 import { SNAP_REACH } from '../SheetCanvas.constants';
-import type { SheetDrag } from '../SheetCanvas.type';
+import type { SnapSheetInput } from '../SheetCanvas.type';
 
-const snapSheetDelta = (items: readonly SheetItem[], drag: Extract<SheetDrag, { kind: 'move' }>, delta: Point, invert: boolean, zoom: number): Point => {
+const snapSheetDelta = ({ items, drag, delta, invert, zoom }: SnapSheetInput) => {
   if (useViewStore.getState().snap === invert) return delta;
   return snapDelta({
     items,

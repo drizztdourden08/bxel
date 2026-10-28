@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Box, Canvas, Text } from '@drizztdourden08/tessera';
 import { useId, useMemo, useRef } from 'react';
+import { useElementStyle } from '../../hooks/useElementStyle';
 import { useViewFeedStore } from '../../stores/useViewFeedStore';
 import { useSelectionRect } from '../../view-zoom/useSelectionRect';
 import { navigatorKey } from './behavior/navigator-key';
@@ -29,6 +30,7 @@ const Navigator = () => {
   useNavigatorDraw(parts, thumb, useSelectionRect());
   useNavigatorWheel(thumbBox);
   const pointer = useNavigatorPointer(thumb?.scale ?? 1);
+  useElementStyle(thumbBox, thumb ? { 'inline-size': `${thumb.width}px`, 'block-size': `${thumb.height}px` } : {});
   return (
     <Box className="navigator" role="group" aria-label={NAVIGATOR_TEXT.region}>
       <Box ref={stage} className="navigator__stage">
@@ -36,7 +38,6 @@ const Navigator = () => {
           <Box
             ref={thumbBox}
             className="navigator__thumb"
-            style={{ inlineSize: thumb.width, blockSize: thumb.height }}
             tabIndex={0}
             role="application"
             aria-roledescription={NAVIGATOR_TEXT.roleDescription}

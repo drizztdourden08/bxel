@@ -2,7 +2,7 @@
 import { useMemo } from 'react';
 import { buildHeader } from '../../../stage-header/build-header';
 import type { HeaderModel } from '../../../stage-header/stage-header.type';
-import { HEADER_ACTIONS } from './header-actions';
+import { HEADER_ACTIONS } from './header-actions.constants';
 import { useHeaderInput } from './useHeaderInput';
 
 const useStageHeader = (): HeaderModel | null => {

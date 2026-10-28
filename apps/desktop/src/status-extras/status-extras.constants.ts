@@ -1,4 +1,6 @@
 /* @layer renderer-app @kind constants */
+import type { StatusExtras } from './status-extras.type';
+
 const EXTRA_TEXT = {
   index: 'Index',
   selection: 'Selection',
@@ -14,4 +16,6 @@ const EXTRA_TEXT = {
   cellValue: (column: number, row: number): string => `${column}, ${row}`,
 } as const;
 
-export { EXTRA_TEXT };
+const EMPTY_EXTRAS: StatusExtras = { index: null, selection: null, drag: null, frame: null, cell: null, tile: null };
+
+export { EMPTY_EXTRAS, EXTRA_TEXT };

@@ -108,4 +108,4 @@ interface HeaderActions {
   setLayerScope: (scope: LayerScope) => void;
 }
 
-export type { AnimationHeader, ChipTone, Crumb, HeaderAction, HeaderActions, HeaderChip, HeaderInput, HeaderModel, LayerRow, MapHeader, SpriteHeader, TileHeader };
+export type { AnimationHeader, Crumb, HeaderAction, HeaderActions, HeaderChip, HeaderInput, HeaderModel, LayerRow, MapHeader, SpriteHeader, TileHeader };

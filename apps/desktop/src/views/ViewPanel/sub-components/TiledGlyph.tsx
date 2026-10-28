@@ -1,10 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Svg, SvgRect } from '@drizztdourden08/tessera';
 import type { TiledGlyphProps } from '../ViewPanel.type';
-
-const CELLS = [0, 1, 2] as const;
-const SIZE = 6;
-const GAP = 1;
+import { GLYPH_CELLS as CELLS, GLYPH_GAP as GAP, GLYPH_SIZE as SIZE } from './TiledGlyph.constants';
 
 const repeats = (mode: string, column: number, row: number): boolean => {
   if (column === 1 && row === 1) return true;

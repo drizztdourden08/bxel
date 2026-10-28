@@ -47,6 +47,18 @@
   border-radius: var(--radius-round);
 }
 
+.view-panel__dot--danger {
+  background: var(--c-danger);
+}
+
+.view-panel__dot--info {
+  background: var(--c-info);
+}
+
+.view-panel__dot--muted {
+  background: var(--c-text-muted);
+}
+
 .view-panel__glyph-main {
   fill: var(--c-primary);
 }

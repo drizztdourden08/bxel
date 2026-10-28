@@ -1,32 +1,20 @@
 /* @layer renderer-app @kind logic */
-import type { CellFlags, MapLayer } from '@bxel/document';
-import type { MapSelection } from '../stores/tilemap-store.type';
 import type { MapContext } from '../tilemap/tilemap.type';
-import { stateOf } from './read-sprite-header';
+import { mapLayerHeader } from './map-layer-header';
+import type { MapFlags } from './read-map-header.type';
 import type { MapHeader } from './stage-header.type';
+import { turnText } from './turn-text';
 
-interface MapFlags {
-  flags: CellFlags;
-  selection: MapSelection | null;
-  showTurn: boolean;
-  showSelection: boolean;
-}
-
-const turnText = (flags: CellFlags): string | null => {
-  const parts = [flags.flipX ? 'X' : '', flags.flipY ? 'Y' : '', flags.diagonal ? 'Diagonal' : ''].filter(Boolean);
-  return parts.length === 0 ? null : parts.join(' ');
+const selectionText = (extras: MapFlags): string | null => {
+  const rect = extras.showSelection ? extras.selection?.rect : undefined;
+  return rect ? `${rect.width} x ${rect.height} cells selected` : null;
 };
-
-const layerStateOf = (layer: MapLayer | null): MapHeader['layerState'] => (layer ? stateOf(layer) : '');
 
 const readMapHeader = (context: MapContext | null, extras: MapFlags): MapHeader => ({
   mapName: context?.tilemap?.name ?? null,
-  layerId: context?.layer?.id ?? null,
-  layerName: context?.layer?.name ?? null,
-  layerState: layerStateOf(context?.layer ?? null),
+  ...mapLayerHeader(context?.layer),
   turn: extras.showTurn ? turnText(extras.flags) : null,
-  selection: extras.showSelection && extras.selection ? `${extras.selection.rect.width} x ${extras.selection.rect.height} cells selected` : null,
+  selection: selectionText(extras),
 });
 
-export type { MapFlags };
 export { readMapHeader };

@@ -1,19 +1,13 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useRef } from 'react';
-import type { RefObject } from 'react';
 import { useViewFeedStore } from '../../../stores/useViewFeedStore';
 import type { PixelRect, PixelSource } from '../../PixelViewport';
 import type { ThumbSize } from '../Navigator.type';
+import type { NavigatorParts } from './useNavigatorDraw.type';
 import { clipRect } from './clip-rect';
 import { paintThumb } from './paint-thumb';
 import { place } from './place-box';
 import { visibleRect } from './visible-rect';
-
-interface NavigatorParts {
-  canvas: RefObject<HTMLCanvasElement | null>;
-  frame: RefObject<HTMLElement | null>;
-  mark: RefObject<HTMLElement | null>;
-}
 
 const isStill = (source: PixelSource): boolean => 'data' in source && 'colorSpace' in source;
 
@@ -42,5 +36,4 @@ const useNavigatorDraw = (parts: NavigatorParts, thumb: ThumbSize | null, select
   }, [parts, thumb, selection]);
 };
 
-export type { NavigatorParts };
 export { useNavigatorDraw };

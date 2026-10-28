@@ -10,7 +10,7 @@ const tintOption = (tint: OnionTint) => ({
   label: (
     <Flex as="span" gap="2xs" align="center">
       {ONION_TINTS[tint].swatches.map((colour) => (
-        <Span key={colour} className="view-panel__dot" style={{ background: colour }} aria-hidden="true" />
+        <Span key={colour} className={`view-panel__dot view-panel__dot--${colour}`} aria-hidden="true" />
       ))}
       <Text as="span" variant="caption">{ONION_TINTS[tint].label}</Text>
     </Flex>

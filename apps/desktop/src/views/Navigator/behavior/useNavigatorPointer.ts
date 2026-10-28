@@ -4,13 +4,8 @@ import type { PointerEvent } from 'react';
 import { useViewFeedStore } from '../../../stores/useViewFeedStore';
 import { useViewStore } from '../../../stores/useViewStore';
 import type { PixelPoint } from '../../PixelViewport';
+import type { NavigatorPointer } from './useNavigatorPointer.type';
 import { visibleRect } from './visible-rect';
-
-interface NavigatorPointer {
-  onPointerDown: (event: PointerEvent<HTMLElement>) => void;
-  onPointerMove: (event: PointerEvent<HTMLElement>) => void;
-  onPointerUp: (event: PointerEvent<HTMLElement>) => void;
-}
 
 const imagePoint = (event: PointerEvent<HTMLElement>, scale: number): PixelPoint => {
   const box = event.currentTarget.getBoundingClientRect();
@@ -46,5 +41,4 @@ const useNavigatorPointer = (scale: number): NavigatorPointer => {
   };
 };
 
-export type { NavigatorPointer };
 export { useNavigatorPointer };

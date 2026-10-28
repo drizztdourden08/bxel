@@ -13,6 +13,10 @@ interface SurfaceProps {
   surface: Surface;
 }
 
+interface FixedProps {
+  fixed: boolean;
+}
+
 interface LineSwatchProps {
   colour: string;
   opacity: number;
@@ -33,4 +37,4 @@ interface TiledGlyphProps {
   mode: string;
 }
 
-export type { LineSwatchProps, OverlayRowProps, SurfaceProps, TiledGlyphProps, ViewSectionProps };
+export type { FixedProps, LineSwatchProps, OverlayRowProps, SurfaceProps, TiledGlyphProps, ViewSectionProps };

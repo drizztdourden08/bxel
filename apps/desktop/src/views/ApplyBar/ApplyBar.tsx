@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Box, Button, Flex, Text } from '@drizztdourden08/tessera';
 import { useEffect, useRef } from 'react';
-import type { CSSProperties } from 'react';
+import { useElementStyle } from '../../hooks/useElementStyle';
 import { cancelPending } from '../../editor/pending/cancel-pending';
 import { commitPending } from '../../editor/pending/commit-pending';
 import { APPLY_BAR_TEXT } from './ApplyBar.constants';
@@ -16,6 +16,7 @@ const ApplyBar = () => {
   const shown = bar !== null;
   const box = useRef<HTMLDivElement>(null);
   const placement = useBarPlacement(box, bar?.anchor ?? null, shown);
+  useElementStyle(box, placement ? { 'inset-inline-start': `${placement.x}px`, 'inset-block-start': `${placement.y}px`, visibility: 'visible' } : { visibility: 'hidden' });
   useNudgeKeys(shown);
   useEffect(() => {
     if (!shown) return undefined;
@@ -26,7 +27,6 @@ const ApplyBar = () => {
     };
   }, [shown]);
   if (bar === null) return null;
-  const style: CSSProperties = placement ? { insetInlineStart: placement.x, insetBlockStart: placement.y } : { visibility: 'hidden' };
   return (
     <Box
       ref={box}
@@ -35,7 +35,6 @@ const ApplyBar = () => {
       aria-label={APPLY_BAR_TEXT.region}
       className={bar.error === null ? 'apply-bar' : 'apply-bar apply-bar--error'}
       data-docked={placement?.docked ? '' : undefined}
-      style={style}
       onKeyDown={(event) => {
         if (event.key !== 'Escape') return;
         event.stopPropagation();

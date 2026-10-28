@@ -51,8 +51,8 @@ const ONION_TEXT = {
 
 const ONION_TINTS: Readonly<Record<OnionTint, { label: string; swatches: readonly string[] }>> = {
   none: { label: 'Natural', swatches: [] },
-  split: { label: 'Red and blue', swatches: ['#e5484d', '#3e63dd'] },
-  grey: { label: 'Grey', swatches: ['#8b8d98'] },
+  split: { label: 'Red and blue', swatches: ['danger', 'info'] },
+  grey: { label: 'Grey', swatches: ['muted'] },
 };
 
 const TILED_TEXT = { mode: 'Repeat the canvas', hint: 'Check that a pattern joins without a seam.' } as const;

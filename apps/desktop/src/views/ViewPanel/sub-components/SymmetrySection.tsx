@@ -1,13 +1,8 @@
 /* @layer renderer-app @kind component */
 import { Button, Flex, Text, Toggle } from '@drizztdourden08/tessera';
 import { useToolStore } from '../../../stores/useToolStore';
-import type { SymmetryAxis } from '../../../stores/tool-store.type';
 import { SYMMETRY_TEXT } from '../ViewPanel.constants';
-
-const AXES: readonly { axis: SymmetryAxis; label: string }[] = [
-  { axis: 'x', label: SYMMETRY_TEXT.mirrorX },
-  { axis: 'y', label: SYMMETRY_TEXT.mirrorY },
-];
+import { SYMMETRY_AXES as AXES } from './SymmetrySection.constants';
 
 const SymmetrySection = () => {
   const on = { x: useToolStore((state) => state.symmetryX), y: useToolStore((state) => state.symmetryY) };

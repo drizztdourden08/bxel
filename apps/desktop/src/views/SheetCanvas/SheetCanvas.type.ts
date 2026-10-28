@@ -13,6 +13,14 @@ interface SheetMarks {
   pivots: boolean;
 }
 
+interface SnapSheetInput {
+  items: readonly SheetItem[];
+  drag: Extract<SheetDrag, { kind: 'move' }>;
+  delta: Point;
+  invert: boolean;
+  zoom: number;
+}
+
 interface SheetPaintBase {
   model: SheetModel;
   marks: SheetMarks;
@@ -75,4 +83,4 @@ interface ClickMemo {
   at: number;
 }
 
-export type { ClickMemo, DownInput, PressInput, StartMoveInput, SheetDrag, SheetGesture, SheetLook, SheetPaintBase, SheetPaintState, SheetSurfaceProps, SheetView };
+export type { ClickMemo, DownInput, PressInput, StartMoveInput, SheetDrag, SheetGesture, SheetLook, SheetPaintBase, SnapSheetInput, SheetPaintState, SheetSurfaceProps, SheetView };

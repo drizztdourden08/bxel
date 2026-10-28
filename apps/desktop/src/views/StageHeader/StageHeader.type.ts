@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { Crumb, HeaderAction, HeaderChip } from '../../stage-header/stage-header.type';
+import type { Crumb, HeaderChip } from '../../stage-header/stage-header.type';
 
 interface CrumbItemProps {
   crumb: Crumb;
@@ -14,12 +14,4 @@ interface ChipItemProps {
   chip: HeaderChip;
 }
 
-interface HeaderChipsProps {
-  chips: readonly HeaderChip[];
-}
-
-interface HeaderActionsProps {
-  actions: readonly HeaderAction[];
-}
-
-export type { BreadcrumbTrailProps, ChipItemProps, CrumbItemProps, HeaderActionsProps, HeaderChipsProps };
+export type { BreadcrumbTrailProps, ChipItemProps, CrumbItemProps };

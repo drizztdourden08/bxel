@@ -1,4 +1,4 @@
-/* @layer renderer-app @kind logic */
+/* @layer renderer-app @kind constants */
 import { toggleLayerFlag } from '../../../editor/toggle-layer-flag';
 import { backToSheet } from '../../../sheet/back-to-sheet';
 import { toggleBroadcast } from '../../../sheet/toggle-broadcast';

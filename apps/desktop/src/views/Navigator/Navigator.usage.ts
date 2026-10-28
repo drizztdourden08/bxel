@@ -8,7 +8,7 @@ const usage = {
     'The user wants to see the selection and the visible area against the whole asset.',
   ],
   avoidWhen: [
-    { case: 'The user types an exact zoom.', use: 'ZoomField' },
+    { case: 'The user types an exact zoom.', use: 'CanvasToolbar' },
     { case: 'A picture that does not follow a canvas.', use: 'Image' },
   ],
   rules: [

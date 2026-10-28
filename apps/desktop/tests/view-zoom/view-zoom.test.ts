@@ -2,7 +2,8 @@
 import { describe, expect, it } from 'vitest';
 import { clampPercent } from '../../src/view-zoom/clamp-percent';
 import { parsePercent } from '../../src/view-zoom/parse-percent';
-import { percentToSlider, sliderToPercent } from '../../src/view-zoom/slider-scale';
+import { percentToSlider } from '../../src/view-zoom/percent-to-slider';
+import { sliderToPercent } from '../../src/view-zoom/slider-to-percent';
 import { DIGIT_ZOOM, ZOOM_PERCENT, ZOOM_PRESETS, ZOOM_SLIDER } from '../../src/view-zoom/view-zoom.constants';
 import { rectTarget } from '../../src/views/PixelViewport/behavior/rect-target';
 import type { ViewBox } from '../../src/views/PixelViewport/behavior/viewport.type';

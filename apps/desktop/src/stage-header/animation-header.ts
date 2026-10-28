@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
-import { layerChips, layerCrumb } from './layer-parts';
+import { layerChips } from './layer-chips';
+import { layerCrumb } from './layer-crumb';
 import { HEADER_TEXT } from './stage-header.constants';
 import type { AnimationHeader, Crumb, HeaderActions, HeaderChip, HeaderInput, HeaderModel } from './stage-header.type';
 

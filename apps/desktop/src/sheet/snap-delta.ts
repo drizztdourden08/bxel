@@ -1,22 +1,11 @@
 /* @layer renderer-app @kind logic */
-import type { Point, Size, SpriteId } from '@bxel/document';
-import type { GuideLines } from '../guides/guide.type';
-import type { SheetItem } from './sheet.type';
+import type { Point } from '@bxel/document';
+import type { SnapAxis, SnapRequest } from './snap-delta.type';
 
-interface SnapRequest {
-  items: readonly SheetItem[];
-  ids: readonly SpriteId[];
-  delta: Point;
-  grid: Size | null;
-  lines: GuideLines | undefined;
-  reach: number;
-}
-
-const snapAxis = (origin: number, delta: number, step: number | null, guides: readonly number[], reach: number): number => {
+const snapAxis = ({ origin, delta, step, guides, reach }: SnapAxis): number => {
   const at = origin + delta;
-  const gridded = step === null ? null : Math.round(at / step) * step;
-  const near = guides.filter((line) => Math.abs(line - at) <= reach);
-  const candidates = [...(gridded === null ? [] : [gridded]), ...near];
+  const gridded = step === null ? [] : [Math.round(at / step) * step];
+  const candidates = [...gridded, ...guides.filter((line) => Math.abs(line - at) <= reach)];
   if (candidates.length === 0) return delta;
   const best = candidates.reduce((closest, each) => (Math.abs(each - at) < Math.abs(closest - at) ? each : closest));
   return best - origin;
@@ -28,8 +17,8 @@ const snapDelta = ({ items, ids, delta, grid, lines, reach }: SnapRequest): Poin
   const left = Math.min(...moved.map((item) => item.at.x));
   const top = Math.min(...moved.map((item) => item.at.y));
   return {
-    x: snapAxis(left, delta.x, grid?.width ?? null, lines?.x ?? [], reach),
-    y: snapAxis(top, delta.y, grid?.height ?? null, lines?.y ?? [], reach),
+    x: snapAxis({ origin: left, delta: delta.x, step: grid?.width ?? null, guides: lines?.x ?? [], reach }),
+    y: snapAxis({ origin: top, delta: delta.y, step: grid?.height ?? null, guides: lines?.y ?? [], reach }),
   };
 };
 

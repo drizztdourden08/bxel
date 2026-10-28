@@ -1,19 +1,10 @@
 /* @layer renderer-app @kind logic */
-import { spritesGroups } from '../sheet/sprites-groups';
-import { layerChips, layerCrumb } from './layer-parts';
+import { backCrumb } from './back-crumb';
+import { layerChips } from './layer-chips';
+import { layerCrumb } from './layer-crumb';
+import { spriteCrumb } from './sprite-crumb';
 import { HEADER_TEXT } from './stage-header.constants';
-import type { Crumb, HeaderAction, HeaderActions, HeaderChip, HeaderInput, HeaderModel, SpriteHeader } from './stage-header.type';
-
-const backCrumb = (actions: HeaderActions): Crumb => ({ id: 'back', label: HEADER_TEXT.back, icon: 'arrow-left', title: HEADER_TEXT.backTitle, run: actions.back });
-
-const spriteCrumb = (sprite: SpriteHeader, actions: HeaderActions): Crumb => ({
-  id: 'sprite',
-  label: HEADER_TEXT.sprite(sprite.name),
-  icon: 'pixel-sprite',
-  menu: sprite.multi
-    ? spritesGroups(sprite.spritesScope, actions.setSpritesScope).map((group) => ({ ...group, label: HEADER_TEXT.scopeMenu }))
-    : undefined,
-});
+import type { HeaderAction, HeaderActions, HeaderChip, HeaderInput, HeaderModel, SpriteHeader } from './stage-header.type';
 
 const paintingChips = (sprite: SpriteHeader, actions: HeaderActions): HeaderChip[] =>
   sprite.broadcast && sprite.count > 1
@@ -36,4 +27,4 @@ const spriteHeader = (input: HeaderInput, actions: HeaderActions): HeaderModel =
   };
 };
 
-export { backCrumb, spriteCrumb, spriteHeader };
+export { spriteHeader };

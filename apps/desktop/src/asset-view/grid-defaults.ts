@@ -1,14 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Sheet, Size, Tileset } from '@bxel/document';
-import type { Surface } from '../surface/surface.type';
 import type { AssetGridDefaults } from './asset-view.type';
-
-interface GridInput {
-  surface: Surface;
-  tileset: Tileset | null;
-  sheet: Sheet | null;
-  setting: number;
-}
+import type { GridInput } from './grid-defaults.type';
 
 const tileOf = (tileset: Tileset): Size => ({ width: tileset.tileWidth, height: tileset.tileHeight });
 

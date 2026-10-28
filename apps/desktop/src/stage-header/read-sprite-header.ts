@@ -1,22 +1,12 @@
 /* @layer renderer-app @kind logic */
-import type { Layer } from '@bxel/document';
 import type { EditorTarget } from '../editor/editor.type';
-import type { SpriteSettings } from '../stores/sprite-store.type';
-import type { LayerRow, SpriteHeader } from './stage-header.type';
-
-interface SpriteFlags extends Pick<SpriteSettings, 'isolated' | 'broadcast' | 'spritesScope' | 'layerScope'> {
-  mode: SpriteSettings['mode'];
-  selected: number;
-}
-
-const stateOf = (layer: Pick<Layer, 'locked' | 'visible'>): LayerRow['state'] => {
-  if (layer.locked) return 'locked';
-  return layer.visible ? '' : 'hidden';
-};
+import { layerStateOf } from './layer-state-of';
+import type { SpriteFlags } from './read-sprite-header.type';
+import type { SpriteHeader } from './stage-header.type';
 
 const readSpriteHeader = (target: EditorTarget, flags: SpriteFlags): SpriteHeader => ({
   name: target.sprite.name,
-  layers: target.sprite.layers.map((layer) => ({ id: layer.id, name: layer.name, state: stateOf(layer), active: layer.id === target.layerId })),
+  layers: target.sprite.layers.map((layer) => ({ id: layer.id, name: layer.name, state: layerStateOf(layer), active: layer.id === target.layerId })),
   multi: flags.selected > 1,
   count: flags.selected,
   broadcast: flags.broadcast,
@@ -26,5 +16,4 @@ const readSpriteHeader = (target: EditorTarget, flags: SpriteFlags): SpriteHeade
   layerScope: flags.layerScope,
 });
 
-export type { SpriteFlags };
-export { readSpriteHeader, stateOf };
+export { readSpriteHeader };

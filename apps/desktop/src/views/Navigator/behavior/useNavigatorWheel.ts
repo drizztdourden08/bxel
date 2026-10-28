@@ -2,8 +2,7 @@
 import { useEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 import { useViewStore } from '../../../stores/useViewStore';
-
-const NOTCH = 40;
+import { WHEEL_NOTCH } from './useNavigatorWheel.constants';
 
 const useNavigatorWheel = (target: RefObject<HTMLElement | null>): void => {
   const carried = useRef(0);
@@ -13,9 +12,9 @@ const useNavigatorWheel = (target: RefObject<HTMLElement | null>): void => {
     const listen = (event: WheelEvent) => {
       event.preventDefault();
       carried.current += event.deltaY;
-      const steps = Math.trunc(carried.current / NOTCH);
+      const steps = Math.trunc(carried.current / WHEEL_NOTCH);
       if (steps === 0) return;
-      carried.current -= steps * NOTCH;
+      carried.current -= steps * WHEEL_NOTCH;
       const { viewport } = useViewStore.getState();
       if (steps < 0) viewport?.zoomIn();
       else viewport?.zoomOut();

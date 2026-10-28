@@ -13,7 +13,7 @@ const RULER_MENU = {
   here: 'Put the mirror axis here',
   guide: 'Add guide here',
   clearGuides: 'Clear guides',
-  noGuides: 'This sprite has no guides.',
+  noGuides: 'This asset has no guides.',
   mirror: 'Mirror this axis',
   centre: 'Centre the mirror axis',
   centred: 'The mirror axis is already at the centre.',

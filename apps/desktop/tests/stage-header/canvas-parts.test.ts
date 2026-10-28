@@ -62,7 +62,7 @@ describe('the floating Apply bar placement', () => {
 });
 
 describe('snap', () => {
-  const items = [{ sprite: { id: 'a', width: 16, height: 16 }, at: { x: 10, y: 20 }, onSheet: true }] as unknown as SheetItem[];
+  const items: SheetItem[] = [{ sprite: { id: 'a', width: 16, height: 16 }, at: { x: 10, y: 20 }, onSheet: true }] as never;
   const ids = ['a'] as never;
 
   it('moves a sprite onto the nearest cell line', () => {
