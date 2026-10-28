@@ -20,8 +20,9 @@ const usage = {
   },
   example: `import { AssetPreview } from '../AssetPreview';
 
-const Pane = ({ preview }: { preview: OverviewPreview }) => <AssetPreview preview={preview} name="hero" mode="large" />;
+const Pane = () => <AssetPreview preview={{ kind: 'none' }} name="hero" mode="large" />;
 `,
-} satisfies Omit<ComponentUsage, 'propsHash'>;
+  propsHash: '7841a2b4e0108dd1',
+} satisfies ComponentUsage;
 
 export { usage };
