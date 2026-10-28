@@ -1,0 +1,45 @@
+/* @layer renderer-app @kind style */
+.slot-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-icon__corner {
+  position: absolute;
+  inset-inline-end: calc(var(--size-3) * -1);
+  inset-block-end: calc(var(--size-3) * -1);
+  inline-size: 0;
+  block-size: 0;
+  border-inline-start: var(--size-4) solid transparent;
+  border-block-end: var(--size-4) solid var(--c-text-muted);
+}
+
+.slot-icon__dot {
+  position: absolute;
+  inset-inline-end: calc(var(--size-2) * -1);
+  inset-block-end: calc(var(--size-2) * -1);
+  inline-size: var(--size-4);
+  block-size: var(--size-4);
+  border-radius: var(--radius-pill);
+  background: var(--c-text-muted);
+}
+
+.slot-icon__badge {
+  position: absolute;
+  inset-inline-end: calc(var(--size-4) * -1);
+  inset-block-start: calc(var(--size-4) * -1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--size-10);
+  block-size: var(--size-10);
+  padding-inline: var(--size-1);
+  border-radius: var(--radius-pill);
+  background: var(--c-secondary);
+  color: var(--c-surface);
+  font-size: var(--size-8);
+  font-weight: var(--weight-semi);
+  line-height: 1;
+}

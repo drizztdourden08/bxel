@@ -16,6 +16,26 @@ const TOOLS: RuleTable = {
   ...family(['tool.select_zoom', 'tool.select_hand'], ZOOM_STAGE, [[hasFile, REASON.noDraw]]),
 };
 
+const PRESETS: RuleTable = {
+  ...family(['tool.previous', 'tool.cycle_back_shape', 'tool.cycle_back_select', 'tool.cycle_back_fill'], DRAW_STAGE, [DRAW], ONLY.drawing),
+  ...family(['tool.apply_preset', 'tool.save_preset', 'tool.reset_options', ...[1, 2, 3, 4, 5].map((slot) => `tool.apply_quick_preset_${slot}`)], PIXEL, [DOC], ONLY.pixels),
+};
+
+const OPTIONS: RuleTable = {
+  ...family(
+    [
+      'brush.cycle_tip', 'brush.toggle_pixel_perfect', 'fill.toggle_area', 'fill.toggle_neighbours', 'shape.set_kind', 'shape.toggle_filled', 'select.set_shape',
+      'select.set_mode', 'options.select.neighbours', 'options.pencil.size', 'options.eraser.size', 'options.shape.size', 'options.set', 'options.reset',
+      'options.reset_all',
+    ],
+    PIXEL,
+    [DOC],
+    ONLY.pixels,
+  ),
+  ...family(['brush.size_down_by_four', 'brush.size_up_by_four'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
+  ...family(['options.focus', 'options.open'], EDIT_STAGE),
+};
+
 const BRUSH: RuleTable = {
   ...family(['brush.smaller', 'brush.larger'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
   ...family(['palette.swap_colors', 'palette.swap_pairs', 'palette.step_back', 'palette.step_forward'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
@@ -135,7 +155,7 @@ const FILES: RuleTable = {
 };
 
 const COMMAND_RULES: RuleTable = {
-  ...TOOLS, ...BRUSH, ...VIEW, ...HISTORY, ...LAYERS, ...SELECTION, ...TRANSFORM, ...SHEETS, ...TILES, ...TIMELINES, ...PALETTES, ...FILES,
+  ...TOOLS, ...PRESETS, ...OPTIONS, ...BRUSH, ...VIEW, ...HISTORY, ...LAYERS, ...SELECTION, ...TRANSFORM, ...SHEETS, ...TILES, ...TIMELINES, ...PALETTES, ...FILES,
 };
 
 export { COMMAND_RULES };

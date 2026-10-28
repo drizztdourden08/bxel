@@ -3,6 +3,12 @@ import type { ToolSettings } from './tool-store.type';
 
 const TOOL_DEFAULTS: ToolSettings = {
   tool: 'pencil',
+  previousTool: null,
+  activeSurface: 'paint',
+  surfaceTools: { paint: 'pencil', map: 'pencil', sheet: 'hand' },
+  recentMembers: { paint: [], map: [], sheet: [] },
+  optionMemory: {},
+  shareBrush: false,
   foreground: 1,
   background: 0,
   third: 2,
@@ -24,4 +30,6 @@ const TOOL_DEFAULTS: ToolSettings = {
 
 const BRUSH_SIZE = { min: 1, max: 64 } as const;
 
-export { BRUSH_SIZE, TOOL_DEFAULTS };
+const RECENT_LIMIT = 5;
+
+export { BRUSH_SIZE, RECENT_LIMIT, TOOL_DEFAULTS };

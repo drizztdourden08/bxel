@@ -38,6 +38,7 @@ declare module '@drizztdourden08/tessera' {
         | 'MapLayersPanel'
         | 'MigrationBar'
         | 'MismatchBar'
+        | 'OptionsPanel'
         | 'OptionsToolbar'
         | 'PaletteCard'
         | 'PaletteChangeDialog'
@@ -47,6 +48,8 @@ declare module '@drizztdourden08/tessera' {
         | 'PixelViewport'
         | 'PlatformFindings'
         | 'PresetBrowser'
+        | 'PresetDialog'
+        | 'PresetList'
         | 'PresetMoveBar'
         | 'ProjectControl'
         | 'ProjectCreateDialog'
@@ -57,6 +60,7 @@ declare module '@drizztdourden08/tessera' {
         | 'ScopeBar'
         | 'SettingsSplit'
         | 'SheetCanvas'
+        | 'SlotIcon'
         | 'SlotToolbar'
         | 'SphereTest'
         | 'SplitDialog'
@@ -72,6 +76,7 @@ declare module '@drizztdourden08/tessera' {
         | 'TilesetPanel'
         | 'TimelinePanel'
         | 'ToolRail'
+        | 'ToolsPanel'
         | 'TransformDialog'
         | 'WorkspaceProgress';
     };

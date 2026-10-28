@@ -1,26 +1,56 @@
 /* @layer renderer-app @kind hook */
+import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { ToolbarItem } from '@drizztdourden08/tessera';
+import { slotOfTool } from '../../../editor/tool-catalogue/slot-of-tool';
+import { optionsOf } from '../../../editor/tool-options/options-of';
+import { surfaceOfContext } from '../../../editor/tool-catalogue/surface-of-context';
+import { useKeysOf } from '../../../hooks/useKeysOf';
+import { useSelectionStore } from '../../../stores/useSelectionStore';
+import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { useToolStore } from '../../../stores/useToolStore';
-import { ruledItems } from '../../../toolbar-items/ruled-items';
-import { tidyItems } from '../../../toolbar-items/tidy-items';
 import { evaluate } from '../../../ui-context/evaluate';
 import { useBxelContext } from '../../../ui-context/useBxelContext';
-import { MAP_TOOL_OPTIONS, TOOL_OPTIONS } from '../OptionsToolbar.constants';
-import { joinOptions } from './join-options';
-import { useOptionItems } from './useOptionItems';
-import { useTileModeItems } from './useTileModeItems';
-import { useTileOverlayItems } from './useTileOverlayItems';
+import { OPTIONS_WIDGET_ID } from '../../../tool-menu/tool-menu.constants';
+import { useOptionsVersion } from '../../OptionControls';
+import { OPTIONS_TEXT, TOOL_HINTS } from '../OptionsToolbar.constants';
+import { chipItem } from './chip-item';
+import { optionItems } from './option-items';
+
+const noteItem = (id: string, caption: string): ToolbarItem => ({
+  kind: 'button',
+  id,
+  label: caption,
+  description: OPTIONS_TEXT.noOptions,
+  icon: 'info',
+  caption,
+  disabled: true,
+  onSelect: () => undefined,
+});
+
+const moreItem = (): ToolbarItem => ({
+  kind: 'button',
+  id: 'options-more',
+  label: OPTIONS_TEXT.more,
+  description: OPTIONS_TEXT.moreDescription,
+  icon: 'sliders-horizontal',
+  onSelect: () => useWidgetLayoutStore.getState().open(OPTIONS_WIDGET_ID),
+});
 
 const useOptionsItems = (): ToolbarItem[] => {
-  const tool = useToolStore((state) => state.tool);
   const context = useBxelContext((current) => current);
-  const items = useOptionItems();
-  const mode = ruledItems(useTileModeItems(), context);
-  const overlay = ruledItems(useTileOverlayItems(), context);
-  const kinds = context.surface === 'map' ? MAP_TOOL_OPTIONS[tool] : TOOL_OPTIONS[tool];
-  const options = joinOptions(kinds, items);
-  const gap = mode.length > 0 && options.length > 0 ? [{ kind: 'separator' as const, id: 'after-tile-mode' }] : [];
-  return evaluate('toolbar.options', context).state === 'hidden' ? [] : tidyItems([...mode, ...overlay, ...gap, ...options]);
+  const surface = surfaceOfContext(context);
+  const tool = useToolStore((state) => state.tool);
+  useSelectionStore((state) => state.variant);
+  useToolPresetStore((state) => state.user);
+  useOptionsVersion();
+  const keysOf = useKeysOf();
+  if (surface === 'none' || evaluate('toolbar.options', context).state === 'hidden') return [];
+  if (surface === 'sheet') return [noteItem('sheet-note', `${OPTIONS_TEXT.sheetName}: ${OPTIONS_TEXT.sheetHint}`)];
+  const slot = slotOfTool(surface, tool);
+  if (!slot) return [];
+  const specs = optionsOf(surface, tool).filter((spec) => spec.tier === 1);
+  const body = specs.length > 0 ? optionItems(specs, keysOf) : [noteItem('tool-hint', TOOL_HINTS[tool] ?? slot.members[0]?.description ?? '')];
+  return [chipItem(slot, surface), { kind: 'separator', id: 'after-chip' }, ...body, { kind: 'separator', id: 'before-more' }, moreItem()];
 };
 
 export { useOptionsItems };

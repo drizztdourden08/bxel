@@ -6,9 +6,10 @@ import type { ManagerViews } from './manager-views/manager-views.type';
 import type { PalettePanelSettings } from './palette-view/palette-view.type';
 import type { CanvasSettings } from './canvas-look/canvas-look.type';
 import type { ExportSettings, SavedPreset } from './export/export.type';
+import type { ToolStoredSettings } from './editor/tool-options/tool-stored-settings.type';
 import type { ProjectSettings } from './project/project.type';
 
-interface AppSettings extends BaseSettings, CanvasSettings, AssistantSettings, ProjectSettings {
+interface AppSettings extends BaseSettings, CanvasSettings, AssistantSettings, ProjectSettings, ToolStoredSettings {
   assetDefaults: AssetDefaults;
   exportLast?: ExportSettings;
   exportPresets?: readonly SavedPreset[];
