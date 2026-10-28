@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { create } from 'zustand';
 import type { SurfaceGuideState } from './surface-guide-store.type';
-import { NO_GUIDES } from './useSurfaceGuideStore.constants';
+import { NO_GUIDES } from './surface-guide.constants';
 import { withGuideLine } from './with-guide-line';
 
 const useSurfaceGuideStore = create<SurfaceGuideState>()((set) => {

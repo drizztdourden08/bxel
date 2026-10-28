@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useLayoutEffect } from 'react';
 import type { RefObject } from 'react';
-
-type ElementStyle = Readonly<Record<string, string>>;
+import type { ElementStyle } from './element-style.type';
 
 const useElementStyle = (target: RefObject<HTMLElement | null>, style: ElementStyle): void => {
   useLayoutEffect(() => {

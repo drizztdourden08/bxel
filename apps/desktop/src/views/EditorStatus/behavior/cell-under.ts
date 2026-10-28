@@ -1,14 +1,10 @@
 /* @layer renderer-app @kind logic */
 import type { Point } from '@bxel/raster';
+import type { CellUnder } from './cell-under.type';
 import type { MapContext } from '../../../tilemap/tilemap.type';
 import { mapTarget } from '../../../tilemap/map-target';
 import { readCell } from '../../../tilemap/read-cell';
 import { cellOf } from '../../TilemapCanvas/behavior/cell-of';
-
-interface CellUnder {
-  at: Point;
-  key: number | null;
-}
 
 const cellUnder = (map: MapContext | null, pointer: Point | null): CellUnder | null => {
   const full = mapTarget(map);
