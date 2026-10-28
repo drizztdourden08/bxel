@@ -8,9 +8,11 @@ import { exportDocument } from './tools/export-document';
 import { getAnimation } from './tools/get-animation';
 import { getDocument } from './tools/get-document';
 import { getHistory } from './tools/get-history';
+import { getSettings } from './tools/get-settings';
 import { getView } from './tools/get-view';
 import { getSession } from './tools/get-session';
 import { listCommands } from './tools/list-commands';
+import { listLayout } from './tools/list-layout';
 import { listDocuments } from './tools/list-documents';
 import { listAssets } from './tools/list-assets';
 import { listFiles } from './tools/list-files';
@@ -24,6 +26,8 @@ import { readPixels } from './tools/read-pixels';
 import { renderPreview } from './tools/render-preview';
 import { runCommand } from './tools/run-command';
 import { saveDocument } from './tools/save-document';
+import { setLayout } from './tools/set-layout';
+import { setSetting } from './tools/set-setting';
 import { setView } from './tools/set-view';
 import { splitLegacyFile } from './tools/split-legacy-file';
 import { undo } from './tools/undo';
@@ -55,6 +59,10 @@ const RAW_HANDLERS: ToolHandlers = {
   get_view: getView,
   set_view: setView,
   get_history: getHistory,
+  list_layout: listLayout,
+  set_layout: setLayout,
+  get_settings: getSettings,
+  set_setting: setSetting,
 };
 
 const TOOL_HANDLERS: ToolHandlers = guardHandlers(RAW_HANDLERS);

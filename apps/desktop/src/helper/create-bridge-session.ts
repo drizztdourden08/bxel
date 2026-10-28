@@ -7,7 +7,8 @@ import { bridgeFailure } from './bridge-failure';
 import { createGrantTracker } from './create-grant-tracker';
 import { isBridgeRunning } from './is-bridge-running';
 import { openBridge } from './open-bridge';
-import { requestHello } from './request-hello';
+import { pairSession } from './pair-session';
+import { sessionResult } from './session-result';
 import type { BridgeSession } from './helper.type';
 
 const createBridgeSession = (file: string): BridgeSession => {
@@ -28,13 +29,9 @@ const createBridgeSession = (file: string): BridgeSession => {
     state.token = null;
   };
   const pair = async (): Promise<McpResult<string>> => {
-    const reply = await requestHello(link(), state.client, state.launchToken);
-    if (!reply.ok) {
-      state.token = null;
-      return reply;
-    }
-    tracker.accept(reply.sessionId, reply.grant);
-    return { ok: true, value: reply.token };
+    const result = await pairSession(link(), state.client, state.launchToken, tracker);
+    if (!result.ok) state.token = null;
+    return result;
   };
   const tokenOf = (): Promise<McpResult<string>> => {
     state.token ??= pair();
@@ -56,6 +53,10 @@ const createBridgeSession = (file: string): BridgeSession => {
       return { outcome: bridgeFailure(error), images: [] };
     }
   };
+  const reconnect = async (): Promise<McpResult<string>> => {
+    drop();
+    return sessionResult(await tokenOf(), tracker.sessionId());
+  };
   const bye = async (): Promise<void> => {
     const token = state.token === null ? null : await state.token;
     if (token?.ok) await link().request(BYE_ROUTE, { token: token.value }).catch(() => false);
@@ -65,6 +66,7 @@ const createBridgeSession = (file: string): BridgeSession => {
     call,
     bye,
     isRunning: () => isBridgeRunning(file),
+    reconnect,
     setClient: (client) => (state.client = client),
     setLaunchToken: (token) => (state.launchToken = token),
     grant: tracker.current, onGrant: tracker.onChange,

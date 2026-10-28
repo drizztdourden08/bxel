@@ -35,7 +35,34 @@ const APP_INPUT_EXAMPLES: Record<string, unknown> = {
     selection: { op: 'add', shape: { kind: 'wand', x: 2, y: 3 } },
   },
   get_history: { documentId: DOC, limit: 20 },
+  list_layout: {},
+  set_layout: {
+    ops: [
+      { op: 'dock', widget: 'timeline', side: 'right', size: 300 },
+      { op: 'toolbarSide', toolbar: 'tools', side: 'left' },
+      { op: 'toolbarLabels', toolbar: 'tools', on: true },
+    ],
+  },
+  get_settings: { scope: 'app', page: 'canvas', schema: true },
+  set_setting: { scope: 'project', key: 'project.name', value: 'Dungeon', show: true },
+  restart_bxel: { unsaved: 'recover' },
 };
+
+const WIDGET = {
+  id: 'timeline',
+  label: 'Timeline',
+  visible: true,
+  placement: 'docked',
+  side: 'right',
+  size: 300,
+  index: 0,
+  tab: 0,
+  rect: null,
+  popped: false,
+  available: true,
+};
+
+const TOOLBAR = { id: 'tools', label: 'Tools', shown: true, side: 'left', row: 0, index: 0, labels: true };
 
 const APP_OUTPUT_EXAMPLES: Record<string, unknown> = {
   list_commands: { ok: true, commands: [COMMAND_ROW], total: 1 },
@@ -58,6 +85,16 @@ const APP_OUTPUT_EXAMPLES: Record<string, unknown> = {
     clipboard: null,
     sprites: { selected: [] },
   },
+  list_layout: { ok: true, widgets: [WIDGET], toolbars: [TOOLBAR], presets: ['Default'] },
+  set_layout: { ok: true, applied: 3, widgets: [WIDGET], toolbars: [TOOLBAR] },
+  get_settings: {
+    ok: true,
+    scope: 'app',
+    pages: [{ id: 'canvas', label: 'Canvas', route: 'settings/canvas', sections: [{ id: 'look', title: 'Look', items: [{ key: 'gridSize', label: 'Grid', value: 8, settable: true, locked: false, why: null, control: { kind: 'number', min: 1 } }] }] }],
+    routes: [{ route: 'settings/canvas', title: 'Canvas', kind: 'page' }],
+  },
+  set_setting: { ok: true, scope: 'project', key: 'project.name', value: 'Dungeon', shown: true },
+  restart_bxel: { ok: true, restarted: true, window: 'headless', sessionId: 's2', recovered: [DOC] },
   set_view: { ok: true, applied: ['focus', 'zoom'], visible: true, selection: SELECTION },
   get_history: {
     ok: true,

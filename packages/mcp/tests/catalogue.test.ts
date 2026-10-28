@@ -29,6 +29,8 @@ describe('the tool catalogue', () => {
     expect(TOOL_CATALOGUE.set_view.writes?.({ zoom: 'fit', selection: { shape: { kind: 'all' } } })).toBe(true);
     for (const field of ['select', 'tool', 'colours', 'symmetry']) expect(TOOL_CATALOGUE.set_view.writes?.({ [field]: {} }), field).toBe(true);
     expect(TOOL_CATALOGUE.run_command.routed).toBe('command');
+    expect(TOOL_CATALOGUE.set_view.writes?.({ dialog: { answer: 'confirm' } })).toBe(true);
+    expect(TOOL_CATALOGUE.restart_bxel.special).toBe('mayRestart');
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: true })).toBe(true);
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: false })).toBe(false);
     expect(TOOL_CATALOGUE.stop_bxel.writes?.({ unsaved: 'discard' })).toBe(true);
@@ -41,9 +43,9 @@ describe('the tool catalogue', () => {
     expect(routed.map(([name]) => name).sort()).toEqual(['apply_edits', 'preview_edits']);
   });
 
-  it('keeps the writing tools the six that edit documents and files', () => {
+  it('keeps the writing tools to those that edit documents, files, layout and settings, and the restart', () => {
     const writing = Object.entries(TOOL_CATALOGUE).filter(([, entry]) => entry.kind === 'write');
-    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'export_document', 'save_document', 'split_legacy_file', 'undo']);
+    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'export_document', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'undo']);
   });
 
   it('lists eleven bundles and flags the five that hold document writes', () => {

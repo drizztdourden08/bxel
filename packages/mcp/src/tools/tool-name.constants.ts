@@ -29,6 +29,11 @@ const TOOL_NAME = {
   getView: 'get_view',
   setView: 'set_view',
   getHistory: 'get_history',
+  listLayout: 'list_layout',
+  setLayout: 'set_layout',
+  getSettings: 'get_settings',
+  setSetting: 'set_setting',
+  restartBxel: 'restart_bxel',
 } as const;
 
 const TOOLS_WITHOUT_SESSION: readonly string[] = [TOOL_NAME.startBxel];

@@ -49,3 +49,25 @@ describe('run_command and set_view grants', () => {
     expect(names).toContain('get_history');
   });
 });
+
+describe('the restart permission', () => {
+  it('hides restart_bxel and refuses it by name until the owner allows it', () => {
+    const descriptors = describeTools(documentCommands);
+    const namesOf = (grant: Grant): string[] => toolsForGrant(descriptors, grant).map((tool) => tool.name);
+    expect(namesOf(PRESETS.full_control.grant)).not.toContain('restart_bxel');
+    expect(checkGrant('restart_bxel', {}, PRESETS.full_control.grant, 'Claude Code')?.error.message).toContain('May restart Bxel');
+    const allowed: Grant = { ...PRESETS.full_control.grant, special: { mayRestart: true } };
+    expect(namesOf(allowed)).toContain('restart_bxel');
+    expect(checkGrant('restart_bxel', {}, allowed)).toBeNull();
+  });
+
+  it('needs Edit on the Session bundle even with the permission', () => {
+    const allowed: Grant = { ...withBundles({ session: 'read' }), special: { mayRestart: true } };
+    expect(checkGrant('restart_bxel', {}, allowed)?.error.code).toBe(MCP_ERROR_CODE.READ_LEVEL);
+  });
+
+  it('lets the settings write tool through for Full control and not for Edit documents', () => {
+    expect(checkGrant('set_setting', { scope: 'app', key: 'theme', value: 'dark' }, PRESETS.edit_documents.grant)?.error.code).toBe(MCP_ERROR_CODE.READ_LEVEL);
+    expect(checkGrant('set_setting', { scope: 'app', key: 'theme', value: 'dark' }, PRESETS.full_control.grant)).toBeNull();
+  });
+});

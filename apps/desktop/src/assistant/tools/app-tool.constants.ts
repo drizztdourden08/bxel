@@ -27,6 +27,12 @@ const APP_TOOL_TEXT = {
   noHistory: 'The document is not open.',
   playbackNeedsAnimation: 'Playback needs an animation tab.',
   noDialog: 'No confirm dialog is open.',
+  protectedKey: 'Programs cannot read or change the assistant and shortcut settings.',
+  notShown: 'The setting is not shown for the item that is open now.',
+  notEditable: 'The setting has no editable control.',
+  notTaken: 'The setting did not take the value. Nothing may be open, or the item may be read only.',
+  noSetting: (key: string) => `No setting has the key "${key}". Call get_settings for the keys.`,
+  noProject: 'No project with that id is open.',
 } as const;
 
 export { APP_TOOL_TEXT };

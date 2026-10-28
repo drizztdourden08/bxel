@@ -32,6 +32,7 @@ const GUIDE_TEXT = [
   '- No dialogs: a tool call never opens a dialog in the owner window. save_document gives the assets a sheet or a tilemap links to a file of their own in the same folder and lists them in alsoSaved; DEPENDENCY_UNSAVED lists the ones it was not allowed to place, and NEEDS_OWNER means only the owner can do the step. Saves run one at a time.',
   '- Drive the window: get_view shows what the owner sees (tabs, tool, colours, zoom, selection as row runs [[y, x0, x1], ...]). set_view changes it in one patch: focus a tab (raise brings the window forward), zoom to a pixel rect, toggle grids, select a layer or sprite, pick a tool and colours, make a selection (rect, wand, colour, runs). The owner watches it happen.',
   '- Run what a menu runs: list_commands lists the commands with their area, shortcut, whether they are on and why not, and the args they take. run_command runs one, such as a flip, a rotation with args {"angle": 45} or a layer toggle. A command that opens a dialog runs at once when you give its args; with show true it opens the dialog for the owner instead. It never waits on a dialog. Undo and redo are the undo tool, which only touches changes this program made; get_history lists the entries.',
+  '- Layout and settings: list_layout shows where each widget and toolbar sits; set_layout docks, floats, resizes, hides or shows widgets and moves toolbars, as a drag by the owner would. get_settings reads the pages of Settings for the app, the open project or the open asset; set_setting changes one item and shows the stored value. Keys that start with assistant or keymap are closed to programs. set_view dialog answers a confirm dialog the owner left open.',
   '',
   '## Permissions',
   '',
@@ -39,7 +40,7 @@ const GUIDE_TEXT = [
   '',
   '## Starting and stopping',
   '',
-  'A headless Bxel has no window. show_window brings the window up for the owner. stop_bxel ends a headless Bxel this session started; with unsaved work pass unsaved "recover" so the owner finds it under Recovery.',
+  'restart_bxel restarts Bxel in the same window mode and reconnects this session at the same permissions, but only for a program the owner allowed to restart Bxel (it is not listed otherwise). With unsaved work pass unsaved "recover". A headless Bxel has no window. show_window brings the window up for the owner. stop_bxel ends a headless Bxel this session started; with unsaved work pass unsaved "recover" so the owner finds it under Recovery.',
   'When this helper closes, a headless Bxel it started keeps unsaved work for recovery and quits.',
 ].join('\n');
 

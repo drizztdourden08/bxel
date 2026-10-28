@@ -41,6 +41,7 @@ const SELECTION_REPLY_SCHEMA = z.strictObject({
 });
 
 const SET_VIEW_INPUT_SCHEMA = z.strictObject({
+  dialog: z.strictObject({ answer: z.string().min(1).max(100).describe('A choice id from get_view dialog.choices.') }).optional(),
   focus: z
     .strictObject({
       tabId: z.string().min(1).max(200).optional(),

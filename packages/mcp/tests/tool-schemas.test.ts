@@ -21,16 +21,16 @@ const refsOf = (value: unknown): string[] => {
 };
 
 describe('the tool set', () => {
-  it('has the 29 tools of the contract, each in a bundle', () => {
-    expect(tools).toHaveLength(29);
-    expect(new Set(tools.map((tool) => tool.name)).size).toBe(29);
+  it('has the 34 tools of the contract, each in a bundle', () => {
+    expect(tools).toHaveLength(34);
+    expect(new Set(tools.map((tool) => tool.name)).size).toBe(34);
     expect(Object.values(TOOL_NAME).sort()).toEqual(tools.map((tool) => tool.name).sort());
     for (const tool of tools) expect(tool).toMatchObject({ bundle: TOOL_CATALOGUE[tool.name].bundle, kind: TOOL_CATALOGUE[tool.name].kind });
   });
 
-  it('writes with exactly the six writing tools', () => {
+  it('writes with exactly the nine writing tools', () => {
     const editing = tools.filter((tool) => tool.kind === 'write').map((tool) => tool.name);
-    expect(editing.sort()).toEqual(['apply_edits', 'create_document', 'export_document', 'save_document', 'split_legacy_file', 'undo']);
+    expect(editing.sort()).toEqual(['apply_edits', 'create_document', 'export_document', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'undo']);
   });
 
   it('sets openWorldHint false on every tool', () => {

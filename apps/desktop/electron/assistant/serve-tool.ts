@@ -12,6 +12,7 @@ import { resolveTarget } from './resolve-target';
 import { checkSession } from './check-session';
 import { raiseWindow } from './raise-window';
 import { showWindow } from './show-window';
+import { restartBxel } from './restart-bxel';
 import { stopBxel } from './stop-bxel';
 import { toolReply } from './tool-reply';
 
@@ -27,6 +28,7 @@ const callSession = ({ sessionId, mode, grant, trust, client, displayName }: Liv
 const forward = async (state: AssistantMain, tool: ToolRouteName, session: LiveSession, input: unknown): Promise<ToolReply> => {
   if (tool === 'show_window') return showWindow(state);
   if (tool === 'stop_bxel') return stopBxel(state, session, input);
+  if (tool === 'restart_bxel') return restartBxel(state, session, input);
   const ctx = state.ctx;
   const target = ctx ? await resolveTarget(ctx, assistantFolder(state), { tool, input }) : { ok: true as const, value: null };
   if (!target.ok) return toolReply(target);

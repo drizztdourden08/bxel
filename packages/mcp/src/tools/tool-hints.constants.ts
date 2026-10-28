@@ -36,6 +36,11 @@ const TOOL_HINTS = {
   get_view: SAFE_READ,
   set_view: SAFE_ACTION,
   get_history: SAFE_READ,
+  list_layout: SAFE_READ,
+  set_layout: SAFE_ACTION,
+  get_settings: SAFE_READ,
+  set_setting: SAFE_ACTION,
+  restart_bxel: DESTRUCTIVE,
 } as const satisfies Record<string, ToolHints>;
 
 export { TOOL_HINTS };

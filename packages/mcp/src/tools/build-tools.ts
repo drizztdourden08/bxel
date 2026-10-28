@@ -11,7 +11,9 @@ import { getViewTool } from './get-view-tool';
 import { getSessionTool } from './get-session-tool';
 import { listAssetsTool } from './list-assets-tool';
 import { listDocumentsTool } from './list-documents-tool';
+import { getSettingsTool } from './get-settings-tool';
 import { listCommandsTool } from './list-commands-tool';
+import { listLayoutTool } from './list-layout-tool';
 import { listFilesTool } from './list-files-tool';
 import { listMapLayersTool } from './list-map-layers-tool';
 import { listPlacesTool } from './list-places-tool';
@@ -21,8 +23,11 @@ import { readMapCellsTool } from './read-map-cells-tool';
 import { readPaletteTool } from './read-palette-tool';
 import { readPixelsTool } from './read-pixels-tool';
 import { renderPreviewTool } from './render-preview-tool';
+import { restartBxelTool } from './restart-bxel-tool';
 import { runCommandTool } from './run-command-tool';
 import { saveDocumentTool } from './save-document-tool';
+import { setLayoutTool } from './set-layout-tool';
+import { setSettingTool } from './set-setting-tool';
 import { setViewTool } from './set-view-tool';
 import { showWindowTool } from './show-window-tool';
 import { startBxelTool } from './start-bxel-tool';
@@ -61,6 +66,11 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   getViewTool,
   setViewTool,
   getHistoryTool,
+  listLayoutTool,
+  setLayoutTool,
+  getSettingsTool,
+  setSettingTool,
+  restartBxelTool,
 ];
 
 export { buildTools };

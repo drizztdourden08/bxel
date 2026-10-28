@@ -36,6 +36,12 @@ const reset = (): void => {
   fake.announced = [];
   fake.opened = [];
   fake.closed = 0;
+  fake.calls = [];
+  fake.fails.clear();
+  fake.screens = [];
+  fake.appSet = [];
+  fake.sourceStore.clear();
+  fake.dialog = null;
   panTo.mockClear();
   setZoom.mockClear();
   useSelectionStore.getState().setMask(null, null);
