@@ -14,10 +14,9 @@ import { replaceCells } from '../tilemap/replace-cells';
 import { toggleEdit } from '../tilemap/toggle-edit';
 import { turnCells } from '../tilemap/turn-cells';
 import { COMMAND_ZONE } from './command-zone.constants';
-import { editorCommand } from './editor-command';
-import { onSurface } from './on-surface';
 import { COMMAND_GROUP } from './keymap.constants';
 import { TILEMAP_COMMAND as ID } from './tilemap-command-id.constants';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.tilemap;
 
@@ -61,8 +60,8 @@ const CELL_COMMANDS: readonly CommandDef[] = [
 ];
 
 const TILEMAP_COMMANDS: readonly CommandDef[] = [
-  ...NEW_COMMANDS.map(editorCommand),
-  ...[...TILE_COMMANDS, ...CELL_COMMANDS].map(onSurface('map', 'tile')),
+  ...NEW_COMMANDS.map(ruled),
+  ...[...TILE_COMMANDS, ...CELL_COMMANDS].map(ruled),
 ];
 
 export { TILEMAP_COMMANDS };

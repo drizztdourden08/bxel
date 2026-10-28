@@ -33,8 +33,10 @@ describe('the Delete chord', () => {
     expect(new Set(zones).size).toBe(DELETE_OWNERS.length);
   });
 
-  it('carries no focus check of its own on the canvas command', () => {
-    openRig();
+  it('carries no focus check of its own on the canvas command, only the rule that something is selected', () => {
+    const rig = openRig();
+    expect(owner(SELECTION_COMMAND_ID.delete).when?.()).toBe(false);
+    rig.select(BLOCK);
     expect(owner(SELECTION_COMMAND_ID.delete).when?.()).toBe(true);
   });
 

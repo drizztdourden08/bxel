@@ -11,6 +11,7 @@ import type { MapLive } from '../TilemapCanvas.type';
 import { mapHere } from './map-here';
 import { mapMenuEntries } from './map-menu-entries';
 import { selectClickedCell } from './select-clicked-cell';
+import { ruledEntries } from '../../../context-menu/ruled-entries';
 
 const useMapMenu = (viewport: RefObject<PixelViewportHandle | null>, target: MapTarget, live: RefObject<MapLive>): void => {
   useContextMenu(MAP_MENU.zone, {
@@ -23,7 +24,7 @@ const useMapMenu = (viewport: RefObject<PixelViewportHandle | null>, target: Map
       return at && cell ? { x: at.x, y: at.y, data: cell } : null;
     },
     beforeOpen: (context: ContextMenuContext) => selectClickedCell(mapHere(context, viewport.current, target)),
-    entries: (context) => mapMenuEntries(target, mapHere(context, viewport.current, target)),
+    entries: ruledEntries((context) => mapMenuEntries(target, mapHere(context, viewport.current, target))),
   });
 };
 

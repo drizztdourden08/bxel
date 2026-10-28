@@ -21,12 +21,11 @@ import { useTilemapStore } from '../stores/useTilemapStore';
 import { clearCells } from '../tilemap/clear-cells';
 import { selectAllCells } from '../tilemap/select-all-cells';
 import { turnCells } from '../tilemap/turn-cells';
-import { editorCommand } from './editor-command';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { mapOr } from './map-or';
-import { pixelCommand } from './pixel-command';
 import { SELECTION_COMMAND_ID as ID } from './selection-command-id.constants';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.edit;
 const zone = COMMAND_ZONE.canvas;
@@ -41,12 +40,12 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     whileTyping: false,
     run: mapOr(() => useTilemapStore.getState().setSelection(null), clearSelection),
   },
-  pixelCommand({ id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: invertSelection }),
-  pixelCommand({ id: ID.expand, label: 'Expand selection by 1 pixel', group, run: () => resizeSelection(1) }),
-  pixelCommand({ id: ID.shrink, label: 'Shrink selection by 1 pixel', group, run: () => resizeSelection(-1) }),
-  pixelCommand({ id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: copySelection }),
-  pixelCommand({ id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: cutSelection }),
-  pixelCommand({ id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: pasteClip }),
+  { id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: invertSelection },
+  { id: ID.expand, label: 'Expand selection by 1 pixel', group, run: () => resizeSelection(1) },
+  { id: ID.shrink, label: 'Shrink selection by 1 pixel', group, run: () => resizeSelection(-1) },
+  { id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: copySelection },
+  { id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: cutSelection },
+  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: pasteClip },
   {
     id: ID.delete,
     label: 'Delete',
@@ -102,18 +101,18 @@ const TRANSFORM_COMMANDS: readonly CommandDef[] = [
     whileTyping: false,
     run: mapOr(() => turnCells('turn'), () => startTurn('clockwise')),
   },
-  pixelCommand({
+  {
     id: ID.turnCounterClockwise,
     label: 'Rotate 90 counterclockwise',
     group,
     chord: 'Shift+Alt+R',
     whileTyping: false,
     run: () => startTurn('counter-clockwise'),
-  }),
-  pixelCommand({ id: ID.rotate, label: 'Rotate...', group, run: startRotate }),
-  pixelCommand({ id: ID.scale, label: 'Scale...', group, run: startScale }),
+  },
+  { id: ID.rotate, label: 'Rotate...', group, run: startRotate },
+  { id: ID.scale, label: 'Scale...', group, run: startScale },
 ];
 
-const SELECTION_COMMANDS: readonly CommandDef[] = [...SELECTION_EDITS, ...PREVIEW_COMMANDS, ...TRANSFORM_COMMANDS].map(editorCommand);
+const SELECTION_COMMANDS: readonly CommandDef[] = [...SELECTION_EDITS, ...PREVIEW_COMMANDS, ...TRANSFORM_COMMANDS].map(ruled);
 
 export { SELECTION_COMMANDS };

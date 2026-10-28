@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind test */
+import { columnContext } from '../ui-context/columns';
 import type { RecentDocument } from '@drizztdourden08/brock-core';
 import type { MenuItem } from '@drizztdourden08/brock-react';
 import { describe, expect, it } from 'vitest';
@@ -65,7 +66,7 @@ describe('open recent menu', () => {
 
   it('sits under File right after Open', () => {
     const { handlers } = actions();
-    const [file] = fileMenu(recentMenuItem([], handlers));
+    const [file] = fileMenu(recentMenuItem([], handlers), columnContext('Sp'));
     const keys = file !== undefined && file !== 'separator' ? (file.children ?? []).map((child) => (child === 'separator' ? child : child.key)) : [];
     expect(keys.slice(1, 4)).toEqual(['file-open', 'file-open-recent', 'separator']);
   });

@@ -1,10 +1,12 @@
 /* @layer renderer-app @kind logic */
 import { useDocumentStore } from '../stores/useDocumentStore';
+import { useImageTabStore } from '../stores/useImageTabStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { showAsset } from './show-asset';
 import type { OpenTab } from './workspace.type';
 
 const focusTab = (tab: OpenTab): void => {
+  useImageTabStore.getState().activate(null);
   const workspaces = useWorkspaceStore.getState();
   workspaces.addTab(tab);
   workspaces.setActiveTab(tab.id);

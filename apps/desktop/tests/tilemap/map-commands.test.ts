@@ -10,7 +10,8 @@ import { useToolStore } from '../../src/stores/useToolStore';
 import { inMapPlace } from '../../src/tilemap/in-map-place';
 import { placeStampAt } from '../../src/tilemap/place-stamp-at';
 import { findCommand } from '../keymap/find-command';
-import { cellsNow, openMapFile } from './map-harness';
+import { showAsset } from '../../src/workspace/show-asset';
+import { cellsNow, mapNow, openMapFile } from './map-harness';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../keymap/brock-react-mock')).brockReactMock());
 
@@ -45,7 +46,7 @@ describe('Tilemap mode', () => {
 
   it('turns the tool Move into Place when the map opens', () => {
     useToolStore.getState().selectTool('move');
-    switchMode('tilemap');
+    showAsset({ kind: 'tilemap', id: mapNow().id });
     expect(useToolStore.getState().tool).toBe('pencil');
   });
 
