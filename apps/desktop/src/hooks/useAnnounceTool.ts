@@ -6,7 +6,7 @@ import { CATALOGUE_TEXT } from '../editor/tool-catalogue/tool-catalogue.constant
 import { slotOfTool } from '../editor/tool-catalogue/slot-of-tool';
 import { activeMember } from '../editor/tool-pick/active-member';
 import { useSelectionStore } from '../stores/useSelectionStore';
-import { useToolNoticeStore } from '../stores/useToolNoticeStore';
+import { showCycleNotice } from '../editor/tool-pick/show-cycle-notice';
 import { useToolStore } from '../stores/useToolStore';
 import { currentSurface } from '../surface/current-surface';
 
@@ -23,7 +23,7 @@ const useAnnounceTool = (): void => {
     if (!member) return;
     announce(ANNOUNCE_TEXT.tool(member.label));
     const slot = slotOfTool(currentSurface(), tool);
-    if (before.tool === tool && slot && slot.members.length > 1) useToolNoticeStore.getState().show(CATALOGUE_TEXT.cycleHint(member.label, slot.key));
+    if (before.tool === tool && slot && slot.members.length > 1) showCycleNotice(CATALOGUE_TEXT.cycleHint(member.label, slot.key));
   }, [tool, shape, variant]);
 };
 

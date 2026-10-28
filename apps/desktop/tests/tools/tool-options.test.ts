@@ -68,6 +68,8 @@ describe('the option model coverage', () => {
     expect(names('sprite', 'eraser')).toEqual(['size', 'tip', 'pixel_perfect']);
     expect(names('sprite', 'fill')).toEqual(['area', 'neighbours']);
     expect(names('sprite', 'shape')).toEqual(['kind', 'filled', 'size', 'tip']);
+    expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'expand', 'shrink']);
+    useSelectionStore.getState().setVariant('wand');
     expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'neighbours', 'expand', 'shrink']);
     expect(names('sprite', 'picker')).toEqual([]);
     expect(names('map', 'pencil')).toEqual(['flip_x', 'flip_y', 'rotate', 'terrain']);

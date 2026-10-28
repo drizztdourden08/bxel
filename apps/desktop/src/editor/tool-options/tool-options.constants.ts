@@ -27,7 +27,6 @@ const OPTION_TEXT = {
   selectModeDescription: 'How a new selection joins the old one.',
   wandNeighbours: 'Wand neighbours',
   wandNeighboursDescription: 'Whether the wand also follows pixels that touch at a corner.',
-  wandOnly: 'Only the wand reads neighbours.',
   expand: 'Expand 1',
   expandDescription: 'Grow the selection by one pixel on every side.',
   shrink: 'Shrink 1',

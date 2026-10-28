@@ -9,6 +9,8 @@ import { currentSurface } from '../../../surface/current-surface';
 import { RAIL_OPEN_KEYS, TOOL_RAIL_TEXT } from '../ToolRail.constants';
 import { DRAG_LIMIT } from './useRailHold.constants';
 import { flyoutModel } from '../../../tool-menu/flyout-model';
+import { flyoutRows } from '../../../tool-menu/flyout-rows';
+import { menuPoint } from '../../../tool-menu/menu-point';
 import { stopOf } from '../../../tool-menu/stop-of';
 
 const hasFlyout = (id: string | null): boolean => {
@@ -22,12 +24,6 @@ const openKeyOf = (slot: ToolbarSlot): string => {
   return slot.menuSide === 'left' ? RAIL_OPEN_KEYS.vertical.left : RAIL_OPEN_KEYS.vertical.right;
 };
 
-const flyoutPoint = (stop: HTMLElement, slot: ToolbarSlot): { x: number; y: number } => {
-  const box = stop.getBoundingClientRect();
-  if (slot.orientation === 'horizontal') return { x: box.left, y: box.bottom };
-  return { x: slot.menuSide === 'left' ? box.left : box.right, y: box.top };
-};
-
 const useRailHold = (slot: ToolbarSlot) => {
   const timer = useRef<number | undefined>(undefined);
   const origin = useRef<{ x: number; y: number } | null>(null);
@@ -36,8 +32,15 @@ const useRailHold = (slot: ToolbarSlot) => {
     window.clearTimeout(timer.current);
     origin.current = null;
   };
-  const open = (stop: HTMLElement, trigger: 'longpress' | 'keyboard'): void => {
-    openContextMenu(TOOL_RAIL_TEXT.zone, stop.getAttribute('data-toolbar-stop'), { point: flyoutPoint(stop, slot), trigger });
+  const open = (stop: HTMLElement, trigger: 'pointer' | 'longpress' | 'keyboard'): void => {
+    const id = stop.getAttribute('data-toolbar-stop');
+    openContextMenu(TOOL_RAIL_TEXT.zone, id, { point: menuPoint(stop, flyoutRows(id)), trigger });
+  };
+  const onContextMenu = (event: MouseEvent<HTMLElement>): void => {
+    const stop = stopOf(event.target);
+    if (stop === null || !hasFlyout(stop.getAttribute('data-toolbar-stop'))) return;
+    event.preventDefault();
+    open(stop, 'pointer');
   };
   const onPointerDown = (event: PointerEvent<HTMLElement>): void => {
     const stop = stopOf(event.target);
@@ -65,7 +68,7 @@ const useRailHold = (slot: ToolbarSlot) => {
     event.preventDefault();
     open(stop, 'keyboard');
   };
-  return { onPointerDown, onPointerMove, onPointerUp: cancel, onPointerCancel: cancel, onPointerLeave: cancel, onClickCapture, onKeyDown };
+  return { onPointerDown, onPointerMove, onPointerUp: cancel, onPointerCancel: cancel, onPointerLeave: cancel, onClickCapture, onContextMenu, onKeyDown };
 };
 
 export { useRailHold };

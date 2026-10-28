@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Box, Button, Icon, Tag, Text } from '@drizztdourden08/tessera';
+import { Box, Button, Flex, Icon, Tag, Text } from '@drizztdourden08/tessera';
 import { matchingPreset } from '../../../editor/presets/matching-preset';
 import { openSaveDraft } from '../../../editor/presets/open-save-draft';
 import { presetsOfTool } from '../../../editor/presets/presets-of-tool';
@@ -32,7 +32,11 @@ const ToolHead = ({ slot, editable }: { slot: ToolSlot; editable: boolean }) => 
       )}
       <Box className="options-panel__title">
         <Text variant="title">{member.label}</Text>
-        {editable && <Tag color={matched ? 'primary' : 'neutral'}>{matched?.name ?? OPTIONS_PANEL_TEXT.custom}</Tag>}
+        {editable && (
+          <Flex>
+            {matched ? <Tag color="primary">{matched.name}</Tag> : <Tag variant="urgency" color="info">{OPTIONS_PANEL_TEXT.custom}</Tag>}
+          </Flex>
+        )}
         <Text variant="caption" tone="muted">
           {member.description}
         </Text>

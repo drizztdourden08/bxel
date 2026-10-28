@@ -52,6 +52,7 @@ interface OptionSpec {
   read: () => OptionValue;
   write: (value: OptionValue) => void;
   disabledReason?: () => string | undefined;
+  appliesWhen?: () => boolean;
 }
 
 type OptionBase = Pick<OptionSpec, 'tool' | 'surface' | 'memory'>;

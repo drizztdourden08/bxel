@@ -10,7 +10,6 @@ import { useReadoutStore } from '../../stores/useReadoutStore';
 import { useFileStore } from '../../stores/useFileStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { useTilemapStore } from '../../stores/useTilemapStore';
-import { useToolNoticeStore } from '../../stores/useToolNoticeStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { ActionHint } from '../ActionHint';
 import { canvasHelp } from './behavior/canvas-help';
@@ -26,7 +25,6 @@ const EditorStatus = () => {
   const foreground = useToolStore((state) => state.foreground);
   const background = useToolStore((state) => state.background);
   const tool = useToolStore((state) => state.tool);
-  const notice = useToolNoticeStore((state) => state.text);
   const mode = useSpriteStore((state) => state.mode);
   const tileMode = useTilemapStore((state) => state.editMode);
   const recovered = useFileStore((state) => (view ? view.state.documentId in state.recovered : false));
@@ -40,7 +38,7 @@ const EditorStatus = () => {
         <StatusBar
           className="editor-status__bar"
           label={STATUS_TEXT.region}
-          items={statusItems({ pointer, zoom, colours, clean, recovered, notice })}
+          items={statusItems({ pointer, zoom, colours, clean, recovered })}
           onItemContextMenu={(item, event) => contextMenuHandler(STATUS_MENU.zone, { item })(event)}
         />
       </Box>

@@ -33,6 +33,10 @@ describe('the tools toolbar and the tool options bar', () => {
     const { page } = rig().session;
     await page.getByRole('toolbar', { name: 'Tools' }).getByRole('button', { name: /^Shapes/ }).click({ button: 'right' });
     await page.getByRole('menuitemradio', { name: 'Ellipse' }).waitFor();
+    const box = await page.getByRole('menu').first().boundingBox();
+    const height = await page.evaluate(() => window.innerHeight);
+    expect(box?.y).toBeGreaterThanOrEqual(0);
+    expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(height);
     await page.keyboard.press('Escape');
     await expect.poll(() => page.getByRole('menuitemradio', { name: 'Ellipse' }).count()).toBe(0);
   });

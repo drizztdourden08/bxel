@@ -2,7 +2,7 @@
 const OPTION_CONTROLS_TEXT = {
   reset: 'Reset',
   previewLabel: (size: number, shape: string): string => `Brush preview, ${size} pixels, ${shape}`,
-  sizeOnly: 'Larger brushes are drawn scaled down.',
+  resetOption: (label: string): string => `Reset ${label}`,
 } as const;
 
 const PREVIEW_CELLS = 16;

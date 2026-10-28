@@ -8,7 +8,7 @@ import type { OptionSpec } from './tool-options.type';
 const optionsOf = (surface: Surface, tool: ToolId): OptionSpec[] => {
   const own = optionSurface(surface);
   if (own === null) return [];
-  return OPTION_SPECS.filter((spec) => spec.surface === own && spec.tool === tool).sort((a, b) => a.priority - b.priority);
+  return OPTION_SPECS.filter((spec) => spec.surface === own && spec.tool === tool && spec.appliesWhen?.() !== false).sort((a, b) => a.priority - b.priority);
 };
 
 export { optionsOf };

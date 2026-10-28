@@ -85,7 +85,7 @@ const SELECT_OPTIONS: readonly OptionSpec[] = [
     flyout: true,
     read: () => String(selection().connectivity),
     write: (value) => selection().setConnectivity(asNeighbours(value)),
-    disabledReason: () => (selection().variant === 'wand' ? undefined : OPTION_TEXT.wandOnly),
+    appliesWhen: () => selection().variant === 'wand',
   },
   resizeOption('expand', 1, 60),
   resizeOption('shrink', -1, 70),
