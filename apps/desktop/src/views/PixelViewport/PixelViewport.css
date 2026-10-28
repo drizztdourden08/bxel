@@ -10,8 +10,8 @@
 }
 
 .pixel-viewport:focus-visible {
-  outline: var(--border-width-thick) solid var(--c-primary);
-  outline-offset: calc(-1 * var(--border-width-thick));
+  outline: var(--border-width-thin) solid var(--c-focus);
+  outline-offset: calc(-1 * var(--border-width-thin));
 }
 
 .pixel-viewport--hand,

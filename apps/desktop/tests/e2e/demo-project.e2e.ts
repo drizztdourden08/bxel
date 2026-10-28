@@ -2,15 +2,13 @@
 import { access, readFile, readdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
-import { answerDialogs } from './support/answer-dialogs';
 import { inFreshPlace } from './support/in-place';
 import { openAssetTab } from './support/open-asset-tab';
 import type { Session } from './support/e2e.type';
+import { openDemo } from './support/open-demo';
 import { openSession } from './support/open-session';
 import { assetRow } from './support/panel-assets';
-import { runMenu } from './support/run-menu';
 import { useRig } from './support/use-rig';
-import { waitText } from './support/wait-text';
 
 const DEMO_FOLDER = 'Bxel Demo';
 
@@ -18,12 +16,6 @@ const DEMO_SOURCE = join(import.meta.dirname, '../../demo', DEMO_FOLDER);
 
 const filesUnder = async (root: string): Promise<string[]> =>
   (await readdir(root, { recursive: true, withFileTypes: true })).filter((entry) => entry.isFile()).map((entry) => join(entry.parentPath, entry.name).slice(root.length + 1).replaceAll('\\', '/')).sort();
-
-const openDemo = async (session: Session, parent: string): Promise<void> => {
-  await answerDialogs(session, { open: parent, save: null });
-  await runMenu(session, [/^Help$/, /^Open the demo project$/]);
-  await waitText(session, /Opened the project Bxel Demo/);
-};
 
 const copiesAndOpens = async (session: Session, place: string): Promise<void> => {
   await openDemo(session, place);

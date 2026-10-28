@@ -24,7 +24,10 @@ describe('the tool catalogue', () => {
     }
   });
 
-  it('tests the writing inputs of the two mixed tools', () => {
+  it('tests the writing inputs of the mixed tools', () => {
+    expect(TOOL_CATALOGUE.set_view.writes?.({ zoom: 'fit', toggles: { grid: true } })).toBe(false);
+    expect(TOOL_CATALOGUE.set_view.writes?.({ zoom: 'fit', selection: { shape: { kind: 'all' } } })).toBe(true);
+    for (const field of ['select', 'tool', 'colours', 'symmetry', 'dialog']) expect(TOOL_CATALOGUE.set_view.writes?.({ [field]: {} }), field).toBe(true);
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: true })).toBe(true);
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: false })).toBe(false);
     expect(TOOL_CATALOGUE.stop_bxel.writes?.({ unsaved: 'discard' })).toBe(true);
@@ -37,9 +40,14 @@ describe('the tool catalogue', () => {
     expect(routed.map(([name]) => name).sort()).toEqual(['apply_edits', 'preview_edits']);
   });
 
-  it('keeps the writing tools the six that edit documents and files', () => {
+  it('routes run_command and keeps the restart behind its permission', () => {
+    expect(TOOL_CATALOGUE.run_command.routed).toBe('command');
+    expect(TOOL_CATALOGUE.restart_bxel.special).toBe('mayRestart');
+  });
+
+  it('keeps the writing tools to those that edit documents, files, layout and settings, and the restart', () => {
     const writing = Object.entries(TOOL_CATALOGUE).filter(([, entry]) => entry.kind === 'write');
-    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'export_document', 'save_document', 'split_legacy_file', 'undo']);
+    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'export_document', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'undo']);
   });
 
   it('lists eleven bundles and flags the five that hold document writes', () => {

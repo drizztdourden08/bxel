@@ -26,7 +26,7 @@ const PAIR_FIELDS: Readonly<Record<string, PairSpec>> = {
   'tilemap.size': { parts: [{ key: 'tilemap.columns', label: 'Columns' }, { key: 'tilemap.rows', label: 'Rows' }], joiner: 'by', unit: 'tiles', min: 1, max: 1024, step: 1 },
 };
 
-const ASSET_CONTROL_FIELDS: readonly string[] = [...Object.keys(PAIR_FIELDS), 'sprite.bank', 'palette.cap', 'palette.set', 'sprite.platform', 'sprite.platformReport', 'sprite.exportPresets', 'sheet.exportPresets'];
+const ASSET_CONTROL_FIELDS: readonly string[] = [...Object.keys(PAIR_FIELDS), 'sprite.bank', 'palette.cap', 'sprite.platform', 'sprite.platformReport', 'sprite.exportPresets', 'sheet.exportPresets'];
 
 const PRESET_ORIGINS: readonly PresetOrigin[] = ['asset', 'project', 'app'];
 

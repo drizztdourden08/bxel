@@ -26,6 +26,7 @@ interface DrawingSettings {
   onlyColour: number | null;
   ditherPattern: DitherPattern;
   ditherLevel: number;
+  shadeMode: 'shade' | 'lighten' | 'darken';
   shadeSteps: number;
   shadeRamp: string | null;
   filled: Readonly<Record<FilledTool, boolean>>;

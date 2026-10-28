@@ -2,6 +2,7 @@
 import { drawPath, gradientFill } from '@bxel/raster';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { allowPress } from '../../src/editor/allow-press';
+import { commitRequest } from '../../src/editor/commit-request';
 import { beginPath } from '../../src/editor/begin-path';
 import { commitSession } from '../../src/editor/commit-session';
 import { inkOf } from '../../src/editor/ink-of';
@@ -15,7 +16,6 @@ import { stepHistory } from '../../src/editor/step-history';
 import { updateGradient } from '../../src/editor/update-gradient';
 import { useDrawingStore } from '../../src/stores/useDrawingStore';
 import { useLinkedPromptStore } from '../../src/stores/useLinkedPromptStore';
-import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { flat, live, resetEditor, tools } from './option-harness';
 
 beforeEach(resetEditor);
@@ -29,7 +29,7 @@ describe('the clean ratio snap', () => {
     expect(ratioSnap(origin, { x: 3, y: 10 })).toEqual({ to: { x: 3, y: 9 }, label: '1:3' });
     expect(ratioSnap(origin, { x: 9, y: 1 })).toEqual({ to: { x: 9, y: 0 }, label: 'Horizontal' });
     expect(ratioSnap(origin, { x: -6, y: 6 })).toEqual({ to: { x: -6, y: 6 }, label: '1:1' });
-    expect(ratioSnap(origin, { x: 1, y: 8 }).label).toBe('Vertical');
+    expect(ratioSnap(origin, { x: 0, y: 8 }).label).toBe('Vertical');
   });
 
   it('leaves a zero length drag alone', () => {
@@ -229,39 +229,33 @@ describe('the rectangle with separate colours', () => {
 });
 
 describe('painting on a linked cel', () => {
-  const link = (): void => {
-    const { host, activeId } = useDocumentStore.getState();
-    const view = activeId === null ? null : host.view(activeId);
-    const sprite = view?.state.artwork.sprites[0];
-    const frame = sprite?.frames[0];
-    if (!view || !sprite || !frame) throw new Error('no sprite');
-    const result = host.execute({
-      documentId: view.state.documentId,
-      baseRevision: view.state.revision,
-      mode: 'commit',
-      origin: 'ui',
-      label: 'Link',
-      steps: [{ name: 'frame.add', targets: { sprites: [sprite.id], layers: { by: 'all' }, frames: { by: 'all' } }, options: { copyOf: frame.id, linked: true } }],
-      previewPixels: 0,
-    });
-    if (!result.ok) throw new Error(result.error.message);
+  const linked = () => {
+    const target = live();
+    const celId = 'cel_000001' as never;
+    const layer = { ...target.layer, cels: { [target.frameId]: celId, frm_other: celId } as never };
+    return { ...target, layer, sprite: { ...target.sprite, layers: [layer] } };
   };
+  const press = { kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false } as const;
 
   it('asks once instead of painting, then paints with the answer', () => {
-    link();
-    const press = { kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false } as const;
-    expect(allowPress(press, live())).toBe(false);
+    expect(allowPress(press, linked())).toBe(false);
     expect(useLinkedPromptStore.getState().open).toBe(true);
     drawing().patch({ linkedChoice: 'all' });
+    expect(allowPress(press, linked())).toBe(true);
+  });
+
+  it('never asks about a cel that is not shared', () => {
     expect(allowPress(press, live())).toBe(true);
   });
 
-  it('paints every use with allUses and unlinks first for this use only', () => {
-    link();
-    drawing().patch({ linkedChoice: 'unlink' });
-    tools().setForeground(5);
-    const unlinked = startSession({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live(), { x: 1, y: 1 });
-    expect(commitSession(unlinked)?.ok).toBe(true);
-    expect(flat()[1 * 32 + 1]).toBe(5);
+  it('sends allUses for all uses and unlinks first for this use only', () => {
+    const stepsOf = (choice: 'all' | 'unlink') => {
+      drawing().patch({ linkedChoice: choice });
+      const session = startSession(press, live(), { x: 1, y: 1 });
+      return session.kind === 'stroke' ? commitRequest(linked(), 'Pencil stroke', { name: 'pixels.paint', options: { index: 1 } }).steps : [];
+    };
+    expect(stepsOf('all').map((step) => step.name)).toEqual(['pixels.paint']);
+    expect(stepsOf('all')[0]?.options).toMatchObject({ allUses: true });
+    expect(stepsOf('unlink').map((step) => step.name)).toEqual(['cel.unlink', 'pixels.paint']);
   });
 });

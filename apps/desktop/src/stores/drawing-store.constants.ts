@@ -6,6 +6,7 @@ const DRAWING_DEFAULTS: DrawingSettings = {
   onlyColour: null,
   ditherPattern: 'checker',
   ditherLevel: 8,
+  shadeMode: 'shade',
   shadeSteps: 1,
   shadeRamp: null,
   filled: { rect: false, ellipse: false, curve: false, polygon: false, contour: true },

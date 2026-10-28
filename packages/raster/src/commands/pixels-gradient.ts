@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { defineCommand } from '@bxel/document';
+import { defineCommand, ERROR_CODE, fail } from '@bxel/document';
 import { gradientFill } from '../gradient/gradient-fill';
 import { ADVANCED_COMMAND } from './advanced-commands.constants';
 import { applyToCels } from './apply-to-cels';
@@ -16,6 +16,9 @@ const pixelsGradient = defineCommand({
   schema: pixelsGradientSchema,
   run: (draft, input) => {
     const { ramp, colors: listed, first, last, line, mode, dither, origin, mask, kind, reflect, pattern, wrap } = input.options;
+    if ((ramp === undefined) === (listed === undefined)) {
+      throw fail(ERROR_CODE.INVALID_OPTION, 'Give either a ramp name or a list of colours.', { path: 'options.ramp' });
+    }
     const bayer = mode === 'dither' ? dither : null;
     const shape = { line, bayer, origin, mask, kind, reflect, pattern, wrap };
     if (listed) {

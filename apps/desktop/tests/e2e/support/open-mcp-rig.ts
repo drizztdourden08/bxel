@@ -8,13 +8,13 @@ import type { McpRig } from './mcp-rig.type';
 import { openSession } from './open-session';
 import { readClientConfig } from './read-client-config';
 
-const openMcpRig = async (): Promise<McpRig> => {
+const openMcpRig = async (choice: 'Allow editing' | 'Full control' = 'Allow editing'): Promise<McpRig> => {
   const session = await openSession();
   await enableAssistant(session, session.dir);
   const config = await readClientConfig(session.page);
   const link = await connectMcp(config);
   const pairing = callMcp(link.client, 'get_session');
-  await approvePairing(session.page, 'Allow editing');
+  await approvePairing(session.page, choice);
   const paired = await pairing;
   expect(paired.data).toMatchObject({ ok: true, mode: 'edit', trust: 'prompted' });
   const close = session.close;

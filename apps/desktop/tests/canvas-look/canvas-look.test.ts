@@ -29,6 +29,7 @@ describe('canvas settings defaults', () => {
       CANVAS_DEFAULTS.gridColor,
       CANVAS_DEFAULTS.gridMajorColor,
       CANVAS_DEFAULTS.gridTileColor,
+      CANVAS_DEFAULTS.guideColor,
     ].forEach((colour) => expect(COLOUR_PATTERN.test(colour)).toBe(true));
     expect(CANVAS_DEFAULTS.surroundA).toBe('#0a0a0c');
   });

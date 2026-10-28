@@ -15,7 +15,7 @@ export default defineBrockConfig({
       wordmark: { src: './logos/bxel-wordmark.svg' },
     },
     singleProfile: true,
-    menu: { home: false, entries: { settings: { group: 'end', before: 'about' } } },
+    menu: { home: false, entries: { settings: { label: 'Options', group: 'end', before: 'about' } } },
     fileAssociations: [
       { ext: 'bxsprite', name: 'Bxel sprite', description: 'A Bxel sprite', progId: 'Bxel.Sprite', mimeType: 'application/vnd.bxel.sprite+zip', icon: 'filetypes/bxsprite' },
       { ext: 'bxanim', name: 'Bxel animation', description: 'A Bxel animation', progId: 'Bxel.Animation', mimeType: 'application/vnd.bxel.animation+zip', icon: 'filetypes/bxanim' },

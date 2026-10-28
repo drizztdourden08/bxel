@@ -32,7 +32,7 @@ const startBxel = async (state: HelperState, window: 'headless' | 'visible'): Pr
   const since = Date.now();
   const started = spawnBxel(launch, window, token);
   helperLog(`start_bxel: started Bxel ${window}, pid ${started.child.pid ?? 'unknown'}`);
-  const failed = waitFailure(await waitForDiscovery(state.file, started, since));
+  const failed = waitFailure(await waitForDiscovery(state.file, { pid: started.child.pid, exited: started.exited }, since));
   if (failed) return failed;
   state.session.setLaunchToken(token);
   state.started = started;

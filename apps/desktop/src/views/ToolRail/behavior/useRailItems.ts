@@ -1,29 +1,61 @@
 /* @layer renderer-app @kind hook */
 import type { ToolbarItem } from '@drizztdourden08/tessera';
-import { TOOLS } from '../../../editor/tools.constants';
-import { useMapPlacing } from '../../../hooks/useMapPlacing';
-import { useSurface } from '../../../hooks/useSurface';
-import { useToolIcon } from '../../../hooks/useToolIcon';
-import { MAP_TOOL_ICONS, TOOL_ICONS } from '../../../icons/tool-icons.constants';
+import { surfaceOfContext } from '../../../editor/tool-catalogue/surface-of-context';
+import { shownMember } from '../../../editor/tool-catalogue/shown-member';
+import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
+import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
+import { useSelectionStore } from '../../../stores/useSelectionStore';
+import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
+import { useToolPresetStore } from '../../../stores/useToolPresetStore';
+import { drawingVersion } from '../../../stores/drawing-version';
+import { useDrawingStore } from '../../../stores/useDrawingStore';
 import { useToolStore } from '../../../stores/useToolStore';
-import { MAP_TOOLS } from '../../../tilemap/map-tools.constants';
+import { useOptionsVersion } from '../../OptionControls';
+import { flyoutGroups } from '../../../tool-menu/flyout-groups';
+import { flyoutModel } from '../../../tool-menu/flyout-model';
+import { flyoutSections } from '../../../tool-menu/flyout-sections';
+import { COMMAND_ID } from '../../../keymap/keymap.constants';
+import { ruledItems } from '../../../toolbar-items/ruled-items';
+import { tidyItems } from '../../../toolbar-items/tidy-items';
+import { evaluate } from '../../../ui-context/evaluate';
+import { useBxelContext } from '../../../ui-context/useBxelContext';
 import { railItems } from './rail-items';
-import { toolsOf } from './tools-of';
-import { useSelectOptions } from './useSelectOptions';
-import { useToolKeys } from './useToolKeys';
+import { slotBadge } from './slot-badge';
+import { useTileModeItem } from './useTileModeItem';
+import { useToolKeys } from '../../../hooks/useToolKeys';
 
 const useRailItems = (): ToolbarItem[] => {
-  const tool = useToolStore((state) => state.tool);
-  const pick = useToolStore((state) => state.selectTool);
-  const placing = useMapPlacing();
-  const surface = useSurface();
-  const rectIcon = useToolIcon('rect');
-  const ellipseIcon = useToolIcon('ellipse');
-  const selectIcon = useToolIcon('select');
-  const keys = useToolKeys();
-  const menus = { select: useSelectOptions() };
-  const icons = placing ? MAP_TOOL_ICONS : { ...TOOL_ICONS, rect: rectIcon, ellipse: ellipseIcon, select: selectIcon };
-  return railItems({ tool, pick, keys, icons, defs: toolsOf(surface, placing ? MAP_TOOLS : TOOLS), options: placing || surface === 'sheet' ? {} : menus });
+  const context = useBxelContext((current) => current);
+  const surface = surfaceOfContext(context);
+  const active = useToolStore((state) => state.tool);
+  const filledTools = useDrawingStore((state) => state.filled);
+  useDrawingStore(drawingVersion);
+  const fillMode = useToolStore((state) => state.fillMode);
+  const mode = useSelectionStore((state) => state.mode);
+  const variant = useSelectionStore((state) => state.variant);
+  const hidden = useToolPrefsStore((state) => state.hiddenMembers);
+  const hover = useToolPrefsStore((state) => state.openOnHover);
+  useToolPresetStore((state) => state.user);
+  useOptionsVersion();
+  const keysOf = useToolKeys();
+  const tileMode = useTileModeItem();
+  const slots = slotsOf(surface).filter((slot) => !slot.members.every((member) => hidden.includes(member.id)));
+  const contextOf = (slot: ToolSlot) => {
+    const model = flyoutModel(slot, surface);
+    return {
+      surface,
+      active,
+      shown: shownMember(slot, { variant }),
+      filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false,
+      badge: slotBadge(slot, { fillMode, filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false, mode }),
+      keys: keysOf(slot.tool),
+      ui: evaluate(COMMAND_ID.tool(slot.tool), context),
+      groups: hover && model.hasContent ? flyoutGroups(flyoutSections(model, true)) : undefined,
+      hasFlyout: model.hasContent,
+      pick: (picked: ToolSlot) => useToolStore.getState().setTool(picked.tool),
+    };
+  };
+  return tidyItems([...ruledItems(tileMode, context), ...railItems(slots, contextOf)]);
 };
 
 export { useRailItems };

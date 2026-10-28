@@ -17,6 +17,7 @@ import { runInstant } from '../../../editor/run-instant';
 import { startSession } from '../../../editor/start-session';
 import { tickSpray } from '../../../editor/spray-session';
 import { SPRAY_TICK_MS } from '../../../stores/drawing-store.constants';
+import { useLivePaintStore } from '../../../stores/useLivePaintStore';
 import { useGestureStore } from '../../../stores/useGestureStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
@@ -34,6 +35,7 @@ const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): Paint
 
   const show = useCallback((shown: PaintSession): void => {
     image.current = new ImageData(shown.rgba, shown.width, shown.height);
+    useLivePaintStore.getState().start(shown);
     setLive(image.current);
   }, []);
 
@@ -45,6 +47,7 @@ const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): Paint
     gesture.dragging = false;
     gesture.space = false;
     useGestureStore.getState().setHint('');
+    useLivePaintStore.getState().end();
     setLive(null);
   }, []);
 
@@ -127,6 +130,7 @@ const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): Paint
       const at = pixelAtEvent(viewport.current, event);
       if (session.current || event.buttons === 0) moveSession(active, at, event);
       viewport.current?.redraw();
+      useLivePaintStore.getState().update();
     },
     up: () => {
       const done = session.current;

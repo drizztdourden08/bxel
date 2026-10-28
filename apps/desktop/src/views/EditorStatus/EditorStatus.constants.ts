@@ -46,6 +46,7 @@ const TOOL_ROWS: Readonly<Record<ToolId, readonly HintShortcut[]>> = {
   eraser: [{ label: 'Erase', mouse: 'drag' }, STRAIGHT_LINE, PICK_COLOUR],
   fill: [{ label: 'Fill with the front colour', mouse: 'left' }, { label: 'Fill with the back colour', mouse: 'right' }, PICK_COLOUR],
   picker: [{ label: 'Pick the front colour', mouse: 'left' }, { label: 'Pick the back colour', mouse: 'right' }],
+  shade: [{ label: 'Lighten along the ramp', mouse: 'drag' }, { label: 'Darken along the ramp', mouse: 'right' }, STRAIGHT_LINE, PICK_COLOUR],
   spray: [{ label: 'Spray with the front colour', mouse: 'drag' }, { label: 'Spray with the back colour', mouse: 'right' }, PICK_COLOUR],
   gradient: [
     { label: 'Drag the gradient line', mouse: 'drag' },
@@ -98,6 +99,7 @@ const MAP_ROWS: Readonly<Record<ToolId, readonly HintShortcut[]>> = {
   rect: [{ label: 'Drag a rectangle of the picked tile', mouse: 'drag' }, ...TURN_ROWS],
   line: [{ label: 'Drag a line of the picked tile', mouse: 'drag' }, ...TURN_ROWS],
   spray: [{ label: 'Place random tiles from the selection', mouse: 'drag' }, ...TURN_ROWS],
+  shade: [],
   gradient: [],
   curve: [],
   ellipse: [],

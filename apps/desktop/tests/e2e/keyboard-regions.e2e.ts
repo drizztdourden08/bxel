@@ -6,7 +6,7 @@ import { focusedRegion } from './support/focused-region';
 import { openSpriteRig } from './support/open-sprite-rig';
 import { useRig } from './support/use-rig';
 
-const EXPECTED = ['Canvas', 'Tool options', 'Tools', 'Open assets', 'Sprite canvas', 'Palette', 'Layers', 'Timeline'];
+const EXPECTED = ['Canvas', 'Tool options', 'Tools', 'Open assets', 'Sprite canvas', 'Palette', 'Layers', 'Timeline', 'Visible area'];
 
 const MAX_STOPS = 20;
 

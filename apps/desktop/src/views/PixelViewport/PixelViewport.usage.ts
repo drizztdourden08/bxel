@@ -18,9 +18,10 @@ const usage = {
     'pivotGrips(ctx, view) draws after draw, with the same transform but no clip, so the pivot grips and the ghosts of an animation can reach beyond the image into the room around it.',
     'source takes an ImageData, an ImageBitmap, an image or a canvas and is painted at the origin; a new source repaints on its own, and redraw repaints after the same ImageData changed in place.',
     'The wheel zooms around the pointer by default; wheel="pan" makes it scroll instead, with Ctrl or a pinch to zoom. Shift turns a scroll sideways.',
-    'Zoom steps are whole factors from 1 to 64 by default, set by zoomSteps; below 1 it halves down to the fit, and the fit is a whole factor when the image fits once or more.',
+    'Zoom steps are whole factors from 1 to 128 by default, set by zoomSteps; below 1 it halves down to 25 percent or the fit, and the fit is a whole factor when the image fits once or more.',
     'Leave zoom and pan out to fit the image on mount, or pass them with onZoomChange and onPanChange to drive them. pan is the image point at the centre of the view.',
     'hint is a sentence of keys for a screen reader, linked to the viewport as its description. The app passes the keys its canvas answers.',
+    'onView is called after each paint with the view, and with null on unmount, so a navigator can follow the view without a second subscription. The ref also has panTo, which centres an image point, and zoomToRect, which fits a rectangle with room around it.',
     'The ref also has reveal, which pans the least that brings a pixel into view, for a keyboard cursor that walks off the edge.',
     'onPointerPixel reports the image pixel under the pointer, or null outside the image, for a StatusBar readout.',
     'The ref gives screenToPixel and pixelToScreen in client coordinates, fit, setZoom with an optional anchor, zoomIn, zoomOut, redraw and view.',
@@ -62,7 +63,7 @@ const SpriteCanvas = ({ layers }: { layers: readonly ImageBitmap[] }) => {
   );
 };
 `,
-  propsHash: '828aef2469ac5fd5',
+  propsHash: 'a6dab8bb9872dba0',
 } satisfies ComponentUsage;
 
 export { usage };

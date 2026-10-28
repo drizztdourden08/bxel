@@ -1,18 +1,15 @@
 /* @layer renderer-app @kind constants */
-import type { ToolGroup } from '../../editor/tool.type';
-
 const TOOL_RAIL_TEXT = {
   region: 'Tools',
-  groups: {
-    draw: 'Drawing tools',
-    select: 'Selection tools',
-    view: 'View tools',
-  } satisfies Record<ToolGroup, string>,
-  selectShapes: 'Shape',
-  selectModes: 'Mode',
-  kinds: 'Shape',
-  filled: 'Filled',
-  filledDescription: 'Fill the inside of rectangles and ellipses.',
+  zone: 'bxel.tool-rail',
+  menuLabel: 'Tool menu',
+  filledBadge: 'Filled',
+  globalBadge: 'Global fill',
+  modeBadge: (mode: string): string => `Selection mode ${mode}`,
 } as const;
 
-export { TOOL_RAIL_TEXT };
+const MODE_BADGES = { add: '+', subtract: '-', intersect: 'x' } as const;
+
+const RAIL_OPEN_KEYS = { vertical: { right: 'ArrowRight', left: 'ArrowLeft' }, horizontal: 'ArrowDown' } as const;
+
+export { MODE_BADGES, RAIL_OPEN_KEYS, TOOL_RAIL_TEXT };

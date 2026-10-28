@@ -44,6 +44,7 @@
 }
 
 .pixel-viewport.editor-canvas__viewport--spray,
+.pixel-viewport.editor-canvas__viewport--shade,
 .pixel-viewport.editor-canvas__viewport--gradient {
   cursor: url('/cursors/pencil.svg') 3 25, crosshair;
 }

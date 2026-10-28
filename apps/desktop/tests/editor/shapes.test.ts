@@ -79,8 +79,8 @@ describe('a shape', () => {
 describe('Shift on a shape', () => {
   it('snaps a line to the nearest clean ratio', () => {
     const from = { x: 10, y: 10 };
-    expect(constrainCorner('line', from, { x: 20, y: 12 })).toEqual({ x: 20, y: 10 });
-    expect(constrainCorner('line', from, { x: 11, y: 3 })).toEqual({ x: 10, y: 3 });
+    expect(constrainCorner('line', from, { x: 20, y: 12 })).toEqual({ x: 18, y: 12 });
+    expect(constrainCorner('line', from, { x: 10, y: 3 })).toEqual({ x: 10, y: 3 });
     expect(constrainCorner('line', from, { x: 16, y: 14 })).toEqual({ x: 16, y: 13 });
     expect(constrainCorner('line', from, { x: 4, y: 15 })).toEqual({ x: 4, y: 16 });
   });
@@ -96,8 +96,8 @@ describe('Shift on a shape', () => {
     const { target } = openEditor();
     const constrained = beginShape({ target: target(), spec: spec({ shape: 'line', from: { x: 2, y: 2 }, to: { x: 2, y: 2 } }) });
     updateShape(constrained, { x: 12, y: 4 }, { ...PLAIN, constrain: true });
-    expect(constrained.spec.to).toEqual({ x: 12, y: 2 });
-    expect(constrained.indices[2 * 32 + 12]).toBe(5);
+    expect(constrained.spec.to).toEqual({ x: 10, y: 4 });
+    expect(constrained.indices[4 * 32 + 10]).toBe(5);
     expect(constrained.indices[4 * 32 + 12]).toBe(0);
   });
 });

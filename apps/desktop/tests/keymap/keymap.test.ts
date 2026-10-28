@@ -3,7 +3,7 @@ import { shortcutsHelp } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { currentTarget } from '../../src/editor/current-target';
-import { TOOLS } from '../../src/editor/tools.constants';
+import { toolIds } from '../../src/editor/tool-catalogue/tool-ids';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
 import { COMMAND_ID, EDITOR_SCOPE } from '../../src/keymap/keymap.constants';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
@@ -20,7 +20,7 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('./brock-react
 
 const find = findCommand;
 
-const run = (id: string): void => find(id).run();
+const run = (id: string): void => void find(id).run();
 
 const fakeView = (): PixelView => ({
   zoom: 1,
@@ -43,6 +43,8 @@ const fakeHandle = (): PixelViewportHandle => ({
   zoomOut: vi.fn(),
   redraw: vi.fn(),
   reveal: vi.fn(),
+  panTo: vi.fn(),
+  zoomToRect: vi.fn(),
   view: fakeView,
 });
 
@@ -64,8 +66,11 @@ describe('the keymap table', () => {
   });
 
   it('puts every tool on its letter key', () => {
-    const letters = TOOLS.map((tool) => chordsOf(find(COMMAND_ID.tool(tool.id))));
-    expect(letters).toEqual([['B'], ['E'], ['G'], ['I'], ['U'], ['Z'], ['H'], ['M'], ['V']]);
+    const letters = Object.fromEntries(toolIds().map((tool) => [tool, chordsOf(find(COMMAND_ID.tool(tool)))]));
+    expect(letters).toEqual({
+      pencil: ['B'], eraser: ['E'], spray: ['Shift+B'], shade: ['S'], fill: ['G'], gradient: ['Shift+G'], picker: ['I'], line: ['L'], curve: ['Shift+L'], rect: ['U'],
+      ellipse: ['Shift+U'], contour: ['D'], polygon: ['Shift+D'], zoom: ['Z'], hand: ['H'], select: ['M'], move: ['V'],
+    });
   });
 
   it('keeps the chords of the contract for brush, symmetry, colours, view and help', () => {

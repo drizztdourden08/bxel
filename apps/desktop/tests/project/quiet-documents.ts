@@ -10,6 +10,7 @@ type QuietMethods =
   | 'revokeFolder'
   | 'trash'
   | 'rename'
+  | 'copy'
   | 'mkdir'
   | 'watch'
   | 'rememberedFolders'
@@ -26,6 +27,7 @@ const quietDocuments: Pick<DocumentsPort, QuietMethods> = {
   revokeFolder: () => Promise.resolve(false),
   trash: () => Promise.resolve(),
   rename: () => Promise.resolve(),
+  copy: () => Promise.resolve(),
   mkdir: () => Promise.resolve(),
   watch: () => Promise.resolve(() => undefined),
   rememberedFolders: () => Promise.resolve([]),

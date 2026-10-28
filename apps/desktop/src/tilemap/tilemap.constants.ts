@@ -47,6 +47,11 @@ const TILE_LABEL = {
   layerMove: 'Move map layer',
   layerVisible: 'Show or hide map layer',
   layerLocked: 'Lock or unlock map layer',
+  layerDuplicate: 'Duplicate map layer',
+  layerMerge: 'Merge map layer down',
+  layerColour: 'Set map layer colour',
+  layerSolo: 'Show only one map layer',
+  layerDeleteMany: 'Delete map layers',
 } as const;
 
 const TILE_REF = {
@@ -65,6 +70,7 @@ const MAP_TOOL_OF: Readonly<Record<ToolId, MapTool>> = {
   line: 'line',
   spray: 'scatter',
   gradient: 'place',
+  shade: 'place',
   curve: 'place',
   ellipse: 'rect',
   contour: 'place',

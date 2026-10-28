@@ -4,6 +4,7 @@ import { brushOptions } from '../../src/editor/brush-options';
 import { changedAxes } from '../../src/editor/changed-axes';
 import { commitSession } from '../../src/editor/commit-session';
 import { useDrawingStore } from '../../src/stores/useDrawingStore';
+import { pressToolKey } from '../../src/editor/tool-pick/press-tool-key';
 import { symmetryOf } from '../../src/editor/symmetry-of';
 import { flat, penStroke, resetEditor, tools } from './option-harness';
 
@@ -11,15 +12,15 @@ beforeEach(resetEditor);
 
 describe('the tool keys', () => {
   it('selects a tool, then toggles filled on a second press of the rectangle key', () => {
-    tools().selectTool('rect');
+    pressToolKey('rect');
     expect(tools().tool).toBe('rect');
     expect(useDrawingStore.getState().filled.rect).toBe(false);
-    tools().selectTool('rect');
+    pressToolKey('rect');
     expect(useDrawingStore.getState().filled.rect).toBe(true);
-    tools().selectTool('rect');
+    pressToolKey('rect');
     expect(useDrawingStore.getState().filled.rect).toBe(false);
-    tools().selectTool('line');
-    tools().selectTool('line');
+    pressToolKey('line');
+    pressToolKey('line');
     expect(tools().tool).toBe('line');
   });
 

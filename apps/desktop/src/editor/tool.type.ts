@@ -3,6 +3,7 @@ type ToolId =
   | 'pencil'
   | 'eraser'
   | 'spray'
+  | 'shade'
   | 'fill'
   | 'gradient'
   | 'picker'
@@ -23,14 +24,4 @@ type ShapeTool = 'line' | 'rect' | 'ellipse';
 
 type PathTool = 'curve' | 'polygon' | 'contour';
 
-type ToolGroup = 'draw' | 'select' | 'view';
-
-interface ToolDef {
-  id: ToolId;
-  label: string;
-  description: string;
-  key: string;
-  group: ToolGroup;
-}
-
-export type { PathTool, ShapeTool, StrokeTool, ToolDef, ToolGroup, ToolId };
+export type { PathTool, ShapeTool, StrokeTool, ToolId };

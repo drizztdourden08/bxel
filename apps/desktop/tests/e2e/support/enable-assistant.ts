@@ -5,7 +5,7 @@ import { runMenu } from './run-menu';
 
 const enableAssistant = async (session: Session, folder: string): Promise<void> => {
   const { page } = session;
-  await runMenu(session, [/^Settings/]);
+  await runMenu(session, [/^Options/]);
   await page.getByRole('navigation').getByText('Assistant', { exact: true }).click();
   await page.getByRole('switch', { name: 'Assistant access' }).dispatchEvent('click');
   await page.locator('[role="switch"][aria-label="Assistant access"][aria-checked="true"]').waitFor({ state: 'attached' });

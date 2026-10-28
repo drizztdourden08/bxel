@@ -19,7 +19,7 @@ type PressPlan =
   | { kind: 'path'; tool: PathTool; slot: ColourSlot }
   | { kind: 'gradient'; slot: ColourSlot }
   | { kind: 'spray'; slot: ColourSlot }
-  | { kind: 'stroke'; tool: StrokeTool; slot: ColourSlot; line: boolean; snap?: boolean };
+  | { kind: 'stroke'; tool: StrokeTool; slot: ColourSlot; line: boolean; snap?: boolean; shade?: boolean };
 
 type DrawPlan = Extract<PressPlan, { kind: 'shape' | 'stroke' | 'path' | 'gradient' | 'spray' }>;
 

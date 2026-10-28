@@ -3,7 +3,7 @@ import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/broc
 import { currentTarget } from '../../../editor/current-target';
 import { hasPreview } from '../../../editor/pending/has-preview';
 import { selectionMask } from '../../../editor/selection/selection-mask';
-import { currentSurface } from '../../../surface/current-surface';
+import { currentContext } from '../../../ui-context/current-context';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import { canvasBaseEntries } from './canvas-base-entries';
 import { canvasHere } from './canvas-here';
@@ -16,7 +16,7 @@ const canvasMenuEntries = (context: ContextMenuContext, viewport: PixelViewportH
   const mask = selectionMask(target);
   const pending = hasPreview();
   const outside = mask !== null && here !== null && context.trigger !== 'keyboard' && mask.bits[here.y * mask.width + here.x] === 0;
-  const tile = currentSurface() === 'tile';
+  const tile = currentContext().editTarget === 'tile';
   return (mask !== null || pending) && !outside ? canvasSelectionEntries(here, pending, tile) : canvasBaseEntries(here, tile);
 };
 

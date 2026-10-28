@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { defineCommand, maxIndex } from '@bxel/document';
+import { defineCommand, ERROR_CODE, fail, maxIndex } from '@bxel/document';
 import { stampPatch } from '../stamp/stamp-patch';
 import { ADVANCED_COMMAND } from './advanced-commands.constants';
 import { applyInked } from './apply-inked';
@@ -15,6 +15,9 @@ const pixelsStamp = defineCommand({
   schema: pixelsStampSchema,
   run: (draft, input) => {
     const { brushId, points, anchor, skipZero, flipX, flipY, turn, symmetry, ink, mask, wrap } = input.options;
+    if ((input.options.patch === undefined) === (brushId === undefined)) {
+      throw fail(ERROR_CODE.INVALID_OPTION, 'Give either a patch or the id of a saved brush.', { path: 'options.patch' });
+    }
     const patch = input.options.patch ?? savedBrushPatch(draft.artwork, brushId ?? '');
     checkPointCount(points.length, input.step);
     checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: withInkIndex(maxIndex(patch.pixels), ink), mask });

@@ -2,28 +2,13 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { brushFromSelection } from '../editor/brush-from-selection';
 import { useDrawingStore } from '../stores/useDrawingStore';
-import { useToolStore } from '../stores/useToolStore';
-import { editorCommand } from './editor-command';
-import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
+import { DRAWING_COMMAND } from './drawing-command-id.constants';
+import { COMMAND_GROUP } from './keymap.constants';
+import { ruled } from './ruled';
 
 const DRAWING_COMMANDS: readonly CommandDef[] = [
   {
-    id: 'drawing.cycle_ink',
-    label: 'Next ink',
-    group: COMMAND_GROUP.brush,
-    chord: 'Shift+S',
-    run: () => useDrawingStore.getState().cycleInk(),
-  },
-  {
-    id: 'drawing.toggle_pixel_perfect',
-    label: 'Pixel perfect',
-    group: COMMAND_GROUP.brush,
-    chord: 'Shift+P',
-    checked: () => useToolStore.getState().pixelPerfect,
-    run: () => useToolStore.getState().setPixelPerfect(!useToolStore.getState().pixelPerfect),
-  },
-  {
-    id: COMMAND_ID.symmetryDiagonal,
+    id: DRAWING_COMMAND.symmetryDiagonal,
     label: 'Symmetry diagonal',
     group: COMMAND_GROUP.brush,
     chord: 'Alt+D',
@@ -31,7 +16,7 @@ const DRAWING_COMMANDS: readonly CommandDef[] = [
     run: () => useDrawingStore.getState().toggleSymmetryMode('diagonal'),
   },
   {
-    id: COMMAND_ID.symmetryTurn,
+    id: DRAWING_COMMAND.symmetryTurn,
     label: 'Symmetry 4 way',
     group: COMMAND_GROUP.brush,
     chord: 'Alt+R',
@@ -39,14 +24,12 @@ const DRAWING_COMMANDS: readonly CommandDef[] = [
     run: () => useDrawingStore.getState().toggleSymmetryMode('turn'),
   },
   {
-    id: 'brush.from_selection',
+    id: DRAWING_COMMAND.brushFromSelection,
     label: 'New brush from selection',
     group: COMMAND_GROUP.brush,
     chord: 'Mod+B',
-    run: () => {
-      brushFromSelection();
-    },
+    run: () => void brushFromSelection(),
   },
-].map(editorCommand);
+].map(ruled);
 
 export { DRAWING_COMMANDS };

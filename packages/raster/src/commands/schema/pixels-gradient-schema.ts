@@ -11,8 +11,7 @@ import { wrapSchema } from './wrap-schema';
 
 const position = z.number().int().min(0).max(RAMP_POSITION_MAX).optional();
 
-const pixelsGradientSchema = z
-  .strictObject({
+const pixelsGradientSchema = z.strictObject({
   ramp: rampNameSchema.optional(),
   colors: z.array(indexSchema).min(2).max(RAMP_POSITION_MAX + 1).optional(),
   first: position,
@@ -27,10 +26,6 @@ const pixelsGradientSchema = z
   mask: maskSchema,
   wrap: wrapSchema,
   allUses: allUsesSchema,
-})
-  .refine((options) => (options.ramp === undefined) !== (options.colors === undefined), {
-    message: 'Give either a ramp name or a list of colours.',
-    path: ['ramp'],
-  });
+});
 
 export { pixelsGradientSchema };

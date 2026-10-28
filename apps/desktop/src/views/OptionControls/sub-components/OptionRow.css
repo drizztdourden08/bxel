@@ -1,0 +1,25 @@
+/* @layer renderer-app @kind style */
+.option-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+  padding-block-end: var(--space-sm);
+  border-block-end: var(--border-width-thin) solid var(--c-hairline);
+}
+
+.option-row__control {
+  display: flex;
+  align-items: center;
+  min-inline-size: 0;
+}
+
+.option-row[data-kind='number'] .option-row__control > * {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.option-row[data-changed='true'] .option-row__control {
+  border-inline-start: var(--border-width-thick) solid var(--c-primary);
+  padding-inline-start: var(--space-sm);
+}

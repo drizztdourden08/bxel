@@ -24,8 +24,9 @@ import { wrapOf } from './wrap-of';
 const startStroke = (plan: Extract<DrawPlan, { kind: 'stroke' }>, target: EditorTarget, at: Point): PaintSession => {
   const tools = useToolStore.getState();
   const drawing = useDrawingStore.getState();
-  const choice = plan.tool === 'eraser' ? eraserChoice(plan.slot, tools) : inkOf(plan.slot, tools, drawing);
-  const custom = plan.tool === 'pencil' ? customStamp(drawing, choice.index) : null;
+  const inked = plan.shade === true ? { ...drawing, inkKind: drawing.shadeMode } : drawing;
+  const choice = plan.tool === 'eraser' ? eraserChoice(plan.slot, tools) : inkOf(plan.slot, tools, inked);
+  const custom = plan.tool === 'pencil' && plan.shade !== true ? customStamp(drawing, choice.index) : null;
   const options = {
     ...brushOptions(tools, target.sprite),
     wrap: wrapOf(),

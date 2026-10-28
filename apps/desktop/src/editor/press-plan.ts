@@ -15,6 +15,7 @@ const pressPlan = (tool: ToolId, event: PressEvent): PressPlan | null => {
   if (isPathTool(tool)) return { kind: 'path', tool, slot };
   if (tool === 'gradient') return { kind: 'gradient', slot };
   if (tool === 'spray') return { kind: 'spray', slot };
+  if (tool === 'shade') return { kind: 'stroke', tool: 'pencil', slot, line: event.shiftKey, shade: true };
   if (!isStrokeTool(tool)) return null;
   const snap = event.shiftKey && (event.ctrlKey === true || event.metaKey === true);
   return { kind: 'stroke', tool, slot, line: event.shiftKey, ...(snap ? { snap } : {}) };
