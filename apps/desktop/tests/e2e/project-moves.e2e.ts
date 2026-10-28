@@ -58,7 +58,7 @@ const movesRenamesAndUndoes = async (session: Session, place: string): Promise<v
   expect(existsSync(spritePath)).toBe(false);
   expect(linkTargets(sheetPath)).not.toContain(spritePath);
 
-  await page.getByRole('button', { name: 'Undo', exact: true }).click();
+  await page.getByRole('button', { name: 'Undo', exact: true }).last().click();
   await expect.poll(() => existsSync(spritePath) && linkTargets(sheetPath).includes(spritePath), POLL).toBe(true);
   expect(existsSync(movedPath)).toBe(false);
 
@@ -73,7 +73,7 @@ const movesRenamesAndUndoes = async (session: Session, place: string): Promise<v
   expect(linkTargets(sheetPath)).not.toContain(spritePath);
   expect(existsSync(renamedPath)).toBe(false);
 
-  await page.getByRole('button', { name: 'Undo', exact: true }).click();
+  await page.getByRole('button', { name: 'Undo', exact: true }).last().click();
   await expect.poll(() => existsSync(spritePath) && linkTargets(sheetPath).includes(spritePath), POLL).toBe(true);
 };
 

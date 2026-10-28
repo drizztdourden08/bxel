@@ -16,11 +16,11 @@ import { meta as optionsStoragePageMeta } from '../src/screens/options/storage.p
 import { meta as optionsSurroundCustomMeta } from '../src/screens/options/surround.custom';
 import { meta as optionsSwatchesCustomMeta } from '../src/screens/options/swatches.custom';
 import { meta as projectBrowseCustomMeta } from '../src/screens/project/browse.custom';
+import ProjectProjectSettingsDefaultsSettings, { meta as projectProjectSettingsDefaultsSettingsMeta } from '../src/screens/project/project-settings/defaults.settings';
+import ProjectProjectSettingsExportSettings, { meta as projectProjectSettingsExportSettingsMeta } from '../src/screens/project/project-settings/export.settings';
+import ProjectProjectSettingsFoldersSettings, { meta as projectProjectSettingsFoldersSettingsMeta } from '../src/screens/project/project-settings/folders.settings';
+import ProjectProjectSettingsGeneralSettings, { meta as projectProjectSettingsGeneralSettingsMeta } from '../src/screens/project/project-settings/general.settings';
 import { meta as projectProjectsCustomMeta } from '../src/screens/project/projects.custom';
-import ProjectSettingsDefaultsSettings, { meta as projectSettingsDefaultsSettingsMeta } from '../src/screens/project/settings/defaults.settings';
-import ProjectSettingsExportSettings, { meta as projectSettingsExportSettingsMeta } from '../src/screens/project/settings/export.settings';
-import ProjectSettingsFoldersSettings, { meta as projectSettingsFoldersSettingsMeta } from '../src/screens/project/settings/folders.settings';
-import ProjectSettingsGeneralSettings, { meta as projectSettingsGeneralSettingsMeta } from '../src/screens/project/settings/general.settings';
 import PropertiesAnimationSettings, { meta as propertiesAnimationSettingsMeta } from '../src/screens/properties/animation.settings';
 import { meta as propertiesNoneCustomMeta } from '../src/screens/properties/none.custom';
 import { meta as propertiesOverviewCustomMeta } from '../src/screens/properties/overview.custom';
@@ -47,11 +47,11 @@ const screenTree = buildScreenTree(config, [
   { kind: 'custom', bucket: 'options', id: 'surround', component: lazyComponent(() => import('../src/screens/options/surround.custom')), meta: optionsSurroundCustomMeta },
   { kind: 'custom', bucket: 'options', id: 'swatches', component: lazyComponent(() => import('../src/screens/options/swatches.custom')), meta: optionsSwatchesCustomMeta },
   { kind: 'custom', bucket: 'project', id: 'browse', component: lazyComponent(() => import('../src/screens/project/browse.custom')), meta: projectBrowseCustomMeta },
+  { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'defaults', sections: ProjectProjectSettingsDefaultsSettings, meta: projectProjectSettingsDefaultsSettingsMeta },
+  { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'export', sections: ProjectProjectSettingsExportSettings, meta: projectProjectSettingsExportSettingsMeta },
+  { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'folders', sections: ProjectProjectSettingsFoldersSettings, meta: projectProjectSettingsFoldersSettingsMeta },
+  { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'general', sections: ProjectProjectSettingsGeneralSettings, meta: projectProjectSettingsGeneralSettingsMeta },
   { kind: 'custom', bucket: 'project', id: 'projects', component: lazyComponent(() => import('../src/screens/project/projects.custom')), meta: projectProjectsCustomMeta },
-  { kind: 'settings', bucket: 'project', group: 'settings', id: 'defaults', sections: ProjectSettingsDefaultsSettings, meta: projectSettingsDefaultsSettingsMeta },
-  { kind: 'settings', bucket: 'project', group: 'settings', id: 'export', sections: ProjectSettingsExportSettings, meta: projectSettingsExportSettingsMeta },
-  { kind: 'settings', bucket: 'project', group: 'settings', id: 'folders', sections: ProjectSettingsFoldersSettings, meta: projectSettingsFoldersSettingsMeta },
-  { kind: 'settings', bucket: 'project', group: 'settings', id: 'general', sections: ProjectSettingsGeneralSettings, meta: projectSettingsGeneralSettingsMeta },
   { kind: 'settings', bucket: 'properties', id: 'animation', sections: PropertiesAnimationSettings, meta: propertiesAnimationSettingsMeta },
   { kind: 'custom', bucket: 'properties', id: 'none', component: lazyComponent(() => import('../src/screens/properties/none.custom')), meta: propertiesNoneCustomMeta },
   { kind: 'custom', bucket: 'properties', id: 'overview', component: lazyComponent(() => import('../src/screens/properties/overview.custom')), meta: propertiesOverviewCustomMeta },
