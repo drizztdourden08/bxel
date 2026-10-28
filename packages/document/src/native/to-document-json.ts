@@ -40,6 +40,7 @@ const tilemapToJson = (tilemap: Tilemap): TilemapJson => ({
     name: layer.name,
     visible: layer.visible,
     locked: layer.locked,
+    ...(layer.colour === undefined ? {} : { colour: layer.colour }),
   })),
 });
 

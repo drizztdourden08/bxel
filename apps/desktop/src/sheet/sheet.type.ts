@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { AnimationId, Artwork, CommandStep, Point, Sheet, SheetId, SheetOverlap, Size, Sprite, SpriteId, TagId } from '@bxel/document';
+import type { LockKind } from '../editor/layer-lock.type';
 import type { SpriteSettings } from '../stores/sprite-store.type';
 
 type PickHow = 'replace' | 'toggle' | 'range';
@@ -88,6 +89,17 @@ interface ScopeChipModel {
   layers: string;
 }
 
+interface SheetLayerRow {
+  name: string;
+  carriers: number;
+  total: number;
+  visible: boolean;
+  mixedVisible: boolean;
+  lock: LockKind;
+  mixedLock: boolean;
+  colour: string | null;
+}
+
 interface SheetPrelude {
   steps: readonly CommandStep[];
   sheet: SheetId | { ref: string };
@@ -104,4 +116,4 @@ interface ModelInput {
   sheetId?: SheetId | null;
 }
 
-export type { ArrangeKind, BroadcastCheck, CurrentModel, FrameImage, Mismatch, MismatchModel, ModelInput, PickHow, PickInput, PickResult, ScopeChipModel, SceneInput, SceneModel, SheetAnimationItem, SheetItem, SheetModel, SheetPrelude, SpriteScene };
+export type { SheetLayerRow, ArrangeKind, BroadcastCheck, CurrentModel, FrameImage, Mismatch, MismatchModel, ModelInput, PickHow, PickInput, PickResult, ScopeChipModel, SceneInput, SceneModel, SheetAnimationItem, SheetItem, SheetModel, SheetPrelude, SpriteScene };

@@ -7,6 +7,7 @@ import { brandedIdSchema } from './branded-id-schema';
 import { createdSchema } from './created-schema';
 import { nameSchema } from './name-schema';
 import { orientationSchema } from './orientation-schema';
+import { tagColourSchema } from './tag-colour-schema';
 import { MAX_MAP_SIDE } from './tilemap-schema.constants';
 
 const sideSchema = z.number().int().min(1).max(MAX_MAP_SIDE);
@@ -16,6 +17,7 @@ const mapLayerSchema = z.object({
   name: nameSchema,
   visible: z.boolean(),
   locked: z.boolean(),
+  colour: tagColourSchema.optional(),
 });
 
 const tilemapShellSchema = z.object({

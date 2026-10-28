@@ -52,6 +52,7 @@ type MapLayer = {
   readonly name: string;
   readonly visible: boolean;
   readonly locked: boolean;
+  readonly colour?: string;
   readonly cells: Uint32Array;
 };
 

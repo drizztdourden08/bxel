@@ -8,7 +8,7 @@ const usage = {
     'Frames must be added, copied, deleted, moved or timed, or tags and facings must be edited.',
   ],
   avoidWhen: [
-    { case: 'The user picks the layer that drawing goes to and shows, locks or orders layers.', use: 'LayersPanel' },
+    { case: 'The user picks the layer that drawing goes to and shows, locks or orders layers.', use: 'LayerStack' },
     { case: 'The user picks and orders the sprites of a file instead of the frames of one animation.', use: 'SpritesPanel' },
   ],
   rules: [

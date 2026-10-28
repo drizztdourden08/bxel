@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { beginPending } from '../../src/editor/pending/begin-pending';
 import { commitPending } from '../../src/editor/pending/commit-pending';
-import { updateLayerFlag } from '../../src/editor/update-layer-flag';
+import { spriteLayerActions } from '../../src/editor/layer-actions';
 import { selectionMask } from '../../src/editor/selection/selection-mask';
 import { startFlip } from '../../src/editor/transform/start-flip';
 import { startRotate } from '../../src/editor/transform/start-rotate';
@@ -88,7 +88,7 @@ describe('rotating and scaling', () => {
     const rig = openRig();
     rig.paint(BLOCK, 4);
     rig.select(BLOCK);
-    updateLayerFlag(rig.target().layerId, 'locked', true);
+    spriteLayerActions.setFlag([rig.target().layerId], 'locked', true);
     useNoticeStore.setState({ notice: null });
     expect(beginPending({ kind: 'move', offset: { x: 1, y: 0 } })).toBe(false);
     expect(useNoticeStore.getState().notice?.text).toContain('locked');

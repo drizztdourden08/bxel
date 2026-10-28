@@ -58,7 +58,7 @@ const checksTilemap = async (session: Session): Promise<void> => {
 
 const checksSheet = async (session: Session, place: string): Promise<void> => {
   await openSampleSheet(session, place);
-  expect(await shownRegions(session)).toEqual({ Timeline: false, Palette: false, Layers: false, Sheet: true, Tileset: false });
+  expect(await shownRegions(session)).toEqual({ Timeline: false, Palette: false, Layers: true, Sheet: true, Tileset: false });
   expect(await canvasButtons(session, 'Mirror X')).toBe(0);
   expect(await canvasButtons(session, 'Zoom to fit')).toBe(1);
   const top = await menuLabels(session);

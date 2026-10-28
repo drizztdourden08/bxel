@@ -13,6 +13,7 @@ import { pressPlan } from '../../../editor/press-plan';
 import { runInstant } from '../../../editor/run-instant';
 import { startSession } from '../../../editor/start-session';
 import { updateShape } from '../../../editor/update-shape';
+import { useLivePaintStore } from '../../../stores/useLivePaintStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import type { PaintGesture } from './canvas-tools.type';
@@ -42,6 +43,7 @@ const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): Paint
       event.currentTarget.setPointerCapture(event.pointerId);
       const started = startSession(plan, target, at);
       session.current = started;
+      useLivePaintStore.getState().start(started);
       image.current = new ImageData(started.rgba, started.width, started.height);
       setLive(image.current);
     },
@@ -52,12 +54,14 @@ const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): Paint
       if (active.kind === 'stroke') extendStroke(active, at);
       else updateShape(active, at, event.shiftKey);
       viewport.current?.redraw();
+      useLivePaintStore.getState().update();
     },
     up: () => {
       const done = session.current;
       const shown = image.current;
       session.current = null;
       image.current = null;
+      useLivePaintStore.getState().end();
       setLive(null);
       if (!done) return;
       const result = commitSession(done);

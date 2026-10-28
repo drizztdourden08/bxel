@@ -45,6 +45,11 @@ const TILE_LABEL = {
   layerMove: 'Move map layer',
   layerVisible: 'Show or hide map layer',
   layerLocked: 'Lock or unlock map layer',
+  layerDuplicate: 'Duplicate map layer',
+  layerMerge: 'Merge map layer down',
+  layerColour: 'Set map layer colour',
+  layerSolo: 'Show only one map layer',
+  layerDeleteMany: 'Delete map layers',
 } as const;
 
 const TILE_REF = {

@@ -44,6 +44,8 @@ import { mapTerrain } from './map/map-terrain';
 import { mapWrite } from './map/map-write';
 import { mapLayerAdd } from './map-layer/map-layer-add';
 import { mapLayerDelete } from './map-layer/map-layer-delete';
+import { mapLayerDuplicate } from './map-layer/map-layer-duplicate';
+import { mapLayerMerge } from './map-layer/map-layer-merge';
 import { mapLayerReorder } from './map-layer/map-layer-reorder';
 import { mapLayerUpdate } from './map-layer/map-layer-update';
 import { animationCreate } from './animation/animation-create';
@@ -155,6 +157,8 @@ const documentCommands: readonly CommandDef[] = [
   mapLayerUpdate,
   mapLayerDelete,
   mapLayerReorder,
+  mapLayerDuplicate,
+  mapLayerMerge,
   mapPaint,
   mapErase,
   mapFill,

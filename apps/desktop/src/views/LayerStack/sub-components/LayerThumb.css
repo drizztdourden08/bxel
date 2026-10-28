@@ -1,0 +1,29 @@
+/* @layer renderer-app @kind style */
+.layer-thumb {
+  display: block;
+  flex: none;
+  inline-size: var(--size-24);
+  block-size: var(--size-24);
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
+}
+
+.layer-thumb__canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.layer-thumb[data-size='16'] {
+  inline-size: var(--size-16);
+  block-size: var(--size-16);
+}
+
+.layer-thumb[data-size='40'] {
+  inline-size: var(--size-40);
+  block-size: var(--size-40);
+}
