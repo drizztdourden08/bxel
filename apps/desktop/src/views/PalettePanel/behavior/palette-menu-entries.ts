@@ -10,14 +10,14 @@ import { paletteSlots } from '../../../editor/palette-slots';
 import type { PaletteSlot } from '../../../editor/palette-slots.type';
 import { DIALOG_COMMAND } from '../../../keymap/dialog-command-id.constants';
 import { COMMAND_ID } from '../../../keymap/keymap.constants';
-import { currentSurface } from '../../../surface/current-surface';
 import { PANEL_COMMAND } from '../../../palette-panel/palette-panel.constants';
 import { selectedIndices } from '../../../palette-panel/selected-indices';
+import { currentContext } from '../../../ui-context/current-context';
 import { useToolStore } from '../../../stores/useToolStore';
 import { PALETTE_MENU, SWATCH_SELECTOR } from '../PalettePanel.constants';
 import { POSITIONS } from './palette-menu-entries.constants';
 
-const pixelSurface = (): boolean => ['sprite', 'tile'].includes(currentSurface());
+const pixelSurface = (): boolean => currentContext().surface === 'pixel';
 
 const heldIndex = (position: number): number | undefined => {
   const slot = HELD_SLOTS[position - 1];

@@ -1,13 +1,9 @@
 /* @layer renderer-app @kind types */
-import type { AssetKind } from '@bxel/document';
-import type { TileEditMode } from '../stores/tilemap-store.type';
 import type { TileMode } from '../stores/view-store.type';
-import type { Surface } from '../surface/surface.type';
+import type { BxelContext } from '../ui-context/bxel-context.type';
 
 interface EditorMenuState {
-  hasDocument: boolean;
-  canUndo: boolean;
-  canRedo: boolean;
+  context: BxelContext;
   grid: boolean;
   gridMajor: boolean;
   gridTile: boolean;
@@ -16,11 +12,7 @@ interface EditorMenuState {
   tiled: TileMode;
   symmetryX: boolean;
   symmetryY: boolean;
-  surface: Surface;
-  kind: AssetKind | null;
-  isolated: boolean;
   settings: string;
-  tileMode: TileEditMode;
   collision: boolean;
   terrainBrush: boolean;
   animateTiles: boolean;

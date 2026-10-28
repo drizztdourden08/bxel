@@ -27,6 +27,7 @@ const CANVAS_MENU = {
   axisCentre: 'Centre the mirror axes',
   symmetryOff: 'Both symmetries are off.',
   canvas: 'Canvas',
+  frameSize: 'Frame sprite size',
   transform: 'Transform',
   selection: 'Selection',
   backToPlace: 'Back to Place Tile',

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
-import { WIDGET_CONTEXT } from '../surface/surface.constants';
+import { WIDGET_CONTEXT } from '../ui-context/widget-context.constants';
 import { Toolbar } from '@drizztdourden08/tessera';
 import { OPTIONS_TEXT, useOptionsItems } from '../views/OptionsToolbar';
 

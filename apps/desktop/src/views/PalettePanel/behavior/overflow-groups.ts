@@ -4,7 +4,9 @@ import { openAssetSettings } from '../../../config-entry/open-asset-settings';
 import { SWATCH_SIZES } from '../../../palette-view/palette-view.constants';
 import { OVERFLOW_TEXT, PALETTE_MENU } from '../PalettePanel.constants';
 import type { PanelModel } from '../PalettePanel.type';
+import { PANEL_COMMAND } from '../../../palette-panel/palette-panel.constants';
 import { addColour } from './add-colour';
+import { ruledOff } from './ruled-off';
 import { openRampBuilder } from './open-ramp-builder';
 import { openSheet } from './open-sheet';
 import { selectUnused } from './select-unused';
@@ -17,8 +19,8 @@ const overflowGroups = (panel: PanelModel): MenuGroup[] => {
     {
       id: 'make',
       items: [
-        { id: 'add', label: PALETTE_MENU.addColour, icon: 'plus', disabled: lock.locked || full, onSelect: () => addColour(panel) },
-        { id: 'ramp', label: PALETTE_MENU.newRamp, icon: 'pixel-shade', disabled: lock.locked, onSelect: () => openRampBuilder(panel) },
+        { id: 'add', label: PALETTE_MENU.addColour, icon: 'plus', disabled: lock.locked || full || ruledOff(PANEL_COMMAND.add), onSelect: () => addColour(panel) },
+        { id: 'ramp', label: PALETTE_MENU.newRamp, icon: 'pixel-shade', disabled: lock.locked || ruledOff(PANEL_COMMAND.ramp), onSelect: () => openRampBuilder(panel) },
         { id: 'sort', label: OVERFLOW_TEXT.sort, children: sortItems(panel, 'ascending') },
         { id: 'sort-down', label: OVERFLOW_TEXT.sortDown, children: sortItems(panel, 'descending') },
       ],
@@ -27,8 +29,8 @@ const overflowGroups = (panel: PanelModel): MenuGroup[] => {
       id: 'clean',
       items: [
         { id: 'find-unused', label: OVERFLOW_TEXT.findUnused, onSelect: () => selectUnused(panel) },
-        { id: 'remove-unused', label: PALETTE_MENU.removeUnused, disabled: lock.locked, onSelect: () => openSheet(panel, 'unused') },
-        { id: 'unite', label: PALETTE_MENU.unite, disabled: lock.locked || panel.duplicates.length === 0, onSelect: () => openSheet(panel, 'duplicates') },
+        { id: 'remove-unused', label: PALETTE_MENU.removeUnused, disabled: lock.locked || ruledOff(PANEL_COMMAND.unused), onSelect: () => openSheet(panel, 'unused') },
+        { id: 'unite', label: PALETTE_MENU.unite, disabled: lock.locked || panel.duplicates.length === 0 || ruledOff(PANEL_COMMAND.duplicates), onSelect: () => openSheet(panel, 'duplicates') },
       ],
     },
     {

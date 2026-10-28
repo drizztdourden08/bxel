@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
-import { useSpriteStore } from '../stores/useSpriteStore';
-import { useTilemapStore } from '../stores/useTilemapStore';
+import { currentContext } from '../ui-context/current-context';
 
-const inMapPlace = (): boolean => useSpriteStore.getState().mode === 'tilemap' && useTilemapStore.getState().editMode === 'place';
+const inMapPlace = (): boolean => currentContext().surface === 'map';
 
 export { inMapPlace };
