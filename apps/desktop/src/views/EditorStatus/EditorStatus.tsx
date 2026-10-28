@@ -7,12 +7,14 @@ import { useActiveAsset } from '../../hooks/useActiveAsset';
 import { useActiveDocument } from '../../hooks/useActiveDocument';
 import { usePaletteSlots } from '../../hooks/usePaletteSlots';
 import { useReadoutStore } from '../../stores/useReadoutStore';
+import { useViewFeedStore } from '../../stores/useViewFeedStore';
 import { useFileStore } from '../../stores/useFileStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { useTilemapStore } from '../../stores/useTilemapStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { ActionHint } from '../ActionHint';
 import { canvasHelp } from './behavior/canvas-help';
+import { useStatusExtras } from './behavior/useStatusExtras';
 import { statusMenuEntries } from './behavior/status-menu-entries';
 import { STATUS_MENU } from './EditorStatus.constants';
 import './EditorStatus.css';
@@ -21,7 +23,7 @@ const EditorStatus = () => {
   const view = useActiveDocument();
   const slots = usePaletteSlots();
   const pointer = useReadoutStore((state) => state.pointer);
-  const zoom = useReadoutStore((state) => state.zoom);
+  const zoom = useViewFeedStore((state) => state.view?.zoom ?? 1);
   const foreground = useToolStore((state) => state.foreground);
   const background = useToolStore((state) => state.background);
   const tool = useToolStore((state) => state.tool);
@@ -29,6 +31,7 @@ const EditorStatus = () => {
   const tileMode = useTilemapStore((state) => state.editMode);
   const recovered = useFileStore((state) => (view ? view.state.documentId in state.recovered : false));
   const colours = [slots[foreground] ?? null, slots[background] ?? null] as const;
+  const extras = useStatusExtras();
   const asset = useActiveAsset();
   const clean = asset ? !asset.dirty : true;
   useContextMenu(STATUS_MENU.zone, { label: STATUS_MENU.label, entries: statusMenuEntries });
@@ -38,7 +41,7 @@ const EditorStatus = () => {
         <StatusBar
           className="editor-status__bar"
           label={STATUS_TEXT.region}
-          items={statusItems({ pointer, zoom, colours, clean, recovered })}
+          items={statusItems({ pointer, zoom, colours, clean, recovered, extras })}
           onItemContextMenu={(item, event) => contextMenuHandler(STATUS_MENU.zone, { item })(event)}
         />
       </Box>

@@ -2,14 +2,13 @@
 import { TOOLS } from '../../src/editor/tools.constants';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import {
-  BACK_HINT, MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT, TILED_HINT, TILED_HINTS, VIEW_HINTS, ZOOM_ACTUAL_HINT,
+  MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAUSE_HINT, PLAY_HINT, TILED_HINT, TILED_HINTS, VIEW_HINTS, ZOOM_ACTUAL_HINT,
   ZOOM_FIT_HINT,
 } from '../../src/views/CanvasToolbar/CanvasToolbar.constants';
 import {
   BRUSH_SHAPE_HINTS, BRUSH_SIZE_HINT, EXPAND_HINT, FILL_HINTS, FILLED_HINT, NEIGHBOUR_HINTS, PIXEL_PERFECT_HINT, SELECT_MODE_HINTS, SELECT_VARIANT_HINTS,
   SHAPE_HINTS, SHRINK_HINT,
 } from '../../src/views/OptionsToolbar/OptionsToolbar.constants';
-import { SCOPE_HINTS } from '../../src/views/ScopeBar/ScopeBar.constants';
 import { LAYER_ACTIONS, LAYER_TOGGLES } from '../../src/views/LayersPanel/LayersPanel.constants';
 import { chipHint, CONFIG_HINT, HELD_CHIPS, swatchHint } from '../../src/views/PalettePanel/PalettePanel.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
@@ -69,7 +68,6 @@ const toolbarHints = (): HintSpec[] => [
   ...Object.values(SHAPE_HINTS),
   ...Object.values(SELECT_VARIANT_HINTS),
   ...Object.values(SELECT_MODE_HINTS),
-  ...Object.values(SCOPE_HINTS),
   ...Object.values(VIEW_HINTS),
   ...Object.values(TILED_HINTS),
   TILED_HINT,
@@ -77,8 +75,6 @@ const toolbarHints = (): HintSpec[] => [
   ZOOM_FIT_HINT, ZOOM_ACTUAL_HINT,
   MIRROR_X_HINT,
   MIRROR_Y_HINT,
-  BACK_HINT,
-  PAINT_ALL_HINT,
   BRUSH_SIZE_HINT,
   PIXEL_PERFECT_HINT,
   FILLED_HINT,

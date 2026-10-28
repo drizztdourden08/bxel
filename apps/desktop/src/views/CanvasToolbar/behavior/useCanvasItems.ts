@@ -5,7 +5,6 @@ import { hasPart } from '../../../surface/has-part';
 import { GROUP_IDS } from '../CanvasToolbar.constants';
 import { canvasGroups } from './canvas-groups';
 import { usePlaybackItems } from './usePlaybackItems';
-import { useScopeItems } from './useScopeItems';
 import { useSymmetryItems } from './useSymmetryItems';
 import { useTransformItems } from './useTransformItems';
 import { useViewItems } from './useViewItems';
@@ -17,7 +16,6 @@ const useCanvasItems = (): ToolbarItem[] => {
   const guides = hasPart(surface, 'guides');
   const view = useViewItems().filter((item) => (tiled || item.id !== 'tiled') && (guides || item.id !== 'guides'));
   return canvasGroups(surface, [
-    { id: GROUP_IDS.scope, part: null, items: useScopeItems() },
     { id: GROUP_IDS.symmetry, part: 'symmetry', items: useSymmetryItems() },
     { id: GROUP_IDS.view, part: 'view', items: view },
     { id: GROUP_IDS.playback, part: 'playback', items: usePlaybackItems() },

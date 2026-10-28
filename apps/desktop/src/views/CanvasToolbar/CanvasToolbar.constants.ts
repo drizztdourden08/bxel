@@ -1,30 +1,15 @@
 /* @layer renderer-app @kind constants */
 import type { IconName } from '@drizztdourden08/tessera';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
-import { SHEET_COMMAND } from '../../keymap/sheet-command-id.constants';
 import type { TileMode, ViewToggle } from '../../stores/view-store.type';
 import type { HintSpec } from '../ActionHint';
 
 const CANVAS_TEXT = {
   region: 'Canvas',
-  backCaption: 'Back',
-  paintAllCaption: 'Paint all',
   fitCaption: 'Fit',
   actualCaption: '1:1',
   tiledOptions: 'Tiled preview',
 } as const;
-
-const BACK_HINT: HintSpec = {
-  name: 'Back to sheet',
-  description: 'Leave this sprite and return to the whole sheet.',
-  shortcuts: [{ command: SHEET_COMMAND.back }],
-};
-
-const PAINT_ALL_HINT: HintSpec = {
-  name: 'Paint all selected',
-  description: 'Strokes and fills land on every selected sprite at once.',
-  shortcuts: [{ command: SHEET_COMMAND.broadcast }],
-};
 
 const MIRROR_X_HINT: HintSpec = {
   name: 'Mirror X',
@@ -116,7 +101,6 @@ const ZOOM_ACTUAL_HINT: HintSpec = {
 };
 
 const GROUP_IDS = {
-  scope: 'scope',
   symmetry: 'symmetry',
   view: 'view',
   playback: 'playback',
@@ -125,6 +109,6 @@ const GROUP_IDS = {
 } as const;
 
 export {
-  BACK_HINT, CANVAS_TEXT, GROUP_IDS, MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT,
+  CANVAS_TEXT, GROUP_IDS, MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAUSE_HINT, PLAY_HINT,
   TILED_HINT, TILED_HINTS, VIEW_HINTS, VIEW_ICONS, VIEW_TOGGLES, ZOOM_ACTUAL_HINT, ZOOM_FIT_HINT,
 };

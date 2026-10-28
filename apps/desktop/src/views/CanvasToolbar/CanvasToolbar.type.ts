@@ -7,12 +7,6 @@ interface CanvasToolbarProps {
   slot: ToolbarSlot;
 }
 
-interface ScopeModel {
-  isolated: boolean;
-  broadcast: boolean;
-  canBroadcast: boolean;
-}
-
 interface CanvasGroup {
   id: string;
   part: SurfacePart | null;
@@ -29,4 +23,4 @@ interface TransformAction {
 
 type TransformKeys = Readonly<Record<string, readonly ShortcutKey[] | undefined>>;
 
-export type { CanvasGroup, CanvasToolbarProps, ScopeModel, TransformAction, TransformKeys };
+export type { CanvasGroup, CanvasToolbarProps, TransformAction, TransformKeys };

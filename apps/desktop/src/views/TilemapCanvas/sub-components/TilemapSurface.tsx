@@ -5,6 +5,7 @@ import { Box } from '@drizztdourden08/tessera';
 import { useAssetLook } from '../../../asset-view/useAssetLook';
 import { useCanvasLook } from '../../../canvas-look/useCanvasLook';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
+import { useReadoutStore } from '../../../stores/useReadoutStore';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { useViewStore } from '../../../stores/useViewStore';
@@ -68,6 +69,7 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
         onView={feedView}
         onPointerPixel={(pixel) => {
           keys.onPointerPixel();
+          useReadoutStore.getState().setPointer(pixel);
           gesture.hover(pixel);
         }}
         onPointerDown={gesture.down}
