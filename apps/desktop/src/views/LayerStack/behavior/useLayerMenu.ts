@@ -6,15 +6,11 @@ import { menuTarget } from '../../../context-menu/menu-target';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { LAYER_MENU_TEXT } from '../LayerStack.constants';
 import type { LayerStackModel } from '../LayerStack.type';
-import type { PickHow } from './pick-layer';
+import type { PickHow } from './pick-layer.type';
 import { layerMenuEntries } from './layer-menu-entries';
 
 const rowIdOf = (context: ContextMenuContext): string | undefined => menuTarget(context, LAYER_MENU_TEXT.row)?.dataset.layerId;
 
-/**
- * The right click menu of the rows. A row that is not picked becomes the pick first; a row that is picked keeps the
- * pick, so the commands of the menu act on all picked rows.
- */
 const useLayerMenu = (model: LayerStackModel, picked: readonly string[], pick: (id: string, how: PickHow) => void): void => {
   const latest = useRef({ model, picked, pick });
   useEffect(() => {

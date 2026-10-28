@@ -13,4 +13,10 @@ interface CommandLayers {
   count: number;
 }
 
-export type { CommandLayers };
+interface LayerSource {
+  layers: readonly { id: string; visible: boolean; locked: boolean; lockTransparency?: boolean }[];
+  active: string;
+  actions: LayerActions;
+}
+
+export type { CommandLayers, LayerSource };

@@ -4,7 +4,6 @@ import { currentMap } from './current-map';
 import { flagLabel } from './flag-label';
 import { updateMapLayers } from './update-map-layers';
 
-/** Shift on the eye hides every other map layer (or shows them all); Alt on the lock locks them (or unlocks them all). */
 const setOtherMapLayers = (layerId: string, flag: LayerFlag): void => {
   const others = currentMap()?.tilemap.layers.filter((layer) => layer.id !== layerId) ?? [];
   if (others.length === 0) return;

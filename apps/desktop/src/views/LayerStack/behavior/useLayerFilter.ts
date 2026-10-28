@@ -4,7 +4,6 @@ import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import { FILTER_FROM_ROWS } from '../LayerStack.constants';
 import type { LayerFilterState, LayerRowModel } from '../LayerStack.type';
 
-/** The rows left after the filter by name and colour tag. The filter only exists once the list is long. */
 const useLayerFilter = (rows: readonly LayerRowModel[]): LayerFilterState => {
   const text = useLayerViewStore((state) => state.filter);
   const colour = useLayerViewStore((state) => state.colourFilter);

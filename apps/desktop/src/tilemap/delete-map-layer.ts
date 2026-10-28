@@ -6,7 +6,6 @@ import { mapLayerStep } from './map-layer-steps';
 import { runMap } from './run-map';
 import { TILE_LABEL } from './tilemap.constants';
 
-/** Deletes the picked map layers, or the active one, in one undo step. */
 const deleteMapLayer = (): boolean => {
   const target = currentMap();
   if (!target) return false;

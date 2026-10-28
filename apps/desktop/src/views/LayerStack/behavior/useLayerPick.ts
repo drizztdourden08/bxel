@@ -3,14 +3,9 @@ import { useCallback, useMemo } from 'react';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import type { LayerStackModel } from '../LayerStack.type';
 import { pickLayer } from './pick-layer';
-import type { PickHow } from './pick-layer';
+import type { PickHow } from './pick-layer.type';
+import type { LayerPick } from './useLayerPick.type';
 
-interface LayerPick {
-  picked: readonly string[];
-  pick: (id: string, how: PickHow) => void;
-}
-
-/** The rows picked in the list, and what a click on a row does to the pick. */
 const useLayerPick = (model: LayerStackModel): LayerPick => {
   const stored = useLayerViewStore((state) => state.selected);
   const { rows, activeId, actions } = model;
@@ -31,4 +26,3 @@ const useLayerPick = (model: LayerStackModel): LayerPick => {
 };
 
 export { useLayerPick };
-export type { LayerPick };

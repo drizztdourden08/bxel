@@ -4,7 +4,6 @@ import { LAYER_THUMB_SIZES } from '../../../stores/layer-view-store.constants';
 import type { LayerThumbSize } from '../../../stores/layer-view-store.type';
 import { LAYER_STACK_TEXT, LAYER_THUMB_TEXT } from '../LayerStack.constants';
 
-/** The view menu of the layer list: how large the thumbnails are. */
 const viewGroups = (current: LayerThumbSize, pick: (size: LayerThumbSize) => void): MenuGroup[] => [
   {
     id: 'thumbs',

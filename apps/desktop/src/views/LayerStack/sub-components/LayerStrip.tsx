@@ -6,7 +6,6 @@ import type { LayerStripProps } from '../LayerStack.type';
 import { LayerColours } from './LayerColours';
 import './LayerStrip.css';
 
-/** The settings of the picked layers: lock kind, colour tag, and for an animation whether a change reaches one frame or all. */
 const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
   const lead = model.rows.find((row) => row.id === (model.activeId ?? picked[0]));
   if (!lead || picked.length === 0) return null;

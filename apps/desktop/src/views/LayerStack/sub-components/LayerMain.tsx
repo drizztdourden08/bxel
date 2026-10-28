@@ -5,7 +5,6 @@ import { colourName } from '../behavior/colour-name';
 import type { LayerMainProps } from '../LayerStack.type';
 import { LayerThumb } from './LayerThumb';
 
-/** The part of a row that picks it: thumbnail, name and note. It is the one Tab stop of the row. */
 const LayerMain = ({ row, active, picked, tabbable, thumbSize, follow, onPick, onRename }: LayerMainProps) => (
   <Pressable
     className="layer-row__main"

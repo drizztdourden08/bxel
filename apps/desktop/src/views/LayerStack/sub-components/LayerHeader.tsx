@@ -4,7 +4,6 @@ import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerHeaderProps } from '../LayerStack.type';
 import { viewGroups } from '../behavior/view-groups';
 
-/** Names what the list belongs to, how many layers it holds, and holds the view menu and the map picker. */
 const LayerHeader = ({ model, shown, thumbSize, onThumbSize }: LayerHeaderProps) => {
   const total = model.rows.length;
   const caption = shown < total ? LAYER_STACK_TEXT.shown(shown, total) : LAYER_STACK_TEXT.count(total);

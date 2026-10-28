@@ -1,7 +1,5 @@
 /* @layer renderer-app @kind style */
 .layer-row {
-  --layer-tag: transparent;
-
   position: relative;
   display: flex;
   align-items: center;
@@ -15,7 +13,7 @@
   transition: background var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
 }
 
-.layer-row::before {
+.layer-row[data-tagged='yes']::before {
   content: '';
   position: absolute;
   inset-block: var(--size-4);

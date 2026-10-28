@@ -2,7 +2,6 @@
 import type { EditorTarget } from '../../../editor/editor.type';
 import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 
-/** Names what the list belongs to: a sprite, a frame of an animation, or a tile. */
 const ownerOf = ({ sprite, animation }: EditorTarget): string => {
   if (animation) {
     const index = animation.animation.frames.findIndex((frame) => frame.id === animation.frame.id);

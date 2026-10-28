@@ -2,14 +2,8 @@
 import type { KeyboardEvent, RefObject } from 'react';
 import { REORDER_ITEM_SELECTOR, reorderStep } from '@drizztdourden08/tessera';
 import { LAYER_FOCUS_KEYS } from '../LayerStack.constants';
+import type { LayerKeysInput } from './layer-keys.type';
 import { mainButton } from './main-button';
-
-interface LayerKeysInput {
-  total: number;
-  movable: boolean;
-  move: (from: number, to: number) => void;
-  extend: (to: number) => void;
-}
 
 const rowOf = (target: EventTarget): HTMLElement | null =>
   target instanceof HTMLElement ? target.closest<HTMLElement>('[data-reorder-index]') : null;
@@ -26,7 +20,6 @@ const focusRow = (listRef: RefObject<HTMLElement | null>, index: number): void =
   mainButton(listRef.current?.querySelectorAll<HTMLElement>(REORDER_ITEM_SELECTOR)[index])?.focus();
 };
 
-/** The keys of the layer list: arrows and Home and End move the focus, Shift extends the pick, Alt moves the row. */
 const layerKeys = (listRef: RefObject<HTMLElement | null>, { total, movable, move, extend }: LayerKeysInput) =>
   (event: KeyboardEvent<HTMLElement>): void => {
     const row = rowOf(event.target);

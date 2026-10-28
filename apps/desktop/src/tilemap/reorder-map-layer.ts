@@ -5,7 +5,6 @@ import { mapLayerStep } from './map-layer-steps';
 import { runMap } from './run-map';
 import { TILE_LABEL } from './tilemap.constants';
 
-/** Moves a map layer between list positions, counted from the top row as the list shows them. */
 const reorderMapLayer = (from: number, to: number): boolean => {
   const target = currentMap();
   const { layers = [] } = target?.tilemap ?? {};

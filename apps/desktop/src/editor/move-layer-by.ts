@@ -1,27 +1,14 @@
 /* @layer renderer-app @kind logic */
 import { currentTarget } from './current-target';
+import { layerPosition } from './layer-position';
 import { moveLayer } from './move-layer';
 
 const moveLayerBy = (direction: 'up' | 'down', layerId?: string): void => {
   const target = currentTarget();
-  if (!target) return;
-  const { layers } = target.sprite;
-  const at = layers.findIndex((each) => each.id === (layerId ?? target.layerId));
-  if (at < 0) return;
-  const from = layers.length - 1 - at;
-  const to = direction === 'up' ? from - 1 : from + 1;
-  if (to >= 0 && to < layers.length) moveLayer(from, to);
+  const place = target ? layerPosition(target.sprite.layers, layerId ?? target.layerId) : null;
+  if (!place) return;
+  const to = direction === 'up' ? place.from - 1 : place.from + 1;
+  if (to >= 0 && to < place.total) moveLayer(place.from, to);
 };
 
-const moveLayerToEdge = (edge: 'top' | 'bottom', layerId?: string): void => {
-  const target = currentTarget();
-  if (!target) return;
-  const { layers } = target.sprite;
-  const at = layers.findIndex((each) => each.id === (layerId ?? target.layerId));
-  if (at < 0) return;
-  const from = layers.length - 1 - at;
-  const to = edge === 'top' ? 0 : layers.length - 1;
-  if (from !== to) moveLayer(from, to);
-};
-
-export { moveLayerBy, moveLayerToEdge };
+export { moveLayerBy };

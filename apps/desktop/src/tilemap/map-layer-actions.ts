@@ -11,11 +11,11 @@ import { reorderMapLayer } from './reorder-map-layer';
 import { setOtherMapLayers } from './set-other-map-layers';
 import { soloMapLayer } from './solo-map-layer';
 import { TILE_LABEL } from './tilemap.constants';
-import { tryRenameMapLayer, updateMapLayers } from './update-map-layers';
+import { tryRenameMapLayer } from './try-rename-map-layer';
+import { updateMapLayers } from './update-map-layers';
 
 const asIds = (ids: readonly string[]): MapLayerId[] => ids.map((id) => id as MapLayerId);
 
-/** The layer actions of the open tilemap. A map layer has a pixels lock but no transparency lock. */
 const mapLayerActions: LayerActions = {
   activate: (id) => useTilemapStore.getState().setLayer(id as MapLayerId),
   setFlag: (ids, flag, value) => void updateMapLayers(asIds(ids), { [flag]: value }, flagLabel(flag)),

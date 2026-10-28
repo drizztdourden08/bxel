@@ -4,10 +4,6 @@ import { Field, TextInput } from '@drizztdourden08/tessera';
 import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerNameProps } from '../LayerStack.type';
 
-/**
- * The name of a row while it is renamed in place. Enter and leaving the field keep the name, Escape drops it.
- * A name the engine refuses shows its reason under the field and keeps the field open.
- */
 const LayerName = ({ name, onRename, onDone }: LayerNameProps) => {
   const [draft, setDraft] = useState(name);
   const [error, setError] = useState<string | null>(null);

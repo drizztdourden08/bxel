@@ -2,20 +2,10 @@
 import { useEffect, useRef, useState } from 'react';
 import type { LayerFlag } from '../../../editor/layer-flag.type';
 import type { LayerRowModel, LayerStackModel, LayerSweepView } from '../LayerStack.type';
-
-interface Sweep {
-  flag: LayerFlag;
-  value: boolean;
-  ids: readonly string[];
-}
+import type { Sweep } from './useLayerSweep.type';
 
 const isOn = (row: LayerRowModel, flag: LayerFlag): boolean => (flag === 'visible' ? row.visible && !row.mixedVisible : row.lock !== 'none');
 
-/**
- * The eye and lock columns. A press on a toggle takes the opposite of its state, and dragging down the column
- * gives every row passed the same state. Letting go commits all of them as one undo step.
- * Alt on the eye shows only that layer, Shift on the eye hides the others, Alt on the lock locks the others.
- */
 const useLayerSweep = (model: LayerStackModel, picked: readonly string[]): LayerSweepView => {
   const [sweep, setSweep] = useState<Sweep | null>(null);
   const latest = useRef<{ sweep: Sweep | null; model: LayerStackModel }>({ sweep, model });

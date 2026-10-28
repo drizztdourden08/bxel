@@ -3,14 +3,11 @@ import { useEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 import type { LayerThumbSource } from '../LayerStack.type';
 import { THUMB_THROTTLE_MS } from '../LayerStack.constants';
-import { livePaint } from '../../../editor/live-paint';
-import { layerThumbDeps, layerThumbImageOf } from './layer-thumb-image-of';
+import { useLivePaintStore } from '../../../stores/useLivePaintStore';
+import { layerThumbDeps } from './layer-thumb-deps';
+import { layerThumbImageOf } from './layer-thumb-image-of';
 import { useLivePaintTick } from './useLivePaintTick';
 
-/**
- * Draws a layer thumbnail on a canvas when the pixels of that layer change, and no more than once every
- * THUMB_THROTTLE_MS, so painting on one layer never redraws the others and a fast stroke stays cheap.
- */
 const useLayerThumb = (source: LayerThumbSource, follow: boolean): RefObject<HTMLCanvasElement | null> => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
   const drawn = useRef(0);
@@ -26,7 +23,7 @@ const useLayerThumb = (source: LayerThumbSource, follow: boolean): RefObject<HTM
     let frame = 0;
     const timer = window.setTimeout(() => {
       frame = window.requestAnimationFrame(() => {
-        const image = layerThumbImageOf(latest.current, follow ? livePaint() : null);
+        const image = layerThumbImageOf(latest.current, follow ? useLivePaintStore.getState().session : null);
         element.width = image.width;
         element.height = image.height;
         element.getContext('2d')?.putImageData(new ImageData(image.rgba, image.width, image.height), 0, 0);

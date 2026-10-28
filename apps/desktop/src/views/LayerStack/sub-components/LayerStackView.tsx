@@ -17,7 +17,6 @@ import { LayerNoMatch } from './LayerNoMatch';
 import { LayerStrip } from './LayerStrip';
 import './LayerStackView.css';
 
-/** The layer list of a sprite, a tile, an animation frame, a tilemap or a sheet: owner line, settings strip, filter, rows, bar. */
 const LayerStackView = ({ model, thumbSize, onThumbSize }: LayerStackViewProps) => {
   const { picked, pick } = useLayerPick(model);
   const filter = useLayerFilter(model.rows);

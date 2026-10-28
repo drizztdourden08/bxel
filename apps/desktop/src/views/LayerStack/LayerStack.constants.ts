@@ -5,6 +5,7 @@ import type { LockKind } from '../../editor/layer-lock.type';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import type { LayerThumbSize } from '../../stores/layer-view-store.type';
 import type { HintSpec } from '../ActionHint';
+import type { MapChoice } from './LayerStack.type';
 
 const LAYER_STACK_TEXT = {
   list: 'Layers',
@@ -98,8 +99,6 @@ const LAYER_FLAG_HINTS: Readonly<Record<LayerFlag, HintSpec>> = {
   },
 };
 
-const LAYER_SWEEP_LABEL: Readonly<Record<LayerFlag, string>> = { visible: 'Show or hide layers', locked: 'Lock or unlock layers' };
-
 const LAYER_FOCUS_KEYS: Readonly<Record<string, 'first' | 'last'>> = { Home: 'first', End: 'last' };
 
 const LAYER_MOVE_KEYS = 'Alt+ArrowUp Alt+ArrowDown Shift+ArrowUp Shift+ArrowDown';
@@ -112,6 +111,15 @@ const LAYER_THUMB_TEXT: Readonly<Record<LayerThumbSize, string>> = {
 };
 
 const FILTER_FROM_ROWS = 8;
+
+const NO_MAPS: readonly MapChoice[] = [];
+
+const LAYER_REASONS = {
+  last: 'A list keeps at least one layer.',
+  bottom: 'There is no layer below to merge into.',
+} as const;
+
+const CUSTOM_COLOUR = 'custom colour';
 
 const THUMB_THROTTLE_MS = 80;
 
@@ -128,6 +136,6 @@ const LAYER_BAR_HINTS = {
 } satisfies Record<string, HintSpec>;
 
 export {
-  FILTER_FROM_ROWS, LAYER_BAR_HINTS, LAYER_FLAG_HINTS, LAYER_FLAG_ICONS, LAYER_FOCUS_KEYS, LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_MENU_TEXT, LAYER_MOVE_KEYS, LAYER_SCOPES,
-  LAYER_STACK_TEXT, LAYER_SWEEP_LABEL, LAYER_THUMB_TEXT, THUMB_THROTTLE_MS,
+  CUSTOM_COLOUR, FILTER_FROM_ROWS, LAYER_REASONS, NO_MAPS, LAYER_BAR_HINTS, LAYER_FLAG_HINTS, LAYER_FLAG_ICONS, LAYER_FOCUS_KEYS, LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_MENU_TEXT, LAYER_MOVE_KEYS, LAYER_SCOPES,
+  LAYER_STACK_TEXT, LAYER_THUMB_TEXT, THUMB_THROTTLE_MS,
 };

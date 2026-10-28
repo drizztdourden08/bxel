@@ -6,7 +6,7 @@ import type { LayerActions } from '../../editor/layer-actions.type';
 import type { LayerFlag } from '../../editor/layer-flag.type';
 import type { LockKind } from '../../editor/layer-lock.type';
 import type { LayerScopeChip, LayerThumbSize } from '../../stores/layer-view-store.type';
-import type { PickHow } from './behavior/pick-layer';
+import type { PickHow } from './behavior/pick-layer.type';
 import type { HintSpec } from '../ActionHint';
 
 type LayerStackKind = 'sprite' | 'map' | 'sheet';
@@ -57,6 +57,13 @@ interface LayerStackModel {
   onMap: (id: string) => void;
   frames: number;
   actions: LayerActions;
+}
+
+interface ThumbDeps {
+  pixels: Uint8Array | Uint32Array | null | undefined;
+  bank: object | null;
+  width: number;
+  height: number;
 }
 
 interface LayerBarAction {
@@ -192,6 +199,6 @@ interface LayerMainProps {
 
 export type {
   LayerBarAction, LayerBarProps, LayerColoursProps, LayerFilterProps, LayerFilterState, LayerGripProps, LayerHeaderProps, LayerListProps, LayerMainProps,
-  LayerNameProps, LayerNoMatchProps, LayerRowModel, LayerRowProps, LayerSourceProps, LayerStackKind, LayerStackModel, LayerStackViewProps, LayerStripProps,
-  LayerSweepHandlers, LayerSweepView, LayerThumbProps, LayerThumbSource, LayerToggleProps, MapChoice, MapThumbSource, SpriteThumbSource,
+  LayerNameProps, LayerNoMatchProps, LayerRowModel, LayerRowProps, LayerSourceProps, LayerStackModel, LayerStackViewProps, LayerStripProps,
+  LayerSweepView, LayerThumbProps, LayerThumbSource, LayerToggleProps, MapChoice, ThumbDeps,
 };

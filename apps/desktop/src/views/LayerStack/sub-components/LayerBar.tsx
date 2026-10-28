@@ -7,7 +7,6 @@ import { LAYER_BAR_HINTS, LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerBarProps } from '../LayerStack.type';
 import './LayerBar.css';
 
-/** New (a split button), then Duplicate, Merge down and Delete. A button that cannot run says why in its hint. */
 const LayerBar = ({ model }: LayerBarProps) => (
   <Flex align="center" gap="xs" className="layer-bar">
     <ButtonGroup aria-label={LAYER_STACK_TEXT.newLayer} className="layer-bar__new">

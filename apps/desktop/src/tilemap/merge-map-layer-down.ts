@@ -6,7 +6,6 @@ import { mapLayerStep } from './map-layer-steps';
 import { readiedMap } from './readied-map';
 import { TILE_LABEL } from './tilemap.constants';
 
-/** Joins the active map layer into the one below it. Where both hold a tile, the top layer wins. */
 const mergeMapLayerDown = (): boolean => {
   const target = readiedMap();
   if (!target) return false;

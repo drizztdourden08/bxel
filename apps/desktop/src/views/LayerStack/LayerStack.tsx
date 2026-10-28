@@ -1,19 +1,10 @@
 /* @layer renderer-app @kind component */
 import { useSurface } from '../../hooks/useSurface';
 import { useLayerThumbSetting } from './behavior/useLayerThumbSetting';
-import { useMapLayerModel } from './behavior/useMapLayerModel';
-import { useSheetLayerModel } from './behavior/useSheetLayerModel';
-import { useSpriteLayerModel } from './behavior/useSpriteLayerModel';
-import type { LayerSourceProps } from './LayerStack.type';
-import { LayerStackView } from './sub-components/LayerStackView';
+import { MapLayers } from './sub-components/MapLayers';
+import { SheetLayers } from './sub-components/SheetLayers';
+import { SpriteLayers } from './sub-components/SpriteLayers';
 
-const SpriteLayers = (props: LayerSourceProps) => <LayerStackView model={useSpriteLayerModel()} {...props} />;
-
-const MapLayers = (props: LayerSourceProps) => <LayerStackView model={useMapLayerModel()} {...props} />;
-
-const SheetLayers = (props: LayerSourceProps) => <LayerStackView model={useSheetLayerModel()} {...props} />;
-
-/** The layers of whatever the editor shows: a sprite, a tile, an animation frame, a tilemap, or the layer names of a sheet. */
 const LayerStack = () => {
   const surface = useSurface();
   const thumbs = useLayerThumbSetting();

@@ -31,7 +31,6 @@ const colourItems = (row: LayerRowModel, args: { layerId: string }): ContextMenu
   })),
 ];
 
-/** The menu of a layer row, for a sprite or a tilemap. The clicked row has been made active before it opens. */
 const layerMenuEntries = (model: LayerStackModel, layerId: string | undefined): readonly ContextMenuEntry[] => {
   const { rows } = model;
   const at = rows.findIndex((row) => row.id === layerId);

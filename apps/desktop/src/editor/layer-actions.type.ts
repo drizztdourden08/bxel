@@ -2,7 +2,6 @@
 import type { LayerFlag } from './layer-flag.type';
 import type { LockKind } from './layer-lock.type';
 
-/** What the layer list and the layer commands can do to a sprite, a map or a sheet, by layer id. */
 interface LayerActions {
   activate: (id: string) => void;
   setFlag: (ids: readonly string[], flag: LayerFlag, value: boolean) => void;

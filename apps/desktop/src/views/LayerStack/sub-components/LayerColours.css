@@ -1,4 +1,0 @@
-/* @layer renderer-app @kind style */
-.layer-colours .color-swatch {
-  --swatch-size: var(--size-16);
-}

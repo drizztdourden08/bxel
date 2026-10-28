@@ -11,7 +11,6 @@ import { spriteScope } from './sprite-scope';
 const nearest = (kept: readonly LayerId[], all: readonly LayerId[], from: number): LayerId | undefined =>
   [...kept].sort((a, b) => Math.abs(all.indexOf(a) - from) - Math.abs(all.indexOf(b) - from) || all.indexOf(a) - all.indexOf(b))[0];
 
-/** Deletes the picked rows, or the active layer, in one undo step. */
 const deleteLayer = (): void => {
   const target = currentTarget();
   if (!target) return;

@@ -2,8 +2,8 @@
 .layer-thumb {
   display: block;
   flex: none;
-  inline-size: var(--layer-thumb);
-  block-size: var(--layer-thumb);
+  inline-size: var(--size-24);
+  block-size: var(--size-24);
   overflow: hidden;
   border: var(--border-width-thin) solid var(--c-border);
   border-radius: var(--radius-sm);
@@ -16,4 +16,14 @@
   block-size: 100%;
   object-fit: contain;
   image-rendering: pixelated;
+}
+
+.layer-thumb[data-size='16'] {
+  inline-size: var(--size-16);
+  block-size: var(--size-16);
+}
+
+.layer-thumb[data-size='40'] {
+  inline-size: var(--size-40);
+  block-size: var(--size-40);
 }

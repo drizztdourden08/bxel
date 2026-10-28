@@ -4,9 +4,11 @@ import { commandArgs } from '../context-menu/command-args';
 import type { LayerArgs, LayerColourArgs, LayerLockArgs } from '../context-menu/menu-args.type';
 import { commandLayers } from '../editor/command-layers';
 import type { CommandLayers } from '../editor/command-layers.type';
-import { moveLayerBy, moveLayerToEdge } from '../editor/move-layer-by';
+import { moveLayerBy } from '../editor/move-layer-by';
+import { moveLayerToEdge } from '../editor/move-layer-to-edge';
 import { inMapPlace } from '../tilemap/in-map-place';
-import { moveMapLayer, moveMapLayerToEdge } from '../tilemap/move-map-layer';
+import { moveMapLayer } from '../tilemap/move-map-layer';
+import { moveMapLayerToEdge } from '../tilemap/move-map-layer-to-edge';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
@@ -15,7 +17,6 @@ const group = COMMAND_GROUP.layers;
 
 const layerOf = (context: CommandContext | undefined): string | undefined => commandArgs<LayerArgs>(context).layerId;
 
-/** A command that acts on the layers it names, or on the picked or active ones, in whichever list is open. */
 const onLayers = (run: (now: CommandLayers, context: CommandContext | undefined) => void) => (context?: CommandContext): void => {
   const now = commandLayers(layerOf(context));
   if (now) run(now, context);
@@ -31,12 +32,11 @@ const moveToEdge = (edge: 'top' | 'bottom') => (context?: CommandContext): void 
   else moveLayerToEdge(edge, layerOf(context));
 };
 
-/** A key that works while the layer list has the focus, and never while a field is being typed in. */
 const inList = (chord: string) => ({ chord, zone: COMMAND_ZONE.layers, whileTyping: false });
 
 const LAYER_MENU_COMMANDS: readonly CommandDef[] = [
-  { id: 'layer.toggle_visible', label: 'Show or hide layer', group, ...inList('Shift+V'), run: onLayers((now) => now.actions.setFlag(now.ids, 'visible', !now.visible)) },
-  { id: 'layer.toggle_locked', label: 'Lock or unlock layer', group, ...inList('Shift+L'), run: onLayers((now) => now.actions.setLock(now.ids, now.lock === 'none' ? 'pixels' : 'none')) },
+  { id: 'layer.toggle_visible', label: 'Show or hide layer', group, ...inList('Alt+V'), run: onLayers((now) => now.actions.setFlag(now.ids, 'visible', !now.visible)) },
+  { id: 'layer.toggle_locked', label: 'Lock or unlock layer', group, ...inList('Alt+L'), run: onLayers((now) => now.actions.setLock(now.ids, now.lock === 'none' ? 'pixels' : 'none')) },
   {
     id: 'layer.set_lock',
     label: 'Set layer lock',
@@ -55,7 +55,7 @@ const LAYER_MENU_COMMANDS: readonly CommandDef[] = [
       if (colour !== undefined) now.actions.setColour(now.ids, colour);
     }),
   },
-  { id: 'layer.solo', label: 'Show only this layer', group, ...inList('Shift+S'), run: onLayers((now) => now.actions.solo(now.id)) },
+  { id: 'layer.solo', label: 'Show only this layer', group, ...inList('Alt+S'), run: onLayers((now) => now.actions.solo(now.id)) },
   { id: 'layer.show_all', label: 'Show all layers', group, run: onLayers((now) => now.actions.setFlag(now.all, 'visible', true)) },
   { id: 'layer.hide_others', label: 'Hide other layers', group, run: onLayers((now) => now.actions.setFlag(now.others, 'visible', false)) },
   { id: 'layer.lock_others', label: 'Lock other layers', group, run: onLayers((now) => now.actions.setFlag(now.others, 'locked', true)) },

@@ -8,7 +8,6 @@ import type { LayerListProps } from '../LayerStack.type';
 import { LayerRow } from './LayerRow';
 import './LayerList.css';
 
-/** The rows of the layers, top layer first, with one Tab stop, the arrow keys and drag to reorder. */
 const LayerList = ({ model, shown, filtered, picked, pick, thumbSize }: LayerListProps) => {
   const hintId = useId();
   const sweep = useLayerSweep(model, picked);

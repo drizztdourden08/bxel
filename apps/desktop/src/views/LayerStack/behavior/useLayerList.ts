@@ -3,19 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import type { FocusEvent } from 'react';
 import { REORDER_ITEM_SELECTOR, useMoveFocus, useReorderDrag } from '@drizztdourden08/tessera';
 import { LAYER_STACK_TEXT } from '../LayerStack.constants';
-import type { LayerStackModel } from '../LayerStack.type';
 import { layerKeys } from './layer-keys';
-import type { PickHow } from './pick-layer';
 import { tabbableLayer } from './tabbable-layer';
+import type { LayerListInput } from './useLayerList.type';
 
-interface LayerListInput {
-  model: LayerStackModel;
-  shown: LayerStackModel['rows'];
-  movable: boolean;
-  pick: (id: string, how: PickHow) => void;
-}
-
-/** Roving focus, the keys and the pointer drag of the layer list, and the announcement of a move. */
 const useLayerList = ({ model, shown, movable, pick }: LayerListInput) => {
   const listRef = useRef<HTMLElement>(null);
   const [focusedId, setFocusedId] = useState<string | null>(null);

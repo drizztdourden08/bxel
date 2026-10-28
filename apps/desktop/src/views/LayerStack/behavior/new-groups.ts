@@ -4,7 +4,6 @@ import { LAYER_TEXT } from '../../../editor/layer-text.constants';
 import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerStackModel } from '../LayerStack.type';
 
-/** The menu of the split New button: the ways to add a layer that the open file allows. */
 const newGroups = (model: LayerStackModel): MenuGroup[] => {
   const flat = model.kind === 'sprite';
   const visible = model.rows.some((row) => row.visible);

@@ -1,19 +1,19 @@
 /* @layer renderer-app @kind hook */
 import { useMemo } from 'react';
 import type { Sprite } from '@bxel/document';
-import { flagFields, lockFields } from '../../../editor/layer-lock';
+import { flagFields } from '../../../editor/flag-fields';
+import { lockFields } from '../../../editor/lock-fields';
 import { LAYER_LABEL } from '../../../editor/layer-text.constants';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
 import { listSprites } from '../../../sheet/list-sprites';
 import { sheetLayerRows } from '../../../sheet/sheet-layer-rows';
-import { tryUpdateSheetLayers, updateSheetLayers } from '../../../sheet/update-sheet-layers';
+import { tryUpdateSheetLayers } from '../../../sheet/try-update-sheet-layers';
+import { updateSheetLayers } from '../../../sheet/update-sheet-layers';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import { useSpriteStore } from '../../../stores/useSpriteStore';
-import { LAYER_STACK_TEXT } from '../LayerStack.constants';
+import { LAYER_STACK_TEXT, NO_MAPS } from '../LayerStack.constants';
 import type { LayerActions } from '../../../editor/layer-actions.type';
 import type { LayerRowModel, LayerStackModel } from '../LayerStack.type';
-
-const NO_MAPS: LayerStackModel['maps'] = [];
 
 const noop = (): void => undefined;
 
@@ -45,7 +45,6 @@ const rowOf = (row: ReturnType<typeof sheetLayerRows>[number]): LayerRowModel =>
   thumb: null,
 });
 
-/** The layer names of the picked sprites of a sheet, or of all sprites when none is picked. */
 const useSheetLayerModel = (): LayerStackModel => {
   const view = useActiveDocument();
   const picked = useSpriteStore((state) => state.selected);

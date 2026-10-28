@@ -4,7 +4,6 @@ import { ActionHint } from '../../ActionHint';
 import { LAYER_FLAG_HINTS, LAYER_FLAG_ICONS } from '../LayerStack.constants';
 import type { LayerToggleProps } from '../LayerStack.type';
 
-/** The eye or the lock of a row. Press and drag down the column to give many rows the same state. */
 const LayerToggle = ({ row, flag, sweep }: LayerToggleProps) => {
   const stored = flag === 'visible' ? row.visible && !row.mixedVisible : row.lock !== 'none';
   const on = sweep.pending(row.id, flag) ?? stored;

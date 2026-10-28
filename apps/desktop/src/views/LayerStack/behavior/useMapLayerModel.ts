@@ -1,14 +1,12 @@
 /* @layer renderer-app @kind hook */
 import { useMemo } from 'react';
 import type { TilemapId } from '@bxel/document';
-import { lockKindOf } from '../../../editor/layer-lock';
+import { lockKindOf } from '../../../editor/layer-lock-kind';
 import { useMapContext } from '../../../hooks/useMapContext';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { mapLayerActions } from '../../../tilemap/map-layer-actions';
-import { LAYER_STACK_TEXT } from '../LayerStack.constants';
+import { LAYER_STACK_TEXT, NO_MAPS } from '../LayerStack.constants';
 import type { LayerRowModel, LayerStackModel } from '../LayerStack.type';
-
-const NO_MAPS: LayerStackModel['maps'] = [];
 
 const onMap = (id: string): void => useTilemapStore.getState().setMap(id as TilemapId);
 

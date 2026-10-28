@@ -1,16 +1,15 @@
 /* @layer renderer-app @kind hook */
 import { useMemo } from 'react';
-import { frameSpread, layerItems } from '../../../editor/layer-items';
+import { frameSpread } from '../../../editor/frame-spread';
+import { layerItems } from '../../../editor/layer-items';
 import { spriteLayerActions } from '../../../editor/layer-actions';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import { useSpriteStore } from '../../../stores/useSpriteStore';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
-import { LAYER_STACK_TEXT } from '../LayerStack.constants';
+import { LAYER_STACK_TEXT, NO_MAPS } from '../LayerStack.constants';
 import type { LayerStackModel } from '../LayerStack.type';
 import { ownerOf } from './owner-of';
-
-const NO_MAPS: LayerStackModel['maps'] = [];
 
 const noop = (): void => undefined;
 

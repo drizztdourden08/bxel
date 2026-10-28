@@ -10,7 +10,6 @@ import { LayerName } from './LayerName';
 import { LayerToggle } from './LayerToggle';
 import './LayerRow.css';
 
-/** One layer: colour tag, eye, lock, thumbnail, name and note. The name turns into a field in place to rename. */
 const LayerRow = (props: LayerRowProps) => {
   const { row, index, total, active, picked, tabbable, movable, thumbSize, drag, sweep, model, onPick } = props;
   const renaming = useLayerViewStore((state) => state.renamingId === row.id);

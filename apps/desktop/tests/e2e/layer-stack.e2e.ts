@@ -75,7 +75,7 @@ describe('the layer list', () => {
     const { session } = rig();
     await layerRow(session, 'Layer 3').click();
     await session.page.getByRole('button', { name: 'Colour Rose', exact: true }).click();
-    await expect(session.page.getByRole('button', { name: /^Layer 3, Rose/ })).toBeVisible();
+    await session.page.getByRole('button', { name: /^Layer 3, Rose/ }).waitFor();
     await session.page.getByRole('radio', { name: 'Lock transparency' }).click();
     await expect.poll(() => pressed(session, 'Layer 3', 'Locked')).toBe('true');
     await session.page.getByRole('radio', { name: 'Unlocked' }).click();
