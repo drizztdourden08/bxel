@@ -19,7 +19,7 @@ const pendingLanding = (target: EditorTarget, pending: PendingEdit): MaskView | 
   if (!mask) return null;
   if (spec.kind === 'flip') return transformMask(mask, FLIP_ORIENTATION[spec.axis]);
   if (spec.kind === 'turn') return transformMask(mask, TURN_ORIENTATION[spec.direction]);
-  return spec.kind === 'move' ? shiftMask(mask, spec.offset) : null;
+  return shiftMask(mask, spec.offset);
 };
 
 export { pendingLanding };

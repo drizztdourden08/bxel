@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import { ERROR_CODE, defineCommand, fail, requireSprite, updateSprite } from '@bxel/document';
 import { SELECTION_COMMAND } from './selection-commands.constants';
-import { selectionDeleteSchema } from './schema/selection-save-schema';
+import { selectionDeleteSchema } from './schema/selection-delete-schema';
 
 const selectionDelete = defineCommand({
   name: SELECTION_COMMAND.selectionDelete,

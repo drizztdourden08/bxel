@@ -20,8 +20,8 @@ const CONNECTIVITY_DESCRIPTIONS: Readonly<Record<Connectivity, string>> = {
 };
 
 const SELECT_DESCRIPTIONS: Readonly<Record<SelectVariant, string>> = {
-  rect: 'Drag a rectangle around the pixels.',
-  ellipse: 'Drag an ellipse around the pixels.',
+  rect: 'Drag a rectangle around the pixels. Press Shift after you start for a square and Alt for drawing from the centre. Drag inside the selection to move its pixels.',
+  ellipse: 'Drag an ellipse around the pixels. Press Shift after you start for a circle and Alt for drawing from the centre.',
   lasso: 'Draw a free outline around the pixels.',
   polygon: 'Click each corner of the outline. Double click or press Enter to close it.',
   wand: 'Click a pixel to select the area of the same colour that touches it.',

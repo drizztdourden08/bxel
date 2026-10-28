@@ -21,7 +21,7 @@ const usage = {
     'Enter in the name field saves.',
   ],
   tree: {
-    path: ['feedback', 'a dialog', 'in pixels'],
+    path: ['something over the page', 'a question the user must answer'],
     rule: 'SelectionNamesDialog saves, loads and deletes named selections of the open sprite.',
   },
   example: `import { SelectionNamesDialog } from '../SelectionNamesDialog';

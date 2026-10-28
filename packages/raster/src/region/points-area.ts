@@ -4,7 +4,6 @@ import { ROUNDING_SCALE } from './region.constants';
 
 const clean = (value: number): number => Math.round(value * ROUNDING_SCALE) / ROUNDING_SCALE;
 
-/** The whole pixel box that holds every point. */
 const pointsArea = (points: readonly Point[]): Rect => {
   const xs = points.map((point) => clean(point.x));
   const ys = points.map((point) => clean(point.y));

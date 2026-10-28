@@ -1,7 +1,8 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { allUsesSchema } from './all-uses-schema';
-import { rotateAlgorithmSchema, similarSchema } from './algorithm-schema';
+import { rotateAlgorithmSchema } from './rotate-algorithm-schema';
+import { similarSchema } from './similar-schema';
 import { boundsPolicySchema } from './bounds-policy-schema';
 import { maskSchema } from './mask-schema';
 import { skipZeroSchema } from './skip-zero-schema';

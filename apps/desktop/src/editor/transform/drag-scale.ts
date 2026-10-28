@@ -28,6 +28,11 @@ const onlyAxis = (grab: Grab, next: Point): Point => {
   return vertical ? { x: grab.spec.scale.x, y: next.y } : { x: next.x, y: grab.spec.scale.y };
 };
 
+const scaleChoice = (grab: Grab, wanted: Point, keys: HeldKeys): Point => {
+  if (grab.handle.kind === 'edge') return onlyAxis(grab, wanted);
+  return keys.shiftKey ? keepRatio(grab.spec, wanted) : wanted;
+};
+
 const dragScale = (grab: Grab, pointer: Point, keys: HeldKeys): TransformSpec => {
   const { spec, box, handle } = grab;
   const inverse = invertMatrix(turnSkewMatrix(spec));
@@ -39,7 +44,7 @@ const dragScale = (grab: Grab, pointer: Point, keys: HeldKeys): TransformSpec =>
   const local = applyMatrix(inverse, { x: pointer.x - anchorAt.x, y: pointer.y - anchorAt.y });
   const span = { x: grabbed.x - anchor.x, y: grabbed.y - anchor.y };
   const wanted = sizeScale({ local, span, box, spec });
-  const scale = handle.kind === 'edge' ? onlyAxis(grab, wanted) : keys.shiftKey ? keepRatio(spec, wanted) : wanted;
+  const scale = scaleChoice(grab, wanted, keys);
   const next = { ...spec, scale };
   if (keys.altKey) return next;
   const m = transformMatrix(next);

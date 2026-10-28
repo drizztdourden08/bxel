@@ -23,8 +23,9 @@ const refusal = (input: EditInput, artwork: Artwork, mode: TransactionMode): Fai
   return checkPatchPixels(input.steps);
 };
 
-const requestOf = (input: EditInput, context: ToolContext, mode: TransactionMode, withDraft: boolean): McpResult<TransactionRequest> => {
-  const steps = toCommandSteps(input.steps);
+const requestOf = (input: EditInput, context: ToolContext, request: { mode: TransactionMode; withDraft: boolean; artwork: Artwork }): McpResult<TransactionRequest> => {
+  const { mode, withDraft } = request;
+  const steps = toCommandSteps(input.steps, request.artwork);
   if (!steps.ok) return steps;
   const { session } = context.call;
   return {
@@ -48,7 +49,7 @@ const runEdits = (input: EditInput, context: ToolContext, mode: TransactionMode,
   if (!view) return reply(hiddenFailure('document'));
   const refused = refusal(input, view.state.artwork, mode);
   if (refused) return reply(refused);
-  const request = requestOf(input, context, mode, render !== undefined);
+  const request = requestOf(input, context, { mode, withDraft: render !== undefined, artwork: view.state.artwork });
   if (!request.ok) return reply(request);
   const blocked = refusedEdit(context, request.value, view.state.artwork);
   if (blocked) return reply(blocked);

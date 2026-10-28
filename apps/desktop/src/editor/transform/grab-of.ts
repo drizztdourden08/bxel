@@ -1,14 +1,7 @@
 /* @layer renderer-app @kind logic */
-import type { Point, Rect } from '@bxel/raster';
+import type { GrabRequest } from './grab-of.type';
 import { specQuad } from './spec-quad';
-import type { Grab, GrabMode, Handle, HeldKeys, TransformSpec } from './transform.type';
-
-interface GrabRequest {
-  box: Rect;
-  spec: TransformSpec;
-  point: Point;
-  handle: Handle;
-}
+import type { Grab, GrabMode, Handle, HeldKeys } from './transform.type';
 
 const modeOf = (handle: Handle, keys: HeldKeys, distorted: boolean): GrabMode => {
   if (distorted || (keys.ctrlKey && handle.kind === 'corner')) return 'distort';
@@ -23,4 +16,3 @@ const grabOf = (request: GrabRequest, keys: HeldKeys): Grab => {
 };
 
 export { grabOf };
-export type { GrabRequest };

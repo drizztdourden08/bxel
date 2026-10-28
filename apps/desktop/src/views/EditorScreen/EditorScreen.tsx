@@ -16,10 +16,10 @@ import { MismatchBar } from '../MismatchBar';
 import { PresetMoveBar } from '../PresetMoveBar';
 import { RecoveryDialog } from '../RecoveryDialog';
 import { StageHeader } from '../StageHeader';
+import { TransformBar } from '../TransformBar';
 import { SplitDialog } from '../SplitDialog';
 import { TilemapDialog } from '../TilemapDialog';
 import { useTilesetMenu } from '../TilesetPanel';
-import { TransformDialog } from '../TransformDialog';
 import { WorkspaceProgress } from '../WorkspaceProgress';
 import { EDITOR_SCREEN_LABEL } from './EditorScreen.constants';
 import { StageBody } from './sub-components/StageBody';
@@ -39,6 +39,7 @@ const EditorScreen = () => {
       <PresetMoveBar />
       <MismatchBar />
       <StageHeader />
+      <TransformBar />
       <Flex className="editor-screen__body" {...commandZone(COMMAND_ZONE.canvas)}>
         <ToolbarHost>
           <Flex className={editing ? 'editor-screen__stage editor-screen__stage--tile-edit' : 'editor-screen__stage'}>
@@ -50,7 +51,6 @@ const EditorScreen = () => {
       <EditorStatus />
       <RecoveryDialog />
       <ExportDialog />
-      <TransformDialog />
       <TilemapDialog />
       <SplitDialog />
       <DialogHost />

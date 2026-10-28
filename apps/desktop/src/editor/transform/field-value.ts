@@ -1,9 +1,8 @@
 /* @layer renderer-app @kind logic */
 import type { Rect } from '@bxel/raster';
 import { specBounds } from './spec-bounds';
+import { TENTH } from './transform.constants';
 import type { TransformField, TransformSpec } from './transform.type';
-
-const TENTH = 10;
 
 const tenths = (value: number): number => Math.round(value * TENTH) / TENTH;
 

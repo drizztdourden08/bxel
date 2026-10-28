@@ -1,21 +1,10 @@
 /* @layer core @kind logic */
 import { makeSampler } from '../resample/make-sampler';
-import type { ResampleAlgorithm, ResampleOptions } from '../resample/resample.type';
 import { maskSource } from './mask-source';
 import { regionImage } from './region-image';
-import type { Geometry, Mover, MoverView } from './region.type';
+import type { Mover } from './region.type';
+import type { ResampledSpec } from './resampled-mover.type';
 
-type ResampledSpec = {
-  readonly geometry: (view: MoverView) => Geometry;
-  readonly algorithm: ResampleAlgorithm;
-  readonly options: ResampleOptions;
-  readonly scale: (view: MoverView, geometry: Geometry) => number;
-};
-
-/**
- * Builds a mover from an inverse mapping. Nearest keeps the plain index lookup; every other
- * algorithm samples a magnified copy of the region, and only returns indexes the region holds.
- */
 const resampledMover =
   (spec: ResampledSpec): Mover =>
   (view) => {
@@ -43,4 +32,3 @@ const resampledMover =
   };
 
 export { resampledMover };
-export type { ResampledSpec };

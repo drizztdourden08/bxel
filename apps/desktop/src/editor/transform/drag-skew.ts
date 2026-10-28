@@ -5,12 +5,11 @@ import { edgeMiddle } from './edge-middle';
 import { boxCorners } from './box-corners';
 import { invertMatrix } from './invert-matrix';
 import { pivotPoint } from './pivot-point';
+import { HALF_TURN_DEGREES } from './transform.constants';
 import { transformMatrix } from './transform-matrix';
 import type { Grab, TransformSpec } from './transform.type';
 
-const HALF_TURN = 180;
-
-const degrees = (slope: number): number => (Math.atan(slope) * HALF_TURN) / Math.PI;
+const degrees = (slope: number): number => (Math.atan(slope) * HALF_TURN_DEGREES) / Math.PI;
 
 const turnOnly = (spec: TransformSpec) => transformMatrix({ ...spec, scale: { x: 1, y: 1 }, skew: { x: 0, y: 0 } });
 

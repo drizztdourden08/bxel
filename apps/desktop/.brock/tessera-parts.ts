@@ -59,6 +59,7 @@ declare module '@drizztdourden08/tessera' {
         | 'RampBuilderDialog'
         | 'RecoveryDialog'
         | 'RulerFrame'
+        | 'SelectionNamesDialog'
         | 'SettingsSplit'
         | 'SheetCanvas'
         | 'SlotIcon'
@@ -81,7 +82,6 @@ declare module '@drizztdourden08/tessera' {
         | 'ToolRail'
         | 'ToolsPanel'
         | 'TransformBar'
-        | 'SelectionNamesDialog'
         | 'ViewPanel'
         | 'WorkspaceProgress'
         | 'ZoomField';

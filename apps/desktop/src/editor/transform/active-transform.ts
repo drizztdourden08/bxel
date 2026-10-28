@@ -1,12 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { usePendingStore } from '../../stores/usePendingStore';
-import type { PendingEdit } from '../pending/pending.type';
-import type { TransformSpec } from './transform.type';
-
-interface ActiveTransform {
-  pending: PendingEdit;
-  spec: TransformSpec;
-}
+import type { ActiveTransform } from './active-transform.type';
 
 const activeTransform = (): ActiveTransform | null => {
   const { pending } = usePendingStore.getState();
@@ -14,4 +8,3 @@ const activeTransform = (): ActiveTransform | null => {
 };
 
 export { activeTransform };
-export type { ActiveTransform };

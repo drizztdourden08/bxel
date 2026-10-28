@@ -3,20 +3,24 @@ import type { CommandDef } from '@drizztdourden08/brock-react';
 import { cancelPreview } from '../editor/pending/cancel-preview';
 import { hasPreview } from '../editor/pending/has-preview';
 import { clearSelection } from '../editor/selection/clear-selection';
+import { copyMerged } from '../editor/selection/copy-merged';
 import { copySelection } from '../editor/selection/copy-selection';
 import { cutSelection } from '../editor/selection/cut-selection';
 import { deleteSelection } from '../editor/selection/delete-selection';
 import { invertSelection } from '../editor/selection/invert-selection';
-import { pasteClip } from '../editor/selection/paste-clip';
+import { pasteFromSystem } from '../editor/selection/paste-from-system';
+import { reselect } from '../editor/selection/reselect';
 import { resizeSelection } from '../editor/selection/resize-selection';
 import { selectAll } from '../editor/selection/select-all';
 import { startFlip } from '../editor/transform/start-flip';
+import { startTransform } from '../editor/transform/start-transform';
 import { startRotate } from '../editor/transform/start-rotate';
 import { startScale } from '../editor/transform/start-scale';
 import { startTurn } from '../editor/transform/start-turn';
 import { hasActiveDocument } from '../files/has-active-document';
 import { enterAction } from '../sheet/enter-action';
 import { enterReady } from '../sheet/enter-ready';
+import { useSelectionNamesStore } from '../stores/useSelectionNamesStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { clearCells } from '../tilemap/clear-cells';
 import { selectAllCells } from '../tilemap/select-all-cells';
@@ -41,11 +45,15 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     run: mapOr(() => useTilemapStore.getState().setSelection(null), clearSelection),
   },
   { id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: () => void invertSelection() },
+  { id: ID.reselect, label: 'Reselect', group, chord: 'Mod+Alt+D', whileTyping: false, run: () => void reselect() },
+  { id: ID.save, label: 'Saved selections...', group, run: () => useSelectionNamesStore.getState().show() },
   { id: ID.expand, label: 'Expand selection by 1 pixel', group, run: () => void resizeSelection(1) },
   { id: ID.shrink, label: 'Shrink selection by 1 pixel', group, run: () => void resizeSelection(-1) },
   { id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: () => void copySelection() },
   { id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: () => void cutSelection() },
-  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: () => void pasteClip() },
+  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: () => void pasteFromSystem(false) },
+  { id: ID.pasteInPlace, label: 'Paste in place', group, chord: 'Mod+Shift+V', whileTyping: false, run: () => void pasteFromSystem(true) },
+  { id: ID.copyMerged, label: 'Copy merged', group, chord: 'Mod+Shift+C', whileTyping: false, run: () => void copyMerged() },
   {
     id: ID.delete,
     label: 'Delete',
@@ -109,6 +117,8 @@ const TRANSFORM_COMMANDS: readonly CommandDef[] = [
     whileTyping: false,
     run: () => void startTurn('counter-clockwise'),
   },
+  { id: ID.turnHalf, label: 'Rotate 180', group, chord: 'Mod+Shift+R', whileTyping: false, run: () => void startTurn('half') },
+  { id: ID.transform, label: 'Transform', group, chord: 'Mod+T', whileTyping: false, run: () => void startTransform() },
   { id: ID.rotate, label: 'Rotate...', group, run: () => void startRotate() },
   { id: ID.scale, label: 'Scale...', group, run: () => void startScale() },
 ];

@@ -8,7 +8,6 @@ import { RIGHT_ANGLE_DEGREES } from './region.constants';
 
 const exactAngle = (degrees: number): boolean => degrees % RIGHT_ANGLE_DEGREES === 0;
 
-/** Turns the region about the pivot. Right angles are always exact, whatever the algorithm. */
 const rotateMover = (degrees: number, algorithm: ResampleAlgorithm = 'nearest', options: ResampleOptions = {}): Mover =>
   resampledMover({
     algorithm: exactAngle(degrees) ? 'nearest' : algorithm,

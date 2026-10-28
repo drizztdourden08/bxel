@@ -1,7 +1,6 @@
 /* @layer core @kind logic */
 import type { IndexImage, Sampler } from './resample.type';
 
-/** Reads the image as if it were `factor` times larger, in the coordinates of the original. */
 const imageSampler = (image: IndexImage, factor: number): Sampler => {
   const { width, height, pixels } = image;
   return (u, v) => {

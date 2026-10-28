@@ -1,13 +1,4 @@
 /* @layer core @kind types */
-/**
- * The neighbourhood of one source pixel E:
- *
- *     P
- *    ABC
- *  QDEFR
- *    GHI
- *     S
- */
 type Hood = {
   readonly a: number;
   readonly b: number;
@@ -28,4 +19,37 @@ type Hood = {
 
 type Quad = { j: number; k: number; l: number; m: number };
 
-export type { Hood, Quad };
+type Slot = 'j' | 'k' | 'l' | 'm';
+
+type SlopeRule = {
+  readonly slot: Slot;
+  readonly x: number;
+  readonly mate: number;
+  readonly others: readonly [number, number];
+  readonly corner: number;
+  readonly reach: readonly [number, number, number];
+  readonly tail: number;
+  readonly far: readonly [number, number];
+};
+
+type CornerRule = {
+  readonly slots: readonly [Slot, Slot];
+  readonly x: number;
+  readonly holds: boolean;
+};
+
+type ShallowRule = {
+  readonly holds: boolean;
+  readonly dst: Slot;
+  readonly src: Slot;
+};
+
+type Four = readonly [number, number, number, number];
+
+type CrossingSpec = { readonly x: number; readonly eqE: Four; readonly eqX: readonly [number, number]; readonly far: number };
+
+type TipSpec = { readonly x: number; readonly eqE: Four; readonly noneE: Four };
+
+type ShallowSpec = { readonly guard: boolean; readonly x: number; readonly eq: readonly [number, number, number]; readonly none: readonly [number, number] };
+
+export type { CornerRule, CrossingSpec, Four, ShallowSpec, TipSpec, Hood, Quad, ShallowRule, SlopeRule, Slot };

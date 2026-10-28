@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-type PivotAnchor = 'top-left' | 'top' | 'top-right' | 'left' | 'center' | 'right' | 'bottom-left' | 'bottom' | 'bottom-right';
+import type { PivotAnchor } from './pivot-anchor.type';
 
 const ANCHORS: readonly PivotAnchor[] = ['top-left', 'top', 'top-right', 'left', 'center', 'right', 'bottom-left', 'bottom', 'bottom-right'];
 
@@ -16,4 +16,3 @@ const ANCHOR_HALVES: Readonly<Record<PivotAnchor, { x: number; y: number }>> = {
 };
 
 export { ANCHOR_HALVES, ANCHORS };
-export type { PivotAnchor };

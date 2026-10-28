@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Rect } from '@bxel/raster';
 import { clampSpec } from './clamp-spec';
+import { mapQuad } from './map-quad';
 import { specBounds } from './spec-bounds';
 import type { TransformField, TransformSpec } from './transform.type';
 
@@ -15,7 +16,7 @@ const resize = (spec: TransformSpec, axis: 'x' | 'y', size: number, extent: numb
 const place = (box: Rect, spec: TransformSpec, axis: 'x' | 'y', value: number): TransformSpec => {
   const area = specBounds(box, spec);
   const by = Math.round(value) - area[axis];
-  if (spec.corners) return { ...spec, corners: spec.corners.map((corner) => ({ ...corner, [axis]: corner[axis] + by })) as unknown as typeof spec.corners };
+  if (spec.corners) return { ...spec, corners: mapQuad(spec.corners, (corner) => ({ ...corner, [axis]: corner[axis] + by })) };
   return { ...spec, offset: { ...spec.offset, [axis]: spec.offset[axis] + by } };
 };
 

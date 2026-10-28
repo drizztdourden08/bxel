@@ -14,10 +14,6 @@ const rotspriteImage = (image: IndexImage, request: SamplerRequest): IndexImage 
   return current;
 };
 
-/**
- * Turns a region image into a function of a continuous position. Every algorithm answers with an
- * index that is found in the image, or -1 outside it, so a palette never grows.
- */
 const makeSampler = (request: SamplerRequest): Sampler => {
   const { image, algorithm } = request;
   if (algorithm === 'rotsprite') return imageSampler(rotspriteImage(image, request), 2 ** ROTSPRITE_PASSES);

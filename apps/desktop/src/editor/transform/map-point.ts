@@ -4,7 +4,6 @@ import { pivotPoint } from './pivot-point';
 import type { TransformSpec } from './transform.type';
 import { transformMatrix } from './transform-matrix';
 
-/** Where a point of the original box lands. */
 const mapPoint = (box: Rect, spec: TransformSpec, point: Point): Point => {
   const m = transformMatrix(spec);
   const c = pivotPoint(box, spec);

@@ -2,12 +2,20 @@
 import { makeSampler, mmpx, scale2x, scale3x } from '@bxel/raster';
 import type { IndexImage, ResampleAlgorithm, StepConfig } from '@bxel/raster';
 import { describe, expect, test } from 'vitest';
-import { luma, referenceMmpx } from './mmpx-reference';
+import golden from './mmpx-golden.json';
 
 const PALETTE_SIZE = 6;
-const lumaTable = (index: number): number => luma(packed(index));
-const packed = (index: number): number => (index === 0 ? 0 : (0xff000000 | (((index * 53) & 255) << 16) | (((index * 97) & 255) << 8) | ((index * 29) & 255)) >>> 0);
-const CONFIG: StepConfig = { border: 'transparent', same: (a, b) => a === b, luma: lumaTable };
+const OPAQUE_FLAG = 256;
+
+const brightness = (index: number): number => {
+  if (index === 0) return OPAQUE_FLAG;
+  const red = (index * 53) & 255;
+  const green = (index * 97) & 255;
+  const blue = (index * 29) & 255;
+  return red + green + blue + 1;
+};
+
+const CONFIG: StepConfig = { border: 'transparent', same: (a, b) => a === b, luma: brightness };
 
 const random = (seed: number): (() => number) => {
   let state = seed;
@@ -52,12 +60,8 @@ const imageOf = (rows: readonly string[]): IndexImage => ({
 const values = (pixels: Uint8Array): Set<number> => new Set(pixels);
 
 describe('MMPX against the published reference code', () => {
-  test.each(Array.from({ length: 40 }, (_, seed) => seed))('random sprite %i matches pixel for pixel', (seed) => {
-    const image = seed % 2 === 0 ? randomImage(seed + 1, 9 + (seed % 5), 8 + (seed % 7), 2 + (seed % 4)) : blobImage(seed);
-    const expected = referenceMmpx(Uint32Array.from(image.pixels, packed), image.width, image.height);
-    const actual = mmpx(image, CONFIG);
-    const lookup = new Map(Array.from({ length: 256 }, (_, index) => [packed(index), index] as const));
-    expect(Array.from(expected, (colour) => lookup.get(colour))).toEqual(Array.from(actual.pixels));
+  test.each(golden.map((each, at) => [at, each] as const))('golden sprite %i matches the reference output', (_at, each) => {
+    expect(rowsOf(mmpx(imageOf(each.input), CONFIG))).toEqual(each.expected);
   });
 
   test('a diagonal line and an L shape keep their shape (golden)', () => {
@@ -97,18 +101,21 @@ describe('Scale2x and Scale3x', () => {
 
 const ALGORITHMS: readonly ResampleAlgorithm[] = ['nearest', 'rotsprite', 'cleanedge', 'scale2x', 'scale3x', 'mmpx'];
 
+const sampleAll = (image: IndexImage, algorithm: ResampleAlgorithm): number[] => {
+  const sampler = makeSampler({ image, algorithm, scale: 4, options: {} });
+  const found: number[] = [];
+  for (let v = 0; v < image.height; v += 0.21) {
+    for (let u = 0; u < image.width; u += 0.19) found.push(sampler(u, v));
+  }
+  return found;
+};
+
 describe('palette closure', () => {
   test.each(ALGORITHMS)('%s only returns indexes found in its input', (algorithm) => {
     for (let seed = 1; seed <= 25; seed++) {
       const image = seed % 2 === 0 ? randomImage(seed, 10, 10, 5) : blobImage(seed);
-      const sampler = makeSampler({ image, algorithm, scale: 4, options: {} });
       const known = values(image.pixels);
-      for (let v = 0; v < image.height; v += 0.21) {
-        for (let u = 0; u < image.width; u += 0.19) {
-          const value = sampler(u, v);
-          expect(value === -1 || known.has(value)).toBe(true);
-        }
-      }
+      expect(sampleAll(image, algorithm).every((value) => value === -1 || known.has(value))).toBe(true);
     }
   });
 
@@ -117,7 +124,7 @@ describe('palette closure', () => {
     for (let seed = 1; seed <= 25; seed++) {
       const image = randomImage(seed, 11, 7, 6);
       const known = values(image.pixels);
-      for (const value of step(image, CONFIG).pixels) expect(known.has(value)).toBe(true);
+      expect(Array.from(step(image, CONFIG).pixels).every((value) => known.has(value))).toBe(true);
     }
   });
 });

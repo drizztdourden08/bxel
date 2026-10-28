@@ -2,11 +2,10 @@
 import type { Point } from '@bxel/raster';
 import { pivotPoint } from './pivot-point';
 import { snapAngle } from './snap-angle';
+import { HALF_TURN_DEGREES } from './transform.constants';
 import type { Grab, HeldKeys, TransformSpec } from './transform.type';
 
-const HALF_TURN = 180;
-
-const angleAround = (centre: Point, point: Point): number => (Math.atan2(point.y - centre.y, point.x - centre.x) * HALF_TURN) / Math.PI;
+const angleAround = (centre: Point, point: Point): number => (Math.atan2(point.y - centre.y, point.x - centre.x) * HALF_TURN_DEGREES) / Math.PI;
 
 const dragRotate = (grab: Grab, pointer: Point, keys: HeldKeys): TransformSpec => {
   const { spec } = grab;

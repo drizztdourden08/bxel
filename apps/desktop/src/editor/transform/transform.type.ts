@@ -2,7 +2,6 @@
 import type { Pivot2 } from '@bxel/document';
 import type { BoundsPolicy, Point, Quad, Rect, ResampleAlgorithm } from '@bxel/raster';
 
-/** One transform session: every field maps onto the pixels.transform command, or pixels.distort when corners are set. */
 interface TransformSpec {
   kind: 'transform';
   scale: Point;

@@ -18,9 +18,8 @@ describe('check 4: an arbitrary angle rotation', () => {
   test('commits nearest neighbour pixels with no new colours', async () => {
     const { session, original, shown, shownNow } = rig();
     await pickTransform(session, 'Rotate...');
-    const dialog = session.page.getByRole('dialog', { name: 'Rotate' });
-    await dialog.getByRole('spinbutton', { name: 'Angle in degrees' }).fill('90');
-    await dialog.getByRole('button', { name: 'Preview on canvas' }).click();
+    const fields = session.page.getByRole('group', { name: 'Transform' });
+    await fields.getByRole('spinbutton', { name: 'Angle' }).fill('90');
     const bar = session.page.getByRole('alertdialog', { name: 'Apply bar' });
     await bar.waitFor();
     seen.preview = await shownNow();

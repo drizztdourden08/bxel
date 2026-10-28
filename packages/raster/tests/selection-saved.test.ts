@@ -10,6 +10,7 @@ const ROWS = ['....', '.12.', '.34.', '....'];
 const scope = scopeOf([rowsIds.sprite]);
 const save = (name: string, mask: unknown) => stepOf('selection.save', scope, { name, mask });
 const savedOf = (engine: ReturnType<typeof pixelEngine>) => engine.state().artwork.sprites[0]?.selections;
+const next = (engine: ReturnType<typeof pixelEngine>, step: ReturnType<typeof save>) => request([step], { baseRevision: engine.state().revision });
 const BLOCK = maskFromRows(['....', '.##.', '.##.', '....']);
 
 describe('saved selections', () => {
@@ -24,8 +25,8 @@ describe('saved selections', () => {
     okOf(engine.execute(request([save('core', BLOCK)])));
     expect(savedOf(engine)).toEqual([{ name: 'core', width: 4, height: 4, runs: [[1, 1, 2], [2, 1, 2]] }]);
     expectOneUndo(engine, original);
-    okOf(engine.execute(request([save('core', BLOCK)])));
-    okOf(engine.execute(request([save('core', maskFromRows(['####', '....', '....', '....']))])));
+    okOf(engine.execute(next(engine, save('core', BLOCK))));
+    okOf(engine.execute(next(engine, save('core', maskFromRows(['####', '....', '....', '....'])))));
     expect(savedOf(engine)).toHaveLength(1);
     expect(savedOf(engine)?.[0]?.runs).toEqual([[0, 0, 3]]);
   });
@@ -33,9 +34,9 @@ describe('saved selections', () => {
   test('selection.delete removes it, and refuses an unknown name', () => {
     const engine = pixelEngine(rowsArtwork(ROWS));
     okOf(engine.execute(request([save('core', BLOCK)])));
-    okOf(engine.execute(request([stepOf('selection.delete', scope, { name: 'core' })])));
+    okOf(engine.execute(next(engine, stepOf('selection.delete', scope, { name: 'core' }))));
     expect(savedOf(engine)).toBeUndefined();
-    expect(errorOf(engine.execute(request([stepOf('selection.delete', scope, { name: 'core' })]))).code).toBe('TARGET_NOT_FOUND');
+    expect(errorOf(engine.execute(next(engine, stepOf('selection.delete', scope, { name: 'core' })))).code).toBe('TARGET_NOT_FOUND');
   });
 
   test('an empty mask or a mask of the wrong size is refused', () => {

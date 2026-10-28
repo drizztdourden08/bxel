@@ -2,7 +2,6 @@
 import type { SavedRun } from '@bxel/document';
 import type { MaskView } from '../buffer.type';
 
-/** Row runs [y, x0, x1] with both ends inside, in reading order. */
 const maskRuns = (mask: MaskView): SavedRun[] => {
   const runs: SavedRun[] = [];
   for (let y = 0; y < mask.height; y++) {

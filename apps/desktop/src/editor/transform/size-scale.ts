@@ -1,14 +1,7 @@
 /* @layer renderer-app @kind logic */
-import type { Point, Rect } from '@bxel/raster';
+import type { Point } from '@bxel/raster';
+import type { SizeRequest } from './size-scale.type';
 import { SIZE_EPSILON } from './transform.constants';
-import type { TransformSpec } from './transform.type';
-
-interface SizeRequest {
-  local: Point;
-  span: Point;
-  box: Rect;
-  spec: TransformSpec;
-}
 
 const wholeFactor = (wanted: number, extent: number, fallback: number): number => {
   if (extent < 1) return fallback;

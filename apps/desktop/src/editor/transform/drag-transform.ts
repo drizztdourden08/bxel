@@ -15,16 +15,10 @@ const resized = (grab: Grab, pointer: Point, keys: HeldKeys): TransformSpec => {
 };
 
 const apply = (grab: Grab, pointer: Point, keys: HeldKeys): TransformSpec => {
-  switch (grab.handle.kind) {
-    case 'pivot':
-      return dragPivot(grab, pointer);
-    case 'rotate':
-      return dragRotate(grab, pointer, keys);
-    case 'body':
-      return dragBody(grab, pointer, keys);
-    default:
-      return resized(grab, pointer, keys);
-  }
+  const { kind } = grab.handle;
+  if (kind === 'pivot') return dragPivot(grab, pointer);
+  if (kind === 'rotate') return dragRotate(grab, pointer, keys);
+  return kind === 'body' ? dragBody(grab, pointer, keys) : resized(grab, pointer, keys);
 };
 
 const dragTransform = (grab: Grab, pointer: Point, keys: HeldKeys): TransformSpec => clampSpec(apply(grab, pointer, keys));

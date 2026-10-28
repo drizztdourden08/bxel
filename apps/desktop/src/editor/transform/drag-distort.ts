@@ -1,12 +1,12 @@
 /* @layer renderer-app @kind logic */
 import type { Point, Quad } from '@bxel/raster';
+import { mapQuad } from './map-quad';
 import { PIVOT_STEP } from './transform.constants';
 import type { Grab, TransformSpec } from './transform.type';
 
 const snapped = (value: number): number => Math.round(value / PIVOT_STEP) * PIVOT_STEP;
 
-const put = (corners: Quad, index: number, to: Point): Quad =>
-  corners.map((corner, at) => (at === index ? to : corner)) as unknown as Quad;
+const put = (corners: Quad, index: number, to: Point): Quad => mapQuad(corners, (corner, at) => (at === index ? to : corner));
 
 const dragDistort = (grab: Grab, pointer: Point): TransformSpec => {
   const { spec, handle } = grab;

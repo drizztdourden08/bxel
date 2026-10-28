@@ -10,6 +10,8 @@ const SELECTION_COMMAND_ID = {
   copy: 'selection.copy',
   cut: 'selection.cut',
   paste: 'selection.paste',
+  pasteInPlace: 'selection.paste_in_place',
+  copyMerged: 'selection.copy_merged',
   delete: 'selection.delete',
   apply: 'preview.apply',
   cancel: 'preview.cancel',

@@ -2,12 +2,9 @@
 import { paletteRgba } from '@bxel/document';
 import type { Artwork, SpriteId } from '@bxel/document';
 import type { ResampleOptions } from '../resample/resample.type';
+import { CHANNELS, OPAQUE, RGB_SPAN } from './palette-options.constants';
 
-const OPAQUE = 255;
-const CHANNELS = 4;
-const RGB_SPAN = Math.sqrt(3);
 
-/** Palette lookups that let a resampler judge similar colours and break ties by brightness. */
 const paletteOptions = (artwork: Artwork, spriteId: SpriteId | undefined, similar: number): ResampleOptions => {
   const sprite = artwork.sprites.find((each) => each.id === spriteId);
   const bank = artwork.banks.find((each) => each.id === sprite?.bankId);

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Rect } from '@bxel/raster';
 import { ANCHOR_HALVES, ANCHORS } from './pivot-preset.constants';
-import type { PivotAnchor } from './pivot-preset.constants';
+import type { PivotAnchor } from './pivot-anchor.type';
 import type { TransformSpec } from './transform.type';
 
 const anchorOfPivot = (box: Rect, spec: TransformSpec): PivotAnchor | null => {

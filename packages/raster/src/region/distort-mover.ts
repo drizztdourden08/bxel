@@ -6,10 +6,6 @@ import { pointsArea } from './points-area';
 import type { Mover } from './region.type';
 import { resampledMover } from './resampled-mover';
 
-/**
- * Pulls the four corners of the region box to new places (top left, top right, bottom right,
- * bottom left) and carries the pixels with them.
- */
 const distortMover = (corners: Quad, algorithm: ResampleAlgorithm = 'nearest', options: ResampleOptions = {}): Mover =>
   resampledMover({
     algorithm,

@@ -6,7 +6,7 @@ import { commitSelection } from './commit-selection';
 const reselect = (): boolean => {
   const target = currentTarget();
   const { last } = useSelectionHistoryStore.getState();
-  if (!target || !last || last.width !== target.sprite.width || last.height !== target.sprite.height) return false;
+  if (!target || last?.width !== target.sprite.width || last.height !== target.sprite.height) return false;
   commitSelection(target, last);
   return true;
 };

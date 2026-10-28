@@ -1,13 +1,9 @@
 /* @layer core @kind logic */
-import type { Point, Rect } from '../geometry.type';
+import type { Rect } from '../geometry.type';
 import type { Quad } from './affine.type';
+import { EPSILON, FAR } from './homography.constants';
+import type { Inverse } from './homography.type';
 
-type Inverse = (x: number, y: number) => Point;
-
-const EPSILON = 1e-9;
-const FAR = -1e9;
-
-/** Coefficients of the map from the unit square to a quad (Heckbert). */
 const squareToQuad = (quad: Quad): readonly number[] => {
   const [p0, p1, p2, p3] = quad;
   const dx1 = p1.x - p2.x;
@@ -25,7 +21,6 @@ const squareToQuad = (quad: Quad): readonly number[] => {
   return [p1.x - p0.x + g * p1.x, p3.x - p0.x + h * p3.x, p0.x, p1.y - p0.y + g * p1.y, p3.y - p0.y + h * p3.y, p0.y, g, h];
 };
 
-/** The map from a point inside the quad back to the box that the quad was drawn from. */
 const quadInverse = (quad: Quad, box: Rect): Inverse => {
   const [a, b, c, d, e, f, g, h] = squareToQuad(quad) as [number, number, number, number, number, number, number, number];
   const m = [

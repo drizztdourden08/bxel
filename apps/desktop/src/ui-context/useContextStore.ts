@@ -4,6 +4,7 @@ import { useDocumentStore } from '../stores/useDocumentStore';
 import { useImageTabStore } from '../stores/useImageTabStore';
 import { useProjectStore } from '../stores/useProjectStore';
 import { usePendingStore } from '../stores/usePendingStore';
+import { useSelectionHistoryStore } from '../stores/useSelectionHistoryStore';
 import { useSelectionStore } from '../stores/useSelectionStore';
 import { useSpriteStore } from '../stores/useSpriteStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
@@ -27,6 +28,7 @@ const refresh = (): void => {
   useProjectStore,
   usePendingStore,
   useSelectionStore,
+  useSelectionHistoryStore,
   useSpriteStore,
   useTilemapStore,
   useTimelineStore,

@@ -4,18 +4,9 @@ import { hitHandle } from '../../../editor/transform/hit-handle';
 import { pivotPoint } from '../../../editor/transform/pivot-point';
 import { specQuad } from '../../../editor/transform/spec-quad';
 import { transformBox } from '../../../editor/transform/transform-box';
-import type { Handle } from '../../../editor/transform/transform.type';
-import type { Rect, Point } from '@bxel/raster';
-import type { TransformSpec } from '../../../editor/transform/transform.type';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import type { ClientPoint } from './canvas-tools.type';
-
-interface TransformHit {
-  box: Rect;
-  spec: TransformSpec;
-  point: Point;
-  handle: Handle | null;
-}
+import type { TransformHit } from './transform-hit.type';
 
 const transformHit = (viewport: PixelViewportHandle | null, at: ClientPoint): TransformHit | null => {
   const active = activeTransform();
@@ -29,4 +20,3 @@ const transformHit = (viewport: PixelViewportHandle | null, at: ClientPoint): Tr
 };
 
 export { transformHit };
-export type { TransformHit };

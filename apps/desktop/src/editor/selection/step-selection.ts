@@ -8,7 +8,7 @@ import { newestTag } from './newest-tag';
 const stepSelection = (direction: HistoryDirection, documentId: DocumentId): boolean => {
   const history = useSelectionHistoryStore.getState();
   const step = (direction === 'undo' ? history.undo : history.redo).at(-1);
-  if (!step || step.documentId !== documentId || step.tag !== newestTag(documentId)) return false;
+  if (step?.documentId !== documentId || step.tag !== newestTag(documentId)) return false;
   if (direction === 'undo') {
     history.popUndo();
     history.pushRedo(step);

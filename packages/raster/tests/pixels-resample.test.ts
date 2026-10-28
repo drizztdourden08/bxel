@@ -13,6 +13,15 @@ const run = (rows: readonly string[], name: string, options: Record<string, unkn
   const result = okOf(engine.execute(request([stepOf(name, scope, options)])));
   return { engine, result, rows: rowsOf(engine) };
 };
+const stripedDisc = (side: number): string[] => {
+  const rows: string[] = [];
+  for (let y = 0; y < side; y++) {
+    let row = '';
+    for (let x = 0; x < side; x++) row += (x + y) % 7 < 3 && Math.hypot(x - side / 2, y - side / 2) < side * 0.45 ? '1' : '.';
+    rows.push(row);
+  }
+  return rows;
+};
 const colours = (rows: readonly string[]): Set<string> => new Set(rows.join('').replaceAll('.', ''));
 
 describe('pixels.rotate algorithms', () => {
@@ -37,7 +46,7 @@ describe('pixels.rotate algorithms', () => {
   });
 
   test('a 45 degree rotsprite of a 32 by 32 sprite runs quickly', () => {
-    const rows = Array.from({ length: 32 }, (_, y) => Array.from({ length: 32 }, (_x, x) => ((x + y) % 7 < 3 && Math.hypot(x - 16, y - 16) < 14 ? '1' : '.')).join(''));
+    const rows = stripedDisc(32);
     const engine = pixelEngine(rowsArtwork(rows));
     const started = performance.now();
     okOf(engine.execute(request([stepOf('pixels.rotate', scope, { angle: 45, algorithm: 'rotsprite', pivot: { x2: 32, y2: 32 } })])));

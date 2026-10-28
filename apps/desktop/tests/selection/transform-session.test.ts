@@ -98,6 +98,9 @@ describe('the transform session', () => {
     expect(rig.pixels()).toEqual(before);
   });
 
+});
+
+describe('the transform session boxes', () => {
   it('dragging a corner scales to whole pixel sizes and keeps the opposite corner in place', () => {
     const rig = openRig();
     rig.paint(BLOCK, 4);
@@ -106,8 +109,8 @@ describe('the transform session', () => {
     dragHandle(rig, { kind: 'corner', index: 2 }, { x: BLOCK.x + BLOCK.width + 4, y: BLOCK.y + BLOCK.height + 3 });
     const box = regionBox(rig.target(), usePendingStore.getState().pending?.mask ?? null);
     const quad = specQuad(box, specOf());
-    expect(quad[0]?.x).toBeCloseTo(BLOCK.x);
-    expect(quad[0]?.y).toBeCloseTo(BLOCK.y);
+    expect(quad[0].x).toBeCloseTo(BLOCK.x);
+    expect(quad[0].y).toBeCloseTo(BLOCK.y);
     expect(fieldValue(box, specOf(), 'width')).toBe(8);
     expect(fieldValue(box, specOf(), 'height')).toBe(6);
   });
@@ -140,6 +143,9 @@ describe('the transform session', () => {
     expect(rig.pixels()[at(4, 4)]).toBe(3);
   });
 
+});
+
+describe('the transform session targets', () => {
   it('hit testing finds the pivot, a corner, the body and the rotate zone', () => {
     const quad = [{ x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }] as const;
     const base = { quad, pivot: { x: 5, y: 5 }, zoom: 4 };
