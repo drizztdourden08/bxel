@@ -7,10 +7,9 @@ import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { currentSurface } from '../../../surface/current-surface';
 import { RAIL_OPEN_KEYS, TOOL_RAIL_TEXT } from '../ToolRail.constants';
+import { DRAG_LIMIT } from './useRailHold.constants';
 import { flyoutModel } from '../../../tool-menu/flyout-model';
 import { stopOf } from '../../../tool-menu/stop-of';
-
-const DRAG_LIMIT = 6;
 
 const hasFlyout = (id: string | null): boolean => {
   const surface = currentSurface();

@@ -9,7 +9,6 @@ import { setOption } from '../../src/editor/tool-options/set-option';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
 import { optionGroups } from '../../src/keymap/option-groups';
 import { OPTION_COMMAND } from '../../src/keymap/option-command-id.constants';
-import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { SELECTION_DEFAULTS } from '../../src/stores/selection-store.constants';
@@ -40,15 +39,16 @@ describe('the option model coverage', () => {
     }
   });
 
-  it('describes every kind with what it needs', () => {
-    for (const spec of OPTION_SPECS) {
-      if (spec.kind === 'number') expect(spec.min !== undefined && spec.max !== undefined).toBe(true);
-      if (spec.kind === 'choice') {
-        expect((spec.choices ?? []).length).toBeGreaterThan(1);
-        expect(spec.choices?.some((choice) => choice.value === String(spec.default))).toBe(true);
-        for (const choice of spec.choices ?? []) expect(choice.description.length).toBeGreaterThan(5);
-      }
-      if (spec.kind === 'toggle' || spec.kind === 'action') expect(spec.icon).toBeDefined();
+  it('gives a number a range and a toggle or an action an icon', () => {
+    for (const spec of OPTION_SPECS.filter((each) => each.kind === 'number')) expect(spec.min !== undefined && spec.max !== undefined).toBe(true);
+    for (const spec of OPTION_SPECS.filter((each) => each.kind === 'toggle' || each.kind === 'action')) expect(spec.icon).toBeDefined();
+  });
+
+  it('gives a choice at least two described values and a default among them', () => {
+    for (const spec of OPTION_SPECS.filter((each) => each.kind === 'choice')) {
+      expect((spec.choices ?? []).length).toBeGreaterThan(1);
+      expect(spec.choices?.some((choice) => choice.value === String(spec.default))).toBe(true);
+      expect((spec.choices ?? []).every((choice) => choice.description.length > 5)).toBe(true);
     }
   });
 
@@ -76,7 +76,7 @@ describe('the option model coverage', () => {
   });
 });
 
-describe('the option values', () => {
+describe('the option memory', () => {
   it('keeps one brush size per tool', () => {
     tools().setBrushSize(3);
     tools().selectTool('eraser');
@@ -105,6 +105,9 @@ describe('the option values', () => {
     expect(tools().brushSize).toBe(7);
   });
 
+});
+
+describe('the option commands', () => {
   it('sets any option by the options.set command and refuses a wrong value', () => {
     const set = findCommand(OPTION_COMMAND.set);
     set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { option: 'fill.area', value: 'global' } });

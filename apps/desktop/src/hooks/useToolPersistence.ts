@@ -11,8 +11,7 @@ import { useSelectionStore } from '../stores/useSelectionStore';
 import { useToolPrefsStore } from '../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../stores/useToolPresetStore';
 import { useToolStore } from '../stores/useToolStore';
-
-const SAVE_DELAY_MS = 400;
+import { SAVE_DELAY_MS } from './useToolPersistence.constants';
 
 const collect = () => {
   const { openOnHover, holdMs, showKeys, hiddenMembers } = useToolPrefsStore.getState();

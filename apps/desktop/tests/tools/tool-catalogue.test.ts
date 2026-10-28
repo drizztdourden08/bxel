@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it, vi } from 'vitest';
 import { slotsOf } from '../../src/editor/tool-catalogue/slots-of';
+import type { ToolSlot } from '../../src/editor/tool-catalogue/tool-catalogue.type';
 import { SLOT_GROUPS, TOOL_SLOTS } from '../../src/editor/tool-catalogue/tool-catalogue.constants';
 import { toolIds } from '../../src/editor/tool-catalogue/tool-ids';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
@@ -11,10 +12,16 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('./tools-harne
 
 const commandIds = new Set(APP_COMMANDS.map((def) => def.id));
 
+const labelsOf = (id: string): string[] => (slotsOf('sprite').find((slot) => slot.id === id)?.members ?? []).map((member) => member.label);
+
+const groupRank = (slot: ToolSlot): number => SLOT_GROUPS.findIndex((group) => group.id === slot.group);
+
+const allMembers = () => TOOL_SLOTS.flatMap((slot) => [...slot.members]);
+
 describe('the tool catalogue', () => {
   it('gives every slot and member a unique id, a name and a description', () => {
     const slotIds = TOOL_SLOTS.map((slot) => slot.id);
-    const memberIds = TOOL_SLOTS.flatMap((slot) => slot.members.map((member) => member.id));
+    const memberIds = allMembers().map((member) => member.id);
     expect(new Set(slotIds).size).toBe(slotIds.length);
     expect(new Set(memberIds).size).toBe(memberIds.length);
     for (const slot of TOOL_SLOTS) {
@@ -46,9 +53,9 @@ describe('the tool catalogue', () => {
 
   it('shows only the view group on a sheet and lists groups in order', () => {
     expect(slotsOf('sheet').map((slot) => slot.id)).toEqual(['zoom', 'hand']);
-    const order = slotsOf('sprite').map((slot) => SLOT_GROUPS.findIndex((group) => group.id === slot.group));
+    const order = slotsOf('sprite').map(groupRank);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
-    expect(slotsOf('sprite').find((slot) => slot.id === 'shape')?.members.map((member) => member.label)).toEqual(['Line', 'Rectangle', 'Ellipse']);
+    expect(labelsOf('shape')).toEqual(['Line', 'Rectangle', 'Ellipse']);
     expect(slotsOf('sprite').find((slot) => slot.id === 'select')?.members).toHaveLength(6);
   });
 
