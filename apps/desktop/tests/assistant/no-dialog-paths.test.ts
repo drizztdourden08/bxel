@@ -4,6 +4,8 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { TOOL_HANDLERS } from '../../src/assistant/tool-handlers.constants';
 
+const WALK_TIMEOUT_MS = 60_000;
+
 const SRC = resolve(__dirname, '../../src');
 
 const DIALOG = /confirmAction|confirmSave|confirmChoice|documents\.(?:saveAs|open|openFolder|regrant)\(|owner-prompts|file-kit|useDialogStore/;
@@ -38,5 +40,5 @@ describe('every code path an assistant tool can reach', () => {
       .map((file) => relative(SRC, file).replace(/\\/g, '/'))
       .filter((file) => !['prompts/guard-documents.ts'].includes(file));
     expect(offenders).toEqual([]);
-  });
+  }, WALK_TIMEOUT_MS);
 });

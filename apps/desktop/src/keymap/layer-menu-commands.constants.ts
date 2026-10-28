@@ -10,8 +10,8 @@ import { inMapPlace } from '../tilemap/in-map-place';
 import { moveMapLayer } from '../tilemap/move-map-layer';
 import { moveMapLayerToEdge } from '../tilemap/move-map-layer-to-edge';
 import { COMMAND_ZONE } from './command-zone.constants';
-import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.layers;
 
@@ -64,6 +64,6 @@ const LAYER_MENU_COMMANDS: readonly CommandDef[] = [
   { id: 'layer.move_down', label: 'Move layer down', group, run: move('down') },
   { id: 'layer.move_top', label: 'Move layer to top', group, run: moveToEdge('top') },
   { id: 'layer.move_bottom', label: 'Move layer to bottom', group, run: moveToEdge('bottom') },
-].map(editorCommand);
+].map(ruled);
 
 export { LAYER_MENU_COMMANDS };

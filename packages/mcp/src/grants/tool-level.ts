@@ -7,7 +7,7 @@ import type { Grant } from './grant.type';
 
 const toolLevel = (grant: Grant, tool: ToolName): Level => {
   const entry = TOOL_CATALOGUE[tool];
-  return grant.tools[tool] ?? (entry.routed === undefined ? bundleLevel(grant, entry.bundle) : 'edit');
+  return grant.tools[tool] ?? (entry.routed === 'steps' ? 'edit' : bundleLevel(grant, entry.bundle));
 };
 
 export { toolLevel };

@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { useContextMenu } from '@drizztdourden08/brock-react';
 import type { ContextMenuContext } from '@drizztdourden08/brock-react';
+import { ruledEntries } from '../../../context-menu/ruled-entries';
 import { menuTarget } from '../../../context-menu/menu-target';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { LAYER_MENU_TEXT } from '../LayerStack.constants';
@@ -24,7 +25,7 @@ const useLayerMenu = (model: LayerStackModel, picked: readonly string[], pick: (
       if (id !== undefined && !now.picked.includes(id)) now.pick(id, 'replace');
       else if (id !== undefined && id !== now.model.activeId) now.model.actions.activate(id);
     },
-    entries: (context) => layerMenuEntries(latest.current.model, rowIdOf(context)),
+    entries: ruledEntries((context) => layerMenuEntries(latest.current.model, rowIdOf(context))),
   });
 };
 

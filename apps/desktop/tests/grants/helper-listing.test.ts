@@ -14,7 +14,7 @@ const open = async () => {
   const tracker = createGrantTracker();
   const state = {
     file: 'unused',
-    session: { call: () => Promise.reject(new Error('no bridge')), bye: () => Promise.resolve(), setClient: () => undefined, setLaunchToken: () => undefined, isRunning: () => false, grant: tracker.current, onGrant: tracker.onChange },
+    session: { call: () => Promise.reject(new Error('no bridge')), bye: () => Promise.resolve(), setClient: () => undefined, setLaunchToken: () => undefined, isRunning: () => false, reconnect: () => Promise.reject(new Error('no bridge')), grant: tracker.current, onGrant: tracker.onChange },
     tools: new Map(buildTools(APP_COMMANDS).map((tool) => [tool.name, tool])),
     started: null,
   } satisfies HelperState;
@@ -42,7 +42,8 @@ const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 20));
 describe('the tools a program sees through the helper', () => {
   it('lists every tool before it has a grant and declares that the list can change', async () => {
     const { names, client } = await open();
-    expect(await names()).toHaveLength(buildTools(APP_COMMANDS).length);
+    expect(await names()).toHaveLength(buildTools(APP_COMMANDS).length - 1);
+    expect(await names()).not.toContain('restart_bxel');
     expect(client.getServerCapabilities()?.tools?.listChanged).toBe(true);
   });
 

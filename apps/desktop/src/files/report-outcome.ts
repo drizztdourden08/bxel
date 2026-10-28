@@ -7,7 +7,7 @@ const reportOutcome = (outcome: FileOutcome, action: FileAction): void => {
   if (outcome.kind === 'failed') {
     const saving = action.kind === 'save' || action.kind === 'saveAs' || action.kind === 'saveAll';
     const onSelect = (): void => {
-      commands.run(FILE_COMMAND.saveAs);
+      void commands.run(FILE_COMMAND.saveAs);
     };
     toast(outcome.message, { variant: 'danger', ...(saving ? { action: { label: FILE_TEXT.saveAsAction, onSelect } } : {}) });
   } else if (outcome.kind === 'done' && outcome.notice !== null) {

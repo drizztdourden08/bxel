@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { StatusBarEntry } from '@drizztdourden08/tessera';
+import { evaluate } from '../ui-context/evaluate';
 import type { PaletteSlot } from './palette-slots.type';
 import type { StatusInput } from './status.type';
 import { HELP_PRIORITY, STATUS_TEXT } from './status.constants';
@@ -12,13 +13,14 @@ const colourEntry = (colour: PaletteSlot | null, position: 1 | 2): StatusBarEntr
 });
 
 const statusItems = (input: StatusInput): StatusBarEntry[] => {
-  const { pointer, zoom, colours, clean, recovered } = input;
+  const { pointer, zoom, colours, clean, recovered, context, tile } = input;
   const recovery: StatusBarEntry[] = recovered && !clean ? [{ id: 'recovered', label: 'Recovery', value: STATUS_TEXT.recovered, tone: 'warning', align: 'end' }] : [];
-  return [
+  const all: StatusBarEntry[] = [
     { id: 'cursor', label: 'Cursor', value: pointer ? STATUS_TEXT.cursor(pointer) : STATUS_TEXT.outside },
     { id: 'zoom', label: 'Zoom', value: STATUS_TEXT.zoom(zoom) },
     colourEntry(colours[0], 1),
     colourEntry(colours[1], 2),
+    { id: 'tile', label: 'Tile', value: tile === null ? STATUS_TEXT.noTile : STATUS_TEXT.tile(tile) },
     {
       id: 'saved',
       label: 'File',
@@ -29,6 +31,8 @@ const statusItems = (input: StatusInput): StatusBarEntry[] => {
     ...recovery,
     { id: 'help', label: STATUS_TEXT.help, value: STATUS_TEXT.helpValue, icon: 'circle-help', align: 'end', priority: HELP_PRIORITY },
   ];
+  const ruleId = (entry: StatusBarEntry): string => `status.${entry.id}`;
+  return all.filter((entry) => evaluate(ruleId(entry), context).state !== 'hidden');
 };
 
 export { statusItems };

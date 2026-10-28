@@ -25,9 +25,9 @@ describe('the tool list a program sees', () => {
   const namesFor = (grant: Grant): string[] => toolsForGrant(descriptors, grant).map((tool) => tool.name);
 
   it('lists every tool for a full grant, without notes', () => {
-    expect(namesFor(PRESETS.full_control.grant)).toHaveLength(buildTools(documentCommands).length);
+    expect(namesFor(PRESETS.full_control.grant)).toHaveLength(buildTools(documentCommands).length - 1);
     const listed = toolsForGrant(descriptors, PRESETS.full_control.grant);
-    expect(listed.map((tool) => tool.description)).toEqual(descriptors.map((tool) => tool.description));
+    expect(listed.map((tool) => tool.description)).toEqual(descriptors.filter((tool) => tool.name !== 'restart_bxel').map((tool) => tool.description));
   });
 
   it('leaves out a Disabled tool and every tool of a Disabled bundle', () => {

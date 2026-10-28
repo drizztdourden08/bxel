@@ -6,13 +6,13 @@ import { PixelViewport } from '../PixelViewport';
 import type { ImagePreviewProps } from './ImagePreview.type';
 import './ImagePreview.css';
 
-const ImagePreview = ({ image, label, view }: ImagePreviewProps) => {
+const ImagePreview = ({ image, label, view, fill = false }: ImagePreviewProps) => {
   const look = useCanvasLook();
   const source = useMemo(() => new ImageData(new Uint8ClampedArray(image.data), image.width, image.height), [image]);
   return (
-    <Box className="image-preview-frame">
+    <Box className={fill ? 'image-preview-frame image-preview-frame--fill' : 'image-preview-frame'}>
       <PixelViewport
-        className="image-preview"
+        className={fill ? 'image-preview image-preview--fill' : 'image-preview'}
         label={label}
         width={image.width}
         height={image.height}

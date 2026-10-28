@@ -33,8 +33,10 @@ describe('the Delete chord', () => {
     expect(new Set(zones).size).toBe(DELETE_OWNERS.length);
   });
 
-  it('carries no focus check of its own on the canvas command', () => {
-    openRig();
+  it('carries no focus check of its own on the canvas command, only the rule that something is selected', () => {
+    const rig = openRig();
+    expect(owner(SELECTION_COMMAND_ID.delete).when?.()).toBe(false);
+    rig.select(BLOCK);
     expect(owner(SELECTION_COMMAND_ID.delete).when?.()).toBe(true);
   });
 
@@ -42,16 +44,16 @@ describe('the Delete chord', () => {
     const rig = openRig();
     rig.paint(BLOCK, 7);
     rig.select(BLOCK);
-    owner(SELECTION_COMMAND_ID.delete).run();
+    void owner(SELECTION_COMMAND_ID.delete).run();
     expect(rig.pixels()[at(5, 5)]).toBe(0);
     expect(rig.target().sprite.layers).toHaveLength(1);
   });
 
   it('deletes the current layer from the layers zone', () => {
     const rig = openRig();
-    owner(COMMAND_ID.layerAdd).run();
+    void owner(COMMAND_ID.layerAdd).run();
     expect(rig.target().sprite.layers).toHaveLength(2);
-    owner(COMMAND_ID.layerDelete).run();
+    void owner(COMMAND_ID.layerDelete).run();
     expect(rig.target().sprite.layers).toHaveLength(1);
   });
 

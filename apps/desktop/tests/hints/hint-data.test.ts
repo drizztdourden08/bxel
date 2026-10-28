@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind test */
+import { columnContext } from '../ui-context/columns';
 import { describe, expect, it, vi } from 'vitest';
 import { modeOf } from '../../src/editor/selection/mode-of';
 import { SELECT_MODES } from '../../src/editor/selection/selection.constants';
@@ -53,7 +54,7 @@ describe('the hint texts', () => {
 describe('the tool rail', () => {
   it('names a tool button with the tool alone and puts the key in the hint', () => {
     const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
-    const context: RailItemContext = { defs: MAP_TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
+    const context: RailItemContext = { defs: MAP_TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS, context: columnContext('Tm') };
     const toggles = railItems(context).filter((item) => item.kind === 'toggle');
     expect(toggles.map((item) => item.label)).toEqual(MAP_TOOLS.map((def) => def.label));
     for (const item of toggles) expect(item.label).not.toMatch(/[()+]/);
@@ -61,7 +62,7 @@ describe('the tool rail', () => {
 
   it('lists every tool of the editor as a toggle named with the tool alone', () => {
     const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
-    const context: RailItemContext = { defs: TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS };
+    const context: RailItemContext = { defs: TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS, context: columnContext('Sp') };
     const toggles = railItems(context).filter((item) => item.kind === 'toggle');
     expect(toggles.map((item) => item.label).sort()).toEqual(TOOLS.map((def) => def.label).sort());
   });
@@ -83,7 +84,7 @@ describe('the selection mode keys', () => {
 
 describe('the status bar help', () => {
   it('adds a help entry to the status bar', () => {
-    const items = statusItems({ pointer: null, zoom: 1, colours: [null, null], clean: true, recovered: false });
+    const items = statusItems({ pointer: null, zoom: 1, colours: [null, null], clean: true, recovered: false, context: columnContext('Sp'), tile: null });
     expect(items.map((item) => item.id)).toContain('help');
   });
 

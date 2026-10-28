@@ -39,6 +39,10 @@ const createEngine = (options: EngineOptions): Engine => {
         store.listeners.delete(listener);
       };
     },
+    history: () => ({
+      entries: store.history.entries.map(({ id, label, origin, actor }) => ({ id, label, origin, actor })),
+      cursor: store.history.cursor,
+    }),
     newest: () => store.history.entries[store.history.cursor - 1] ?? null,
     canUndo: () => store.history.cursor > 0,
     canRedo: () => store.history.cursor < store.history.entries.length,
