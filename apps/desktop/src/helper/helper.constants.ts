@@ -28,6 +28,7 @@ const HELPER_TEXT = {
     'Bxel is a palette pixel art editor. Read the bxel://guide resource first. Call get_session to pair; if Bxel is not running, call start_bxel with window headless or visible. Read before you edit, preview with preview_edits, then apply_edits at the revision you read.',
   notRunning: 'Bxel is not running. Call start_bxel with window headless or visible, or ask the owner to open Bxel.',
   noLaunch: 'Bxel has not run on this computer with Assistant access on, so the helper does not know how to start it. Ask the owner to open Bxel once.',
+  restartTimeout: 'Bxel did not come back within 90 seconds after the restart.',
   startTimeout: 'Bxel did not open its bridge within 20 seconds.',
   startExit: (code: number | null) => `Bxel exited with code ${code ?? 'none'} before its bridge opened.`,
   disabled: 'Assistant access is off in Bxel settings.',

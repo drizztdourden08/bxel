@@ -14,7 +14,9 @@ import { toolLevel } from './tool-level';
 
 const isListed = (grant: Grant, tool: ToolName): boolean => {
   if (grant.blocked || toolLevel(grant, tool) === 'disabled') return false;
-  return TOOL_CATALOGUE[tool].routed === undefined || ROUTED_BUNDLES.some((bundle) => itemLevel(grant, tool, bundle) !== 'disabled');
+  const entry = TOOL_CATALOGUE[tool];
+  if (entry.special !== undefined && !grant.special[entry.special]) return false;
+  return entry.routed !== 'steps' || ROUTED_BUNDLES.some((bundle) => itemLevel(grant, tool, bundle) !== 'disabled');
 };
 
 const routedNote = (grant: Grant, tool: ToolName): string | null => {
@@ -25,13 +27,14 @@ const routedNote = (grant: Grant, tool: ToolName): string | null => {
 };
 
 const plainNote = (grant: Grant, tool: ToolName): string | null => {
-  const { kind } = TOOL_CATALOGUE[tool];
+  const { kind, routed } = TOOL_CATALOGUE[tool];
   if (kind === 'read' || toolLevel(grant, tool) !== 'read') return null;
+  if (routed === 'command') return GRANT_TEXT.commandNote;
   return kind === 'mixed' ? GRANT_TEXT.levelNote : GRANT_TEXT.writeNote;
 };
 
 const noteOf = (grant: Grant, tool: ToolName): string | null =>
-  TOOL_CATALOGUE[tool].routed === undefined ? plainNote(grant, tool) : routedNote(grant, tool);
+  TOOL_CATALOGUE[tool].routed === 'steps' ? routedNote(grant, tool) : plainNote(grant, tool);
 
 const toolsForGrant = (tools: readonly ToolDescriptor[], grant: Grant): readonly ToolDescriptor[] =>
   tools

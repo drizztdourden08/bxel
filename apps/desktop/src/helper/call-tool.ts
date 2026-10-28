@@ -6,6 +6,7 @@ import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { fieldOf } from '../assistant-bridge/field-of';
 import { HELPER_TEXT } from './helper.constants';
 import type { HelperState } from './helper.type';
+import { restartReconnect } from './restart-reconnect';
 import { startBxel } from './start-bxel';
 import { stopStarted } from './stop-started';
 import { toCallResult } from './to-call-result';
@@ -19,6 +20,7 @@ const stepsOf = (input: unknown): readonly unknown[] => {
 
 const route = async (state: HelperState, name: string, input: unknown): Promise<ToolReply> => {
   if (name === 'start_bxel') return asReply(await startBxel(state, fieldOf(input, 'window') === 'visible' ? 'visible' : 'headless'));
+  if (name === 'restart_bxel') return restartReconnect(state, input);
   const tooLarge = checkRequestSize(input) ?? checkPatchPixels(stepsOf(input));
   if (tooLarge) return asReply(tooLarge);
   const result = await state.session.call(name as ToolRouteName, input);
