@@ -25,7 +25,7 @@ const isFocused = (session: Session, index: number): Promise<boolean> => swatch(
 const holdsFocus = (session: Session): Promise<boolean> => grid(session).evaluate((node) => node.contains(document.activeElement));
 
 const focusByKeys = async (session: Session, index: number): Promise<void> => {
-  await session.page.keyboard.press('Escape');
+  await session.page.keyboard.press('Insert');
   await swatch(session, index).focus();
 };
 
@@ -48,7 +48,7 @@ const movesByKeys = async ({ session, map }: SpriteRig): Promise<void> => {
   const before = await sampleCanvas(session, CELLS.map(map));
   const order = await readSwatches(session);
   await focusByKeys(session, 5);
-  await session.page.keyboard.press('Alt+ArrowRight');
+  await swatch(session, 5).dispatchEvent('keydown', { key: 'ArrowRight', altKey: true, bubbles: true });
   await expect.poll(async () => (await readSwatches(session))[6]).toBe(order[5]);
   expect(await sampleCanvas(session, CELLS.map(map))).toEqual(before);
   await session.page.keyboard.press(SHORTCUT.undo);

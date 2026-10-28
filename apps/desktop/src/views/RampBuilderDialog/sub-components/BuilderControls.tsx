@@ -28,18 +28,10 @@ const BuilderControls = ({ state }: BuilderPartProps) => {
         formatValue={BUILDER_TEXT.degrees}
         onChange={(hueShift) => change({ hueShift })}
       />
-      <Slider
-        size="sm"
-        range
-        label={BUILDER_TEXT.span}
-        min={0}
-        max={SPAN_SCALE}
-        step={1}
-        showValue
-        value={settings.span}
-        formatValue={(value) => `L ${value}`}
-        onChange={(span) => change({ span })}
-      />
+      <Grid columns={2} gap="sm">
+        <Slider size="sm" label={BUILDER_TEXT.spanDark} min={0} max={SPAN_SCALE} step={1} input showValue value={settings.span[0]} onChange={(dark) => change({ span: [Math.min(dark, settings.span[1]), settings.span[1]] })} />
+        <Slider size="sm" label={BUILDER_TEXT.spanLight} min={0} max={SPAN_SCALE} step={1} input showValue value={settings.span[1]} onChange={(light) => change({ span: [settings.span[0], Math.max(light, settings.span[0])] })} />
+      </Grid>
       <Toggle size="sm" label={BUILDER_TEXT.chroma} checked={settings.chromaCurve} onChange={(chromaCurve) => change({ chromaCurve })} />
       <Toggle size="sm" label={BUILDER_TEXT.snap} checked={settings.snap} onChange={(snap) => change({ snap })} />
       <Field label={BUILDER_TEXT.name} size="sm">
