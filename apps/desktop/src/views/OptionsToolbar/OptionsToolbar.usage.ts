@@ -2,23 +2,23 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Holds the options of the current tool as a docked toolbar: brush size and shape, pixel perfect, fill area and neighbours, shape kind and filled, selection shape and mode, and the tilemap place and edit switch.',
+  job: 'Holds the options of the current tool as a docked context bar: a chip with the tool and its preset, the common options in a fixed order, the actions of the tool and a button to the Tool options panel.',
   useWhen: [
     'The user changes how the picked tool works, such as the brush size, the fill area or how a selection combines.',
-    'In Tilemap mode the user switches between placing tiles and editing the pixels of one tile.',
+    'The user applies, saves or resets a preset of the tool.',
   ],
   avoidWhen: [
     { case: 'The option applies to every tool, such as the mirror, the grids or the zoom.', use: 'CanvasToolbar' },
     { case: 'The user picks the tool.', use: 'ToolRail' },
   ],
   rules: [
-    'The items follow the tool in the tool store. A tool with no options leaves the toolbar with its handle only, so the row never changes height.',
-    'In tile placing mode the items are the tile turn buttons, the filled switch and the cell actions; the state of the turn and of the selection shows in the scope bar.',
-    'Every item has a hint with its name, one line and its key. A choice that is off says why in its hint.',
-    'The same items are offered with labels in the Tool options widget, from the same list.',
+    'The items come from the option model of the tool in the tool store, so the bar, the Tool options panel, the menus and the commands never drift. A tool with no options shows its chip and one line of help, so the row is never empty.',
+    'The chip names the tool and the preset whose values are set, or Custom. It opens the presets of the tool, Save as preset, Reset and the Tool options panel.',
+    'Each tool keeps its own values, and they survive a restart. A choice that is off says why in its hint.',
+    'Place Tile and Edit Tile live on the Tools toolbar, and the collision and animation overlays live on the Canvas toolbar.',
   ],
   a11y: [
-    'The toolbar is named Tool options. Arrow keys move between the items, and the number field of the brush size takes the arrow keys itself.',
+    'The toolbar is named Tool options. Arrow keys move between the items, and every change is announced once.',
   ],
   tree: {
     path: ['actions', 'several related buttons', 'tools in a row or column, with hints and options'],

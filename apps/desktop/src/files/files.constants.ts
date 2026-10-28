@@ -4,7 +4,10 @@ import type { FileActionKind, FileBusy, FileOutcome } from './files.type';
 
 const BXEL_EXTENSIONS: readonly string[] = ['bxsprite', 'bxanim', 'bxsheet', 'bxpalette', 'bxtiles', 'bxmap', 'bxproject', 'bxel'];
 
-const OPEN_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'Bxel files', extensions: [...BXEL_EXTENSIONS] }];
+const OPEN_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [
+  { name: 'Bxel files', extensions: [...BXEL_EXTENSIONS] },
+  { name: 'Images', extensions: ['png', 'apng', 'gif'] },
+];
 
 const PNG_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [{ name: 'PNG image', extensions: ['png'] }];
 

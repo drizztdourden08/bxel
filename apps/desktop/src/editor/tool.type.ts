@@ -3,14 +3,4 @@ type ToolId = 'pencil' | 'eraser' | 'fill' | 'picker' | 'shape' | 'zoom' | 'hand
 
 type StrokeTool = 'pencil' | 'eraser';
 
-type ToolGroup = 'draw' | 'select' | 'view';
-
-interface ToolDef {
-  id: ToolId;
-  label: string;
-  description: string;
-  key: string;
-  group: ToolGroup;
-}
-
-export type { StrokeTool, ToolDef, ToolGroup, ToolId };
+export type { StrokeTool, ToolId };

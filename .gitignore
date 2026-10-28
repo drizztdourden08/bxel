@@ -41,3 +41,6 @@ apps/desktop/public/logos/mark.svg
 
 # e2e export output folders
 e2e-out-*/
+
+# e2e temp folders created at the repo root
+bxel-e2e-*/

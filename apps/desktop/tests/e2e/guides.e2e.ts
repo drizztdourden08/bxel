@@ -3,35 +3,21 @@ import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { SHORTCUT } from './support/e2e.constants';
 import type { Session } from './support/e2e.type';
+import { drag } from './support/drag-pointer';
 import { MARKS_SIDE } from './support/marks.constants';
 import { openSpriteRig } from './support/open-sprite-rig';
 import { readSaved } from './support/read-saved';
+import type { RulerName } from './support/ruler-centre';
+import { centreOf } from './support/ruler-centre';
 import { saveFile } from './support/save-file';
 import { shoot } from './support/shoot';
 import { useRig } from './support/use-rig';
-
-type RulerName = 'Horizontal ruler' | 'Vertical ruler';
 
 const menuItem = (session: Session, name: RegExp) => session.page.getByRole('menu').getByRole('menuitem', { name });
 
 const radioItem = (session: Session, name: RegExp) => session.page.getByRole('menu').getByRole('menuitemradio', { name });
 
 const ruler = (session: Session, name: RulerName) => session.page.getByRole('button', { name });
-
-const centreOf = async (session: Session, name: RulerName) => {
-  const box = await ruler(session, name).boundingBox();
-  if (!box) throw new Error(`the ${name} has no box`);
-  return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
-};
-
-const drag = async (session: Session, from: { x: number; y: number }, to: { x: number; y: number }): Promise<void> => {
-  const { mouse } = session.page;
-  await mouse.move(from.x, from.y);
-  await mouse.down();
-  await mouse.move((from.x + to.x) / 2, (from.y + to.y) / 2, { steps: 4 });
-  await mouse.move(to.x, to.y, { steps: 4 });
-  await mouse.up();
-};
 
 const press = async (session: Session, chord: string): Promise<void> => {
   await session.page.getByRole('application', { name: 'Sprite canvas' }).focus();

@@ -41,7 +41,7 @@ import { excludeFromTag, includeInTag } from '../timeline/tag-membership';
 import { tagById } from '../timeline/tag-by-id';
 import { TIMELINE_LABEL } from '../timeline/timeline.constants';
 import { COMMAND_GROUP } from './keymap.constants';
-import { onSurface } from './on-surface';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.timeline;
 
@@ -93,7 +93,16 @@ const FRAME_COMMANDS: readonly CommandDef[] = [
   { id: 'timeline.delete_frames', label: 'Delete the selected frames', group, run: () => deleteFrames() },
   { id: 'timeline.move_frames_earlier', label: 'Move the selected frames earlier', group, run: () => void moveFrames(-1) },
   { id: 'timeline.move_frames_later', label: 'Move the selected frames later', group, run: () => void moveFrames(1) },
-  { id: 'timeline.move_frames_to', label: 'Move the selected frames to a position', group, run: () => store.getState().setPopover({ kind: 'position' }) },
+  {
+    id: 'timeline.move_frames_to',
+    label: 'Move the selected frames to a position',
+    group,
+    run: (context?: CommandContext) => {
+      const { position } = commandArgs<{ position: number }>(context);
+      if (position === undefined) store.getState().setPopover({ kind: 'position' });
+      else void moveFramesTo(position - 1);
+    },
+  },
   { id: 'timeline.reverse_frames', label: 'Reverse the order of the selected frames', group, run: () => void reverseFrames() },
   { id: 'timeline.linked_copy', label: 'Make linked copies of the selected frames', group, run: () => void linkedCopy() },
   { id: 'timeline.select_same_sprite', label: 'Select the frames that show the same sprite', group, run: () => void selectFramesWhere('same-sprite') },
@@ -223,6 +232,6 @@ const TAG_COMMANDS: readonly CommandDef[] = [
   { id: 'tag.delete', label: 'Delete a tag', group, run: withTag((tagId) => deleteTag(tagId)) },
 ];
 
-const TIMELINE_MENU_COMMANDS: readonly CommandDef[] = [...FRAME_COMMANDS, ...TAG_COMMANDS].map(onSurface('sprite', 'tile'));
+const TIMELINE_MENU_COMMANDS: readonly CommandDef[] = [...FRAME_COMMANDS, ...TAG_COMMANDS].map(ruled);
 
 export { TIMELINE_MENU_COMMANDS };

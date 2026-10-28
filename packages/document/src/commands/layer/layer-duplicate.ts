@@ -26,6 +26,8 @@ const layerDuplicate = defineCommand({
         name: chooseLayerName(name, names, freeName(names, `${layer.name}${COPY_SUFFIX}`)),
         visible: layer.visible,
         locked: false,
+        ...(layer.lockTransparency === true ? { lockTransparency: true } : {}),
+        ...(layer.colour === undefined ? {} : { colour: layer.colour }),
         cels: copyLayerCels(draft, sprite, layer),
       };
       insertLayer(draft, sprite.id, copy, index + 1);

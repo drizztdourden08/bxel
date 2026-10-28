@@ -4,8 +4,8 @@ import { currentFocus } from '../timeline/current-focus';
 import { deleteFrames } from '../timeline/delete-frames';
 import { togglePlayback } from '../timeline/toggle-playback';
 import { COMMAND_ZONE } from './command-zone.constants';
-import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
+import { ruled } from './ruled';
 
 const onCanvasTarget = (): boolean => {
   const active = document.activeElement;
@@ -31,6 +31,6 @@ const TIMELINE_COMMANDS: readonly CommandDef[] = [
     when: onCanvasTarget,
     run: () => togglePlayback(),
   },
-].map(editorCommand);
+].map(ruled);
 
 export { TIMELINE_COMMANDS };

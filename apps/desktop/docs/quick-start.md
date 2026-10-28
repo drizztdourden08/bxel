@@ -25,8 +25,22 @@ an exported sprite sheet. The labels are the ones on screen.
   (Fit, 1:1) and opens Transform. A sheet shows only the zoom buttons.
 - The menu lists File, Edit, the menu of the open asset, View, Project and Help, then Settings,
   About and Quit. New, Open, Open recent, Save, Save as, Save all, Export and Import are in File.
-- The Tools toolbar holds Pencil (B), Eraser (E), Fill (G), Picker (I), Shapes (U), Select (M),
-  Move (V), Zoom (Z) and Hand (H). Tool options sit in the toolbar above it.
+- The Tools toolbar groups Draw: Pencil (B), Eraser (E), Fill (G) and Picker (I); Shape: Shapes
+  (U); Select: Select (M) and Move (V); View: Zoom (Z) and Hand (H). A small corner mark on Shapes
+  and Select says they hold variants: press the key again to cycle them (Shift with the key goes
+  back). Hold a tool, right click it or press the arrow key that points away from the bar to open
+  its menu of variants, options and presets. Shift+` returns to the previous tool. With no asset
+  open the tools are dimmed. A map shows Place, Erase, Fill, Pick, Rectangle and Select, and each
+  kind of asset remembers its own tool.
+- The Tool options toolbar above the canvas starts with a chip that names the tool and its preset
+  (or Custom), then the common options of the tool, then its actions. Each tool remembers its own
+  brush size, tip and pixel perfect, and the values come back after a restart. `[` and `]` change
+  the size by 1, Shift with them by 4. P toggles pixel perfect. Alt+1 to Alt+5 apply the first five
+  presets of the tool.
+- The Tools panel lists every tool by group with its key, one line and the options of the active
+  tool, then Recent tools, Presets and preferences. The Tool options panel shows every option with
+  its description, a brush preview, Reset tool, Reset all tools and the presets. Open them from the
+  Window menu or from the menus above.
 - The panels are Palette, Layers, Sheet, Tileset and Timeline, with Project on the left.
   F6 moves between the toolbars, the canvas and the panels.
 - The status bar under the canvas shows the cell under the pointer, the zoom, your two colours and
@@ -36,7 +50,8 @@ an exported sprite sheet. The labels are the ones on screen.
 
 1. Press Ctrl+N and choose Create sprite in the New asset dialog.
 2. Pick a colour in the Palette panel. Left click sets Colour 1, right click sets Colour 2.
-   Hold Ctrl for Colour 3 and Colour 4. Shift+F10 on a swatch opens its menu.
+   Shift+click sets Colour 3 and Shift+right click sets Colour 4. On the canvas, hold Ctrl to
+   draw with Colour 3 and Colour 4. Shift+F10 on a swatch opens its menu.
 3. Draw on the canvas with the Pencil. Hold Shift for a straight line. Mirror X paints the opposite
    side as well. One stroke is one undo step (Ctrl+Z, Ctrl+Y).
 4. Turn on Tiled preview in the View menu to see whether a pattern repeats. While it is on, a stroke,

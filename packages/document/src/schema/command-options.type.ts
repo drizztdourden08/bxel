@@ -32,6 +32,8 @@ import type { mapEraseSchema } from './map-erase-schema';
 import type { mapFillSchema } from './map-fill-schema';
 import type { mapLayerAddSchema } from './map-layer-add-schema';
 import type { mapLayerDeleteSchema } from './map-layer-delete-schema';
+import type { mapLayerDuplicateSchema } from './map-layer-duplicate-schema';
+import type { mapLayerMergeSchema } from './map-layer-merge-schema';
 import type { mapLayerRefSchema } from './map-layer-ref-schema';
 import type { mapLayerReorderSchema } from './map-layer-reorder-schema';
 import type { mapLayerUpdateSchema } from './map-layer-update-schema';
@@ -107,6 +109,8 @@ type MapLayerRef = z.output<typeof mapLayerRefSchema>;
 type MapLayerAddOptions = z.output<typeof mapLayerAddSchema>;
 type MapLayerUpdateOptions = z.output<typeof mapLayerUpdateSchema>;
 type MapLayerDeleteOptions = z.output<typeof mapLayerDeleteSchema>;
+type MapLayerDuplicateOptions = z.output<typeof mapLayerDuplicateSchema>;
+type MapLayerMergeOptions = z.output<typeof mapLayerMergeSchema>;
 type MapLayerReorderOptions = z.output<typeof mapLayerReorderSchema>;
 type MapPaintOptions = z.output<typeof mapPaintSchema>;
 type MapEraseOptions = z.output<typeof mapEraseSchema>;
@@ -120,6 +124,8 @@ export type {
   MapLayerAddOptions,
   MapLayerDeleteOptions,
   MapLayerRef,
+  MapLayerDuplicateOptions,
+  MapLayerMergeOptions,
   MapLayerReorderOptions,
   MapLayerUpdateOptions,
   MapPaintOptions,

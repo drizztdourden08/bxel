@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
+import { openProjectWindow } from '../config-entry/open-project-window';
 import { openProjectSettings } from '../config-entry/open-project-settings';
 import { closeProject } from '../project/close-project';
 import { openProject } from '../project/open-project';
@@ -35,6 +36,14 @@ const PROJECT_COMMANDS: readonly CommandDef[] = [
     run: () => {
       void closeProject();
     },
+  },
+  {
+    id: PROJECT_COMMAND.window,
+    label: PROJECT_TEXT.window,
+    icon: 'folder',
+    group: PROJECT_GROUP,
+    chord: 'Mod+Shift+P',
+    run: openProjectWindow,
   },
   {
     id: PROJECT_COMMAND.settings,

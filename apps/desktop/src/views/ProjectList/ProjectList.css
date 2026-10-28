@@ -1,0 +1,8 @@
+/* @layer renderer-app @kind style */
+.project-list__browse {
+  block-size: var(--size-640);
+  max-block-size: 70vh;
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+}

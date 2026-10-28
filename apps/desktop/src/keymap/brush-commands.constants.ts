@@ -2,8 +2,8 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { stepColour } from '../editor/step-colour';
 import { useToolStore } from '../stores/useToolStore';
-import { editorCommand } from './editor-command';
 import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
+import { ruled } from './ruled';
 
 const BRUSH_COMMANDS: readonly CommandDef[] = [
   {
@@ -64,6 +64,6 @@ const BRUSH_COMMANDS: readonly CommandDef[] = [
     chord: 'W',
     run: () => stepColour(1),
   },
-].map(editorCommand);
+].map(ruled);
 
 export { BRUSH_COMMANDS };

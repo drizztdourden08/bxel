@@ -18,6 +18,7 @@ const paintPicks = (ctx: CanvasRenderingContext2D, view: PixelView, state: Sheet
     ctx.setLineDash(SELECT_DASH.map((part) => part / zoom));
     ctx.strokeRect(x, y, sprite.width, sprite.height);
     ctx.setLineDash([]);
+    if (!state.marks.pivots) continue;
     ctx.strokeStyle = look.pivot;
     ctx.lineWidth = 1 / zoom;
     const px = x + sprite.pivot.x2 / 2;

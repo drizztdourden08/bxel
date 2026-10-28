@@ -3,13 +3,13 @@ import { spawnSync } from 'node:child_process';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { launchAppForTest } from '@drizztdourden08/brock-build/testing';
 import { afterAll, describe, expect, test } from 'vitest';
 import { canvasMapper } from './support/canvas-mapper';
 import { createSprite } from './support/create-sprite';
 import { drawStroke } from './support/draw-stroke';
 import { APP_DIR, CANVAS_LABEL, TEMP_PREFIX } from './support/e2e.constants';
 import type { Session } from './support/e2e.type';
+import { launchOwned } from './support/launch-owned';
 import { MARKS, MARKS_SIDE } from './support/marks.constants';
 import { pickSwatch } from './support/pick-swatch';
 import { readDisplayed } from './support/read-displayed';
@@ -22,7 +22,7 @@ const SNAPSHOT_WAIT_MS = 9000;
 const held: { dir?: string } = {};
 
 const launch = async (userData: string): Promise<Session> => {
-  const launched = await launchAppForTest({ appDir: APP_DIR, userData });
+  const launched = await launchOwned({ appDir: APP_DIR, userData });
   await launched.page.getByRole('application', { name: CANVAS_LABEL }).waitFor();
   return { app: launched.app, page: launched.page, dir: userData, close: launched.close };
 };

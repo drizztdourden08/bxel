@@ -1,9 +1,11 @@
 /* @layer renderer-app @kind constants */
 import { join } from 'node:path';
+import { E2E_RUN_ID } from './run-id.constants';
+import { runMarker } from './run-marker';
 
 const APP_DIR = join(import.meta.dirname, '../../..');
 
-const TEMP_PREFIX = 'bxel-e2e-';
+const TEMP_PREFIX = runMarker(E2E_RUN_ID);
 
 const PROJECT_PARENT = '.e2e-projects';
 

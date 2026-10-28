@@ -5,38 +5,35 @@ import { COLLISION_COMMAND } from '../keymap/collision-command-id.constants';
 import { TERRAIN_COMMAND } from '../keymap/terrain-command-id.constants';
 import { TILEMAP_COMMAND as ID } from '../keymap/tilemap-command-id.constants';
 import type { EditorMenuState } from './editor-menu.type';
-import { menuItem } from './menu-item';
+import { ruledItem } from './ruled-item';
+import { tidyMenu } from './tidy-menu';
 
-const modeEntries = (state: EditorMenuState): MenuEntry[] => [
-  menuItem(ID.placeTiles, 'Place Tile', { checked: state.surface === 'map' }),
-  menuItem(ID.editTile, 'Edit Tile', { checked: state.surface === 'tile' }),
-  'separator',
-  menuItem(ID.newTileset, 'New tileset...'),
-  menuItem(ID.newTilemap, 'New tilemap...'),
-  menuItem(ID.addTile, 'Add tile'),
-  menuItem(ID.duplicateTile, 'Duplicate tile'),
-  menuItem(ID.deleteTile, 'Delete tile...'),
-];
-
-const cellEntries = (state: EditorMenuState): MenuEntry[] => [
-  'separator',
-  menuItem(ID.flipX, 'Flip placed tile X'),
-  menuItem(ID.flipY, 'Flip placed tile Y'),
-  menuItem(ID.turn, 'Rotate placed tile 90'),
-  'separator',
-  menuItem(ID.makeUnique, 'Make selected cells unique'),
-  menuItem(ID.replaceSelection, 'Replace tile in selection'),
-  menuItem(ID.replaceEverywhere, 'Replace tile on the layer'),
-  menuItem(ID.clearCells, 'Clear selected cells'),
-  'separator',
-  menuItem(ID.layerUp, 'Move map layer up'),
-  menuItem(ID.layerDown, 'Move map layer down'),
-  'separator',
-  menuItem(COLLISION_COMMAND.toggleOverlay, 'Show collision', { checked: state.collision }),
-  menuItem(TERRAIN_COMMAND.toggleBrush, 'Terrain brush', { checked: state.terrainBrush }),
-  menuItem(ANIMATION_COMMAND.toggleTiles, 'Animate tiles', { checked: state.animateTiles }),
-];
-
-const tilemapItems = (state: EditorMenuState): MenuEntry[] => [...modeEntries(state), ...(state.surface === 'map' ? cellEntries(state) : [])];
+const tilemapItems = (state: EditorMenuState): MenuEntry[] => {
+  const { context } = state;
+  const item = (id: string, label: string, checked?: boolean) => ruledItem(context, id, label, checked === undefined ? {} : { checked });
+  return tidyMenu([
+    item(ID.placeTiles, 'Place Tile', context.tileMode === 'place'),
+    item(ID.editTile, 'Edit Tile', context.tileMode === 'edit'),
+    'separator',
+    item(ID.newTileset, 'New tileset...'),
+    item(ID.newTilemap, 'New tilemap...'),
+    item(ID.addTile, 'Add tile'),
+    item(ID.duplicateTile, 'Duplicate tile'),
+    item(ID.deleteTile, 'Delete tile...'),
+    'separator',
+    item(ID.flipX, 'Flip placed tile X'),
+    item(ID.flipY, 'Flip placed tile Y'),
+    item(ID.turn, 'Rotate placed tile 90'),
+    'separator',
+    item(ID.makeUnique, 'Make selected cells unique'),
+    item(ID.replaceSelection, 'Replace tile in selection'),
+    item(ID.replaceEverywhere, 'Replace tile on the layer'),
+    item(ID.clearCells, 'Clear selected cells'),
+    'separator',
+    item(COLLISION_COMMAND.toggleOverlay, 'Show collision', state.collision),
+    item(TERRAIN_COMMAND.toggleBrush, 'Terrain brush', state.terrainBrush),
+    item(ANIMATION_COMMAND.toggleTiles, 'Animate tiles', state.animateTiles),
+  ]);
+};
 
 export { tilemapItems };

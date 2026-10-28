@@ -4,24 +4,25 @@ import { DIALOG_COMMAND } from '../keymap/dialog-command-id.constants';
 import { COMMAND_ID } from '../keymap/keymap.constants';
 import { MENU_KEYS, MENU_TEXT } from './editor-menu.constants';
 import type { EditorMenuState } from './editor-menu.type';
-import { menuItem } from './menu-item';
+import { ruledItem } from './ruled-item';
+import { tidyMenu } from './tidy-menu';
 
 const paletteMenu = (state: EditorMenuState): MenuItem => {
-  const off = { disabled: !state.hasDocument };
+  const item = (id: string, label: string) => ruledItem(state.context, id, label);
   return {
     key: MENU_KEYS.palette,
     label: MENU_TEXT.palette,
     icon: 'pixel-palette',
-    children: [
-      menuItem(COMMAND_ID.swapColours, 'Swap colours', off),
-      menuItem(COMMAND_ID.swapColourPairs, 'Swap colour pairs', off),
-      menuItem(COMMAND_ID.colourBack, 'Previous colour', off),
-      menuItem(COMMAND_ID.colourForward, 'Next colour', off),
+    children: tidyMenu([
+      item(COMMAND_ID.swapColours, 'Swap colours'),
+      item(COMMAND_ID.swapColourPairs, 'Swap colour pairs'),
+      item(COMMAND_ID.colourBack, 'Previous colour'),
+      item(COMMAND_ID.colourForward, 'Next colour'),
       'separator',
-      menuItem(DIALOG_COMMAND.deleteSwatch, 'Delete swatch...', off),
-      menuItem(DIALOG_COMMAND.mergeSwatch, 'Merge swatch...', off),
-      menuItem(DIALOG_COMMAND.changeLimit, 'Change colour limit...', off),
-    ],
+      item(DIALOG_COMMAND.deleteSwatch, 'Delete swatch...'),
+      item(DIALOG_COMMAND.mergeSwatch, 'Merge swatch...'),
+      item(DIALOG_COMMAND.changeLimit, 'Change colour limit...'),
+    ]),
   };
 };
 

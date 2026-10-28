@@ -1,32 +1,37 @@
 /* @layer renderer-app @kind logic */
 import type { MenuEntry, MenuItem } from '@drizztdourden08/brock-react';
 import { ASSET_SETTINGS_COMMAND } from '../config-entry/config-entry.constants';
+import { evaluate } from '../ui-context/evaluate';
+import { animationItems } from './animation-menu';
 import type { EditorMenuState } from './editor-menu.type';
 import { KIND_HEADS } from './kind-menu.constants';
-import type { KindHead } from './kind-menu.type';
 import { menuItem } from './menu-item';
 import { paintItems } from './paint-items';
+import { ruledItem } from './ruled-item';
 import { sheetItems } from './sheet-menu';
+import { tidyMenu } from './tidy-menu';
 import { tilemapItems } from './tilemap-menu';
 
-const joined = (items: readonly MenuEntry[], paint: readonly MenuEntry[]): MenuEntry[] => [...items, ...(paint.length > 0 ? ['separator' as const, ...paint] : [])];
+const joined = (items: readonly MenuEntry[], paint: readonly MenuEntry[]): MenuEntry[] => tidyMenu([...items, 'separator', ...paint]);
 
-const withSettings = (state: EditorMenuState, head: KindHead, items: readonly MenuEntry[]): MenuItem => ({
-  ...head,
-  children: [...items, ...(items.length > 0 ? ['separator' as const] : []), menuItem(ASSET_SETTINGS_COMMAND, state.settings)],
-});
-
-const spriteKind = (state: EditorMenuState): MenuItem => withSettings(state, state.kind === 'palette' ? KIND_HEADS.palette : KIND_HEADS.sprite, paintItems(state));
-
-const sheetKind = (state: EditorMenuState): MenuItem => withSettings(state, KIND_HEADS.sheet, joined(sheetItems(state), paintItems(state)));
-
-const tilemapKind = (state: EditorMenuState): MenuItem => withSettings(state, KIND_HEADS.tilemap, joined(tilemapItems(state), paintItems(state)));
+const bodyOf = (state: EditorMenuState): MenuEntry[] => {
+  const { context } = state;
+  const paint = paintItems(state);
+  if (context.fileType === 'sprite') return joined(tidyMenu([ruledItem(context, 'sprite.make_animation', 'Make an animation...')]), paint);
+  if (context.fileType === 'animation') return joined(animationItems(state), paint);
+  if (context.fileType === 'palette') return paint;
+  if (context.fileType === 'sheet') return joined(sheetItems(state), paint);
+  if (context.fileType === 'tileset' || context.fileType === 'tilemap') return joined(tilemapItems(state), paint);
+  return tidyMenu([ruledItem(context, 'image.import', 'Import...')]);
+};
 
 const kindMenu = (state: EditorMenuState): MenuItem | null => {
-  if (state.surface === 'none') return null;
-  if (state.surface === 'sheet') return sheetKind(state);
-  if (state.surface === 'map' || state.surface === 'tile') return tilemapKind(state);
-  return state.isolated ? sheetKind(state) : spriteKind(state);
+  const { fileType } = state.context;
+  if (fileType === 'none' || evaluate(`menu.kind.${fileType}`, state.context).state === 'hidden') return null;
+  const items = bodyOf(state);
+  const settings = fileType === 'image' ? [] : [menuItem(ASSET_SETTINGS_COMMAND, state.settings)];
+  const children = tidyMenu([...items, ...(items.length > 0 && settings.length > 0 ? ['separator' as const] : []), ...settings]);
+  return children.length === 0 ? null : { ...KIND_HEADS[fileType], children };
 };
 
 export { kindMenu };

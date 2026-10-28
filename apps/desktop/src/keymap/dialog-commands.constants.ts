@@ -6,11 +6,14 @@ import { hasActiveDocument } from '../files/has-active-document';
 import { startImport } from '../image-import/start-import';
 import { startChange } from '../palette-change/start-change';
 import { useCreateDialogStore } from '../stores/useCreateDialogStore';
+import { useImageTabStore } from '../stores/useImageTabStore';
+import { importImageTab } from '../views/ImageStage/behavior/import-image-tab';
 import { DIALOG_COMMAND } from './dialog-command-id.constants';
-import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
+import { gated } from './gated';
+import { ruled } from './ruled';
 
-const FILE_DIALOG_COMMANDS: readonly CommandDef[] = [
+const FILE_DIALOG_DEFS: readonly CommandDef[] = [
   {
     id: DIALOG_COMMAND.newFile,
     label: 'New asset',
@@ -39,12 +42,27 @@ const FILE_DIALOG_COMMANDS: readonly CommandDef[] = [
   },
 ];
 
+const FILE_DIALOG_COMMANDS: readonly CommandDef[] = FILE_DIALOG_DEFS.map(gated);
+
 const PALETTE_DIALOG_COMMANDS: readonly CommandDef[] = [
   { id: DIALOG_COMMAND.deleteSwatch, label: 'Delete swatch', group: COMMAND_GROUP.colours, run: (context?: CommandContext) => startChange('delete', commandArgs<SwatchArgs>(context).index) },
   { id: DIALOG_COMMAND.mergeSwatch, label: 'Merge swatch', group: COMMAND_GROUP.colours, run: (context?: CommandContext) => startChange('merge', commandArgs<SwatchArgs>(context).index) },
   { id: DIALOG_COMMAND.changeLimit, label: 'Change colour limit', group: COMMAND_GROUP.colours, run: () => startChange('limit') },
-].map(editorCommand);
+].map(ruled);
 
-const DIALOG_COMMANDS: readonly CommandDef[] = [...FILE_DIALOG_COMMANDS, ...PALETTE_DIALOG_COMMANDS];
+const IMAGE_DIALOG_COMMANDS: readonly CommandDef[] = [
+  {
+    id: 'image.import',
+    label: 'Import the open image',
+    group: 'File',
+    run: () => {
+      const { tabs, activeId } = useImageTabStore.getState();
+      const tab = tabs.find((each) => each.id === activeId);
+      if (tab) importImageTab(tab);
+    },
+  },
+].map(ruled);
+
+const DIALOG_COMMANDS: readonly CommandDef[] = [...FILE_DIALOG_COMMANDS, ...PALETTE_DIALOG_COMMANDS, ...IMAGE_DIALOG_COMMANDS];
 
 export { DIALOG_COMMANDS };

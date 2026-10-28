@@ -6,7 +6,10 @@ import { runDocument } from '../../src/sheet/run-document';
 import { spritesTarget } from '../../src/sheet/sprites-target';
 import { MAP_DEFAULTS } from '../../src/views/TilemapDialog/TilemapDialog.constants';
 import { TILEMAP_DEFAULTS } from '../../src/stores/tilemap-store.constants';
+import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useTilemapStore } from '../../src/stores/useTilemapStore';
+import { focusTab } from '../../src/workspace/focus-tab';
+import { tabOf } from '../../src/workspace/tab-of';
 import { addTile } from '../../src/tilemap/add-tile';
 import { createTilemap } from '../../src/tilemap/create-tilemap';
 import { createTileset } from '../../src/tilemap/create-tileset';
@@ -79,6 +82,9 @@ const openMapFile = (): void => {
   const tilesetId = tilesetNow().id;
   if (createTilemap({ name: 'level', tilesetId, ...MAP_DEFAULTS, columns: 4, rows: 3 }) !== null) throw new Error('no tilemap');
   useTilemapStore.getState().setStamp({ columns: 1, rows: 1, keys: [2] });
+  const { activeId } = useDocumentStore.getState();
+  if (activeId === null) throw new Error('no document');
+  focusTab(tabOf(activeId, { kind: 'tilemap', id: mapNow().id }));
 };
 
 export { ROCK, artworkNow, cellsNow, layerNow, mapNow, openMapFile, paintTile, picture, tilePixels, tileSprite, tilesetNow };

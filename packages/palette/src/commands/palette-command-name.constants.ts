@@ -16,6 +16,9 @@ const PALETTE_COMMAND_NAME = {
   paletteDuplicate: 'palette.duplicate',
   paletteAssign: 'palette.assign',
   paletteImport: 'palette.import',
+  paletteSort: 'palette.sort',
+  paletteRemoveUnused: 'palette.remove_unused',
+  paletteUniteDuplicates: 'palette.unite_duplicates',
 } as const;
 
 export { PALETTE_COMMAND_NAME };

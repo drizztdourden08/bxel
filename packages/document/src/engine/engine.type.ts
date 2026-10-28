@@ -19,6 +19,11 @@ type EngineOptions = {
   readonly unsaved?: boolean;
 };
 
+type HistoryList = {
+  readonly entries: readonly Pick<HistoryEntry, 'id' | 'label' | 'origin' | 'actor'>[];
+  readonly cursor: number;
+};
+
 type Engine = {
   readonly documentId: DocumentId;
   readonly state: () => DocumentState;
@@ -27,6 +32,7 @@ type Engine = {
   readonly redo: (request: HistoryRequest) => TransactionResult;
   readonly subscribe: (listener: DocumentListener) => () => void;
   readonly newest: () => HistoryEntry | null;
+  readonly history: () => HistoryList;
   readonly canUndo: () => boolean;
   readonly canRedo: () => boolean;
   readonly isClean: () => boolean;
@@ -67,4 +73,4 @@ type HistoryRun = {
   readonly direction: HistoryDirection;
 };
 
-export type { DraftRun, Engine, EngineOptions, EngineStore, HistoryRun, StepRun };
+export type { DraftRun, Engine, EngineOptions, EngineStore, HistoryList, HistoryRun, StepRun };

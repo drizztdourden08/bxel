@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { COMMAND_ID } from '../../src/keymap/keymap.constants';
-import { TOOLS } from '../../src/editor/tools.constants';
+import { memberById } from '../../src/editor/tool-catalogue/member-by-id';
 import { bind, unbindAll } from './brock-chords';
 import { renderHint } from './hint-harness';
 
@@ -14,7 +14,7 @@ beforeEach(unbindAll);
 describe('the hint body', () => {
   it('shows the name, the description and the key of a command', () => {
     bind(COMMAND_ID.tool('pencil'), ['B']);
-    const pencil = TOOLS.find((tool) => tool.id === 'pencil');
+    const pencil = memberById('pencil')?.member;
     if (!pencil) throw new Error('no pencil');
     const html = renderHint({ name: pencil.label, description: pencil.description, shortcuts: [{ command: COMMAND_ID.tool('pencil') }] });
     expect(html).toContain('Pencil');

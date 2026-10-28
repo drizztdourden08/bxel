@@ -1,17 +1,15 @@
 /* @layer renderer-app @kind test */
-import type { ToolbarItem } from '@drizztdourden08/tessera';
 import { describe, expect, it, vi } from 'vitest';
 import { choose } from '../../src/toolbar-items/choose';
 import { hintChoice } from '../../src/toolbar-items/hint-choice';
 import { hintFace } from '../../src/toolbar-items/hint-face';
 import { toggleItem } from '../../src/toolbar-items/toggle-item';
 import { tiledGroups } from '../../src/views/CanvasToolbar/behavior/tiled-groups';
-import { joinOptions } from '../../src/views/OptionsToolbar/behavior/join-options';
-import type { OptionItems } from '../../src/views/OptionsToolbar/OptionsToolbar.type';
+import { optionItems } from '../../src/views/OptionsToolbar/behavior/option-items';
+import { optionsOf } from '../../src/editor/tool-options/options-of';
+import { OPTION_SPECS } from '../../src/editor/tool-options/option-specs.constants';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../keymap/brock-react-mock')).brockReactMock());
-
-const button = (id: string): ToolbarItem => ({ kind: 'button', id, label: id, icon: 'check', onSelect: () => undefined });
 
 describe('the toolbar items', () => {
   it('take the name and the description of a hint and keep the key off the label', () => {
@@ -47,13 +45,14 @@ describe('the toolbar items', () => {
     expect(seen).toEqual(['b']);
   });
 
-  it('put a separator between the kinds of options and none before the first', () => {
-    const items: OptionItems = {
-      brush: [button('size')], pixelPerfect: [button('perfect')], fill: [], shape: [], select: [], mapFlags: [], mapFilled: [], mapSelection: [],
-    };
-    const joined = joinOptions(['brush', 'pixelPerfect'], items);
-    expect(joined.map((item) => item.id)).toEqual(['size', 'before-pixelPerfect', 'perfect']);
-    expect(joinOptions([], items)).toEqual([]);
+  it('put a separator between the groups of options and none before the first', () => {
+    const specs = OPTION_SPECS.filter((spec) => spec.tool === 'pencil' && spec.surface === 'paint');
+    const joined = optionItems(specs, () => undefined);
+    expect(joined[0]?.kind).not.toBe('separator');
+    expect(joined.map((item) => item.id)).toEqual(['pencil.size', 'pencil.tip', 'pencil.pixel_perfect']);
+    expect(optionItems([], () => undefined)).toEqual([]);
+    const shape = optionsOf('sprite', 'shape');
+    expect(optionItems(shape, () => undefined).map((item) => item.id)).toEqual(['shape.kind', 'shape.filled', 'before-brush', 'shape.size', 'shape.tip']);
   });
 
   it('list the four tiled preview modes and check the current one', () => {

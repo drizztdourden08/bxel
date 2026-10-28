@@ -2,7 +2,9 @@
 import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { ToolCall, ToolReply } from '@bxel/mcp';
 import { channelApi } from '@drizztdourden08/brock-react';
+import { ASSET_SOURCE } from '../asset-config/asset-source.constants';
 import { fileKit } from '../files/file-kit';
+import { PROJECT_SOURCE } from '../project-config/project-source.constants';
 import { APP_CHANNELS } from '../ipc/contract.constants';
 import { reasonOf } from '../files/reason-of';
 import { useAssistantStore } from '../stores/useAssistantStore';
@@ -10,7 +12,11 @@ import { activityOf } from './activity-of';
 import { ASSISTANT_TEXT } from './assistant.constants';
 import { TOOL_HANDLERS } from './tool-handlers.constants';
 import { reply } from './tools/reply';
+import { SETTINGS_SOURCES } from './tools/settings-sources.constants';
 import { TOOL_TEXT } from './tools/tools.constants';
+
+SETTINGS_SOURCES.asset = ASSET_SOURCE;
+SETTINGS_SOURCES.project = PROJECT_SOURCE;
 
 const claimFiles = (paths: readonly string[]): Promise<readonly string[]> => channelApi(APP_CHANNELS).assistantClaimFiles([...paths]);
 
