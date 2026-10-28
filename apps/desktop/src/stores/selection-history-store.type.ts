@@ -22,4 +22,4 @@ interface SelectionHistoryState {
   reset: () => void;
 }
 
-export type { SelectionHistoryState, SelectionStep };
+export type { SelectionHistoryState };

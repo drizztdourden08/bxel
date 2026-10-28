@@ -18,12 +18,6 @@ const TURN_LABELS: Readonly<Record<TurnDirection, string>> = {
 
 const BOUNDS_CHOICES: readonly BoundsPolicy[] = ['crop', 'expand', 'cancel'];
 
-const BOUNDS_LABELS: Readonly<Record<BoundsPolicy, string>> = {
-  crop: 'Crop',
-  expand: 'Expand canvas',
-  cancel: 'Cancel if it does not fit',
-};
-
 const PENDING_TEXT = {
   move: 'Move',
   paste: 'Paste',
@@ -39,4 +33,4 @@ const PENDING_TEXT = {
   noPreview: 'The preview is too large to draw.',
 } as const;
 
-export { BOUNDS_CHOICES, BOUNDS_LABELS, FLIP_LABELS, PENDING_TEXT, PREVIEW_PIXELS, TURN_LABELS };
+export { BOUNDS_CHOICES, FLIP_LABELS, PENDING_TEXT, PREVIEW_PIXELS, TURN_LABELS };

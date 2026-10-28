@@ -1,4 +1,4 @@
-/* @layer core @kind logic */
+/* @layer core @kind constants */
 import { z } from 'zod';
 import { RENDER_SIDE_MAX } from '../limits/limits.constants';
 import { RECT_SCHEMA } from './shapes.constants';

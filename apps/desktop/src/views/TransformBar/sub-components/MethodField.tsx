@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind component */
-import { ALGORITHM_LABELS, ALGORITHM_NOTES } from '@bxel/raster';
-import { Field, SegmentedControl, Text } from '@drizztdourden08/tessera';
+import { ALGORITHM_LABELS } from '@bxel/raster';
+import { Field, SegmentedControl } from '@drizztdourden08/tessera';
+import { BOUNDS_CHOICES } from '../../../editor/pending/pending.constants';
 import { reviseTransform } from '../../../editor/transform/revise-transform';
 import { BOUNDS_BAR_LABELS, METHOD_CHOICES, TRANSFORM_BAR_TEXT } from '../TransformBar.constants';
 import type { MethodFieldProps } from '../TransformBar.type';
-import { BOUNDS_CHOICES } from '../../../editor/pending/pending.constants';
 
 const MethodField = ({ model }: MethodFieldProps) => (
   <>
@@ -26,7 +26,6 @@ const MethodField = ({ model }: MethodFieldProps) => (
         onChange={(bounds) => reviseTransform((spec) => ({ ...spec, bounds }))}
       />
     </Field>
-    <Text as="span" variant="caption" className="transform-bar__note">{ALGORITHM_NOTES[model.spec.algorithm]}</Text>
   </>
 );
 

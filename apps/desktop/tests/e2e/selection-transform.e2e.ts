@@ -42,6 +42,6 @@ describe('selection and transform', () => {
     await dialog.getByRole('textbox', { name: 'Name' }).fill('everything');
     await dialog.getByRole('button', { name: 'Save selection' }).click();
     await dialog.getByRole('listitem').filter({ hasText: 'everything' }).waitFor();
-    await dialog.getByRole('button', { name: 'Close' }).click();
+    await dialog.getByRole('button', { name: 'Close', exact: true }).last().click();
   });
 });

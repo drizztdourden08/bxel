@@ -5,18 +5,6 @@ import { coloursAdded } from '../resample/colours-added';
 import type { Point } from '../geometry.type';
 import type { LandOptions, LandResult, Lift } from './region.type';
 
-const landCell = ({ target, before, skipZero }: Lift, at: Point, from: number): number => {
-  const value = before[from] ?? 0;
-  if (skipZero && value === 0) {
-    return 0;
-  }
-  if (at.x < 0 || at.y < 0 || at.x >= target.width || at.y >= target.height) {
-    return value === 0 ? 0 : 1;
-  }
-  target.pixels[at.y * target.width + at.x] = value;
-  return 0;
-};
-
 const landPicked = (lift: Lift, at: Point, value: number): number => {
   if (lift.skipZero && value === 0) {
     return 0;
@@ -28,6 +16,8 @@ const landPicked = (lift: Lift, at: Point, value: number): number => {
   target.pixels[at.y * target.width + at.x] = value;
   return 0;
 };
+
+const landCell = (lift: Lift, at: Point, from: number): number => landPicked(lift, at, lift.before[from] ?? 0);
 
 const landRow = (lift: Lift, y: number): number => {
   const { area, source } = lift.resample;

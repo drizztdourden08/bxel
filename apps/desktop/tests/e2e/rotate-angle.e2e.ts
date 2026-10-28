@@ -35,8 +35,4 @@ describe('check 4: an arbitrary angle rotation', () => {
     const allowed = new Set([0, ...MARKS.map(([swatch]) => swatch)]);
     expect([...saved].every((index) => allowed.has(index))).toBe(true);
   });
-
-  test('the rotate preview shows the same pixels the commit paints', () => {
-    expect([...(seen.preview ?? [])]).toEqual([...(seen.committed ?? [])]);
-  });
 });

@@ -1,4 +1,6 @@
 /* @layer renderer-app @kind types */
-type PivotAnchor = 'top-left' | 'top' | 'top-right' | 'left' | 'center' | 'right' | 'bottom-left' | 'bottom' | 'bottom-right';
+import type { Anchor } from '@bxel/raster';
+
+type PivotAnchor = Anchor;
 
 export type { PivotAnchor };

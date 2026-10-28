@@ -23,8 +23,6 @@ const ALGORITHM_NOTES: Readonly<Record<ResampleAlgorithm, string>> = {
   mmpx: 'Doubles the size and keeps thin lines and single pixels (MMPX). Never adds a colour.',
 };
 
-const ROTSPRITE_FACTOR = 8;
-
 const ROTSPRITE_PASSES = 3;
 
 const DEFAULT_STEP: StepConfig = {
@@ -33,4 +31,4 @@ const DEFAULT_STEP: StepConfig = {
   luma: (index) => (index === 0 ? 256 : 1 + index * 3),
 };
 
-export { ALGORITHM_LABELS, ALGORITHM_NOTES, DEFAULT_STEP, ROTATE_ALGORITHMS, ROTSPRITE_FACTOR, ROTSPRITE_PASSES, SCALE_ALGORITHMS };
+export { ALGORITHM_LABELS, ALGORITHM_NOTES, DEFAULT_STEP, ROTATE_ALGORITHMS, ROTSPRITE_PASSES, SCALE_ALGORITHMS };

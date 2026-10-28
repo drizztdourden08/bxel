@@ -16,4 +16,4 @@ type Three = {
 
 type Claim = readonly [boolean, number];
 
-export type { Claim, Same, Three };
+export type { Claim, Three };

@@ -52,4 +52,4 @@ type TipSpec = { readonly x: number; readonly eqE: Four; readonly noneE: Four };
 
 type ShallowSpec = { readonly guard: boolean; readonly x: number; readonly eq: readonly [number, number, number]; readonly none: readonly [number, number] };
 
-export type { CornerRule, CrossingSpec, Four, ShallowSpec, TipSpec, Hood, Quad, ShallowRule, SlopeRule, Slot };
+export type { CornerRule, CrossingSpec, ShallowSpec, TipSpec, Hood, Quad, ShallowRule, SlopeRule };

@@ -3,7 +3,7 @@ import { Field, NumberInput } from '@drizztdourden08/tessera';
 import { applyField } from '../../../editor/transform/apply-field';
 import { fieldValue } from '../../../editor/transform/field-value';
 import { reviseTransform } from '../../../editor/transform/revise-transform';
-import { FIELD_LABELS, FIELD_STEPS } from '../TransformBar.constants';
+import { FIELD_LABELS, FIELD_RANGES, FIELD_STEPS } from '../TransformBar.constants';
 import type { NumberFieldProps } from '../TransformBar.type';
 import { fieldId } from '../behavior/field-id';
 
@@ -12,6 +12,9 @@ const NumberField = ({ field, model }: NumberFieldProps) => (
     <NumberInput
       id={fieldId(field)}
       size="sm"
+      sizeToContent
+      min={FIELD_RANGES[field].min}
+      max={FIELD_RANGES[field].max}
       step={FIELD_STEPS[field]}
       value={fieldValue(model.box, model.spec, field)}
       aria-label={FIELD_LABELS[field]}

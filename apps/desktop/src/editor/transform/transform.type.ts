@@ -39,4 +39,4 @@ interface HeldKeys {
   ctrlKey: boolean;
 }
 
-export type { Grab, GrabMode, Handle, HandleKind, HeldKeys, TransformField, TransformSpec };
+export type { Grab, GrabMode, Handle, HeldKeys, TransformField, TransformSpec };
