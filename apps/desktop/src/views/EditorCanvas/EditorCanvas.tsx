@@ -5,6 +5,7 @@ import { Box } from '@drizztdourden08/tessera';
 import { useSpriteLook } from '../../canvas-look/useSpriteLook';
 import { WRAP_OF } from '../../editor/wrap.constants';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
+import { useSwatchDraftImage } from '../../hooks/useSwatchDraftImage';
 import { usePendingStore } from '../../stores/usePendingStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { useViewStore } from '../../stores/useViewStore';
@@ -50,6 +51,7 @@ const EditorCanvas = () => {
   const look = useSpriteLook(target);
   const committed = useCommittedImage(target, viewport);
   const floating = usePendingImage(outcome);
+  const recoloured = useSwatchDraftImage(target);
   const tools = useCanvasTools(viewport);
   const readout = useCanvasReadout(viewport);
   const keys = useCanvasKeys(viewport);
@@ -74,7 +76,7 @@ const EditorCanvas = () => {
         hint={EDITOR_CANVAS_TEXT.hint}
         width={size.width}
         height={size.height}
-        source={canvasSource(preview, floating, tools.live, committed)}
+        source={canvasSource(preview, floating, tools.live, recoloured, committed)}
         draw={readout.draw}
         pivotGrips={preview ? undefined : paintPivotGrips}
         look={look}

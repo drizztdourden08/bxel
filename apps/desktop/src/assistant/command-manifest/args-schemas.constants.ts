@@ -4,6 +4,8 @@ import { z } from 'zod';
 const index = z.number().int().min(0).max(255);
 const coordinate = z.number().int().min(-100000).max(100000);
 
+const optionValue = z.union([z.string(), z.number(), z.boolean()]).describe('The new value. A choice takes one of its values, a number is clamped to its range, a toggle takes true or false.');
+
 const ANCHOR_VALUES = ['top-left', 'top', 'top-right', 'left', 'center', 'right', 'bottom-left', 'bottom', 'bottom-right'] as const;
 
 const ARGS_KINDS = {
@@ -31,6 +33,9 @@ const ARGS_KINDS = {
   canvasSize: z.strictObject({ width: z.number().int().min(1).max(4096), height: z.number().int().min(1).max(4096), anchor: z.enum(ANCHOR_VALUES).default('top-left') }),
   deleteSwatch: z.strictObject({ index: z.number().int().min(1).max(255) }),
   mergeSwatch: z.strictObject({ index: z.number().int().min(1).max(255), into: index }),
+  optionValue: z.strictObject({ value: optionValue.optional() }),
+  optionTarget: z.strictObject({ tool: z.string().min(1).optional(), option: z.string().min(1).describe('An option id from list_commands or the option model, such as fill.area.').optional(), value: optionValue.optional() }),
+  preset: z.strictObject({ id: z.string().min(1).describe('A preset id, such as builtin.pencil-2.') }),
   colourLimit: z.strictObject({ cap: z.number().int().min(2).max(256) }),
 } as const;
 

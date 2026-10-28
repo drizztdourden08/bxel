@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { BundleId } from '@bxel/mcp';
+import { OPTION_COMMAND, TOOL_COMMAND } from '../../keymap/option-command-id.constants';
+import { OPTION_VALUE_COMMAND_IDS } from '../../keymap/option-commands.constants';
 import type { CommandEffect, ManifestEntry, ManifestExtra } from './manifest.type';
 
 const rows = (area: BundleId, effect: CommandEffect, ids: readonly string[], extra: ManifestExtra = {}): [string, ManifestEntry][] =>
@@ -23,6 +25,14 @@ const VIEW_ROWS = [
   ...rows('app_control', 'app', ['tab.move_left', 'tab.move_right'], { args: 'tab' }),
   ...rows('app_control', 'app', ['tool.select_pencil', 'tool.select_eraser', 'tool.select_fill', 'tool.select_picker', 'tool.select_shape']),
   ...rows('app_control', 'app', ['tool.select_zoom', 'tool.select_hand', 'tool.select_select', 'tool.select_move', 'brush.smaller', 'brush.larger']),
+  ...rows('app_control', 'app', OPTION_VALUE_COMMAND_IDS, { args: 'optionValue' }),
+  ...rows('app_control', 'app', [OPTION_COMMAND.set, OPTION_COMMAND.reset], { args: 'optionTarget' }),
+  ...rows('app_control', 'app', [OPTION_COMMAND.resetAll, OPTION_COMMAND.focus, OPTION_COMMAND.open, OPTION_COMMAND.sizeDownBy, OPTION_COMMAND.sizeUpBy]),
+  ...rows('app_control', 'app', ['shape', 'select', 'fill'].map(TOOL_COMMAND.cycleBack)),
+  ...rows('app_control', 'app', [1, 2, 3, 4, 5].map(TOOL_COMMAND.quickPreset)),
+  ...rows('app_control', 'app', [TOOL_COMMAND.previous, TOOL_COMMAND.resetOptions]),
+  one(TOOL_COMMAND.applyPreset, 'app_control', 'app', { args: 'preset' }),
+  one(TOOL_COMMAND.savePreset, 'app_control', 'app', { dialog: 'tool_preset' }),
   ...rows('app_control', 'app', ['symmetry.toggle_x', 'symmetry.toggle_y']),
   ...rows('app_control', 'app', ['symmetry.axis_here', 'symmetry.axis_centre', 'symmetry.axis_remove'], { args: 'axis' }),
   ...rows('app_control', 'app', ['palette.swap_colors', 'palette.swap_pairs', 'palette.step_back', 'palette.step_forward']),
@@ -53,6 +63,11 @@ const EDIT_ROWS = [
   one('palette.delete_swatch', 'edit_pixels', 'edit', { args: 'deleteSwatch', dialog: 'palette_delete' }),
   one('palette.merge_swatch', 'edit_pixels', 'edit', { args: 'mergeSwatch', dialog: 'palette_merge' }),
   one('palette.change_limit', 'edit_pixels', 'edit', { args: 'colourLimit', dialog: 'palette_limit' }),
+  ...rows('edit_pixels', 'edit', ['palette.add_colour', 'palette.make_ramp', 'palette.make_ramp_by_lightness', 'palette.sort_selection']),
+  one('palette.new_ramp', 'edit_pixels', 'edit', { args: 'swatch', dialog: 'ramp_builder' }),
+  one('palette.gradient_between', 'edit_pixels', 'edit', { dialog: 'palette_gradient' }),
+  one('palette.remove_unused', 'edit_pixels', 'edit', { dialog: 'palette_remove_unused' }),
+  one('palette.unite_duplicates', 'edit_pixels', 'edit', { dialog: 'palette_unite' }),
   one('guide.add_here', 'edit_pixels', 'edit', { args: 'axis' }),
   one('guide.clear', 'edit_pixels', 'edit'),
 ];

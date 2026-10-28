@@ -8,4 +8,9 @@ type SwatchRemoval = {
   readonly substitute: SwatchId | null;
 };
 
-export type { SwatchRemoval };
+type SwatchFold = {
+  readonly from: SwatchId;
+  readonly into: SwatchId | null;
+};
+
+export type { SwatchFold, SwatchRemoval };

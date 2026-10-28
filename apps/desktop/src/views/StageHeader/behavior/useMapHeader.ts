@@ -5,16 +5,17 @@ import { readMapHeader } from '../../../stage-header/read-map-header';
 import type { MapHeader } from '../../../stage-header/stage-header.type';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useToolStore } from '../../../stores/useToolStore';
-import { MAP_TOOL_OPTIONS } from '../../OptionsToolbar/OptionsToolbar.constants';
+import { optionsOf } from '../../../editor/tool-options/options-of';
 
 const useMapHeader = (): MapHeader | null => {
   const surface = useCanvasSurface();
   const map = useMapContext();
-  const kinds = useToolStore((state) => MAP_TOOL_OPTIONS[state.tool]);
+  const turns = useToolStore((state) => optionsOf('map', state.tool).some((spec) => spec.group === 'turn'));
+  const cells = useToolStore((state) => optionsOf('map', state.tool).some((spec) => spec.group === 'actions'));
   const flags = useTilemapStore((state) => state.flags);
   const selection = useTilemapStore((state) => state.selection);
   if (surface !== 'map') return null;
-  return readMapHeader(map, { flags, selection, showTurn: kinds.includes('mapFlags'), showSelection: kinds.includes('mapSelection') });
+  return readMapHeader(map, { flags, selection, showTurn: turns, showSelection: cells });
 };
 
 export { useMapHeader };
