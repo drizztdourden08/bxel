@@ -2,8 +2,10 @@
 import type { ScreenMeta, Section } from '@drizztdourden08/brock-react';
 import { ASSET_SOURCE } from '../../asset-config/asset-source.constants';
 import { showForKind } from '../../asset-config/show-for-kind';
+import { SUBJECT_META } from '../../asset-config/subject-preview.constants';
 
 const meta: ScreenMeta = {
+  ...SUBJECT_META,
   title: 'Tilemap',
   icon: 'map',
   order: 1,

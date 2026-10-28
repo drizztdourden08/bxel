@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import type { ScreenMeta } from '@drizztdourden08/brock-react';
+import { useSubjectPersistence } from '../properties-subject/useSubjectPersistence';
 import { useLegacyRoutes } from '../config-entry/useLegacyRoutes';
 import { useConfigFlags } from '../asset-config/useConfigFlags';
 import { useEditorAnnouncements } from '../hooks/useEditorAnnouncements';
@@ -18,6 +19,7 @@ const EditorBase = () => {
   useWorkspaceHost();
   useConfigFlags();
   useLegacyRoutes();
+  useSubjectPersistence();
   useAssistantHost();
   useProjectHost();
   useArtworkTitle();

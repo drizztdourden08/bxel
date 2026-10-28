@@ -1,0 +1,133 @@
+/* @layer renderer-app @kind constants */
+import type { IconName } from '@drizztdourden08/tessera';
+import type { BrowserSort, BrowserView, QueryFlag, SavedBrowserView, SmartFilter, SortKey } from './project-browser.type';
+
+const DEFAULT_SORT: BrowserSort = { key: 'name', descending: false };
+
+const DEFAULT_VIEW: SavedBrowserView = { view: 'grid', size: 96, sort: DEFAULT_SORT, preview: true, folder: null, pinned: [], smart: [] };
+
+const THUMB_SIZE = { min: 48, max: 256, step: 16 } as const;
+
+const MAX_SAVED_BROWSERS = 100;
+
+const SAVE_DELAY_MS = 400;
+
+const VIEW_OPTIONS: readonly { readonly value: BrowserView; readonly label: string; readonly icon: IconName }[] = [
+  { value: 'grid', label: 'Grid', icon: 'pixel-grid-view' },
+  { value: 'list', label: 'List', icon: 'pixel-list-view' },
+  { value: 'columns', label: 'Columns', icon: 'columns-3' },
+];
+
+const SORT_OPTIONS: readonly { readonly value: SortKey; readonly label: string }[] = [
+  { value: 'name', label: 'Name' },
+  { value: 'kind', label: 'Kind' },
+  { value: 'modified', label: 'Modified' },
+  { value: 'folder', label: 'Folder' },
+  { value: 'size', label: 'Size in pixels' },
+  { value: 'frames', label: 'Frames' },
+  { value: 'usedBy', label: 'Used by' },
+];
+
+const FLAG_LABEL: Readonly<Record<QueryFlag, string>> = { unused: 'Unused', unsaved: 'Unsaved', open: 'Open in a tab', pinned: 'Pinned' };
+
+const BUILT_IN_FILTERS: readonly SmartFilter[] = [
+  { id: 'built-in:unsaved', name: 'Unsaved', query: 'is:unsaved' },
+  { id: 'built-in:open', name: 'Open in a tab', query: 'is:open' },
+  { id: 'built-in:unused', name: 'Unused', query: 'is:unused' },
+  { id: 'built-in:pinned', name: 'Pinned', query: 'is:pinned' },
+];
+
+const BROWSER_TEXT = {
+  windowTitle: 'Browse',
+  searchLabel: 'Search the project',
+  searchPlaceholder: 'Search, or type kind:sprite is:unsaved in:sprites size>64',
+  searchHelp:
+    'Words match names and folders. Tokens: kind:sprite, in:folder, uses:name (files that use it), usedby:name (files it uses), is:unused, is:unsaved, is:open, is:pinned, size>64, colours<16. Kinds add up, other tokens narrow.',
+  clearSearch: 'Clear the search',
+  back: 'Back',
+  forward: 'Forward',
+  up: 'Up one folder',
+  refresh: 'Refresh',
+  viewGroup: 'View',
+  sort: 'Sort by',
+  descending: 'Largest first',
+  ascending: 'Smallest first',
+  thumbSize: 'Thumbnail size',
+  newAsset: 'New',
+  newFolder: 'New folder',
+  import: 'Import',
+  more: 'More',
+  pack: 'Pack project...',
+  revealProject: 'Show the project folder in Explorer',
+  sources: 'Sources',
+  folders: 'Folders',
+  pinned: 'Pinned',
+  filters: 'Smart filters',
+  saveFilter: 'Save as smart filter',
+  filterName: 'Smart filter name',
+  removeFilter: (name: string): string => `Remove the filter ${name}`,
+  noPinned: 'Pin a file to keep it here.',
+  files: 'Files',
+  emptyFolderTitle: 'This folder is empty',
+  emptyFolderMessage: 'Make something here, or drop files in.',
+  emptySearchTitle: 'Nothing matches',
+  emptySearchMessage: 'No file fits all of the search. Remove a token or clear the search.',
+  noProjectTitle: 'No project is open',
+  noProjectMessage: 'Open a project to browse its files, or pick one of the projects below.',
+  selectOne: 'Pick a file to see it here.',
+  selectedMany: (count: number): string => `${count} files selected`,
+  statusFiles: (count: number): string => `${count} ${count === 1 ? 'file' : 'files'}`,
+  statusSelected: (count: number): string => `${count} selected`,
+  statusUnsaved: (count: number): string => `${count} unsaved`,
+  statusFolder: (count: number): string => `${count} ${count === 1 ? 'folder' : 'folders'}`,
+  readOnly: 'This project is closed. You can look at it, but nothing in it can change.',
+  open: 'Open',
+  properties: 'Properties',
+  rename: 'Rename',
+  duplicate: 'Duplicate',
+  moveTo: 'Move to...',
+  trash: 'Move to the trash',
+  reveal: 'Show in Explorer',
+  copyPath: 'Copy path',
+  pin: 'Pin',
+  unpin: 'Unpin',
+  findUses: 'Find files that use it',
+  findUsedBy: 'Find files it uses',
+  unsavedBadge: 'Unsaved',
+  openBadge: 'Open in a tab',
+  pinnedBadge: 'Pinned',
+  unusedBadge: 'Unused',
+  usedBy: (count: number): string => `Used by ${count}`,
+  uses: (count: number): string => `Uses ${count}`,
+  inFolder: (name: string): string => `In ${name}`,
+  columnName: 'Name',
+  columnKind: 'Kind',
+  columnSize: 'Size',
+  columnFrames: 'Frames',
+  columnPalette: 'Palette',
+  columnFolder: 'Folder',
+  columnModified: 'Modified',
+  columnUsedBy: 'Used by',
+  folderCount: (count: number): string => `${count} ${count === 1 ? 'item' : 'items'}`,
+  linkedFolder: 'Linked folder',
+  pixels: (width: number, height: number): string => `${width} x ${height}`,
+  frames: (count: number): string => `${count} ${count === 1 ? 'frame' : 'frames'}`,
+  breadcrumbs: 'Folder path',
+  siblings: 'Folders here',
+  gridLabel: 'Project files',
+  listLabel: 'Project files, as a table',
+  columnsLabel: 'Project files, in columns',
+  previewLabel: 'Preview',
+  noPreviewMany: 'Several files selected',
+  previewHide: 'Hide the preview',
+  previewShow: 'Show the preview',
+  fileMoved: (name: string): string => `Moved ${name}.`,
+  folderMade: (name: string): string => `Made the folder ${name}.`,
+  folderFailed: (reason: string): string => `Could not make the folder. ${reason}`,
+  folderNamePrompt: 'Folder name',
+  newFolderDefault: 'New folder',
+  imageHint: 'Open to import it as a sprite',
+  copied: 'Copied the path.',
+} as const;
+
+export { BROWSER_TEXT, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, FLAG_LABEL, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_SIZE, VIEW_OPTIONS };

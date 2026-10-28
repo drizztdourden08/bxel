@@ -1,0 +1,59 @@
+/* @layer renderer-app @kind style */
+.subject-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-inline-size: 0;
+}
+
+.subject-card__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  min-inline-size: 0;
+}
+
+.subject-card__icon {
+  flex: none;
+  color: var(--c-text-muted);
+}
+
+.subject-card__titles {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-inline-size: 0;
+}
+
+.subject-card__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subject-card__path {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+}
+
+.subject-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.subject-card__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.subject-card__pin-note {
+  flex: 1;
+  min-inline-size: 8rem;
+}
