@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind types */
-import type { DragEvent, KeyboardEvent, MouseEvent, PointerEvent, ReactNode, RefObject } from 'react';
+import type { KeyboardEvent, MouseEvent, PointerEvent, RefObject } from 'react';
 import type { DataTableHandle, MenuGroup, VirtualGridCellBind, VirtualSize } from '@drizztdourden08/tessera';
-import type { Artwork, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
-import type { PickHow, SpriteScene } from '../../sheet/sheet.type';
+import type { Artwork, Rect, Sheet, SpriteId } from '@bxel/document';
+import type { SpriteScene } from '../../sheet/sheet.type';
 import type { FolderGroup, SavedSelection } from '../../sheet-manager/folders.type';
-import type { ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
-import type { HintSpec } from '../ActionHint';
+import type { AnimationFacts, EntryFacts, ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
+import type { EntryTileDrag, EntryTileHandlers, EntryTileState } from '../EntryTile/EntryTile.type';
 
 interface ManagerModel {
   artwork: Artwork;
@@ -13,6 +13,10 @@ interface ManagerModel {
   sheet: Sheet | null;
   facts: readonly SpriteFacts[];
   shown: readonly SpriteFacts[];
+  animationFacts: readonly AnimationFacts[];
+  animations: readonly AnimationFacts[];
+  picked: readonly string[];
+  library: { sprites: readonly SpriteFacts[]; animations: readonly AnimationFacts[] };
   groups: readonly FolderGroup[];
   order: readonly SpriteId[];
   sizes: readonly string[];
@@ -37,64 +41,23 @@ interface SpriteRenameState {
   finish: () => void;
 }
 
-interface SpriteThumbProps {
-  artwork: Artwork;
-  sprite: Sprite;
-  box: number;
-}
+type SpriteDragHandlers = EntryTileDrag;
 
-interface SpriteDragHandlers {
-  onDragStart: (event: DragEvent<HTMLElement>) => void;
-  onDragOver: (event: DragEvent<HTMLElement>) => void;
-  onDrop: (event: DragEvent<HTMLElement>) => void;
-}
+type SpriteState = EntryTileState;
 
-interface SpriteState {
-  selected: boolean;
-  active: boolean;
-  affected: boolean;
-  loose: boolean;
-  twin: boolean;
-}
-
-interface SpriteHandlers {
-  onPick: (how: PickHow) => void;
-  onRename: () => void;
-  onMenu: () => void;
-}
-
-interface SpriteEvents {
-  onClick: (event: MouseEvent<HTMLElement>) => void;
-  onDoubleClick: () => void;
-  onContextMenu: () => void;
-}
-
-interface SpriteItemProps {
-  fact: SpriteFacts;
-  artwork: Artwork;
-  state: SpriteState;
-  drag: SpriteDragHandlers;
-  handlers: SpriteHandlers;
-}
-
-interface SpriteTileProps extends SpriteItemProps {
-  box: number;
-  cell: VirtualGridCellBind;
-}
-
-interface SpriteButtonProps extends Omit<SpriteTileProps, 'artwork' | 'box'> {
-  base: string;
-  children: ReactNode;
-}
+type SpriteHandlers = EntryTileHandlers;
 
 interface ListRow {
-  id: SpriteId;
+  id: string;
+  kind: 'sprite' | 'animation';
   name: string;
   folder: string;
   width: number;
   height: number;
   pivot: string;
   bank: string;
+  at: string;
+  frames: string;
   loose: boolean;
 }
 
@@ -102,13 +65,14 @@ interface ListData {
   rows: readonly ListRow[];
   selected: ReadonlySet<string>;
   known: ReadonlyMap<string, SpriteId>;
-  sprites: ReadonlyMap<string, Sprite>;
+  animationKeys: ReadonlySet<string>;
+  facts: ReadonlyMap<string, EntryFacts>;
   folders: readonly string[];
 }
 
 interface SpriteNameCellProps {
   artwork: Artwork;
-  sprite: Sprite;
+  fact: EntryFacts;
   loose: boolean;
 }
 
@@ -116,8 +80,9 @@ interface SpriteViewProps {
   model: ManagerModel;
   table: RefObject<DataTableHandle | null>;
   affected: readonly SpriteId[];
-  dragFor: (id: SpriteId) => SpriteDragHandlers;
-  handlersFor: (id: SpriteId) => SpriteHandlers;
+  dragFor: (id: string) => SpriteDragHandlers;
+  handlersFor: (id: string) => SpriteHandlers;
+  marks: ReadonlyMap<string, 'before' | 'after'>;
 }
 
 interface SpriteGridProps extends SpriteViewProps {
@@ -130,6 +95,12 @@ interface FilterOptions {
   banks: readonly { id: string; name: string }[];
 }
 
+interface FilterChip {
+  id: string;
+  label: string;
+  clear: () => void;
+}
+
 interface FilterActions {
   patch: (change: Partial<ManagerFilter>) => void;
   clear: () => void;
@@ -137,20 +108,8 @@ interface FilterActions {
 
 interface GridTileProps {
   view: SpriteGridProps;
-  fact: SpriteFacts;
+  fact: EntryFacts;
   cell: VirtualGridCellBind;
-}
-
-interface SpriteBadgesProps {
-  fact: SpriteFacts;
-  twin: boolean;
-}
-
-interface ToolbarButtonProps {
-  hint: HintSpec;
-  disabled?: boolean;
-  onClick: () => void;
-  icon: ReactNode;
 }
 
 interface ActionContext {
@@ -165,14 +124,9 @@ interface ActionsMenuProps {
   groups: readonly MenuGroup[];
 }
 
-interface ManagerToolbarProps extends ActionsMenuProps {
-  open: (dialog: ManagerDialog) => void;
+interface BatchBarProps extends ActionsMenuProps {
   model: ManagerModel;
-}
-
-interface TileSize {
-  width: VirtualSize;
-  height: VirtualSize;
+  open: (dialog: ManagerDialog) => void;
 }
 
 interface SpriteMarquee {
@@ -197,7 +151,9 @@ type KeyAction = () => void;
 export type {
   ActionContext,
   ActionsMenuProps,
+  BatchBarProps,
   FilterActions,
+  FilterChip,
   FilterOptions,
   GridTileProps,
   KeyAction,
@@ -206,11 +162,7 @@ export type {
   ListRow,
   ManagerModel,
   ManagerModelProps,
-  ManagerToolbarProps,
-  SpriteBadgesProps,
-  SpriteButtonProps,
   SpriteDragHandlers,
-  SpriteEvents,
   SpriteGridProps,
   SpriteHandlers,
   SpriteKeyHandler,
@@ -219,9 +171,5 @@ export type {
   SpriteRenameProps,
   SpriteRenameState,
   SpriteState,
-  SpriteThumbProps,
-  SpriteTileProps,
   SpriteViewProps,
-  TileSize,
-  ToolbarButtonProps,
 };

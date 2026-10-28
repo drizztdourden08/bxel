@@ -3,7 +3,7 @@ import type { MenuGroup, MenuNode } from '@drizztdourden08/tessera';
 import { addToSheet } from '../../../sheet-manager/add-to-sheet';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { moveToSheet } from '../../../sheet-manager/move-to-sheet';
-import { removeFromSheet } from '../../../sheet-manager/remove-from-sheet';
+import { removeEntries } from '../../../sheet-manager/remove-entries';
 import type { ActionContext } from '../SpritesPanel.type';
 
 const sheetChoices = ({ model }: ActionContext): MenuNode[] =>
@@ -35,8 +35,8 @@ const sheetGroup = (ctx: ActionContext): MenuGroup => {
         id: 'remove-from-sheet',
         label: MANAGER_TEXT.removeFromSheet,
         icon: 'x',
-        disabled: none || id === null,
-        onSelect: () => removeFromSheet(model.ids, id),
+        disabled: (none && model.picked.length === 0) || id === null,
+        onSelect: () => removeEntries(model.ids, model.picked, id),
       },
       ...sheetChoices(ctx),
     ],

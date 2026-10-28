@@ -5,15 +5,17 @@ import type { ManagerSettings, ManagerState } from './manager-store.type';
 const kept = new Map<string, ManagerSettings>();
 
 const settingsOf = (state: ManagerState): ManagerSettings => ({
-  tab: state.tab,
   view: state.view,
   zoom: state.zoom,
   query: state.query,
   filter: state.filter,
   sortKey: state.sortKey,
   sortDown: state.sortDown,
-  sheetId: state.sheetId,
   dialog: null,
+  picked: [],
+  layoutOpen: state.layoutOpen,
+  showExport: state.showExport,
+  libraryRequest: 0,
   atlas: state.atlas,
   collapsed: state.collapsed,
   selections: state.selections,

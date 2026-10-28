@@ -14,7 +14,7 @@ import { flipSprites } from '../sheet-manager/flip-sprites';
 import { idsByTrait } from '../sheet-manager/ids-by-trait';
 import { invertIds } from '../sheet-manager/invert-ids';
 import { moveToSheet } from '../sheet-manager/move-to-sheet';
-import { removeFromSheet } from '../sheet-manager/remove-from-sheet';
+import { removeEntries } from '../sheet-manager/remove-entries';
 import { selectDuplicates } from '../sheet-manager/select-duplicates';
 import { selectIds } from '../sheet-manager/select-ids';
 import { sortFacts } from '../sheet-manager/sort-facts';
@@ -22,6 +22,7 @@ import { trimSprites } from '../sheet-manager/trim-sprites';
 import { turnSprites } from '../sheet-manager/turn-sprites';
 import type { CurrentManager, ManagerDialog } from '../sheet-manager/manager.type';
 import { useManagerStore } from '../stores/useManagerStore';
+import { COMMAND_ZONE } from './command-zone.constants';
 import { onSurface } from './on-surface';
 import { COMMAND_GROUP } from './keymap.constants';
 
@@ -73,7 +74,15 @@ const SPRITE_ORDER: readonly CommandDef[] = [
 
 const SPRITE_SHEET: readonly CommandDef[] = [
   { id: 'sprite.add_to_sheet', label: 'Add sprites to the sheet', group, run: withManager((manager) => addToSheet(manager.ids, manager.sheet?.id ?? null)) },
-  { id: 'sprite.remove_from_sheet', label: 'Remove sprites from the sheet', group, run: withManager((manager) => removeFromSheet(manager.ids, manager.sheet?.id ?? null)) },
+  {
+    id: 'sprite.remove_from_sheet',
+    label: 'Remove entries from the sheet',
+    group,
+    chord: 'Backspace',
+    zone: COMMAND_ZONE.sprites,
+    whileTyping: false,
+    run: withManager((manager) => removeEntries(manager.ids, manager.picked, manager.sheet?.id ?? null)),
+  },
   {
     id: 'sprite.move_to_sheet',
     label: 'Move sprites to another sheet',
@@ -98,12 +107,6 @@ const SPRITE_SHEET: readonly CommandDef[] = [
 const SPRITE_SELECT: readonly CommandDef[] = [
   { id: 'sprite.select_none', label: 'Select no sprites', group, run: () => clearSpriteSelection() },
   { id: 'sprite.select_invert', label: 'Invert the sprite selection', group, run: withManager((manager) => selectIds(invertIds(manager.order, manager.ids))) },
-  {
-    id: 'sprite.select_unplaced',
-    label: 'Select sprites not on the sheet',
-    group,
-    run: withManager((manager) => selectIds(manager.facts.filter((fact) => !fact.onSheet).map((fact) => fact.sprite.id))),
-  },
   {
     id: 'sprite.select_duplicates',
     label: 'Select sprites that are identical',

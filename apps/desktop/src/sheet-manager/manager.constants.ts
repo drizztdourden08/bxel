@@ -5,7 +5,7 @@ const NAME_COLLATOR = new Intl.Collator('en', { numeric: true, sensitivity: 'bas
 
 const ZOOM = { min: 24, max: 128, step: 8, start: 48 } as const;
 
-const NO_FILTER: ManagerFilter = { animated: false, unplaced: false, size: null, identical: 'off', tag: null, bank: null };
+const NO_FILTER: ManagerFilter = { kind: 'all', slices: false, size: null, identical: 'off', tag: null, bank: null };
 
 const SORT_KEYS: readonly SortKey[] = ['manual', 'name', 'size', 'area', 'bank', 'created'];
 
@@ -27,16 +27,13 @@ const PIVOT_PRESETS: readonly PivotPreset[] = [
   { id: 'right', label: 'Middle right', fx: 1, fy: 0.5 },
 ];
 
-const ATLAS_LIMITS = { extrudeMax: 8, spacingMax: 64, marginMax: 256, columnsMax: 64, zoomMax: 8, widthMax: 4096, pageMax: 8192 } as const;
+const ATLAS_LIMITS = { extrudeMax: 8, spacingMax: 64, marginMax: 256, columnsMax: 64, cellMax: 1024, widthMax: 4096, pageMax: 8192 } as const;
 
 const ATLAS_SIDE_LIMIT = 8192;
-
-const ATLAS_CANVAS_SIDE = 4096;
 
 const SHEET_PICKER_NEW = 'new';
 
 export {
-  ATLAS_CANVAS_SIDE,
   ATLAS_LIMITS,
   ATLAS_SIDE_LIMIT,
   DEFAULT_PATTERN,

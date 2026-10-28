@@ -3,7 +3,7 @@ import type { ManagerSettings } from '../stores/manager-store.type';
 
 type SavedManagerView = Pick<
   ManagerSettings,
-  'tab' | 'view' | 'zoom' | 'query' | 'filter' | 'sortKey' | 'sortDown' | 'atlas' | 'collapsed' | 'selections'
+  'view' | 'zoom' | 'query' | 'filter' | 'sortKey' | 'sortDown' | 'atlas' | 'collapsed' | 'selections' | 'layoutOpen' | 'showExport'
 >;
 
 type ManagerViews = Readonly<Record<string, SavedManagerView>>;

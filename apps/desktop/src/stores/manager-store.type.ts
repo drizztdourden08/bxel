@@ -1,18 +1,19 @@
 /* @layer renderer-app @kind types */
-import type { SheetId } from '@bxel/document';
 import type { SavedSelection } from '../sheet-manager/folders.type';
-import type { AtlasSettings, ManagerDialog, ManagerFilter, ManagerTab, ManagerView, SortKey } from '../sheet-manager/manager.type';
+import type { AtlasSettings, ManagerDialog, ManagerFilter, ManagerView, SortKey } from '../sheet-manager/manager.type';
 
 interface ManagerSettings {
-  tab: ManagerTab;
   view: ManagerView;
   zoom: number;
   query: string;
   filter: ManagerFilter;
   sortKey: SortKey;
   sortDown: boolean;
-  sheetId: SheetId | null;
   dialog: ManagerDialog;
+  picked: readonly string[];
+  layoutOpen: boolean;
+  showExport: boolean;
+  libraryRequest: number;
   atlas: AtlasSettings;
   collapsed: readonly string[];
   selections: readonly SavedSelection[];

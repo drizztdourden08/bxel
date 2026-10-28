@@ -6,7 +6,6 @@ const EMPTY_ENTRIES: readonly ContextMenuEntry[] = [
   DIALOG_COMMAND.newSprite,
   'sprite.select_visible',
   'sprite.select_invert',
-  'sprite.select_unplaced',
   'sprite.sort_by_name',
   'manager.clear_filters',
 ];

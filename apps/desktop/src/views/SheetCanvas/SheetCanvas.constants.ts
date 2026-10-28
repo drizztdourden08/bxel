@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 const SHEET_CANVAS_TEXT = {
   label: 'Sheet canvas',
+  exportLabel: 'Sheet canvas, showing the export result',
   empty: 'No sprite is open.',
 } as const;
 

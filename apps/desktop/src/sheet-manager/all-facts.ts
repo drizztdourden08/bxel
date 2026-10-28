@@ -4,7 +4,20 @@ import { listSprites } from '../sheet/list-sprites';
 import type { SpriteFacts } from './manager.type';
 import { spriteFacts } from './sprite-facts';
 
-const allFacts = (artwork: Artwork, sheet: Sheet | null): SpriteFacts[] =>
-  listSprites(artwork).map((sprite) => spriteFacts(artwork, sprite, sheet));
+const allFacts = (artwork: Artwork, sheet: Sheet | null): SpriteFacts[] => {
+  if (!sheet) return [];
+  const byId = new Map(listSprites(artwork).map((sprite) => [sprite.id, sprite] as const));
+  return sheet.entries.flatMap((entry) => {
+    const sprite = byId.get(entry.spriteId);
+    return sprite ? [spriteFacts(artwork, sprite, sheet)] : [];
+  });
+};
 
-export { allFacts };
+const libraryFacts = (artwork: Artwork, sheet: Sheet | null): SpriteFacts[] => {
+  const placed = new Set((sheet?.entries ?? []).map((entry) => entry.spriteId));
+  return listSprites(artwork)
+    .filter((sprite) => !placed.has(sprite.id))
+    .map((sprite) => spriteFacts(artwork, sprite, sheet));
+};
+
+export { allFacts, libraryFacts };

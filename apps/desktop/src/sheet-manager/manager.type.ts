@@ -1,12 +1,10 @@
 /* @layer renderer-app @kind types */
-import type { Artwork, Point, Rect, Sheet, Sprite, SpriteId } from '@bxel/document';
+import type { Animation, Artwork, Point, Rect, Sheet, Sprite, SpriteId, TagId } from '@bxel/document';
 import type { AtlasPlan, ExportSprite } from '@bxel/formats';
 import type { Anchor } from '@drizztdourden08/tessera';
 import type { Target } from '../export/export.type';
 import type { ArrangeKind, FrameImage, SpriteScene } from '../sheet/sheet.type';
 import type { IdenticalMode } from './identical.type';
-
-type ManagerTab = 'sprites' | 'atlas';
 
 type ManagerView = 'grid' | 'list';
 
@@ -14,9 +12,11 @@ type SortKey = 'manual' | 'name' | 'size' | 'area' | 'bank' | 'created';
 
 type ManagerDialog = 'rename' | 'bank' | 'folder' | 'selection' | 'duplicate' | 'delete' | 'compare' | 'pivot' | 'resize' | 'animate' | 'strip' | 'slice' | null;
 
+type EntryKind = 'all' | 'sprites' | 'animations';
+
 interface ManagerFilter {
-  animated: boolean;
-  unplaced: boolean;
+  kind: EntryKind;
+  slices: boolean;
   size: string | null;
   identical: IdenticalMode;
   tag: string | null;
@@ -25,9 +25,6 @@ interface ManagerFilter {
 
 interface AtlasSettings {
   extrude: number;
-  pivots: boolean;
-  zoom: number;
-  bounds: boolean;
   trim: boolean;
   powerOfTwo: boolean;
   rotate: boolean;
@@ -44,14 +41,29 @@ interface ListQuery {
 }
 
 interface SpriteFacts {
+  kind: 'sprite';
   sprite: Sprite;
-  frames: number;
-  tags: number;
   bank: string;
   slices: number;
   onSheet: boolean;
   sheets: readonly string[];
 }
+
+interface AnimationFacts {
+  kind: 'animation';
+  key: string;
+  animation: Animation;
+  tagId: TagId | null;
+  name: string;
+  at: Point;
+  frames: number;
+  durationMs: number;
+  bank: string;
+  onSheet: boolean;
+  sheets: readonly string[];
+}
+
+type EntryFacts = SpriteFacts | AnimationFacts;
 
 interface RenameSpec {
   pattern: string;
@@ -160,6 +172,8 @@ interface SheetStyle {
   layout?: ArrangeKind;
   columns?: number;
   maxWidth?: number;
+  cellWidth?: number;
+  cellHeight?: number;
   spacing?: number;
   margin?: number;
 }
@@ -170,12 +184,15 @@ interface CurrentManager {
   sheet: Sheet | null;
   facts: readonly SpriteFacts[];
   shown: readonly SpriteFacts[];
+  animations: readonly AnimationFacts[];
+  picked: readonly string[];
   order: readonly SpriteId[];
   ids: readonly SpriteId[];
   sortKey: SortKey;
 }
 
 export type {
+  AnimationFacts,
   AtlasHeld,
   AtlasInput,
   AtlasAnimation,
@@ -185,10 +202,11 @@ export type {
   AtlasPlanned,
   AtlasSettings,
   CurrentManager,
+  EntryFacts,
+  EntryKind,
   ListQuery,
   ManagerDialog,
   ManagerFilter,
-  ManagerTab,
   ManagerView,
   OrderMove,
   PivotMode,

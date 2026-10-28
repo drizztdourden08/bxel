@@ -36,7 +36,6 @@ const selectEntries = (manager: CurrentManager): ContextMenuEntry => ({
     { command: 'sprite.select_visible', label: MANAGER_TEXT.selectAll },
     { command: 'sprite.select_none', label: MANAGER_TEXT.selectNone, ...unless(manager.scene.selected.length > 0, MANAGER_TEXT.none) },
     { command: 'sprite.select_invert', label: MANAGER_TEXT.invert },
-    { command: 'sprite.select_unplaced', label: MANAGER_TEXT.selectUnplaced, ...unless(manager.sheet !== null, SPRITE_MENU.noSheet) },
     identicalEntries(manager),
     { label: SELECTION_TEXT.group, items: savedEntries() },
     ...traitEntries(manager),

@@ -5,12 +5,14 @@ import { chooseSprites } from '../sheet/choose-sprites';
 import { currentScene } from '../sheet/current-scene';
 import { pickSprite } from '../sheet/pick-sprite';
 import type { PickHow } from '../sheet/sheet.type';
+import { useManagerStore } from '../stores/useManagerStore';
 import { useSpriteStore } from '../stores/useSpriteStore';
 
 const pickVisible = (order: readonly SpriteId[], id: SpriteId, how: PickHow): void => {
   const scene = currentScene();
   if (!scene || busy()) return;
   const { anchor } = useSpriteStore.getState();
+  if (how === 'replace' || how === 'range') useManagerStore.getState().patch({ picked: [] });
   chooseSprites(
     pickSprite({
       order,

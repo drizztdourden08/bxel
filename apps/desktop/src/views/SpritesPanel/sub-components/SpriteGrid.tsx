@@ -2,15 +2,17 @@
 import { Box, MarqueeBox, VirtualGrid } from '@drizztdourden08/tessera';
 import type { VirtualGridCellBind, VirtualGridHandle } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
-import type { SpriteFacts } from '../../../sheet-manager/manager.type';
+import { entryId } from '../../../sheet-manager/entry-id';
+import type { EntryFacts } from '../../../sheet-manager/manager.type';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { activeIndex } from '../behavior/active-index';
+import { animationSection } from '../behavior/animation-section';
 import { gridSection } from '../behavior/grid-section';
-import { tileSize } from '../behavior/tile-size';
 import { useScrollToActive } from '../behavior/useScrollToActive';
 import { useSpriteMarquee } from '../behavior/useSpriteMarquee';
 import { visibleGroups } from '../behavior/visible-groups';
 import type { SpriteGridProps } from '../SpritesPanel.type';
+import { tileSize } from '../../EntryTile';
 import { GridTile } from './GridTile';
 
 const SpriteGrid = (props: SpriteGridProps) => {
@@ -24,8 +26,8 @@ const SpriteGrid = (props: SpriteGridProps) => {
   const size = tileSize(box);
   const common = {
     label: 'Sprites',
-    getKey: (fact: SpriteFacts) => fact.sprite.id,
-    renderTile: (fact: SpriteFacts, _index: number, cell: VirtualGridCellBind) => <GridTile view={props} fact={fact} cell={cell} />,
+    getKey: entryId,
+    renderTile: (fact: EntryFacts, _index: number, cell: VirtualGridCellBind) => <GridTile view={props} fact={fact} cell={cell} />,
     scrollRef: marquee.area,
     bind: { onPointerDown: marquee.onPointerDown },
     overlay: <MarqueeBox rect={marquee.rect} />,
@@ -37,11 +39,11 @@ const SpriteGrid = (props: SpriteGridProps) => {
   return (
     <Box className="sprites-panel__virtual" onClick={marquee.onClick}>
       {onlyRoot ? (
-        <VirtualGrid {...common} items={groups.flatMap((group) => group.facts)} />
+        <VirtualGrid {...common} items={[...groups.flatMap((group): EntryFacts[] => [...group.facts]), ...model.animations]} />
       ) : (
         <VirtualGrid
           {...common}
-          sections={groups.map(gridSection)}
+          sections={[...groups.map(gridSection), ...animationSection(model.animations)]}
           collapsed={closed}
           onToggleSection={(path) => toggle(path)}
         />

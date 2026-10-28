@@ -4,7 +4,7 @@ import { IDENTICAL_TEXT } from '../../../../../sheet-manager/identical-text.cons
 import { pivotLabel } from '../../../../../sheet-manager/pivot-label';
 import { COMPARE_BOX } from '../ManagerDialogs.constants';
 import type { CompareSideProps } from '../../../../../sheet-manager/dialog-form.type';
-import { SpriteThumb } from '../../SpriteThumb';
+import { SpriteThumb } from '../../../../EntryTile';
 
 const CompareSide = ({ artwork, sprite }: CompareSideProps) => (
   <Stack gap="2xs" align="center">

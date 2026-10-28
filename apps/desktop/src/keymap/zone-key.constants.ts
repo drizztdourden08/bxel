@@ -36,4 +36,20 @@ const SPRITE_SELECT_ALL_KEY: ZoneKey = {
   zone: COMMAND_ZONE.sprites,
 };
 
-export { LAYER_RENAME_KEY, PROJECT_RENAME_KEY, PROJECT_TRASH_KEY, SPRITE_SELECT_ALL_KEY };
+const SPRITE_SEARCH_KEY: ZoneKey = {
+  id: 'sprite.search',
+  label: 'Search the sheet',
+  group: COMMAND_GROUP.sheet,
+  chord: 'Mod+F',
+  zone: COMMAND_ZONE.sprites,
+};
+
+const SPRITE_ADD_KEY: ZoneKey = {
+  id: 'sprite.add_from_project',
+  label: 'Add from project',
+  group: COMMAND_GROUP.sheet,
+  chord: 'Insert',
+  zone: COMMAND_ZONE.sprites,
+};
+
+export { LAYER_RENAME_KEY, PROJECT_RENAME_KEY, PROJECT_TRASH_KEY, SPRITE_ADD_KEY, SPRITE_SEARCH_KEY, SPRITE_SELECT_ALL_KEY };

@@ -3,7 +3,6 @@ import type { ManagerSettings } from '../stores/manager-store.type';
 import type { SavedManagerView } from './manager-views.type';
 
 const viewOf = (settings: ManagerSettings): SavedManagerView => ({
-  tab: settings.tab,
   view: settings.view,
   zoom: settings.zoom,
   query: settings.query,
@@ -13,6 +12,8 @@ const viewOf = (settings: ManagerSettings): SavedManagerView => ({
   atlas: settings.atlas,
   collapsed: settings.collapsed,
   selections: settings.selections,
+  layoutOpen: settings.layoutOpen,
+  showExport: settings.showExport,
 });
 
 export { viewOf };

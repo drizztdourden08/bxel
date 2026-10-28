@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { diffImage } from '../../../../../sheet-manager/diff-image';
 import { IDENTICAL_TEXT } from '../../../../../sheet-manager/identical-text.constants';
 import { spriteImage } from '../../../../../sheet/sprite-image';
-import { useImageCanvas } from '../../../behavior/useImageCanvas';
+import { useImageCanvas } from '../../../../EntryTile';
 import type { CompareDiffProps } from '../../../../../sheet-manager/dialog-form.type';
 import { COMPARE_BOX } from '../ManagerDialogs.constants';
 

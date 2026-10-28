@@ -2,11 +2,11 @@
 import type { VirtualGridSection } from '@drizztdourden08/tessera';
 import { FOLDER_TEXT } from '../../../sheet-manager/folder-text.constants';
 import type { FolderGroup } from '../../../sheet-manager/folders.type';
-import type { SpriteFacts } from '../../../sheet-manager/manager.type';
+import type { EntryFacts } from '../../../sheet-manager/manager.type';
 import { selectIds } from '../../../sheet-manager/select-ids';
 import { FOLDER_DEPTH_LIMIT } from '../SpritesPanel.constants';
 
-const gridSection = (group: FolderGroup): VirtualGridSection<SpriteFacts> => {
+const gridSection = (group: FolderGroup): VirtualGridSection<EntryFacts> => {
   const name = group.path === '' ? FOLDER_TEXT.root : group.path;
   return {
     key: group.path,

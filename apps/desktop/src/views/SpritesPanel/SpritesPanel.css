@@ -1,95 +1,67 @@
 /* @layer renderer-app @kind style */
-.sprites-panel__picker {
+.sprites-panel {
   flex: 1;
-  min-width: 0;
+  min-height: 0;
 }
 
-.sprites-panel__scroll {
+.sprites-panel__empty {
   flex: 1;
-  min-height: var(--size-40);
-}
-
-.sprites-panel__tile {
-  position: relative;
-  border: var(--border-width-thin) solid var(--c-border);
-  border-radius: var(--radius-md);
-  background: var(--c-surface);
-  color: var(--c-text);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2xs);
-  padding: var(--space-xs);
-}
-
-.sprites-panel__tile:hover {
-  background: var(--c-hover);
-}
-
-.sprites-panel__tile[aria-selected='true'] {
-  border-color: var(--c-primary-bright);
-  background: var(--c-selected);
-}
-
-.sprites-panel__tile--active {
-  border-width: var(--border-width-thick);
-}
-
-.sprites-panel__tile--affected {
-  outline: var(--border-width-thin) dashed var(--c-danger);
-  outline-offset: var(--size-2);
-}
-
-.sprites-panel__tile--loose {
-  border-style: dashed;
-}
-
-.sprites-panel__thumb {
-  display: block;
-  image-rendering: pixelated;
-  background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
-}
-
-.sprites-panel__name {
-  inline-size: 0;
-  min-inline-size: 100%;
-  overflow: hidden;
+  padding: var(--space-md);
   text-align: center;
+}
+
+.sprites-panel__browser {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-height: 0;
+  position: relative;
+}
+
+.sprites-panel__split {
+  flex: 1;
+  min-height: 0;
+}
+
+.sprites-panel__main {
+  flex: 1;
+  min-height: 0;
+}
+
+.sprites-panel__title {
+  min-block-size: var(--size-40);
+}
+
+.sprites-panel__heading {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.sprites-panel__sheet-name {
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.sprites-panel__badges {
-  position: absolute;
-  inset-block-start: var(--space-2xs);
-  inset-inline-end: var(--space-2xs);
+.sprites-panel__chips {
+  min-block-size: var(--size-24);
 }
 
-.sprites-panel__badge {
-  padding-inline: var(--space-2xs);
-  border: var(--border-width-thin) solid var(--c-border);
+.sprites-panel__batch {
+  padding: var(--space-2xs) var(--space-xs);
+  border: var(--border-width-thin) solid var(--c-primary-bright);
   border-radius: var(--radius-md);
-  background: var(--c-surface);
+  background: var(--c-selected);
 }
 
-.sprites-panel__atlas {
-  overflow: auto;
-  max-block-size: var(--size-448);
-  border: var(--border-width-thin) solid var(--c-border);
-  border-radius: var(--radius-md);
-  background: var(--c-sunken);
-}
-
-.sprites-panel__atlas-canvas {
-  display: block;
-  image-rendering: pixelated;
-  cursor: pointer;
-}
-
-.sprites-panel__browser {
+.sprites-panel__batch-actions {
   flex: 1;
-  min-height: 0;
+  min-inline-size: 0;
+}
+
+.sprites-panel__batch-count {
+  flex: none;
 }
 
 .sprites-panel__zone {
@@ -112,11 +84,63 @@
   white-space: nowrap;
 }
 
-.sprites-panel__table .sprites-panel__thumb {
+.sprites-panel__table .entry-tile__thumb {
   flex: none;
 }
 
 .sprites-panel__virtual {
   flex: 1;
   min-height: var(--size-96);
+}
+
+.sprites-panel__dropbar {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  min-block-size: var(--size-48);
+  border: var(--border-width-thick) dashed var(--c-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--c-panel);
+  color: var(--c-text);
+  z-index: 2;
+}
+
+.sprites-panel__dropbar--over {
+  border-color: var(--c-primary-bright);
+  background: var(--c-selected);
+}
+
+.library-drawer {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: var(--space-xs);
+}
+
+.library-drawer--over {
+  outline: var(--border-width-thick) dashed var(--c-primary-bright);
+  outline-offset: calc(var(--size-2) * -1);
+}
+
+.library-drawer__drop {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-selected);
+  color: var(--c-text);
+  pointer-events: none;
+}
+
+.entry-drag-ghost {
+  position: fixed;
+  inset-block-start: calc(var(--size-48) * -2);
+  inset-inline-start: 0;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  background: var(--c-primary-bright);
+  color: var(--c-on-primary);
 }

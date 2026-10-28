@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { AssetKey, SheetId, SpriteId, TilemapId, TilesetId } from '@bxel/document';
+import type { AssetKey, SpriteId, TilemapId, TilesetId } from '@bxel/document';
 import { useDocumentStore } from '../stores/useDocumentStore';
-import { useManagerStore } from '../stores/useManagerStore';
 import { useSpriteStore } from '../stores/useSpriteStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { settleMapTool } from '../tilemap/settle-map-tool';
@@ -34,10 +33,7 @@ const showAsset = (key: AssetKey): void => {
   else if (key.kind === 'palette') showSprite(paletteUser(key.id));
   else if (key.kind === 'tilemap') showMap(key.id, null);
   else if (key.kind === 'tileset') showMap(null, key.id);
-  else if (key.kind === 'sheet') {
-    useSpriteStore.getState().setMode('sheet', false);
-    useManagerStore.getState().patch({ sheetId: key.id as SheetId });
-  }
+  else if (key.kind === 'sheet') useSpriteStore.getState().setMode('sheet', false);
 };
 
 export { showAsset };
