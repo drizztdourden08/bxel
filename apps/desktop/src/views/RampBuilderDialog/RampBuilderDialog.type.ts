@@ -29,6 +29,13 @@ interface BuilderState {
   cancel: () => void;
 }
 
+interface NumberSlider {
+  label: string;
+  max: number;
+  value: number;
+  set: (value: number) => void;
+}
+
 interface BuilderDialogProps {
   request: RampBuilderRequest;
   live: EditorTarget;
@@ -38,4 +45,4 @@ interface BuilderPartProps {
   state: BuilderState;
 }
 
-export type { BuilderDialogProps, BuilderPartProps, BuilderSettings, BuilderState };
+export type { BuilderDialogProps, BuilderPartProps, BuilderSettings, BuilderState, NumberSlider };

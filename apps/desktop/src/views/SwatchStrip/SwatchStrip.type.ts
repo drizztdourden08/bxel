@@ -8,4 +8,4 @@ interface SwatchStripProps {
   captions?: readonly string[];
 }
 
-export type { SwatchStripProps, SwatchStripSize };
+export type { SwatchStripProps };

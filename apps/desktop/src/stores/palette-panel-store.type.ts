@@ -56,5 +56,5 @@ interface PaletteSheetState {
 }
 
 export type {
-  PaletteSelection, PaletteSelectionState, PaletteSheetRequest, PaletteSheetState, RampBuilderRequest, RampBuilderState, SheetKind, SwatchDraftPreview, SwatchDraftState,
+  PaletteSelectionState, PaletteSheetRequest, PaletteSheetState, RampBuilderRequest, RampBuilderState, SheetKind, SwatchDraftPreview, SwatchDraftState,
 };

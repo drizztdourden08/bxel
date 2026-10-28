@@ -16,9 +16,14 @@ interface SheetDialogProps {
   target: EditorTarget;
 }
 
+interface SheetProblemProps {
+  error: string | null;
+  failure: string | null;
+}
+
 interface StripRowProps {
   label: string;
   colours: readonly string[];
 }
 
-export type { SheetDialogProps, SheetState, StripRowProps };
+export type { SheetDialogProps, SheetProblemProps, SheetState, StripRowProps };

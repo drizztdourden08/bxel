@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind component */
-import { Button, Callout, DialogShell, Stack, Text } from '@drizztdourden08/tessera';
+import { Button, DialogShell, Stack, Text } from '@drizztdourden08/tessera';
 import { SHEET_TEXT } from '../../../palette-panel/palette-panel.constants';
 import { usePaletteSheet } from '../behavior/usePaletteSheet';
 import type { SheetDialogProps } from '../PaletteSheetDialog.type';
+import { SheetProblem } from './SheetProblem';
 import { StripRow } from './StripRow';
 
 const SheetDialog = ({ request, target }: SheetDialogProps) => {
@@ -26,8 +27,7 @@ const SheetDialog = ({ request, target }: SheetDialogProps) => {
         {plan.gone.length > 0 && <StripRow label={SHEET_TEXT.gone} colours={plan.gone} />}
         {!empty && <StripRow label={SHEET_TEXT.before} colours={plan.before} />}
         {!empty && <StripRow label={SHEET_TEXT.after} colours={plan.after} />}
-        {error !== null && <Callout tone="warning">{error}</Callout>}
-        {failure !== null && <Callout tone="danger">{failure}</Callout>}
+        <SheetProblem error={error} failure={failure} />
       </Stack>
     </DialogShell>
   );
