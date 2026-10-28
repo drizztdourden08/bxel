@@ -15,4 +15,4 @@ interface SlotIconProps {
   badge: SlotBadge | null;
 }
 
-export type { SlotBadge, SlotIconProps, SlotMark };
+export type { SlotBadge, SlotIconProps };

@@ -3,23 +3,10 @@ import type { MenuGroup, ShortcutKey, ToolbarSlot } from '@drizztdourden08/tesse
 import type { ToolMember, ToolSlot } from '../../editor/tool-catalogue/tool-catalogue.type';
 import type { ToolId } from '../../editor/tool.type';
 import type { Surface } from '../../surface/surface.type';
+import type { SlotBadge } from '../SlotIcon';
 
 interface ToolRailProps {
   slot: ToolbarSlot;
-}
-
-type SlotMark = 'corner' | 'dot' | null;
-
-interface SlotBadge {
-  glyph: string;
-  text: string;
-}
-
-interface SlotIconProps {
-  member: ToolMember;
-  filled: boolean;
-  mark: SlotMark;
-  badge: SlotBadge | null;
 }
 
 interface SlotItemContext {
@@ -35,4 +22,4 @@ interface SlotItemContext {
   pick: (slot: ToolSlot) => void;
 }
 
-export type { SlotBadge, SlotIconProps, SlotItemContext, SlotMark, ToolRailProps };
+export type { SlotItemContext, ToolRailProps };

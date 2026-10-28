@@ -4,12 +4,13 @@ import { createElement } from 'react';
 import { CATALOGUE_TEXT } from '../../../editor/tool-catalogue/tool-catalogue.constants';
 import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
 import { SlotIcon } from '../../SlotIcon';
-import type { SlotItemContext, SlotMark } from '../ToolRail.type';
+import type { SlotIconProps } from '../../SlotIcon/SlotIcon.type';
+import type { SlotItemContext } from '../ToolRail.type';
 
 const slotLabel = (slot: ToolSlot, context: SlotItemContext): string =>
   slot.members.length > 1 ? `${slot.label}, ${context.shown.label}` : slot.label;
 
-const slotMark = (slot: ToolSlot, context: SlotItemContext): SlotMark => {
+const slotMark = (slot: ToolSlot, context: SlotItemContext): SlotIconProps['mark'] => {
   if (slot.members.length > 1) return 'corner';
   return context.hasFlyout ? 'dot' : null;
 };

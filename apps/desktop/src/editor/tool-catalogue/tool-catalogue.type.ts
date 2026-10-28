@@ -41,4 +41,4 @@ interface MemberChoice {
   variant: SelectVariant;
 }
 
-export type { DrawSurface, MemberChoice, MemberVariant, SlotGroup, SlotGroupId, ToolMember, ToolSlot };
+export type { DrawSurface, MemberChoice, SlotGroup, ToolMember, ToolSlot };

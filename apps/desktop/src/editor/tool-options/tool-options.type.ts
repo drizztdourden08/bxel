@@ -58,4 +58,4 @@ type OptionBase = Pick<OptionSpec, 'tool' | 'surface' | 'memory'>;
 
 type OptionValues = Readonly<Record<string, OptionValue>>;
 
-export type { OptionBase, OptionChoice, OptionKind, OptionMemory, OptionShortcut, OptionSpec, OptionSurface, OptionTier, OptionValue, OptionValues };
+export type { OptionBase, OptionChoice, OptionSpec, OptionSurface, OptionValue, OptionValues };

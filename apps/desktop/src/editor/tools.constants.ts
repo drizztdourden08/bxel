@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { Connectivity, FillMode, ShapeKind } from '@bxel/raster';
+import type { FillMode, ShapeKind } from '@bxel/raster';
 import type { SymmetryAxis } from '../stores/tool-store.type';
 
 const SHAPE_KINDS: readonly ShapeKind[] = ['line', 'rect', 'ellipse'];
@@ -17,8 +17,6 @@ const FILL_LABELS: Readonly<Record<FillMode, string>> = {
   global: 'Global',
 };
 
-const CONNECTIVITIES: readonly Connectivity[] = [4, 8];
-
 const SYMMETRY_AXES: readonly SymmetryAxis[] = ['x', 'y'];
 
 const LINE_SLOPE = 2;
@@ -27,4 +25,4 @@ const SECONDARY_BUTTON = 2;
 
 const PRIMARY_BUTTON = 0;
 
-export { CONNECTIVITIES, FILL_LABELS, FILL_MODES, LINE_SLOPE, PRIMARY_BUTTON, SECONDARY_BUTTON, SHAPE_KINDS, SHAPE_LABELS, SYMMETRY_AXES };
+export { FILL_LABELS, FILL_MODES, LINE_SLOPE, PRIMARY_BUTTON, SECONDARY_BUTTON, SHAPE_KINDS, SHAPE_LABELS, SYMMETRY_AXES };
