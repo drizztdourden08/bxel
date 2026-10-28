@@ -8,10 +8,10 @@ const entry = (id: string, label: string, value: string | null, rest: Partial<St
 
 const extraItems = (extras: StatusExtras): StatusBarEntry[] => [
   ...entry('index', EXTRA_TEXT.index, extras.index?.text ?? null, { swatch: extras.index?.swatch, priority: 3 }),
-  ...entry('cell', EXTRA_TEXT.cell, extras.cell, { priority: 3 }),
-  ...entry('tile', EXTRA_TEXT.tile, extras.tile, { priority: 3 }),
-  ...entry('selection', EXTRA_TEXT.selection, extras.selection, { priority: 2 }),
-  ...entry('drag', EXTRA_TEXT.drag, extras.drag, { tone: 'info', priority: 1 }),
+  ...entry('cell', EXTRA_TEXT.cell, extras.cell, { priority: 2 }),
+  ...entry('tile', EXTRA_TEXT.tile, extras.tile, { priority: 2 }),
+  ...entry('selection', EXTRA_TEXT.selection, extras.selection, { priority: 3 }),
+  ...entry('drag', EXTRA_TEXT.drag, extras.drag, { tone: 'info', priority: 3 }),
   ...entry('frame', EXTRA_TEXT.frame, extras.frame, { priority: 2 }),
 ];
 

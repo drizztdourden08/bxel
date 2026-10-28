@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind constants */
+import { CANVAS_DEFAULTS } from '../canvas-look/canvas-look.constants';
 import { COMMAND_ID } from '../keymap/keymap.constants';
 import type { TileMode, ViewSettings, ViewToggleRow } from './view-store.type';
 
-const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, guides: true, rulers: true, snap: false, tiled: 'off', viewport: null };
+const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, guides: true, rulers: true, snap: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, viewport: null };
 
 const TILE_MODES: readonly TileMode[] = ['off', 'x', 'y', 'both'];
 

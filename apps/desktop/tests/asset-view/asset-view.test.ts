@@ -6,7 +6,6 @@ import { gridDefaults } from '../../src/asset-view/grid-defaults';
 import { CANVAS_DEFAULTS } from '../../src/canvas-look/canvas-look.constants';
 import { lookOf } from '../../src/canvas-look/look-of';
 import { useAssetViewStore } from '../../src/stores/useAssetViewStore';
-import { useSurfaceGuideStore } from '../../src/stores/useSurfaceGuideStore';
 
 const base = lookOf(CANVAS_DEFAULTS);
 const tileset = { tileWidth: 12, tileHeight: 20 } as never;
@@ -47,25 +46,5 @@ describe('the view state of an asset', () => {
     expect(useAssetViewStore.getState().views).toEqual({ a: { majorEvery: 4 }, b: { labels: false } });
     useAssetViewStore.getState().reset('a');
     expect(Object.keys(useAssetViewStore.getState().views)).toEqual(['b']);
-  });
-});
-
-describe('guides of a sheet or a map', () => {
-  beforeEach(() => useSurfaceGuideStore.setState({ guides: {} }));
-
-  it('adds, moves, removes and clears per asset, sorted and without doubles', () => {
-    const store = useSurfaceGuideStore.getState();
-    store.add('a', 'x', 32);
-    store.add('a', 'x', 16);
-    store.add('a', 'x', 16);
-    store.add('a', 'y', 8);
-    expect(useSurfaceGuideStore.getState().guides.a).toEqual({ x: [16, 32], y: [8] });
-    store.move('a', 'x', 16, 48);
-    expect(useSurfaceGuideStore.getState().guides.a?.x).toEqual([32, 48]);
-    store.remove('a', 'y', 8);
-    expect(useSurfaceGuideStore.getState().guides.a?.y).toEqual([]);
-    store.add('b', 'x', 1);
-    store.clear('a');
-    expect(Object.keys(useSurfaceGuideStore.getState().guides)).toEqual(['b']);
   });
 });

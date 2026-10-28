@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { contextMenuHandler, contextMenuZone, useContextMenu } from '@drizztdourden08/brock-react';
 import { Box, StatusBar } from '@drizztdourden08/tessera';
+import { useRef } from 'react';
 import { statusItems } from '../../editor/status-items';
 import { STATUS_TEXT } from '../../editor/status.constants';
 import { useActiveAsset } from '../../hooks/useActiveAsset';
@@ -14,6 +15,7 @@ import { useTilemapStore } from '../../stores/useTilemapStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { ActionHint } from '../ActionHint';
 import { canvasHelp } from './behavior/canvas-help';
+import { useFoldedItems } from './behavior/useFoldedItems';
 import { useStatusExtras } from './behavior/useStatusExtras';
 import { statusMenuEntries } from './behavior/status-menu-entries';
 import { STATUS_MENU } from './EditorStatus.constants';
@@ -34,14 +36,16 @@ const EditorStatus = () => {
   const extras = useStatusExtras();
   const asset = useActiveAsset();
   const clean = asset ? !asset.dirty : true;
+  const zone = useRef<HTMLDivElement>(null);
+  const items = useFoldedItems(statusItems({ pointer, zoom, colours, clean, recovered, extras }), zone);
   useContextMenu(STATUS_MENU.zone, { label: STATUS_MENU.label, entries: statusMenuEntries });
   return (
     <ActionHint hint={canvasHelp(tool, mode, tileMode)} placement="top" className="editor-status">
-      <Box className="editor-status__zone" {...contextMenuZone(STATUS_MENU.zone)}>
+      <Box ref={zone} className="editor-status__zone" {...contextMenuZone(STATUS_MENU.zone)}>
         <StatusBar
           className="editor-status__bar"
           label={STATUS_TEXT.region}
-          items={statusItems({ pointer, zoom, colours, clean, recovered, extras })}
+          items={items}
           onItemContextMenu={(item, event) => contextMenuHandler(STATUS_MENU.zone, { item })(event)}
         />
       </Box>

@@ -34,6 +34,13 @@ interface GuideLines {
   readonly y: readonly number[];
 }
 
+interface PersistedGuides {
+  lines: GuideLines | undefined;
+  size: () => { width: number; height: number } | null;
+  step: (axis: GuideAxis) => number | null;
+  write: (label: string, guides: GuideLines) => void;
+}
+
 interface GuideScope {
   lines: () => GuideLines | undefined;
   size: () => { width: number; height: number } | null;
@@ -44,4 +51,4 @@ interface GuideScope {
   clear: () => void;
 }
 
-export type { GuideAxis, GuideDrag, GuideFrame, GuideHit, GuideLines, GuidePoint, GuideRequest, GuideScope };
+export type { GuideAxis, GuideDrag, GuideFrame, GuideHit, GuideLines, GuidePoint, GuideRequest, GuideScope, PersistedGuides };

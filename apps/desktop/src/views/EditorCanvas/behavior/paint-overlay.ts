@@ -14,7 +14,7 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   const symmetry = symmetryOf(useToolStore.getState(), { width: view.imageWidth, height: view.imageHeight });
   paintAreas(ctx, view, look);
   paintSelection(ctx, view, look);
-  paintGuides(ctx, view, look);
+  paintGuides(ctx, view);
   paintAxes(ctx, view, symmetry, look);
   paintCursor(ctx, view, symmetry, look);
 };

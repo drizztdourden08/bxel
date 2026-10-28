@@ -35,6 +35,19 @@ const GRID_SECTIONS: Section[] = [
     ],
   },
   {
+    id: 'guides',
+    title: 'Guides',
+    items: [
+      {
+        key: 'guideColor',
+        label: 'Guide colour',
+        description: 'The colour of the guide lines pulled out of the rulers.',
+        hint: 'Keep it apart from the grid colours so a guide stays easy to see. It applies to sprites, sheets and maps.',
+        control: { kind: 'color' },
+      },
+    ],
+  },
+  {
     id: 'rulers',
     title: 'Rulers',
     items: [

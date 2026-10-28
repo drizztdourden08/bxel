@@ -29,8 +29,9 @@ const CANVAS_DEFAULTS: CanvasSettings = {
   gridMajorOpacity: 0.35,
   gridTile: false,
   gridTileSize: 16,
-  gridTileColor: '#46c8ff',
-  gridTileOpacity: 0.6,
+  gridTileColor: '#d8d8e0',
+  gridTileOpacity: 0.45,
+  guideColor: '#ff4d6a',
   rulers: true,
   rulerUnit: 'pixels',
 };

@@ -8,6 +8,7 @@ const useViewStore = create<ViewState>()((set) => ({
   toggleView: (toggle) => set((state) => ({ [toggle]: !state[toggle] })),
   setToggles: (toggles) => set(toggles),
   setTiled: (tiled) => set({ tiled }),
+  setGuideColour: (guideColour) => set({ guideColour }),
   setViewport: (viewport) => set({ viewport }),
 }));
 

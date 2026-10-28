@@ -36,21 +36,12 @@ const openDemo = async (session: Session, place: string): Promise<void> => {
   await setWindow(session);
 };
 
-const showViewWidget = async (session: Session): Promise<void> => {
-  await session.page.getByRole('button', { name: 'Menu', exact: true }).click();
-  await session.page.getByRole('menuitem', { name: /^Widgets$/ }).click();
-  const item = session.page.locator('[role^="menuitem"]').filter({ hasText: /^View$/ }).last();
-  await item.click();
-  await session.page.mouse.click(640, 20);
-};
-
 const openDemoRig = async (): Promise<{ session: Session }> => {
   const session = await openSession();
   const parent = join(APP_DIR, PROJECT_PARENT);
   await mkdir(parent, { recursive: true });
   const place = await mkdtemp(join(parent, TEMP_PREFIX));
   await openDemo(session, place);
-  await showViewWidget(session);
   await widget(session).waitFor();
   await session.page.emulateMedia({ reducedMotion: 'reduce' });
   return { session: { ...session, close: () => session.close().then(() => rm(place, { recursive: true, force: true })) } };
@@ -62,15 +53,20 @@ const canvasBox = async (session: Session) => {
   return box;
 };
 
-const pullGuide = async (session: Session, ruler: RulerName): Promise<void> => {
-  const box = await canvasBox(session);
-  await drag(session, await centreOf(session, ruler), { x: box.x + box.width * 0.4, y: box.y + box.height * 0.4 });
+const clearEnabled = async (session: Session, ruler: RulerName): Promise<boolean> => {
   await session.page.getByRole('button', { name: ruler }).focus();
   await session.page.keyboard.press('Enter');
   const clear = session.page.getByRole('menu').getByRole('menuitem', { name: 'Clear guides' });
   await clear.waitFor();
-  expect(await clear.isDisabled()).toBe(false);
+  const enabled = !(await clear.isDisabled());
   await session.page.keyboard.press('Escape');
+  return enabled;
+};
+
+const pullGuide = async (session: Session, ruler: RulerName): Promise<void> => {
+  const box = await canvasBox(session);
+  await drag(session, await centreOf(session, ruler), { x: box.x + box.width * 0.4, y: box.y + box.height * 0.4 });
+  expect(await clearEnabled(session, ruler)).toBe(true);
 };
 
 const focusCanvas = (session: Session, label: string) => session.page.getByRole('application', { name: label }).focus();
@@ -148,12 +144,14 @@ describe('the canvas: animation header and the parity of sheet and map', () => {
     await openAssetRow(session, 'meadow');
     await session.page.getByRole('application', { name: 'Tilemap canvas' }).waitFor();
     await widget(session).getByText('Collision shapes').first().waitFor();
-    await widget(session).getByRole('switch', { name: 'Cell grid' }).uncheck();
-    await session.page.getByRole('application', { name: 'Tilemap canvas' }).focus();
-    await session.page.keyboard.press("Control+'");
     await pullGuide(session, 'Horizontal ruler');
     await shoot(session, 'canvas-7-map-guides');
-    await widget(session).getByRole('button', { name: /^Close/ }).first().click();
+    await focusCanvas(session, 'Tilemap canvas');
+    await session.page.keyboard.press('Control+z');
+    expect(await clearEnabled(session, 'Horizontal ruler')).toBe(false);
+    await focusCanvas(session, 'Tilemap canvas');
+    await session.page.keyboard.press('Control+y');
+    expect(await clearEnabled(session, 'Horizontal ruler')).toBe(true);
     await expectAccessible(session, 'map with rulers and a guide');
   });
 });
