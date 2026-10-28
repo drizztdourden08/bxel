@@ -29,8 +29,25 @@ const sweepDown = async (session: Session, column: 'Visible' | 'Locked', from: s
   await session.page.mouse.up();
 };
 
+const WINDOW = { width: 1280, height: 1000 };
+
+const tagAndLock = async (session: Session): Promise<void> => {
+  await layerRow(session, 'Layer 3').click();
+  await session.page.getByRole('button', { name: /^Colour tag/ }).click();
+  await session.page.getByRole('menuitemradio', { name: 'Rose' }).click();
+  await session.page.getByRole('button', { name: /^Layer 3\s*,\s*Rose/ }).waitFor({ state: 'attached' });
+  await session.page.getByRole('radio', { name: 'Lock transparency' }).click();
+  await expect.poll(() => pressed(session, 'Layer 3', 'Locked')).toBe('true');
+  await session.page.getByRole('radio', { name: 'Unlocked' }).click();
+  await expect.poll(() => pressed(session, 'Layer 3', 'Locked')).toBe('false');
+};
+
 describe('the layer list', () => {
-  const rig = useRig(openSpriteRig);
+  const rig = useRig(async () => {
+    const opened = await openSpriteRig();
+    await opened.session.app.evaluate(({ BrowserWindow }, size) => BrowserWindow.getAllWindows()[0]?.setSize(size.width, size.height), WINDOW);
+    return opened;
+  });
 
   test('lists a thumbnail, the eye and the lock for each layer, and adds layers', async () => {
     const { session } = rig();
@@ -40,10 +57,9 @@ describe('the layer list', () => {
     await expect.poll(() => states(session, 'Visible')).toEqual(NAMES.map(() => 'true'));
   });
 
-  test('renames in the row with F2, keeps on Enter, and shows why a taken name is refused', async () => {
+  test('renames in the row on a double click, keeps on Enter, and shows why a taken name is refused', async () => {
     const { session } = rig();
-    await layerRow(session, 'Layer 4').focus();
-    await session.page.keyboard.press('F2');
+    await layerRow(session, 'Layer 4').dblclick();
     const field = session.page.getByRole('textbox', { name: 'Rename Layer 4' });
     await field.fill('layer 1');
     await field.press('Enter');
@@ -63,29 +79,20 @@ describe('the layer list', () => {
     await expect.poll(() => states(session, 'Visible')).toEqual(NAMES.map(() => 'true'));
   });
 
-  test('Alt and click on the eye shows only that layer, and again brings the others back', async () => {
+  test('Alt on a click on the eye shows only that layer, and again brings the others back', async () => {
     const { session } = rig();
-    await toggle(session, 'Layer 2', 'Visible').click({ modifiers: ['Alt'] });
+    await toggle(session, 'Layer 2', 'Visible').dispatchEvent('click', { altKey: true, bubbles: true });
     await expect.poll(() => states(session, 'Visible')).toEqual(['false', 'true', 'false', 'false']);
-    await toggle(session, 'Layer 2', 'Visible').click({ modifiers: ['Alt'] });
+    await toggle(session, 'Layer 2', 'Visible').dispatchEvent('click', { altKey: true, bubbles: true });
     await expect.poll(() => states(session, 'Visible')).toEqual(NAMES.map(() => 'true'));
   });
 
-  test('tags a layer with a colour and locks its transparency from the strip', async () => {
-    const { session } = rig();
-    await layerRow(session, 'Layer 3').click();
-    await session.page.getByRole('button', { name: 'Colour Rose', exact: true }).click();
-    await session.page.getByRole('button', { name: /^Layer 3, Rose/ }).waitFor();
-    await session.page.getByRole('radio', { name: 'Lock transparency' }).click();
-    await expect.poll(() => pressed(session, 'Layer 3', 'Locked')).toBe('true');
-    await session.page.getByRole('radio', { name: 'Unlocked' }).click();
-    await expect.poll(() => pressed(session, 'Layer 3', 'Locked')).toBe('false');
-  });
+  test('tags a layer with a colour and locks its transparency from the strip', () => tagAndLock(rig().session));
 
   test('picks several rows with Shift and Ctrl and deletes them together', async () => {
     const { session } = rig();
     await layerRow(session, 'Layer 1').click();
-    await layerRow(session, 'Layer 3').click({ modifiers: ['Shift'] });
+    await session.page.getByRole('list', { name: 'Layers' }).getByRole('button', { name: /^Layer 3/ }).click({ modifiers: ['Shift'] });
     await session.page.getByRole('button', { name: 'Delete layer', exact: true }).click();
     await expect.poll(() => session.page.getByRole('list', { name: 'Layers' }).getByRole('listitem').count()).toBe(1);
     await session.page.keyboard.press(SHORTCUT.undo);

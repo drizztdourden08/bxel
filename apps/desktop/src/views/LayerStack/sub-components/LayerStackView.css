@@ -6,7 +6,7 @@
 
 .layer-stack__list {
   flex: 1;
-  min-block-size: var(--size-96);
+  min-block-size: var(--size-64);
 }
 
 .layer-stack__header {

@@ -33,8 +33,8 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
             onChange={onScope}
           />
         )}
+        <LayerColours value={lead.colour} label={LAYER_STACK_TEXT.tagColours} onPick={(colour) => actions.setColour(picked, colour)} />
       </Flex>
-      <LayerColours value={lead.colour} label={LAYER_STACK_TEXT.tagColours} onPick={(colour) => actions.setColour(picked, colour)} />
     </Box>
   );
 };

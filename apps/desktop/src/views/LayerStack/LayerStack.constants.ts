@@ -38,7 +38,6 @@ const LAYER_STACK_TEXT = {
   scope: 'Edit scope',
   tagColours: 'Colour tag',
   noTag: 'No colour',
-  tagName: (name: string): string => `Colour ${name}`,
   inSprites: (have: number, total: number): string => `in ${have} of ${total} sprites`,
   moved: (name: string, position: number, total: number): string => `${name} moved to position ${position} of ${total}`,
   moveHint: 'Alt and Up or Down moves the row. Shift and Up or Down extends the pick.',
