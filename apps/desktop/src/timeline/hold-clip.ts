@@ -1,12 +1,9 @@
 /* @layer renderer-app @kind logic */
+import { CLIP_BOX } from './frame-clip.constants';
 import type { FrameClip } from './frame-clip.type';
 
-let held: FrameClip | null = null;
-
-const heldClip = (): FrameClip | null => held;
-
 const holdClip = (clip: FrameClip | null): void => {
-  held = clip;
+  CLIP_BOX.clip = clip;
 };
 
-export { heldClip, holdClip };
+export { holdClip };

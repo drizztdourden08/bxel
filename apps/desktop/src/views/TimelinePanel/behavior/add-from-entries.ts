@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
-import { TIMELINE_MENU } from '../TimelinePanel.constants';
+import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
 
 const addFromEntries = (): ContextMenuEntry => ({
   label: TIMELINE_MENU.addFrom,

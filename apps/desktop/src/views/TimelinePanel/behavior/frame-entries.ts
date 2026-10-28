@@ -4,12 +4,12 @@ import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { unless } from '../../../context-menu/unless';
 import { currentFocus } from '../../../timeline/current-focus';
 import { currentSelection } from '../../../timeline/current-selection';
-import { spanTagOf } from '../../../timeline/span-tag-of';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
-import { DURATION_CHOICES, SCALE_CHOICES, TIMELINE_MENU } from '../TimelinePanel.constants';
+import { DURATION_CHOICES, SCALE_CHOICES } from '../TimelinePanel.constants';
+import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
 import { addFromEntries } from './add-from-entries';
-
-const noTags = (): ContextMenuEntry => ({ command: 'timeline.add_tag', label: TIMELINE_MENU.noTags, ...unless(false, TIMELINE_MENU.noTags) });
+import { selectMenuEntries } from './select-menu-entries';
+import { tagMenuEntries } from './tag-menu-entries';
 
 const durationEntries = (shared: number | undefined): ContextMenuEntry => ({
   label: TIMELINE_MENU.duration,
@@ -51,32 +51,8 @@ const frameEntries = (frameId: string | undefined): readonly ContextMenuEntry[] 
     { command: 'timeline.duplicate_frames', label: TIMELINE_MENU.duplicateFrames },
     { command: 'timeline.linked_copy', label: TIMELINE_MENU.linkedCopy, ...unless(sprite !== null && sprite !== undefined, TIMELINE_MENU.noSprite) },
     moveEntries(picked.some((id) => all.indexOf(id) === 0), picked.some((id) => all.indexOf(id) === all.length - 1), picked.length > 1),
-    {
-      label: TIMELINE_MENU.tagMenu,
-      items: [
-        { command: 'timeline.add_tag', label: TIMELINE_MENU.addTag },
-        {
-          label: TIMELINE_MENU.addToTag,
-          items: spans.length === 0 ? [noTags()] : spans.map((tag) => ({ command: 'tag.include_frames', label: tag.name, args: { tagId: tag.id } })),
-        },
-        {
-          label: TIMELINE_MENU.removeFromTag,
-          items: spans.length === 0 ? [noTags()] : spans.map((tag) => ({ command: 'tag.exclude_frames', label: tag.name, args: { tagId: tag.id } })),
-        },
-      ],
-    },
-    {
-      label: TIMELINE_MENU.select,
-      items: [
-        { command: 'timeline.select_all_frames', label: TIMELINE_MENU.selectAll },
-        { command: 'timeline.select_same_sprite', label: TIMELINE_MENU.selectSame },
-        {
-          label: TIMELINE_MENU.selectTagFrames,
-          items: spans.length === 0 ? [noTags()] : spans.map((tag) => ({ command: 'tag.select_frames', label: spanTagOf(focus.animation, tag)?.name ?? tag.name, args: { tagId: tag.id } })),
-        },
-        { command: 'timeline.invert_selection', label: TIMELINE_MENU.invert },
-      ],
-    },
+    tagMenuEntries(spans),
+    selectMenuEntries(focus.animation, spans),
     {
       label: TIMELINE_MENU.sprite,
       items: [

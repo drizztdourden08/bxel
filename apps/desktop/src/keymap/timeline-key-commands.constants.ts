@@ -17,6 +17,7 @@ import { tagOrEdit } from '../timeline/tag-or-edit';
 import { togglePlayback } from '../timeline/toggle-playback';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
+import type { KeyDef } from './timeline-key-commands.constants.type';
 
 const group = COMMAND_GROUP.timeline;
 
@@ -30,8 +31,6 @@ const onPlainTarget = (): boolean => {
 };
 
 const pickedWidth = (): number => document.querySelector<HTMLElement>('.timeline__body')?.clientWidth ?? 600;
-
-type KeyDef = Pick<CommandDef, 'id' | 'label' | 'chord' | 'run' | 'when'>;
 
 const KEYS: readonly KeyDef[] = [
   { id: 'timeline.key_play', label: 'Play or pause the animation', chord: 'Enter', when: onPlainTarget, run: () => togglePlayback() },

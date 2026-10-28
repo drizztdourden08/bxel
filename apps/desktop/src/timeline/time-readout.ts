@@ -1,16 +1,13 @@
 /* @layer renderer-app @kind logic */
 import type { TimeUnits } from '../stores/timeline-store.type';
 import { currentPlan } from './current-plan';
+import { cursorOfFrame } from './cursor-of-frame';
 import { fpsOf } from './fps-of';
-import { formatClock } from './format-duration';
-import { cursorOfFrame, offsetOf } from './play-position';
+import { formatClock } from './format-clock';
+import { offsetOf } from './offset-of';
 import { TIMELINE_TEXT } from './timeline.constants';
+import type { TimeReadout } from './time-readout.type';
 import type { AnimationFocus } from './timeline.type';
-
-interface TimeReadout {
-  clock: string;
-  fps: string;
-}
 
 const timeReadout = (focus: AnimationFocus, units: TimeUnits): TimeReadout => {
   const plan = currentPlan(focus);
@@ -19,4 +16,3 @@ const timeReadout = (focus: AnimationFocus, units: TimeUnits): TimeReadout => {
 };
 
 export { timeReadout };
-export type { TimeReadout };

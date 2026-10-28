@@ -4,16 +4,12 @@ import { useRef } from 'react';
 import type { PointerEvent } from 'react';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import type { DurationDraft } from '../../../timeline/duration-draft.type';
-import { scaleDurationsOf } from '../../../timeline/scale-durations';
-import { setDurationOf } from '../../../timeline/set-duration';
+import { scaleDurationsOf } from '../../../timeline/scale-durations-of';
+import { setDurationOf } from '../../../timeline/set-duration-of';
 import { snapDuration } from '../../../timeline/snap-duration';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { DurationEdgeProps } from '../TimelinePanel.type';
-
-interface Grab {
-  x: number;
-  ms: number;
-}
+import type { Grab } from './DurationEdge.type';
 
 const DurationEdge = ({ id, durationMs, pxPerMs, onDraft }: DurationEdgeProps) => {
   const grab = useRef<Grab | null>(null);

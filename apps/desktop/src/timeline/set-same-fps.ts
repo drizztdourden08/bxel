@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { currentFocus } from './current-focus';
 import { currentSelection } from './current-selection';
-import { setDurationOf } from './set-duration';
+import { setDurationOf } from './set-duration-of';
 
 const setSameFps = (fps: number, whole: boolean): boolean => {
   const focus = currentFocus();

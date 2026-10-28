@@ -20,7 +20,7 @@ const settings = (patch: Partial<OnionSettings> = {}): OnionSettings => ({ ...ON
 const planFor = (index: number, patch: Partial<OnionSettings>, mode: 'loop' | 'once' = 'loop', tagId: Parameters<typeof playPlan>[0]['tagId'] = null) => {
   const animation = animationOf();
   const plan = playPlan({ animation, tagId, picked: [], rangePicked: false, loopRange: null, mode, subtags: false });
-  return onionPlan(animation, frameAt(index), plan, settings(patch), mode).map((layer) => [frameIds().indexOf(layer.frameId), layer.side, Math.round(layer.alpha * 100)]);
+  return onionPlan(animation, frameAt(index), plan, { onion: settings(patch), mode }).map((layer) => [frameIds().indexOf(layer.frameId), layer.side, Math.round(layer.alpha * 100)]);
 };
 
 describe('the onion plan', () => {
@@ -28,7 +28,7 @@ describe('the onion plan', () => {
     withFrames(4);
     const animation = animationOf();
     const plan = playPlan({ animation, tagId: null, picked: [], rangePicked: false, loopRange: null, mode: 'loop', subtags: false });
-    expect(onionPlan(animation, frameAt(1), plan, { ...ONION_DEFAULTS, on: false }, 'loop')).toEqual([]);
+    expect(onionPlan(animation, frameAt(1), plan, { onion: { ...ONION_DEFAULTS, on: false }, mode: 'loop' })).toEqual([]);
   });
 
   it('reaches up to eight frames each way with a linear falloff', () => {

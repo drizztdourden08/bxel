@@ -1,18 +1,12 @@
 /* @layer renderer-app @kind hook */
 import { useRef } from 'react';
-import type { KeyboardEvent, PointerEvent } from 'react';
+import type { PointerEvent } from 'react';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { indexAtX } from '../../../timeline/index-at-x';
 import type { TrackLayout } from '../../../timeline/track-layout.type';
 import type { AnimationFocus } from '../../../timeline/timeline.type';
-
-interface Scrub {
-  onPointerDown: (event: PointerEvent<HTMLElement>) => void;
-  onPointerMove: (event: PointerEvent<HTMLElement>) => void;
-  onPointerUp: (event: PointerEvent<HTMLElement>) => void;
-  onKeyDown: (event: KeyboardEvent<HTMLElement>) => void;
-  loop: { from: number; to: number } | null;
-}
+import { scrubTarget } from './scrub-target';
+import type { Scrub } from './useScrub.type';
 
 const useScrub = (focus: AnimationFocus, layout: TrackLayout, setLoopDraft: (range: { from: number; to: number } | null) => void): Omit<Scrub, 'loop'> => {
   const origin = useRef<{ index: number; shift: boolean } | null>(null);
@@ -52,7 +46,7 @@ const useScrub = (focus: AnimationFocus, layout: TrackLayout, setLoopDraft: (ran
     },
     onKeyDown: (event) => {
       const current = frames.findIndex((frame) => frame.id === focus.frame.id);
-      const next = event.key === 'ArrowLeft' ? current - 1 : event.key === 'ArrowRight' ? current + 1 : event.key === 'Home' ? 0 : event.key === 'End' ? frames.length - 1 : null;
+      const next = scrubTarget(event.key, current, frames.length - 1);
       if (next === null || event.altKey || event.ctrlKey || event.metaKey) return;
       event.preventDefault();
       event.stopPropagation();
@@ -62,4 +56,3 @@ const useScrub = (focus: AnimationFocus, layout: TrackLayout, setLoopDraft: (ran
 };
 
 export { useScrub };
-export type { Scrub };

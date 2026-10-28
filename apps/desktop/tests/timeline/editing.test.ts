@@ -15,7 +15,8 @@ import { scaleDurations } from '../../src/timeline/scale-durations';
 import { selectFramesWhere } from '../../src/timeline/select-frames-where';
 import { setSameFps } from '../../src/timeline/set-same-fps';
 import { setTagSpan } from '../../src/timeline/set-tag-span';
-import { includeInTag, excludeFromTag } from '../../src/timeline/tag-membership';
+import { excludeFromTag } from '../../src/timeline/exclude-from-tag';
+import { includeInTag } from '../../src/timeline/include-in-tag';
 import { animationOf, durations, frameAt, frameIds, freshAnimation, live, noticeText, pickRange, withFrames } from './timeline-harness';
 
 beforeEach(() => {

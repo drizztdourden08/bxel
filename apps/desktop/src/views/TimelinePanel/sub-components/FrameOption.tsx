@@ -3,14 +3,13 @@ import { Box, Text } from '@drizztdourden08/tessera';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { dropPosition } from '../../../timeline/drop-position';
 import { goToFrame } from '../../../timeline/go-to-frame';
-import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
+import { frameOptionData } from '../behavior/frame-option-data';
 import type { FrameOptionProps } from '../TimelinePanel.type';
 import { DurationChip } from './DurationChip';
 import { DurationEdge } from './DurationEdge';
+import { DROP_TEXT } from './FrameOption.constants';
 import { FrameBadges } from './FrameBadges';
 import { FrameThumb } from './FrameThumb';
-
-const DROP_TEXT = { move: TIMELINE_PANEL_TEXT.dropTo, copy: TIMELINE_PANEL_TEXT.dropCopy, link: TIMELINE_PANEL_TEXT.dropLink } as const;
 
 const FrameOption = ({ focus, cell, index, total, drag, mode, layout, thumb, onDraft }: FrameOptionProps) => {
   const timeMode = useTimelineStore((state) => state.timeMode);
@@ -29,18 +28,7 @@ const FrameOption = ({ focus, cell, index, total, drag, mode, layout, thumb, onD
       aria-current={cell.current ? 'true' : undefined}
       aria-posinset={cell.number}
       aria-setsize={total}
-      data-reorder-index={index}
-      data-reorder-key={cell.id}
-      data-marquee-key={cell.id}
-      data-frame-id={cell.id}
-      data-roving={cell.current ? 'yes' : 'no'}
-      data-drop={mark}
-      data-dragging={drag.dragging === index ? 'yes' : undefined}
-      data-current={cell.current ? 'yes' : 'no'}
-      data-selected={cell.selected ? 'yes' : 'no'}
-      data-empty={cell.badges.includes('empty') ? 'yes' : undefined}
-      data-link-prev={cell.linkedTo !== null ? 'yes' : undefined}
-      data-link-next={cell.linkedNext ? 'yes' : undefined}
+      {...frameOptionData(cell, index, mark, drag.dragging === index)}
       onClick={(event) => goToFrame(cell.id, event.shiftKey, event.ctrlKey || event.metaKey)}
       onKeyDown={(event) => {
         if (event.target !== event.currentTarget || event.key !== ' ') return;

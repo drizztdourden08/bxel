@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind logic */
-import type { AnimFrameId } from '@bxel/document';
 import type { PlayMode } from '../stores/timeline-store.type';
 import type { PlayPlan, PlayPosition } from './play-plan.type';
 
@@ -18,8 +17,4 @@ const positionAt = (plan: PlayPlan, elapsedMs: number, mode: PlayMode): PlayPosi
   return { cursor: cursorAt(plan, mode === 'once' ? elapsedMs : elapsedMs % plan.cycleMs), done: false };
 };
 
-const offsetOf = (plan: PlayPlan, cursor: number): number => plan.starts[Math.min(Math.max(cursor, 0), plan.starts.length - 1)] ?? 0;
-
-const cursorOfFrame = (plan: PlayPlan, frameId: AnimFrameId): number => plan.steps.findIndex((step) => step.frameId === frameId);
-
-export { cursorOfFrame, offsetOf, positionAt };
+export { positionAt };

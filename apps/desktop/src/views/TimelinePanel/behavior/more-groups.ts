@@ -17,8 +17,7 @@ import { ADD_TEXT } from '../../../add-frames/add-frames.constants';
 import { FACING_TEXT } from '../../../timeline/timeline.constants';
 import type { AnimationFocus } from '../../../timeline/timeline.type';
 import { TIMELINE_PANEL_TEXT, TRANSFORM_TEXT } from '../TimelinePanel.constants';
-
-const ANIMATION_PAGE = 'app/animation';
+import { ANIMATION_PAGE } from './more-groups.constants';
 
 const frameGroup = (disabled: boolean): MenuGroup => ({
   id: 'frames',

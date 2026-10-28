@@ -6,7 +6,7 @@ import { currentFocus } from '../../../timeline/current-focus';
 import { currentSelection } from '../../../timeline/current-selection';
 import { goToFrame } from '../../../timeline/go-to-frame';
 import { selectTag } from '../../../timeline/select-tag';
-import { TIMELINE_MENU } from '../TimelinePanel.constants';
+import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
 
 const pickTimelineTarget = (context: ContextMenuContext): void => {
   const focus = currentFocus();

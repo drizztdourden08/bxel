@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind logic */
 import type { TagId } from '@bxel/document';
 import { currentFocus } from './current-focus';
+import type { TagNudge } from './nudge-tag.type';
 import { setTagSpan } from './set-tag-span';
 import { spanTagOf } from './span-tag-of';
 import { tagById } from './tag-by-id';
-
-type TagNudge = 'move' | 'resize';
 
 const nudgeTag = (tagId: TagId, how: TagNudge, delta: number): boolean => {
   const focus = currentFocus();

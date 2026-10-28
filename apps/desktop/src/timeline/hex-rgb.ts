@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
+import { FALLBACK } from './hex-rgb.constants';
 import type { Rgb } from './onion.type';
-
-const FALLBACK: Rgb = [128, 128, 128];
 
 const hexRgb = (hex: string): Rgb => {
   const match = /^#?([0-9a-f]{6})$/i.exec(hex.trim());

@@ -1,11 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { AnimFrameId, AnimationId, Artwork, SpriteId } from '@bxel/document';
-
-interface SpriteUse {
-  animationId: AnimationId;
-  name: string;
-  frames: readonly { id: AnimFrameId; number: number }[];
-}
+import type { Artwork, SpriteId } from '@bxel/document';
+import type { SpriteUse } from './sprite-usage.type';
 
 const spriteUsage = (artwork: Artwork, spriteId: SpriteId): SpriteUse[] =>
   artwork.animations.flatMap((animation) => {
@@ -14,4 +9,3 @@ const spriteUsage = (artwork: Artwork, spriteId: SpriteId): SpriteUse[] =>
   });
 
 export { spriteUsage };
-export type { SpriteUse };

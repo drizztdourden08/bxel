@@ -1,12 +1,8 @@
 /* @layer renderer-app @kind logic */
 import type { Animation } from '@bxel/document';
+import type { RangeOption } from './range-options.type';
 import { spanTagOf } from './span-tag-of';
 import { TIMELINE_TEXT } from './timeline.constants';
-
-interface RangeOption {
-  value: string;
-  label: string;
-}
 
 const rangeOptions = (animation: Animation, loop: boolean): RangeOption[] => [
   { value: '', label: TIMELINE_TEXT.wholeAnimation },

@@ -1,37 +1,11 @@
 /* @layer renderer-app @kind hook */
 import { useRef, useState } from 'react';
 import type { PointerEvent } from 'react';
-import type { TagId } from '@bxel/document';
 import { indexAtX } from '../../../timeline/index-at-x';
 import { addTag } from '../../../timeline/add-tag';
 import { setTagSpan } from '../../../timeline/set-tag-span';
 import type { TrackLayout } from '../../../timeline/track-layout.type';
-import type { TagBar } from '../../../timeline/timeline.type';
-
-type Grip = 'move' | 'start' | 'end';
-
-interface TagDraft {
-  tagId: TagId | null;
-  start: number;
-  end: number;
-}
-
-interface Hold {
-  tagId: TagId | null;
-  grip: Grip | 'create';
-  index: number;
-  start: number;
-  end: number;
-  moved: boolean;
-}
-
-interface TagDrag {
-  draft: TagDraft | null;
-  grab: (bar: TagBar, event: PointerEvent<HTMLElement>, grip: Grip) => void;
-  create: (event: PointerEvent<HTMLElement>) => void;
-  move: (event: PointerEvent<HTMLElement>) => void;
-  release: (event: PointerEvent<HTMLElement>) => boolean;
-}
+import type { Hold, TagDrag, TagDraft } from './useTagDrag.type';
 
 const useTagDrag = (layout: TrackLayout, count: number, content: React.RefObject<HTMLElement | null>): TagDrag => {
   const hold = useRef<Hold | null>(null);
@@ -83,4 +57,3 @@ const useTagDrag = (layout: TrackLayout, count: number, content: React.RefObject
 };
 
 export { useTagDrag };
-export type { Grip, TagDrag, TagDraft };

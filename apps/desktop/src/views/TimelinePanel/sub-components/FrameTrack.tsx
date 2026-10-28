@@ -12,9 +12,8 @@ import { useStripFocus } from '../behavior/useStripFocus';
 import { END_GUTTER } from '../TimelinePanel.constants';
 import type { TrackProps } from '../TimelinePanel.type';
 import { FrameOption } from './FrameOption';
+import { MARQUEE_ITEM } from './FrameTrack.constants';
 import { GhostThumb } from './GhostThumb';
-
-const MARQUEE_ITEM = '[data-marquee-key]';
 
 const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackProps) => {
   const listRef = useRef<HTMLElement>(null);
@@ -41,7 +40,7 @@ const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackPro
     selected,
     onChange: (keys) => {
       const ids = focus.animation.frames.map((frame) => frame.id).filter((id) => keys.includes(id));
-      if (ids.length > 0) selectFrameIds(ids as AnimFrameId[], ids.includes(focus.frame.id) ? focus.frame.id : undefined);
+      if (ids.length > 0) selectFrameIds(ids,ids.includes(focus.frame.id) ? focus.frame.id : undefined);
     },
   });
   useStripFocus(listRef, focus.frame.id);

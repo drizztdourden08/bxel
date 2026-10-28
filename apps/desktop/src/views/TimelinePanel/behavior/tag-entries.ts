@@ -8,9 +8,8 @@ import { currentSelection } from '../../../timeline/current-selection';
 import { facingTag } from '../../../timeline/facing-tag';
 import { TAG_COLOUR_CHOICES } from '../../../timeline/tag-colour.constants';
 import { FACING_TEXT, TAG_DIRECTION_TEXT, TAG_DIRECTIONS } from '../../../timeline/timeline.constants';
-import { TIMELINE_MENU } from '../TimelinePanel.constants';
-
-const REPEATS: readonly number[] = [1, 2, 3, 4];
+import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
+import { REPEATS } from './tag-entries.constants';
 
 const mirrorEntries = (tag: AnimSpanTag, animation: Animation): ContextMenuEntry => ({
   label: TIMELINE_MENU.makeMirror,

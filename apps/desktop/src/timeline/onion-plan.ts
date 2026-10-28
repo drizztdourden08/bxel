@@ -1,15 +1,10 @@
 /* @layer renderer-app @kind logic */
 import type { AnimFrameId, Animation } from '@bxel/document';
-import type { OnionSettings, PlayMode } from '../stores/timeline-store.type';
+import type { OnionSettings } from '../stores/timeline-store.type';
 import type { OnionLayer, OnionSide, OnionStep } from './onion.type';
+import type { OnionPlanOptions, Ring } from './onion-plan.type';
 import { onionSteps } from './onion-steps';
 import type { PlayPlan } from './play-plan.type';
-
-interface Ring {
-  steps: readonly OnionStep[];
-  at: number;
-  wrap: boolean;
-}
 
 const pick = (ring: Ring, offset: number): OnionStep | undefined => {
   const { steps, at } = ring;
@@ -33,7 +28,8 @@ const side = (ring: Ring, kind: OnionSide, onion: OnionSettings, skip: (frameId:
   return layers;
 };
 
-const onionPlan = (animation: Animation, frameId: AnimFrameId, plan: PlayPlan, onion: OnionSettings, mode: PlayMode): OnionLayer[] => {
+const onionPlan = (animation: Animation, frameId: AnimFrameId, plan: PlayPlan, options: OnionPlanOptions): OnionLayer[] => {
+  const { onion, mode } = options;
   if (!onion.on) return [];
   const steps = onionSteps(animation, frameId, plan, onion);
   const at = steps.findIndex((step) => step.frameId === frameId);

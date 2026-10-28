@@ -15,6 +15,7 @@ const frameCells = (focus: AnimationFocus, selection: TimelineSelection): FrameC
     const badges = frameBadges(focus.artwork, frame);
     const linkedTo = index > 0 && sameSprite(focus, index - 1, index) ? index : null;
     const words = badges.filter((badge) => badge !== 'owned').map((badge) => BADGE_TEXT[badge].toLowerCase());
+    if (linkedTo !== null) words.push(TIMELINE_TEXT.linkedTo(linkedTo));
     return {
       id: frame.id,
       number: index + 1,
@@ -24,7 +25,7 @@ const frameCells = (focus: AnimationFocus, selection: TimelineSelection): FrameC
       badges,
       linkedTo,
       linkedNext: index < frames.length - 1 && sameSprite(focus, index, index + 1),
-      label: TIMELINE_TEXT.frameLabel(index + 1, frames.length, frame.durationMs, words, linkedTo),
+      label: TIMELINE_TEXT.frameLabel(index + 1, frames.length, frame.durationMs, words),
     };
   });
 };

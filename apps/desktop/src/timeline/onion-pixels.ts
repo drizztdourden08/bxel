@@ -24,7 +24,7 @@ const onionPixels = (source: OnionSource, shown: AnimFrameId, ghost: OnionGhost)
   const out = new Uint8ClampedArray(indices.length * 4);
   for (const [position, index] of indices.entries()) {
     if (index === TRANSPARENT_INDEX || (ghost.behind && current[position] !== TRANSPARENT_INDEX)) continue;
-    if (edges && edges[position] === 0) continue;
+    if (edges?.[position] === 0) continue;
     out.set([...tinted(table, index * 4, ghost), 255], position * 4);
   }
   return out;

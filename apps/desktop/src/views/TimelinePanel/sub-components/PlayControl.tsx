@@ -3,15 +3,9 @@ import { Icon, SplitButton } from '@drizztdourden08/tessera';
 import type { MenuNode } from '@drizztdourden08/tessera';
 import { SPEEDS } from '../../../stores/timeline-store.constants';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
-import type { PlayMode } from '../../../stores/timeline-store.type';
 import { togglePlayback } from '../../../timeline/toggle-playback';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
-
-const MODES: readonly { id: PlayMode; label: string }[] = [
-  { id: 'loop', label: TIMELINE_PANEL_TEXT.loop },
-  { id: 'once', label: TIMELINE_PANEL_TEXT.once },
-  { id: 'pingpong', label: TIMELINE_PANEL_TEXT.pingpong },
-];
+import { MODES } from './PlayControl.constants';
 
 const PlayControl = () => {
   const playing = useTimelineStore((state) => state.playing);

@@ -2,6 +2,8 @@
 import { Box, Text } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
+import { rovingTag } from '../behavior/roving-tag';
+import { spanStyle } from '../behavior/span-style';
 import { useTagDrag } from '../behavior/useTagDrag';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { LanesProps } from '../TimelinePanel.type';
@@ -13,7 +15,7 @@ const TagLanes = ({ focus, model, layout }: LanesProps) => {
   const drag = useTagDrag(layout, focus.animation.frames.length, content);
   const tagId = useTimelineStore((state) => state.tagId);
   const bars = model.tagLanes.flat();
-  const roving = (bars.find((bar) => bar.tagId === tagId) ?? bars[0])?.tagId ?? null;
+  const roving = rovingTag(bars, tagId);
   const create = drag.draft?.tagId === null ? drag.draft : null;
   return (
     <Box ref={content} role="group" aria-label={TIMELINE_PANEL_TEXT.tags} className="tag-lanes" style={{ inlineSize: layout.total }}>
@@ -32,13 +34,7 @@ const TagLanes = ({ focus, model, layout }: LanesProps) => {
         onPointerMove={drag.move}
         onPointerUp={(event) => drag.release(event)}
       >
-        {create && (
-          <Box
-            className="tag-lane__draft"
-            aria-hidden="true"
-            style={{ insetInlineStart: layout.lefts[create.start], inlineSize: (layout.lefts[create.end] ?? 0) + (layout.widths[create.end] ?? 0) - (layout.lefts[create.start] ?? 0) }}
-          />
-        )}
+        {create && <Box className="tag-lane__draft" aria-hidden="true" style={spanStyle(layout, create.start, create.end)} />}
         {bars.length === 0 && !create && (
           <Text as="span" variant="caption" tone="muted" className="tag-lane__hint">{TIMELINE_PANEL_TEXT.tagHint}</Text>
         )}

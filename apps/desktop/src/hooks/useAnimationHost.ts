@@ -4,7 +4,10 @@ import { useEffect, useRef } from 'react';
 import type { AppSettings } from '../settings.type';
 import { useTimelineStore } from '../stores/useTimelineStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
-import { readOnion, readPlay, readThumbs, readView } from '../timeline/read-animation-settings';
+import { readOnion } from '../timeline/read-onion';
+import { readPlay } from '../timeline/read-play';
+import { readThumbs } from '../timeline/read-thumbs';
+import { readView } from '../timeline/read-view';
 import { writeAnimationSettings } from '../timeline/write-animation-settings';
 
 const activeAnimation = (): string | null => {

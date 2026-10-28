@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind hook */
 import { useEffect } from 'react';
 import { useTimelineStore } from '../stores/useTimelineStore';
-import { resetClock, tickClock } from '../timeline/playback-clock';
+import { resetClock } from '../timeline/reset-clock';
+import { tickClock } from '../timeline/tick-clock';
 
 const useTimelinePlayback = (): void => {
   const playing = useTimelineStore((state) => state.playing);

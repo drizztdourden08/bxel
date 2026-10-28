@@ -5,7 +5,7 @@ import { Box, NumberInput, Text, Tooltip } from '@drizztdourden08/tessera';
 import { useState } from 'react';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { formatDuration } from '../../../timeline/format-duration';
-import { setDurationOf } from '../../../timeline/set-duration';
+import { setDurationOf } from '../../../timeline/set-duration-of';
 import { focusFirstField } from '../behavior/focus-field';
 import { DURATION_STEP, TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { DurationChipProps } from '../TimelinePanel.type';

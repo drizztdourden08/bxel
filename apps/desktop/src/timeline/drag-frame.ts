@@ -22,4 +22,4 @@ const dropFrames = (drop: ReorderDropInfo): boolean => {
   return moveFramesTo(drop.before - ahead, ids);
 };
 
-export { dropFrames, modeOfModifier };
+export { dropFrames };

@@ -26,8 +26,9 @@ const TIMELINE_TEXT = {
   wholeAnimation: 'Whole animation',
   pickedFrames: 'Picked frames',
   loopRangeName: 'Loop range',
-  frameLabel: (number: number, total: number, durationMs: number, words: readonly string[], linkedTo: number | null): string =>
-    [`Frame ${number} of ${total}, ${durationMs} milliseconds`, ...words, ...(linkedTo === null ? [] : [`linked to frame ${linkedTo}`])].join(', '),
+  frameLabel: (number: number, total: number, durationMs: number, words: readonly string[]): string =>
+    [`Frame ${number} of ${total}, ${durationMs} milliseconds`, ...words].join(', '),
+  linkedTo: (frame: number): string => `linked to frame ${frame}`,
   framesRange: (from: number, to: number): string => (from === to ? `frame ${from}` : `frames ${from} to ${to}`),
   count: (frames: number): string => (frames === 1 ? '1 frame' : `${frames} frames`),
   total: (frames: number, durationMs: number, fps: string): string => `${frames === 1 ? '1 frame' : `${frames} frames`}, ${durationMs} ms, ${fps}`,

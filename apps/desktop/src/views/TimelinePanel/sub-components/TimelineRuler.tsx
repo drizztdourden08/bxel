@@ -3,26 +3,25 @@ import { Box, Icon, Pressable, Text } from '@drizztdourden08/tessera';
 import { useState } from 'react';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { formatDuration } from '../../../timeline/format-duration';
+import { loopBand } from '../behavior/loop-band';
+import type { LoopSpan } from '../behavior/loop-band.type';
+import { spanStyle } from '../behavior/span-style';
 import { useScrub } from '../behavior/useScrub';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { RulerProps } from '../TimelinePanel.type';
 import { OnionHandles } from './OnionHandles';
-
-const TICK_MIN = 28;
+import { TICK_MIN } from './TimelineRuler.constants';
 
 const TimelineRuler = ({ focus, layout }: RulerProps) => {
   const units = useTimelineStore((state) => state.units);
   const timeMode = useTimelineStore((state) => state.timeMode);
   const loopRange = useTimelineStore((state) => state.loopRange);
-  const [draft, setDraft] = useState<{ from: number; to: number } | null>(null);
+  const [draft, setDraft] = useState<LoopSpan | null>(null);
   const scrub = useScrub(focus, layout, setDraft);
   const { frames } = focus.animation;
   const current = frames.findIndex((frame) => frame.id === focus.frame.id);
   const stride = Math.max(1, Math.ceil(TICK_MIN / Math.max(1, layout.widths[0] ?? TICK_MIN)));
-  const committed = loopRange ? { from: frames.findIndex((frame) => frame.id === loopRange.from), to: frames.findIndex((frame) => frame.id === loopRange.to) } : null;
-  const band = draft ?? (committed && committed.from >= 0 && committed.to >= 0 ? committed : null);
-  const start = band ? Math.min(band.from, band.to) : 0;
-  const end = band ? Math.max(band.from, band.to) : 0;
+  const { valid, band, start, end } = loopBand(frames, loopRange, draft);
   let elapsed = 0;
   return (
     <Box className="ruler" style={{ inlineSize: layout.total }} data-ruler>
@@ -56,20 +55,14 @@ const TimelineRuler = ({ focus, layout }: RulerProps) => {
             </Text>
           );
         })}
-        {band && (
-          <Box
-            className="ruler__loop"
-            aria-hidden="true"
-            style={{ insetInlineStart: layout.lefts[start], inlineSize: (layout.lefts[end] ?? 0) + (layout.widths[end] ?? 0) - (layout.lefts[start] ?? 0) }}
-          />
-        )}
+        {band && <Box className="ruler__loop" aria-hidden="true" style={spanStyle(layout, start, end)} />}
       </Box>
       <OnionHandles focus={focus} layout={layout} current={current} />
-      {committed && !draft && committed.from >= 0 && committed.to >= 0 && (
+      {valid && !draft && (
         <Pressable
           className="ruler__clear"
           aria-label={TIMELINE_PANEL_TEXT.clearLoop}
-          title={TIMELINE_PANEL_TEXT.loopRange(Math.min(committed.from, committed.to) + 1, Math.max(committed.from, committed.to) + 1)}
+          title={TIMELINE_PANEL_TEXT.loopRange(Math.min(valid.from, valid.to) + 1, Math.max(valid.from, valid.to) + 1)}
           style={{ insetInlineStart: (layout.lefts[end] ?? 0) + (layout.widths[end] ?? 0) - 16 }}
           onClick={() => useTimelineStore.getState().setLoopRange(null)}
         >

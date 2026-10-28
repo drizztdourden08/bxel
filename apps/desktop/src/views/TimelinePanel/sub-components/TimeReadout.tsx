@@ -1,12 +1,10 @@
 /* @layer renderer-app @kind component */
 import { DropdownMenu } from '@drizztdourden08/tessera';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
-import type { TimeUnits } from '../../../stores/timeline-store.type';
 import { timeReadout } from '../../../timeline/time-readout';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { FocusProps } from '../TimelinePanel.type';
-
-const UNITS: readonly TimeUnits[] = ['ms', 'seconds', 'ticks'];
+import { UNITS } from './TimeReadout.constants';
 
 const TimeReadout = ({ focus }: FocusProps) => {
   const units = useTimelineStore((state) => state.units);

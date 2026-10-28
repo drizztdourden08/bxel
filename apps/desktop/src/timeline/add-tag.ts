@@ -8,12 +8,8 @@ import { currentFocus } from './current-focus';
 import { currentSelection } from './current-selection';
 import { idRef } from './id-ref';
 import { newTagName } from './new-tag-name';
+import type { TagSpan } from './add-tag.type';
 import { TIMELINE_LABEL, TIMELINE_REF } from './timeline.constants';
-
-interface TagSpan {
-  start: number;
-  end: number;
-}
 
 const addTag = (span?: TagSpan, facing?: AnimFacing): void => {
   const focus = currentFocus();

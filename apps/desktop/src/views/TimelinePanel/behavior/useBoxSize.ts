@@ -1,11 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useLayoutEffect, useState } from 'react';
 import type { RefObject } from 'react';
-
-interface BoxSize {
-  width: number;
-  height: number;
-}
+import type { BoxSize } from './useBoxSize.type';
 
 const useBoxSize = (ref: RefObject<HTMLElement | null>): BoxSize => {
   const [size, setSize] = useState<BoxSize>({ width: 1024, height: 240 });

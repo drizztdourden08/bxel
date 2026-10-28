@@ -1,12 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useRef, useState } from 'react';
-import type { RefObject } from 'react';
 import type { DragMode } from '../../../timeline/drag-mode.type';
-
-interface DragModeState {
-  mode: DragMode;
-  last: RefObject<DragMode>;
-}
+import type { DragModeState } from './useDragMode.type';
 
 const modeOf = (event: { ctrlKey: boolean; metaKey: boolean; altKey: boolean }): DragMode => {
   if (event.altKey) return 'link';

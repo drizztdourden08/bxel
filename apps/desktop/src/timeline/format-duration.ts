@@ -1,8 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { TimeUnits } from '../stores/timeline-store.type';
-import { TICK_FPS } from './track-layout.constants';
-
-const ticksOf = (ms: number): number => Math.round((ms * TICK_FPS) / 1000);
+import { ticksOf } from './ticks-of';
 
 const formatDuration = (ms: number, units: TimeUnits): string => {
   if (units === 'seconds') return String(Math.round(ms / 10) / 100);
@@ -10,10 +8,4 @@ const formatDuration = (ms: number, units: TimeUnits): string => {
   return String(ms);
 };
 
-const formatClock = (at: number, total: number, units: TimeUnits): string => {
-  if (units === 'seconds') return `${(at / 1000).toFixed(2)} / ${(total / 1000).toFixed(2)} s`;
-  if (units === 'ticks') return `${ticksOf(at)} / ${ticksOf(total)} ticks`;
-  return `${at} / ${total} ms`;
-};
-
-export { formatClock, formatDuration, ticksOf };
+export { formatDuration };

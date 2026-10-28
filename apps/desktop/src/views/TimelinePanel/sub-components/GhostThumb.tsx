@@ -1,13 +1,8 @@
 /* @layer renderer-app @kind component */
-import type { AnimFrameId } from '@bxel/document';
 import { Canvas } from '@drizztdourden08/tessera';
 import { useEffect, useRef } from 'react';
 import { composedImage } from '../../../timeline/composed-image';
-import type { FocusProps } from '../TimelinePanel.type';
-
-interface GhostThumbProps extends FocusProps {
-  frameId: AnimFrameId;
-}
+import type { GhostThumbProps } from './GhostThumb.type';
 
 const GhostThumb = ({ focus, frameId }: GhostThumbProps) => {
   const canvas = useRef<HTMLCanvasElement>(null);

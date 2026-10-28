@@ -5,7 +5,7 @@ import { runDocument } from '../sheet/run-document';
 import { useNoticeStore } from '../stores/useNoticeStore';
 import { animationStep } from './animation-step';
 import { currentFocus } from './current-focus';
-import { heldClip } from './frame-clip';
+import { heldClip } from './held-clip';
 import type { ClipFrame } from './frame-clip.type';
 import { idRef } from './id-ref';
 import { moveFramesTo } from './move-frames-to';
@@ -32,7 +32,7 @@ const pasteSteps = (focus: AnimationFocus, frames: readonly ClipFrame[], same: b
   for (const [index, frame] of frames.entries()) {
     const source = sourceOf(frame, same, linked);
     if (source === null) return null;
-    steps.push(animationStep(focus, COMMAND_NAME.animationFrameAdd, { source, at: at + index, ...(source && 'kind' in source && source.kind === 'duplicate' ? {} : fieldsOf(frame)) }, `${TIMELINE_REF.copy}${index}`));
+    steps.push(animationStep(focus, COMMAND_NAME.animationFrameAdd, { source, at: at + index, ...('kind' in source && source.kind === 'duplicate' ? {} : fieldsOf(frame)) }, `${TIMELINE_REF.copy}${index}`));
   }
   return steps;
 };

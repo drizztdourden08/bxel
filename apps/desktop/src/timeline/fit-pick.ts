@@ -2,7 +2,7 @@
 import { useTimelineStore } from '../stores/useTimelineStore';
 import { currentFocus } from './current-focus';
 import { currentSelection } from './current-selection';
-import { fitThumb } from './track-layout';
+import { fitThumb } from './fit-thumb';
 import { END_GUTTER_PX } from './track-layout.constants';
 
 const fitPick = (available: number): void => {

@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { composedImage } from '../../../timeline/composed-image';
 import { facingTag } from '../../../timeline/facing-tag';
 import { playPlan } from '../../../timeline/play-plan';
-import { positionAt } from '../../../timeline/play-position';
+import { positionAt } from '../../../timeline/position-at';
 import type { FocusProps } from '../TimelinePanel.type';
 import { FACING_ABBREVIATION } from '../TimelinePanel.constants';
 

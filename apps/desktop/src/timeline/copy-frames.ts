@@ -2,7 +2,7 @@
 import { findSprite } from '@bxel/document';
 import { currentFocus } from './current-focus';
 import { currentSelection } from './current-selection';
-import { holdClip } from './frame-clip';
+import { holdClip } from './hold-clip';
 import type { ClipFrame } from './frame-clip.type';
 
 const copyFrames = (cut = false): boolean => {

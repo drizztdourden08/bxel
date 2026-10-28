@@ -3,8 +3,7 @@ import type { AnimFrame } from '@bxel/document';
 import { currentFocus } from './current-focus';
 import { currentSelection } from './current-selection';
 import { selectFrameIds } from './select-frame-ids';
-
-type Rule = 'same-sprite' | 'invert';
+import type { Rule } from './select-frames-where.type';
 
 const matches = (rule: Rule, frame: AnimFrame, spriteIds: ReadonlySet<string | null>, picked: readonly string[]): boolean =>
   rule === 'same-sprite' ? frame.spriteId !== null && spriteIds.has(frame.spriteId) : !picked.includes(frame.id);

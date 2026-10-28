@@ -4,7 +4,9 @@ import type { TagBar } from './timeline.type';
 
 const repeatText = (repeat: number): string => {
   if (repeat === 0) return 'repeats forever';
-  return repeat === 1 ? 'repeats once' : repeat === 2 ? 'repeats twice' : `repeats ${repeat} times`;
+  if (repeat === 1) return 'repeats once';
+  if (repeat === 2) return 'repeats twice';
+  return `repeats ${repeat} times`;
 };
 
 const tagBarLabel = (bar: Omit<TagBar, 'label'>): string => {
