@@ -8,7 +8,7 @@ import { PaletteOverflow } from './PaletteOverflow';
 import { PaletteSwitcher } from './PaletteSwitcher';
 
 const PaletteHeader = ({ panel }: PanelProps) => (
-  <Stack gap="2xs" className="palette-panel__header">
+  <Stack gap="xs" className="palette-panel__header">
     <Flex align="center" gap="sm" className="palette-panel__header-row">
       <PaletteSwitcher panel={panel} />
       <PaletteOverflow panel={panel} />

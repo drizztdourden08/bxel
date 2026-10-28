@@ -10,7 +10,7 @@ const LimitBadge = ({ panel }: PanelProps) => {
   const full = used >= bank.cap;
   return (
     <Button
-      size="xs"
+      size="sm"
       variant="tertiary"
       className={full ? 'palette-panel__limit palette-panel__limit--full' : 'palette-panel__limit'}
       aria-label={PALETTE_PANEL_TEXT.limitName(used, bank.cap)}

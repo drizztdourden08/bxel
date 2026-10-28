@@ -24,7 +24,7 @@ const PaletteSwitcher = ({ panel }: PanelProps) => {
   return (
     <DropdownMenu
       className="palette-panel__switcher"
-      size="xs"
+      size="sm"
       variant="tertiary"
       label={PALETTE_PANEL_TEXT.switcher}
       trigger={{ label: bank.name, icon: <SwatchStrip colours={stripColours(bank)} /> }}
