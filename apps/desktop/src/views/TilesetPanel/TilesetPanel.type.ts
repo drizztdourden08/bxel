@@ -189,7 +189,6 @@ export type {
   AnimationPartProps,
   DataFieldRowProps,
   FieldValueEditorProps,
-  GridHandlers,
   GridSelection,
   GridView,
   MixedChoiceProps,

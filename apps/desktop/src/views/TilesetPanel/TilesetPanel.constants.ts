@@ -111,6 +111,6 @@ export {
   TILESET_TEXT,
   ZOOM_MAX,
 };
-export { ADD_HINT, BRUSH_ACTIONS, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, NEW_TILEMAP_HINT, NEW_TILESET_HINT, SHAPE_ACTIONS, TILE_MENU, UNIQUE_HINT } from './behavior/tileset-hints.constants';
+export { ADD_HINT, BRUSH_ACTIONS, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, SHAPE_ACTIONS, TILE_MENU } from './behavior/tileset-hints.constants';
 export { FILTERS, MODE_OPTIONS, MODES, ZOOMS } from './behavior/tileset-modes.constants';
-export { CHIP_COLOURS, FIELD_DEFAULTS, FIELD_KINDS, LAYER_COLOURS, PAINT_CHOICES, SHAPE_KIND_TEXT, TURN_CHOICES } from './behavior/tileset-fields.constants';
+export { CHIP_COLOURS, FIELD_DEFAULTS, FIELD_KINDS, PAINT_CHOICES, SHAPE_KIND_TEXT, TURN_CHOICES } from './behavior/tileset-fields.constants';

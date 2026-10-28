@@ -15,6 +15,8 @@ type SpriteSource = { readonly spriteId: string; readonly frameId?: string };
 
 type SheetSource = { readonly sheetId: string };
 
+type PngMeta = { readonly revision: number; readonly scale: number; readonly uri: string };
+
 type TilesetSource = { readonly tilesetId: string; readonly overlay?: 'none' | 'collision' };
 
 type AnimationSource = { readonly animationId: string; readonly frameId?: string; readonly tagId?: string };
@@ -184,6 +186,7 @@ export type {
   RenderInput,
   PreviewInput,
   SaveInput,
+  PngMeta,
   SheetSource,
   TilesetSource,
   SavedAt,

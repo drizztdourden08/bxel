@@ -47,4 +47,4 @@ interface TilesetViewState extends TilesetViewSettings {
   setShapeClipboard: (shapes: readonly TileShape[]) => void;
 }
 
-export type { CollisionPaint, DataPaint, ThumbZoom, TileFilter, TilesetMode, TilesetViewSettings, TilesetViewState };
+export type { ThumbZoom, TileFilter, TilesetMode, TilesetViewSettings, TilesetViewState };

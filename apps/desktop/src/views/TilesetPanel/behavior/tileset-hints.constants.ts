@@ -28,12 +28,6 @@ const EDIT_HINT: HintSpec = {
   shortcuts: [{ command: TILEMAP_COMMAND.toggleEdit }],
 };
 
-const UNIQUE_HINT: HintSpec = {
-  name: 'Make unique',
-  description: 'Give the selected map cells their own copy of their tile. Other cells keep the original.',
-  shortcuts: [{ command: TILEMAP_COMMAND.makeUnique }],
-};
-
 const TILE_MENU = {
   label: 'Tile actions',
   tile: '[data-tile-key]',
@@ -42,18 +36,6 @@ const TILE_MENU = {
   remove: 'Delete tile...',
   needCells: 'Select some cells on the map first.',
 } as const;
-
-const NEW_TILESET_HINT: HintSpec = {
-  name: 'New tileset',
-  description: 'Start another set of tiles with its own tile size.',
-  shortcuts: [{ command: TILEMAP_COMMAND.newTileset }],
-};
-
-const NEW_TILEMAP_HINT: HintSpec = {
-  name: 'New tilemap',
-  description: 'Start another map built from a tileset.',
-  shortcuts: [{ command: TILEMAP_COMMAND.newTilemap }],
-};
 
 const BRUSH_ACTIONS: readonly { op: StampTransform; icon: IconName; hint: HintSpec }[] = [
   {
@@ -94,9 +76,6 @@ export {
   DELETE_HINT,
   DUPLICATE_HINT,
   EDIT_HINT,
-  NEW_TILEMAP_HINT,
-  NEW_TILESET_HINT,
   SHAPE_ACTIONS,
   TILE_MENU,
-  UNIQUE_HINT,
 };

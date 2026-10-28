@@ -22,14 +22,9 @@
 }
 
 .tileset-panel__stamp {
-  display: block;
   flex: none;
   max-inline-size: var(--size-96);
   max-block-size: var(--size-96);
-  image-rendering: pixelated;
-  border: var(--border-width-thin) solid var(--c-border);
-  border-radius: var(--radius-sm);
-  background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
 }
 
 .tileset-panel__grid-area {
@@ -115,10 +110,20 @@
   background: var(--c-warning-soft);
 }
 
-.tileset-panel__thumb {
+.tileset-panel__thumb,
+.tileset-panel__stamp,
+.tileset-panel__preview,
+.tileset-panel__shape-canvas {
   display: block;
   image-rendering: pixelated;
   background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
+}
+
+.tileset-panel__stamp,
+.tileset-panel__preview,
+.tileset-panel__shape-canvas {
+  border-radius: var(--radius-md);
+  border: var(--border-width-thin) solid var(--c-border);
 }
 
 .tileset-panel__badge,
@@ -167,7 +172,7 @@
   inset-block-start: var(--size-2);
   inset-inline-start: var(--size-2);
   color: var(--c-surface);
-  font-weight: 700;
+  font-weight: var(--weight-semi);
 }
 
 .tileset-panel__chip[data-chip='0'] {
@@ -196,7 +201,7 @@
   transform: translate(-50%, -50%);
   background: var(--c-primary);
   color: var(--c-primary-text);
-  font-weight: 700;
+  font-weight: var(--weight-semi);
 }
 
 .tileset-panel__inspector {
@@ -216,25 +221,15 @@
 }
 
 .tileset-panel__preview {
-  display: block;
   inline-size: var(--size-64);
   block-size: var(--size-64);
   object-fit: contain;
-  image-rendering: pixelated;
-  border: var(--border-width-thin) solid var(--c-border);
-  border-radius: var(--radius-md);
-  background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
 }
 
 .tileset-panel__shape-canvas {
-  display: block;
   max-inline-size: 100%;
-  image-rendering: pixelated;
   cursor: crosshair;
   touch-action: none;
-  border: var(--border-width-thin) solid var(--c-border);
-  border-radius: var(--radius-md);
-  background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
 }
 
 .tileset-panel__shape-row {

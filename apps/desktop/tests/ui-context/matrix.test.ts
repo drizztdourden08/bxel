@@ -66,7 +66,7 @@ const MATRIX: readonly (readonly [string, string])[] = [
   ['view.zoom_in', 'DSSSHSSSSSSS'],
   ['view.toggle_pixel_grid', 'HSSSHHSSSSSS'],
   ['view.toggle_guides', 'HSSSHSSSSSSH'],
-  ['symmetry.toggle_x', 'HSSSHHSSHSSH'],
+  ['symmetry.toggle_x', 'HSSSHHSSSSSH'],
   ['timeline.add_frame', 'HHHSHHHSHSHH'],
   ['timeline.toggle_onion', 'HHHSHHHHHHHH'],
   ['frame.duplicate', 'HHHHHHHHHHHH'],
