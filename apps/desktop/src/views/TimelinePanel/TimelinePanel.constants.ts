@@ -148,8 +148,6 @@ const SHORT_HEIGHT = 180;
 
 const END_GUTTER = END_GUTTER_PX;
 
-const EDGE_ZONE = 6;
-
 const FACING_ABBREVIATION = { n: 'N', ne: 'NE', e: 'E', se: 'SE', s: 'S', sw: 'SW', w: 'W', nw: 'NW' } as const;
 
 export {
@@ -158,7 +156,6 @@ export {
   DURATION_CHOICES,
   DURATION_STEP,
   EDGE_KEYS,
-  EDGE_ZONE,
   END_GUTTER,
   FACING_ABBREVIATION,
   FRAME_ACTIONS,

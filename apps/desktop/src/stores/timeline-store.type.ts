@@ -117,7 +117,6 @@ export type {
   PlaySettings,
   TimeUnits,
   TimelineSelection,
-  TimelinePopover,
   TimelineSettings,
   TimelineState,
   ViewSettings,

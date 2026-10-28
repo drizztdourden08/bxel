@@ -98,10 +98,6 @@ const TIMELINE_LABEL = {
   addFrames: 'Add frames',
 } as const;
 
-const FIELD_LABEL = {
-  duration: 'Frame duration in milliseconds, applied to the picked frames',
-  tagName: 'Tag name',
-} as const;
 
 const TIMELINE_REF = { frame: 'frame', tag: 'tag', copy: 'copy', animation: 'animation', sheet: 'sheet' } as const;
 
@@ -139,7 +135,6 @@ export {
   BADGE_TEXT,
   COMPASS,
   FACING_TEXT,
-  FIELD_LABEL,
   NEW_TAG_NAME,
   TAG_COLOURS,
   TAG_DIRECTION_TEXT,

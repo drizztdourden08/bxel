@@ -28,4 +28,4 @@ interface TagDrag {
   release: (event: PointerEvent<HTMLElement>) => boolean;
 }
 
-export type { Grip, Hold, TagDrag, TagDraft };
+export type { Hold, TagDrag, TagDraft };

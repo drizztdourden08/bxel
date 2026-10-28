@@ -49,9 +49,4 @@ interface TimelineModel {
   tagLanes: readonly (readonly TagBar[])[];
 }
 
-interface PlayStep {
-  frameId: AnimFrameId;
-  flip: AnimFlip | null;
-}
-
-export type { AnimationFocus, FrameBadge, FrameCell, PlayStep, TagBar, TagColourChoice, TimelineModel };
+export type { AnimationFocus, FrameBadge, FrameCell, TagBar, TagColourChoice, TimelineModel };

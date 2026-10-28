@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
-import { COMMAND_NAME } from '@bxel/document';
 import type { AnimFrameId } from '@bxel/document';
+import { COMMAND_NAME } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
 import { animationStep } from './animation-step';
 import { framePick } from './frame-pick';

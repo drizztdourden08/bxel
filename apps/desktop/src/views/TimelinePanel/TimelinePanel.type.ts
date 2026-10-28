@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { AnimFacing, AnimFrameId, AnimSpanTag, TagId } from '@bxel/document';
+import type { AnimFrameId, AnimSpanTag, TagId } from '@bxel/document';
 import type { ReorderDrag } from '@drizztdourden08/tessera';
 import type { RefObject } from 'react';
 import type { PixelIconName } from '../../icons/pixel-icon.type';
@@ -28,10 +28,6 @@ type TimelineKeyAction =
   | { kind: 'step'; delta: number; extend: boolean }
   | { kind: 'edge'; end: 'first' | 'last'; extend: boolean }
   | { kind: 'move'; delta: number };
-
-interface MenuProps {
-  disabled: boolean;
-}
 
 interface FocusProps {
   focus: AnimationFocus;
@@ -168,17 +164,11 @@ interface AxisFieldsProps {
   disabled: boolean;
 }
 
-interface FacingPadProps extends FocusProps {
-  onPick: (facing: AnimFacing) => void;
-}
-
 export type {
   ActionBarProps,
   AxisFieldsProps,
   BodyProps,
   CompactProps,
-  DraftProps,
-  FacingPadProps,
   DurationChipProps,
   DurationEdgeProps,
   FocusProps,
@@ -187,8 +177,6 @@ export type {
   FramePopoverProps,
   FrameThumbProps,
   LanesProps,
-  LayoutProps,
-  MenuProps,
   NumberFieldProps,
   OnionHandlesProps,
   RulerProps,
@@ -199,6 +187,5 @@ export type {
   TimelineAction,
   TimelineKeyAction,
   TimelineKeyInfo,
-  TimelineViewProps,
   TrackProps,
 };
