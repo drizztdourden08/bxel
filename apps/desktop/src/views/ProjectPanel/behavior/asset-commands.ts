@@ -5,6 +5,7 @@ import { copyForSheet } from '../../../asset-list/copy-for-sheet';
 import { copyPath } from '../../../asset-list/copy-path';
 import { exportRow } from '../../../asset-list/export-row';
 import { duplicateItems } from '../../../panel-browser/duplicate-items';
+import { quoted } from '../../../panel-browser/quoted';
 import { relativePathOf } from '../../../panel-browser/relative-path-of';
 import { PROJECT_GROUP } from '../../../project/project.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
@@ -33,7 +34,7 @@ const assetCommands = (model: ProjectPanelModel): readonly CommandDef[] => [
     group: PROJECT_GROUP,
     run: (context?: CommandContext) => {
       const item = commandTargets(model, context)[0];
-      if (item) model.query.setUsedBy(item.name);
+      if (item) model.search.toggle(`uses:${quoted(item.name)}`);
     },
   },
   {

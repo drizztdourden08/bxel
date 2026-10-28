@@ -4,11 +4,7 @@ import { parentOf } from '../workspace/parent-of';
 import { toSlashes } from '../workspace/to-slashes';
 import { ghostItem } from './ghost-item';
 import type { BrowserItem } from './project-browser.type';
-
-const rootOf = (path: string, roots: readonly string[]): string | undefined => {
-  const lower = path.toLowerCase();
-  return roots.find((root) => lower.startsWith(`${root.toLowerCase()}/`));
-};
+import { rootOf } from './root-of';
 
 const nearestFolder = (path: string, byLower: ReadonlyMap<string, string>, root: string): string => {
   let folder = parentOf(path);

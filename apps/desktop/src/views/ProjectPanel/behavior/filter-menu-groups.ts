@@ -1,10 +1,11 @@
 /* @layer renderer-app @kind logic */
 import type { MenuGroup } from '@drizztdourden08/tessera';
+import { hasToken } from '../../../panel-browser/has-token';
 import { FILTER_KINDS, FILTER_STATES, ITEM_ICON, PLURAL_LABEL, STATE_LABEL } from '../../../panel-browser/project-browser.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
 
 const filterMenuGroups = (model: ProjectPanelModel): readonly MenuGroup[] => {
-  const { query, counts } = model;
+  const { search, counts } = model;
   return [
     {
       id: 'kinds',
@@ -14,8 +15,8 @@ const filterMenuGroups = (model: ProjectPanelModel): readonly MenuGroup[] => {
         label: `${PLURAL_LABEL[kind]} ${counts.kinds[kind] ?? 0}`,
         icon: ITEM_ICON[kind],
         kind: 'check' as const,
-        checked: query.chips.kinds.includes(kind),
-        onSelect: () => query.toggleKind(kind),
+        checked: hasToken(search.tokens, `kind:${kind}`),
+        onSelect: () => search.toggle(`kind:${kind}`),
       })),
     },
     {
@@ -25,8 +26,8 @@ const filterMenuGroups = (model: ProjectPanelModel): readonly MenuGroup[] => {
         id: state,
         label: `${STATE_LABEL[state]} ${counts.states[state]}`,
         kind: 'check' as const,
-        checked: query.chips.states.includes(state),
-        onSelect: () => query.toggleState(state),
+        checked: hasToken(search.tokens, `is:${state}`),
+        onSelect: () => search.toggle(`is:${state}`),
       })),
     },
   ];

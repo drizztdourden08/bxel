@@ -61,13 +61,13 @@ const reopensIdentical = async (rig: SheetRig): Promise<void> => {
   try {
     await openProjectAtInUi(second, rig.root, 'Sheets');
     for (const name of PART_NAMES) await assetRow(second, name).waitFor();
-    await assetRow(second, 'part_02').click();
+    await assetRow(second, 'part_02').dblclick();
     await openAssetTab(second, /^part_02/).waitFor();
     const size = { width: SIDE, height: SIDE };
     const map = await canvasMapper(second, size);
     const sprite = spriteOf(saved(rig, 'part_02'), 'part_02');
     expect([...await readDisplayed(second, map, size, await readSwatches(second))]).toEqual([...flatIndices(sprite)]);
-    await assetRow(second, 'padded-sheet').click();
+    await assetRow(second, 'padded-sheet').dblclick();
     await second.page.getByRole('combobox', { name: 'Sheet' }).getByText('padded-sheet (3)').waitFor();
   } finally {
     await second.close();

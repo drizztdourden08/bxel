@@ -149,6 +149,12 @@ const PALETTES: RuleTable = {
   ...family(['palette.remove_unused', 'palette.unite_duplicates', 'palette.sort_selection'], PIXEL, [DOC, WRITE], ONLY.pixels),
 };
 
+const PANEL_COMMAND_IDS = [
+  'asset.open', 'asset.duplicate', 'asset.copy_for_sheet', 'asset.export', 'asset.show_users', 'asset.copy_relative_path', 'project.open_entry', 'project.new_asset',
+  'project.new_folder', 'project.refresh', 'project.collapse_all', 'project.reveal_root', 'project.open_hub', 'project.unlink_folder', 'project.rename_entry',
+  'project.trash_entry', 'project.duplicate_entry', 'project.select_all', 'project.new_folder_here', 'project.new_menu', 'project.find',
+];
+
 const FILES: RuleTable = {
   ...family(['file.open', 'file.new', 'file.import_image', 'file.import_tiled', 'help.shortcuts', 'help.demo'], always),
   ...family(['sprite.new'], always, [DOC]),
@@ -159,6 +165,8 @@ const FILES: RuleTable = {
   ...family(['project.new', 'project.open', 'project.panel', 'project.window'], always),
   ...family(['image.import'], file('image'), [], 'Images'),
   ...family(['project.close', 'project.settings', 'project.pack'], always, [[projectOpen, REASON.noProject]]),
+  ...family(['project.rename_file', 'project.move_files', 'project.trash_files', 'project.make_folder'], always, [[projectOpen, REASON.noProject]]),
+  ...family(PANEL_COMMAND_IDS, always, [[projectOpen, REASON.noProject]]),
   ...family(['tab.close', 'tab.close_others', 'tab.close_right', 'tab.move_left', 'tab.move_right', 'asset.reveal', 'asset.copy_path'], always),
 };
 
@@ -166,4 +174,4 @@ const COMMAND_RULES: RuleTable = {
   ...TOOLS, ...PRESETS, ...OPTIONS, ...BRUSH, ...VIEW, ...HISTORY, ...LAYERS, ...SELECTION, ...TRANSFORM, ...SHEETS, ...TILES, ...TIMELINES, ...PALETTES, ...FILES,
 };
 
-export { COMMAND_RULES };
+export { COMMAND_RULES, PANEL_COMMAND_IDS };

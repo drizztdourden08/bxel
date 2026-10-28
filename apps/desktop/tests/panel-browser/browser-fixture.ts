@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
-import type { AssetRow, RowKind } from '../../src/asset-list/asset-list.type';
+import type { AssetRow, ListedFile, RowKind } from '../../src/asset-list/asset-list.type';
 import { buildItemTree } from '../../src/panel-browser/build-item-tree';
-import type { BrowserEntry, BrowserRoot, ItemTree } from '../../src/panel-browser/project-browser.type';
+import type { BrowserRoot, ItemTree } from '../../src/panel-browser/project-browser.type';
 
 const ROOT = '/p/demo';
 const LINKED = '/p/shared';
@@ -11,28 +11,19 @@ const ROOTS: readonly BrowserRoot[] = [
   { path: LINKED, name: 'shared', main: false, granted: true },
 ];
 
-const entry = (path: string, isFolder = false, rootPath = ROOT): BrowserEntry => ({
-  path,
-  name: path.split('/').at(-1) ?? path,
-  isFolder,
-  size: 10,
-  modified: 100,
-  rootPath,
-});
+const file = (path: string): ListedFile => ({ path, name: path.split('/').at(-1) ?? path, modified: 100, size: 10 });
 
-const ENTRIES: readonly BrowserEntry[] = [
-  entry(`${ROOT}/sprites`, true),
-  entry(`${ROOT}/sprites/hero.bxsprite`),
-  entry(`${ROOT}/sprites/boss.bxsprite`),
-  entry(`${ROOT}/sprites/10.bxsprite`),
-  entry(`${ROOT}/sprites/2.bxsprite`),
-  entry(`${ROOT}/sheets`, true),
-  entry(`${ROOT}/sheets/all.bxsheet`),
-  entry(`${ROOT}/palettes`, true),
-  entry(`${ROOT}/palettes/main.bxpalette`),
-  entry(`${ROOT}/notes.txt`),
-  entry(`${LINKED}/tiles`, true, LINKED),
-  entry(`${LINKED}/tiles/grass.bxsprite`, false, LINKED),
+const FOLDERS: readonly string[] = [`${ROOT}/sprites`, `${ROOT}/sheets`, `${ROOT}/palettes`, `${LINKED}/tiles`];
+
+const FILES: readonly ListedFile[] = [
+  file(`${ROOT}/sprites/hero.bxsprite`),
+  file(`${ROOT}/sprites/boss.bxsprite`),
+  file(`${ROOT}/sprites/10.bxsprite`),
+  file(`${ROOT}/sprites/2.bxsprite`),
+  file(`${ROOT}/sheets/all.bxsheet`),
+  file(`${ROOT}/palettes/main.bxpalette`),
+  file(`${ROOT}/notes.txt`),
+  file(`${LINKED}/tiles/grass.bxsprite`),
 ];
 
 const row = (kind: RowKind, path: string, extra: Partial<AssetRow> = {}): AssetRow => ({
@@ -51,6 +42,10 @@ const row = (kind: RowKind, path: string, extra: Partial<AssetRow> = {}): AssetR
   ...extra,
 });
 
-const treeOf = (rows: readonly AssetRow[], entries: readonly BrowserEntry[] = ENTRIES): ItemTree => buildItemTree({ roots: ROOTS, entries, failed: [], rows, listed: true });
+const KIND_OF_ENDING: Readonly<Record<string, RowKind>> = { bxsheet: 'sheet', bxpalette: 'palette', txt: 'other' };
 
-export { ENTRIES, LINKED, ROOT, ROOTS, entry, row, treeOf };
+const BASE_ROWS: readonly AssetRow[] = FILES.map((each) => row(KIND_OF_ENDING[each.name.split('.').at(-1) ?? ''] ?? 'sprite', each.path, { loaded: false }));
+
+const treeOf = (rows: readonly AssetRow[] = BASE_ROWS): ItemTree => buildItemTree({ roots: ROOTS, folders: FOLDERS, files: FILES, rows, listed: true });
+
+export { BASE_ROWS, FILES, FOLDERS, LINKED, ROOT, ROOTS, file, row, treeOf };

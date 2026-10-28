@@ -1,77 +1,79 @@
 /* @layer renderer-app @kind hook */
 import { useCallback, useState } from 'react';
-import { carriesAssets } from '../../../asset-drag/carries-assets';
-import { readAssetDrag } from '../../../asset-drag/read-asset-drag';
-import { writeAssetDrag } from '../../../asset-drag/write-asset-drag';
 import { isExpandable } from '../../../panel-browser/is-expandable';
 import { moveItems } from '../../../panel-browser/move-items';
 import type { BrowserItem } from '../../../panel-browser/project-browser.type';
-import type { DragEvent } from 'react';
-import type { DragActions, PanelParts } from '../ProjectPanel.type';
-import { ROOT_DROP } from '../ProjectPanel.constants';
-import { useDropSpring } from './useDropSpring';
+import { ASSET_DRAG_TYPE } from '../../ProjectBrowser/ProjectBrowser.constants';
+import type { DragActions, DropEvent, PanelParts } from '../ProjectPanel.type';
+import { dragOutProps } from './drag-out-props';
+import { exportable } from './exportable';
 
-const draggable = (item: BrowserItem): boolean => item.path !== '' && item.role !== 'ghost' && item.role !== 'group' && item.role !== 'linked';
+const dropFolder = (item: BrowserItem | undefined): BrowserItem | undefined =>
+  item !== undefined && isExpandable(item) && item.role !== 'group' && !item.readOnly && item.path !== '' ? item : undefined;
 
-const useRowDrag = ({ data, view, browser, selection }: PanelParts): DragActions => {
+const pathsOf = (event: DropEvent): readonly string[] => {
+  try {
+    const parsed: unknown = JSON.parse(event.dataTransfer.getData(ASSET_DRAG_TYPE));
+    return Array.isArray(parsed) ? parsed.flatMap((each: { path?: unknown }) => (typeof each.path === 'string' ? [each.path] : [])) : [];
+  } catch {
+    return [];
+  }
+};
+
+const carries = (event: DropEvent): boolean => event.dataTransfer.types.includes(ASSET_DRAG_TYPE);
+
+const useRowDrag = ({ data, selection }: PanelParts): DragActions => {
   const [dropKey, setDropKey] = useState<string | null>(null);
-  const spring = useDropSpring(useCallback((key: string) => view.setOpen([key], true), [view]));
   const { tree } = data;
 
-  const folderFor = useCallback((target: BrowserItem | null): BrowserItem | undefined => {
-    if (target === null) return tree.mainKey === null ? undefined : tree.items.get(tree.mainKey);
-    return isExpandable(target) && target.role !== 'group' && !target.readOnly ? target : undefined;
-  }, [tree]);
-
-  const dragProps = useCallback(
-    (item: BrowserItem): Record<string, unknown> => {
-      if (!draggable(item)) return {};
-      return {
-        draggable: true,
-        onDragStart: (event: DragEvent<HTMLElement>) => {
-          const inside = selection.keys.has(item.key);
-          const items = (inside ? selection.targets : [item]).filter(draggable);
-          if (!inside) selection.choose([item.key]);
-          writeAssetDrag(event.dataTransfer, items.map((each) => ({ kind: each.kind, assetId: each.row?.assetId ?? null, path: each.path })));
-        },
-        onDragEnd: () => {
-          setDropKey(null);
-          spring.stop();
-        },
-      };
+  const canMoveInto = useCallback(
+    (keys: readonly string[], folderKey: string | null): boolean => {
+      const folder = dropFolder(folderKey === null ? undefined : tree.items.get(folderKey));
+      if (folder === undefined) return false;
+      return keys.some((key) => {
+        const item = tree.items.get(key);
+        return item !== undefined && exportable(item) && key !== folder.key && item.parentKey?.toLowerCase() !== folder.key.toLowerCase();
+      });
     },
-    [selection, spring],
+    [tree],
   );
 
-  const dropProps = useCallback(
+  const moveKeys = useCallback(
+    (keys: readonly string[], folderKey: string) => {
+      const folder = dropFolder(tree.items.get(folderKey));
+      if (folder !== undefined) void moveItems(keys.flatMap((key) => tree.items.get(key) ?? []), folder);
+    },
+    [tree],
+  );
+
+  const dragOut = useCallback((item: BrowserItem) => dragOutProps(item, selection), [selection]);
+
+  const dropOn = useCallback(
     (target: BrowserItem | null): Record<string, unknown> => {
-      const folder = folderFor(target);
+      const folder = dropFolder(target ?? (tree.mainKey === null ? undefined : tree.items.get(tree.mainKey)));
       if (folder === undefined) return {};
-      const key = target?.key ?? ROOT_DROP;
       return {
-        onDragOver: (event: DragEvent<HTMLElement>) => {
-          if (!carriesAssets(event.dataTransfer)) return;
+        onDragOver: (event: DropEvent) => {
+          if (!carries(event)) return;
           event.preventDefault();
           event.stopPropagation();
           event.dataTransfer.dropEffect = 'move';
-          setDropKey(key);
-          if (target !== null && !view.expandedSet.has(target.key)) spring.start(target.key);
+          setDropKey(folder.key);
         },
-        onDragLeave: () => setDropKey((now) => (now === key ? null : now)),
-        onDrop: (event: DragEvent<HTMLElement>) => {
+        onDragLeave: () => setDropKey((now) => (now === folder.key ? null : now)),
+        onDrop: (event: DropEvent) => {
+          if (!carries(event)) return;
           event.preventDefault();
           event.stopPropagation();
           setDropKey(null);
-          spring.stop();
-          const items = readAssetDrag(event.dataTransfer).flatMap((asset) => browser.itemOf(asset.path) ?? []);
-          void moveItems(items, folder);
+          void moveItems(pathsOf(event).flatMap((path) => tree.items.get(path) ?? []), folder);
         },
       };
     },
-    [folderFor, view.expandedSet, spring, browser],
+    [tree],
   );
 
-  return { dropKey, dragProps, dropProps };
+  return { dropKey, dragOut, dropOn, moveKeys, canMoveInto };
 };
 
 export { useRowDrag };

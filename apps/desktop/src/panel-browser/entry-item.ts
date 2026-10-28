@@ -1,29 +1,29 @@
 /* @layer renderer-app @kind logic */
-import type { AssetRow } from '../asset-list/asset-list.type';
+import type { AssetRow, ListedFile } from '../asset-list/asset-list.type';
 import { baseName } from '../files/base-name';
 import { kindOfName } from './kind-of-name';
 import { PLAIN_KINDS } from './project-browser.constants';
-import type { BrowserEntry, BrowserItem, ItemKind } from './project-browser.type';
+import type { BrowserItem, ItemKind } from './project-browser.type';
 
-const shownName = (entry: BrowserEntry, kind: ItemKind, row: AssetRow | undefined): string => {
-  if (row !== undefined && !PLAIN_KINDS.includes(row.kind)) return row.name;
-  return PLAIN_KINDS.includes(kind) ? entry.name : baseName(entry.name);
+const shownName = (file: ListedFile, kind: ItemKind, row: AssetRow): string => {
+  if (!PLAIN_KINDS.includes(row.kind)) return row.name;
+  return PLAIN_KINDS.includes(kind) ? file.name : baseName(file.name);
 };
 
-const entryItem = (entry: BrowserEntry, parentKey: string, row: AssetRow | undefined): BrowserItem => {
-  const kind: ItemKind = entry.isFolder ? 'folder' : kindOfName(entry.name);
+const entryItem = (file: ListedFile, parentKey: string, rootKey: string | null, row: AssetRow): BrowserItem => {
+  const kind = kindOfName(file.name);
   return {
-    key: entry.path,
+    key: file.path,
     parentKey,
-    role: entry.isFolder ? 'folder' : 'file',
+    role: 'file',
     kind,
-    name: entry.isFolder ? entry.name : shownName(entry, kind, row),
-    fileName: entry.name,
-    path: entry.path,
-    rootKey: entry.rootPath,
-    row: row ?? null,
-    modified: entry.modified,
-    size: entry.size,
+    name: shownName(file, kind, row),
+    fileName: file.name,
+    path: file.path,
+    rootKey,
+    row,
+    modified: file.modified,
+    size: file.size,
     readOnly: false,
     failed: false,
   };

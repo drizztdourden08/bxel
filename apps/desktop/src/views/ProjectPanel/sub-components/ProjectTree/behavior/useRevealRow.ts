@@ -1,39 +1,21 @@
 /* @layer renderer-app @kind hook */
-import { scrollTopToShow } from '@drizztdourden08/tessera';
 import { useEffect, useRef } from 'react';
-import type { SelectionModel } from '../../../../../panel-browser/project-browser.type';
-import { ITEM_ATTRIBUTE } from '../../../ProjectPanel.constants';
-import type { RevealInput } from '../ProjectTree.type';
+import type { RefObject } from 'react';
+import type { TreeHandle } from '@drizztdourden08/tessera';
+import type { RevealRequest } from '../../../../../panel-browser/browser-state.type';
+import { focusRow } from '../../../behavior/focus-row';
 
-const useRevealRow = ({ request, rows, metrics, rootRef, indices }: RevealInput): void => {
-  const pending = useRef<string | null>(null);
-  const handled = useRef<SelectionModel['request']>(null);
-  const latest = useRef({ rows, metrics });
-
-  useEffect(() => {
-    latest.current = { rows, metrics };
-  }, [rows, metrics]);
+const useRevealRow = (request: RevealRequest | null, handle: RefObject<TreeHandle | null>): void => {
+  const handled = useRef<RevealRequest | null>(null);
 
   useEffect(() => {
-    const root = rootRef.current;
-    if (request === null || root === null || handled.current === request) return;
+    if (request === null || handled.current === request) return undefined;
     handled.current = request;
-    const index = latest.current.rows.findIndex((row) => row.item.key === request.key);
-    if (index < 0) return;
-    pending.current = request.focus ? request.key : null;
-    const { rowHeight, viewport } = latest.current.metrics;
-    root.scrollTop = scrollTopToShow({ index, rowHeight, viewport, scrollTop: root.scrollTop });
-  }, [request, rootRef]);
-
-  useEffect(() => {
-    const key = pending.current;
-    if (key === null) return;
-    const found = rootRef.current?.querySelectorAll<HTMLElement>(`[${ITEM_ATTRIBUTE}]`);
-    const element = [...(found ?? [])].find((each) => each.dataset.itemKey === key);
-    if (element === undefined) return;
-    pending.current = null;
-    element.focus({ preventScroll: true });
-  }, [indices, request, rootRef]);
+    handle.current?.scrollToKey(request.key, 'nearest');
+    if (!request.focus) return undefined;
+    const frame = requestAnimationFrame(() => focusRow(request.key));
+    return () => cancelAnimationFrame(frame);
+  }, [request, handle]);
 };
 
 export { useRevealRow };

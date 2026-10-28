@@ -36,6 +36,7 @@ const useBrowserSource = (project: OpenProject | null, disk: DiskProject | null)
     facts: known.facts,
     keys: known.keys,
     folders: tree.folders,
+    files: tree.files,
     refresh,
     projectName: (live ? project.manifest.name : disk?.manifest.name) ?? '',
   };

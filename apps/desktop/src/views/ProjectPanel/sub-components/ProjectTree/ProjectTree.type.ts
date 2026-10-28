@@ -1,34 +1,29 @@
 /* @layer renderer-app @kind types */
-import type { VirtualMetrics } from '@drizztdourden08/tessera';
-import type { RefObject } from 'react';
-import type { BrowserItem, ItemStatus, SelectionModel, VisibleRow } from '../../../../panel-browser/project-browser.type';
+import type { BrowserItem, ItemStatus } from '../../../../panel-browser/project-browser.type';
 import type { PanelPartProps } from '../../ProjectPanel.type';
-
-type RevealInput = {
-  readonly request: SelectionModel['request'];
-  readonly rows: readonly VisibleRow[];
-  readonly metrics: VirtualMetrics;
-  readonly rootRef: RefObject<HTMLElement | null>;
-  readonly indices: readonly number[];
-};
-
-type TreeRowProps = PanelPartProps & {
-  readonly row: VisibleRow;
-  readonly index: number;
-  readonly tabbable: boolean;
-};
 
 type RowPartProps = PanelPartProps & {
   readonly item: BrowserItem;
   readonly status: ItemStatus;
 };
 
-type RowLeadProps = RowPartProps & { readonly expanded: boolean | null };
+type RowThumbProps = RowPartProps & { readonly expanded: boolean };
 
 type RowNameProps = RowPartProps & { readonly count: number | undefined };
 
 type RowEditorProps = RowPartProps & { readonly creating: boolean };
 
+type BadgeMarks = {
+  readonly readOnly: boolean;
+  readonly missing: string | null;
+  readonly unsaved: boolean;
+  readonly open: boolean;
+  readonly users: string | null;
+  readonly usedBy: number;
+};
+
+type TreeExpansion = { readonly expanded: readonly string[]; readonly change: (keys: readonly string[]) => void };
+
 type EditorDefaults = { readonly initial: string; readonly suffix: string; readonly label: string };
 
-export type { EditorDefaults, RevealInput, RowEditorProps, RowLeadProps, RowNameProps, RowPartProps, TreeRowProps };
+export type { BadgeMarks, EditorDefaults, RowEditorProps, RowNameProps, RowPartProps, RowThumbProps, TreeExpansion };

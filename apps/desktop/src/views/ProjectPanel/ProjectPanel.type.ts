@@ -1,20 +1,10 @@
 /* @layer renderer-app @kind types */
 import type { RecentProject } from '@bxel/project';
-import type { KeyboardEvent, MouseEvent } from 'react';
+import type { DragEvent } from 'react';
 import type { RowKind } from '../../asset-list/asset-list.type';
-import type {
-  BrowserEdit,
-  BrowserItem,
-  BrowserModel,
-  BrowserQueryState,
-  BrowserRows,
-  BrowserSource,
-  BrowserView,
-  FilterCounts,
-  ProjectViewSettings,
-  SelectionModel,
-  ViewDensity,
-} from '../../panel-browser/project-browser.type';
+import type { BrowserItem, FilterCounts, ViewDensity } from '../../panel-browser/project-browser.type';
+import type { BrowserEdit, BrowserModel, BrowserRows, BrowserView, ProjectViewSettings, SearchModel, SelectionModel } from '../../panel-browser/browser-state.type';
+import type { BrowserSource } from '../../project-browser/browser-model.type';
 import type { OpenProject } from '../../project/project.type';
 import type { CreatableKind } from '../../stores/creation-store.type';
 
@@ -23,7 +13,7 @@ type PanelParts = {
   readonly source: BrowserSource;
   readonly data: BrowserModel;
   readonly view: BrowserView;
-  readonly query: BrowserQueryState;
+  readonly search: SearchModel;
   readonly browser: BrowserRows;
   readonly selection: SelectionModel;
   readonly edit: BrowserEdit;
@@ -35,8 +25,11 @@ type ViewSetter = (change: Partial<ProjectViewSettings>) => void;
 
 type PickMods = { readonly shift: boolean; readonly toggle: boolean; readonly detail: number };
 
+type Point = { readonly x: number; readonly y: number };
+
 type RowActions = {
   readonly pick: (item: BrowserItem, mods: PickMods) => void;
+  readonly picked: (keys: ReadonlySet<string>) => void;
   readonly open: (item: BrowserItem) => void;
   readonly toggle: (key: string) => void;
   readonly collapseAll: () => void;
@@ -46,16 +39,11 @@ type RowActions = {
   readonly trash: () => void;
   readonly duplicate: () => void;
   readonly rename: () => void;
-  readonly showMenu: (key: string, point: { readonly x: number; readonly y: number }) => void;
-  readonly keyDown: (event: KeyboardEvent<HTMLElement>) => void;
+  readonly showMenu: (key: string, point: Point) => void;
   readonly focusSearch: () => void;
 };
 
-type DropSpring = { readonly start: (key: string) => void; readonly stop: () => void };
-
-type TreeKeys = (event: KeyboardEvent<HTMLElement>) => void;
-
-type PickActions = Pick<RowActions, 'pick' | 'open' | 'toggle' | 'collapseAll'>;
+type PickActions = Pick<RowActions, 'pick' | 'picked' | 'open' | 'toggle' | 'collapseAll'>;
 
 type CreateActions = Pick<RowActions, 'newAsset' | 'newFolder' | 'newHere'>;
 
@@ -63,9 +51,13 @@ type BulkActions = Pick<RowActions, 'trash' | 'duplicate' | 'rename' | 'showMenu
 
 type DragActions = {
   readonly dropKey: string | null;
-  readonly dragProps: (item: BrowserItem) => Record<string, unknown>;
-  readonly dropProps: (item: BrowserItem | null) => Record<string, unknown>;
+  readonly dragOut: (item: BrowserItem) => Record<string, unknown>;
+  readonly dropOn: (target: BrowserItem | null) => Record<string, unknown>;
+  readonly moveKeys: (keys: readonly string[], folderKey: string) => void;
+  readonly canMoveInto: (keys: readonly string[], folderKey: string | null) => boolean;
 };
+
+type DropEvent = DragEvent<HTMLElement>;
 
 type StartActions = {
   readonly newProject: () => void;
@@ -92,7 +84,7 @@ type ProjectPanelModel = StartActions &
     readonly source: BrowserSource;
     readonly data: BrowserModel;
     readonly view: BrowserView;
-    readonly query: BrowserQueryState;
+    readonly search: SearchModel;
     readonly browser: BrowserRows;
     readonly selection: SelectionModel;
     readonly edit: BrowserEdit;
@@ -108,6 +100,21 @@ type PanelPartProps = { readonly model: ProjectPanelModel };
 
 type AddAssetProps = { readonly onPick: (kind: CreatableKind) => void };
 
-type RowEvent = MouseEvent<HTMLElement>;
-
-export type { AddAssetProps, BulkActions, CreateActions, DragActions, DropSpring, FilterChip, PanelParts, PanelPartProps, PickActions, PickMods, ProjectActions, ProjectPanelModel, RowActions, RowEvent, StartActions, TreeKeys, ViewSetter };
+export type {
+  AddAssetProps,
+  BulkActions,
+  CreateActions,
+  DragActions,
+  DropEvent,
+  FilterChip,
+  PanelParts,
+  PanelPartProps,
+  PickActions,
+  PickMods,
+  Point,
+  ProjectActions,
+  ProjectPanelModel,
+  RowActions,
+  StartActions,
+  ViewSetter,
+};

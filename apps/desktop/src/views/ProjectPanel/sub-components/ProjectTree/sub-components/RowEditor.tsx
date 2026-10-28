@@ -16,9 +16,8 @@ const RowEditor = (props: RowEditorProps) => {
     else void edit.commit(typed);
   };
   const cancel = (event: KeyboardEvent<HTMLInputElement>): void => {
-    if (event.key !== 'Escape') return;
     event.stopPropagation();
-    edit.stop();
+    if (event.key === 'Escape') edit.stop();
   };
 
   return (

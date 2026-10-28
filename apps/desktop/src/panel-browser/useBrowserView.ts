@@ -3,16 +3,17 @@ import { useSettings } from '@drizztdourden08/brock-react';
 import { useCallback, useMemo, useState } from 'react';
 import type { AppSettings } from '../settings.type';
 import { DEFAULT_PROJECT_VIEW } from './project-browser.constants';
-import type { BrowserView, ProjectViewSettings } from './project-browser.type';
+import type { BrowserView, ProjectViewSettings } from './browser-state.type';
 
 const useBrowserView = (projectId: string | null): BrowserView => {
   const { settings, patch } = useSettings<AppSettings>();
   const stored: ProjectViewSettings = useMemo(() => ({ ...DEFAULT_PROJECT_VIEW, ...settings.projectView }), [settings.projectView]);
-  const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
+  const [collapsed, setCollapsedState] = useState<ReadonlySet<string>>(new Set());
   const id = projectId ?? '';
   const expanded = useMemo(() => new Set(stored.expanded[id] ?? []), [stored.expanded, id]);
 
   const set = useCallback((change: Partial<ProjectViewSettings>) => patch({ projectView: { ...stored, ...change } }), [patch, stored]);
+  const replaceOpen = useCallback((keys: readonly string[]) => set({ expanded: { ...stored.expanded, [id]: [...keys] } }), [id, set, stored.expanded]);
   const setOpen = useCallback(
     (keys: readonly string[], open: boolean) => {
       const next = new Set(expanded);
@@ -20,21 +21,24 @@ const useBrowserView = (projectId: string | null): BrowserView => {
         if (open) next.add(key);
         else next.delete(key);
       }
-      set({ expanded: { ...stored.expanded, [id]: [...next] } });
+      replaceOpen([...next]);
     },
-    [expanded, id, set, stored.expanded],
+    [expanded, replaceOpen],
   );
   const toggleGroup = useCallback(
     (key: string) =>
-      setCollapsed((now) => {
+      setCollapsedState((now) => {
         const next = new Set(now);
         if (!next.delete(key)) next.add(key);
         return next;
       }),
     [],
   );
+  const setCollapsed = useCallback((keys: readonly string[]) => setCollapsedState(new Set(keys)), []);
 
-  return { ...stored, expandedSet: expanded, collapsedGroups: collapsed, openOnClick: settings.projectOpenOnClick, set, setOpen, toggleGroup };
+  const fresh = projectId !== null && stored.expanded[id] === undefined;
+
+  return { ...stored, fresh, expandedSet: expanded, collapsedGroups: collapsed, openOnClick: settings.projectOpenOnClick, set, setOpen, replaceOpen, toggleGroup, setCollapsed };
 };
 
 export { useBrowserView };

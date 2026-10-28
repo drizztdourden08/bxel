@@ -1,35 +1,31 @@
 /* @layer renderer-app @kind hook */
 import { useCallback, useMemo } from 'react';
 import { filterTree } from './filter-tree';
+import { flattenView } from './flatten-view';
 import { listRows } from './list-rows';
+import { listNest } from './list-nest';
 import { NO_COLLAPSED } from './project-browser.constants';
-import { usersOf } from './users-of';
-import { visibleRows } from './visible-rows';
-import { withCreateRow } from './with-create-row';
-import type { BrowserRows, RowsHookInput, ViewMode } from './project-browser.type';
+import { treeNest } from './tree-nest';
+import type { ViewMode } from './project-browser.type';
+import type { BrowserRows, RowsInput } from './browser-state.type';
 
-const modeFor = ({ view, query }: Pick<RowsHookInput, 'view' | 'query'>): ViewMode => {
-  const listOnly = view.density === 'grid' || query.usedBy !== null || query.states.includes('unused');
+const modeFor = ({ view, search }: Pick<RowsInput, 'view' | 'search'>): ViewMode => {
+  const { query } = search;
+  const listOnly = view.density === 'grid' || query.uses.length > 0 || query.usedBy.length > 0 || query.is.includes('unused');
   return view.mode === 'tree' && listOnly ? 'list' : view.mode;
 };
 
-const useBrowserRows = ({ model, view, query, create }: RowsHookInput): BrowserRows => {
-  const { tree, statuses, referrers } = model;
-  const users = useMemo(() => usersOf(tree, referrers, query.usedBy), [tree, referrers, query.usedBy]);
-  const filter = useMemo(() => filterTree(tree, query, { statuses, users }), [tree, query, statuses, users]);
-  const mode = modeFor({ view, query });
+const useBrowserRows = ({ model, view, search, create, facts, keys }: RowsInput): BrowserRows => {
+  const { tree, statuses } = model;
+  const filter = useMemo(() => filterTree(tree, search, { statuses, facts, keys }), [tree, search, statuses, facts, keys]);
+  const mode = modeFor({ view, search });
   const collapsed = view.density === 'grid' ? NO_COLLAPSED : view.collapsedGroups;
-  const base = useMemo(
-    () =>
-      mode === 'tree'
-        ? visibleRows({ tree, expanded: view.expandedSet, visible: filter?.visible ?? null })
-        : listRows({ tree, matches: filter?.matches ?? null, collapsed, view }),
-    [mode, tree, view, filter, collapsed],
-  );
-  const rows = useMemo(() => withCreateRow(base, create, tree), [base, create, tree]);
-  const index = useMemo(() => new Map(rows.map((row) => [row.item.key, row.item] as const)), [rows]);
-  const itemOf = useCallback((key: string) => index.get(key) ?? tree.items.get(key), [index, tree]);
-  return { rows, mode, filtered: filter !== null, shown: filter?.matches.size ?? null, itemOf };
+  const listed = useMemo(() => listRows({ tree, matches: filter?.matches ?? null, collapsed, view }), [tree, filter, collapsed, view]);
+  const nested = useMemo(() => (mode === 'tree' ? treeNest(tree, create) : listNest(listed)), [mode, tree, create, listed]);
+  const visible = mode === 'tree' ? (filter?.visible ?? null) : null;
+  const rows = useMemo(() => (mode === 'tree' ? flattenView(nested, view.expandedSet, visible) : listed), [mode, nested, view.expandedSet, visible, listed]);
+  const itemOf = useCallback((key: string) => tree.items.get(key) ?? nested.top.find((each) => each.key === key), [tree, nested]);
+  return { rows, nested, mode, filtered: filter !== null, shown: filter?.matches.size ?? null, visible, itemOf };
 };
 
 export { useBrowserRows };

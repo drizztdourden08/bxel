@@ -16,7 +16,7 @@ const useRowCreate = ({ project, data, selection, edit }: PanelParts): CreateAct
     (kind: CreatableKind, parentKey?: string) => {
       const explicit = parentKey ?? selected;
       if (kind !== 'sprite') {
-        startNewAsset(kind, explicit === null || explicit === undefined ? undefined : tree.items.get(explicit)?.path);
+        startNewAsset(kind, explicit === null ? undefined : tree.items.get(explicit)?.path);
         return;
       }
       const roleDir = project ? projectDirs(project).sprite : undefined;

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useState } from 'react';
-import type { EditState, EditTarget } from './project-browser.type';
+import type { EditState, EditTarget } from './browser-state.type';
 
 const useEditState = (): EditState => {
   const [editing, setEditing] = useState<EditTarget | null>(null);

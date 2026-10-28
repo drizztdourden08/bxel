@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useCommands, useContextMenu } from '@drizztdourden08/brock-react';
 import type { ContextMenuContext } from '@drizztdourden08/brock-react';
+import { gated } from '../../../keymap/gated';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { PROJECT_MENU } from '../ProjectPanel.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
@@ -10,7 +11,7 @@ import { projectMenuEntries } from './project-menu-entries';
 import { startMenuEntries } from './start-menu-entries';
 
 const useProjectMenu = (model: ProjectPanelModel): void => {
-  useCommands(projectMenuCommands(model));
+  useCommands(projectMenuCommands(model).map(gated));
   const { selection } = model;
   const select = (context: ContextMenuContext): void => {
     const key = menuKeyOf(context);

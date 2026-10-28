@@ -7,17 +7,17 @@ import type { PanelPartProps } from '../ProjectPanel.type';
 import './ProjectSearch.css';
 
 const ProjectSearch = ({ model }: PanelPartProps) => {
-  const { query } = model;
+  const { search } = model;
   const escape = (event: KeyboardEvent<HTMLInputElement>): void => {
     if (event.key !== 'Escape') return;
     event.stopPropagation();
-    if (query.search !== '') query.setSearch('');
+    if (search.text !== '') search.setText('');
     else document.querySelector<HTMLElement>('[role="tree"] [tabindex="0"]')?.focus();
   };
   return (
     <Flex align="center" gap="xs" data-project-search>
       <Box className="project-search__field">
-        <SearchInput aria-label={PANEL_UI.searchLabel} placeholder={PANEL_UI.searchPlaceholder} value={query.search} onChange={query.setSearch} onKeyDown={escape} />
+        <SearchInput aria-label={PANEL_UI.searchLabel} placeholder={PANEL_UI.searchPlaceholder} title={PANEL_UI.searchHelp} value={search.text} onChange={search.setText} onKeyDown={escape} />
       </Box>
       <DropdownMenu
         size="xs"

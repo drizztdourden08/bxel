@@ -15,6 +15,7 @@ import { OPTION_COMMANDS } from './option-commands.constants';
 import { PALETTE_MENU_COMMANDS } from './palette-menu-commands.constants';
 import { PALETTE_PANEL_COMMANDS } from './palette-panel-commands.constants';
 import { PROJECT_COMMANDS } from './project-commands.constants';
+import { PROJECT_FILE_COMMANDS } from './project-file-commands.constants';
 import { RULER_UNIT_COMMANDS } from './ruler-unit-commands.constants';
 import { SELECTION_COMMANDS } from './selection-commands.constants';
 import { SHEET_EDITOR_COMMANDS } from './sheet-commands.constants';
@@ -59,7 +60,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...HELP_COMMANDS,
 ];
 
-const PLAIN_COMMANDS: readonly CommandDef[] = [...FILE_COMMANDS, ...CONFIG_COMMANDS, ...PROJECT_COMMANDS, ...TILED_COMMANDS, ...TAB_MENU_COMMANDS].map(gated);
+const PLAIN_COMMANDS: readonly CommandDef[] = [...FILE_COMMANDS, ...CONFIG_COMMANDS, ...PROJECT_COMMANDS, ...PROJECT_FILE_COMMANDS, ...TILED_COMMANDS, ...TAB_MENU_COMMANDS].map(gated);
 
 const APP_COMMANDS: readonly CommandDef[] = [...PLAIN_COMMANDS, ...DIALOG_COMMANDS, ...EDITOR_COMMANDS];
 

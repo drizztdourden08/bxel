@@ -14,8 +14,8 @@ const metaOf = ({ item, model }: Pick<RowNameProps, 'item' | 'model'>): string |
 const RowName = ({ item, model, count }: RowNameProps) => {
   const meta = metaOf({ item, model });
   return (
-    <Box className="project-name">
-      <Text variant="label" className="project-name__text" weight={item.role === 'group' ? 600 : undefined}>
+    <Box className="project-name" data-ghost={item.role === 'ghost'} data-group={item.role === 'group'}>
+      <Text variant="label" className="project-name__text">
         {item.name}
       </Text>
       {meta === null ? null : (

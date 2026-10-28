@@ -2,16 +2,17 @@
 import type { Locator } from 'playwright-core';
 import type { Session } from './e2e.type';
 
-const chip = (session: Session, pattern: RegExp): Locator =>
-  session.page.getByRole('radiogroup', { name: 'Kinds' }).getByRole('radio', { name: pattern });
+const projectTree = (session: Session): Locator => session.page.getByRole('tree', { name: /^Project (files|assets)$/ });
 
-const assetList = (session: Session): Locator => session.page.getByRole('list', { name: 'Project assets' });
+const assetRow = (session: Session, name: string): Locator => projectTree(session).getByRole('treeitem').filter({ hasText: name }).first();
 
-const assetRow = (session: Session, name: string): Locator => assetList(session).getByRole('listitem').filter({ hasText: name }).first();
+const rowActions = (session: Session, name: string): Locator => session.page.getByRole('button', { name: `Actions for ${name}` });
 
-const assetNames = async (session: Session): Promise<string[]> => {
-  const rows = await assetList(session).getByRole('listitem').all();
+const filterChip = (session: Session, label: string): Locator => session.page.getByRole('group', { name: 'Active filters' }).getByText(label, { exact: true });
+
+const treeNames = async (session: Session): Promise<string[]> => {
+  const rows = await projectTree(session).getByRole('treeitem').all();
   return Promise.all(rows.map(async (row) => ((await row.innerText()).split('\n')[0] ?? '').trim()));
 };
 
-export { assetList, assetNames, assetRow, chip };
+export { assetRow, filterChip, projectTree, rowActions, treeNames };

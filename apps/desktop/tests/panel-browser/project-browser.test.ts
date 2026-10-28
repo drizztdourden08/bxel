@@ -1,17 +1,17 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, test } from 'vitest';
+import { applyClick } from '../../src/panel-browser/apply-click';
 import { buildStatuses } from '../../src/panel-browser/build-statuses';
 import { filterTree } from '../../src/panel-browser/filter-tree';
+import { flattenView } from '../../src/panel-browser/flatten-view';
 import { listRows } from '../../src/panel-browser/list-rows';
-import { mergeQueries } from '../../src/panel-browser/merge-queries';
-import { moveFocus } from '../../src/panel-browser/move-focus';
-import { parseSearch } from '../../src/panel-browser/parse-search';
-import { EMPTY_QUERY } from '../../src/panel-browser/project-browser.constants';
-import { typeAhead } from '../../src/panel-browser/type-ahead';
-import { usersOf } from '../../src/panel-browser/users-of';
-import { visibleRows } from '../../src/panel-browser/visible-rows';
-import { applyClick } from '../../src/panel-browser/apply-click';
-import { LINKED, ROOT, row, treeOf } from './browser-fixture';
+import { listNest } from '../../src/panel-browser/list-nest';
+import { treeNest } from '../../src/panel-browser/tree-nest';
+import { hasToken } from '../../src/panel-browser/has-token';
+import { toggledToken } from '../../src/panel-browser/toggled-token';
+import { withoutToken } from '../../src/panel-browser/without-token';
+import { parseQuery } from '../../src/project-browser/parse-query';
+import { LINKED, ROOT, row, treeOf, BASE_ROWS } from './browser-fixture';
 
 const heroRow = row('sprite', `${ROOT}/sprites/hero.bxsprite`, { dirty: true });
 const sheetRow = row('sheet', `${ROOT}/sheets/all.bxsheet`);
@@ -21,22 +21,28 @@ const referrers = new Map<string, readonly string[]>([
   [ghostRow.assetId ?? '', [sheetRow.assetId ?? '']],
 ]);
 
-const statusesOf = (rows = [heroRow, sheetRow, ghostRow]) => {
-  const tree = treeOf(rows);
+const LOADED = [...BASE_ROWS.filter((each) => each.path !== heroRow.path && each.path !== sheetRow.path), heroRow, sheetRow, ghostRow];
+
+const statusesOf = () => {
+  const tree = treeOf(LOADED);
   return { tree, statuses: buildStatuses({ tree, referrers, openKeys: new Set([`sprite:${heroRow.assetId}`]), activeKey: `sprite:${heroRow.assetId}` }) };
 };
 
+const search = (text: string, missing = false) => ({ text, missing, query: parseQuery(text) });
+
+const context = (statuses: ReturnType<typeof statusesOf>['statuses']) => ({ statuses, facts: new Map(), keys: new Map() });
+
 describe('the project tree', () => {
   test('puts the main folder first, folders before files, natural order, linked roots after', () => {
-    const rows = visibleRows({ tree: treeOf([]), expanded: new Set([`${ROOT}/sprites`]), visible: null });
+    const tree = treeOf();
+    const rows = flattenView(treeNest(tree, null), new Set([`${ROOT}/sprites`]), null);
     expect(rows.map((each) => each.item.name)).toEqual(['palettes', 'sheets', 'sprites', '2', '10', 'boss', 'hero', 'notes.txt', 'shared']);
     expect(rows.find((each) => each.item.name === 'shared')?.item.role).toBe('linked');
     expect(rows.find((each) => each.item.name === 'hero')?.depth).toBe(1);
-    expect(rows.find((each) => each.item.name === 'sprites')?.expanded).toBe(true);
   });
 
   test('gives every row its position in the set for the screen reader', () => {
-    const rows = visibleRows({ tree: treeOf([]), expanded: new Set([`${ROOT}/sprites`]), visible: null });
+    const rows = flattenView(treeNest(treeOf(), null), new Set([`${ROOT}/sprites`]), null);
     const kids = rows.filter((each) => each.depth === 1);
     expect(kids.map((each) => each.posinset)).toEqual([1, 2, 3, 4]);
     expect(new Set(kids.map((each) => each.setsize))).toEqual(new Set([4]));
@@ -54,96 +60,94 @@ describe('the project tree', () => {
 
   test('marks unsaved, open, active and counts the users of an asset', () => {
     const { statuses } = statusesOf();
-    const hero = statuses.get(`${ROOT}/sprites/hero.bxsprite`);
-    expect(hero).toMatchObject({ unsaved: true, open: true, active: true, usedBy: 1, unused: false });
+    expect(statuses.get(`${ROOT}/sprites/hero.bxsprite`)).toMatchObject({ unsaved: true, open: true, active: true, usedBy: 1, unused: false });
     expect(statuses.get(`${ROOT}/sheets/all.bxsheet`)?.open).toBe(false);
   });
 
   test('puts assets with no file yet in a group of their own', () => {
-    const tree = treeOf([row('sprite', '', { dirty: true })]);
-    const rows = visibleRows({ tree, expanded: new Set(['group:unsaved']), visible: null });
-    expect(rows.at(-2)?.item.role).toBe('group');
-    expect(rows.at(-1)?.depth).toBe(1);
+    const tree = treeOf([...BASE_ROWS, row('sprite', '', { dirty: true })]);
+    const nested = treeNest(tree, null);
+    expect(nested.top.at(-1)?.role).toBe('group');
+    const group = nested.top.find((each) => each.role === 'group');
+    expect(group && nested.childrenOf(group)?.length).toBe(1);
+  });
+
+  test('offers a new sprite row first inside the folder it is made in', () => {
+    const tree = treeOf();
+    const nested = treeNest(tree, { parentKey: `${ROOT}/sprites`, create: 'sprite' });
+    const sprites = nested.top.find((each) => each.name === 'sprites');
+    expect(sprites && nested.childrenOf(sprites)?.[0]?.key).toBe('new:file');
   });
 });
 
 describe('search tokens and filters', () => {
-  test('turns kind, is, used and in tokens into a query and leaves the rest as text', () => {
-    const split = parseSearch('hero kind:sprite is:unsaved used:hero in:sprites/ extra kind:nonsense');
-    expect(split.query).toMatchObject({ kinds: ['sprite'], states: ['unsaved'], usedBy: 'hero', inside: 'sprites', text: 'hero extra kind:nonsense' });
-    expect(split.rest).toBe('hero extra kind:nonsense');
+  test('reads kind, is, uses and in tokens with the shared parser', () => {
+    const query = parseQuery('hero kind:sprite is:unsaved uses:hero in:sprites/');
+    expect(query).toMatchObject({ words: ['hero'], kinds: ['sprite'], is: ['unsaved'], uses: ['hero'], inFolder: 'sprites' });
   });
 
   test('two kinds OR together and a kind and a state AND together', () => {
     const { tree, statuses } = statusesOf();
-    const both = filterTree(tree, { ...EMPTY_QUERY, kinds: ['sprite', 'sheet'] }, { statuses, users: null });
-    expect([...(both?.matches ?? [])].sort()).toContain(`${ROOT}/sheets/all.bxsheet`);
+    const both = filterTree(tree, search('kind:sprite kind:sheet'), context(statuses));
+    expect(both?.matches.has(`${ROOT}/sheets/all.bxsheet`)).toBe(true);
     expect(both?.matches.has(`${ROOT}/sprites/hero.bxsprite`)).toBe(true);
-    const narrow = filterTree(tree, { ...EMPTY_QUERY, kinds: ['sprite'], states: ['unsaved'] }, { statuses, users: null });
+    const narrow = filterTree(tree, search('kind:sprite is:unsaved'), context(statuses));
     expect([...(narrow?.matches ?? [])]).toEqual([`${ROOT}/sprites/hero.bxsprite`]);
   });
 
-  test('keeps the ancestors of a match and opens them while a filter is on', () => {
+  test('keeps the ancestors of a match', () => {
     const { tree, statuses } = statusesOf();
-    const found = filterTree(tree, { ...EMPTY_QUERY, text: 'grass' }, { statuses, users: null });
-    const rows = visibleRows({ tree, expanded: new Set(), visible: found?.visible ?? null });
+    const found = filterTree(tree, search('grass'), context(statuses));
+    const rows = flattenView(treeNest(tree, null), new Set(), found?.visible ?? null);
     expect(rows.map((each) => each.item.name)).toEqual(['shared', 'tiles', 'grass']);
     expect(found?.visible.has(LINKED)).toBe(true);
   });
 
-  test('finds the users of a named asset', () => {
+  test('finds what has a missing link', () => {
     const { tree, statuses } = statusesOf();
-    const users = usersOf(tree, referrers, 'hero');
-    expect([...(users ?? [])]).toEqual([sheetRow.assetId]);
-    const found = filterTree(tree, { ...EMPTY_QUERY, usedBy: 'hero' }, { statuses, users });
-    expect([...(found?.matches ?? [])]).toEqual([`${ROOT}/sheets/all.bxsheet`]);
+    const found = filterTree(tree, search('', true), context(statuses));
+    expect([...(found?.matches ?? [])].sort()).toEqual([`${ROOT}/sheets/all.bxsheet`, `${ROOT}/sprites/gone.bxsprite`].sort());
   });
 
-  test('has no filter for an empty query and merges chips with typed tokens', () => {
+  test('has no filter for an empty query', () => {
     const { tree, statuses } = statusesOf();
-    expect(filterTree(tree, EMPTY_QUERY, { statuses, users: null })).toBeNull();
-    const merged = mergeQueries({ ...EMPTY_QUERY, kinds: ['sheet'] }, parseSearch('kind:sprite x').query);
-    expect(merged).toMatchObject({ kinds: ['sheet', 'sprite'], text: 'x' });
+    expect(filterTree(tree, search(''), context(statuses))).toBeNull();
+  });
+
+  test('toggles and removes tokens in the search text', () => {
+    expect(toggledToken('', 'kind:sprite').trim()).toBe('kind:sprite');
+    expect(toggledToken('kind:sprite is:open', 'kind:sprite')).toBe('is:open');
+    expect(hasToken('a kind:Sheet', 'kind:sheet')).toBe(true);
+    expect(withoutToken('uses:"my hero" b', 'uses:"my hero"')).toBe('b');
   });
 });
 
 describe('list mode', () => {
   test('groups the assets by kind with a section header for each and sorts inside', () => {
-    const rows = listRows({ tree: treeOf([]), matches: null, collapsed: new Set(), view: { group: 'kind', sort: 'name' } });
-    const heads = rows.filter((each) => each.depth === 0).map((each) => each.item.name);
-    expect(heads).toEqual(['Sprites', 'Sheets', 'Palettes', 'Other files']);
+    const rows = listRows({ tree: treeOf(), matches: null, collapsed: new Set(), view: { group: 'kind', sort: 'name' } });
+    expect(rows.filter((each) => each.depth === 0).map((each) => each.item.name)).toEqual(['Sprites', 'Sheets', 'Palettes', 'Other files']);
     expect(rows.filter((each) => each.item.kind === 'sprite').map((each) => each.item.name)).toEqual(['2', '10', 'boss', 'grass', 'hero']);
   });
 
-  test('hides the rows of a collapsed section and can drop the sections', () => {
-    const rows = listRows({ tree: treeOf([]), matches: null, collapsed: new Set(['group:kind:sprite']), view: { group: 'kind', sort: 'name' } });
+  test('nests each section under its header and can drop the sections', () => {
+    const rows = listRows({ tree: treeOf(), matches: null, collapsed: new Set(), view: { group: 'kind', sort: 'name' } });
+    const nested = listNest(rows);
+    expect(nested.top.map((each) => each.name)).toEqual(['Sprites', 'Sheets', 'Palettes', 'Other files']);
+    const first = nested.top[0];
+    expect(first && nested.childrenOf(first)?.length).toBe(5);
+    const flat = listNest(listRows({ tree: treeOf(), matches: null, collapsed: new Set(), view: { group: 'none', sort: 'name' } }));
+    expect(flat.top.every((each) => flat.childrenOf(each) === undefined)).toBe(true);
+  });
+
+  test('hides the rows of a collapsed section', () => {
+    const rows = listRows({ tree: treeOf(), matches: null, collapsed: new Set(['group:kind:sprite']), view: { group: 'kind', sort: 'name' } });
     expect(rows.some((each) => each.item.kind === 'sprite')).toBe(false);
-    const flat = listRows({ tree: treeOf([]), matches: null, collapsed: new Set(), view: { group: 'none', sort: 'name' } });
-    expect(flat.every((each) => each.depth === 0)).toBe(true);
   });
 });
 
-describe('keyboard and selection', () => {
-  const rows = visibleRows({ tree: treeOf([]), expanded: new Set([`${ROOT}/sprites`]), visible: null });
+describe('selection', () => {
+  const rows = flattenView(treeNest(treeOf(), null), new Set([`${ROOT}/sprites`]), null);
   const key = (name: string): string => rows.find((each) => each.item.name === name)?.item.key ?? '';
-
-  test('moves with the arrows, Home and End', () => {
-    expect(moveFocus(rows, key('palettes'), 'ArrowDown')).toEqual({ kind: 'focus', key: key('sheets') });
-    expect(moveFocus(rows, key('palettes'), 'ArrowUp')).toEqual({ kind: 'none' });
-    expect(moveFocus(rows, key('palettes'), 'End')).toEqual({ kind: 'focus', key: key('shared') });
-  });
-
-  test('Right opens a closed folder or enters an open one, Left closes it or goes to the parent', () => {
-    expect(moveFocus(rows, key('sheets'), 'ArrowRight')).toEqual({ kind: 'expand', key: key('sheets') });
-    expect(moveFocus(rows, key('sprites'), 'ArrowRight')).toEqual({ kind: 'focus', key: key('2') });
-    expect(moveFocus(rows, key('sprites'), 'ArrowLeft')).toEqual({ kind: 'collapse', key: key('sprites') });
-    expect(moveFocus(rows, key('hero'), 'ArrowLeft')).toEqual({ kind: 'focus', key: key('sprites') });
-  });
-
-  test('type ahead jumps to the next name that starts with the letters', () => {
-    expect(typeAhead(rows, key('palettes'), 'h')).toBe(key('hero'));
-    expect(typeAhead(rows, key('palettes'), 'zz')).toBeNull();
-  });
 
   test('a click selects one, Ctrl toggles and Shift extends a range from the anchor', () => {
     const start = { keys: new Set<string>(), anchor: null, focus: null };

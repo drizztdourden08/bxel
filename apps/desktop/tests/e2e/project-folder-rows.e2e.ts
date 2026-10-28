@@ -7,7 +7,6 @@ import { APP_DIR, POLL_MS, PROJECT_PARENT, TEMP_PREFIX } from './support/e2e.con
 import type { Session } from './support/e2e.type';
 import { openSession } from './support/open-session';
 import { listed } from './support/project-entry-ui';
-import { showPanelView } from './support/show-folder-view';
 import { useRig } from './support/use-rig';
 
 const NAME = 'Quarry';
@@ -19,7 +18,6 @@ const palettesIn = async (dir: string): Promise<number> => (await readdir(dir)).
 const menuItem = (session: Session, name: RegExp) => session.page.getByRole('menu').getByRole('menuitem', { name });
 
 const openRowMenu = async (session: Session, folder: string): Promise<void> => {
-  await showPanelView(session, 'Folders');
   await listed(session, folder).click({ button: 'right' });
 };
 
@@ -41,8 +39,9 @@ describe('folder rows in the project panel: New asset here and New folder here',
     await openRowMenu(session, 'exports');
     await menuItem(session, /^New asset here/).waitFor();
     await menuItem(session, /^New folder here/).click();
-    await session.page.getByRole('textbox', { name: 'Folder name' }).fill('renders');
-    await session.page.getByRole('button', { name: 'Create', exact: true }).click();
+    const field = session.page.getByRole('textbox', { name: 'New name' });
+    await field.fill('renders');
+    await field.press('Enter');
     await expect.poll(() => exists(join(projectDir, 'exports', 'renders')), { timeout: POLL_MS }).toBe(true);
     expect(await exists(join(projectDir, 'renders'))).toBe(false);
   });
@@ -52,8 +51,9 @@ describe('folder rows in the project panel: New asset here and New folder here',
     await openRowMenu(session, 'tilemaps');
     await menuItem(session, /^New asset here/).click();
     await session.page.getByRole('menu').getByRole('menuitem', { name: 'Sprite', exact: true }).click();
-    await session.page.getByRole('textbox', { name: 'File name' }).fill('boulder');
-    await session.page.getByRole('button', { name: 'Create', exact: true }).click();
+    const field = session.page.getByRole('textbox', { name: 'Sprite name' });
+    await field.fill('boulder');
+    await field.press('Enter');
     await expect.poll(() => exists(join(projectDir, 'tilemaps', 'boulder.bxsprite')), { timeout: POLL_MS }).toBe(true);
     expect(await exists(join(projectDir, 'sprites', 'boulder.bxsprite'))).toBe(false);
   });

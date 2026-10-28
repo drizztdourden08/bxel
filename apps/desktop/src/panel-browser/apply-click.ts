@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { rangeKeys } from './range-keys';
-import type { ClickInput, SelectionState } from './project-browser.type';
+import type { ClickInput, SelectionState } from './browser-state.type';
 
 const applyClick = ({ selection, rows, key, shift, toggle }: ClickInput): SelectionState => {
   if (shift && selection.anchor !== null) {

@@ -1,11 +1,9 @@
 /* @layer renderer-app @kind hook */
 import { announce } from '@drizztdourden08/brock-react';
 import { useCallback, useRef } from 'react';
-import { newProjectFile } from '../project/new-project-file';
-import { newProjectFolder } from '../project/new-project-folder';
-import type { ProjectOutcome } from '../project/project.type';
-import { renameItem } from './rename-item';
-import type { BrowserEdit, EditInput, EditTarget } from './project-browser.type';
+import type { BrowserEdit, EditInput, EditTarget } from './browser-state.type';
+import { runEdit } from './run-edit';
+import { useFolderStart } from './useFolderStart';
 
 const useBrowserEdit = ({ state, itemOf, selection, view, refresh }: EditInput): BrowserEdit => {
   const { editing, error, setEditing, setError } = state;
@@ -32,32 +30,21 @@ const useBrowserEdit = ({ state, itemOf, selection, view, refresh }: EditInput):
     },
     [selection, begin],
   );
-  const startCreate = useCallback(
-    (parentKey: string, create: 'folder' | 'sprite') => {
+  const startSprite = useCallback(
+    (parentKey: string) => {
       view.setOpen([parentKey], true);
-      begin({ kind: 'create', parentKey, create });
+      begin({ kind: 'create', parentKey, create: 'sprite' });
     },
     [view, begin],
   );
-
-  const run = useCallback(
-    async (target: EditTarget, typed: string): Promise<ProjectOutcome> => {
-      if (target.kind === 'rename') {
-        const item = itemOf(target.key);
-        return item ? renameItem(item, typed) : { ok: true };
-      }
-      const parent = itemOf(target.parentKey)?.path ?? '';
-      return target.create === 'folder' ? newProjectFolder(parent, typed) : newProjectFile(parent, typed);
-    },
-    [itemOf],
-  );
+  const startFolder = useFolderStart({ itemOf, view, refresh, begin, selection, setError });
 
   const commit = useCallback(
     async (typed: string): Promise<void> => {
       const target = active.current;
       if (target === null || busy.current) return;
       busy.current = true;
-      const outcome = await run(target, typed.trim());
+      const outcome = await runEdit(target, typed.trim(), itemOf);
       busy.current = false;
       if (active.current !== target) return;
       if (!outcome.ok) {
@@ -66,21 +53,13 @@ const useBrowserEdit = ({ state, itemOf, selection, view, refresh }: EditInput):
       }
       refresh();
       announce(target.kind === 'rename' ? `Renamed to ${typed.trim()}` : `Created ${typed.trim()}`);
-      if (target.kind === 'rename') selection.focusOn(target.key, true);
+      if (target.kind === 'rename') selection.reveal(target.key, true);
       stop();
     },
-    [run, refresh, selection, setError, stop],
+    [itemOf, refresh, selection, setError, stop],
   );
 
-  return {
-    editing,
-    error,
-    startRename,
-    startFolder: (parent) => startCreate(parent, 'folder'),
-    startSprite: (parent) => startCreate(parent, 'sprite'),
-    stop,
-    commit,
-  };
+  return { editing, error, startRename, startFolder, startSprite, stop, commit };
 };
 
 export { useBrowserEdit };

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { IconName, VirtualSize } from '@drizztdourden08/tessera';
 import type { CreatableKind } from '../../stores/creation-store.type';
-import type { ListGroup, TileSize, ViewDensity } from '../../panel-browser/project-browser.type';
+import type { ListGroup, TileSize } from '../../panel-browser/project-browser.type';
 
 const CHIPS_SHOWN = 3;
 
@@ -9,21 +9,11 @@ const SEARCH_SELECTOR = '[data-project-search] input';
 
 const NEW_BUTTON_SELECTOR = '[data-project-new]';
 
-const ROOT_DROP = 'root';
-
-const NAV_KEYS: readonly string[] = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown'];
-
 const NEW_ASSET_KINDS: readonly CreatableKind[] = ['sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap'];
 
-const ITEM_ATTRIBUTE = 'data-item-key';
+const ITEM_ATTRIBUTE = 'data-tree-key';
 
-const ITEM_SELECTOR = '[data-item-key]';
-
-const ROW_INDEX_ATTRIBUTE = 'data-row-index';
-
-const DENSITY_HEIGHT: Readonly<Record<ViewDensity, number>> = { compact: 24, comfortable: 36, grid: 36 };
-
-const DENSITY_THUMB: Readonly<Record<ViewDensity, number>> = { compact: 16, comfortable: 32, grid: 32 };
+const ITEM_SELECTOR = '[data-tree-key]';
 
 const KIND_SHORTCUT: Readonly<Record<CreatableKind, string>> = { sprite: 'S', animation: 'A', sheet: 'H', palette: 'P', tileset: 'T', tilemap: 'M' };
 
@@ -75,7 +65,8 @@ const PANEL_UI = {
   listLabel: 'Project assets',
   gridLabel: 'Project assets as tiles',
   searchLabel: 'Search the project',
-  searchPlaceholder: 'Search, or kind:sprite is:unsaved',
+  searchPlaceholder: 'Search',
+  searchHelp: 'Words match names and folders. Tokens: kind:sprite, is:unsaved, is:open, is:unused, is:missing, uses:name, in:folder. Type a space after a token to make it a filter.',
   filterLabel: 'Filter by kind or state',
   clearFilters: 'Clear filters',
   moreFilters: (count: number): string => `${count} more filters`,
@@ -122,19 +113,14 @@ const BADGE_ICON: Readonly<Record<'missing' | 'readOnly' | 'open' | 'link', Icon
 export {
   BADGE_ICON,
   CHIPS_SHOWN,
-  DENSITY_HEIGHT,
-  DENSITY_THUMB,
   GROUP_CHOICES,
   ITEM_ATTRIBUTE,
   ITEM_SELECTOR,
   KIND_SHORTCUT,
-  NAV_KEYS,
   NEW_ASSET_KINDS,
   NEW_BUTTON_SELECTOR,
   PANEL_UI,
   PROJECT_MENU,
-  ROOT_DROP,
-  ROW_INDEX_ATTRIBUTE,
   SEARCH_SELECTOR,
   TILE_BOX,
   TILE_CHOICES,

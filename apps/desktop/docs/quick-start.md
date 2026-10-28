@@ -105,8 +105,11 @@ sheets is stored once.
 
 - Project, then New project makes the folder and the subfolders sprites, sheets, palettes, tilemaps and exports.
 - Project, then Open project opens a folder. Open recent project lists the last ones.
-- The Project panel lists the assets, filters them by kind and shows which sheets use a sprite.
-  Click a row to open it. The Folders view shows every file.
+- The Project panel shows the folders and files as one tree, with a thumbnail for every file, and marks
+  what is unsaved, open, missing a link or used by other assets. Click a row to select it; double click
+  or Enter opens it. Search takes words and tokens such as kind:sprite, is:unsaved and is:missing, which
+  become removable filters. F2 renames in the row, and a drop on a folder moves files with their links kept.
+  The setting Open assets with one click makes a single click open an asset.
 - Save file writes the open asset. Save all (Ctrl+Alt+S) writes every changed asset. A save that
   fails leaves the last good file as it was.
 - Pack project puts the project in one `.bxproject` file. Opening a packed project asks for a

@@ -4,6 +4,7 @@
   flex: none;
   align-items: center;
   gap: var(--space-xs);
+  min-inline-size: 0;
 }
 
 .project-badges__missing {
@@ -15,5 +16,5 @@
 }
 
 .project-badges__users {
-  cursor: pointer;
+  flex: none;
 }

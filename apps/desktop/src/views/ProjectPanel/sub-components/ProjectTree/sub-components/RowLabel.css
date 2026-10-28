@@ -1,0 +1,15 @@
+/* @layer renderer-app @kind style */
+.project-label {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  align-self: stretch;
+  min-inline-size: 0;
+  border-radius: var(--radius-sm);
+}
+
+.project-label[data-over='true'] {
+  background: var(--c-primary-soft);
+  outline: var(--border-width-thin) dashed var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thin));
+}

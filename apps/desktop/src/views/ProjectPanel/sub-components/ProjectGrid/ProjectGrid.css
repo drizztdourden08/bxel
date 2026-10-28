@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind style */
-.project-grid {
+.project-body > .project-grid {
   flex: 1;
-  min-block-size: var(--size-96);
+  min-block-size: 0;
 }

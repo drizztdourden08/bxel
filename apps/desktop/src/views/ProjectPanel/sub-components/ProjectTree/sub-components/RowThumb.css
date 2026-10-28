@@ -21,11 +21,16 @@
   opacity: 0.5;
 }
 
+.project-thumb[data-active='true'] {
+  outline: var(--border-width-thin) solid var(--c-primary);
+  outline-offset: var(--border-width-thin);
+}
+
 .project-thumb__img {
   inline-size: 100%;
   block-size: 100%;
 }
 
-.project-tree[data-density='compact'] .project-thumb {
+.project-tree[data-row-size='compact'] .project-thumb {
   font-size: var(--text-base);
 }

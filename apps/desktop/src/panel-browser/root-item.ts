@@ -3,7 +3,7 @@ import { fileName } from '../files/file-name';
 import { toSlashes } from '../workspace/to-slashes';
 import type { BrowserItem, BrowserRoot } from './project-browser.type';
 
-const rootItem = (root: BrowserRoot, failed: ReadonlySet<string>): BrowserItem => {
+const rootItem = (root: BrowserRoot): BrowserItem => {
   const key = toSlashes(root.path).replace(/\/+$/, '');
   return {
     key,
@@ -18,7 +18,7 @@ const rootItem = (root: BrowserRoot, failed: ReadonlySet<string>): BrowserItem =
     modified: 0,
     size: 0,
     readOnly: !root.granted,
-    failed: failed.has(key),
+    failed: false,
   };
 };
 

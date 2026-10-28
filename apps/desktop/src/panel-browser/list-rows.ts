@@ -4,7 +4,8 @@ import { groupItem } from './group-item';
 import { listKindOf } from './list-kind-of';
 import { GROUP_PREFIX, PLURAL_LABEL } from './project-browser.constants';
 import { sortItems } from './sort-items';
-import type { BrowserItem, ListBucket as Bucket, ListInput, VisibleRow } from './project-browser.type';
+import type { BrowserItem, VisibleRow } from './project-browser.type';
+import type { ListBucket as Bucket, ListInput } from './browser-state.type';
 
 const bucketKey = (item: BrowserItem, group: ListInput['view']['group']): string => {
   if (group === 'kind') return `${GROUP_PREFIX}kind:${listKindOf(item)}`;

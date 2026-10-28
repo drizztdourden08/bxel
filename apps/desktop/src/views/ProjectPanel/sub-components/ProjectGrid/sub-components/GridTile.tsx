@@ -26,7 +26,7 @@ const GridTile = ({ model, item, cell }: GridTileProps) => {
       {...{ [ITEM_ATTRIBUTE]: item.key }}
       onClick={click}
       onDoubleClick={() => rowActions.open(item)}
-      {...drag.dragProps(item)}
+      {...drag.dragOut(item)}
     >
       <Box className="project-tile__thumb">{url === null ? icon : <Image className="project-tile__img" src={url} alt="" fit="contain" pixelated fallback={icon} />}</Box>
       <Text variant="caption" className="project-tile__name">

@@ -6,7 +6,7 @@ import type { PanelPartProps } from '../ProjectPanel.type';
 import './FilterChips.css';
 
 const FilterChips = ({ model }: PanelPartProps) => {
-  const chips = chipsOf(model.query);
+  const chips = chipsOf(model.search);
   if (chips.length === 0) return null;
   const shown = chips.slice(0, CHIPS_SHOWN);
   const folded = chips.slice(CHIPS_SHOWN);
@@ -20,7 +20,7 @@ const FilterChips = ({ model }: PanelPartProps) => {
       {folded.length === 0 ? null : (
         <Tag title={folded.map((chip) => chip.label).join(', ')}>{PANEL_UI.moreFilters(folded.length)}</Tag>
       )}
-      <Button variant="ghost" size="xs" onClick={model.query.clear}>
+      <Button variant="ghost" size="xs" onClick={model.search.clear}>
         {PANEL_UI.clearFilters}
       </Button>
     </Flex>

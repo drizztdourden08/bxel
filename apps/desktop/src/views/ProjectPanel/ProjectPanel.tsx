@@ -3,6 +3,7 @@ import { commandZone } from '@drizztdourden08/brock-react';
 import { Box } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
+import { useDefaultOpen } from './behavior/useDefaultOpen';
 import { useFollowActive } from './behavior/useFollowActive';
 import { useProjectKeys } from './behavior/useProjectKeys';
 import { useProjectMenu } from './behavior/useProjectMenu';
@@ -22,6 +23,7 @@ const ProjectPanel = () => {
   useProjectMenu(model);
   useProjectKeys(model);
   useFollowActive(model);
+  useDefaultOpen(model);
   useWidthWatch(ref, model.setWidth);
   if (!model.project) return <ProjectStart model={model} />;
   return (

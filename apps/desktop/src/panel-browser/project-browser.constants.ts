@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind constants */
 import type { IconName } from '@drizztdourden08/tessera';
 import type { RowKind } from '../asset-list/asset-list.type';
-import type { BrowserQuery, FocusMove, ItemKind, ItemState, ItemStatus, ListedEntries, ProjectViewSettings, SelectionState } from './project-browser.type';
+import type { ItemKind, ItemState, ItemStatus } from './project-browser.type';
+import type { ProjectViewSettings, SelectionState } from './browser-state.type';
 
 const UNSAVED_KEY = 'group:unsaved';
 
@@ -11,21 +12,11 @@ const GROUP_PREFIX = 'group:';
 
 const NARROW_WIDTH = 220;
 
-const PAGE_ROWS = 10;
-
-const NO_MOVE: FocusMove = { kind: 'none' };
-
-const TYPE_AHEAD_MS = 700;
-
-const SLOW_CLICK_MS = 700;
-
-const SEARCH_DELAY_MS = 120;
-
 const NEW_MENU_KEY = 'menu:new';
 
-const FOLDER_NEW_KEY = 'new:folder';
-
 const FILE_NEW_KEY = 'new:file';
+
+const MISSING_TOKEN = 'is:missing';
 
 const DEFAULT_PROJECT_VIEW: ProjectViewSettings = {
   mode: 'tree',
@@ -43,35 +34,9 @@ const NO_COLLAPSED: ReadonlySet<string> = new Set();
 
 const NO_REFERRERS: ReadonlyMap<string, readonly string[]> = new Map();
 
-const NO_LISTING: ListedEntries = { entries: [], truncated: false, failed: [] };
-
-const EMPTY_QUERY: BrowserQuery = { text: '', kinds: [], states: [], usedBy: null, inside: null };
-
 const FILTER_KINDS: readonly RowKind[] = ['sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap', 'image', 'other'];
 
 const FILTER_STATES: readonly ItemState[] = ['unsaved', 'open', 'missing', 'unused'];
-
-const KIND_WORDS: Readonly<Record<string, RowKind>> = {
-  sprite: 'sprite',
-  sprites: 'sprite',
-  animation: 'animation',
-  animations: 'animation',
-  anim: 'animation',
-  sheet: 'sheet',
-  sheets: 'sheet',
-  atlas: 'sheet',
-  palette: 'palette',
-  palettes: 'palette',
-  tileset: 'tileset',
-  tilesets: 'tileset',
-  tilemap: 'tilemap',
-  tilemaps: 'tilemap',
-  map: 'tilemap',
-  image: 'image',
-  images: 'image',
-  other: 'other',
-  file: 'other',
-};
 
 const STATE_LABEL: Readonly<Record<ItemState, string>> = {
   unsaved: 'Unsaved',
@@ -112,40 +77,23 @@ const PLAIN_KINDS: readonly string[] = ['image', 'other', 'folder', 'group', 'pr
 
 const USED_BY_KINDS: readonly string[] = ['sprite', 'animation', 'palette', 'tileset'];
 
-const ROLE_KIND: Readonly<Record<string, RowKind>> = {
-  sprites: 'sprite',
-  animations: 'animation',
-  sheets: 'sheet',
-  palettes: 'palette',
-  tilemaps: 'tilemap',
-};
-
 export {
   DEFAULT_PROJECT_VIEW,
-  EMPTY_QUERY,
   EMPTY_STATUS,
   FILE_NEW_KEY,
   FILTER_KINDS,
   FILTER_STATES,
-  FOLDER_NEW_KEY,
   GROUP_PREFIX,
   ITEM_ICON,
-  KIND_WORDS,
+  MISSING_TOKEN,
   NARROW_WIDTH,
   NEW_MENU_KEY,
   NO_COLLAPSED,
-  NO_LISTING,
-  NO_MOVE,
   NO_REFERRERS,
   NO_SELECTION,
-  PAGE_ROWS,
   PLAIN_KINDS,
   PLURAL_LABEL,
-  ROLE_KIND,
-  SEARCH_DELAY_MS,
-  SLOW_CLICK_MS,
   STATE_LABEL,
-  TYPE_AHEAD_MS,
   UNSAVED_KEY,
   UNSAVED_NAME,
   USED_BY_KINDS,

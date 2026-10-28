@@ -4,7 +4,7 @@ import { PANEL_UI } from '../ProjectPanel.constants';
 import type { PanelPartProps } from '../ProjectPanel.type';
 
 const ProjectEmpty = ({ model }: PanelPartProps) => {
-  const { source, project, query, rowActions, grantFolder } = model;
+  const { data, project, search, rowActions, grantFolder } = model;
   const main = project?.folders[0];
   if (main && !main.granted) {
     return (
@@ -18,13 +18,13 @@ const ProjectEmpty = ({ model }: PanelPartProps) => {
       />
     );
   }
-  if (!source.ready) return <Spinner size="md" label={PANEL_UI.loading} />;
-  if (query.query.text !== '' || model.browser.filtered) {
+  if (!data.ready) return <Spinner size="md" label={PANEL_UI.loading} />;
+  if (search.active || model.browser.filtered) {
     return (
       <EmptyState
         message={PANEL_UI.nothingMatches}
         action={
-          <Button variant="secondary" size="sm" onClick={query.clear}>
+          <Button variant="secondary" size="sm" onClick={search.clear}>
             {PANEL_UI.clearFilters}
           </Button>
         }

@@ -2,7 +2,8 @@
 import { KIND_ORDER } from '../asset-list/asset-list.constants';
 import { compareNames } from './compare-names';
 import { listKindOf } from './list-kind-of';
-import type { BrowserItem, ItemCompare, ProjectViewSettings } from './project-browser.type';
+import type { BrowserItem, ItemCompare } from './project-browser.type';
+import type { ProjectViewSettings } from './browser-state.type';
 
 const byName: ItemCompare = (left, right) => compareNames(left.name, right.name);
 
