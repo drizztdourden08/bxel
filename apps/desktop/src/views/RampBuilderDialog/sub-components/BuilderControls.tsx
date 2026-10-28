@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { RAMP_LIMITS } from '@bxel/palette';
-import { Field, Grid, SegmentedControl, Slider, Stack, TextInput, Toggle } from '@drizztdourden08/tessera';
+import { Field, SegmentedControl, Slider, Stack, TextInput, Toggle } from '@drizztdourden08/tessera';
 import { BUILDER_TEXT, HUE_MODES, SPAN_SCALE } from '../RampBuilderDialog.constants';
 import type { BuilderPartProps } from '../RampBuilderDialog.type';
 import { BasePicker } from './BasePicker';
@@ -10,10 +10,10 @@ const BuilderControls = ({ state }: BuilderPartProps) => {
   return (
     <Stack gap="sm">
       <BasePicker state={state} />
-      <Grid columns={2} gap="sm">
+      <Stack gap="xs">
         <Slider size="sm" label={BUILDER_TEXT.dark} min={0} max={RAMP_LIMITS.maxSide} step={1} input showValue value={settings.dark} onChange={(dark) => change({ dark })} />
         <Slider size="sm" label={BUILDER_TEXT.light} min={0} max={RAMP_LIMITS.maxSide} step={1} input showValue value={settings.light} onChange={(light) => change({ light })} />
-      </Grid>
+      </Stack>
       <SegmentedControl size="sm" label={BUILDER_TEXT.shiftMode} value={settings.hueMode} options={HUE_MODES} onChange={(hueMode) => change({ hueMode })} />
       <Slider
         size="sm"
@@ -28,10 +28,10 @@ const BuilderControls = ({ state }: BuilderPartProps) => {
         formatValue={BUILDER_TEXT.degrees}
         onChange={(hueShift) => change({ hueShift })}
       />
-      <Grid columns={2} gap="sm">
+      <Stack gap="xs">
         <Slider size="sm" label={BUILDER_TEXT.spanDark} min={0} max={SPAN_SCALE} step={1} input showValue value={settings.span[0]} onChange={(dark) => change({ span: [Math.min(dark, settings.span[1]), settings.span[1]] })} />
         <Slider size="sm" label={BUILDER_TEXT.spanLight} min={0} max={SPAN_SCALE} step={1} input showValue value={settings.span[1]} onChange={(light) => change({ span: [settings.span[0], Math.max(light, settings.span[0])] })} />
-      </Grid>
+      </Stack>
       <Toggle size="sm" label={BUILDER_TEXT.chroma} checked={settings.chromaCurve} onChange={(chromaCurve) => change({ chromaCurve })} />
       <Toggle size="sm" label={BUILDER_TEXT.snap} checked={settings.snap} onChange={(snap) => change({ snap })} />
       <Field label={BUILDER_TEXT.name} size="sm">

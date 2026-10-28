@@ -18,7 +18,7 @@ const BUILDER_TEXT = {
   preview: 'Ramp preview',
   sphere: 'Shaded sphere test of the new ramp',
   stepNew: 'new',
-  stepReuses: (index: number): string => `reuses ${index}`,
+  stepReuses: (index: number): string => `#${index}`,
   stepName: (at: number, total: number, reuses: number | null): string => `Step ${at} of ${total}, ${reuses === null ? 'new' : `reuses swatch ${reuses}`}`,
   apply: 'Add ramp',
   cancel: 'Cancel',

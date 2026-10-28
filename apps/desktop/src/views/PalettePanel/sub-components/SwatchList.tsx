@@ -24,7 +24,7 @@ const SwatchList = ({ panel }: PanelProps) => {
           </Button>
         )}
       </Flex>
-      <ScrollArea axis="y" scrollbar="slim" fade={false} className="swatch-list__scroll">
+      <ScrollArea axis="both" scrollbar="slim" fade={false} className="swatch-list__scroll">
         <Table className="swatch-list" aria-label={PALETTE_PANEL_TEXT.list}>
           <ListHead sort={sort} onSort={setSort} showUse={panel.usage !== null} />
           <TableSection>

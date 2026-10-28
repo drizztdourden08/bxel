@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { PaletteSortKey } from '@bxel/palette';
+import type { Oklch, PaletteSortKey } from '@bxel/palette';
 import type { SegmentOption, TableAlign } from '@drizztdourden08/tessera';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import type { PaletteViewKind } from '../../palette-view/palette-view.type';
@@ -165,7 +165,6 @@ const CHANNEL_TOP = 255;
 
 const PERCENT = 100;
 
-const OKLCH_RANGE = { l: 1, c: 0.37, h: 360 } as const;
 
 const EDITOR_TEXT = {
   title: (index: number): string => `Swatch ${index}`,
@@ -195,8 +194,14 @@ const EDITOR_MODELS: SegmentOption<EditorModel>[] = [
   { value: 'rgb', label: 'RGB' },
 ];
 
+const OKLCH_CHANNELS: readonly { key: keyof Oklch; label: string; max: number; scale: number; step: number }[] = [
+  { key: 'l', label: EDITOR_TEXT.lightness, max: 1, scale: PERCENT, step: 0.5 },
+  { key: 'c', label: EDITOR_TEXT.chroma, max: 0.37, scale: PERCENT, step: 0.1 },
+  { key: 'h', label: EDITOR_TEXT.hue, max: 360, scale: 1, step: 1 },
+];
+
 const RGB_CHANNELS: readonly string[] = [EDITOR_TEXT.red, EDITOR_TEXT.green, EDITOR_TEXT.blue];
 
 export {
-  CHANNEL_STOPS, CHANNEL_TOP, chipHint, CONFIG_HINT, EDITOR_MODELS, EDITOR_TEXT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OKLCH_RANGE, OVERFLOW_TEXT, PAGE_ROWS, PALETTE_MENU, PERCENT, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, RGB_CHANNELS, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, VIEW_OPTIONS,
+  CHANNEL_STOPS, CHANNEL_TOP, chipHint, CONFIG_HINT, EDITOR_MODELS, EDITOR_TEXT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OKLCH_CHANNELS, OVERFLOW_TEXT, PAGE_ROWS, PALETTE_MENU, PERCENT, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, RGB_CHANNELS, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, VIEW_OPTIONS,
 };
