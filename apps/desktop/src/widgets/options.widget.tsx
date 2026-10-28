@@ -8,6 +8,7 @@ const meta: WidgetMeta = {
   icon: 'sliders-horizontal',
   defaultSide: 'right',
   defaultDockedSize: 288,
+  dockWeight: 2,
   popOut: false,
   defaultVisibility: 'context-only',
   context: WIDGET_CONTEXT.options,

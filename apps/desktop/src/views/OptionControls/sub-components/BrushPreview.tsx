@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { usePaintedCanvas } from '../../../hooks/usePaintedCanvas';
 import { OPTION_CONTROLS_TEXT, PREVIEW_CELLS } from '../OptionControls.constants';
 import type { BrushPreviewProps } from '../OptionControls.type';
+import './BrushPreview.css';
 
 const BrushPreview = ({ size, shape, small = false }: BrushPreviewProps) => {
   const draw = useCallback(

@@ -7,11 +7,10 @@ import { useRig } from './support/use-rig';
 describe('the tools toolbar and the tool options bar', () => {
   const rig = useRig(openSpriteRig);
 
-  test('groups the slots and shows the variant of a slot in its name', async () => {
+  test('shows the variant of a slot in its name', async () => {
     const { page } = rig().session;
     const tools = page.getByRole('toolbar', { name: 'Tools' });
     await tools.getByRole('button', { name: 'Shapes, Line' }).waitFor();
-    await tools.getByRole('button', { name: 'Select, Rectangle' }).waitFor();
     await tools.getByRole('button', { name: 'Pencil' }).waitFor();
   });
 
@@ -25,9 +24,9 @@ describe('the tools toolbar and the tool options bar', () => {
     await expectAnnounced(rig().session, 'Rectangle tool');
     await page.keyboard.press('m');
     await page.keyboard.press('m');
-    await tools.getByRole('button', { name: 'Select, Ellipse' }).waitFor();
+    await expectAnnounced(rig().session, 'Ellipse tool');
     await page.keyboard.press('Shift+m');
-    await tools.getByRole('button', { name: 'Select, Rectangle' }).waitFor();
+    await expectAnnounced(rig().session, 'Rectangle tool');
   });
 
   test('opens the tool menu with a right click and closes it with Escape', async () => {

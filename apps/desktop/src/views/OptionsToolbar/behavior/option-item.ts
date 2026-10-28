@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { LabelledShortcut, ToolbarChoice, ToolbarItem } from '@drizztdourden08/tessera';
+import { Text } from '@drizztdourden08/tessera';
 import { createElement } from 'react';
 import { readOption } from '../../../editor/tool-options/read-option';
 import { setOption } from '../../../editor/tool-options/set-option';
@@ -11,7 +12,7 @@ const choiceOf = (choice: OptionChoice): ToolbarChoice => ({
   label: choice.label,
   description: choice.description,
   shortcut: choice.keys,
-  icon: choice.icon ?? createElement('span', { className: 'option-glyph' }, choice.glyph),
+  icon: choice.icon ?? createElement(Text, { as: 'span', variant: 'label', numeric: true }, choice.glyph),
 });
 
 const shortcutOf = (spec: OptionSpec, keysOf: KeysOf): LabelledShortcut[] | undefined => {

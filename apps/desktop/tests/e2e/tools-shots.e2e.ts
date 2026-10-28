@@ -12,6 +12,7 @@ describe('review screenshots of the tools and the tool options', () => {
   test('takes the shots', async () => {
     await inFreshPlace(async (place) => {
       const session = await openSession();
+      try {
       const { page } = session;
       await session.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]?.setSize(1280, 800));
       await page.waitForTimeout(800);
@@ -30,11 +31,11 @@ describe('review screenshots of the tools and the tool options', () => {
       await page.keyboard.press('m');
       await page.keyboard.press('m');
       await tools.getByRole('button', { name: /^Select, Lasso/ }).click({ button: 'right' });
-      await page.getByRole('menuitemradio', { name: 'Wand' }).waitFor();
+      await page.getByRole('menuitemradio', { name: 'Wand', exact: true }).waitFor();
       await shoot(session, 'tools-3-flyout-open');
-      await page.getByRole('menuitem', { name: 'Tools panel...' }).click();
-      await page.getByRole('region', { name: 'Tools' }).first().waitFor();
-      await page.waitForTimeout(500);
+      await page.getByRole('menuitem', { name: 'Tools panel...' }).evaluate((el) => (el as HTMLElement).click());
+      for (const name of ['Palette', 'Layers', 'Timeline']) await page.getByRole('button', { name: `Close ${name}` }).click();
+      await page.waitForTimeout(1500);
       await shoot(session, 'tools-4-learning-panel');
       await page.getByRole('application', { name: 'Sprite canvas' }).focus();
       await page.keyboard.press('b');
@@ -42,6 +43,7 @@ describe('review screenshots of the tools and the tool options', () => {
       const bar = page.getByRole('toolbar', { name: 'Tool options' });
       await bar.screenshot({ path: `${process.env['BXEL_SHOTS']}/tools-5b-options-bar-closeup.png` });
       await shoot(session, 'tools-5-options-bar');
+      await page.getByRole('button', { name: 'Close Tools' }).click();
       await bar.getByRole('button', { name: /^More options/ }).click();
       await page.waitForTimeout(600);
       await shoot(session, 'tools-6-options-inspector');
@@ -58,7 +60,9 @@ describe('review screenshots of the tools and the tool options', () => {
       await assetRow(session, 'meadow').click();
       await page.waitForTimeout(1000);
       await shoot(session, 'tools-9-map-rail');
-      await session.close();
+      } finally {
+        await session.close();
+      }
     });
   });
 });

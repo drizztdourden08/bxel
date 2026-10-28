@@ -20,8 +20,8 @@
 
 .tools-row {
   display: grid;
-  grid-template-columns: var(--size-32) minmax(0, 1fr) auto;
-  align-items: center;
+  grid-template-columns: var(--size-32) minmax(0, 1fr);
+  align-items: start;
   gap: var(--space-sm);
   inline-size: 100%;
   padding: var(--space-xs) var(--space-sm);
