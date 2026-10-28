@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import type { PaletteBank } from '@bxel/document';
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { ASSET_SETTINGS_COMMAND } from '../../../config-entry/config-entry.constants';
 import { menuTarget } from '../../../context-menu/menu-target';
@@ -9,6 +10,8 @@ import { paletteSlots } from '../../../editor/palette-slots';
 import type { PaletteSlot } from '../../../editor/palette-slots.type';
 import { DIALOG_COMMAND } from '../../../keymap/dialog-command-id.constants';
 import { COMMAND_ID } from '../../../keymap/keymap.constants';
+import { PANEL_COMMAND } from '../../../palette-panel/palette-panel.constants';
+import { selectedIndices } from '../../../palette-panel/selected-indices';
 import { currentContext } from '../../../ui-context/current-context';
 import { useToolStore } from '../../../stores/useToolStore';
 import { PALETTE_MENU, SWATCH_SELECTOR } from '../PalettePanel.constants';
@@ -35,6 +38,7 @@ const swatchEntries = (slot: PaletteSlot): readonly ContextMenuEntry[] => {
     { command: 'palette.edit_swatch', label: PALETTE_MENU.edit, args, ...unless(!slot.transparent, PALETTE_MENU.transparent) },
     { command: 'selection.by_colour', label: PALETTE_MENU.select, args: { index: slot.index, mode: 'everywhere' }, hidden: !pixelSurface() },
     { command: 'palette.copy_hex', label: PALETTE_MENU.copy, args, ...unless(!slot.transparent, PALETTE_MENU.transparent) },
+    { command: PANEL_COMMAND.ramp, label: PALETTE_MENU.newRampFrom, args, ...unless(!slot.transparent, PALETTE_MENU.transparent) },
     { command: DIALOG_COMMAND.mergeSwatch, label: PALETTE_MENU.merge, args, ...unless(!fixed, PALETTE_MENU.fixed) },
     'separator',
     { command: DIALOG_COMMAND.deleteSwatch, label: PALETTE_MENU.remove, args, tone: 'danger', ...unless(!fixed, PALETTE_MENU.fixed) },
@@ -57,20 +61,40 @@ const chipEntries = (position: number, slot: PaletteSlot | undefined): readonly 
   ];
 };
 
+const selectionEntries = (count: number): readonly ContextMenuEntry[] => [
+  { command: PANEL_COMMAND.make, label: PALETTE_MENU.makeRamp },
+  { command: PANEL_COMMAND['make-light'], label: PALETTE_MENU.makeRampLight },
+  { command: PANEL_COMMAND.gradient, label: PALETTE_MENU.gradient, ...unless(count === 2, PALETTE_MENU.gradientTwo) },
+  { command: PANEL_COMMAND.sort, label: PALETTE_MENU.sortSelection },
+  'separator',
+];
+
 const panelEntries: readonly ContextMenuEntry[] = [
+  { command: PANEL_COMMAND.add, label: PALETTE_MENU.addColour },
+  { command: PANEL_COMMAND.ramp, label: PALETTE_MENU.newRamp },
+  { command: PANEL_COMMAND.unused, label: PALETTE_MENU.removeUnused },
+  { command: PANEL_COMMAND.duplicates, label: PALETTE_MENU.unite },
+  'separator',
   COMMAND_ID.swapColours,
   COMMAND_ID.swapColourPairs,
   DIALOG_COMMAND.changeLimit,
   { command: ASSET_SETTINGS_COMMAND, label: PALETTE_MENU.settings },
 ];
 
+const clickedEntries = (bank: PaletteBank, clicked: PaletteSlot): readonly ContextMenuEntry[] => {
+  const selection = selectedIndices(bank);
+  const many = selection.length > 1 && selection.includes(clicked.index);
+  return many ? [...selectionEntries(selection.length), ...swatchEntries(clicked)] : swatchEntries(clicked);
+};
+
 const paletteMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[] => {
   const bank = currentTarget()?.bank;
-  const slots = bank ? paletteSlots(bank) : [];
+  if (!bank) return panelEntries;
+  const slots = paletteSlots(bank);
   const swatch = menuTarget(context, SWATCH_SELECTOR)?.dataset.swatchIndex;
   const chip = menuTarget(context, '[data-held-slot]')?.dataset.heldSlot;
   const clicked = swatch === undefined ? undefined : slots[Number(swatch)];
-  if (clicked) return swatchEntries(clicked);
+  if (clicked) return clickedEntries(bank, clicked);
   if (chip !== undefined) return chipEntries(Number(chip), slots[heldIndex(Number(chip)) ?? -1]);
   return panelEntries;
 };

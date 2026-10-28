@@ -1,33 +1,23 @@
 /* @layer renderer-app @kind test */
 import type { ToolbarItem } from '@drizztdourden08/tessera';
 import { describe, expect, it, vi } from 'vitest';
-import { TOOLS } from '../../src/editor/tools.constants';
 import { statusItems } from '../../src/editor/status-items';
-import { TOOL_ICONS } from '../../src/icons/tool-icons.constants';
-import { MAP_TOOLS } from '../../src/tilemap/map-tools.constants';
 import { ruledItems } from '../../src/toolbar-items/ruled-items';
 import { tidyItems } from '../../src/toolbar-items/tidy-items';
 import { canvasGroups } from '../../src/views/CanvasToolbar/behavior/canvas-groups';
-import { railItems } from '../../src/views/ToolRail/behavior/rail-items';
 import { COLUMN_NAMES, columnContext } from './columns';
+import { railOf } from './rail-of';
 import type { Column } from './columns';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../keymap/brock-react-mock')).brockReactMock());
-
-const keys = { pencil: undefined, eraser: undefined, fill: undefined, picker: undefined, shape: undefined, zoom: undefined, hand: undefined, select: undefined, move: undefined };
-
-const railOf = (column: Column): ToolbarItem[] => {
-  const context = columnContext(column);
-  return railItems({ defs: context.surface === 'map' ? MAP_TOOLS : TOOLS, tool: 'pencil', pick: () => undefined, keys, options: {}, icons: TOOL_ICONS, context });
-};
 
 const labelsOf = (items: readonly ToolbarItem[]): string[] => items.flatMap((item) => (item.kind === 'separator' ? [] : [item.label]));
 
 const button = (id: string): ToolbarItem => ({ kind: 'button', id, label: id, icon: 'check', onSelect: () => undefined });
 
 describe('the tool rail per context', () => {
-  it('lists the nine pixel tools on a sprite, an animation and a tile', () => {
-    for (const column of ['Sp', 'Se', 'An', 'Si', 'Ts', 'Te'] as const) expect(railOf(column)).toHaveLength(TOOLS.length + 2);
+  it('lists the nine pixel tool slots on a sprite, an animation and a tile', () => {
+    for (const column of ['Sp', 'Se', 'An', 'Si', 'Ts', 'Te'] as const) expect(railOf(column).filter((item) => item.kind !== 'separator')).toHaveLength(9);
   });
 
   it('lists the map tools on a map', () => {
@@ -52,7 +42,7 @@ describe('the tool rail per context', () => {
 
   it('keeps Select, Zoom, Hand and Picker live and disables the rest on a read only file', () => {
     const live = railOf('Ro').flatMap((item) => (item.kind !== 'separator' && item.disabled !== true ? [item.label] : []));
-    expect(live).toEqual(['Picker', 'Select', 'Zoom', 'Hand']);
+    expect(live).toEqual(['Picker', 'Select, Rectangle', 'Zoom', 'Hand']);
   });
 });
 
