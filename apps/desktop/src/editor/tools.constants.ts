@@ -51,10 +51,6 @@ const PATH_LABELS: Readonly<Record<PathTool, string>> = {
   contour: 'Contour',
 };
 
-const SHAPE_TOOLS: readonly ToolId[] = ['line', 'rect', 'ellipse'];
-
-const PATH_TOOLS: readonly ToolId[] = ['curve', 'polygon', 'contour'];
-
 const FILL_MODES: readonly FillMode[] = ['contiguous', 'global'];
 
 const FILL_LABELS: Readonly<Record<FillMode, string>> = {
@@ -71,5 +67,5 @@ const SECONDARY_BUTTON = 2;
 const PRIMARY_BUTTON = 0;
 
 export {
-  CONNECTIVITIES, FILL_LABELS, FILL_MODES, PATH_LABELS, PATH_TOOLS, PRIMARY_BUTTON, SECONDARY_BUTTON, SHAPE_LABELS, SHAPE_TOOLS, SYMMETRY_AXES, TOOL_GROUPS, TOOLS,
+  CONNECTIVITIES, FILL_LABELS, FILL_MODES, PATH_LABELS, PRIMARY_BUTTON, SECONDARY_BUTTON, SHAPE_LABELS, SYMMETRY_AXES, TOOL_GROUPS, TOOLS,
 };

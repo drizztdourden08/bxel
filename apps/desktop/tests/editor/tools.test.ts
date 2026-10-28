@@ -65,6 +65,7 @@ describe('press plans', () => {
   it('picks with any tool while Alt is held, even the shape and zoom tools', () => {
     expect(pressPlan('fill', press(0, { altKey: true }))).toEqual({ kind: 'pick', slot: 'foreground' });
     expect(pressPlan('line', press(0, { altKey: true }))).toEqual({ kind: 'pick', slot: 'foreground' });
+    expect(pressPlan('line', press(0, { altKey: true, shiftKey: true }))).toEqual({ kind: 'shape', shape: 'line', slot: 'foreground' });
     expect(pressPlan('zoom', press(2, { altKey: true }))).toEqual({ kind: 'pick', slot: 'background' });
   });
 });

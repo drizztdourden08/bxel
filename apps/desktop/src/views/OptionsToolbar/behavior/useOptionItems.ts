@@ -11,6 +11,7 @@ import { useFillExtraItems } from './useFillExtraItems';
 import { useFilledShapeItems } from './useFilledShapeItems';
 import { useGradientItems } from './useGradientItems';
 import { useInkItems } from './useInkItems';
+import { useLockItems } from './useLockItems';
 import { useMapRandomItems } from './useMapRandomItems';
 import { usePickItems } from './usePickItems';
 import { useShapeExtraItems } from './useShapeExtraItems';
@@ -29,6 +30,7 @@ const useOptionItems = (): OptionItems => ({
   filledShape: useFilledShapeItems(),
   shapeExtras: useShapeExtraItems(),
   symmetry: useSymmetryItems(),
+  lockTile: useLockItems(),
   mapRandom: useMapRandomItems(),
   select: useSelectItems(),
   mapFlags: useMapFlagItems(),

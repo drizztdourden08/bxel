@@ -11,6 +11,9 @@ const useCustomBrushItems = (): ToolbarItem[] => {
   const view = useActiveDocument();
   const brushId = useDrawingStore((state) => state.brushId);
   const mode = useDrawingStore((state) => state.brushMode);
+  const flipX = useDrawingStore((state) => state.brushFlipX);
+  const flipY = useDrawingStore((state) => state.brushFlipY);
+  const turn = useDrawingStore((state) => state.brushTurn);
   const patch = useDrawingStore((state) => state.patch);
   const saved = view?.state.artwork.brushes ?? [];
   if (tool !== 'pencil' || saved.length === 0) return [];
@@ -30,13 +33,22 @@ const useCustomBrushItems = (): ToolbarItem[] => {
       })),
     ],
   };
+  const orientation: MenuGroup = {
+    id: 'orientation',
+    label: 'Flip and turn',
+    items: [
+      { id: 'flip-x', label: 'Flip across', kind: 'check' as const, checked: flipX, onSelect: () => patch({ brushFlipX: !flipX }) },
+      { id: 'flip-y', label: 'Flip down', kind: 'check' as const, checked: flipY, onSelect: () => patch({ brushFlipY: !flipY }) },
+      ...([0, 90, 180, 270] as const).map((each) => ({ id: `turn-${each}`, label: `Turn ${each} degrees`, kind: 'radio' as const, checked: turn === each, onSelect: () => patch({ brushTurn: each }) })),
+    ],
+  };
   return [
     buttonItem({
       id: 'custom-brush',
       icon: 'pixel-stamp',
       hint: { name: DRAWING_TEXT.brushes, description: 'Paint with a brush saved from a selection.' },
       caption: current?.name ?? DRAWING_TEXT.noBrush,
-      options: [group],
+      options: [group, orientation],
       openOn: 'click',
       onSelect: () => patch({ brushId: current ? null : (saved[0]?.id ?? null) }),
     }),

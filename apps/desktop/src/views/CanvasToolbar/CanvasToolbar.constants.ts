@@ -38,6 +38,18 @@ const MIRROR_Y_HINT: HintSpec = {
   shortcuts: [{ command: COMMAND_ID.symmetryY }],
 };
 
+const MIRROR_DIAGONAL_HINT: HintSpec = {
+  name: 'Mirror diagonal',
+  description: 'Mirror strokes across the diagonal that runs through the crossing of the axes.',
+  shortcuts: [{ command: COMMAND_ID.symmetryDiagonal }],
+};
+
+const MIRROR_TURN_HINT: HintSpec = {
+  name: 'Turn four ways',
+  description: 'Repeat strokes in every quarter turn around the crossing of the axes.',
+  shortcuts: [{ command: COMMAND_ID.symmetryTurn }],
+};
+
 const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
   grid: {
     name: 'Pixel grid',
@@ -125,6 +137,6 @@ const GROUP_IDS = {
 } as const;
 
 export {
-  BACK_HINT, CANVAS_TEXT, GROUP_IDS, MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT,
+  BACK_HINT, CANVAS_TEXT, GROUP_IDS, MIRROR_DIAGONAL_HINT, MIRROR_TURN_HINT, MIRROR_X_HINT, MIRROR_Y_HINT, ONION_HINT, PAINT_ALL_HINT, PAUSE_HINT, PLAY_HINT,
   TILED_HINT, TILED_HINTS, VIEW_HINTS, VIEW_ICONS, VIEW_TOGGLES, ZOOM_ACTUAL_HINT, ZOOM_FIT_HINT,
 };

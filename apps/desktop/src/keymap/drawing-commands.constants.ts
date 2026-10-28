@@ -4,7 +4,7 @@ import { brushFromSelection } from '../editor/brush-from-selection';
 import { useDrawingStore } from '../stores/useDrawingStore';
 import { useToolStore } from '../stores/useToolStore';
 import { editorCommand } from './editor-command';
-import { COMMAND_GROUP } from './keymap.constants';
+import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
 
 const DRAWING_COMMANDS: readonly CommandDef[] = [
   {
@@ -23,7 +23,7 @@ const DRAWING_COMMANDS: readonly CommandDef[] = [
     run: () => useToolStore.getState().setPixelPerfect(!useToolStore.getState().pixelPerfect),
   },
   {
-    id: 'symmetry.toggle_diagonal',
+    id: COMMAND_ID.symmetryDiagonal,
     label: 'Symmetry diagonal',
     group: COMMAND_GROUP.brush,
     chord: 'Alt+D',
@@ -31,7 +31,7 @@ const DRAWING_COMMANDS: readonly CommandDef[] = [
     run: () => useDrawingStore.getState().toggleSymmetryMode('diagonal'),
   },
   {
-    id: 'symmetry.toggle_turn',
+    id: COMMAND_ID.symmetryTurn,
     label: 'Symmetry 4 way',
     group: COMMAND_GROUP.brush,
     chord: 'Alt+R',

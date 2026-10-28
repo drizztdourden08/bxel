@@ -8,7 +8,7 @@ import type { ToolId } from './tool.type';
 const pressPlan = (tool: ToolId, event: PressEvent): PressPlan | null => {
   if (event.button !== PRIMARY_BUTTON && event.button !== SECONDARY_BUTTON) return null;
   const slot = drawSlot(event);
-  if (event.altKey || tool === 'picker') return { kind: 'pick', slot };
+  if ((event.altKey && !event.shiftKey) || tool === 'picker') return { kind: 'pick', slot };
   if (tool === 'zoom') return { kind: 'zoom', out: event.button === SECONDARY_BUTTON };
   if (tool === 'fill') return { kind: 'fill', slot };
   if (isShapeTool(tool)) return { kind: 'shape', shape: tool, slot };

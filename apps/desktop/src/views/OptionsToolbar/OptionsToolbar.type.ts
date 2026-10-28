@@ -20,6 +20,7 @@ type OptionKind =
   | 'filledShape'
   | 'shapeExtras'
   | 'symmetry'
+  | 'lockTile'
   | 'mapRandom';
 
 type OptionItems = Readonly<Record<OptionKind, ToolbarItem[]>>;

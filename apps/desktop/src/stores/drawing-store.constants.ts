@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { DrawingSettings, FilledTool, InkKind } from './drawing-store.type';
+import type { DrawingSettings, InkKind } from './drawing-store.type';
 
 const DRAWING_DEFAULTS: DrawingSettings = {
   inkKind: 'normal',
@@ -39,12 +39,10 @@ const DRAWING_DEFAULTS: DrawingSettings = {
 
 const INK_KINDS: readonly InkKind[] = ['normal', 'behind', 'lockAlpha', 'onlyColour', 'dither', 'shade', 'lighten', 'darken'];
 
-const FILLED_TOOLS: readonly FilledTool[] = ['rect', 'ellipse', 'curve', 'polygon', 'contour'];
-
 const SPRAY_LIMITS = { sizeMin: 2, sizeMax: 64, densityMin: 1, densityMax: 100 } as const;
 
 const SPRAY_TICK_MS = 33;
 
 const CORNER_RADIUS = { min: 0, max: 8 } as const;
 
-export { CORNER_RADIUS, DRAWING_DEFAULTS, FILLED_TOOLS, INK_KINDS, SPRAY_LIMITS, SPRAY_TICK_MS };
+export { CORNER_RADIUS, DRAWING_DEFAULTS, INK_KINDS, SPRAY_LIMITS, SPRAY_TICK_MS };
