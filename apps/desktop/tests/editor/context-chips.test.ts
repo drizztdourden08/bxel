@@ -1,22 +1,11 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it } from 'vitest';
-import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
-import { currentTarget } from '../../src/editor/current-target';
-import type { EditorTarget } from '../../src/editor/editor.type';
 import { spriteLayerActions } from '../../src/editor/layer-actions';
 import { layerChips } from '../../src/stage-header/layer-chips';
 import { layerCrumb } from '../../src/stage-header/layer-crumb';
 import { readSpriteHeader } from '../../src/stage-header/read-sprite-header';
 import type { HeaderActions } from '../../src/stage-header/stage-header.type';
-import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
-import { useDocumentStore } from '../../src/stores/useDocumentStore';
-import { useToolStore } from '../../src/stores/useToolStore';
-
-const live = (): EditorTarget => {
-  const target = currentTarget();
-  if (!target) throw new Error('the store holds no document');
-  return target;
-};
+import { live, resetEditor } from './option-harness';
 
 const noActions = {} as HeaderActions;
 
@@ -24,8 +13,7 @@ const header = () =>
   readSpriteHeader(live(), { mode: 'sprite', isolated: false, broadcast: false, spritesScope: 'current', layerScope: 'active', selected: 1 });
 
 beforeEach(() => {
-  useToolStore.setState({ ...TOOL_DEFAULTS });
-  createDefaultArtwork(useDocumentStore.getState().host);
+  resetEditor();
 });
 
 describe('the layer crumb and chips of the stage header, read from the live document', () => {
