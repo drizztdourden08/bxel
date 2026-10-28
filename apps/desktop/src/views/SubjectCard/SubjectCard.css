@@ -55,5 +55,5 @@
 
 .subject-card__pin-note {
   flex: 1;
-  min-inline-size: 8rem;
+  min-inline-size: var(--size-128);
 }

@@ -3,26 +3,23 @@ import type { Artwork, AssetKey } from '@bxel/document';
 import type { RgbaImage } from '@bxel/formats';
 import { previewOf } from '../asset-overview/preview-of';
 import type { PreviewColour } from '../asset-overview/asset-overview.type';
+import { SWATCH_THUMB } from './project-browser.constants';
 import { keyId } from '../workspace/key-id';
-
-const SWATCH_COLUMNS = 4;
-const SWATCH_CELL = 4;
-const SWATCH_LIMIT = 16;
 
 const channel = (value: string, at: number): number => Number.parseInt(value.slice(at, at + 2), 16) || 0;
 
 const swatchImage = (colours: readonly PreviewColour[]): RgbaImage => {
-  const shown = colours.slice(0, SWATCH_LIMIT);
-  const rows = Math.max(1, Math.ceil(shown.length / SWATCH_COLUMNS));
-  const width = SWATCH_COLUMNS * SWATCH_CELL;
-  const height = rows * SWATCH_CELL;
+  const shown = colours.slice(0, SWATCH_THUMB.limit);
+  const rows = Math.max(1, Math.ceil(shown.length / SWATCH_THUMB.columns));
+  const width = SWATCH_THUMB.columns * SWATCH_THUMB.cell;
+  const height = rows * SWATCH_THUMB.cell;
   const data = new Uint8ClampedArray(width * height * 4);
   shown.forEach((colour, at) => {
-    const x0 = (at % SWATCH_COLUMNS) * SWATCH_CELL;
-    const y0 = Math.floor(at / SWATCH_COLUMNS) * SWATCH_CELL;
+    const x0 = (at % SWATCH_THUMB.columns) * SWATCH_THUMB.cell;
+    const y0 = Math.floor(at / SWATCH_THUMB.columns) * SWATCH_THUMB.cell;
     const hex = colour.rgb.replace('#', '');
-    for (let y = 0; y < SWATCH_CELL; y += 1) {
-      for (let x = 0; x < SWATCH_CELL; x += 1) {
+    for (let y = 0; y < SWATCH_THUMB.cell; y += 1) {
+      for (let x = 0; x < SWATCH_THUMB.cell; x += 1) {
         const o = ((y0 + y) * width + x0 + x) * 4;
         data.set(colour.transparent ? [0, 0, 0, 0] : [channel(hex, 0), channel(hex, 2), channel(hex, 4), 255], o);
       }
@@ -40,7 +37,6 @@ const drawn = (artwork: Artwork, key: AssetKey): RgbaImage | null => {
   return preview.kind === 'swatches' ? swatchImage(preview.colours) : null;
 };
 
-/** The still picture of one asset for a tile or a row. It is drawn once per version of the document. */
 const thumbImage = (artwork: Artwork, key: AssetKey): RgbaImage | null => {
   const held = cache.get(artwork) ?? new Map<string, RgbaImage | null>();
   cache.set(artwork, held);

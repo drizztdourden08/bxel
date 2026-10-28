@@ -3,7 +3,6 @@ import { Box, Icon, Text } from '@drizztdourden08/tessera';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import type { BrowserEntry } from '../../../project-browser/project-browser.type';
 
-/** Small marks on a file: unsaved, open in a tab, pinned, and how many files use it. Each has a name for a screen reader. */
 const EntryBadges = ({ entry }: { readonly entry: BrowserEntry }) => {
   if (entry.kind === 'folder') return null;
   const { row, facts, pinned } = entry;

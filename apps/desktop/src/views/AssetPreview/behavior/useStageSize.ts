@@ -1,12 +1,11 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useState } from 'react';
 import type { RefObject } from 'react';
+import { NO_SIZE } from '../../../asset-preview/asset-preview.constants';
 import type { StageSize } from '../AssetPreview.type';
 
-const EMPTY: StageSize = { width: 0, height: 0 };
-
 const useStageSize = (target: RefObject<HTMLElement | null>): StageSize => {
-  const [size, setSize] = useState<StageSize>(EMPTY);
+  const [size, setSize] = useState<StageSize>(NO_SIZE);
   useEffect(() => {
     const element = target.current;
     if (!element) return undefined;

@@ -5,7 +5,6 @@ import { parentOf } from '../workspace/parent-of';
 import { toSlashes } from '../workspace/to-slashes';
 import { useBrowserStore } from './useBrowserStore';
 
-/** Opens the Project window on the folder of a file with that file selected. */
 const revealInProjectWindow = (path: string): void => {
   const slashed = toSlashes(path);
   useBrowserStore.getState().reveal(parentOf(slashed), slashed);

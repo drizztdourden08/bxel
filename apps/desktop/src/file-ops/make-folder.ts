@@ -3,8 +3,7 @@ import { fileKit } from '../files/file-kit';
 import { reasonOf } from '../files/reason-of';
 import { toSlashes } from '../workspace/to-slashes';
 import { FILE_OPS_TEXT } from './file-ops.constants';
-
-type FolderOutcome = { readonly ok: true; readonly path: string } | { readonly ok: false; readonly message: string };
+import type { FolderOutcome } from './file-ops.type';
 
 const freeName = (taken: ReadonlySet<string>, base: string): string => {
   if (!taken.has(base.toLowerCase())) return base;
@@ -13,7 +12,6 @@ const freeName = (taken: ReadonlySet<string>, base: string): string => {
   return `${base} ${at}`;
 };
 
-/** Makes a folder with a free name inside a folder and returns its path, ready to be renamed in place. */
 const makeFolder = async (inside: string): Promise<FolderOutcome> => {
   const kit = fileKit();
   if (!kit) return { ok: false, message: FILE_OPS_TEXT.unavailable };

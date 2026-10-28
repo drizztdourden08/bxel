@@ -4,7 +4,6 @@ import { frameDelay } from './frame-delay';
 import { playOrder } from './play-order';
 import type { PlaybackInput, PlaybackModel, PlaybackSpeed } from './asset-preview.type';
 
-/** Plays frames in the loop mode of the file. It waits for the owner to press Play, and stops when the page is hidden. */
 const usePlayback = ({ frames, loop }: PlaybackInput): PlaybackModel => {
   const order = useMemo(() => playOrder(frames.length, loop.direction), [frames.length, loop.direction]);
   const [at, setAt] = useState(0);

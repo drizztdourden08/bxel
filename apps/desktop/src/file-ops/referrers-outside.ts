@@ -4,7 +4,6 @@ import { keyId } from '../workspace/key-id';
 import { referrersOf } from '../workspace/referrers-of';
 import type { HeldAsset } from './file-ops.type';
 
-/** The assets that link to any of the given ones and are not among them. */
 const referrersOutside = (moved: readonly HeldAsset[]): readonly Pick<HeldAsset, 'documentId' | 'key'>[] => {
   const inside = new Set(moved.map((each) => `${each.documentId}:${keyId(each.key)}`));
   const found = new Map<string, Pick<HeldAsset, 'documentId' | 'key'>>();

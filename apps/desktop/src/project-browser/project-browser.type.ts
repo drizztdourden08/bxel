@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { AssetKey } from '@bxel/document';
+import type { TreeNode } from '@drizztdourden08/tessera';
 import type { AssetRow, ListedFile, RowKind } from '../asset-list/asset-list.type';
 
 type BrowserView = 'grid' | 'list' | 'columns';
@@ -60,7 +61,7 @@ type QueryFlag = 'unused' | 'unsaved' | 'open' | 'pinned';
 
 type QueryChip = { readonly text: string; readonly label: string };
 
-type SmartFilter = { readonly id: string; readonly name: string; readonly query: string };
+type SavedFilter = { readonly id: string; readonly name: string; readonly query: string };
 
 type SavedBrowserView = {
   readonly view: BrowserView;
@@ -69,7 +70,7 @@ type SavedBrowserView = {
   readonly preview: boolean;
   readonly folder: string | null;
   readonly pinned: readonly string[];
-  readonly smart: readonly SmartFilter[];
+  readonly smart: readonly SavedFilter[];
 };
 
 type ProjectTree = {
@@ -87,4 +88,36 @@ type Crumb = { readonly label: string; readonly path: string | null };
 
 type BrowserMode = 'open' | 'disk';
 
-export type { BrowserEntry, BrowserFacts, BrowserMode, BrowserQuery, BrowserSort, BrowserView, Comparison, Crumb, FileEntry, FolderEntry, NumberTest, ProjectTree, QueryChip, QueryFlag, SavedBrowserView, SmartFilter, SortKey, SourceRoot };
+type RowCells = { readonly kind: string; readonly size: string; readonly frames: string; readonly palette: string; readonly folder: string; readonly modified: string; readonly users: string };
+
+type Selection = { readonly ids: readonly string[]; readonly anchor: string | null };
+
+type Modifiers = { readonly ctrl: boolean; readonly shift: boolean };
+
+type Measure = Pick<BrowserFacts, 'width' | 'height' | 'frames' | 'palette' | 'colours'>;
+
+type FolderNode = TreeNode<never>;
+
+type BrowserViews = Readonly<Record<string, SavedBrowserView>>;
+
+type EntryInput = {
+  readonly rows: readonly AssetRow[];
+  readonly facts: ReadonlyMap<string, BrowserFacts>;
+  readonly keys: ReadonlyMap<string, AssetKey>;
+  readonly roots: readonly SourceRoot[];
+  readonly folders: readonly string[];
+  readonly folder: string | null;
+  readonly query: BrowserQuery;
+  readonly pinned: ReadonlySet<string>;
+  readonly sort: BrowserSort;
+};
+
+type Compare = (left: FileEntry, right: FileEntry) => number;
+
+type FactsAndKeys = { readonly facts: ReadonlyMap<string, BrowserFacts>; readonly keys: ReadonlyMap<string, AssetKey> };
+
+type Branch = { readonly path: string; readonly label: string; readonly linked: boolean };
+
+type QueryChange = Partial<BrowserQuery> | null;
+
+export type { Branch, BrowserEntry, BrowserFacts, BrowserMode, BrowserQuery, BrowserSort, BrowserView, BrowserViews, Comparison, Compare, Crumb, EntryInput, FactsAndKeys, FileEntry, FolderEntry, FolderNode, Measure, Modifiers, NumberTest, ProjectTree, QueryChange, QueryChip, QueryFlag, RowCells, SavedBrowserView, SavedFilter, Selection, SortKey, SourceRoot };

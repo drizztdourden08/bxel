@@ -4,10 +4,9 @@ import type { VirtualGridHandle } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
 import { BROWSER_TEXT, TILE_OF } from '../../../project-browser/project-browser.constants';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
-import { useBrowserContext } from '../behavior/browser-context';
+import { useBrowserContext } from '../behavior/useBrowserContext';
 import { FileTile } from './FileTile';
 
-/** Tiles of pixel thumbnails. A drag over empty space draws a marquee that selects the tiles it touches. */
 const GridView = () => {
   const { model, selection, thumb } = useBrowserContext();
   const area = useRef<HTMLElement>(null);

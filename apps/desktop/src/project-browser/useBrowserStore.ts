@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { create } from 'zustand';
 import type { BrowserState } from './browser-store.type';
-import { DEFAULT_VIEW } from './project-browser.constants';
-import { EMPTY_SELECTION } from './selection';
+import { DEFAULT_VIEW, EMPTY_SELECTION } from './project-browser.constants';
 
 const useBrowserStore = create<BrowserState>()((set) => ({
   ...DEFAULT_VIEW,

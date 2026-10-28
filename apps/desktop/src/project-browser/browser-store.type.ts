@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { Selection } from './selection';
-import type { BrowserSort, BrowserView, SavedBrowserView, SmartFilter } from './project-browser.type';
+import type { BrowserSort, BrowserView, SavedBrowserView, SavedFilter, Selection } from './project-browser.type';
 
 interface BrowserState {
   folder: string | null;
@@ -13,7 +12,7 @@ interface BrowserState {
   sort: BrowserSort;
   preview: boolean;
   pinned: readonly string[];
-  smart: readonly SmartFilter[];
+  smart: readonly SavedFilter[];
   goTo: (folder: string | null) => void;
   goBack: () => void;
   goForward: () => void;

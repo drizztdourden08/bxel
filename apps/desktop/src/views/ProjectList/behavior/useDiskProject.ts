@@ -6,7 +6,6 @@ import type { DiskState, KnownProject } from '../../../project-manager/project-m
 import { useProjectStore } from '../../../stores/useProjectStore';
 import { IDLE_DISK } from '../ProjectList.constants';
 
-/** Reads a project that is not open from its folder, so it can be looked at without opening it. */
 const useDiskProject = (target: KnownProject | null): DiskState => {
   const [state, setState] = useState<DiskState>(IDLE_DISK);
   const root = target !== null && !target.open ? target.rootRealPath : null;

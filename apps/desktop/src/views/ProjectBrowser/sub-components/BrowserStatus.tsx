@@ -2,9 +2,8 @@
 import { Box, Button, Text } from '@drizztdourden08/tessera';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
-import { useBrowserContext } from '../behavior/browser-context';
+import { useBrowserContext } from '../behavior/useBrowserContext';
 
-/** One line under the files. Each part is a button: the count clears the search, the unsaved count searches for them. */
 const BrowserStatus = () => {
   const { model } = useBrowserContext();
   return (

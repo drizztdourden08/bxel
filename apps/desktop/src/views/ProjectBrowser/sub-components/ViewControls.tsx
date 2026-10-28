@@ -6,7 +6,6 @@ import { useBrowserStore } from '../../../project-browser/useBrowserStore';
 
 const isSort = (value: string): value is SortKey => SORT_OPTIONS.some((option) => option.value === value);
 
-/** How the files are shown: grid, list or columns, the sort, and the size of a thumbnail. */
 const ViewControls = () => {
   const { view, sort, size, setView, setSort, setSize } = useBrowserStore();
   const stop = Math.max(0, THUMB_STOPS.indexOf(size));

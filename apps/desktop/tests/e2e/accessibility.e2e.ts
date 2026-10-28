@@ -12,7 +12,6 @@ import { SHORTCUT } from './support/e2e.constants';
 import type { Session } from './support/e2e.type';
 import { expectAccessible } from './support/expect-accessible';
 import { inFreshPlace } from './support/in-place';
-import { managerAssets } from './support/manager-assets';
 import { openFile } from './support/open-file';
 import { openHub } from './support/open-hub';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
@@ -37,16 +36,20 @@ const checksSettingsHubs = async (session: Session): Promise<void> => {
   const { page } = session;
   await page.keyboard.press(SETTINGS);
   await page.getByText('Window mode', { exact: true }).waitFor();
-  await expectAccessible(session, 'settings, App hub');
+  await expectAccessible(session, 'Options window');
   for (const name of APP_PAGES) {
     await page.getByRole('button', { name, exact: true }).first().click();
-    await expectAccessible(session, `settings, App hub, ${name}`);
+    await expectAccessible(session, `Options window, ${name}`);
   }
   await page.getByRole('button', { name: 'General', exact: true }).first().click();
-  for (const hub of ['Asset', 'Project']) {
-    await page.getByRole('navigation', { name: 'Switch hub' }).getByRole('button', { name: hub, exact: true }).click();
-    await expectAccessible(session, `settings, ${hub} hub`);
-  }
+  await page.keyboard.press('Escape');
+  await openHub(session, 'Properties');
+  await page.getByRole('textbox', { name: 'Name' }).waitFor();
+  await expectAccessible(session, 'Properties window, subject and pin');
+  await page.keyboard.press('Escape');
+  await openHub(session, 'Project');
+  await page.getByRole('button', { name: 'New project...' }).waitFor();
+  await expectAccessible(session, 'Project window, projects page');
   await page.keyboard.press('Escape');
 };
 
@@ -82,13 +85,20 @@ const checksImportWizard = async (session: Session): Promise<void> => {
 };
 
 const checksManager = async (session: Session): Promise<void> => {
+  const { page } = session;
   await openHub(session, 'Project');
-  await expectAccessible(session, 'Project hub, project manager');
-  await managerAssets(session).getByRole('listitem').filter({ hasText: SAMPLE.sprites[0] }).first().click();
-  await session.page.getByRole('group', { name: `What to do with ${SAMPLE.sprites[0]}` }).getByRole('button', { name: 'Open in Asset settings' }).click();
-  await session.page.getByRole('textbox', { name: 'Name' }).waitFor();
-  await expectAccessible(session, 'Asset hub, overview');
-  await session.page.keyboard.press('Escape');
+  await page.getByRole('toolbar', { name: 'Browse' }).waitFor();
+  await expectAccessible(session, 'Project window, grid');
+  await page.getByRole('radio', { name: 'List' }).click();
+  await expectAccessible(session, 'Project window, list');
+  await page.getByRole('radio', { name: 'Columns' }).click();
+  await expectAccessible(session, 'Project window, columns');
+  await page.getByRole('radio', { name: 'Grid' }).click();
+  await page.getByRole('gridcell', { name: SAMPLE.sprites[0], exact: true }).first().click();
+  await page.getByRole('button', { name: 'Properties', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Name' }).waitFor();
+  await expectAccessible(session, 'Properties window, pinned to a file');
+  await page.keyboard.press('Escape');
 };
 
 const checksProject = async (session: Session, place: string): Promise<void> => {

@@ -2,14 +2,13 @@
 import type { ContextMenuPoint } from '@drizztdourden08/tessera';
 import type { DragEvent, MouseEvent } from 'react';
 import { useCallback, useMemo, useState } from 'react';
-import { pick } from '../../../project-browser/selection';
+import { pickEntry } from '../../../project-browser/pick-entry';
 import type { BrowserEntry } from '../../../project-browser/project-browser.type';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
 import { entryMenuGroups } from './entry-menu-groups';
-import { writeDrag } from './drag-payload';
-import { useBrowserContext } from './browser-context';
+import { writeDrag } from './write-drag';
+import { useBrowserContext } from './useBrowserContext';
 
-/** The pointer behaviour every entry shares in the grid, the list and the columns. */
 const useEntryHandlers = (entry: BrowserEntry) => {
   const { model, actions, selection, renaming } = useBrowserContext();
   const [point, setPoint] = useState<ContextMenuPoint | null>(null);
@@ -25,7 +24,7 @@ const useEntryHandlers = (entry: BrowserEntry) => {
     renaming: renaming === entry.id,
     onClick: (event: MouseEvent): void => {
       const { selection: current, select } = useBrowserStore.getState();
-      select(pick(current, entry.id, model.order, { ctrl: event.ctrlKey || event.metaKey, shift: event.shiftKey }));
+      select(pickEntry(current, entry.id, model.order, { ctrl: event.ctrlKey || event.metaKey, shift: event.shiftKey }));
     },
     onDoubleClick: (): void => actions.open(entry),
     onContextMenu: (event: MouseEvent): void => {

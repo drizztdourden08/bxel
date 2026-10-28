@@ -1,17 +1,13 @@
 /* @layer renderer-app @kind component */
 import { Box } from '@drizztdourden08/tessera';
-import type { VirtualGridCellBind } from '@drizztdourden08/tessera';
 import { useEntryHandlers } from '../behavior/useEntryHandlers';
 import { useFolderDrop } from '../behavior/useFolderDrop';
-import type { EntryProps } from '../ProjectBrowser.type';
+import type { TileProps } from '../ProjectBrowser.type';
 import { EntryBadges } from './EntryBadges';
 import { EntryMenu } from './EntryMenu';
 import { EntryName } from './EntryName';
-import { ThumbBox } from './FileThumb';
+import { ThumbBox } from './ThumbBox';
 
-type TileProps = EntryProps & { readonly cell: VirtualGridCellBind };
-
-/** One tile of the grid: the picture on a checkerboard, its marks, and its name under it. */
 const FileTile = ({ entry, cell }: TileProps) => {
   const handlers = useEntryHandlers(entry);
   const drop = useFolderDrop(entry.kind === 'folder' ? entry.path : null);

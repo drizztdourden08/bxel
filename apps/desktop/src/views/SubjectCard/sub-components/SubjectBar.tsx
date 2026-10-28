@@ -1,7 +1,9 @@
 /* @layer renderer-app @kind component */
 import { Box, Button, Icon, IconButton, Text } from '@drizztdourden08/tessera';
 import { SUBJECT_TEXT } from '../../../properties-subject/properties-subject.constants';
-import { openSubject, saveSubject, togglePin } from '../../../properties-subject/subject-actions';
+import { openSubject } from '../../../properties-subject/open-subject';
+import { saveSubject } from '../../../properties-subject/save-subject';
+import { togglePin } from '../../../properties-subject/toggle-pin';
 import { useSubjectStore } from '../../../properties-subject/useSubjectStore';
 import type { SubjectPartProps } from '../SubjectCard.type';
 

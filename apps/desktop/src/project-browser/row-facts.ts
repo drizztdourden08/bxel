@@ -4,11 +4,8 @@ import type { AnimationId, Artwork, AssetKey, BankId, SheetId, SpriteId, Tilemap
 import { assetName } from '../workspace/asset-name';
 import { linkedKeys } from '../workspace/linked-keys';
 import { referrersOf } from '../workspace/referrers-of';
-import type { BrowserFacts } from './project-browser.type';
-
-const NO_FACTS: BrowserFacts = { width: null, height: null, frames: null, palette: null, colours: null, uses: [], usedBy: [], open: false };
-
-type Measure = Pick<BrowserFacts, 'width' | 'height' | 'frames' | 'palette' | 'colours'>;
+import { NO_FACTS } from './project-browser.constants';
+import type { BrowserFacts, Measure } from './project-browser.type';
 
 const bankFacts = (artwork: Artwork, id: BankId): Pick<Measure, 'palette' | 'colours'> => {
   const bank = findBank(artwork, id);
@@ -44,13 +41,13 @@ const measureTilemap = (artwork: Artwork, id: string): Measure => {
 
 const measureBank = (artwork: Artwork, id: string): Measure => ({ ...NO_FACTS, ...bankFacts(artwork, id as BankId) });
 
-const MEASURE: Readonly<Partial<Record<AssetKey['kind'], (artwork: Artwork, id: string) => Measure>>> = {
-  sprite: measureSprite,
-  animation: measureAnimation,
-  sheet: measureSheet,
-  tileset: measureTileset,
-  tilemap: measureTilemap,
-  palette: measureBank,
+const measureOf = (artwork: Artwork, key: AssetKey): Measure => {
+  if (key.kind === 'sprite') return measureSprite(artwork, key.id);
+  if (key.kind === 'animation') return measureAnimation(artwork, key.id);
+  if (key.kind === 'sheet') return measureSheet(artwork, key.id);
+  if (key.kind === 'tileset') return measureTileset(artwork, key.id);
+  if (key.kind === 'tilemap') return measureTilemap(artwork, key.id);
+  return key.kind === 'palette' ? measureBank(artwork, key.id) : NO_FACTS;
 };
 
 const namesOf = (artwork: Artwork, keys: readonly AssetKey[]): readonly string[] =>
@@ -59,12 +56,11 @@ const namesOf = (artwork: Artwork, keys: readonly AssetKey[]): readonly string[]
     return name === null ? [] : [name];
   });
 
-/** The cheap facts of one asset, read from the document without drawing it. */
 const rowFacts = (artwork: Artwork, key: AssetKey, open: boolean): BrowserFacts => ({
-  ...(MEASURE[key.kind]?.(artwork, key.id) ?? NO_FACTS),
+  ...measureOf(artwork, key),
   uses: namesOf(artwork, linkedKeys(artwork, key)),
   usedBy: namesOf(artwork, referrersOf(artwork, key)),
   open,
 });
 
-export { NO_FACTS, rowFacts };
+export { rowFacts };

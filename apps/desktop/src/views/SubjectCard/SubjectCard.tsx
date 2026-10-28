@@ -3,19 +3,11 @@ import { Box, Button, EmptyState } from '@drizztdourden08/tessera';
 import { SUBJECT_TEXT } from '../../properties-subject/properties-subject.constants';
 import { useSubject } from '../../properties-subject/useSubject';
 import { useSubjectStore } from '../../properties-subject/useSubjectStore';
-import { AssetPreview } from '../AssetPreview';
-import { useSubjectPreview } from './behavior/useSubjectPreview';
 import { SubjectBar } from './sub-components/SubjectBar';
 import { SubjectHead } from './sub-components/SubjectHead';
-import type { SubjectPartProps } from './SubjectCard.type';
+import { SubjectPreview } from './sub-components/SubjectPreview';
 import './SubjectCard.css';
 
-const SubjectPreview = ({ subject }: SubjectPartProps) => {
-  const { preview, loop } = useSubjectPreview(subject);
-  return <AssetPreview key={`${subject.focus.key.kind}:${subject.focus.key.id}`} preview={preview} name={subject.name} loop={loop} mode="compact" />;
-};
-
-/** The subject of the Properties window: the file it is about, its preview, and the pin that holds it. */
 const SubjectCard = () => {
   const state = useSubject();
   if (state.status === 'none') return null;

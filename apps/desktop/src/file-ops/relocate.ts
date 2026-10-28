@@ -9,10 +9,6 @@ import { heldAssetsUnder } from './held-assets';
 import { referrersOutside } from './referrers-outside';
 import { rewriteReferrers } from './rewrite-referrers';
 
-/**
- * The one way a file or folder changes place: rename on disk, let the workspace follow, then rewrite every file that links to it.
- * Move, rename and Undo all run through here, so a link is never left pointing at the old place.
- */
 const relocate = async (moves: readonly Relocation[]): Promise<OpOutcome> => {
   const kit = fileKit();
   if (!kit) return { ok: false, message: FILE_OPS_TEXT.unavailable };

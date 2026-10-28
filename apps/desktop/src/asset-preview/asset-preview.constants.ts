@@ -4,6 +4,12 @@ import type { PlaybackLoop, PlaybackSpeed } from './asset-preview.type';
 
 const SPEEDS: readonly PlaybackSpeed[] = ['0.5', '1', '2'];
 
+const SPEED_OPTIONS = SPEEDS.map((speed) => ({ value: speed, label: `${speed}x` }));
+
+const FRAME_PADDING = 16;
+
+const NO_SIZE = { width: 0, height: 0 } as const;
+
 const MIN_FRAME_MS = 20;
 
 const DEFAULT_LOOP: PlaybackLoop = { direction: 'forward', repeat: 0 };
@@ -33,4 +39,4 @@ const PREVIEW_TEXT = {
   zoom: (zoom: number): string => `${zoom}x`,
 } as const;
 
-export { DEFAULT_LOOP, LOOP_LABEL, MIN_FRAME_MS, PREVIEW_TEXT, SPEEDS };
+export { DEFAULT_LOOP, FRAME_PADDING, LOOP_LABEL, MIN_FRAME_MS, NO_SIZE, PREVIEW_TEXT, SPEED_OPTIONS, SPEEDS };

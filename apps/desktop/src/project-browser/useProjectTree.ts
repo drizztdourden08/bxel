@@ -4,13 +4,11 @@ import { watchRoots } from '../asset-list/watch-roots';
 import { fileKit } from '../files/file-kit';
 import type { OpenProject } from '../project/project.type';
 import { listProjectTree } from './list-project-tree';
+import { NO_TREE } from './project-browser.constants';
 import type { ProjectTree } from './project-browser.type';
 
-const NOTHING: ProjectTree = { files: [], folders: [] };
-
-/** The files and folders on disk under the granted roots of the open project, kept current by the folder watcher. */
 const useProjectTree = (project: OpenProject | null): { readonly tree: ProjectTree; readonly refresh: () => void } => {
-  const [tree, setTree] = useState<ProjectTree>(NOTHING);
+  const [tree, setTree] = useState<ProjectTree>(NO_TREE);
   const [tick, setTick] = useState(0);
   const roots = useMemo(() => project?.folders.filter((folder) => folder.granted).map((folder) => folder.path) ?? [], [project]);
   const key = roots.join('|');
@@ -24,7 +22,7 @@ const useProjectTree = (project: OpenProject | null): { readonly tree: ProjectTr
   useEffect(() => {
     const kit = fileKit();
     if (!kit || key === '') {
-      setTree(NOTHING);
+      setTree(NO_TREE);
       return undefined;
     }
     let live = true;

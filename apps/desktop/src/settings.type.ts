@@ -3,7 +3,7 @@ import type { AssetDefaults, SwatchSet } from '@bxel/project';
 import type { BaseSettings } from '@drizztdourden08/brock-core';
 import type { AssistantSettings } from './assistant/assistant.type';
 import type { ManagerViews } from './manager-views/manager-views.type';
-import type { BrowserViews } from './project-browser/browser-views';
+import type { BrowserViews } from './project-browser/project-browser.type';
 import type { CanvasSettings } from './canvas-look/canvas-look.type';
 import type { ExportSettings, SavedPreset } from './export/export.type';
 import type { ProjectSettings } from './project/project.type';

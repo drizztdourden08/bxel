@@ -4,7 +4,6 @@ import type { AssetFocus } from '../asset-config/asset-config.type';
 import type { DocumentView } from '../documents/document-host.type';
 import type { OpenTab, Workspace } from '../workspace/workspace.type';
 
-/** What a pin names: the file path when it has one, else the asset key inside the open document. */
 type SubjectRef = { readonly path: string | null; readonly key: AssetKey | null };
 
 type Subject = {

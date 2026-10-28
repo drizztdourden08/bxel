@@ -2,11 +2,10 @@
 import { Box, Button, SearchInput, Tag } from '@drizztdourden08/tessera';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
-import { useBrowserContext } from '../behavior/browser-context';
+import { useBrowserContext } from '../behavior/useBrowserContext';
 
 const without = (text: string, token: string): string => text.split(/\s+/).filter((each) => each !== '' && each !== token).join(' ');
 
-/** One box for words and tokens. Every token typed is shown again as a chip that can be taken off. */
 const SearchBar = () => {
   const { model } = useBrowserContext();
   const query = useBrowserStore((state) => state.query);

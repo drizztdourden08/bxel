@@ -15,7 +15,6 @@ const sentence = (paths: readonly string[]): string => {
   return others === 0 ? first : `${first} ${FILE_OPS_TEXT.trashReferrers(others)}`;
 };
 
-/** Sends files and folders to the system trash after one question that names the files that link to them. */
 const trashEntries = async (paths: readonly string[]): Promise<boolean> => {
   const kit = fileKit();
   const wanted = paths.map(toSlashes);

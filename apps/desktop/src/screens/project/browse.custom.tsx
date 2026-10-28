@@ -18,7 +18,6 @@ const searchEntries: SearchEntrySeed[] = [
   { label: 'Search the project', keywords: ['kind:', 'is:unsaved', 'is:unused', 'in:', 'uses:', 'usedby:', 'size>', 'colours<'] },
 ];
 
-/** With a project open this is its file browser. With none, it is the list of projects to open. */
 const BrowseScreen = () => {
   const project = useProjectStore((state) => state.project);
   return project === null ? <ProjectList /> : <ProjectBrowser project={project} disk={null} />;

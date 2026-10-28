@@ -6,7 +6,6 @@ import { findAssetTab } from '../workspace/find-asset-tab';
 import type { SubjectRef } from './properties-subject.type';
 import { useSubjectStore } from './useSubjectStore';
 
-/** Opens Properties pinned to one file. A project file opens Project settings instead. */
 const openProperties = (ref: SubjectRef | null): void => {
   if (ref === null) {
     useSubjectStore.getState().unpin();
@@ -20,7 +19,7 @@ const openProperties = (ref: SubjectRef | null): void => {
     return;
   }
   useSubjectStore.getState().pinTo(ref);
-  nav.open(key === null || key === undefined ? PROPERTIES_HUB : `${PROPERTIES_HUB}/${ASSET_PAGES[key.kind].overview}`);
+  nav.open(key === null ? PROPERTIES_HUB : `${PROPERTIES_HUB}/${ASSET_PAGES[key.kind].overview}`);
 };
 
 export { openProperties };

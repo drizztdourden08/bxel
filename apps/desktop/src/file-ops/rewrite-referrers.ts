@@ -6,10 +6,6 @@ import { saveTab } from '../workspace/save-tab';
 import { tabOf } from '../workspace/tab-of';
 import type { HeldAsset } from './file-ops.type';
 
-/**
- * Writes the files that link to something that moved, so the link paths on disk match the new place.
- * A file with unsaved edits is left alone: it stays unsaved and writes the new paths when it is saved.
- */
 const rewriteReferrers = async (referrers: readonly Pick<HeldAsset, 'documentId' | 'key'>[]): Promise<number> => {
   const kit = fileKit();
   if (!kit) return 0;

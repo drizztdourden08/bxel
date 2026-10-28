@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind constants */
 import type { IconName, VirtualSize } from '@drizztdourden08/tessera';
-import type { BrowserSort, BrowserView, QueryFlag, SavedBrowserView, SmartFilter, SortKey } from './project-browser.type';
+import type { AssetKey } from '@bxel/document';
+import type { RowKind } from '../asset-list/asset-list.type';
+import type { BrowserFacts, BrowserQuery, BrowserSort, BrowserView, QueryFlag, RowCells, SavedBrowserView, SavedFilter, Selection, SortKey } from './project-browser.type';
 
 const DEFAULT_SORT: BrowserSort = { key: 'name', descending: false };
 
@@ -8,7 +10,6 @@ const DEFAULT_VIEW: SavedBrowserView = { view: 'grid', size: 96, sort: DEFAULT_S
 
 const THUMB_STOPS: readonly number[] = [48, 64, 80, 96, 128, 160, 192, 224];
 
-/** The tile that carries a thumbnail of each stop: a token wide and a token tall, with room for the name. */
 const TILE_OF: Readonly<Record<number, { readonly width: VirtualSize; readonly height: VirtualSize }>> = {
   48: { width: 'size-64', height: 'size-80' },
   64: { width: 'size-80', height: 'size-96' },
@@ -42,7 +43,7 @@ const SORT_OPTIONS: readonly { readonly value: SortKey; readonly label: string }
 
 const FLAG_LABEL: Readonly<Record<QueryFlag, string>> = { unused: 'Unused', unsaved: 'Unsaved', open: 'Open in a tab', pinned: 'Pinned' };
 
-const BUILT_IN_FILTERS: readonly SmartFilter[] = [
+const BUILT_IN_FILTERS: readonly SavedFilter[] = [
   { id: 'built-in:unsaved', name: 'Unsaved', query: 'is:unsaved' },
   { id: 'built-in:open', name: 'Open in a tab', query: 'is:open' },
   { id: 'built-in:unused', name: 'Unused', query: 'is:unused' },
@@ -142,4 +143,26 @@ const BROWSER_TEXT = {
   copied: 'Copied the path.',
 } as const;
 
-export { BROWSER_TEXT, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, FLAG_LABEL, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_STOPS, TILE_OF, VIEW_OPTIONS };
+const EMPTY_SELECTION: Selection = { ids: [], anchor: null };
+
+const NO_FACTS: BrowserFacts = { width: null, height: null, frames: null, palette: null, colours: null, uses: [], usedBy: [], open: false };
+
+const EMPTY_QUERY: BrowserQuery = { words: [], kinds: [], inFolder: null, uses: [], usedBy: [], is: [], size: [], colours: [], chips: [] };
+
+const QUERY_FLAGS: readonly QueryFlag[] = ['unused', 'unsaved', 'open', 'pinned'];
+
+const KIND_ALIAS: Readonly<Record<string, RowKind>> = { map: 'tilemap', tiles: 'tileset', anim: 'animation', atlas: 'sheet', png: 'image', gif: 'image', bmp: 'image' };
+
+const LEAF_KINDS: ReadonlySet<string> = new Set(['sprite', 'animation', 'palette', 'tileset']);
+
+const NO_TREE = { files: [], folders: [] } as const;
+
+const SWATCH_THUMB = { columns: 4, cell: 4, limit: 16 } as const;
+
+const OVERFLOW_AFTER = 4;
+
+const NO_KEYS: ReadonlyMap<string, AssetKey> = new Map();
+
+const EMPTY_CELLS: RowCells = { kind: '', size: '', frames: '', palette: '', folder: '', modified: '', users: '' };
+
+export { BROWSER_TEXT, NO_KEYS, EMPTY_CELLS, EMPTY_QUERY, EMPTY_SELECTION, KIND_ALIAS, LEAF_KINDS, NO_FACTS, NO_TREE, OVERFLOW_AFTER, QUERY_FLAGS, SWATCH_THUMB, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, FLAG_LABEL, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_STOPS, TILE_OF, VIEW_OPTIONS };

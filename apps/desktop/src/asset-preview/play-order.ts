@@ -5,7 +5,6 @@ const run = (first: number, last: number): number[] => Array.from({ length: Math
 
 const inside = (count: number): number[] => (count > 2 ? run(1, count - 2).reverse() : []);
 
-/** The frame indexes of one pass of an animation in the given loop direction. */
 const playOrder = (count: number, direction: AnimDirection): readonly number[] => {
   if (count <= 0) return [];
   const forward = run(0, count - 1);

@@ -4,7 +4,6 @@ import type { ListedFile } from '../asset-list/asset-list.type';
 import { toSlashes } from '../workspace/to-slashes';
 import type { ProjectTree } from './project-browser.type';
 
-/** Every file and every folder under the granted roots, so empty folders show too. */
 const listProjectTree = async (documents: DocumentsPort, roots: readonly string[]): Promise<ProjectTree> => {
   const files: ListedFile[] = [];
   const folders: string[] = [];

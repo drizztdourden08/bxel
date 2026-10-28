@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind component */
 import { Box, Text, TextInput } from '@drizztdourden08/tessera';
-import { useBrowserContext } from '../behavior/browser-context';
+import { useBrowserContext } from '../behavior/useBrowserContext';
 import type { EntryProps } from '../ProjectBrowser.type';
 
 const stemOf = (name: string, isFolder: boolean): string => (isFolder || !name.includes('.') ? name : name.slice(0, name.lastIndexOf('.')));
 
-/** The name of an entry. While it is being renamed it is a field: Enter keeps, Escape cancels, and the reason shows under it. */
 const EntryName = ({ entry, rename }: EntryProps & { readonly rename: boolean }) => {
   const { actions, renameError } = useBrowserContext();
   const name = entry.kind === 'folder' ? entry.name : entry.row.name;

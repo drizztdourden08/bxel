@@ -7,4 +7,6 @@ type OpOutcome = { readonly ok: true; readonly rewritten: number } | { readonly 
 
 type HeldAsset = { readonly documentId: DocumentId; readonly key: AssetKey; readonly path: string };
 
-export type { HeldAsset, OpOutcome, Relocation };
+type FolderOutcome = { readonly ok: true; readonly path: string } | { readonly ok: false; readonly message: string };
+
+export type { FolderOutcome, HeldAsset, OpOutcome, Relocation };

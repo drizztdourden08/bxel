@@ -1,10 +1,13 @@
 /* @layer renderer-app @kind component */
 import { Box, Icon, IconButton, SegmentedControl, Text } from '@drizztdourden08/tessera';
-import { PREVIEW_TEXT, SPEEDS } from '../../../asset-preview/asset-preview.constants';
-import type { PlaybackSpeed } from '../../../asset-preview/asset-preview.type';
+import { PREVIEW_TEXT, SPEED_OPTIONS } from '../../../asset-preview/asset-preview.constants';
+import type { PlaybackModel, PlaybackSpeed } from '../../../asset-preview/asset-preview.type';
 import type { PlaybackBarProps } from '../AssetPreview.type';
 
-const SPEED_OPTIONS = SPEEDS.map((speed) => ({ value: speed, label: PREVIEW_TEXT.speedLabel(speed) }));
+const playLabel = (playback: PlaybackModel): string => {
+  if (playback.playing) return PREVIEW_TEXT.pause;
+  return playback.finished ? PREVIEW_TEXT.replay : PREVIEW_TEXT.play;
+};
 
 const PlaybackBar = ({ playback, total, loop }: PlaybackBarProps) => (
   <Box className="asset-preview__bar" role="group" aria-label={PREVIEW_TEXT.controls}>
@@ -12,7 +15,7 @@ const PlaybackBar = ({ playback, total, loop }: PlaybackBarProps) => (
       <Icon name="pixel-frame-prev" />
     </IconButton>
     <IconButton
-      label={playback.playing ? PREVIEW_TEXT.pause : playback.finished ? PREVIEW_TEXT.replay : PREVIEW_TEXT.play}
+      label={playLabel(playback)}
       size="sm"
       variant="primary"
       onClick={playback.playing ? playback.pause : playback.play}

@@ -2,7 +2,8 @@
 import { useSettings } from '@drizztdourden08/brock-react';
 import { useEffect, useRef } from 'react';
 import type { AppSettings } from '../settings.type';
-import { putBrowserView, readBrowserView } from './browser-views';
+import { putBrowserView } from './put-browser-view';
+import { readBrowserView } from './read-browser-view';
 import { SAVE_DELAY_MS } from './project-browser.constants';
 import type { SavedBrowserView } from './project-browser.type';
 import { useBrowserStore } from './useBrowserStore';
@@ -12,7 +13,6 @@ const savedOf = (): SavedBrowserView => {
   return { view, size, sort, preview, folder, pinned, smart };
 };
 
-/** Loads the view of a project when it opens and keeps it, per project, in the owner's settings (never in the project file). */
 const useBrowserPersistence = (projectKey: string | null): void => {
   const { settings, patch } = useSettings<AppSettings>();
   const held = useRef(settings.projectBrowserViews);

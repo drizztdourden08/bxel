@@ -9,7 +9,6 @@ import { FILE_OPS_TEXT } from './file-ops.constants';
 import type { OpOutcome } from './file-ops.type';
 import { relocate } from './relocate';
 
-/** Renames a file or folder on disk and rewrites the files that link to it. The extension of a file is kept. */
 const renameEntryLinked = async (path: string, typed: string, isFolder: boolean): Promise<OpOutcome> => {
   const kit = fileKit();
   if (!kit) return { ok: false, message: FILE_OPS_TEXT.unavailable };

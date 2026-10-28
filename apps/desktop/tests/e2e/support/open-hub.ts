@@ -1,15 +1,16 @@
 /* @layer renderer-app @kind logic */
 import type { Session } from './e2e.type';
 
-const SETTINGS = 'Control+,';
+const WINDOW_KEYS: Readonly<Record<string, string>> = {
+  Project: 'Control+Shift+P',
+  Properties: 'Alt+Enter',
+  Options: 'Control+,',
+};
 
 const openHub = async (session: Session, hub: string): Promise<void> => {
-  const switcher = session.page.getByRole('navigation', { name: 'Switch hub' });
-  if (!(await switcher.isVisible())) {
-    await session.page.keyboard.press(SETTINGS);
-    await switcher.waitFor();
-  }
-  await switcher.getByRole('button', { name: hub, exact: true }).click();
+  const key = WINDOW_KEYS[hub];
+  if (key === undefined) throw new Error(`There is no window named ${hub}.`);
+  await session.page.keyboard.press(key);
 };
 
 export { openHub };

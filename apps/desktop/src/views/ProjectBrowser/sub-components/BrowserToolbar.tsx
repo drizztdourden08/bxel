@@ -2,9 +2,9 @@
 import { Box, Icon, IconButton } from '@drizztdourden08/tessera';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
-import { useBrowserContext } from '../behavior/browser-context';
+import { useBrowserContext } from '../behavior/useBrowserContext';
 import { Breadcrumbs } from './Breadcrumbs';
-import { NewMenu } from './NewMenu';
+import { CreateMenu } from './CreateMenu';
 import { SearchBar } from './SearchBar';
 import { ViewControls } from './ViewControls';
 
@@ -26,7 +26,7 @@ const BrowserToolbar = () => {
           <Icon name="arrow-up" />
         </IconButton>
         <Breadcrumbs />
-        <NewMenu />
+        <CreateMenu />
         <IconButton label={BROWSER_TEXT.refresh} size="sm" variant="tertiary" onClick={model.refresh}>
           <Icon name="refresh-cw" />
         </IconButton>

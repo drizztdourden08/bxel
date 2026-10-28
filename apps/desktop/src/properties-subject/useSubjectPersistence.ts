@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import type { AppSettings } from '../settings.type';
 import { useSubjectStore } from './useSubjectStore';
 
-/** Keeps the pinned file across a restart. Only a pin with a file path is kept. */
 const useSubjectPersistence = (): void => {
   const { settings, patch } = useSettings<AppSettings>();
   const restored = useRef(false);

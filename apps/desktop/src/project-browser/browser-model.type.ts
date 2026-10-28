@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
-import type { Artwork } from '@bxel/document';
-import type { BrowserEntry, BrowserQuery, Crumb, FileEntry, SourceRoot } from './project-browser.type';
+import type { Artwork, AssetKey } from '@bxel/document';
+import type { AssetRow } from '../asset-list/asset-list.type';
+import type { BrowserEntry, BrowserFacts, BrowserQuery, Crumb, FileEntry, SourceRoot } from './project-browser.type';
 
 type BrowserModel = {
   readonly editable: boolean;
@@ -24,4 +25,16 @@ type BrowserModel = {
   readonly refresh: () => void;
 };
 
-export type { BrowserModel };
+type BrowserSource = {
+  readonly live: boolean;
+  readonly artwork: Artwork | null;
+  readonly roots: readonly SourceRoot[];
+  readonly rows: readonly AssetRow[];
+  readonly facts: ReadonlyMap<string, BrowserFacts>;
+  readonly keys: ReadonlyMap<string, AssetKey>;
+  readonly folders: readonly string[];
+  readonly refresh: () => void;
+  readonly projectName: string;
+};
+
+export type { BrowserModel, BrowserSource };

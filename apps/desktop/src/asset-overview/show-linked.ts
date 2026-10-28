@@ -5,7 +5,6 @@ import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { focusTab } from '../workspace/focus-tab';
 import { tabOf } from '../workspace/tab-of';
 
-/** Shows a linked file. A pinned Properties window stays pinned and moves to it; otherwise its tab opens. */
 const showLinked = (documentId: DocumentId, key: AssetKey): void => {
   if (useSubjectStore.getState().pin === null) {
     focusTab(tabOf(documentId, key));

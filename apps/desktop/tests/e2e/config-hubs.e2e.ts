@@ -16,13 +16,9 @@ import { useRig } from './support/use-rig';
 import { waitText } from './support/wait-text';
 import { writeSampleProject } from './support/write-sample-project';
 
-const OPEN_SETTINGS = 'Control+,';
+const OPEN_OPTIONS = 'Control+,';
 
 const POLL = { timeout: 15000 } as const;
-
-const switchTo = async (session: Session, hub: string): Promise<void> => {
-  await session.page.getByRole('navigation', { name: 'Switch hub' }).getByRole('button', { name: hub, exact: true }).click();
-};
 
 const openProjectAt = async (session: Session, folder: string): Promise<void> => {
   await answerDialogs(session, { open: folder, save: null });
@@ -31,21 +27,22 @@ const openProjectAt = async (session: Session, folder: string): Promise<void> =>
   await openAssetTab(session, new RegExp(SAMPLE.sprites[0])).waitFor();
 };
 
-const movesBetweenHubs = async (session: Session): Promise<void> => {
+const opensEachWindow = async (session: Session): Promise<void> => {
   const { page } = session;
-  await page.keyboard.press(OPEN_SETTINGS);
+  const switcher = page.getByRole('navigation', { name: 'Switch hub' });
+  await page.keyboard.press(OPEN_OPTIONS);
   await page.getByText('Window mode', { exact: true }).waitFor();
-  await switchTo(session, 'Asset');
-  await page.getByRole('textbox', { name: 'Name', exact: true }).waitFor();
-  await page.getByRole('navigation').filter({ hasText: 'Overview' }).getByText('Sprite', { exact: true }).click();
-  await page.getByRole('spinbutton', { name: 'Pivot x', exact: true }).waitFor();
-  await switchTo(session, 'Project');
-  await page.getByText('No project open', { exact: true }).waitFor();
-  await switchTo(session, 'App');
-  await page.getByText('Window mode', { exact: true }).waitFor();
+  expect(await switcher.count()).toBe(0);
   await page.keyboard.press('Escape');
   await page.keyboard.press('Alt+Enter');
+  await page.getByRole('textbox', { name: 'Name', exact: true }).waitFor();
+  await page.getByRole('button', { name: 'Pin Properties to this file' }).waitFor();
   await page.getByRole('spinbutton', { name: 'Pivot x', exact: true }).waitFor();
+  expect(await switcher.count()).toBe(0);
+  await page.keyboard.press('Escape');
+  await page.keyboard.press('Control+Shift+P');
+  await page.getByRole('button', { name: 'New project...' }).waitFor();
+  expect(await switcher.count()).toBe(0);
   await page.keyboard.press('Escape');
 };
 
@@ -64,8 +61,7 @@ const picksUpProjectDefault = async (session: Session, place: string): Promise<v
   const root = join(place, SAMPLE.name);
   await writeSampleProject(root, buildTwoPaletteArtwork(), SAMPLE.name);
   await openProjectAt(session, root);
-  await page.keyboard.press(OPEN_SETTINGS);
-  await switchTo(session, 'Project');
+  await runMenu(session, [/^Project/, /^Project settings/]);
   await page.getByText('Defaults for new assets', { exact: true }).first().click();
   await page.getByText('Uses the app default: 16 by 16 pixels', { exact: true }).waitFor();
   await page.getByRole('spinbutton', { name: 'Width' }).fill('24');
@@ -107,10 +103,10 @@ const changesThePalette = async (session: Session, place: string): Promise<void>
   await expect.poll(() => bankOf(heroFile, hero.id), POLL).toBe(hero.bankId);
 };
 
-describe('the configuration window', () => {
+describe('the three windows', () => {
   const rig = useRig(async () => ({ session: await openSession() }));
 
-  test('the hub switch moves between Asset, Project and App', () => movesBetweenHubs(rig().session));
+  test('Project, Properties and Options each open on their own, with no switch between them', () => opensEachWindow(rig().session));
 });
 
 describe('the project defaults', () => {

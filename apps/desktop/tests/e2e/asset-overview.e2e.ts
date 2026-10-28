@@ -6,7 +6,6 @@ import { POLL_MS } from './support/e2e.constants';
 import type { Session } from './support/e2e.type';
 import { GALLERY } from './support/gallery.constants';
 import { inFreshPlace } from './support/in-place';
-import { managerAssets } from './support/manager-assets';
 import { openHub } from './support/open-hub';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
 import { openSession } from './support/open-session';
@@ -22,27 +21,31 @@ const KINDS = [
   { name: GALLERY.map, kind: 'Tilemap', fact: '8 by 5 cells' },
 ] as const;
 
-const showsOverview = async (session: Session, entry: (typeof KINDS)[number]): Promise<void> => {
+const showsProperties = async (session: Session, entry: (typeof KINDS)[number]): Promise<void> => {
+  const { page } = session;
   await openHub(session, 'Project');
-  await managerAssets(session).getByRole('listitem').filter({ hasText: entry.name }).first().click();
-  await session.page.getByRole('group', { name: `What to do with ${entry.name}` }).getByRole('button', { name: 'Open in Asset settings' }).click();
-  await session.page.getByRole('textbox', { name: 'Name' }).waitFor({ timeout: POLL_MS });
-  const preview = session.page.getByRole('img', { name: `Full size preview of ${entry.name}` }).or(session.page.getByRole('group', { name: `Full size preview of ${entry.name}` }));
+  await page.getByRole('textbox', { name: 'Search the project' }).fill(`kind:${entry.kind.toLowerCase()} ${entry.name}`);
+  await page.getByRole('gridcell', { name: entry.name, exact: true }).first().click();
+  await page.getByRole('button', { name: 'Properties', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Name' }).waitFor({ timeout: POLL_MS });
+  await page.getByRole('button', { name: 'Unpin, follow the selected tab' }).waitFor();
+  const preview = page.getByRole('img', { name: entry.name }).or(page.getByRole('group', { name: new RegExp(`^${entry.name}, `) }));
   await preview.first().waitFor({ timeout: POLL_MS });
-  await session.page.getByText(entry.kind, { exact: true }).first().waitFor();
-  await session.page.getByText(entry.fact, { exact: true }).first().waitFor();
-  await shoot(session, `a145-overview-${entry.kind.toLowerCase()}`);
+  await page.getByText(entry.kind, { exact: true }).first().waitFor();
+  await page.getByText(entry.fact, { exact: true }).first().waitFor();
+  await shoot(session, `pm-properties-${entry.kind.toLowerCase()}`);
+  await page.keyboard.press('Escape');
 };
 
 const showsEveryKind = async (session: Session, place: string): Promise<void> => {
   const root = join(place, GALLERY.project);
   await writeSampleProject(root, buildGalleryArtwork(), GALLERY.project);
   await openProjectAtInUi(session, root, GALLERY.project);
-  for (const entry of KINDS) await showsOverview(session, entry);
+  for (const entry of KINDS) await showsProperties(session, entry);
 };
 
-describe('the overview page of the Asset hub', () => {
+describe('the Properties window', () => {
   const rig = useRig(async () => ({ session: await openSession() }));
 
-  test('shows a full preview, the kind and the numbers of every kind of asset', () => inFreshPlace((place) => showsEveryKind(rig().session, place)));
+  test('names the file, shows its preview, kind and numbers, and stays pinned to it', () => inFreshPlace((place) => showsEveryKind(rig().session, place)));
 });

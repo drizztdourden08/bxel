@@ -43,7 +43,6 @@ const undoMove = (moves: readonly Relocation[]): (() => void) => () => {
   });
 };
 
-/** Moves files and folders into a folder. Links to them are rewritten, and the toast offers one Undo that moves them back. */
 const moveEntries = async (paths: readonly string[], toFolder: string): Promise<OpOutcome> => {
   const plan = await planMoves(paths, toFolder);
   if (typeof plan === 'string') {

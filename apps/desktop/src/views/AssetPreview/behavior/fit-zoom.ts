@@ -1,9 +1,7 @@
 /* @layer renderer-app @kind logic */
+import { FRAME_PADDING } from '../../../asset-preview/asset-preview.constants';
 import type { StageSize } from '../AssetPreview.type';
 
-const FRAME_PADDING = 16;
-
-/** The largest whole-number zoom that keeps the image inside the stage; never below 1. */
 const fitZoom = (stage: StageSize, width: number, height: number): number => {
   if (width < 1 || height < 1 || stage.width < 1 || stage.height < 1) return 1;
   const across = Math.floor((stage.width - FRAME_PADDING) / width);

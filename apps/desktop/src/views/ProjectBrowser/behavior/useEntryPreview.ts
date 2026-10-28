@@ -5,9 +5,8 @@ import { useMemo } from 'react';
 import { DEFAULT_LOOP } from '../../../asset-preview/asset-preview.constants';
 import { previewOf } from '../../../asset-overview/preview-of';
 import type { FileEntry } from '../../../project-browser/project-browser.type';
-import { useBrowserContext } from './browser-context';
+import { useBrowserContext } from './useBrowserContext';
 
-/** The big picture of one file for the preview pane, drawn from the open document. A closed project has stored pictures only. */
 const useEntryPreview = (entry: FileEntry) => {
   const { model } = useBrowserContext();
   const artwork = model.artwork;

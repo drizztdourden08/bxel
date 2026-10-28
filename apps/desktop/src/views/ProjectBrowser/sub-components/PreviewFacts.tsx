@@ -3,9 +3,8 @@ import { Box, Button, StatRow } from '@drizztdourden08/tessera';
 import { KIND_LABEL } from '../../../asset-list/asset-list.constants';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import type { FileEntry } from '../../../project-browser/project-browser.type';
-import { useBrowserContext } from '../behavior/browser-context';
+import { useBrowserContext } from '../behavior/useBrowserContext';
 
-/** The key facts of one file, then the two counts of its links as buttons that search for those files. */
 const PreviewFacts = ({ entry }: { readonly entry: FileEntry }) => {
   const { actions } = useBrowserContext();
   const { row, facts } = entry;

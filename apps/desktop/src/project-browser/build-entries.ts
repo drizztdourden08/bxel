@@ -1,24 +1,11 @@
 /* @layer renderer-app @kind logic */
-import type { AssetKey } from '@bxel/document';
 import type { AssetRow } from '../asset-list/asset-list.type';
 import { parentOf } from '../workspace/parent-of';
-import { isSearching } from './parse-query';
+import { isSearching } from './is-searching';
 import { matchEntry } from './match-entry';
-import { NO_FACTS } from './row-facts';
+import { NO_FACTS } from './project-browser.constants';
 import { sortEntries } from './sort-entries';
-import type { BrowserEntry, BrowserFacts, BrowserQuery, BrowserSort, FileEntry, FolderEntry, SourceRoot } from './project-browser.type';
-
-type EntryInput = {
-  readonly rows: readonly AssetRow[];
-  readonly facts: ReadonlyMap<string, BrowserFacts>;
-  readonly keys: ReadonlyMap<string, AssetKey>;
-  readonly roots: readonly SourceRoot[];
-  readonly folders: readonly string[];
-  readonly folder: string | null;
-  readonly query: BrowserQuery;
-  readonly pinned: ReadonlySet<string>;
-  readonly sort: BrowserSort;
-};
+import type { BrowserEntry, EntryInput, FileEntry, FolderEntry, SourceRoot } from './project-browser.type';
 
 const same = (left: string, right: string): boolean => left.toLowerCase() === right.toLowerCase();
 
@@ -60,7 +47,6 @@ const childFolders = (input: EntryInput, folder: string): string[] => {
   return [...found.values()];
 };
 
-/** What the centre of the Browse page lists: a folder, the roots of the project, or the hits of a search. */
 const buildEntries = (input: EntryInput): readonly BrowserEntry[] => {
   if (isSearching(input.query)) {
     const hits = input.rows.map((row) => fileEntry(row, input)).filter((entry) => matchEntry(entry, input.query));
@@ -73,12 +59,4 @@ const buildEntries = (input: EntryInput): readonly BrowserEntry[] => {
   return sortEntries([...folders, ...files], input.sort);
 };
 
-/** Every folder known: those on disk, and the folders that hold a file even when the listing missed them. */
-const allFolders = (folders: readonly string[], rows: readonly AssetRow[]): readonly string[] => {
-  const found = new Map<string, string>();
-  for (const path of [...folders, ...rows.filter((row) => row.path !== '').map((row) => parentOf(row.path))]) found.set(path.toLowerCase(), path);
-  return [...found.values()];
-};
-
-export { allFolders, buildEntries };
-export type { EntryInput };
+export { buildEntries };

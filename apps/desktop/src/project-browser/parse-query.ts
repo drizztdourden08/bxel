@@ -1,55 +1,67 @@
 /* @layer renderer-app @kind logic */
-import type { RowKind } from '../asset-list/asset-list.type';
 import { KIND_ORDER } from '../asset-list/asset-list.constants';
-import type { BrowserQuery, Comparison, NumberTest, QueryChip, QueryFlag } from './project-browser.type';
+import type { RowKind } from '../asset-list/asset-list.type';
+import { EMPTY_QUERY, KIND_ALIAS, QUERY_FLAGS } from './project-browser.constants';
+import type { BrowserQuery, Comparison, QueryChange, QueryChip, QueryFlag } from './project-browser.type';
 
-const FLAGS: readonly QueryFlag[] = ['unused', 'unsaved', 'open', 'pinned'];
-
-const KIND_ALIAS: Readonly<Record<string, RowKind>> = { map: 'tilemap', tiles: 'tileset', anim: 'animation', atlas: 'sheet', png: 'image', gif: 'image', bmp: 'image' };
-
-const EMPTY_QUERY: BrowserQuery = { words: [], kinds: [], inFolder: null, uses: [], usedBy: [], is: [], size: [], colours: [], chips: [] };
-
-const tokensOf = (text: string): string[] => [...text.matchAll(/"([^"]*)"|(\S+)/g)].map((match) => match[1] ?? match[2] ?? '').filter((token) => token !== '');
+const tokensOf = (text: string): string[] => [...text.matchAll(/(?:[^\s"]*:)?"[^"]*"|\S+/g)].map((match) => match[0]);
 
 const kindOf = (value: string): RowKind | null => {
   const wanted = value.toLowerCase().replace(/s$/, '');
   return KIND_ORDER.find((kind) => kind === wanted) ?? KIND_ALIAS[wanted] ?? null;
 };
 
-const numberTest = (token: string): { field: 'size' | 'colours'; test: NumberTest } | null => {
-  const match = /^(size|colou?rs)([<>=])(\d+)$/i.exec(token);
-  if (!match) return null;
-  const op: Comparison = match[2] === '<' ? 'lt' : match[2] === '>' ? 'gt' : 'eq';
-  return { field: match[1]?.toLowerCase() === 'size' ? 'size' : 'colours', test: { op, value: Number(match[3]) } };
+const operatorOf = (sign: string | undefined): Comparison => {
+  if (sign === '<') return 'lt';
+  return sign === '>' ? 'gt' : 'eq';
 };
 
-const chip = (token: string): QueryChip => ({ text: token, label: token.replace(/^"|"$/g, '') });
+const numberQueryChange = (token: string, query: BrowserQuery): QueryChange => {
+  const match = /^(size|colou?rs)([<>=])(\d+)$/i.exec(token);
+  if (!match) return null;
+  const test = { op: operatorOf(match[2]), value: Number(match[3]) };
+  return match[1]?.toLowerCase() === 'size' ? { size: [...query.size, test] } : { colours: [...query.colours, test] };
+};
+
+const kindQueryChange = (key: string, value: string, query: BrowserQuery): QueryChange => {
+  const kind = key === 'kind' ? kindOf(value) : null;
+  return kind === null ? null : { kinds: [...query.kinds, kind] };
+};
+
+const folderQueryChange = (key: string, value: string): QueryChange => (key === 'in' && value !== '' ? { inFolder: value.replace(/^\/+|\/+$/g, '').toLowerCase() } : null);
+
+const linkQueryChange = (key: string, value: string, query: BrowserQuery): QueryChange => {
+  if (value === '') return null;
+  if (key === 'uses') return { uses: [...query.uses, value.toLowerCase()] };
+  return key === 'usedby' ? { usedBy: [...query.usedBy, value.toLowerCase()] } : null;
+};
+
+const flagQueryChange = (key: string, value: string, query: BrowserQuery): QueryChange => {
+  const flag = QUERY_FLAGS.find((each: QueryFlag) => each === value.toLowerCase());
+  return key === 'is' && flag !== undefined ? { is: [...query.is, flag] } : null;
+};
+
+const changeFor = (token: string, query: BrowserQuery): QueryChange => {
+  const [head = '', ...rest] = token.split(':');
+  const key = head.toLowerCase();
+  const value = rest.join(':').replace(/^"|"$/g, '');
+  return numberQueryChange(token, query) ?? kindQueryChange(key, value, query) ?? folderQueryChange(key, value) ?? linkQueryChange(key, value, query) ?? flagQueryChange(key, value, query);
+};
+
+const chipOf = (token: string): QueryChip => ({ text: token, label: token.replace(/^"|"$/g, '') });
 
 const parseQuery = (text: string): BrowserQuery => {
   let query: BrowserQuery = EMPTY_QUERY;
   const chips: QueryChip[] = [];
-  const add = (change: Partial<BrowserQuery>, token: string): void => {
-    query = { ...query, ...change };
-    chips.push(chip(token));
-  };
   for (const token of tokensOf(text)) {
-    const [head = '', ...rest] = token.split(':');
-    const value = rest.join(':');
-    const tested = numberTest(token);
-    const key = head.toLowerCase();
-    if (tested) add({ [tested.field]: [...query[tested.field], tested.test] }, token);
-    else if (key === 'kind' && kindOf(value)) add({ kinds: [...query.kinds, kindOf(value) as RowKind] }, token);
-    else if (key === 'in' && value !== '') add({ inFolder: value.replace(/^\/+|\/+$/g, '').toLowerCase() }, token);
-    else if (key === 'uses' && value !== '') add({ uses: [...query.uses, value.toLowerCase()] }, token);
-    else if (key === 'usedby' && value !== '') add({ usedBy: [...query.usedBy, value.toLowerCase()] }, token);
-    else if (key === 'is' && FLAGS.some((flag) => flag === value.toLowerCase())) add({ is: [...query.is, value.toLowerCase() as QueryFlag] }, token);
-    else query = { ...query, words: [...query.words, token.toLowerCase()] };
+    const change = changeFor(token, query);
+    if (change === null) query = { ...query, words: [...query.words, token.replace(/"/g, '').toLowerCase()] };
+    else {
+      query = { ...query, ...change };
+      chips.push(chipOf(token));
+    }
   }
   return { ...query, chips };
 };
 
-/** A query with nothing in it shows the folder; anything in it searches the whole project. */
-const isSearching = (query: BrowserQuery): boolean =>
-  query.words.length + query.kinds.length + query.uses.length + query.usedBy.length + query.is.length + query.size.length + query.colours.length > 0 || query.inFolder !== null;
-
-export { isSearching, parseQuery };
+export { parseQuery };
