@@ -1,0 +1,64 @@
+/* @layer renderer-app @kind config */
+import type { ScreenMeta, Section } from '@drizztdourden08/brock-react';
+import { ASSET_SOURCE } from '../../asset-config/asset-source.constants';
+import { showForKind } from '../../asset-config/show-for-kind';
+import { SUBJECT_META } from '../../asset-config/subject-preview.constants';
+
+const meta: ScreenMeta = {
+  ...SUBJECT_META,
+  title: 'Sprite',
+  icon: 'image',
+  order: 1,
+  source: ASSET_SOURCE,
+  when: showForKind('sprite'),
+  keywords: ['sprite', 'name', 'size', 'width', 'height', 'pivot', 'grid', 'export presets'],
+};
+
+const sections: Section[] = [
+  {
+    id: 'general',
+    title: 'General',
+    items: [
+      { key: 'sprite.name', label: 'Name', description: 'The name of the sprite and of its file.', hint: 'The file takes the name when you save.', control: { kind: 'text', placeholder: 'Sprite name' } },
+      {
+        key: 'sprite.size',
+        label: 'Size',
+        description: 'Pixels across and down.',
+        hint: 'Changing the size resizes every layer and frame, around the centre. One undo step undoes each change.',
+      },
+      {
+        key: 'sprite.pivot',
+        label: 'Pivot',
+        description: 'Where the sprite turns and is placed, from the top left corner.',
+        hint: 'Half pixels are allowed.',
+      },
+    ],
+  },
+  {
+    id: 'grid',
+    title: 'Pixel grid',
+    items: [
+      {
+        key: 'sprite.pixelGrid',
+        label: 'Grid cell',
+        description: 'Pixels between grid lines, across and down. 1 by 1 draws a line between every pixel.',
+        hint: 'Saved with the sprite. A new sprite takes it from the defaults.',
+      },
+    ],
+  },
+  {
+    id: 'export',
+    title: 'Export presets',
+    items: [
+      {
+        key: 'sprite.exportPresets', layout: 'wide',
+        label: 'Saved presets',
+        description: 'The sprite export settings you saved. Run opens the Export window with a preset in place.',
+        hint: 'Save a preset in the Export window. It goes into this sprite file, or into the project file when it covers several sprites. Presets saved in the app are listed last.',
+      },
+    ],
+  },
+];
+
+export default sections;
+export { meta };

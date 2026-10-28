@@ -151,7 +151,7 @@ const FILES: RuleTable = {
   ...family(['file.save_as', 'file.save_all'], always, [DOC]),
   ...family(['export.open'], not(file('image')), [DOC]),
   ...family(['asset.settings'], hasDocument),
-  ...family(['project.new', 'project.open', 'project.panel'], always),
+  ...family(['project.new', 'project.open', 'project.panel', 'project.window'], always),
   ...family(['image.import'], file('image'), [], 'Images'),
   ...family(['project.close', 'project.settings', 'project.pack'], always, [[projectOpen, REASON.noProject]]),
   ...family(['tab.close', 'tab.close_others', 'tab.close_right', 'tab.move_left', 'tab.move_right', 'asset.reveal', 'asset.copy_path'], always),

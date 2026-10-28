@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { AssetKind } from '@bxel/document';
-import type { OverviewPreview, SpriteMove } from './asset-overview.type';
+import type { OverviewPreview } from './asset-overview.type';
 
 const OVERVIEW_KIND_LABEL: Readonly<Record<AssetKind, string>> = {
   sprite: 'Sprite',
@@ -11,19 +11,6 @@ const OVERVIEW_KIND_LABEL: Readonly<Record<AssetKind, string>> = {
   tilemap: 'Tilemap',
   project: 'Project',
 };
-
-const SPRITE_MOVES: readonly SpriteMove[] = [
-  { id: 'flip-h', label: 'Flip horizontally', icon: 'arrow-left-right', flip: 'horizontal' },
-  { id: 'flip-v', label: 'Flip vertically', icon: 'arrow-up-down', flip: 'vertical' },
-  { id: 'turn-cw', label: 'Rotate clockwise', icon: 'rotate-ccw', iconFlip: 'horizontal', turn: 'clockwise' },
-  { id: 'turn-ccw', label: 'Rotate counter-clockwise', icon: 'rotate-ccw', turn: 'counter-clockwise' },
-];
-
-const OVERVIEW_LABEL = {
-  resizeSprite: 'Resize sprite',
-  resizeMap: 'Resize map',
-  duplicate: 'Duplicate asset',
-} as const;
 
 const OVERVIEW_TEXT = {
   pageTitle: 'Overview',
@@ -97,4 +84,4 @@ const LINK_LIMIT = 60;
 
 const NO_PREVIEW: OverviewPreview = { kind: 'none' };
 
-export { COLOUR_KEY, LINK_LIMIT, NO_PREVIEW, OVERVIEW_KIND_LABEL, OVERVIEW_LABEL, OVERVIEW_TEXT, PREVIEW_FRAME_LIMIT, SPRITE_MOVES };
+export { COLOUR_KEY, LINK_LIMIT, NO_PREVIEW, OVERVIEW_KIND_LABEL, OVERVIEW_TEXT, PREVIEW_FRAME_LIMIT };

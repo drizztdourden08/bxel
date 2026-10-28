@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind types */
 import type { ProjectDocument, ProjectId, ResolvedFolder } from '@bxel/project';
-import type { IconName } from '@drizztdourden08/tessera';
 import type { ListedFile } from '../asset-list/asset-list.type';
 
 type KnownProject = {
@@ -39,13 +38,6 @@ type DiskState =
   | { readonly status: 'failed'; readonly message: string }
   | { readonly status: 'ready'; readonly project: DiskProject };
 
-type ConfigPage = {
-  readonly page: string;
-  readonly label: string;
-  readonly description: string;
-  readonly icon: IconName;
-};
-
 type ProjectFact = { readonly label: string; readonly value: string };
 
-export type { ConfigPage, DiskManifestResult, DiskOutcome, DiskProject, DiskState, KnownProject, KnownSource, ProjectFact };
+export type { DiskManifestResult, DiskOutcome, DiskProject, DiskState, KnownProject, KnownSource, ProjectFact };

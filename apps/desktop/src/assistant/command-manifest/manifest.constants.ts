@@ -18,7 +18,7 @@ const VIEW_ROWS = [
   ...rows('app_control', 'show', ['view.toggle_pixel_grid', 'view.toggle_major_grid', 'view.toggle_tile_grid', 'view.toggle_guides', 'view.toggle_rulers']),
   ...rows('app_control', 'show', ['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both']),
   one('view.zoom_to', 'app_control', 'show', { args: 'zoom' }),
-  ...rows('app_control', 'show', ['help.shortcuts', 'project.panel', 'project.settings', 'asset.settings']),
+  ...rows('app_control', 'show', ['help.shortcuts', 'project.panel', 'project.window', 'project.settings', 'asset.settings']),
   one('help.demo', 'app_control', 'app', { dialog: 'demo' }),
   one('status.copy_cursor', 'app_control', 'app'),
   one('ruler.set_unit', 'app_control', 'app', { args: 'unit' }),
