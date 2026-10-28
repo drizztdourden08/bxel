@@ -9,6 +9,7 @@ import { MCP_CLIENT_NAME, MCP_DRAWN, MCP_TOOL_COUNT } from './support/mcp.consta
 import type { DrawnSprite, McpRig } from './support/mcp-rig.type';
 import { openMcpRig } from './support/open-mcp-rig';
 import { flipSwitch, levelOf, openPermissions, presetIs, setLevel, showTools, switchIs } from './support/open-permissions';
+import { decideRecoveryLater } from './support/decide-recovery-later';
 import { patchStep } from './support/patch-step';
 import { useRig } from './support/use-rig';
 
@@ -142,6 +143,7 @@ const valuesPersistAfterReload = async (rig: McpRig): Promise<void> => {
   await switchIs(detail(), RESTART, true);
   await rig.session.page.waitForTimeout(1500);
   await rig.session.page.reload();
+  await decideRecoveryLater(rig.session);
   held.detail = await openPermissions(rig.session);
   expect(await levelOf(detail(), 'Animation permission')).toBe('Read');
   await showTools(detail(), 'Browse files');
