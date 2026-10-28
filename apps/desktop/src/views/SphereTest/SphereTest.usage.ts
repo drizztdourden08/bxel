@@ -8,7 +8,7 @@ const usage = {
     'A ramps view shows how each ramp of the palette shades a round form.',
   ],
   avoidWhen: [
-    { case: 'The colours of the ramp are shown as a row.', use: 'SwatchStrip' },
+    { case: 'One colour of the ramp is picked with a click.', use: 'ColorSwatch' },
     { case: 'A finished image is compared before and after.', use: 'ImagePreview' },
   ],
   rules: [

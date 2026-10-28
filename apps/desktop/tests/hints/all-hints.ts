@@ -84,7 +84,7 @@ const toolbarHints = (): HintSpec[] => [
   FILLED_HINT,
   EXPAND_HINT,
   SHRINK_HINT,
-  swatchHint('3 Blue'),
+  swatchHint('3 Blue', ''),
   ...HELD_CHIPS.map(chipHint),
   CONFIG_HINT,
   ...TOOLS.map((tool) => canvasHelp(tool.id, 'sprite')),

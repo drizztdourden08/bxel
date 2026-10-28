@@ -4,7 +4,7 @@ import type { SegmentOption, TableAlign } from '@drizztdourden08/tessera';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import type { PaletteViewKind } from '../../palette-view/palette-view.type';
 import type { HintSpec } from '../ActionHint';
-import type { HeldChipDef, ListColumn } from './PalettePanel.type';
+import type { EditorModel, HeldChipDef, ListColumn } from './PalettePanel.type';
 
 const PALETTE_PANEL_TEXT = {
   empty: 'No palette is open.',
@@ -104,9 +104,9 @@ const OVERFLOW_TEXT = {
 } as const;
 
 const VIEW_OPTIONS: SegmentOption<PaletteViewKind>[] = [
-  { value: 'grid', icon: 'pixel-grid-view', hint: { name: 'Grid', description: 'Every swatch as a tile, in slot order.' } },
-  { value: 'list', icon: 'pixel-list-view', hint: { name: 'List', description: 'One row per swatch with its name, hex, alpha and use.' } },
-  { value: 'ramps', icon: 'pixel-shade', hint: { name: 'Ramps', description: 'The ramps of this palette as rows, for shading.' } },
+  { value: 'grid', icon: 'pixel-grid-view', hint: { label: 'Grid', description: 'Every swatch as a tile, in slot order.' } },
+  { value: 'list', icon: 'pixel-list-view', hint: { label: 'List', description: 'One row per swatch with its name, hex, alpha and use.' } },
+  { value: 'ramps', icon: 'pixel-shade', hint: { label: 'Ramps', description: 'The ramps of this palette as rows, for shading.' } },
 ];
 
 const LIST_COLUMNS: readonly { key: ListColumn; label: string; align: TableAlign }[] = [
@@ -171,6 +171,44 @@ const RAMP_DRAG_TYPE = 'application/x-bxel-ramp-swatch';
 
 const STRIP_LENGTH = 8;
 
+const CHANNEL_STOPS = 9;
+
+const CHANNEL_TOP = 255;
+
+const PERCENT = 100;
+
+const OKLCH_RANGE = { l: 1, c: 0.37, h: 360 } as const;
+
+const EDITOR_TEXT = {
+  title: (index: number): string => `Swatch ${index}`,
+  dialog: (index: number): string => `Edit the colour of swatch ${index}`,
+  models: 'Colour model',
+  before: 'Before',
+  after: 'After',
+  hex: 'Hex',
+  name: 'Name',
+  alpha: 'Alpha',
+  lightness: 'Lightness',
+  chroma: 'Chroma',
+  hue: 'Hue',
+  red: 'Red',
+  green: 'Green',
+  blue: 'Blue',
+  same: (index: number): string => `Same as swatch ${index}.`,
+  merge: (index: number): string => `Merge into ${index}`,
+  reset: 'Reset',
+  cancel: 'Cancel',
+  done: 'Done',
+} as const;
+
+const EDITOR_MODELS: SegmentOption<EditorModel>[] = [
+  { value: 'hsv', label: 'HSV' },
+  { value: 'oklch', label: 'OKLCH' },
+  { value: 'rgb', label: 'RGB' },
+];
+
+const RGB_CHANNELS: readonly string[] = [EDITOR_TEXT.red, EDITOR_TEXT.green, EDITOR_TEXT.blue];
+
 export {
-  chipHint, CONFIG_HINT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OVERFLOW_TEXT, PAGE_ROWS, PALETTE_MENU, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, swatchHint, VIEW_OPTIONS,
+  CHANNEL_STOPS, CHANNEL_TOP, chipHint, CONFIG_HINT, EDITOR_MODELS, EDITOR_TEXT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OKLCH_RANGE, OVERFLOW_TEXT, PAGE_ROWS, PALETTE_MENU, PERCENT, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, RGB_CHANNELS, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, swatchHint, VIEW_OPTIONS,
 };

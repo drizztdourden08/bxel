@@ -179,11 +179,24 @@ interface GridControl {
 
 type GridKeyAction = (context: GridKeyContext, event: KeyboardEvent<HTMLElement>) => void;
 
+type EditorModel = 'hsv' | 'oklch' | 'rgb';
+
+interface EditorFieldsProps {
+  model: EditorModel;
+  editor: SwatchEditModel;
+}
+
+interface BeforeAfterProps {
+  before: string;
+  after: string;
+  alpha: number;
+}
+
 interface SwatchEditorProps {
   panel: PanelModel;
 }
 
 export type {
-  CellLook, ChannelSliderProps, CornerMarksProps, EditSwatch, GridCellProps, GridControl, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, ModelPaneProps, PanelModel, PanelProps,
+  BeforeAfterProps, CellLook, ChannelSliderProps, CornerMarksProps, EditorFieldsProps, EditorModel, EditSwatch, GridCellProps, GridControl, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, ModelPaneProps, PanelModel, PanelProps,
   PaletteViewModel, PickMode, RampDrag, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps,
 };
