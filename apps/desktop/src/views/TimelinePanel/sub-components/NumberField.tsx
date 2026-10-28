@@ -1,12 +1,14 @@
 /* @layer renderer-app @kind component */
 import { useState } from 'react';
 import { NumberInput } from '@drizztdourden08/tessera';
+import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { NumberFieldProps } from '../TimelinePanel.type';
 
-const NumberField = ({ label, value, min, max, step, disabled, onCommit }: NumberFieldProps) => {
-  const [draft, setDraft] = useState(value);
+const NumberField = ({ label, value, min, max, step, disabled, mixed = false, onCommit }: NumberFieldProps) => {
+  const [draft, setDraft] = useState(mixed ? Number.NaN : value);
   const commit = (): void => {
-    if (draft !== value && !onCommit(draft)) setDraft(value);
+    if (Number.isNaN(draft) || (draft === value && !mixed)) return;
+    if (!onCommit(draft)) setDraft(mixed ? Number.NaN : value);
   };
   return (
     <NumberInput
@@ -17,6 +19,7 @@ const NumberField = ({ label, value, min, max, step, disabled, onCommit }: Numbe
       step={step}
       value={draft}
       disabled={disabled}
+      placeholder={mixed ? TIMELINE_PANEL_TEXT.mixed : undefined}
       aria-label={label}
       onChange={setDraft}
       onBlur={commit}

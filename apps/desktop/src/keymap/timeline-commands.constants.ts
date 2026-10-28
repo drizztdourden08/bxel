@@ -1,9 +1,16 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
+import { currentFocus } from '../timeline/current-focus';
 import { deleteFrames } from '../timeline/delete-frames';
+import { togglePlayback } from '../timeline/toggle-playback';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
+
+const onCanvasTarget = (): boolean => {
+  const active = document.activeElement;
+  return currentFocus() !== null && !(active instanceof HTMLElement && active.closest('button, a, input, textarea, select, [role="combobox"], [role="menuitem"], [role="dialog"]') !== null);
+};
 
 const TIMELINE_COMMANDS: readonly CommandDef[] = [
   {
@@ -14,6 +21,15 @@ const TIMELINE_COMMANDS: readonly CommandDef[] = [
     zone: COMMAND_ZONE.timeline,
     whileTyping: false,
     run: deleteFrames,
+  },
+  {
+    id: 'timeline.toggle_play_paint',
+    label: 'Play or pause the animation while painting',
+    group: COMMAND_GROUP.timeline,
+    chord: 'Shift+Enter',
+    whileTyping: false,
+    when: onCanvasTarget,
+    run: () => togglePlayback(),
   },
 ].map(editorCommand);
 

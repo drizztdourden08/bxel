@@ -6,17 +6,17 @@ import { allowPress } from '../../src/editor/allow-press';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { addTag } from '../../src/timeline/add-tag';
-import { advancePlayback } from '../../src/timeline/advance-playback';
 import { changeTag } from '../../src/timeline/change-tag';
 import { fpsOf } from '../../src/timeline/fps-of';
-import { frameDelay } from '../../src/timeline/frame-delay';
 import { goToFrame } from '../../src/timeline/go-to-frame';
-import { nextCursor } from '../../src/timeline/next-cursor';
+import { playPlan } from '../../src/timeline/play-plan';
+import { resetClock, tickClock } from '../../src/timeline/playback-clock';
 import { playSteps } from '../../src/timeline/play-steps';
 import { selectTag } from '../../src/timeline/select-tag';
 import { setDuration } from '../../src/timeline/set-duration';
-import { statusText } from '../../src/timeline/status-text';
-import { totalsText } from '../../src/timeline/totals-text';
+import { stopPlayback } from '../../src/timeline/stop-playback';
+import { timeReadout } from '../../src/timeline/time-readout';
+import { togglePlayback } from '../../src/timeline/toggle-playback';
 import { animationOf, frameAt, frameIds, freshAnimation, live, pickRange, revision, run, target, withFrames } from './timeline-harness';
 
 beforeEach(() => {
@@ -37,16 +37,24 @@ const order = (tagId: TagId | null): number[] => {
   return playSteps(animationOf(), tagId).steps.map((step) => ids.indexOf(step.frameId));
 };
 
-const visited = (steps: number): number[] => {
-  const ids = frameIds();
-  const seen: number[] = [];
+let now = 1000;
+
+const begin = (): void => {
+  resetClock();
+  now = 1000;
   useTimelineStore.getState().play();
-  for (let step = 0; step < steps; step += 1) {
-    if (!advancePlayback()) break;
-    seen.push(ids.indexOf(live().frame.id));
-  }
-  return seen;
+  tickClock(now);
 };
+
+const advance = (ms: number, step = 16): void => {
+  const end = now + ms;
+  while (now < end && useTimelineStore.getState().playing) {
+    now = Math.min(end, now + step);
+    tickClock(now);
+  }
+};
+
+const shown = (): number => frameIds().indexOf(live().frame.id);
 
 describe('the play order', () => {
   it('runs every frame forward when no tag is picked', () => {
@@ -78,26 +86,84 @@ describe('the play order', () => {
   });
 });
 
-describe('stepping the cursor', () => {
-  it('moves on, wraps when looping and stops at the end when not', () => {
-    expect(nextCursor(3, 0, true)).toBe(1);
-    expect(nextCursor(3, 2, true)).toBe(0);
-    expect(nextCursor(3, 2, false)).toBeNull();
-    expect(nextCursor(1, 0, true)).toBeNull();
+describe('the play plan', () => {
+  const planOf = (extra: Partial<Parameters<typeof playPlan>[0]> = {}) =>
+    playPlan({ animation: animationOf(), tagId: null, picked: [], rangePicked: false, loopRange: null, mode: 'loop', subtags: false, ...extra });
+  const indices = (plan: ReturnType<typeof planOf>): number[] => plan.steps.map((step) => frameIds().indexOf(step.frameId));
+
+  it('bounces the range out and back in ping-pong preview', () => {
+    withFrames(4);
+    expect(indices(planOf({ mode: 'pingpong' }))).toEqual([0, 1, 2, 3, 2, 1]);
+  });
+
+  it('plays only the picked frames, in order', () => {
+    withFrames(5);
+    expect(indices(planOf({ rangePicked: true, picked: [frameAt(3), frameAt(1)] }))).toEqual([1, 3]);
+  });
+
+  it('plays a loop range of the ruler before anything else', () => {
+    withFrames(5);
+    expect(indices(planOf({ loopRange: { from: frameAt(3), to: frameAt(1) }, rangePicked: true, picked: [frameAt(0)] }))).toEqual([1, 2, 3]);
+  });
+
+  it('repeats a tag and plays tags inside the whole animation under subtags', () => {
+    withFrames(5);
+    const id = tagFrames(1, 2, 'forward');
+    changeTag('Change tag', id, { repeat: 2 });
+    expect(indices(planOf({ tagId: id, subtags: true }))).toEqual([1, 2, 1, 2]);
+    expect(indices(planOf({ tagId: id }))).toEqual([1, 2]);
+    expect(indices(planOf({ subtags: true }))).toEqual([0, 1, 2, 1, 2, 3, 4]);
   });
 });
 
-describe('playing', () => {
+describe('the clock', () => {
   it('walks the frames in order and wraps while looping', () => {
     withFrames(3);
-    expect(visited(5)).toEqual([1, 2, 0, 1, 2]);
+    begin();
+    const seen: number[] = [];
+    for (const wait of [100, 100, 100, 100]) {
+      advance(wait);
+      seen.push(shown());
+    }
+    expect(seen).toEqual([1, 2, 0, 1]);
   });
 
-  it('stops at the last frame when looping is off', () => {
+  it('keeps a long frame for its whole duration', () => {
     withFrames(3);
-    useTimelineStore.getState().setLoop(false);
-    expect(visited(6)).toEqual([1, 2]);
+    pickRange(1, 1);
+    setDuration(300);
+    goToFrame(frameAt(0));
+    begin();
+    advance(150);
+    expect(shown()).toBe(1);
+    advance(200);
+    expect(shown()).toBe(1);
+    advance(100);
+    expect(shown()).toBe(2);
+  });
+
+  it('plays once and stops on the last frame when rewind is off', () => {
+    withFrames(3);
+    useTimelineStore.setState({ playMode: 'once', rewind: false });
+    begin();
+    advance(1000);
     expect(useTimelineStore.getState().playing).toBe(false);
+    expect(shown()).toBe(2);
+  });
+
+  it('rewinds to the frame it began on when playing ends or is stopped', () => {
+    withFrames(4);
+    goToFrame(frameAt(1));
+    begin();
+    advance(250);
+    expect(shown()).toBe(3);
+    stopPlayback();
+    expect(shown()).toBe(1);
+    useTimelineStore.setState({ rewind: false });
+    begin();
+    advance(150);
+    stopPlayback();
+    expect(shown()).toBe(2);
   });
 
   it('plays a ping-pong tag out and back', () => {
@@ -105,7 +171,14 @@ describe('playing', () => {
     const id = tagFrames(1, 3, 'pingpong');
     selectTag(id);
     goToFrame(frameAt(1));
-    expect(visited(6)).toEqual([2, 3, 2, 1, 2, 3]);
+    useTimelineStore.setState({ rewind: false });
+    begin();
+    const seen: number[] = [];
+    for (let step = 0; step < 6; step += 1) {
+      advance(100);
+      seen.push(shown());
+    }
+    expect(seen).toEqual([2, 3, 2, 1, 2, 3]);
   });
 
   it('plays a mirrored tag with its flip', () => {
@@ -124,21 +197,25 @@ describe('playing', () => {
 
   it('follows a frame the user clicks while it plays', () => {
     withFrames(4);
-    expect(visited(1)).toEqual([1]);
+    begin();
+    advance(150);
+    expect(shown()).toBe(1);
     goToFrame(frameAt(3));
-    expect(visited(1)).toEqual([0]);
+    advance(20);
+    expect(shown()).toBe(3);
   });
 
   it('pauses at once when there is one frame', () => {
     useTimelineStore.getState().play();
-    expect(advancePlayback()).toBe(false);
+    tickClock(5);
     expect(useTimelineStore.getState().playing).toBe(false);
   });
 
   it('never changes the document', () => {
     withFrames(4);
     const before = { revision: revision(), animation: animationOf() };
-    visited(9);
+    begin();
+    advance(2000);
     expect(revision()).toBe(before.revision);
     expect(animationOf()).toBe(before.animation);
   });
@@ -149,18 +226,48 @@ describe('playing', () => {
     allowPress({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, target());
     expect(useTimelineStore.getState().playing).toBe(false);
   });
+
+  it('keeps the picked frames through play and stop', () => {
+    withFrames(5);
+    pickRange(0, 2);
+    const picked = [...useTimelineStore.getState().selection.frames];
+    begin();
+    advance(450);
+    stopPlayback();
+    expect(useTimelineStore.getState().selection.frames).toEqual(picked);
+    expect(picked).toHaveLength(3);
+  });
+
+  it('toggles with one call and runs a speed multiplier', () => {
+    withFrames(4);
+    useTimelineStore.setState({ speed: 2, rewind: false });
+    togglePlayback();
+    expect(useTimelineStore.getState().playing).toBe(true);
+    resetClock();
+    now = 1000;
+    tickClock(now);
+    advance(100);
+    expect(shown()).toBe(2);
+    togglePlayback();
+    expect(useTimelineStore.getState().playing).toBe(false);
+  });
+
+  it('holds 12 frames of 100 ms within one frame of drift after 60 seconds', () => {
+    withFrames(12);
+    begin();
+    const start = now;
+    for (let tick = 1; now - start < 60_000; tick += 1) {
+      now = start + (tick * 1000) / 60;
+      tickClock(now);
+    }
+    const elapsed = now - start;
+    const expected = Math.floor((elapsed % 1200) / 100);
+    expect(Math.abs(shown() - expected) <= 1 || Math.abs(shown() - expected) === 11).toBe(true);
+    expect(useTimelineStore.getState().playing).toBe(true);
+  });
 });
 
 describe('timing', () => {
-  it('waits the duration of the frame on show', () => {
-    withFrames(3);
-    pickRange(1, 1);
-    setDuration(240);
-    expect(frameDelay()).toBe(240);
-    pickRange(0, 0);
-    expect(frameDelay()).toBe(100);
-  });
-
   it('reads the frame rate from the durations of the frames that play', () => {
     withFrames(2);
     expect(fpsOf(playSteps(animationOf(), null))).toBe(10);
@@ -170,19 +277,24 @@ describe('timing', () => {
     expect(fpsOf({ steps: [], cycleMs: 0 })).toBe(0);
   });
 
-  it('counts a repeated ping-pong frame twice in the totals', () => {
+  it('writes the time readout of the range in the chosen units', () => {
+    withFrames(4);
+    pickRange(1, 1);
+    expect(timeReadout(live(), 'ms')).toEqual({ clock: '100 / 400 ms', fps: '10 fps' });
+    expect(timeReadout(live(), 'seconds').clock).toBe('0.10 / 0.40 s');
+    expect(timeReadout(live(), 'ticks').clock).toBe('1 / 5 ticks');
+    expect(frameIds().indexOf(live().frame.id)).toBe(1);
+    expect(useDocumentStore.getState().activeId).not.toBeNull();
+  });
+
+  it('counts a repeated ping-pong frame twice in the plan', () => {
     withFrames(3);
     const id = tagFrames(0, 2, 'pingpong');
     pickRange(0, 0);
     setDuration(200);
-    expect(totalsText(live(), id)).toBe('4 frames, 500 ms, 8 fps');
-  });
-
-  it('writes the status line', () => {
-    withFrames(4);
-    pickRange(1, 1);
-    expect(statusText(live())).toBe('Frame 2 of 4, 100 ms');
-    expect(frameIds().indexOf(live().frame.id)).toBe(1);
-    expect(useDocumentStore.getState().activeId).not.toBeNull();
+    useTimelineStore.getState().selectTag(id);
+    const plan = playPlan({ animation: animationOf(), tagId: id, picked: [], rangePicked: false, loopRange: null, mode: 'loop', subtags: false });
+    expect(plan.steps).toHaveLength(4);
+    expect(plan.cycleMs).toBe(500);
   });
 });

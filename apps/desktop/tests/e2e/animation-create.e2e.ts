@@ -2,7 +2,7 @@
 import { join } from 'node:path';
 import { flattenFrame } from '@bxel/document';
 import { describe, expect, test } from 'vitest';
-import { fillNumber, frameButton, timelineOf } from './support/animation-ui';
+import { fillNumber, frameButton, framesOf, timelineOf } from './support/animation-ui';
 import { canvasMapper } from './support/canvas-mapper';
 import { createAsset } from './support/create-asset';
 import { createSprite } from './support/create-sprite';
@@ -31,7 +31,7 @@ const draws = async (session: Session): Promise<void> => {
   await createAsset(session, 'Animation');
   await openAssetTab(session, /animation/).waitFor();
   await frameButton(session, 1).waitFor();
-  expect(await frameButton(session, 1).getAttribute('aria-label')).toBe('Frame 1, 100 milliseconds, owned');
+  expect(await frameButton(session, 1).getAttribute('aria-label')).toBe('Frame 1 of 1, 100 milliseconds');
   const map = await canvasMapper(session, SIZE);
   await pickSwatch(session, first.swatch);
   await drawStroke(session, map, first.cells);
@@ -65,11 +65,11 @@ const offersAnAnimationOnASprite = async (session: Session): Promise<void> => {
   await timelineOf(session).getByText('Sprites are still images. Use an animation for frames.').waitFor();
   await timelineOf(session).getByRole('button', { name: 'Open an animation' }).click();
   await session.page.getByRole('menuitem', { name: 'walk', exact: true }).click();
-  await timelineOf(session).getByRole('list', { name: 'Frames' }).waitFor();
+  await framesOf(session).waitFor();
   await openAssetTab(session, /^sprite$/i).last().click();
   await timelineOf(session).getByRole('button', { name: 'Make an animation from this sprite' }).click();
   await expect.poll(() => tabs.count(), { timeout: POLL_MS }).toBe(before + 1);
-  expect(await frameButton(session, 1).getAttribute('aria-label')).toBe('Frame 1, 100 milliseconds, shared');
+  expect(await frameButton(session, 1).getAttribute('aria-label')).toMatch(/^Frame 1 of \d+, 100 milliseconds, shared sprite$/);
 };
 
 describe('creating and drawing an animation', () => {

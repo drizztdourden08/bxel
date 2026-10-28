@@ -33,8 +33,8 @@ const copiesAndOpens = async (session: Session, place: string): Promise<void> =>
   for (const name of ['hero', 'slime', 'party', 'ground', 'meadow']) await assetRow(session, name).waitFor();
   await assetRow(session, 'hero').click();
   const timeline = session.page.getByRole('region', { name: 'Timeline' });
-  await timeline.getByText('3 frames').first().waitFor();
-  await timeline.getByRole('button', { name: /^walk, Forward/ }).first().waitFor();
+  await timeline.getByRole('listbox', { name: 'Frames' }).getByRole('option').nth(2).waitFor();
+  await timeline.getByRole('button', { name: /^walk, forward/ }).first().waitFor();
   await assetRow(session, 'party').click();
   await openAssetTab(session, /party/).waitFor();
 };

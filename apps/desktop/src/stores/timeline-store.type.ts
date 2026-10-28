@@ -3,44 +3,122 @@ import type { AnimFrameId, Pivot2, TagId } from '@bxel/document';
 
 type OnionTint = 'none' | 'split' | 'grey';
 
+type OnionFalloff = 'linear' | 'flat';
+
+type OnionStyle = 'filled' | 'outline';
+
+type OnionOrder = 'play' | 'strip';
+
+type OnionScope = 'range' | 'all';
+
+type OnionPosition = 'behind' | 'front';
+
 interface OnionSettings {
   on: boolean;
   before: number;
   after: number;
   opacity: number;
+  falloff: OnionFalloff;
   tint: OnionTint;
+  beforeColour: string;
+  afterColour: string;
+  style: OnionStyle;
+  order: OnionOrder;
+  wrap: boolean;
+  scope: OnionScope;
+  skipRepeats: boolean;
+  position: OnionPosition;
+  hideWhilePlaying: boolean;
 }
+
+type PlayMode = 'loop' | 'once' | 'pingpong';
+
+type TimeUnits = 'ms' | 'seconds' | 'ticks';
 
 interface TimelineSelection {
   frames: readonly AnimFrameId[];
   anchor: AnimFrameId | null;
 }
 
-interface TimelineSettings {
+interface LoopRange {
+  from: AnimFrameId;
+  to: AnimFrameId;
+}
+
+type TimelinePopover = { kind: 'tag'; tagId: TagId } | { kind: 'duration' } | { kind: 'position' };
+
+interface PlaySettings {
+  playMode: PlayMode;
+  subtags: boolean;
+  rewind: boolean;
+  speed: number;
+}
+
+interface ViewSettings {
+  zoom: number;
+  timeMode: boolean;
+  units: TimeUnits;
+}
+
+interface TimelineSettings extends PlaySettings, ViewSettings {
   frameId: AnimFrameId | null;
   selection: TimelineSelection;
   tagId: TagId | null;
+  rangePicked: boolean;
+  loopRange: LoopRange | null;
   playing: boolean;
-  loop: boolean;
+  playOnce: boolean;
   cursor: number;
+  playStart: AnimFrameId | null;
+  fit: boolean;
   onion: OnionSettings;
   pivotDraft: Pivot2 | null;
   colourPicker: boolean;
+  popover: TimelinePopover | null;
 }
 
 interface TimelineState extends TimelineSettings {
   reset: () => void;
   setFrame: (frameId: AnimFrameId | null) => void;
+  setPlayhead: (frameId: AnimFrameId) => void;
   select: (selection: TimelineSelection, frameId: AnimFrameId | null) => void;
   selectTag: (tagId: TagId | null) => void;
+  setRangePicked: () => void;
+  setLoopRange: (loopRange: LoopRange | null) => void;
   play: () => void;
+  playOnceNow: () => void;
   pause: () => void;
   togglePlay: () => void;
-  setLoop: (loop: boolean) => void;
+  setPlayMode: (playMode: PlayMode) => void;
+  setSubtags: (subtags: boolean) => void;
+  setRewind: (rewind: boolean) => void;
+  setSpeed: (speed: number) => void;
   setCursor: (cursor: number) => void;
   setOnion: (patch: Partial<OnionSettings>) => void;
+  setZoom: (zoom: number) => void;
+  setFit: (fit: boolean) => void;
+  setTimeMode: (timeMode: boolean) => void;
+  setUnits: (units: TimeUnits) => void;
   setPivotDraft: (pivotDraft: Pivot2 | null) => void;
   setColourPicker: (colourPicker: boolean) => void;
+  setPopover: (popover: TimelinePopover | null) => void;
 }
 
-export type { OnionSettings, OnionTint, TimelineSelection, TimelineSettings, TimelineState };
+export type {
+  LoopRange,
+  OnionFalloff,
+  OnionOrder,
+  OnionPosition,
+  OnionScope,
+  OnionSettings,
+  OnionStyle,
+  OnionTint,
+  PlayMode,
+  PlaySettings,
+  TimeUnits,
+  TimelineSelection,
+  TimelinePopover,
+  TimelineSettings,
+  TimelineState,
+  ViewSettings,
+};

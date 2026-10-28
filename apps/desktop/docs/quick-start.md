@@ -60,9 +60,11 @@ an exported sprite sheet. The labels are the ones on screen.
 
 ## Sprites, animation and sheets
 
-- The Timeline panel holds frames and layers. Add frame adds a column, and the duration field
-  sets the time of the selected frames. Add tag on the selected frames names a loop, for example run.
-  Onion skin shows the neighbour frames on the canvas.
+- The Timeline panel holds the frames of an animation, with their tags above and the picked frames
+  below. Add frame adds one after the current frame, and the duration field sets the time of the
+  picked frames. Enter plays and pauses, and Comma and Period step by one frame. Drag across the tag
+  lane, or press F2, to name a loop such as run. The ruler moves the playhead, and the Onion button
+  shows the neighbour frames on the canvas. Layers belong to a sprite and live in the Layers panel.
 - Import image with Import as set to Sheet cuts a sheet into sprites. Set the cell size, the
   offset and the spacing, and name them with a pattern such as part_{n}.
 - A sheet is its own file. New, then Sheet of sprites, makes one, and a sheet you open from the Project

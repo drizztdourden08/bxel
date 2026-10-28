@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { AnimFlip, AnimFrame, AnimFrameId, Animation, Artwork, DocumentId, TagId } from '@bxel/document';
+import type { AnimDirection, AnimFacing, AnimFlip, AnimFrame, AnimFrameId, Animation, Artwork, DocumentId, TagId } from '@bxel/document';
 
 interface AnimationFocus {
   documentId: DocumentId;
@@ -18,24 +18,26 @@ interface FrameCell {
   current: boolean;
   selected: boolean;
   badges: readonly FrameBadge[];
+  linkedTo: number | null;
+  linkedNext: boolean;
   label: string;
 }
 
-type TagEdge = 'only' | 'start' | 'mid' | 'end';
-
-interface TagCell {
+interface TagBar {
   tagId: TagId;
   name: string;
   colour: string;
   custom: string | null;
-  edge: TagEdge;
-  selected: boolean;
-  roving: boolean;
+  start: number;
+  end: number;
+  direction: AnimDirection;
+  repeat: number;
+  facing: AnimFacing | null;
   mirror: boolean;
+  flip: AnimFlip | null;
+  selected: boolean;
   label: string;
 }
-
-type TagLook = Pick<TagCell, 'colour' | 'edge' | 'selected' | 'roving'>;
 
 interface TagColourChoice {
   name: string;
@@ -44,7 +46,7 @@ interface TagColourChoice {
 
 interface TimelineModel {
   cells: readonly FrameCell[];
-  tagLanes: readonly (readonly (TagCell | null)[])[];
+  tagLanes: readonly (readonly TagBar[])[];
 }
 
 interface PlayStep {
@@ -52,4 +54,4 @@ interface PlayStep {
   flip: AnimFlip | null;
 }
 
-export type { AnimationFocus, FrameBadge, FrameCell, PlayStep, TagCell, TagColourChoice, TagEdge, TagLook, TimelineModel };
+export type { AnimationFocus, FrameBadge, FrameCell, PlayStep, TagBar, TagColourChoice, TimelineModel };

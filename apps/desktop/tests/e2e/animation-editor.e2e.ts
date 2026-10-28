@@ -32,7 +32,7 @@ const recordFrames = (session: Session, milliseconds: number): Promise<number[]>
     const end = performance.now() + duration;
     while (performance.now() < end) {
       const label = document.querySelector('[aria-label="Timeline controls"] [aria-current="true"]')?.getAttribute('aria-label') ?? '';
-      const number = Number(/^Frame (\d+),/.exec(label)?.[1]);
+      const number = Number(/^Frame (\d+) of/.exec(label)?.[1]);
       if (Number.isFinite(number) && seen.at(-1) !== number) seen.push(number);
       await new Promise((done) => setTimeout(done, 12));
     }
@@ -58,7 +58,7 @@ const migrates = async (session: Session, root: string): Promise<void> => {
 
 const plays = async (session: Session): Promise<void> => {
   await openAnimationTab(session, ANIMATED.hero);
-  await timelineOf(session).getByRole('combobox', { name: 'Tag to play' }).click();
+  await timelineOf(session).getByRole('combobox', { name: 'Range' }).click();
   await session.page.getByRole('option', { name: new RegExp(`^${ANIMATED.tag}`) }).click();
   await timelineOf(session).getByRole('button', { name: 'Play', exact: true }).click();
   const seen = await recordFrames(session, 2200);
@@ -79,13 +79,13 @@ const aligns = async (session: Session): Promise<void> => {
   const ghostAt: Cell = { x: first.x + 2, y: first.y };
   const own: Cell = { x: first.x, y: first.y };
   const before = await sampleCanvas(session, [map(ghostAt), map(own), map({ x: second.x, y: second.y })]);
-  await timelineOf(session).getByRole('button', { name: 'Onion skin' }).click();
-  await timelineOf(session).getByRole('button', { name: 'Onion skin', pressed: true }).waitFor();
+  await timelineOf(session).getByRole('button', { name: 'Onion skin', exact: true }).click();
+  await timelineOf(session).getByRole('button', { name: 'Onion skin', exact: true, pressed: true }).waitFor();
   await expect.poll(async () => (await sampleCanvas(session, [map(ghostAt)]))[0], { timeout: POLL_MS }).not.toBe(before[0]);
   const after = await sampleCanvas(session, [map(ghostAt), map(own), map({ x: second.x, y: second.y })]);
   expect(after[1], 'the old position of the mark stays clear').toBe(before[1]);
   expect(after[2], 'the pixel of the shown frame is not covered').toBe(before[2]);
-  await timelineOf(session).getByRole('button', { name: 'Onion skin', pressed: true }).click();
+  await timelineOf(session).getByRole('button', { name: 'Onion skin', exact: true, pressed: true }).click();
   await fillNumber(timelineOf(session).getByRole('spinbutton', { name: 'Frame offset across' }), 0);
 };
 

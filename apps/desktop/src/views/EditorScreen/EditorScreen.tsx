@@ -3,6 +3,7 @@ import { commandZone, ToolbarHost } from '@drizztdourden08/brock-react';
 import { Flex } from '@drizztdourden08/tessera';
 import { useMapPlacing } from '../../hooks/useMapPlacing';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
+import { useAnimationHost } from '../../hooks/useAnimationHost';
 import { useTimelinePlayback } from '../../hooks/useTimelinePlayback';
 import { useFileTypePanelStore } from '../../stores/useFileTypePanelStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
@@ -32,6 +33,7 @@ const EditorScreen = () => {
   const placing = useMapPlacing();
   const adding = useFileTypePanelStore((state) => state.open);
   const editing = mode === 'tilemap' && !placing && !adding;
+  useAnimationHost();
   useTimelinePlayback();
   useTilesetMenu();
   return (

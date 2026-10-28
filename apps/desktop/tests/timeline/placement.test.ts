@@ -54,7 +54,7 @@ describe('onion ghosts follow the anchor', () => {
     const { artwork, animation, frame } = live();
     const bank = findBank(artwork, animation.bankId);
     if (!bank) throw new Error('no bank');
-    const ghost = onionPixels({ artwork, animation, bank }, frame.id, { frameId: frameAt(0), flip: null, side: 'before', tint: 'split' });
+    const ghost = onionPixels({ artwork, animation, bank }, frame.id, { frameId: frameAt(0), flip: null, side: 'before', tint: 'split', colour: '#e04848', style: 'filled', behind: true });
     const alpha = (x: number, y: number): number => ghost[(y * animation.width + x) * 4 + 3] ?? 0;
     expect([alpha(1, 1), alpha(0, 0), alpha(5, 5)]).toEqual([255, 0, 0]);
     expect(canvasOrigin(artwork, animation, frame)).toEqual({ x: 2, y: 0 });
@@ -68,7 +68,7 @@ describe('onion ghosts follow the anchor', () => {
     const { artwork, animation, frame } = live();
     const bank = findBank(artwork, animation.bankId);
     if (!bank) throw new Error('no bank');
-    const ghost = onionPixels({ artwork, animation, bank }, frame.id, { frameId: frameAt(0), flip: 'x', side: 'after', tint: 'none' });
+    const ghost = onionPixels({ artwork, animation, bank }, frame.id, { frameId: frameAt(0), flip: 'x', side: 'after', tint: 'none', colour: '#4880e8', style: 'filled', behind: true });
     const alpha = (x: number, y: number): number => ghost[(y * animation.width + x) * 4 + 3] ?? 0;
     expect([alpha(6, 2), alpha(1, 2)]).toEqual([255, 0]);
   });
@@ -110,7 +110,7 @@ describe('a frame that is a cell of a strip', () => {
     stripAnimation();
     const cells = frameCells(live(), useTimelineStore.getState().selection);
     expect(cells.map((cell) => cell.badges)).toEqual([['shared', 'clip'], ['shared', 'clip'], ['shared', 'clip'], ['shared', 'clip']]);
-    expect(cells[0]?.label).toBe('Frame 1, 100 milliseconds, shared, clip');
+    expect(cells[0]?.label).toBe('Frame 1 of 4, 100 milliseconds, shared sprite, clipped');
   });
 
   it('locks the pixels outside its cell for strokes, fills and transforms', () => {
