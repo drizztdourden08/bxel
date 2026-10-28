@@ -20,7 +20,7 @@ const usage = {
     'The base colour is a radio group of swatches named by index and hex.',
   ],
   tree: {
-    path: ['a value the user sets', 'a colour', 'in a dialog'],
+    path: ['something over the page', 'a question the user must answer'],
     rule: 'RampBuilderDialog sets the steps of a new ramp of colours in a dialog.',
   },
   example: `import { RampBuilderDialog } from '../RampBuilderDialog';

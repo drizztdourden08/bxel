@@ -27,13 +27,6 @@ type CleanUpKind = 'unused' | 'duplicates';
 
 type PanelOutcome = { ok: true; message: string } | { ok: false; message: string };
 
-interface SwatchCommit {
-  index: number;
-  rgb: string;
-  alpha: number;
-  name: string;
-}
-
 interface SheetPlan {
   title: string;
   note: string;
@@ -70,4 +63,4 @@ interface PanelRun {
   done: string;
 }
 
-export type { CleanUpKind, CommandScene, PanelCommand, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, RemovalWords, SheetPlan, SlotUse, SwatchCommit };
+export type { CleanUpKind, CommandScene, PanelCommand, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, RemovalWords, SheetPlan, SlotUse };

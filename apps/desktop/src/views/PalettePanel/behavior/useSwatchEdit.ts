@@ -6,7 +6,8 @@ import { currentTarget } from '../../../editor/current-target';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { alphaToUnit } from '../../../palette-bank/alpha-to-unit';
 import { unitToAlpha } from '../../../palette-bank/unit-to-alpha';
-import { commitSwatch } from '../../../palette-panel/commit-swatch';
+import { recolourSwatch } from '../../../palette-bank/recolour-swatch';
+import { useDocumentStore } from '../../../stores/useDocumentStore';
 import { useSwatchDraftStore } from '../../../stores/useSwatchDraftStore';
 import type { EditSwatch, SwatchDraft, SwatchEditModel } from '../PalettePanel.type';
 
@@ -44,7 +45,7 @@ const useSwatchEdit = (): SwatchEditModel => {
   const done = useCallback((): void => {
     setDraft(null);
     if (!draft || !target) return;
-    const outcome = commitSwatch(target, { index: draft.index, rgb: draft.value, alpha: draft.alpha, name: draft.name });
+    const outcome = recolourSwatch(useDocumentStore.getState().host, target.documentId, target.bank, { index: draft.index, rgb: draft.value, alpha: draft.alpha, name: draft.name });
     if (!outcome.ok) toast(outcome.message, { variant: 'danger' });
   }, [draft, target]);
 
