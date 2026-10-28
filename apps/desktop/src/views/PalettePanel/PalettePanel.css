@@ -301,3 +301,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.marked-swatch {
+  position: relative;
+  display: inline-flex;
+}

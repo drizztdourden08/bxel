@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { ColorSwatch, Flex, InlineEdit, TableCell, TableRow, Text } from '@drizztdourden08/tessera';
+import { Box, ColorSwatch, Flex, InlineEdit, TableCell, TableRow, Text } from '@drizztdourden08/tessera';
 import { swatchMarks } from '../../../editor/swatch-marks';
 import { renameSwatch } from '../../../palette-panel/rename-swatch';
 import { renameKey } from '../behavior/rename-key';
@@ -8,6 +8,7 @@ import { swatchClick } from '../behavior/swatch-click';
 import { usageText } from '../behavior/usage-text';
 import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
 import type { ListRowProps } from '../PalettePanel.type';
+import { CornerMarks } from './CornerMarks';
 
 const ListRow = ({ slot, panel, ramps, active }: ListRowProps) => {
   const { index } = slot;
@@ -18,22 +19,24 @@ const ListRow = ({ slot, panel, ramps, active }: ListRowProps) => {
     <TableRow className={panel.selection.selected.has(index) ? 'swatch-list__row swatch-list__row--selected' : 'swatch-list__row'} onKeyDown={renameKey}>
       <TableCell className="swatch-list__swatch">
         <Flex align="center" gap="xs">
-        <ColorSwatch
-          size="sm"
-          color={slot.hex}
-          transparent={slot.transparent}
-          data-swatch-index={index}
-          tabIndex={active ? 0 : -1}
-          caption={marks.length > 0 ? marks.join('') : undefined}
-          aria-label={PALETTE_PANEL_TEXT.name(slot.label, marks, usageText(panel, index))}
-          onClick={(event) => swatchClick(panel, index, event, false)}
-          onDoubleClick={(event) => panel.editor.open(index, event.currentTarget)}
-          onContextMenu={(event) => {
-            event.preventDefault();
-            swatchClick(panel, index, event, true);
-          }}
-        />
-        <Text variant="caption" tone="muted">{index}</Text>
+          <Box className="marked-swatch">
+            <ColorSwatch
+              size="sm"
+              color={slot.hex}
+              transparent={slot.transparent}
+              data-swatch-index={index}
+              tabIndex={active ? 0 : -1}
+              aria-label={PALETTE_PANEL_TEXT.name(slot.label, marks, usageText(panel, index))}
+              onClick={(event) => swatchClick(panel, index, event, false)}
+              onDoubleClick={(event) => panel.editor.open(index, event.currentTarget)}
+              onContextMenu={(event) => {
+                event.preventDefault();
+                swatchClick(panel, index, event, true);
+              }}
+            />
+            <CornerMarks marks={marks} />
+          </Box>
+          <Text variant="caption" tone="muted">{index}</Text>
         </Flex>
       </TableCell>
       <TableCell className="swatch-list__name">

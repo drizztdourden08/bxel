@@ -70,14 +70,27 @@ const cancelsEdit = async ({ session, map }: SpriteRig): Promise<void> => {
   expect(await nothingToUndo(session)).toBe(empty);
 };
 
-const buildsRamp = async ({ session }: SpriteRig): Promise<void> => {
+const refusesFullRamp = async ({ session }: SpriteRig): Promise<void> => {
   await panel(session).getByRole('radio', { name: 'Ramps' }).click();
   await panel(session).getByRole('button', { name: 'New ramp...' }).click();
   const dialog = session.page.getByRole('dialog', { name: 'New ramp' });
   await dialog.waitFor();
   await expectAccessible(session, 'ramp builder');
-  await dialog.getByRole('button', { name: 'Add ramp' }).click();
+  await dialog.getByText(/This ramp needs \d+ new colours and the palette has 0 free slots/).waitFor();
+  expect(await dialog.getByRole('button', { name: 'Add ramp' }).isDisabled()).toBe(true);
+  await dialog.getByRole('button', { name: 'Cancel' }).click();
   await dialog.waitFor({ state: 'detached' });
+  await panel(session).getByRole('radio', { name: 'Grid' }).click();
+};
+
+const makesRamp = async ({ session }: SpriteRig): Promise<void> => {
+  await swatch(session, 2).click();
+  await swatch(session, 3).click({ modifiers: ['Control'] });
+  await swatch(session, 4).click({ modifiers: ['Control'] });
+  await focusByKeys(session, 3);
+  await session.page.keyboard.press('Shift+F10');
+  await session.page.getByRole('menuitem', { name: /^Make ramp$/ }).click();
+  await panel(session).getByRole('radio', { name: 'Ramps' }).click();
   const row = panel(session).getByRole('group', { name: 'Ramp 1' });
   await row.waitFor();
   await expectAccessible(session, 'palette ramps view');
@@ -99,6 +112,7 @@ describe('the palette panel', () => {
   test('Tab enters the grid once and the arrows move the focus', () => tabsOnce(rig()));
   test('Alt+Right moves swatch 5 to 6, the drawing looks the same, one undo restores it', () => movesByKeys(rig()));
   test('Escape in the colour editor changes nothing and leaves the history alone', () => cancelsEdit(rig()));
-  test('the ramp builder adds a ramp in one undo step and the ramps view shows it', () => buildsRamp(rig()));
+  test('the ramp builder says when a ramp does not fit and adds nothing', () => refusesFullRamp(rig()));
+  test('Make ramp from a selection adds a ramp in one undo step and the ramps view shows it', () => makesRamp(rig()));
   test('the grid and the list view pass the accessibility audit', () => auditsViews(rig()));
 });
