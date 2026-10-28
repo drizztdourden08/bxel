@@ -42,16 +42,16 @@ const TILE_COMMANDS: readonly CommandDef[] = [
     whileTyping: false,
     run: onPicked(askDeleteTile),
   },
-  { id: ID.makeUnique, label: 'Make selected cells unique', group, run: makeUnique },
-  { id: ID.toggleEdit, label: 'Switch between Place Tile and Edit Tile', group, chord: 'Alt+T', whileTyping: false, run: toggleEdit },
-  { id: ID.placeTiles, label: 'Place Tile', group, run: placeTiles },
+  { id: ID.makeUnique, label: 'Make selected cells unique', group, run: () => void makeUnique() },
+  { id: ID.toggleEdit, label: 'Switch between Place Tile and Edit Tile', group, chord: 'Alt+T', whileTyping: false, run: () => void toggleEdit() },
+  { id: ID.placeTiles, label: 'Place Tile', group, run: () => void placeTiles() },
   { id: ID.editTile, label: 'Edit Tile', group, run: () => void editTile() },
 ];
 
 const CELL_COMMANDS: readonly CommandDef[] = [
   { id: ID.replaceSelection, label: 'Replace tile in selection', group, run: () => void replaceCells(false) },
   { id: ID.replaceEverywhere, label: 'Replace tile everywhere on the layer', group, run: () => void replaceCells(true) },
-  { id: ID.clearCells, label: 'Clear selected cells', group, run: clearCells },
+  { id: ID.clearCells, label: 'Clear selected cells', group, run: () => void clearCells() },
   { id: ID.flipX, label: 'Flip placed tile X', group, run: () => void turnCells('flipX') },
   { id: ID.flipY, label: 'Flip placed tile Y', group, run: () => void turnCells('flipY') },
   { id: ID.turn, label: 'Rotate placed tile 90', group, run: () => void turnCells('turn') },

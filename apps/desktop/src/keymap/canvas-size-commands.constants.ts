@@ -10,9 +10,9 @@ import { ruled } from './ruled';
 const group = COMMAND_GROUP.edit;
 
 const CANVAS_SIZE_COMMANDS: readonly CommandDef[] = [
-  { id: ID.cropToSelection, label: 'Crop to selection', group, chord: 'Mod+Shift+X', whileTyping: false, run: cropToSelection },
-  { id: ID.trim, label: 'Trim to content', group, chord: 'Mod+Shift+T', whileTyping: false, run: trimActiveSprite },
-  { id: ID.size, label: 'Canvas size', group, chord: 'Mod+Alt+C', whileTyping: false, run: () => useCanvasSizeStore.getState().show() },
+  { id: ID.cropToSelection, label: 'Crop to selection', group, chord: 'Mod+Shift+X', whileTyping: false, run: () => void cropToSelection() },
+  { id: ID.trim, label: 'Trim to content', group, chord: 'Mod+Shift+T', whileTyping: false, run: () => void trimActiveSprite() },
+  { id: ID.size, label: 'Canvas size', group, chord: 'Mod+Alt+C', whileTyping: false, run: () => void useCanvasSizeStore.getState().show() },
 ].map(ruled);
 
 export { CANVAS_SIZE_COMMANDS };
