@@ -44,7 +44,7 @@ const DRAWING_TEXT = {
   gradientMode: 'Gradient steps',
   gradientModeDescription: 'Hard bands, or a dither between neighbouring colours.',
   gradientPattern: 'Gradient pattern',
-  gradientPatternDescription: 'The pattern the dither follows. It wraps with the tiled preview so tiles stay seamless.',
+  gradientPatternDescription: 'The pattern the dither follows. It wraps with the tiled preview, so the pattern has no seam.',
   gradientSize: 'Bayer size',
   gradientSizeDescription: 'The size of the Bayer matrix, 2, 4 or 8.',
   gradientReflect: 'Reflect',

@@ -1,12 +1,7 @@
 /* @layer renderer-app @kind logic */
-import type { CellFlags, Point, Rect, Tilemap } from '@bxel/document';
+import type { Tilemap } from '@bxel/document';
+import type { MapMirror } from './map-mirrors.type';
 import { useToolStore } from '../stores/useToolStore';
-
-type MapMirror = {
-  readonly point: (cell: Point) => Point;
-  readonly rect: (area: Rect) => Rect;
-  readonly flags: (flags: CellFlags) => CellFlags;
-};
 
 const mapMirrors = (tilemap: Tilemap): MapMirror[] => {
   const { symmetryX, symmetryY } = useToolStore.getState();
@@ -24,4 +19,3 @@ const mapMirrors = (tilemap: Tilemap): MapMirror[] => {
 };
 
 export { mapMirrors };
-export type { MapMirror };

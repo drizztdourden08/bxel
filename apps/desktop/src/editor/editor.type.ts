@@ -22,7 +22,7 @@ interface EditorTarget {
   animation?: AnimationContext;
 }
 
-interface CustomStamp {
+interface BrushPatch {
   patch: BufferView;
   brushId: string | null;
   flipX: boolean;
@@ -37,7 +37,7 @@ interface BrushOptions {
   wrap?: Wrap;
   ink?: Ink;
   rule?: InkRule | null;
-  custom?: CustomStamp | null;
+  custom?: BrushPatch | null;
 }
 
 interface Overlay {
@@ -178,6 +178,6 @@ type ZoomStep = 'in' | 'out' | 'fit' | 'actual';
 type HistoryDirection = 'undo' | 'redo';
 
 export type {
-  AnimationContext, BrushOptions, CustomStamp, EditorTarget, FillChoice, GradientSession, GradientSpec, HistoryDirection, Overlay, PaintSession, PathPhase, PathSession, PathSpec,
+  AnimationContext, BrushOptions, BrushPatch, EditorTarget, FillChoice, GradientSession, GradientSpec, HistoryDirection, Overlay, PaintSession, PathPhase, PathSession, PathSpec,
   ShapeSession, ShapeSpec, ShapeStart, SprayOptions, SpraySession, StrokeSession, StrokeStart, SymmetryFields, ZoomStep,
 };

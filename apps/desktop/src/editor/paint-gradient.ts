@@ -3,7 +3,7 @@ import { gradientFill } from '@bxel/raster';
 import type { GradientSession } from './editor.type';
 import { refreshRect } from './refresh-rect';
 
-const WHOLE = (session: GradientSession) => ({ x: 0, y: 0, width: session.width, height: session.height });
+const wholeOf = (session: GradientSession) => ({ x: 0, y: 0, width: session.width, height: session.height });
 
 const paintGradient = (session: GradientSession): void => {
   const { spec } = session;
@@ -23,8 +23,8 @@ const paintGradient = (session: GradientSession): void => {
       wrap: spec.wrap,
     });
   }
-  session.dirty = WHOLE(session);
-  refreshRect(session, WHOLE(session));
+  session.dirty = wholeOf(session);
+  refreshRect(session, wholeOf(session));
 };
 
 export { paintGradient };

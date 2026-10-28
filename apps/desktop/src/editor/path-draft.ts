@@ -1,7 +1,5 @@
 /* @layer renderer-app @kind logic */
-import type { PathSession } from './editor.type';
-
-type PathDraft = { current: PathSession | null };
+import type { PathDraft } from './path-draft.type';
 
 const pathDraft: PathDraft = { current: null };
 

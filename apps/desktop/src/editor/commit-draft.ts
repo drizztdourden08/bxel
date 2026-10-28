@@ -1,11 +1,8 @@
 /* @layer renderer-app @kind logic */
-import type { TransactionResult } from '@bxel/document';
+import type { Committed } from './commit-draft.type';
 import { commitSession } from './commit-session';
 import { pathDraft } from './path-draft';
-import { pathReady } from './path-session';
-import type { PathSession } from './editor.type';
-
-type Committed = { readonly session: PathSession; readonly result: TransactionResult | null };
+import { pathReady } from './path-ready';
 
 const commitDraft = (): Committed | null => {
   const session = pathDraft.current;
@@ -14,8 +11,4 @@ const commitDraft = (): Committed | null => {
   return pathReady(session) ? { session, result: commitSession(session) } : null;
 };
 
-const cancelDraft = (): void => {
-  pathDraft.current = null;
-};
-
-export { cancelDraft, commitDraft };
+export { commitDraft };

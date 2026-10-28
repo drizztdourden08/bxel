@@ -12,8 +12,6 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('./tools-harne
 
 const commandIds = new Set(APP_COMMANDS.map((def) => def.id));
 
-const labelsOf = (id: string): string[] => (slotsOf('sprite').find((slot) => slot.id === id)?.members ?? []).map((member) => member.label);
-
 const groupRank = (slot: ToolSlot): number => SLOT_GROUPS.findIndex((group) => group.id === slot.group);
 
 const allMembers = () => TOOL_SLOTS.flatMap((slot) => [...slot.members]);

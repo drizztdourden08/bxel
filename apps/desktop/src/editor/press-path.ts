@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { ANNOUNCE_TEXT } from '../announce/announce.constants';
 import { commitSession } from './commit-session';
-import { pathReady } from './path-session';
+import { pathReady } from './path-ready';
 import type { PathPress } from './press-shape.type';
 import { startSession } from './start-session';
 

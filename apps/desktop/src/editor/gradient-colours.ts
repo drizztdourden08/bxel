@@ -2,8 +2,7 @@
 import { rampSlots } from '@bxel/raster';
 import type { PaletteBank } from '@bxel/document';
 import type { DrawingSettings } from '../stores/drawing-store.type';
-
-type GradientEnds = { readonly front: number; readonly back: number };
+import type { GradientEnds } from './gradient-colours.type';
 
 const holding = (bank: PaletteBank, front: number): number[] | null => {
   for (const ramp of bank.ramps) {

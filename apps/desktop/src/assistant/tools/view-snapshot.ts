@@ -16,9 +16,8 @@ import { activeAssetOf } from '../../workspace/active-asset-of';
 import { assetName } from '../../workspace/asset-name';
 import { keyId } from '../../workspace/key-id';
 import { selectionReply } from './selection-reply';
+import { FILLED_TOOL_IDS } from './view-snapshot.constants';
 import type { Sees } from './view-snapshot.type';
-
-const FILLED: readonly string[] = ['rect', 'ellipse', 'curve', 'polygon', 'contour'];
 
 const tabsOf = (sees: Sees) => {
   const { tabs, activeTab, workspaces } = useWorkspaceStore.getState();
@@ -71,7 +70,7 @@ const toolOf = () => {
     pixelPerfect: tool.pixelPerfect,
     fillMode: tool.fillMode,
     connectivity: tool.connectivity,
-    filled: FILLED.includes(tool.tool) ? useDrawingStore.getState().filled[tool.tool as FilledTool] : false,
+    filled: FILLED_TOOL_IDS.includes(tool.tool) ? useDrawingStore.getState().filled[tool.tool as FilledTool] : false,
     ink: useDrawingStore.getState().inkKind,
   };
 };

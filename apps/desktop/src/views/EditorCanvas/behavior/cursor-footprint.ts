@@ -1,12 +1,12 @@
 /* @layer renderer-app @kind logic */
 import type { ToolSettings } from '../../../stores/tool-store.type';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
+import { BRUSH_FOOTPRINT_TOOLS, NO_FOOTPRINT_TOOLS } from './cursor-footprint.constants';
 
 const cursorFootprint = (tools: Pick<ToolSettings, 'tool' | 'brushSize'>): number => {
-  if (tools.tool === 'pencil' || tools.tool === 'shade' || tools.tool === 'eraser' || tools.tool === 'line' || tools.tool === 'curve') return tools.brushSize;
+  if (BRUSH_FOOTPRINT_TOOLS.includes(tools.tool)) return tools.brushSize;
   if (tools.tool === 'spray') return useDrawingStore.getState().spraySize;
-  if (tools.tool === 'rect' || tools.tool === 'ellipse' || tools.tool === 'contour' || tools.tool === 'polygon') return tools.brushSize;
-  return tools.tool === 'zoom' || tools.tool === 'hand' ? 0 : 1;
+  return NO_FOOTPRINT_TOOLS.includes(tools.tool) ? 0 : 1;
 };
 
 export { cursorFootprint };

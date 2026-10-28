@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Point } from '@bxel/raster';
+import type { SprayDots } from './spray-dots.type';
 import { nextRandom } from './spray-random';
-
-type SprayDots = { readonly dots: Point[]; readonly state: number };
 
 const sprayDots = (at: Point, size: number, count: number, seed: number): SprayDots => {
   const dots: Point[] = [];

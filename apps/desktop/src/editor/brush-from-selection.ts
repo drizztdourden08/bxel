@@ -5,14 +5,12 @@ import { useDrawingStore } from '../stores/useDrawingStore';
 import { useNoticeStore } from '../stores/useNoticeStore';
 import { useToolStore } from '../stores/useToolStore';
 import { currentTarget } from './current-target';
+import { BRUSH_REF, BRUSH_SIDE_MAX } from './brush-from-selection.constants';
 import { celPixels } from './selection/cel-pixels';
 import { clipOf } from './selection/clip-of';
 import { SELECTION_TEXT } from './selection/selection.constants';
 import { selectionMask } from './selection/selection-mask';
 import { savedBrushes } from './saved-brushes';
-
-const BRUSH_SIDE_MAX = 64;
-const BRUSH_REF = 'brush';
 
 const brushFromSelection = (): boolean => {
   const target = currentTarget();

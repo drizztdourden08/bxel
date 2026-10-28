@@ -2,7 +2,7 @@
 import type { Symmetry } from '@bxel/raster';
 import type { PixelView } from '../../PixelViewport';
 import { AXIS_DASH, AXIS_GRIP } from '../EditorCanvas.constants';
-import type { OverlayLook } from './canvas-tools.type';
+import type { AxisShown, OverlayLook } from './canvas-tools.type';
 
 const paintCrossing = (ctx: CanvasRenderingContext2D, view: PixelView, symmetry: Symmetry): void => {
   if (typeof symmetry.x2 !== 'number' || typeof symmetry.y2 !== 'number') return;
@@ -22,35 +22,44 @@ const paintCrossing = (ctx: CanvasRenderingContext2D, view: PixelView, symmetry:
   }
 };
 
+const paintLines = (ctx: CanvasRenderingContext2D, view: PixelView, shown: AxisShown): void => {
+  if (shown.x !== null) {
+    ctx.moveTo(shown.x / 2, 0);
+    ctx.lineTo(shown.x / 2, view.imageHeight);
+  }
+  if (shown.y !== null) {
+    ctx.moveTo(0, shown.y / 2);
+    ctx.lineTo(view.imageWidth, shown.y / 2);
+  }
+};
+
+const paintGrips = (ctx: CanvasRenderingContext2D, view: PixelView, shown: AxisShown): void => {
+  const grip = AXIS_GRIP / view.zoom;
+  if (shown.x !== null) {
+    ctx.fillRect(shown.x / 2 - grip / 2, 0, grip, grip);
+    ctx.fillRect(shown.x / 2 - grip / 2, view.imageHeight - grip, grip, grip);
+  }
+  if (shown.y !== null) {
+    ctx.fillRect(0, shown.y / 2 - grip / 2, grip, grip);
+    ctx.fillRect(view.imageWidth - grip, shown.y / 2 - grip / 2, grip, grip);
+  }
+};
+
 const paintAxes = (ctx: CanvasRenderingContext2D, view: PixelView, symmetry: Symmetry, look: OverlayLook): void => {
-  const { zoom, imageWidth, imageHeight } = view;
-  const grip = AXIS_GRIP / zoom;
-  const showX = typeof symmetry.x2 === 'number' && symmetry.mirrorX !== false;
-  const showY = typeof symmetry.y2 === 'number' && symmetry.mirrorY !== false;
+  const shown = {
+    x: typeof symmetry.x2 === 'number' && symmetry.mirrorX !== false ? symmetry.x2 : null,
+    y: typeof symmetry.y2 === 'number' && symmetry.mirrorY !== false ? symmetry.y2 : null,
+  };
   ctx.save();
   ctx.strokeStyle = look.axis;
   ctx.fillStyle = look.axis;
-  ctx.lineWidth = 1 / zoom;
-  ctx.setLineDash(AXIS_DASH.map((part) => part / zoom));
+  ctx.lineWidth = 1 / view.zoom;
+  ctx.setLineDash(AXIS_DASH.map((part) => part / view.zoom));
   ctx.beginPath();
-  if (showX && typeof symmetry.x2 === 'number') {
-    ctx.moveTo(symmetry.x2 / 2, 0);
-    ctx.lineTo(symmetry.x2 / 2, imageHeight);
-  }
-  if (showY && typeof symmetry.y2 === 'number') {
-    ctx.moveTo(0, symmetry.y2 / 2);
-    ctx.lineTo(imageWidth, symmetry.y2 / 2);
-  }
+  paintLines(ctx, view, shown);
   paintCrossing(ctx, view, symmetry);
   ctx.stroke();
-  if (showX && typeof symmetry.x2 === 'number') {
-    ctx.fillRect(symmetry.x2 / 2 - grip / 2, 0, grip, grip);
-    ctx.fillRect(symmetry.x2 / 2 - grip / 2, imageHeight - grip, grip, grip);
-  }
-  if (showY && typeof symmetry.y2 === 'number') {
-    ctx.fillRect(0, symmetry.y2 / 2 - grip / 2, grip, grip);
-    ctx.fillRect(imageWidth - grip, symmetry.y2 / 2 - grip / 2, grip, grip);
-  }
+  paintGrips(ctx, view, shown);
   ctx.restore();
 };
 

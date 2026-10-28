@@ -2,9 +2,8 @@
 import { useEffect } from 'react';
 import { gesture } from '../../../editor/gesture-state';
 import { pathDraft } from '../../../editor/path-draft';
-import { dropVertex } from '../../../editor/path-session';
-
-type DraftKeys = { readonly finish: () => void; readonly cancel: () => void; readonly redraw: () => void };
+import { dropVertex } from '../../../editor/drop-vertex';
+import type { DraftKeys } from './useDraftKeys.type';
 
 const typing = (event: KeyboardEvent): boolean => {
   const target = event.target;

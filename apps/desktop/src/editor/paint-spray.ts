@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { plotDots } from '@bxel/raster';
 import type { SpraySession } from './editor.type';
+import { SINGLE_STAMP } from './paint-gradient.constants';
 import { refreshRect } from './refresh-rect';
 import { restoreRect } from './restore-rect';
 import { unionDirty } from './union-dirty';
-
-const SINGLE = { shape: 'square', size: 1 } as const;
 
 const paintSpray = (session: SpraySession): void => {
   const before = session.dirty;
@@ -15,7 +14,7 @@ const paintSpray = (session: SpraySession): void => {
     target: { pixels: session.indices, width: session.width, height: session.height },
     index: session.index,
     points: session.dots,
-    brush: SINGLE,
+    brush: SINGLE_STAMP,
     symmetry: options.symmetry,
     wrap: options.wrap,
     mask: session.mask,

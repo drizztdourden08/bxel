@@ -1,24 +1,12 @@
 /* @layer renderer-app @kind logic */
-import type { Point, ShapeKind, Size } from '@bxel/raster';
-import type { DrawingSettings } from '../stores/drawing-store.type';
-import type { ToolSettings } from '../stores/tool-store.type';
 import { brushOf } from './brush-of';
-import type { EditorTarget, ShapeSpec } from './editor.type';
-import { inkOf, PARTNER } from './ink-of';
-import type { ColourSlot } from './press-plan.type';
+import type { ShapeSpec } from './editor.type';
+import { PARTNER } from './ink-of.constants';
+import { inkOf } from './ink-of';
+import type { ShapeInput } from './shape-spec.type';
 import { ruleOf } from './rule-of';
 import { symmetryOf } from './symmetry-of';
 import { wrapOf } from './wrap-of';
-
-type ShapeInput = {
-  readonly tools: ToolSettings;
-  readonly drawing: DrawingSettings;
-  readonly target: EditorTarget;
-  readonly size: Size;
-  readonly shape: ShapeKind;
-  readonly slot: ColourSlot;
-  readonly at: Point;
-};
 
 const shapeSpec = ({ tools, drawing, target, size, shape, slot, at }: ShapeInput): ShapeSpec => {
   const choice = inkOf(slot, tools, drawing);

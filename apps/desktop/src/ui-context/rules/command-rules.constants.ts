@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS, DRAWING_TOOL_IDS } from '../../keymap/drawing-command-id.constants';
+import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS } from '../../keymap/drawing-command-id.constants';
 import { always, any, canRedo, canUndo, file, hasDocument, hasFile, isolated, never, not, projectOpen } from '../predicates.constants';
 import { ONLY, REASON } from '../reasons.constants';
 import { rule } from '../rule';

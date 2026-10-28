@@ -6,7 +6,7 @@ import type { EditorTarget, SpraySession } from './editor.type';
 import { inkOf } from './ink-of';
 import type { DrawPlan } from './press-plan.type';
 import { ruleOf } from './rule-of';
-import { beginSpray } from './spray-session';
+import { beginSpray } from './begin-spray';
 import { symmetryOf } from './symmetry-of';
 import { wrapOf } from './wrap-of';
 

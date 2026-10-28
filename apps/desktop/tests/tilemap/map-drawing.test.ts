@@ -12,8 +12,8 @@ import { strokePlace } from '../../src/tilemap/stroke-place';
 import { revision } from '../sheet/sheet-harness';
 import { cellsNow, openMapFile } from './map-harness';
 
-beforeEach(async () => {
-  await openMapFile();
+beforeEach(() => {
+  openMapFile();
   useToolStore.setState({ symmetryX: false, symmetryY: false });
   useDrawingStore.setState({ ...DRAWING_DEFAULTS });
 });

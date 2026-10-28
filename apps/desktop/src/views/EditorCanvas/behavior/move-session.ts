@@ -3,8 +3,8 @@ import type { PointerEvent } from 'react';
 import type { Point } from '@bxel/raster';
 import type { PaintSession } from '../../../editor/editor.type';
 import { extendStroke } from '../../../editor/extend-stroke';
-import { hoverPath } from '../../../editor/path-session';
-import { moveSpray } from '../../../editor/spray-session';
+import { hoverPath } from '../../../editor/hover-path';
+import { moveSpray } from '../../../editor/move-spray';
 import { updateGradient } from '../../../editor/update-gradient';
 import { updateShape } from '../../../editor/update-shape';
 import { useGestureStore } from '../../../stores/useGestureStore';
@@ -29,7 +29,7 @@ const moveSession = (session: PaintSession, at: Point, event: PointerEvent<HTMLE
       return;
     case 'spray':
       moveSpray(session, at);
-      return;
+      break;
   }
 };
 

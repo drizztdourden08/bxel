@@ -23,4 +23,6 @@ type PressPlan =
 
 type DrawPlan = Extract<PressPlan, { kind: 'shape' | 'stroke' | 'path' | 'gradient' | 'spray' }>;
 
-export type { ColourSlot, DrawPlan, PressEvent, PressPlan };
+type StrokePlan = Extract<PressPlan, { kind: 'stroke' }>;
+
+export type { ColourSlot, DrawPlan, PressEvent, PressPlan, StrokePlan };

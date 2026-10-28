@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { decodeBrushPixels } from '@bxel/document';
 import type { DrawingSettings } from '../stores/drawing-store.type';
-import type { CustomStamp } from './editor.type';
-import { savedBrush } from './saved-brushes';
+import type { BrushPatch } from './editor.type';
+import { savedBrush } from './saved-brush';
 
-const customStamp = (drawing: DrawingSettings, index: number): CustomStamp | null => {
+const brushPatch = (drawing: DrawingSettings, index: number): BrushPatch | null => {
   const brush = savedBrush(drawing.brushId);
   if (!brush) return null;
   const pixels = decodeBrushPixels(brush.pixels);
@@ -18,4 +18,4 @@ const customStamp = (drawing: DrawingSettings, index: number): CustomStamp | nul
   };
 };
 
-export { customStamp };
+export { brushPatch };

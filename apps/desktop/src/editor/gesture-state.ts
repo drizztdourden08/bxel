@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-type GestureState = { dragging: boolean; space: boolean };
+import type { GestureState } from './gesture-state.type';
 
 const gesture: GestureState = { dragging: false, space: false };
 
