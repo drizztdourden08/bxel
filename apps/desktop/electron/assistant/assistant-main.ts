@@ -12,6 +12,7 @@ const assistantMain: AssistantMain = {
   instance: readInstance(),
   bridge: null,
   synced: new Map(),
+  handoff: null,
   sessions: createSessionTable(
     () => publishSessions(assistantMain),
     (session) => pushGrant(assistantMain, session),

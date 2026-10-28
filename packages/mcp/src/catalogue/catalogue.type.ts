@@ -21,7 +21,8 @@ type ToolEntry = {
   readonly bundle: BundleId;
   readonly kind: ToolKind;
   readonly writes?: (input: unknown) => boolean;
-  readonly routed?: 'steps';
+  readonly routed?: 'steps' | 'command';
+  readonly special?: 'mayRestart';
 };
 
 type ToolRowId = ToolName;

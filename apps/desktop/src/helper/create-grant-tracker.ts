@@ -10,6 +10,7 @@ const createGrantTracker = (): GrantTracker => {
   };
   return {
     current: () => state.grant,
+    sessionId: () => state.sessionId,
     accept: (sessionId, grant) => {
       state.sessionId = sessionId;
       set(grant);

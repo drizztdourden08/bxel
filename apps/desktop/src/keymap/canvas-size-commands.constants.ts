@@ -11,9 +11,9 @@ import { pixelCommand } from './pixel-command';
 const group = COMMAND_GROUP.edit;
 
 const CANVAS_SIZE_COMMANDS: readonly CommandDef[] = [
-  pixelCommand({ id: ID.cropToSelection, label: 'Crop to selection', group, chord: 'Mod+Shift+X', whileTyping: false, run: cropToSelection }),
-  pixelCommand({ id: ID.trim, label: 'Trim to content', group, chord: 'Mod+Shift+T', whileTyping: false, run: trimActiveSprite }),
-  pixelCommand({ id: ID.size, label: 'Canvas size', group, chord: 'Mod+Alt+C', whileTyping: false, run: () => useCanvasSizeStore.getState().show() }),
+  pixelCommand({ id: ID.cropToSelection, label: 'Crop to selection', group, chord: 'Mod+Shift+X', whileTyping: false, run: () => void cropToSelection() }),
+  pixelCommand({ id: ID.trim, label: 'Trim to content', group, chord: 'Mod+Shift+T', whileTyping: false, run: () => void trimActiveSprite() }),
+  pixelCommand({ id: ID.size, label: 'Canvas size', group, chord: 'Mod+Alt+C', whileTyping: false, run: () => void useCanvasSizeStore.getState().show() }),
 ].map(editorCommand);
 
 export { CANVAS_SIZE_COMMANDS };
