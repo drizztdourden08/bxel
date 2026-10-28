@@ -6,6 +6,7 @@ import { strokeErase } from '../../../tilemap/stroke-erase';
 import { strokePlace } from '../../../tilemap/stroke-place';
 import type { MapTarget } from '../../../tilemap/tilemap.type';
 import type { MapDrag } from '../TilemapCanvas.type';
+import { capturePick } from './capture-pick';
 import { spanRect } from './span-rect';
 
 const finishDrag = (drag: MapDrag, target: MapTarget): void => {
@@ -14,6 +15,8 @@ const finishDrag = (drag: MapDrag, target: MapTarget): void => {
     else strokeErase(drag.cells);
   } else if (drag.kind === 'rect') {
     rectPlace(spanRect(drag.from, drag.to));
+  } else if (drag.kind === 'pick') {
+    capturePick(drag.from, drag.to);
   } else {
     const from = readCell(target.tilemap, target.layer, drag.from)?.key ?? 0;
     useTilemapStore.getState().setSelection({ rect: spanRect(drag.from, drag.to), from });

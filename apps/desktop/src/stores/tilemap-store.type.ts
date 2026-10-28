@@ -7,6 +7,7 @@ interface TileStamp {
   readonly columns: number;
   readonly rows: number;
   readonly keys: readonly number[];
+  readonly scatter?: boolean;
 }
 
 interface MapSelection {

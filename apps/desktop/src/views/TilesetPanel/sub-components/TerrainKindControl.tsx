@@ -4,9 +4,9 @@ import { emptyRules } from '../../../tilemap/terrain/empty-rules';
 import { TERRAIN_CHOICES, TERRAIN_TEXT } from '../../../tilemap/terrain/terrain.constants';
 import { terrainChoice } from '../../../tilemap/terrain/terrain-choice';
 import { setTerrain } from '../../../tilemap/set-terrain';
-import type { TilesetHeaderProps } from '../TilesetPanel.type';
+import type { TilesetModelProps } from '../TilesetPanel.type';
 
-const TerrainKindControl = ({ model }: TilesetHeaderProps) => (
+const TerrainKindControl = ({ model }: TilesetModelProps) => (
   <SegmentedControl
     size="sm"
     aria-label={TERRAIN_TEXT.kind}

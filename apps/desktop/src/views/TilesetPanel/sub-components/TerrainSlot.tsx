@@ -5,7 +5,7 @@ import type { TerrainSlotProps } from '../TilesetPanel.type';
 import { SlotGlyph } from './SlotGlyph';
 import { TileThumb } from './TileThumb';
 
-const TerrainSlot = ({ index, mask, cell, artwork, onPick }: TerrainSlotProps) => (
+const TerrainSlot = ({ index, mask, cell, view, onPick }: TerrainSlotProps) => (
   <Pressable
     type="button"
     className="tileset-panel__slot"
@@ -14,7 +14,7 @@ const TerrainSlot = ({ index, mask, cell, artwork, onPick }: TerrainSlotProps) =
     onClick={() => onPick(index)}
   >
     <SlotGlyph mask={mask} />
-    {cell ? <TileThumb artwork={artwork} sprite={cell.sprite} /> : <Box className="tileset-panel__slot-empty" aria-hidden="true" />}
+    {cell ? <TileThumb view={view} cell={cell} /> : <Box className="tileset-panel__slot-empty" aria-hidden="true" />}
   </Pressable>
 );
 

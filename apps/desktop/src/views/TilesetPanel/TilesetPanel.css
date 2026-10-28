@@ -1,61 +1,218 @@
 /* @layer renderer-app @kind style */
+.tileset-panel {
+  flex: 1;
+  min-block-size: 0;
+  min-inline-size: 0;
+}
+
+.tileset-panel__split {
+  flex: 1;
+  min-block-size: 0;
+}
+
+.tileset-panel__brush {
+  padding: var(--space-xs);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-sunken);
+}
+
+.tileset-panel__brush-body {
+  min-inline-size: 0;
+}
+
+.tileset-panel__stamp {
+  display: block;
+  flex: none;
+  max-inline-size: var(--size-96);
+  max-block-size: var(--size-96);
+  image-rendering: pixelated;
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
+}
+
+.tileset-panel__grid-area {
+  flex: 1;
+  min-block-size: 0;
+  min-inline-size: 0;
+  padding-inline: var(--space-2xs);
+}
+
 .tileset-panel__scroll {
   flex: 1;
-  min-height: var(--size-40);
+  min-block-size: var(--size-96);
+}
+
+.tileset-panel__measure {
+  min-inline-size: 0;
 }
 
 .tileset-panel__grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: var(--space-2xs);
+  padding: var(--space-2xs);
+  justify-items: center;
 }
 
-.tileset-panel__tile,
+.tileset-panel__row {
+  display: contents;
+}
+
+.tileset-panel__cell,
 .tileset-panel__slot {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2xs);
   padding: var(--space-2xs);
   border: var(--border-width-thin) solid var(--c-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   background: var(--c-surface);
   color: var(--c-text);
   cursor: pointer;
+  user-select: none;
+  touch-action: none;
 }
 
-.tileset-panel__tile:hover,
+.tileset-panel__cell:hover,
 .tileset-panel__slot:hover {
   background: var(--c-hover);
 }
 
-.tileset-panel__tile[aria-pressed='true'] {
+.tileset-panel__cell:focus-visible {
+  outline: var(--border-width-thick) solid var(--c-focus);
+  outline-offset: var(--border-width-thin);
+}
+
+.tileset-panel__cell--hole {
+  border-style: dashed;
+  background: transparent;
+  cursor: default;
+}
+
+.tileset-panel__hole {
+  display: block;
+  opacity: var(--opacity-faint);
+}
+
+.tileset-panel__cell[data-picked] {
   border-color: var(--c-primary-bright);
   background: var(--c-selected);
 }
 
-.tileset-panel__tile--editing {
+.tileset-panel__cell[data-editing] {
   border-width: var(--border-width-thick);
   border-color: var(--c-warning);
 }
 
+.tileset-panel__cell[data-dim] {
+  opacity: var(--opacity-faint);
+}
+
+.tileset-panel__cell[data-painting] {
+  border-color: var(--c-warning-bright);
+  border-style: dashed;
+  background: var(--c-warning-soft);
+}
+
 .tileset-panel__thumb {
   display: block;
-  inline-size: var(--size-40);
-  block-size: var(--size-40);
   image-rendering: pixelated;
   background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
 }
 
-.tileset-panel__badge {
+.tileset-panel__badge,
+.tileset-panel__key,
+.tileset-panel__uses,
+.tileset-panel__slot-mark,
+.tileset-panel__chip,
+.tileset-panel__order {
   position: absolute;
-  inset-block-start: var(--space-2xs);
-  inset-inline-end: var(--space-2xs);
-  padding: var(--border-width-thin);
+  padding-inline: var(--size-2);
   border-radius: var(--radius-sm);
   background: var(--c-surface);
+  color: var(--c-text);
+  line-height: 1.2;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.tileset-panel__badge {
+  inset-block-start: var(--size-2);
+  inset-inline-end: var(--size-2);
   color: var(--c-primary-bright);
+}
+
+.tileset-panel__key {
+  inset-block-end: var(--size-2);
+  inset-inline-end: var(--size-2);
+  color: var(--c-text-dim);
+}
+
+.tileset-panel__uses {
+  inset-block-start: var(--size-2);
+  inset-inline-start: var(--size-2);
+  background: var(--c-primary-soft);
+  color: var(--c-primary-text);
+}
+
+.tileset-panel__slot-mark {
+  inset-block-end: var(--size-2);
+  inset-inline-start: var(--size-2);
+  background: var(--c-info-soft);
+  color: var(--c-info-bright);
+}
+
+.tileset-panel__chip {
+  inset-block-start: var(--size-2);
+  inset-inline-start: var(--size-2);
+  color: var(--c-surface);
+  font-weight: 700;
+}
+
+.tileset-panel__chip[data-chip='0'] {
+  background: var(--c-primary-bright);
+}
+
+.tileset-panel__chip[data-chip='1'] {
+  background: var(--c-success);
+}
+
+.tileset-panel__chip[data-chip='2'] {
+  background: var(--c-warning);
+}
+
+.tileset-panel__chip[data-chip='3'] {
+  background: var(--c-danger);
+}
+
+.tileset-panel__chip[data-chip='4'] {
+  background: var(--c-info);
+}
+
+.tileset-panel__order {
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--c-primary);
+  color: var(--c-primary-text);
+  font-weight: 700;
+}
+
+.tileset-panel__inspector {
+  flex: 1;
+  min-block-size: 0;
+}
+
+.tileset-panel__inspector-body {
+  padding: var(--space-xs);
+}
+
+.tileset-panel__field {
+  padding: var(--space-xs);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-sunken);
 }
 
 .tileset-panel__preview {
@@ -69,11 +226,7 @@
   background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
 }
 
-.tileset-panel__key {
-  font-variant-numeric: tabular-nums;
-}
-
-.tileset-panel__collision {
+.tileset-panel__shape-canvas {
   display: block;
   max-inline-size: 100%;
   image-rendering: pixelated;
@@ -81,7 +234,34 @@
   touch-action: none;
   border: var(--border-width-thin) solid var(--c-border);
   border-radius: var(--radius-md);
-  background: var(--c-sunken);
+  background: repeating-conic-gradient(var(--c-sunken) 0% 25%, var(--c-surface) 0% 50%) 0 0 / var(--size-8) var(--size-8);
+}
+
+.tileset-panel__shape-row {
+  padding: var(--space-2xs);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-sm);
+}
+
+.tileset-panel__shape-row[data-selected] {
+  border-color: var(--c-primary-bright);
+  background: var(--c-selected);
+}
+
+.tileset-panel__shape-pick {
+  min-inline-size: var(--size-40);
+  text-align: start;
+  background: transparent;
+  border: 0;
+  color: var(--c-text);
+  cursor: pointer;
+}
+
+.tileset-panel__frame {
+  padding: var(--space-2xs);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-surface);
 }
 
 .tileset-panel__slots {

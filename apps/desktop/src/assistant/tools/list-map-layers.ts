@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { solidShape } from '@bxel/document';
 import { hiddenFailure } from '@bxel/mcp';
 import type { Artwork, Tilemap, Tileset } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';

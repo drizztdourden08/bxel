@@ -3,12 +3,12 @@ import { Stack, Text } from '@drizztdourden08/tessera';
 import { assignSlot } from '../../../tilemap/terrain/assign-slot';
 import { TERRAIN_TEXT } from '../../../tilemap/terrain/terrain.constants';
 import { setTerrain } from '../../../tilemap/set-terrain';
-import type { TilesetHeaderProps } from '../TilesetPanel.type';
+import type { TilesetModelProps } from '../TilesetPanel.type';
 import { TerrainActions } from './TerrainActions';
 import { TerrainKindControl } from './TerrainKindControl';
 import { TerrainSlots } from './TerrainSlots';
 
-const TerrainSection = ({ model }: TilesetHeaderProps) => {
+const TerrainSection = ({ model }: TilesetModelProps) => {
   const rules = model.tileset.terrain;
   const pick = (index: number): void => {
     if (rules && model.pickedKey !== null) setTerrain(assignSlot(rules, index, model.pickedKey));
