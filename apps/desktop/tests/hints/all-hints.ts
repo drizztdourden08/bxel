@@ -35,12 +35,6 @@ const optionHint = (spec: OptionSpec): HintSpec[] => [
 const panelHints = (): HintSpec[] => [
   ...TOOL_SLOTS.flatMap((slot) => slot.members.map((member) => toolHint(slot, member))),
   ...Object.values(TILE_MODE_HINTS),
-  ...FLAG_ACTIONS.map((action) => action.hint),
-  FILLED_MAP_HINT,
-  REPLACE_IN_HINT,
-  REPLACE_ALL_HINT,
-  CLEAR_CELLS_HINT,
-  UNIQUE_CELLS_HINT,
   COLLISION_OVERLAY_HINT,
   ANIMATE_TILES_HINT,
   ADD_HINT,
