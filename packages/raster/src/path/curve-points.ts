@@ -7,7 +7,7 @@ import { SAMPLES_PER_PIXEL } from './path.constants';
 const along = (first: number, control: number, last: number, t: number): number =>
   Math.round((1 - t) * (1 - t) * first + 2 * (1 - t) * t * control + t * t * last);
 
-const curvePoints = (points: readonly Point[]): Point[] => {
+const curvePoints = (points: readonly Point[], perfect = true): Point[] => {
   const [start, control, end] = points;
   if (!start || !control || !end) {
     return [];
@@ -19,7 +19,7 @@ const curvePoints = (points: readonly Point[]): Point[] => {
     const t = step / steps;
     samples.push({ x: along(start.x, control.x, end.x, t), y: along(start.y, control.y, end.y, t) });
   }
-  return pixelPerfect(strokePoints(samples));
+  return perfect ? pixelPerfect(strokePoints(samples)) : strokePoints(samples);
 };
 
 export { curvePoints };

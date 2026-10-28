@@ -14,7 +14,7 @@ const pixelsGradient = defineCommand({
   scope: 'cels',
   schema: pixelsGradientSchema,
   run: (draft, input) => {
-    const { ramp, first, last, line, mode, dither, origin, mask } = input.options;
+    const { ramp, first, last, line, mode, dither, origin, mask, kind, reflect, pattern, wrap } = input.options;
     checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: 0, mask });
     const needs = Math.max(first ?? 0, last ?? 0) + 1;
     const ramps = resolveRamps({ artwork: draft.artwork, sprites: input.sprites, name: ramp, needs });
@@ -22,7 +22,7 @@ const pixelsGradient = defineCommand({
       const colors = rampRun(slots, first, last);
       const bayer = mode === 'dither' ? dither : null;
       applyToCels(draft, spriteCels(input.cels, spriteId), (target) =>
-        gradientFill({ target, mask, colors, line, bayer, origin }),
+        gradientFill({ target, mask, colors, line, bayer, origin, kind, reflect, pattern, wrap }),
       );
     }
   },
