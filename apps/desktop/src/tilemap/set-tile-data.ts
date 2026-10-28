@@ -1,16 +1,9 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
-import type { FieldValue, TileTurns } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
 import { currentTileset } from './current-tileset';
+import type { TileDataPatch } from './set-tile-data.type';
 import { TILE_LABEL } from './tilemap.constants';
-
-interface TileDataPatch {
-  type?: string | null;
-  probability?: number | null;
-  turns?: TileTurns | null;
-  data?: Readonly<Record<string, FieldValue | null>>;
-}
 
 const setTileData = (keys: readonly number[], patch: TileDataPatch, label: string = TILE_LABEL.tileData): boolean => {
   const tileset = currentTileset();
@@ -19,5 +12,4 @@ const setTileData = (keys: readonly number[], patch: TileDataPatch, label: strin
   return runDocument(label, [{ name: COMMAND_NAME.tileData, targets: null, options }]) !== null;
 };
 
-export type { TileDataPatch };
 export { setTileData };

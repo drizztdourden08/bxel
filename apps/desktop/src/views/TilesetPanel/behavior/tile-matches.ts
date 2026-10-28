@@ -1,19 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { tileShapes } from '@bxel/document';
-import type { Tile } from '@bxel/document';
 import type { TileFilter } from '../../../stores/tileset-view-store.type';
-
-interface MatchTile {
-  tile: Tile;
-  name: string;
-  uses: number;
-  terrainSlot: number | null;
-}
-
-interface MatchQuery {
-  search: string;
-  filters: readonly TileFilter[];
-}
+import type { MatchQuery, MatchTile } from './tile-matches.type';
 
 const passes = (filter: TileFilter, tile: MatchTile): boolean => {
   if (filter === 'used') return tile.uses > 0;

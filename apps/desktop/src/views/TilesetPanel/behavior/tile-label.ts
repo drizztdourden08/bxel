@@ -1,9 +1,8 @@
 /* @layer renderer-app @kind logic */
 import { tileShapes } from '@bxel/document';
 import type { TileCell } from '../TilesetPanel.type';
+import { SHAPE_WORDS } from './tile-label.constants';
 import { TILE_ANIMATION_TEXT } from '../../../tile-animation/tile-animation.constants';
-
-const SHAPE_WORDS = { full: 'full', rect: 'box', polygon: 'shape' } as const;
 
 const tileLabel = (cell: TileCell, name: string): string => {
   const { tile, uses } = cell;

@@ -1,10 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Artwork, Tileset } from '@bxel/document';
 import type { GridView } from '../TilesetPanel.type';
-
-const NONE: ReadonlySet<number> = new Set();
-
-const NO_ORDER: ReadonlyMap<number, number> = new Map();
+import { NONE, NO_ORDER } from './slot-view.constants';
 
 const slotView = (artwork: Artwork, tileset: Tileset): GridView => ({
   artwork,

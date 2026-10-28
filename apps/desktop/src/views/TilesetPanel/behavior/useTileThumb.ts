@@ -7,7 +7,8 @@ import { subscribeTileClock } from '../../../tile-animation/tile-clock';
 import { drawPlaybackFrame } from '../../../tile-animation/draw-playback-frame';
 import { tileCanvas } from '../../../tilemap/tile-canvas';
 import type { TileThumbProps } from '../TilesetPanel.type';
-import { drawShapes, drawThumb } from './draw-thumb';
+import { drawShapes } from './draw-shapes';
+import { drawThumb } from './draw-thumb';
 
 const useTileThumb = ({ view, cell }: TileThumbProps): RefObject<HTMLCanvasElement | null> => {
   const canvas = useRef<HTMLCanvasElement | null>(null);

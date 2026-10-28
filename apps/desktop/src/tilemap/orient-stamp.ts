@@ -2,20 +2,19 @@
 import type { CellFlags } from '@bxel/document';
 import type { TileStamp } from '../stores/tilemap-store.type';
 
+const sourceIndex = (flags: CellFlags, at: { column: number; row: number }, size: { width: number; height: number; columns: number }): number => {
+  const x = flags.flipX ? size.width - 1 - at.column : at.column;
+  const y = flags.flipY ? size.height - 1 - at.row : at.row;
+  return flags.diagonal ? x * size.columns + y : y * size.columns + x;
+};
+
 const orientStamp = (stamp: TileStamp, flags: CellFlags): TileStamp => {
   if (stamp.scatter || (!flags.flipX && !flags.flipY && !flags.diagonal)) return stamp;
   const width = flags.diagonal ? stamp.rows : stamp.columns;
   const height = flags.diagonal ? stamp.columns : stamp.rows;
-  const keys: number[] = [];
-  for (let row = 0; row < height; row += 1) {
-    for (let column = 0; column < width; column += 1) {
-      const x = flags.flipX ? width - 1 - column : column;
-      const y = flags.flipY ? height - 1 - row : row;
-      const sourceColumn = flags.diagonal ? y : x;
-      const sourceRow = flags.diagonal ? x : y;
-      keys.push(stamp.keys[sourceRow * stamp.columns + sourceColumn] ?? 0);
-    }
-  }
+  const keys = Array.from({ length: width * height }, (_unused, at) =>
+    stamp.keys[sourceIndex(flags, { column: at % width, row: Math.floor(at / width) }, { width, height, columns: stamp.columns })] ?? 0,
+  );
   return { columns: width, rows: height, keys };
 };
 

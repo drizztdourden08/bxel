@@ -2,12 +2,8 @@
 import { COMMAND_NAME } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
 import { currentTileset } from './current-tileset';
+import type { LayoutPatch } from './set-layout.type';
 import { TILE_LABEL } from './tilemap.constants';
-
-interface LayoutPatch {
-  columns?: number;
-  move?: readonly { key: number; to: number }[];
-}
 
 const setLayout = (patch: LayoutPatch): boolean => {
   const tileset = currentTileset();

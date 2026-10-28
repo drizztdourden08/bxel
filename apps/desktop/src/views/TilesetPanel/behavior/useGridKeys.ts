@@ -1,22 +1,13 @@
 /* @layer renderer-app @kind hook */
-import type { KeyboardEvent, RefObject } from 'react';
+import type { KeyboardEvent } from 'react';
 import { MODES } from '../TilesetPanel.constants';
-import type { TilesetModel } from '../TilesetPanel.type';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import { pickTile } from '../../../tilemap/pick-tile';
 import { focusCell } from './focus-cell';
 import { gridStep } from './grid-step';
-
-interface GridKeyInput {
-  model: TilesetModel;
-  anchor: RefObject<number | null>;
-  setFocused: (index: number) => void;
-  span: (to: number) => void;
-  toggle: (index: number) => void;
-}
-
-const CLEAR = { columns: 1, rows: 1, keys: [0] } as const;
+import type { GridKeyInput } from './useGridKeys.type';
+import { CLEAR_STAMP } from './useGridKeys.constants';
 
 const useGridKeys = ({ model, anchor, setFocused, span, toggle }: GridKeyInput) => {
   const count = model.slots.length;
@@ -36,15 +27,19 @@ const useGridKeys = ({ model, anchor, setFocused, span, toggle }: GridKeyInput) 
     }
     return true;
   };
+  const activate = (index: number, event: KeyboardEvent<HTMLElement>): void => {
+    event.preventDefault();
+    if (event.ctrlKey || event.metaKey) toggle(index);
+    else pick(index);
+  };
   return (index: number, event: KeyboardEvent<HTMLElement>): void => {
-    const modeKey = MODES[Number(event.key) - 1];
     if (move(index, event)) event.preventDefault();
-    else if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      if (event.ctrlKey || event.metaKey) toggle(index);
-      else pick(index);
-    } else if (event.key === 'Escape') useTilemapStore.getState().setStamp(CLEAR);
-    else if (modeKey && !event.ctrlKey && !event.altKey && !event.metaKey) useTilesetViewStore.getState().setMode(modeKey.value);
+    else if (event.key === 'Enter' || event.key === ' ') activate(index, event);
+    else if (event.key === 'Escape') useTilemapStore.getState().setStamp(CLEAR_STAMP);
+    else if (!event.ctrlKey && !event.altKey && !event.metaKey) {
+      const mode = MODES[Number(event.key) - 1];
+      if (mode) useTilesetViewStore.getState().setMode(mode.value);
+    }
   };
 };
 

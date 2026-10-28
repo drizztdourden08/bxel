@@ -3,9 +3,8 @@ import { COMMAND_NAME } from '@bxel/document';
 import type { TileShape } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
 import { currentTileset } from './current-tileset';
+import type { ShapeMode } from './set-shapes.type';
 import { TILE_LABEL } from './tilemap.constants';
-
-type ShapeMode = 'set' | 'add' | 'layer';
 
 const setShapes = (keys: readonly number[], shapes: readonly TileShape[], mode: ShapeMode = 'set'): boolean => {
   const tileset = currentTileset();

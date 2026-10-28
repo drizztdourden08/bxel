@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { Button, Field, Flex, SegmentedControl, Select, Stack, TextInput } from '@drizztdourden08/tessera';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
-import type { CollisionPaint } from '../../../stores/tileset-view-store.type';
 import { setFields } from '../../../tilemap/set-fields';
 import { PAINT_CHOICES, TILESET_TEXT } from '../TilesetPanel.constants';
 import type { TilesetModelProps } from '../TilesetPanel.type';
@@ -26,7 +25,7 @@ const CollisionTools = ({ model }: TilesetModelProps) => {
         aria-label={TILESET_TEXT.paintTool}
         value={view.collisionPaint}
         options={PAINT_CHOICES.map((choice) => ({ value: choice.value, label: choice.label }))}
-        onChange={(value) => view.setCollisionPaint(value as CollisionPaint)}
+        onChange={view.setCollisionPaint}
       />
       <Flex gap="xs" align="end" wrap>
         <Field label={TILESET_TEXT.layer}>

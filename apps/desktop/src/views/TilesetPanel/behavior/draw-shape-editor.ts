@@ -1,17 +1,9 @@
 /* @layer renderer-app @kind logic */
-import type { Point, TileShape, Tileset } from '@bxel/document';
+import type { Point } from '@bxel/document';
 import { outlinePoints } from '../../../tilemap/collision/outline-points';
-import { layerColour } from './draw-thumb';
+import type { EditorPaint } from './draw-shape-editor.type';
+import { layerColour } from './layer-colour';
 import { EDITOR_LOOK } from './thumb.constants';
-
-interface EditorPaint {
-  tile: HTMLCanvasElement | null;
-  tileset: Tileset;
-  shapes: readonly TileShape[];
-  selected: number;
-  zoom: number;
-  preview: TileShape | null;
-}
 
 const trace = (ctx: CanvasRenderingContext2D, points: readonly Point[], zoom: number): void => {
   ctx.beginPath();
@@ -49,5 +41,4 @@ const drawShapeEditor = (canvas: HTMLCanvasElement, paint: EditorPaint): void =>
   ctx.setLineDash([]);
 };
 
-export type { EditorPaint };
 export { drawShapeEditor };

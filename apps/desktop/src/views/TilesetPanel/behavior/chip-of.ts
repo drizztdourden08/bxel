@@ -1,11 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Tile, Tileset } from '@bxel/document';
+import type { Chip } from './chip-of.type';
 import { CHIP_COLOURS } from '../TilesetPanel.constants';
-
-interface Chip {
-  letter: string;
-  tone: number;
-}
 
 const chipOf = (tileset: Tileset, tile: Tile): Chip | null => {
   const entry = (tileset.fields ?? []).flatMap((field) => {

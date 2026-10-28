@@ -1,15 +1,10 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useRef, useState } from 'react';
-import type { RefObject } from 'react';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import { CELL_FRAME, GRID_PADDING, ZOOM_MAX } from '../TilesetPanel.constants';
-import type { GridView, TilesetModel } from '../TilesetPanel.type';
-
-interface GridViewHandle {
-  view: GridView;
-  ref: RefObject<HTMLElement | null>;
-}
+import type { TilesetModel } from '../TilesetPanel.type';
+import type { GridViewHandle } from './useGridView.type';
 
 const useGridView = (model: TilesetModel, focused: number, painted: ReadonlySet<number>): GridViewHandle => {
   const ref = useRef<HTMLElement | null>(null);
@@ -44,5 +39,4 @@ const useGridView = (model: TilesetModel, focused: number, painted: ReadonlySet<
   };
 };
 
-export type { GridViewHandle };
 export { useGridView };
