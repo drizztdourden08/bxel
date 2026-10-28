@@ -4,7 +4,7 @@ import { evaluate } from '../../src/ui-context/evaluate';
 import { COLUMN_NAMES, columnContext } from './columns';
 
 const MATRIX: readonly (readonly [string, string])[] = [
-  ['widget.layers', 'HSSSHHSSSSSH'],
+  ['widget.layers', 'HSSSHSSSSSSH'],
   ['widget.palette', 'HSSSHHSSHSSH'],
   ['widget.timeline', 'HSSSHHSSHSSH'],
   ['widget.options', 'HSSSHHSSSSSH'],
@@ -76,7 +76,7 @@ const MATRIX: readonly (readonly [string, string])[] = [
   ['tilemap.new_tileset', 'HHHHHHHSSSHH'],
   ['tilemap.flip_x', 'HHHHHHHHSHHH'],
   ['layer.add', 'HSSSHHSSSSDH'],
-  ['layer.merge', 'HSSSHHSSHSDH'],
+  ['layer.merge', 'HSSSHHSSSSDH'],
   ['status.cursor', 'HSSSHSSSSSSH'],
   ['status.zoom', 'HSSSHSSSSSSH'],
   ['status.colour-1', 'HSSSHHSSHSSH'],

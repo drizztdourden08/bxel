@@ -10,16 +10,13 @@ import {
   ZOOM_FIT_HINT,
 } from '../../src/views/CanvasToolbar/CanvasToolbar.constants';
 import { SCOPE_HINTS } from '../../src/views/ScopeBar/ScopeBar.constants';
-import { LAYER_ACTIONS, LAYER_TOGGLES } from '../../src/views/LayersPanel/LayersPanel.constants';
+import { LAYER_BAR_HINTS, LAYER_FLAG_HINTS } from '../../src/views/LayerStack/LayerStack.constants';
 import { chipHint, CONFIG_HINT, HELD_CHIPS } from '../../src/views/PalettePanel/PalettePanel.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
 import { CANVAS_ACTIONS, TRANSFORM_ACTIONS, TRANSFORM_HINT } from '../../src/views/CanvasToolbar/sub-components/TransformMenu.constants';
 import type { HintSpec } from '../../src/views/ActionHint';
 import { COMMAND_ID } from '../../src/keymap/keymap.constants';
 import { ANIMATE_TILES_HINT, COLLISION_OVERLAY_HINT, TILE_MODE_HINTS } from '../../src/tilemap/tile-mode.constants';
-import {
-  ADD_LAYER_HINT, DELETE_LAYER_HINT, DOWN_LAYER_HINT, LOCKED_HINT, RENAME_LAYER_HINT, UP_LAYER_HINT, VISIBLE_HINT,
-} from '../../src/views/MapLayersPanel/MapLayersPanel.constants';
 import {
   ADD_HINT, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, NEW_TILEMAP_HINT, NEW_TILESET_HINT, UNIQUE_HINT,
 } from '../../src/views/TilesetPanel/TilesetPanel.constants';
@@ -40,13 +37,6 @@ const panelHints = (): HintSpec[] => [
   ...Object.values(TILE_MODE_HINTS),
   COLLISION_OVERLAY_HINT,
   ANIMATE_TILES_HINT,
-  ADD_LAYER_HINT,
-  DELETE_LAYER_HINT,
-  UP_LAYER_HINT,
-  DOWN_LAYER_HINT,
-  RENAME_LAYER_HINT,
-  VISIBLE_HINT,
-  LOCKED_HINT,
   ADD_HINT,
   DELETE_HINT,
   DUPLICATE_HINT,
@@ -54,8 +44,8 @@ const panelHints = (): HintSpec[] => [
   NEW_TILEMAP_HINT,
   NEW_TILESET_HINT,
   UNIQUE_HINT,
-  ...LAYER_ACTIONS.map((action) => action.hint),
-  ...LAYER_TOGGLES.map((toggle) => toggle.hint),
+  ...Object.values(LAYER_BAR_HINTS),
+  ...Object.values(LAYER_FLAG_HINTS),
   ...TRANSFORM_ACTIONS.map((action) => action.hint),
   ...CANVAS_ACTIONS.map((action) => action.hint),
   TRANSFORM_HINT,

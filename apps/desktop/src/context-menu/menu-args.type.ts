@@ -1,10 +1,19 @@
 /* @layer renderer-app @kind types */
 import type { AnimDirection } from '@bxel/document';
+import type { LockKind } from '../editor/layer-lock.type';
 import type { AlignMode } from '../sheet-manager/align.type';
 import type { CreatableKind } from '../stores/creation-store.type';
 
 interface LayerArgs {
   layerId: string;
+}
+
+interface LayerLockArgs extends LayerArgs {
+  kind: LockKind;
+}
+
+interface LayerColourArgs extends LayerArgs {
+  colour: string | null;
 }
 
 interface SwatchArgs {
@@ -93,4 +102,4 @@ interface ByColourArgs extends Partial<PixelArgs> {
   mode: 'region' | 'everywhere';
 }
 
-export type { AlignArgs, AxisArgs, ByColourArgs, DurationArgs, FrameArgs, LayerArgs, NameArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SheetArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TraitArgs, UnitArgs, ZoomArgs };
+export type { AlignArgs, AxisArgs, ByColourArgs, DurationArgs, FrameArgs, LayerArgs, LayerColourArgs, LayerLockArgs, NameArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SheetArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TraitArgs, UnitArgs, ZoomArgs };

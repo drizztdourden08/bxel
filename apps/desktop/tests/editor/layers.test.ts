@@ -13,10 +13,10 @@ import { layerBlock } from '../../src/editor/layer-block';
 import { layerItems } from '../../src/editor/layer-items';
 import { mergeLayerDown } from '../../src/editor/merge-layer-down';
 import { moveLayer } from '../../src/editor/move-layer';
-import { renameLayer } from '../../src/editor/rename-layer';
+import { tryRenameLayer } from '../../src/editor/rename-layer';
 import { stepHistory } from '../../src/editor/step-history';
 import { stepLayer } from '../../src/editor/step-layer';
-import { updateLayerFlag } from '../../src/editor/update-layer-flag';
+import { spriteLayerActions } from '../../src/editor/layer-actions';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
@@ -69,31 +69,31 @@ describe('the active layer', () => {
 
   it('names the cause when the layer is locked or hidden', () => {
     const id = live().layerId;
-    updateLayerFlag(id, 'locked', true);
+    spriteLayerActions.setFlag([id], 'locked', true);
     expect(layerBlock(live().layer)).toBe('Layer Layer 1 is locked. Unlock it or choose another layer.');
     expect(drawAt(1)?.ok).toBe(false);
-    updateLayerFlag(id, 'locked', false);
-    updateLayerFlag(id, 'visible', false);
+    spriteLayerActions.setFlag([id], 'locked', false);
+    spriteLayerActions.setFlag([id], 'visible', false);
     expect(layerBlock(live().layer)).toBe('Layer Layer 1 is hidden. Show it to draw on it.');
     expect(drawAt(1)?.ok).toBe(false);
-    updateLayerFlag(id, 'visible', true);
+    spriteLayerActions.setFlag([id], 'visible', true);
     expect(layerBlock(live().layer)).toBeNull();
   });
 
   it('refuses a stroke on a locked layer with a notice and paints nothing', () => {
-    updateLayerFlag(live().layerId, 'locked', true);
+    spriteLayerActions.setFlag([live().layerId], 'locked', true);
     const plan = { kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false } as const;
     expect(allowPress(plan, live())).toBe(false);
     expect(useNoticeStore.getState().notice?.text).toBe('Layer Layer 1 is locked. Unlock it or choose another layer.');
     expect(drawAt(2)?.ok).toBe(false);
     expect(cellOf('Layer 1')?.pixels.some((index) => index !== 0) ?? false).toBe(false);
-    updateLayerFlag(live().layerId, 'locked', false);
+    spriteLayerActions.setFlag([live().layerId], 'locked', false);
     expect(allowPress(plan, live())).toBe(true);
     expect(drawAt(2)?.ok).toBe(true);
   });
 
   it('refuses a press on a blocked layer with a notice, but lets the picker through', () => {
-    updateLayerFlag(live().layerId, 'visible', false);
+    spriteLayerActions.setFlag([live().layerId], 'visible', false);
     expect(allowPress({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live())).toBe(false);
     expect(useNoticeStore.getState().notice?.text).toBe('Layer Layer 1 is hidden. Show it to draw on it.');
     expect(allowPress({ kind: 'pick', slot: 'foreground' }, live())).toBe(true);
@@ -130,7 +130,7 @@ describe('layer actions', () => {
   it('moves a row by its place in the list, which runs top first', () => {
     addLayer();
     addLayer();
-    expect(layerItems(live().sprite).map((item) => item.label)).toEqual(['Layer 3', 'Layer 2', 'Layer 1']);
+    expect(layerItems(live(), null).map((item) => item.name)).toEqual(['Layer 3', 'Layer 2', 'Layer 1']);
     moveLayer(0, 2);
     expect(layerNames()).toEqual(['Layer 3', 'Layer 1', 'Layer 2']);
     moveLayer(2, 0);
@@ -140,10 +140,9 @@ describe('layer actions', () => {
   it('renames, and reports a taken name without changing anything', () => {
     addLayer();
     const [bottom] = live().sprite.layers;
-    expect(renameLayer(bottom?.id ?? live().layerId, 'Body')).toBe(true);
+    expect(tryRenameLayer(bottom?.id ?? live().layerId, 'Body')).toBeNull();
     expect(layerNames()).toEqual(['Body', 'Layer 2']);
-    expect(renameLayer(live().layerId, 'body')).toBe(false);
-    expect(useNoticeStore.getState().notice?.text).toBe('That name is already used. Choose another name.');
+    expect(tryRenameLayer(live().layerId, 'body')).toBe('That name is already used. Choose another name.');
   });
 
   it('steps the picked layer up and down the stack', () => {

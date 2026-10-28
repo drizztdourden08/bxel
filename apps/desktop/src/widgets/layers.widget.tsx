@@ -1,9 +1,7 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
 import { WIDGET_CONTEXT } from '../ui-context/widget-context.constants';
-import { useMapPlacing } from '../hooks/useMapPlacing';
-import { LayersPanel } from '../views/LayersPanel';
-import { MapLayersPanel } from '../views/MapLayersPanel';
+import { LayerStack } from '../views/LayerStack';
 
 const meta: WidgetMeta = {
   label: 'Layers',
@@ -11,14 +9,12 @@ const meta: WidgetMeta = {
   defaultOpen: true,
   defaultSide: 'right',
   defaultDockedSize: 280,
-  dockWeight: 1,
+  dockWeight: 2,
   fill: true,
   popOut: false,
   defaultVisibility: 'context-only',
   context: WIDGET_CONTEXT.layers,
 };
 
-const LayersWidget = () => (useMapPlacing() ? <MapLayersPanel /> : <LayersPanel />);
-
-export default LayersWidget;
+export default LayerStack;
 export { meta };

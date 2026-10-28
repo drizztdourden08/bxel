@@ -57,9 +57,14 @@ const HISTORY: RuleTable = {
 
 const LAYERS: RuleTable = {
   ...family(['layer.add', 'layer.delete'], EDIT_STAGE, [WRITE]),
-  ...family(['layer.select_above', 'layer.select_below', 'layer.toggle_visible', 'layer.toggle_locked'], EDIT_STAGE),
-  ...family(['layer.duplicate', 'layer.merge', 'layer.flatten', 'layer.move_up', 'layer.move_down'], PIXEL, [WRITE], ONLY.pixels),
-  ...family(['layer.solo'], PIXEL, [], ONLY.pixels),
+  ...family(['layer.select_above', 'layer.select_below'], EDIT_STAGE),
+  ...family(
+    ['layer.toggle_visible', 'layer.toggle_locked', 'layer.set_lock', 'layer.set_colour', 'layer.show_all', 'layer.hide_others', 'layer.lock_others', 'layer.unlock_all'],
+    EDIT_STAGE,
+    [WRITE],
+  ),
+  ...family(['layer.duplicate', 'layer.merge', 'layer.move_up', 'layer.move_down', 'layer.move_top', 'layer.move_bottom', 'layer.solo'], EDIT_STAGE, [WRITE]),
+  ...family(['layer.flatten'], PIXEL, [WRITE], ONLY.pixels),
 };
 
 const SELECTION: RuleTable = {

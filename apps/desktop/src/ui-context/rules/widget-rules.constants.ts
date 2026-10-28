@@ -5,7 +5,7 @@ import type { UiRule } from '../ui-rule.type';
 import { EDIT_STAGE, PIXEL, SHEET, TILE_FILES, VIEW_STAGE } from './groups.constants';
 
 const WIDGET_RULES: Record<string, UiRule> = {
-  'widget.layers': rule({ applies: EDIT_STAGE }),
+  'widget.layers': rule({ applies: any(EDIT_STAGE, SHEET) }),
   'widget.palette': rule({ applies: PIXEL }),
   'widget.timeline': rule({ applies: PIXEL }),
   'widget.options': rule({ applies: EDIT_STAGE }),

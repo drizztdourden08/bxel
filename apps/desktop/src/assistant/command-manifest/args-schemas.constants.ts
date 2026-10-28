@@ -10,6 +10,8 @@ const ANCHOR_VALUES = ['top-left', 'top', 'top-right', 'left', 'center', 'right'
 
 const ARGS_KINDS = {
   layer: z.strictObject({ layerId: z.string().min(1).describe('A layer id from get_document. Without it the active layer is used.').optional() }),
+  layerLock: z.strictObject({ layerId: z.string().min(1).describe('A layer id from get_document. Without it the active layer is used.').optional(), kind: z.enum(['none', 'transparency', 'pixels']).describe('transparency paints only on painted pixels; pixels blocks all changes.') }),
+  layerColour: z.strictObject({ layerId: z.string().min(1).optional(), colour: z.string().regex(/^#[0-9a-fA-F]{6}$/).nullable().describe('A hex colour tag, or null to clear it.') }),
   swatch: z.strictObject({ index, slot: z.number().int().min(0).max(3).describe('0 foreground, 1 background, 2 third, 3 fourth.').optional() }),
   pixel: z.strictObject({ x: coordinate, y: coordinate }),
   pickHere: z.strictObject({ x: coordinate, y: coordinate, slot: z.number().int().min(0).max(3).optional() }),

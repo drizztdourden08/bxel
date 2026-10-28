@@ -85,6 +85,8 @@ const COMMAND_NAME = {
   mapLayerUpdate: 'map.layer.update',
   mapLayerDelete: 'map.layer.delete',
   mapLayerReorder: 'map.layer.reorder',
+  mapLayerDuplicate: 'map.layer.duplicate',
+  mapLayerMerge: 'map.layer.merge',
   mapPaint: 'map.paint',
   mapErase: 'map.erase',
   mapFill: 'map.fill',
