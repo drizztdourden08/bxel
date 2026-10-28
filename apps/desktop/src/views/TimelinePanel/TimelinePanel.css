@@ -338,6 +338,13 @@
   background: conic-gradient(var(--c-checker-a) 25%, var(--c-checker-b) 0 50%, var(--c-checker-a) 0 75%, var(--c-checker-b) 0) 0 0 / var(--size-8) var(--size-8);
 }
 
+.frame-ghost__thumb {
+  inline-size: var(--size-32);
+  block-size: var(--size-32);
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
 .frame-option__thumb {
   object-fit: contain;
   image-rendering: pixelated;

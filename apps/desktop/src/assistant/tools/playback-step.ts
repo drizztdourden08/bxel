@@ -18,7 +18,7 @@ const playbackStep: ViewStep = (patch) => {
   if (!playback) return null;
   if ((playback.frame !== undefined || typeof playback.tag === 'string') && !currentFocus()) return viewFail(APP_TOOL_TEXT.playbackNeedsAnimation, 'playback');
   const timeline = useTimelineStore.getState();
-  if (playback.loop !== undefined) timeline.setLoop(playback.loop);
+  if (playback.loop !== undefined) timeline.setPlayMode(playback.loop ? 'loop' : 'once');
   if (playback.frame !== undefined) goToFrame(playback.frame as AnimFrameId);
   applyTag(playback.tag);
   if (playback.playing === true) timeline.play();

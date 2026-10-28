@@ -145,6 +145,8 @@ interface NumberFieldProps {
   step: number;
   disabled?: boolean;
   mixed?: boolean;
+  presets?: readonly number[];
+  suffix?: string;
   onCommit: (value: number) => boolean;
 }
 

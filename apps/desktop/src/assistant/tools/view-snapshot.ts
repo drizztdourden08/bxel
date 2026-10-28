@@ -106,7 +106,7 @@ const playbackOf = () => {
   const timeline = useTimelineStore.getState();
   return {
     playing: timeline.playing,
-    loop: timeline.loop,
+    loop: timeline.playMode !== 'once',
     frame: timeline.frameId,
     tag: timeline.tagId,
     selectedFrames: timeline.selection.frames,

@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind component */
-import { Box, MarqueeBox, REORDER_ITEM_SELECTOR, useMarqueeSelect, useReorderDrag } from '@drizztdourden08/tessera';
+import { Box, DragGhost, MarqueeBox, REORDER_ITEM_SELECTOR, useMarqueeSelect, useReorderDrag } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
 import type { AnimFrameId } from '@bxel/document';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
-import { dragFrame } from '../../../timeline/drag-frame';
+import { dropFrames } from '../../../timeline/drag-frame';
 import { selectFrameIds } from '../../../timeline/select-frame-ids';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
 import { useDragMode } from '../behavior/useDragMode';
@@ -12,13 +12,27 @@ import { useStripFocus } from '../behavior/useStripFocus';
 import { END_GUTTER } from '../TimelinePanel.constants';
 import type { TrackProps } from '../TimelinePanel.type';
 import { FrameOption } from './FrameOption';
+import { GhostThumb } from './GhostThumb';
 
 const MARQUEE_ITEM = '[data-marquee-key]';
 
 const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackProps) => {
   const listRef = useRef<HTMLElement>(null);
   const modes = useDragMode(true);
-  const drag = useReorderDrag({ listRef, selector: REORDER_ITEM_SELECTOR, axis: 'horizontal', onDrop: (from, to) => dragFrame(from, to, modes.last.current) });
+  const { frames } = focus.animation;
+  const drag = useReorderDrag({
+    listRef,
+    selector: REORDER_ITEM_SELECTOR,
+    axis: 'horizontal',
+    scrollRef: scroller,
+    keys: (from) => {
+      const held = frames[from]?.id;
+      const picked = useTimelineStore.getState().selection.frames;
+      if (held === undefined) return [];
+      return picked.includes(held) ? picked : [held];
+    },
+    onDrop: (_from, _to, info) => dropFrames(info),
+  });
   const drop = useStripDrop(focus);
   const selected = useTimelineStore((state) => state.selection.frames);
   const marquee = useMarqueeSelect({
@@ -48,6 +62,11 @@ const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackPro
         <FrameOption key={cell.id} focus={focus} cell={cell} index={index} total={model.cells.length} drag={drag} mode={modes.mode} layout={layout} thumb={thumb} onDraft={onDraft} />
       ))}
       <MarqueeBox rect={marquee.rect} />
+      <DragGhost
+        count={drag.dragKeys.length}
+        thumbnails={drag.dragKeys.slice(0, 3).map((key) => <GhostThumb key={key} focus={focus} frameId={key as AnimFrameId} />)}
+        point={drag.point}
+      />
     </Box>
   );
 };

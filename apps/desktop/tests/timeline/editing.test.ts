@@ -4,7 +4,7 @@ import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { addTag } from '../../src/timeline/add-tag';
 import { copyFrames } from '../../src/timeline/copy-frames';
-import { dragFrame } from '../../src/timeline/drag-frame';
+import { dropFrames } from '../../src/timeline/drag-frame';
 import { goToFrame } from '../../src/timeline/go-to-frame';
 import { linkedCopy } from '../../src/timeline/linked-copy';
 import { moveFramesTo } from '../../src/timeline/move-frames-to';
@@ -42,7 +42,7 @@ describe('moving a block of frames', () => {
     withFrames(6);
     const before = frameIds();
     pickRange(1, 2);
-    expect(dragFrame(1, 3)).toBe(true);
+    expect(dropFrames({ keys: [frameAt(1), frameAt(2)], before: 5, modifier: 'none' })).toBe(true);
     expect(order(before)).toEqual([0, 3, 4, 1, 2, 5]);
   });
 
@@ -100,11 +100,11 @@ describe('copies', () => {
   it('duplicates on a copy drag and links on a link drag', () => {
     withFrames(3);
     pickRange(0, 0);
-    expect(dragFrame(0, 2, 'copy')).toBe(true);
+    expect(dropFrames({ keys: [frameAt(0)], before: 3, modifier: 'ctrl' })).toBe(true);
     expect(animationOf().frames).toHaveLength(4);
     expect(animationOf().frames[3]?.spriteId).not.toBe(animationOf().frames[0]?.spriteId);
     pickRange(0, 0);
-    expect(dragFrame(0, 1, 'link')).toBe(true);
+    expect(dropFrames({ keys: [frameAt(0)], before: 2, modifier: 'alt' })).toBe(true);
     expect(animationOf().frames).toHaveLength(5);
     expect(animationOf().frames[2]?.spriteId).toBe(animationOf().frames[0]?.spriteId);
   });

@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
-import { Box, DropdownMenu, Icon, IconButton, Tooltip } from '@drizztdourden08/tessera';
+import { Icon, SplitButton } from '@drizztdourden08/tessera';
+import type { MenuNode } from '@drizztdourden08/tessera';
 import { SPEEDS } from '../../../stores/timeline-store.constants';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import type { PlayMode } from '../../../stores/timeline-store.type';
@@ -19,36 +20,29 @@ const PlayControl = () => {
   const rewind = useTimelineStore((state) => state.rewind);
   const speed = useTimelineStore((state) => state.speed);
   const store = useTimelineStore.getState();
-  const name = playing ? TIMELINE_PANEL_TEXT.pause : TIMELINE_PANEL_TEXT.play;
-  const groups = [
-    { id: 'mode', items: MODES.map((each) => ({ id: each.id, label: each.label, kind: 'radio' as const, checked: mode === each.id, onSelect: () => store.setPlayMode(each.id) })) },
-    {
-      id: 'options',
-      items: [
-        { id: 'subtags', label: TIMELINE_PANEL_TEXT.subtags, kind: 'check' as const, checked: subtags, onSelect: () => store.setSubtags(!subtags) },
-        { id: 'rewind', label: TIMELINE_PANEL_TEXT.rewind, kind: 'check' as const, checked: rewind, onSelect: () => store.setRewind(!rewind) },
-      ],
-    },
+  const items: MenuNode[] = [
+    ...MODES.map((each) => ({ id: each.id, label: each.label, kind: 'radio' as const, checked: mode === each.id, onSelect: () => store.setPlayMode(each.id) })),
+    { separator: true },
+    { id: 'subtags', label: TIMELINE_PANEL_TEXT.subtags, kind: 'check', checked: subtags, onSelect: () => store.setSubtags(!subtags) },
+    { id: 'rewind', label: TIMELINE_PANEL_TEXT.rewind, kind: 'check', checked: rewind, onSelect: () => store.setRewind(!rewind) },
+    { separator: true },
     {
       id: 'speed',
-      items: [
-        {
-          id: 'speed',
-          label: `${TIMELINE_PANEL_TEXT.speed} ${speed}x`,
-          children: SPEEDS.map((each) => ({ id: `speed-${each}`, label: `${each}x`, kind: 'radio' as const, checked: speed === each, onSelect: () => store.setSpeed(each) })),
-        },
-      ],
+      label: `${TIMELINE_PANEL_TEXT.speed} ${speed}x`,
+      children: SPEEDS.map((each) => ({ id: `speed-${each}`, label: `${each}x`, kind: 'radio' as const, checked: speed === each, onSelect: () => store.setSpeed(each) })),
     },
   ];
   return (
-    <Box className="split-button" role="group" aria-label={TIMELINE_PANEL_TEXT.transport}>
-      <Tooltip content={`${name} (Enter)`} placement="top">
-        <IconButton label={name} size="sm" active={playing} aria-pressed={playing} onClick={togglePlayback}>
-          <Icon name={playing ? 'pixel-pause' : 'pixel-play'} />
-        </IconButton>
-      </Tooltip>
-      <DropdownMenu size="sm" variant="secondary" label={TIMELINE_PANEL_TEXT.playOptions} trigger={{ label: TIMELINE_PANEL_TEXT.playOptions, icon: 'chevron-down', iconOnly: true }} groups={groups} />
-    </Box>
+    <SplitButton
+      size="sm"
+      variant="secondary"
+      label={playing ? TIMELINE_PANEL_TEXT.pause : TIMELINE_PANEL_TEXT.play}
+      icon={<Icon name={playing ? 'pixel-pause' : 'pixel-play'} />}
+      pressed={playing}
+      menuLabel={TIMELINE_PANEL_TEXT.playOptions}
+      items={items}
+      onClick={togglePlayback}
+    />
   );
 };
 
