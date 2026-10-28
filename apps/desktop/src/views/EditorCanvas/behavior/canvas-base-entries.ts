@@ -7,6 +7,7 @@ import { CANVAS_SIZE_COMMAND_ID } from '../../../keymap/canvas-size-command-id.c
 import { FILE_COMMAND } from '../../../files/files.constants';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
+import { currentContext } from '../../../ui-context/current-context';
 import { CANVAS_MENU } from '../EditorCanvas.constants';
 import { historyEntries } from './history-entries';
 import { pickHereEntries } from './pick-here-entries';
@@ -33,7 +34,7 @@ const canvasBaseEntries = (here: Point | null, tile: boolean): readonly ContextM
   symmetryEntries(here),
   {
     label: CANVAS_MENU.canvas,
-    items: [{ command: CANVAS_SIZE_COMMAND_ID.size, hidden: tile }, CANVAS_SIZE_COMMAND_ID.trim],
+    items: [{ command: CANVAS_SIZE_COMMAND_ID.size, ...(currentContext().fileType === 'animation' ? { label: CANVAS_MENU.frameSize } : {}) }, CANVAS_SIZE_COMMAND_ID.trim],
   },
   { command: FILE_COMMAND.export, hidden: tile },
 ];

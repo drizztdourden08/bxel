@@ -12,6 +12,8 @@ const ASSET_ICON: Readonly<Record<AssetKind, IconName>> = {
   project: 'pixel-project',
 };
 
+const IMAGE_ICON: IconName = 'image';
+
 const ASSET_TABS_TEXT = { label: 'Open assets' } as const;
 
 const TAB_MENU = {
@@ -32,4 +34,4 @@ const TAB_MENU = {
   onlyTab: 'There is no other tab.',
 } as const;
 
-export { ASSET_ICON, ASSET_TABS_TEXT, TAB_MENU };
+export { ASSET_ICON, ASSET_TABS_TEXT, IMAGE_ICON, TAB_MENU };

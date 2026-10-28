@@ -11,6 +11,7 @@ import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { useWorkspaceStore } from '../../../stores/useWorkspaceStore';
 import { keyId } from '../../../workspace/key-id';
 import { tabPath } from '../../../workspace/tab-path';
+import { currentContext } from '../../../ui-context/current-context';
 import { STATUS_MENU, ZOOM_PERCENTS } from '../EditorStatus.constants';
 import { COMMON } from './status-menu-entries.constants';
 
@@ -63,6 +64,7 @@ const itemEntries = (item: string | undefined): readonly ContextMenuEntry[] => {
 };
 
 const statusMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[] => {
+  if (currentContext().fileType === 'none') return [];
   const own = itemEntries(menuData<StatusArgs>(context).item);
   return [...own, ...(own.length > 0 ? ['separator' as const] : []), ...COMMON];
 };

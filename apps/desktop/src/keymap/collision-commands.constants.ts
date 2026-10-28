@@ -2,8 +2,8 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { COLLISION_COMMAND as ID } from './collision-command-id.constants';
-import { onSurface } from './on-surface';
 import { COMMAND_GROUP } from './keymap.constants';
+import { ruled } from './ruled';
 
 const COLLISION_COMMANDS: readonly CommandDef[] = [
   {
@@ -13,6 +13,6 @@ const COLLISION_COMMANDS: readonly CommandDef[] = [
     checked: () => useTilemapStore.getState().showCollision,
     run: () => useTilemapStore.getState().setShowCollision(!useTilemapStore.getState().showCollision),
   },
-].map(onSurface('map', 'tile'));
+].map(ruled);
 
 export { COLLISION_COMMANDS };

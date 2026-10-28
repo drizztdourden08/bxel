@@ -1,77 +1,49 @@
 /* @layer renderer-app @kind logic */
-import type { MenuEntry, MenuItem } from '@drizztdourden08/brock-react';
+import type { MenuItem } from '@drizztdourden08/brock-react';
 import { COMMAND_ID, TILED_COMMAND } from '../keymap/keymap.constants';
 import { TILE_LABELS, TILE_MODES } from '../stores/view-store.constants';
-import { hasPart } from '../surface/has-part';
-import type { SurfacePart } from '../surface/surface.type';
+import { evaluate } from '../ui-context/evaluate';
 import { MENU_KEYS, MENU_TEXT } from './editor-menu.constants';
 import type { EditorMenuState } from './editor-menu.type';
-import { menuItem } from './menu-item';
+import { ruledItem } from './ruled-item';
+import { tidyMenu } from './tidy-menu';
+import type { Draft } from './tidy-menu.type';
 
-const off = (state: EditorMenuState): { disabled: boolean } => ({ disabled: !state.hasDocument });
-
-const zoomEntries = (state: EditorMenuState): MenuEntry[] => [
-  {
-    key: 'view-zoom',
-    label: MENU_TEXT.zoom,
-    icon: 'zoom-in',
-    children: [
-      menuItem(COMMAND_ID.zoomIn, 'Zoom in', off(state)),
-      menuItem(COMMAND_ID.zoomOut, 'Zoom out', off(state)),
-      menuItem(COMMAND_ID.zoomFit, 'Zoom to fit', off(state)),
-      menuItem(COMMAND_ID.zoomActual, 'Actual size', off(state)),
-    ],
-  },
-];
-
-const gridEntries = (state: EditorMenuState): MenuEntry[] => [
-  {
-    key: 'view-grid',
-    label: MENU_TEXT.grid,
-    children: [
-      menuItem(COMMAND_ID.pixelGrid, 'Pixel grid', { ...off(state), checked: state.grid }),
-      menuItem(COMMAND_ID.majorGrid, 'Major grid', { ...off(state), checked: state.gridMajor }),
-      menuItem(COMMAND_ID.tileGrid, 'Tile grid', { ...off(state), checked: state.gridTile }),
-    ],
-  },
-  menuItem(COMMAND_ID.rulers, 'Rulers', { ...off(state), checked: state.rulers }),
-];
-
-const guideEntries = (state: EditorMenuState): MenuEntry[] => [menuItem(COMMAND_ID.guides, 'Guides', { ...off(state), checked: state.guides })];
-
-const symmetryEntries = (state: EditorMenuState): MenuEntry[] => [
-  {
-    key: 'view-symmetry',
-    label: MENU_TEXT.symmetry,
-    children: [
-      menuItem(COMMAND_ID.symmetryX, MENU_TEXT.mirrorX, { ...off(state), checked: state.symmetryX }),
-      menuItem(COMMAND_ID.symmetryY, MENU_TEXT.mirrorY, { ...off(state), checked: state.symmetryY }),
-    ],
-  },
-];
-
-const tiledEntries = (state: EditorMenuState): MenuEntry[] => [
-  {
-    key: 'view-tiled',
-    label: MENU_TEXT.tiled,
-    children: TILE_MODES.map((mode) => menuItem(TILED_COMMAND[mode], TILE_LABELS[mode], { ...off(state), checked: state.tiled === mode })),
-  },
-];
+const group = (state: EditorMenuState, rule: string, head: Pick<MenuItem, 'key' | 'label' | 'icon'>, children: readonly Draft[]): MenuItem | null =>
+  evaluate(rule, state.context).state === 'hidden' ? null : { ...head, children: tidyMenu(children) };
 
 const viewMenu = (state: EditorMenuState): MenuItem => {
-  const surface = state.hasDocument ? state.surface : 'sprite';
-  const has = (part: SurfacePart): boolean => hasPart(surface, part);
+  const { context } = state;
+  const item = (id: string, label: string, checked?: boolean) => ruledItem(context, id, label, checked === undefined ? {} : { checked });
   return {
     key: MENU_KEYS.view,
     label: MENU_TEXT.view,
     icon: 'eye',
-    children: [
-      ...(has('zoom') ? zoomEntries(state) : []),
-      ...(has('view') ? gridEntries(state) : []),
-      ...(has('guides') ? guideEntries(state) : []),
-      ...(has('symmetry') ? symmetryEntries(state) : []),
-      ...(has('tiled') ? tiledEntries(state) : []),
-    ],
+    children: tidyMenu([
+      group(state, 'menu.view.zoom', { key: 'view-zoom', label: MENU_TEXT.zoom, icon: 'zoom-in' }, [
+        item(COMMAND_ID.zoomIn, 'Zoom in'),
+        item(COMMAND_ID.zoomOut, 'Zoom out'),
+        item(COMMAND_ID.zoomFit, 'Zoom to fit'),
+        item(COMMAND_ID.zoomActual, 'Actual size'),
+      ]),
+      group(state, 'menu.view.grid', { key: 'view-grid', label: MENU_TEXT.grid }, [
+        item(COMMAND_ID.pixelGrid, 'Pixel grid', state.grid),
+        item(COMMAND_ID.majorGrid, 'Major grid', state.gridMajor),
+        item(COMMAND_ID.tileGrid, 'Tile grid', state.gridTile),
+      ]),
+      item(COMMAND_ID.rulers, 'Rulers', state.rulers),
+      item(COMMAND_ID.guides, 'Guides', state.guides),
+      group(state, 'menu.view.symmetry', { key: 'view-symmetry', label: MENU_TEXT.symmetry }, [
+        item(COMMAND_ID.symmetryX, MENU_TEXT.mirrorX, state.symmetryX),
+        item(COMMAND_ID.symmetryY, MENU_TEXT.mirrorY, state.symmetryY),
+      ]),
+      group(
+        state,
+        'menu.view.tiled',
+        { key: 'view-tiled', label: MENU_TEXT.tiled },
+        TILE_MODES.map((mode) => item(TILED_COMMAND[mode], TILE_LABELS[mode], state.tiled === mode)),
+      ),
+    ]),
   };
 };
 

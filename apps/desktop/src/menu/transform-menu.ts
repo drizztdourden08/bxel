@@ -3,22 +3,23 @@ import type { MenuItem } from '@drizztdourden08/brock-react';
 import { SELECTION_COMMAND_ID as ID } from '../keymap/selection-command-id.constants';
 import { MENU_KEYS, MENU_TEXT } from './editor-menu.constants';
 import type { EditorMenuState } from './editor-menu.type';
-import { menuItem } from './menu-item';
+import { ruledItem } from './ruled-item';
+import { tidyMenu } from './tidy-menu';
 
 const transformMenu = (state: EditorMenuState): MenuItem => {
-  const off = { disabled: !state.hasDocument };
+  const item = (id: string, label: string) => ruledItem(state.context, id, label);
   return {
     key: MENU_KEYS.transform,
     label: MENU_TEXT.transform,
-    children: [
-      menuItem(ID.flipHorizontal, 'Flip horizontal', off),
-      menuItem(ID.flipVertical, 'Flip vertical', off),
-      menuItem(ID.turnClockwise, 'Rotate 90 clockwise', off),
-      menuItem(ID.turnCounterClockwise, 'Rotate 90 counterclockwise', off),
+    children: tidyMenu([
+      item(ID.flipHorizontal, 'Flip horizontal'),
+      item(ID.flipVertical, 'Flip vertical'),
+      item(ID.turnClockwise, 'Rotate 90 clockwise'),
+      item(ID.turnCounterClockwise, 'Rotate 90 counterclockwise'),
       'separator',
-      menuItem(ID.rotate, 'Rotate...', off),
-      menuItem(ID.scale, 'Scale...', off),
-    ],
+      item(ID.rotate, 'Rotate...'),
+      item(ID.scale, 'Scale...'),
+    ]),
   };
 };
 

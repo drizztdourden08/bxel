@@ -9,7 +9,7 @@ const permissions = (session: Session): Locator => session.page.getByRole('group
 
 const openPermissions = async (session: Session): Promise<Locator> => {
   const { page } = session;
-  await runMenu(session, [/^Settings/]);
+  await runMenu(session, [/^Options/]);
   await page.getByRole('navigation').getByText('Assistant programs', { exact: true }).click();
   await page.getByRole('button', { name: `Permissions for ${MCP_CLIENT_NAME}`, exact: true }).click();
   await permissions(session).waitFor();

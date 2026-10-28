@@ -7,9 +7,8 @@ import { pickColourHere } from '../editor/pick-colour-here';
 import { revealSwatch } from '../editor/reveal-swatch';
 import { selectByColour } from '../editor/select-by-colour';
 import { setHeldColour } from '../editor/set-held-colour';
-import { editorCommand } from './editor-command';
 import { COMMAND_GROUP } from './keymap.constants';
-import { pixelCommand } from './pixel-command';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.colours;
 
@@ -25,8 +24,8 @@ const PALETTE_MENU_COMMANDS: readonly CommandDef[] = [
   },
   { id: 'palette.copy_hex', label: 'Copy the hex value of a swatch', group, run: (context?: CommandContext) => void copySwatchHex(commandArgs<SwatchArgs>(context)) },
   { id: 'palette.reveal_swatch', label: 'Show a colour in the palette', group, run: (context?: CommandContext) => revealSwatch(commandArgs<SwatchArgs>(context)) },
-  pixelCommand({ id: 'palette.pick_here', label: 'Pick the colour under the pointer', group, run: (context?: CommandContext) => pickColourHere(commandArgs<PickHereArgs>(context)) }),
-  pixelCommand({ id: 'selection.by_colour', label: 'Select the pixels of a colour', group: COMMAND_GROUP.edit, run: (context?: CommandContext) => selectByColour(commandArgs<ByColourArgs>(context)) }),
-].map(editorCommand);
+  { id: 'palette.pick_here', label: 'Pick the colour under the pointer', group, run: (context?: CommandContext) => pickColourHere(commandArgs<PickHereArgs>(context)) },
+  { id: 'selection.by_colour', label: 'Select the pixels of a colour', group: COMMAND_GROUP.edit, run: (context?: CommandContext) => selectByColour(commandArgs<ByColourArgs>(context)) },
+].map(ruled);
 
 export { PALETTE_MENU_COMMANDS };

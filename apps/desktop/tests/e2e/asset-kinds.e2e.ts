@@ -29,7 +29,7 @@ const checksSprite = async (session: Session): Promise<void> => {
   for (const mode of ['Sprite', 'Sheet', 'Tilemap']) expect(await canvasButtons(session, mode)).toBe(0);
   expect(await canvasButtons(session, 'Mirror X')).toBe(1);
   const top = await menuLabels(session);
-  expect(inOrder(top, ['File', 'Save', 'Save as', 'Edit', 'Sprite', 'View', 'Project', 'Help', 'Settings'])).toBe(true);
+  expect(inOrder(top, ['File', 'Save', 'Save as', 'Edit', 'Sprite', 'View', 'Project', 'Help', 'Options'])).toBe(true);
   expect(positionOf(top, 'Home')).toBe(-1);
   expect(positionOf(top, 'Toolbars')).toBeGreaterThanOrEqual(0);
   expect(positionOf(top, 'Quick actions')).toBeGreaterThanOrEqual(0);
@@ -38,7 +38,7 @@ const checksSprite = async (session: Session): Promise<void> => {
   expect(positionOf(top, 'Sheet')).toBe(-1);
   expect(positionOf(top, 'Tilemap')).toBe(-1);
   const sprite = await menuLabels(session, [/^Sprite$/]);
-  expect(sprite.map((label) => label.slice(0, 5))).toEqual(['Layer', 'Palet', 'Dupli', 'Sprit']);
+  expect(sprite.map((label) => label.slice(0, 5))).toEqual(['Make ', 'Layer', 'Palet', 'Sprit']);
 };
 
 const checksFileMenu = async (session: Session): Promise<void> => {

@@ -2,27 +2,33 @@
 import type { MenuItem } from '@drizztdourden08/brock-react';
 import { LAYER_LABEL } from '../editor/layer-text.constants';
 import { COMMAND_ID } from '../keymap/keymap.constants';
+import { TILEMAP_COMMAND } from '../keymap/tilemap-command-id.constants';
 import { MENU_KEYS, MENU_TEXT } from './editor-menu.constants';
 import type { EditorMenuState } from './editor-menu.type';
-import { menuItem } from './menu-item';
+import { ruledItem } from './ruled-item';
+import { tidyMenu } from './tidy-menu';
 
 const layerMenu = (state: EditorMenuState): MenuItem => {
-  const off = { disabled: !state.hasDocument };
+  const item = (id: string, label: string) => ruledItem(state.context, id, label);
+  const map = state.context.surface === 'map';
   return {
     key: MENU_KEYS.layer,
-    label: MENU_TEXT.layer,
+    label: map ? MENU_TEXT.mapLayer : MENU_TEXT.layer,
     icon: 'pixel-layers',
-    children: [
-      menuItem(COMMAND_ID.layerAdd, LAYER_LABEL.add, off),
-      menuItem(COMMAND_ID.layerDuplicate, LAYER_LABEL.duplicate, off),
-      menuItem(COMMAND_ID.layerDelete, LAYER_LABEL.remove, off),
+    children: tidyMenu([
+      item(COMMAND_ID.layerAdd, LAYER_LABEL.add),
+      item(COMMAND_ID.layerDuplicate, LAYER_LABEL.duplicate),
+      item(COMMAND_ID.layerDelete, LAYER_LABEL.remove),
       'separator',
-      menuItem(COMMAND_ID.layerMerge, LAYER_LABEL.merge, off),
-      menuItem(COMMAND_ID.layerFlatten, LAYER_LABEL.flatten, off),
+      item(COMMAND_ID.layerMerge, LAYER_LABEL.merge),
+      item(COMMAND_ID.layerFlatten, LAYER_LABEL.flatten),
       'separator',
-      menuItem(COMMAND_ID.layerAbove, 'Select layer above', off),
-      menuItem(COMMAND_ID.layerBelow, 'Select layer below', off),
-    ],
+      item(COMMAND_ID.layerAbove, 'Select layer above'),
+      item(COMMAND_ID.layerBelow, 'Select layer below'),
+      'separator',
+      item(TILEMAP_COMMAND.layerUp, 'Move map layer up'),
+      item(TILEMAP_COMMAND.layerDown, 'Move map layer down'),
+    ]),
   };
 };
 
