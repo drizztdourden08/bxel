@@ -18,12 +18,9 @@ interface AppSettings extends BaseSettings, CanvasSettings, AssistantSettings, P
   exportPresetsOfferedIn?: readonly string[];
   swatchSets?: readonly SwatchSet[];
   managerViews?: ManagerViews;
-<<<<<<< HEAD
   layerThumbSize?: LayerThumbSize;
-=======
   projectBrowserViews?: BrowserViews;
   propertiesPin?: string | null;
->>>>>>> main
   palettePanel?: PalettePanelSettings;
 }
 
