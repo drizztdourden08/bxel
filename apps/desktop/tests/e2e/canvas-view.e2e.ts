@@ -36,12 +36,21 @@ const openDemo = async (session: Session, place: string): Promise<void> => {
   await setWindow(session);
 };
 
+const showViewWidget = async (session: Session): Promise<void> => {
+  await session.page.getByRole('button', { name: 'Menu', exact: true }).click();
+  await session.page.getByRole('menuitem', { name: /^Widgets$/ }).click();
+  const item = session.page.locator('[role^="menuitem"]').filter({ hasText: /^View$/ }).last();
+  await item.click();
+  await session.page.mouse.click(640, 20);
+};
+
 const openDemoRig = async (): Promise<{ session: Session }> => {
   const session = await openSession();
   const parent = join(APP_DIR, PROJECT_PARENT);
   await mkdir(parent, { recursive: true });
   const place = await mkdtemp(join(parent, TEMP_PREFIX));
   await openDemo(session, place);
+  await showViewWidget(session);
   await widget(session).waitFor();
   await session.page.emulateMedia({ reducedMotion: 'reduce' });
   return { session: { ...session, close: () => session.close().then(() => rm(place, { recursive: true, force: true })) } };
@@ -144,6 +153,7 @@ describe('the canvas: animation header and the parity of sheet and map', () => {
     await session.page.keyboard.press("Control+'");
     await pullGuide(session, 'Horizontal ruler');
     await shoot(session, 'canvas-7-map-guides');
+    await widget(session).getByRole('button', { name: /^Close/ }).first().click();
     await expectAccessible(session, 'map with rulers and a guide');
   });
 });
