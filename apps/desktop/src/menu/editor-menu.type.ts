@@ -9,6 +9,7 @@ interface EditorMenuState {
   gridTile: boolean;
   guides: boolean;
   rulers: boolean;
+  snap: boolean;
   tiled: TileMode;
   symmetryX: boolean;
   symmetryY: boolean;
