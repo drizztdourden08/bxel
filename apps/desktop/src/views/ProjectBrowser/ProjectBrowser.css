@@ -65,27 +65,31 @@
 .project-browser__body {
   display: grid;
   flex: 1;
-  grid-template-columns: var(--size-224) minmax(0, 1fr) var(--size-320);
+  grid-template-columns: var(--size-192) minmax(0, 1fr) var(--size-288);
   min-block-size: 0;
 }
 
 .project-browser__body[data-preview='false'] {
-  grid-template-columns: var(--size-224) minmax(0, 1fr);
+  grid-template-columns: var(--size-192) minmax(0, 1fr);
 }
 
 .browser-sources {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-lg);
   padding: var(--space-sm);
   overflow: auto;
   border-inline-end: var(--border-width-thin) solid var(--c-border);
 }
 
-.browser-source-row {
+.browser-sources__section {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.browser-sources__empty {
+  padding-inline: var(--space-md);
 }
 
 .browser-centre {
@@ -129,10 +133,11 @@
 .browser-thumb {
   position: relative;
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: center;
   inline-size: 100%;
-  aspect-ratio: 1;
+  min-block-size: 0;
   overflow: hidden;
   border-radius: var(--radius-sm);
 }
@@ -142,6 +147,29 @@
   block-size: 100%;
   object-fit: contain;
   image-rendering: pixelated;
+}
+
+.browser-thumb--folder {
+  background: var(--c-sunken);
+}
+
+.browser-mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: var(--space-2xs);
+  inline-size: 100%;
+  block-size: 100%;
+  padding: var(--space-2xs);
+}
+
+.browser-mosaic__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: hidden;
 }
 
 .browser-thumb__icon {
@@ -250,6 +278,7 @@
 .browser-row__name .browser-thumb {
   flex: none;
   inline-size: var(--size-24);
+  block-size: var(--size-24);
 }
 
 .browser-row__cell {
@@ -298,9 +327,10 @@
 
 .browser-columns__column {
   display: flex;
-  flex: none;
+  flex: 1 1 0;
   flex-direction: column;
-  inline-size: var(--size-224);
+  min-inline-size: var(--size-128);
+  max-inline-size: var(--size-224);
   min-block-size: 0;
   padding: var(--space-xs);
   border-inline-end: var(--border-width-thin) solid var(--c-border);
@@ -316,7 +346,7 @@
   flex-direction: column;
   gap: var(--space-sm);
   padding: var(--space-md);
-  overflow: auto;
+  overflow: hidden auto;
   border-inline-start: var(--border-width-thin) solid var(--c-border);
 }
 

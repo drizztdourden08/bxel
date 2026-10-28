@@ -12,7 +12,7 @@ const PreviewPane = () => {
   const single = model.selected.length === 1 ? first : undefined;
   return (
     <Box as="aside" className="browser-preview" aria-label={BROWSER_TEXT.previewLabel}>
-      {model.selected.length === 0 && <EmptyState size="sm" title={BROWSER_TEXT.windowTitle} message={BROWSER_TEXT.selectOne} />}
+      {model.selected.length === 0 && <EmptyState size="sm" title={BROWSER_TEXT.noFileTitle} message={BROWSER_TEXT.selectOne} />}
       {model.selected.length > 1 && <ManyPreview entries={model.selected} />}
       {single?.kind === 'file' && <OnePreview entry={single} />}
       {single?.kind === 'folder' && <FolderPreview entry={single} />}

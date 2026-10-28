@@ -8,17 +8,16 @@ const DEFAULT_SORT: BrowserSort = { key: 'name', descending: false };
 
 const DEFAULT_VIEW: SavedBrowserView = { view: 'grid', size: 96, sort: DEFAULT_SORT, preview: true, folder: null, pinned: [], smart: [] };
 
-const THUMB_STOPS: readonly number[] = [48, 64, 80, 96, 128, 160, 192, 224];
+const THUMB_STOPS: readonly number[] = [48, 64, 80, 96, 128, 160, 192];
 
 const TILE_OF: Readonly<Record<number, { readonly width: VirtualSize; readonly height: VirtualSize }>> = {
-  48: { width: 'size-64', height: 'size-80' },
-  64: { width: 'size-80', height: 'size-96' },
-  80: { width: 'size-96', height: 'size-128' },
-  96: { width: 'size-128', height: 'size-128' },
-  128: { width: 'size-160', height: 'size-160' },
-  160: { width: 'size-192', height: 'size-192' },
-  192: { width: 'size-224', height: 'size-224' },
-  224: { width: 'size-256', height: 'size-256' },
+  48: { width: 'size-64', height: 'size-128' },
+  64: { width: 'size-80', height: 'size-128' },
+  80: { width: 'size-96', height: 'size-160' },
+  96: { width: 'size-128', height: 'size-160' },
+  128: { width: 'size-160', height: 'size-192' },
+  160: { width: 'size-192', height: 'size-224' },
+  192: { width: 'size-224', height: 'size-256' },
 };
 
 const MAX_SAVED_BROWSERS = 100;
@@ -51,7 +50,7 @@ const BUILT_IN_FILTERS: readonly SavedFilter[] = [
 const BROWSER_TEXT = {
   windowTitle: 'Browse',
   searchLabel: 'Search the project',
-  searchPlaceholder: 'Search, or type kind:sprite is:unsaved in:sprites size>64',
+  searchPlaceholder: 'Search or kind:sprite is:unsaved',
   searchHelp:
     'Words match names and folders. Tokens: kind:sprite, in:folder, uses:name (files that use it), usedby:name (files it uses), is:unused, is:unsaved, is:open, is:pinned, size>64, colours<16. Kinds add up, other tokens narrow.',
   clearSearch: 'Clear the search',
@@ -85,6 +84,7 @@ const BROWSER_TEXT = {
   emptySearchMessage: 'No file fits all of the search. Remove a token or clear the search.',
   noProjectTitle: 'No project is open',
   noProjectMessage: 'Open a project to browse its files, or pick one of the projects below.',
+  noFileTitle: 'No file picked',
   selectOne: 'Pick a file to see it here.',
   selectedMany: (count: number): string => `${count} files selected`,
   statusFiles: (count: number): string => `${count} ${count === 1 ? 'file' : 'files'}`,
@@ -159,8 +159,10 @@ const SWATCH_THUMB = { columns: 4, cell: 4, limit: 16 } as const;
 
 const OVERFLOW_AFTER = 4;
 
+const MOSAIC_LIMIT = 4;
+
 const NO_KEYS: ReadonlyMap<string, AssetKey> = new Map();
 
 const EMPTY_CELLS: RowCells = { kind: '', size: '', frames: '', palette: '', folder: '', modified: '', users: '' };
 
-export { BROWSER_TEXT, NO_KEYS, EMPTY_CELLS, EMPTY_QUERY, EMPTY_SELECTION, KIND_ALIAS, LEAF_KINDS, NO_FACTS, NO_TREE, OVERFLOW_AFTER, QUERY_FLAGS, SWATCH_THUMB, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_STOPS, TILE_OF, VIEW_OPTIONS };
+export { BROWSER_TEXT, NO_KEYS, EMPTY_CELLS, EMPTY_QUERY, EMPTY_SELECTION, KIND_ALIAS, LEAF_KINDS, MOSAIC_LIMIT, NO_FACTS, NO_TREE, OVERFLOW_AFTER, QUERY_FLAGS, SWATCH_THUMB, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_STOPS, TILE_OF, VIEW_OPTIONS };

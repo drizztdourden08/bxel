@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { AssetKey } from '@bxel/document';
-import type { TreeNode } from '@drizztdourden08/tessera';
+import type { IconName, TreeNode } from '@drizztdourden08/tessera';
 import type { AssetRow, ListedFile, RowKind } from '../asset-list/asset-list.type';
 
 type BrowserView = 'grid' | 'list' | 'columns';
@@ -94,7 +94,9 @@ type Modifiers = { readonly ctrl: boolean; readonly shift: boolean };
 
 type Measure = Pick<BrowserFacts, 'width' | 'height' | 'frames' | 'palette' | 'colours'>;
 
-type FolderNode = TreeNode<never>;
+type SourceItem = { readonly key: string; readonly label: string; readonly icon: IconName; readonly count: number | null };
+
+type FolderNode = TreeNode<SourceItem>;
 
 type BrowserViews = Readonly<Record<string, SavedBrowserView>>;
 
@@ -118,4 +120,4 @@ type Branch = { readonly path: string; readonly label: string; readonly linked: 
 
 type QueryChange = Partial<BrowserQuery> | null;
 
-export type { Branch, BrowserEntry, BrowserFacts, BrowserQuery, BrowserSort, BrowserView, BrowserViews, Comparison, Compare, Crumb, EntryInput, FactsAndKeys, FileEntry, FolderEntry, FolderNode, Measure, Modifiers, NumberTest, ProjectTree, QueryChange, QueryChip, QueryFlag, RowCells, SavedBrowserView, SavedFilter, Selection, SortKey, SourceRoot };
+export type { Branch, BrowserEntry, BrowserFacts, BrowserQuery, BrowserSort, BrowserView, BrowserViews, Comparison, Compare, Crumb, EntryInput, FactsAndKeys, FileEntry, FolderEntry, FolderNode, Measure, Modifiers, NumberTest, ProjectTree, QueryChange, QueryChip, QueryFlag, RowCells, SavedBrowserView, SavedFilter, Selection, SortKey, SourceItem, SourceRoot };

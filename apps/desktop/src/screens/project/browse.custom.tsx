@@ -9,6 +9,7 @@ const meta: ScreenMeta = {
   icon: 'folder-open',
   order: 0,
   fill: true,
+  bare: true,
   showHeader: false,
   keywords: ['browse', 'files', 'folders', 'grid', 'list', 'columns', 'search', 'preview', 'move', 'rename', 'new', 'import', 'project'],
 };

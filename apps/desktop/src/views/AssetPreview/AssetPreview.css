@@ -41,8 +41,8 @@
 }
 
 .asset-preview__counter {
-  flex: 1;
-  min-inline-size: 0;
+  flex: none;
+  white-space: nowrap;
 }
 
 .asset-preview__swatches {

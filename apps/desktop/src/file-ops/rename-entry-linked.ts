@@ -20,8 +20,9 @@ const renameEntryLinked = async (path: string, typed: string, isFolder: boolean)
   if (name === old) return { ok: true, rewritten: 0 };
   const problem = await checkEntryName(kit.documents, dir, name, old);
   if (problem !== null) return { ok: false, message: problem };
-  const outcome = await relocate([{ from, to: `${dir}/${name}` }]);
-  if (outcome.ok) toast(`Renamed to ${name}.`, { variant: 'success' });
+  const to = `${dir}/${name}`;
+  const outcome = await relocate([{ from, to }]);
+  if (outcome.ok) toast(FILE_OPS_TEXT.renamed(name), { variant: 'success', action: { label: FILE_OPS_TEXT.undo, onSelect: () => void relocate([{ from: to, to: from }]) } });
   return outcome;
 };
 

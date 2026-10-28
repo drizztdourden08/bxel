@@ -18,10 +18,12 @@ const planMoves = async (paths: readonly string[], toFolder: string): Promise<re
   const kit = fileKit();
   if (!kit) return FILE_OPS_TEXT.unavailable;
   const target = toSlashes(toFolder).replace(/\/$/, '');
-  const taken = new Set((await kit.documents.list(target)).entries.map((entry) => entry.name.toLowerCase()));
+  if (paths.some((path) => within(target, toSlashes(path)))) return FILE_OPS_TEXT.intoItself;
+  const listing = await kit.documents.list(target).catch(() => null);
+  if (listing === null) return FILE_OPS_TEXT.unreachable(fileName(target));
+  const taken = new Set(listing.entries.map((entry) => entry.name.toLowerCase()));
   const plan: Relocation[] = [];
   for (const path of paths.map(toSlashes)) {
-    if (within(target, path)) return FILE_OPS_TEXT.intoItself;
     if (same(parentOf(path), target)) continue;
     const name = fileName(path);
     if (taken.has(name.toLowerCase())) return `${name} is already in that folder.`;

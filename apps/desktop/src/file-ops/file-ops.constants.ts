@@ -10,6 +10,8 @@ const FILE_OPS_TEXT = {
   movedLinks: (count: number, links: number): string => `Moved ${count} ${count === 1 ? 'file' : 'files'} and kept ${links} ${links === 1 ? 'link' : 'links'}.`,
   intoItself: 'A folder cannot move into itself.',
   nothingToMove: 'Those files are already in that folder.',
+  renamed: (name: string): string => `Renamed to ${name}.`,
+  unreachable: (name: string): string => `Cannot move into ${name}. It cannot be read.`,
   unavailable: 'Folder access is not available here.',
   trashTitle: 'Move to the trash?',
   trashMessage: (count: number, name: string): string => (count === 1 ? `${name} goes to the trash.` : `${count} files go to the trash.`),

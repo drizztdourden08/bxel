@@ -6,7 +6,7 @@ import type { DiskProject } from '../../project-manager/project-manager.type';
 import type { ContextMenuPoint, MenuGroup, VirtualGridCellBind } from '@drizztdourden08/tessera';
 import type { DragEvent } from 'react';
 import type { RgbaImage } from '@bxel/formats';
-import type { BrowserEntry, SavedFilter, SortKey } from '../../project-browser/project-browser.type';
+import type { BrowserEntry, FolderNode, SortKey } from '../../project-browser/project-browser.type';
 
 type BrowserActions = {
   readonly open: (entry: BrowserEntry) => void;
@@ -82,10 +82,16 @@ type RenameFlow = {
 
 type RowProps = EntryProps & { readonly column?: boolean; readonly open?: boolean };
 
-type FilterRowProps = { readonly filter: SavedFilter; readonly count: number; readonly removable: boolean };
-
 type RowCellTextProps = { readonly value: string; readonly suffix?: string };
 
 type ThumbCanvasProps = { readonly image: RgbaImage; readonly label: string };
 
-export type { BrowserActionState, Commands, FilterRowProps, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };
+type SourceTreeProps = {
+  readonly label: string;
+  readonly root: FolderNode;
+  readonly selectedKey: string | null;
+  readonly expandToDepth?: number;
+  readonly onSelect: (key: string) => void;
+};
+
+export type { SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };

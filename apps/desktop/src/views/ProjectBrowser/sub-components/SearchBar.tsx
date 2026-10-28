@@ -10,6 +10,7 @@ const SearchBar = () => {
   const { model } = useBrowserContext();
   const query = useBrowserStore((state) => state.query);
   const setQuery = useBrowserStore((state) => state.setQuery);
+  const saved = useBrowserStore((state) => state.smart).find((filter) => filter.query === query);
   return (
     <Box className="browser-search">
       <SearchInput value={query} onChange={setQuery} placeholder={BROWSER_TEXT.searchPlaceholder} aria-label={BROWSER_TEXT.searchLabel} title={BROWSER_TEXT.searchHelp} />
@@ -20,16 +21,14 @@ const SearchBar = () => {
               {chip.label}
             </Tag>
           ))}
-          {model.editable && (
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => {
-                const name = query.trim();
-                if (name !== '') useBrowserStore.getState().addSmart(name, name);
-              }}
-            >
+          {model.editable && saved === undefined && (
+            <Button size="sm" variant="ghost" onClick={() => useBrowserStore.getState().addSmart(query.trim(), query.trim())}>
               {BROWSER_TEXT.saveFilter}
+            </Button>
+          )}
+          {saved !== undefined && (
+            <Button size="sm" variant="ghost" onClick={() => useBrowserStore.getState().removeSmart(saved.id)}>
+              {BROWSER_TEXT.removeFilter(saved.name)}
             </Button>
           )}
         </Box>
