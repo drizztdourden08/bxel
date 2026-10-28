@@ -34,7 +34,7 @@ export { blockedGrant } from './grants/blocked-grant';
 export { bundleLevel } from './grants/bundle-level';
 export { canWriteDocuments } from './grants/can-write-documents';
 export { checkCommand } from './grants/check-command';
-export type { CommandItem } from './grants/check-command';
+export type { CommandItem } from './grants/check-command.type';
 export { checkGrant } from './grants/check-grant';
 export { grantOfChoice } from './grants/grant-of-choice';
 export { grantOfMode } from './grants/grant-of-mode';

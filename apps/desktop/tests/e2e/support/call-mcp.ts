@@ -8,8 +8,8 @@ const codeOf = (data: Structured): string | null => {
   return typeof error.code === 'string' ? error.code : null;
 };
 
-const callMcp = async (client: Client, name: string, args: Record<string, unknown> = {}): Promise<CallOutcome> => {
-  const result = await client.callTool({ name, arguments: args });
+const callMcp = async (client: Client, name: string, args: Record<string, unknown> = {}, timeout?: number): Promise<CallOutcome> => {
+  const result = await client.callTool({ name, arguments: args }, undefined, timeout === undefined ? undefined : { timeout });
   const raw: unknown = result.structuredContent;
   const data: Structured = typeof raw === 'object' && raw !== null ? { ...raw } : {};
   return { ok: data.ok === true, data, code: codeOf(data), isError: result.isError === true };

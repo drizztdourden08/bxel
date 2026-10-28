@@ -55,7 +55,7 @@ describe('the restart permission', () => {
     const descriptors = describeTools(documentCommands);
     const namesOf = (grant: Grant): string[] => toolsForGrant(descriptors, grant).map((tool) => tool.name);
     expect(namesOf(PRESETS.full_control.grant)).not.toContain('restart_bxel');
-    expect(checkGrant('restart_bxel', {}, PRESETS.full_control.grant, 'Claude Code')?.error.message).toContain('May restart Bxel');
+    expect(checkGrant('restart_bxel', {}, PRESETS.full_control.grant, 'Sample Agent')?.error.message).toContain('May restart Bxel');
     const allowed: Grant = { ...PRESETS.full_control.grant, special: { mayRestart: true } };
     expect(namesOf(allowed)).toContain('restart_bxel');
     expect(checkGrant('restart_bxel', {}, allowed)).toBeNull();

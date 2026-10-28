@@ -8,10 +8,7 @@ const note = (...parts: string[]): void => {
 const widgetsMock = () => ({
   list: () => [{ id: 'timeline', label: 'Timeline', visible: true, placement: 'docked', side: 'bottom', size: 200, index: 0, tab: 0, rect: null, popped: false, context: 'default', available: true }],
   presets: () => ['Default'],
-  open: (id: string) => {
-    if (id === 'players') throw new Error('Unknown widget "players". Known widgets: timeline.');
-    note('open', id);
-  },
+  open: (id: string) => note('open', id),
   close: (id: string) => note('close', id),
   toggle: (id: string) => note('toggle', id),
   popOut: (id: string) => note('popOut', id),

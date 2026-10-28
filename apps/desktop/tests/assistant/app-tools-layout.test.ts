@@ -46,6 +46,7 @@ describe('list_layout and set_layout', () => {
     expect(outcome).toMatchObject({ ok: false, error: { code: 'LAYOUT_INVALID', path: 'ops.1' } });
     expect(JSON.stringify(outcome)).toContain('Op 2 (show) failed. Unknown widget');
     expect(fake.calls).toEqual(['dock timeline {"side":"left"}']);
+    expect(JSON.stringify(outcome)).toContain('Known widgets: timeline');
   });
 
   it('refuses a resize with neither a size nor a rect', async () => {

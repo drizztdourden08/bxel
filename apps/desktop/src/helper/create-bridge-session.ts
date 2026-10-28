@@ -33,10 +33,7 @@ const createBridgeSession = (file: string): BridgeSession => {
     if (!result.ok) state.token = null;
     return result;
   };
-  const tokenOf = (): Promise<McpResult<string>> => {
-    state.token ??= pair();
-    return state.token;
-  };
+  const tokenOf = (): Promise<McpResult<string>> => (state.token ??= pair());
   const attempt = async (tool: ToolRouteName, input: unknown): Promise<ToolReply> => {
     const token = await tokenOf();
     if (!token.ok) return { outcome: token, images: [] };

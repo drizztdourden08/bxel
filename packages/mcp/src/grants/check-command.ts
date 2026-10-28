@@ -1,5 +1,4 @@
 /* @layer core @kind logic */
-import type { BundleId } from '../catalogue/catalogue.type';
 import { LEVEL_LABEL, LEVEL_RANK } from '../catalogue/level.constants';
 import { TOOL_CATALOGUE } from '../catalogue/tool-catalogue.constants';
 import type { Failure } from '../errors/error.type';
@@ -7,18 +6,13 @@ import { MCP_ERROR_CODE } from '../errors/mcp-error-code.constants';
 import { mcpFailure } from '../errors/mcp-failure';
 import type { ToolName } from '../tools/tool.type';
 import { atLeast } from './at-least';
+import type { CommandItem } from './check-command.type';
 import { bundleLabel } from './bundle-label';
 import { bundleLevel } from './bundle-level';
 import { GRANT_TEXT } from './grant-text.constants';
 import type { Grant } from './grant.type';
 import { itemLevel } from './item-level';
 import { toolLevel } from './tool-level';
-
-type CommandItem = {
-  readonly what: string;
-  readonly area: BundleId;
-  readonly changes: boolean;
-};
 
 const checkCommand = (grant: Grant, tool: ToolName, item: CommandItem, program: string = GRANT_TEXT.anyone): Failure | null => {
   const level = itemLevel(grant, tool, item.area);
@@ -37,4 +31,3 @@ const checkCommand = (grant: Grant, tool: ToolName, item: CommandItem, program: 
 };
 
 export { checkCommand };
-export type { CommandItem };

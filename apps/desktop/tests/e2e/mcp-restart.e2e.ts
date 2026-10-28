@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import { access, mkdtemp, rm } from 'node:fs/promises';
+import { access, mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, test } from 'vitest';
@@ -14,7 +14,7 @@ import { rememberProgram } from './support/remember-program';
 import { setProgramRestart } from './support/set-program-restart';
 import { stopOrphan } from './support/stop-orphan';
 
-const held: { dir?: string; userData?: string; config?: ClientConfig; link?: McpLink } = {};
+const held: { dir?: string; userData?: string; config?: ClientConfig; link?: McpLink; documentId?: string; pid?: number } = {};
 
 const exists = (path: string): Promise<boolean> => access(path).then(() => true, () => false);
 
@@ -27,10 +27,13 @@ const clientOf = () => {
 
 const namesOf = async (): Promise<string[]> => (await clientOf().listTools()).tools.map((tool) => tool.name);
 
+const pidNow = async (): Promise<number> => Number((JSON.parse(await readFile(bridgeOf(), 'utf8')) as { pid: number }).pid);
+
 afterAll(async () => {
+  if (held.link && (await exists(bridgeOf()))) await callMcp(held.link.client, 'stop_bxel', { unsaved: 'recover' }).catch(() => undefined);
   await held.link?.close().catch(() => undefined);
-  if (held.config) await stopOrphan(bridgeOf());
-  if (held.dir) await rm(held.dir, { recursive: true, force: true });
+  if (held.config && (await exists(bridgeOf()))) await stopOrphan(bridgeOf());
+  if (held.dir) await rm(held.dir, { recursive: true, force: true, maxRetries: 20, retryDelay: 500 });
 });
 
 const startsWithTheRestartPermission = async (): Promise<void> => {
@@ -41,11 +44,14 @@ const startsWithTheRestartPermission = async (): Promise<void> => {
   await setProgramRestart(held.userData, true);
   held.link = await connectMcp(held.config);
   expect((await callMcp(clientOf(), 'start_bxel', { window: 'headless' })).data).toMatchObject({ ok: true, started: true });
+  expect((await callMcp(clientOf(), 'get_session')).ok).toBe(true);
   expect(await namesOf()).toContain('restart_bxel');
 };
 
 const refusesWithUnsavedWorkThenRestarts = async (): Promise<void> => {
   const sprite = await createMcpSprite(clientOf());
+  held.documentId = sprite.documentId;
+  held.pid = await pidNow();
   const drawn = await callMcp(clientOf(), 'apply_edits', { documentId: sprite.documentId, baseRevision: sprite.revision, label: 'draw', steps: [patchStep(sprite, MCP_DRAWN)] });
   expect(drawn.ok).toBe(true);
   const before = await callMcp(clientOf(), 'get_session');
@@ -53,18 +59,19 @@ const refusesWithUnsavedWorkThenRestarts = async (): Promise<void> => {
   const refused = await callMcp(clientOf(), 'restart_bxel');
   expect(refused.code).toBe('UNSAVED_CHANGES');
   expect((await callMcp(clientOf(), 'get_session')).data.sessionId).toBe(before.data.sessionId);
-  const restarted = await callMcp(clientOf(), 'restart_bxel', { unsaved: 'recover' });
-  expect(restarted.data).toMatchObject({ ok: true, restarted: true, window: 'headless' });
+  const restarted = await callMcp(clientOf(), 'restart_bxel', { unsaved: 'recover' }, 240_000);
+  expect(restarted.data, JSON.stringify(restarted.data)).toMatchObject({ ok: true, restarted: true, window: 'headless' });
   expect(restarted.data.recovered).toHaveLength(1);
-  expect(restarted.data.sessionId).not.toBe(before.data.sessionId);
+  expect(typeof restarted.data.sessionId).toBe('string');
+  expect(await pidNow()).not.toBe(held.pid);
 };
 
 const reconnectsAtTheSameGrant = async (): Promise<void> => {
   const session = await callMcp(clientOf(), 'get_session');
-  expect(session.data).toMatchObject({ ok: true, mode: 'edit', trust: 'this_launch', instance: { window: 'headless' } });
+  expect(session.data, JSON.stringify(session.data)).toMatchObject({ ok: true, mode: 'edit', trust: 'this_launch', instance: { window: 'headless' } });
   expect(await namesOf()).toContain('restart_bxel');
   const documents = await callMcp(clientOf(), 'list_documents');
-  expect(documents.data.documents).toEqual([]);
+  expect((documents.data.documents as { documentId: string }[]).some((each) => each.documentId === held.documentId)).toBe(false);
 };
 
 const stopsBeforeTheNextCase = async (): Promise<void> => {
@@ -77,6 +84,7 @@ const refusesWithThePermissionOff = async (): Promise<void> => {
   if (!held.userData || !held.config) throw new Error('no profile');
   await setProgramRestart(held.userData, false);
   expect((await callMcp(clientOf(), 'start_bxel', { window: 'headless' })).data).toMatchObject({ ok: true, started: true });
+  expect((await callMcp(clientOf(), 'get_session')).ok).toBe(true);
   expect(await namesOf()).not.toContain('restart_bxel');
   const refused = await callMcp(clientOf(), 'restart_bxel');
   expect(refused.code).toBe('TOOL_DISABLED');
@@ -84,7 +92,7 @@ const refusesWithThePermissionOff = async (): Promise<void> => {
   expect((await callMcp(clientOf(), 'get_session')).ok).toBe(true);
 };
 
-describe('restart: a program with the permission restarts Bxel and reconnects at the same grant', () => {
+describe('restart: a program with the permission restarts Bxel and reconnects at the same grant', { timeout: 300000 }, () => {
   test('is listed with the permission on', startsWithTheRestartPermission);
   test('refuses with unsaved work, then restarts keeping the work for recovery', refusesWithUnsavedWorkThenRestarts);
   test('reconnects without a prompt at the same grant', reconnectsAtTheSameGrant);

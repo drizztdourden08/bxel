@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { LAYOUT_OP_SCHEMA } from '../schema/layout.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
-import { TOOLBAR_ROW_SCHEMA, WIDGET_ROW_SCHEMA } from './list-layout-tool';
+import { TOOLBAR_ROW_SCHEMA, WIDGET_ROW_SCHEMA } from './list-layout-tool.constants';
 import { TOOL_NAME } from './tool-name.constants';
 
 const setLayoutTool = defineTool(TOOL_NAME.setLayout, {

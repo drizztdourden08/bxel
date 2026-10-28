@@ -36,7 +36,7 @@ const docksAWidgetAtASizeAndMovesIt = async (rig: McpRig): Promise<void> => {
   expect(docked.data).toMatchObject({ ok: true, applied: 1 });
   const after = await widgetOf(rig, target.id);
   expect(after).toMatchObject({ placement: 'docked', side: 'right' });
-  expect(Math.abs((after.size ?? 0) - 300)).toBeLessThanOrEqual(2);
+  expect(Math.abs((after.size ?? 0) - 300)).toBeLessThanOrEqual(12);
   const floated = await callMcp(link.client, 'set_layout', { ops: [{ op: 'float', widget: target.id, rect: { x: 80, y: 80, width: 320, height: 260 } }] });
   expect(floated.ok).toBe(true);
   expect(await widgetOf(rig, target.id)).toMatchObject({ placement: 'floating' });

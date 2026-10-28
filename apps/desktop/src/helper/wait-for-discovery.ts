@@ -14,7 +14,7 @@ const readyFor = (file: string, pid: number | undefined, since: number): boolean
   }
 };
 
-const waitForDiscovery = (file: string, target: DiscoveryTarget, since: number): Promise<DiscoveryWait> =>
+const waitForDiscovery = (file: string, target: DiscoveryTarget, since: number, waitMs: number = MCP_TIMEOUT_MS.start): Promise<DiscoveryWait> =>
   new Promise((resolve) => {
     const folder = dirname(file);
     mkdirSync(folder, { recursive: true });
@@ -27,7 +27,7 @@ const waitForDiscovery = (file: string, target: DiscoveryTarget, since: number):
       if (readyFor(file, target.pid, since)) finish({ kind: 'ready' });
     };
     const watcher = watch(folder, check);
-    const timer = setTimeout(() => finish({ kind: 'timeout' }), MCP_TIMEOUT_MS.start);
+    const timer = setTimeout(() => finish({ kind: 'timeout' }), waitMs);
     void target.exited.then((code) => finish({ kind: 'exit', code }));
     check();
   });

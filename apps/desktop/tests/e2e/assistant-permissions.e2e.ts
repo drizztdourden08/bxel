@@ -14,6 +14,8 @@ import { useRig } from './support/use-rig';
 
 const FILES = 'Files and saving permission';
 const BUNDLES = 11;
+
+const RESTART_ROW = 1;
 const RESTART = 'May restart Bxel';
 
 const held: { sprite?: DrawnSprite; detail?: Locator; changes: number } = { changes: 0 };
@@ -62,7 +64,7 @@ const setsUp = async (rig: McpRig): Promise<void> => {
 };
 
 const listsEverything = async (): Promise<void> => {
-  expect(await groupCount()).toBe(BUNDLES + MCP_TOOL_COUNT);
+  expect(await groupCount()).toBe(BUNDLES + MCP_TOOL_COUNT + RESTART_ROW);
   expect(await levelOf(detail(), 'Edit pixels permission')).toBe('Edit');
   expect(await levelOf(detail(), 'Read documents permission')).toBe('Read');
   expect(await levelOf(detail(), 'Settings permission')).toBe('Read');
@@ -117,7 +119,7 @@ const searchFilters = async (): Promise<void> => {
   await expect.poll(groupCount).toBe(2);
   await search.press('Escape');
   expect(await search.inputValue()).toBe('');
-  await expect.poll(groupCount).toBe(BUNDLES + MCP_TOOL_COUNT);
+  await expect.poll(groupCount).toBe(BUNDLES + MCP_TOOL_COUNT + RESTART_ROW);
 };
 
 const presetsSetTheLevels = async (rig: McpRig): Promise<void> => {

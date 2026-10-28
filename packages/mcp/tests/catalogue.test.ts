@@ -27,10 +27,7 @@ describe('the tool catalogue', () => {
   it('tests the writing inputs of the mixed tools', () => {
     expect(TOOL_CATALOGUE.set_view.writes?.({ zoom: 'fit', toggles: { grid: true } })).toBe(false);
     expect(TOOL_CATALOGUE.set_view.writes?.({ zoom: 'fit', selection: { shape: { kind: 'all' } } })).toBe(true);
-    for (const field of ['select', 'tool', 'colours', 'symmetry']) expect(TOOL_CATALOGUE.set_view.writes?.({ [field]: {} }), field).toBe(true);
-    expect(TOOL_CATALOGUE.run_command.routed).toBe('command');
-    expect(TOOL_CATALOGUE.set_view.writes?.({ dialog: { answer: 'confirm' } })).toBe(true);
-    expect(TOOL_CATALOGUE.restart_bxel.special).toBe('mayRestart');
+    for (const field of ['select', 'tool', 'colours', 'symmetry', 'dialog']) expect(TOOL_CATALOGUE.set_view.writes?.({ [field]: {} }), field).toBe(true);
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: true })).toBe(true);
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: false })).toBe(false);
     expect(TOOL_CATALOGUE.stop_bxel.writes?.({ unsaved: 'discard' })).toBe(true);
@@ -41,6 +38,11 @@ describe('the tool catalogue', () => {
   it('marks the two step tools as routed', () => {
     const routed = Object.entries(TOOL_CATALOGUE).filter(([, entry]) => entry.routed === 'steps');
     expect(routed.map(([name]) => name).sort()).toEqual(['apply_edits', 'preview_edits']);
+  });
+
+  it('routes run_command and keeps the restart behind its permission', () => {
+    expect(TOOL_CATALOGUE.run_command.routed).toBe('command');
+    expect(TOOL_CATALOGUE.restart_bxel.special).toBe('mayRestart');
   });
 
   it('keeps the writing tools to those that edit documents, files, layout and settings, and the restart', () => {
