@@ -39,7 +39,7 @@ const writeTiledJson = (input: TilemapExportInput): TilemapJsonResult => {
     tilewidth: input.tileWidth,
     tileheight: input.tileHeight,
     nextlayerid: layers.length + 1,
-    nextobjectid: objectCount(shaped) + 1,
+    nextobjectid: Math.max(shaped.length, objectCount(shaped)) + 1,
     layers,
     tilesets: [
       {
