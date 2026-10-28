@@ -1,12 +1,20 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
 import { WIDGET_CONTEXT } from '../ui-context/widget-context.constants';
-import { Toolbar } from '@drizztdourden08/tessera';
-import { OPTIONS_TEXT, useOptionsItems } from '../views/OptionsToolbar';
+import { OptionsPanel } from '../views/OptionsPanel';
 
-const meta: WidgetMeta = { label: 'Tool options', icon: 'sliders-horizontal', defaultSide: 'right', defaultDockedSize: 232, popOut: false, defaultVisibility: 'context-only', context: WIDGET_CONTEXT.options };
+const meta: WidgetMeta = {
+  label: 'Tool options',
+  icon: 'sliders-horizontal',
+  defaultSide: 'right',
+  defaultDockedSize: 288,
+  dockWeight: 2,
+  popOut: false,
+  defaultVisibility: 'context-only',
+  context: WIDGET_CONTEXT.options,
+};
 
-const OptionsWidget = () => <Toolbar layout="list" label={OPTIONS_TEXT.region} items={useOptionsItems()} />;
+const OptionsWidget = () => <OptionsPanel />;
 
 export default OptionsWidget;
 export { meta };

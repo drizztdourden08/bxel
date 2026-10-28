@@ -1,21 +1,26 @@
 /* @layer renderer-app @kind types */
 import type { MenuGroup, ShortcutKey, ToolbarSlot } from '@drizztdourden08/tessera';
-import type { ToolDef, ToolId } from '../../editor/tool.type';
-import type { PixelIconName } from '../../icons/pixel-icon.type';
-import type { BxelContext } from '../../ui-context/bxel-context.type';
+import type { ToolMember, ToolSlot } from '../../editor/tool-catalogue/tool-catalogue.type';
+import type { ToolId } from '../../editor/tool.type';
+import type { Surface } from '../../editor/tool-catalogue/surface.type';
+import type { UiState } from '../../ui-context/ui-rule.type';
+import type { SlotBadge } from '../SlotIcon';
 
 interface ToolRailProps {
   slot: ToolbarSlot;
 }
 
-interface RailItemContext {
-  defs: readonly ToolDef[];
-  tool: ToolId;
-  icons: Readonly<Record<ToolId, PixelIconName>>;
-  keys: Readonly<Record<ToolId, readonly ShortcutKey[] | undefined>>;
-  options: Readonly<Partial<Record<ToolId, readonly MenuGroup[]>>>;
-  pick: (tool: ToolId) => void;
-  context: BxelContext;
+interface SlotItemContext {
+  surface: Surface;
+  active: ToolId;
+  shown: ToolMember;
+  filled: boolean;
+  badge: SlotBadge | null;
+  keys: readonly ShortcutKey[] | undefined;
+  ui: UiState;
+  groups: readonly MenuGroup[] | undefined;
+  hasFlyout: boolean;
+  pick: (slot: ToolSlot) => void;
 }
 
-export type { RailItemContext, ToolRailProps };
+export type { SlotItemContext, ToolRailProps };

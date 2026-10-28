@@ -6,6 +6,7 @@ import { toggleItem } from '../../../toolbar-items';
 import { useHintKeys } from '../../ActionHint';
 import { TILED_HINT, VIEW_HINTS, VIEW_ICONS, VIEW_TOGGLES } from '../CanvasToolbar.constants';
 import { tiledGroups } from './tiled-groups';
+import { useTileOverlayItems } from './useTileOverlayItems';
 
 const useViewItems = (): ToolbarItem[] => {
   const disabled = useActiveDocument() === null;
@@ -32,7 +33,7 @@ const useViewItems = (): ToolbarItem[] => {
     options: tiledGroups(view.tiled, view.setTiled),
     openOn: 'click',
   });
-  return [...toggles, tiled];
+  return [...toggles, tiled, ...useTileOverlayItems()];
 };
 
 export { useViewItems };
