@@ -8,6 +8,7 @@ import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
 import type { PanelProps } from '../PalettePanel.type';
 import { AddTile } from './AddTile';
 import { GridCell } from './GridCell';
+import { SwatchReadout } from './SwatchReadout';
 
 const SwatchGrid = ({ panel }: PanelProps) => {
   const listRef = useRef<HTMLElement>(null);
@@ -18,16 +19,19 @@ const SwatchGrid = ({ panel }: PanelProps) => {
     if (size !== panel.view.size) panel.view.change({ size });
   };
   return (
-    <ScrollArea axis="y" scrollbar="slim" fade={false} className="palette-panel__swatches">
-      <Box className={`swatch-grid swatch-grid--size-${panel.view.size}`} onWheel={onWheel}>
-        <Box ref={listRef} role="listbox" aria-label={PALETTE_PANEL_TEXT.grid} aria-multiselectable="true" className="swatch-grid__list">
-          {panel.slots.map((slot) => (
-            <GridCell key={panel.target.bank.slots[slot.index]?.id ?? slot.index} slot={slot} panel={panel} control={control} />
-          ))}
+    <>
+      <ScrollArea axis="y" scrollbar="slim" fade={false} className="palette-panel__swatches">
+        <Box className={`swatch-grid swatch-grid--size-${panel.view.size}`} onWheel={onWheel}>
+          <Box ref={listRef} role="listbox" aria-label={PALETTE_PANEL_TEXT.grid} aria-multiselectable="true" className="swatch-grid__list">
+            {panel.slots.map((slot) => (
+              <GridCell key={panel.target.bank.slots[slot.index]?.id ?? slot.index} slot={slot} panel={panel} control={control} />
+            ))}
+          </Box>
+          <AddTile panel={panel} />
         </Box>
-        <AddTile panel={panel} />
-      </Box>
-    </ScrollArea>
+      </ScrollArea>
+      <SwatchReadout panel={panel} />
+    </>
   );
 };
 

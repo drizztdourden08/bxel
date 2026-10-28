@@ -11,7 +11,7 @@ import {
 } from '../../src/views/OptionsToolbar/OptionsToolbar.constants';
 import { SCOPE_HINTS } from '../../src/views/ScopeBar/ScopeBar.constants';
 import { LAYER_ACTIONS, LAYER_TOGGLES } from '../../src/views/LayersPanel/LayersPanel.constants';
-import { chipHint, CONFIG_HINT, HELD_CHIPS, swatchHint } from '../../src/views/PalettePanel/PalettePanel.constants';
+import { chipHint, CONFIG_HINT, HELD_CHIPS } from '../../src/views/PalettePanel/PalettePanel.constants';
 import { SPRITE_HINTS } from '../../src/views/SpritesPanel/SpritesPanel.constants';
 import { CANVAS_ACTIONS, TRANSFORM_ACTIONS, TRANSFORM_HINT } from '../../src/views/CanvasToolbar/sub-components/TransformMenu.constants';
 import type { HintSpec } from '../../src/views/ActionHint';
@@ -84,7 +84,6 @@ const toolbarHints = (): HintSpec[] => [
   FILLED_HINT,
   EXPAND_HINT,
   SHRINK_HINT,
-  swatchHint('3 Blue', ''),
   ...HELD_CHIPS.map(chipHint),
   CONFIG_HINT,
   ...TOOLS.map((tool) => canvasHelp(tool.id, 'sprite')),

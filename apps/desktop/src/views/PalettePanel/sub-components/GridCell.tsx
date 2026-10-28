@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind component */
 import { Box, ColorSwatch } from '@drizztdourden08/tessera';
 import { swatchMarks } from '../../../editor/swatch-marks';
-import { ActionHint } from '../../ActionHint';
 import { cellClass } from '../behavior/cell-class';
 import { swatchClick } from '../behavior/swatch-click';
 import { usageText } from '../behavior/usage-text';
-import { PALETTE_PANEL_TEXT, swatchHint } from '../PalettePanel.constants';
+import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
 import type { GridCellProps } from '../PalettePanel.type';
 import { CornerMarks } from './CornerMarks';
 
@@ -19,27 +18,27 @@ const GridCell = ({ slot, panel, control }: GridCellProps) => {
   const id = panel.target.bank.slots[index]?.id ?? '';
   return (
     <Box className={cellClass(look)} data-reorder-index={index} data-reorder-key={id}>
-      <ActionHint hint={swatchHint(slot.label, use)} placement="top" className="grid-cell__anchor">
-        <ColorSwatch
-          role="option"
-          aria-selected={selected}
-          tabIndex={panel.selection.focus === index ? 0 : -1}
-          className="grid-cell__swatch"
-          color={slot.hex}
-          transparent={slot.transparent}
-          data-swatch-index={index}
-          aria-label={PALETTE_PANEL_TEXT.name(slot.label, marks, use)}
-          onFocus={() => panel.selection.setFocus(index)}
-          onKeyDown={control.keyDown(index)}
-          onClick={(event) => swatchClick(panel, index, event, false)}
-          onDoubleClick={(event) => panel.editor.open(index, event.currentTarget)}
-          onContextMenu={(event) => {
-            event.preventDefault();
-            swatchClick(panel, index, event, true);
-          }}
-          {...control.pointer(index)}
-        />
-      </ActionHint>
+      <ColorSwatch
+        role="option"
+        aria-selected={selected}
+        tabIndex={panel.selection.focus === index ? 0 : -1}
+        className="grid-cell__swatch"
+        color={slot.hex}
+        transparent={slot.transparent}
+        data-swatch-index={index}
+        aria-label={PALETTE_PANEL_TEXT.name(slot.label, marks, use)}
+        onFocus={() => panel.selection.setFocus(index)}
+        onKeyDown={control.keyDown(index)}
+        onClick={(event) => swatchClick(panel, index, event, false)}
+        onDoubleClick={(event) => panel.editor.open(index, event.currentTarget)}
+        onContextMenu={(event) => {
+          event.preventDefault();
+          swatchClick(panel, index, event, true);
+        }}
+        onMouseEnter={() => panel.setHovered(index)}
+        onMouseLeave={() => panel.setHovered(null)}
+        {...control.pointer(index)}
+      />
       <CornerMarks marks={marks} />
     </Box>
   );

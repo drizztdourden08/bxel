@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import type { PaletteBank } from '@bxel/document';
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { ASSET_SETTINGS_COMMAND } from '../../../config-entry/config-entry.constants';
 import { menuTarget } from '../../../context-menu/menu-target';
@@ -80,15 +81,20 @@ const panelEntries: readonly ContextMenuEntry[] = [
   { command: ASSET_SETTINGS_COMMAND, label: PALETTE_MENU.settings },
 ];
 
+const clickedEntries = (bank: PaletteBank, clicked: PaletteSlot): readonly ContextMenuEntry[] => {
+  const selection = selectedIndices(bank);
+  const many = selection.length > 1 && selection.includes(clicked.index);
+  return many ? [...selectionEntries(selection.length), ...swatchEntries(clicked)] : swatchEntries(clicked);
+};
+
 const paletteMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[] => {
   const bank = currentTarget()?.bank;
-  const slots = bank ? paletteSlots(bank) : [];
+  if (!bank) return panelEntries;
+  const slots = paletteSlots(bank);
   const swatch = menuTarget(context, SWATCH_SELECTOR)?.dataset.swatchIndex;
   const chip = menuTarget(context, '[data-held-slot]')?.dataset.heldSlot;
   const clicked = swatch === undefined ? undefined : slots[Number(swatch)];
-  const selection = bank ? selectedIndices(bank) : [];
-  if (clicked && selection.length > 1 && selection.includes(clicked.index)) return [...selectionEntries(selection.length), ...swatchEntries(clicked)];
-  if (clicked) return swatchEntries(clicked);
+  if (clicked) return clickedEntries(bank, clicked);
   if (chip !== undefined) return chipEntries(Number(chip), slots[heldIndex(Number(chip)) ?? -1]);
   return panelEntries;
 };

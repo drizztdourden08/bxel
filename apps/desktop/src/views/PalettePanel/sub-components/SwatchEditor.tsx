@@ -9,7 +9,7 @@ import { SameNotice } from './SameNotice';
 
 const SwatchEditor = ({ panel }: SwatchEditorProps) => {
   const { editor } = panel;
-  const [model, setModel] = useState<EditorModel>('hsv');
+  const [model, setModel] = useState<EditorModel>('oklch');
   if (editor.index === null) return null;
   return (
     <Anchored

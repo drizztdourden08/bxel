@@ -19,7 +19,7 @@ const PALETTE_PANEL_TEXT = {
     const held = marks.length === 0 ? '' : `, colour ${marks.join(' and ')}`;
     return `${label}${held}${use === '' ? '' : `, ${use}`}`;
   },
-  use: (pixels: number, frames: number): string => (pixels === 0 ? 'unused' : `${pixels} ${pixels === 1 ? 'pixel' : 'pixels'} in ${frames} ${frames === 1 ? 'frame' : 'frames'}`),
+  pixelsLine: (pixels: number, frames: number): string => (pixels === 0 ? 'unused' : `${pixels} ${pixels === 1 ? 'pixel' : 'pixels'} in ${frames} ${frames === 1 ? 'frame' : 'frames'}`),
   chip: (position: number, label: string): string => `Colour ${position}, ${label}`,
   chipEmpty: (position: number): string => `Colour ${position}, none`,
   chipPast: (position: number, index: number): string => `Colour ${position}, swatch ${index} is past the colour limit`,
@@ -141,19 +141,6 @@ const HELD_CHIPS: readonly HeldChipDef[] = [
   { slot: 'fourth', position: 4, draw: { keys: ['ctrl'], mouse: 'right' }, pick: { keys: ['shift'], mouse: 'right' } },
 ];
 
-const swatchHint = (label: string, use: string): HintSpec => ({
-  name: label,
-  description: use === '' ? 'Choose this colour for drawing. Double click to change its colour.' : `${use}. Double click to change its colour.`,
-  shortcuts: [
-    { label: 'Colour 1', mouse: 'left' },
-    { label: 'Colour 2', mouse: 'right' },
-    { label: 'Colour 3', keys: ['shift'], mouse: 'left' },
-    { label: 'Colour 4', keys: ['shift'], mouse: 'right' },
-    { label: 'Add to the selection', keys: ['ctrl'], mouse: 'left' },
-    { label: 'Move the swatch', keys: ['alt'], mouse: 'left' },
-  ],
-});
-
 const chipHint = (chip: HeldChipDef): HintSpec => ({
   name: PALETTE_PANEL_TEXT.chipName(chip.position),
   description: 'A colour to draw with. Click it to change the colour itself. Drop a swatch here to hold it.',
@@ -211,5 +198,5 @@ const EDITOR_MODELS: SegmentOption<EditorModel>[] = [
 const RGB_CHANNELS: readonly string[] = [EDITOR_TEXT.red, EDITOR_TEXT.green, EDITOR_TEXT.blue];
 
 export {
-  CHANNEL_STOPS, CHANNEL_TOP, chipHint, CONFIG_HINT, EDITOR_MODELS, EDITOR_TEXT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OKLCH_RANGE, OVERFLOW_TEXT, PAGE_ROWS, PALETTE_MENU, PERCENT, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, RGB_CHANNELS, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, swatchHint, VIEW_OPTIONS,
+  CHANNEL_STOPS, CHANNEL_TOP, chipHint, CONFIG_HINT, EDITOR_MODELS, EDITOR_TEXT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OKLCH_RANGE, OVERFLOW_TEXT, PAGE_ROWS, PALETTE_MENU, PERCENT, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, RGB_CHANNELS, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, VIEW_OPTIONS,
 };

@@ -8,7 +8,7 @@ import type { PaletteLock } from './palette-panel.type';
 const paletteLock = (artwork: Artwork, sprite: Sprite): PaletteLock => {
   const platform = effectivePlatform(artwork, sprite);
   const preset = platform.strict ? presetById(platform.platformId) : null;
-  if (!preset || preset.colour.kind !== 'fixedSet') return { locked: false, reason: '' };
+  if (preset?.colour.kind !== 'fixedSet') return { locked: false, reason: '' };
   return { locked: true, reason: PANEL_TEXT.locked(preset.name) };
 };
 

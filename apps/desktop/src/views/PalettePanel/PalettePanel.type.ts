@@ -48,12 +48,15 @@ interface SwatchDraft {
   name: string;
 }
 
-interface SwatchEditModel {
+interface DraftFields {
   index: number | null;
   value: string;
   original: string;
   alpha: number;
   name: string;
+}
+
+interface SwatchEditModel extends DraftFields {
   anchor: RefObject<HTMLElement | null>;
   open: EditSwatch;
   change: (hex: string) => void;
@@ -78,6 +81,8 @@ interface PanelModel {
   editor: SwatchEditModel;
   hinted: number | null;
   setHinted: (index: number | null) => void;
+  hovered: number | null;
+  setHovered: (index: number | null) => void;
 }
 
 interface PanelProps {
@@ -197,6 +202,6 @@ interface SwatchEditorProps {
 }
 
 export type {
-  BeforeAfterProps, CellLook, ChannelSliderProps, CornerMarksProps, EditorFieldsProps, EditorModel, EditSwatch, GridCellProps, GridControl, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, ModelPaneProps, PanelModel, PanelProps,
+  BeforeAfterProps, CellLook, DraftFields, ChannelSliderProps, CornerMarksProps, EditorFieldsProps, EditorModel, EditSwatch, GridCellProps, GridControl, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, ModelPaneProps, PanelModel, PanelProps,
   PaletteViewModel, PickMode, RampDrag, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps,
 };

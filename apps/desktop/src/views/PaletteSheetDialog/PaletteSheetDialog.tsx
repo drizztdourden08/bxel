@@ -7,7 +7,7 @@ import './PaletteSheetDialog.css';
 const PaletteSheetDialog = () => {
   const request = usePaletteSheetStore((state) => state.request);
   const target = useEditorTarget();
-  if (request === null || !target || target.documentId !== request.documentId || target.bank.id !== request.bankId) return null;
+  if (!request || target?.documentId !== request.documentId || target.bank.id !== request.bankId) return null;
   return <SheetDialog request={request} target={target} />;
 };
 

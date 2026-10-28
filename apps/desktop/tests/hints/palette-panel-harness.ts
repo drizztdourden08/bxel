@@ -29,6 +29,8 @@ const fakePanel = (overrides: Partial<PanelModel> = {}): PanelModel => {
     editor: { index: null, value: '', original: '', alpha: 1, name: '', anchor: { current: null }, open: none, change: none, changeAlpha: none, rename: none, reset: none, cancel: none, done: none },
     hinted: null,
     setHinted: none,
+    hovered: 3,
+    setHovered: none,
     ...overrides,
   };
 };

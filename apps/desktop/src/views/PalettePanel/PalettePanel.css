@@ -284,3 +284,20 @@
   border-radius: var(--radius-pill);
   border: var(--border-width-thin) solid var(--c-border);
 }
+
+.swatch-readout {
+  min-height: var(--size-32);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  background: var(--c-sunken);
+}
+
+.swatch-readout__text {
+  min-width: 0;
+}
+
+.swatch-readout__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

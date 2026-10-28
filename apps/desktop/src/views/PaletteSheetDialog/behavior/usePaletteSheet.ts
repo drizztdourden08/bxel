@@ -9,6 +9,7 @@ import { sheetPlan } from '../../../palette-panel/sheet-plan';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
 import { usePaletteSheetStore } from '../../../stores/usePaletteSheetStore';
 import { runSteps } from '../../../transactions/run-steps';
+import { stepRequest } from '../../../transactions/step-request';
 import type { SheetState } from '../PaletteSheetDialog.type';
 
 const usePaletteSheet = (request: PaletteSheetRequest, target: EditorTarget): SheetState => {
@@ -17,7 +18,8 @@ const usePaletteSheet = (request: PaletteSheetRequest, target: EditorTarget): Sh
   const plan = useMemo(() => (view ? sheetPlan(view.state.artwork, target.bank, target.sprite, request) : null), [view, target, request]);
   const error = useMemo(() => {
     if (!plan || plan.steps.length === 0) return null;
-    const check = runSteps(useDocumentStore.getState().host, request.documentId, plan.label, plan.steps, 'preview');
+    const { host } = useDocumentStore.getState();
+    const check = host.execute({ ...stepRequest(host, request.documentId, plan.label, plan.steps), mode: 'preview' });
     return check.ok ? null : check.error.message;
   }, [plan, request.documentId]);
   const cancel = useCallback(() => usePaletteSheetStore.getState().close(), []);

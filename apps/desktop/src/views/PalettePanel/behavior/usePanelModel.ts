@@ -19,6 +19,7 @@ const usePanelModel = (target: EditorTarget, editor: SwatchEditModel): PanelMode
   const held = useHeldColours();
   const selection = useSwatchSelection(target.bank);
   const [hinted, setHinted] = useState<number | null>(null);
+  const [hovered, setHovered] = useState<number | null>(null);
   const { bank, sprite } = target;
   const slots = useMemo(() => paletteSlots(bank), [bank]);
   const duplicates = useMemo(() => duplicateGroups(bank), [bank]);
@@ -26,7 +27,7 @@ const usePanelModel = (target: EditorTarget, editor: SwatchEditModel): PanelMode
   const lock = useMemo(() => (artwork ? paletteLock(artwork, sprite) : { locked: false, reason: '' }), [artwork, sprite]);
   const sharing = useMemo(() => (artwork ? paletteSharing(artwork, bank.id) : { sprites: [], shared: false }), [artwork, bank.id]);
   if (!artwork) return null;
-  return { target, artwork, slots, held, usage, duplicates, lock, sharing, view: settings, selection, editor, hinted, setHinted };
+  return { target, artwork, slots, held, usage, duplicates, lock, sharing, view: settings, selection, editor, hinted, setHinted, hovered, setHovered };
 };
 
 export { usePanelModel };

@@ -7,7 +7,7 @@ import './RampBuilderDialog.css';
 const RampBuilderDialog = () => {
   const request = useRampBuilderStore((state) => state.request);
   const target = useEditorTarget();
-  if (request === null || !target || target.documentId !== request.documentId) return null;
+  if (!request || target?.documentId !== request.documentId) return null;
   return <BuilderDialog request={request} live={target} />;
 };
 

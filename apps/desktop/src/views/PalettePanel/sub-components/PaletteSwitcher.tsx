@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind component */
-import type { BankId } from '@bxel/document';
 import { DropdownMenu } from '@drizztdourden08/tessera';
 import type { MenuItem } from '@drizztdourden08/tessera';
 import { startSwitch } from '../../../palette-change/start-switch';
@@ -19,7 +18,7 @@ const PaletteSwitcher = ({ panel }: PanelProps) => {
     checked: each.id === bank.id,
     disabled: panel.lock.locked && each.id !== bank.id,
     onSelect: () => {
-      if (each.id !== bank.id) startSwitch(sprite.id, each.id as BankId);
+      if (each.id !== bank.id) startSwitch(sprite.id, each.id);
     },
   }));
   return (

@@ -4,12 +4,12 @@ import { swatchAlpha } from '@bxel/document';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { currentTarget } from '../../../editor/current-target';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
-import { alphaToUnit } from '../../../palette-bank/alpha-to-unit';
 import { unitToAlpha } from '../../../palette-bank/unit-to-alpha';
 import { recolourSwatch } from '../../../palette-bank/recolour-swatch';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
 import { useSwatchDraftStore } from '../../../stores/useSwatchDraftStore';
 import type { EditSwatch, SwatchDraft, SwatchEditModel } from '../PalettePanel.type';
+import { draftFields } from './draft-fields';
 
 const useSwatchEdit = (): SwatchEditModel => {
   const target = useEditorTarget();
@@ -49,21 +49,7 @@ const useSwatchEdit = (): SwatchEditModel => {
     if (!outcome.ok) toast(outcome.message, { variant: 'danger' });
   }, [draft, target]);
 
-  return {
-    index: draft?.index ?? null,
-    value: draft?.value ?? '',
-    original: draft?.original ?? '',
-    alpha: alphaToUnit(draft?.alpha ?? 255),
-    name: draft?.name ?? '',
-    anchor,
-    open,
-    change,
-    changeAlpha,
-    rename,
-    reset,
-    cancel,
-    done,
-  };
+  return { ...draftFields(draft), anchor, open, change, changeAlpha, rename, reset, cancel, done };
 };
 
 export { useSwatchEdit };
