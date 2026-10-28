@@ -14,7 +14,7 @@ import { cellsNow, openMapFile } from './map-harness';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../keymap/brock-react-mock')).brockReactMock());
 
-const run = (id: string): void => findCommand(id).run();
+const run = (id: string): void => void findCommand(id).run();
 
 const allowed = (id: string): boolean => {
   const when = findCommand(id).when;

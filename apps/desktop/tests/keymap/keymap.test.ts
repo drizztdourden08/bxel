@@ -19,7 +19,7 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('./brock-react
 
 const find = findCommand;
 
-const run = (id: string): void => find(id).run();
+const run = (id: string): void => void find(id).run();
 
 const fakeView = (): PixelView => ({
   zoom: 1,
@@ -40,6 +40,7 @@ const fakeHandle = (): PixelViewportHandle => ({
   setZoom: vi.fn(),
   zoomIn: vi.fn(),
   zoomOut: vi.fn(),
+  panTo: vi.fn(),
   redraw: vi.fn(),
   reveal: vi.fn(),
   panTo: vi.fn(),

@@ -9,11 +9,14 @@ import { MCP_CLIENT_NAME, MCP_DRAWN, MCP_TOOL_COUNT } from './support/mcp.consta
 import type { DrawnSprite, McpRig } from './support/mcp-rig.type';
 import { openMcpRig } from './support/open-mcp-rig';
 import { flipSwitch, levelOf, openPermissions, presetIs, setLevel, showTools, switchIs } from './support/open-permissions';
+import { decideRecoveryLater } from './support/decide-recovery-later';
 import { patchStep } from './support/patch-step';
 import { useRig } from './support/use-rig';
 
 const FILES = 'Files and saving permission';
 const BUNDLES = 11;
+
+const RESTART_ROW = 1;
 const RESTART = 'May restart Bxel';
 
 const held: { sprite?: DrawnSprite; detail?: Locator; changes: number } = { changes: 0 };
@@ -62,7 +65,7 @@ const setsUp = async (rig: McpRig): Promise<void> => {
 };
 
 const listsEverything = async (): Promise<void> => {
-  expect(await groupCount()).toBe(BUNDLES + MCP_TOOL_COUNT);
+  expect(await groupCount()).toBe(BUNDLES + MCP_TOOL_COUNT + RESTART_ROW);
   expect(await levelOf(detail(), 'Edit pixels permission')).toBe('Edit');
   expect(await levelOf(detail(), 'Read documents permission')).toBe('Read');
   expect(await levelOf(detail(), 'Settings permission')).toBe('Read');
@@ -117,7 +120,7 @@ const searchFilters = async (): Promise<void> => {
   await expect.poll(groupCount).toBe(2);
   await search.press('Escape');
   expect(await search.inputValue()).toBe('');
-  await expect.poll(groupCount).toBe(BUNDLES + MCP_TOOL_COUNT);
+  await expect.poll(groupCount).toBe(BUNDLES + MCP_TOOL_COUNT + RESTART_ROW);
 };
 
 const presetsSetTheLevels = async (rig: McpRig): Promise<void> => {
@@ -140,6 +143,7 @@ const valuesPersistAfterReload = async (rig: McpRig): Promise<void> => {
   await switchIs(detail(), RESTART, true);
   await rig.session.page.waitForTimeout(1500);
   await rig.session.page.reload();
+  await decideRecoveryLater(rig.session);
   held.detail = await openPermissions(rig.session);
   expect(await levelOf(detail(), 'Animation permission')).toBe('Read');
   await showTools(detail(), 'Browse files');
