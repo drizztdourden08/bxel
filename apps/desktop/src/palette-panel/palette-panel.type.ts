@@ -34,6 +34,35 @@ interface SwatchCommit {
   name: string;
 }
 
+interface SheetPlan {
+  title: string;
+  note: string;
+  gone: readonly string[];
+  before: readonly string[];
+  after: readonly string[];
+  steps: readonly CommandStep[];
+  label: string;
+  done: string;
+  apply: string;
+}
+
+interface RemovalWords {
+  command: string;
+  title: string;
+  note: (count: number) => string;
+  label: string;
+  done: (count: number) => string;
+  apply: (count: number) => string;
+}
+
+type PanelCommand = 'add' | 'ramp' | 'make' | 'make-light' | 'gradient' | 'unused' | 'duplicates' | 'sort';
+
+interface CommandScene {
+  target: EditorTarget;
+  selection: readonly number[];
+  base: number;
+}
+
 interface PanelRun {
   target: EditorTarget;
   label: string;
@@ -41,4 +70,4 @@ interface PanelRun {
   done: string;
 }
 
-export type { CleanUpKind, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, SlotUse, SwatchCommit };
+export type { CleanUpKind, CommandScene, PanelCommand, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, RemovalWords, SheetPlan, SlotUse, SwatchCommit };

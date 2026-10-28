@@ -71,6 +71,7 @@ const PALETTE_MENU = {
   makeRamp: 'Make ramp',
   makeRampLight: 'Make ramp by lightness',
   gradient: 'Gradient between...',
+  gradientTwo: 'Select exactly two swatches for a gradient.',
   sortSelection: 'Sort selection by lightness',
   addColour: 'Add colour',
   removeUnused: 'Remove unused...',

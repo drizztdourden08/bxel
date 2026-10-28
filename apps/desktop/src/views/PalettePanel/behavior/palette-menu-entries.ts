@@ -10,6 +10,8 @@ import type { PaletteSlot } from '../../../editor/palette-slots.type';
 import { DIALOG_COMMAND } from '../../../keymap/dialog-command-id.constants';
 import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { currentSurface } from '../../../surface/current-surface';
+import { PANEL_COMMAND } from '../../../palette-panel/palette-panel.constants';
+import { selectedIndices } from '../../../palette-panel/selected-indices';
 import { useToolStore } from '../../../stores/useToolStore';
 import { PALETTE_MENU, SWATCH_SELECTOR } from '../PalettePanel.constants';
 import { POSITIONS } from './palette-menu-entries.constants';
@@ -35,6 +37,7 @@ const swatchEntries = (slot: PaletteSlot): readonly ContextMenuEntry[] => {
     { command: 'palette.edit_swatch', label: PALETTE_MENU.edit, args, ...unless(!slot.transparent, PALETTE_MENU.transparent) },
     { command: 'selection.by_colour', label: PALETTE_MENU.select, args: { index: slot.index, mode: 'everywhere' }, hidden: !pixelSurface() },
     { command: 'palette.copy_hex', label: PALETTE_MENU.copy, args, ...unless(!slot.transparent, PALETTE_MENU.transparent) },
+    { command: PANEL_COMMAND.ramp, label: PALETTE_MENU.newRampFrom, args, ...unless(!slot.transparent, PALETTE_MENU.transparent) },
     { command: DIALOG_COMMAND.mergeSwatch, label: PALETTE_MENU.merge, args, ...unless(!fixed, PALETTE_MENU.fixed) },
     'separator',
     { command: DIALOG_COMMAND.deleteSwatch, label: PALETTE_MENU.remove, args, tone: 'danger', ...unless(!fixed, PALETTE_MENU.fixed) },
@@ -57,7 +60,20 @@ const chipEntries = (position: number, slot: PaletteSlot | undefined): readonly 
   ];
 };
 
+const selectionEntries = (count: number): readonly ContextMenuEntry[] => [
+  { command: PANEL_COMMAND.make, label: PALETTE_MENU.makeRamp },
+  { command: PANEL_COMMAND['make-light'], label: PALETTE_MENU.makeRampLight },
+  { command: PANEL_COMMAND.gradient, label: PALETTE_MENU.gradient, ...unless(count === 2, PALETTE_MENU.gradientTwo) },
+  { command: PANEL_COMMAND.sort, label: PALETTE_MENU.sortSelection },
+  'separator',
+];
+
 const panelEntries: readonly ContextMenuEntry[] = [
+  { command: PANEL_COMMAND.add, label: PALETTE_MENU.addColour },
+  { command: PANEL_COMMAND.ramp, label: PALETTE_MENU.newRamp },
+  { command: PANEL_COMMAND.unused, label: PALETTE_MENU.removeUnused },
+  { command: PANEL_COMMAND.duplicates, label: PALETTE_MENU.unite },
+  'separator',
   COMMAND_ID.swapColours,
   COMMAND_ID.swapColourPairs,
   DIALOG_COMMAND.changeLimit,
@@ -70,6 +86,8 @@ const paletteMenuEntries = (context: ContextMenuContext): readonly ContextMenuEn
   const swatch = menuTarget(context, SWATCH_SELECTOR)?.dataset.swatchIndex;
   const chip = menuTarget(context, '[data-held-slot]')?.dataset.heldSlot;
   const clicked = swatch === undefined ? undefined : slots[Number(swatch)];
+  const selection = bank ? selectedIndices(bank) : [];
+  if (clicked && selection.length > 1 && selection.includes(clicked.index)) return [...selectionEntries(selection.length), ...swatchEntries(clicked)];
   if (clicked) return swatchEntries(clicked);
   if (chip !== undefined) return chipEntries(Number(chip), slots[heldIndex(Number(chip)) ?? -1]);
   return panelEntries;
