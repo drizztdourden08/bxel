@@ -1,20 +1,10 @@
 /* @layer core @kind logic */
-import type { PaletteBank, Swatch } from '@bxel/document';
 import { oklabToOklch } from './oklab-to-oklch';
 import { parseHex } from './parse-hex';
 import { GREY_CHROMA, RAMP_RANK_STRIDE } from './palette-sort.constants';
-import type { PaletteSortKey } from './palette-sort.type';
+import type { ColourSwatch, PaletteSortKey, SortInput } from './palette-sort.type';
 import { relativeLuminance } from './relative-luminance';
 import { rgbToOklab } from './rgb-to-oklab';
-
-type ColourSwatch = Extract<Swatch, { kind: 'color' }>;
-
-interface SortInput {
-  readonly bank: PaletteBank;
-  readonly swatch: ColourSwatch;
-  readonly index: number;
-  readonly usage: ArrayLike<number>;
-}
 
 const lch = (swatch: ColourSwatch) => oklabToOklch(rgbToOklab(parseHex(swatch.rgb.slice(0, 7)) ?? 0));
 
@@ -29,16 +19,23 @@ const hueRank = ({ swatch }: SortInput): number => {
   return c < GREY_CHROMA ? l - 1 : h;
 };
 
-const SORT_VALUE: Readonly<Record<PaletteSortKey, (input: SortInput) => number | string>> = {
-  lightness: ({ swatch }) => lch(swatch).l,
-  luminance: ({ swatch }) => relativeLuminance(parseHex(swatch.rgb.slice(0, 7)) ?? 0),
-  hue: hueRank,
-  chroma: ({ swatch }) => lch(swatch).c,
-  name: ({ swatch }) => swatch.name.toLowerCase(),
-  use: ({ usage, index }) => usage[index] ?? 0,
-  ramp: rampRank,
+const sortValue = (key: PaletteSortKey, input: SortInput): number | string => {
+  switch (key) {
+    case 'lightness':
+      return lch(input.swatch).l;
+    case 'luminance':
+      return relativeLuminance(parseHex(input.swatch.rgb.slice(0, 7)) ?? 0);
+    case 'hue':
+      return hueRank(input);
+    case 'chroma':
+      return lch(input.swatch).c;
+    case 'name':
+      return input.swatch.name.toLowerCase();
+    case 'use':
+      return input.usage[input.index] ?? 0;
+    case 'ramp':
+      return rampRank(input);
+  }
 };
-
-const sortValue = (key: PaletteSortKey, input: SortInput): number | string => SORT_VALUE[key](input);
 
 export { sortValue };

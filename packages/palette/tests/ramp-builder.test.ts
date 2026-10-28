@@ -33,14 +33,16 @@ describe('oklab and oklch conversion', () => {
 describe('buildRamp', () => {
   it('gives 7 steps with rising lightness, warm lights and cool shadows', () => {
     const ramp = buildRamp(options);
-    expect(ramp?.steps).toHaveLength(7);
-    const steps = ramp?.steps ?? [];
-    for (let at = 1; at < steps.length; at += 1) expect(steps[at]?.l ?? 0).toBeGreaterThan(steps[at - 1]?.l ?? 1);
+    if (!ramp) throw new Error('the ramp was not built');
+    const lightness = ramp.steps.map((each) => each.l);
+    expect(lightness).toEqual([...lightness].sort((first, second) => first - second));
+    expect(new Set(lightness).size).toBe(7);
     const base = hexToOklch(BASE)?.h ?? 0;
-    expect(steps[3]?.hex).toBe(BASE);
-    expect(steps[6]?.h ?? 0).toBeLessThan(base);
-    expect(steps[0]?.h ?? 0).toBeGreaterThan(base);
-    expect(ramp?.added).toBe(7);
+    const hues = ramp.steps.map((each) => each.h);
+    expect(ramp.steps[3]?.hex).toBe(BASE);
+    expect(hues[6]).toBeLessThan(base);
+    expect(hues[0]).toBeGreaterThan(base);
+    expect(ramp.added).toBe(7);
   });
 
   it('keeps the hue when the ramp is straight', () => {

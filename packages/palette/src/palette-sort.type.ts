@@ -1,4 +1,6 @@
 /* @layer core @kind types */
+import type { PaletteBank, Swatch } from '@bxel/document';
+
 type PaletteSortKey = 'lightness' | 'luminance' | 'hue' | 'chroma' | 'name' | 'use' | 'ramp';
 
 type PaletteSortDirection = 'ascending' | 'descending';
@@ -10,4 +12,13 @@ interface PaletteSortRequest {
   readonly usage: ArrayLike<number>;
 }
 
-export type { PaletteSortDirection, PaletteSortKey, PaletteSortRequest };
+type ColourSwatch = Extract<Swatch, { kind: 'color' }>;
+
+interface SortInput {
+  readonly bank: PaletteBank;
+  readonly swatch: ColourSwatch;
+  readonly index: number;
+  readonly usage: ArrayLike<number>;
+}
+
+export type { ColourSwatch, PaletteSortDirection, PaletteSortKey, PaletteSortRequest, SortInput };
