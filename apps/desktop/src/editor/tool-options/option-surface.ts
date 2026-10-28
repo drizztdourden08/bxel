@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import type { Surface } from '../../surface/surface.type';
+import type { Surface } from '../tool-catalogue/surface.type';
 import type { OptionSurface } from './tool-options.type';
 
 const optionSurface = (surface: Surface): OptionSurface | null => {

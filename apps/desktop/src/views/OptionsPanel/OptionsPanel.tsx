@@ -3,7 +3,7 @@ import { ScrollArea, Stack, Text } from '@drizztdourden08/tessera';
 import { slotOfTool } from '../../editor/tool-catalogue/slot-of-tool';
 import { optionsOf } from '../../editor/tool-options/options-of';
 import type { OptionSpec } from '../../editor/tool-options/tool-options.type';
-import { useSurface } from '../../hooks/useSurface';
+import { useCatalogueSurface } from '../../hooks/useCatalogueSurface';
 import { useToolStore } from '../../stores/useToolStore';
 import { useOptionsVersion } from '../OptionControls';
 import { OPTIONS_PANEL_TEXT } from './OptionsPanel.constants';
@@ -20,7 +20,7 @@ const grouped = (specs: readonly OptionSpec[]): [string, OptionSpec[]][] => {
 };
 
 const OptionsPanel = () => {
-  const surface = useSurface();
+  const surface = useCatalogueSurface();
   const tool = useToolStore((state) => state.tool);
   useOptionsVersion();
   const slot = slotOfTool(surface, tool);

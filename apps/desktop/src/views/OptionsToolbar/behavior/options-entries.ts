@@ -12,7 +12,7 @@ import { resetTool } from '../../../editor/tool-options/reset-tool';
 import { announcePreset } from '../../../editor/tool-pick/announce-preset';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { useToolStore } from '../../../stores/useToolStore';
-import { currentSurface } from '../../../surface/current-surface';
+import { currentSurface } from '../../../editor/tool-catalogue/current-surface';
 import { stopIdOf } from '../../../tool-menu/stop-id-of';
 import { OPTIONS_WIDGET_ID, TOOL_MENU_TEXT } from '../../../tool-menu/tool-menu.constants';
 import { OPTIONS_TEXT } from '../OptionsToolbar.constants';

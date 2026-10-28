@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind hook */
 import type { ToolbarItem } from '@drizztdourden08/tessera';
+import { surfaceOfContext } from '../../../editor/tool-catalogue/surface-of-context';
 import { shownMember } from '../../../editor/tool-catalogue/shown-member';
 import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
 import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
-import { useSurface } from '../../../hooks/useSurface';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
@@ -12,13 +12,19 @@ import { useOptionsVersion } from '../../OptionControls';
 import { flyoutGroups } from '../../../tool-menu/flyout-groups';
 import { flyoutModel } from '../../../tool-menu/flyout-model';
 import { flyoutSections } from '../../../tool-menu/flyout-sections';
+import { COMMAND_ID } from '../../../keymap/keymap.constants';
+import { ruledItems } from '../../../toolbar-items/ruled-items';
+import { tidyItems } from '../../../toolbar-items/tidy-items';
+import { evaluate } from '../../../ui-context/evaluate';
+import { useBxelContext } from '../../../ui-context/useBxelContext';
 import { railItems } from './rail-items';
 import { slotBadge } from './slot-badge';
 import { useTileModeItem } from './useTileModeItem';
 import { useToolKeys } from '../../../hooks/useToolKeys';
 
 const useRailItems = (): ToolbarItem[] => {
-  const surface = useSurface();
+  const context = useBxelContext((current) => current);
+  const surface = surfaceOfContext(context);
   const active = useToolStore((state) => state.tool);
   const shape = useToolStore((state) => state.shape);
   const filled = useToolStore((state) => state.filled);
@@ -41,13 +47,13 @@ const useRailItems = (): ToolbarItem[] => {
       filled: slot.tool === 'shape' && filled,
       badge: slotBadge(slot, { fillMode, filled, shape, mode }),
       keys: keysOf(slot.tool),
-      disabled: surface === 'none',
+      ui: evaluate(COMMAND_ID.tool(slot.tool), context),
       groups: hover && model.hasContent ? flyoutGroups(flyoutSections(model, true)) : undefined,
       hasFlyout: model.hasContent,
       pick: (picked: ToolSlot) => useToolStore.getState().setTool(picked.tool),
     };
   };
-  return [...tileMode, ...railItems(slots, contextOf)];
+  return tidyItems([...ruledItems(tileMode, context), ...railItems(slots, contextOf)]);
 };
 
 export { useRailItems };

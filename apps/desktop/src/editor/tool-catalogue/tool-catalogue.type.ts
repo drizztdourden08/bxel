@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { ShapeKind } from '@bxel/raster';
 import type { PixelIconName } from '../../icons/pixel-icon.type';
-import type { Surface } from '../../surface/surface.type';
+import type { Surface } from './surface.type';
 import type { SelectVariant } from '../selection/selection.type';
 import type { ToolId } from '../tool.type';
 

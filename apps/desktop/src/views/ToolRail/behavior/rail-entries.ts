@@ -3,7 +3,7 @@ import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
-import { currentSurface } from '../../../surface/current-surface';
+import { currentSurface } from '../../../editor/tool-catalogue/current-surface';
 import { flyoutEntries } from '../../../tool-menu/flyout-entries';
 import { flyoutModel } from '../../../tool-menu/flyout-model';
 import { flyoutSections } from '../../../tool-menu/flyout-sections';

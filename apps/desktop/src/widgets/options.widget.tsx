@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
-import { WIDGET_CONTEXT } from '../surface/surface.constants';
+import { WIDGET_CONTEXT } from '../ui-context/widget-context.constants';
 import { OptionsPanel } from '../views/OptionsPanel';
 
 const meta: WidgetMeta = {

@@ -7,7 +7,7 @@ import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.typ
 import { resetTool } from '../../../editor/tool-options/reset-tool';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { useToolStore } from '../../../stores/useToolStore';
-import type { Surface } from '../../../surface/surface.type';
+import type { Surface } from '../../../editor/tool-catalogue/surface.type';
 import { flyoutGroups } from '../../../tool-menu/flyout-groups';
 import { flyoutModel } from '../../../tool-menu/flyout-model';
 import { flyoutSections } from '../../../tool-menu/flyout-sections';

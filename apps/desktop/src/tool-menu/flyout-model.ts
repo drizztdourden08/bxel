@@ -9,7 +9,7 @@ import { useSelectionStore } from '../stores/useSelectionStore';
 import { useToolPrefsStore } from '../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../stores/useToolPresetStore';
 import { useToolStore } from '../stores/useToolStore';
-import type { Surface } from '../surface/surface.type';
+import type { Surface } from '../editor/tool-catalogue/surface.type';
 import type { FlyoutModel } from './tool-menu.type';
 
 const flyoutModel = (slot: ToolSlot, surface: Surface): FlyoutModel => {

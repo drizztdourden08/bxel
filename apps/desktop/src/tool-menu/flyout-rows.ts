@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { slotsOf } from '../editor/tool-catalogue/slots-of';
-import { currentSurface } from '../surface/current-surface';
+import { currentSurface } from '../editor/tool-catalogue/current-surface';
 import { flyoutModel } from './flyout-model';
 import { flyoutSections } from './flyout-sections';
 import { BROCK_ENTRY_ROWS } from './menu-point.constants';

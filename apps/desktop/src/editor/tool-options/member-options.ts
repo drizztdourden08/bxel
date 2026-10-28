@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import type { Surface } from '../../surface/surface.type';
+import type { Surface } from '../tool-catalogue/surface.type';
 import type { ToolId } from '../tool.type';
 import { MEMBER_OPTIONS } from './member-options.constants';
 import { optionsOf } from './options-of';

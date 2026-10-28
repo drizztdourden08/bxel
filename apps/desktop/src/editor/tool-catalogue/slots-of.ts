@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import type { Surface } from '../../surface/surface.type';
+import type { Surface } from './surface.type';
 import { drawSurface } from './draw-surface';
 import { SLOT_GROUPS, TOOL_SLOTS } from './tool-catalogue.constants';
 import type { ToolSlot } from './tool-catalogue.type';

@@ -14,8 +14,8 @@ import { resetTool } from '../editor/tool-options/reset-tool';
 import { setOption } from '../editor/tool-options/set-option';
 import type { OptionSpec } from '../editor/tool-options/tool-options.type';
 import { useToolStore } from '../stores/useToolStore';
-import { currentSurface } from '../surface/current-surface';
-import { editorCommand } from './editor-command';
+import { currentSurface } from '../editor/tool-catalogue/current-surface';
+import { ruled } from './ruled';
 import { COMMAND_GROUP } from './keymap.constants';
 import { OPTION_COMMAND } from './option-command-id.constants';
 import { optionGroups } from './option-groups';
@@ -43,7 +43,7 @@ const runGenerated = (specs: readonly OptionSpec[]) => (context?: CommandContext
 const groupCommand = ([id, specs]: [string, OptionSpec[]]): CommandDef => {
   const [first] = specs;
   const name = first?.label ?? id;
-  return editorCommand({
+  return ruled({
     id,
     label: specs.length > 1 ? name : `${labelOfTool('sprite', first?.tool ?? 'pencil')}: ${name}`,
     group: COMMAND_GROUP.brush,
@@ -82,7 +82,7 @@ const FIXED_DEFS: CommandDef[] = [
   { id: OPTION_COMMAND.sizeUpBy, label: 'Much larger brush', group: COMMAND_GROUP.brush, chord: 'Shift+]', run: () => useToolStore.getState().stepBrushSize(4) },
 ];
 
-const OPTION_COMMANDS: readonly CommandDef[] = [...GENERATED_COMMANDS, ...FIXED_DEFS.map(editorCommand)];
+const OPTION_COMMANDS: readonly CommandDef[] = [...GENERATED_COMMANDS, ...FIXED_DEFS.map(ruled)];
 
 const OPTION_VALUE_COMMAND_IDS: readonly string[] = GENERATED_COMMANDS.map((def) => def.id);
 

@@ -3,11 +3,13 @@ import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { ToolbarItem } from '@drizztdourden08/tessera';
 import { slotOfTool } from '../../../editor/tool-catalogue/slot-of-tool';
 import { optionsOf } from '../../../editor/tool-options/options-of';
+import { surfaceOfContext } from '../../../editor/tool-catalogue/surface-of-context';
 import { useKeysOf } from '../../../hooks/useKeysOf';
-import { useSurface } from '../../../hooks/useSurface';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { useToolStore } from '../../../stores/useToolStore';
+import { evaluate } from '../../../ui-context/evaluate';
+import { useBxelContext } from '../../../ui-context/useBxelContext';
 import { OPTIONS_WIDGET_ID } from '../../../tool-menu/tool-menu.constants';
 import { useOptionsVersion } from '../../OptionControls';
 import { OPTIONS_TEXT, TOOL_HINTS } from '../OptionsToolbar.constants';
@@ -35,13 +37,14 @@ const moreItem = (): ToolbarItem => ({
 });
 
 const useOptionsItems = (): ToolbarItem[] => {
-  const surface = useSurface();
+  const context = useBxelContext((current) => current);
+  const surface = surfaceOfContext(context);
   const tool = useToolStore((state) => state.tool);
   useSelectionStore((state) => state.variant);
   useToolPresetStore((state) => state.user);
   useOptionsVersion();
   const keysOf = useKeysOf();
-  if (surface === 'none') return [];
+  if (surface === 'none' || evaluate('toolbar.options', context).state === 'hidden') return [];
   if (surface === 'sheet') return [noteItem('sheet-note', `${OPTIONS_TEXT.sheetName}: ${OPTIONS_TEXT.sheetHint}`)];
   const slot = slotOfTool(surface, tool);
   if (!slot) return [];

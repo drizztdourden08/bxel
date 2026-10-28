@@ -3,6 +3,7 @@ import { useCommands, useContextMenu, useSettings } from '@drizztdourden08/brock
 import { commandArgs } from '../../../context-menu/command-args';
 import type { SwatchArgs } from '../../../context-menu/menu-args.type';
 import { menuTarget } from '../../../context-menu/menu-target';
+import { ruledEntries } from '../../../context-menu/ruled-entries';
 import { swatchRef } from '../../../editor/swatch-ref';
 import type { AppSettings } from '../../../settings.type';
 import { COMMAND_GROUP } from '../../../keymap/keymap.constants';
@@ -29,7 +30,7 @@ const usePaletteMenu = (open: EditSwatch): void => {
     label: PALETTE_MENU.label,
     ...(always ? { openOn: 'release-without-drag' as const } : {}),
     shouldOpen: (event) => always || (event.target instanceof Element && menuTarget({ target: event.target }, SWATCH_SELECTOR) === null),
-    entries: paletteMenuEntries,
+    entries: ruledEntries(paletteMenuEntries),
   });
 };
 

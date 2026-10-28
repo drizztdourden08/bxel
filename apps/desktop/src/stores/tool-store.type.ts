@@ -4,7 +4,7 @@ import type { BrushShape, Connectivity, FillMode, Point, ShapeKind } from '@bxel
 import type { ColourSlot } from '../editor/press-plan.type';
 import type { ToolId } from '../editor/tool.type';
 import type { OptionValue } from '../editor/tool-options/tool-options.type';
-import type { Surface } from '../surface/surface.type';
+import type { Surface } from '../editor/tool-catalogue/surface.type';
 
 type SymmetryAxis = 'x' | 'y';
 

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import type { Surface } from '../../surface/surface.type';
+import type { Surface } from './surface.type';
 import type { DrawSurface } from './tool-catalogue.type';
 
 const drawSurface = (surface: Surface): DrawSurface => (surface === 'none' ? 'sprite' : surface);

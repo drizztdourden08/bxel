@@ -8,7 +8,7 @@ import { activeMember } from '../editor/tool-pick/active-member';
 import { useSelectionStore } from '../stores/useSelectionStore';
 import { showCycleNotice } from '../editor/tool-pick/show-cycle-notice';
 import { useToolStore } from '../stores/useToolStore';
-import { currentSurface } from '../surface/current-surface';
+import { currentSurface } from '../editor/tool-catalogue/current-surface';
 
 const useAnnounceTool = (): void => {
   const tool = useToolStore((state) => state.tool);

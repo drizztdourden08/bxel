@@ -1,9 +1,10 @@
 /* @layer renderer-app @kind logic */
+import { findTile } from '@bxel/document';
 import type { AssetKey, SheetId, SpriteId, TilemapId, TilesetId } from '@bxel/document';
-import { useDocumentStore } from '../stores/useDocumentStore';
 import { useManagerStore } from '../stores/useManagerStore';
 import { useSpriteStore } from '../stores/useSpriteStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
+import { currentTileset } from '../tilemap/current-tileset';
 import { settleMapTool } from '../tilemap/settle-map-tool';
 
 const showSprite = (spriteId: string | undefined): void => {
@@ -22,22 +23,37 @@ const showMap = (tilemapId: string | null, tilesetId: string | null): void => {
   if (tilemapId !== null) maps.setMap(tilemapId as TilemapId);
 };
 
-const paletteUser = (bankId: string): string | undefined => {
-  const { activeId, views } = useDocumentStore.getState();
-  const artwork = activeId === null ? undefined : views[activeId]?.state.artwork;
-  return artwork?.sprites.find((sprite) => sprite.role === 'sprite' && sprite.bankId === bankId)?.id;
+const editFirstTile = (): void => {
+  const maps = useTilemapStore.getState();
+  const tileset = currentTileset();
+  const wanted = maps.stamp.keys.find((key) => key !== 0);
+  const tile = tileset ? (findTile(tileset, wanted ?? -1) ?? tileset.tiles[0]) : undefined;
+  if (tile) maps.editTile(tile.key, tile.spriteId);
+  else maps.placeTiles();
+};
+
+const showTileset = (tilesetId: string): void => {
+  showMap(null, tilesetId);
+  editFirstTile();
+};
+
+const shown: { kind: AssetKey['kind'] | null } = { kind: null };
+
+const showTilemap = (tilemapId: string): void => {
+  showMap(tilemapId, null);
+  if (shown.kind === 'tileset') useTilemapStore.getState().placeTiles();
 };
 
 const showAsset = (key: AssetKey): void => {
   if (key.kind === 'sprite') showSprite(key.id);
-  else if (key.kind === 'animation') showSprite(undefined);
-  else if (key.kind === 'palette') showSprite(paletteUser(key.id));
-  else if (key.kind === 'tilemap') showMap(key.id, null);
-  else if (key.kind === 'tileset') showMap(null, key.id);
+  else if (key.kind === 'animation' || key.kind === 'palette') showSprite(undefined);
+  else if (key.kind === 'tilemap') showTilemap(key.id);
+  else if (key.kind === 'tileset') showTileset(key.id);
   else if (key.kind === 'sheet') {
     useSpriteStore.getState().setMode('sheet', false);
     useManagerStore.getState().patch({ sheetId: key.id as SheetId });
   }
+  shown.kind = key.kind;
 };
 
 export { showAsset };

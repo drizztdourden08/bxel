@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
 import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
-import { currentSurface } from '../../../surface/current-surface';
+import { currentSurface } from '../../../editor/tool-catalogue/current-surface';
 import { RAIL_OPEN_KEYS, TOOL_RAIL_TEXT } from '../ToolRail.constants';
 import { DRAG_LIMIT } from './useRailHold.constants';
 import { flyoutModel } from '../../../tool-menu/flyout-model';

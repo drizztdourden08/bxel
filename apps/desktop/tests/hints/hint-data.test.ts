@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind test */
+import { columnContext } from '../ui-context/columns';
 import { describe, expect, it, vi } from 'vitest';
 import { modeOf } from '../../src/editor/selection/mode-of';
 import { SELECT_MODES } from '../../src/editor/selection/selection.constants';
@@ -8,8 +9,7 @@ import { slotsOf } from '../../src/editor/tool-catalogue/slots-of';
 import { TOOL_SLOTS } from '../../src/editor/tool-catalogue/tool-catalogue.constants';
 import { toolIds } from '../../src/editor/tool-catalogue/tool-ids';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
-import { railItems } from '../../src/views/ToolRail/behavior/rail-items';
-import { railContext } from './rail-context';
+import { railOf } from '../ui-context/rail-of';
 import { canvasHelp } from '../../src/views/EditorStatus/behavior/canvas-help';
 import { COMMON_ROWS, TOOL_ROWS } from '../../src/views/EditorStatus/EditorStatus.constants';
 import { LAYER_ACTIONS } from '../../src/views/LayersPanel/LayersPanel.constants';
@@ -52,16 +52,14 @@ describe('the hint texts', () => {
 
 describe('the tool rail', () => {
   it('names a map tool button with the tool alone and puts the key in the hint', () => {
-    const slots = slotsOf('map');
-    const toggles = railItems(slots, railContext('map')).filter((item) => item.kind === 'toggle');
-    expect(toggles.map((item) => item.label)).toEqual(slots.map((slot) => slot.label));
+    const toggles = railOf('Tm').filter((item) => item.kind === 'toggle');
+    expect(toggles.map((item) => item.label)).toEqual(slotsOf('map').map((slot) => slot.label));
     for (const item of toggles) expect(item.label).not.toMatch(/[()+]/);
   });
 
   it('lists every tool of the editor as a toggle named with the slot and its current member', () => {
-    const slots = slotsOf('sprite');
-    const toggles = railItems(slots, railContext('sprite')).filter((item) => item.kind === 'toggle');
-    expect(toggles).toHaveLength(slots.length);
+    const toggles = railOf('Sp').filter((item) => item.kind === 'toggle');
+    expect(toggles).toHaveLength(slotsOf('sprite').length);
     expect(toggles.map((item) => item.label)).toContain('Shapes, Line');
     expect(toggles.map((item) => item.label)).toContain('Select, Rectangle');
   });
@@ -83,7 +81,7 @@ describe('the selection mode keys', () => {
 
 describe('the status bar help', () => {
   it('adds a help entry to the status bar', () => {
-    const items = statusItems({ pointer: null, zoom: 1, colours: [null, null], clean: true, recovered: false });
+    const items = statusItems({ pointer: null, zoom: 1, colours: [null, null], clean: true, recovered: false, context: columnContext('Sp'), tile: null });
     expect(items.map((item) => item.id)).toContain('help');
   });
 

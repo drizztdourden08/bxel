@@ -2,7 +2,7 @@
 import type { ShortcutKey } from '@drizztdourden08/tessera';
 import type { MemberChoice, SlotGroup, ToolMember, ToolSlot } from '../../editor/tool-catalogue/tool-catalogue.type';
 import type { ToolId } from '../../editor/tool.type';
-import type { Surface } from '../../surface/surface.type';
+import type { Surface } from '../../editor/tool-catalogue/surface.type';
 
 interface ToolRowProps {
   slot: ToolSlot;

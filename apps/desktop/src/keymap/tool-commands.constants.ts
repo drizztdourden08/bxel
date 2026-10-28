@@ -14,17 +14,17 @@ import type { ToolId } from '../editor/tool.type';
 import { QUICK_SLOTS } from '../editor/presets/builtin-presets.constants';
 import { useToolPresetStore } from '../stores/useToolPresetStore';
 import { useToolStore } from '../stores/useToolStore';
-import { editorCommand } from './editor-command';
 import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
 import { TOOL_COMMAND } from './option-command-id.constants';
+import { ruled } from './ruled';
 
 const CYCLING: readonly ToolId[] = ['shape', 'select', 'fill'];
 
 const selectCommand = (tool: ToolId): CommandDef =>
-  editorCommand({ id: COMMAND_ID.tool(tool), label: labelOfTool('sprite', tool), group: COMMAND_GROUP.tools, chord: keyOfTool(tool).toUpperCase(), run: () => pressToolKey(tool) });
+  ruled({ id: COMMAND_ID.tool(tool), label: labelOfTool('sprite', tool), group: COMMAND_GROUP.tools, chord: keyOfTool(tool).toUpperCase(), run: () => pressToolKey(tool) });
 
 const backCommand = (tool: ToolId): CommandDef =>
-  editorCommand({
+  ruled({
     id: TOOL_COMMAND.cycleBack(tool),
     label: `${labelOfTool('sprite', tool)}, previous variant`,
     group: COMMAND_GROUP.tools,
@@ -40,7 +40,7 @@ const applyById = (context?: CommandContext): void => {
 };
 
 const quickCommand = (slot: number): CommandDef =>
-  editorCommand({
+  ruled({
     id: TOOL_COMMAND.quickPreset(slot),
     label: `Apply preset ${slot} of the tool`,
     group: COMMAND_GROUP.tools,
@@ -67,7 +67,7 @@ const PRESET_COMMANDS: readonly CommandDef[] = [
       if (previousTool) setTool(previousTool);
     },
   },
-].map(editorCommand);
+].map(ruled);
 
 const TOOL_COMMANDS: readonly CommandDef[] = [
   ...toolIds().map(selectCommand),

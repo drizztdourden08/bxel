@@ -16,6 +16,8 @@ const STATUS_TEXT = {
   zoom: (zoom: number): string => `${Math.round(zoom * 100)}%`,
   colourLabel: (position: 1 | 2): string => `Colour ${position}`,
   colour: (index: number, name: string): string => `${index} ${name}`,
+  noTile: 'None picked',
+  tile: (key: number): string => `Tile ${key}`,
 } as const;
 
 const HELP_PRIORITY = 3;

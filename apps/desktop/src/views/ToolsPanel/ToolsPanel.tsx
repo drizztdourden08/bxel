@@ -4,7 +4,7 @@ import { Callout, ScrollArea, Stack, Text } from '@drizztdourden08/tessera';
 import { presetFields } from '../../editor/presets/preset-fields';
 import { slotsOf } from '../../editor/tool-catalogue/slots-of';
 import { SLOT_GROUPS } from '../../editor/tool-catalogue/tool-catalogue.constants';
-import { useSurface } from '../../hooks/useSurface';
+import { useCatalogueSurface } from '../../hooks/useCatalogueSurface';
 import { useSelectionStore } from '../../stores/useSelectionStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { useOptionsVersion } from '../OptionControls';
@@ -18,7 +18,7 @@ import { TOOLS_PANEL_TEXT } from './ToolsPanel.constants';
 import './ToolsPanel.css';
 
 const ToolsPanel = () => {
-  const surface = useSurface();
+  const surface = useCatalogueSurface();
   const active = useToolStore((state) => state.tool);
   const shape = useToolStore((state) => state.shape);
   const variant = useSelectionStore((state) => state.variant);

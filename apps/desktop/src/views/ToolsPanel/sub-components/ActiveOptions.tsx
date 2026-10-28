@@ -2,7 +2,7 @@
 import { Stack } from '@drizztdourden08/tessera';
 import { memberOptions } from '../../../editor/tool-options/member-options';
 import type { ToolId } from '../../../editor/tool.type';
-import type { Surface } from '../../../surface/surface.type';
+import type { Surface } from '../../../editor/tool-catalogue/surface.type';
 import { OptionRow } from '../../OptionControls';
 
 const ActiveOptions = ({ surface, tool }: { surface: Surface; tool: ToolId }) => {
