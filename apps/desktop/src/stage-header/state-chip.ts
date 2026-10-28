@@ -1,12 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { HEADER_TEXT } from './stage-header.constants';
+import type { StateChipInput } from './state-chip.type';
 import type { HeaderChip } from './stage-header.type';
-
-interface StateChipInput {
-  locked: boolean;
-  readOnly: boolean;
-  run: () => void;
-}
 
 const stateChip = ({ locked, readOnly, run }: StateChipInput): HeaderChip => ({
   id: 'layer-state',
