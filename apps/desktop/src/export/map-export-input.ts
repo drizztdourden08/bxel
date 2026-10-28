@@ -1,8 +1,30 @@
 /* @layer renderer-app @kind logic */
-import type { TilemapExportInput } from '@bxel/formats';
+import { solidShape, tileShapes } from '@bxel/document';
+import type { Tile } from '@bxel/document';
+import type { TilemapExportInput, TilesetEntry } from '@bxel/formats';
 import type { MapPick } from './export.type';
 import type { TileHeld } from './export-parts.type';
 import { MAP_EXPORT } from './map-export.constants';
+
+const plainShape = (tile: Tile): Pick<TilesetEntry, 'collision'> => {
+  const solid = solidShape(tile);
+  if (!solid) return {};
+  const { layer: _layer, oneWay: _oneWay, ...shape } = solid;
+  return { collision: shape };
+};
+
+const entryOf = (placement: { key: number; x: number; y: number }, tile: Tile | undefined): TilesetEntry => {
+  if (!tile) return placement;
+  return {
+    ...placement,
+    ...plainShape(tile),
+    ...(tileShapes(tile).length > 0 ? { shapes: tileShapes(tile) } : {}),
+    ...(tile.type ? { type: tile.type } : {}),
+    ...(tile.probability !== undefined ? { probability: tile.probability } : {}),
+    ...(tile.turns ? { turns: tile.turns } : {}),
+    ...(tile.data ? { data: tile.data } : {}),
+  };
+};
 
 const mapExportInput = ({ tilemap, tileset }: MapPick, held: TileHeld): TilemapExportInput => ({
   name: tilemap.name,
@@ -20,11 +42,9 @@ const mapExportInput = ({ tilemap, tileset }: MapPick, held: TileHeld): TilemapE
     spacing: MAP_EXPORT.spacing,
     margin: MAP_EXPORT.margin,
     ...(tileset.terrain ? { terrain: tileset.terrain } : {}),
+    ...(tileset.fields ? { fields: tileset.fields } : {}),
     ...(held.animations.length > 0 ? { animations: held.animations } : {}),
-    tiles: held.sheet.tiles.map((placement) => {
-      const collision = tileset.tiles.find((tile) => tile.key === placement.key)?.collision;
-      return collision ? { ...placement, collision } : placement;
-    }),
+    tiles: held.sheet.tiles.map((placement) => entryOf(placement, tileset.tiles.find((tile) => tile.key === placement.key))),
   },
   layers: tilemap.layers.map((layer) => ({ name: layer.name, visible: layer.visible, locked: layer.locked, cells: layer.cells })),
 });

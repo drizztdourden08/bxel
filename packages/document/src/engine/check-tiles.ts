@@ -12,6 +12,7 @@ import { findTileset } from '../read/find-tileset';
 import { orientationIssue } from '../read/orientation-issue';
 import { terrainIssue } from '../read/terrain-issue';
 import { tileAnimationIssue } from '../read/tile-animation-issue';
+import { tileShapes } from '../read/tile-shapes';
 import { cellKey } from '../tilemap/cell-key';
 
 const broken = (message: string): CommandFailure => fail(ERROR_CODE.REFERENCE_BROKEN, message);
@@ -23,7 +24,8 @@ const fits = (sprite: Sprite, tileset: Tileset): boolean =>
   sprite.bankId === tileset.bankId;
 
 const tileIssue = (artwork: Artwork, tileset: Tileset, tile: Tile): string | null => {
-  const shape = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
+  const size = { width: tileset.tileWidth, height: tileset.tileHeight };
+  const shape = tileShapes(tile).map((each) => collisionIssue(each, size)).find((issue) => issue !== null) ?? null;
   return shape ?? tileAnimationIssue(artwork, tileset, tile);
 };
 

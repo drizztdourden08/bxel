@@ -64,6 +64,10 @@ import { animationSplit } from './animation/animation-split';
 import { tileAnimation } from './tile/tile-animation';
 import { tileAdd } from './tile/tile-add';
 import { tileCollision } from './tile/tile-collision';
+import { tileData } from './tile/tile-data';
+import { tileShapes } from './tile/tile-shapes';
+import { tilesetFields } from './tileset/tileset-fields';
+import { tilesetLayout } from './tileset/tileset-layout';
 import { tileDelete } from './tile/tile-delete';
 import { tileUnique } from './tile/tile-unique';
 import { tilemapCreate } from './tilemap/tilemap-create';
@@ -122,6 +126,10 @@ const documentCommands: readonly CommandDef[] = [
   tileDelete,
   tileUnique,
   tileCollision,
+  tileShapes,
+  tileData,
+  tilesetFields,
+  tilesetLayout,
   animationCreate,
   animationUpdate,
   animationDelete,

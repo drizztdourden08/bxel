@@ -16,19 +16,21 @@ const POLYGON = { kind: 'polygon', points: [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x:
 const setShape = (world: World, key: number, shape: unknown) =>
   step('tile.collision', { tileset: world.tileset, key, shape });
 
-const collisionOf = (world: World, key: number) => tilesetOf(world.engine).tiles.find((tile) => tile.key === key)?.collision;
+const solid = (shape: object) => ({ ...shape, layer: 'solid' });
+
+const collisionOf = (world: World, key: number) => tilesetOf(world.engine).tiles.find((tile) => tile.key === key)?.shapes?.[0];
 
 describe('tile.collision', () => {
   it('sets a full, a rectangle and a polygon shape and clears it with none', () => {
     const world = buildWorld();
     applySteps(world.engine, [setShape(world, 1, { kind: 'full' }), setShape(world, 2, RECT)]);
-    expect(collisionOf(world, 1)).toEqual({ kind: 'full' });
-    expect(collisionOf(world, 2)).toEqual(RECT);
+    expect(collisionOf(world, 1)).toEqual(solid({ kind: 'full' }));
+    expect(collisionOf(world, 2)).toEqual(solid(RECT));
     applySteps(world.engine, [setShape(world, 2, POLYGON)]);
-    expect(collisionOf(world, 2)).toEqual(POLYGON);
+    expect(collisionOf(world, 2)).toEqual(solid(POLYGON));
     applySteps(world.engine, [setShape(world, 1, { kind: 'none' })]);
     expect(collisionOf(world, 1)).toBeUndefined();
-    expect('collision' in (tilesetOf(world.engine).tiles[0] ?? {})).toBe(false);
+    expect('shapes' in (tilesetOf(world.engine).tiles[0] ?? {})).toBe(false);
   });
 
   it('is one undo step', () => {
@@ -54,10 +56,10 @@ describe('tile.collision', () => {
     applySteps(world.engine, [setShape(world, 2, RECT)]);
     applySteps(world.engine, [step('map.paint', { tilemap: world.map, layer: { by: 'name', name: 'Ground' }, tile: 2, cells: [{ x: 0, y: 0 }] })]);
     applySteps(world.engine, [step('tile.unique', { tilemap: world.map, layer: { by: 'name', name: 'Ground' }, cells: [{ x: 0, y: 0 }] })]);
-    expect(collisionOf(world, 3)).toEqual(RECT);
+    expect(collisionOf(world, 3)).toEqual(solid(RECT));
     applySteps(world.engine, [step('tileset.duplicate', { tileset: world.tileset, name: 'copy' })]);
     const copy = world.engine.state().artwork.tilesets.find((set) => set.name === 'copy');
-    expect(copy?.tiles.find((tile) => tile.key === 2)?.collision).toEqual(RECT);
+    expect(copy?.tiles.find((tile) => tile.key === 2)?.shapes).toEqual([solid(RECT)]);
   });
 });
 
@@ -73,22 +75,23 @@ describe('collision in saved files', () => {
     const state = world.engine.state();
     const report = decodeArtwork(encodeArtwork(state, heartPreview, fixedClock));
     expect(report.outcome).toBe('ok');
-    expect(report.artwork?.tilesets[0]?.tiles.map((tile) => tile.collision)).toEqual([{ kind: 'full' }, POLYGON]);
+    expect(report.artwork?.tilesets[0]?.tiles.map((tile) => tile.shapes)).toEqual([[solid({ kind: 'full' })], [solid(POLYGON)]]);
   });
 
   it('survives the tileset file', () => {
     const world = shaped();
     const report = tilesetReport(world.engine);
     expect(report.outcome).toBe('ok');
-    expect(report.slice?.artwork.tilesets?.[0]?.tiles.map((tile) => tile.collision)).toEqual([{ kind: 'full' }, POLYGON]);
+    expect(report.slice?.artwork.tilesets?.[0]?.tiles.map((tile) => tile.shapes)).toEqual([[solid({ kind: 'full' })], [solid(POLYGON)]]);
   });
 
-  it('refuses a tileset file whose shape leaves the tile', () => {
+  it('refuses a tileset file whose older single shape leaves the tile', () => {
     const world = shaped();
     const file = splitIntoAssets(world.engine.state().artwork).files.find((each) => each.key.kind === 'tileset');
     const tileset = file?.slice.artwork.tilesets?.[0];
     if (!file || !tileset) throw new Error('no tileset file');
-    const bad = { ...tileset, tiles: tileset.tiles.map((tile) => ({ ...tile, collision: { kind: 'rect' as const, x: 0, y: 0, width: 9, height: 9 } })) };
+    const old = (tile: object) => ({ ...tile, shapes: undefined, collision: { kind: 'rect' as const, x: 0, y: 0, width: 9, height: 9 } });
+    const bad = { ...tileset, tiles: tileset.tiles.map(old) };
     const report = decodeTileset(encodeSlice({ ...file.slice, artwork: { ...file.slice.artwork, tilesets: [bad] } }));
     expect(report.slice).toBeNull();
     expect(report.issues.length).toBeGreaterThan(0);

@@ -7,6 +7,23 @@ type TileCollision =
   | { readonly kind: 'rect'; readonly x: number; readonly y: number; readonly width: number; readonly height: number }
   | { readonly kind: 'polygon'; readonly points: readonly Point[] };
 
+type TileShape = TileCollision & { readonly layer: string; readonly oneWay?: boolean };
+
+type TileTurns = 'none' | 'flips' | 'all';
+
+type FieldValue = string | number | boolean;
+
+type TileFieldKind = 'bool' | 'int' | 'number' | 'text' | 'choice' | 'colour';
+
+type TileField = {
+  readonly name: string;
+  readonly kind: TileFieldKind;
+  readonly default: FieldValue;
+  readonly choices?: readonly string[];
+};
+
+type TileData = Readonly<Record<string, FieldValue>>;
+
 type TerrainKind = 'blob16' | 'blob47';
 
 type TerrainRules = { readonly kind: TerrainKind; readonly keys: readonly number[] };
@@ -30,8 +47,13 @@ type Tile = {
   readonly id: TileId;
   readonly key: number;
   readonly spriteId: SpriteId;
-  readonly collision?: TileCollision;
+  readonly shapes?: readonly TileShape[];
   readonly animation?: TileAnimation;
+  readonly layout?: number;
+  readonly type?: string;
+  readonly probability?: number;
+  readonly turns?: TileTurns;
+  readonly data?: TileData;
 };
 
 type Tileset = {
@@ -44,6 +66,9 @@ type Tileset = {
   readonly nextKey: number;
   readonly tiles: readonly Tile[];
   readonly terrain?: TerrainRules;
+  readonly columns?: number;
+  readonly fields?: readonly TileField[];
+  readonly collisionLayers?: readonly string[];
 };
 
 type MapLayer = {
@@ -66,6 +91,7 @@ type Tilemap = {
 };
 
 export type {
+  FieldValue,
   MapLayer,
   MapOrientation,
   TerrainKind,
@@ -74,6 +100,11 @@ export type {
   TileAnimation,
   TileAnimationStart,
   TileCollision,
+  TileData,
+  TileField,
+  TileFieldKind,
+  TileShape,
+  TileTurns,
   Tilemap,
   Tileset,
 };

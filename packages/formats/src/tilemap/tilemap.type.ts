@@ -44,7 +44,18 @@ type TilesetImage = {
 
 type TilesetImageResult = TilesetImage | FormatFailure;
 
-type TilesetEntry = TilesetPlacement & { readonly collision?: TileShape };
+type TileShapeEntry = TileShape & { readonly layer: string; readonly oneWay?: boolean };
+
+type TileFieldValue = string | number | boolean;
+
+type TilesetEntry = TilesetPlacement & {
+  readonly collision?: TileShape;
+  readonly shapes?: readonly TileShapeEntry[];
+  readonly type?: string;
+  readonly probability?: number;
+  readonly turns?: 'none' | 'flips' | 'all';
+  readonly data?: Readonly<Record<string, TileFieldValue>>;
+};
 
 type TileAnimationFrame = {
   readonly key: number;
@@ -57,6 +68,13 @@ type TileAnimationEntry = {
   readonly frames: readonly TileAnimationFrame[];
 };
 
+type TileFieldEntry = {
+  readonly name: string;
+  readonly kind: 'bool' | 'int' | 'number' | 'text' | 'choice' | 'colour';
+  readonly default: TileFieldValue;
+  readonly choices?: readonly string[];
+};
+
 type TilesetDescriptor = {
   readonly name: string;
   readonly image: string;
@@ -66,6 +84,7 @@ type TilesetDescriptor = {
   readonly spacing: number;
   readonly margin: number;
   readonly tiles: readonly TilesetEntry[];
+  readonly fields?: readonly TileFieldEntry[];
   readonly terrain?: { readonly kind: string; readonly keys: readonly number[] };
   readonly animations?: readonly TileAnimationEntry[];
 };
@@ -107,6 +126,9 @@ export type {
   TileShape,
   TileSize,
   TilesetDescriptor,
+  TileFieldEntry,
+  TileFieldValue,
+  TileShapeEntry,
   TilesetEntry,
   TilesetImage,
   TilesetImageInput,

@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import type { Tile, Tileset } from '../model/tilemap.type';
 import { collisionIssue } from '../read/collision-issue';
+import { tileShapes } from '../read/tile-shapes';
 import { terrainIssue } from '../read/terrain-issue';
 import type { DocumentJson } from './document-json.type';
 import { LOAD_ERROR } from './load-error.constants';
@@ -10,8 +11,11 @@ import { makeIssue } from './make-issue';
 const invalid = (message: string, path: string): LoadIssue => makeIssue(LOAD_ERROR.DOCUMENT_INVALID, message, path);
 
 const shapeIssues = (tile: Tile, tileset: Tileset, path: string): readonly LoadIssue[] => {
-  const issue = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
-  return issue === null ? [] : [invalid(issue, `${path}.collision`)];
+  const size = { width: tileset.tileWidth, height: tileset.tileHeight };
+  return tileShapes(tile).flatMap((shape, at) => {
+    const issue = collisionIssue(shape, size);
+    return issue === null ? [] : [invalid(issue, `${path}.shapes[${at}]`)];
+  });
 };
 
 const terrainIssues = (tileset: Tileset, base: string): readonly LoadIssue[] => {
