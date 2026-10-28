@@ -18,7 +18,7 @@ const copyFramesAt = (at: number, linked: boolean, only?: readonly AnimFrameId[]
     const frame = focus.animation.frames.find((each) => each.id === id);
     const source =
       linked && frame?.spriteId
-        ? { kind: 'sprite', sprite: idRef(frame.spriteId), mode: 'reference', ...(frame.clip ? { clip: frame.clip } : {}) }
+        ? { kind: 'sprite', sprite: frame.spriteId, mode: 'reference', ...(frame.clip ? { clip: frame.clip } : {}) }
         : { kind: 'duplicate', frame: idRef(id) };
     const fields = linked && frame ? { durationMs: frame.durationMs, offset: frame.offset, ...(frame.pivot ? { pivot: frame.pivot } : {}) } : {};
     return animationStep(focus, COMMAND_NAME.animationFrameAdd, { source, at: at + index, ...fields }, refOf(index));

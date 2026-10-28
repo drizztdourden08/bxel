@@ -21,9 +21,9 @@ const fieldsOf = (frame: ClipFrame): object => ({
 
 const sourceOf = (frame: ClipFrame, same: boolean, linked: boolean): object | null => {
   if (frame.spriteId === null) return { kind: 'empty', count: 1 };
-  if (!frame.owned) return { kind: 'sprite', sprite: idRef(frame.spriteId), mode: 'reference', ...(frame.clip ? { clip: frame.clip } : {}) };
+  if (!frame.owned) return { kind: 'sprite', sprite: frame.spriteId, mode: 'reference', ...(frame.clip ? { clip: frame.clip } : {}) };
   if (!same) return null;
-  return linked ? { kind: 'sprite', sprite: idRef(frame.spriteId), mode: 'reference', ...(frame.clip ? { clip: frame.clip } : {}) } : { kind: 'duplicate', frame: idRef(frame.id) };
+  return linked ? { kind: 'sprite', sprite: frame.spriteId, mode: 'reference', ...(frame.clip ? { clip: frame.clip } : {}) } : { kind: 'duplicate', frame: idRef(frame.id) };
 };
 
 const pasteSteps = (focus: AnimationFocus, frames: readonly ClipFrame[], same: boolean, linked: boolean): CommandStep[] | null => {

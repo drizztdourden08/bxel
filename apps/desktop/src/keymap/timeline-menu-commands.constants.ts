@@ -16,9 +16,7 @@ import { currentFocus } from '../timeline/current-focus';
 import { deleteFrames } from '../timeline/delete-frames';
 import { deleteTag } from '../timeline/delete-tag';
 import { duplicateFrames } from '../timeline/duplicate-frames';
-import { escapeTimeline } from '../timeline/escape-timeline';
 import { exportFrames } from '../timeline/export-frames';
-import { fitPick } from '../timeline/fit-pick';
 import { goToFrame } from '../timeline/go-to-frame';
 import { linkedCopy } from '../timeline/linked-copy';
 import { makeMirror } from '../timeline/make-mirror';
@@ -39,28 +37,15 @@ import { setDuration } from '../timeline/set-duration';
 import { setTagColour } from '../timeline/set-tag-colour';
 import { setTagRange } from '../timeline/set-tag-range';
 import { splitToSprites } from '../timeline/split-to-sprites';
-import { stepFacing } from '../timeline/step-facing';
-import { stepTag } from '../timeline/step-tag';
-import { stepZoom } from '../timeline/step-zoom';
 import { excludeFromTag, includeInTag } from '../timeline/tag-membership';
 import { tagById } from '../timeline/tag-by-id';
-import { tagOrEdit } from '../timeline/tag-or-edit';
 import { TIMELINE_LABEL } from '../timeline/timeline.constants';
-import { togglePlayback } from '../timeline/toggle-playback';
-import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { onSurface } from './on-surface';
 
 const group = COMMAND_GROUP.timeline;
 
 const ANIMATION_PAGE = 'app/animation';
-
-const PLAIN_TARGET = 'button, a, [role="button"], [role="menuitem"], [role="combobox"], [role="slider"], [role="tab"], input, textarea, select, [role="dialog"]';
-
-const onPlainTarget = (): boolean => {
-  const active = document.activeElement;
-  return !(active instanceof HTMLElement) || active.closest(PLAIN_TARGET) === null;
-};
 
 const withTag = (run: (tagId: TagId, args: Partial<TagArgs & { repeat: number; facing: AnimFacing }>) => unknown) => (context?: CommandContext): void => {
   const args = commandArgs<TagArgs & { repeat: number; facing: AnimFacing }>(context);
@@ -70,45 +55,33 @@ const withTag = (run: (tagId: TagId, args: Partial<TagArgs & { repeat: number; f
   if (tag) run(tag.id, args);
 };
 
-const inTimeline = (def: CommandDef): CommandDef => ({ ...def, zone: COMMAND_ZONE.timeline, whileTyping: false });
-
-const pickedWidth = (): number => document.querySelector<HTMLElement>('.timeline__body')?.clientWidth ?? 600;
-
 const store = useTimelineStore;
 
-const KEYED_COMMANDS: readonly CommandDef[] = [
-  { id: 'timeline.toggle_play', label: 'Play or pause the animation', group, chord: 'Enter', when: onPlainTarget, run: () => togglePlayback() },
-  { id: 'timeline.copy_frames', label: 'Copy the picked frames', group, chord: 'Mod+C', run: () => void copyFrames(false) },
-  { id: 'timeline.cut_frames', label: 'Cut the picked frames', group, chord: 'Mod+X', run: () => void copyFrames(true) },
-  { id: 'timeline.paste_frames', label: 'Paste frames after the current frame', group, chord: 'Mod+V', run: () => void pasteFrames(false) },
-  { id: 'timeline.paste_linked', label: 'Paste frames as linked copies', group, chord: 'Mod+Shift+V', run: () => void pasteFrames(true) },
-  { id: 'timeline.duplicate_frames', label: 'Duplicate the selected frames', group, chord: 'Mod+D', run: () => duplicateFrames() },
-  { id: 'timeline.add_frame', label: 'Add a frame', group, chord: 'Alt+N', run: () => addFrame() },
-  { id: 'timeline.select_all_frames', label: 'Select all frames', group, chord: 'Mod+A', run: () => selectAllFrames() },
-  { id: 'timeline.tag_pick', label: 'Tag the selected frames or edit the picked tag', group, chord: 'F2', run: () => tagOrEdit() },
-  { id: 'timeline.open_duration', label: 'Set the duration of the selected frames', group, chord: 'P', run: () => store.getState().setPopover({ kind: 'duration' }) },
+const FRAME_COMMANDS: readonly CommandDef[] = [
+  { id: 'timeline.add_frame', label: 'Add a frame', group, run: () => addFrame() },
+  { id: 'timeline.duplicate_frames', label: 'Duplicate the selected frames', group, run: () => duplicateFrames() },
+  { id: 'timeline.select_all_frames', label: 'Select all frames', group, run: () => selectAllFrames() },
+  { id: 'timeline.copy_frames', label: 'Copy the picked frames', group, run: () => void copyFrames(false) },
+  { id: 'timeline.cut_frames', label: 'Cut the picked frames', group, run: () => void copyFrames(true) },
+  { id: 'timeline.paste_frames', label: 'Paste frames after the current frame', group, run: () => void pasteFrames(false) },
+  { id: 'timeline.paste_linked', label: 'Paste frames as linked copies', group, run: () => void pasteFrames(true) },
+  { id: 'timeline.open_duration', label: 'Set the duration of the selected frames', group, run: () => store.getState().setPopover({ kind: 'duration' }) },
+  { id: 'timeline.move_frames_start', label: 'Move the selected frames to the start', group, run: () => void moveFramesTo(0) },
+  { id: 'timeline.move_frames_end', label: 'Move the selected frames to the end', group, run: () => void moveFramesTo(Number.MAX_SAFE_INTEGER) },
   {
     id: 'timeline.toggle_onion',
     label: 'Turn onion skin on or off',
     group,
-    chord: 'F3',
     checked: () => store.getState().onion.on,
     run: () => store.getState().setOnion({ on: !store.getState().onion.on }),
   },
-  { id: 'timeline.toggle_time_mode', label: 'Show frame widths as durations', group, chord: 'T', checked: () => store.getState().timeMode, run: () => store.getState().setTimeMode(!store.getState().timeMode) },
-  { id: 'timeline.zoom_in', label: 'Larger frames', group, chord: ['Mod+Plus', 'Mod+='], run: () => store.getState().setZoom(stepZoom(store.getState().zoom, 1)) },
-  { id: 'timeline.zoom_out', label: 'Smaller frames', group, chord: 'Mod+Minus', run: () => store.getState().setZoom(stepZoom(store.getState().zoom, -1)) },
-  { id: 'timeline.fit_pick', label: 'Frame the picked frames', group, chord: 'F', run: () => fitPick(pickedWidth()) },
-  { id: 'timeline.escape', label: 'Back to the current frame', group, chord: 'Escape', run: () => escapeTimeline() },
-  { id: 'timeline.previous_tag', label: 'Go to the previous tag', group, chord: 'Mod+Left', run: () => void stepTag(-1) },
-  { id: 'timeline.next_tag', label: 'Go to the next tag', group, chord: 'Mod+Right', run: () => void stepTag(1) },
-  { id: 'timeline.previous_facing', label: 'Previous facing', group, chord: 'Mod+Alt+Left', run: () => void stepFacing(-1) },
-  { id: 'timeline.next_facing', label: 'Next facing', group, chord: 'Mod+Alt+Right', run: () => void stepFacing(1) },
-  { id: 'timeline.move_frames_start', label: 'Move the selected frames to the start', group, chord: 'Alt+Home', run: () => void moveFramesTo(0) },
-  { id: 'timeline.move_frames_end', label: 'Move the selected frames to the end', group, chord: 'Alt+End', run: () => void moveFramesTo(Number.MAX_SAFE_INTEGER) },
-].map((def) => inTimeline({ ...def, when: () => currentFocus() !== null && (def.when?.() ?? true) }));
-
-const FRAME_COMMANDS: readonly CommandDef[] = [
+  {
+    id: 'timeline.toggle_time_mode',
+    label: 'Show frame widths as durations',
+    group,
+    checked: () => store.getState().timeMode,
+    run: () => store.getState().setTimeMode(!store.getState().timeMode),
+  },
   { id: 'timeline.add_tag', label: 'Add a tag on the selected frames', group, run: () => addTag() },
   { id: 'timeline.add_from_sprites', label: 'Add frames from sprites', group, run: () => useAddFramesStore.getState().show('sprites') },
   { id: 'timeline.add_from_strip', label: 'Add frames from a strip', group, run: () => useAddFramesStore.getState().show('strip') },
@@ -250,6 +223,6 @@ const TAG_COMMANDS: readonly CommandDef[] = [
   { id: 'tag.delete', label: 'Delete a tag', group, run: withTag((tagId) => deleteTag(tagId)) },
 ];
 
-const TIMELINE_MENU_COMMANDS: readonly CommandDef[] = [...KEYED_COMMANDS, ...FRAME_COMMANDS, ...TAG_COMMANDS].map(onSurface('sprite', 'tile'));
+const TIMELINE_MENU_COMMANDS: readonly CommandDef[] = [...FRAME_COMMANDS, ...TAG_COMMANDS].map(onSurface('sprite', 'tile'));
 
 export { TIMELINE_MENU_COMMANDS };
