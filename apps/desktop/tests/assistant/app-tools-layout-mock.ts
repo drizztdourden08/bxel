@@ -1,6 +1,10 @@
 /* @layer renderer-app @kind test */
 import { fake } from './app-tools-fake';
 
+const LIMITED = 3900;
+
+const LIMIT_REASON = 'The widget is limited to 90% of the window.';
+
 const note = (...parts: string[]): void => {
   fake.calls.push(parts.join(' '));
 };
@@ -13,9 +17,15 @@ const widgetsMock = () => ({
   toggle: (id: string) => note('toggle', id),
   popOut: (id: string) => note('popOut', id),
   focus: (id: string) => note('focus', id),
-  dock: (id: string, options: unknown) => note('dock', id, JSON.stringify(options)),
+  dock: (id: string, options: unknown) => {
+    note('dock', id, JSON.stringify(options));
+    return { size: 300, reason: null };
+  },
   float: (id: string, rect: unknown) => note('float', id, JSON.stringify(rect)),
-  resize: (id: string, to: unknown) => note('resize', id, JSON.stringify(to)),
+  resize: (id: string, to: unknown) => {
+    note('resize', id, JSON.stringify(to));
+    return to === LIMITED ? { size: 1200, reason: LIMIT_REASON } : { size: typeof to === 'number' ? to : null, reason: null };
+  },
   applyPreset: (name: string) => note('applyPreset', name),
   reset: () => note('resetWidgets'),
 });
@@ -31,4 +41,4 @@ const toolbarsMock = () => ({
 
 const layoutMock = () => ({ widgets: widgetsMock(), toolbars: toolbarsMock() });
 
-export { layoutMock };
+export { layoutMock, LIMIT_REASON, LIMITED };

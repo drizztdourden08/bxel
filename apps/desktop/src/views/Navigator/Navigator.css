@@ -1,12 +1,12 @@
 /* @layer renderer-app @kind style */
-.navigator {
+.view-map {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
   min-inline-size: 0;
 }
 
-.navigator__stage {
+.view-map__stage {
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -20,14 +20,14 @@
   border-radius: var(--radius-sm);
 }
 
-.navigator__caption {
+.view-map__caption {
   overflow: hidden;
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.navigator__thumb {
+.view-map__thumb {
   position: relative;
   flex: none;
   overflow: hidden;
@@ -37,12 +37,12 @@
   background: repeating-conic-gradient(var(--c-checker-a) 0 25%, var(--c-checker-b) 0 50%) 0 0 / var(--size-8) var(--size-8);
 }
 
-.navigator__thumb:focus-visible {
+.view-map__thumb:focus-visible {
   outline: var(--border-width-thick) solid var(--c-focus);
   outline-offset: var(--border-width-thick);
 }
 
-.navigator__canvas {
+.view-map__canvas {
   position: absolute;
   inset: 0;
   display: block;
@@ -50,7 +50,7 @@
   block-size: 100%;
 }
 
-.navigator__frame {
+.view-map__frame {
   position: absolute;
   box-sizing: border-box;
   pointer-events: none;
@@ -58,12 +58,12 @@
   box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--c-bg) 55%, transparent);
 }
 
-.navigator__frame[hidden],
-.navigator__mark[hidden] {
+.view-map__frame[hidden],
+.view-map__mark[hidden] {
   display: none;
 }
 
-.navigator__mark {
+.view-map__mark {
   position: absolute;
   box-sizing: border-box;
   pointer-events: none;

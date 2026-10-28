@@ -32,8 +32,6 @@ const docksAWidgetAtASizeAndMovesIt = async (rig: McpRig): Promise<void> => {
   const { link } = rig;
   const target = (await layout(rig)).widgets.find((widget) => widget.visible && widget.placement === 'docked' && widget.side !== 'right');
   if (!target) throw new Error('no docked widget to move');
-  const beside = (await layout(rig)).widgets.filter((widget) => widget.visible && widget.placement === 'docked' && widget.side === 'left' && widget.id !== target.id);
-  await callMcp(link.client, 'set_layout', { ops: beside.map((widget) => ({ op: 'hide', widget: widget.id })) });
   const docked = await callMcp(link.client, 'set_layout', { ops: [{ op: 'dock', widget: target.id, side: 'right', size: 300 }] });
   expect(docked.data).toMatchObject({ ok: true, applied: 1 });
   const after = await widgetOf(rig, target.id);

@@ -5,6 +5,7 @@ import { ProjectPanel } from '../views/ProjectPanel';
 const meta: WidgetMeta = {
   label: 'Project',
   icon: 'folder',
+  order: 1,
   defaultOpen: false,
   defaultSide: 'left',
   defaultDockedSize: 260,

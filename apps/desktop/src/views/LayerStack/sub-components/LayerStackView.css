@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind style */
 .layer-stack {
   flex: 1;
-  padding-block-end: var(--size-8);
+  padding-block-end: var(--size-24);
   min-block-size: 0;
   min-inline-size: 0;
 }

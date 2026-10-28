@@ -36,21 +36,13 @@ const openDemo = async (session: Session, place: string): Promise<void> => {
   await setWindow(session);
 };
 
-const showViewWidget = async (session: Session): Promise<void> => {
-  await session.page.getByRole('button', { name: 'Menu', exact: true }).click();
-  await session.page.getByRole('menuitem', { name: /^Widgets$/ }).first().click();
-  await session.page.locator('[role^="menuitem"]').filter({ hasText: /^View$/ }).last().click();
-  await session.page.mouse.click(640, 20);
-  await widget(session).waitFor();
-};
-
 const openDemoRig = async (): Promise<{ session: Session }> => {
   const session = await openSession();
   const parent = join(APP_DIR, PROJECT_PARENT);
   await mkdir(parent, { recursive: true });
   const place = await mkdtemp(join(parent, TEMP_PREFIX));
   await openDemo(session, place);
-  await showViewWidget(session);
+  await widget(session).waitFor();
   await session.page.emulateMedia({ reducedMotion: 'reduce' });
   return { session: { ...session, close: () => session.close().then(() => rm(place, { recursive: true, force: true })) } };
 };
@@ -88,7 +80,7 @@ describe('the canvas: View widget, stage header and floating Apply bar', () => {
     await header(session).getByText('slime').first().waitFor();
     for (const name of ['Navigator', 'Zoom', 'Overlays', 'Background']) await widget(session).getByText(name, { exact: true }).first().waitFor();
     expect(await header(session).getByRole('button').count()).toBeGreaterThan(0);
-    const caption = await widget(session).locator('.navigator__caption').boundingBox();
+    const caption = await widget(session).locator('.view-map__caption').boundingBox();
     expect(caption?.height ?? 99).toBeLessThan(24);
     await widget(session).getByText(/16 x 16 px, \d+% shown/).waitFor();
     await session.page.mouse.move(640, 300);

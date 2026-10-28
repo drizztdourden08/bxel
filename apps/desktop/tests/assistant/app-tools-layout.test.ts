@@ -2,6 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { check } from './app-tools-check';
 import { fake } from './app-tools-fake';
+import { LIMIT_REASON, LIMITED } from './app-tools-layout-mock';
 import { call, reset } from './app-tools-rig';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('./app-tools-mock')).brockMock());
@@ -39,6 +40,11 @@ describe('list_layout and set_layout', () => {
       'applyPreset Default',
     ]);
     expect(fake.announced.at(-1)).toContain('changed the layout');
+  });
+
+  it('reports the reason when a resize ends at another size than asked', async () => {
+    const done = await ok('set_layout', { ops: [{ op: 'resize', widget: 'timeline', size: LIMITED }] });
+    expect(done.notes).toEqual([`Op 1 (resize) ended at 1200 px. ${LIMIT_REASON}`]);
   });
 
   it('stops at an op that fails and names it, keeping the ops before it', async () => {
