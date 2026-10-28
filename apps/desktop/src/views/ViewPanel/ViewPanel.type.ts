@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { IconName } from '@drizztdourden08/tessera';
 import type { ReactNode } from 'react';
-import type { Surface } from '../../surface/surface.type';
+import type { CanvasSurface } from '../../canvas-surface/canvas-surface.type';
 
 interface ViewSectionProps {
   title: string;
@@ -10,7 +10,7 @@ interface ViewSectionProps {
 }
 
 interface SurfaceProps {
-  surface: Surface;
+  surface: CanvasSurface;
 }
 
 interface FixedProps {

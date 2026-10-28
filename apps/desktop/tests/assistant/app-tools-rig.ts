@@ -28,6 +28,7 @@ const viewport = {
   redraw: vi.fn(),
   reveal: vi.fn(),
   panTo,
+  zoomToRect: vi.fn(),
   view: () => ({ zoom: 4, pan: { x: 8, y: 8 }, originX: 0, originY: 0, width: 128, height: 128, dpr: 1, imageWidth: 16, imageHeight: 16 }),
 };
 

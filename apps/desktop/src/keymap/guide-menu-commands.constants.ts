@@ -5,14 +5,13 @@ import type { AxisArgs } from '../context-menu/menu-args.type';
 import { addGuideHere } from '../guides/add-guide-here';
 import { clearGuides } from '../guides/clear-guides';
 import { COMMAND_GROUP } from './keymap.constants';
-import { onSurface } from './on-surface';
+import { ruled } from './ruled';
 
 const group = COMMAND_GROUP.view;
 
 const GUIDE_MENU_COMMANDS: readonly CommandDef[] = [
   { id: 'guide.add_here', label: 'Add a guide at a position', group, run: (context?: CommandContext) => addGuideHere(commandArgs<AxisArgs>(context)) },
   { id: 'guide.clear', label: 'Clear guides', group, run: () => clearGuides() },
-]
-  .map(onSurface('sprite', 'tile', 'sheet', 'map'));
+].map(ruled);
 
 export { GUIDE_MENU_COMMANDS };

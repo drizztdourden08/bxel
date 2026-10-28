@@ -5,7 +5,7 @@ import { useAnimationFocus } from '../../../hooks/useAnimationFocus';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { useMapContext } from '../../../hooks/useMapContext';
 import { usePaletteSlots } from '../../../hooks/usePaletteSlots';
-import { useSurface } from '../../../hooks/useSurface';
+import { useCanvasSurface } from '../../../canvas-surface/useCanvasSurface';
 import { readExtras } from '../../../status-extras/read-extras';
 import type { StatusExtras } from '../../../status-extras/status-extras.type';
 import { usePendingStore } from '../../../stores/usePendingStore';
@@ -15,7 +15,7 @@ import { cellUnder } from './cell-under';
 import { moveOffset } from './move-offset';
 
 const useStatusExtras = (): StatusExtras => {
-  const surface = useSurface();
+  const surface = useCanvasSurface();
   const pointer = useReadoutStore((state) => state.pointer);
   const target = useEditorTarget();
   const slots = usePaletteSlots();

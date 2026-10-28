@@ -7,7 +7,7 @@ const EXTRA_TEXT = {
   drag: 'Moving by',
   frame: 'Frame',
   cell: 'Cell',
-  tile: 'Tile',
+  tile: 'Under it',
   noTile: 'Empty',
   indexValue: (index: number, name: string): string => `${index} ${name}`,
   selectionValue: (width: number, height: number, x: number, y: number): string => `${width} x ${height} at ${x}, ${y}`,

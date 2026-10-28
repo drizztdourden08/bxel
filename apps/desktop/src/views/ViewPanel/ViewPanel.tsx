@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind component */
 import { EmptyState, Flex } from '@drizztdourden08/tessera';
-import { useSurface } from '../../hooks/useSurface';
-import { hasPart } from '../../surface/has-part';
+import { evaluate } from '../../ui-context/evaluate';
+import { useBxelContext } from '../../ui-context/useBxelContext';
+import { useCanvasSurface } from '../../canvas-surface/useCanvasSurface';
 import { Navigator } from '../Navigator';
 import { ZoomField } from '../ZoomField';
 import { VIEW_PANEL_TEXT } from './ViewPanel.constants';
@@ -14,7 +15,9 @@ import { ViewSection } from './sub-components/ViewSection';
 import './ViewPanel.css';
 
 const ViewPanel = () => {
-  const surface = useSurface();
+  const context = useBxelContext((current) => current);
+  const surface = useCanvasSurface();
+  const shown = (id: string): boolean => evaluate(`viewpanel.${id}`, context).state !== 'hidden';
   if (surface === 'none') return <EmptyState message={VIEW_PANEL_TEXT.empty} />;
   return (
     <Flex direction="column" className="view-panel">
@@ -27,17 +30,17 @@ const ViewPanel = () => {
       <ViewSection title={VIEW_PANEL_TEXT.overlays} icon="pixel-grid">
         <OverlaysSection surface={surface} />
       </ViewSection>
-      {hasPart(surface, 'playback') && (
+      {shown('onion') && (
         <ViewSection title={VIEW_PANEL_TEXT.onion} icon="pixel-onion-skin">
           <OnionSection />
         </ViewSection>
       )}
-      {hasPart(surface, 'tiled') && (
+      {shown('tiled') && (
         <ViewSection title={VIEW_PANEL_TEXT.tiled} icon="pixel-tiled">
           <TiledSection />
         </ViewSection>
       )}
-      {hasPart(surface, 'symmetry') && (
+      {shown('symmetry') && (
         <ViewSection title={VIEW_PANEL_TEXT.symmetry} icon="pixel-mirror-x">
           <SymmetrySection />
         </ViewSection>

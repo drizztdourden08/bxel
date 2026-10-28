@@ -4,7 +4,7 @@ import { useActiveDocument } from '../../../hooks/useActiveDocument';
 import { useAnimationFocus } from '../../../hooks/useAnimationFocus';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { useSpriteScene } from '../../../hooks/useSpriteScene';
-import { useSurface } from '../../../hooks/useSurface';
+import { useCanvasSurface } from '../../../canvas-surface/useCanvasSurface';
 import { readAnimationHeader } from '../../../stage-header/read-animation-header';
 import { readSpriteHeader } from '../../../stage-header/read-sprite-header';
 import type { HeaderInput } from '../../../stage-header/stage-header.type';
@@ -15,7 +15,7 @@ import { useMapHeader } from './useMapHeader';
 import { useTileHeader } from './useTileHeader';
 
 const useHeaderInput = (): HeaderInput => {
-  const surface = useSurface();
+  const surface = useCanvasSurface();
   const readOnly = useActiveDocument()?.state.readOnly ?? false;
   const target = useEditorTarget();
   const focus = useAnimationFocus();

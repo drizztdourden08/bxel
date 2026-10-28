@@ -37,7 +37,7 @@ const Compare = ({ before, after }: { before: ImageData; after: ImageData }) => 
   );
 };
 `,
-  propsHash: '6c99151e7292c31a',
+  propsHash: 'd1ed37428120ae6b',
 } satisfies ComponentUsage;
 
 export { usage };

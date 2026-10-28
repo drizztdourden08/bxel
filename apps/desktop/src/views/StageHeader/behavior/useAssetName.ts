@@ -1,12 +1,12 @@
 /* @layer renderer-app @kind hook */
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
-import { useSurface } from '../../../hooks/useSurface';
+import { useCanvasSurface } from '../../../canvas-surface/useCanvasSurface';
 import { managerSheet } from '../../../sheet-manager/manager-sheet';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { useSpriteStore } from '../../../stores/useSpriteStore';
 
 const useAssetName = (): string => {
-  const surface = useSurface();
+  const surface = useCanvasSurface();
   const artwork = useActiveDocument()?.state.artwork;
   const sheetId = useManagerStore((state) => state.sheetId);
   const activeId = useSpriteStore((state) => state.activeId);

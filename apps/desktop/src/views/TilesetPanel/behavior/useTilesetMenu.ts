@@ -6,6 +6,7 @@ import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { pickTile } from '../../../tilemap/pick-tile';
 import { TILE_MENU } from '../TilesetPanel.constants';
 import { tileMenuEntries } from './tile-menu-entries';
+import { ruledEntries } from '../../../context-menu/ruled-entries';
 
 const pickClicked = (context: ContextMenuContext): void => {
   const key = menuTarget(context, TILE_MENU.tile)?.dataset.tileKey;
@@ -13,7 +14,7 @@ const pickClicked = (context: ContextMenuContext): void => {
 };
 
 const useTilesetMenu = (): void => {
-  useContextMenu(COMMAND_ZONE.tileset, { label: TILE_MENU.label, beforeOpen: pickClicked, entries: tileMenuEntries });
+  useContextMenu(COMMAND_ZONE.tileset, { label: TILE_MENU.label, beforeOpen: pickClicked, entries: ruledEntries(tileMenuEntries) });
 };
 
 export { useTilesetMenu };

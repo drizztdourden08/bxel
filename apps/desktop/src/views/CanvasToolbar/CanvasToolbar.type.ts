@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind types */
 import type { IconName, ShortcutKey, ToolbarItem, ToolbarSlot } from '@drizztdourden08/tessera';
-import type { SurfacePart } from '../../surface/surface.type';
 import type { HintSpec } from '../ActionHint';
 
 interface CanvasToolbarProps {
@@ -9,7 +8,6 @@ interface CanvasToolbarProps {
 
 interface CanvasGroup {
   id: string;
-  part: SurfacePart | null;
   items: readonly ToolbarItem[];
 }
 

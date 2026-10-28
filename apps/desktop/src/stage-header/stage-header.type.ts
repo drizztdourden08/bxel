@@ -2,7 +2,7 @@
 import type { LayerId, MapLayerId } from '@bxel/document';
 import type { IconName, MenuGroup } from '@drizztdourden08/tessera';
 import type { LayerScope, SpritesScope } from '../stores/sprite-store.type';
-import type { Surface } from '../surface/surface.type';
+import type { CanvasSurface } from '../canvas-surface/canvas-surface.type';
 
 type ChipTone = 'neutral' | 'info' | 'warning' | 'danger';
 
@@ -84,7 +84,7 @@ interface MapHeader {
 }
 
 interface HeaderInput {
-  surface: Surface;
+  surface: CanvasSurface;
   assetName: string;
   readOnly: boolean;
   hiddenGrids: boolean;

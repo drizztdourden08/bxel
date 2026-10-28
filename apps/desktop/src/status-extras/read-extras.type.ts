@@ -2,11 +2,11 @@
 import type { MaskView, Point } from '@bxel/raster';
 import type { EditorTarget } from '../editor/editor.type';
 import type { PaletteSlot } from '../editor/palette-slots.type';
-import type { Surface } from '../surface/surface.type';
+import type { CanvasSurface } from '../canvas-surface/canvas-surface.type';
 import type { AnimationFocus } from '../timeline/timeline.type';
 
 interface PixelRead {
-  surface: Surface;
+  surface: CanvasSurface;
   pointer: Point | null;
   target: EditorTarget | null;
   slots: readonly PaletteSlot[];

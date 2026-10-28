@@ -1,11 +1,6 @@
 /* @layer renderer-app @kind hook */
-import { useSpriteStore } from '../stores/useSpriteStore';
-import { useTilemapStore } from '../stores/useTilemapStore';
+import { useBxelContext } from '../ui-context/useBxelContext';
 
-const useMapPlacing = (): boolean => {
-  const mode = useSpriteStore((state) => state.mode);
-  const editMode = useTilemapStore((state) => state.editMode);
-  return mode === 'tilemap' && editMode === 'place';
-};
+const useMapPlacing = (): boolean => useBxelContext((context) => context.surface === 'map');
 
 export { useMapPlacing };

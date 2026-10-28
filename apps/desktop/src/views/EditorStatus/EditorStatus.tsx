@@ -13,12 +13,14 @@ import { useFileStore } from '../../stores/useFileStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { useTilemapStore } from '../../stores/useTilemapStore';
 import { useToolStore } from '../../stores/useToolStore';
+import { useBxelContext } from '../../ui-context/useBxelContext';
 import { ActionHint } from '../ActionHint';
 import { canvasHelp } from './behavior/canvas-help';
 import { useFoldedItems } from './behavior/useFoldedItems';
 import { useStatusExtras } from './behavior/useStatusExtras';
 import { statusMenuEntries } from './behavior/status-menu-entries';
 import { STATUS_MENU } from './EditorStatus.constants';
+import { ruledEntries } from '../../context-menu/ruled-entries';
 import './EditorStatus.css';
 
 const EditorStatus = () => {
@@ -31,14 +33,16 @@ const EditorStatus = () => {
   const tool = useToolStore((state) => state.tool);
   const mode = useSpriteStore((state) => state.mode);
   const tileMode = useTilemapStore((state) => state.editMode);
+  const stamp = useTilemapStore((state) => state.stamp.keys.find((key) => key !== 0) ?? null);
+  const context = useBxelContext((current) => current);
   const recovered = useFileStore((state) => (view ? view.state.documentId in state.recovered : false));
   const colours = [slots[foreground] ?? null, slots[background] ?? null] as const;
   const extras = useStatusExtras();
   const asset = useActiveAsset();
   const clean = asset ? !asset.dirty : true;
   const zone = useRef<HTMLDivElement>(null);
-  const items = useFoldedItems(statusItems({ pointer, zoom, colours, clean, recovered, extras }), zone);
-  useContextMenu(STATUS_MENU.zone, { label: STATUS_MENU.label, entries: statusMenuEntries });
+  const items = useFoldedItems(statusItems({ pointer, zoom, colours, clean, recovered, context, tile: stamp, extras }), zone);
+  useContextMenu(STATUS_MENU.zone, { label: STATUS_MENU.label, entries: ruledEntries(statusMenuEntries) });
   return (
     <ActionHint hint={canvasHelp(tool, mode, tileMode)} placement="top" className="editor-status">
       <Box ref={zone} className="editor-status__zone" {...contextMenuZone(STATUS_MENU.zone)}>

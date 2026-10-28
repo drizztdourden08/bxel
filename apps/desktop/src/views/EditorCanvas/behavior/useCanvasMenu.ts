@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useContextMenu, useSettings } from '@drizztdourden08/brock-react';
 import type { RefObject } from 'react';
+import { ruledEntries } from '../../../context-menu/ruled-entries';
 import type { AppSettings } from '../../../settings.type';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
 import { useToolStore } from '../../../stores/useToolStore';
@@ -20,7 +21,7 @@ const useCanvasMenu = (viewport: RefObject<PixelViewportHandle | null>): void =>
       const at = cursor ? viewport.current?.pixelToScreen(cursor.x + 0.5, cursor.y + 0.5) : undefined;
       return at ? { x: at.x, y: at.y, data: cursor } : null;
     },
-    entries: (context) => canvasMenuEntries(context, viewport.current),
+    entries: ruledEntries((context) => canvasMenuEntries(context, viewport.current)),
   });
 };
 

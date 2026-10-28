@@ -6,7 +6,7 @@ import { currentTarget } from '../editor/current-target';
 import { cellBox } from '../views/TilemapCanvas/behavior/cell-box';
 import { currentMap } from '../tilemap/current-map';
 import { useTilemapStore } from '../stores/useTilemapStore';
-import { currentSurface } from '../surface/current-surface';
+import { currentCanvasSurface } from '../canvas-surface/current-canvas-surface';
 
 const spriteRect = (): PixelRect | null => {
   const target = currentTarget();
@@ -21,7 +21,7 @@ const mapRect = (): PixelRect | null => {
 };
 
 const selectionRect = (): PixelRect | null => {
-  const surface = currentSurface();
+  const surface = currentCanvasSurface();
   if (surface === 'map') return mapRect();
   return surface === 'sprite' || surface === 'tile' ? spriteRect() : null;
 };

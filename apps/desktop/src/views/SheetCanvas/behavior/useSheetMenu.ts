@@ -10,6 +10,7 @@ import type { PixelViewportHandle } from '../../PixelViewport';
 import { SHEET_MENU } from '../SheetCanvas.constants';
 import { sheetClicked } from './sheet-clicked';
 import { sheetMenuEntries } from './sheet-menu-entries';
+import { ruledEntries } from '../../../context-menu/ruled-entries';
 
 const useSheetMenu = (viewport: RefObject<PixelViewportHandle | null>, items: readonly SheetItem[]): void => {
   const pickClicked = (context: ContextMenuContext): void => {
@@ -21,7 +22,7 @@ const useSheetMenu = (viewport: RefObject<PixelViewportHandle | null>, items: re
     label: SHEET_MENU.label,
     shouldOpen: () => useToolStore.getState().tool !== 'zoom',
     beforeOpen: pickClicked,
-    entries: (context) => sheetMenuEntries(context, viewport.current, items),
+    entries: ruledEntries((context) => sheetMenuEntries(context, viewport.current, items)),
   });
 };
 

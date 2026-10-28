@@ -6,7 +6,7 @@ import { hasGuides } from '../../../guides/has-guides';
 import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { handlePosition } from '../../../ruler/handle-position';
 import { nearHandle } from '../../../ruler/near-handle';
-import { currentSurface } from '../../../surface/current-surface';
+import { currentCanvasSurface } from '../../../canvas-surface/current-canvas-surface';
 import { useRulerStore } from '../../../stores/useRulerStore';
 import { RULER_MENU } from '../CanvasRuler.constants';
 import type { RulerArgs } from '../CanvasRuler.type';
@@ -22,7 +22,7 @@ const rulerMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntr
   const along = rulerAlong(axis, context, span.length / 2);
   const { handle, centred } = rulerAxisState(axis, span);
   const onHandle = handle !== null && nearHandle(along, handlePosition(handle, span));
-  const surface = currentSurface();
+  const surface = currentCanvasSurface();
   const mirrors = surface === 'sprite' || surface === 'tile';
   return [
     { command: 'symmetry.axis_remove', label: RULER_MENU.remove, args: { axis }, hidden: !onHandle },

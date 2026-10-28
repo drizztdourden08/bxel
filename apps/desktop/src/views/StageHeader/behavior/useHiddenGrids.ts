@@ -2,12 +2,12 @@
 import { useAssetLook } from '../../../asset-view/useAssetLook';
 import { gridsHidden } from '../../../canvas-look/grids-hidden';
 import { useCanvasLook } from '../../../canvas-look/useCanvasLook';
-import { useSurface } from '../../../hooks/useSurface';
+import { useCanvasSurface } from '../../../canvas-surface/useCanvasSurface';
 import { useViewFeedStore } from '../../../stores/useViewFeedStore';
 import { useViewStore } from '../../../stores/useViewStore';
 
 const useHiddenGrids = (): boolean => {
-  const surface = useSurface();
+  const surface = useCanvasSurface();
   const pixel = useViewStore((state) => state.grid);
   const major = useViewStore((state) => state.gridMajor);
   const tile = useViewStore((state) => state.gridTile);

@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { tileSizeOf } from '../ruler/tile-size-of';
 import { useMapContext } from '../hooks/useMapContext';
 import { useSpriteScene } from '../hooks/useSpriteScene';
-import { useSurface } from '../hooks/useSurface';
+import { useCanvasSurface } from '../canvas-surface/useCanvasSurface';
 import { managerSheet } from '../sheet-manager/manager-sheet';
 import type { AppSettings } from '../settings.type';
 import { useManagerStore } from '../stores/useManagerStore';
@@ -12,7 +12,7 @@ import { gridDefaults } from './grid-defaults';
 import type { AssetGridDefaults } from './asset-view.type';
 
 const useGridDefaults = (): AssetGridDefaults => {
-  const surface = useSurface();
+  const surface = useCanvasSurface();
   const tileset = useMapContext()?.tileset ?? null;
   const scene = useSpriteScene();
   const sheetId = useManagerStore((state) => state.sheetId);

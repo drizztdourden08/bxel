@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useSurface } from '../../../hooks/useSurface';
+import { useCanvasSurface } from '../../../canvas-surface/useCanvasSurface';
 import { useResizeRedraw } from '../../../hooks/useResizeRedraw';
 import { paintRuler } from '../../../ruler/paint-ruler';
 import type { RulerSpan } from '../../../ruler/ruler.type';
@@ -27,7 +27,7 @@ const useCanvasRuler = ({ axis }: CanvasRulerProps): CanvasRulerModel => {
   const unit = useRulerUnitStore((state) => state.unit);
   const tile = useRulerUnitStore((state) => state.tile);
   const span = useMemo<RulerSpan>(() => ({ origin, zoom, length, count, unit: unitScale(unit, count, tile) }), [origin, zoom, length, count, unit, tile]);
-  const surface = useSurface();
+  const surface = useCanvasSurface();
   const handle = on && (surface === 'sprite' || surface === 'tile') ? clampAxis(placed, count) : null;
   const paint = useCallback(() => {
     if (canvasRef.current) paintRuler(canvasRef.current, { axis, span, cursor, handle });

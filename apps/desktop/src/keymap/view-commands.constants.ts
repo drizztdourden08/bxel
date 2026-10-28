@@ -1,13 +1,13 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { zoomView } from '../editor/zoom-view';
-import { zoomAtPointer } from '../view-zoom/zoom-at-pointer';
-import { zoomSelection } from '../view-zoom/zoom-selection';
-import { DIGIT_ZOOM } from '../view-zoom/view-zoom.constants';
 import { useViewStore } from '../stores/useViewStore';
 import { TILE_LABELS, TILE_MODES, VIEW_TOGGLE_ROWS } from '../stores/view-store.constants';
-import { editorCommand } from './editor-command';
+import { DIGIT_ZOOM } from '../view-zoom/view-zoom.constants';
+import { zoomAtPointer } from '../view-zoom/zoom-at-pointer';
+import { zoomSelection } from '../view-zoom/zoom-selection';
 import { COMMAND_GROUP, COMMAND_ID, TILED_COMMAND } from './keymap.constants';
+import { ruled } from './ruled';
 
 const TILED_COMMANDS: readonly CommandDef[] = TILE_MODES.map((mode) => ({
   id: TILED_COMMAND[mode],
@@ -42,6 +42,6 @@ const DIGIT_COMMANDS: readonly CommandDef[] = Object.entries(DIGIT_ZOOM).map(([d
   run: () => zoomAtPointer(percent),
 }));
 
-const VIEW_COMMANDS: readonly CommandDef[] = [...ZOOM_COMMANDS, ...DIGIT_COMMANDS, ...TOGGLE_COMMANDS, ...TILED_COMMANDS].map(editorCommand);
+const VIEW_COMMANDS: readonly CommandDef[] = [...ZOOM_COMMANDS, ...DIGIT_COMMANDS, ...TOGGLE_COMMANDS, ...TILED_COMMANDS].map(ruled);
 
 export { VIEW_COMMANDS };
