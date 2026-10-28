@@ -8,7 +8,6 @@ import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { SPRITE_ADD_KEY, SPRITE_SEARCH_KEY, SPRITE_SELECT_ALL_KEY } from '../../../keymap/zone-key.constants';
 import type { ManagerDialog } from '../../../sheet-manager/manager.type';
 import { renameSprite } from '../../../sheet/rename-sprite';
-import { selectEntries } from '../../../sheet-manager/select-ids';
 import { SHEET_TEXT } from '../../../sheet-manager/sheet-text.constants';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { usePendingStore } from '../../../stores/usePendingStore';
@@ -29,6 +28,7 @@ import { SheetTitle } from './SheetTitle';
 import { SpriteCollection } from './SpriteCollection';
 import { SpriteRename } from './SpriteRename';
 import { ruledEntries } from '../../../context-menu/ruled-entries';
+import { selectEntries } from '../../../sheet-manager/select-entries';
 
 const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const rename = useSpriteRename();

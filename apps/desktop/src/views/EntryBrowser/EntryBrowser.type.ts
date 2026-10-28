@@ -55,4 +55,13 @@ interface BrowserBodyProps {
   dragFor: (key: string) => BrowserDrag;
 }
 
-export type { BrowserBarProps, BrowserDrag, BrowserBodyProps, BrowserState, BrowserView, EntryBrowserProps };
+interface EntryBrowserContentProps {
+  total: number;
+  view: BrowserView;
+  body: BrowserBodyProps;
+  emptyMessage: ReactNode;
+  noMatchMessage?: ReactNode;
+  onClear: () => void;
+}
+
+export type { BrowserBarProps, BrowserDrag, BrowserBodyProps, BrowserState, BrowserView, EntryBrowserContentProps, EntryBrowserProps };

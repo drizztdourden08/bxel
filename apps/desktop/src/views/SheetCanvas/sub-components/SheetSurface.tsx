@@ -27,6 +27,7 @@ import { useSheetGestures } from '../behavior/useSheetGestures';
 import { useSheetPaint } from '../behavior/useSheetPaint';
 import { feedView } from '../../../view-feed/feed-view';
 import { SheetExportBar } from './SheetExportBar';
+import { READING_BINDS } from './SheetSurface.constants';
 
 const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
   const viewport = useRef<PixelViewportHandle>(null);
@@ -53,6 +54,8 @@ const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
   useSyncPending(useEditorTarget());
   useEscapeCancel();
   const reading = exported !== null;
+  const size = exported ?? model.extent;
+  const live = reading ? READING_BINDS : { draw, onPointerDown: gestures.down, onPointerMove: gestures.move, onPointerUp: gestures.up, onKeyDown: sheetKeyDown };
   return (
     <Box className="sheet-canvas" {...contextMenuZone(SHEET_MENU.zone)} {...dropping}>
       <RulerFrame>
@@ -60,20 +63,16 @@ const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
           ref={viewport}
           className={`sheet-canvas__viewport ${FRAMED_VIEWPORT}`}
           label={reading ? SHEET_CANVAS_TEXT.exportLabel : SHEET_CANVAS_TEXT.label}
-          width={exported?.width ?? model.extent.width}
-          height={exported?.height ?? model.extent.height}
+          width={size.width}
+          height={size.height}
           source={sheet.image}
-          draw={reading ? undefined : draw}
           look={look}
           hand={hand}
           onView={feedView}
           grid={false}
           gridTile={gridTile}
           onPointerPixel={(pixel) => useReadoutStore.getState().setPointer(pixel)}
-          onPointerDown={reading ? undefined : gestures.down}
-          onPointerMove={reading ? undefined : gestures.move}
-          onPointerUp={reading ? undefined : gestures.up}
-          onKeyDown={reading ? undefined : sheetKeyDown}
+          {...live}
         />
       </RulerFrame>
       <SheetExportBar sheet={sheet} />

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Icon, Pressable } from '@drizztdourden08/tessera';
+import { Box, Icon, Tile } from '@drizztdourden08/tessera';
 import { useState } from 'react';
 import { pickHow } from '../../sheet/pick-how';
 import { ENTRY_TILE_TEXT } from './EntryTile.constants';
@@ -22,16 +22,25 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
   const { className, onFocus, ...bind } = cell;
   const id = fact.kind === 'sprite' ? fact.sprite.id : fact.key;
   return (
-    <Pressable
-      type="button"
+    <Tile
       {...bind}
       className={`${className} ${entryTileClass(state)}`}
-      aria-selected={state.selected}
       aria-label={labelOf(fact)}
       title={state.loose ? ENTRY_TILE_TEXT.notOnSheet : ENTRY_TILE_TEXT.onSheets(fact.sheets)}
       data-sprite-id={id}
       data-entry-kind={fact.kind}
+      selected={state.selected}
       draggable
+      media={<EntryThumb fact={fact} artwork={artwork} box={box} playing={hot} />}
+      corners={{
+        topStart: state.selected ? (
+          <Box as="span" className="entry-tile__check" aria-hidden="true">
+            <Icon name="check" size={12} />
+          </Box>
+        ) : undefined,
+        topEnd: <EntryBadges fact={fact} twin={state.twin} />,
+      }}
+      name={<EntryName name={fact.kind === 'sprite' ? fact.sprite.name : fact.name} />}
       onFocus={() => {
         onFocus();
         setHot(true);
@@ -43,18 +52,7 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
       onDoubleClick={handlers.onEdit}
       onContextMenu={() => handlers.onMenu()}
       {...drag}
-    >
-      <span className="entry-tile__stage">
-        <EntryThumb fact={fact} artwork={artwork} box={box} playing={hot} />
-      </span>
-      {state.selected && (
-        <span className="entry-tile__check" aria-hidden="true">
-          <Icon name="check" size={12} />
-        </span>
-      )}
-      <EntryBadges fact={fact} twin={state.twin} />
-      <EntryName name={fact.kind === 'sprite' ? fact.sprite.name : fact.name} />
-    </Pressable>
+    />
   );
 };
 

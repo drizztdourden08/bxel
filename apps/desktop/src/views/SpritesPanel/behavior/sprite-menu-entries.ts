@@ -14,7 +14,6 @@ import { sheetEntries } from './sheet-entries';
 import { EMPTY_ENTRIES } from './sprite-menu-entries.constants';
 import { transformEntries } from './transform-entries';
 
-/** The tile menu: eleven entries, and the clicked entry has joined the pick before it opens. */
 const spriteMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[] => {
   const manager = currentManager();
   if (!manager || menuTarget(context, MARQUEE_ITEM) === null) return EMPTY_ENTRIES;

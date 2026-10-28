@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useState } from 'react';
-import { activeEntryDrag } from '../../../sheet-manager/drag-payload';
+import { activeEntryDrag } from '../../../sheet-manager/active-entry-drag';
 
-/** True while entries of the sheet are being dragged, so the drawer can offer itself as a drop target. */
 const useSheetDragging = (): boolean => {
   const [dragging, setDragging] = useState(false);
   useEffect(() => {

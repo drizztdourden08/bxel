@@ -1,25 +1,22 @@
 /* @layer renderer-app @kind hook */
 import { useState } from 'react';
 import type { DragEvent } from 'react';
-import { carriesEntries, endEntryDrag, readEntries, startEntryDrag } from '../../../sheet-manager/drag-payload';
+import { startEntryDrag } from '../../../sheet-manager/drag-payload';
 import type { DropSide, DropTarget } from '../../../sheet-manager/drag-payload.type';
 import { dropEntries } from '../../../sheet-manager/drop-entries';
 import { dragEntriesOf } from './drag-entries-of';
 import { dragGhost } from './drag-ghost';
 import type { ManagerModel, SpriteDragHandlers } from '../SpritesPanel.type';
-
-interface EntryDrag {
-  dragFor: (key: string) => SpriteDragHandlers;
-  marks: ReadonlyMap<string, DropSide>;
-  zone: Pick<SpriteDragHandlers, 'onDragOver' | 'onDrop' | 'onDragLeave'>;
-}
+import { endEntryDrag } from '../../../sheet-manager/end-entry-drag';
+import { carriesEntries } from '../../../sheet-manager/carries-entries';
+import { readEntries } from '../../../sheet-manager/read-entries';
+import { NO_MARKS } from './useSpriteDrag.constants';
+import type { EntryDrag } from './useSpriteDrag.type';
 
 const sideOf = (event: DragEvent<HTMLElement>): DropSide => {
   const box = event.currentTarget.getBoundingClientRect();
   return event.clientX < box.left + box.width / 2 ? 'before' : 'after';
 };
-
-const NO_MARKS: ReadonlyMap<string, DropSide> = new Map();
 
 const useSpriteDrag = (model: ManagerModel | null): EntryDrag => {
   const [mark, setMark] = useState<{ key: string | null; side: DropSide } | null>(null);
@@ -71,5 +68,4 @@ const useSpriteDrag = (model: ManagerModel | null): EntryDrag => {
   return { dragFor, marks: mark?.key ? new Map([[mark.key, mark.side]]) : NO_MARKS, zone };
 };
 
-export type { EntryDrag };
 export { useSpriteDrag };

@@ -1,21 +1,9 @@
 /* @layer renderer-app @kind logic */
 import { animationCells } from '@bxel/document';
-import type { Animation, Artwork, PaletteBank, Sprite, TagId } from '@bxel/document';
+import type { Animation, Artwork, TagId } from '@bxel/document';
 import { animationCellImages } from '../../../sheet/animation-cell-images';
-import type { FrameImage } from '../../../sheet/sheet.type';
-
-interface AnimationClip {
-  images: readonly FrameImage[];
-  durations: readonly number[];
-}
-
-interface Held {
-  sprites: readonly Sprite[];
-  banks: readonly PaletteBank[];
-  clips: Map<string, AnimationClip>;
-}
-
-const HELD = new WeakMap<Animation, Held>();
+import type { AnimationClip } from './animation-clip.type';
+import { HELD } from './animation-clip.constants';
 
 const buildClip = (artwork: Artwork, animation: Animation, tagId: TagId | null): AnimationClip => {
   const durations = new Map(animation.frames.map((frame) => [frame.id, frame.durationMs] as const));
@@ -27,7 +15,7 @@ const buildClip = (artwork: Artwork, animation: Animation, tagId: TagId | null):
 
 const animationClip = (artwork: Artwork, animation: Animation, tagId: TagId | null): AnimationClip => {
   const held = HELD.get(animation);
-  const fresh = held && held.sprites === artwork.sprites && held.banks === artwork.banks ? held : { sprites: artwork.sprites, banks: artwork.banks, clips: new Map<string, AnimationClip>() };
+  const fresh = held?.sprites === artwork.sprites && held.banks === artwork.banks ? held : { sprites: artwork.sprites, banks: artwork.banks, clips: new Map<string, AnimationClip>() };
   HELD.set(animation, fresh);
   const key = tagId ?? '';
   const known = fresh.clips.get(key);
@@ -37,5 +25,4 @@ const animationClip = (artwork: Artwork, animation: Animation, tagId: TagId | nu
   return made;
 };
 
-export type { AnimationClip };
 export { animationClip };

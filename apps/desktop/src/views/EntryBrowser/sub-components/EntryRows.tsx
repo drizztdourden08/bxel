@@ -1,12 +1,13 @@
 /* @layer renderer-app @kind component */
 import { Flex, Icon, Pressable, Text, VirtualList } from '@drizztdourden08/tessera';
 import { useState } from 'react';
-import { entryId, entryName } from '../../../sheet-manager/entry-id';
+import { entryId } from '../../../sheet-manager/entry-id';
 import type { EntryFacts } from '../../../sheet-manager/manager.type';
 import { pickHow } from '../../../sheet/pick-how';
 import { EntryThumb } from '../../EntryTile';
 import { BROWSER_TEXT, BROWSER_THUMB } from '../EntryBrowser.constants';
 import type { BrowserBodyProps } from '../EntryBrowser.type';
+import { entryName } from '../../../sheet-manager/entry-name';
 
 const metaOf = (fact: EntryFacts): string =>
   fact.kind === 'sprite' ? BROWSER_TEXT.row(fact.sprite.width, fact.sprite.height) : `${fact.frames === 1 ? '1 frame' : `${fact.frames} frames`}`;

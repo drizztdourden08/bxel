@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
-
-const GHOST_CLASS = 'entry-drag-ghost';
+import { GHOST_CLASS } from './drag-ghost.constants';
 
 const dragGhost = (transfer: DataTransfer, count: number): void => {
   const ghost = document.createElement('div');

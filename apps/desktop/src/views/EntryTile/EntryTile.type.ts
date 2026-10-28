@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { DragEvent, MouseEvent } from 'react';
+import type { DragEvent } from 'react';
 import type { VirtualGridCellBind, VirtualSize } from '@drizztdourden08/tessera';
 import type { Animation, Artwork, Sprite, TagId } from '@bxel/document';
 import type { PickHow } from '../../sheet/sheet.type';
@@ -29,12 +29,6 @@ interface EntryTileDrag {
   onDrop: (event: DragEvent<HTMLElement>) => void;
   onDragEnd?: (event: DragEvent<HTMLElement>) => void;
   onDragLeave?: (event: DragEvent<HTMLElement>) => void;
-}
-
-interface EntryTileEvents {
-  onClick: (event: MouseEvent<HTMLElement>) => void;
-  onDoubleClick: () => void;
-  onContextMenu: () => void;
 }
 
 interface EntryTileProps {
@@ -82,4 +76,4 @@ interface EntryBadgesProps {
   twin: boolean;
 }
 
-export type { AnimationThumbProps, EntryBadgesProps, EntryNameProps, EntryThumbProps, EntryMark, EntryTileDrag, EntryTileEvents, EntryTileHandlers, EntryTileProps, EntryTileState, SpriteThumbProps, TileSize };
+export type { AnimationThumbProps, EntryBadgesProps, EntryNameProps, EntryThumbProps, EntryTileDrag, EntryTileHandlers, EntryTileProps, EntryTileState, SpriteThumbProps, TileSize };

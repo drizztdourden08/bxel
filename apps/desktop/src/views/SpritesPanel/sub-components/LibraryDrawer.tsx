@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button } from '@drizztdourden08/tessera';
+import { Box, Button } from '@drizztdourden08/tessera';
 import { useMemo, useState } from 'react';
 import { dropEntries } from '../../../sheet-manager/drop-entries';
 import { SHEET_TEXT } from '../../../sheet-manager/sheet-text.constants';
@@ -17,7 +17,7 @@ const LibraryDrawer = ({ model }: ManagerModelProps) => {
     if (dropEntries(defaultDragEntries(entries, keys), { key: null, side: 'after' }, model.sheet?.id ?? null)) setPicked([]);
   };
   return (
-    <div className={`library-drawer${drop.over ? ' library-drawer--over' : ''}`} {...drop.bind}>
+    <Box className={`library-drawer${drop.over ? ' library-drawer--over' : ''}`} {...drop.bind}>
       <EntryBrowser
         label={SHEET_TEXT.library.title}
         searchLabel={SHEET_TEXT.library.search}
@@ -35,8 +35,8 @@ const LibraryDrawer = ({ model }: ManagerModelProps) => {
           </Button>
         }
       />
-      {drop.over && <div className="library-drawer__drop">{SHEET_TEXT.library.drop}</div>}
-    </div>
+      {drop.over && <Box className="library-drawer__drop">{SHEET_TEXT.library.drop}</Box>}
+    </Box>
   );
 };
 

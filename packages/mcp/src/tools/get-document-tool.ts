@@ -83,12 +83,32 @@ const tilemap = z.strictObject({
   layers: COUNT_SCHEMA,
 });
 
+const sheetEntry = z.strictObject({
+  kind: z.enum(['sprite', 'animation']),
+  id: z.string().describe('The spriteId or animationId of the entry.'),
+  name: z.string(),
+  folder: z.string().describe('The folder part of the name, empty when the name has no slash.'),
+  at: z.strictObject({ x: z.number().int(), y: z.number().int() }).describe('Where the entry sits on the sheet, in pixels.'),
+  source: RECT_SCHEMA.nullable().describe('The part of the sprite that is shown, or null for all of it.'),
+  tagId: z.string().nullable().describe('The tag of an animation entry, or null for the whole animation.'),
+});
+
+const sheetLayout = z.strictObject({
+  kind: z.enum(['manual', 'grid', 'packed']),
+  columns: COUNT_SCHEMA.optional(),
+  maxWidth: COUNT_SCHEMA.optional(),
+  spacing: z.number().int(),
+  margin: z.number().int(),
+});
+
 const sheet = z.strictObject({
   sheetId: SHEET_ID_SCHEMA,
   name: z.string(),
   width: COUNT_SCHEMA,
   height: COUNT_SCHEMA,
   entries: COUNT_SCHEMA,
+  layout: sheetLayout.optional().describe('Given with include entries.'),
+  entryList: z.array(sheetEntry).optional().describe('The sprites and animations of the sheet in sheet order, with their places. Given with include entries.'),
 });
 
 const animation = z.strictObject({
@@ -108,6 +128,7 @@ const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
     documentId: DOCUMENT_ID_SCHEMA,
     spriteOffset: z.number().int().min(0).default(0),
     spriteLimit: z.number().int().min(1).max(SPRITES_PAGE_MAX).default(SPRITES_PAGE_DEFAULT),
+    include: z.array(z.enum(['entries'])).default([]).describe('Add entries to list the sprites and animations of each sheet with their places and the layout.'),
   }),
   output: withFailure({
     documentId: DOCUMENT_ID_SCHEMA,

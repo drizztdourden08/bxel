@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind constants */
 const FOLDER_SHEET = 'walk';
 
+const FOLDER_ANIMATION = 'blink';
+
 const FOLDER_STRAY = 'stray';
 
 const FOLDER_SPRITES = [
@@ -11,4 +13,4 @@ const FOLDER_SPRITES = [
   { name: 'fx/spark', width: 16 },
 ] as const;
 
-export { FOLDER_SHEET, FOLDER_SPRITES, FOLDER_STRAY };
+export { FOLDER_ANIMATION, FOLDER_SHEET, FOLDER_SPRITES, FOLDER_STRAY };

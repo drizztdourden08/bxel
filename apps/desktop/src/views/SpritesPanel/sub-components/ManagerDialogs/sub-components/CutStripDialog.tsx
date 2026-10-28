@@ -2,6 +2,7 @@
 import { Callout, Checkbox, Field, Stack, Text, TextInput } from '@drizztdourden08/tessera';
 import { COMPOSE_TEXT } from '../../../../../sheet-manager/compose-text.constants';
 import { cutStrip } from '../../../../../sheet-manager/cut-strip';
+import { cutStripName } from '../../../../../sheet-manager/cut-strip-name';
 import { FrameModeFields } from '../../../../FrameModeFields';
 import { StripFields } from '../../../../StripFields';
 import type { ManagerModelProps } from '../../../SpritesPanel.type';
@@ -10,7 +11,7 @@ import { DialogFrame } from './DialogFrame';
 
 const CutStripDialog = ({ model }: ManagerModelProps) => {
   const { spec, plan, target, blocker, onSheet, hint, update } = useCutStripForm(model);
-  const name = spec.name.trim() === '' ? (target?.name ?? '') : spec.name.trim();
+  const name = cutStripName(spec.name, target);
   return (
     <DialogFrame
       title={COMPOSE_TEXT.stripTitle}

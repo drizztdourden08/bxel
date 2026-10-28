@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind component */
-import { Button, DropdownMenu, Flex, Icon, Stack, Text } from '@drizztdourden08/tessera';
+import { Button, DropdownMenu, Flex, Icon, SplitButton, Stack, Text } from '@drizztdourden08/tessera';
 import { SHEET_TEXT } from '../../../sheet-manager/sheet-text.constants';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { overflowGroups } from '../behavior/overflow-groups';
-import { addGroups } from '../behavior/add-groups';
+import { addItems } from '../behavior/add-groups';
 import type { ManagerModelProps } from '../SpritesPanel.type';
 
 const SheetTitle = ({ model }: ManagerModelProps) => {
@@ -30,7 +30,15 @@ const SheetTitle = ({ model }: ManagerModelProps) => {
         </Flex>
       </Stack>
       <Flex gap="xs" align="center">
-        <DropdownMenu size="sm" variant="primary" label={SHEET_TEXT.addMenu} trigger={{ label: SHEET_TEXT.add, icon: 'plus' }} groups={addGroups(model, store.patch)} />
+        <SplitButton
+          size="sm"
+          variant="primary"
+          label={SHEET_TEXT.add}
+          menuLabel={SHEET_TEXT.addMenu}
+          icon={<Icon name="plus" size={16} />}
+          items={addItems(model, store.patch)}
+          onClick={() => store.patch({ libraryRequest: Date.now() })}
+        />
         <DropdownMenu size="sm" label={SHEET_TEXT.overflow} trigger={{ label: SHEET_TEXT.overflow, icon: 'ellipsis', iconOnly: true }} groups={overflowGroups(store)} />
       </Flex>
     </Flex>

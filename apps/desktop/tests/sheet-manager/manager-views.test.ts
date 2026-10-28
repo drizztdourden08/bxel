@@ -37,7 +37,7 @@ describe('reading the saved views', () => {
   it('fills every missing field with its default and drops what is not a view', () => {
     const views = readViews({ sht_a: { zoom: 64, sortKey: 'name' }, sht_b: 'broken', sht_c: null });
     expect(Object.keys(views)).toEqual(['sht_a']);
-    expect(views['sht_a']).toMatchObject({ zoom: 64, sortKey: 'name', view: 'grid', tab: 'sprites', collapsed: [], selections: [] });
+    expect(views['sht_a']).toMatchObject({ zoom: 64, sortKey: 'name', view: 'grid', collapsed: [], selections: [] });
     expect(views['sht_a']?.atlas).toEqual(MANAGER_DEFAULTS.atlas);
     expect(views['sht_a']?.filter).toEqual(MANAGER_DEFAULTS.filter);
   });

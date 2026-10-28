@@ -3,11 +3,10 @@ import { COMMAND_NAME } from '@bxel/document';
 import type { CommandStep, SheetId, SpriteId } from '@bxel/document';
 import { currentArtwork } from '../sheet/current-artwork';
 import { runDocument } from '../sheet/run-document';
-import { parseAnimationKey } from './animation-key';
 import { LABEL } from './manager-text.constants';
 import { spriteSteps } from './sprite-steps';
+import { parseAnimationKey } from './parse-animation-key';
 
-/** Puts the picked entries on another sheet as well; they stay on this one. An entry the other sheet already holds is left alone. */
 const copyToSheet = (ids: readonly SpriteId[], keys: readonly string[], target: SheetId): boolean => {
   const sheet = currentArtwork()?.sheets.find((each) => each.id === target);
   if (!sheet) return false;

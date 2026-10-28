@@ -5,7 +5,6 @@ import { useLibraryDrop } from '../behavior/useLibraryDrop';
 import { useSheetDragging } from '../behavior/useSheetDragging';
 import type { ManagerModelProps } from '../SpritesPanel.type';
 
-/** Shown while entries of the sheet are dragged, so the folded Library can still take them. */
 const DrawerDropBar = ({ model }: ManagerModelProps) => {
   const dragging = useSheetDragging();
   const drop = useLibraryDrop(model);

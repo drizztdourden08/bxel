@@ -1,22 +1,14 @@
 /* @layer renderer-app @kind hook */
 import { useState } from 'react';
-import type { DragEvent } from 'react';
 import type { AnimationId, SpriteId, TagId } from '@bxel/document';
 import { animationKey } from '../../../sheet-manager/animation-key';
-import { activeEntryDrag, endEntryDrag, readEntries } from '../../../sheet-manager/drag-payload';
 import { removeEntries } from '../../../sheet-manager/remove-entries';
 import type { ManagerModel } from '../SpritesPanel.type';
+import { endEntryDrag } from '../../../sheet-manager/end-entry-drag';
+import { activeEntryDrag } from '../../../sheet-manager/active-entry-drag';
+import { readEntries } from '../../../sheet-manager/read-entries';
+import type { LibraryDrop } from './useLibraryDrop.type';
 
-interface LibraryDrop {
-  over: boolean;
-  bind: {
-    onDragOver: (event: DragEvent<HTMLElement>) => void;
-    onDragLeave: () => void;
-    onDrop: (event: DragEvent<HTMLElement>) => void;
-  };
-}
-
-/** A drop of sheet entries on the library takes them off the sheet; their files stay. */
 const useLibraryDrop = (model: ManagerModel): LibraryDrop => {
   const [over, setOver] = useState(false);
   const accepts = (): boolean => activeEntryDrag()?.source === 'sheet' && model.sheet !== null;
@@ -44,5 +36,4 @@ const useLibraryDrop = (model: ManagerModel): LibraryDrop => {
   };
 };
 
-export type { LibraryDrop };
 export { useLibraryDrop };

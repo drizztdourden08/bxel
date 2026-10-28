@@ -10,7 +10,6 @@ const animationEntry = (model: ManagerModel, key: string): DragEntry[] => {
   return fact ? [{ kind: 'animation', assetId: fact.animation.id, tagId: fact.tagId, path: assetPathOf(fact.animation.id) }] : [];
 };
 
-/** What a drag from `key` carries: the whole pick when the key is in it, else just the key; sprites first, in view order. */
 const dragEntriesOf = (model: ManagerModel, key: string): DragEntry[] => {
   const inPick = model.ids.some((id) => id === key) || model.picked.includes(key);
   if (!inPick) return model.animationFacts.some((fact) => fact.key === key) ? animationEntry(model, key) : [spriteEntry(key)];

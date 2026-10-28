@@ -1,13 +1,13 @@
 /* @layer renderer-app @kind component */
 import { Button, DropdownMenu, Flex, SearchInput, Stack, Tag } from '@drizztdourden08/tessera';
 import { activeFilters } from '../../../sheet-manager/active-filters';
-import { selectEntries } from '../../../sheet-manager/select-ids';
 import { SHEET_TEXT } from '../../../sheet-manager/sheet-text.constants';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { filterChips } from '../behavior/filter-chips';
 import { filterGroups } from '../behavior/filter-groups';
 import type { ManagerModelProps } from '../SpritesPanel.type';
 import { ViewControls } from './ViewControls';
+import { selectEntries } from '../../../sheet-manager/select-entries';
 
 const ManagerFilters = ({ model }: ManagerModelProps) => {
   const store = useManagerStore();

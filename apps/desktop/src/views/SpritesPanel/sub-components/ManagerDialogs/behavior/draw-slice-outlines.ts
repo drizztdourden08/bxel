@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { Rect } from '@bxel/document';
-
-const FALLBACK = 'currentColor';
+import { FALLBACK } from './draw-slice-outlines.constants';
 
 const drawSliceOutlines = (ctx: CanvasRenderingContext2D, rects: readonly Rect[], scale: number): void => {
   ctx.lineWidth = 1;

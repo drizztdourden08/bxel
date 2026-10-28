@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { SpriteId } from '@bxel/document';
-import { selectEntries } from '../../../sheet-manager/select-ids';
 import { clearSpriteSelection } from '../../../sheet/clear-selection';
+import { selectEntries } from '../../../sheet-manager/select-entries';
 
 const pickIds = (known: ReadonlyMap<string, SpriteId>, animations: ReadonlySet<string>) => (ids: ReadonlySet<string>): void => {
   if (ids.size === 0) clearSpriteSelection();

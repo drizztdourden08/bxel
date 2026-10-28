@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { EntryTileState } from '../EntryTile.type';
-
-const BASE = 'entry-tile';
+import { BASE } from './entry-tile-class.constants';
 
 const entryTileClass = (state: EntryTileState): string =>
   [

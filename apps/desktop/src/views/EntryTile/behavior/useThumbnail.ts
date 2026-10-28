@@ -1,21 +1,15 @@
 /* @layer renderer-app @kind hook */
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import type { RefObject } from 'react';
 import { findBank } from '@bxel/document';
 import type { Artwork, Sprite } from '@bxel/document';
 import { bankSpriteImage } from '../../../sheet/bank-sprite-image';
 import { drawThumbnail } from './draw-thumbnail';
+import { useThumbCanvas } from './useThumbCanvas';
 
 const useThumbnail = (artwork: Artwork, sprite: Sprite, box: number): RefObject<HTMLCanvasElement | null> => {
-  const canvas = useRef<HTMLCanvasElement | null>(null);
+  const canvas = useThumbCanvas(box);
   const bank = findBank(artwork, sprite.bankId);
-  useEffect(() => {
-    const element = canvas.current;
-    if (element) {
-      element.width = box;
-      element.height = box;
-    }
-  }, [box]);
   useEffect(() => {
     const element = canvas.current;
     if (!element) return undefined;

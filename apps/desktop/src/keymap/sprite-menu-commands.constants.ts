@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
-import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
+import type { Sheet } from '@bxel/document';
 import { commandArgs } from '../context-menu/command-args';
 import type { AlignArgs, NameArgs, SheetArgs, TraitArgs } from '../context-menu/menu-args.type';
 import { clearSpriteSelection } from '../sheet/clear-selection';
@@ -26,7 +26,8 @@ import { trimSprites } from '../sheet-manager/trim-sprites';
 import { turnSprites } from '../sheet-manager/turn-sprites';
 import type { CurrentManager, ManagerDialog } from '../sheet-manager/manager.type';
 import { useManagerStore } from '../stores/useManagerStore';
-import { PROJECT_WIDGET_ID } from '../project/project.constants';
+import { revealInProjectWindow } from '../project-browser/reveal-in-project-window';
+import { assetPathOf } from '../sheet-manager/asset-path-of';
 import { isolateSprite } from '../sheet/isolate-sprite';
 import { pickTab } from '../workspace/pick-tab';
 import { COMMAND_ZONE } from './command-zone.constants';
@@ -41,6 +42,13 @@ const withManager = (run: (manager: CurrentManager, context?: CommandContext) =>
   const manager = currentManager();
   if (manager) run(manager, context);
 };
+
+const toSheet = (act: (manager: CurrentManager, sheet: Sheet) => unknown) =>
+  withManager((manager, context) => {
+    const { sheetId } = commandArgs<SheetArgs>(context);
+    const sheet = manager.artwork.sheets.find((each) => each.id === sheetId);
+    if (sheet) act(manager, sheet);
+  });
 
 const dialog = (name: ManagerDialog) => withManager(() => useManagerStore.getState().patch({ dialog: name }));
 
@@ -76,7 +84,11 @@ const SPRITE_EDITS: readonly CommandDef[] = [
     id: 'sprite.show_in_project',
     label: 'Show in the Project panel',
     group,
-    run: () => useWidgetLayoutStore.getState().open(PROJECT_WIDGET_ID),
+    run: withManager((manager) => {
+      const first = manager.ids[0] ?? manager.animations.find((fact) => manager.picked.includes(fact.key))?.animation.id;
+      const path = first === undefined ? '' : assetPathOf(first);
+      if (path !== '') revealInProjectWindow(path);
+    }),
   },
   { id: 'sprite.trim', label: 'Trim sprites to their content', group, run: withManager((manager) => trimSprites(manager.ids)) },
   { id: 'sprite.flip_horizontal', label: 'Flip sprites left to right', group, run: withManager((manager) => flipSprites(manager.ids, 'horizontal')) },
@@ -113,21 +125,13 @@ const SPRITE_SHEET: readonly CommandDef[] = [
     id: 'sprite.move_to_sheet',
     label: 'Move sprites to another sheet',
     group,
-    run: withManager((manager, context) => {
-      const { sheetId } = commandArgs<SheetArgs>(context);
-      const sheet = manager.artwork.sheets.find((each) => each.id === sheetId);
-      if (sheet) moveToSheet(manager.ids, sheet.id);
-    }),
+    run: toSheet((manager, sheet) => moveToSheet(manager.ids, sheet.id)),
   },
   {
     id: 'sprite.copy_to_sheet',
     label: 'Copy the picked entries to another sheet',
     group,
-    run: withManager((manager, context) => {
-      const { sheetId } = commandArgs<SheetArgs>(context);
-      const sheet = manager.artwork.sheets.find((each) => each.id === sheetId);
-      if (sheet) copyToSheet(manager.ids, manager.picked, sheet.id);
-    }),
+    run: toSheet((manager, sheet) => copyToSheet(manager.ids, manager.picked, sheet.id)),
   },
   {
     id: 'sheet.align',

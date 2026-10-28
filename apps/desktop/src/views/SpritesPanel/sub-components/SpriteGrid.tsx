@@ -14,6 +14,7 @@ import { visibleGroups } from '../behavior/visible-groups';
 import type { SpriteGridProps } from '../SpritesPanel.type';
 import { tileSize } from '../../EntryTile';
 import { GridTile } from './GridTile';
+import { entryName } from '../../../sheet-manager/entry-name';
 
 const SpriteGrid = (props: SpriteGridProps) => {
   const { model, box } = props;
@@ -27,6 +28,7 @@ const SpriteGrid = (props: SpriteGridProps) => {
   const common = {
     label: 'Sprites',
     getKey: entryId,
+    getLabel: entryName,
     renderTile: (fact: EntryFacts, _index: number, cell: VirtualGridCellBind) => <GridTile view={props} fact={fact} cell={cell} />,
     scrollRef: marquee.area,
     bind: { onPointerDown: marquee.onPointerDown },

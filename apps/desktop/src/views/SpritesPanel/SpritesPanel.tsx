@@ -10,7 +10,7 @@ import './SpritesPanel.css';
 const SpritesPanel = () => {
   const model = useManagerModel();
   useSheetView(model?.sheet?.id ?? null);
-  if (!model || !model.sheet) {
+  if (!model?.sheet) {
     return (
       <Center direction="column" className="sprites-panel__empty">
         <EmptyState size="sm" icon={<Icon name="pixel-atlas" size={32} />} title={SHEET_TEXT.empty.noSheet} message={SHEET_TEXT.empty.noSheetBody} />

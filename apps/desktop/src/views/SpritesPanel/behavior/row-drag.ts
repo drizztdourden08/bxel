@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind logic */
-import { parseAnimationKey } from '../../../sheet-manager/animation-key';
 import { ASSETS_DRAG_TYPE } from '../../../sheet-manager/drag-payload.constants';
 import { SPRITE_DRAG_TYPE } from '../../../sheet/sprite-drag.constants';
 import { assetPathOf } from '../../../sheet-manager/asset-path-of';
 import type { ListRow } from '../SpritesPanel.type';
+import { parseAnimationKey } from '../../../sheet-manager/parse-animation-key';
 
 const rowDrag = (row: ListRow): Record<string, string> => {
   const strip = parseAnimationKey(row.id);

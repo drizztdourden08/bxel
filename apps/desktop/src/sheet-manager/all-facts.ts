@@ -13,11 +13,4 @@ const allFacts = (artwork: Artwork, sheet: Sheet | null): SpriteFacts[] => {
   });
 };
 
-const libraryFacts = (artwork: Artwork, sheet: Sheet | null): SpriteFacts[] => {
-  const placed = new Set((sheet?.entries ?? []).map((entry) => entry.spriteId));
-  return listSprites(artwork)
-    .filter((sprite) => !placed.has(sprite.id))
-    .map((sprite) => spriteFacts(artwork, sprite, sheet));
-};
-
-export { allFacts, libraryFacts };
+export { allFacts };

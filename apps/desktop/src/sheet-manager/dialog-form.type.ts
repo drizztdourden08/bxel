@@ -3,7 +3,7 @@ import type { Artwork, Sprite } from '@bxel/document';
 import type { AnimatePlan, AnimateSpec, CutStripSpec, PiecePlan, SlicePlan, SliceSpec, SplitSpec } from './compose.type';
 import type { StripPlan } from '../add-frames/add-frames.type';
 import type { SpriteComparison } from './identical.type';
-import type { StripHint } from './strip-hint';
+import type { StripHint } from './strip-hint.type';
 
 interface AnimateForm {
   spec: AnimateSpec;

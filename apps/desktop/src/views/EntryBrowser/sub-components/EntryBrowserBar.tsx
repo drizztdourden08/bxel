@@ -1,13 +1,8 @@
 /* @layer renderer-app @kind component */
 import { Flex, SearchInput, SegmentedControl, Tag } from '@drizztdourden08/tessera';
-import type { SegmentOption } from '@drizztdourden08/tessera';
 import { BROWSER_TEXT } from '../EntryBrowser.constants';
 import type { BrowserBarProps, BrowserView } from '../EntryBrowser.type';
-
-const VIEWS: SegmentOption<BrowserView>[] = [
-  { value: 'grid', icon: 'pixel-grid-view', title: BROWSER_TEXT.grid, hint: { label: BROWSER_TEXT.grid, description: BROWSER_TEXT.grid } },
-  { value: 'list', icon: 'pixel-list-view', title: BROWSER_TEXT.list, hint: { label: BROWSER_TEXT.list, description: BROWSER_TEXT.list } },
-];
+import { VIEWS } from './EntryBrowserBar.constants';
 
 const EntryBrowserBar = ({ state, kinds, searchLabel, patch }: BrowserBarProps) => (
   <Flex gap="xs" align="center" wrap className="entry-browser__bar">

@@ -1,25 +1,16 @@
 /* @layer renderer-app @kind logic */
-import type { Artwork, Sheet, SpriteId } from '@bxel/document';
-import { animationFacts, libraryAnimations } from './animation-facts';
-import { allFacts, libraryFacts } from './all-facts';
+import type { Artwork, Sheet } from '@bxel/document';
+import { allFacts } from './all-facts';
+import { animationFacts } from './animation-facts';
 import { folderGroups } from './folder-groups';
-import type { FolderGroup } from './folders.type';
-import type { AnimationFacts, ListQuery, SpriteFacts } from './manager.type';
+import { libraryAnimations } from './library-animations';
+import { libraryFacts } from './library-facts';
+import type { ListQuery } from './manager.type';
+import type { ManagerLists } from './manager-lists.type';
 import { twinIds } from './twin-ids';
 import { visibleAnimations } from './visible-animations';
 import { visibleFacts } from './visible-facts';
 import { visibleOrder } from './visible-order';
-
-interface ManagerLists {
-  facts: SpriteFacts[];
-  twins: ReadonlySet<SpriteId>;
-  shown: SpriteFacts[];
-  animationFacts: AnimationFacts[];
-  animations: AnimationFacts[];
-  groups: FolderGroup[];
-  order: SpriteId[];
-  library: { sprites: SpriteFacts[]; animations: AnimationFacts[] };
-}
 
 const managerLists = (artwork: Artwork, sheet: Sheet | null, list: Omit<ListQuery, 'twins'>, collapsed: ReadonlySet<string>): ManagerLists => {
   const facts = allFacts(artwork, sheet);
@@ -39,5 +30,4 @@ const managerLists = (artwork: Artwork, sheet: Sheet | null, list: Omit<ListQuer
   };
 };
 
-export type { ManagerLists };
 export { managerLists };

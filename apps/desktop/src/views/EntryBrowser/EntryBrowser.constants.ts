@@ -3,8 +3,6 @@ import type { BrowserState } from './EntryBrowser.type';
 
 const BROWSER_START: BrowserState = { query: '', kind: 'all', view: 'grid', zoom: 48 };
 
-const BROWSER_ZOOM = { min: 24, max: 96, step: 8 } as const;
-
 const BROWSER_TEXT = {
   search: 'Search',
   views: 'View',
@@ -21,4 +19,6 @@ const BROWSER_TEXT = {
 
 const BROWSER_THUMB = 28;
 
-export { BROWSER_START, BROWSER_TEXT, BROWSER_THUMB, BROWSER_ZOOM };
+const ALL_KINDS = ['all', 'sprites', 'animations'] as const;
+
+export { ALL_KINDS, BROWSER_START, BROWSER_TEXT, BROWSER_THUMB };

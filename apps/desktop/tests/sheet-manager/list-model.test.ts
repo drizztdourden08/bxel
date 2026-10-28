@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
-import { allFacts, libraryFacts } from '../../src/sheet-manager/all-facts';
+import { allFacts } from '../../src/sheet-manager/all-facts';
 import { resizeSprites } from '../../src/sheet-manager/resize-sprites';
 import { managerSheet } from '../../src/sheet-manager/manager-sheet';
 import { removeEntries } from '../../src/sheet-manager/remove-entries';
@@ -10,8 +10,9 @@ import { sizeOptions } from '../../src/sheet-manager/size-options';
 import { visibleFacts } from '../../src/sheet-manager/visible-facts';
 import { NO_FILTER } from '../../src/sheet-manager/manager.constants';
 import type { ListQuery } from '../../src/sheet-manager/manager.type';
-import { artwork, idOf, openFile } from '../sheet/sheet-harness';
+import { artwork, openFile } from '../sheet/sheet-harness';
 import { BASE_QUERY, idsOf } from './manager-harness';
+import { libraryFacts } from '../../src/sheet-manager/library-facts';
 
 vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 

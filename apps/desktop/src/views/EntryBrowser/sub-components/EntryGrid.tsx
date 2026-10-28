@@ -5,8 +5,7 @@ import { entryId } from '../../../sheet-manager/entry-id';
 import type { EntryFacts } from '../../../sheet-manager/manager.type';
 import { EntryTile, tileSize } from '../../EntryTile';
 import type { BrowserBodyProps } from '../EntryBrowser.type';
-
-const NO_MARK = null;
+import { NO_MARK } from './EntryGrid.constants';
 
 const EntryGrid = ({ label, artwork, shown, picked, zoom, pick, activate, draggable, dragFor }: BrowserBodyProps) => {
   const size = tileSize(zoom);

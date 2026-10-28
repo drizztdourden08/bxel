@@ -6,8 +6,7 @@ import { bankSpriteImage } from '../../../../../sheet/bank-sprite-image';
 import { findBank } from '@bxel/document';
 import { frameCanvas } from '../../../../EntryTile/behavior/frame-canvas';
 import { drawSliceOutlines } from './draw-slice-outlines';
-
-const PREVIEW_BOX = 192;
+import { PREVIEW_BOX } from './useSlicePreview.constants';
 
 const useSlicePreview = (artwork: Artwork, sprite: Sprite | undefined, rects: readonly Rect[]): RefObject<HTMLCanvasElement | null> => {
   const canvas = useRef<HTMLCanvasElement | null>(null);

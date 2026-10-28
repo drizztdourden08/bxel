@@ -9,7 +9,6 @@ const entryOf = (fact: EntryFacts): DragEntry =>
     ? { kind: 'sprite', assetId: fact.sprite.id, path: assetPathOf(fact.sprite.id) }
     : { kind: 'animation', assetId: fact.animation.id, tagId: fact.tagId, path: assetPathOf(fact.animation.id) };
 
-/** The entries of the picked keys, in the order the browser shows them. */
 const defaultDragEntries = (entries: readonly EntryFacts[], keys: readonly string[]): DragEntry[] =>
   entries.filter((fact) => keys.includes(entryId(fact))).map(entryOf);
 

@@ -1,17 +1,14 @@
 /* @layer renderer-app @kind hook */
-import type { DragEvent, RefObject } from 'react';
+import type { RefObject } from 'react';
 import { DRAG_WHY } from '../../../sheet-manager/drag-payload.constants';
-import { carriesEntries, endEntryDrag, readEntries } from '../../../sheet-manager/drag-payload';
 import { dropOnCanvas } from '../../../sheet-manager/drop-on-canvas';
 import { useNoticeStore } from '../../../stores/useNoticeStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
+import { endEntryDrag } from '../../../sheet-manager/end-entry-drag';
+import { carriesEntries } from '../../../sheet-manager/carries-entries';
+import type { SheetDropBind } from './useSheetDrop.type';
+import { readEntries } from '../../../sheet-manager/read-entries';
 
-interface SheetDropBind {
-  onDragOver: (event: DragEvent<HTMLElement>) => void;
-  onDrop: (event: DragEvent<HTMLElement>) => void;
-}
-
-/** Entries dragged from the Library or the Project panel land on the sheet where they are dropped. */
 const useSheetDrop = (viewport: RefObject<PixelViewportHandle | null>, sheetId: string | null, readOnly: boolean): SheetDropBind => ({
   onDragOver: (event) => {
     if (!carriesEntries(event.dataTransfer) || sheetId === null) return;

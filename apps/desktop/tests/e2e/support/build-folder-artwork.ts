@@ -2,10 +2,10 @@
 import { artworkCreate, COMMAND_NAME, counterIdSource, createEngine, documentCommands } from '@bxel/document';
 import type { Artwork, TargetScope } from '@bxel/document';
 import { ANIMATION_COLORS } from './animation.constants';
-import { FOLDER_SPRITES, FOLDER_SHEET, FOLDER_STRAY } from './folder-artwork.constants';
+import { FOLDER_ANIMATION, FOLDER_SPRITES, FOLDER_SHEET, FOLDER_STRAY } from './folder-artwork.constants';
 import { runStep } from './run-step';
 
-const buildFolderArtwork = (): Artwork => {
+const buildFolderArtwork = (withAnimation = false): Artwork => {
   const ids = counterIdSource();
   const [first, ...rest] = FOLDER_SPRITES;
   const created = artworkCreate({
@@ -20,6 +20,12 @@ const buildFolderArtwork = (): Artwork => {
   const made = engine.state().artwork.sheets.find((each) => each.name === FOLDER_SHEET);
   runStep(engine, COMMAND_NAME.sheetAdd, { sheet: made?.id }, all());
   runStep(engine, COMMAND_NAME.spriteCreate, { name: FOLDER_STRAY, width: 16, height: 16 });
+  if (withAnimation) {
+    const pair = engine.state().artwork.sprites.filter((sprite) => sprite.name === 'hero' || sprite.name === 'slime').map((sprite) => sprite.id);
+    runStep(engine, COMMAND_NAME.animationCreate, { name: FOLDER_ANIMATION, source: { kind: 'sprites', sprites: pair, mode: 'reference' } });
+    const animation = engine.state().artwork.animations.find((each) => each.name === FOLDER_ANIMATION);
+    runStep(engine, COMMAND_NAME.sheetAnimationAdd, { sheet: made?.id, animation: animation?.id });
+  }
   return engine.state().artwork;
 };
 

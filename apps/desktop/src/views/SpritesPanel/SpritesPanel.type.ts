@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { KeyboardEvent, MouseEvent, PointerEvent, RefObject } from 'react';
-import type { DataTableHandle, MenuGroup, VirtualGridCellBind, VirtualSize } from '@drizztdourden08/tessera';
+import type { DataTableHandle, MenuGroup, VirtualGridCellBind } from '@drizztdourden08/tessera';
 import type { Artwork, Rect, Sheet, SpriteId } from '@bxel/document';
 import type { SpriteScene } from '../../sheet/sheet.type';
 import type { FolderGroup, SavedSelection } from '../../sheet-manager/folders.type';

@@ -15,8 +15,8 @@ import { tagOptions } from '../../src/sheet-manager/tag-options';
 import { visibleFacts } from '../../src/sheet-manager/visible-facts';
 import { NO_FILTER } from '../../src/sheet-manager/manager.constants';
 import type { ListQuery } from '../../src/sheet-manager/manager.type';
-import { artwork, idOf, lastNotice, openFile, patch, revision, spriteOf } from '../sheet/sheet-harness';
-import { BASE_QUERY, idsOf } from './manager-harness';
+import { artwork, idOf, lastNotice, patch, revision, spriteOf } from '../sheet/sheet-harness';
+import { BASE_QUERY, idsOf, openOnSheet } from './manager-harness';
 
 vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 
@@ -44,7 +44,7 @@ const bankId = (name: string) => {
 };
 
 beforeEach(() => {
-  openFile(['a', 'b', 'c'], 8);
+  openOnSheet(['a', 'b', 'c'], 8);
   addTag('walk', 'a');
   addTag('walk', 'b');
   addTag('idle', 'c');

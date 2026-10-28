@@ -6,16 +6,8 @@ import { currentArtwork } from '../sheet/current-artwork';
 import { freeName } from '../sheet/free-name';
 import { runDocument } from '../sheet/run-document';
 import { useDocumentStore } from '../stores/useDocumentStore';
+import { tilesetBlocker } from './tileset-blocker';
 import { TILE_SET_REF, TILESET_TEXT } from './tileset-text.constants';
-
-/** Why these sprites cannot make a tileset, or null: it needs at least one, all one size and one palette. */
-const tilesetBlocker = (sprites: readonly Sprite[]): string | null => {
-  const [first] = sprites;
-  if (!first) return TILESET_TEXT.needSprites;
-  if (sprites.some((sprite) => sprite.width !== first.width || sprite.height !== first.height)) return TILESET_TEXT.sameSize;
-  if (sprites.some((sprite) => sprite.bankId !== first.bankId)) return TILESET_TEXT.samePalette;
-  return null;
-};
 
 const tileSteps = (artwork: Artwork, sprites: readonly Sprite[]): CommandStep[] =>
   sprites.flatMap((sprite, index): CommandStep[] => {
@@ -54,4 +46,4 @@ const makeTileset = async (ids: readonly SpriteId[]): Promise<boolean> => {
   return true;
 };
 
-export { makeTileset, tilesetBlocker };
+export { makeTileset };

@@ -4,8 +4,9 @@ import type { CommandStep, SheetId } from '@bxel/document';
 import { currentArtwork } from '../sheet/current-artwork';
 import { runDocument } from '../sheet/run-document';
 import { animationKey } from './animation-key';
-import { shiftKeys, wantedMoves } from './entry-order';
 import { LABEL } from './manager-text.constants';
+import { shiftKeys } from './shift-keys';
+import { wantedMoves } from './wanted-moves';
 
 const moveAnimations = (keys: readonly string[], by: number, sheetId: SheetId | null): boolean => {
   const sheet = currentArtwork()?.sheets.find((each) => each.id === sheetId);

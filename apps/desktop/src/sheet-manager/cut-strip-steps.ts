@@ -1,15 +1,11 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
-import type { CommandStep, Point, Sheet, SpriteId } from '@bxel/document';
+import type { CommandStep, SpriteId } from '@bxel/document';
 import { stripGrid } from '../add-frames/strip-grid';
 import { spritesTarget } from '../sheet/sprites-target';
 import { TIMELINE_REF } from '../timeline/timeline.constants';
 import type { CutStripSpec } from './compose.type';
-
-interface StripPlace {
-  sheet: Sheet;
-  at: Point;
-}
+import type { StripPlace } from './cut-strip-steps.type';
 
 const swapSteps = (sprite: SpriteId, place: StripPlace): CommandStep[] => [
   {
@@ -27,5 +23,4 @@ const cutStripSteps = (sprite: SpriteId, name: string, spec: CutStripSpec, place
   return [create, ...split, ...(spec.swap && place ? swapSteps(sprite, place) : [])];
 };
 
-export type { StripPlace };
 export { cutStripSteps };

@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind component */
 import { Flex, Text } from '@drizztdourden08/tessera';
 import { useState } from 'react';
-import { entryName } from '../../../sheet-manager/entry-id';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { EntryThumb } from '../../EntryTile';
 import { LIST_THUMB } from '../SpritesPanel.constants';
 import type { SpriteNameCellProps } from '../SpritesPanel.type';
+import { entryName } from '../../../sheet-manager/entry-name';
 
 const SpriteNameCell = ({ artwork, fact, loose }: SpriteNameCellProps) => {
   const [hot, setHot] = useState(false);

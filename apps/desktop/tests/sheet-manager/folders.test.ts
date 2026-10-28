@@ -2,6 +2,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { stepHistory } from '../../src/editor/step-history';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
+import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
 import { allFacts } from '../../src/sheet-manager/all-facts';
 import { applySelection } from '../../src/sheet-manager/apply-selection';
 import { baseName } from '../../src/sheet-manager/base-name';
@@ -30,6 +31,7 @@ const sprites = (...names: string[]) => artwork().sprites.filter((sprite) => nam
 
 beforeEach(() => {
   openFile(NAMES, 8);
+  addToSheet(artwork().sprites.map((sprite) => sprite.id), null);
   useManagerStore.getState().reset();
 });
 

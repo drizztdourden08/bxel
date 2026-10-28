@@ -4,10 +4,10 @@ import type { DataTableHandle } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
 import type { RefObject } from 'react';
 import type { SpriteId } from '@bxel/document';
-import { selectEntries } from '../../../sheet-manager/select-ids';
 import { clearSpriteSelection } from '../../../sheet/clear-selection';
 import { GRID_CELL, MARQUEE_ITEM, MARQUEE_SKIP } from '../SpritesPanel.constants';
 import type { ManagerModel, SpriteMarquee } from '../SpritesPanel.type';
+import { selectEntries } from '../../../sheet-manager/select-entries';
 
 const useSpriteMarquee = (model: ManagerModel, grid: RefObject<Pick<DataTableHandle, 'getRects'> | null>): SpriteMarquee => {
   const area = useRef<HTMLElement | null>(null);

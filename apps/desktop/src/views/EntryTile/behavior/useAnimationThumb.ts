@@ -1,22 +1,16 @@
 /* @layer renderer-app @kind hook */
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import type { RefObject } from 'react';
 import type { AnimationThumbProps } from '../EntryTile.type';
 import { PLAY_MIN_MS, REDUCED_MOTION } from '../EntryTile.constants';
 import { animationClip } from './animation-clip';
 import { drawThumbnail } from './draw-thumbnail';
+import { useThumbCanvas } from './useThumbCanvas';
 
 const reducedMotion = (): boolean => typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia(REDUCED_MOTION).matches;
 
 const useAnimationThumb = ({ artwork, animation, tagId, box, playing }: AnimationThumbProps): RefObject<HTMLCanvasElement | null> => {
-  const canvas = useRef<HTMLCanvasElement | null>(null);
-  useEffect(() => {
-    const element = canvas.current;
-    if (element) {
-      element.width = box;
-      element.height = box;
-    }
-  }, [box]);
+  const canvas = useThumbCanvas(box);
   useEffect(() => {
     const element = canvas.current;
     if (!element) return undefined;

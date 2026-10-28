@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react';
 import { stripPlan } from '../../../../../add-frames/strip-plan';
 import type { CutStripSpec } from '../../../../../sheet-manager/compose.type';
 import { COMPOSE_TEXT } from '../../../../../sheet-manager/compose-text.constants';
+import { cutStripName } from '../../../../../sheet-manager/cut-strip-name';
+import { spriteOnSheet } from '../../../../../sheet-manager/sprite-on-sheet';
 import { stripHint } from '../../../../../sheet-manager/strip-hint';
 import type { CutStripForm } from '../../../../../sheet-manager/dialog-form.type';
 import { stripStart } from '../../../../../sheet-manager/strip-start';
@@ -18,9 +20,9 @@ const useCutStripForm = (model: ManagerModel): CutStripForm => {
   const [spec, setSpec] = useState<CutStripSpec>(() => stripStart(target, model.sheet));
   const plan = useMemo(() => stripPlan(target, spec.strip), [target, spec.strip]);
   const taken = useMemo(() => model.artwork.animations.map((animation) => animation.name), [model.artwork]);
-  const name = spec.name.trim() === '' ? (target?.name ?? '') : spec.name.trim();
+  const name = cutStripName(spec.name, target);
   const blocker = blockerOf(targets.length, name, taken) ?? plan.error;
-  return { spec, plan, target, blocker, onSheet: target !== null && (model.sheet?.entries.some((entry) => entry.spriteId === target.id) ?? false), hint: target ? stripHint(target) : null, update: (change) => setSpec((current) => ({ ...current, ...change })) };
+  return { spec, plan, target, blocker, onSheet: spriteOnSheet(target, model.sheet), hint: target ? stripHint(target) : null, update: (change) => setSpec((current) => ({ ...current, ...change })) };
 };
 
 export { useCutStripForm };

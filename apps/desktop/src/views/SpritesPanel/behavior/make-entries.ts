@@ -4,7 +4,7 @@ import { unless } from '../../../context-menu/unless';
 import { COMPOSE_TEXT } from '../../../sheet-manager/compose-text.constants';
 import type { CurrentManager } from '../../../sheet-manager/manager.type';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
-import { tilesetBlocker } from '../../../sheet-manager/make-tileset';
+import { tilesetBlocker } from '../../../sheet-manager/tileset-blocker';
 
 const makeEntries = ({ ids, facts }: Pick<CurrentManager, 'ids' | 'facts'>): ContextMenuEntry => {
   const picked = new Set(ids);

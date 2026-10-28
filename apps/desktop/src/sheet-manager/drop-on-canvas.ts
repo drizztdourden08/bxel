@@ -42,7 +42,6 @@ const stripSteps = (artwork: Artwork, sheet: Sheet, entries: readonly DragEntry[
     });
 };
 
-/** A drop on the sheet canvas: on a sheet laid out by hand the entries land at the pointer; otherwise they join the end. */
 const dropOnCanvas = (entries: readonly DragEntry[], point: Point, sheetId: string | null): boolean => {
   const artwork = currentArtwork();
   const sheet = artwork?.sheets.find((each) => each.id === sheetId);

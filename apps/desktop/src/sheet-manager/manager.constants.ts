@@ -31,8 +31,6 @@ const ATLAS_LIMITS = { extrudeMax: 8, spacingMax: 64, marginMax: 256, columnsMax
 
 const ATLAS_SIDE_LIMIT = 8192;
 
-const SHEET_PICKER_NEW = 'new';
-
 export {
   ATLAS_LIMITS,
   ATLAS_SIDE_LIMIT,
@@ -41,7 +39,6 @@ export {
   NAME_COLLATOR,
   NO_FILTER,
   PIVOT_PRESETS,
-  SHEET_PICKER_NEW,
   SORT_KEYS,
   TEMP_NAME,
   ZOOM,

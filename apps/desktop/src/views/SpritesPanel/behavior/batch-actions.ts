@@ -8,10 +8,9 @@ import { BATCH_TEXT } from '../../../sheet-manager/sheet-text.constants';
 import type { ManagerDialog } from '../../../sheet-manager/manager.type';
 import type { ManagerModel } from '../SpritesPanel.type';
 
-/** The actions of the bar over two or more picked entries. Edits to pixels need sprites; removal works on every kind. */
 const batchActions = (model: ManagerModel, open: (dialog: ManagerDialog) => void): ActionItem[] => {
   const none = model.ids.length === 0;
-  const act = (id: string, label: string, icon: ActionItem['icon'], onSelect: () => void, disabled = none): ActionItem => ({ id, label, icon, onSelect, disabled });
+  const act = (id: string, label: string, icon: ActionItem['icon'], onSelect: () => void): ActionItem => ({ id, label, icon, onSelect, disabled: none });
   return [
     act('pivot', BATCH_TEXT.pivot, 'pixel-pivot', () => open('pivot')),
     act('size', BATCH_TEXT.size, 'maximize-2', () => open('resize')),
@@ -21,7 +20,7 @@ const batchActions = (model: ManagerModel, open: (dialog: ManagerDialog) => void
     act('palette', BATCH_TEXT.palette, 'palette', () => open('bank')),
     act('rename', BATCH_TEXT.rename, 'pixel-pencil', () => open('rename')),
     act('folder', BATCH_TEXT.folder, 'folder-open', () => open('folder')),
-    act('remove', BATCH_TEXT.remove, 'x', () => removeEntries(model.ids, model.picked, model.sheet?.id ?? null), model.sheet === null),
+    { ...act('remove', BATCH_TEXT.remove, 'x', () => removeEntries(model.ids, model.picked, model.sheet?.id ?? null)), disabled: model.sheet === null },
   ];
 };
 
