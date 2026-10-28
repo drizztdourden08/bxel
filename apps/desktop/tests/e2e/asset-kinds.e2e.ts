@@ -38,7 +38,7 @@ const checksSprite = async (session: Session): Promise<void> => {
   expect(positionOf(top, 'Sheet')).toBe(-1);
   expect(positionOf(top, 'Tilemap')).toBe(-1);
   const sprite = await menuLabels(session, [/^Sprite$/]);
-  expect(sprite.map((label) => label.slice(0, 5))).toEqual(['Layer', 'Palet', 'Dupli', 'Sprit']);
+  expect(sprite.map((label) => label.slice(0, 5))).toEqual(['Make ', 'Layer', 'Palet', 'Sprit']);
 };
 
 const checksFileMenu = async (session: Session): Promise<void> => {

@@ -45,7 +45,9 @@ describe('the context derived from the stores', () => {
     expect(columnContext('Sh', { spriteSelection: 2 }).selection).toBe('sprites');
     expect(columnContext('Pa', { pixelSelection: true }).selection).toBe('none');
   });
+});
 
+describe('the context derived from the stores, read only and frozen', () => {
   it('treats an image preview as read only and with nothing to undo', () => {
     const image = columnContext('Im', { canUndo: true, pixelSelection: true, readOnly: false });
     expect(image.readOnly).toBe(true);
@@ -58,6 +60,13 @@ describe('the context derived from the stores', () => {
     expect(context.fileType).toBe('image');
     expect(context.clipboard).toBe('none');
     expect(context.pending).toBe(false);
+  });
+
+  it('keeps an isolated sprite in the sheet context even when its own tab is in front', () => {
+    const context = columnContext('Sp', { isolated: true });
+    expect(context.fileType).toBe('sheet');
+    expect(context.surface).toBe('pixel');
+    expect(context.editTarget).toBe('sheetSprite');
   });
 
   it('is frozen so a consumer cannot change it', () => {

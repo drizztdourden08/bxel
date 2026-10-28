@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it, vi } from 'vitest';
 import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
-import { COMMAND_RULES } from '../../src/ui-context/rules/command.rules.constants';
+import { COMMAND_RULES } from '../../src/ui-context/rules/command-rules.constants';
 import { hasRule } from '../../src/ui-context/has-rule';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../keymap/brock-react-mock')).brockReactMock());

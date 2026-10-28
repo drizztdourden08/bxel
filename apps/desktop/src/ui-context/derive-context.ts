@@ -1,7 +1,11 @@
 /* @layer renderer-app @kind logic */
 import type { BxelContext, ContextInput, EditTarget, FileType, SelectionKind, StageSurface, TileEditing } from './bxel-context.type';
 
-const fileTypeOf = (input: ContextInput): FileType => (input.imageActive ? 'image' : (input.tabKind ?? 'none'));
+const fileTypeOf = (input: ContextInput): FileType => {
+  if (input.imageActive) return 'image';
+  const painting = input.isolated && (input.tabKind === 'sprite' || input.tabKind === 'sheet');
+  return painting ? 'sheet' : (input.tabKind ?? 'none');
+};
 
 const surfaceOf = (fileType: FileType, input: ContextInput): StageSurface => {
   if (fileType === 'none') return 'none';

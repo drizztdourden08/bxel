@@ -46,7 +46,7 @@ const created = async (rig: ProjectRig): Promise<void> => {
     folders: [{ path: '.', roles: { sprites: 'sprites', exports: 'exports' } }],
   });
   expect((await readdir(rig.projectDir)).sort()).toEqual([`${NAME}.bxproject`, ...ROLE_FOLDERS].sort());
-  await rig.session.page.getByRole('button', { name: 'New asset' }).waitFor();
+  await rig.session.page.getByRole('button', { name: 'New asset' }).and(rig.session.page.locator(':not(.start-stage *)')).waitFor();
 };
 
 const filed = async (rig: ProjectRig): Promise<void> => {

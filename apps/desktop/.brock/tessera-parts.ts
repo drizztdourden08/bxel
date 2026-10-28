@@ -58,6 +58,7 @@ declare module '@drizztdourden08/tessera' {
         | 'SlotToolbar'
         | 'SplitDialog'
         | 'SpritesPanel'
+        | 'StartStage'
         | 'StripFields'
         | 'SurroundBackdrop'
         | 'SurroundEditor'
