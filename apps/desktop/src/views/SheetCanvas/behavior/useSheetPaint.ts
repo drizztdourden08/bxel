@@ -4,6 +4,8 @@ import type { RefObject } from 'react';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
 import type { PixelDraw, PixelViewportHandle } from '../../PixelViewport';
 import type { SheetDrag, SheetPaintBase } from '../SheetCanvas.type';
+import { overlayLook } from '../../EditorCanvas/behavior/overlay-look';
+import { paintGuides } from '../../EditorCanvas/behavior/paint-guides';
 import { paintFrames } from './paint-frames';
 import { paintPicks } from './paint-picks';
 import { paintSlices } from './paint-slices';
@@ -24,6 +26,7 @@ const useSheetPaint = (base: SheetPaintBase, drag: RefObject<SheetDrag | null>, 
       paintFrames(ctx, view, state, look);
       paintSlices(ctx, view, state, look);
       paintPicks(ctx, view, state, look);
+      paintGuides(ctx, view, overlayLook(ctx.canvas));
     },
     [drag],
   );

@@ -49,9 +49,14 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
     description: 'Show the pixel rulers along the top and the left of the canvas.',
     shortcuts: [{ command: COMMAND_ID.rulers }],
   },
+  snap: {
+    name: 'Snap',
+    description: 'Guides and moved sprites land on the grid lines. Hold Alt to turn it off for one drag.',
+    shortcuts: [{ command: COMMAND_ID.snap }],
+  },
 };
 
-const VIEW_TOGGLES: readonly ViewToggle[] = ['grid', 'gridMajor', 'gridTile', 'guides', 'rulers'];
+const VIEW_TOGGLES: readonly ViewToggle[] = ['grid', 'gridMajor', 'gridTile', 'guides', 'rulers', 'snap'];
 
 const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
   grid: 'pixel-grid',
@@ -59,6 +64,7 @@ const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
   gridTile: 'columns-3',
   guides: 'guides',
   rulers: 'pixel-rulers',
+  snap: 'magnet',
 };
 
 const TILED_HINT: HintSpec = {

@@ -5,7 +5,6 @@ import { Box } from '@drizztdourden08/tessera';
 import { useAssetLook } from '../../../asset-view/useAssetLook';
 import { useCanvasLook } from '../../../canvas-look/useCanvasLook';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
-import { useReadoutStore } from '../../../stores/useReadoutStore';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { useViewStore } from '../../../stores/useViewStore';
@@ -14,6 +13,10 @@ import { useEscapeCancel } from '../../EditorCanvas/behavior/useEscapeCancel';
 import { useSyncPending } from '../../EditorCanvas/behavior/useSyncPending';
 import { useViewportBridge } from '../../EditorCanvas/behavior/useViewportBridge';
 import { PixelViewport } from '../../PixelViewport';
+import { RulerFrame } from '../../RulerFrame';
+import { useGuideRedraw } from '../../EditorCanvas/behavior/useGuideRedraw';
+import { useRulerUnits } from '../../EditorCanvas/behavior/useRulerUnits';
+import { useViewDefaults } from '../../EditorCanvas/behavior/useViewDefaults';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import { MAP_CANVAS_CLASS, MAP_MENU } from '../TilemapCanvas.constants';
 import type { MapLive, TilemapSurfaceProps } from '../TilemapCanvas.type';
@@ -49,34 +52,38 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
   const keys = useMapKeys(viewport, target, live, gesture);
   useMapMenu(viewport, target, live);
   useViewportBridge(viewport, true);
+  useViewDefaults();
+  useRulerUnits();
+  useGuideRedraw(viewport, null);
   useSyncPending(useEditorTarget());
   useEscapeCancel();
   useSelectionReset();
   return (
     <Box className={MAP_CANVAS_CLASS.surface} onBlur={keys.onBlur} {...contextMenuZone(MAP_MENU.zone)}>
-      <PixelViewport
-        ref={viewport}
-        className={viewportClass(tool)}
-        label={TILEMAP_TEXT.canvasLabel}
-        hint={TILEMAP_TEXT.canvasHint}
-        width={image.width}
-        height={image.height}
-        source={image}
-        draw={draw}
-        look={look}
-        grid={false}
-        hand={tool === 'hand'}
-        onView={feedView}
-        onPointerPixel={(pixel) => {
-          keys.onPointerPixel();
-          useReadoutStore.getState().setPointer(pixel);
-          gesture.hover(pixel);
-        }}
-        onPointerDown={gesture.down}
-        onPointerMove={gesture.move}
-        onPointerUp={gesture.up}
-        onKeyDown={keys.onKeyDown}
-      />
+      <RulerFrame>
+        <PixelViewport
+          ref={viewport}
+          className={viewportClass(tool)}
+          label={TILEMAP_TEXT.canvasLabel}
+          hint={TILEMAP_TEXT.canvasHint}
+          width={image.width}
+          height={image.height}
+          source={image}
+          draw={draw}
+          look={look}
+          grid={false}
+          hand={tool === 'hand'}
+          onView={feedView}
+          onPointerPixel={(pixel) => {
+            keys.onPointerPixel();
+            gesture.hover(pixel);
+          }}
+          onPointerDown={gesture.down}
+          onPointerMove={gesture.move}
+          onPointerUp={gesture.up}
+          onKeyDown={keys.onKeyDown}
+        />
+      </RulerFrame>
     </Box>
   );
 };

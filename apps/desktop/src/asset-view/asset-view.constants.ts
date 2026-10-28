@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { AssetView, BackgroundKind } from './asset-view.type';
 
-const ASSET_VIEW_DEFAULTS: AssetView = { tileGrid: null, majorEvery: null, background: 'checker', backgroundColour: '#3a8fb7' };
+const ASSET_VIEW_DEFAULTS: AssetView = { tileGrid: null, majorEvery: null, background: 'checker', backgroundColour: '#3a8fb7', labels: true, overlaps: true, pivots: true };
 
 const GRID_SIZE_RANGE = { min: 1, max: 512 } as const;
 

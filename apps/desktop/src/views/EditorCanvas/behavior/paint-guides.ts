@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { currentTarget } from '../../../editor/current-target';
+import { guideScope } from '../../../guides/guide-scope';
 import { useGuideStore } from '../../../stores/useGuideStore';
 import { useViewStore } from '../../../stores/useViewStore';
 import type { PixelView } from '../../PixelViewport';
@@ -8,10 +8,10 @@ import type { OverlayLook } from './canvas-tools.type';
 import { shownGuides } from './shown-guides';
 
 const paintGuides = (ctx: CanvasRenderingContext2D, view: PixelView, look: OverlayLook): void => {
-  const sprite = currentTarget()?.sprite;
+  const lines = guideScope()?.lines();
   const drag = useGuideStore.getState().drag;
-  if (!sprite || (!useViewStore.getState().guides && !drag)) return;
-  const { x, y } = shownGuides(sprite.guides, drag);
+  if (!useViewStore.getState().guides && !drag) return;
+  const { x, y } = shownGuides(lines, drag);
   if (x.length + y.length === 0) return;
   ctx.save();
   ctx.strokeStyle = look.guide;

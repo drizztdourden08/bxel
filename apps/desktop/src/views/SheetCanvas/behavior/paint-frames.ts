@@ -12,7 +12,7 @@ const paintFrames = (ctx: CanvasRenderingContext2D, view: PixelView, state: Shee
   ctx.globalAlpha = OVERLAP_ALPHA;
   ctx.fillStyle = look.overlap;
   const byId = new Map(state.model.items.map((item) => [item.sprite.id, item] as const));
-  for (const { first, second } of state.model.overlaps) {
+  for (const { first, second } of state.marks.overlaps ? state.model.overlaps : []) {
     const one = byId.get(first);
     const two = byId.get(second);
     if (!one || !two) continue;
@@ -21,7 +21,7 @@ const paintFrames = (ctx: CanvasRenderingContext2D, view: PixelView, state: Shee
     ctx.fillRect(left, top, Math.min(one.at.x + one.sprite.width, two.at.x + two.sprite.width) - left, Math.min(one.at.y + one.sprite.height, two.at.y + two.sprite.height) - top);
   }
   ctx.globalAlpha = 1;
-  if (zoom >= LABEL_MIN_ZOOM) {
+  if (state.marks.labels && zoom >= LABEL_MIN_ZOOM) {
     ctx.fillStyle = look.label;
     ctx.font = `${LABEL_SIZE / zoom}px sans-serif`;
     for (const { sprite, at } of state.model.items) {

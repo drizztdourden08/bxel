@@ -7,8 +7,15 @@ type SheetDrag =
   | { kind: 'move'; ids: readonly SpriteId[]; start: Point; delta: Point; pending: SpriteId | null }
   | { kind: 'slice'; sprite: Sprite; origin: Point; start: Point; end: Point };
 
+interface SheetMarks {
+  labels: boolean;
+  overlaps: boolean;
+  pivots: boolean;
+}
+
 interface SheetPaintBase {
   model: SheetModel;
+  marks: SheetMarks;
   selected: ReadonlySet<SpriteId>;
   active: SpriteId | null;
 }

@@ -8,6 +8,9 @@ interface AssetView {
   majorEvery: number | null;
   background: BackgroundKind;
   backgroundColour: string;
+  labels: boolean;
+  overlaps: boolean;
+  pivots: boolean;
 }
 
 interface AssetGridDefaults {

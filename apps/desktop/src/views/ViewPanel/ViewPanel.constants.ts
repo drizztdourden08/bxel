@@ -31,8 +31,12 @@ const OVERLAY_TEXT = {
   collisionDescription: 'Outline the collision shape of each tile on the map.',
   animate: 'Animate tiles',
   animateDescription: 'Play the tile animations on the map.',
-  snap: 'Snap',
-  snapDescription: 'Moves, shapes and guides land on the grid lines.',
+  labels: 'Sprite names',
+  labelsDescription: 'Write the name of each sprite above its frame when zoomed in.',
+  overlaps: 'Overlaps',
+  overlapsDescription: 'Shade the places where two sprites cover each other.',
+  pivots: 'Pivot marks',
+  pivotsDescription: 'Draw a cross on the pivot of each selected sprite.',
 } as const;
 
 const RULER_UNIT_NAMES: Readonly<Record<RulerUnit, string>> = { pixels: 'Pixels', tiles: 'Tiles', percent: 'Percent' };

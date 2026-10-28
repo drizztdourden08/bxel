@@ -1,9 +1,9 @@
 /* @layer renderer-app @kind logic */
-import { currentTarget } from '../editor/current-target';
+import { guideScope } from './guide-scope';
 
 const hasGuides = (): boolean => {
-  const guides = currentTarget()?.sprite.guides;
-  return guides !== undefined && guides.x.length + guides.y.length > 0;
+  const lines = guideScope()?.lines();
+  return lines !== undefined && lines.x.length + lines.y.length > 0;
 };
 
 export { hasGuides };
