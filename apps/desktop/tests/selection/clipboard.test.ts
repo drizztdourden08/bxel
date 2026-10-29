@@ -6,6 +6,7 @@ import { copySelection } from '../../src/editor/selection/copy-selection';
 import { cutSelection } from '../../src/editor/selection/cut-selection';
 import { deleteSelection } from '../../src/editor/selection/delete-selection';
 import { pasteClip } from '../../src/editor/selection/paste-clip';
+import { pasteInPlace } from '../../src/editor/selection/paste-in-place';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
 import { usePendingStore } from '../../src/stores/usePendingStore';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
@@ -19,7 +20,7 @@ describe('the clipboard', () => {
     expect(copySelection()).toBe(true);
     expect(useSelectionStore.getState().clipboard?.origin).toEqual({ x: 4, y: 4 });
     rig.paint({ x: 20, y: 20, width: 4, height: 3 }, 9);
-    expect(pasteClip()).toBe(true);
+    expect(pasteInPlace()).toBe(true);
     const floating = usePendingStore.getState();
     expect(floating.pending?.spec).toMatchObject({ kind: 'paste', offset: { x: 0, y: 0 } });
     expect(floating.outcome?.frame?.indices[at(4, 4)]).toBe(5);
@@ -38,7 +39,7 @@ describe('the clipboard', () => {
     rig.paint(BLOCK, 2);
     rig.select(BLOCK);
     copySelection();
-    pasteClip();
+    pasteInPlace();
     setFloatOffset({ x: 100, y: -100 });
     expect(usePendingStore.getState().pending?.spec).toMatchObject({ kind: 'paste', offset: { x: 24, y: -4 } });
     expect(usePendingStore.getState().outcome?.error).toBeNull();

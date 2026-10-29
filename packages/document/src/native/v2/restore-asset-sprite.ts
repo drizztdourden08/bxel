@@ -12,6 +12,7 @@ const restoreAssetSprite = (shell: SpriteJson, bank: PaletteBank, check: EntryCh
     ...(typeof shell.platformStrict === 'boolean' ? { platformStrict: shell.platformStrict } : {}),
     ...(shell.pixelGrid === undefined ? {} : { pixelGrid: shell.pixelGrid }),
     ...(shell.guides === undefined ? {} : { guides: shell.guides }),
+    ...(shell.selections === undefined ? {} : { selections: shell.selections }),
   };
   return { sprite: { ...sprite, ...platform }, damage };
 };

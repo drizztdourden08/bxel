@@ -10,12 +10,17 @@ import { pixelsPaint } from './pixels-paint';
 import { pixelsOutline } from './pixels-outline';
 import { pixelsPlot } from './pixels-plot';
 import { pixelsReplace } from './pixels-replace';
+import { pixelsDistort } from './pixels-distort';
+import { pixelsCopyRegion } from './pixels-copy-region';
 import { pixelsRotate } from './pixels-rotate';
 import { pixelsScale } from './pixels-scale';
 import { pixelsShade } from './pixels-shade';
 import { pixelsShape } from './pixels-shape';
 import { pixelsStamp } from './pixels-stamp';
+import { pixelsTransform } from './pixels-transform';
 import { pixelsTurn } from './pixels-turn';
+import { selectionDelete } from './selection-delete';
+import { selectionSave } from './selection-save';
 import { spriteCrop } from './sprite-crop';
 import { spriteSlice } from './compose/sprite-slice';
 import { spriteFlip } from './sprite-flip';
@@ -46,6 +51,11 @@ const rasterCommands: readonly CommandDef[] = [
   pixelsMove,
   pixelsScale,
   pixelsRotate,
+  pixelsTransform,
+  pixelsDistort,
+  pixelsCopyRegion,
+  selectionSave,
+  selectionDelete,
 ];
 
 export { rasterCommands };

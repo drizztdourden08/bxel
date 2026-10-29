@@ -16,8 +16,22 @@ const transformMenu = (state: EditorMenuState): MenuItem => {
       item(ID.flipVertical, 'Flip vertical'),
       item(ID.turnClockwise, 'Rotate 90 clockwise'),
       item(ID.turnCounterClockwise, 'Rotate 90 counterclockwise'),
+      item(ID.turnHalf, 'Rotate 180'),
       'separator',
+      item(ID.transform, 'Transform'),
       item(ID.rotate, 'Rotate...'),
+      {
+        key: 'transform-align',
+        label: 'Align selection',
+        children: tidyMenu([
+          item(ID.alignLeft, 'Left'),
+          item(ID.alignCentre, 'Centre'),
+          item(ID.alignRight, 'Right'),
+          item(ID.alignTop, 'Top'),
+          item(ID.alignMiddle, 'Middle'),
+          item(ID.alignBottom, 'Bottom'),
+        ]),
+      },
       item(ID.scale, 'Scale...'),
     ]),
   };

@@ -4,6 +4,7 @@ import { useNoticeStore } from '../../stores/useNoticeStore';
 import { usePendingStore } from '../../stores/usePendingStore';
 import { currentTarget } from '../current-target';
 import { setSelection } from '../selection/set-selection';
+import { rememberTransform } from '../transform/remember-transform';
 import { pendingRequest } from './pending-request';
 
 const commitPending = (): boolean => {
@@ -17,6 +18,7 @@ const commitPending = (): boolean => {
     return false;
   }
   setSelection(target, outcome?.landing ?? null);
+  rememberTransform(pending);
   usePendingStore.getState().clear();
   return true;
 };

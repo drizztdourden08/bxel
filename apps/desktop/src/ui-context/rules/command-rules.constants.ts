@@ -27,7 +27,7 @@ const OPTIONS: RuleTable = {
   ...family(
     [
       'brush.cycle_tip', 'brush.toggle_pixel_perfect', 'fill.toggle_area', 'fill.toggle_neighbours', 'select.set_shape',
-      'select.set_mode', 'options.select.neighbours', 'options.pencil.size', 'options.eraser.size', ...['shade', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon'].map((tool) => `options.${tool}.size`), 'options.set', 'options.reset',
+      'select.set_mode', 'options.select.neighbours', 'options.select.sample', 'options.select.amount', 'options.pencil.size', 'options.eraser.size', ...['shade', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon'].map((tool) => `options.${tool}.size`), 'options.set', 'options.reset',
       'options.reset_all',
     ],
     PIXEL,
@@ -79,9 +79,18 @@ const LAYERS: RuleTable = {
 const SELECTION: RuleTable = {
   ...family(['selection.select_all', 'selection.clear'], DRAW_STAGE, [DOC]),
   ...family(['selection.invert', 'selection.expand', 'selection.shrink'], PIXEL, [PIXELS_SELECTED], ONLY.pixels),
-  ...family(['selection.copy'], NONE_OR_PIXEL, [DOC, PIXELS_SELECTED], ONLY.pixels),
+  ...family(['selection.reselect', 'selection.save', 'selection.select_opaque', 'selection.select_by_frame'], PIXEL, [DOC], ONLY.pixels),
+  ...family(['selection.border', 'selection.smooth', 'selection.to_guides'], PIXEL, [PIXELS_SELECTED], ONLY.pixels),
+  ...family(
+    ['selection.stroke_inside', 'selection.stroke_outside', 'selection.fill_front', 'selection.fill_back', 'selection.align_left', 'selection.align_centre', 'selection.align_right', 'selection.align_top', 'selection.align_middle', 'selection.align_bottom'],
+    PIXEL,
+    [WRITE, PIXELS_SELECTED],
+    ONLY.pixels,
+  ),
+  ...family(['selection.paste_as_layer', 'selection.paste_into_selection', 'selection.paste_expand', 'selection.paste_transform', 'selection.paste_new_sprite', 'selection.paste_choose'], PIXEL, [DOC, WRITE, CLIPBOARD], ONLY.pixels),
+  ...family(['selection.copy', 'selection.copy_merged'], NONE_OR_PIXEL, [DOC, PIXELS_SELECTED], ONLY.pixels),
   ...family(['selection.cut'], NONE_OR_PIXEL, [DOC, WRITE, PIXELS_SELECTED], ONLY.pixels),
-  ...family(['selection.paste'], NONE_OR_PIXEL, [DOC, WRITE, CLIPBOARD], ONLY.pixels),
+  ...family(['selection.paste', 'selection.paste_in_place'], NONE_OR_PIXEL, [DOC, WRITE, CLIPBOARD], ONLY.pixels),
   ...family(['selection.delete'], DRAW_STAGE, [DOC, WRITE, ANY_SELECTED]),
   ...family(['selection.by_colour'], PIXEL, [], ONLY.pixels),
   ...family(['preview.apply', 'preview.cancel'], always),
@@ -89,7 +98,7 @@ const SELECTION: RuleTable = {
 
 const TRANSFORM: RuleTable = {
   ...family(['transform.flip_horizontal', 'transform.flip_vertical', 'transform.turn_clockwise'], EDIT_STAGE, [DOC, WRITE]),
-  ...family(['transform.turn_counter_clockwise', 'transform.rotate', 'transform.scale'], PIXEL, [WRITE], ONLY.pixels),
+  ...family(['transform.turn_counter_clockwise', 'transform.turn_half', 'transform.begin', 'transform.rotate', 'transform.scale'], PIXEL, [WRITE], ONLY.pixels),
   ...family(['canvas.trim', 'canvas.size'], NOT_TILE_FILE, [WRITE], 'Sprites and animations'),
   ...family(['canvas.crop_to_selection'], NOT_TILE_FILE, [WRITE, PIXELS_SELECTED], 'Sprites and animations'),
 };

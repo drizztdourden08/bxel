@@ -3,6 +3,8 @@ import type { Point } from '@bxel/raster';
 
 type SelectVariant = 'rect' | 'ellipse' | 'lasso' | 'polygon' | 'wand' | 'colour';
 
+type SampleSource = 'layer' | 'visible';
+
 interface Clip {
   width: number;
   height: number;
@@ -18,4 +20,16 @@ interface DragShape {
   path: readonly Point[];
 }
 
-export type { Clip, DragShape, SelectVariant };
+interface DragKeys {
+  shiftAtPress: boolean;
+  altAtPress: boolean;
+  shiftReleased: boolean;
+  altReleased: boolean;
+}
+
+interface ShapeHold {
+  square: boolean;
+  centre: boolean;
+}
+
+export type { Clip, DragKeys, DragShape, SampleSource, SelectVariant, ShapeHold };
