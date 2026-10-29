@@ -6,6 +6,7 @@ import { inkFor } from '../../stores/ink-for';
 import { useDocumentStore } from '../../stores/useDocumentStore';
 import { useDrawingStore } from '../../stores/useDrawingStore';
 import { useManagerStore } from '../../stores/useManagerStore';
+import { boundSheetId } from '../../sheet-manager/bound-sheet';
 import { useSelectionStore } from '../../stores/useSelectionStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { useTilemapStore } from '../../stores/useTilemapStore';
@@ -127,7 +128,7 @@ const togglesOf = () => {
 const spritesOf = () => {
   const manager = useManagerStore.getState();
   const sprites = useSpriteStore.getState();
-  return { selected: sprites.selected, scope: sprites.spritesScope, query: manager.query, filter: manager.filter, sheetId: manager.sheetId };
+  return { selected: sprites.selected, scope: sprites.spritesScope, query: manager.query, filter: manager.filter, sheetId: boundSheetId() };
 };
 
 const viewSnapshot = (sees: Sees = () => true) => {

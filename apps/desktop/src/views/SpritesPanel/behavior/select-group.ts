@@ -29,12 +29,6 @@ const selectGroup = ({ model }: ActionContext): MenuGroup => ({
           ),
         ),
     },
-    {
-      id: 'select-loose',
-      label: MANAGER_TEXT.selectUnplaced,
-      disabled: model.sheet === null,
-      onSelect: () => selectIds(model.facts.filter((fact) => !fact.onSheet).map((fact) => fact.sprite.id)),
-    },
   ],
 });
 

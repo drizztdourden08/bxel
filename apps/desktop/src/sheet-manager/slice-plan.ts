@@ -1,29 +1,53 @@
 /* @layer renderer-app @kind logic */
 import { expandNamePattern } from '@bxel/document';
-import type { Sprite } from '@bxel/document';
-import { rectBlank, sliceCells, sliceGrid } from '@bxel/raster';
+import type { Rect, Sprite } from '@bxel/document';
+import { findIslands, rectBlank, sliceCells, sliceGrid } from '@bxel/raster';
 import { COMPOSE_TEXT } from './compose-text.constants';
-import type { SliceOptions, SlicePlan, SliceSpec } from './compose.type';
+import type { SlicePlan, SliceSpec } from './compose.type';
+import { MAX_PIECES } from './slice-plan.constants';
 import { pieceError } from './piece-error';
+import { resolveSliceNames } from './resolve-slice-names';
+import { sliceClashes } from './slice-clashes';
 import { sliceRequest } from './slice-request';
 
-const namesOf = (sprite: Sprite, request: SliceOptions): string[] => {
-  const grid = sliceGrid(sprite, request);
-  return sliceCells(grid)
-    .filter((cell) => !request.skipEmpty || !rectBlank(sprite, cell.rect))
-    .map((cell) => expandNamePattern(request.pattern, sprite.name, request.start + cell.index).trim());
-};
+const namesFor = (sprite: Sprite, pieces: number, spec: SliceSpec): string[] =>
+  Array.from({ length: pieces }, (_unused, index) => expandNamePattern(spec.pattern, sprite.name, spec.start + index).trim());
 
-const slicePlan = (spec: SliceSpec, sources: readonly Sprite[], others: readonly string[]): SlicePlan => {
+const gridPlan = (spec: SliceSpec, sources: readonly Sprite[]): Pick<SlicePlan, 'names' | 'grid' | 'leftOut' | 'rects'> => {
   const request = sliceRequest(spec);
   const [first] = sources;
+  const grid = first ? sliceGrid(first, request) : null;
+  const cutOf = (sprite: Sprite): Rect[] =>
+    sliceCells(sliceGrid(sprite, request))
+      .filter((cell) => !spec.skipEmpty || !rectBlank(sprite, cell.rect))
+      .map((cell) => cell.rect);
+  const names = sources.flatMap((sprite) => namesFor(sprite, cutOf(sprite).length, spec));
+  const leftOut = first && grid ? first.width * first.height - grid.columns * grid.cellWidth * grid.rows * grid.cellHeight : 0;
+  return { names, grid, leftOut, rects: first ? cutOf(first) : [] };
+};
+
+const islandPlan = (spec: SliceSpec, sources: readonly Sprite[]): Pick<SlicePlan, 'names' | 'grid' | 'leftOut' | 'rects'> => {
+  const request = { minSize: spec.minSize, merge: spec.merge };
+  const found = sources.map((sprite) => findIslands(sprite, request));
+  return { names: sources.flatMap((sprite, at) => namesFor(sprite, found[at]?.length ?? 0, spec)), grid: null, leftOut: 0, rects: found[0] ?? [] };
+};
+
+const errorOf = (names: readonly string[], spec: SliceSpec, taken: readonly string[]): string | null => {
+  if (names.length === 0) return spec.by === 'islands' ? COMPOSE_TEXT.noIslands : COMPOSE_TEXT.nothingInGrid;
+  if (names.length > MAX_PIECES) return COMPOSE_TEXT.tooManyPieces(MAX_PIECES);
+  return pieceError(names, taken);
+};
+
+const slicePlan = (spec: SliceSpec, sources: readonly Sprite[], stay: readonly Sprite[]): SlicePlan => {
   try {
-    const grid = first ? sliceGrid(first, request) : null;
-    const names = sources.flatMap((sprite) => namesOf(sprite, request));
-    const leftOut = first && grid ? first.width * first.height - grid.columns * grid.cellWidth * grid.rows * grid.cellHeight : 0;
-    return { names, grid, leftOut, error: names.length === 0 ? COMPOSE_TEXT.nothingInGrid : pieceError(names, others) };
+    const parts = spec.by === 'islands' ? islandPlan(spec, sources) : gridPlan(spec, sources);
+    const others = stay.map((sprite) => sprite.name);
+    const names = resolveSliceNames(parts.names, others, spec.existing);
+    const clashes = sliceClashes(parts.names, stay);
+    const taken = spec.existing === 'replace' ? [] : others;
+    return { ...parts, names, clashes, error: errorOf(names, spec, taken) };
   } catch (failure) {
-    return { names: [], grid: null, leftOut: 0, error: failure instanceof Error ? failure.message : COMPOSE_TEXT.nameProblem };
+    return { names: [], clashes: [], grid: null, leftOut: 0, rects: [], error: failure instanceof Error ? failure.message : COMPOSE_TEXT.nameProblem };
   }
 };
 

@@ -31,7 +31,7 @@ type AnimationStrip = { readonly image: RgbaImage; readonly indices: Uint8Array 
 
 type ExportTarget = { readonly path: string; readonly source: SpriteSource | AnimationSource | SheetSource };
 
-type GetDocumentInput = DocumentInput & { readonly spriteOffset: number; readonly spriteLimit: number; readonly include?: readonly string[] };
+type GetDocumentInput = DocumentInput & { readonly spriteOffset: number; readonly spriteLimit: number; readonly include?: readonly ('entries' | 'tileset')[] };
 
 type ReadPaletteInput = DocumentInput & { readonly bankId?: string; readonly include?: readonly ('usage' | 'duplicates' | 'sharing')[] };
 
@@ -49,6 +49,7 @@ type ReadPixelsInput = DocumentInput & {
 type RenderInput = DocumentInput & {
   readonly target: SpriteSource | AnimationSource | SheetSource | TilesetSource;
   readonly scale: number;
+  readonly exported?: boolean;
   readonly onion?: boolean;
   readonly animated?: 'gif' | 'apng';
 };

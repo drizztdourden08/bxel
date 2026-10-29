@@ -108,12 +108,12 @@ const SHEET_EDITS = [
   'sheet.arrange_manual', 'sheet.import', 'slice.add', 'slice.remove', 'sprite.rename_many', 'sprite.duplicate_named', 'sprite.move_to_folder', 'sprite.set_palette',
   'sprite.set_pivot', 'sprite.resize', 'sprite.cut_strip', 'sprite.slice', 'sprite.trim', 'sprite.flip_horizontal', 'sprite.flip_vertical', 'sprite.turn_left',
   'sprite.turn_right', 'sprite.turn_half', 'sprite.move_to_start', 'sprite.move_to_end', 'sprite.use_view_order', 'sprite.add_to_sheet', 'sprite.remove_from_sheet',
-  'sprite.move_to_sheet', 'sheet.align',
+  'sprite.move_to_sheet', 'sprite.paste_entries', 'sprite.distribute_rows', 'sprite.copy_to_sheet', 'sprite.folder_from_selection', 'sprite.make_tileset', 'sheet.align',
 ];
 
 const SHEET_VIEWS = [
-  'sprite.isolate', 'sprite.compare', 'sprite.save_selection', 'sprite.sort_by_name', 'sprite.select_none', 'sprite.select_invert', 'sprite.select_unplaced',
-  'sprite.select_duplicates', 'sprite.load_selection', 'sprite.drop_selection', 'sprite.select_by_trait', 'manager.clear_filters',
+  'sprite.isolate', 'sprite.compare', 'sprite.save_selection', 'sprite.sort_by_name', 'sprite.select_none', 'sprite.select_invert', 'sprite.select_same_size',
+  'sprite.select_same_folder', 'sprite.open_entry', 'sprite.copy_entries', 'sprite.cut_entries', 'sprite.export_selection_sheet', 'sprite.export_selection_files', 'sprite.show_in_project', 'sprite.add_from_project', 'sprite.select_duplicates', 'sprite.load_selection', 'sprite.drop_selection', 'sprite.select_by_trait', 'manager.clear_filters',
 ];
 
 const SHEETS: RuleTable = {

@@ -9,14 +9,16 @@ import { PieceFields } from './PieceFields';
 import { PieceNames } from './PieceNames';
 import { SliceFields } from './SliceFields';
 import { SliceNote } from './SliceNote';
+import { SlicePreview } from './SlicePreview';
 
 const SliceDialog = ({ model }: ManagerModelProps) => {
   const form = useSliceForm(model);
   const { spec, plan } = form;
   return (
-    <DialogFrame title={COMPOSE_TEXT.sliceTitle(form.targets.length)} canApply={plan.error === null} onApply={() => sliceSprites(model.ids, spec)}>
+    <DialogFrame title={COMPOSE_TEXT.sliceTitle(form.targets.length)} canApply={plan.error === null} onApply={() => sliceSprites(model.ids, spec, plan.clashes)}>
       <Stack gap="md">
-        <SliceFields spec={spec} update={form.update} />
+        <SliceFields spec={spec} update={form.update} clashes={plan.clashes.length} />
+        <SlicePreview artwork={model.artwork} sprite={form.targets[0]} plan={plan} />
         <PieceFields pattern={spec.pattern} start={spec.start} keep={spec.keep} update={form.update} />
         <SliceNote plan={plan} />
         <PieceNames plan={plan} />

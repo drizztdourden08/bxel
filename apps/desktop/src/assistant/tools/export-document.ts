@@ -14,6 +14,7 @@ import { hiddenAssets } from './hidden-assets';
 import { indexHash } from './index-hash';
 import { reply } from './reply';
 import { spriteFrame } from './sprite-frame';
+import { sheetJson } from './sheet-json';
 import { sheetPng } from './sheet-png';
 import type { AnimationSource, ExportInput, SheetSource } from './tool-input.type';
 import { viewFor } from './view-for';
@@ -44,15 +45,17 @@ const exportSheet = async (
   job: ExportInput,
   target: { readonly path: string; readonly source: SheetSource },
 ): Promise<ToolReply> => {
-  const png = sheetPng({ artwork: view.state.artwork, revision: view.state.revision, sheetId: target.source.sheetId, scale: job.scale, hidden: hiddenAssets(context, job.documentId) });
-  if (!png.ok) return reply(png);
-  const refused = await writeExport(context, job, target.path, png.value.bytes);
+  const picture = { artwork: view.state.artwork, revision: view.state.revision, sheetId: target.source.sheetId, scale: job.scale, hidden: hiddenAssets(context, job.documentId) };
+  const made = job.format === 'atlas-json' ? sheetJson(picture) : sheetPng(picture);
+  if (!made.ok) return reply(made);
+  const bytes = 'bytes' in made.value ? made.value.bytes : made.value;
+  const refused = await writeExport(context, job, target.path, bytes);
   if (refused) return reply(refused);
-  const sha256 = await indexHash(png.value.bytes);
+  const sha256 = await indexHash(bytes);
   return reply({
     ok: true,
     revision: view.state.revision,
-    files: [{ fileName: fileName(target.path), bytes: png.value.bytes.length, sha256 }],
+    files: [{ fileName: fileName(target.path), bytes: bytes.length, sha256 }],
     indexHash: sha256,
   });
 };

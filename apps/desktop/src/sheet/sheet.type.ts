@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { AnimationId, Artwork, CommandStep, Point, Sheet, SheetId, SheetOverlap, Size, Sprite, SpriteId, TagId } from '@bxel/document';
+import type { AnimationId, Artwork, CommandStep, Point, Sheet, SheetId, SheetPartOverlap, Size, Sprite, SpriteId, TagId } from '@bxel/document';
 import type { LockKind } from '../editor/layer-lock.type';
 import type { SpriteSettings } from '../stores/sprite-store.type';
 
@@ -55,7 +55,7 @@ interface SheetModel {
   items: readonly SheetItem[];
   animations: readonly SheetAnimationItem[];
   extent: Size;
-  overlaps: readonly SheetOverlap[];
+  overlaps: readonly SheetPartOverlap[];
 }
 
 interface FrameImage {

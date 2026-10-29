@@ -27,6 +27,8 @@ declare module '@drizztdourden08/tessera' {
         | 'EditorCanvas'
         | 'EditorScreen'
         | 'EditorStatus'
+        | 'EntryBrowser'
+        | 'EntryTile'
         | 'ExportDialog'
         | 'FileTypePicker'
         | 'FrameModeFields'

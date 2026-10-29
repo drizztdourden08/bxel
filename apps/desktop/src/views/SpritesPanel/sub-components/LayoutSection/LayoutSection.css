@@ -1,0 +1,6 @@
+/* @layer renderer-app @kind style */
+.layout-section {
+  flex: none;
+  border-block-start: var(--border-width-thin) solid var(--c-border);
+  padding-block-start: var(--space-xs);
+}

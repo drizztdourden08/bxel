@@ -9,9 +9,10 @@ import type { RenderInput, SheetSource } from './tool-input.type';
 
 const renderSheetPreview = async (context: ToolContext, view: DocumentView, input: RenderInput, source: SheetSource): Promise<ToolReply> => {
   const { documentId, scale } = input;
+  const exported = input.exported === true;
   const { revision, artwork } = view.state;
-  const png = sheetPng({ artwork, revision, sheetId: source.sheetId, scale, hidden: hiddenAssets(context, documentId) });
-  const uri = `bxel://${documentId}/sheet/${source.sheetId}/preview.png?scale=${scale}&rev=${revision}`;
+  const png = sheetPng({ artwork, revision, sheetId: source.sheetId, scale, hidden: hiddenAssets(context, documentId), exported });
+  const uri = `bxel://${documentId}/sheet/${source.sheetId}/preview.png?scale=${scale}${exported ? '&exported=1' : ''}&rev=${revision}`;
   return pngReply(png, { revision, scale, uri });
 };
 

@@ -5,6 +5,7 @@ import type { SliceNoteProps } from '../../../../../sheet-manager/dialog-form.ty
 
 const SliceNote = ({ plan }: SliceNoteProps) => (
   <>
+    {plan.grid === null && plan.rects.length > 0 && <Text tone="dim">{COMPOSE_TEXT.islandCount(plan.rects.length)}</Text>}
     {plan.grid !== null && (
       <Text tone="dim">{COMPOSE_TEXT.sliceCount(plan.grid.columns * plan.grid.rows, plan.grid.cellWidth, plan.grid.cellHeight)}</Text>
     )}

@@ -2,11 +2,12 @@
 import type { VirtualGridSection } from '@drizztdourden08/tessera';
 import { FOLDER_TEXT } from '../../../sheet-manager/folder-text.constants';
 import type { FolderGroup } from '../../../sheet-manager/folders.type';
-import type { SpriteFacts } from '../../../sheet-manager/manager.type';
+import type { EntryFacts } from '../../../sheet-manager/manager.type';
+import { folderActions } from './folder-actions';
 import { selectIds } from '../../../sheet-manager/select-ids';
 import { FOLDER_DEPTH_LIMIT } from '../SpritesPanel.constants';
 
-const gridSection = (group: FolderGroup): VirtualGridSection<SpriteFacts> => {
+const gridSection = (group: FolderGroup, closeOthers: readonly string[] = []): VirtualGridSection<EntryFacts> => {
   const name = group.path === '' ? FOLDER_TEXT.root : group.path;
   return {
     key: group.path,
@@ -20,6 +21,7 @@ const gridSection = (group: FolderGroup): VirtualGridSection<SpriteFacts> => {
         icon: 'check',
         onSelect: () => selectIds(group.facts.map((fact) => fact.sprite.id)),
       },
+      ...(group.path === '' ? [] : folderActions(group.path, closeOthers)),
     ],
   };
 };
