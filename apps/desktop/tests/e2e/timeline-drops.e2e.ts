@@ -1,12 +1,11 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, test } from 'vitest';
-import { frameButton, framesOf, openAnimationTab, openMore, timelineOf } from './support/animation-ui';
+import { frameButton, framesOf, openAnimationTab, timelineOf } from './support/animation-ui';
 import { ANIMATION_COLORS } from './support/animation.constants';
-import { buildBlankAnimation } from './support/build-blank-animation';
 import { dropFiles } from './support/drop-files';
 import type { Session } from './support/e2e.type';
-import { openFile } from './support/open-file';
-import { openSession } from './support/open-session';
+import { openCompassRig } from './support/open-compass-rig';
+import { openDirectionDialog } from './support/open-direction-dialog';
 import { openStripRig } from './support/open-strip-rig';
 import { pngBytes } from './support/png-bytes';
 import { STRIP } from './support/strip-project.constants';
@@ -68,10 +67,7 @@ describe('dropping image files on the frame track', () => {
 const laneCount = (session: Session): Promise<number> => timelineOf(session).locator('[data-tag-lane]').count();
 
 const makesEightFacings = async (session: Session): Promise<void> => {
-  await openMore(session, 'Transform animation', 'New direction set...');
-  const dialog = session.page.getByRole('dialog', { name: 'New direction set' });
-  await dialog.getByText('Eight directions', { exact: true }).click();
-  await dialog.getByRole('spinbutton', { name: 'Frames per facing' }).fill('2');
+  const dialog = await openDirectionDialog(session);
   await dialog.getByRole('button', { name: 'Create' }).click();
   await dialog.waitFor({ state: 'detached' });
   await frameButton(session, 16).waitFor();
@@ -93,11 +89,6 @@ const groupsTheLanesByFacing = async (session: Session): Promise<void> => {
 };
 
 describe('grouping the tag lanes by facing', () => {
-  const rig = useRig(async () => {
-    const session = await openSession();
-    await openFile(session, await buildBlankAnimation(session.dir, 'compass'));
-    await framesOf(session).waitFor();
-    return { session };
-  });
+  const rig = useRig(openCompassRig);
   test('one lane for each facing, and the lanes stack again when it is turned off', () => groupsTheLanesByFacing(rig().session));
 });

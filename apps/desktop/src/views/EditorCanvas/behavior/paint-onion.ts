@@ -4,8 +4,8 @@ import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { canvasOrigin } from '../../../timeline/canvas-origin';
 import { currentFocus } from '../../../timeline/current-focus';
 import { currentPlan } from '../../../timeline/current-plan';
+import { onionGhostOf } from '../../../timeline/onion-ghost-of';
 import { onionPlan } from '../../../timeline/onion-plan';
-import { layerGhost } from './layer-ghost';
 import { onionGhost } from './onion-ghost';
 import { targetArtwork } from './target-artwork';
 
@@ -23,7 +23,7 @@ const paintOnion = (ctx: CanvasRenderingContext2D): void => {
   ctx.imageSmoothingEnabled = false;
   for (const layer of plan) {
     ctx.globalAlpha = layer.alpha;
-    ctx.drawImage(onionGhost(ctx.canvas, artwork, { ...target, animation: target.animation }, layerGhost(layer, onion)), origin.x, origin.y);
+    ctx.drawImage(onionGhost(ctx.canvas, artwork, { ...target, animation: target.animation }, onionGhostOf(layer, onion)), origin.x, origin.y);
   }
   ctx.restore();
 };

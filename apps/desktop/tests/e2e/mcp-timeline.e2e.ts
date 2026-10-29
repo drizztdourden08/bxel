@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind test */
-import { PRESETS, programKey } from '@bxel/mcp';
-import type { Grant } from '@bxel/mcp';
+import { PRESETS } from '@bxel/mcp';
 import { describe, expect, test } from 'vitest';
 import { callMcp } from './support/call-mcp';
-import { MCP_CLIENT_NAME } from './support/mcp.constants';
 import type { McpRig } from './support/mcp-rig.type';
 import { openMcpRig } from './support/open-mcp-rig';
+import { pushGrant } from './support/push-grant';
 import { useRig } from './support/use-rig';
 
 type Held = { documentId: string; animationId: string; frames: string[]; revision: number };
@@ -25,9 +24,6 @@ type TimelineView = {
   range: { kind: string };
   onion: { on: boolean; before: number; after: number; wrap: boolean };
 };
-
-const pushGrant = ({ session }: McpRig, grant: Grant): Promise<unknown> =>
-  session.page.evaluate(`window.api.assistantSyncGrants(${JSON.stringify([{ key: programKey(MCP_CLIENT_NAME), grant }])})`);
 
 const timelineOf = async ({ link }: McpRig): Promise<TimelineView> => (await callMcp(link.client, 'get_view')).data.timeline as TimelineView;
 

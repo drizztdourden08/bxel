@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, test } from 'vitest';
 import { frameButton, framesOf, openFacing, openMore } from './support/animation-ui';
-import { buildBlankAnimation } from './support/build-blank-animation';
 import type { Session } from './support/e2e.type';
 import { exportAnimationFiles } from './support/export-animation';
-import { openFile } from './support/open-file';
-import { openSession } from './support/open-session';
+import { openCompassRig } from './support/open-compass-rig';
+import { openDirectionDialog } from './support/open-direction-dialog';
 import { useRig } from './support/use-rig';
 
 const FACINGS = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'];
@@ -13,10 +12,7 @@ const FACINGS = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'];
 const framesIn = async (session: Session): Promise<number> => framesOf(session).getByRole('option').count();
 
 const makesTheSet = async (session: Session): Promise<void> => {
-  await openMore(session, 'Transform animation', 'New direction set...');
-  const dialog = session.page.getByRole('dialog', { name: 'New direction set' });
-  await dialog.getByText('Eight directions', { exact: true }).click();
-  await dialog.getByRole('spinbutton', { name: 'Frames per facing' }).fill('2');
+  const dialog = await openDirectionDialog(session);
   for (const label of ['north west mirrors north east', 'west mirrors east', 'south west mirrors south east']) {
     await dialog.getByText(label, { exact: true }).click();
   }
@@ -54,12 +50,7 @@ const makesALiveSheet = async (session: Session): Promise<void> => {
 };
 
 describe('a direction set with mirrored facings', () => {
-  const rig = useRig(async () => {
-    const session = await openSession();
-    await openFile(session, await buildBlankAnimation(session.dir, 'compass'));
-    await framesOf(session).waitFor();
-    return { session };
-  });
+  const rig = useRig(openCompassRig);
   test('New direction set makes a tag for each of the eight facings, three of them mirrors', () => makesTheSet(rig().session));
   test('exports one GIF for each of the eight facings', () => exportsEightGifs(rig().session));
   test('Draw this facing turns a mirror into frames of its own and still exports eight GIFs', () => drawsAMirroredFacing(rig().session));

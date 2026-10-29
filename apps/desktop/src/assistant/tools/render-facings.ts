@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { ERROR_CODE } from '@bxel/document';
-import { encodeBase64, MCP_ERROR_CODE, mcpFailure, RENDER_PNG_BYTES_MAX } from '@bxel/mcp';
+import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { ToolReply } from '@bxel/mcp';
 import type { DocumentView } from '../../documents/document-host.type';
 import type { ToolContext } from '../assistant.type';
@@ -13,6 +13,7 @@ import { animationUri } from './animation-uri';
 import { FACING_ORDER } from './facing-order.constants';
 import { hiddenAssets } from './hidden-assets';
 import { indexHash } from './index-hash';
+import { pngReply } from './png-reply';
 import { reply } from './reply';
 import { stackStrips } from './stack-strips';
 import type { AnimationSource, AnimationStrip, RenderInput } from './tool-input.type';
@@ -37,21 +38,8 @@ const renderFacings = async (context: ToolContext, view: DocumentView, input: Re
   }
   const stacked = stackStrips(strips, animation.height);
   const png = animationPng(stacked, scale);
-  if (!png.ok) return reply(png);
-  if (png.value.bytes.length > RENDER_PNG_BYTES_MAX) return reply(mcpFailure(MCP_ERROR_CODE.RESULT_TOO_LARGE, TOOL_TEXT.pngTooLarge));
-  return reply(
-    {
-      ok: true,
-      revision,
-      width: png.value.width,
-      height: png.value.height,
-      scale,
-      indexHash: await indexHash(stacked.indices),
-      uri: animationUri(documentId, { animationId: source.animationId }, scale, revision),
-      rows,
-    },
-    [encodeBase64(png.value.bytes)],
-  );
+  const uri = animationUri(documentId, { animationId: source.animationId }, scale, revision);
+  return pngReply({ png, render: { revision, scale, uri }, hashOf: () => indexHash(stacked.indices), extra: { rows } });
 };
 
 export { renderFacings };
