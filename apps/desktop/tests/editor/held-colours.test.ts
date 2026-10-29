@@ -72,7 +72,7 @@ describe('drawing with the held colours', () => {
   it('carries the slot into the press plan of every drawing tool', () => {
     expect(pressPlan('pencil', press(0, { ctrlKey: true }))).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'third', line: false });
     expect(pressPlan('fill', press(2, { ctrlKey: true }))).toEqual({ kind: 'fill', slot: 'fourth' });
-    expect(pressPlan('shape', press(0, { ctrlKey: true }))).toEqual({ kind: 'shape', slot: 'third' });
+    expect(pressPlan('rect', press(0, { ctrlKey: true }))).toEqual({ kind: 'shape', shape: 'rect', slot: 'third' });
   });
 
   it('fills with colour 3 and picks into colour 4', () => {

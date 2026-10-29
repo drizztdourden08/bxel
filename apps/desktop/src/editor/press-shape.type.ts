@@ -12,4 +12,11 @@ type ShapePress = {
   readonly anchor: ShapeAnchor;
 };
 
-export type { ShapePress };
+type PathPress = {
+  readonly target: EditorTarget;
+  readonly plan: Extract<DrawPlan, { kind: 'path' }>;
+  readonly at: Point;
+  readonly points: { current: Point[] };
+};
+
+export type { PathPress, ShapePress };

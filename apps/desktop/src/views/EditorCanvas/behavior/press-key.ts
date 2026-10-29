@@ -16,7 +16,7 @@ const pressKey = (event: KeyboardEvent<HTMLElement>, context: KeyContext): boole
   context.active.current = true;
   const button = event.key === 'Enter' ? SECONDARY_BUTTON : PRIMARY_BUTTON;
   const press = { button, altKey: false, shiftKey: event.shiftKey, ctrlKey: event.ctrlKey };
-  announce(pressCell(at, press, context.anchor));
+  announce(pressCell(at, press, context.anchor, context.points));
   context.viewport.current?.redraw();
   return true;
 };

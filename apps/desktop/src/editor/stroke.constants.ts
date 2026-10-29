@@ -10,6 +10,10 @@ const STROKE_LABELS: Readonly<Record<StrokeTool, string>> = {
 
 const FILL_LABEL = 'Fill';
 
+const GRADIENT_LABEL = 'Gradient';
+
+const SPRAY_LABEL = 'Spray';
+
 const POINT_LIMIT = 4096;
 
-export { ERASE_INDEX, FILL_LABEL, POINT_LIMIT, STROKE_LABELS };
+export { ERASE_INDEX, FILL_LABEL, GRADIENT_LABEL, POINT_LIMIT, SPRAY_LABEL, STROKE_LABELS };

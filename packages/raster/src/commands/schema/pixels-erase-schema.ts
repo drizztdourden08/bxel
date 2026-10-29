@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
-import { strokeFields } from './stroke-fields';
+import { inkedStrokeFields } from './inked-stroke-fields';
 
-const pixelsEraseSchema = z.strictObject(strokeFields);
+const pixelsEraseSchema = z.strictObject(inkedStrokeFields);
 
 export { pixelsEraseSchema };

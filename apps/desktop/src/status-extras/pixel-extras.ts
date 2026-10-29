@@ -13,6 +13,7 @@ const pixelExtras = (read: PixelRead): StatusExtras => ({
   frame: read.surface === 'sprite' ? frameExtra(read.focus) : null,
   cell: null,
   tile: null,
+  snap: null,
 });
 
 export { pixelExtras };

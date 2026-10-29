@@ -1,5 +1,10 @@
 /* @layer renderer-app @kind constants */
+import type { FilledTool } from '../../stores/drawing-store.type';
+import { useToolStore } from '../../stores/useToolStore';
+import { useDrawingStore } from '../../stores/useDrawingStore';
 import type { OptionSetter } from './tool-options.type';
+
+const FILLED: readonly string[] = ['rect', 'ellipse', 'curve', 'polygon', 'contour'];
 
 const TOOL_OPTION_SETTERS: readonly OptionSetter[] = [
   (store, options) => {
@@ -7,6 +12,9 @@ const TOOL_OPTION_SETTERS: readonly OptionSetter[] = [
   },
   (store, options) => {
     if (options.brushShape !== undefined) store.setBrushShape(options.brushShape);
+  },
+  (store, options) => {
+    if (options.brushAngle !== undefined) store.setBrushAngle(options.brushAngle);
   },
   (store, options) => {
     if (options.pixelPerfect !== undefined) store.setPixelPerfect(options.pixelPerfect);
@@ -17,11 +25,12 @@ const TOOL_OPTION_SETTERS: readonly OptionSetter[] = [
   (store, options) => {
     if (options.connectivity !== undefined) store.setConnectivity(options.connectivity);
   },
-  (store, options) => {
-    if (options.shape !== undefined) store.setShape(options.shape);
+  (_store, options) => {
+    const { tool } = useToolStore.getState();
+    if (options.filled !== undefined && FILLED.includes(tool)) useDrawingStore.getState().setFilled(tool as FilledTool, options.filled);
   },
-  (store, options) => {
-    if (options.filled !== undefined) store.setFilled(options.filled);
+  (_store, options) => {
+    if (options.ink !== undefined) useDrawingStore.getState().setInk(useToolStore.getState().tool, options.ink);
   },
 ];
 

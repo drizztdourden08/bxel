@@ -10,6 +10,8 @@ type PathOptions = PaintTarget & {
   readonly kind: PathKind;
   readonly points: readonly Point[];
   readonly filled?: boolean;
+  readonly fillIndex?: number;
+  readonly pixelPerfect?: boolean;
   readonly brush?: Brush;
   readonly symmetry?: Symmetry;
 };

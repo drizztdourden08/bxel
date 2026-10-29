@@ -12,7 +12,6 @@ import { animationStrip } from './animation-strip';
 import { animationUri } from './animation-uri';
 import { FACING_ORDER } from './facing-order.constants';
 import { hiddenAssets } from './hidden-assets';
-import { indexHash } from './index-hash';
 import { pngReply } from './png-reply';
 import { reply } from './reply';
 import { stackStrips } from './stack-strips';
@@ -39,7 +38,7 @@ const renderFacings = async (context: ToolContext, view: DocumentView, input: Re
   const stacked = stackStrips(strips, animation.height);
   const png = animationPng(stacked, scale);
   const uri = animationUri(documentId, { animationId: source.animationId }, scale, revision);
-  return pngReply({ png, render: { revision, scale, uri }, hashOf: () => indexHash(stacked.indices), extra: { rows } });
+  return pngReply(png, { revision, scale, uri }, { rows });
 };
 
 export { renderFacings };

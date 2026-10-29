@@ -1,0 +1,31 @@
+/* @layer renderer-app @kind constants */
+import type { CommandDef } from '@drizztdourden08/brock-react';
+import { useTilesetViewStore } from '../stores/useTilesetViewStore';
+import type { TilesetMode } from '../stores/tileset-view-store.type';
+import { animateSelectedTiles } from '../tilemap/animate-selected-tiles';
+import { focusTileSearch } from '../tilemap/focus-tile-search';
+import { COMMAND_ZONE } from './command-zone.constants';
+import { COMMAND_GROUP } from './keymap.constants';
+import { TILESET_COMMAND as ID } from './tileset-command-id.constants';
+import { ruled } from './ruled';
+
+const group = COMMAND_GROUP.tilemap;
+
+const mode = (id: string, label: string, value: TilesetMode): CommandDef => ({
+  id,
+  label: `Tileset mode: ${label}`,
+  group,
+  run: () => useTilesetViewStore.getState().setMode(value),
+});
+
+const TILESET_COMMANDS: readonly CommandDef[] = [
+  mode(ID.modeTiles, 'Tiles', 'tiles'),
+  mode(ID.modeTerrain, 'Terrain', 'terrain'),
+  mode(ID.modeCollision, 'Collision', 'collision'),
+  mode(ID.modeData, 'Data', 'data'),
+  mode(ID.modeAnimation, 'Animation', 'animation'),
+  { id: ID.focusSearch, label: 'Search tiles', group, chord: 'Ctrl+F', zone: COMMAND_ZONE.tileset, whileTyping: false, run: focusTileSearch },
+  { id: ID.animationFromTiles, label: 'Make an animation from the selected tiles', group, run: () => void animateSelectedTiles() },
+].map(ruled);
+
+export { TILESET_COMMANDS };

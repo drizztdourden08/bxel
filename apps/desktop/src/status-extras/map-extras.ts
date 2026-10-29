@@ -12,6 +12,7 @@ const mapExtras = (read: PixelRead): StatusExtras => ({
   frame: null,
   cell: read.cell ? EXTRA_TEXT.cellValue(read.cell.at.x, read.cell.at.y) : null,
   tile: read.cell ? tileText(read.cell.key) : null,
+  snap: null,
 });
 
 export { mapExtras };

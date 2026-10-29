@@ -68,7 +68,7 @@ const terrainOption = (tool: ToolId, member: string): OptionSpec => ({
 });
 
 const filledOption: OptionSpec = {
-  ...mapBase('shape', 'rect', 'filled'),
+  ...mapBase('rect', 'rect', 'filled'),
   kind: 'toggle',
   label: OPTION_TEXT.filled,
   description: OPTION_TEXT.mapFilledDescription,
@@ -106,8 +106,11 @@ const MAP_OPTIONS: readonly OptionSpec[] = [
   ...turnOptions('fill', 'fill'),
   terrainOption('fill', 'fill'),
   filledOption,
-  ...turnOptions('shape', 'rect'),
-  terrainOption('shape', 'rect'),
+  ...turnOptions('rect', 'rect'),
+  terrainOption('rect', 'rect'),
+  ...turnOptions('line', 'line'),
+  terrainOption('line', 'line'),
+  ...turnOptions('spray', 'scatter'),
   ...turnOptions('select', 'select'),
   ...CELL_ACTIONS.map(cellAction),
 ];

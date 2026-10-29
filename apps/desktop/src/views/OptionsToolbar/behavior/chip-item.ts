@@ -6,7 +6,7 @@ import { shownMember } from '../../../editor/tool-catalogue/shown-member';
 import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
 import { resetTool } from '../../../editor/tool-options/reset-tool';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
-import { useToolStore } from '../../../stores/useToolStore';
+import { useDrawingStore } from '../../../stores/useDrawingStore';
 import type { Surface } from '../../../editor/tool-catalogue/surface.type';
 import { flyoutGroups } from '../../../tool-menu/flyout-groups';
 import { flyoutModel } from '../../../tool-menu/flyout-model';
@@ -26,8 +26,8 @@ const chipGroups = (slot: ToolSlot, surface: Surface): MenuGroup[] => {
 
 const chipItem = (slot: ToolSlot, surface: Surface): ToolbarButton => {
   const model = flyoutModel(slot, surface);
-  const { shape, filled } = useToolStore.getState();
-  const member = shownMember(slot, { shape, variant: useSelectionStore.getState().variant });
+  const filled = slot.tool === 'rect' || slot.tool === 'ellipse' ? useDrawingStore.getState().filled[slot.tool] : false;
+  const member = shownMember(slot, { variant: useSelectionStore.getState().variant });
   const preset = model.matched?.name ?? OPTIONS_TEXT.custom;
   const named = surface === 'map' ? member.label : OPTIONS_TEXT.chipLabel(member.label, preset);
   return {
@@ -35,7 +35,7 @@ const chipItem = (slot: ToolSlot, surface: Surface): ToolbarButton => {
     id: 'tool-chip',
     label: named,
     description: OPTIONS_TEXT.chipDescription,
-    icon: createElement(SlotIcon, { member, filled: slot.tool === 'shape' && filled, mark: null, badge: null }),
+    icon: createElement(SlotIcon, { member, filled, mark: null, badge: null }),
     caption: named,
     options: chipGroups(slot, surface),
     openOn: 'click',

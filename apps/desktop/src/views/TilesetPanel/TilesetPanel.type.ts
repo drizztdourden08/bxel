@@ -1,7 +1,9 @@
 /* @layer renderer-app @kind types */
-import type { PointerEvent, MouseEvent, RefObject } from 'react';
-import type { Artwork, Size, TerrainRules, Sprite, Tile, TileCollision, Tileset } from '@bxel/document';
+import type { KeyboardEvent, MouseEvent, PointerEvent, RefObject } from 'react';
+import type { TerrainContext } from './behavior/terrain-panel.type';
+import type { Artwork, FieldValue, Point, Sprite, Tile, TileField, TileLayout, TileShape, Tileset } from '@bxel/document';
 import type { TileEditMode, TileStamp } from '../../stores/tilemap-store.type';
+import type { ThumbZoom, TilesetMode } from '../../stores/tileset-view-store.type';
 
 interface TileCell {
   tile: Tile;
@@ -9,40 +11,82 @@ interface TileCell {
   uses: number;
   picked: boolean;
   editing: boolean;
+  index: number;
+  matches: boolean;
+  terrainSlot: number | null;
 }
 
 interface TilesetModel {
   artwork: Artwork;
   tileset: Tileset;
+  layout: TileLayout;
   cells: readonly TileCell[];
+  slots: readonly (TileCell | null)[];
+  byKey: ReadonlyMap<number, TileCell>;
   editMode: TileEditMode;
   stamp: TileStamp;
-  selected: boolean;
+  selected: readonly number[];
   pickedKey: number | null;
+  mapSelected: boolean;
+  filtering: boolean;
+  matched: number;
+  hasMap: boolean;
 }
 
-interface TileHandlers {
+interface GridView {
+  artwork: Artwork;
+  tileset: Tileset;
+  mode: TilesetMode;
+  zoom: number;
+  showKeys: boolean;
+  showUses: boolean;
+  animate: boolean;
+  painted: ReadonlySet<number>;
+  focused: number;
+  order: ReadonlyMap<number, number>;
+  terrain: TerrainContext | null;
+}
+
+interface GridHandlers {
   down: (index: number, event: PointerEvent<HTMLElement>) => void;
   enter: (index: number, event: PointerEvent<HTMLElement>) => void;
   up: () => void;
-  click: (index: number, event: MouseEvent<HTMLElement>) => void;
+  focus: (index: number) => void;
+  keyDown: (index: number, event: KeyboardEvent<HTMLElement>) => void;
+}
+
+interface TilePaint {
+  active: boolean;
+  painted: ReadonlySet<number>;
+  add: (key: number | null) => void;
+  commit: () => void;
+}
+
+interface GridSelection {
+  handlers: GridHandlers;
+  focused: number;
 }
 
 interface TileGridProps {
   model: TilesetModel;
-  handlers: TileHandlers;
+  view: GridView;
+  handlers: GridHandlers;
 }
 
-interface TileButtonProps {
-  cell: TileCell;
+interface TileCellProps {
+  cell: TileCell | null;
   index: number;
-  artwork: Artwork;
-  handlers: TileHandlers;
+  view: GridView;
+  handlers: GridHandlers;
 }
 
 interface TileThumbProps {
-  artwork: Artwork;
-  sprite: Sprite;
+  view: GridView;
+  cell: TileCell;
+}
+
+interface TilesetModelProps {
+  model: TilesetModel;
 }
 
 interface AnimationPartProps {
@@ -51,42 +95,60 @@ interface AnimationPartProps {
   tile: Tile;
 }
 
-interface TilesetActionsProps {
+interface ShapeEditorProps {
   model: TilesetModel;
-  onDelete: (key: number) => void;
-}
-
-interface TilesetHeaderProps {
-  model: TilesetModel;
-}
-
-interface CollisionProps {
-  artwork: Artwork;
-  tileset: Tileset;
   tile: Tile;
   sprite: Sprite;
 }
 
-interface TerrainSlotProps {
+interface ShapeRowProps {
+  tile: Tile;
+  shape: TileShape;
   index: number;
-  mask: number;
-  cell: TileCell | undefined;
-  artwork: Artwork;
-  onPick: (index: number) => void;
+  selected: boolean;
+  layers: readonly string[];
 }
 
-interface TerrainSlotsProps {
+interface MixedTextProps {
+  label: string;
+  value: string | undefined;
+  mixed: boolean;
+  placeholder?: string;
+  disabled?: boolean;
+  onCommit: (value: string) => void;
+}
+
+interface MixedNumberProps {
+  label: string;
+  value: number | undefined;
+  mixed: boolean;
+  min?: number;
+  max?: number;
+  step?: number;
+  onCommit: (value: number) => void;
+}
+
+interface MixedChoiceProps {
+  label: string;
+  value: string | undefined;
+  mixed: boolean;
+  options: readonly { value: string; label: string }[];
+  onCommit: (value: string) => void;
+}
+
+interface FieldValueEditorProps {
+  field: TileField;
+  value: FieldValue | undefined;
+  mixed: boolean;
+  onChange: (value: FieldValue) => void;
+}
+
+interface DataFieldRowProps {
   model: TilesetModel;
-  rules: TerrainRules;
-  onPick: (index: number) => void;
+  field: TileField;
 }
 
-interface TerrainActionsProps {
-  model: TilesetModel;
-  rules: TerrainRules;
-}
-
-interface CollisionCanvasHandle {
+interface ShapeEditorHandle {
   canvas: RefObject<HTMLCanvasElement | null>;
   pointerDown: (event: PointerEvent<HTMLCanvasElement>) => void;
   pointerMove: (event: PointerEvent<HTMLCanvasElement>) => void;
@@ -94,12 +156,38 @@ interface CollisionCanvasHandle {
   doubleClick: (event: MouseEvent<HTMLCanvasElement>) => void;
 }
 
-interface CollisionPaint {
-  tile: HTMLCanvasElement | null;
-  size: Size;
-  scale: number;
-  shape: TileCollision | null;
-  colour: string;
+interface ShapeDrag {
+  kind: 'rect' | 'point';
+  from: Point;
+  to: Point;
+  index: number;
 }
 
-export type { AnimationPartProps, TerrainActionsProps, TerrainSlotProps, TerrainSlotsProps, CollisionCanvasHandle, CollisionPaint, CollisionProps, TileButtonProps, TileCell, TileGridProps, TileHandlers, TileThumbProps, TilesetActionsProps, TilesetHeaderProps, TilesetModel };
+interface ZoomChoice {
+  zoom: ThumbZoom;
+  label: string;
+}
+
+export type {
+  AnimationPartProps,
+  DataFieldRowProps,
+  FieldValueEditorProps,
+  GridHandlers,
+  GridSelection,
+  GridView,
+  MixedChoiceProps,
+  MixedNumberProps,
+  MixedTextProps,
+  ShapeDrag,
+  ShapeEditorHandle,
+  ShapeEditorProps,
+  ShapeRowProps,
+  TileCell,
+  TileCellProps,
+  TileGridProps,
+  TilePaint,
+  TileThumbProps,
+  TilesetModel,
+  TilesetModelProps,
+  ZoomChoice,
+};

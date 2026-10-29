@@ -6,6 +6,9 @@ import { tiledTileEntries } from './tiled-tile-entries';
 import { TILED_JSON } from './tilemap.constants';
 import type { TilemapExportInput, TilemapJsonResult } from './tilemap.type';
 
+const objectCount = (entries: readonly Record<string, unknown>[]): number =>
+  entries.reduce((sum, entry) => sum + ((entry['objectgroup'] as { objects?: readonly unknown[] } | undefined)?.objects?.length ?? 0), 0);
+
 const writeTiledJson = (input: TilemapExportInput): TilemapJsonResult => {
   const invalid = checkTilemapInput(input);
   if (invalid) return invalid;
@@ -36,7 +39,7 @@ const writeTiledJson = (input: TilemapExportInput): TilemapJsonResult => {
     tilewidth: input.tileWidth,
     tileheight: input.tileHeight,
     nextlayerid: layers.length + 1,
-    nextobjectid: shaped.length + 1,
+    nextobjectid: Math.max(shaped.length, objectCount(shaped)) + 1,
     layers,
     tilesets: [
       {

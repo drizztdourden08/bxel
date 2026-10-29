@@ -17,7 +17,7 @@ import type { HintSpec } from '../../src/views/ActionHint';
 import { COMMAND_ID } from '../../src/keymap/keymap.constants';
 import { ANIMATE_TILES_HINT, COLLISION_OVERLAY_HINT, TILE_MODE_HINTS } from '../../src/tilemap/tile-mode.constants';
 import {
-  ADD_HINT, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, NEW_TILEMAP_HINT, NEW_TILESET_HINT, UNIQUE_HINT,
+  ADD_HINT, BRUSH_ACTIONS, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, SHAPE_ACTIONS,
 } from '../../src/views/TilesetPanel/TilesetPanel.constants';
 
 const toolHint = (slot: ToolSlot, member: ToolMember): HintSpec => ({
@@ -40,9 +40,8 @@ const panelHints = (): HintSpec[] => [
   DELETE_HINT,
   DUPLICATE_HINT,
   EDIT_HINT,
-  NEW_TILEMAP_HINT,
-  NEW_TILESET_HINT,
-  UNIQUE_HINT,
+  ...BRUSH_ACTIONS.map((action) => action.hint),
+  ...SHAPE_ACTIONS.map((action) => action.hint),
   ...Object.values(LAYER_BAR_HINTS),
   ...Object.values(LAYER_FLAG_HINTS),
   ...TRANSFORM_ACTIONS.map((action) => action.hint),

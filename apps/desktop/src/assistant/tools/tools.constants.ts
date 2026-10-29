@@ -32,6 +32,7 @@ const TOOL_TEXT = {
   outside: 'The rectangle reaches outside the sprite.',
   tooLarge: (side: number) => `The image would be more than ${side} pixels on a side. Ask for a smaller scale.`,
   pngTooLarge: 'The PNG is larger than one reply may carry. Ask for a smaller scale.',
+  noTilesetFound: 'The tileset is not in this document. Call get_document.',
   noSheetFound: 'The sheet is not in this document. Call get_document.',
   noSheetImage: 'The sheet has no image to draw. Add sprites to it first.',
   sheetFormat: 'A sheet exports as png only.',

@@ -3,6 +3,7 @@ import { AddFramesDialog } from '../AddFramesDialog';
 import { CanvasSizeDialog } from '../CanvasSizeDialog';
 import { DirectionSetDialog } from '../DirectionSetDialog';
 import { ImportWizard } from '../ImportWizard';
+import { LinkedCelDialog } from '../LinkedCelDialog';
 import { CreateDialog } from '../CreateDialog';
 import { ProjectCreateDialog } from '../ProjectCreateDialog';
 import { PaletteChangeDialog } from '../PaletteChangeDialog';
@@ -25,6 +26,7 @@ const DialogHost = () => {
       <PresetDialog />
       <RampBuilderDialog />
       <PaletteSheetDialog />
+      <LinkedCelDialog />
     </>
   );
 };

@@ -14,7 +14,6 @@ import { animationPng } from './animation-png';
 import { animationUri } from './animation-uri';
 import { blendGhost } from './blend-ghost';
 import { hiddenAssets } from './hidden-assets';
-import { indexHash } from './index-hash';
 import { onionPlanOf } from './onion-plan-of';
 import { pngReply } from './png-reply';
 import { reply } from './reply';
@@ -39,7 +38,7 @@ const renderOnion = async (context: ToolContext, view: DocumentView, input: Rend
   }
   const indices = composeAnimationFrame(artwork, animation, frameId);
   const png = animationPng({ image: { data, width: animation.width, height: animation.height }, indices }, scale);
-  return pngReply({ png, render: { revision, scale, uri: animationUri(documentId, source, scale, revision) }, hashOf: () => indexHash(indices) });
+  return pngReply(png, { revision, scale, uri: animationUri(documentId, source, scale, revision) });
 };
 
 export { renderOnion };
