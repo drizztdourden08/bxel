@@ -4,7 +4,8 @@ import { describe, expect, test } from 'vitest';
 import { brand } from './brand';
 import { buildArtwork } from './build-artwork';
 import { applyTo, frameRows, named, names, refusal, undoLast } from './compose-world';
-import { pixelEngine } from './pixel-engine';
+import { pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
+import { errorOf } from './result-checks';
 import { findIslands } from '../src/commands/compose/find-islands';
 
 const sheet = brand<SpriteId>('spr_000100');
@@ -75,7 +76,9 @@ describe('sprite.slice when a piece name is already used', () => {
   };
 
   test('refuses by default, numbers the new pieces with keep and leaves the used names out with skip', () => {
-    expect(refusal(cutOnce(), 'sprite.slice', [sheet], { islands: { minSize: 1, merge: 0 }, keep: true })).toBe('NAME_TAKEN');
+    const again = cutOnce();
+    const taken = errorOf(again.execute(request([stepOf('sprite.slice', scopeOf([sheet]), { islands: { minSize: 1, merge: 0 }, keep: true })], { baseRevision: again.state().revision })));
+    expect(taken.code).toBe('NAME_TAKEN');
     const kept = cutOnce();
     applyTo(kept, 'sprite.slice', [sheet], { islands: { minSize: 1, merge: 0 }, keep: true, existing: 'keep' });
     expect(names(kept)).toContain('blobs_1_2');
