@@ -4,6 +4,7 @@ import { iconOfKind } from '../../../project-health/icon-of-kind';
 import { HEALTH_TEXT } from '../../../project-health/project-health.constants';
 import type { ReportProps } from '../ProjectHealth.type';
 import { HealthSection } from './HealthSection';
+import { PathMeta } from './PathMeta';
 
 const MisplacedSection = ({ report, actions }: ReportProps) => (
   <HealthSection
@@ -21,7 +22,7 @@ const MisplacedSection = ({ report, actions }: ReportProps) => (
         key={finding.fix}
         icon={<Icon name={iconOfKind(finding.kind)} />}
         name={finding.name}
-        meta={`${finding.path}. ${HEALTH_TEXT.expected(finding.folder)}`}
+        meta={<PathMeta build={(show) => `${show(finding.path)}. ${HEALTH_TEXT.expected(show(finding.folder))}`} />}
         actionVisibility="always"
         action={
           <Box className="project-health__row-actions">

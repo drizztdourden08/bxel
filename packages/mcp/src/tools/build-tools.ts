@@ -4,6 +4,7 @@ import { buildApplyEditsTool } from './apply-edits-tool';
 import { closeDocumentTool } from './close-document-tool';
 import { createDocumentTool } from './create-document-tool';
 import { createFolderTool } from './create-folder-tool';
+import { duplicateFileTool } from './duplicate-file-tool';
 import { exportDocumentTool } from './export-document-tool';
 import { findReferencesTool } from './find-references-tool';
 import { getAnimationTool } from './get-animation-tool';
@@ -11,6 +12,7 @@ import { getDocumentTool } from './get-document-tool';
 import { getHistoryTool } from './get-history-tool';
 import { getViewTool } from './get-view-tool';
 import { getSessionTool } from './get-session-tool';
+import { importFilesTool } from './import-files-tool';
 import { listAssetsTool } from './list-assets-tool';
 import { listDocumentsTool } from './list-documents-tool';
 import { getSettingsTool } from './get-settings-tool';
@@ -87,6 +89,8 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   renameFileTool,
   createFolderTool,
   trashFilesTool,
+  duplicateFileTool,
+  importFilesTool,
 ];
 
 export { buildTools };

@@ -4,6 +4,7 @@ import { iconOfKind } from '../../../project-health/icon-of-kind';
 import { HEALTH_TEXT } from '../../../project-health/project-health.constants';
 import type { ReportProps } from '../ProjectHealth.type';
 import { HealthSection } from './HealthSection';
+import { PathMeta } from './PathMeta';
 
 const UnusedSection = ({ report, actions }: ReportProps) => (
   <HealthSection
@@ -26,7 +27,7 @@ const UnusedSection = ({ report, actions }: ReportProps) => (
         key={finding.fix}
         icon={<Icon name={iconOfKind(finding.kind)} />}
         name={finding.name}
-        meta={finding.path}
+        meta={<PathMeta build={(show) => show(finding.path)} />}
         actionVisibility="always"
         action={
           <Button size="sm" variant="ghost" onClick={() => actions.show(finding.path)}>

@@ -42,6 +42,8 @@ const TOOL_NAME = {
   renameFile: 'rename_file',
   createFolder: 'create_folder',
   trashFiles: 'trash_files',
+  duplicateFile: 'duplicate_file',
+  importFiles: 'import_files',
 } as const;
 
 const TOOLS_WITHOUT_SESSION: readonly string[] = [TOOL_NAME.startBxel];

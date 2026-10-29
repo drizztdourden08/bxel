@@ -49,7 +49,17 @@ const organiseOf = (projectFile: string): string => {
   return `${Object.values(organise.tags).flat().sort().join(',')}|${organise.collections[0]?.name}|${organise.collections[0]?.assets.length}|${organise.pinned.length}`;
 };
 
-const organisesFiles = async (session: Session, place: string): Promise<void> => {
+const clicksMenuItems = async (session: Session, name: string): Promise<void> => {
+  const { page } = session;
+  const cell = page.getByRole('gridcell', { name, exact: true }).first();
+  await cell.click({ button: 'right' });
+  await page.getByRole('menuitem', { name: 'Add to collection' }).click();
+  await page.getByRole('menuitemcheckbox', { name: 'Players' }).click();
+  await cell.click({ button: 'right' });
+  await page.getByRole('menuitem', { name: 'Pin', exact: true }).click();
+};
+
+const organisesFiles = async (session: Session, place: string, viaMenu: boolean): Promise<void> => {
   const { page } = session;
   const { root, spritePath } = await writeGalleryProject(place);
   const name = spritePath.slice(spritePath.lastIndexOf('/') + 1).replace('.bxsprite', '');
@@ -71,9 +81,10 @@ const organisesFiles = async (session: Session, place: string): Promise<void> =>
   await page.getByRole('menuitem', { name: 'Add to collection' }).waitFor(POLL);
   await page.getByRole('menuitem', { name: 'Pin', exact: true }).waitFor(POLL);
   await page.keyboard.press('Escape');
+  if (viaMenu) await clicksMenuItems(session, name);
   const projectFile = join(root, `${GALLERY.project}.bxproject`);
-  await expect.poll(() => organiseOf(projectFile), POLL).toBe('big,player|Players|0|0');
-  await page.getByLabel('Search the project').fill('tag:player tag:big');
+  await expect.poll(() => organiseOf(projectFile), POLL).toBe(viaMenu ? 'big,player|Players|1|1' : 'big,player|Players|0|0');
+  await page.getByLabel('Search the project').fill(viaMenu ? 'tag:player collection:players is:pinned' : 'tag:player tag:big');
   await page.getByRole('gridcell', { name, exact: true }).first().waitFor(POLL);
   expect(await page.getByRole('gridcell').count()).toBe(1);
   expect(existsSync(projectFile)).toBe(true);
@@ -84,5 +95,7 @@ describe('the Health page and the organise block', () => {
 
   test('lists a file moved in Explorer as a link with an old path and repairs it with Fix all', () => inFreshPlace((place) => repairsAMovedFile(rig().session, place)));
 
-  test('keeps tags, collections and pins in the project file and finds files by them', () => inFreshPlace((place) => organisesFiles(rig().session, place)));
+  test('keeps tags and collections in the project file and finds files by tag', () => inFreshPlace((place) => organisesFiles(rig().session, place, false)));
+
+  test.skip('adds to a collection and pins from the context menu, blocked on Tessera P-274 and P-275', () => inFreshPlace((place) => organisesFiles(rig().session, place, true)));
 });

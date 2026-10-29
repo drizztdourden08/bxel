@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { OpenProject } from '../../project/project.type';
 import type { GrantedProject } from '../assistant.type';
+import type { ProjectLocation } from './tool-input.type';
 
 type FilePlace = { readonly folderId: string; readonly path: string };
 
@@ -33,6 +34,10 @@ type OrganiseInput = {
   readonly search?: string;
 };
 
+type DuplicateFileInput = { readonly projectId: string; readonly files: readonly FilePlace[] };
+
+type ImportFilesInput = { readonly projectId: string; readonly sources: readonly FilePlace[]; readonly into?: FolderPlace };
+
 type MoveFilesInput = { readonly projectId: string; readonly files: readonly FilePlace[]; readonly into: FolderPlace };
 
 type RenameFileInput = { readonly projectId: string; readonly file: FilePlace; readonly name: string };
@@ -43,11 +48,19 @@ type TrashFilesInput = { readonly projectId: string; readonly files: readonly Fi
 
 type Entry = { readonly path: string; readonly folder: boolean };
 
+type ImportReport = {
+  readonly imported: readonly { readonly source: ProjectLocation; readonly created: readonly ProjectLocation[] }[];
+  readonly skipped: readonly { readonly path: string; readonly reason: string }[];
+};
+
 type VisibleProject = { readonly found: GrantedProject; readonly visible: OpenProject };
 
 export type {
   CreateFolderInput,
+  DuplicateFileInput,
   Entry,
+  ImportFilesInput,
+  ImportReport,
   FilePlace,
   FindReferencesInput,
   MoveFilesInput,

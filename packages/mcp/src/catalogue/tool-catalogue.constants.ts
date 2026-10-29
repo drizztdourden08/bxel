@@ -54,6 +54,8 @@ const TOOL_CATALOGUE: Readonly<Record<ToolName, ToolEntry>> = {
   rename_file: write('project_files'),
   create_folder: write('project_files'),
   trash_files: write('project_files'),
+  duplicate_file: write('project_files'),
+  import_files: write('project_files'),
 };
 
 export { TOOL_CATALOGUE };

@@ -46,6 +46,8 @@ const TOOL_TEXT: Readonly<Record<ToolRowId, string>> = {
   rename_file: 'Renames a file or folder of a project and keeps its links.',
   create_folder: 'Makes a folder in a project.',
   trash_files: 'Moves files of a project to the system trash.',
+  duplicate_file: 'Copies files of a project beside the originals.',
+  import_files: 'Turns image and palette files of a project into assets.',
 };
 
 const LEVEL_NAME: Readonly<Record<Level, string>> = { disabled: 'Disabled', read: 'Read', edit: 'Edit' };

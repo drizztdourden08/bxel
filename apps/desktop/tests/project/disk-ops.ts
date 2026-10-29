@@ -58,6 +58,13 @@ const trash = (disk: Disk, path: string): Promise<void> => {
   return Promise.resolve();
 };
 
+const copy = (disk: Disk, from: string, to: string): Promise<void> => {
+  const content = disk.files.get(from);
+  if (content === undefined) return Promise.reject(new Error(`ENOENT: ${from}`));
+  disk.files.set(to, content);
+  return Promise.resolve();
+};
+
 const mkdir = (disk: Disk, path: string): Promise<void> => {
   const refused = refuse(disk, path);
   if (refused) return refused;
@@ -104,6 +111,7 @@ const diskOps = (get: () => Disk): Pick<DocumentsPort, keyof typeof quietDocumen
   trash: (path) => trash(get(), path),
   rename: (from, to, options) => rename(get(), from, to, options),
   mkdir: (path) => mkdir(get(), path),
+  copy: (from, to) => copy(get(), from, to),
   watch: (folder, _options, listener) => watch(get(), folder, listener),
   rememberedFolders: () => remembered(get()),
   regrant: (path) => regrant(get(), path),

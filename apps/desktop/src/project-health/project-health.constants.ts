@@ -8,6 +8,8 @@ const LEAF_KINDS: ReadonlySet<AssetKind> = new Set(['sprite', 'animation', 'pale
 
 const EMPTY_REPORT: HealthReport = { broken: [], moved: [], unused: [], misplaced: [], duplicates: [], unsaved: 0, access: [], total: 0, files: 0 };
 
+const META_MAX = 84;
+
 const HEALTH_TEXT = {
   title: 'Health',
   projectMenu: 'Project health',
@@ -63,4 +65,4 @@ const HEALTH_TEXT = {
   writeFailed: (file: string, reason: string): string => `Could not write ${file}. ${reason}`,
 } as const;
 
-export { EMPTY_REPORT, HEALTH_CHECKS, HEALTH_TEXT, LEAF_KINDS };
+export { EMPTY_REPORT, HEALTH_CHECKS, HEALTH_TEXT, LEAF_KINDS, META_MAX };

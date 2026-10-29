@@ -21,16 +21,16 @@ const refsOf = (value: unknown): string[] => {
 };
 
 describe('the tool set', () => {
-  it('has the 42 tools of the contract, each in a bundle', () => {
-    expect(tools).toHaveLength(42);
-    expect(new Set(tools.map((tool) => tool.name)).size).toBe(42);
+  it('has the 44 tools of the contract, each in a bundle', () => {
+    expect(tools).toHaveLength(44);
+    expect(new Set(tools.map((tool) => tool.name)).size).toBe(44);
     expect(Object.values(TOOL_NAME).sort()).toEqual(tools.map((tool) => tool.name).sort());
     for (const tool of tools) expect(tool).toMatchObject({ bundle: TOOL_CATALOGUE[tool.name].bundle, kind: TOOL_CATALOGUE[tool.name].kind });
   });
 
-  it('writes with exactly the fifteen writing tools', () => {
+  it('writes with exactly the seventeen writing tools', () => {
     const editing = tools.filter((tool) => tool.kind === 'write').map((tool) => tool.name);
-    expect(editing.sort()).toEqual(['apply_edits', 'create_document', 'create_folder', 'export_document', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo']);
+    expect(editing.sort()).toEqual(['apply_edits', 'create_document', 'create_folder', 'duplicate_file', 'export_document', 'import_files', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo']);
   });
 
   it('sets openWorldHint false on every tool', () => {

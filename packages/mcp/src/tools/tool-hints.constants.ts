@@ -49,6 +49,8 @@ const TOOL_HINTS = {
   rename_file: ACTION,
   create_folder: ACTION,
   trash_files: DESTRUCTIVE,
+  duplicate_file: ACTION,
+  import_files: ACTION,
 } as const satisfies Record<string, ToolHints>;
 
 export { TOOL_HINTS };

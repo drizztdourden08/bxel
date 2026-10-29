@@ -47,6 +47,8 @@ const MCP_ROUTE = {
   renameFile: 'bxel:mcp:rename_file',
   createFolder: 'bxel:mcp:create_folder',
   trashFiles: 'bxel:mcp:trash_files',
+  duplicateFile: 'bxel:mcp:duplicate_file',
+  importFiles: 'bxel:mcp:import_files',
 } as const;
 
 const MCP_EVENT = {
@@ -95,6 +97,8 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   rename_file: MCP_ROUTE.renameFile,
   create_folder: MCP_ROUTE.createFolder,
   trash_files: MCP_ROUTE.trashFiles,
+  duplicate_file: MCP_ROUTE.duplicateFile,
+  import_files: MCP_ROUTE.importFiles,
 };
 
 const MCP_ASK = {

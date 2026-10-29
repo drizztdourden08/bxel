@@ -8,6 +8,7 @@ import { fileName } from '../files/file-name';
 import { reasonOf } from '../files/reason-of';
 import type { IndexedFile, IndexedLink, LinkIndex } from '../workspace/link-index.type';
 import { toSlashes } from '../workspace/to-slashes';
+import { forgetRemovedTargets } from './forget-removed-targets';
 import { HEALTH_TEXT } from './project-health.constants';
 import type { FixOutcome, LinkFix } from './project-health.type';
 import type { Decision } from './repair-links.type';
@@ -43,6 +44,7 @@ const repairLinks = async (documents: DocumentsPort, index: LinkIndex, fixes: re
     else byFile.set(toSlashes(fix.file), [...(byFile.get(toSlashes(fix.file)) ?? []), { fix, link: choice.link }]);
   }
   let fixed = 0;
+  const removed: LinkFix[] = [];
   for (const [file, changes] of byFile) {
     try {
       const bytes = await documents.read(file);
@@ -53,10 +55,12 @@ const repairLinks = async (documents: DocumentsPort, index: LinkIndex, fixes: re
       if (next === null) continue;
       await documents.write(file, next, { recent: false });
       fixed += changes.length;
+      removed.push(...changes.filter((change) => change.fix.by === 'remove').map((change) => ({ ...change.fix, file })));
     } catch (error) {
       for (const change of changes) skipped.push({ fix: change.fix, reason: HEALTH_TEXT.writeFailed(fileName(file), reasonOf(error)) });
     }
   }
+  forgetRemovedTargets(index, removed);
   return { fixed, skipped };
 };
 

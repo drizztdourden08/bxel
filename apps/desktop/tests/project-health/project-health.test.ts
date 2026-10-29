@@ -3,6 +3,9 @@ import { describe, expect, it, vi } from 'vitest';
 import { repairLinks } from '../../src/project-health/repair-links';
 import { scanHealth } from '../../src/project-health/scan-health';
 import { useProjectStore } from '../../src/stores/useProjectStore';
+import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
+import { saveTab } from '../../src/workspace/save-tab';
+import { tabOf } from '../../src/workspace/tab-of';
 import { linksIn } from '../project/links-in';
 import { ROOT } from '../project/project-harness';
 import { heldRig } from '../workspace/held-rig';
@@ -26,6 +29,13 @@ const open = async (): Promise<Opened> => {
     palettePath: paths.get(bank.id) ?? '',
     spriteId: sprite.id,
   };
+};
+
+const openedSprite = () => {
+  const documentId = Object.values(useWorkspaceStore.getState().workspaces)[0]?.documentId;
+  const sprite = documentId === undefined ? undefined : artworkOf(documentId).sprites[0];
+  if (documentId === undefined || sprite === undefined) throw new Error('no open sprite');
+  return { documentId, key: { kind: 'sprite', id: sprite.id } as const };
 };
 
 const scan = async () => {
@@ -87,6 +97,23 @@ describe('the link index and the health checks', () => {
     expect(outcome.fixed).toBe(1);
     expect(linksOf(spritePath)).toEqual([]);
     expect((await scan()).report.broken.map((each) => each.file)).not.toContain(spritePath);
+  });
+
+});
+
+describe('the repairs on the files and on the open project', () => {
+  it('forgets the missing target in the open project, so a later save does not write the link back', async () => {
+    const { spritePath, palettePath } = await open();
+    const { documentId, key } = openedSprite();
+    held.rig.disk.files.delete(palettePath);
+    const { report, index } = await scan();
+    const finding = report.broken.find((each) => each.file === spritePath);
+    const outcome = await repairLinks(held.rig.disk.port, index, [{ file: spritePath, linkId: finding?.linkId ?? '', by: 'remove' }]);
+    expect(outcome.fixed).toBe(1);
+    expect(linksOf(spritePath)).toEqual([]);
+    const saved = await saveTab(held.rig.kit, tabOf(documentId, key), false);
+    expect(saved.kind).toBe('done');
+    expect(linksOf(spritePath)).toEqual([]);
   });
 
   it('refuses a fix that names a link or a file the project does not have, and a path that holds another asset', async () => {

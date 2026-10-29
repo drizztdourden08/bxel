@@ -47,7 +47,7 @@ describe('the tool catalogue', () => {
 
   it('keeps the writing tools to those that edit documents, files, layout and settings, and the restart', () => {
     const writing = Object.entries(TOOL_CATALOGUE).filter(([, entry]) => entry.kind === 'write');
-    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'create_folder', 'export_document', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo']);
+    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'create_folder', 'duplicate_file', 'export_document', 'import_files', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo']);
   });
 
   it('lists twelve bundles and flags the six that hold document writes', () => {

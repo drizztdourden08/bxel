@@ -50,6 +50,8 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   rename_file: saveExport,
   create_folder: edit,
   trash_files: saveExport,
+  duplicate_file: saveExport,
+  import_files: saveExport,
 };
 
 const NATIVE_PAIR_TEXT = {

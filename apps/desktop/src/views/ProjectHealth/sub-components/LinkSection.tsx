@@ -5,11 +5,12 @@ import { HEALTH_TEXT } from '../../../project-health/project-health.constants';
 import type { LinkFinding } from '../../../project-health/project-health.type';
 import { HealthSection } from './HealthSection';
 import type { LinkSectionProps } from './LinkSection.type';
+import { PathMeta } from './PathMeta';
 
-const metaOf = (finding: LinkFinding): string => {
-  if (finding.foundPath !== null) return `${HEALTH_TEXT.lastPath(finding.lastPath)}. ${HEALTH_TEXT.foundAt(finding.foundPath)}`;
-  if (finding.candidates.length > 1) return `${HEALTH_TEXT.lastPath(finding.lastPath)}. ${HEALTH_TEXT.candidates(finding.candidates)}`;
-  return HEALTH_TEXT.lastPath(finding.lastPath);
+const metaOf = (finding: LinkFinding) => (show: (path: string) => string): string => {
+  const last = HEALTH_TEXT.lastPath(show(finding.lastPath));
+  if (finding.foundPath !== null) return `${last}. ${HEALTH_TEXT.foundAt(show(finding.foundPath))}`;
+  return finding.candidates.length > 1 ? `${last}. ${HEALTH_TEXT.candidates(finding.candidates.map(show))}` : last;
 };
 
 const LinkSection = ({ findings, actions, title, hint, moved }: LinkSectionProps) => (
@@ -30,7 +31,7 @@ const LinkSection = ({ findings, actions, title, hint, moved }: LinkSectionProps
         key={finding.fix}
         icon={<Icon name={iconOfKind(finding.fileKind)} />}
         name={HEALTH_TEXT.linkLine(finding.fileName, finding.targetName)}
-        meta={metaOf(finding)}
+        meta={<PathMeta build={metaOf(finding)} />}
         actionVisibility="always"
         action={
           <Box className="project-health__row-actions">

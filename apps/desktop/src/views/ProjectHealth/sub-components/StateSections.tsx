@@ -3,6 +3,7 @@ import { Button, Icon, ListItemRow } from '@drizztdourden08/tessera';
 import { HEALTH_TEXT } from '../../../project-health/project-health.constants';
 import type { ReportProps } from '../ProjectHealth.type';
 import { HealthSection } from './HealthSection';
+import { PathMeta } from './PathMeta';
 
 const StateSections = ({ report, actions }: ReportProps) => (
   <>
@@ -27,7 +28,7 @@ const StateSections = ({ report, actions }: ReportProps) => (
             key={finding.fix}
             icon={<Icon name="folder" />}
             name={finding.name}
-            meta={finding.path}
+            meta={<PathMeta build={(show) => show(finding.path)} />}
             actionVisibility="always"
             action={
               <Button size="sm" variant="secondary" onClick={() => actions.regrant(finding)}>

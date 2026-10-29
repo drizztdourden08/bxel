@@ -21,6 +21,8 @@ const WRITING: readonly [ToolName, unknown][] = [
   ['rename_file', { projectId: PROJECT, file: PLACE, name: 'knight' }],
   ['create_folder', { projectId: PROJECT, in: { folderId: FOLDER }, name: 'heroes' }],
   ['trash_files', { projectId: PROJECT, files: [PLACE] }],
+  ['duplicate_file', { projectId: PROJECT, files: [PLACE] }],
+  ['import_files', { projectId: PROJECT, sources: [PLACE] }],
 ];
 
 const READING: readonly [ToolName, unknown][] = [
@@ -36,7 +38,7 @@ describe('the project files tools', () => {
 
   it('marks only the trash as destructive and the readers as read only', () => {
     expect(tool('trash_files').annotations.destructiveHint).toBe(true);
-    for (const name of ['move_files', 'rename_file', 'organise', 'repair_links', 'create_folder'] as const) expect(tool(name).annotations.destructiveHint, name).toBe(false);
+    for (const name of ['move_files', 'rename_file', 'organise', 'repair_links', 'create_folder', 'duplicate_file', 'import_files'] as const) expect(tool(name).annotations.destructiveHint, name).toBe(false);
     for (const [name] of READING) expect(tool(name).annotations.readOnlyHint, name).toBe(true);
   });
 
@@ -94,6 +96,14 @@ describe('the project files inputs', () => {
   it('knows the organise operations', () => {
     expect(parseToolInput(tool('organise'), { projectId: PROJECT, op: 'collect', collection: 'Players', files: [PLACE] }).ok).toBe(true);
     expect(parseToolInput(tool('organise'), { projectId: PROJECT, op: 'explode' }).ok).toBe(false);
+  });
+
+  it('asks duplicate_file and import_files for files, and takes into only on import_files', () => {
+    expect(parseToolInput(tool('duplicate_file'), { projectId: PROJECT, files: [] }).ok).toBe(false);
+    expect(parseToolInput(tool('duplicate_file'), { projectId: PROJECT, files: [PLACE] }).ok).toBe(true);
+    expect(parseToolInput(tool('import_files'), { projectId: PROJECT, sources: [PLACE], into: { folderId: FOLDER, path: 'heroes' } }).ok).toBe(true);
+    expect(parseToolInput(tool('import_files'), { projectId: PROJECT, sources: [] }).ok).toBe(false);
+    expect(parseToolInput(tool('duplicate_file'), { projectId: PROJECT, files: [PLACE], into: { folderId: FOLDER } }).ok).toBe(false);
   });
 
   it('takes a query on list_assets', () => {
