@@ -3,6 +3,7 @@ import { findSprite, findTile } from '@bxel/document';
 import type { Point } from '@bxel/document';
 import { stampPlacements } from '../../../tilemap/stamp-placements';
 import { tileCanvas } from '../../../tilemap/tile-canvas';
+import { orientStamp } from '../../../tilemap/orient-stamp';
 import { usableStamp } from '../../../tilemap/usable-stamp';
 import { GHOST_ALPHA } from '../TilemapCanvas.constants';
 import type { MapPaintState } from '../TilemapCanvas.type';
@@ -16,7 +17,7 @@ const paintGhost = (ctx: CanvasRenderingContext2D, state: MapPaintState, origin:
   const geometry = targetGeometry(target);
   ctx.save();
   ctx.globalAlpha = GHOST_ALPHA;
-  for (const { key, cell } of stampPlacements(usableStamp(stamp, tileset), origin, target.tilemap)) {
+  for (const { key, cell } of stampPlacements(orientStamp(usableStamp(stamp, tileset), flags), origin, target.tilemap)) {
     const tile = findTile(tileset, key);
     const sprite = tile ? findSprite(artwork, tile.spriteId) : undefined;
     const canvas = sprite ? tileCanvas(artwork, sprite) : null;

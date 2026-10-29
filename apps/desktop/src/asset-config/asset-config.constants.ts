@@ -14,6 +14,8 @@ const FOCUS_PICKERS = {
 
 const ASSET_LABEL = {
   rename: 'Rename',
+  layout: 'Set tile grid columns',
+  layers: 'Set collision layers',
   resize: 'Resize sprite',
   pivot: 'Move the pivot',
   animationSize: 'Resize animation canvas',

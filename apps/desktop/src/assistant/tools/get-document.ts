@@ -4,6 +4,7 @@ import { sheetExtent, sheetSizes } from '@bxel/document';
 import type { Animation, Artwork, CustomBrush, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
 import { hiddenAssets } from './hidden-assets';
+import { tilesetDetail } from './tileset-detail';
 import { reply } from './reply';
 import { spriteSummary } from './sprite-summary';
 import type { GetDocumentInput } from './tool-input.type';
@@ -59,7 +60,7 @@ const sheetSummary = (artwork: Artwork) => (sheet: Sheet) => ({
 });
 
 const getDocument: ToolHandler = (input, context) => {
-  const { documentId, spriteOffset, spriteLimit } = input as GetDocumentInput;
+  const { documentId, spriteOffset, spriteLimit, include = [] } = input as GetDocumentInput;
   const view = viewFor(context, documentId);
   if (!view) return reply(hiddenFailure('document'));
   const { artwork, revision } = view.state;
@@ -83,6 +84,9 @@ const getDocument: ToolHandler = (input, context) => {
     brushes: (artwork.brushes ?? []).map(brushSummary),
     tilesets: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map(tilesetSummary),
     tilemaps: artwork.tilemaps.filter((tilemap) => !hidden.has(tilemap.id)).map(tilemapSummary),
+    ...(include.includes('tileset')
+      ? { tilesetDetails: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map((tileset) => tilesetDetail(artwork, tileset)) }
+      : {}),
   });
 };
 

@@ -4,6 +4,7 @@ import { encodeBase64, hiddenFailure, MCP_ERROR_CODE, mcpFailure, RENDER_PNG_BYT
 import type { ToolHandler } from '../assistant.type';
 import { framePng } from './frame-png';
 import { renderAnimation } from './render-animation';
+import { renderTilesetPreview } from './render-tileset-preview';
 import { renderSheetPreview } from './render-sheet-preview';
 import { hiddenAssets } from './hidden-assets';
 import { indexHash } from './index-hash';
@@ -20,6 +21,7 @@ const renderPreview: ToolHandler = async (input, context) => {
   if (!view) return reply(hiddenFailure('document'));
   if ('animationId' in target) return renderAnimation(context, view, request, target);
   if ('sheetId' in target) return renderSheetPreview(context, view, request, target);
+  if ('tilesetId' in target) return renderTilesetPreview(context, view, request, target);
   if (!('spriteId' in target)) return reply(mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.formatMissing, { path: 'target' }));
   const found = spriteFrame(view.state.artwork, target.spriteId, target.frameId, hiddenAssets(context, documentId));
   if (!found.ok) return reply(found);

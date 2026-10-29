@@ -124,6 +124,8 @@ const TILEMAP_ROWS = [
   one('tilemap.delete_tile', 'tilemaps', 'edit', { dialog: 'confirm' }),
   ...rows('tilemaps', 'app', ['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'terrain.toggle_brush']),
   one('collision.toggle_overlay', 'tilemaps', 'show'),
+  ...rows('tilemaps', 'app', ['tileset.mode_tiles', 'tileset.mode_terrain', 'tileset.mode_collision', 'tileset.mode_data', 'tileset.mode_animation', 'tileset.focus_search']),
+  one('tileset.animation_from_tiles', 'tilemaps', 'edit'),
   one('animation.toggle_tiles', 'tilemaps', 'show'),
   one('tilemap.use_tile', 'tilemaps', 'app', { args: 'tile' }),
   one('tilemap.pick_tile_here', 'tilemaps', 'app', { args: 'pixel' }),

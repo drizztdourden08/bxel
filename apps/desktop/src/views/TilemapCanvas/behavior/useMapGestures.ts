@@ -20,7 +20,7 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
   const pixelAt = (event: PointerEvent<HTMLElement>): PixelPoint => viewport.current?.screenToPixel(event.clientX, event.clientY) ?? { x: 0, y: 0 };
   const cellAt = (event: PointerEvent<HTMLElement>): Point => cellOf(pixelAt(event), target);
   const cellNear = (event: PointerEvent<HTMLElement>): Point => cellNearest(pixelAt(event), target);
-  const spanning = tool === 'rect' || tool === 'select';
+  const spanning = tool === 'rect' || tool === 'select' || tool === 'pick';
   const redraw = (): void => viewport.current?.redraw();
   const guide = useGuideGrab(viewport);
   return {

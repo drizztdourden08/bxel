@@ -10,7 +10,8 @@ type MapDrag =
   | { kind: 'stroke'; tool: 'place' | 'erase' | 'scatter'; cells: Point[] }
   | { kind: 'line'; from: Point; to: Point }
   | { kind: 'rect'; from: Point; to: Point }
-  | { kind: 'select'; from: Point; to: Point };
+  | { kind: 'select'; from: Point; to: Point }
+  | { kind: 'pick'; from: Point; to: Point };
 
 interface MapLive {
   hover: Point | null;

@@ -16,6 +16,12 @@ const TILE_ANIMATION_TEXT = {
   edit: 'Edit',
   detach: 'Detach',
   fromTile: 'New animation from this tile',
+  fromTiles: (count: number): string => `Animation from ${count} selected tiles`,
+  fromTilesHint: 'Ctrl and click tiles in play order. One action makes an animation of those frames and links it to the first tile.',
+  newTilesName: (key: number, count: number): string => `Tile ${key} x${count}`,
+  needTwo: 'Select two or more tiles in play order.',
+  pickOne: 'Pick a tile to link it to an animation, or Ctrl and click tiles in play order to build one.',
+  frames: 'Frames in play order',
   noFit: 'No animation fits this tileset yet.',
   broken: (issue: string): string => `This tile cannot play its animation: ${issue}`,
   sizeIssue: (name: string, width: number, height: number, tile: string): string =>
@@ -34,6 +40,7 @@ const TILE_ANIMATION_LABEL = {
   set: 'Set tile animation',
   detach: 'Detach tile animation',
   fromTile: 'Make an animation from a tile',
+  fromTiles: 'Make an animation from selected tiles',
 } as const;
 
 const TILE_ANIMATION_REF = { animation: 'tile_animation', sprite: 'tile_frame' } as const;

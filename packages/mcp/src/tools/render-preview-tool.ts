@@ -9,6 +9,7 @@ import {
   SHEET_ID_SCHEMA,
   SPRITE_ID_SCHEMA,
   TAG_ID_SCHEMA,
+  TILESET_ID_SCHEMA,
 } from '../schema/ids.constants';
 import { COUNT_SCHEMA, SHA256_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
@@ -17,6 +18,10 @@ import { TOOL_NAME } from './tool-name.constants';
 
 const spriteTarget = z.strictObject({ spriteId: SPRITE_ID_SCHEMA, frameId: FRAME_ID_SCHEMA.optional() });
 const sheetTarget = z.strictObject({ sheetId: SHEET_ID_SCHEMA });
+const tilesetTarget = z.strictObject({
+  tilesetId: TILESET_ID_SCHEMA,
+  overlay: z.enum(['none', 'collision']).default('none').describe('collision tints the shapes of every tile by layer.'),
+});
 const animationTarget = z
   .strictObject({
     animationId: ANIMATION_ID_SCHEMA,
@@ -28,10 +33,10 @@ const animationTarget = z
 const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
   title: 'Render a preview',
   description:
-    'A PNG of one sprite frame, one animation frame, a strip of an animation (the whole animation, or the frames of one tag, in play order) or one sheet, drawn by the same code as the canvas and the export. Nearest-neighbour scale only. The image is returned as an image block and a resource link.',
+    'A PNG of one sprite frame, one tileset laid out in its columns (holes shown dim, optional collision overlay), one animation frame, a strip of an animation (the whole animation, or the frames of one tag, in play order) or one sheet, drawn by the same code as the canvas and the export. Nearest-neighbour scale only. The image is returned as an image block and a resource link.',
   input: z.strictObject({
     documentId: DOCUMENT_ID_SCHEMA,
-    target: z.union([spriteTarget, animationTarget, sheetTarget]),
+    target: z.union([spriteTarget, animationTarget, sheetTarget, tilesetTarget]),
     scale: z.number().int().min(1).max(16).default(4),
     background: z.enum(['transparent', 'checker']).default('transparent'),
     grid: z.boolean().default(false),

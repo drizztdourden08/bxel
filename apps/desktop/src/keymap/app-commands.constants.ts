@@ -28,6 +28,7 @@ import { TILED_COMMANDS } from './tiled-commands.constants';
 import { TIMELINE_MENU_COMMANDS } from './timeline-menu-commands.constants';
 import { TILE_MENU_COMMANDS } from './tile-menu-commands.constants';
 import { TILEMAP_COMMANDS } from './tilemap-commands.constants';
+import { TILESET_COMMANDS } from './tileset-commands.constants';
 import { TIMELINE_COMMANDS } from './timeline-commands.constants';
 import { TOOL_COMMANDS } from './tool-commands.constants';
 import { gated } from './gated';
@@ -44,6 +45,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...CANVAS_SIZE_COMMANDS,
   ...SHEET_EDITOR_COMMANDS,
   ...TILEMAP_COMMANDS,
+  ...TILESET_COMMANDS,
   ...COLLISION_COMMANDS,
   ...TERRAIN_COMMANDS,
   ...ANIMATION_COMMANDS,

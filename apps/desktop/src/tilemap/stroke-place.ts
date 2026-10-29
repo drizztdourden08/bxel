@@ -8,6 +8,7 @@ import { placeStampAt } from './place-stamp-at';
 import { readiedMap } from './readied-map';
 import { readyStamp } from './ready-stamp';
 import { runMap } from './run-map';
+import { scatterAt } from './scatter-at';
 import { terrainActive } from './terrain/terrain-active';
 import { terrainCells } from './terrain/terrain-cells';
 import { TILE_LABEL } from './tilemap.constants';
@@ -17,6 +18,7 @@ const strokePlace = (points: readonly Point[]): boolean => {
   if (target && terrainActive(target)) return terrainCells(target, points, false);
   const stamp = target ? readyStamp(target) : null;
   if (!target || !stamp) return false;
+  if (stamp.scatter) return scatterAt(points);
   if (stamp.keys.length > 1) return placeStampAt(points);
   const { flags } = useTilemapStore.getState();
   const step = (cells: readonly Point[], each: typeof flags): CommandStep => ({

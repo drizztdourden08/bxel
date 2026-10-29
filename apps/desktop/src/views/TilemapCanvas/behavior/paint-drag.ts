@@ -21,7 +21,7 @@ const paintDrag = (ctx: CanvasRenderingContext2D, view: PixelView, state: MapPai
     for (const cell of lineCells(drag.from, drag.to)) paintGhost(ctx, state, cell);
     return;
   }
-  const style = { colour: drag.kind === 'rect' ? look.cursor : look.select, dashed: drag.kind === 'select' };
+  const style = { colour: drag.kind === 'rect' ? look.cursor : look.select, dashed: drag.kind !== 'rect' };
   paintRegion(ctx, view, state, { cells: spanRect(drag.from, drag.to), style });
 };
 
