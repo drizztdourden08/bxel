@@ -24,6 +24,8 @@ import type { CurrentManager, ManagerDialog } from '../sheet-manager/manager.typ
 import { useManagerStore } from '../stores/useManagerStore';
 import { COMMAND_GROUP } from './keymap.constants';
 import { ruled } from './ruled';
+import { needs } from './needs';
+import { REASON } from '../ui-context/reasons.constants';
 
 const group = COMMAND_GROUP.sheet;
 
@@ -141,7 +143,7 @@ const SPRITE_SELECT: readonly CommandDef[] = [
     id: 'manager.clear_filters',
     label: 'Clear the sprite filters',
     group,
-    when: () => activeFilters(useManagerStore.getState().filter) > 0 || useManagerStore.getState().query !== '',
+    ...needs(() => activeFilters(useManagerStore.getState().filter) > 0 || useManagerStore.getState().query !== '', REASON.noActiveFilter),
     run: () => useManagerStore.getState().clearFilters(),
   },
 ];

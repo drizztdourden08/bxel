@@ -23,10 +23,10 @@ const arrangeSheet = (sheet: Sheet, sizes: SheetSizes, animations: readonly Anim
   const points =
     layout.kind === 'grid'
       ? gridPoints(layout, entries.length, spacing, margin)
-      : packedPoints([...boxes, ...sizesOfStrips], layout.maxWidth, spacing, margin, entries.length);
+      : packedPoints([...boxes, ...sizesOfStrips], layout.maxWidth, { spacing, margin }, entries.length);
   const spots =
     layout.kind === 'grid'
-      ? gridAnimationPoints(layout, entries.length, sizesOfStrips, spacing, margin)
+      ? gridAnimationPoints(layout, entries.length, sizesOfStrips, { spacing, margin })
       : points.slice(entries.length);
   const spriteSpots = points.slice(0, entries.length);
   const moved = movedTo(entries.map((entry) => entry.at), spriteSpots) || movedTo(strips.map((entry) => entry.at), spots);

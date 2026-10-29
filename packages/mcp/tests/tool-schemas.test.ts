@@ -98,6 +98,22 @@ describe('round trips', () => {
     expect(JSON.stringify(descriptor?.outputSchema)).toContain('"colour"');
   });
 
+  it('takes atlas-json to export a sheet and refuses an unknown format', () => {
+    const tool = tools.find((candidate) => candidate.name === 'export_document');
+    const job = { documentId: 'doc_4k9m2q7x1v8c', source: { sheetId: 'sht_4k9m2q7x1v8c' }, fileName: 'atlas.json' };
+    expect(tool && parseToolInput(tool, { ...job, format: 'atlas-json' }).ok).toBe(true);
+    expect(tool && parseToolInput(tool, { ...job, format: 'xml' }).ok).toBe(false);
+    expect(JSON.stringify(descriptors.find((candidate) => candidate.name === 'export_document')?.inputSchema)).toContain('atlas-json');
+  });
+
+  it('takes include on get_document with the five detail names only', () => {
+    const tool = tools.find((candidate) => candidate.name === 'get_document');
+    const job = { documentId: 'doc_4k9m2q7x1v8c' };
+    expect(tool && parseToolInput(tool, { ...job, include: ['guides', 'slices', 'presets', 'tags', 'tilesets'] }).ok).toBe(true);
+    expect(tool && parseToolInput(tool, { ...job, include: ['colours'] }).ok).toBe(false);
+    expect(tool && parseToolInput(tool, job).ok).toBe(true);
+  });
+
   it('rejects an unknown property on a strict input', () => {
     const tool = tools.find((candidate) => candidate.name === 'get_session');
     expect(tool && parseToolInput(tool, { extra: 1 }).ok).toBe(false);

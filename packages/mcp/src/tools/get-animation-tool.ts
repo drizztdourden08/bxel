@@ -14,10 +14,8 @@ import {
 import { COUNT_SCHEMA, HEX_COLOR_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
+import { DIRECTION_SCHEMA, FACING_SCHEMA } from './get-animation-tool.constants';
 import { TOOL_NAME } from './tool-name.constants';
-
-const DIRECTION = z.enum(['forward', 'reverse', 'pingpong', 'pingpongReverse']);
-const FACING = z.enum(['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']);
 
 const frame = z.strictObject({
   frameId: ANIM_FRAME_ID_SCHEMA,
@@ -36,9 +34,9 @@ const spanTag = z.strictObject({
   name: z.string(),
   from: COUNT_SCHEMA.describe('Index of the first frame.'),
   to: COUNT_SCHEMA.describe('Index of the last frame.'),
-  direction: DIRECTION,
+  direction: DIRECTION_SCHEMA,
   repeat: COUNT_SCHEMA.describe('0 plays forever.'),
-  facing: FACING.optional(),
+  facing: FACING_SCHEMA.optional(),
   colour: HEX_COLOR_SCHEMA.optional(),
 });
 
@@ -47,7 +45,7 @@ const mirrorTag = z.strictObject({
   tagId: TAG_ID_SCHEMA,
   of: TAG_ID_SCHEMA,
   flip: z.enum(['x', 'y']),
-  facing: FACING,
+  facing: FACING_SCHEMA,
 });
 
 const getAnimationTool = defineTool(TOOL_NAME.getAnimation, {
@@ -66,7 +64,7 @@ const getAnimationTool = defineTool(TOOL_NAME.getAnimation, {
     height: COUNT_SCHEMA,
     bankId: BANK_ID_SCHEMA,
     anchor: z.strictObject({ x2: z.number().int(), y2: z.number().int() }),
-    loop: z.strictObject({ direction: DIRECTION, repeat: COUNT_SCHEMA }),
+    loop: z.strictObject({ direction: DIRECTION_SCHEMA, repeat: COUNT_SCHEMA }),
     directions: z.enum(['none', 'four', 'eight']),
     cycleMs: COUNT_SCHEMA.describe('Duration of one pass of the whole animation.'),
     frames: z.array(frame),

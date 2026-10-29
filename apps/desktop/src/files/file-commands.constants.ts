@@ -4,6 +4,8 @@ import { openExport } from '../export/open-export';
 import { FILE_COMMAND, FILE_TEXT } from './files.constants';
 import { hasActiveDocument } from './has-active-document';
 import { runFileAction } from './run-file-action';
+import { needs } from '../keymap/needs';
+import { REASON } from '../ui-context/reasons.constants';
 
 const FILE_COMMANDS: readonly CommandDef[] = [
   {
@@ -22,7 +24,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
     icon: 'pixel-save-file',
     group: FILE_TEXT.group,
     chord: 'Mod+S',
-    when: hasActiveDocument,
+    ...needs(hasActiveDocument, REASON.noDocument),
     run: () => {
       void runFileAction({ kind: 'save' });
     },
@@ -33,7 +35,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
     icon: 'pixel-save-file',
     group: FILE_TEXT.group,
     chord: 'Mod+Shift+S',
-    when: hasActiveDocument,
+    ...needs(hasActiveDocument, REASON.noDocument),
     run: () => {
       void runFileAction({ kind: 'saveAs' });
     },
@@ -44,7 +46,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
     icon: 'pixel-save-file',
     group: FILE_TEXT.group,
     chord: 'Mod+Alt+S',
-    when: hasActiveDocument,
+    ...needs(hasActiveDocument, REASON.noDocument),
     run: () => {
       void runFileAction({ kind: 'saveAll' });
     },
@@ -55,7 +57,7 @@ const FILE_COMMANDS: readonly CommandDef[] = [
     icon: 'pixel-export-image',
     group: FILE_TEXT.group,
     chord: 'Mod+Shift+E',
-    when: hasActiveDocument,
+    ...needs(hasActiveDocument, REASON.noDocument),
     run: () => openExport(),
   },
 ];

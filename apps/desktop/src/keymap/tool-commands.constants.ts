@@ -17,6 +17,8 @@ import { useToolStore } from '../stores/useToolStore';
 import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
 import { TOOL_COMMAND } from './option-command-id.constants';
 import { ruled } from './ruled';
+import { needs } from './needs';
+import { REASON } from '../ui-context/reasons.constants';
 
 const CYCLING: readonly ToolId[] = ['shape', 'select', 'fill'];
 
@@ -45,7 +47,7 @@ const quickCommand = (slot: number): CommandDef =>
     label: `Apply preset ${slot} of the tool`,
     group: COMMAND_GROUP.tools,
     chord: `Alt+${slot}`,
-    when: () => quickPresets(useToolStore.getState().tool)[slot - 1] !== undefined,
+    ...needs(() => quickPresets(useToolStore.getState().tool)[slot - 1] !== undefined, REASON.noQuickPreset),
     run: () => {
       const preset = quickPresets(useToolStore.getState().tool)[slot - 1];
       if (preset && applyPreset(preset)) announcePreset(preset);
@@ -61,7 +63,7 @@ const PRESET_COMMANDS: readonly CommandDef[] = [
     label: 'Previous tool',
     group: COMMAND_GROUP.tools,
     chord: 'Shift+`',
-    when: () => useToolStore.getState().previousTool !== null,
+    ...needs(() => useToolStore.getState().previousTool !== null, REASON.noPreviousTool),
     run: () => {
       const { previousTool, setTool } = useToolStore.getState();
       if (previousTool) setTool(previousTool);

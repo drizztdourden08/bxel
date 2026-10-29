@@ -9,14 +9,20 @@ import type { SheetPicture } from './sheet-png.type';
 import type { FramePng } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
 
-const imageOf = (picture: SheetPicture): McpResult<PlannedFile> => {
-  const { artwork, revision, sheetId, scale, hidden } = picture;
+const plannedSheet = (picture: SheetPicture): McpResult<readonly PlannedFile[]> => {
+  const { artwork, revision, sheetId, scale, hidden, fileName = '' } = picture;
   const sheet = hidden.has(sheetId) ? undefined : artwork.sheets.find((each) => each.id === sheetId);
   if (!sheet || sheet.entries.some((entry) => hidden.has(entry.spriteId))) return mcpFailure(ERROR_CODE.TARGET_NOT_FOUND, TOOL_TEXT.noSheetFound);
-  const settings = { ...DEFAULT_EXPORT_SETTINGS, kind: 'sheet', sprites: 'sheet', sheetId, scale } as const;
+  const settings = { ...DEFAULT_EXPORT_SETTINGS, kind: 'sheet', sprites: 'sheet', sheetId, scale, fileName } as const;
   const plan = planExport({ frozen: { revision, artwork }, settings, selectedIds: [] });
   if (plan.problem !== null) return mcpFailure(ERROR_CODE.INVALID_OPTION, plan.problem, { path: 'source' });
-  const file = plan.files.find((each) => each.width !== null);
+  return { ok: true, value: plan.files };
+};
+
+const imageOf = (picture: SheetPicture): McpResult<PlannedFile> => {
+  const planned = plannedSheet(picture);
+  if (!planned.ok) return planned;
+  const file = planned.value.find((each) => each.width !== null);
   return file ? { ok: true, value: file } : mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.noSheetImage, { path: 'source' });
 };
 
@@ -32,4 +38,4 @@ const sheetPng = (picture: SheetPicture): McpResult<FramePng> => {
   return { ok: true, value: { bytes: made.data.bytes, width, height } };
 };
 
-export { sheetPng };
+export { plannedSheet, sheetPng };

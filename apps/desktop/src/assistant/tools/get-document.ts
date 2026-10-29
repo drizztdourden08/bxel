@@ -1,11 +1,14 @@
 /* @layer renderer-app @kind logic */
 import { hiddenFailure } from '@bxel/mcp';
 import { sheetExtent, sheetSizes } from '@bxel/document';
-import type { Animation, Artwork, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
+import type { Animation, Artwork, PaletteBank, Sheet, Tilemap } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
+import { guidesOf } from './guides-of';
 import { hiddenAssets } from './hidden-assets';
+import { presetSummary } from './preset-summary';
 import { reply } from './reply';
 import { spriteSummary } from './sprite-summary';
+import { tilesetSummary } from './tileset-summary';
 import type { GetDocumentInput } from './tool-input.type';
 import { viewFor } from './view-for';
 
@@ -26,33 +29,26 @@ const animationSummary = (animation: Animation) => ({
   tags: animation.tags.length,
 });
 
-const tilesetSummary = (tileset: Tileset) => ({
-  tilesetId: tileset.id,
-  name: tileset.name,
-  bankId: tileset.bankId,
-  tileWidth: tileset.tileWidth,
-  tileHeight: tileset.tileHeight,
-  tiles: tileset.tiles.length,
-});
-
-const tilemapSummary = (tilemap: Tilemap) => ({
+const tilemapSummary = (withGuides: boolean) => (tilemap: Tilemap) => ({
   tilemapId: tilemap.id,
   name: tilemap.name,
   tilesetId: tilemap.tilesetId,
   columns: tilemap.columns,
   rows: tilemap.rows,
   layers: tilemap.layers.length,
+  ...(withGuides ? { guides: guidesOf(tilemap.guides) } : {}),
 });
 
-const sheetSummary = (artwork: Artwork) => (sheet: Sheet) => ({
+const sheetSummary = (artwork: Artwork, withGuides: boolean) => (sheet: Sheet) => ({
   sheetId: sheet.id,
   name: sheet.name,
   ...sheetExtent(sheet, sheetSizes(artwork)),
   entries: sheet.entries.length,
+  ...(withGuides ? { guides: guidesOf(sheet.guides) } : {}),
 });
 
 const getDocument: ToolHandler = (input, context) => {
-  const { documentId, spriteOffset, spriteLimit } = input as GetDocumentInput;
+  const { documentId, spriteOffset, spriteLimit, include = [] } = input as GetDocumentInput;
   const view = viewFor(context, documentId);
   if (!view) return reply(hiddenFailure('document'));
   const { artwork, revision } = view.state;
@@ -68,13 +64,14 @@ const getDocument: ToolHandler = (input, context) => {
     canRedo: view.canRedo,
     undoIsOwn: view.newest?.actor === context.call.session.sessionId,
     banks: artwork.banks.filter((bank) => !hidden.has(bank.id)).map(bankSummary),
-    sprites: sprites.map(spriteSummary),
+    sprites: sprites.map(spriteSummary(include.includes('tags'))),
     spritesTotal: seen.length,
     truncated: spriteOffset + sprites.length < seen.length,
     animations: artwork.animations.filter((animation) => !hidden.has(animation.id)).map(animationSummary),
-    sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork)),
-    tilesets: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map(tilesetSummary),
-    tilemaps: artwork.tilemaps.filter((tilemap) => !hidden.has(tilemap.id)).map(tilemapSummary),
+    sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork, include.includes('guides'))),
+    tilesets: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map(tilesetSummary(include.includes('tilesets'))),
+    tilemaps: artwork.tilemaps.filter((tilemap) => !hidden.has(tilemap.id)).map(tilemapSummary(include.includes('guides'))),
+    ...(include.includes('presets') ? { presets: artwork.presets.filter((preset) => preset.sheetId === null || !hidden.has(preset.sheetId)).map(presetSummary) } : {}),
   });
 };
 

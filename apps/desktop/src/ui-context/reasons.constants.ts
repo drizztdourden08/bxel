@@ -14,6 +14,14 @@ const REASON = {
   noProject: 'No project is open.',
   noPending: 'Nothing is waiting to be applied.',
   imageOnly: 'An image is a preview. Use Import to make an asset from it.',
+  notHere: 'This does not apply to what is open.',
+  noActiveSprite: 'Select a sprite first.',
+  noActiveFilter: 'No filter is set.',
+  noPreviousTool: 'There is no previous tool to go back to.',
+  noQuickPreset: 'This quick preset slot is empty.',
+  noOptionSpec: 'The current tool has no such option.',
+  noPreview: 'There is no preview to cancel.',
+  notIsolated: 'You are not inside a sheet sprite.',
 } as const;
 
 const documentReason = (context: BxelContext): string => (context.fileType === 'image' ? REASON.imageOnly : REASON.noDocument);
@@ -28,4 +36,6 @@ const ONLY = {
   drawing: 'Sprites, animations, tiles and maps',
 } as const;
 
-export { documentReason, ONLY, REASON };
+const onlyReason = (only: string): string => `This works on: ${only}.`;
+
+export { documentReason, ONLY, onlyReason, REASON };

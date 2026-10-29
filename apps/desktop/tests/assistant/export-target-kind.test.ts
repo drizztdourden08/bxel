@@ -39,4 +39,10 @@ describe('the file name an export may take in the assistant folder', () => {
     expect((await resolved('png-indexed', 'walk.png')).target).toMatchObject({ ok: true });
     expect((await resolved('png', 'walk.gif')).target).toMatchObject({ ok: false });
   });
+
+  it('ends in .json for atlas-json', async () => {
+    expect((await resolved('atlas-json', 'sheet.json')).target).toMatchObject({ ok: true });
+    expect((await resolved('atlas-json', 'sheet.png')).target).toMatchObject({ ok: false });
+    expect((await resolved('png', 'sheet.json')).target).toMatchObject({ ok: false });
+  });
 });

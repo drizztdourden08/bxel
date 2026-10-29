@@ -96,19 +96,6 @@ const animationNamed = (engine: Engine, name: string): Animation => {
 const createdAnimation = (engine: Engine, steps: readonly CommandStep[]): AnimationId =>
   apply(engine, steps).created['anim'] as AnimationId;
 
-const checkOneUndoStep = (engine: Engine, edit: () => void): void => {
-  const before = canonicalArtwork(engine.state().artwork);
-  const revision = engine.state().revision;
-  edit();
-  expect(engine.state().revision).toBe(revision + 1);
-  const after = canonicalArtwork(engine.state().artwork);
-  expect(after).not.toBe(before);
-  const ask = () => ({ documentId: engine.documentId, expectedRevision: engine.state().revision });
-  expect(engine.undo(ask()).ok).toBe(true);
-  expect(canonicalArtwork(engine.state().artwork)).toBe(before);
-  expect(engine.redo(ask()).ok).toBe(true);
-  expect(canonicalArtwork(engine.state().artwork)).toBe(after);
-};
-
 export type { AnimWorld };
-export { animationNamed, apply, buildAnimWorld, checkOneUndoStep, createdAnimation, refuse, send };
+export { checkOneUndoStep } from './one-undo-step';
+export { animationNamed, apply, buildAnimWorld, createdAnimation, refuse };

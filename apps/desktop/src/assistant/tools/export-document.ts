@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { flattenFrame } from '@bxel/document';
 import { hiddenFailure } from '@bxel/mcp';
-import type { Failure, ToolReply } from '@bxel/mcp';
+import type { Failure, McpResult, ToolReply } from '@bxel/mcp';
 import { fileName } from '../../files/file-name';
 import { EXPORT_WRITE } from '../../files/files.constants';
 import type { DocumentView } from '../../documents/document-host.type';
@@ -14,6 +14,7 @@ import { hiddenAssets } from './hidden-assets';
 import { indexHash } from './index-hash';
 import { reply } from './reply';
 import { spriteFrame } from './sprite-frame';
+import { sheetAtlas } from './sheet-atlas';
 import { sheetPng } from './sheet-png';
 import type { AnimationSource, ExportInput, SheetSource } from './tool-input.type';
 import { viewFor } from './view-for';
@@ -38,21 +39,35 @@ const exportAnimation = async (context: ToolContext, view: DocumentView, job: Ex
   });
 };
 
+const sheetBytes = (context: ToolContext, view: DocumentView, job: ExportInput, target: { readonly path: string; readonly source: SheetSource }): McpResult<Uint8Array> => {
+  const picture = {
+    artwork: view.state.artwork,
+    revision: view.state.revision,
+    sheetId: target.source.sheetId,
+    scale: job.scale,
+    fileName: fileName(target.path),
+    hidden: hiddenAssets(context, job.documentId),
+  };
+  if (job.format === 'atlas-json') return sheetAtlas(picture);
+  const png = sheetPng(picture);
+  return png.ok ? { ok: true, value: png.value.bytes } : png;
+};
+
 const exportSheet = async (
   context: ToolContext,
   view: DocumentView,
   job: ExportInput,
   target: { readonly path: string; readonly source: SheetSource },
 ): Promise<ToolReply> => {
-  const png = sheetPng({ artwork: view.state.artwork, revision: view.state.revision, sheetId: target.source.sheetId, scale: job.scale, hidden: hiddenAssets(context, job.documentId) });
-  if (!png.ok) return reply(png);
-  const refused = await writeExport(context, job, target.path, png.value.bytes);
+  const made = sheetBytes(context, view, job, target);
+  if (!made.ok) return reply(made);
+  const refused = await writeExport(context, job, target.path, made.value);
   if (refused) return reply(refused);
-  const sha256 = await indexHash(png.value.bytes);
+  const sha256 = await indexHash(made.value);
   return reply({
     ok: true,
     revision: view.state.revision,
-    files: [{ fileName: fileName(target.path), bytes: png.value.bytes.length, sha256 }],
+    files: [{ fileName: fileName(target.path), bytes: made.value.length, sha256 }],
     indexHash: sha256,
   });
 };

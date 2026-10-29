@@ -143,7 +143,9 @@ describe('animation entries in an arranged sheet', () => {
     const layout = sheetOf(world).layout;
     expect(layout.kind === 'packed' && layout.maxWidth >= 16).toBe(true);
   });
+});
 
+describe('animation entries kept in place', () => {
   it('keeps a manual sheet as it is and warns about a strip over a sprite', () => {
     const world = started();
     apply(world.engine, [spriteStep('sheet.add', { sheet: world.sheet, places: [{ at: { x: 2, y: 0 } }] }, world.a)]);

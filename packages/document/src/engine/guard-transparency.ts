@@ -3,22 +3,8 @@ import type { Draft } from '../draft/draft.type';
 import type { CelId } from '../model/ids.type';
 import { requireSprite } from '../read/require-sprite';
 import type { ResolvedCel } from '../scope/resolved-scope.type';
-
-/** Commands that paint, so a transparency lock holds them to the pixels that are already painted. */
-const PAINTING_COMMANDS: ReadonlySet<string> = new Set([
-  'pixels.patch',
-  'pixels.paint',
-  'pixels.erase',
-  'pixels.fill',
-  'pixels.shape',
-  'pixels.replace',
-  'pixels.shade',
-  'pixels.gradient',
-  'pixels.stamp',
-  'pixels.clear',
-]);
-
-type Held = { readonly cel: ResolvedCel; readonly before: Uint8Array | null };
+import { PAINTING_COMMANDS } from './guard-transparency.constants';
+import type { Held } from './guard-transparency.type';
 
 const isLocked = (draft: Draft, cel: ResolvedCel): boolean =>
   requireSprite(draft.artwork, cel.spriteId).layers.find((layer) => layer.id === cel.layerId)?.lockTransparency === true;
@@ -46,11 +32,6 @@ const restore = (draft: Draft, { cel, before }: Held): void => {
   }
 };
 
-/**
- * A layer with a transparency lock never gains or loses a painted pixel: transparent pixels stay
- * transparent and painted pixels stay painted, whatever a painting command wrote.
- * Returns the function that puts that back after the command ran, or null when no lock applies.
- */
 const guardTransparency = (draft: Draft, name: string, cels: readonly ResolvedCel[]): (() => void) | null => {
   if (!PAINTING_COMMANDS.has(name)) return null;
   const held = cels.filter((cel) => isLocked(draft, cel)).map((cel) => hold(draft, cel));

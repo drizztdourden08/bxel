@@ -3,6 +3,7 @@ import type { ToolName } from '../tools/tool.type';
 import type { BUNDLES } from './bundle.constants';
 import type { LEVELS } from './level.constants';
 import type { PRESET_IDS } from './preset.constants';
+import type { SETTING_ROWS } from './setting-rows.constants';
 
 type Level = (typeof LEVELS)[number];
 
@@ -25,8 +26,10 @@ type ToolEntry = {
   readonly special?: 'mayRestart';
 };
 
-type ToolRowId = ToolName;
+type SettingRowId = (typeof SETTING_ROWS)[keyof typeof SETTING_ROWS];
+
+type ToolRowId = Exclude<ToolName, 'set_setting'> | SettingRowId;
 
 type PresetId = (typeof PRESET_IDS)[number];
 
-export type { BundleDef, BundleId, Level, PresetId, ToolEntry, ToolKind, ToolRowId };
+export type { BundleDef, BundleId, Level, PresetId, SettingRowId, ToolEntry, ToolKind, ToolRowId };

@@ -1,61 +1,18 @@
 /* @layer renderer-app @kind test */
-import { buildTools, encodeBase64, EXPORT_FORMAT_VALUES, parseToolInput, toolJsonSchema } from '@bxel/mcp';
-import type { ToolName } from '@bxel/mcp';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { TOOL_HANDLERS } from '../../src/assistant/tool-handlers.constants';
-import { APP_COMMANDS } from '../../src/documents/document-host.constants';
-import { toolContext } from '../project/tool-context';
-import { fieldOf, rowsOf, toolRig } from '../project/project-tool-rig';
-import type { ToolRig } from '../project/project-tool-rig';
+import { encodeBase64, EXPORT_FORMAT_VALUES, toolJsonSchema } from '@bxel/mcp';
+import { describe, expect, it, vi } from 'vitest';
+import { fieldOf, rowsOf } from '../project/project-tool-rig';
+import { assistantTools, FOLDER, TOOLS, useAssistantRig } from './assistant-rig';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
-const FOLDER = 'C:/Assistant';
+const current = useAssistantRig();
 
-const bank = { name: 'Main', cap: 16, transparent: true, colors: [{ rgb: '#ff0000' }, { rgb: '#00ff00' }] };
-
-const tools = buildTools(APP_COMMANDS);
-
-let current: ToolRig;
-
-type Made = { readonly documentId: string; readonly assetId: string };
-
-const make = async (kind: string, extra: object = {}): Promise<Made> => {
-  const made = await current.run('create_document', { name: `tt ${kind}`, kind, bank, ...extra }, []);
-  expect(made).toMatchObject({ ok: true });
-  return { documentId: String(fieldOf(made, 'documentId')), assetId: String((fieldOf(made, 'asset') as { id: string }).id) };
-};
-
-const spriteOf = async (documentId: string): Promise<string> => {
-  const doc = await current.run('get_document', { documentId, spriteOffset: 0, spriteLimit: 10 }, []);
-  return String(rowsOf(doc, 'sprites')[0]?.spriteId);
-};
-
-const parsed = (name: ToolName, raw: unknown): unknown => {
-  const spec = tools.find((tool) => tool.name === name);
-  if (!spec) throw new Error(`no tool ${name}`);
-  const result = parseToolInput(spec, raw);
-  if (!result.ok) throw new Error(`${result.error.code}: ${result.error.message}`);
-  return result.value;
-};
-
-const handled = async (name: ToolName, raw: unknown, call: object = {}) => {
-  const handler = TOOL_HANDLERS[name];
-  if (!handler) throw new Error(`no handler ${name}`);
-  const context = toolContext({ host: current.rig.kit.host, paths: current.rig.kit.paths, documents: current.rig.disk.port, call: { folder: FOLDER, ...call } });
-  return handler(parsed(name, raw), context);
-};
-
-const revisionOf = (documentId: string): number => current.rig.kit.host.view(documentId as never)?.state.revision ?? 1;
-
-beforeEach(async () => {
-  current = await toolRig();
-  current.rig.disk.granted.add(FOLDER.toLowerCase());
-});
+const { make, spriteOf, handled, revisionOf } = assistantTools(current);
 
 describe('get_session', () => {
   it('lists exactly the export formats the export schema takes', async () => {
-    const session = await current.run('get_session', {}, []);
+    const session = await current().run('get_session', {}, []);
     expect(fieldOf(session, 'exportFormats')).toEqual([...EXPORT_FORMAT_VALUES]);
   });
 });
@@ -66,7 +23,7 @@ describe('export_document', () => {
     const input = { documentId, format: 'gif', source: { animationId: assetId }, scale: 1, overwrite: false, fileName: 'tt-anim.gif' };
     const done = await handled('export_document', input, { target: `${FOLDER}/tt-anim.gif` });
     expect(done.outcome).toMatchObject({ ok: true, files: [{ fileName: 'tt-anim.gif' }] });
-    const bytes = current.rig.disk.files.get(`${FOLDER}/tt-anim.gif`) as Uint8Array;
+    const bytes = current().rig.disk.files.get(`${FOLDER}/tt-anim.gif`) as Uint8Array;
     expect(new TextDecoder().decode(bytes.slice(0, 4))).toBe('GIF8');
   });
 
@@ -76,7 +33,7 @@ describe('export_document', () => {
     const input = { documentId, format: 'png-indexed', source: { spriteId }, scale: 2, overwrite: false, fileName: 'tt-index.png' };
     const done = await handled('export_document', input, { target: `${FOLDER}/tt-index.png` });
     expect(done.outcome).toMatchObject({ ok: true });
-    const bytes = current.rig.disk.files.get(`${FOLDER}/tt-index.png`) as Uint8Array;
+    const bytes = current().rig.disk.files.get(`${FOLDER}/tt-index.png`) as Uint8Array;
     expect(bytes[25]).toBe(3);
   });
 
@@ -88,7 +45,7 @@ describe('export_document', () => {
     const preview = await handled('render_preview', { documentId, target: { sheetId: assetId }, scale: 1 });
     expect(preview.outcome).toMatchObject({ ok: true });
     expect(preview.images).toHaveLength(1);
-    const written = current.rig.disk.files.get(`${FOLDER}/tt-sheet.png`) as Uint8Array;
+    const written = current().rig.disk.files.get(`${FOLDER}/tt-sheet.png`) as Uint8Array;
     expect(preview.images[0]).toBe(encodeBase64(written));
   });
 
@@ -134,19 +91,19 @@ describe('mask options on the wire', () => {
     };
     const done = await handled('apply_edits', edit);
     expect(done.outcome).toMatchObject({ ok: true, noop: false });
-    const read = await current.run('read_pixels', { documentId, spriteId, layer: 'flattened', rect: { x: 6, y: 0, width: 2, height: 1 } }, []);
+    const read = await current().run('read_pixels', { documentId, spriteId, layer: 'flattened', rect: { x: 6, y: 0, width: 2, height: 1 } }, []);
     const bytes = String(fieldOf(read, 'pixels'));
     expect(bytes).toBe(encodeBase64(Uint8Array.from([0, 1])));
   });
 
   it('documents the mask as base64 in the schema', () => {
-    const spec = tools.find((tool) => tool.name === 'apply_edits');
+    const spec = TOOLS.find((tool) => tool.name === 'apply_edits');
     const text = JSON.stringify(toolJsonSchema(spec?.input as never, 'input'));
     expect(text).toContain('width * height bytes');
   });
 
   it('refuses a mask of the wrong size, naming the step', () => {
-    const spec = tools.find((tool) => tool.name === 'apply_edits');
+    const spec = TOOLS.find((tool) => tool.name === 'apply_edits');
     const targets = { sprites: ['spr_aaaaaaaaaaaa'], layers: { by: 'all' }, frames: { by: 'all' } };
     const bad = { documentId: 'doc_aaaaaaaaaaaa', baseRevision: 1, label: 'x', steps: [{ name: 'pixels.flip', targets, options: { axis: 'horizontal', mask: { width: 8, height: 8, bits: encodeBase64(new Uint8Array(3)) } } }] };
     const result = spec?.input.safeParse(bad);
@@ -171,7 +128,7 @@ describe('preview_edits', () => {
 
   it('reports the changes a map edit would make', async () => {
     const { documentId, assetId } = await make('tilemap');
-    const doc = await current.run('get_document', { documentId, spriteOffset: 0, spriteLimit: 10 }, []);
+    const doc = await current().run('get_document', { documentId, spriteOffset: 0, spriteLimit: 10 }, []);
     const map = rowsOf(doc, 'tilemaps')[0];
     expect(map).toBeDefined();
     const edit = { documentId, baseRevision: revisionOf(documentId), label: 'Grow', steps: [{ name: 'tilemap.resize', targets: null, options: { tilemap: map?.tilemapId, columns: Number(map?.columns) + 1, rows: Number(map?.rows) } }] };
@@ -190,9 +147,9 @@ describe('get_document', () => {
     const targets = { sprites: [spriteId], layers: { by: 'all' }, frames: { by: 'all' } };
     const done = await handled('apply_edits', { documentId: sprite.documentId, baseRevision: revisionOf(sprite.documentId), label: 'Slice', steps: [{ name: 'slice.add', targets, options: slice }] });
     expect(done.outcome).toMatchObject({ ok: true });
-    const withSlice = await current.run('get_document', { documentId: sprite.documentId, spriteOffset: 0, spriteLimit: 10 }, []);
+    const withSlice = await current().run('get_document', { documentId: sprite.documentId, spriteOffset: 0, spriteLimit: 10 }, []);
     expect(rowsOf(withSlice, 'sprites')[0]).toMatchObject({ slices: [{ name: 'hit', rect: slice.rect, pivot: slice.pivot, center: null }], guides: { x: [], y: [] } });
-    const map = await current.run('get_document', { documentId, spriteOffset: 0, spriteLimit: 10 }, []);
+    const map = await current().run('get_document', { documentId, spriteOffset: 0, spriteLimit: 10 }, []);
     expect(rowsOf(map, 'tilesets')).toHaveLength(1);
     const tilemap = rowsOf(map, 'tilemaps')[0];
     expect(typeof tilemap?.columns).toBe('number');

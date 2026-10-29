@@ -7,16 +7,19 @@ import {
   DOCUMENT_ID_SCHEMA,
   FRAME_ID_SCHEMA,
   LAYER_ID_SCHEMA,
+  PRESET_ID_SCHEMA,
   REVISION_SCHEMA,
   SHEET_ID_SCHEMA,
   SLICE_ID_SCHEMA,
   SPRITE_ID_SCHEMA,
+  TAG_ID_SCHEMA,
   TILEMAP_ID_SCHEMA,
   TILESET_ID_SCHEMA,
 } from '../schema/ids.constants';
 import { COUNT_SCHEMA, HEX_COLOR_SCHEMA, RECT_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
+import { DOCUMENT_INCLUDE_SCHEMA } from './get-document-tool.constants';
 import { TOOL_NAME } from './tool-name.constants';
 
 const bank = z.strictObject({
@@ -32,6 +35,9 @@ const tag = z.strictObject({
   from: COUNT_SCHEMA,
   to: COUNT_SCHEMA,
   colour: HEX_COLOR_SCHEMA.optional().describe('The colour the owner gave the tag, as #rrggbb. Left out when the tag has none.'),
+  tagId: TAG_ID_SCHEMA.optional().describe('Only with include tags.'),
+  direction: z.enum(['forward', 'reverse', 'pingpong']).optional().describe('Only with include tags.'),
+  repeat: COUNT_SCHEMA.optional().describe('Only with include tags. 0 plays forever.'),
 });
 
 const pivot = z.strictObject({ x2: z.number().int(), y2: z.number().int() });
@@ -65,6 +71,13 @@ const sprite = z.strictObject({
   guides: guides.describe('The guide lines of the sprite, as pixel positions: x are vertical lines, y are horizontal lines.'),
 });
 
+const tileEntry = z.strictObject({
+  key: COUNT_SCHEMA,
+  spriteId: SPRITE_ID_SCHEMA,
+  collision: z.enum(['full', 'rect', 'polygon']).nullable(),
+  animationId: ANIMATION_ID_SCHEMA.nullable(),
+});
+
 const tileset = z.strictObject({
   tilesetId: TILESET_ID_SCHEMA,
   name: z.string(),
@@ -72,6 +85,8 @@ const tileset = z.strictObject({
   tileWidth: COUNT_SCHEMA,
   tileHeight: COUNT_SCHEMA,
   tiles: COUNT_SCHEMA,
+  terrain: z.enum(['blob16', 'blob47']).nullable().optional().describe('Only with include tilesets. The terrain rule set of the tileset, or null.'),
+  tileList: z.array(tileEntry).optional().describe('Only with include tilesets. Every tile of the tileset.'),
 });
 
 const tilemap = z.strictObject({
@@ -81,6 +96,7 @@ const tilemap = z.strictObject({
   columns: COUNT_SCHEMA,
   rows: COUNT_SCHEMA,
   layers: COUNT_SCHEMA,
+  guides: guides.optional().describe('Only with include guides.'),
 });
 
 const sheet = z.strictObject({
@@ -89,6 +105,16 @@ const sheet = z.strictObject({
   width: COUNT_SCHEMA,
   height: COUNT_SCHEMA,
   entries: COUNT_SCHEMA,
+  guides: guides.optional().describe('Only with include guides.'),
+});
+
+const preset = z.strictObject({
+  presetId: PRESET_ID_SCHEMA,
+  name: z.string(),
+  format: z.string(),
+  scale: COUNT_SCHEMA,
+  sheetId: SHEET_ID_SCHEMA.nullable(),
+  pathTemplate: z.string(),
 });
 
 const animation = z.strictObject({
@@ -103,11 +129,12 @@ const animation = z.strictObject({
 const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
   title: 'Get a document',
   description:
-    'The structure to read before editing: banks, sprites with their layers, frames, tags, slices and guides, animations, sheets, tilesets and tilemaps. Sprites page by 128, up to 512 a call.',
+    'The structure to read before editing: banks, sprites with their layers, frames, tags, slices and guides, animations, sheets, tilesets and tilemaps. Sprites page by 128, up to 512 a call. Pass include for more detail: tags, guides, presets, tilesets.',
   input: z.strictObject({
     documentId: DOCUMENT_ID_SCHEMA,
     spriteOffset: z.number().int().min(0).default(0),
     spriteLimit: z.number().int().min(1).max(SPRITES_PAGE_MAX).default(SPRITES_PAGE_DEFAULT),
+    include: DOCUMENT_INCLUDE_SCHEMA.optional(),
   }),
   output: withFailure({
     documentId: DOCUMENT_ID_SCHEMA,
@@ -124,6 +151,7 @@ const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
     sheets: z.array(sheet),
     tilesets: z.array(tileset).describe('The tilesets. Read the tiles of one with list_map_layers.'),
     tilemaps: z.array(tilemap).describe('The tilemaps. Read the layers and cells of one with list_map_layers and read_map_cells.'),
+    presets: z.array(preset).optional().describe('Only with include presets. The export presets saved in the document.'),
   }),
 });
 
