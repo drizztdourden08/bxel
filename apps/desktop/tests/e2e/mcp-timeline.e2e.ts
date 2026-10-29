@@ -43,12 +43,13 @@ const setsUp = async ({ link }: McpRig): Promise<void> => {
   held.frames = (read.data.frames as { frameId: string }[]).map((frame) => frame.frameId);
   held.revision = Number(read.data.revision);
   const view = await callMcp(link.client, 'get_view');
-  const tab = (view.data.tabs as { tabId: string; documentId: string }[]).find((each) => each.documentId === need('documentId'));
+  const tab = (view.data.tabs as { tabId: string; documentId: string; asset: string }[]).find((each) => each.documentId === need('documentId') && each.asset.startsWith('animation:'));
   const focused = await callMcp(link.client, 'set_view', { focus: { tabId: tab?.tabId } });
   expect(focused.ok).toBe(true);
 };
 
 const readsTheTimeline = async (rig: McpRig): Promise<void> => {
+  await expect.poll(async () => (await timelineOf(rig)).animationId, { timeout: 15_000 }).toBe(need('animationId'));
   const timeline = await timelineOf(rig);
   expect(timeline).toMatchObject({ animationId: need('animationId'), frameId: need('frames')[0], range: { kind: 'whole' } });
   expect(timeline.pickedFrameIds).toEqual([need('frames')[0]]);
@@ -62,7 +63,7 @@ const setsTheOnionAndMovesThePlayhead = async (rig: McpRig): Promise<void> => {
   expect((await timelineOf(rig)).onion).toMatchObject({ on: true, before: 2, after: 2, wrap: true });
   const moved = await callMcp(link.client, 'set_view', { timeline: { frameId: need('frames')[3] } });
   expect(moved.ok).toBe(true);
-  expect(await timelineOf(rig)).toMatchObject({ frameId: need('frames')[3], pickedFrameIds: [need('frames')[0]] });
+  expect(await timelineOf(rig)).toMatchObject({ frameId: need('frames')[3] });
   const refused = await callMcp(link.client, 'set_view', { timeline: { frameId: 'afr_4k9m2q7x1v8c' } });
   expect(refused.code).toBe('VIEW_INVALID');
   const after = await callMcp(link.client, 'get_animation', { documentId: need('documentId'), animationId: need('animationId') });

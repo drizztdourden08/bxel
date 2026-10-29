@@ -75,7 +75,8 @@ const makesEightFacings = async (session: Session): Promise<void> => {
 
 const toggleGrouping = async (session: Session): Promise<void> => {
   await timelineOf(session).getByRole('button', { name: 'More timeline actions' }).click();
-  await session.page.getByRole('menuitemcheckbox', { name: 'Group by facing', exact: true }).click();
+  await session.page.getByText('Group by facing', { exact: true }).click();
+  await session.page.keyboard.press('Escape');
 };
 
 const groupsTheLanesByFacing = async (session: Session): Promise<void> => {
