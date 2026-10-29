@@ -8,7 +8,7 @@ const meta: WidgetMeta = {
   icon: 'rows-3',
   defaultOpen: true,
   defaultSide: 'bottom',
-  defaultDockedSize: 240,
+  defaultDockedSize: 280,
   popOut: false,
   defaultVisibility: 'context-only',
   context: WIDGET_CONTEXT.timeline,

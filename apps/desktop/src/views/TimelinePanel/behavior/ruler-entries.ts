@@ -3,7 +3,7 @@ import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { unless } from '../../../context-menu/unless';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
-import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
+import { TIMELINE_MENU } from './timeline-menu.constants';
 
 const rulerEntries = (): readonly ContextMenuEntry[] => {
   const { loopRange, units } = useTimelineStore.getState();

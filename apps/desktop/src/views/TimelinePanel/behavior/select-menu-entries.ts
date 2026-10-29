@@ -2,7 +2,7 @@
 import type { AnimSpanTag, Animation } from '@bxel/document';
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { spanTagOf } from '../../../timeline/span-tag-of';
-import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
+import { TIMELINE_MENU } from './timeline-menu.constants';
 import { noTags } from './no-tags';
 
 const selectMenuEntries = (animation: Animation, spans: readonly AnimSpanTag[]): ContextMenuEntry => ({

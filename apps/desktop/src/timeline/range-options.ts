@@ -5,7 +5,7 @@ import { spanTagOf } from './span-tag-of';
 import { TIMELINE_TEXT } from './timeline.constants';
 
 const rangeOptions = (animation: Animation, loop: boolean): RangeOption[] => [
-  { value: '', label: TIMELINE_TEXT.wholeAnimation },
+  { value: '@whole', label: TIMELINE_TEXT.wholeAnimation },
   { value: '@picked', label: TIMELINE_TEXT.pickedFrames },
   ...(loop ? [{ value: '@loop', label: TIMELINE_TEXT.loopRangeName }] : []),
   ...animation.tags.flatMap((tag) => {

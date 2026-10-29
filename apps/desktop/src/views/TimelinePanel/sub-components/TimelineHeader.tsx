@@ -12,7 +12,9 @@ import { ZoomControl } from './ZoomControl';
 const TimelineHeader = ({ focus, compact }: CompactProps) => (
   <Flex gap="sm" align="center" className="timeline__header" data-compact={compact ? 'yes' : 'no'}>
     <TransportButtons />
-    <RangeSelect focus={focus} />
+    <Box className="timeline__range">
+      <RangeSelect focus={focus} />
+    </Box>
     <TimeReadout focus={focus} />
     <Box className="timeline__header-spacer" />
     {!compact && focus.animation.directions !== 'none' && <FacingControl focus={focus} />}

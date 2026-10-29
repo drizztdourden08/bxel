@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 
-const WHOLE = '';
+const WHOLE = '@whole';
 
 const PICKED = '@picked';
 

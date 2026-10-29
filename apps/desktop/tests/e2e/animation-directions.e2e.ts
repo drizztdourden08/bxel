@@ -42,7 +42,7 @@ const drawsAMirroredFacing = async (session: Session): Promise<void> => {
   await pad.getByRole('button', { name: 'Draw this facing' }).click();
   await frameButton(session, 12).waitFor();
   expect(await framesIn(session)).toBe(12);
-  await expect((await openFacing(session)).getByRole('button', { name: 'Draw this facing' }).isDisabled()).resolves.toBe(true);
+  await expect(pad.getByRole('button', { name: 'Draw this facing' }).isDisabled()).resolves.toBe(true);
   await session.page.keyboard.press('Escape');
   const files = await exportAnimationFiles(session, 'GIF', 8);
   expect(files.size).toBe(8);

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { AnimSpanTag } from '@bxel/document';
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
-import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
+import { TIMELINE_MENU } from './timeline-menu.constants';
 import { noTags } from './no-tags';
 
 const tagMenuEntries = (spans: readonly AnimSpanTag[]): ContextMenuEntry => ({

@@ -3,7 +3,7 @@ import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { THUMB_SIZES } from '../../../stores/timeline-store.constants';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
-import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
+import { TIMELINE_MENU } from './timeline-menu.constants';
 import { addFromEntries } from './add-from-entries';
 import { transformEntries } from './transform-entries';
 

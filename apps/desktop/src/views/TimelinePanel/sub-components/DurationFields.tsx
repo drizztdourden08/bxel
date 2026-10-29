@@ -4,7 +4,7 @@ import { Flex, Text } from '@drizztdourden08/tessera';
 import { currentSelection } from '../../../timeline/current-selection';
 import { setDuration } from '../../../timeline/set-duration';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
-import { DURATION_CHOICES, DURATION_STEP, TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
+import { DURATION_STEP, TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { FocusProps } from '../TimelinePanel.type';
 import { NumberField } from './NumberField';
 
@@ -26,7 +26,6 @@ const DurationFields = ({ focus }: FocusProps) => {
         step={DURATION_STEP}
         disabled={readOnly}
         mixed={mixed}
-        presets={DURATION_CHOICES}
         suffix={TIMELINE_PANEL_TEXT.durationUnit}
         onCommit={setDuration}
       />

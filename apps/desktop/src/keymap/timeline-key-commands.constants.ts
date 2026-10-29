@@ -17,7 +17,7 @@ import { tagOrEdit } from '../timeline/tag-or-edit';
 import { togglePlayback } from '../timeline/toggle-playback';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
-import type { KeyDef } from './timeline-key-commands.constants.type';
+import type { KeyDef } from './timeline-key-command.type';
 
 const group = COMMAND_GROUP.timeline;
 

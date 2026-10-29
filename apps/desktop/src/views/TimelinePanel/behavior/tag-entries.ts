@@ -8,7 +8,7 @@ import { currentSelection } from '../../../timeline/current-selection';
 import { facingTag } from '../../../timeline/facing-tag';
 import { TAG_COLOUR_CHOICES } from '../../../timeline/tag-colour.constants';
 import { FACING_TEXT, TAG_DIRECTION_TEXT, TAG_DIRECTIONS } from '../../../timeline/timeline.constants';
-import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
+import { TIMELINE_MENU } from './timeline-menu.constants';
 import { REPEATS } from './tag-entries.constants';
 
 const mirrorEntries = (tag: AnimSpanTag, animation: Animation): ContextMenuEntry => ({

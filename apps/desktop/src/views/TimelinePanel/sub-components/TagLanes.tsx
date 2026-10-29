@@ -30,6 +30,7 @@ const TagLanes = ({ focus, model, layout }: LanesProps) => {
         role="presentation"
         className="tag-lane tag-lane--new"
         data-tag-lane
+        data-slim={bars.length > 0 ? "yes" : undefined}
         onPointerDown={focus.readOnly ? undefined : drag.create}
         onPointerMove={drag.move}
         onPointerUp={(event) => drag.release(event)}

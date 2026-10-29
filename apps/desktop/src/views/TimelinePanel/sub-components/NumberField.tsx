@@ -17,6 +17,7 @@ const NumberField = ({ label, value, min, max, step, disabled, mixed = false, pr
   return (
     <TesseraNumberField
       size="sm"
+      className="timeline-number"
       min={min}
       max={max}
       step={step}

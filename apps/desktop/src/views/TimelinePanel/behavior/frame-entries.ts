@@ -6,7 +6,7 @@ import { currentFocus } from '../../../timeline/current-focus';
 import { currentSelection } from '../../../timeline/current-selection';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
 import { DURATION_CHOICES, SCALE_CHOICES } from '../TimelinePanel.constants';
-import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
+import { TIMELINE_MENU } from './timeline-menu.constants';
 import { addFromEntries } from './add-from-entries';
 import { selectMenuEntries } from './select-menu-entries';
 import { tagMenuEntries } from './tag-menu-entries';

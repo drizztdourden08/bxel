@@ -14,6 +14,19 @@
   min-inline-size: 0;
 }
 
+.timeline__range {
+  flex: none;
+  inline-size: var(--size-160);
+}
+
+.timeline-number {
+  inline-size: var(--size-96);
+}
+
+.tag-lane--new[data-slim='yes'] {
+  block-size: var(--size-8);
+}
+
 .timeline__header-spacer {
   flex: 1 1 0;
   min-inline-size: 0;

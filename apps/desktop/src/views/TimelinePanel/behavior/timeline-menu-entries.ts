@@ -2,7 +2,7 @@
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { menuTarget } from '../../../context-menu/menu-target';
 import { currentFocus } from '../../../timeline/current-focus';
-import { TIMELINE_MENU } from '../TimelinePanel.menu.constants';
+import { TIMELINE_MENU } from './timeline-menu.constants';
 import { emptyEntries } from './empty-entries';
 import { frameEntries } from './frame-entries';
 import { rulerEntries } from './ruler-entries';

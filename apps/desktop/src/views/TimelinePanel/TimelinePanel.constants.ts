@@ -136,7 +136,7 @@ const MOVE_KEYS: Readonly<Record<string, number>> = { ArrowLeft: -1, ArrowRight:
 
 const EDGE_KEYS: Readonly<Record<string, 'first' | 'last'>> = { Home: 'first', End: 'last' };
 
-const NO_FACING = '';
+const NO_FACING = 'none';
 
 const OFFSET_LIMIT = 4096;
 
