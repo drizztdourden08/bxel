@@ -30,7 +30,6 @@ const GridTile = ({ model, item, cell }: GridTileProps) => {
       data-ghost={item.role === 'ghost'}
       {...{ [ITEM_ATTRIBUTE]: item.key }}
       onClick={click}
-      onDragStart={(event) => event.preventDefault()}
       onDoubleClick={() => rowActions.open(item)}
     >
       <Box className="project-tile__thumb">{url === null ? icon : <Image className="project-tile__img" src={url} alt="" fit="contain" pixelated fallback={icon} />}</Box>

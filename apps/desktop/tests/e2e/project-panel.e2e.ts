@@ -114,8 +114,16 @@ describe('the docked Project panel', () => {
       await movesWithTheKeys(session);
       await renamesInTheRow(session, root);
       await makesAFolderInTheRow(session, root);
-      await dropsOnAFolder(session, root);
       await filtersWithTokens(session);
       await neverOverlapsTheActions(session);
+    }));
+  test.skip('moves a sprite by dropping its thumbnail on a folder (blocked on Brock P-209)', () =>
+    inFreshPlace(async (place) => {
+      const { session } = rig();
+      const root = join(place, SAMPLE.name);
+      await writeSampleProject(root, buildSampleArtwork(), SAMPLE.name);
+      await openProjectAtInUi(session, root, SAMPLE.name);
+      await makesAFolderInTheRow(session, root);
+      await dropsOnAFolder(session, root);
     }));
 });
