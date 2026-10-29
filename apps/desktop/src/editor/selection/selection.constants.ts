@@ -37,7 +37,10 @@ const SELECTION_LABELS = {
   fill: 'Fill selection',
   stroke: 'Stroke selection',
   align: 'Align',
+  guides: 'Selection to guides',
   pasteLayer: 'Paste as new layer',
+  pasteSprite: 'Paste as new sprite',
+  pastedName: 'Pasted',
   save: (name: string): string => `Save selection ${name}`,
   forget: (name: string): string => `Delete saved selection ${name}`,
 } as const;
@@ -57,7 +60,9 @@ const ARROW_DELTAS: Readonly<Record<string, Point>> = {
   ArrowDown: { x: 0, y: 1 },
 };
 
+const NEW_SPRITE_REF = 'pasted';
+
 export {
-  ARROW_DELTAS, DOUBLE_CLICK, MODE_LABELS, NUDGE_STEP, NUDGE_STEP_FAST, POLYGON_MIN_VERTICES, SELECT_LABELS, SELECT_MODES, SELECT_VARIANTS,
+  ARROW_DELTAS, DOUBLE_CLICK, MODE_LABELS, NEW_SPRITE_REF, NUDGE_STEP, NUDGE_STEP_FAST, POLYGON_MIN_VERTICES, SELECT_LABELS, SELECT_MODES, SELECT_VARIANTS,
   SELECTION_LABELS, SELECTION_TEXT,
 };

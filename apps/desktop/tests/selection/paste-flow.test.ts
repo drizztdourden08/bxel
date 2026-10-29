@@ -6,7 +6,9 @@ import { encodeClip } from '../../src/editor/selection/encode-clip';
 import { copyMerged } from '../../src/editor/selection/copy-merged';
 import { copySelection } from '../../src/editor/selection/copy-selection';
 import { pasteClip } from '../../src/editor/selection/paste-clip';
+import { pasteCropped } from '../../src/editor/selection/paste-cropped';
 import { pasteInPlace } from '../../src/editor/selection/paste-in-place';
+import { usePasteChoiceStore } from '../../src/stores/usePasteChoiceStore';
 import { remapClip } from '../../src/editor/selection/remap-clip';
 import { useReadoutStore } from '../../src/stores/useReadoutStore';
 import { usePendingStore } from '../../src/stores/usePendingStore';
@@ -40,11 +42,14 @@ describe('the paste flow', () => {
     useReadoutStore.setState({ pointer: null });
   });
 
-  it('crops a clip larger than the sprite instead of refusing it', () => {
+  it('asks what to do with a clip larger than the sprite, and crop pastes it cut to fit', () => {
     openRig();
+    usePasteChoiceStore.getState().hide();
     const big = { width: 40, height: 40, origin: { x: 0, y: 0 }, pixels: new Uint8Array(1600).fill(3), bits: new Uint8Array(1600).fill(1) };
     useSelectionStore.setState({ clipboard: big });
-    expect(pasteClip()).toBe(true);
+    expect(pasteClip()).toBe(false);
+    expect(usePasteChoiceStore.getState().open).toBe(true);
+    expect(pasteCropped()).toBe(true);
     const spec = usePendingStore.getState().pending?.spec;
     expect(spec?.kind === 'paste' ? [spec.clip.width, spec.clip.height] : []).toEqual([32, 32]);
   });

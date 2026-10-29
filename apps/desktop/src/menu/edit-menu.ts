@@ -17,12 +17,24 @@ const editMenu = (state: EditorMenuState): MenuItem => {
     item(ID.pasteIntoSelection, 'Into selection'),
     item(ID.pasteExpand, 'Expand the canvas to fit'),
     item(ID.pasteTransform, 'Paste and transform'),
+    item(ID.pasteNewSprite, 'As new sprite'),
+    item(ID.pasteChoose, 'With a choice...'),
   ];
   const pasteSpecial: MenuItem = {
     key: 'edit-paste-special',
     label: 'Paste special',
     disabled: pasteKids.every((kid) => kid?.disabled === true),
     children: tidyMenu(pasteKids),
+  };
+  const fill: MenuItem = {
+    key: 'edit-fill',
+    label: 'Fill selection',
+    children: tidyMenu([item(ID.fillFront, 'With the front colour'), item(ID.fillBack, 'With the back colour')]),
+  };
+  const stroke: MenuItem = {
+    key: 'edit-stroke',
+    label: 'Stroke selection',
+    children: tidyMenu([item(ID.strokeInside, 'Inside the edge'), item(ID.strokeOutside, 'Outside the edge')]),
   };
   const transform = evaluate('menu.edit.transform', context).state === 'hidden' ? null : transformMenu(state);
   return {
@@ -41,21 +53,8 @@ const editMenu = (state: EditorMenuState): MenuItem => {
       pasteSpecial,
       item(ID.delete, 'Delete'),
       'separator',
-      item(ID.selectAll, 'Select all'),
-      item(ID.clear, 'Deselect'),
-      item(ID.reselect, 'Reselect'),
-      item(ID.invert, 'Invert selection'),
-      item(ID.expand, 'Expand selection'),
-      item(ID.shrink, 'Shrink selection'),
-      item(ID.border, 'Border selection'),
-      item(ID.smooth, 'Smooth selection'),
-      item(ID.selectOpaque, 'Select opaque pixels'),
-      item(ID.strokeInside, 'Stroke selection inside'),
-      item(ID.strokeOutside, 'Stroke selection outside'),
-      item(ID.fillFront, 'Fill with the front colour'),
-      item(ID.fillBack, 'Fill with the back colour'),
-      item(ID.save, 'Saved selections...'),
-      'separator',
+      fill,
+      stroke,
       transform,
     ]),
   };

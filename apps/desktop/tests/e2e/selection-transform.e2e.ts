@@ -13,7 +13,7 @@ describe('selection and transform', () => {
     await session.page.keyboard.press('Control+t');
     const fields = session.page.getByRole('group', { name: 'Transform' });
     await fields.waitFor();
-    for (const name of ['X', 'Y', 'W', 'H', 'Angle', 'Skew X', 'Skew Y']) await fields.getByRole('spinbutton', { name, exact: true }).waitFor();
+    for (const name of ['X', 'Y', 'W', 'H', 'Angle']) await fields.getByRole('spinbutton', { name, exact: true }).waitFor();
     await session.page.keyboard.press('Escape');
     await fields.waitFor({ state: 'detached' });
     expect([...(await shownNow())]).toEqual([...original]);
@@ -36,7 +36,7 @@ describe('selection and transform', () => {
     await session.page.getByRole('application', { name: /canvas/i }).first().focus();
     await session.page.keyboard.press('Control+a');
     await session.page.getByRole('button', { name: 'Menu', exact: true }).click();
-    await session.page.getByRole('menuitem', { name: /^Edit$/ }).first().click();
+    await session.page.getByRole('menuitem', { name: /^Select$/ }).first().click();
     await session.page.getByRole('menuitem', { name: /^Saved selections/ }).first().click();
     const dialog = session.page.getByRole('dialog', { name: 'Saved selections' });
     await dialog.getByRole('textbox', { name: 'Name' }).fill('everything');

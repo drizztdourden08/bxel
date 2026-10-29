@@ -18,6 +18,7 @@ const NumberField = ({ field, model }: NumberFieldProps) => {
     return (
       <AngleField
         id={fieldId(field)}
+        className="transform-bar__angle"
         size="sm"
         label={FIELD_LABELS[field]}
         aria-label={FIELD_LABELS[field]}
@@ -31,6 +32,7 @@ const NumberField = ({ field, model }: NumberFieldProps) => {
   return (
     <ScrubField
       id={fieldId(field)}
+      className="transform-bar__number"
       size="sm"
       scrub
       label={FIELD_LABELS[field]}

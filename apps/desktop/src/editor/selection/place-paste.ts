@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Point } from '@bxel/raster';
 import { useNoticeStore } from '../../stores/useNoticeStore';
+import { usePasteChoiceStore } from '../../stores/usePasteChoiceStore';
 import { useReadoutStore } from '../../stores/useReadoutStore';
 import { useSelectionStore } from '../../stores/useSelectionStore';
 import { currentTarget } from '../current-target';
@@ -16,7 +17,7 @@ const centredOffset = (clip: Clip, at: Point | null, target: EditorTarget): Poin
   return { x: centre.x - Math.floor(clip.width / 2) - clip.origin.x, y: centre.y - Math.floor(clip.height / 2) - clip.origin.y };
 };
 
-const placePaste = (inPlace: boolean): boolean => {
+const placePaste = (inPlace: boolean, crop = false): boolean => {
   const held = useSelectionStore.getState().clipboard;
   const target = currentTarget();
   const notices = useNoticeStore.getState();
@@ -25,6 +26,10 @@ const placePaste = (inPlace: boolean): boolean => {
     return false;
   }
   const { clip, cropped } = fitClip(held, target.sprite);
+  if (cropped && !crop) {
+    usePasteChoiceStore.getState().show();
+    return false;
+  }
   if (cropped) notices.post(SELECTION_TEXT.pastedCropped);
   const wanted = inPlace || cropped ? { x: 0, y: 0 } : centredOffset(clip, useReadoutStore.getState().pointer, target);
   return beginPending({ kind: 'paste', clip, offset: fitOffset(clip, wanted, target.sprite) });

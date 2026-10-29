@@ -44,6 +44,7 @@ declare module '@drizztdourden08/tessera' {
         | 'PaletteChangeDialog'
         | 'PaletteFields'
         | 'PalettePanel'
+        | 'PasteChoiceDialog'
         | 'PaletteSheetDialog'
         | 'PixelViewport'
         | 'PlatformFindings'

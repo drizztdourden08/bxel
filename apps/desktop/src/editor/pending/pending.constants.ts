@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind constants */
 import { MAX_SPRITE_SIZE } from '@bxel/document';
 import type { FlipAxis, TurnDirection } from '@bxel/document';
-import type { BoundsPolicy } from '@bxel/raster';
 
 const PREVIEW_PIXELS = MAX_SPRITE_SIZE * MAX_SPRITE_SIZE;
 
@@ -15,8 +14,6 @@ const TURN_LABELS: Readonly<Record<TurnDirection, string>> = {
   'counter-clockwise': 'Rotate 90 counterclockwise',
   half: 'Rotate 180',
 };
-
-const BOUNDS_CHOICES: readonly BoundsPolicy[] = ['crop', 'expand', 'cancel'];
 
 const PENDING_TEXT = {
   move: 'Move',
@@ -33,4 +30,4 @@ const PENDING_TEXT = {
   noPreview: 'The preview is too large to draw.',
 } as const;
 
-export { BOUNDS_CHOICES, FLIP_LABELS, PENDING_TEXT, PREVIEW_PIXELS, TURN_LABELS };
+export { FLIP_LABELS, PENDING_TEXT, PREVIEW_PIXELS, TURN_LABELS };

@@ -9,8 +9,10 @@ const TRANSFORM_BAR_TEXT = {
   method: 'Method',
   methodName: 'Resampling method',
   bounds: 'Overflow',
-  boundsName: 'Bounds policy',
+  boundsName: 'Overflow',
   tools: 'Transform tools',
+  more: 'More',
+  moreHint: 'Skew and pivot.',
   apply: 'Apply',
   cancel: 'Cancel',
   flipHorizontal: 'Flip horizontal',
@@ -51,18 +53,15 @@ const FIELD_RANGES: Readonly<Record<TransformField, { min: number; max: number }
   skewY: { min: -80, max: 80 },
 };
 
-const FIELD_ROWS: readonly (readonly TransformField[])[] = [
-  ['x', 'y', 'width', 'height'],
-  ['angle', 'skewX', 'skewY'],
-];
+const MAIN_FIELDS: readonly TransformField[] = ['x', 'y', 'width', 'height', 'angle'];
+
+const MORE_FIELDS: readonly TransformField[] = ['skewX', 'skewY'];
 
 const METHOD_CHOICES: readonly ResampleAlgorithm[] = ['nearest', 'rotsprite', 'cleanedge'];
 
-const METHOD_GLYPHS: Readonly<Record<ResampleAlgorithm, string>> = { nearest: 'N', rotsprite: 'R', cleanedge: 'C', scale2x: '2', scale3x: '3', mmpx: 'M' };
-
 const BOUNDS_BAR_CHOICES = [
   { value: 'crop', label: 'Crop' },
-  { value: 'expand', label: 'Expand canvas' },
+  { value: 'expand', label: 'Expand' },
 ] as const;
 
 const BOUNDS_BAR_NOTES: Readonly<Record<string, string>> = {
@@ -70,6 +69,4 @@ const BOUNDS_BAR_NOTES: Readonly<Record<string, string>> = {
   expand: 'The canvas grows to hold the result.',
 };
 
-const OVERFLOW_GLYPHS: Readonly<Record<string, string>> = { crop: 'C', expand: 'E' };
-
-export { BOUNDS_BAR_CHOICES, BOUNDS_BAR_NOTES, FIELD_LABELS, FIELD_RANGES, FIELD_ROWS, FIELD_STEPS, METHOD_CHOICES, METHOD_GLYPHS, OVERFLOW_GLYPHS, TRANSFORM_BAR_TEXT };
+export { BOUNDS_BAR_CHOICES, BOUNDS_BAR_NOTES, FIELD_LABELS, FIELD_RANGES, MAIN_FIELDS, MORE_FIELDS, FIELD_STEPS, METHOD_CHOICES, TRANSFORM_BAR_TEXT };

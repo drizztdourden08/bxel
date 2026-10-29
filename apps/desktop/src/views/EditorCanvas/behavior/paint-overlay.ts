@@ -5,6 +5,7 @@ import type { PixelDraw } from '../../PixelViewport';
 import { overlayLook } from './overlay-look';
 import { paintAreas } from './paint-areas';
 import { paintAxes } from './paint-axes';
+import { paintCanvasPreview } from './paint-canvas-preview';
 import { paintCursor } from './paint-cursor';
 import { paintGuides } from './paint-guides';
 import { paintSelection } from './paint-selection';
@@ -19,6 +20,7 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   paintAxes(ctx, view, symmetry, look);
   paintCursor(ctx, view, symmetry, look);
   paintTransform(ctx, view, look);
+  paintCanvasPreview(ctx, view, look);
 };
 
 export { paintOverlay };

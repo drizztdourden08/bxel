@@ -12,8 +12,12 @@ interface NumberFieldProps {
   model: TransformBarModel;
 }
 
+interface ChoiceFieldsProps {
+  model: TransformBarModel;
+}
+
 interface PivotFieldProps {
   model: TransformBarModel;
 }
 
-export type { NumberFieldProps, PivotFieldProps, TransformBarModel };
+export type { ChoiceFieldsProps, NumberFieldProps, PivotFieldProps, TransformBarModel };
