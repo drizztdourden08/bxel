@@ -63,12 +63,18 @@ interface KeyContext {
   viewport: RefObject<PixelViewportHandle | null>;
   active: RefObject<boolean>;
   anchor: RefObject<Point | null>;
+  points: RefObject<Point[]>;
 }
 
 interface CanvasKeys {
   onKeyDown: KeyboardEventHandler<HTMLElement>;
   onPointerPixel: () => void;
   onBlur: FocusEventHandler<HTMLElement>;
+}
+
+interface AxisShown {
+  x: number | null;
+  y: number | null;
 }
 
 interface OverlayLook {
@@ -84,4 +90,4 @@ interface ClientPoint {
   clientY: number;
 }
 
-export type { ActiveDrag, AxisDrag, CanvasKeys, CanvasReadout, CanvasTools, ClientPoint, GripLines, KeyContext, OverlayLook, PaintGesture, PivotAxis, PivotDrag, PivotFrame, SelectGesture };
+export type { ActiveDrag, AxisDrag, AxisShown, CanvasKeys, CanvasReadout, CanvasTools, ClientPoint, GripLines, KeyContext, OverlayLook, PaintGesture, PivotAxis, PivotDrag, PivotFrame, SelectGesture };

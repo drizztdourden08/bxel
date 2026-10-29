@@ -11,8 +11,6 @@ const OPTION_COMMAND = {
   sizeUpBy: 'brush.size_up_by_four',
   fillArea: 'fill.toggle_area',
   fillNeighbours: 'fill.toggle_neighbours',
-  shapeKind: 'shape.set_kind',
-  shapeFilled: 'shape.toggle_filled',
   selectShape: 'select.set_shape',
   selectMode: 'select.set_mode',
 } as const;

@@ -10,6 +10,7 @@ const keepBrush = (settings: ToolSettings, memory: Record<string, OptionValue>):
   const keys = brushKeys(tool);
   memory[keys.size] = settings.brushSize;
   memory[keys.tip] = settings.brushShape;
+  memory[keys.angle] = settings.brushAngle;
   if (WITH_PERFECT.includes(tool)) memory[keys.perfect] = settings.pixelPerfect;
 };
 

@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { lineCells } from '@bxel/document';
 import type { PixelView } from '../../PixelViewport';
 import type { MapLook, MapPaintState } from '../TilemapCanvas.type';
 import { paintGhost } from './paint-ghost';
@@ -11,11 +12,16 @@ const paintDrag = (ctx: CanvasRenderingContext2D, view: PixelView, state: MapPai
   if (drag.kind === 'stroke') {
     for (const cell of drag.cells) {
       if (drag.tool === 'place') paintGhost(ctx, state, cell);
+      else if (drag.tool === 'scatter') paintRegion(ctx, view, state, { cells: { ...cell, width: 1, height: 1 }, style: { colour: look.cursor, dashed: true } });
       else paintRegion(ctx, view, state, { cells: { ...cell, width: 1, height: 1 }, style: { colour: look.erase, dashed: false } });
     }
     return;
   }
-  const style = { colour: drag.kind === 'rect' ? look.cursor : look.select, dashed: drag.kind === 'select' };
+  if (drag.kind === 'line') {
+    for (const cell of lineCells(drag.from, drag.to)) paintGhost(ctx, state, cell);
+    return;
+  }
+  const style = { colour: drag.kind === 'rect' ? look.cursor : look.select, dashed: drag.kind !== 'rect' };
   paintRegion(ctx, view, state, { cells: spanRect(drag.from, drag.to), style });
 };
 

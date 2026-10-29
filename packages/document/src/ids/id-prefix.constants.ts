@@ -12,6 +12,7 @@ const ID_PREFIX = {
   slice: 'slc',
   sheet: 'sht',
   preset: 'exp',
+  brush: 'brs',
   tileset: 'tls',
   tile: 'til',
   tilemap: 'tlm',

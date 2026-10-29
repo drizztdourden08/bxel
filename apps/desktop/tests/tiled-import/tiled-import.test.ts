@@ -91,7 +91,7 @@ describe('importing the map', () => {
 
   it('brings the collision shape of a tile along', async () => {
     const { artwork } = await importedNew();
-    expect(artwork.tilesets[0]?.tiles.map((tile) => tile.collision)).toEqual([{ kind: 'full' }, undefined, undefined, undefined]);
+    expect(artwork.tilesets[0]?.tiles.map((tile) => tile.shapes)).toEqual([[{ kind: 'full', layer: 'solid' }], undefined, undefined, undefined]);
   });
 
   it('is one undo step', async () => {

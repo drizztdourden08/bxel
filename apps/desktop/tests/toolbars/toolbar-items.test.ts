@@ -46,13 +46,14 @@ describe('the toolbar items', () => {
   });
 
   it('put a separator between the groups of options and none before the first', () => {
-    const specs = OPTION_SPECS.filter((spec) => spec.tool === 'pencil' && spec.surface === 'paint');
+    const specs = OPTION_SPECS.filter((spec) => spec.tool === 'pencil' && spec.surface === 'paint' && spec.appliesWhen?.() !== false);
     const joined = optionItems(specs, () => undefined);
     expect(joined[0]?.kind).not.toBe('separator');
-    expect(joined.map((item) => item.id)).toEqual(['pencil.size', 'pencil.tip', 'pencil.pixel_perfect']);
+    expect(joined.map((item) => item.id).slice(0, 3)).toEqual(['pencil.size', 'pencil.tip', 'pencil.pixel_perfect']);
+    expect(joined.map((item) => item.id)).toContain('before-ink');
     expect(optionItems([], () => undefined)).toEqual([]);
-    const shape = optionsOf('sprite', 'shape');
-    expect(optionItems(shape, () => undefined).map((item) => item.id)).toEqual(['shape.kind', 'shape.filled', 'before-brush', 'shape.size', 'shape.tip']);
+    const rect = optionsOf('sprite', 'rect');
+    expect(optionItems(rect, () => undefined).map((item) => item.id)).toEqual(['rect.filled', 'rect.radius', 'before-brush', 'rect.size', 'rect.tip', 'before-ink', 'rect.ink']);
   });
 
   it('list the four tiled preview modes and check the current one', () => {

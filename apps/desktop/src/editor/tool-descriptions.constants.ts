@@ -1,13 +1,7 @@
 /* @layer renderer-app @kind constants */
-import type { CombineMode, Connectivity, FillMode, ShapeKind } from '@bxel/raster';
+import type { CombineMode, Connectivity, FillMode } from '@bxel/raster';
 import type { ShortcutKey } from '@drizztdourden08/tessera';
 import type { SelectVariant } from './selection/selection.type';
-
-const SHAPE_DESCRIPTIONS: Readonly<Record<ShapeKind, string>> = {
-  line: 'Draw a straight line. Hold Shift to snap the angle.',
-  rect: 'Draw a rectangle. Hold Shift to keep it square.',
-  ellipse: 'Draw an ellipse. Hold Shift to keep it round.',
-};
 
 const FILL_DESCRIPTIONS: Readonly<Record<FillMode, string>> = {
   contiguous: 'Fill only the pixels that touch the one you click.',
@@ -42,4 +36,4 @@ const MODE_KEYS: Readonly<Record<CombineMode, readonly ShortcutKey[]>> = {
   intersect: ['shift', 'alt'],
 };
 
-export { CONNECTIVITY_DESCRIPTIONS, FILL_DESCRIPTIONS, MODE_DESCRIPTIONS, MODE_KEYS, SELECT_DESCRIPTIONS, SHAPE_DESCRIPTIONS };
+export { CONNECTIVITY_DESCRIPTIONS, FILL_DESCRIPTIONS, MODE_DESCRIPTIONS, MODE_KEYS, SELECT_DESCRIPTIONS };

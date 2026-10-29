@@ -7,7 +7,7 @@ import { symmetryOf } from './symmetry-of';
 
 const brushOptions = (settings: ToolSettings, size: Size): BrushOptions => ({
   brush: brushOf(settings),
-  pixelPerfect: settings.pixelPerfect,
+  pixelPerfect: settings.pixelPerfect && settings.brushSize === 1,
   symmetry: symmetryOf(settings, size),
 });
 

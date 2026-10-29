@@ -34,10 +34,13 @@ const watch = async (rig: TideRig, cells: readonly Cell[]): Promise<string[][]> 
 };
 
 const pickWater = async (session: Session): Promise<void> => {
-  const tile = tileset(session).getByRole('button', { name: /^Tile 1,/ });
+  const tile = tileset(session).getByRole('gridcell', { name: /^Tile 1,/ });
   await tile.waitFor();
   expect(await tile.getAttribute('aria-label')).toContain('Plays an animation');
   await tile.click();
+  const show = tileset(session).getByRole('button', { name: 'Show Tile inspector' });
+  if ((await show.count()) > 0) await show.click();
+  await tileset(session).getByRole('radiogroup', { name: 'Tileset mode' }).getByRole('radio', { name: /Animation/ }).click();
   await tileset(session).getByText(`Plays ${TIDE.animation} (${TIDE.animation}.bxanim): 2 frames, ${TIDE.frameMs * 2} ms loop`).waitFor({ timeout: POLL_MS });
 };
 

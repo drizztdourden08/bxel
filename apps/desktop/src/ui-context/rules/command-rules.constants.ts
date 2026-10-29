@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind constants */
+import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
 import { always, any, canRedo, canUndo, file, hasDocument, hasFile, isolated, never, not, projectOpen } from '../predicates.constants';
 import { ONLY, REASON } from '../reasons.constants';
 import { rule } from '../rule';
@@ -10,22 +11,23 @@ import {
 } from './groups.constants';
 
 const TOOLS: RuleTable = {
-  ...family(['tool.select_pencil', 'tool.select_eraser', 'tool.select_fill', 'tool.select_shape'], DRAW_STAGE, [DRAW, WRITE], ONLY.drawing),
+  ...family(['tool.select_pencil', 'tool.select_eraser', 'tool.select_fill', 'tool.select_line', 'tool.select_spray', 'tool.select_rect'], DRAW_STAGE, [DRAW, WRITE], ONLY.drawing),
+  ...family(['shade', 'gradient', 'curve', 'ellipse', 'contour', 'polygon'].map((tool) => `tool.select_${tool}`), NONE_OR_PIXEL, [DRAW, WRITE], ONLY.pixels),
   ...family(['tool.select_picker', 'tool.select_select'], DRAW_STAGE, [DRAW], ONLY.drawing),
   ...family(['tool.select_move'], NONE_OR_PIXEL, [DRAW, WRITE], ONLY.pixels),
   ...family(['tool.select_zoom', 'tool.select_hand'], ZOOM_STAGE, [[hasFile, REASON.noDraw]]),
 };
 
 const PRESETS: RuleTable = {
-  ...family(['tool.previous', 'tool.cycle_back_shape', 'tool.cycle_back_select', 'tool.cycle_back_fill'], DRAW_STAGE, [DRAW], ONLY.drawing),
+  ...family(['tool.previous', 'tool.cycle_back_select'], DRAW_STAGE, [DRAW], ONLY.drawing),
   ...family(['tool.apply_preset', 'tool.save_preset', 'tool.reset_options', ...[1, 2, 3, 4, 5].map((slot) => `tool.apply_quick_preset_${slot}`)], PIXEL, [DOC], ONLY.pixels),
 };
 
 const OPTIONS: RuleTable = {
   ...family(
     [
-      'brush.cycle_tip', 'brush.toggle_pixel_perfect', 'fill.toggle_area', 'fill.toggle_neighbours', 'shape.set_kind', 'shape.toggle_filled', 'select.set_shape',
-      'select.set_mode', 'options.select.neighbours', 'options.pencil.size', 'options.eraser.size', 'options.shape.size', 'options.set', 'options.reset',
+      'brush.cycle_tip', 'brush.toggle_pixel_perfect', 'fill.toggle_area', 'fill.toggle_neighbours', 'select.set_shape',
+      'select.set_mode', 'options.select.neighbours', 'options.pencil.size', 'options.eraser.size', ...['shade', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon'].map((tool) => `options.${tool}.size`), 'options.set', 'options.reset',
       'options.reset_all',
     ],
     PIXEL,
@@ -34,12 +36,16 @@ const OPTIONS: RuleTable = {
   ),
   ...family(['brush.size_down_by_four', 'brush.size_up_by_four'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
   ...family(['options.focus', 'options.open'], EDIT_STAGE),
+  ...family([...DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection && !OUTLINE_ACTIONS.includes(id)), ...DRAWING_OPTION_COMMAND_IDS], PIXEL, [DOC], ONLY.pixels),
+  ...family(OUTLINE_ACTIONS, PIXEL, [DOC, WRITE], ONLY.pixels),
+  ...family([DRAWING_COMMAND.brushFromSelection], PIXEL, [DOC, WRITE, PIXELS_SELECTED], ONLY.pixels),
 };
 
 const BRUSH: RuleTable = {
-  ...family(['brush.smaller', 'brush.larger'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
+  ...family(['brush.smaller', 'brush.larger'], any(NONE_OR_PIXEL, MAP), [DOC], ONLY.pixels),
   ...family(['palette.swap_colors', 'palette.swap_pairs', 'palette.step_back', 'palette.step_forward'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
-  ...family(['symmetry.toggle_x', 'symmetry.toggle_y', 'symmetry.axis_here', 'symmetry.axis_centre', 'symmetry.axis_remove'], PIXEL, [], ONLY.pixels),
+  ...family(['symmetry.toggle_x', 'symmetry.toggle_y'], any(PIXEL, MAP), [], ONLY.pixels),
+  ...family(['symmetry.axis_here', 'symmetry.axis_centre', 'symmetry.axis_remove'], PIXEL, [], ONLY.pixels),
 };
 
 const ZOOM_DIGITS = [100, 200, 400, 800, 1600, 3200].map((percent) => `view.zoom_${percent}`);
@@ -112,7 +118,13 @@ const SHEETS: RuleTable = {
 
 const TILES: RuleTable = {
   ...family(['tilemap.new_tileset', 'tilemap.new_tilemap', 'collision.toggle_overlay'], TILE_FILES, [], ONLY.tiles),
-  ...family(['tilemap.add_tile', 'tilemap.duplicate_tile', 'tilemap.delete_tile'], TILE_FILES, [WRITE], ONLY.tiles),
+  ...family(['tilemap.add_tile', 'tilemap.duplicate_tile', 'tilemap.delete_tile', 'tileset.animation_from_tiles'], TILE_FILES, [WRITE], ONLY.tiles),
+  ...family(
+    ['tileset.mode_tiles', 'tileset.mode_terrain', 'tileset.mode_collision', 'tileset.mode_data', 'tileset.mode_animation', 'tileset.focus_search'],
+    TILE_FILES,
+    [],
+    ONLY.tiles,
+  ),
   ...family(['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'tilemap.use_tile'], file('tilemap'), [], ONLY.maps),
   ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
   ...family(['tilemap.replace_everywhere', 'tilemap.layer_up', 'tilemap.layer_down'], MAP, [WRITE], ONLY.maps),

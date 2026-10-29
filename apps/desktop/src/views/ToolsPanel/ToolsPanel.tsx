@@ -20,7 +20,6 @@ import './ToolsPanel.css';
 const ToolsPanel = () => {
   const surface = useCatalogueSurface();
   const active = useToolStore((state) => state.tool);
-  const shape = useToolStore((state) => state.shape);
   const variant = useSelectionStore((state) => state.variant);
   const keysOf = useToolKeys();
   useOptionsVersion();
@@ -35,7 +34,7 @@ const ToolsPanel = () => {
         {SLOT_GROUPS.map((group) => {
           const own = slots.filter((slot) => slot.group === group.id);
           return own.length === 0 ? null : (
-            <ToolGroup key={group.id} group={group} slots={own} surface={surface} active={active} choice={{ shape, variant }} keysOf={keysOf} />
+            <ToolGroup key={group.id} group={group} slots={own} surface={surface} active={active} choice={{ variant }} keysOf={keysOf} />
           );
         })}
         {presets && (

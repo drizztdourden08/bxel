@@ -14,6 +14,7 @@ const usage = {
   rules: [
     'Pass the items the toolbar owns and the slot from the dock. The view adds the label, the orientation and the drag handle.',
     'Keep every value in the items. The view holds no state of its own, and its frame only fills the lane, so the dock decides the side and the length.',
+    'Pass columns to let a long list of items wrap into two columns, and give items a priority so the ones that fold into the more menu are the least used.',
   ],
   a11y: [
     'The toolbar has role toolbar, a name from its label and the orientation of its side. The handle is the first stop and can move the toolbar with the keyboard.',
@@ -30,7 +31,7 @@ const Example = ({ items, slot }: { items: readonly ToolbarItem[]; slot: Toolbar
   <SlotToolbar label="Example" items={items} slot={slot} />
 );
 `,
-  propsHash: '72c1fa67d3ca29d6',
+  propsHash: 'a63ede78b92d5b9b',
 } satisfies ComponentUsage;
 
 export { usage };

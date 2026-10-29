@@ -21,6 +21,7 @@ const splitIntoAssets = (artwork: Artwork): SplitPlan => {
       ...(platformId === undefined ? {} : { platformId }),
       ...(platformStrict === true ? { platformStrict: true } : {}),
       presets: projectPresets(artwork),
+      ...((artwork.brushes ?? []).length > 0 ? { brushes: artwork.brushes } : {}),
     },
     files: placements.map(({ entry, ...placement }) => ({
       ...placement,

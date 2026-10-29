@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { MAX_BRUSHES, customBrushSchema } from '@bxel/document';
 import { z } from 'zod';
 import { defaultsSchema } from '../defaults/defaults-schema';
 import { folderIdSchema } from '../ids/folder-id-schema';
@@ -27,6 +28,7 @@ const projectDocumentSchema = z
     folders: z.array(documentFolderSchema).min(1).max(PATH_LIMITS.maxFolders),
     defaults: defaultsSchema.default({}),
     export: exportSchema.optional(),
+    brushes: z.array(customBrushSchema).max(MAX_BRUSHES).optional(),
     assistant: z.strictObject({
       access: z.enum(ACCESS_LEVELS),
       folders: z.array(folderIdSchema).optional(),

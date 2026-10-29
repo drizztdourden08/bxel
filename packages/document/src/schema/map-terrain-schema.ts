@@ -5,7 +5,7 @@ import { mapPlaceFields } from './map-place-fields';
 import { PLACEMENT_MESSAGE } from './map-place.constants';
 
 const mapTerrainSchema = z
-  .strictObject({ ...mapPlaceFields, mode: z.enum(['paint', 'erase']) })
+  .strictObject({ ...mapPlaceFields, mode: z.enum(['paint', 'erase']), set: z.string().min(1).max(48).optional() })
   .refine(hasOnePlacement, { message: PLACEMENT_MESSAGE });
 
 export { mapTerrainSchema };

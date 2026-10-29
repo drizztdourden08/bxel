@@ -6,11 +6,13 @@ import { ERASE_INDEX } from './stroke.constants';
 
 const beginStroke = (start: StrokeStart): StrokeSession => {
   const { target, tool, index, options, at } = start;
+  const inverse = start.inverse === true;
   const session: StrokeSession = {
     ...createOverlay(target),
     kind: 'stroke',
     tool,
-    index: tool === 'eraser' ? ERASE_INDEX : index,
+    inverse,
+    index: tool === 'eraser' && !inverse ? ERASE_INDEX : index,
     options,
     points: [],
     trails: [],

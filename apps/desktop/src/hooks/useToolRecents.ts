@@ -8,8 +8,8 @@ const useToolRecents = (): void => {
   useEffect(() => {
     let seen = '';
     const record = (): void => {
-      const { tool, shape, activeSurface } = useToolStore.getState();
-      const key = `${activeSurface}|${tool}|${shape}|${useSelectionStore.getState().variant}`;
+      const { tool, activeSurface } = useToolStore.getState();
+      const key = `${activeSurface}|${tool}|${useSelectionStore.getState().variant}`;
       if (key === seen) return;
       seen = key;
       const member = activeMember();
