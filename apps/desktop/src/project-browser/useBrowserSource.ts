@@ -12,6 +12,7 @@ import { factsAndKeys } from './facts-and-keys';
 import { NO_FACTS, NO_KEYS } from './project-browser.constants';
 import type { SourceRoot } from './project-browser.type';
 import { useProjectTree } from './useProjectTree';
+import { useRelistOnPaths } from './useRelistOnPaths';
 
 const rootsOf = (folders: readonly { readonly path: string; readonly name: string }[]): readonly SourceRoot[] =>
   folders.map((folder, at) => ({ path: toSlashes(folder.path), name: folder.name, linked: at > 0 }));
@@ -19,6 +20,7 @@ const rootsOf = (folders: readonly { readonly path: string; readonly name: strin
 const useBrowserSource = (project: OpenProject | null, disk: DiskProject | null): BrowserSource => {
   const { tree, refresh } = useProjectTree(project);
   const workspace = useWorkspaceStore((state) => Object.values(state.workspaces).find((each) => each.kind === 'project'));
+  useRelistOnPaths(workspace, refresh);
   const tabs = useWorkspaceStore((state) => state.tabs);
   const artwork = useDocumentStore((state) => (workspace ? state.views[workspace.documentId]?.state.artwork : undefined)) ?? null;
   const live = project !== null && workspace !== undefined && artwork !== null;

@@ -69,7 +69,7 @@ const makesAFolderInTheRow = async (session: Session, root: string): Promise<voi
 
 const dropsOnAFolder = async (session: Session, root: string): Promise<void> => {
   await dragByPointer(session.page, assetRow(session, SAMPLE.sprites[0]).locator('.project-thumb'), assetRow(session, 'props').locator('.project-label'));
-  const confirm = session.page.getByRole('button', { name: 'Move', exact: true });
+  const confirm = session.page.getByRole('dialog').getByRole('button', { name: 'Move', exact: true });
   await confirm.waitFor(POLL).then(() => confirm.click(), () => undefined);
   await expect.poll(() => existsSync(join(root, 'props', `${SAMPLE.sprites[0]}.bxsprite`)), POLL).toBe(true);
   await expect.poll(() => assetRow(session, SAMPLE.sheets[0]).getByRole('img', { name: /^Missing/ }).count(), POLL).toBe(0);

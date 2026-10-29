@@ -10,6 +10,7 @@ const addProjectFileInUi = async (session: Session, name: string): Promise<void>
   await field.fill(name);
   await field.press('Enter');
   await assetRow(session, name).waitFor({ timeout: POLL_MS });
+  await assetRow(session, name).getByRole('img', { name: 'Unsaved changes' }).waitFor({ state: 'detached', timeout: POLL_MS });
 };
 
 export { addProjectFileInUi };
