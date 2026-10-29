@@ -19,7 +19,7 @@ const duplicateFile = async (row: AssetRow): Promise<void> => {
     const taken = new Set(listing.entries.map((entry) => entry.path.replaceAll('\\', '/').toLowerCase()));
     const stem = copyName([], baseName(row.path));
     const path = uniquePath(dir, stem, `.${fileExtension(row.path)}`, taken);
-    await kit.documents.write(path, await kit.documents.read(row.path), { recent: false });
+    await kit.documents.copy(row.path, path);
     toast(ASSET_LIST_TEXT.duplicated(baseName(path)), { variant: 'success' });
   } catch (error) {
     toast(ASSET_LIST_TEXT.duplicateFailed(reasonOf(error)), { variant: 'danger' });

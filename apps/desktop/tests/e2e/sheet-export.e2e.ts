@@ -8,7 +8,7 @@ import { flatIndices } from './support/flat-indices';
 import { openAssetTab } from './support/open-asset-tab';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
 import { openSession } from './support/open-session';
-import { assetRow } from './support/panel-assets';
+import { assetRow, projectTree } from './support/panel-assets';
 import { openSheetRig, PART_NAMES } from './support/open-sheet-rig';
 import { PADDED_SHEET } from './support/padded-sheet.constants';
 import { readDisplayed } from './support/read-displayed';
@@ -61,13 +61,13 @@ const reopensIdentical = async (rig: SheetRig): Promise<void> => {
   try {
     await openProjectAtInUi(second, rig.root, 'Sheets');
     for (const name of PART_NAMES) await assetRow(second, name).waitFor();
-    await assetRow(second, 'part_02').click();
+    await assetRow(second, 'part_02').dblclick();
     await openAssetTab(second, /^part_02/).waitFor();
     const size = { width: SIDE, height: SIDE };
     const map = await canvasMapper(second, size);
     const sprite = spriteOf(saved(rig, 'part_02'), 'part_02');
     expect([...await readDisplayed(second, map, size, await readSwatches(second))]).toEqual([...flatIndices(sprite)]);
-    await assetRow(second, 'padded-sheet').click();
+    await projectTree(second).getByRole('treeitem').filter({ hasText: /padded-sheet(?! palette)/ }).first().dblclick();
     await second.page.getByRole('combobox', { name: 'Sheet' }).getByText('padded-sheet (3)').waitFor();
   } finally {
     await second.close();

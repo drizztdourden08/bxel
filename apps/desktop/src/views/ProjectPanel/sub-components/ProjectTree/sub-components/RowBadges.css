@@ -1,0 +1,22 @@
+/* @layer renderer-app @kind style */
+.project-badges {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+}
+
+.project-badges__missing {
+  color: var(--c-warning);
+}
+
+.project-badges__open {
+  color: var(--c-primary-text);
+}
+
+.project-badges__users {
+  flex: none;
+  min-inline-size: var(--size-24);
+  min-block-size: var(--size-24);
+}

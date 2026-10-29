@@ -34,6 +34,7 @@ const ASSET_LIST_TEXT = {
   duplicated: (name: string): string => `Made a copy named ${name}.`,
   duplicateFailed: (reason: string): string => `Could not make a copy. ${reason}`,
   removed: (name: string): string => `Removed ${name} from the project. Its file moves to the trash when you save.`,
+  removedMany: (count: number): string => `Removed ${count} assets from the project. Their files move to the trash when you save.`,
   removeFailed: (reason: string): string => `Could not remove it. ${reason}`,
   copiedForSheet: (name: string): string => `The sheet now uses its own copy, ${name}.`,
   copySuffix: ' copy',
