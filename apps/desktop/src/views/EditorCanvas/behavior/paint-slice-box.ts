@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { Slice } from '@bxel/document';
+import { strokeCross } from '../../../canvas-look/stroke-cross';
 import type { PixelView } from '../../PixelViewport';
 import { GRIP } from './paint-slice-box.constants';
 import type { SliceBoxLook } from './paint-slice-box.type';
@@ -17,14 +18,8 @@ const paintSliceBox = (ctx: CanvasRenderingContext2D, view: PixelView, shown: Sl
   if (slice.pivot) {
     const x = rect.x + slice.pivot.x2 / 2;
     const y = rect.y + slice.pivot.y2 / 2;
-    const arm = 3 / view.zoom;
     ctx.lineWidth = line;
-    ctx.beginPath();
-    ctx.moveTo(x - arm, y);
-    ctx.lineTo(x + arm, y);
-    ctx.moveTo(x, y - arm);
-    ctx.lineTo(x, y + arm);
-    ctx.stroke();
+    strokeCross(ctx, x, y, 3 / view.zoom);
   }
   if (slice.name !== '') {
     ctx.font = `${11 / view.zoom}px sans-serif`;
