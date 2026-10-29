@@ -8,7 +8,7 @@ import { selectFrameIds } from '../../../timeline/select-frame-ids';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
 import { useDragMode } from '../behavior/useDragMode';
 import { useFrameSelection } from '../behavior/useFrameSelection';
-import { useFileDrop } from '../behavior/useFileDrop';
+import { useTrackDrop } from '../behavior/useTrackDrop';
 import { useStripDrop } from '../behavior/useStripDrop';
 import { useStripFocus } from '../behavior/useStripFocus';
 import { END_GUTTER } from '../TimelinePanel.constants';
@@ -36,7 +36,7 @@ const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackPro
   });
   const selection = useFrameSelection(focus);
   const drop = useStripDrop(focus);
-  const refused = useFileDrop(listRef, focus);
+  const refused = useTrackDrop(listRef, focus);
   const selected = useTimelineStore((state) => state.selection.frames);
   const marquee = useMarqueeSelect({
     containerRef: scroller,

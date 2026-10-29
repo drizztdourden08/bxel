@@ -1,68 +1,85 @@
 /* @layer renderer-app @kind hook */
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { openProjectSettings } from '../../../config-entry/open-project-settings';
+import { openProjectWindow } from '../../../config-entry/open-project-window';
+import { openDemoProject } from '../../../demo/open-demo-project';
+import { filterCounts } from '../../../panel-browser/filter-counts';
+import { NARROW_WIDTH } from '../../../panel-browser/project-browser.constants';
+import { useBrowserEdit } from '../../../panel-browser/useBrowserEdit';
+import { useBrowserModel } from '../../../panel-browser/useBrowserModel';
+import { useBrowserRows } from '../../../panel-browser/useBrowserRows';
+import { useBrowserSearch } from '../../../panel-browser/useBrowserSearch';
+import { useBrowserSelection } from '../../../panel-browser/useBrowserSelection';
+import { useBrowserView } from '../../../panel-browser/useBrowserView';
+import { useEditState } from '../../../panel-browser/useEditState';
+import { useBrowserSource } from '../../../project-browser/useBrowserSource';
 import { closeProject } from '../../../project/close-project';
-import { folderDir } from '../../../project/folder-dir';
 import { grantProjectFolder } from '../../../project/grant-project-folder';
 import { openProject } from '../../../project/open-project';
+import { packCurrentProject } from '../../../project/pack-current-project';
+import { removeLinkedFolder } from '../../../project/remove-linked-folder';
 import { removeRecentProject } from '../../../project/remove-recent-project';
 import { useProjectStore } from '../../../stores/useProjectStore';
-import { projectDirs } from '../../../workspace/project-dirs';
-import { startNewAsset } from '../../../project/start-new-asset';
-import type { PanelView, ProjectPanelModel } from '../ProjectPanel.type';
-import { useAssetsView } from '../sub-components/AssetsView/behavior/useAssetsView';
-import { useEntryActions } from './useEntryActions';
-import { useProjectActions } from './useProjectActions';
-import { useProjectListing } from './useProjectListing';
-import { useProjectLocation } from './useProjectLocation';
+import type { ProjectPanelModel } from '../ProjectPanel.type';
+import { normalRoot } from './normal-root';
+import { roleKindsOf } from './role-kinds-of';
+import { useRowBulk } from './useRowBulk';
+import { useRowCreate } from './useRowCreate';
+import { useRowDrag } from './useRowDrag';
+import { useRowPick } from './useRowPick';
 
 const useProjectPanel = (): ProjectPanelModel => {
   const project = useProjectStore((state) => state.project);
   const recents = useProjectStore((state) => state.recents);
-  const [selected, select] = useState<string | null>(null);
-  const [view, setView] = useState<PanelView>('assets');
-  const [search, setSearch] = useState('');
-  const location = useProjectLocation(project);
-  const { folder, segments } = location;
-  const dir = folder?.granted ? folderDir(folder.path, segments) : null;
-  const { listing, error, refresh } = useProjectListing(dir);
-  const spriteDir = view === 'assets' && project ? (projectDirs(project).sprite ?? dir) : dir;
-  const actions = useProjectActions({ dir: spriteDir, enter: location.enter, refresh });
-  const entries = useEntryActions({ dir, refresh });
-  const assets = useAssetsView(project, search);
-
-  const grantFolder = useCallback(() => {
-    if (folder) void grantProjectFolder(folder);
-  }, [folder]);
+  const source = useBrowserSource(project, null);
+  const data = useBrowserModel(project, source);
+  const view = useBrowserView(project?.manifest.projectId ?? null);
+  const search = useBrowserSearch();
+  const state = useEditState();
+  const create = state.editing?.kind === 'create' ? { parentKey: state.editing.parentKey, create: state.editing.create } : null;
+  const browser = useBrowserRows({ model: data, view, search, create, facts: source.facts, keys: source.keys });
+  const selection = useBrowserSelection(browser);
+  const edit = useBrowserEdit({ state, itemOf: browser.itemOf, selection, view, refresh: source.refresh });
+  const parts = { project, source, data, view, search, browser, selection, edit };
+  const pick = useRowPick(parts);
+  const rowActions = { ...pick, ...useRowCreate(parts), ...useRowBulk(parts) };
+  const drag = useRowDrag(parts);
+  const [narrow, setNarrow] = useState(false);
+  const setWidth = useCallback((width: number) => setNarrow(width < NARROW_WIDTH), []);
+  const roleKinds = useMemo(() => roleKindsOf(project), [project]);
+  const counts = useMemo(() => filterCounts(data.tree, data.statuses), [data.tree, data.statuses]);
+  const findFolder = useCallback(
+    (rootKey: string) => project?.folders.find((each) => normalRoot(each.path) === normalRoot(rootKey)),
+    [project],
+  );
 
   return {
-    ...actions,
-    ...entries,
-    project,
+    ...parts,
     recents,
-    folder,
-    segments,
-    listing,
-    error,
-    selected,
-    select,
-    refresh,
-    grantFolder,
-    view,
-    setView,
-    search,
-    setSearch,
-    assets,
-    newAsset: (kind) => (kind === 'sprite' ? actions.startNaming() : startNewAsset(kind)),
-    newAssetIn: (kind, where) => (kind === 'sprite' ? actions.startNamingIn(where) : startNewAsset(kind, where)),
-    chooseFolder: location.chooseFolder,
-    up: location.up,
+    density: narrow ? 'compact' : view.density,
+    roleKinds,
+    counts,
+    rowActions,
+    drag,
+    setWidth,
+    refresh: source.refresh,
     newProject: () => useProjectStore.getState().showDialog(true),
     openProject: () => void openProject(),
     openRecent: (root) => void openProject(root),
     removeRecent: (entry) => void removeRecentProject(entry),
-    openSettings: () => openProjectSettings(),
+    openDemo: () => void openDemoProject(),
     closeProject: () => void closeProject(),
+    openSettings: () => openProjectSettings(),
+    openHub: openProjectWindow,
+    pack: () => void packCurrentProject(),
+    grantFolder: (rootKey) => {
+      const folder = findFolder(rootKey);
+      if (folder) void grantProjectFolder(folder);
+    },
+    unlink: (rootKey) => {
+      const folder = findFolder(rootKey);
+      if (folder) void removeLinkedFolder(folder.folderId);
+    },
   };
 };
 

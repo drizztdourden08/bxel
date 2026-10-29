@@ -1,0 +1,31 @@
+/* @layer renderer-app @kind style */
+.project-name {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+  overflow: hidden;
+}
+
+.project-name[data-group='true'] {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--space-xs);
+}
+
+.project-name[data-ghost='true'] .project-name__text {
+  color: var(--c-text-faint);
+  text-decoration: line-through;
+}
+
+.project-name__text,
+.project-name__meta {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-tree[data-row-size='compact'] .project-name__meta {
+  display: none;
+}

@@ -1,0 +1,27 @@
+/* @layer renderer-app @kind style */
+.project-trail {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+}
+
+.project-trail__more {
+  flex: none;
+  min-inline-size: var(--size-24);
+  min-block-size: var(--size-24);
+  opacity: 0.55;
+  transition: opacity var(--transition-fast);
+}
+
+.project-trail__more:hover,
+.project-trail__more:focus-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-trail__more {
+    transition: none;
+  }
+}

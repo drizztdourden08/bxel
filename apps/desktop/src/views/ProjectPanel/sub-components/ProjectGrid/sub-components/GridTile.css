@@ -1,0 +1,68 @@
+/* @layer renderer-app @kind style */
+.project-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+  color: var(--c-text);
+  user-select: none;
+}
+
+.project-tile:hover {
+  background: var(--c-hover);
+}
+
+.project-tile[aria-selected='true'] {
+  background: var(--c-selected);
+  box-shadow: inset 0 0 0 var(--border-width-thick) var(--c-primary);
+}
+
+.project-tile[data-active='true'] {
+  outline: var(--border-width-thin) solid var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thin));
+}
+
+.project-tile[data-ghost='true'] {
+  opacity: 0.55;
+}
+
+.project-tile__thumb {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  min-block-size: 0;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--c-sunken);
+  color: var(--c-text-dim);
+  font-size: var(--text-2xl);
+}
+
+.project-tile__img {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.project-tile__name {
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-tile__marks {
+  position: absolute;
+  inset-block-start: var(--space-sm);
+  inset-inline-end: var(--space-sm);
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.project-tile__missing {
+  color: var(--c-warning);
+}

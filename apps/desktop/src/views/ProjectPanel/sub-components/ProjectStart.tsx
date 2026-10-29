@@ -1,31 +1,33 @@
 /* @layer renderer-app @kind component */
 import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Button, EmptyState, Flex, Icon, IconButton, ListItemList, ListItemRow, ScrollArea, Stack, Text } from '@drizztdourden08/tessera';
-import { PANEL_TEXT } from '../../../project/project.constants';
-import { PROJECT_MENU } from '../ProjectPanel.constants';
+import { PANEL_UI, PROJECT_MENU } from '../ProjectPanel.constants';
 import type { PanelPartProps } from '../ProjectPanel.type';
 
 const ProjectStart = ({ model }: PanelPartProps) => (
   <ScrollArea axis="y" scrollbar="slim" fade={false}>
     <Stack gap="md" {...contextMenuZone(PROJECT_MENU.zone)}>
       <EmptyState
-        title={PANEL_TEXT.emptyTitle}
-        message={PANEL_TEXT.emptyMessage}
+        title={PANEL_UI.noProjectTitle}
+        message={PANEL_UI.noProjectMessage}
         action={
           <Flex gap="sm" wrap>
             <Button variant="primary" size="sm" onClick={model.newProject}>
-              New project
+              {PANEL_UI.newProject}
             </Button>
             <Button variant="secondary" size="sm" onClick={model.openProject}>
-              Open project
+              {PANEL_UI.openProject}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={model.openDemo}>
+              {PANEL_UI.openDemo}
             </Button>
           </Flex>
         }
       />
       {model.recents.length > 0 && (
         <Stack gap="xs">
-          <Text variant="label">{PANEL_TEXT.recent}</Text>
-          <ListItemList label={PANEL_TEXT.recent}>
+          <Text variant="label">{PANEL_UI.recent}</Text>
+          <ListItemList label={PANEL_UI.recent}>
             {model.recents.map((entry) => (
               <ListItemRow
                 key={entry.rootRealPath}
@@ -34,7 +36,7 @@ const ProjectStart = ({ model }: PanelPartProps) => (
                 meta={entry.rootRealPath}
                 actionVisibility="always"
                 action={
-                  <IconButton label={`${PANEL_TEXT.removeRecent}: ${entry.name}`} size="xs" onClick={() => model.removeRecent(entry)}>
+                  <IconButton label={`${PANEL_UI.removeRecent}: ${entry.name}`} size="xs" onClick={() => model.removeRecent(entry)}>
                     <Icon name="x" />
                   </IconButton>
                 }
