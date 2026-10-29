@@ -41,4 +41,4 @@ const FIX_BY_VALUES = ['id', 'path', 'remove'] as const;
 
 const ORGANISE_OP_VALUES = ['tag', 'untag', 'pin', 'unpin', 'collect', 'uncollect', 'newCollection', 'renameCollection', 'deleteCollection', 'saveSearch', 'removeSearch'] as const;
 
-export { FILE_PLACE_SCHEMA, FIX_BY_VALUES, FOLDER_PLACE_SCHEMA, HEALTH_CHECK_SCHEMA, HEALTH_CHECK_VALUES, LINK_STATE_SCHEMA, LINK_STATE_VALUES, ORGANISE_OP_VALUES, REFERENCE_SCHEMA };
+export { FILE_PLACE_SCHEMA, FIX_BY_VALUES, FOLDER_PLACE_SCHEMA, HEALTH_CHECK_SCHEMA, HEALTH_CHECK_VALUES, ORGANISE_OP_VALUES, REFERENCE_SCHEMA };
