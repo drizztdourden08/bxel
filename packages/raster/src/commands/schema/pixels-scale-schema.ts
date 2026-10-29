@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { allUsesSchema } from './all-uses-schema';
 import { ANCHOR_NAMES } from '../../region/region.constants';
 import { boundsPolicySchema } from './bounds-policy-schema';
+import { scaleAlgorithmSchema } from './scale-algorithm-schema';
+import { similarSchema } from './similar-schema';
 import { maskSchema } from './mask-schema';
 import { scaleTargetSchema } from './scale-target-schema';
 import { skipZeroSchema } from './skip-zero-schema';
@@ -10,6 +12,8 @@ import { skipZeroSchema } from './skip-zero-schema';
 const pixelsScaleSchema = z.strictObject({
   target: scaleTargetSchema,
   anchor: z.enum(ANCHOR_NAMES).default('top-left'),
+  algorithm: scaleAlgorithmSchema,
+  similar: similarSchema,
   bounds: boundsPolicySchema,
   skipZero: skipZeroSchema,
   mask: maskSchema,

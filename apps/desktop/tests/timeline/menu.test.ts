@@ -25,8 +25,13 @@ describe('the menu of a frame', () => {
   it('lists the frame commands and no cel commands', () => {
     withFrames(3);
     const text = labels(frameEntries(frameAt(1)));
-    expect(text).toEqual(expect.arrayContaining(['Go to frame', 'Play from here', 'Duration', 'Add frame', 'Duplicate frames', 'Move earlier', 'Move later', 'Delete frames']));
-    expect(text.join(' ')).not.toMatch(/cel|Link|Layer/);
+    expect(text).toEqual(['Play from here', 'Duration', 'Add frame', 'Add frames from', 'Duplicate frames', 'Linked copy', 'Move', 'Tag', 'Select', 'Sprite', 'Clipboard', 'Delete frames']);
+  });
+
+  it('keeps at most twelve top level entries', () => {
+    withFrames(3);
+    const entries = frameEntries(frameAt(1)).filter((entry) => entry !== 'separator');
+    expect(entries.length).toBeLessThanOrEqual(12);
   });
 
   it('plays from the frame and sets the duration of the picked frames', () => {
@@ -45,6 +50,10 @@ describe('the menu of a frame', () => {
     const first = frameAt(0);
     run('timeline.move_frames_later', {});
     expect(animationOf().frames[1]?.id).toBe(first);
+    run('timeline.move_frames_end', {});
+    expect(animationOf().frames[2]?.id).toBe(first);
+    run('timeline.move_frames_start', {});
+    expect(animationOf().frames[0]?.id).toBe(first);
     run('timeline.select_all_frames', {});
     expect(useTimelineStore.getState().selection.frames).toHaveLength(3);
   });
@@ -63,7 +72,7 @@ describe('the menu of a tag', () => {
     pickRange(0, 1);
     addTag();
     const tagId = animationOf().tags[0]?.id ?? '';
-    expect(labels(tagEntries(tagId))).toEqual(expect.arrayContaining(['Play this tag', 'Rename', 'Direction', 'Colour', 'Delete tag']));
+    expect(labels(tagEntries(tagId))).toEqual(expect.arrayContaining(['Play this tag', 'Play once', 'Edit tag...', 'Loop mode', 'Repeat', 'Facing', 'Colour', 'Delete tag']));
     run('tag.set_direction', { tagId, direction: 'pingpong' });
     run('tag.set_colour', { tagId, colour: '#6f9cf0' });
     pickRange(2, 3);
@@ -83,7 +92,7 @@ describe('the menu of a tag', () => {
     const tagId = animationOf().tags[0]?.id ?? '';
     expect(JSON.stringify(tagEntries(tagId))).toContain('tag.custom_colour');
     run('tag.custom_colour', { tagId });
-    expect(useTimelineStore.getState()).toMatchObject({ tagId, colourPicker: true });
+    expect(useTimelineStore.getState()).toMatchObject({ tagId, colourPicker: true, popover: { kind: 'tag', tagId } });
     useTimelineStore.getState().selectTag(null);
     expect(useTimelineStore.getState().colourPicker).toBe(false);
   });

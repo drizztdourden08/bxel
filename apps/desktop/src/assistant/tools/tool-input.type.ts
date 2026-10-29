@@ -19,7 +19,13 @@ type PngMeta = { readonly revision: number; readonly scale: number; readonly uri
 
 type TilesetSource = { readonly tilesetId: string; readonly overlay?: 'none' | 'collision' };
 
-type AnimationSource = { readonly animationId: string; readonly frameId?: string; readonly tagId?: string };
+type AnimationSource = {
+  readonly animationId: string;
+  readonly frameId?: string;
+  readonly tagId?: string;
+  readonly facing?: string;
+  readonly allFacings?: boolean;
+};
 
 type AnimationStrip = { readonly image: RgbaImage; readonly indices: Uint8Array };
 
@@ -44,6 +50,8 @@ type RenderInput = DocumentInput & {
   readonly target: SpriteSource | AnimationSource | SheetSource | TilesetSource;
   readonly scale: number;
   readonly exported?: boolean;
+  readonly onion?: boolean;
+  readonly animated?: 'gif' | 'apng';
 };
 
 type WireStep = {

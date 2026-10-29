@@ -5,7 +5,9 @@ import { animationStep } from '../timeline/animation-step';
 import type { AddRequest } from './add-frames.type';
 import { eligibleSprites } from './eligible-sprites';
 import { sheetSprites } from './sheet-sprites';
-import { stripGrid } from './strip-grid';
+import { fileStripSteps } from './file-strip-steps';
+import { imageSteps } from './image-steps';
+import { stripSteps } from './strip-steps';
 
 const spriteSteps = (animation: Animation, ids: readonly SpriteId[], request: { at: number; durationMs: number; mode: 'reference' | 'copy' }): CommandStep[] =>
   ids.map((sprite, index) =>
@@ -16,20 +18,11 @@ const spriteSteps = (animation: Animation, ids: readonly SpriteId[], request: { 
     }),
   );
 
-const stripSteps = (animation: Animation, request: Extract<AddRequest, { kind: 'strip' }>): CommandStep[] => {
-  const add = animationStep({ animation }, COMMAND_NAME.animationFrameAdd, {
-    source: { kind: 'strip', sprite: request.sprite, grid: stripGrid(request.spec) },
-    at: request.at,
-    durationMs: request.durationMs,
-  });
-  if (request.result === 'cells') return [add];
-  const frames = Array.from({ length: request.cells }, (_, index) => ({ by: 'index', index: request.at + index }));
-  return [add, animationStep({ animation }, COMMAND_NAME.animationSplit, { frames })];
-};
-
 const addFramesSteps = (artwork: Artwork, animation: Animation, request: AddRequest): CommandStep[] => {
   if (request.kind === 'sprites') return spriteSteps(animation, request.sprites, request);
   if (request.kind === 'strip') return stripSteps(animation, request);
+  if (request.kind === 'images') return imageSteps(animation, request.frames, request);
+  if (request.kind === 'file') return fileStripSteps(animation, request);
   const sheet = artwork.sheets.find((each) => each.id === request.sheet);
   const ids = sheet ? sheetSprites(sheet, eligibleSprites(artwork, animation).sprites).map((sprite) => sprite.id) : [];
   return spriteSteps(animation, ids, request);

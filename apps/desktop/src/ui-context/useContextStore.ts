@@ -10,6 +10,7 @@ import { useTilemapStore } from '../stores/useTilemapStore';
 import { useTimelineStore } from '../stores/useTimelineStore';
 import { useToolStore } from '../stores/useToolStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
+import { useSelectionHistoryStore } from '../stores/useSelectionHistoryStore';
 import type { BxelContext } from './bxel-context.type';
 import { currentContext } from './current-context';
 import { sameContext } from './same-context';
@@ -27,6 +28,7 @@ const refresh = (): void => {
   useProjectStore,
   usePendingStore,
   useSelectionStore,
+  useSelectionHistoryStore,
   useSpriteStore,
   useTilemapStore,
   useTimelineStore,

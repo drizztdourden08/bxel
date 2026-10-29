@@ -6,6 +6,9 @@ const TIMELINE_TEXT = {
   empty: 'Sprites are still images. Use an animation for frames.',
   emptyTitle: 'No animation is open',
   makeFromSprite: 'Make an animation from this sprite',
+  makeFromSprites: (count: number): string => `Make an animation from ${count} sprites`,
+  severalName: 'Animation',
+  framesList: (numbers: readonly number[]): string => (numbers.length === 1 ? `frame ${numbers[0]}` : `frames ${numbers.join(', ')}`),
   openAnimation: 'Open an animation',
   noAnimations: 'This project has no animations yet.',
   title: 'Timeline',
@@ -21,8 +24,12 @@ const TIMELINE_TEXT = {
   tagColourCustomLabel: 'Custom tag colour',
   tagColourLabel: (name: string): string => `${name} tag colour`,
   wholeAnimation: 'Whole animation',
-  frameLabel: (number: number, durationMs: number, badges: string): string =>
-    `Frame ${number}, ${durationMs} milliseconds${badges === '' ? '' : `, ${badges}`}`,
+  pickedFrames: 'Picked frames',
+  loopRangeName: 'Loop range',
+  frameLabel: (number: number, total: number, durationMs: number, words: readonly string[]): string =>
+    [`Frame ${number} of ${total}, ${durationMs} milliseconds`, ...words].join(', '),
+  linkedTo: (frame: number): string => `linked to frame ${frame}`,
+  framesRange: (from: number, to: number): string => (from === to ? `frame ${from}` : `frames ${from} to ${to}`),
   count: (frames: number): string => (frames === 1 ? '1 frame' : `${frames} frames`),
   total: (frames: number, durationMs: number, fps: string): string => `${frames === 1 ? '1 frame' : `${frames} frames`}, ${durationMs} ms, ${fps}`,
   status: (number: number, total: number, durationMs: number): string => `Frame ${number} of ${total}, ${durationMs} ms`,
@@ -30,10 +37,15 @@ const TIMELINE_TEXT = {
   tagLabel: (name: string, direction: string): string => `${name}, ${direction}`,
   mirrorLabel: (name: string, flip: string): string => `${name}, mirrored ${flip}`,
   moveHint: 'Alt and Left or Right moves the frame in the strip. Drag a frame to move it.',
-  playHint: 'Enter or Space plays and pauses. Comma and period step by one frame.',
+  playHint: 'Enter plays and pauses, and so does Shift and Enter while you paint. Comma and period step by one frame.',
   stripHint: 'Left and Right pick a frame. Shift extends the pick. Delete removes the picked frames.',
   moved: (number: number, total: number): string => `Frame moved to position ${number} of ${total}`,
   readOnly: 'This animation is open read only.',
+  needTwo: 'Pick two or more frames first.',
+  nothingCopied: 'Copy some frames first.',
+  cutElsewhere: 'Cut frames paste into the same animation. Use Copy to paste into another.',
+  ownedElsewhere: 'Frames drawn on this animation stay here. Duplicate them, or share the sprite from the Sprites panel.',
+  otherFile: 'The copied frames are from another file.',
   duration: 'Frame duration in milliseconds, applied to the picked frames',
   unit: 'ms',
   offsetX: 'Frame offset across',
@@ -51,10 +63,10 @@ const TIMELINE_TEXT = {
 } as const;
 
 const BADGE_TEXT: Readonly<Record<FrameBadge, string>> = {
-  owned: 'Owned',
-  shared: 'Shared',
-  clip: 'Clip',
-  empty: 'Empty',
+  owned: 'Owned sprite',
+  shared: 'Shared sprite',
+  clip: 'Clipped',
+  empty: 'Empty frame',
 };
 
 const TIMELINE_LABEL = {
@@ -62,6 +74,11 @@ const TIMELINE_LABEL = {
   duplicateFrame: 'Duplicate frames',
   deleteFrame: 'Delete frames',
   moveFrame: 'Move frames',
+  reverse: 'Reverse the frame order',
+  mirror: 'Make a mirror tag',
+  paste: 'Paste frames',
+  linkFrames: 'Link frames',
+  tagRange: 'Change the tag range',
   duration: 'Set frame duration',
   addTag: 'Add tag',
   updateTag: 'Change tag',
@@ -81,10 +98,6 @@ const TIMELINE_LABEL = {
   addFrames: 'Add frames',
 } as const;
 
-const FIELD_LABEL = {
-  duration: 'Frame duration in milliseconds, applied to the picked frames',
-  tagName: 'Tag name',
-} as const;
 
 const TIMELINE_REF = { frame: 'frame', tag: 'tag', copy: 'copy', animation: 'animation', sheet: 'sheet' } as const;
 
@@ -122,7 +135,6 @@ export {
   BADGE_TEXT,
   COMPASS,
   FACING_TEXT,
-  FIELD_LABEL,
   NEW_TAG_NAME,
   TAG_COLOURS,
   TAG_DIRECTION_TEXT,

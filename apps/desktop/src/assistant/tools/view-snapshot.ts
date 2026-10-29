@@ -19,6 +19,7 @@ import { assetName } from '../../workspace/asset-name';
 import { keyId } from '../../workspace/key-id';
 import { selectionReply } from './selection-reply';
 import { FILLED_TOOL_IDS } from './view-snapshot.constants';
+import { timelineOf } from './timeline-view-of';
 import type { Sees } from './view-snapshot.type';
 
 const tabsOf = (sees: Sees) => {
@@ -111,7 +112,7 @@ const playbackOf = () => {
   const timeline = useTimelineStore.getState();
   return {
     playing: timeline.playing,
-    loop: timeline.loop,
+    loop: timeline.playMode !== 'once',
     frame: timeline.frameId,
     tag: timeline.tagId,
     selectedFrames: timeline.selection.frames,
@@ -143,6 +144,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     zoom: zoomOf(),
     toggles: togglesOf(),
     playback: playbackOf(),
+    timeline: timelineOf(sees),
     selection: selectionOf(sees),
     clipboard: clipboardOf(),
     sprites: spritesOf(),

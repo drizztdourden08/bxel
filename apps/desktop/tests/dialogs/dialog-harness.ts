@@ -5,8 +5,8 @@ import { createDefaultArtwork } from '../../src/documents/create-default-artwork
 import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
 import type { SourceImage } from '../../src/image-import/image-import.type';
-
-type Paint = (x: number, y: number) => readonly [number, number, number, number];
+import { paintedData } from '../timeline/painted-data';
+import type { Paint } from '../timeline/painted-data.type';
 
 const newHost = (): DocumentHost => createDocumentHost({ ids: counterIdSource() });
 
@@ -16,11 +16,7 @@ const hostWithFile = (): { host: DocumentHost; documentId: DocumentId } => {
 };
 
 const sourceImage = (width: number, height: number, paint: Paint, fileName = 'caps.png'): SourceImage => {
-  const data = new Uint8ClampedArray(width * height * 4);
-  for (let y = 0; y < height; y += 1) {
-    for (let x = 0; x < width; x += 1) data.set(paint(x, y), (y * width + x) * 4);
-  }
-  return { fileName, width, height, data };
+  return { fileName, width, height, data: paintedData(width, height, paint) };
 };
 
 const sprites = (host: DocumentHost, documentId: DocumentId): readonly Sprite[] => host.view(documentId)?.state.artwork.sprites ?? [];

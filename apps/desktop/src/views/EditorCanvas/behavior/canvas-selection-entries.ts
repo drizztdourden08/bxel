@@ -11,7 +11,7 @@ import { pickHereEntries } from './pick-here-entries';
 
 const transformEntries = (): ContextMenuEntry => ({
   label: CANVAS_MENU.transform,
-  items: [ID.flipHorizontal, ID.flipVertical, ID.turnClockwise, ID.turnCounterClockwise, ID.rotate, ID.scale],
+  items: [ID.flipHorizontal, ID.flipVertical, ID.turnClockwise, ID.turnCounterClockwise, ID.turnHalf, ID.transform, ID.rotate, ID.scale],
 });
 
 const thinSelection = (): boolean => {
@@ -27,7 +27,7 @@ const canvasSelectionEntries = (here: Point | null, pending: boolean, tile: bool
     ...back,
     ID.cut,
     ID.copy,
-    { command: ID.paste, ...unless(useSelectionStore.getState().clipboard !== null, CANVAS_MENU.emptyClipboard) },
+    { command: ID.paste, ...unless(useSelectionStore.getState().clipboard !== null || useSelectionStore.getState().systemClip, CANVAS_MENU.emptyClipboard) },
     ...(tile ? ['tilemap.duplicate_tile'] : []),
     'separator',
     transformEntries(),

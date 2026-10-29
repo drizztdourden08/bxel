@@ -1,13 +1,25 @@
 /* @layer renderer-app @kind logic */
-import { useTimelineStore } from '../stores/useTimelineStore';
+import type { ReorderDropInfo } from '@drizztdourden08/tessera';
+import { copyFramesAt } from './copy-frames-at';
 import { currentFocus } from './current-focus';
-import { moveFrames } from './move-frames';
+import type { DragMode } from './drag-mode.type';
+import { moveFramesTo } from './move-frames-to';
 
-const dragFrame = (from: number, to: number): boolean => {
-  const dragged = currentFocus()?.animation.frames[from];
-  if (!dragged) return false;
-  const held = useTimelineStore.getState().selection.frames.includes(dragged.id);
-  return moveFrames(to - from, held ? undefined : [dragged.id]);
+const modeOfModifier = (modifier: ReorderDropInfo['modifier']): DragMode => {
+  if (modifier === 'ctrl') return 'copy';
+  return modifier === 'alt' ? 'link' : 'move';
 };
 
-export { dragFrame };
+const dropFrames = (drop: ReorderDropInfo): boolean => {
+  const focus = currentFocus();
+  if (!focus) return false;
+  const order = focus.animation.frames.map((frame) => frame.id);
+  const ids = order.filter((id) => drop.keys.includes(id));
+  if (ids.length === 0) return false;
+  const mode = modeOfModifier(drop.modifier);
+  if (mode !== 'move') return copyFramesAt(drop.before, mode === 'link', ids);
+  const ahead = ids.filter((id) => order.indexOf(id) < drop.before).length;
+  return moveFramesTo(drop.before - ahead, ids);
+};
+
+export { dropFrames };

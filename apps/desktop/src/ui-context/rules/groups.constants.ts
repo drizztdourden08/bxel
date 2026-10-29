@@ -39,7 +39,7 @@ const DRAW: Need = [hasDocument, REASON.noDraw];
 
 const WRITE: Need = [writable, REASON.readOnly];
 
-const PIXELS_SELECTED: Need = [has('pixels'), REASON.noSelection];
+const PIXELS_SELECTED: Need = [has('pixels'), REASON.noPixels];
 
 const CELLS_SELECTED: Need = [has('cells'), REASON.noCells];
 
