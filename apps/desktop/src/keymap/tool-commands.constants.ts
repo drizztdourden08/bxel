@@ -9,7 +9,10 @@ import { labelOfTool } from '../editor/tool-catalogue/label-of-tool';
 import { toolIds } from '../editor/tool-catalogue/tool-ids';
 import { resetTool } from '../editor/tool-options/reset-tool';
 import { announcePreset } from '../editor/tool-pick/announce-preset';
-import { beginSpring, endSpring, isSpringTool } from '../editor/tool-pick/spring-tool';
+import { beginSpring } from '../editor/tool-pick/begin-spring';
+import { endSpring } from '../editor/tool-pick/end-spring';
+import { isSpringTool } from '../editor/tool-pick/is-spring-tool';
+import { SPRING_TAP_MS } from '../editor/tool-pick/spring-tool.constants';
 import { pressToolKey } from '../editor/tool-pick/press-tool-key';
 import type { ToolId } from '../editor/tool.type';
 import { QUICK_SLOTS } from '../editor/presets/builtin-presets.constants';
@@ -20,8 +23,6 @@ import { TOOL_COMMAND } from './option-command-id.constants';
 import { ruled } from './ruled';
 
 const CYCLING: readonly ToolId[] = ['shape', 'select', 'fill'];
-
-const SPRING_TAP_MS = 250;
 
 const springHold = (tool: ToolId): Pick<CommandDef, 'hold'> => (isSpringTool(tool) ? { hold: { release: endSpring, tapMs: SPRING_TAP_MS } } : {});
 

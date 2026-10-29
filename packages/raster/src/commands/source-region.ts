@@ -1,23 +1,7 @@
 /* @layer core @kind logic */
 import { ERROR_CODE, fail, requireSprite } from '@bxel/document';
-import type { Artwork, FrameId, LayerId, Sprite, SpriteId } from '@bxel/document';
-import type { MaskView } from '../buffer.type';
-import type { Rect } from '../geometry.type';
-
-interface SourceRegion {
-  sprite: Sprite;
-  pixels: Uint8Array;
-  mask: MaskView | undefined;
-  rect: Rect;
-}
-
-interface SourceRequest {
-  sprite: string;
-  frame: string;
-  layer: string;
-  rect: Rect;
-  mask?: MaskView | undefined;
-}
+import type { Artwork, FrameId, LayerId, SpriteId } from '@bxel/document';
+import type { SourceRegion, SourceRequest } from './source-region.type';
 
 const sourceRegion = (artwork: Artwork, request: SourceRequest): SourceRegion => {
   const sprite = requireSprite(artwork, request.sprite as SpriteId);
@@ -32,4 +16,3 @@ const sourceRegion = (artwork: Artwork, request: SourceRequest): SourceRegion =>
 };
 
 export { sourceRegion };
-export type { SourceRegion, SourceRequest };

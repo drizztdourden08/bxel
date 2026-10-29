@@ -150,7 +150,7 @@ describe('the Edit menu', () => {
     const edit = editorMenu(stateOf('N', { context: columnContext('N') }))[0];
     const items = edit !== undefined && edit !== 'separator' ? (edit.children ?? []) : [];
     const labels = items.flatMap((item) => (item === 'separator' ? [] : [item.label]));
-    expect(labels).toEqual(['Undo', 'Redo', 'Cut', 'Copy', 'Paste', 'Delete', 'Select all', 'Deselect']);
+    expect(labels).toEqual(['Undo', 'Redo', 'Cut', 'Copy', 'Copy merged', 'Paste', 'Paste in place', 'Delete', 'Select all', 'Deselect']);
     for (const item of items) if (item !== 'separator') expect(item).toMatchObject({ disabled: true });
   });
 

@@ -1,11 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { maskBounds } from '@bxel/raster';
-import type { MaskView, Rect } from '@bxel/raster';
-
-interface MaskPatch {
-  rect: Rect;
-  pixels: Uint8Array;
-}
+import type { MaskView } from '@bxel/raster';
+import type { MaskPatch } from './mask-patch.type';
 
 const maskPatch = (mask: MaskView, index: number): MaskPatch | null => {
   const rect = maskBounds(mask);
@@ -20,4 +16,3 @@ const maskPatch = (mask: MaskView, index: number): MaskPatch | null => {
 };
 
 export { maskPatch };
-export type { MaskPatch };

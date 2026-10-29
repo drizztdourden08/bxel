@@ -44,6 +44,9 @@ describe('mask descriptors over MCP', () => {
     expect(count({ by: 'saved', name: 'missing' })).toBe(-1);
   });
 
+});
+
+describe('mask descriptors in steps', () => {
   it('combines a list of described shapes', () => {
     const rig = openRig();
     const artwork = rig.host.view(rig.documentId)?.state.artwork;

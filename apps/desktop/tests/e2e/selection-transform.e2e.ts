@@ -33,6 +33,7 @@ describe('selection and transform', () => {
 
   test('the saved selections dialog keeps a named selection for the file', async () => {
     const { session } = rig();
+    await session.page.getByRole('application', { name: /canvas/i }).first().focus();
     await session.page.keyboard.press('Control+a');
     await session.page.getByRole('button', { name: 'Menu', exact: true }).click();
     await session.page.getByRole('menuitem', { name: /^Edit$/ }).first().click();

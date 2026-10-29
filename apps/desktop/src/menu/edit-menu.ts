@@ -12,15 +12,17 @@ import { transformMenu } from './transform-menu';
 const editMenu = (state: EditorMenuState): MenuItem => {
   const { context } = state;
   const item = (id: string, label: string) => ruledItem(context, id, label);
+  const pasteKids = [
+    item(ID.pasteAsLayer, 'As new layer'),
+    item(ID.pasteIntoSelection, 'Into selection'),
+    item(ID.pasteExpand, 'Expand the canvas to fit'),
+    item(ID.pasteTransform, 'Paste and transform'),
+  ];
   const pasteSpecial: MenuItem = {
     key: 'edit-paste-special',
     label: 'Paste special',
-    children: tidyMenu([
-      item(ID.pasteAsLayer, 'As new layer'),
-      item(ID.pasteIntoSelection, 'Into selection'),
-      item(ID.pasteExpand, 'Expand the canvas to fit'),
-      item(ID.pasteTransform, 'Paste and transform'),
-    ]),
+    disabled: pasteKids.every((kid) => kid?.disabled === true),
+    children: tidyMenu(pasteKids),
   };
   const transform = evaluate('menu.edit.transform', context).state === 'hidden' ? null : transformMenu(state);
   return {

@@ -6,9 +6,8 @@ import { fieldValue } from '../../../editor/transform/field-value';
 import { reviseTransform } from '../../../editor/transform/revise-transform';
 import { FIELD_LABELS, FIELD_RANGES, FIELD_STEPS } from '../TransformBar.constants';
 import type { NumberFieldProps } from '../TransformBar.type';
+import { ANGLE_FIELDS } from './NumberField.constants';
 import { fieldId } from '../behavior/field-id';
-
-const ANGLE_FIELDS = ['angle', 'skewX', 'skewY'] as const;
 
 const NumberField = ({ field, model }: NumberFieldProps) => {
   const value = fieldValue(model.box, model.spec, field);

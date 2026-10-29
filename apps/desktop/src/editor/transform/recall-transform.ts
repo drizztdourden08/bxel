@@ -8,7 +8,7 @@ import { newestTag } from '../selection/newest-tag';
 const recallTransform = (): boolean => {
   const { last, setLast } = useTransformUiStore.getState();
   const target = currentTarget();
-  if (!last || !target || last.documentId !== target.documentId || last.tag !== newestTag(target.documentId)) return false;
+  if (!target || last?.documentId !== target.documentId || last.tag !== newestTag(target.documentId)) return false;
   setLast(null);
   useDocumentStore.getState().host.undo(target.documentId);
   return beginPending(last.spec);
