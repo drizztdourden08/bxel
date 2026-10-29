@@ -68,7 +68,7 @@ const SHAPE_SLOTS: readonly ToolSlot[] = [
     key: 'd',
     tool: 'contour',
     surfaces: PAINT_SURFACES,
-    members: [{ id: 'contour', tool: 'contour', label: 'Contour', description: 'Draw a free outline. It closes and fills when you release.', icon: 'pixel-select-lasso' }],
+    members: [{ id: 'contour', tool: 'contour', label: 'Contour', description: 'Draw a free outline. It closes and fills when you release.', icon: 'pixel-brush-contour' }],
   },
   {
     id: 'polygon',

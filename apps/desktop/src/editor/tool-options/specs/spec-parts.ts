@@ -2,7 +2,7 @@
 import type { SpecInput } from './drawing-spec.type';
 
 const specParts = (input: SpecInput) => ({
-  id: `${input.tool}.${input.name}`,
+  id: `${input.surface === 'map' ? 'map.' : ''}${input.tool}.${input.name}`,
   name: input.name,
   tool: input.tool,
   surface: input.surface ?? ('paint' as const),

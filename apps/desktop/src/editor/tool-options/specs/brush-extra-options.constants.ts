@@ -24,7 +24,7 @@ const BRUSH_EXTRAS: readonly OptionSpec[] = [
   }),
   toggleSpec({
     tool: 'pencil', name: 'brush_stencil', label: DRAWING_TEXT.brushStencil, description: DRAWING_TEXT.brushStencilDescription, priority: 46, group: 'brush', tier: 2,
-    icon: 'pixel-brush-square', read: () => d().brushMode === 'stencil', write: (on) => d().patch({ brushMode: on ? 'stencil' : 'colour' }), appliesWhen: hasBrush,
+    icon: 'pixel-brush-custom', read: () => d().brushMode === 'stencil', write: (on) => d().patch({ brushMode: on ? 'stencil' : 'colour' }), appliesWhen: hasBrush,
   }),
   toggleSpec({
     tool: 'pencil', name: 'brush_flip_x', label: DRAWING_TEXT.brushFlipX, description: DRAWING_TEXT.brushFlipXDescription, priority: 47, group: 'brush', tier: 2,

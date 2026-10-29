@@ -33,7 +33,7 @@ const DRAW_SLOTS: readonly ToolSlot[] = [
     tool: 'spray',
     surfaces: PAINT_SURFACES,
     members: [
-      { id: 'spray', tool: 'spray', label: 'Spray', description: 'Spray random dots in a disc while the button is held. Hold still to build up density.', icon: 'pixel-brush-circle' },
+      { id: 'spray', tool: 'spray', label: 'Spray', description: 'Spray random dots in a disc while the button is held. Hold still to build up density.', icon: 'pixel-brush-spray' },
     ],
   },
   {

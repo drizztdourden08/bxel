@@ -92,19 +92,19 @@ const INK_DESCRIPTIONS: Readonly<Record<InkKind, string>> = {
 
 const INK_CHOICES: readonly OptionChoice[] = [
   { value: 'normal', label: INK_LABELS.normal, description: INK_DESCRIPTIONS.normal, icon: 'pixel-pencil' },
-  { value: 'behind', label: INK_LABELS.behind, description: INK_DESCRIPTIONS.behind, icon: 'layers' },
-  { value: 'lockAlpha', label: INK_LABELS.lockAlpha, description: INK_DESCRIPTIONS.lockAlpha, icon: 'lock' },
-  { value: 'onlyColour', label: INK_LABELS.onlyColour, description: INK_DESCRIPTIONS.onlyColour, icon: 'pixel-eyedropper' },
-  { value: 'dither', label: INK_LABELS.dither, description: INK_DESCRIPTIONS.dither, icon: 'pixel-grid' },
+  { value: 'behind', label: INK_LABELS.behind, description: INK_DESCRIPTIONS.behind, icon: 'pixel-brush-behind' },
+  { value: 'lockAlpha', label: INK_LABELS.lockAlpha, description: INK_DESCRIPTIONS.lockAlpha, icon: 'pixel-brush-lock-alpha' },
+  { value: 'onlyColour', label: INK_LABELS.onlyColour, description: INK_DESCRIPTIONS.onlyColour, icon: 'pixel-brush-only-color' },
+  { value: 'dither', label: INK_LABELS.dither, description: INK_DESCRIPTIONS.dither, icon: 'pixel-brush-dither' },
   { value: 'shade', label: INK_LABELS.shade, description: INK_DESCRIPTIONS.shade, icon: 'pixel-shade' },
-  { value: 'lighten', label: INK_LABELS.lighten, description: INK_DESCRIPTIONS.lighten, glyph: '+' },
-  { value: 'darken', label: INK_LABELS.darken, description: INK_DESCRIPTIONS.darken, glyph: '-' },
+  { value: 'lighten', label: INK_LABELS.lighten, description: INK_DESCRIPTIONS.lighten, icon: 'pixel-brush-lighten' },
+  { value: 'darken', label: INK_LABELS.darken, description: INK_DESCRIPTIONS.darken, icon: 'pixel-brush-darken' },
 ];
 
 const SHADE_MODE_CHOICES: readonly OptionChoice[] = [
   { value: 'shade', label: 'Shade', description: 'Left lightens up the ramp, right darkens. Pick a ramp or use the ramp of each pixel.', icon: 'pixel-shade' },
-  { value: 'lighten', label: 'Lighten', description: 'Move every pixel one step lighter along its own ramp.', glyph: '+' },
-  { value: 'darken', label: 'Darken', description: 'Move every pixel one step darker along its own ramp.', glyph: '-' },
+  { value: 'lighten', label: 'Lighten', description: 'Move every pixel one step lighter along its own ramp.', icon: 'pixel-brush-lighten' },
+  { value: 'darken', label: 'Darken', description: 'Move every pixel one step darker along its own ramp.', icon: 'pixel-brush-darken' },
 ];
 
 const DITHER_PATTERN_LABELS: Readonly<Record<DitherPattern, string>> = {

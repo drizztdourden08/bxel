@@ -76,7 +76,7 @@ const MAP_SLOTS: readonly ToolSlot[] = [
         tool: 'spray',
         label: 'Random place',
         description: 'Drag to place tiles picked at random from the selected tiles. The same seed gives the same scatter.',
-        icon: 'pixel-brush-circle',
+        icon: 'pixel-brush-spray',
       },
     ],
   },
