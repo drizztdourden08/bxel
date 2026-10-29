@@ -30,6 +30,7 @@ const spriteSummary = (sprite: Sprite) => ({
   tags: sprite.tags.map((tag) => tagSummary(sprite, tag)),
   slices: sprite.slices.map((slice) => ({ sliceId: slice.id, name: slice.name, rect: slice.rect, pivot: slice.pivot, center: slice.center })),
   guides: { x: [...(sprite.guides?.x ?? [])], y: [...(sprite.guides?.y ?? [])] },
+  symmetry: sprite.symmetry ?? null,
 });
 
 export { spriteSummary };

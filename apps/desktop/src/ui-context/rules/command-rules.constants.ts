@@ -54,7 +54,7 @@ const VIEW: RuleTable = {
   ...family(['view.zoom_in', 'view.zoom_out', 'view.zoom_fit', 'view.zoom_actual', 'view.zoom_to', 'view.zoom_selection', ...ZOOM_DIGITS], ZOOM_STAGE, [FILE]),
   ...family(['view.toggle_pixel_grid'], GRID_STAGE),
   ...family(['view.toggle_major_grid'], EDIT_STAGE),
-  ...family(['view.toggle_tile_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
+  ...family(['view.toggle_tile_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_slices', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
   ...family(['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both'], PIXEL, [], ONLY.pixels),
   ...family(['status.copy_cursor'], any(PIXEL, MAP, SHEET)),
 };
@@ -95,6 +95,7 @@ const SELECTION: RuleTable = {
   ...family(['selection.paste', 'selection.paste_in_place'], DRAW_STAGE, [DOC, WRITE, CLIPBOARD], ONLY.drawing),
   ...family(['selection.delete'], DRAW_STAGE, [DOC, WRITE, ANY_SELECTED]),
   ...family(['selection.by_colour'], PIXEL, [], ONLY.pixels),
+  ...family(['slice.delete_selected', 'slice.properties'], PIXEL, [WRITE], ONLY.pixels),
   ...family(['preview.apply', 'preview.cancel'], always),
 };
 

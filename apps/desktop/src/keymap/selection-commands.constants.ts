@@ -32,7 +32,6 @@ import { hasActiveDocument } from '../files/has-active-document';
 import { enterAction } from '../sheet/enter-action';
 import { enterReady } from '../sheet/enter-ready';
 import { useSelectionNamesStore } from '../stores/useSelectionNamesStore';
-import { useTilemapStore } from '../stores/useTilemapStore';
 import { clearCells } from '../tilemap/clear-cells';
 import { copyCells } from '../tilemap/copy-cells';
 import { cutCells } from '../tilemap/cut-cells';
@@ -40,11 +39,13 @@ import { invertCells } from '../tilemap/invert-cells';
 import { pasteCells } from '../tilemap/paste-cells';
 import { selectAllCells } from '../tilemap/select-all-cells';
 import { turnCells } from '../tilemap/turn-cells';
+import { sliceSelectedByTool } from '../slice/slice-selected-by-tool';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { mapOr } from './map-or';
 import { SELECTION_COMMAND_ID as ID } from './selection-command-id.constants';
 import { ruled } from './ruled';
+import { commitMapSelection } from '../tilemap/commit-map-selection';
 
 const group = COMMAND_GROUP.edit;
 const zone = COMMAND_ZONE.canvas;
@@ -57,7 +58,7 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     group,
     chord: 'Mod+D',
     whileTyping: false,
-    run: mapOr(() => useTilemapStore.getState().setSelection(null), clearSelection),
+    run: mapOr(() => commitMapSelection(null), clearSelection),
   },
   { id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: mapOr(invertCells, () => void invertSelection()) },
   { id: ID.reselect, label: 'Reselect', group, chord: 'Mod+Alt+D', whileTyping: false, run: () => void reselect() },
@@ -97,6 +98,7 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     chord: 'Delete',
     zone,
     whileTyping: false,
+    when: () => !sliceSelectedByTool(),
     run: mapOr(clearCells, deleteSelection),
   },
 ];

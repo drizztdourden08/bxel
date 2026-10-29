@@ -30,6 +30,7 @@ import { sheetGuides } from './sheet/sheet-guides';
 import { sheetUpdate } from './sheet/sheet-update';
 import { guideAdd } from './guide/guide-add';
 import { guideClear } from './guide/guide-clear';
+import { spriteSymmetry } from './sprite/sprite-symmetry';
 import { guideMove } from './guide/guide-move';
 import { guideRemove } from './guide/guide-remove';
 import { sliceAdd } from './slice/slice-add';
@@ -126,6 +127,7 @@ const documentCommands: readonly CommandDef[] = [
   guideMove,
   guideRemove,
   guideClear,
+  spriteSymmetry,
   pixelsPatch,
   layerAdd,
   layerDelete,

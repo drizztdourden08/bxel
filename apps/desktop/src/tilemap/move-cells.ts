@@ -1,13 +1,13 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
 import type { Point } from '@bxel/document';
-import { useTilemapStore } from '../stores/useTilemapStore';
 import { clampBy } from './clamp-by';
 import { layerOptions } from './layer-options';
 import { runMap } from './run-map';
 import { selectedMap } from './selected-map';
 import { selectionDescriptor } from './selection-descriptor';
 import { TILE_LABEL } from './tilemap.constants';
+import { commitMapSelection } from './commit-map-selection';
 
 const moveCells = (by: Point, copy: boolean): boolean => {
   const picked = selectedMap();
@@ -19,7 +19,7 @@ const moveCells = (by: Point, copy: boolean): boolean => {
   const options = { ...layerOptions(target), from: selectionDescriptor(selection, target.tilemap), to };
   const name = copy ? COMMAND_NAME.mapCopy : COMMAND_NAME.mapMove;
   if (!runMap(copy ? TILE_LABEL.duplicate : TILE_LABEL.move, [{ name, targets: null, options }])) return false;
-  useTilemapStore.getState().setSelection({ ...selection, rect: { ...selection.rect, ...to } });
+  commitMapSelection({ ...selection, rect: { ...selection.rect, ...to } });
   return true;
 };
 

@@ -13,6 +13,7 @@ const stateOf = (column: Column, given: Partial<EditorMenuState> = {}): EditorMe
   context: columnContext(column, { canUndo: true, canRedo: true }),
   grid: true,
   gridMajor: false,
+  slices: false,
   gridTile: false,
   guides: true,
   rulers: false,

@@ -2,7 +2,6 @@
 import { NO_FLAGS } from '@bxel/document';
 import type { Point } from '@bxel/document';
 import type { CellClip } from '../stores/tilemap-store.type';
-import { useTilemapStore } from '../stores/useTilemapStore';
 import { currentMap } from './current-map';
 import { groupPlacements } from './group-placements';
 import { paintSteps } from './paint-steps';
@@ -12,6 +11,7 @@ import { selectionOfMask } from './selection-of-mask';
 import { stampPlacements } from './stamp-placements';
 import { TILE_LABEL } from './tilemap.constants';
 import { usableStamp } from './usable-stamp';
+import { commitMapSelection } from './commit-map-selection';
 
 const placeClip = (clip: CellClip, origin: Point): boolean => {
   const target = readiedMap();
@@ -22,7 +22,7 @@ const placeClip = (clip: CellClip, origin: Point): boolean => {
   for (const { cell } of placements) placed[cell.y * target.tilemap.columns + cell.x] = 1;
   if (!runMap(TILE_LABEL.paste, paintSteps(target, groupPlacements(placements, NO_FLAGS)))) return false;
   const after = currentMap();
-  useTilemapStore.getState().setSelection(after ? selectionOfMask(placed, after) : null);
+  commitMapSelection(after ? selectionOfMask(placed, after) : null);
   return true;
 };
 

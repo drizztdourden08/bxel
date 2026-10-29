@@ -11,7 +11,8 @@ const optionsChanged = (before: Sprite, after: Sprite): boolean =>
   before.pixelGrid?.width !== after.pixelGrid?.width ||
   before.pixelGrid?.height !== after.pixelGrid?.height ||
   before.guides !== after.guides ||
-  before.selections !== after.selections;
+  before.selections !== after.selections ||
+  before.symmetry !== after.symmetry;
 
 const metaChanged = (before: Sprite, after: Sprite): boolean =>
   before.name !== after.name ||

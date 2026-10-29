@@ -5,6 +5,7 @@ import type { CombineMode } from '@bxel/raster';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { currentMap } from './current-map';
 import { mergeSelection } from './merge-selection';
+import { commitMapSelection } from './commit-map-selection';
 
 const selectCells = (descriptor: CellMaskDescriptor, mode: CombineMode): boolean => {
   const target = currentMap();
@@ -12,7 +13,7 @@ const selectCells = (descriptor: CellMaskDescriptor, mode: CombineMode): boolean
   const { columns, rows } = target.tilemap;
   const incoming = resolveCellMask(descriptor, { columns, rows, cells: target.layer.cells });
   const store = useTilemapStore.getState();
-  store.setSelection(mergeSelection(store.selection, incoming, mode, target));
+  commitMapSelection(mergeSelection(store.selection, incoming, mode, target));
   return true;
 };
 

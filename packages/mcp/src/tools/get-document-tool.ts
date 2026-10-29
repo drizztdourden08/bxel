@@ -16,6 +16,7 @@ import {
 } from '../schema/ids.constants';
 import { COUNT_SCHEMA, HEX_COLOR_SCHEMA, RECT_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
+import { SYMMETRY_REPLY_SCHEMA } from './get-document-tool.constants';
 import { defineTool } from './define-tool';
 import { TOOL_NAME } from './tool-name.constants';
 
@@ -63,6 +64,7 @@ const sprite = z.strictObject({
   tags: z.array(tag),
   slices: z.array(slice).describe('The slices of the sprite. Edit them with the slice.* steps.'),
   guides: guides.describe('The guide lines of the sprite, as pixel positions: x are vertical lines, y are horizontal lines.'),
+  symmetry: SYMMETRY_REPLY_SCHEMA.nullable().describe('The mirror state saved with the sprite: x and y are the mirror axes, axisX and axisY the doubled pixel coordinate of each (null is the centre). Null when the sprite has none. Change it with the sprite.symmetry step.'),
 });
 
 const tileset = z.strictObject({

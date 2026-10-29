@@ -54,6 +54,8 @@ const EDIT_ROWS = [
   one('history.redo', 'edit_pixels', 'edit', { refuse: OWN_HISTORY }),
   ...rows('edit_pixels', 'app', ['selection.select_all', 'selection.clear', 'selection.invert', 'selection.expand', 'selection.shrink', 'selection.reselect', 'selection.border', 'selection.smooth', 'selection.select_opaque', 'selection.select_by_frame', 'selection.to_guides']),
   one('selection.save', 'edit_pixels', 'app', { dialog: 'saved_selections' }),
+  one('slice.delete_selected', 'edit_pixels', 'edit'),
+  one('slice.properties', 'edit_pixels', 'app', { dialog: 'slice_properties' }),
   one('selection.by_colour', 'edit_pixels', 'app', { args: 'byColour' }),
   ...rows('edit_pixels', 'app', ['selection.copy', 'selection.copy_merged']),
   ...rows('edit_pixels', 'edit', ['selection.cut', 'selection.paste', 'selection.paste_in_place', 'selection.paste_as_layer', 'selection.paste_into_selection', 'selection.paste_expand', 'selection.paste_transform', 'selection.paste_new_sprite', 'selection.paste_choose', 'selection.stroke_inside', 'selection.stroke_outside', 'selection.fill_front', 'selection.fill_back', 'selection.align_left', 'selection.align_centre', 'selection.align_right', 'selection.align_top', 'selection.align_middle', 'selection.align_bottom', 'selection.delete', 'preview.apply']),

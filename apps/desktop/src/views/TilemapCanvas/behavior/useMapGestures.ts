@@ -17,12 +17,14 @@ import { cellOf } from './cell-of';
 import { extendDrag } from './extend-drag';
 import { finishDrag } from './finish-drag';
 import { releaseMapDrag } from './release-map-drag';
+import { snapCell } from './snap-cell';
 
 const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target: MapTarget, live: RefObject<MapLive>): MapGesture => {
   const tool = MAP_TOOL_OF[useToolStore((state) => state.tool)];
   const pixelAt = (event: PointerEvent<HTMLElement>): PixelPoint => viewport.current?.screenToPixel(event.clientX, event.clientY) ?? { x: 0, y: 0 };
   const cellAt = (event: PointerEvent<HTMLElement>): Point => cellOf(pixelAt(event), target);
-  const cellNear = (event: PointerEvent<HTMLElement>): Point => cellNearest(pixelAt(event), target);
+  const cellNear = (event: PointerEvent<HTMLElement>, from: Point | null = null): Point =>
+    snapCell(viewport.current, pixelAt(event), { cell: cellNearest(pixelAt(event), target), from }, target);
   const redraw = (): void => viewport.current?.redraw();
   const guide = useGuideGrab(viewport);
   const zoom = useZoomGesture(viewport);
@@ -36,7 +38,7 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
     move: (event) => {
       if (guide.move(event) || zoom.move(event)) return;
       const { drag } = live.current;
-      if (drag) live.current.drag = extendDrag(drag, drag.kind === 'stroke' || drag.kind === 'line' ? cellAt(event) : cellNear(event), useTilemapStore.getState().stamp, target);
+      if (drag) live.current.drag = extendDrag(drag, drag.kind === 'stroke' || drag.kind === 'line' ? cellAt(event) : cellNear(event, drag.from), useTilemapStore.getState().stamp, target);
       live.current.hover = cellAt(event);
       redraw();
     },

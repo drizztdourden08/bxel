@@ -32,6 +32,7 @@ const COMMAND_NAME = {
   guideMove: 'guide.move',
   guideRemove: 'guide.remove',
   guideClear: 'guide.clear',
+  spriteSymmetry: 'sprite.symmetry',
   pixelsPatch: 'pixels.patch',
   layerAdd: 'layer.add',
   layerDelete: 'layer.delete',

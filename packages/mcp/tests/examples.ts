@@ -165,6 +165,7 @@ const OUTPUT_EXAMPLES: Record<string, unknown> = {
         tags: [{ name: 'walk', from: 0, to: 3, colour: '#3b82f6' }, { name: 'idle', from: 0, to: 1 }],
         slices: [{ sliceId: 'slc_4k9m2q7x1v8c', name: 'hit', rect: RECT, pivot: { x2: 2, y2: 2 }, center: null }],
         guides: { x: [8], y: [] },
+        symmetry: null,
       },
     ],
     spritesTotal: 1,

@@ -16,7 +16,8 @@ type ToolId =
   | 'zoom'
   | 'hand'
   | 'select'
-  | 'move';
+  | 'move'
+  | 'slice';
 
 type StrokeTool = 'pencil' | 'eraser';
 

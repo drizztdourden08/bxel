@@ -12,12 +12,13 @@ import type { PixelViewportHandle } from '../../PixelViewport';
 import type { ActiveDrag } from './canvas-tools.type';
 import { pixelAtEvent } from './pixel-at-event';
 import { rawPixelAt } from './raw-pixel-at';
+import { snapFloat } from './snap-float';
 import { snapMarquee } from './snap-marquee';
 
 const updateDrag = (active: ActiveDrag, viewport: PixelViewportHandle | null, event: PointerEvent<HTMLElement>): void => {
   if (active.kind === 'float') {
     const at = rawPixelAt(viewport, event);
-    setFloatOffset({ x: active.origin.x + at.x - active.start.x, y: active.origin.y + at.y - active.start.y });
+    setFloatOffset(snapFloat(viewport, { x: active.origin.x + at.x - active.start.x, y: active.origin.y + at.y - active.start.y }));
     return;
   }
   if (active.kind === 'outline') {

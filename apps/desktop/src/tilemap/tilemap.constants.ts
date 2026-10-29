@@ -97,6 +97,7 @@ const MAP_TOOL_OF: Readonly<Record<ToolId, MapTool>> = {
   hand: 'hand',
   select: 'select',
   move: 'place',
+  slice: 'hand',
 };
 
 const TILE_CANVASES = new WeakMap<FrameImage, HTMLCanvasElement>();

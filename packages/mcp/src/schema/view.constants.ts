@@ -77,6 +77,7 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       gridTile: z.boolean().optional(),
       guides: z.boolean().optional(),
       rulers: z.boolean().optional(),
+      slices: z.boolean().optional(),
       tiled: z.enum(TILED_VALUES).optional(),
       onionSkin: z.boolean().optional(),
     })

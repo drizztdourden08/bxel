@@ -2,7 +2,10 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { mapSelectionReply } from '../../src/assistant/tools/map-selection-reply';
 import { mapSelectionStep } from '../../src/assistant/tools/map-selection-step';
+import { stepHistory } from '../../src/editor/step-history';
 import { invertCells } from '../../src/tilemap/invert-cells';
+import { commitMapSelection } from '../../src/tilemap/commit-map-selection';
+import { moveCells } from '../../src/tilemap/move-cells';
 import { selectAtCell } from '../../src/tilemap/select-at-cell';
 import { selectCells } from '../../src/tilemap/select-cells';
 import { selectSameTile } from '../../src/tilemap/select-same-tile';
@@ -64,6 +67,35 @@ describe('selecting cells by wand and same tile', () => {
     selectCells({ by: 'rect', rect: { x: 0, y: 0, width: 4, height: 2 } }, 'replace');
     expect(invertCells()).toBe(true);
     expect(chosen().sort()).toEqual(['0,2', '1,2', '2,2', '3,2']);
+  });
+});
+
+describe('cell selection in step history', () => {
+  it('undoes and redoes selection changes one at a time, before any document step', () => {
+    layout();
+    selectCells({ by: 'rect', rect: { x: 0, y: 0, width: 2, height: 1 } }, 'replace');
+    selectCells({ by: 'tile', key: 2 }, 'replace');
+    expect(chosen()).toHaveLength(4);
+    stepHistory('undo');
+    expect(chosen().sort()).toEqual(['0,0', '1,0']);
+    stepHistory('undo');
+    expect(store().selection).toBeNull();
+    stepHistory('redo');
+    stepHistory('redo');
+    expect(chosen()).toHaveLength(4);
+  });
+
+  it('records Deselect and a move, and the next undo after the selection steps is the move', () => {
+    layout();
+    selectCells({ by: 'rect', rect: { x: 0, y: 0, width: 2, height: 1 } }, 'replace');
+    moveCells({ x: 0, y: 2 }, false);
+    expect(chosen().sort()).toEqual(['0,2', '1,2']);
+    stepHistory('undo');
+    expect(chosen().sort()).toEqual(['0,0', '1,0']);
+    commitMapSelection(null);
+    expect(store().selection).toBeNull();
+    stepHistory('undo');
+    expect(chosen().sort()).toEqual(['0,0', '1,0']);
   });
 });
 
