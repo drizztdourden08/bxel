@@ -69,7 +69,7 @@ const reopensIdentical = async (rig: SheetRig): Promise<void> => {
     expect([...await readDisplayed(second, map, size, await readSwatches(second))]).toEqual([...flatIndices(sprite)]);
     await projectTree(second).getByRole('treeitem').filter({ hasText: /padded-sheet(?! palette)/ }).first().dblclick();
     await second.page.getByRole('button', { name: 'Open the layout settings' }).waitFor();
-    await expect.poll(() => second.page.getByRole('gridcell', { name: /^part_0\d, sprite/ }).count()).toBe(3);
+    await expect.poll(() => second.page.getByRole('gridcell', { name: /^part_0\d$/ }).count()).toBe(3);
   } finally {
     await second.close();
   }

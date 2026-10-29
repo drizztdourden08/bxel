@@ -2,9 +2,8 @@
 import type { VirtualSize } from '@drizztdourden08/tessera';
 
 const ENTRY_TILE_TEXT = {
-  sprite: (name: string, width: number, height: number, at: string): string => `${name}, sprite, ${width} by ${height}${at}`,
-  animation: (name: string, frames: number): string => `${name}, animation, ${frames === 1 ? '1 frame' : `${frames} frames`}`,
-  at: (x: number, y: number): string => `, at ${x}, ${y}`,
+  sprite: (width: number, height: number): string => `sprite, ${width} by ${height}`,
+  animation: (frames: number): string => `animation, ${frames === 1 ? '1 frame' : `${frames} frames`}`,
   picked: 'Picked',
   film: 'Animation',
   frames: (count: number): string => (count === 1 ? '1 frame' : `${count} frames`),

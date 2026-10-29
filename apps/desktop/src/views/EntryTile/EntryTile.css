@@ -72,10 +72,6 @@
   background: var(--c-surface);
 }
 
-.entry-tile__badge[data-text]::after {
-  content: attr(data-text);
-}
-
 .entry-tile__check {
   display: inline-flex;
   align-items: center;

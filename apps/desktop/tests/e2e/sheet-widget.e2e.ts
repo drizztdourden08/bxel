@@ -13,7 +13,7 @@ import { writeSampleProject } from './support/write-sample-project';
 
 const grid = (session: Session) => session.page.getByRole('grid', { name: 'Sprites', exact: true });
 
-const tile = (session: Session, name: string) => grid(session).getByRole('gridcell', { name: new RegExp(`^${name},`) });
+const tile = (session: Session, name: string) => grid(session).getByRole('gridcell', { name: new RegExp(`^${name}$`) });
 
 const scrollTo = (session: Session, end: boolean): Promise<void> =>
   grid(session).evaluate((element, toEnd) => {
@@ -38,7 +38,7 @@ const showsTheEntriesOfTheSheet =async (session: Session): Promise<void> => {
   await expect.poll(() => names(session)).toEqual(expect.arrayContaining(['hero', 'slime', 'tiny']));
   await scrollEnd(session);
   await expect.poll(() => names(session)).toContain(FOLDER_ANIMATION);
-  expect(await tile(session, FOLDER_ANIMATION).getAttribute('aria-label')).toContain('animation, 2 frames');
+  expect(await tile(session, FOLDER_ANIMATION).locator('[hidden]').textContent()).toContain('animation, 2 frames');
   expect(await tile(session, FOLDER_STRAY).count()).toBe(0);
   await session.page.getByRole('button', { name: 'Open the layout settings' }).waitFor();
 };
@@ -63,8 +63,8 @@ const picksAndRemoves = async (session: Session): Promise<void> => {
 const libraryHoldsTheRest = async (session: Session): Promise<void> => {
   const library = session.page.getByRole('grid', { name: 'Library', exact: true });
   await session.page.getByRole('button', { name: 'Add', exact: true }).click();
-  await library.getByRole('gridcell', { name: new RegExp(`^${FOLDER_STRAY},`) }).waitFor();
-  await library.getByRole('gridcell', { name: new RegExp(`^${FOLDER_STRAY},`) }).dblclick();
+  await library.getByRole('gridcell', { name: new RegExp(`^${FOLDER_STRAY}$`) }).waitFor();
+  await library.getByRole('gridcell', { name: new RegExp(`^${FOLDER_STRAY}$`) }).dblclick();
   await expect.poll(() => names(session)).toContain(FOLDER_STRAY);
 };
 

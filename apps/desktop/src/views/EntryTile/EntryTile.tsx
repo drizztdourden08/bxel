@@ -1,31 +1,27 @@
 /* @layer renderer-app @kind component */
 import { Box, Icon, Tile } from '@drizztdourden08/tessera';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { pickHow } from '../../sheet/pick-how';
 import { ENTRY_TILE_TEXT } from './EntryTile.constants';
 import type { EntryTileProps } from './EntryTile.type';
+import { entryDetail } from './behavior/entry-detail';
 import { entryTileClass } from './behavior/entry-tile-class';
 import { EntryBadges } from './sub-components/EntryBadges';
 import { EntryName } from './sub-components/EntryName';
 import { EntryThumb } from './sub-components/EntryThumb';
 import './EntryTile.css';
 
-const labelOf = (fact: EntryTileProps['fact']): string => {
-  if (fact.kind === 'animation') return ENTRY_TILE_TEXT.animation(fact.name, fact.frames);
-  const { sprite } = fact;
-  const hint = fact.strip === null ? '' : `, ${ENTRY_TILE_TEXT.strip(fact.strip)}`;
-  return `${ENTRY_TILE_TEXT.sprite(sprite.name, sprite.width, sprite.height, '')}${hint}`;
-};
-
 const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTileProps) => {
   const [hot, setHot] = useState(false);
+  const detailId = useId();
   const { className, onFocus, ...bind } = cell;
   const id = fact.kind === 'sprite' ? fact.sprite.id : fact.key;
   return (
     <Box
       {...bind}
       className={`${className} ${entryTileClass(state)}`}
-      aria-label={labelOf(fact)}
+      aria-label={fact.kind === 'sprite' ? fact.sprite.name : fact.name}
+      aria-describedby={detailId}
       aria-selected={state.selected}
       title={state.loose ? ENTRY_TILE_TEXT.notOnSheet : ENTRY_TILE_TEXT.onSheets(fact.sheets)}
       data-sprite-id={id}
@@ -43,6 +39,9 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
       onContextMenu={() => handlers.onMenu()}
       {...drag}
     >
+      <Box as="span" id={detailId} hidden>
+        {entryDetail(fact, state)}
+      </Box>
       <Tile
         selected={state.selected}
         media={<EntryThumb fact={fact} artwork={artwork} box={box} playing={hot} />}

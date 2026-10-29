@@ -64,7 +64,9 @@ describe('the sprite tile', () => {
     if (!fact) throw new Error('no fact');
     const state = { mark: null, selected: true, active: true, affected: false, loose: true, twin: false };
     const tile = renderToString(createElement(EntryTile, { fact, artwork: artwork(), box: 48, state, drag, handlers, cell }));
-    expect(tile).toContain('aria-label="walk_1, sprite, 8 by 8"');
+    expect(tile).toContain('aria-label="walk_1"');
+    expect(tile).toContain('sprite, 8 by 8, Not on this sheet');
+    expect(tile).toContain('aria-describedby=');
     expect(tile).toContain('aria-selected="true"');
     expect(tile).toContain('role="gridcell"');
     expect(tile).toContain('entry-tile--loose');
