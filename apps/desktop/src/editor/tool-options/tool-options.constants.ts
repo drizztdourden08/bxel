@@ -55,7 +55,7 @@ const OPTION_TEXT = {
   needSelection: 'Select some cells first.',
   mapSelectShape: 'Select by',
   mapSelectShapeDescription: 'How a click or drag turns into a selection of cells.',
-  sameTile: 'Same tile',
+  sameTile: 'Match tile',
   sameTileDescription: 'Select every cell on the layer that holds the tile of the first selected cell.',
   stamp: 'Take stamp',
   stampDescription: 'Make the selected cells the stamp, so the Place tool puts the same block, with its turns, anywhere.',

@@ -154,11 +154,11 @@ describe('the Edit menu', () => {
     for (const item of items) if (item !== 'separator') expect(item).toMatchObject({ disabled: true });
   });
 
-  it('hides Cut, Copy and Paste on a map and keeps Delete for the cells', () => {
+  it('shows Cut, Copy and Paste on a map for cells, hides Copy merged and keeps Delete', () => {
     const edit = editorMenu(stateOf('Tm'))[0];
     const labels = edit !== undefined && edit !== 'separator' ? (edit.children ?? []).flatMap((item) => (item === 'separator' ? [] : [item.label])) : [];
-    expect(labels).not.toContain('Cut');
-    expect(labels).toContain('Delete');
+    expect(labels).toEqual(expect.arrayContaining(['Cut', 'Copy', 'Paste', 'Paste in place', 'Delete']));
+    expect(labels).not.toContain('Copy merged');
     expect(childLabels(editorMenu(stateOf('Tm')), 'Select')).toContain('Select all');
   });
 

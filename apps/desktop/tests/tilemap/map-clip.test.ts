@@ -47,7 +47,6 @@ describe('copy, cut and paste of cells', () => {
     expect(cellsNow()[0]).toBe(0);
     expect(await pasteCells(true)).toBe(true);
     expect(cellsNow()[6]).toBe((FLIP_Y | TURN | 2) >>> 0);
-    expect(cellsNow()[6]).toBe(2);
   });
 
   it('cuts the cells and keeps them for a later paste', async () => {
