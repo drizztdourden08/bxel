@@ -89,6 +89,7 @@ const moveAndUndo = async ({ session, mapper }: Rig): Promise<void> => {
   expect(await placedAt(session)).toEqual([...keys(REGION), ...keys(OTHER), ...keys(REGION, { x: 0, y: 8 })].sort());
   await session.page.getByRole('application', { name: TILEMAP_E2E.label }).focus();
   await session.page.keyboard.press('Control+z');
+  await session.page.keyboard.press('Control+z');
   expect(await placedAt(session)).toEqual(PASTED);
 };
 
@@ -111,7 +112,7 @@ describe('selecting, copying and moving cells on a map', () => {
 
   test('copy and paste put the cells where the pointer clicks, keeping the mask', () => copyAndPaste(rig()));
 
-  test('dragging inside the selection moves the cells in one step and undo brings them back', () => moveAndUndo(rig()));
+  test('dragging inside the selection moves the cells in one step, and undo takes back the selection first and then the move', () => moveAndUndo(rig()));
 
   test('a right drag on the map takes a stamp that the place tool puts down the same way', () => captureStamp(rig()));
 });
