@@ -1,19 +1,19 @@
 /* @layer renderer-app @kind logic */
 import type { AssetKey, DocumentId } from '@bxel/document';
 import { fileName } from '../files/file-name';
-import { editOrganise } from '../organise/edit-organise';
+import { editOrganiseWith } from '../organise/edit-organise-with';
 import type { FileKit } from '../files/files.type';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { keyId } from './key-id';
 import { withoutAsset } from './without-asset';
 import { WORKSPACE_TEXT } from './workspace.constants';
 
-const forgetOrganised = (documentId: DocumentId, keys: readonly AssetKey[]): void => {
-  if (useWorkspaceStore.getState().workspaces[documentId]?.kind === 'project') void editOrganise({ op: 'forget', assets: keys.map((key) => key.id) });
+const forgetOrganised = (kit: FileKit, documentId: DocumentId, keys: readonly AssetKey[]): void => {
+  if (useWorkspaceStore.getState().workspaces[documentId]?.kind === 'project') void editOrganiseWith(kit, { op: 'forget', assets: keys.map((key) => key.id) });
 };
 
-const forget = (documentId: DocumentId, keys: readonly AssetKey[]): void => {
-  forgetOrganised(documentId, keys);
+const forget = (kit: FileKit, documentId: DocumentId, keys: readonly AssetKey[]): void => {
+  forgetOrganised(kit, documentId, keys);
   useWorkspaceStore.getState().patch(documentId, (workspace) => {
     const paths = new Map(workspace.paths);
     const saved = new Map(workspace.saved);
@@ -34,7 +34,7 @@ const trashRemoved = async (kit: FileKit, documentId: DocumentId, keys: readonly
     return path === undefined ? [] : [path];
   });
   if (files.length === 0) {
-    forget(documentId, keys);
+    forget(kit, documentId, keys);
     return [];
   }
   const migrated = keys.every((key) => workspace?.migration?.keys.some((each) => keyId(each) === keyId(key)));
@@ -47,7 +47,7 @@ const trashRemoved = async (kit: FileKit, documentId: DocumentId, keys: readonly
   });
   if (!sure) return [];
   for (const path of files) await kit.documents.trash(path).catch(() => undefined);
-  forget(documentId, keys);
+  forget(kit, documentId, keys);
   return files;
 };
 

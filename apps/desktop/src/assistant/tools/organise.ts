@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
-import { editOrganise } from '../../organise/edit-organise';
+import { editOrganiseWith } from '../../organise/edit-organise-with';
 import { organiseOf } from '../../organise/organise-of';
 import { useProjectStore } from '../../stores/useProjectStore';
 import type { ToolHandler } from '../assistant.type';
@@ -9,6 +9,7 @@ import { ORGANISE_BUILDERS } from './organise-op-builders.constants';
 import type { Builder } from './organise-op-builders.type';
 import type { OrganiseInput } from './project-files-input.type';
 import { reply } from './reply';
+import { toolKit } from './tool-kit';
 import { visibleProject } from './visible-project';
 
 const unknownOp: Builder = () => mcpFailure(MCP_ERROR_CODE.COMMAND_ARGS, 'Unknown operation.', { path: 'op' });
@@ -34,7 +35,7 @@ const organise: ToolHandler = async (input, context) => {
   const op = (ORGANISE_BUILDERS[request.op] ?? unknownOp)(request, assets.value);
   if ('error' in op) return reply(op);
   if (useProjectStore.getState().project?.manifest.projectId !== request.projectId) return reply(mcpFailure(MCP_ERROR_CODE.NEEDS_OWNER, 'The owner has to open this project in Bxel first.'));
-  const outcome = await editOrganise(op);
+  const outcome = await editOrganiseWith(toolKit(context), op);
   return outcome.ok ? reply(organised(request.projectId, outcome.note, assets.value.length)) : reply(mcpFailure(MCP_ERROR_CODE.COMMAND_REFUSED, outcome.message));
 };
 

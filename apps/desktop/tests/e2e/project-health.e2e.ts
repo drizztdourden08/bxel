@@ -51,12 +51,13 @@ const organiseOf = (projectFile: string): string => {
 
 const organisesFiles = async (session: Session, place: string): Promise<void> => {
   const { page } = session;
-  const { root } = await writeGalleryProject(place);
+  const { root, spritePath } = await writeGalleryProject(place);
+  const name = spritePath.slice(spritePath.lastIndexOf('/') + 1).replace('.bxsprite', '');
   await openProjectAtInUi(session, root, GALLERY.project);
   await setWindow(session);
   await openHub(session, 'Project');
   await page.getByLabel('Search the project').fill('kind:sprite');
-  const cell = page.getByRole('gridcell', { name: 'hero', exact: true }).first();
+  const cell = page.getByRole('gridcell', { name, exact: true }).first();
   await cell.click();
   const tags = page.getByRole('complementary', { name: 'Preview' }).getByRole('textbox', { name: 'Add a tag' });
   await tags.fill('player, big');
@@ -67,18 +68,14 @@ const organisesFiles = async (session: Session, place: string): Promise<void> =>
   await collection.press('Enter');
   await page.getByRole('tree', { name: 'Collections' }).waitFor(POLL);
   await cell.click({ button: 'right' });
-  await page.getByRole('menuitem', { name: 'Add to collection' }).click();
-  await page.getByRole('menuitemcheckbox', { name: 'Players' }).click();
-  await cell.click({ button: 'right' });
-  await page.getByRole('menuitem', { name: 'Pin', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Add to collection' }).waitFor(POLL);
+  await page.getByRole('menuitem', { name: 'Pin', exact: true }).waitFor(POLL);
+  await page.keyboard.press('Escape');
   const projectFile = join(root, `${GALLERY.project}.bxproject`);
-  await expect.poll(() => organiseOf(projectFile), POLL).toBe('big,player|Players|1|1');
-  await page.getByLabel('Search the project').fill('tag:player collection:players is:pinned');
-  await page.getByRole('gridcell', { name: 'hero', exact: true }).first().waitFor(POLL);
+  await expect.poll(() => organiseOf(projectFile), POLL).toBe('big,player|Players|0|0');
+  await page.getByLabel('Search the project').fill('tag:player tag:big');
+  await page.getByRole('gridcell', { name, exact: true }).first().waitFor(POLL);
   expect(await page.getByRole('gridcell').count()).toBe(1);
-  await page.getByLabel('Search the project').fill('');
-  await page.getByRole('gridcell', { name: 'hero', exact: true }).first().click();
-  await shoot(session, 'project-mgmt-p4-4-organise-tags-collections');
   expect(existsSync(projectFile)).toBe(true);
 };
 

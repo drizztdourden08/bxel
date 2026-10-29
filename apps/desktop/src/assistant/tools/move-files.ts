@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
-import { planMoves } from '../../file-ops/plan-moves';
-import { relocate } from '../../file-ops/relocate';
+import { planMovesIn } from '../../file-ops/plan-moves-in';
+import { relocateWith } from '../../file-ops/relocate-with';
 import type { ToolHandler } from '../assistant.type';
 import { entryKindAt } from './entry-kind-at';
 import { locateInProject } from './locate-in-project';
@@ -9,6 +9,7 @@ import { placePath } from './place-path';
 import { planFailure } from './plan-failure';
 import type { MoveFilesInput } from './project-files-input.type';
 import { reply } from './reply';
+import { toolKit } from './tool-kit';
 import { referrersVisible } from './referrers-visible';
 import { TOOL_TEXT } from './tools.constants';
 import { writeScope } from './write-scope';
@@ -24,11 +25,11 @@ const moveFiles: ToolHandler = async (input, context) => {
     return reply(mcpFailure(MCP_ERROR_CODE.FOLDER_NOT_FOUND, TOOL_TEXT.noFolder, { path: 'into' }));
   }
   const paths = entries.map((each) => each.path);
-  const plan = await planMoves(paths, target.value);
+  const plan = await planMovesIn(context.documents, paths, target.value);
   if (typeof plan === 'string') return reply(planFailure(plan, 'into'));
   const hidden = referrersVisible(visible, paths);
   if (hidden) return reply(hidden);
-  const outcome = await relocate(plan);
+  const outcome = await relocateWith(toolKit(context), plan);
   if (!outcome.ok) return reply(mcpFailure(MCP_ERROR_CODE.PATH_INVALID, outcome.message));
   const moved = plan.flatMap((move) => {
     const from = locateInProject(visible, move.from);

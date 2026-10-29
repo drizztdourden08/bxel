@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind logic */
 import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
-import { fileKit } from '../../files/file-kit';
 import { reasonOf } from '../../files/reason-of';
 import { checkEntryName } from '../../project/check-entry-name';
 import type { ToolHandler } from '../assistant.type';
@@ -10,6 +9,7 @@ import { placePath } from './place-path';
 import { planFailure } from './plan-failure';
 import type { CreateFolderInput } from './project-files-input.type';
 import { reply } from './reply';
+import { toolKit } from './tool-kit';
 import { TOOL_TEXT } from './tools.constants';
 import { visibleProject } from './visible-project';
 
@@ -23,8 +23,7 @@ const createFolder: ToolHandler = async (input, context) => {
   if (request.in.path !== undefined && (await entryKindAt(context.documents, parent.value)) !== 'folder') {
     return reply(mcpFailure(MCP_ERROR_CODE.FOLDER_NOT_FOUND, TOOL_TEXT.noFolder, { path: 'in' }));
   }
-  const kit = fileKit();
-  if (!kit) return reply(mcpFailure(MCP_ERROR_CODE.BRIDGE_ERROR, 'Folder access is not available here.'));
+  const kit = toolKit(context);
   const problem = await checkEntryName(kit.documents, parent.value, request.name);
   if (problem !== null) return reply(planFailure(problem, 'name'));
   const path = `${parent.value}/${request.name}`;

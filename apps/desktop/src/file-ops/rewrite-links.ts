@@ -22,7 +22,7 @@ const retarget =
   (before: string, after: string, moves: readonly Relocation[]) =>
   (link: AssetRef): AssetRef => ({ id: link.id, path: relativeLinkPath(after, relocated(resolveLinkPath(before, link.path), moves)) });
 
-const writeOne = async (kit: FileKit, moves: readonly Relocation[], file: Affected, after: string): Promise<boolean> => {
+const writeOne = async (kit: Pick<FileKit, 'documents'>, moves: readonly Relocation[], file: Affected, after: string): Promise<boolean> => {
   const bytes = await kit.documents.read(after).catch(() => null);
   const next = bytes === null ? null : rewriteAssetLinks(bytes, retarget(toSlashes(file.from), after, moves));
   if (next === null) return false;
@@ -45,7 +45,7 @@ const settleClean = (written: readonly Affected[]): void => {
   }
 };
 
-const rewriteLinks = async (kit: FileKit, moves: readonly Relocation[], affected: readonly Affected[]): Promise<number> => {
+const rewriteLinks = async (kit: Pick<FileKit, 'documents'>, moves: readonly Relocation[], affected: readonly Affected[]): Promise<number> => {
   const written: Affected[] = [];
   for (const file of affected) {
     const after = useWorkspaceStore.getState().workspaces[file.documentId]?.paths.get(file.key.id);

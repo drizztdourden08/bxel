@@ -139,7 +139,7 @@ describe('search', () => {
   });
 
   it('matches on the tool description and on several words, and finds nothing for nonsense', () => {
-    expect(toolIds(full, 'older file')).toEqual(['split_legacy_file']);
+    expect(toolIds(full, 'splits an older')).toEqual(['split_legacy_file']);
     expect(bundleRows(full, 'zzzz')).toEqual([]);
   });
 });

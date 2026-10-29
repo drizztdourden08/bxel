@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { CommandStep } from '@bxel/document';
 import { deleteStep } from '../asset-list/delete-step';
-import { fileKit } from '../files/file-kit';
+import type { FileKit } from '../files/files.type';
 import { fileName } from '../files/file-name';
 import { reasonOf } from '../files/reason-of';
 import { useDocumentStore } from '../stores/useDocumentStore';
@@ -14,15 +14,12 @@ import { FILE_OPS_TEXT } from './file-ops.constants';
 import { heldAssetsUnder } from './held-assets';
 import type { TrashResult } from './trash-paths.type';
 
-const stillThere = async (path: string): Promise<boolean> => {
-  const kit = fileKit();
-  const listing = kit ? await kit.documents.list(parentOf(path)).catch(() => null) : null;
+const stillThere = async (kit: FileKit, path: string): Promise<boolean> => {
+  const listing = await kit.documents.list(parentOf(path)).catch(() => null);
   return listing?.entries.some((entry) => entry.name.toLowerCase() === fileName(path).toLowerCase()) ?? false;
 };
 
-const trashPath = async (path: string): Promise<TrashResult> => {
-  const kit = fileKit();
-  if (!kit) return { ok: false, message: FILE_OPS_TEXT.unavailable };
+const trashPath = async (kit: FileKit, path: string): Promise<TrashResult> => {
   const target = toSlashes(path);
   try {
     const held = heldAssetsUnder(target);
@@ -33,7 +30,7 @@ const trashPath = async (path: string): Promise<TrashResult> => {
       if (done !== null && !done.ok) return { ok: false, message: done.error.message };
       await trashRemoved({ ...kit, prompts: { ...kit.prompts, confirm: () => Promise.resolve(true) } }, documentId, keys);
     }
-    if (await stillThere(target)) await kit.documents.trash(target);
+    if (await stillThere(kit, target)) await kit.documents.trash(target);
     useFileStore.getState().retarget(target, null);
     return { ok: true };
   } catch (error) {

@@ -6,6 +6,7 @@ import type { ToolHandler } from '../assistant.type';
 import { locateInProject } from './locate-in-project';
 import type { TrashFilesInput } from './project-files-input.type';
 import { reply } from './reply';
+import { toolKit } from './tool-kit';
 import { referrersVisible } from './referrers-visible';
 import { TOOL_TEXT } from './tools.constants';
 import { writeScope } from './write-scope';
@@ -24,7 +25,7 @@ const trashFiles: ToolHandler = async (input, context) => {
   const hidden = referrersVisible(visible, paths);
   if (hidden) return reply(hidden);
   for (const path of paths) {
-    const done = await trashPath(path);
+    const done = await trashPath(toolKit(context), path);
     if (!done.ok) return reply(mcpFailure(MCP_ERROR_CODE.WRITE_NOT_ALLOWED, TOOL_TEXT.writeRefused(done.message)));
   }
   return reply({
