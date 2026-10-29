@@ -21,5 +21,5 @@ const dropsFromTheAssetsList = async (session: Session): Promise<void> => {
 
 describe('dropping a sprite on the frame strip', () => {
   const rig = useRig(openStripRig);
-  test.skip('a sprite dragged (blocked on Brock P-209) from the Assets list becomes the next frame, by reference', () => dropsFromTheAssetsList(rig().session));
+  test('a sprite dragged from the Assets list becomes the next frame, by reference', () => dropsFromTheAssetsList(rig().session));
 });
