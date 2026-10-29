@@ -5,7 +5,9 @@
 }
 
 .entry-tile--active {
-  border-color: var(--c-primary-bright);
+  outline: var(--border-width-thick) solid var(--c-primary-bright);
+  outline-offset: calc(var(--size-2) * -1);
+  border-radius: var(--radius-md);
 }
 
 .entry-tile--affected {
@@ -14,8 +16,8 @@
 }
 
 .entry-tile--loose {
-  border-style: dashed;
-  border-color: var(--c-border);
+  border: var(--border-width-thin) dashed var(--c-border);
+  border-radius: var(--radius-md);
 }
 
 .entry-tile--mark-before::before,

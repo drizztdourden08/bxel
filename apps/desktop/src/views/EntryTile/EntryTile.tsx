@@ -22,25 +22,15 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
   const { className, onFocus, ...bind } = cell;
   const id = fact.kind === 'sprite' ? fact.sprite.id : fact.key;
   return (
-    <Tile
+    <Box
       {...bind}
       className={`${className} ${entryTileClass(state)}`}
       aria-label={labelOf(fact)}
+      aria-selected={state.selected}
       title={state.loose ? ENTRY_TILE_TEXT.notOnSheet : ENTRY_TILE_TEXT.onSheets(fact.sheets)}
       data-sprite-id={id}
       data-entry-kind={fact.kind}
-      selected={state.selected}
       draggable
-      media={<EntryThumb fact={fact} artwork={artwork} box={box} playing={hot} />}
-      corners={{
-        topStart: state.selected ? (
-          <Box as="span" className="entry-tile__check" aria-hidden="true">
-            <Icon name="check" size={12} />
-          </Box>
-        ) : undefined,
-        topEnd: <EntryBadges fact={fact} twin={state.twin} />,
-      }}
-      name={<EntryName name={fact.kind === 'sprite' ? fact.sprite.name : fact.name} />}
       onFocus={() => {
         onFocus();
         setHot(true);
@@ -52,7 +42,21 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
       onDoubleClick={handlers.onEdit}
       onContextMenu={() => handlers.onMenu()}
       {...drag}
-    />
+    >
+      <Tile
+        selected={state.selected}
+        media={<EntryThumb fact={fact} artwork={artwork} box={box} playing={hot} />}
+        corners={{
+          topStart: state.selected ? (
+            <Box as="span" className="entry-tile__check" aria-hidden="true">
+              <Icon name="check" size={12} />
+            </Box>
+          ) : undefined,
+          topEnd: <EntryBadges fact={fact} twin={state.twin} />,
+        }}
+        name={<EntryName name={fact.kind === 'sprite' ? fact.sprite.name : fact.name} />}
+      />
+    </Box>
   );
 };
 

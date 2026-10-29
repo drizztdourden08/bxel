@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button, DropdownMenu, Flex, Icon, SplitButton, Stack, Text } from '@drizztdourden08/tessera';
+import { Button, DropdownMenu, Flex, Icon, SplitButton, Text } from '@drizztdourden08/tessera';
 import { SHEET_TEXT } from '../../../sheet-manager/sheet-text.constants';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { overflowGroups } from '../behavior/overflow-groups';
@@ -14,21 +14,19 @@ const SheetTitle = ({ model }: ManagerModelProps) => {
   const layout = model.sheet?.layout;
   return (
     <Flex align="center" justify="between" gap="sm" className="sprites-panel__title">
-      <Stack gap="2xs" className="sprites-panel__heading">
+      <Flex gap="xs" align="center" wrap className="sprites-panel__heading">
         <Text variant="label" className="sprites-panel__sheet-name" title={model.sheet?.name}>
           {model.sheet?.name ?? SHEET_TEXT.titleLabel}
         </Text>
-        <Flex gap="xs" align="center" wrap>
-          {layout && (
-            <Button size="xs" variant="tertiary" icon={<Icon name="pixel-grid-view" size={12} />} aria-label={SHEET_TEXT.layoutOpen} onClick={() => store.patch({ layoutOpen: true })}>
-              {SHEET_TEXT.layout(layout)}
-            </Button>
-          )}
-          <Text variant="caption" tone="dim" aria-live="polite">
-            {`${SHEET_TEXT.shownOf(shown, total)}${SHEET_TEXT.picked(picked)}`}
-          </Text>
-        </Flex>
-      </Stack>
+        {layout && (
+          <Button size="xs" variant="tertiary" icon={<Icon name="pixel-grid-view" size={12} />} aria-label={SHEET_TEXT.layoutOpen} onClick={() => store.patch({ layoutOpen: true })}>
+            {SHEET_TEXT.layout(layout)}
+          </Button>
+        )}
+        <Text variant="caption" tone="dim" aria-live="polite">
+          {`${SHEET_TEXT.shownOf(shown, total)}${SHEET_TEXT.picked(picked)}`}
+        </Text>
+      </Flex>
       <Flex gap="xs" align="center">
         <SplitButton
           size="sm"

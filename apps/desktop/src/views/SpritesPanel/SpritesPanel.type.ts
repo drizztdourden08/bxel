@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { KeyboardEvent, MouseEvent, PointerEvent, RefObject } from 'react';
+import type { KeyboardEvent, MouseEvent, PointerEvent, ReactNode, RefObject } from 'react';
 import type { DataTableHandle, MenuGroup, VirtualGridCellBind } from '@drizztdourden08/tessera';
 import type { Artwork, Rect, Sheet, SpriteId } from '@bxel/document';
 import type { SpriteScene } from '../../sheet/sheet.type';
@@ -124,6 +124,12 @@ interface ActionsMenuProps {
   groups: readonly MenuGroup[];
 }
 
+interface BrowserSplitProps {
+  model: ManagerModel;
+  wide: boolean;
+  body: ReactNode;
+}
+
 interface BatchBarProps extends ActionsMenuProps {
   model: ManagerModel;
   open: (dialog: ManagerDialog) => void;
@@ -152,6 +158,7 @@ export type {
   ActionContext,
   ActionsMenuProps,
   BatchBarProps,
+  BrowserSplitProps,
   FilterActions,
   FilterChip,
   FilterOptions,

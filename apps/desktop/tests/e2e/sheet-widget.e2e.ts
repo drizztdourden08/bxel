@@ -7,19 +7,13 @@ import { FOLDER_ANIMATION, FOLDER_SHEET, FOLDER_STRAY } from './support/folder-a
 import { inFreshPlace } from './support/in-place';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
 import { openSession } from './support/open-session';
+import { resizeWindow } from './support/resize-window';
 import { openSheetTab } from './support/open-sheet-tab';
 import { writeSampleProject } from './support/write-sample-project';
 
 const grid = (session: Session) => session.page.getByRole('grid', { name: 'Sprites', exact: true });
 
 const tile = (session: Session, name: string) => grid(session).getByRole('gridcell', { name: new RegExp(`^${name},`) });
-
-const SIZE = { width: 1280, height: 800 } as const;
-
-const setWindow = (session: Session): Promise<void> =>
-  session.app.evaluate(({ BrowserWindow }, size) => {
-    BrowserWindow.getAllWindows()[0]?.setSize(size.width, size.height);
-  }, SIZE);
 
 const scrollTo = (session: Session, end: boolean): Promise<void> =>
   grid(session).evaluate((element, toEnd) => {
@@ -72,7 +66,7 @@ describe('the sheet widget', () => {
         const root = join(place, 'Folders');
         await writeSampleProject(root, buildFolderArtwork(true), 'Folders');
         await openProjectAtInUi(session, root, 'Folders');
-        await setWindow(session);
+        await resizeWindow(session, 1280, 800);
         await openSheetTab(session, FOLDER_SHEET);
         await showsTheEntriesOfTheSheet(session);
         await picksAndRemoves(session);
