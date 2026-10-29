@@ -1,5 +1,8 @@
 /* @layer renderer-app @kind style */
 .tileset-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
   flex: 1;
   block-size: 100%;
   min-block-size: 0;
@@ -38,7 +41,13 @@
 
 .tileset-panel__scroll {
   flex: 1;
-  min-block-size: var(--size-96);
+  min-block-size: 0;
+}
+
+.tileset-panel__side {
+  flex: 1;
+  min-block-size: 0;
+  min-inline-size: 0;
 }
 
 .tileset-panel__measure {

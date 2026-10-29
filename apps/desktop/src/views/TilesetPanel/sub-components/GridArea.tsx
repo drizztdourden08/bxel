@@ -20,23 +20,25 @@ const GridArea = ({ model }: TilesetModelProps) => {
   const none = !empty && model.filtering && model.matched === 0;
   return (
     <Stack gap="xs" className="tileset-panel__grid-area">
-      <TilesetHeader model={model} />
-      <GridToolbar />
       <ScrollArea axis="y" scrollbar="slim" fade={false} className="tileset-panel__scroll">
-        <Box ref={ref} className="tileset-panel__measure">
-          {empty ? <EmptyState size="sm" message={TILESET_TEXT.noTiles} /> : <TileGrid model={model} view={view} handlers={selection.handlers} />}
-        </Box>
-        {none ? (
-          <EmptyState
-            size="sm"
-            message={TILESET_TEXT.noMatch}
-            action={
-              <Button size="sm" variant="tertiary" onClick={clear}>
-                {TILESET_TEXT.clearFilter}
-              </Button>
-            }
-          />
-        ) : null}
+        <Stack gap="xs">
+          <TilesetHeader model={model} />
+          <GridToolbar />
+          <Box ref={ref} className="tileset-panel__measure">
+            {empty ? <EmptyState size="sm" message={TILESET_TEXT.noTiles} /> : <TileGrid model={model} view={view} handlers={selection.handlers} />}
+          </Box>
+          {none ? (
+            <EmptyState
+              size="sm"
+              message={TILESET_TEXT.noMatch}
+              action={
+                <Button size="sm" variant="tertiary" onClick={clear}>
+                  {TILESET_TEXT.clearFilter}
+                </Button>
+              }
+            />
+          ) : null}
+        </Stack>
       </ScrollArea>
       <TilesetActions model={model} />
     </Stack>

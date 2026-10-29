@@ -71,7 +71,7 @@ const TILESET_TEXT = {
   mode: 'Tileset mode',
   search: 'Search tiles',
   searchId: 'tileset-search',
-  searchHint: 'Search key, name, type or value',
+  searchHint: 'Key, name, type',
   zoom: 'Thumbnail size',
   filters: 'Filter tiles',
   columns: 'Columns',
@@ -100,7 +100,9 @@ const STAMP_BOX = { size: 64, maxScale: 4 } as const;
 
 const PAGE_ROWS = 4;
 
-const SPLIT_RATIO = { start: 0.5, min: 0.25, max: 0.8 } as const;
+const SPLIT_RATIO = { start: 0.5, wide: 0.55, min: 0.25, max: 0.8 } as const;
+
+const WIDE_DOCK = { minWidth: 560, ratio: 2 } as const;
 
 export {
   CELL_FRAME,
@@ -110,6 +112,7 @@ export {
   SPLIT_RATIO,
   STAMP_BOX,
   TILESET_TEXT,
+  WIDE_DOCK,
   ZOOM_MAX,
 };
 export { ADD_HINT, BRUSH_ACTIONS, DELETE_HINT, DUPLICATE_HINT, EDIT_HINT, SHAPE_ACTIONS, TILE_MENU } from './behavior/tileset-hints.constants';
