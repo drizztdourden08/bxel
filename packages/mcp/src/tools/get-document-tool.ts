@@ -19,7 +19,7 @@ import {
 import { COUNT_SCHEMA, HEX_COLOR_SCHEMA, RECT_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
-import { DOCUMENT_INCLUDE_SCHEMA } from './get-document-tool.constants';
+import { DOCUMENT_INCLUDE_VALUES } from './get-document-tool.constants';
 import { TOOL_NAME } from './tool-name.constants';
 
 const bank = z.strictObject({
@@ -71,13 +71,6 @@ const sprite = z.strictObject({
   guides: guides.describe('The guide lines of the sprite, as pixel positions: x are vertical lines, y are horizontal lines.'),
 });
 
-const tileEntry = z.strictObject({
-  key: COUNT_SCHEMA,
-  spriteId: SPRITE_ID_SCHEMA,
-  collision: z.enum(['full', 'rect', 'polygon']).nullable(),
-  animationId: ANIMATION_ID_SCHEMA.nullable(),
-});
-
 const tileset = z.strictObject({
   tilesetId: TILESET_ID_SCHEMA,
   name: z.string(),
@@ -85,8 +78,59 @@ const tileset = z.strictObject({
   tileWidth: COUNT_SCHEMA,
   tileHeight: COUNT_SCHEMA,
   tiles: COUNT_SCHEMA,
-  terrain: z.enum(['blob16', 'blob47']).nullable().optional().describe('Only with include tilesets. The terrain rule set of the tileset, or null.'),
-  tileList: z.array(tileEntry).optional().describe('Only with include tilesets. Every tile of the tileset.'),
+});
+
+const shapeDetail = z.strictObject({
+  kind: z.enum(['full', 'rect', 'polygon']),
+  layer: z.string(),
+  oneWay: z.boolean(),
+  rect: RECT_SCHEMA.optional().describe('For a box: its position and size inside the tile.'),
+  points: z.array(z.strictObject({ x: z.number().int(), y: z.number().int() })).optional().describe('For a shape: its points inside the tile.'),
+});
+
+const fieldValue = z.union([z.string(), z.number(), z.boolean()]);
+
+const tileDetail = z.strictObject({
+  key: z.number().int(),
+  spriteId: SPRITE_ID_SCHEMA,
+  name: z.string(),
+  index: z.number().int().describe('The position of the tile in the tileset layout, counted along the rows from 0.'),
+  uses: COUNT_SCHEMA.describe('How many map cells use the tile.'),
+  shapes: z.array(shapeDetail),
+  animation: z.strictObject({ animationId: ANIMATION_ID_SCHEMA, tagId: z.string().nullable(), start: z.enum(['together', 'random']) }).nullable(),
+  type: z.string().nullable(),
+  probability: z.number(),
+  turns: z.enum(['none', 'flips', 'all']),
+  data: z.record(z.string(), fieldValue),
+});
+
+const fieldDetail = z.strictObject({
+  name: z.string(),
+  kind: z.enum(['bool', 'int', 'number', 'text', 'choice', 'colour']),
+  default: fieldValue,
+  choices: z.array(z.string()).optional(),
+});
+
+const tilesetDetail = z.strictObject({
+  tilesetId: TILESET_ID_SCHEMA,
+  columns: COUNT_SCHEMA.describe('The width of the tile layout. Holes in the layout are slots with no tile.'),
+  rows: COUNT_SCHEMA,
+  collisionLayers: z.array(z.string()),
+  fields: z.array(fieldDetail).describe('The custom data fields of the tileset. Define them with tileset.fields, set values with tile.data.'),
+  terrainSets: z
+    .array(
+      z.strictObject({
+        id: z.string(),
+        name: z.string(),
+        kind: z.enum(['blob16', 'blob47', 'corner16']),
+        slots: z
+          .array(z.array(z.strictObject({ key: z.number().int(), weight: z.number(), flipX: z.boolean().optional(), flipY: z.boolean().optional(), diagonal: z.boolean().optional() })))
+          .describe('One list of variants per slot, in slot order. An empty list is a missing slot. Set them with tileset.terrain_sets and paint with map.terrain (option set).'),
+        missing: z.array(z.number().int()).describe('The slot numbers, counted from 0, that hold no tile.'),
+      }),
+    )
+    .describe('The terrain sets. A tileset from an older file shows its single terrain rule set here as one set.'),
+  tiles: z.array(tileDetail),
 });
 
 const tilemap = z.strictObject({
@@ -99,12 +143,32 @@ const tilemap = z.strictObject({
   guides: guides.optional().describe('Only with include guides.'),
 });
 
+const sheetEntry = z.strictObject({
+  kind: z.enum(['sprite', 'animation']),
+  id: z.string().describe('The spriteId or animationId of the entry.'),
+  name: z.string(),
+  folder: z.string().describe('The folder part of the name, empty when the name has no slash.'),
+  at: z.strictObject({ x: z.number().int(), y: z.number().int() }).describe('Where the entry sits on the sheet, in pixels.'),
+  source: RECT_SCHEMA.nullable().describe('The part of the sprite that is shown, or null for all of it.'),
+  tagId: z.string().nullable().describe('The tag of an animation entry, or null for the whole animation.'),
+});
+
+const sheetLayout = z.strictObject({
+  kind: z.enum(['manual', 'grid', 'packed']),
+  columns: COUNT_SCHEMA.optional(),
+  maxWidth: COUNT_SCHEMA.optional(),
+  spacing: z.number().int(),
+  margin: z.number().int(),
+});
+
 const sheet = z.strictObject({
   sheetId: SHEET_ID_SCHEMA,
   name: z.string(),
   width: COUNT_SCHEMA,
   height: COUNT_SCHEMA,
   entries: COUNT_SCHEMA,
+  layout: sheetLayout.optional().describe('Given with include entries.'),
+  entryList: z.array(sheetEntry).optional().describe('The sprites and animations of the sheet in sheet order, with their places. Given with include entries.'),
   guides: guides.optional().describe('Only with include guides.'),
 });
 
@@ -115,6 +179,13 @@ const preset = z.strictObject({
   scale: COUNT_SCHEMA,
   sheetId: SHEET_ID_SCHEMA.nullable(),
   pathTemplate: z.string(),
+});
+
+const brush = z.strictObject({
+  brushId: z.string(),
+  name: z.string(),
+  width: COUNT_SCHEMA,
+  height: COUNT_SCHEMA,
 });
 
 const animation = z.strictObject({
@@ -129,12 +200,17 @@ const animation = z.strictObject({
 const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
   title: 'Get a document',
   description:
-    'The structure to read before editing: banks, sprites with their layers, frames, tags, slices and guides, animations, sheets, tilesets and tilemaps. Sprites page by 128, up to 512 a call. Pass include for more detail: tags, guides, presets, tilesets.',
+    'The structure to read before editing: banks, sprites with their layers, frames, tags, slices and guides, animations, sheets, tilesets and tilemaps. Sprites page by 128, up to 512 a call.',
   input: z.strictObject({
     documentId: DOCUMENT_ID_SCHEMA,
     spriteOffset: z.number().int().min(0).default(0),
     spriteLimit: z.number().int().min(1).max(SPRITES_PAGE_MAX).default(SPRITES_PAGE_DEFAULT),
-    include: DOCUMENT_INCLUDE_SCHEMA.optional(),
+    include: z
+      .array(z.enum(DOCUMENT_INCLUDE_VALUES))
+      .default([])
+      .describe(
+        'Add detail. tags lists the id, direction and repeat of every sprite tag. guides lists the guide lines of sheets and tilemaps. presets lists the export presets. Sprites always list their slices and guides, so slices adds nothing more. entries lists the sprites and animations of each sheet with their places and the layout. tileset lists every tile with its layout position, uses, collision shapes, animation, probability, turns and data, plus the fields and collision layers; it works with no tilemap.',
+      ),
   }),
   output: withFailure({
     documentId: DOCUMENT_ID_SCHEMA,
@@ -149,9 +225,11 @@ const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
     truncated: z.boolean(),
     animations: z.array(animation).describe('The animations. Read one with get_animation. The frame sprites an animation owns are not in sprites.'),
     sheets: z.array(sheet),
+    brushes: z.array(brush).describe('The custom brushes saved in the artwork. Add them with brush.add and stamp them with pixels.stamp.'),
     tilesets: z.array(tileset).describe('The tilesets. Read the tiles of one with list_map_layers.'),
     tilemaps: z.array(tilemap).describe('The tilemaps. Read the layers and cells of one with list_map_layers and read_map_cells.'),
     presets: z.array(preset).optional().describe('Only with include presets. The export presets saved in the document.'),
+    tilesetDetails: z.array(tilesetDetail).optional().describe('The detail of each tileset. Only present when include has tileset.'),
   }),
 });
 

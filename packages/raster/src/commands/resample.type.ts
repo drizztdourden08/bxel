@@ -19,4 +19,6 @@ type SpritePlan = {
   readonly area: Rect | null;
 };
 
-export type { ResampleSpec, SpritePlan };
+type Tally = { readonly clipped: number; readonly added: number | null };
+
+export type { ResampleSpec, SpritePlan, Tally };

@@ -37,7 +37,7 @@ describe('reading the saved views', () => {
   it('fills every missing field with its default and drops what is not a view', () => {
     const views = readViews({ sht_a: { zoom: 64, sortKey: 'name' }, sht_b: 'broken', sht_c: null });
     expect(Object.keys(views)).toEqual(['sht_a']);
-    expect(views['sht_a']).toMatchObject({ zoom: 64, sortKey: 'name', view: 'grid', tab: 'sprites', collapsed: [], selections: [] });
+    expect(views['sht_a']).toMatchObject({ zoom: 64, sortKey: 'name', view: 'grid', collapsed: [], selections: [] });
     expect(views['sht_a']?.atlas).toEqual(MANAGER_DEFAULTS.atlas);
     expect(views['sht_a']?.filter).toEqual(MANAGER_DEFAULTS.filter);
   });
@@ -63,15 +63,15 @@ describe('reading the saved views', () => {
 describe('the view of each sheet', () => {
   it('keeps the view, zoom, sort, filters and saved selections apart for each sheet', () => {
     viewBook.attach('sht_a', undefined);
-    store().patch({ view: 'list', zoom: 80, sortKey: 'area', sortDown: true, tab: 'atlas' });
-    store().patchFilter({ animated: true, tag: 'walk' });
+    store().patch({ view: 'list', zoom: 80, sortKey: 'area', sortDown: true });
+    store().patchFilter({ kind: 'animations', tag: 'walk' });
     store().saveSelection({ name: 'walkers', ids: ['spr_1' as SpriteId] });
     viewBook.attach('sht_b', undefined);
-    expect(store()).toMatchObject({ view: 'grid', zoom: MANAGER_DEFAULTS.zoom, sortKey: 'manual', tab: 'sprites', selections: [] });
+    expect(store()).toMatchObject({ view: 'grid', zoom: MANAGER_DEFAULTS.zoom, sortKey: 'manual', selections: [] });
     store().patch({ zoom: 32 });
     viewBook.attach('sht_a', undefined);
-    expect(store()).toMatchObject({ view: 'list', zoom: 80, sortKey: 'area', sortDown: true, tab: 'atlas' });
-    expect(store().filter).toMatchObject({ animated: true, tag: 'walk' });
+    expect(store()).toMatchObject({ view: 'list', zoom: 80, sortKey: 'area', sortDown: true });
+    expect(store().filter).toMatchObject({ kind: 'animations', tag: 'walk' });
     expect(store().selections).toEqual([{ name: 'walkers', ids: ['spr_1'] }]);
     viewBook.attach('sht_b', undefined);
     expect(store().zoom).toBe(32);

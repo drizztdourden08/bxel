@@ -25,7 +25,7 @@ const CHANGES = {
       cels: [{ celId: 'cel_4k9m2q7x1v8c', layerId: LAYER, frameId: FRAME, rect: RECT }],
     },
   ],
-  sheets: [], presets: [], tilesets: [], tilemaps: [], animations: [],
+  sheets: [], presets: [], brushes: [], tilesets: [], tilemaps: [], animations: [],
 };
 const TRANSACTION = {
   ok: true,
@@ -55,7 +55,7 @@ const INPUT_EXAMPLES: Record<string, unknown> = {
   open_file: { file: LOCATION },
   close_document: { documentId: DOC },
   list_documents: {},
-  get_document: { documentId: DOC, include: ['tags', 'guides', 'presets', 'tilesets'] },
+  get_document: { documentId: DOC, include: ['tags', 'guides', 'presets', 'entries', 'tileset'] },
   read_palette: { documentId: DOC },
   read_pixels: { documentId: DOC, spriteId: SPRITE, frameId: FRAME, layer: 'flattened', rect: RECT },
   render_preview: { documentId: DOC, target: { spriteId: SPRITE } },

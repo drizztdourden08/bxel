@@ -48,10 +48,36 @@ const MAP_SLOTS: readonly ToolSlot[] = [
     group: 'shape',
     label: 'Rectangle',
     key: 'u',
-    tool: 'shape',
+    tool: 'rect',
     surfaces: MAP_SURFACES,
     members: [
-      { id: 'map.rect', tool: 'shape', label: 'Rectangle', description: 'Drag a rectangle of the picked tile, filled or as an outline.', icon: 'pixel-map-rect' },
+      { id: 'map.rect', tool: 'rect', label: 'Rectangle', description: 'Drag a rectangle of the picked tile, filled or as an outline.', icon: 'pixel-map-rect' },
+    ],
+  },
+  {
+    id: 'map-line',
+    group: 'shape',
+    label: 'Line',
+    key: 'l',
+    tool: 'line',
+    surfaces: MAP_SURFACES,
+    members: [{ id: 'map.line', tool: 'line', label: 'Line', description: 'Drag a line of the picked tile across the map cells.', icon: 'pixel-shape-line' }],
+  },
+  {
+    id: 'map-scatter',
+    group: 'draw',
+    label: 'Random place',
+    key: 'Shift+B',
+    tool: 'spray',
+    surfaces: MAP_SURFACES,
+    members: [
+      {
+        id: 'map.scatter',
+        tool: 'spray',
+        label: 'Random place',
+        description: 'Drag to place tiles picked at random from the selected tiles. The same seed gives the same scatter.',
+        icon: 'pixel-brush-spray',
+      },
     ],
   },
   {

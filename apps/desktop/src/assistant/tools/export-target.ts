@@ -2,7 +2,7 @@
 import { ERROR_CODE } from '@bxel/document';
 import { checkWrite, EXPORT_FORMAT_VALUES, hiddenFailure, MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { Failure, McpResult } from '@bxel/mcp';
-import { exportKindOf } from '../../assistant-bridge/export-kind-of';
+import type { FileKind } from '@bxel/project';
 import type { ToolContext } from '../assistant.type';
 import { projectWriteTarget } from './project-write-target';
 import type { ExportInput, ExportTarget } from './tool-input.type';
@@ -24,10 +24,15 @@ const formatProblem = ({ source, format }: ExportInput): Failure | null => {
   return null;
 };
 
+const kindOf = (format: string): FileKind => {
+  if (format === 'gif') return 'gif';
+  return format === 'atlas-json' ? 'sheet' : 'png';
+};
+
 const exportTarget = async (input: ExportInput, context: ToolContext): Promise<McpResult<ExportTarget>> => {
   const problem = formatProblem(input);
   if (problem) return problem;
-  const kind = exportKindOf(input.format);
+  const kind = kindOf(input.format);
   const path = input.location
     ? await projectWriteTarget(context, { location: input.location, kind, overwrite: input.overwrite ?? false })
     : folderTarget(input, context);

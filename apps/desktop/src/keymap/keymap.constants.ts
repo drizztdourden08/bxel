@@ -28,6 +28,8 @@ const COMMAND_ID = {
   brushLarger: 'brush.larger',
   symmetryX: 'symmetry.toggle_x',
   symmetryY: 'symmetry.toggle_y',
+  symmetryDiagonal: 'symmetry.toggle_diagonal',
+  symmetryTurn: 'symmetry.toggle_turn',
   zoomIn: 'view.zoom_in',
   zoomOut: 'view.zoom_out',
   zoomFit: 'view.zoom_fit',

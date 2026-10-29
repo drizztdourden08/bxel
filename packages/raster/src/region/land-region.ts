@@ -1,14 +1,15 @@
 /* @layer core @kind logic */
 import { diffBounds } from '@bxel/document';
 import { assertSameSize } from '../assert-same-size';
+import { coloursAdded } from '../resample/colours-added';
 import type { Point } from '../geometry.type';
 import type { LandOptions, LandResult, Lift } from './region.type';
 
-const landCell = ({ target, before, skipZero }: Lift, at: Point, from: number): number => {
-  const value = before[from] ?? 0;
-  if (skipZero && value === 0) {
+const landPicked = (lift: Lift, at: Point, value: number): number => {
+  if (lift.skipZero && value === 0) {
     return 0;
   }
+  const { target } = lift;
   if (at.x < 0 || at.y < 0 || at.x >= target.width || at.y >= target.height) {
     return value === 0 ? 0 : 1;
   }
@@ -16,10 +17,19 @@ const landCell = ({ target, before, skipZero }: Lift, at: Point, from: number): 
   return 0;
 };
 
+const landCell = (lift: Lift, at: Point, from: number): number => landPicked(lift, at, lift.before[from] ?? 0);
+
 const landRow = (lift: Lift, y: number): number => {
   const { area, source } = lift.resample;
   let clipped = 0;
   for (let x = area.x; x < area.x + area.width; x++) {
+    if (lift.pick) {
+      const value = lift.pick(x, y);
+      if (value >= 0) {
+        clipped += landPicked(lift, { x, y }, value);
+      }
+      continue;
+    }
     const from = source(x, y);
     if (from >= 0) {
       clipped += landCell(lift, { x, y }, from);
@@ -36,12 +46,12 @@ const landRegion = ({ target, mask, resample, skipZero }: LandOptions): LandResu
       target.pixels[at] = 0;
     }
   }
-  const lift: Lift = { target, before, resample, skipZero };
+  const lift: Lift = { target, before, resample, pick: resample.prepare ? resample.prepare(before) : null, skipZero };
   let clipped = 0;
   for (let y = resample.area.y; y < resample.area.y + resample.area.height; y++) {
     clipped += landRow(lift, y);
   }
-  return { rect: diffBounds(before, target.pixels, target.width), clipped };
+  return { rect: diffBounds(before, target.pixels, target.width), clipped, added: resample.prepare ? coloursAdded(before, target.pixels) : null };
 };
 
 export { landRegion };

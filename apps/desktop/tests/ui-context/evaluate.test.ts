@@ -11,7 +11,7 @@ describe('the evaluator', () => {
   });
 
   it('disables what applies but lacks state, with a one sentence reason', () => {
-    expect(evaluate('selection.copy', columnContext('Sp'))).toEqual({ state: 'disabled', reason: 'Nothing is selected.' });
+    expect(evaluate('selection.copy', columnContext('Sp'))).toEqual({ state: 'disabled', reason: 'Select some pixels first.' });
     expect(evaluate('selection.paste', columnContext('Se'))).toEqual({ state: 'disabled', reason: 'The clipboard is empty.' });
     expect(evaluate('history.undo', columnContext('Sp'))).toEqual({ state: 'disabled', reason: 'There is nothing to undo.' });
     expect(evaluate('project.close', columnContext('Sp'))).toEqual({ state: 'disabled', reason: 'No project is open.' });

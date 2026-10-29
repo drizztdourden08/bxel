@@ -16,4 +16,8 @@ const TOOLBAR_FLAG = {
   options: 'bxel.toolbar.options',
 } as const;
 
-export { TOOLBAR_FLAG, WIDGET_CONTEXT };
+const WORKSPACE_FLAG = {
+  sheet: 'bxel.workspace.sheet',
+} as const;
+
+export { TOOLBAR_FLAG, WIDGET_CONTEXT, WORKSPACE_FLAG };

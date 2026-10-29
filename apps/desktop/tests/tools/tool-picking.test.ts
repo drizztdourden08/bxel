@@ -16,6 +16,7 @@ import { TOOL_COMMAND } from '../../src/keymap/option-command-id.constants';
 import { COMMAND_ID } from '../../src/keymap/keymap.constants';
 import { selectionStore } from './selection-reset';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
+import { useDrawingStore } from '../../src/stores/useDrawingStore';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { useToolPresetStore } from '../../src/stores/useToolPresetStore';
 import { useToolStore } from '../../src/stores/useToolStore';
@@ -48,12 +49,11 @@ describe('the tool keys', () => {
     expect(useSelectionStore.getState().variant).toBe('colour');
   });
 
-  it('cycles the shape kind with U and the fill area with G', async () => {
-    await findCommand(COMMAND_ID.tool('shape')).run();
-    await findCommand(COMMAND_ID.tool('shape')).run();
-    expect(tools().shape).toBe('rect');
-    await findCommand(TOOL_COMMAND.cycleBack('shape')).run();
-    expect(tools().shape).toBe('line');
+  it('toggles filled with U and cycles the fill area with G', async () => {
+    await findCommand(COMMAND_ID.tool('rect')).run();
+    await findCommand(COMMAND_ID.tool('rect')).run();
+    expect(tools().tool).toBe('rect');
+    expect(useDrawingStore.getState().filled.rect).toBe(true);
     await findCommand(COMMAND_ID.tool('fill')).run();
     await findCommand(COMMAND_ID.tool('fill')).run();
     expect(tools().fillMode).toBe('global');

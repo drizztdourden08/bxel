@@ -1,0 +1,5 @@
+/* @layer renderer-app @kind style */
+.project-search__field {
+  flex: 1;
+  min-inline-size: 0;
+}

@@ -3,20 +3,35 @@ import type { CommandDef } from '@drizztdourden08/brock-react';
 import { cancelPreview } from '../editor/pending/cancel-preview';
 import { hasPreview } from '../editor/pending/has-preview';
 import { clearSelection } from '../editor/selection/clear-selection';
+import { copyMerged } from '../editor/selection/copy-merged';
 import { copySelection } from '../editor/selection/copy-selection';
 import { cutSelection } from '../editor/selection/cut-selection';
 import { deleteSelection } from '../editor/selection/delete-selection';
 import { invertSelection } from '../editor/selection/invert-selection';
-import { pasteClip } from '../editor/selection/paste-clip';
-import { resizeSelection } from '../editor/selection/resize-selection';
+import { pasteFromSystem } from '../editor/selection/paste-from-system';
+import { reselect } from '../editor/selection/reselect';
+import { alignSelection } from '../editor/selection/align-selection';
+import { borderSelection } from '../editor/selection/border-selection';
+import { fillSelection } from '../editor/selection/fill-selection';
+import { resizeByAmount } from '../editor/selection/resize-by-amount';
+import { pasteNewSprite } from '../editor/selection/paste-new-sprite';
+import { selectByFrame } from '../editor/selection/select-by-frame';
+import { selectionToGuides } from '../editor/selection/selection-to-guides';
+import { usePasteChoiceStore } from '../stores/usePasteChoiceStore';
+import { pasteAndTransform } from '../editor/selection/paste-and-transform';
+import { selectOpaque } from '../editor/selection/select-opaque';
+import { smoothSelection } from '../editor/selection/smooth-selection';
+import { strokeSelection } from '../editor/selection/stroke-selection';
 import { selectAll } from '../editor/selection/select-all';
 import { startFlip } from '../editor/transform/start-flip';
+import { startTransform } from '../editor/transform/start-transform';
 import { startRotate } from '../editor/transform/start-rotate';
 import { startScale } from '../editor/transform/start-scale';
 import { startTurn } from '../editor/transform/start-turn';
 import { hasActiveDocument } from '../files/has-active-document';
 import { enterAction } from '../sheet/enter-action';
 import { enterReady } from '../sheet/enter-ready';
+import { useSelectionNamesStore } from '../stores/useSelectionNamesStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { clearCells } from '../tilemap/clear-cells';
 import { selectAllCells } from '../tilemap/select-all-cells';
@@ -43,11 +58,36 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     run: mapOr(() => useTilemapStore.getState().setSelection(null), clearSelection),
   },
   { id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: () => void invertSelection() },
-  { id: ID.expand, label: 'Expand selection by 1 pixel', group, run: () => void resizeSelection(1) },
-  { id: ID.shrink, label: 'Shrink selection by 1 pixel', group, run: () => void resizeSelection(-1) },
+  { id: ID.reselect, label: 'Reselect', group, chord: 'Mod+Alt+D', whileTyping: false, run: () => void reselect() },
+  { id: ID.save, label: 'Saved selections...', group, run: () => useSelectionNamesStore.getState().show() },
+  { id: ID.expand, label: 'Expand selection', group, chord: 'Mod+Alt+=', whileTyping: false, run: () => void resizeByAmount(1) },
+  { id: ID.shrink, label: 'Shrink selection', group, chord: 'Mod+Alt+-', whileTyping: false, run: () => void resizeByAmount(-1) },
+  { id: ID.border, label: 'Border selection', group, run: () => void borderSelection() },
+  { id: ID.smooth, label: 'Smooth selection', group, run: () => void smoothSelection() },
+  { id: ID.selectOpaque, label: 'Select opaque pixels of the layer', group, run: () => void selectOpaque() },
+  { id: ID.strokeInside, label: 'Stroke selection inside', group, run: () => void strokeSelection('inside') },
+  { id: ID.strokeOutside, label: 'Stroke selection outside', group, run: () => void strokeSelection('outside') },
+  { id: ID.fillFront, label: 'Fill selection with the front colour', group, chord: 'Alt+Delete', whileTyping: false, run: () => void fillSelection('foreground') },
+  { id: ID.fillBack, label: 'Fill selection with the back colour', group, chord: 'Mod+Delete', whileTyping: false, run: () => void fillSelection('background') },
+  { id: ID.alignLeft, label: 'Align left', group, run: () => void alignSelection('left') },
+  { id: ID.alignCentre, label: 'Align centre', group, run: () => void alignSelection('centre') },
+  { id: ID.alignRight, label: 'Align right', group, run: () => void alignSelection('right') },
+  { id: ID.alignTop, label: 'Align top', group, run: () => void alignSelection('top') },
+  { id: ID.alignMiddle, label: 'Align middle', group, run: () => void alignSelection('middle') },
+  { id: ID.alignBottom, label: 'Align bottom', group, run: () => void alignSelection('bottom') },
+  { id: ID.pasteAsLayer, label: 'Paste as new layer', group, run: () => void pasteFromSystem('layer') },
+  { id: ID.pasteIntoSelection, label: 'Paste into selection', group, run: () => void pasteFromSystem('selection') },
+  { id: ID.pasteTransform, label: 'Paste and transform', group, run: () => void pasteAndTransform() },
+  { id: ID.pasteNewSprite, label: 'Paste as new sprite', group, run: () => void pasteFromSystem('place').then(() => pasteNewSprite()) },
+  { id: ID.pasteChoose, label: 'Paste with a choice...', group, run: () => usePasteChoiceStore.getState().show() },
+  { id: ID.selectByFrame, label: 'Select by frame', group, run: () => void selectByFrame() },
+  { id: ID.toGuides, label: 'Selection to guides', group, run: () => void selectionToGuides() },
+  { id: ID.pasteExpand, label: 'Paste and expand the canvas', group, run: () => void pasteFromSystem('expand') },
   { id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: () => void copySelection() },
   { id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: () => void cutSelection() },
-  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: () => void pasteClip() },
+  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: () => void pasteFromSystem('pointer') },
+  { id: ID.pasteInPlace, label: 'Paste in place', group, chord: 'Mod+Shift+V', whileTyping: false, run: () => void pasteFromSystem('place') },
+  { id: ID.copyMerged, label: 'Copy merged', group, chord: 'Mod+Shift+C', whileTyping: false, run: () => void copyMerged() },
   {
     id: ID.delete,
     label: 'Delete',
@@ -111,6 +151,8 @@ const TRANSFORM_COMMANDS: readonly CommandDef[] = [
     whileTyping: false,
     run: () => void startTurn('counter-clockwise'),
   },
+  { id: ID.turnHalf, label: 'Rotate 180', group, chord: 'Mod+Shift+R', whileTyping: false, run: () => void startTurn('half') },
+  { id: ID.transform, label: 'Transform', group, chord: 'Mod+T', whileTyping: false, run: () => void startTransform() },
   { id: ID.rotate, label: 'Rotate...', group, run: () => void startRotate() },
   { id: ID.scale, label: 'Scale...', group, run: () => void startScale() },
 ];

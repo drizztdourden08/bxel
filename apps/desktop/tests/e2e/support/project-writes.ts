@@ -9,7 +9,7 @@ const locationIn = async (rig: ProjectRig, name: string, path: string) => {
 };
 
 const heroDocument = async (rig: ProjectRig, name: string): Promise<string> => {
-  const opened = await callMcp(rig.link.client, 'open_file', { file: await locationIn(rig, name, 'hero.bxsprite') });
+  const opened = await callMcp(rig.link.client, 'open_file', { file: await locationIn(rig, name, 'sprites/hero.bxsprite') });
   return String(opened.data.documentId);
 };
 

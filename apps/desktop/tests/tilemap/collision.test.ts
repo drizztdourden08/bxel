@@ -67,13 +67,13 @@ describe('setting a tile collision from the tileset panel', () => {
 
   it('sets a shape on the picked tile, as one document edit, and clears it again', () => {
     expect(setCollision(2, { kind: 'rect', x: 0, y: 1, width: 2, height: 1 })).toBe(true);
-    expect(tilesetNow().tiles.find((tile) => tile.key === 2)?.collision).toEqual({ kind: 'rect', x: 0, y: 1, width: 2, height: 1 });
+    expect(tilesetNow().tiles.find((tile) => tile.key === 2)?.shapes).toEqual([{ kind: 'rect', x: 0, y: 1, width: 2, height: 1, layer: 'solid' }]);
     expect(setCollision(2, null)).toBe(true);
-    expect(tilesetNow().tiles.find((tile) => tile.key === 2)?.collision).toBeUndefined();
+    expect(tilesetNow().tiles.find((tile) => tile.key === 2)?.shapes).toBeUndefined();
   });
 
   it('keeps a shape that does not fit out of the document', () => {
     expect(setCollision(2, { kind: 'rect', x: 0, y: 0, width: 9, height: 9 })).toBe(false);
-    expect(tilesetNow().tiles.every((tile) => tile.collision === undefined)).toBe(true);
+    expect(tilesetNow().tiles.every((tile) => tile.shapes === undefined)).toBe(true);
   });
 });

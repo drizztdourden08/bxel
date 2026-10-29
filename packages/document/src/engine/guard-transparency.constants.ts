@@ -9,6 +9,8 @@ const PAINTING_COMMANDS: ReadonlySet<string> = new Set([
   'pixels.shade',
   'pixels.gradient',
   'pixels.stamp',
+  'pixels.plot',
+  'pixels.outline',
   'pixels.clear',
 ]);
 

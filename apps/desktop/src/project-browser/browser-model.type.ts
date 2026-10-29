@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, AssetKey } from '@bxel/document';
-import type { AssetRow } from '../asset-list/asset-list.type';
+import type { AssetRow, ListedFile } from '../asset-list/asset-list.type';
 import type { BrowserEntry, BrowserFacts, BrowserQuery, Crumb, FileEntry, SourceRoot } from './project-browser.type';
 
 type BrowserModel = {
@@ -33,6 +33,7 @@ type BrowserSource = {
   readonly facts: ReadonlyMap<string, BrowserFacts>;
   readonly keys: ReadonlyMap<string, AssetKey>;
   readonly folders: readonly string[];
+  readonly files: readonly ListedFile[];
   readonly refresh: () => void;
   readonly projectName: string;
 };

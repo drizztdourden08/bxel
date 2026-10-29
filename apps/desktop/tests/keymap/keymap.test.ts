@@ -8,6 +8,7 @@ import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
 import { COMMAND_ID, EDITOR_SCOPE } from '../../src/keymap/keymap.constants';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
+import { useDrawingStore } from '../../src/stores/useDrawingStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { useViewStore } from '../../src/stores/useViewStore';
 import { VIEW_DEFAULTS } from '../../src/stores/view-store.constants';
@@ -67,7 +68,8 @@ describe('the keymap table', () => {
   it('puts every tool on its letter key', () => {
     const letters = Object.fromEntries(toolIds().map((tool) => [tool, chordsOf(find(COMMAND_ID.tool(tool)))]));
     expect(letters).toEqual({
-      pencil: ['B'], eraser: ['E'], fill: ['G'], picker: ['I'], shape: ['U'], zoom: ['Z'], hand: ['H'], select: ['M'], move: ['V'],
+      pencil: ['B'], eraser: ['E'], spray: ['Shift+B'], shade: ['S'], fill: ['G'], gradient: ['Shift+G'], picker: ['I'], line: ['L'], curve: ['Shift+L'], rect: ['U'],
+      ellipse: ['Shift+U'], contour: ['D'], polygon: ['Shift+D'], zoom: ['Z'], hand: ['H'], select: ['M'], move: ['V'],
     });
   });
 
@@ -100,10 +102,11 @@ describe('the keymap table', () => {
 });
 
 describe('the tool, brush and colour commands', () => {
-  it('select a tool, and cycle the shape kinds on a second press', () => {
-    run(COMMAND_ID.tool('shape'));
-    run(COMMAND_ID.tool('shape'));
-    expect(useToolStore.getState()).toMatchObject({ tool: 'shape', shape: 'rect' });
+  it('select a tool, and toggle filled on a second press of the rectangle key', () => {
+    run(COMMAND_ID.tool('rect'));
+    run(COMMAND_ID.tool('rect'));
+    expect(useToolStore.getState().tool).toBe('rect');
+    expect(useDrawingStore.getState().filled.rect).toBe(true);
     run(COMMAND_ID.tool('eraser'));
     expect(useToolStore.getState().tool).toBe('eraser');
   });

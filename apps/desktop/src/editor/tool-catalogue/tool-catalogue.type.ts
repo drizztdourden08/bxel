@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind types */
-import type { ShapeKind } from '@bxel/raster';
 import type { PixelIconName } from '../../icons/pixel-icon.type';
 import type { Surface } from './surface.type';
 import type { SelectVariant } from '../selection/selection.type';
@@ -9,7 +8,7 @@ type DrawSurface = Exclude<Surface, 'none'>;
 
 type SlotGroupId = 'draw' | 'shape' | 'select' | 'view';
 
-type MemberVariant = { kind: 'shape'; value: ShapeKind } | { kind: 'select'; value: SelectVariant };
+type MemberVariant = { kind: 'select'; value: SelectVariant };
 
 interface ToolMember {
   id: string;
@@ -37,7 +36,6 @@ interface SlotGroup {
 }
 
 interface MemberChoice {
-  shape: ShapeKind;
   variant: SelectVariant;
 }
 

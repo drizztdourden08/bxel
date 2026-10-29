@@ -1,18 +1,19 @@
 /* @layer renderer-app @kind component */
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
 import { WIDGET_CONTEXT } from '../ui-context/widget-context.constants';
-import { TilesetPanel } from '../views/TilesetPanel';
+import { TilesetModeSwitch, TilesetPanel } from '../views/TilesetPanel';
 
 const meta: WidgetMeta = {
   label: 'Tileset',
   icon: 'puzzle',
   defaultOpen: true,
   defaultSide: 'right',
-  defaultDockedSize: 260,
+  defaultDockedSize: 280,
   fill: true,
   popOut: false,
   defaultVisibility: 'context-only',
   context: WIDGET_CONTEXT.tileset,
+  tools: TilesetModeSwitch,
 };
 
 const TilesetWidget = () => <TilesetPanel />;

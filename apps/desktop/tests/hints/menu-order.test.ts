@@ -79,13 +79,13 @@ describe('the file menu', () => {
 
 describe('the menus of the open file', () => {
   it('puts Edit, the menu of the open file and View in that order', () => {
-    expect(topLabels('Sp')).toEqual(['Edit', 'Sprite', 'View']);
-    expect(topLabels('An')).toEqual(['Edit', 'Animation', 'View']);
+    expect(topLabels('Sp')).toEqual(['Edit', 'Select', 'Sprite', 'View']);
+    expect(topLabels('An')).toEqual(['Edit', 'Select', 'Animation', 'View']);
     expect(topLabels('Sh')).toEqual(['Edit', 'Sheet', 'View']);
-    expect(topLabels('Si')).toEqual(['Edit', 'Sheet', 'View']);
-    expect(topLabels('Ts')).toEqual(['Edit', 'Tileset', 'View']);
-    expect(topLabels('Tm')).toEqual(['Edit', 'Tilemap', 'View']);
-    expect(topLabels('Te')).toEqual(['Edit', 'Tilemap', 'View']);
+    expect(topLabels('Si')).toEqual(['Edit', 'Select', 'Sheet', 'View']);
+    expect(topLabels('Ts')).toEqual(['Edit', 'Select', 'Tileset', 'View']);
+    expect(topLabels('Tm')).toEqual(['Edit', 'Select', 'Tilemap', 'View']);
+    expect(topLabels('Te')).toEqual(['Edit', 'Select', 'Tilemap', 'View']);
     expect(topLabels('Im')).toEqual(['Edit', 'Image', 'View']);
   });
 
@@ -94,7 +94,7 @@ describe('the menus of the open file', () => {
   });
 
   it('shows no kind menu when nothing is open and keeps Edit and a disabled View', () => {
-    expect(topLabels('N')).toEqual(['Edit', 'View']);
+    expect(topLabels('N')).toEqual(['Edit', 'Select', 'View']);
     expect(childLabels(editorMenu(stateOf('N')), 'View')).toEqual(['Zoom']);
   });
 
@@ -150,7 +150,7 @@ describe('the Edit menu', () => {
     const edit = editorMenu(stateOf('N', { context: columnContext('N') }))[0];
     const items = edit !== undefined && edit !== 'separator' ? (edit.children ?? []) : [];
     const labels = items.flatMap((item) => (item === 'separator' ? [] : [item.label]));
-    expect(labels).toEqual(['Undo', 'Redo', 'Cut', 'Copy', 'Paste', 'Delete', 'Select all', 'Deselect']);
+    expect(labels).toEqual(['Undo', 'Redo', 'Cut', 'Copy', 'Copy merged', 'Paste', 'Paste in place', 'Delete']);
     for (const item of items) if (item !== 'separator') expect(item).toMatchObject({ disabled: true });
   });
 
@@ -159,7 +159,7 @@ describe('the Edit menu', () => {
     const labels = edit !== undefined && edit !== 'separator' ? (edit.children ?? []).flatMap((item) => (item === 'separator' ? [] : [item.label])) : [];
     expect(labels).not.toContain('Cut');
     expect(labels).toContain('Delete');
-    expect(labels).toContain('Select all');
+    expect(childLabels(editorMenu(stateOf('Tm')), 'Select')).toContain('Select all');
   });
 
   it('hides the whole selection and transform group on a palette, a sheet and an image', () => {

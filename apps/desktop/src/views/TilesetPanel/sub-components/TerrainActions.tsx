@@ -1,32 +1,33 @@
 /* @layer renderer-app @kind component */
-import { Button, Checkbox, Flex } from '@drizztdourden08/tessera';
+import { Button, Checkbox, Flex, Stack, Text } from '@drizztdourden08/tessera';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
-import { emptyRules } from '../../../tilemap/terrain/empty-rules';
-import { fillSlots } from '../../../tilemap/terrain/fill-slots';
+import { setTerrainSets } from '../../../tilemap/set-terrain-sets';
+import { fillByTurning } from '../../../tilemap/terrain/fill-by-turning';
 import { TERRAIN_TEXT } from '../../../tilemap/terrain/terrain.constants';
-import { setTerrain } from '../../../tilemap/set-terrain';
-import type { TerrainActionsProps } from '../TilesetPanel.type';
+import type { PackingPickerProps } from '../behavior/terrain-panel.type';
+import { PackingPicker } from './PackingPicker';
 
-const TerrainActions = ({ model, rules }: TerrainActionsProps) => {
+const TerrainActions = (props: PackingPickerProps) => {
+  const { model, sets, set } = props;
   const brush = useTilemapStore((state) => state.terrainBrush);
   const setBrush = useTilemapStore((state) => state.setTerrainBrush);
-  const { pickedKey } = model;
+  const replace = (next: typeof set, label: string): void => {
+    setTerrainSets(sets.map((each) => (each.id === set.id ? next : each)), label);
+  };
   return (
-    <Flex gap="xs" align="center" wrap>
+    <Stack gap="xs">
       <Checkbox size="sm" label={TERRAIN_TEXT.brush} help={TERRAIN_TEXT.brushHint} checked={brush} onChange={setBrush} />
-      <Button
-        size="sm"
-        variant="tertiary"
-        disabled={pickedKey === null}
-        title={pickedKey === null ? TERRAIN_TEXT.noPick : undefined}
-        onClick={() => pickedKey !== null && setTerrain(fillSlots(rules, model.tileset, pickedKey))}
-      >
-        {TERRAIN_TEXT.fill}
-      </Button>
-      <Button size="sm" variant="tertiary" onClick={() => setTerrain(emptyRules(rules.kind))}>
-        {TERRAIN_TEXT.clear}
-      </Button>
-    </Flex>
+      <Text variant="label">{TERRAIN_TEXT.fillFromLayout}</Text>
+      <PackingPicker {...props} />
+      <Flex gap="xs" wrap>
+        <Button size="sm" variant="secondary" title={TERRAIN_TEXT.fillTurningHint} onClick={() => replace(fillByTurning(set, model.tileset), TERRAIN_TEXT.fillTurning)}>
+          {TERRAIN_TEXT.fillTurning}
+        </Button>
+        <Button size="sm" variant="tertiary" onClick={() => replace({ ...set, slots: set.slots.map(() => []) }, TERRAIN_TEXT.clearAll)}>
+          {TERRAIN_TEXT.clearAll}
+        </Button>
+      </Flex>
+    </Stack>
   );
 };
 

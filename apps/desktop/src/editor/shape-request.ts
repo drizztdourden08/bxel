@@ -8,10 +8,24 @@ import { SHAPE_LABELS } from './tools.constants';
 
 const shapeRequest = (target: EditorTarget, session: ShapeSession): TransactionRequest => {
   const { spec } = session;
-  const { shape, from, to, index, filled, brush, symmetry, wrap } = spec;
+  const { shape, from, to, index, filled, fillIndex, radius, evenSteps, brush, symmetry, wrap, ink } = spec;
   const step = {
     name: COMMAND_NAME.pixelsShape,
-    options: { shape, from, to, index, filled, brush, symmetry, wrap, ...(session.mask ? { mask: session.mask } : {}) },
+    options: {
+      shape,
+      from,
+      to,
+      index,
+      filled,
+      brush,
+      symmetry,
+      wrap,
+      ...(fillIndex === undefined ? {} : { fillIndex }),
+      ...(radius > 0 ? { radius } : {}),
+      ...(evenSteps ? { evenSteps } : {}),
+      ...(ink ? { ink } : {}),
+      ...(session.mask ? { mask: session.mask } : {}),
+    },
   };
   return commitRequest(target, SHAPE_LABELS[shape], step, paintScope(target));
 };

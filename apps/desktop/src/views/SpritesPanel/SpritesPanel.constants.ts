@@ -5,38 +5,27 @@ import { DIALOG_COMMAND } from '../../keymap/dialog-command-id.constants';
 import { SHEET_COMMAND } from '../../keymap/sheet-command-id.constants';
 import { FOLDER_TEXT } from '../../sheet-manager/folder-text.constants';
 import { MANAGER_TEXT } from '../../sheet-manager/manager-text.constants';
-import { SPRITE_DRAG_TYPE } from '../../sheet/sprite-drag.constants';
 import type { HintSpec } from '../ActionHint';
+import type { EntryKind } from '../../sheet-manager/manager.type';
 import type { ListRow } from './SpritesPanel.type';
 
-const NO_SPRITES: readonly SpriteId[] = [];
+const WIDE_SHAPE = { minWidth: 560, ratio: 1.8 } as const;
 
-const DRAG_TYPE = SPRITE_DRAG_TYPE;
+const SPRITES_WIDGET_ID = 'sprites';
+
+const SHEET_VIEWS_KEY = 'sheet-views';
+
+const NO_SPRITES: readonly SpriteId[] = [];
 
 const ANY_SIZE = 'any';
 
 const ARROW_STEP: Readonly<Record<string, number>> = { ArrowLeft: -1, ArrowRight: 1 };
 
-const TILE_SIZES: readonly { readonly token: VirtualSize; readonly px: number }[] = [
-  { token: 'size-48', px: 48 },
-  { token: 'size-56', px: 56 },
-  { token: 'size-64', px: 64 },
-  { token: 'size-80', px: 80 },
-  { token: 'size-96', px: 96 },
-  { token: 'size-128', px: 128 },
-  { token: 'size-160', px: 160 },
-  { token: 'size-192', px: 192 },
-  { token: 'size-224', px: 224 },
-  { token: 'size-256', px: 256 },
-];
-
-const TILE_EXTRA = { width: 24, height: 48 } as const;
-
 const MARQUEE_ITEM = '[data-marquee-key]';
 
 const MARQUEE_SKIP = 'button, input, [role="columnheader"]';
 
-const GRID_CELL = '[role="gridcell"]';
+const GRID_CELL = '[role="gridcell"], [role="cell"], [role="row"]';
 
 const VIRTUAL_LIST_MIN = 200;
 
@@ -56,11 +45,6 @@ const SPRITE_MENU = {
 } as const;
 
 const FOLDER_DEPTH_LIMIT = 4;
-
-const MANAGER_TABS = [
-  { id: 'sprites', label: MANAGER_TEXT.tabs.sprites },
-  { id: 'atlas', label: MANAGER_TEXT.tabs.atlas },
-];
 
 const TEXT_ENTRY = 'input:not([type="checkbox"]), textarea, [contenteditable="true"]';
 
@@ -86,6 +70,8 @@ const LIST_FIELDS: readonly { readonly path: keyof ListRow; readonly label: stri
   { path: 'height', label: MANAGER_TEXT.columns.height, kind: 'number', width: 120 },
   { path: 'pivot', label: MANAGER_TEXT.columns.pivot, kind: 'string', width: 128 },
   { path: 'bank', label: MANAGER_TEXT.columns.bank, kind: 'string', width: 120 },
+  { path: 'at', label: MANAGER_TEXT.columns.at, kind: 'string', width: 104 },
+  { path: 'frames', label: MANAGER_TEXT.columns.frames, kind: 'string', width: 96 },
 ];
 
 const LIST_FOLDER_FIELD: FieldDescriptor = { path: 'folder', label: FOLDER_TEXT.field, kind: 'string', optional: false, hidden: true };
@@ -98,6 +84,10 @@ const LIST_SCHEMA: readonly FieldDescriptor[] = [
 const LIST_COLUMNS: readonly TableColumn[] = LIST_FIELDS.map(({ path, width }) => ({ path, width }));
 
 const IN_LIST = 'In the list';
+
+const ANIMATION_SECTION = 'entries:animations';
+
+const ENTRY_KINDS: readonly EntryKind[] = ['all', 'sprites', 'animations'];
 
 const SPRITE_HINTS = {
   add: {
@@ -149,9 +139,4 @@ const SPRITE_HINTS = {
   },
 } as const satisfies Record<string, HintSpec>;
 
-const SPRITE_STEPS = [
-  { hint: SPRITE_HINTS.earlier, icon: 'arrow-left', by: -1 },
-  { hint: SPRITE_HINTS.later, icon: 'arrow-right', by: 1 },
-] as const;
-
-export { ANY_SIZE, ARROW_STEP, CHECKBOX, DRAG_TYPE, END_INDEX, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_COUNT_LABEL, LIST_HEAD_ROOM, LIST_LABEL, LIST_ROW_HEIGHT, LIST_SCHEMA, LIST_THUMB, LIST_VIEW_KEY, MANAGER_TABS, MARQUEE_ITEM, MARQUEE_SKIP, NAME_PATH, NO_SPRITES, SPRITE_HINTS, SPRITE_MENU, SPRITE_STEPS, TEXT_ENTRY, TILE_EXTRA, TILE_SIZES, VIRTUAL_LIST_MIN };
+export { ANIMATION_SECTION, ANY_SIZE, ARROW_STEP, CHECKBOX, END_INDEX, ENTRY_KINDS, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_COUNT_LABEL, LIST_HEAD_ROOM, LIST_LABEL, LIST_ROW_HEIGHT, LIST_SCHEMA, LIST_THUMB, LIST_VIEW_KEY, MARQUEE_ITEM, MARQUEE_SKIP, NAME_PATH, NO_SPRITES, SPRITE_HINTS, SHEET_VIEWS_KEY, SPRITE_MENU, SPRITES_WIDGET_ID, TEXT_ENTRY, VIRTUAL_LIST_MIN, WIDE_SHAPE };

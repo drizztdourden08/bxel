@@ -6,7 +6,7 @@ import type { ManagerFilter } from '../../../sheet-manager/manager.type';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { TRAIT_TEXT } from '../../../sheet-manager/trait-text.constants';
 import { radioItem } from '../../../sheet/radio-item';
-import { ANY_SIZE } from '../SpritesPanel.constants';
+import { ANY_SIZE, ENTRY_KINDS } from '../SpritesPanel.constants';
 import type { FilterActions, FilterOptions } from '../SpritesPanel.type';
 
 const traitGroups = (filter: ManagerFilter, options: FilterOptions, actions: FilterActions): MenuGroup[] => [
@@ -41,8 +41,8 @@ const filterGroups = (filter: ManagerFilter, options: FilterOptions, actions: Fi
     id: 'filter-flags',
     label: MANAGER_TEXT.filters,
     items: [
-      { id: 'animated', label: MANAGER_TEXT.animated, kind: 'check', checked: filter.animated, onSelect: () => actions.patch({ animated: !filter.animated }) },
-      { id: 'unplaced', label: MANAGER_TEXT.unplaced, kind: 'check', checked: filter.unplaced, onSelect: () => actions.patch({ unplaced: !filter.unplaced }) },
+      ...ENTRY_KINDS.map((kind) => radioItem(kind, MANAGER_TEXT.kinds[kind], filter.kind, (value) => actions.patch({ kind: value }))),
+      { id: 'slices', label: MANAGER_TEXT.hasSlices, kind: 'check', checked: filter.slices, onSelect: () => actions.patch({ slices: !filter.slices }) },
     ],
   },
   {

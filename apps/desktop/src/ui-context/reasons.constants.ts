@@ -7,6 +7,7 @@ const REASON = {
   noFile: 'Open or create a file first.',
   readOnly: 'This file is open read only. Use Save as to edit a copy.',
   noSelection: 'Nothing is selected.',
+  noPixels: 'Select some pixels first.',
   noCells: 'No cells are selected.',
   emptyClipboard: 'The clipboard is empty.',
   nothingToUndo: 'There is nothing to undo.',

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 const SHEET_CANVAS_TEXT = {
   label: 'Sheet canvas',
+  exportLabel: 'Sheet canvas, showing the export result',
   empty: 'No sprite is open.',
 } as const;
 
@@ -43,10 +44,16 @@ const LABEL_MIN_ZOOM = 4;
 
 const LABEL_SIZE = 10;
 
+const LABEL_MIN_CELL = 28;
+
+const LABEL_ELLIPSIS = '..';
+
 const PIVOT_ARM = 3;
 
 const OVERLAP_ALPHA = 0.35;
 
+const OVERLAP_OUTLINE = 2;
+
 const SNAP_REACH = 6;
 
-export { DOUBLE_CLICK_MS, LABEL_MIN_ZOOM, LABEL_SIZE, OVERLAP_ALPHA, PIVOT_ARM, SELECT_DASH, SHEET_CANVAS_TEXT, SHEET_MENU, SHEET_TOKENS, SNAP_REACH };
+export { DOUBLE_CLICK_MS, LABEL_ELLIPSIS, LABEL_MIN_CELL, LABEL_MIN_ZOOM, LABEL_SIZE, OVERLAP_ALPHA, OVERLAP_OUTLINE, PIVOT_ARM, SELECT_DASH, SHEET_CANVAS_TEXT, SHEET_MENU, SHEET_TOKENS, SNAP_REACH };

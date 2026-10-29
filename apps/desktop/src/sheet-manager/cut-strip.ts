@@ -7,10 +7,11 @@ import { TIMELINE_REF } from '../timeline/timeline.constants';
 import { COMPOSE_LABEL } from './compose-text.constants';
 import type { CutStripSpec } from './compose.type';
 import { cutStripSteps } from './cut-strip-steps';
+import { stripPlace } from './strip-place';
 
 const cutStrip = async (sprite: SpriteId, name: string, spec: CutStripSpec): Promise<boolean> => {
   const documentId = useDocumentStore.getState().activeId;
-  const done = documentId === null ? null : runDocument(COMPOSE_LABEL.strip, cutStripSteps(sprite, name, spec));
+  const done = documentId === null ? null : runDocument(COMPOSE_LABEL.strip, cutStripSteps(sprite, name, spec, stripPlace(sprite)));
   const id = done?.created[TIMELINE_REF.animation];
   if (id === undefined || documentId === null) return false;
   const key: AssetKey = { kind: 'animation', id };

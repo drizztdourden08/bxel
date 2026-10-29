@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { withFailure } from '../schema/with-failure';
+import { TIMELINE_STATE_SCHEMA } from '../schema/timeline-view.constants';
 import { SELECTION_REPLY_SCHEMA } from '../schema/view.constants';
 import { defineTool } from './define-tool';
 import { NO_INPUT_SCHEMA, WINDOW_SCHEMA } from './tool-enums.constants';
@@ -11,7 +12,7 @@ const block = z.record(z.string(), z.unknown());
 const getViewTool = defineTool(TOOL_NAME.getView, {
   title: 'Get the view',
   description:
-    "The owner's live window: the open tabs and the active one, the page and any confirm dialog, the active sprite, frame and layer, the tool and its options, the four colours, symmetry, zoom and the visible pixel rectangle, the grid and view toggles, playback, the selection as row runs, and the clipboard.",
+    "The owner's live window: the open tabs and the active one, the page and any confirm dialog, the active sprite, frame and layer, the tool and its options, the four colours, symmetry, zoom and the visible pixel rectangle, the grid and view toggles, playback, the timeline (playhead, picked frames, range, play mode, speed, zoom and the onion skin settings), the selection as row runs, and the clipboard.",
   input: NO_INPUT_SCHEMA,
   output: withFailure({
     window: WINDOW_SCHEMA,
@@ -28,6 +29,7 @@ const getViewTool = defineTool(TOOL_NAME.getView, {
     zoom: block.nullable().describe('percent, pan and the visible pixel rectangle.'),
     toggles: block,
     playback: block,
+    timeline: TIMELINE_STATE_SCHEMA.describe('The timeline: animation, playhead, pick, range, play state, zoom and the onion skin settings.'),
     selection: SELECTION_REPLY_SCHEMA.extend({ variant: z.string(), combine: z.string() }).nullable(),
     clipboard: block.nullable(),
     sprites: block.describe('The sprite selection and filters of the sheet manager.'),

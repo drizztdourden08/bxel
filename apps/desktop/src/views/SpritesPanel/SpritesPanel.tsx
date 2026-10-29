@@ -1,36 +1,21 @@
 /* @layer renderer-app @kind component */
-import { Center, EmptyState, ScrollArea, Stack } from '@drizztdourden08/tessera';
-import { MANAGER_TEXT } from '../../sheet-manager/manager-text.constants';
-import { useManagerStore } from '../../stores/useManagerStore';
+import { Stack } from '@drizztdourden08/tessera';
 import { useManagerModel } from './behavior/useManagerModel';
+import { useSheetTitle } from './behavior/useSheetTitle';
 import { useSheetView } from './behavior/useSheetView';
-import { AtlasView } from './sub-components/AtlasView';
 import { ManagerDialogs } from './sub-components/ManagerDialogs';
-import { ManagerHeader } from './sub-components/ManagerHeader';
+import { SheetEmpty } from './sub-components/SheetEmpty';
 import { SpriteBrowser } from './sub-components/SpriteBrowser';
 import './SpritesPanel.css';
 
 const SpritesPanel = () => {
   const model = useManagerModel();
-  const tab = useManagerStore((state) => state.tab);
   useSheetView(model?.sheet?.id ?? null);
-  if (!model) {
-    return (
-      <Center direction="column">
-        <EmptyState size="sm" message={MANAGER_TEXT.empty} />
-      </Center>
-    );
-  }
+  useSheetTitle(model);
+  if (!model?.sheet) return <SheetEmpty />;
   return (
-    <Stack gap="xs">
-      <ManagerHeader model={model} />
-      {tab === 'atlas' ? (
-        <ScrollArea axis="y" scrollbar="slim" fade={false} className="sprites-panel__scroll">
-          <AtlasView model={model} />
-        </ScrollArea>
-      ) : (
-        <SpriteBrowser model={model} />
-      )}
+    <Stack gap="xs" className="sprites-panel">
+      <SpriteBrowser model={model} />
       <ManagerDialogs model={model} />
     </Stack>
   );

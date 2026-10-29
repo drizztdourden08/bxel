@@ -7,16 +7,21 @@ import type { MainContext } from '@drizztdourden08/brock-electron/main';
 import { existsSync } from 'fs';
 import { mkdir } from 'fs/promises';
 import { join } from 'path';
-import { exportKindOf } from '../../src/assistant-bridge/export-kind-of';
 import { fieldOf } from '../../src/assistant-bridge/field-of';
 import { saveKindOf } from '../../src/assistant-bridge/save-kind-of';
 import type { TargetCall, WantedFile } from './assistant.type';
+import { EXPORT_KIND } from './resolve-target.constants';
+
+const exportKindOf = (input: unknown): FileKind => {
+  const format = fieldOf(input, 'format');
+  return (typeof format === 'string' ? EXPORT_KIND[format] : undefined) ?? 'png';
+};
 
 const wantedFile = (tool: ToolRouteName, input: unknown): WantedFile | null => {
   const holder = tool === 'save_document' ? fieldOf(input, 'target') : input;
   const name = fieldOf(holder, 'fileName');
   if (typeof name !== 'string' || (tool !== 'save_document' && tool !== 'export_document')) return null;
-  const kind: FileKind = tool === 'save_document' ? saveKindOf(name) : exportKindOf(fieldOf(input, 'format'));
+  const kind: FileKind = tool === 'save_document' ? saveKindOf(name) : exportKindOf(input);
   return { name, kind, overwrite: fieldOf(holder, 'overwrite') === true, path: tool === 'save_document' ? 'target.fileName' : 'fileName' };
 };
 

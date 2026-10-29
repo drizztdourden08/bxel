@@ -14,6 +14,7 @@ type TagId = Brand<string, 'tag'>;
 type SliceId = Brand<string, 'slc'>;
 type SheetId = Brand<string, 'sht'>;
 type PresetId = Brand<string, 'exp'>;
+type BrushId = Brand<string, 'brs'>;
 type TilesetId = Brand<string, 'tls'>;
 type TileId = Brand<string, 'til'>;
 type TilemapId = Brand<string, 'tlm'>;
@@ -26,6 +27,7 @@ export type {
   AnimFrameId,
   BankId,
   Brand,
+  BrushId,
   CelId,
   DocumentId,
   FrameId,

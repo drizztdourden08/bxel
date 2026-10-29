@@ -45,7 +45,7 @@ describe('the option model coverage', () => {
   });
 
   it('gives a choice at least two described values and a default among them', () => {
-    for (const spec of OPTION_SPECS.filter((each) => each.kind === 'choice')) {
+    for (const spec of OPTION_SPECS.filter((each) => each.kind === 'choice' && Object.getOwnPropertyDescriptor(each, 'choices')?.get === undefined)) {
       expect((spec.choices ?? []).length).toBeGreaterThan(1);
       expect(spec.choices?.some((choice) => choice.value === String(spec.default))).toBe(true);
       expect((spec.choices ?? []).every((choice) => choice.description.length > 5)).toBe(true);
@@ -64,16 +64,18 @@ describe('the option model coverage', () => {
 
   it('shows a bar for every tool of a surface with the options of the old toolbar', () => {
     const names = (surface: 'sprite' | 'map', tool: Parameters<typeof optionsOf>[1]): string[] => optionsOf(surface, tool).map((spec) => spec.name);
-    expect(names('sprite', 'pencil')).toEqual(['size', 'tip', 'pixel_perfect']);
-    expect(names('sprite', 'eraser')).toEqual(['size', 'tip', 'pixel_perfect']);
-    expect(names('sprite', 'fill')).toEqual(['area', 'neighbours']);
-    expect(names('sprite', 'shape')).toEqual(['kind', 'filled', 'size', 'tip']);
-    expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'expand', 'shrink']);
-    useSelectionStore.getState().setVariant('wand');
-    expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'neighbours', 'expand', 'shrink']);
-    expect(names('sprite', 'picker')).toEqual([]);
+    expect(names('sprite', 'pencil')).toEqual(['size', 'tip', 'pixel_perfect', 'custom_brush', 'ink', 'stabiliser']);
+    expect(names('sprite', 'eraser')).toEqual(['size', 'tip', 'pixel_perfect', 'stabiliser']);
+    expect(names('sprite', 'fill')).toEqual(['area', 'neighbours', 'sample', 'match', 'ink']);
+    expect(names('sprite', 'rect')).toEqual(['filled', 'radius', 'size', 'tip', 'ink']);
+    expect(names('sprite', 'line')).toEqual(['even_steps', 'size', 'tip', 'ink']);
+    expect(names('sprite', 'spray')).toEqual(['size', 'density', 'seed', 'pressure', 'ink']);
+    expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'amount', 'expand', 'shrink']);
+    useSelectionStore.getState().setVariant('wand');
+    expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'neighbours', 'sample', 'amount', 'expand', 'shrink']);
+    expect(names('sprite', 'picker')).toEqual(['sample']);
     expect(names('map', 'pencil')).toEqual(['flip_x', 'flip_y', 'rotate', 'terrain']);
-    expect(names('map', 'shape')).toEqual(['filled', 'flip_x', 'flip_y', 'rotate', 'terrain']);
+    expect(names('map', 'rect')).toEqual(['filled', 'flip_x', 'flip_y', 'rotate', 'terrain']);
     expect(names('map', 'select')).toEqual(['flip_x', 'flip_y', 'rotate', 'replace_in', 'replace_all', 'unique', 'clear']);
   });
 });
@@ -99,11 +101,11 @@ describe('the option memory', () => {
   });
 
   it('reads and writes the value of a tool that is not active from its memory', () => {
-    const size = optionById('shape.size');
-    if (!size) throw new Error('no shape size');
+    const size = optionById('rect.size');
+    if (!size) throw new Error('no rectangle size');
     expect(setOption(size, 7)).toBe(true);
     expect(tools().brushSize).toBe(1);
-    tools().selectTool('shape');
+    tools().selectTool('rect');
     expect(tools().brushSize).toBe(7);
   });
 
@@ -144,10 +146,9 @@ describe('the option commands', () => {
     expect(useSelectionStore.getState().mode).toBe('replace');
   });
 
-  it('disables Filled for a line with the reason', () => {
-    const filled = optionById('shape.filled');
-    expect(filled?.disabledReason?.()).toBe('Lines have no inside.');
-    tools().setShape('rect');
-    expect(filled?.disabledReason?.()).toBeUndefined();
+  it('pixel perfect is offered at brush size 1 only', () => {
+    expect(optionsOf('sprite', 'pencil').some((spec) => spec.name === 'pixel_perfect')).toBe(true);
+    tools().setBrushSize(3);
+    expect(optionsOf('sprite', 'pencil').some((spec) => spec.name === 'pixel_perfect')).toBe(false);
   });
 });

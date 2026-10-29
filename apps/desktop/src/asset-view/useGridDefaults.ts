@@ -7,7 +7,7 @@ import { useSpriteScene } from '../hooks/useSpriteScene';
 import { useCanvasSurface } from '../canvas-surface/useCanvasSurface';
 import { managerSheet } from '../sheet-manager/manager-sheet';
 import type { AppSettings } from '../settings.type';
-import { useManagerStore } from '../stores/useManagerStore';
+import { useBoundSheetId } from '../hooks/useBoundSheetId';
 import { gridDefaults } from './grid-defaults';
 import type { AssetGridDefaults } from './asset-view.type';
 
@@ -15,7 +15,7 @@ const useGridDefaults = (): AssetGridDefaults => {
   const surface = useCanvasSurface();
   const tileset = useMapContext()?.tileset ?? null;
   const scene = useSpriteScene();
-  const sheetId = useManagerStore((state) => state.sheetId);
+  const sheetId = useBoundSheetId();
   const { settings } = useSettings<AppSettings>();
   const artwork = scene?.artwork ?? null;
   const activeId = scene?.scene.active?.id ?? null;

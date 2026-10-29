@@ -5,6 +5,7 @@ import { insidePaintArea } from '../../src/editor/inside-paint-area';
 import { runInstant } from '../../src/editor/run-instant';
 import { shapeSpec } from '../../src/editor/shape-spec';
 import { beginShape } from '../../src/editor/begin-shape';
+import { useDrawingStore } from '../../src/stores/useDrawingStore';
 import { useViewStore } from '../../src/stores/useViewStore';
 import { flat, live, penStroke, resetEditor, tools } from './option-harness';
 
@@ -40,7 +41,8 @@ describe('painting with the tiled preview on', () => {
 
   it('wraps a line drawn with the shape tool over the bottom edge', () => {
     useViewStore.getState().setTiled('y');
-    const spec = { ...shapeSpec(tools(), live().sprite, 2, { x: 4, y: 30 }), wrap: { x: false, y: true } };
+    tools().setForeground(2);
+    const spec = { ...shapeSpec({ tools: tools(), drawing: useDrawingStore.getState(), target: live(), size: live().sprite, shape: 'line', slot: 'foreground', at: { x: 4, y: 30 } }), wrap: { x: false, y: true } };
     const session = beginShape({ target: live(), spec: { ...spec, shape: 'line', to: { x: 4, y: 34 } } });
     expect(commitSession(session)?.ok).toBe(true);
     expect([30, 31, 0, 1, 2].map((y) => pixelAt(4, y))).toEqual([2, 2, 2, 2, 2]);

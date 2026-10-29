@@ -2,9 +2,11 @@
 import type { Artwork, CellFlags, MapLayer, MapLayerId, Point, Tilemap, TilemapId, Tileset, TilesetId } from '@bxel/document';
 import type { MapSelection } from '../stores/tilemap-store.type';
 
-type MapTool = 'place' | 'erase' | 'fill' | 'rect' | 'pick' | 'select' | 'hand' | 'zoom';
+type MapTool = 'place' | 'erase' | 'fill' | 'rect' | 'line' | 'scatter' | 'pick' | 'select' | 'hand' | 'zoom';
 
 type FlagOp = 'flipX' | 'flipY' | 'turn';
+
+type StampTransform = 'flipX' | 'flipY' | 'turnRight' | 'turnLeft' | 'reset';
 
 interface MapPicks {
   tilesetId: TilesetId | null;
@@ -47,4 +49,4 @@ interface CellRead {
   flags: CellFlags;
 }
 
-export type { CellRead, FlagOp, MapContext, MapPicks, MapTarget, MapTool, Placement, PlacementGroup, SelectedMap };
+export type { CellRead, FlagOp, MapContext, MapPicks, MapTarget, MapTool, Placement, PlacementGroup, SelectedMap, StampTransform };

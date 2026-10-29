@@ -22,18 +22,18 @@ describe('the contextual chrome of each file type', () => {
     await inFreshPlace(async (place) => {
       await openDemo(session, place);
 
-      await assetRow(session, 'slime').click();
+      await assetRow(session, 'slime').dblclick();
       await openAssetTab(session, /slime/).waitFor();
       await tools(session).getByRole('button', { name: 'Pencil' }).first().waitFor();
       expect(await canvasBar(session).getByRole('button', { name: 'Onion skin' }).count()).toBe(0);
       expect(await canvasBar(session).getByRole('button', { name: 'Mirror X' }).count()).toBeGreaterThan(0);
 
-      await assetRow(session, 'hero').click();
+      await assetRow(session, 'hero').dblclick();
       await openAssetTab(session, /hero/).waitFor();
       await canvasBar(session).getByRole('button', { name: 'Onion skin' }).first().waitFor();
       await session.page.getByRole('region', { name: 'Timeline' }).waitFor();
 
-      await assetRow(session, 'Demo 16').click();
+      await assetRow(session, 'Demo 16').dblclick();
       await openAssetTab(session, /Demo 16/).waitFor();
       await session.page.getByRole('region', { name: 'Palette' }).waitFor();
       expect(await session.page.getByRole('application', { name: 'Sprite canvas' }).count()).toBe(0);
@@ -41,18 +41,18 @@ describe('the contextual chrome of each file type', () => {
       expect(await tools(session).count()).toBe(0);
       expect(await canvasBar(session).count()).toBe(0);
 
-      await assetRow(session, 'party').click();
+      await assetRow(session, 'party').dblclick();
       await openAssetTab(session, /party/).waitFor();
       await tools(session).getByRole('button', { name: 'Zoom' }).first().waitFor();
       expect(await tools(session).getByRole('button', { name: 'Pencil' }).count()).toBe(0);
       expect(await session.page.getByRole('region', { name: 'Timeline' }).count()).toBe(0);
 
-      await assetRow(session, 'ground').click();
+      await assetRow(session, 'ground').dblclick();
       await openAssetTab(session, /ground/).waitFor();
       await session.page.getByRole('application', { name: 'Sprite canvas' }).waitFor();
       expect(await session.page.getByRole('radio', { name: /^Place/ }).count()).toBe(0);
 
-      await assetRow(session, 'meadow').click();
+      await assetRow(session, 'meadow').dblclick();
       await openAssetTab(session, /meadow/).waitFor();
       expect(await session.page.getByRole('application', { name: 'Sprite canvas' }).count()).toBe(0);
       expect(await canvasBar(session).getByRole('button', { name: 'Mirror X' }).count()).toBe(0);

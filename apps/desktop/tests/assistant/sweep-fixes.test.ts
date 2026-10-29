@@ -49,6 +49,24 @@ describe('export_document', () => {
     expect(preview.images[0]).toBe(encodeBase64(written));
   });
 
+  it('exports the atlas json of a sheet as a json file', async () => {
+    const { documentId, assetId } = await make('sheet');
+    const input = { documentId, format: 'atlas-json', source: { sheetId: assetId }, scale: 1, overwrite: false, fileName: 'tt-sheet.json' };
+    const done = await handled('export_document', input, { target: `${FOLDER}/tt-sheet.json` });
+    expect(done.outcome).toMatchObject({ ok: true, files: [{ fileName: 'tt-sheet.json' }] });
+    const written = current().rig.disk.files.get(`${FOLDER}/tt-sheet.json`) as Uint8Array;
+    const parsed: unknown = JSON.parse(new TextDecoder().decode(written));
+    expect(parsed).toBeTypeOf('object');
+  });
+
+  it('refuses atlas-json for a sprite and an animation', async () => {
+    const { documentId } = await make('sprite', { sprite: { name: 'tt', width: 8, height: 8 } });
+    const spriteId = await spriteOf(documentId);
+    const input = { documentId, format: 'atlas-json', source: { spriteId }, scale: 1, overwrite: false, fileName: 'tt.json' };
+    const refused = await handled('export_document', input, { target: `${FOLDER}/tt.json` });
+    expect(refused.outcome).toMatchObject({ ok: false, error: { code: 'INVALID_OPTION' } });
+  });
+
   it('refuses gif for a sheet with a clear error', async () => {
     const { documentId, assetId } = await make('sheet');
     const input = { documentId, format: 'gif', source: { sheetId: assetId }, scale: 1, overwrite: false, fileName: 'tt-sheet.gif' };
@@ -63,6 +81,14 @@ describe('render_preview of a sheet', () => {
     const preview = await handled('render_preview', { documentId, target: { sheetId: assetId }, scale: 2 });
     expect(preview.outcome).toMatchObject({ ok: true, scale: 2 });
     expect(String(fieldOf(preview.outcome, 'uri'))).toContain(`/sheet/${assetId}/preview.png`);
+  });
+
+  it('draws the sheet as the exporter packs it when exported is true', async () => {
+    const { documentId, assetId } = await make('sheet');
+    const preview = await handled('render_preview', { documentId, target: { sheetId: assetId }, scale: 1, exported: true });
+    expect(preview.outcome).toMatchObject({ ok: true, scale: 1 });
+    expect(preview.images).toHaveLength(1);
+    expect(String(fieldOf(preview.outcome, 'uri'))).toContain('exported=1');
   });
 
   it('does not find a sheet that is not in the document', async () => {

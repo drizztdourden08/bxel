@@ -9,12 +9,17 @@ import { layerReorder } from './layer/layer-reorder';
 import { layerUpdate } from './layer/layer-update';
 import { pixelsPatch } from './pixels/pixels-patch';
 import { artworkUpdate } from './artwork/artwork-update';
+import { brushAdd } from './brush/brush-add';
+import { brushDelete } from './brush/brush-delete';
+import { brushUpdate } from './brush/brush-update';
 import { presetAdd } from './preset/preset-add';
 import { presetDelete } from './preset/preset-delete';
 import { presetRename } from './preset/preset-rename';
 import { presetUpdate } from './preset/preset-update';
 import { sheetAdd } from './sheet/sheet-add';
 import { sheetAnimationAdd } from './sheet/sheet-animation-add';
+import { sheetAnimationMove } from './sheet/sheet-animation-move';
+import { sheetAnimationPlace } from './sheet/sheet-animation-place';
 import { sheetAnimationRemove } from './sheet/sheet-animation-remove';
 import { sheetArrange } from './sheet/sheet-arrange';
 import { sheetCreate } from './sheet/sheet-create';
@@ -38,6 +43,7 @@ import { spriteUpdate } from './sprite/sprite-update';
 import { mapErase } from './map/map-erase';
 import { mapFill } from './map/map-fill';
 import { mapPaint } from './map/map-paint';
+import { mapLine } from './map/map-line';
 import { mapRect } from './map/map-rect';
 import { mapReplace } from './map/map-replace';
 import { mapTerrain } from './map/map-terrain';
@@ -67,6 +73,10 @@ import { animationSplit } from './animation/animation-split';
 import { tileAnimation } from './tile/tile-animation';
 import { tileAdd } from './tile/tile-add';
 import { tileCollision } from './tile/tile-collision';
+import { tileData } from './tile/tile-data';
+import { tileShapes } from './tile/tile-shapes';
+import { tilesetFields } from './tileset/tileset-fields';
+import { tilesetLayout } from './tileset/tileset-layout';
 import { tileDelete } from './tile/tile-delete';
 import { tileUnique } from './tile/tile-unique';
 import { tilemapCreate } from './tilemap/tilemap-create';
@@ -81,6 +91,7 @@ import { tilesetCreate } from './tileset/tileset-create';
 import { tilesetDelete } from './tileset/tileset-delete';
 import { tilesetDuplicate } from './tileset/tileset-duplicate';
 import { tilesetTerrain } from './tileset/tileset-terrain';
+import { tilesetTerrainSets } from './tileset/tileset-terrain-sets';
 import { tilesetUpdate } from './tileset/tileset-update';
 
 const documentCommands: readonly CommandDef[] = [
@@ -100,6 +111,8 @@ const documentCommands: readonly CommandDef[] = [
   sheetArrange,
   sheetAnimationAdd,
   sheetAnimationRemove,
+  sheetAnimationMove,
+  sheetAnimationPlace,
   presetAdd,
   presetUpdate,
   presetRename,
@@ -127,6 +140,10 @@ const documentCommands: readonly CommandDef[] = [
   tileDelete,
   tileUnique,
   tileCollision,
+  tileShapes,
+  tileData,
+  tilesetFields,
+  tilesetLayout,
   animationCreate,
   animationUpdate,
   animationDelete,
@@ -145,6 +162,7 @@ const documentCommands: readonly CommandDef[] = [
   animationFacingDraw,
   tileAnimation,
   tilesetTerrain,
+  tilesetTerrainSets,
   tilemapCreate,
   tilemapUpdate,
   tilemapResize,
@@ -163,9 +181,13 @@ const documentCommands: readonly CommandDef[] = [
   mapErase,
   mapFill,
   mapRect,
+  mapLine,
   mapReplace,
   mapTerrain,
   mapWrite,
+  brushAdd,
+  brushUpdate,
+  brushDelete,
 ];
 
 export { documentCommands };

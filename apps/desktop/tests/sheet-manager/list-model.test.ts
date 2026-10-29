@@ -1,19 +1,18 @@
 /* @layer renderer-app @kind test */
-import { COMMAND_NAME } from '@bxel/document';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { runDocument } from '../../src/sheet/run-document';
-import { spritesTarget } from '../../src/sheet/sprites-target';
 import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
 import { allFacts } from '../../src/sheet-manager/all-facts';
 import { resizeSprites } from '../../src/sheet-manager/resize-sprites';
 import { managerSheet } from '../../src/sheet-manager/manager-sheet';
+import { removeEntries } from '../../src/sheet-manager/remove-entries';
 import { nameMatches } from '../../src/sheet-manager/name-matches';
 import { sizeOptions } from '../../src/sheet-manager/size-options';
 import { visibleFacts } from '../../src/sheet-manager/visible-facts';
 import { NO_FILTER } from '../../src/sheet-manager/manager.constants';
 import type { ListQuery } from '../../src/sheet-manager/manager.type';
-import { artwork, idOf, openFile } from '../sheet/sheet-harness';
+import { artwork, openFile } from '../sheet/sheet-harness';
 import { BASE_QUERY, idsOf } from './manager-harness';
+import { libraryFacts } from '../../src/sheet-manager/library-facts';
 
 vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 
@@ -23,7 +22,10 @@ const shown = (change: Partial<ListQuery>): string[] => {
   return visibleFacts(facts, { ...BASE_QUERY, ...change }).map((fact) => fact.sprite.name);
 };
 
-beforeEach(() => openFile(['walk_10', 'walk_2', 'idle', 'Walk_1'], 8));
+beforeEach(() => {
+  openFile(['walk_10', 'walk_2', 'idle', 'Walk_1'], 8);
+  addToSheet(artwork().sprites.map((sprite) => sprite.id), null);
+});
 
 describe('name search', () => {
   it('matches a part of a name without caring for case', () => {
@@ -78,15 +80,26 @@ describe('the shown list', () => {
     expect(names(true)).toEqual(['walk_2', 'walk_10', 'idle', 'sprite', 'Walk_1']);
   });
 
-  it('knows which sprites are animated and which are not on the sheet', () => {
-    addToSheet(idsOf('sprite', 'idle'), null);
-    expect(shown({ filter: { ...NO_FILTER, unplaced: true } })).toEqual(['walk_10', 'walk_2', 'Walk_1']);
-    expect(shown({ filter: { ...NO_FILTER, animated: true } })).toEqual([]);
-    runDocument('Add frame', [{ name: COMMAND_NAME.frameAdd, targets: spritesTarget(idsOf('walk_2')), options: {} }]);
-    expect(shown({ filter: { ...NO_FILTER, animated: true } })).toEqual(['walk_2']);
-    expect(allFacts(artwork(), null).find((fact) => fact.sprite.name === 'walk_2')?.frames).toBe(2);
-    const facts = allFacts(artwork(), managerSheet(artwork(), null, idOf('idle')));
-    expect(facts.filter((fact) => fact.onSheet).map((fact) => fact.sprite.name)).toEqual(['sprite', 'idle']);
-    expect(facts.find((fact) => fact.sprite.name === 'idle')?.sheets).toEqual(['Sheet']);
+  it('lists only the entries of the sheet, in the order the sheet holds them, and keeps the rest for the library', () => {
+    const art = artwork();
+    const sheet = art.sheets[0] ?? null;
+    expect(allFacts(art, sheet).map((fact) => fact.sprite.name)).toEqual(['sprite', 'walk_10', 'walk_2', 'idle', 'Walk_1']);
+    removeEntries(idsOf('idle', 'Walk_1'), [], sheet?.id ?? null);
+    const after = artwork();
+    const next = after.sheets[0] ?? null;
+    expect(allFacts(after, next).map((fact) => fact.sprite.name)).toEqual(['sprite', 'walk_10', 'walk_2']);
+    expect(libraryFacts(after, next).map((fact) => fact.sprite.name)).toEqual(['idle', 'Walk_1']);
+    expect(allFacts(after, null)).toEqual([]);
+  });
+
+  it('filters by kind and by slices, and an animation chip hides every sprite', () => {
+    expect(shown({ filter: { ...NO_FILTER, kind: 'animations' } })).toEqual([]);
+    expect(shown({ filter: { ...NO_FILTER, kind: 'sprites' } })).toHaveLength(5);
+    expect(shown({ filter: { ...NO_FILTER, slices: true } })).toEqual([]);
+    expect(allFacts(artwork(), artwork().sheets[0] ?? null).find((fact) => fact.sprite.name === 'idle')?.sheets).toEqual(['Sheet']);
+  });
+
+  it('sorts names naturally in the name sort', () => {
+    expect(shown({ sortKey: 'name' }).indexOf('walk_2')).toBeLessThan(shown({ sortKey: 'name' }).indexOf('walk_10'));
   });
 });

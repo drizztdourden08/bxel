@@ -4,7 +4,7 @@ import type { SpriteId } from '@bxel/document';
 import type { ListRow, ManagerModel } from '../SpritesPanel.type';
 
 const rowStateOf = (model: ManagerModel, affected: readonly SpriteId[]): ((row: ListRow) => RowState | undefined) => {
-  const pending = new Set(affected);
+  const pending = new Set<string>(affected);
   const active = model.scene.active?.id;
   return (row) => {
     if (pending.has(row.id)) return 'pending';

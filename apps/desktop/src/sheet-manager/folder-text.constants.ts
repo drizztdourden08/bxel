@@ -9,6 +9,11 @@ const FOLDER_TEXT = {
   root: 'No folder',
   label: (count: number): string => (count === 1 ? 'Move sprite to folder' : `Move ${count} sprites to folder`),
   closeAll: 'Close all folders',
+  rename: (path: string): string => `Rename folder ${path}`,
+  collapseOthers: (path: string): string => `Collapse the folders other than ${path}`,
+  renameTitle: (path: string): string => `Rename folder ${path}`,
+  renameHint: 'The new path replaces the folder part of every sprite name below it.',
+  renameLabel: (count: number): string => (count === 1 ? 'Rename folder of sprite' : `Rename folder of ${count} sprites`),
   openAll: 'Open all folders',
   groups: 'Folders',
 } as const;

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import { always, any, not, surface } from '../predicates.constants';
+import { all, always, animatedTile, any, file, not, surface } from '../predicates.constants';
 import { rule } from '../rule';
 import type { UiRule } from '../ui-rule.type';
 import { EDIT_STAGE, ONION, PIXEL, SHEET, TILE_FILES, VIEW_STAGE } from './groups.constants';
@@ -7,7 +7,7 @@ import { EDIT_STAGE, ONION, PIXEL, SHEET, TILE_FILES, VIEW_STAGE } from './group
 const WIDGET_RULES: Record<string, UiRule> = {
   'widget.layers': rule({ applies: any(EDIT_STAGE, SHEET) }),
   'widget.palette': rule({ applies: PIXEL }),
-  'widget.timeline': rule({ applies: PIXEL }),
+  'widget.timeline': rule({ applies: all(PIXEL, any(not(file('tileset')), animatedTile)) }),
   'widget.options': rule({ applies: EDIT_STAGE }),
   'widget.tools': rule({ applies: any(EDIT_STAGE, SHEET) }),
   'widget.view': rule({ applies: VIEW_STAGE }),

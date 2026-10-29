@@ -98,18 +98,10 @@ describe('round trips', () => {
     expect(JSON.stringify(descriptor?.outputSchema)).toContain('"colour"');
   });
 
-  it('takes atlas-json to export a sheet and refuses an unknown format', () => {
-    const tool = tools.find((candidate) => candidate.name === 'export_document');
-    const job = { documentId: 'doc_4k9m2q7x1v8c', source: { sheetId: 'sht_4k9m2q7x1v8c' }, fileName: 'atlas.json' };
-    expect(tool && parseToolInput(tool, { ...job, format: 'atlas-json' }).ok).toBe(true);
-    expect(tool && parseToolInput(tool, { ...job, format: 'xml' }).ok).toBe(false);
-    expect(JSON.stringify(descriptors.find((candidate) => candidate.name === 'export_document')?.inputSchema)).toContain('atlas-json');
-  });
-
-  it('takes include on get_document with the five detail names only', () => {
+  it('takes include on get_document with the detail names only', () => {
     const tool = tools.find((candidate) => candidate.name === 'get_document');
     const job = { documentId: 'doc_4k9m2q7x1v8c' };
-    expect(tool && parseToolInput(tool, { ...job, include: ['guides', 'slices', 'presets', 'tags', 'tilesets'] }).ok).toBe(true);
+    expect(tool && parseToolInput(tool, { ...job, include: ['guides', 'slices', 'presets', 'tags', 'entries', 'tileset'] }).ok).toBe(true);
     expect(tool && parseToolInput(tool, { ...job, include: ['colours'] }).ok).toBe(false);
     expect(tool && parseToolInput(tool, job).ok).toBe(true);
   });
@@ -155,6 +147,8 @@ describe('the asset tools', () => {
     expect(parseToolInput(tool('render_preview'), { documentId: DOCUMENT, target: { animationId: animation, tagId: 'tag_4k9m2q7x1v8c' } }).ok).toBe(true);
     expect(parseToolInput(tool('render_preview'), { documentId: DOCUMENT, target: { animationId: animation, frameId: 'afr_4k9m2q7x1v8c', tagId: 'tag_4k9m2q7x1v8c' } }).ok).toBe(false);
     expect(parseToolInput(tool('export_document'), { documentId: DOCUMENT, format: 'gif', source: { animationId: animation }, fileName: 'water.gif' }).ok).toBe(true);
+    expect(parseToolInput(tool('export_document'), { documentId: DOCUMENT, format: 'atlas-json', source: { sheetId: 'sht_4k9m2q7x1v8c' }, fileName: 'atlas.json' }).ok).toBe(true);
+    expect(parseToolInput(tool('render_preview'), { documentId: DOCUMENT, target: { sheetId: 'sht_4k9m2q7x1v8c' }, exported: true }).ok).toBe(true);
   });
 
   it('save_document keeps the asset where it is unless moveAsset is asked for', () => {

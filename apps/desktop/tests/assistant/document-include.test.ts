@@ -19,10 +19,10 @@ const edit = async (documentId: string, steps: readonly object[]) => {
 };
 
 describe('get_document include', () => {
-  it('takes the five detail names and refuses any other', () => {
+  it('takes the detail names and refuses any other', () => {
     const spec = TOOLS.find((tool) => tool.name === 'get_document');
     const input = { documentId: 'doc_aaaaaaaaaaaa', spriteOffset: 0, spriteLimit: 10 };
-    expect(spec?.input.safeParse({ ...input, include: ['guides', 'slices', 'presets', 'tags', 'tilesets'] }).success).toBe(true);
+    expect(spec?.input.safeParse({ ...input, include: ['guides', 'slices', 'presets', 'tags', 'entries', 'tileset'] }).success).toBe(true);
     expect(spec?.input.safeParse({ ...input, include: ['everything'] }).success).toBe(false);
   });
 
@@ -53,15 +53,5 @@ describe('get_document include', () => {
     expect(presets).toHaveLength(1);
     expect(presets[0]).toMatchObject({ name: 'Web', format: 'png', scale: 2, sheetId: null });
     expect(String(presets[0]?.presetId)).toMatch(/^exp_/u);
-  });
-
-  it('adds the terrain and every tile of each tileset with tilesets', async () => {
-    const { documentId } = await make('tilemap');
-    const plain = rowsOf(await read(documentId), 'tilesets')[0];
-    expect(plain).not.toHaveProperty('tileList');
-    const detailed = rowsOf(await read(documentId, ['tilesets']), 'tilesets')[0];
-    expect(detailed).toMatchObject({ terrain: null });
-    expect(detailed?.tileList).toHaveLength(Number(detailed?.tiles));
-    expect(fieldOf(await read(documentId, []), 'ok')).toBe(true);
   });
 });

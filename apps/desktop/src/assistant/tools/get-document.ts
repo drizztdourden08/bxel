@@ -1,15 +1,16 @@
 /* @layer renderer-app @kind logic */
 import { hiddenFailure } from '@bxel/mcp';
 import { sheetExtent, sheetSizes } from '@bxel/document';
-import type { Animation, Artwork, PaletteBank, Sheet, Tilemap } from '@bxel/document';
+import type { Animation, Artwork, CustomBrush, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
 import { guidesOf } from './guides-of';
 import { hiddenAssets } from './hidden-assets';
 import { presetSummary } from './preset-summary';
+import { tilesetDetail } from './tileset-detail';
 import { reply } from './reply';
+import { sheetEntries } from './sheet-entries';
 import { spriteSummary } from './sprite-summary';
-import { tilesetSummary } from './tileset-summary';
-import type { GetDocumentInput } from './tool-input.type';
+import type { DocumentInclude, GetDocumentInput } from './tool-input.type';
 import { viewFor } from './view-for';
 
 const bankSummary = (bank: PaletteBank) => ({
@@ -20,6 +21,13 @@ const bankSummary = (bank: PaletteBank) => ({
   transparent: bank.transparent,
 });
 
+const brushSummary = (brush: CustomBrush) => ({
+  brushId: brush.id,
+  name: brush.name,
+  width: brush.width,
+  height: brush.height,
+});
+
 const animationSummary = (animation: Animation) => ({
   animationId: animation.id,
   name: animation.name,
@@ -27,6 +35,15 @@ const animationSummary = (animation: Animation) => ({
   height: animation.height,
   frames: animation.frames.length,
   tags: animation.tags.length,
+});
+
+const tilesetSummary = (tileset: Tileset) => ({
+  tilesetId: tileset.id,
+  name: tileset.name,
+  bankId: tileset.bankId,
+  tileWidth: tileset.tileWidth,
+  tileHeight: tileset.tileHeight,
+  tiles: tileset.tiles.length,
 });
 
 const tilemapSummary = (withGuides: boolean) => (tilemap: Tilemap) => ({
@@ -39,12 +56,13 @@ const tilemapSummary = (withGuides: boolean) => (tilemap: Tilemap) => ({
   ...(withGuides ? { guides: guidesOf(tilemap.guides) } : {}),
 });
 
-const sheetSummary = (artwork: Artwork, withGuides: boolean) => (sheet: Sheet) => ({
+const sheetSummary = (artwork: Artwork, include: readonly DocumentInclude[], hidden: ReadonlySet<string>) => (sheet: Sheet) => ({
   sheetId: sheet.id,
   name: sheet.name,
-  ...sheetExtent(sheet, sheetSizes(artwork)),
-  entries: sheet.entries.length,
-  ...(withGuides ? { guides: guidesOf(sheet.guides) } : {}),
+  ...sheetExtent(sheet, sheetSizes(artwork), artwork.animations),
+  entries: sheet.entries.length + (sheet.animationEntries ?? []).length,
+  ...(include.includes('entries') ? sheetEntries(artwork, sheet, hidden) : {}),
+  ...(include.includes('guides') ? { guides: guidesOf(sheet.guides) } : {}),
 });
 
 const getDocument: ToolHandler = (input, context) => {
@@ -68,10 +86,14 @@ const getDocument: ToolHandler = (input, context) => {
     spritesTotal: seen.length,
     truncated: spriteOffset + sprites.length < seen.length,
     animations: artwork.animations.filter((animation) => !hidden.has(animation.id)).map(animationSummary),
-    sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork, include.includes('guides'))),
-    tilesets: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map(tilesetSummary(include.includes('tilesets'))),
+    sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork, include, hidden)),
+    brushes: (artwork.brushes ?? []).map(brushSummary),
+    tilesets: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map(tilesetSummary),
     tilemaps: artwork.tilemaps.filter((tilemap) => !hidden.has(tilemap.id)).map(tilemapSummary(include.includes('guides'))),
     ...(include.includes('presets') ? { presets: artwork.presets.filter((preset) => preset.sheetId === null || !hidden.has(preset.sheetId)).map(presetSummary) } : {}),
+    ...(include.includes('tileset')
+      ? { tilesetDetails: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map((tileset) => tilesetDetail(artwork, tileset)) }
+      : {}),
   });
 };
 

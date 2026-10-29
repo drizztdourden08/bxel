@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { Artwork } from '@bxel/document';
+import type { PlannedFile } from '../../export/export.type';
 
 type SheetPicture = {
   readonly artwork: Artwork;
@@ -8,6 +9,12 @@ type SheetPicture = {
   readonly scale: number;
   readonly fileName?: string;
   readonly hidden: ReadonlySet<string>;
+  readonly exported?: boolean;
 };
 
-export type { SheetPicture };
+type SheetFiles = {
+  readonly image: PlannedFile;
+  readonly json: PlannedFile | undefined;
+};
+
+export type { SheetFiles, SheetPicture };

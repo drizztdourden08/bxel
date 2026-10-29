@@ -58,6 +58,7 @@ export { ASSET_KIND_VALUES } from './schema/assets.constants';
 export { FAILURE_SCHEMA, TARGET_ISSUE_SCHEMA } from './schema/failure.constants';
 export { LAYOUT_OP_SCHEMA, SETTING_SCOPE_VALUES } from './schema/layout.constants';
 export { COMBINE_VALUES, RUNS_SCHEMA, SET_VIEW_INPUT_SCHEMA, TOOL_ID_VALUES } from './schema/view.constants';
+export { MASK_DESCRIPTOR_SCHEMA } from './schema/mask-descriptor.constants';
 export { WIRE_MASK_SCHEMA } from './schema/wire-mask.constants';
 export { PIXELS_PATCH_WIRE_SCHEMA } from './schema/wire-options.constants';
 export { withFailure } from './schema/with-failure';

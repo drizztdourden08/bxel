@@ -1,28 +1,34 @@
 /* @layer renderer-app @kind hook */
-import { useSettings } from '@drizztdourden08/brock-react';
+import { useWidgetState, useWidgetStateReady } from '@drizztdourden08/brock-react';
 import { useEffect, useRef } from 'react';
 import { viewBook } from '../../../manager-views/view-book';
-import type { AppSettings } from '../../../settings.type';
+import { SHEET_VIEWS_KEY } from '../SpritesPanel.constants';
+import { useSheetViewScope } from './useSheetViewScope';
 
 const useSheetView = (sheetId: string | null): void => {
-  const { settings, patch, hydrated } = useSettings<AppSettings>();
-  const saved = useRef(settings.managerViews);
+  const scope = useSheetViewScope();
+  const [stored, store] = useWidgetState<unknown>(SHEET_VIEWS_KEY, {}, scope === null ? {} : { scope });
+  const ready = useWidgetStateReady(scope ?? undefined) && scope !== null;
+  const saved = useRef(stored);
   useEffect(() => {
-    saved.current = settings.managerViews;
-  }, [settings.managerViews]);
+    saved.current = stored;
+  }, [stored]);
   useEffect(() => {
-    if (!hydrated) return undefined;
-    viewBook.connect((managerViews) => patch({ managerViews }));
+    viewBook.reset();
+  }, [scope]);
+  useEffect(() => {
+    if (!ready) return undefined;
+    viewBook.connect((views) => store(views));
     return () => {
       viewBook.flush();
       viewBook.connect(null);
     };
-  }, [hydrated, patch]);
+  }, [ready, store]);
   useEffect(() => {
-    if (!hydrated || sheetId === null) return undefined;
+    if (!ready || sheetId === null) return undefined;
     viewBook.attach(sheetId, saved.current);
     return () => viewBook.detach();
-  }, [hydrated, sheetId]);
+  }, [ready, sheetId, scope]);
 };
 
 export { useSheetView };

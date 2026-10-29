@@ -12,19 +12,18 @@ import { currentSurface } from '../editor/tool-catalogue/current-surface';
 
 const useAnnounceTool = (): void => {
   const tool = useToolStore((state) => state.tool);
-  const shape = useToolStore((state) => state.shape);
   const variant = useSelectionStore((state) => state.variant);
-  const seen = useRef({ tool, shape, variant });
+  const seen = useRef({ tool, variant });
   useEffect(() => {
     const before = seen.current;
-    seen.current = { tool, shape, variant };
-    if (before.tool === tool && before.shape === shape && before.variant === variant) return;
+    seen.current = { tool, variant };
+    if (before.tool === tool && before.variant === variant) return;
     const member = activeMember();
     if (!member) return;
     announce(ANNOUNCE_TEXT.tool(member.label));
     const slot = slotOfTool(currentSurface(), tool);
     if (before.tool === tool && slot && slot.members.length > 1) showCycleNotice(CATALOGUE_TEXT.cycleHint(member.label, slot.key));
-  }, [tool, shape, variant]);
+  }, [tool, variant]);
 };
 
 export { useAnnounceTool };

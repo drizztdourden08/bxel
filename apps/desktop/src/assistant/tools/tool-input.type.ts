@@ -15,13 +15,23 @@ type SpriteSource = { readonly spriteId: string; readonly frameId?: string };
 
 type SheetSource = { readonly sheetId: string };
 
-type AnimationSource = { readonly animationId: string; readonly frameId?: string; readonly tagId?: string };
+type PngMeta = { readonly revision: number; readonly scale: number; readonly uri: string };
+
+type TilesetSource = { readonly tilesetId: string; readonly overlay?: 'none' | 'collision' };
+
+type AnimationSource = {
+  readonly animationId: string;
+  readonly frameId?: string;
+  readonly tagId?: string;
+  readonly facing?: string;
+  readonly allFacings?: boolean;
+};
 
 type AnimationStrip = { readonly image: RgbaImage; readonly indices: Uint8Array };
 
 type ExportTarget = { readonly path: string; readonly source: SpriteSource | AnimationSource | SheetSource };
 
-type DocumentInclude = 'guides' | 'slices' | 'presets' | 'tags' | 'tilesets';
+type DocumentInclude = 'guides' | 'slices' | 'presets' | 'tags' | 'entries' | 'tileset';
 
 type GetDocumentInput = DocumentInput & {
   readonly spriteOffset: number;
@@ -43,8 +53,11 @@ type ReadPixelsInput = DocumentInput & {
 };
 
 type RenderInput = DocumentInput & {
-  readonly target: SpriteSource | AnimationSource | SheetSource;
+  readonly target: SpriteSource | AnimationSource | SheetSource | TilesetSource;
   readonly scale: number;
+  readonly exported?: boolean;
+  readonly onion?: boolean;
+  readonly animated?: 'gif' | 'apng';
 };
 
 type WireStep = {
@@ -176,6 +189,7 @@ export type {
   ExportInput,
   ExportTarget,
   FramePng,
+  DocumentInclude,
   GetDocumentInput,
   ListFilesInput,
   OpenedFile,
@@ -188,7 +202,9 @@ export type {
   RenderInput,
   PreviewInput,
   SaveInput,
+  PngMeta,
   SheetSource,
+  TilesetSource,
   SavedAt,
   SpriteFrame,
   UndoInput,

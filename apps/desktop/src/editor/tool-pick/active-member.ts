@@ -7,9 +7,9 @@ import { slotOfTool } from '../tool-catalogue/slot-of-tool';
 import type { ToolMember } from '../tool-catalogue/tool-catalogue.type';
 
 const activeMember = (): ToolMember | undefined => {
-  const { tool, shape } = useToolStore.getState();
+  const { tool } = useToolStore.getState();
   const slot = slotOfTool(currentSurface(), tool);
-  return slot ? shownMember(slot, { shape, variant: useSelectionStore.getState().variant }) : undefined;
+  return slot ? shownMember(slot, { variant: useSelectionStore.getState().variant }) : undefined;
 };
 
 export { activeMember };

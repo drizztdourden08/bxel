@@ -3,7 +3,7 @@ import { fullMask } from '@bxel/raster';
 import { selectAllSprites } from '../../sheet/select-all-sprites';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { currentTarget } from '../current-target';
-import { setSelection } from './set-selection';
+import { commitSelection } from './commit-selection';
 
 const selectAll = (): void => {
   if (useSpriteStore.getState().mode === 'sheet') {
@@ -11,7 +11,7 @@ const selectAll = (): void => {
     return;
   }
   const target = currentTarget();
-  if (target) setSelection(target, fullMask(target.sprite));
+  if (target) commitSelection(target, fullMask(target.sprite));
 };
 
 export { selectAll };

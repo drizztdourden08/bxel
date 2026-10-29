@@ -4,6 +4,7 @@ import { createElement } from 'react';
 import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
 import { SlotIcon } from '../../SlotIcon';
 import type { SlotIconProps } from '../../SlotIcon/SlotIcon.type';
+import { RAIL_PRIORITY } from '../ToolRail.constants';
 import type { SlotItemContext } from '../ToolRail.type';
 
 const slotLabel = (slot: ToolSlot, context: SlotItemContext): string =>
@@ -24,6 +25,7 @@ const slotItem = (slot: ToolSlot, context: SlotItemContext): ToolbarToggle => {
   return {
     kind: 'toggle',
     id: slot.id,
+    priority: RAIL_PRIORITY[slot.id] ?? 0,
     label: slotLabel(slot, context),
     description: slotDescription(context),
     shortcut: context.keys,

@@ -13,6 +13,7 @@ const STATUS_RULES: Record<string, UiRule> = {
   'status.index': rule({ applies: PIXEL }),
   'status.selection': rule({ applies: PIXEL }),
   'status.drag': rule({ applies: PIXEL }),
+  'status.snap': rule({ applies: PIXEL }),
   'status.frame': rule({ applies: PIXEL }),
   'status.cell': rule({ applies: MAP }),
   'status.cell-tile': rule({ applies: MAP }),

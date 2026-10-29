@@ -8,7 +8,7 @@ const PresetPreview = ({ preset }: { preset: ToolPreset }) => {
   const member = memberById(preset.member)?.member;
   const size = Object.entries(preset.fields).find(([id]) => id.endsWith('.size'))?.[1];
   const tip = Object.entries(preset.fields).find(([id]) => id.endsWith('.tip'))?.[1];
-  if (typeof size === 'number' && (tip === 'circle' || tip === 'square')) return <BrushPreview size={size} shape={tip} small />;
+  if (typeof size === 'number' && (tip === 'circle' || tip === 'square' || tip === 'line')) return <BrushPreview size={size} shape={tip} small />;
   return <Box as="span" className="preset-row__icon">{member && <Icon name={member.icon} />}</Box>;
 };
 

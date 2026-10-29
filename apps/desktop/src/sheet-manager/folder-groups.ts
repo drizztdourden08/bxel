@@ -5,7 +5,10 @@ import { NAME_COLLATOR } from './manager.constants';
 import type { SpriteFacts } from './manager.type';
 import { pathChain } from './path-chain';
 
-const folderGroups = (shown: readonly SpriteFacts[], collapsed: ReadonlySet<string>): FolderGroup[] => {
+const flatGroup = (shown: readonly SpriteFacts[]): FolderGroup[] => [{ path: '', depth: 0, facts: shown, closed: false, hidden: false }];
+
+const folderGroups = (shown: readonly SpriteFacts[], collapsed: ReadonlySet<string>, flat = false): FolderGroup[] => {
+  if (flat) return flatGroup(shown);
   const byPath = new Map<string, SpriteFacts[]>();
   for (const fact of shown) {
     const path = folderPath(fact.sprite.name);

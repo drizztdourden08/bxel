@@ -5,16 +5,16 @@ type AlignEdge = 'left' | 'center' | 'right' | 'top' | 'middle' | 'bottom';
 
 type AlignMode = AlignEdge | 'horizontal' | 'vertical';
 
-interface AlignBox {
-  id: SpriteId;
+interface AlignBox<Id extends string = SpriteId> {
+  id: Id;
   x: number;
   y: number;
   width: number;
   height: number;
 }
 
-interface AlignMove {
-  id: SpriteId;
+interface AlignMove<Id extends string = SpriteId> {
+  id: Id;
   at: Point;
 }
 

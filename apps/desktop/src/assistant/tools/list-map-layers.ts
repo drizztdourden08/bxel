@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { solidShape, terrainSetsOf } from '@bxel/document';
 import { hiddenFailure } from '@bxel/mcp';
 import type { Artwork, Tilemap, Tileset } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
@@ -29,8 +30,8 @@ const tilesetEntry = (tileset: Tileset, includeTiles: boolean) => ({
   tileWidth: tileset.tileWidth,
   tileHeight: tileset.tileHeight,
   tileCount: tileset.tiles.length,
-  terrain: tileset.terrain?.kind ?? null,
-  tiles: includeTiles ? tileset.tiles.map((tile) => ({ key: tile.key, spriteId: tile.spriteId, collision: tile.collision?.kind ?? null, animation: tile.animation ?? null })) : [],
+  terrain: terrainSetsOf(tileset)[0]?.kind ?? null,
+  tiles: includeTiles ? tileset.tiles.map((tile) => ({ key: tile.key, spriteId: tile.spriteId, collision: solidShape(tile)?.kind ?? null, animation: tile.animation ?? null })) : [],
 });
 
 const visibleMaps = (artwork: Artwork, hidden: ReadonlySet<string>, wanted: string | undefined): Tilemap[] =>

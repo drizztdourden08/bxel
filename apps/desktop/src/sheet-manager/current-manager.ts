@@ -3,13 +3,9 @@ import { currentScene } from '../sheet/current-scene';
 import { selectionIds } from '../sheet/selection-ids';
 import { useDocumentStore } from '../stores/useDocumentStore';
 import { useManagerStore } from '../stores/useManagerStore';
-import { allFacts } from './all-facts';
-import { folderGroups } from './folder-groups';
-import { managerSheet } from './manager-sheet';
+import { boundSheetId } from './bound-sheet';
+import { managerLists } from './manager-lists';
 import type { CurrentManager } from './manager.type';
-import { twinIds } from './twin-ids';
-import { visibleFacts } from './visible-facts';
-import { visibleOrder } from './visible-order';
 
 const currentManager = (): CurrentManager | null => {
   const { host, activeId } = useDocumentStore.getState();
@@ -17,12 +13,22 @@ const currentManager = (): CurrentManager | null => {
   const scene = currentScene();
   if (!view || !scene) return null;
   const { artwork } = view.state;
-  const { query, filter, sortKey, sortDown, sheetId, collapsed } = useManagerStore.getState();
-  const sheet = managerSheet(artwork, sheetId, scene.active?.id ?? null);
-  const facts = allFacts(artwork, sheet);
-  const twins = twinIds(facts, filter.identical);
-  const shown = visibleFacts(facts, { query, filter, sortKey, sortDown, twins });
-  return { artwork, scene, sheet, facts, shown, order: visibleOrder(folderGroups(shown, new Set(collapsed))), ids: selectionIds(scene), sortKey };
+  const { query, filter, sortKey, sortDown, collapsed, picked } = useManagerStore.getState();
+  const bound = boundSheetId();
+  const sheet = artwork.sheets.find((each) => each.id === bound) ?? null;
+  const lists = managerLists(artwork, sheet, { query, filter, sortKey, sortDown }, new Set(collapsed));
+  return {
+    artwork,
+    scene,
+    sheet,
+    facts: lists.facts,
+    shown: lists.shown,
+    animations: lists.animations,
+    picked,
+    order: lists.order,
+    ids: selectionIds(scene),
+    sortKey,
+  };
 };
 
 export { currentManager };
