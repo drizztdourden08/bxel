@@ -12,8 +12,8 @@ const browserViewSchema = z.object({
   sort: sortSchema,
   preview: z.boolean().catch(DEFAULT_VIEW.preview),
   folder: z.string().nullable().catch(null),
-  pinned: z.array(z.string()).catch([]),
-  smart: z.array(z.object({ id: z.string(), name: z.string(), query: z.string() })).catch([]),
+  pinned: z.array(z.string()).optional().catch(undefined),
+  smart: z.array(z.object({ id: z.string(), name: z.string(), query: z.string() })).optional().catch(undefined),
 });
 
 export { browserViewSchema };

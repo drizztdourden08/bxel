@@ -18,6 +18,8 @@ type BrowserFacts = {
   readonly uses: readonly string[];
   readonly usedBy: readonly string[];
   readonly open: boolean;
+  readonly tags: readonly string[];
+  readonly collections: readonly string[];
 };
 
 type FileEntry = {
@@ -51,6 +53,8 @@ type BrowserQuery = {
   readonly inFolder: string | null;
   readonly uses: readonly string[];
   readonly usedBy: readonly string[];
+  readonly tags: readonly string[];
+  readonly collections: readonly string[];
   readonly is: readonly QueryFlag[];
   readonly size: readonly NumberTest[];
   readonly colours: readonly NumberTest[];
@@ -69,9 +73,11 @@ type SavedBrowserView = {
   readonly sort: BrowserSort;
   readonly preview: boolean;
   readonly folder: string | null;
-  readonly pinned: readonly string[];
-  readonly smart: readonly SavedFilter[];
 };
+
+type LegacyOrganise = { readonly pinned: readonly string[]; readonly smart: readonly SavedFilter[] };
+
+type StoredBrowserView = SavedBrowserView & Partial<LegacyOrganise>;
 
 type ProjectTree = {
   readonly files: readonly ListedFile[];
@@ -98,7 +104,7 @@ type SourceItem = { readonly key: string; readonly label: string; readonly icon:
 
 type FolderNode = TreeNode<SourceItem>;
 
-type BrowserViews = Readonly<Record<string, SavedBrowserView>>;
+type BrowserViews = Readonly<Record<string, StoredBrowserView>>;
 
 type EntryInput = {
   readonly rows: readonly AssetRow[];
@@ -120,4 +126,4 @@ type Branch = { readonly path: string; readonly label: string; readonly linked: 
 
 type QueryChange = Partial<BrowserQuery> | null;
 
-export type { Branch, BrowserEntry, BrowserFacts, BrowserQuery, BrowserSort, BrowserView, BrowserViews, Comparison, Compare, Crumb, EntryInput, FactsAndKeys, FileEntry, FolderEntry, FolderNode, Measure, Modifiers, NumberTest, ProjectTree, QueryChange, QueryChip, QueryFlag, RowCells, SavedBrowserView, SavedFilter, Selection, SortKey, SourceItem, SourceRoot };
+export type { Branch, BrowserEntry, BrowserFacts, BrowserQuery, BrowserSort, BrowserView, BrowserViews, Comparison, Compare, Crumb, EntryInput, FactsAndKeys, FileEntry, FolderEntry, FolderNode, LegacyOrganise, Measure, Modifiers, NumberTest, ProjectTree, QueryChange, QueryChip, QueryFlag, RowCells, SavedBrowserView, SavedFilter, Selection, SortKey, SourceItem, SourceRoot, StoredBrowserView };

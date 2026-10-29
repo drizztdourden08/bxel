@@ -36,6 +36,12 @@ const linkQueryChange = (key: string, value: string, query: BrowserQuery): Query
   return key === 'usedby' ? { usedBy: [...query.usedBy, value.toLowerCase()] } : null;
 };
 
+const labelQueryChange = (key: string, value: string, query: BrowserQuery): QueryChange => {
+  if (value === '') return null;
+  if (key === 'tag') return { tags: [...query.tags, value.toLowerCase()] };
+  return key === 'collection' ? { collections: [...query.collections, value.toLowerCase()] } : null;
+};
+
 const flagQueryChange = (key: string, value: string, query: BrowserQuery): QueryChange => {
   const flag = QUERY_FLAGS.find((each: QueryFlag) => each === value.toLowerCase());
   return key === 'is' && flag !== undefined ? { is: [...query.is, flag] } : null;
@@ -45,7 +51,7 @@ const changeFor = (token: string, query: BrowserQuery): QueryChange => {
   const [head = '', ...rest] = token.split(':');
   const key = head.toLowerCase();
   const value = rest.join(':').replace(/^"|"$/g, '');
-  return numberQueryChange(token, query) ?? kindQueryChange(key, value, query) ?? folderQueryChange(key, value) ?? linkQueryChange(key, value, query) ?? flagQueryChange(key, value, query);
+  return numberQueryChange(token, query) ?? kindQueryChange(key, value, query) ?? folderQueryChange(key, value) ?? linkQueryChange(key, value, query) ?? labelQueryChange(key, value, query) ?? flagQueryChange(key, value, query);
 };
 
 const chipOf = (token: string): QueryChip => ({ text: token, label: token.replace(/^"|"$/g, '') });

@@ -2,6 +2,7 @@
 import { Box } from '@drizztdourden08/tessera';
 import { useMemo } from 'react';
 import { projectKey } from '../../project-manager/project-key';
+import { useOrganiseMigration } from '../../organise/useOrganiseMigration';
 import { useBrowserPersistence } from '../../project-browser/useBrowserPersistence';
 import { useBrowserModel } from '../../project-browser/useBrowserModel';
 import { useBrowserStore } from '../../project-browser/useBrowserStore';
@@ -20,6 +21,7 @@ const ProjectBrowser = ({ project, disk }: ProjectBrowserProps) => {
   const model = useBrowserModel(project, disk);
   const key = project ? projectKey(project.manifest.projectId, project.rootRealPath) : null;
   useBrowserPersistence(key);
+  useOrganiseMigration(project);
   const { actions, renaming, renameError } = useBrowserActions(model);
   const preview = useBrowserStore((state) => state.preview);
   const thumb = useBrowserStore((state) => state.size);

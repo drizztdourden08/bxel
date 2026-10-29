@@ -31,6 +31,9 @@ const placeMatches = (entry: FileEntry, query: BrowserQuery): boolean => {
 const linksMatch = (entry: FileEntry, query: BrowserQuery): boolean =>
   query.uses.every((wanted) => named(entry.facts.uses, wanted)) && query.usedBy.every((wanted) => named(entry.facts.usedBy, wanted));
 
+const labelsMatch = (entry: FileEntry, query: BrowserQuery): boolean =>
+  query.tags.every((wanted) => entry.facts.tags.some((tag) => tag.toLowerCase() === wanted)) && query.collections.every((wanted) => entry.facts.collections.some((name) => name.toLowerCase() === wanted));
+
 const measuresMatch = (entry: FileEntry, query: BrowserQuery): boolean => {
   const { width, height, colours } = entry.facts;
   const longest = width === null || height === null ? null : Math.max(width, height);
@@ -38,6 +41,6 @@ const measuresMatch = (entry: FileEntry, query: BrowserQuery): boolean => {
 };
 
 const matchEntry = (entry: FileEntry, query: BrowserQuery): boolean =>
-  wordsMatch(entry, query) && placeMatches(entry, query) && linksMatch(entry, query) && query.is.every((flag) => flagHolds(entry, flag)) && measuresMatch(entry, query);
+  wordsMatch(entry, query) && placeMatches(entry, query) && linksMatch(entry, query) && labelsMatch(entry, query) && query.is.every((flag) => flagHolds(entry, flag)) && measuresMatch(entry, query);
 
 export { matchEntry };

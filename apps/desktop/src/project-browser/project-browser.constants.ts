@@ -6,7 +6,7 @@ import type { BrowserFacts, BrowserQuery, BrowserSort, BrowserView, QueryFlag, R
 
 const DEFAULT_SORT: BrowserSort = { key: 'name', descending: false };
 
-const DEFAULT_VIEW: SavedBrowserView = { view: 'grid', size: 96, sort: DEFAULT_SORT, preview: true, folder: null, pinned: [], smart: [] };
+const DEFAULT_VIEW: SavedBrowserView = { view: 'grid', size: 96, sort: DEFAULT_SORT, preview: true, folder: null };
 
 const THUMB_STOPS: readonly number[] = [48, 64, 80, 96, 128, 160, 192];
 
@@ -52,7 +52,7 @@ const BROWSER_TEXT = {
   searchLabel: 'Search the project',
   searchPlaceholder: 'Search or kind:sprite is:unsaved',
   searchHelp:
-    'Words match names and folders. Tokens: kind:sprite, in:folder, uses:name (files that use it), usedby:name (files it uses), is:unused, is:unsaved, is:open, is:pinned, size>64, colours<16. Kinds add up, other tokens narrow.',
+    'Words match names and folders. Tokens: kind:sprite, tag:hero, collection:name, in:folder, uses:name (files that use it), usedby:name (files it uses), is:unused, is:unsaved, is:open, is:pinned, size>64, colours<16. Kinds add up, other tokens narrow.',
   clearSearch: 'Clear the search',
   back: 'Back',
   forward: 'Forward',
@@ -77,6 +77,23 @@ const BROWSER_TEXT = {
   filterName: 'Smart filter name',
   removeFilter: (name: string): string => `Remove the filter ${name}`,
   noPinned: 'Pin a file to keep it here.',
+  collections: 'Collections',
+  noCollections: 'Make a collection to gather files by hand.',
+  newCollectionLabel: 'New collection',
+  newCollectionHint: 'Name, then Enter',
+  deleteCollection: (name: string): string => `Delete the collection ${name}`,
+  tags: 'Tags',
+  noTags: 'Tag a file to find it by tag.',
+  tagsLabel: 'Tags of this file',
+  addTagLabel: 'Add a tag',
+  addTagHint: 'Tag, then Enter',
+  removeTag: (tag: string): string => `Remove the tag ${tag}`,
+  addToCollection: 'Add to collection',
+  removeFromCollection: (name: string): string => `Take out of ${name}`,
+  newCollectionItem: 'New collection...',
+  manyTags: 'Tags of the picked files',
+  inCollections: 'In collections',
+  tagBadge: (tags: readonly string[]): string => `Tags: ${tags.join(', ')}`,
   files: 'Files',
   emptyFolderTitle: 'This folder is empty',
   emptyFolderMessage: 'Make something here, or drop files in.',
@@ -143,9 +160,9 @@ const BROWSER_TEXT = {
 
 const EMPTY_SELECTION: Selection = { ids: [], anchor: null };
 
-const NO_FACTS: BrowserFacts = { width: null, height: null, frames: null, palette: null, colours: null, uses: [], usedBy: [], open: false };
+const NO_FACTS: BrowserFacts = { width: null, height: null, frames: null, palette: null, colours: null, uses: [], usedBy: [], open: false, tags: [], collections: [] };
 
-const EMPTY_QUERY: BrowserQuery = { words: [], kinds: [], inFolder: null, uses: [], usedBy: [], is: [], size: [], colours: [], chips: [] };
+const EMPTY_QUERY: BrowserQuery = { words: [], kinds: [], inFolder: null, uses: [], usedBy: [], tags: [], collections: [], is: [], size: [], colours: [], chips: [] };
 
 const QUERY_FLAGS: readonly QueryFlag[] = ['unused', 'unsaved', 'open', 'pinned'];
 

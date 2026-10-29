@@ -41,6 +41,7 @@ const manifestWithMeta = (manifest: ProjectDocument, source: MetaSource): Projec
   folders: manifest.folders,
   defaults: { ...keptDefaults(manifest.defaults), ...paletteOf(source, manifest.defaults), ...platformOf(source.artwork, manifest.defaults) },
   ...exportWithPresets(manifest, presetsOf(source.artwork, { kind: 'project', id: source.artwork.id })),
+  ...(manifest.organise === undefined ? {} : { organise: manifest.organise }),
   assistant: manifest.assistant,
 });
 

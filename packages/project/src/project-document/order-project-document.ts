@@ -1,7 +1,9 @@
 /* @layer core @kind logic */
 import type { PaletteDefault, PixelSize, ProjectDefaults } from '../defaults/asset-defaults.type';
+import { isOrganiseEmpty } from './is-organise-empty';
 import { orderExportPreset } from './order-export-preset';
-import { FOLDER_ROLES } from './project-document.constants';
+import { orderOrganise } from './order-organise';
+import { FOLDER_ROLES, PROJECT_DOCUMENT_VERSION, PROJECT_ORGANISE_VERSION } from './project-document.constants';
 import type { FolderRoles, DocumentFolder, ProjectDocument, ProjectExport } from './project-document.type';
 
 const orderSize = (size: PixelSize) => ({ width: size.width, height: size.height });
@@ -38,15 +40,19 @@ const orderExport = (settings: ProjectExport) => ({
   ...(settings.presets === undefined ? {} : { presets: settings.presets.map(orderExportPreset) }),
 });
 
+const keptOrganise = (manifest: ProjectDocument) =>
+  manifest.organise === undefined || isOrganiseEmpty(manifest.organise) ? {} : { organise: orderOrganise(manifest.organise) };
+
 const orderProjectDocument = (manifest: ProjectDocument) => ({
   format: manifest.format,
-  formatVersion: manifest.formatVersion,
+  formatVersion: keptOrganise(manifest).organise === undefined ? PROJECT_DOCUMENT_VERSION : PROJECT_ORGANISE_VERSION,
   projectId: manifest.projectId,
   name: manifest.name,
   ...(manifest.cover === undefined ? {} : { cover: { folderId: manifest.cover.folderId, path: manifest.cover.path } }),
   folders: manifest.folders.map(orderFolder),
   defaults: orderDefaults(manifest.defaults),
   ...(manifest.export === undefined ? {} : { export: orderExport(manifest.export) }),
+  ...keptOrganise(manifest),
   assistant: {
     access: manifest.assistant.access,
     ...(manifest.assistant.folders === undefined ? {} : { folders: [...manifest.assistant.folders] }),

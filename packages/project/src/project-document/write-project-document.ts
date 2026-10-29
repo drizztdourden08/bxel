@@ -5,9 +5,10 @@ import { manifestFailure } from '../manifest/manifest-failure';
 import { projectDocumentSchema } from './project-document-schema';
 import type { ProjectDocument } from './project-document.type';
 import { orderProjectDocument } from './order-project-document';
+import { withOrganiseVersion } from './with-organise-version';
 
 const writeProjectDocument = (manifest: ProjectDocument): ProjectResult<string> => {
-  const checked = projectDocumentSchema.safeParse(manifest);
+  const checked = projectDocumentSchema.safeParse(withOrganiseVersion(manifest));
   if (!checked.success) return manifestFailure(checked.error);
   return projectOk(`${JSON.stringify(orderProjectDocument(checked.data as ProjectDocument), null, 2)}\n`);
 };

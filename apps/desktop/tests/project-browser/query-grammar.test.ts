@@ -91,4 +91,15 @@ describe('the search grammar of the project browser', () => {
     expect(matchEntry(opened, parseQuery('is:pinned'))).toBe(false);
     expect(matchEntry(opened, parseQuery('is:open'))).toBe(true);
   });
+  it('finds files by tag and by collection, and reads a quoted tag as one token', () => {
+    const tagged = entry(row('hero', 'sprite', 'sprites'), { tags: ['hero', 'big boss'], collections: ['Players'] });
+    const plain = entry(row('spare', 'sprite', 'sprites'));
+    expect(matchEntry(tagged, parseQuery('tag:hero'))).toBe(true);
+    expect(matchEntry(plain, parseQuery('tag:hero'))).toBe(false);
+    expect(parseQuery('tag:"big boss"').tags).toEqual(['big boss']);
+    expect(matchEntry(tagged, parseQuery('tag:"big boss" tag:hero'))).toBe(true);
+    expect(matchEntry(tagged, parseQuery('collection:players'))).toBe(true);
+    expect(matchEntry(plain, parseQuery('collection:players'))).toBe(false);
+    expect(isSearching(parseQuery('tag:hero'))).toBe(true);
+  });
 });

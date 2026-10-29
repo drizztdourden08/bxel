@@ -20,7 +20,8 @@ const useBrowserModel = (project: OpenProject | null, disk: DiskProject | null):
   const source = useBrowserSource(project, disk);
   const { rows, facts, keys, roots, folders, projectName } = source;
   const query = useMemo(() => parseQuery(store.query), [store.query]);
-  const pinned = useMemo(() => new Set(store.pinned), [store.pinned]);
+  const { organise } = source;
+  const pinned = useMemo(() => new Set(organise.pinned), [organise.pinned]);
   const folder = store.folder ?? (roots.length === 1 ? (roots[0]?.path ?? null) : null);
   const entriesIn = useCallback(
     (path: string | null, asked = parseQuery('')): readonly BrowserEntry[] => buildEntries({ rows, facts, keys, roots, folders, folder: path, query: asked, pinned, sort: store.sort }),
@@ -30,11 +31,12 @@ const useBrowserModel = (project: OpenProject | null, disk: DiskProject | null):
   const order = useMemo(() => entries.map((entry) => entry.id), [entries]);
   const selection = useMemo(() => keepShown(store.selection, order), [store.selection, order]);
   const everyFile = useMemo(
-    () => rows.map((row): FileEntry => ({ kind: 'file', id: row.id, row, facts: facts.get(row.id) ?? NO_FACTS, pinned: pinned.has(row.id), key: keys.get(row.id) ?? null })),
+    () => rows.map((row): FileEntry => ({ kind: 'file', id: row.id, row, facts: facts.get(row.id) ?? NO_FACTS, pinned: row.assetId !== null && pinned.has(row.assetId), key: keys.get(row.id) ?? null })),
     [rows, facts, pinned, keys],
   );
   return {
     editable: source.live,
+    organise,
     projectName,
     artwork: source.artwork,
     roots,

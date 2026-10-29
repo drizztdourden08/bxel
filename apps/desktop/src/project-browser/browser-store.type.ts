@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { BrowserSort, BrowserView, SavedBrowserView, SavedFilter, Selection } from './project-browser.type';
+import type { BrowserSort, BrowserView, SavedBrowserView, Selection } from './project-browser.type';
 
 interface BrowserState {
   folder: string | null;
@@ -11,8 +11,6 @@ interface BrowserState {
   size: number;
   sort: BrowserSort;
   preview: boolean;
-  pinned: readonly string[];
-  smart: readonly SavedFilter[];
   goTo: (folder: string | null) => void;
   goBack: () => void;
   goForward: () => void;
@@ -22,9 +20,6 @@ interface BrowserState {
   setSize: (size: number) => void;
   setSort: (sort: BrowserSort) => void;
   togglePreview: () => void;
-  setPinned: (ids: readonly string[], on: boolean) => void;
-  addSmart: (name: string, query: string) => void;
-  removeSmart: (id: string) => void;
   load: (saved: SavedBrowserView) => void;
   reveal: (folder: string, id: string) => void;
 }

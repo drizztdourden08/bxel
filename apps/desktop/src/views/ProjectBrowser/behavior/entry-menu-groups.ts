@@ -18,14 +18,28 @@ const openGroup = ({ entry, picked, actions }: MenuInput): MenuGroup => {
   };
 };
 
-const editGroup = ({ entry, picked, actions, editable }: MenuInput, file: FileEntry | null): MenuGroup => {
+const collectItems = ({ picked, actions, collections }: MenuInput): MenuNode[] => {
+  const files = picked.filter((each): each is FileEntry => each.kind === 'file' && each.row.assetId !== null);
+  const inside = (collection: MenuInput['collections'][number]): boolean => files.every((each) => each.row.assetId !== null && collection.assets.includes(each.row.assetId));
+  return collections.map((collection) => ({
+    id: `collect:${collection.id}`,
+    label: collection.name,
+    kind: 'check',
+    checked: inside(collection),
+    onSelect: () => actions.collect(files, collection.id, !inside(collection)),
+  }));
+};
+
+const editGroup = (input: MenuInput, file: FileEntry | null): MenuGroup => {
+  const { entry, picked, actions, editable } = input;
   const duplicable = picked.every((each) => each.kind === 'file' && canDuplicate(each.row));
   return {
     id: 'edit',
     items: [
       ...when(editable && picked.length === 1, { id: 'rename', label: BROWSER_TEXT.rename, icon: 'pencil', shortcut: 'F2', onSelect: () => actions.startRename(entry.id) }),
       ...when(editable && duplicable, { id: 'duplicate', label: BROWSER_TEXT.duplicate, icon: 'copy', shortcut: 'Ctrl+D', onSelect: () => actions.duplicate(picked) }),
-      ...when(file !== null, { id: 'pin', label: file?.pinned ? BROWSER_TEXT.unpin : BROWSER_TEXT.pin, icon: file?.pinned ? 'pin-off' : 'pin', onSelect: () => actions.pin(picked, !file?.pinned) }),
+      ...when(editable && file !== null && file.row.assetId !== null && input.collections.length > 0, { id: 'collect', label: BROWSER_TEXT.addToCollection, icon: 'bookmark', children: collectItems(input) }),
+      ...when(editable && file !== null && file.row.assetId !== null, { id: 'pin', label: file?.pinned ? BROWSER_TEXT.unpin : BROWSER_TEXT.pin, icon: file?.pinned ? 'pin-off' : 'pin', onSelect: () => actions.pin(picked, !file?.pinned) }),
     ],
   };
 };

@@ -7,6 +7,7 @@ import { AssetPreview } from '../../AssetPreview';
 import { useBrowserContext } from '../behavior/useBrowserContext';
 import { useEntryPreview } from '../behavior/useEntryPreview';
 import { PreviewFacts } from './PreviewFacts';
+import { PreviewTags } from './PreviewTags';
 
 const OnePreview = ({ entry }: { readonly entry: FileEntry }) => {
   const { actions } = useBrowserContext();
@@ -35,6 +36,7 @@ const OnePreview = ({ entry }: { readonly entry: FileEntry }) => {
         </Button>
       </Box>
       <PreviewFacts entry={entry} />
+      <PreviewTags entries={[entry]} />
     </Box>
   );
 };

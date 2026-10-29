@@ -1,13 +1,19 @@
 /* @layer renderer-app @kind logic */
 import type { AssetKey, DocumentId } from '@bxel/document';
 import { fileName } from '../files/file-name';
+import { editOrganise } from '../organise/edit-organise';
 import type { FileKit } from '../files/files.type';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { keyId } from './key-id';
 import { withoutAsset } from './without-asset';
 import { WORKSPACE_TEXT } from './workspace.constants';
 
-const forget = (documentId: DocumentId, keys: readonly AssetKey[]): void =>
+const forgetOrganised = (documentId: DocumentId, keys: readonly AssetKey[]): void => {
+  if (useWorkspaceStore.getState().workspaces[documentId]?.kind === 'project') void editOrganise({ op: 'forget', assets: keys.map((key) => key.id) });
+};
+
+const forget = (documentId: DocumentId, keys: readonly AssetKey[]): void => {
+  forgetOrganised(documentId, keys);
   useWorkspaceStore.getState().patch(documentId, (workspace) => {
     const paths = new Map(workspace.paths);
     const saved = new Map(workspace.saved);
@@ -19,6 +25,7 @@ const forget = (documentId: DocumentId, keys: readonly AssetKey[]): void =>
     }
     return { ...workspace, paths, saved, dirty, base: keys.reduce(withoutAsset, workspace.base) };
   });
+};
 
 const trashRemoved = async (kit: FileKit, documentId: DocumentId, keys: readonly AssetKey[]): Promise<readonly string[]> => {
   const workspace = useWorkspaceStore.getState().workspaces[documentId];

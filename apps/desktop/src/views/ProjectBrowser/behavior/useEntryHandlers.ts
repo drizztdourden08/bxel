@@ -14,7 +14,7 @@ const useEntryHandlers = (entry: BrowserEntry) => {
   const [point, setPoint] = useState<ContextMenuPoint | null>(null);
   const selected = selection.includes(entry.id);
   const picked = useMemo(() => (selected ? model.selected : [entry]), [selected, model.selected, entry]);
-  const groups = useMemo(() => entryMenuGroups({ entry, picked, actions, editable: model.editable }), [entry, picked, actions, model.editable]);
+  const groups = useMemo(() => entryMenuGroups({ entry, picked, actions, editable: model.editable, collections: model.organise.collections }), [entry, picked, actions, model.editable, model.organise.collections]);
   const closeMenu = useCallback(() => setPoint(null), []);
   return {
     selected,

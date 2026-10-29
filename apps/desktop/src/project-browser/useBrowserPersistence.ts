@@ -9,8 +9,8 @@ import type { SavedBrowserView } from './project-browser.type';
 import { useBrowserStore } from './useBrowserStore';
 
 const savedOf = (): SavedBrowserView => {
-  const { view, size, sort, preview, folder, pinned, smart } = useBrowserStore.getState();
-  return { view, size, sort, preview, folder, pinned, smart };
+  const { view, size, sort, preview, folder } = useBrowserStore.getState();
+  return { view, size, sort, preview, folder };
 };
 
 const useBrowserPersistence = (projectKey: string | null): void => {
@@ -31,7 +31,7 @@ const useBrowserPersistence = (projectKey: string | null): void => {
     let timer: ReturnType<typeof setTimeout> | undefined;
     const stop = useBrowserStore.subscribe((state, before) => {
       if (loaded.current !== projectKey) return;
-      const changed = state.view !== before.view || state.size !== before.size || state.sort !== before.sort || state.preview !== before.preview || state.folder !== before.folder || state.pinned !== before.pinned || state.smart !== before.smart;
+      const changed = state.view !== before.view || state.size !== before.size || state.sort !== before.sort || state.preview !== before.preview || state.folder !== before.folder;
       if (!changed) return;
       clearTimeout(timer);
       timer = setTimeout(() => patch({ projectBrowserViews: putBrowserView(held.current, projectKey, savedOf()) }), SAVE_DELAY_MS);
