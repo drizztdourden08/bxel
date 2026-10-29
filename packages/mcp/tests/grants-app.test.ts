@@ -1,13 +1,9 @@
 /* @layer tests @kind test */
 import { checkCommand, checkGrant, describeTools, MCP_ERROR_CODE, PRESETS, toolsForGrant } from '@bxel/mcp';
-import type { BundleId, Grant, Level } from '@bxel/mcp';
+import type { BundleId, Grant } from '@bxel/mcp';
 import { documentCommands } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-
-const withBundles = (changes: Partial<Record<BundleId, Level>>, base: Grant = PRESETS.full_control.grant): Grant => ({
-  ...base,
-  bundles: { ...base.bundles, ...changes },
-});
+import { withBundles } from './grant-builders';
 
 const item = (area: BundleId, changes: boolean) => ({ what: 'run_command thing', area, changes });
 

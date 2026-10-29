@@ -18,6 +18,7 @@ const TAG_ID_SCHEMA = idSchemaOf('tag').meta({ id: 'TagId' });
 const TILESET_ID_SCHEMA = idSchemaOf('tls').meta({ id: 'TilesetId' });
 const TILEMAP_ID_SCHEMA = idSchemaOf('tlm').meta({ id: 'TilemapId' });
 const MAP_LAYER_ID_SCHEMA = idSchemaOf('tml').meta({ id: 'MapLayerId' });
+const PRESET_ID_SCHEMA = idSchemaOf('exp').meta({ id: 'PresetId' });
 const REVISION_SCHEMA = z.number().int().min(1).meta({ id: 'Revision' });
 
 export {
@@ -29,6 +30,7 @@ export {
   FRAME_ID_SCHEMA,
   LAYER_ID_SCHEMA,
   MAP_LAYER_ID_SCHEMA,
+  PRESET_ID_SCHEMA,
   PROJECT_ID_SCHEMA,
   RECENT_ID_SCHEMA,
   REVISION_SCHEMA,

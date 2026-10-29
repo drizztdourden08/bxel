@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
-import type { Level, ToolName } from '@bxel/mcp';
+import type { Level, ToolRowId } from '@bxel/mcp';
 
-const TOOL_TEXT: Readonly<Record<ToolName, string>> = {
+const TOOL_TEXT: Readonly<Record<ToolRowId, string>> = {
   start_bxel: 'Starts a Bxel for the program to use.',
   show_window: 'Brings the Bxel window forward.',
   get_session: 'Reports the session and what it may do.',
@@ -34,7 +34,9 @@ const TOOL_TEXT: Readonly<Record<ToolName, string>> = {
   list_layout: 'Lists the widgets and toolbars and where they are.',
   set_layout: 'Shows, hides, docks, floats and resizes widgets, and moves toolbars.',
   get_settings: 'Reads the settings of the app, the open project or the open asset.',
-  set_setting: 'Changes a setting of the app, the open project or the open asset. Assistant and shortcut settings stay closed.',
+  'set_setting:app': 'Changes a setting of the app, as its Settings page would. Assistant and shortcut settings stay closed.',
+  'set_setting:project': 'Changes a setting of the open project, as its Project settings page would.',
+  'set_setting:asset': 'Changes a setting of the open asset, as its Properties page would.',
   restart_bxel: 'Restarts Bxel and reconnects with the same permissions. Needs May restart Bxel.',
 };
 

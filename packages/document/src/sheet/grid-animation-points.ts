@@ -1,14 +1,12 @@
 /* @layer core @kind logic */
 import type { Point, Size } from '../model/geometry.type';
 import type { GridLayout } from './grid-layout.type';
+import type { SheetGap } from './sheet-gap.type';
 
 const spanOf = (length: number, cell: number, gap: number): number => Math.max(1, Math.ceil((length + gap) / (Math.max(1, cell) + gap)));
 
-/**
- * Places animation strips on the cells of a grid, under the sprites. Each strip spans as many
- * cells as its box needs and the strips flow along the rows like words, so they never overlap.
- */
-const gridAnimationPoints = (layout: GridLayout, spriteCount: number, boxes: readonly Size[], spacing: Point, margin: number): Point[] => {
+const gridAnimationPoints = (layout: GridLayout, spriteCount: number, boxes: readonly Size[], gap: SheetGap): Point[] => {
+  const { spacing, margin } = gap;
   let column = 0;
   let row = Math.ceil(spriteCount / layout.columns);
   let line = 1;

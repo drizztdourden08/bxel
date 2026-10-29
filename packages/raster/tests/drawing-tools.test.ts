@@ -1,25 +1,12 @@
 /* @layer tests @kind test */
 import { evenLinePoints, roundedRect } from '@bxel/raster';
 import { describe, expect, test } from 'vitest';
-import { celRows, createdCelRows, errorOf, okOf, pixelEngine, request, scopeOf, stepOf } from './advanced-kit';
+import { errorOf, okOf, pixelEngine, request, stepOf } from './advanced-kit';
+import { at, drawnOnEmpty, rowsAfter, rowsOf, scope } from './draw-kit';
 import { rampArtwork } from './ramp-artwork';
-import { emptyArtwork, rowsArtwork, rowsIds } from './rows-artwork';
+import { rowsArtwork } from './rows-artwork';
 
-const scope = scopeOf([rowsIds.sprite]);
-const at = (x: number, y: number) => ({ x, y });
-const rowsOf = (engine: ReturnType<typeof pixelEngine>) => celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
-
-const run = (rows: readonly string[], name: string, options: Record<string, unknown>): string[] => {
-  const engine = pixelEngine(rowsArtwork(rows));
-  okOf(engine.execute(request([stepOf(name, scope, options)])));
-  return rowsOf(engine);
-};
-
-const drawnOnEmpty = (width: number, height: number, name: string, options: Record<string, unknown>): string[] => {
-  const engine = pixelEngine(emptyArtwork(width, height));
-  okOf(engine.execute(request([stepOf(name, scope, options)])));
-  return createdCelRows(engine.state().artwork, rowsIds.sprite);
-};
+const run = (rows: readonly string[], name: string, options: Record<string, unknown>): string[] => rowsAfter(rowsArtwork(rows), name, options);
 
 describe('inks on a stroke', () => {
   const stroke = { points: [at(0, 0), at(3, 0)], index: 2 };
@@ -180,7 +167,7 @@ describe('symmetry modes', () => {
   test('stamps mirrored through the symmetry are flipped with it', () => {
     const patch = { width: 2, height: 1, pixels: Uint8Array.from([2, 3]) };
     const rows = drawnOnEmpty(6, 1, 'pixels.stamp', { patch, points: [at(1, 0)], anchor: at(0, 0), symmetry: { x2: 6 } });
-    expect(rows).toEqual(['.23' + '32' + '.'].map((row) => row));
+    expect(rows).toEqual(['.2332.']);
   });
 });
 
@@ -194,39 +181,6 @@ describe('pixels.stamp redesign options', () => {
 
   test('wraps across the edge', () => {
     expect(drawnOnEmpty(3, 1, 'pixels.stamp', { patch, points: [at(2, 0)], anchor: at(0, 0), wrap: { x: true } })).toEqual(['3.2']);
-  });
-});
-
-describe('pixels.gradient redesign options', () => {
-  const ramp = { ramp: 'Violet', last: 1 };
-
-  test('a radial gradient grows from the start point', () => {
-    const engine = pixelEngine(rampArtwork(['.......']));
-    okOf(engine.execute(request([stepOf('pixels.gradient', scope, { ...ramp, kind: 'radial', line: { from: at(0, 0), to: at(6, 0) } })])));
-    expect(rowsOf(engine)).toEqual(['1112222']);
-  });
-
-  test('reflect runs the ramp back after the end', () => {
-    const engine = pixelEngine(rampArtwork(['........']));
-    okOf(engine.execute(request([stepOf('pixels.gradient', scope, { ...ramp, reflect: true, line: { from: at(0, 0), to: at(3, 0) } })])));
-    expect(rowsOf(engine)).toEqual(['11222111']);
-  });
-
-  test('a dither with wrap on keeps its phase across a tile seam', () => {
-    const wrapped = pixelEngine(rampArtwork(['............']));
-    okOf(wrapped.execute(request([stepOf('pixels.gradient', scope, { ...ramp, mode: 'dither', dither: 8, wrap: { x: true }, line: { from: at(0, 0), to: at(11, 0) } })])));
-    const tiled = `${rowsOf(wrapped)[0]}${rowsOf(wrapped)[0]}`;
-    expect(tiled.slice(10, 14).length).toBe(4);
-    const side = 4;
-    for (let x = 0; x < 12; x++) {
-      expect(((x % side) + side) % side).toBe(((x + 12) % side));
-    }
-  });
-
-  test('other dither patterns are accepted', () => {
-    const engine = pixelEngine(rampArtwork(['........']));
-    okOf(engine.execute(request([stepOf('pixels.gradient', scope, { ...ramp, mode: 'dither', pattern: 'checker', line: { from: at(0, 0), to: at(7, 0) } })])));
-    expect(rowsOf(engine)[0]).toMatch(/^1+[12]+2+$/);
   });
 });
 

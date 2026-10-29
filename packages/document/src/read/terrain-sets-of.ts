@@ -1,7 +1,6 @@
 /* @layer core @kind logic */
 import type { TerrainSet, Tileset } from '../model/tilemap.type';
-
-const LEGACY_SET_ID = 'terrain_1';
+import { LEGACY_SET_ID } from './terrain-sets-of.constants';
 
 const terrainSetsOf = (tileset: Tileset): readonly TerrainSet[] => {
   if (tileset.terrainSets) return tileset.terrainSets;
@@ -11,4 +10,4 @@ const terrainSetsOf = (tileset: Tileset): readonly TerrainSet[] => {
   return [{ id: LEGACY_SET_ID, name: 'Terrain', kind: rules.kind, slots }];
 };
 
-export { LEGACY_SET_ID, terrainSetsOf };
+export { terrainSetsOf };

@@ -2,12 +2,12 @@
 import { z } from 'zod';
 import { BUNDLE_IDS } from '../catalogue/bundle.constants';
 import { LEVELS } from '../catalogue/level.constants';
-import { TOOL_CATALOGUE } from '../catalogue/tool-catalogue.constants';
+import { TOOL_ROWS } from '../catalogue/tool-rows.constants';
 import type { Grant } from './grant.type';
 
 const LEVEL_SCHEMA = z.enum(LEVELS);
 
-const TOOL_ROW_IDS = Object.keys(TOOL_CATALOGUE);
+const TOOL_ROW_IDS = Object.keys(TOOL_ROWS);
 
 const GRANT_SHAPE = z.strictObject({
   v: z.literal(1),

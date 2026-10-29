@@ -10,6 +10,7 @@ import type {
   TargetScope,
   TransactionRequest,
 } from '@bxel/document';
+import { expect } from 'vitest';
 import { brand, fixtureToArtwork } from './fixture-to-artwork';
 import { heartPairFixture } from './heart-pair-fixture';
 
@@ -49,4 +50,12 @@ const request = (steps: readonly CommandStep[], fields: Partial<TransactionReque
   ...fields,
 });
 
-export { bothHearts, documentId, heartEngine, patchStep, request };
+const undoOnce = (engine: Engine): void => {
+  expect(engine.undo({ documentId, expectedRevision: engine.state().revision }).ok).toBe(true);
+};
+
+const redoOnce = (engine: Engine): void => {
+  expect(engine.redo({ documentId, expectedRevision: engine.state().revision }).ok).toBe(true);
+};
+
+export { bothHearts, documentId, heartEngine, patchStep, redoOnce, request, undoOnce };

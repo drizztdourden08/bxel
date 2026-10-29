@@ -1,9 +1,7 @@
 /* @layer core @kind logic */
-import { bayerMatrix } from '../gradient/bayer-matrix';
+import { BAYER } from './dither-on.constants';
 import { DITHER_SIDE } from './ink.constants';
 import type { DitherPattern } from './ink.type';
-
-const BAYER = bayerMatrix(DITHER_SIDE);
 
 const wrapped = (value: number, side: number): number => ((value % side) + side) % side;
 

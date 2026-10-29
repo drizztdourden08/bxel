@@ -12,6 +12,8 @@ import { DIALOG_COMMAND } from './dialog-command-id.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { gated } from './gated';
 import { ruled } from './ruled';
+import { needs } from './needs';
+import { REASON } from '../ui-context/reasons.constants';
 
 const FILE_DIALOG_DEFS: readonly CommandDef[] = [
   {
@@ -27,7 +29,7 @@ const FILE_DIALOG_DEFS: readonly CommandDef[] = [
     label: 'New sprite',
     group: 'File',
     chord: 'Mod+Shift+N',
-    when: hasActiveDocument,
+    ...needs(hasActiveDocument, REASON.noDocument),
     run: () => useCreateDialogStore.getState().show('sprite'),
   },
   {

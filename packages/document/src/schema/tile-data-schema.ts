@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { MAX_TILE_PROBABILITY } from '../model/tilemap-limits.constants';
-import { fieldValueSchema } from './tile-field-schema';
+import { fieldValueSchema } from './field-value-schema';
 import { tileKeySchema } from './tile-key-schema';
 import { tilesetRefSchema } from './tileset-ref-schema';
 

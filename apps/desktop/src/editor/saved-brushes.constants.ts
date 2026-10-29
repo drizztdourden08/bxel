@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
-import type { CustomBrush } from '@bxel/document';
+import type { SavedBrush } from '@bxel/document';
 
-const NO_BRUSHES: readonly CustomBrush[] = [];
+const NO_BRUSHES: readonly SavedBrush[] = [];
 
 export { NO_BRUSHES };

@@ -2,10 +2,11 @@
 import { ERROR_CODE } from '../commands/error-code.constants';
 import { fail } from '../commands/fail';
 import type { Point, Size } from '../model/geometry.type';
+import type { SheetGap } from './sheet-gap.type';
 import { shelfOrder } from './shelf-order';
 
-/** Places the boxes on shelves. Only the first `strict` boxes must fit the width; later ones (animation strips) get a shelf of their own when too wide. */
-const packedPoints = (sizes: readonly Size[], maxWidth: number, spacing: Point, margin: number, strict: number = sizes.length): Point[] => {
+const packedPoints = (sizes: readonly Size[], maxWidth: number, gap: SheetGap, strict: number = sizes.length): Point[] => {
+  const { spacing, margin } = gap;
   const points: Point[] = sizes.map(() => ({ x: 0, y: 0 }));
   let x = margin;
   let y = margin;

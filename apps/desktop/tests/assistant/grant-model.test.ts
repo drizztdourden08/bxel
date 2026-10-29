@@ -1,6 +1,6 @@
 /* @layer tests @kind test */
-import { BUNDLE_IDS, checkGrant, makeGrant, PRESETS, TOOL_CATALOGUE } from '@bxel/mcp';
-import type { Grant, ToolName } from '@bxel/mcp';
+import { BUNDLE_IDS, checkGrant, makeGrant, PRESETS, TOOL_ROWS } from '@bxel/mcp';
+import type { Grant, ToolRowId } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
 import { TOOL_TEXT } from '../../src/views/AssistantPanel/sub-components/ProgramGrant.constants';
 import { bundleRows } from '../../src/views/AssistantPanel/behavior/bundle-rows';
@@ -12,11 +12,11 @@ import { withToolLevel } from '../../src/views/AssistantPanel/behavior/with-tool
 
 const full: Grant = PRESETS.full_control.grant;
 
-const toolIds = (grant: Grant, query: string): ToolName[] => bundleRows(grant, query).flatMap((each) => each.tools.map((one) => one.id));
+const toolIds = (grant: Grant, query: string): ToolRowId[] => bundleRows(grant, query).flatMap((each) => each.tools.map((one) => one.id));
 
 const row = (grant: Grant, id: string, query = '') => bundleRows(grant, query).find((each) => each.id === id);
 
-const tool = (grant: Grant, id: ToolName) => {
+const tool = (grant: Grant, id: ToolRowId) => {
   const found = bundleRows(grant, '').flatMap((each) => each.tools).find((each) => each.id === id);
   if (!found) throw new Error(`no row for ${id}`);
   return found;
@@ -27,8 +27,8 @@ describe('the permissions rows list the whole catalogue', () => {
     const rows = bundleRows(full, '');
     expect(rows.map((each) => each.id)).toEqual([...BUNDLE_IDS]);
     const tools = toolIds(full, '').sort();
-    expect(tools).toEqual((Object.keys(TOOL_CATALOGUE) as ToolName[]).sort());
-    for (const one of Object.keys(TOOL_CATALOGUE)) expect(TOOL_TEXT[one as ToolName], one).not.toBe('');
+    expect(tools).toEqual((Object.keys(TOOL_ROWS) as ToolRowId[]).sort());
+    for (const one of Object.keys(TOOL_ROWS)) expect(TOOL_TEXT[one as ToolRowId], one).not.toBe('');
   });
 
   it('names each control for the bundle or the tool, and says when a tool overrides its bundle', () => {

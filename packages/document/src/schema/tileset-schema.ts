@@ -5,7 +5,8 @@ import type { AnimationId, BankId, SpriteId, TagId, TileId, TilesetId } from '..
 import { MAX_SPRITE_SIZE, MIN_SPRITE_SIZE } from '../model/limits.constants';
 import { DEFAULT_COLLISION_LAYER, MAX_COLLISION_LAYERS, MAX_LAYOUT_COLUMNS, MAX_TILE_FIELDS, MAX_TILE_PROBABILITY, MAX_TILE_SHAPES, MAX_TILESET_TILES } from '../model/tilemap-limits.constants';
 import { brandedIdSchema } from './branded-id-schema';
-import { tileFieldSchema, fieldValueSchema } from './tile-field-schema';
+import { fieldValueSchema } from './field-value-schema';
+import { tileFieldSchema } from './tile-field-schema';
 import { tileShapeSchema } from './tile-shape-schema';
 import { createdSchema } from './created-schema';
 import { terrainSchema } from './terrain-schema';

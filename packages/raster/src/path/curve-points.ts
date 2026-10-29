@@ -25,7 +25,6 @@ const sampleAt = (points: readonly Point[], t: number): Point | null => {
   return { x: quadratic(start.x, one.x, two.x, t), y: quadratic(start.y, one.y, two.y, t) };
 };
 
-/** A quadratic curve takes three points, a cubic curve four: the ends, then the bend handles. */
 const curvePoints = (points: readonly Point[], perfect = true): Point[] => {
   if (points.length < 3 || sampleAt(points, 0) === null) return [];
   const steps = Math.max(1, Math.ceil(reachOf(points) * SAMPLES_PER_PIXEL));

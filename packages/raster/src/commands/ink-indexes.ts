@@ -8,4 +8,4 @@ const inkIndex = (ink: Ink | undefined): number => {
 
 const withInkIndex = (index: number, ink: Ink | undefined): number => Math.max(index, inkIndex(ink));
 
-export { inkIndex, withInkIndex };
+export { withInkIndex };

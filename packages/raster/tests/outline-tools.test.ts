@@ -2,25 +2,11 @@
 import { encodeBrushPixels } from '@bxel/document';
 import type { Artwork, BrushId } from '@bxel/document';
 import { describe, expect, test } from 'vitest';
-import { celRows, createdCelRows, errorOf, okOf, pixelEngine, request, scopeOf, stepOf } from './advanced-kit';
+import { errorOf, pixelEngine, request, stepOf } from './advanced-kit';
+import { at, drawnOnEmpty, rowsAfter, scope } from './draw-kit';
 import { brand } from './brand';
 import { rampArtwork } from './ramp-artwork';
-import { emptyArtwork, rowsArtwork, rowsIds } from './rows-artwork';
-
-const scope = scopeOf([rowsIds.sprite]);
-const at = (x: number, y: number) => ({ x, y });
-
-const rowsAfter = (artwork: Artwork, name: string, options: Record<string, unknown>): string[] => {
-  const engine = pixelEngine(artwork);
-  okOf(engine.execute(request([stepOf(name, scope, options)])));
-  return celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
-};
-
-const onEmpty = (width: number, height: number, name: string, options: Record<string, unknown>): string[] => {
-  const engine = pixelEngine(emptyArtwork(width, height));
-  okOf(engine.execute(request([stepOf(name, scope, options)])));
-  return createdCelRows(engine.state().artwork, rowsIds.sprite);
-};
+import { rowsArtwork } from './rows-artwork';
 
 const BLOCK = ['.....', '.111.', '.111.', '.111.', '.....'];
 
@@ -56,7 +42,7 @@ describe('pixels.outline', () => {
 });
 
 describe('the line brush', () => {
-  const dot = (angle: number) => onEmpty(5, 5, 'pixels.paint', { points: [at(2, 2)], index: 2, brush: { shape: 'line', size: 3, angle } });
+  const dot = (angle: number) => drawnOnEmpty(5, 5, 'pixels.paint', { points: [at(2, 2)], index: 2, brush: { shape: 'line', size: 3, angle } });
 
   test('covers a one pixel line through the point at each angle', () => {
     expect(dot(0)).toEqual(['.....', '.....', '.222.', '.....', '.....']);
@@ -67,7 +53,7 @@ describe('the line brush', () => {
 });
 
 describe('a cubic curve', () => {
-  const cubic = () => onEmpty(9, 7, 'pixels.shape', { shape: 'curve', from: at(0, 0), control: at(0, 6), control2: at(8, 6), to: at(8, 0), index: 2 });
+  const cubic = () => drawnOnEmpty(9, 7, 'pixels.shape', { shape: 'curve', from: at(0, 0), control: at(0, 6), control2: at(8, 6), to: at(8, 0), index: 2 });
 
   test('runs from end to end, bows to the handles and is mirror symmetric for mirrored handles', () => {
     const rows = cubic();
@@ -79,7 +65,7 @@ describe('a cubic curve', () => {
   });
 
   test('differs from the quadratic curve over the first three points', () => {
-    const quadratic = onEmpty(9, 7, 'pixels.shape', { shape: 'curve', from: at(0, 0), control: at(0, 6), to: at(8, 0), index: 2 });
+    const quadratic = drawnOnEmpty(9, 7, 'pixels.shape', { shape: 'curve', from: at(0, 0), control: at(0, 6), to: at(8, 0), index: 2 });
     expect(quadratic).not.toEqual(cubic());
   });
 });

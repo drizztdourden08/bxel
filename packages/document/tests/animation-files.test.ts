@@ -1,31 +1,16 @@
 /* @layer core @kind test */
 import type { Artwork, AssetKind, SplitFile } from '@bxel/document';
-import { counterIdSource, mergeSlices, splitAnimatedSprites, splitIntoAssets } from '@bxel/document';
+import { counterIdSource, splitAnimatedSprites, splitIntoAssets } from '@bxel/document';
 import { decodeAnimation, decodeSheet, decodeTileset, gateVersions, readAssetManifest } from '@bxel/document/native';
 import { describe, expect, it } from 'vitest';
 import { animatedArtwork, pathsOf } from './animated-fixture';
-import { decodeFiles, encodeSlice } from './asset-bytes';
-
-const byId = <T extends { readonly id: string }>(items: readonly T[]): T[] =>
-  [...items].sort((left, right) => (left.id < right.id ? -1 : 1));
-
-const normal = (artwork: Artwork): Artwork => ({
-  ...artwork,
-  banks: byId(artwork.banks),
-  sprites: byId(artwork.sprites),
-  sheets: byId(artwork.sheets),
-  presets: byId(artwork.presets),
-  tilesets: byId(artwork.tilesets),
-  tilemaps: byId(artwork.tilemaps),
-  animations: byId(artwork.animations),
-});
+import { encodeSlice } from './asset-bytes';
+import { expectBytesRoundTrip, ofKind } from './split-checks';
 
 const migrated = (): Artwork => {
   const before = animatedArtwork();
   return splitAnimatedSprites(before, pathsOf(before), counterIdSource(7000)).artwork;
 };
-
-const ofKind = (files: readonly SplitFile[], kind: AssetKind): SplitFile[] => files.filter((file) => file.key.kind === kind);
 
 const animatedSheet = (files: readonly SplitFile[]): SplitFile | undefined =>
   ofKind(files, 'sheet').find((file) => (file.slice.artwork.sheets?.[0]?.animationEntries ?? []).length > 0);
@@ -46,18 +31,7 @@ describe('animation files', () => {
   it('round trip through bytes, rebuild the artwork and rewrite the same bytes', () => {
     const artwork = migrated();
     const plan = splitIntoAssets(artwork);
-    const stored = plan.files.map((file) => ({ path: file.path, bytes: bytesOf(file) }));
-    const { sources, reports } = decodeFiles(stored);
-    expect(reports.map((report) => report.issues)).toEqual(reports.map(() => []));
-    expect(reports.every((report) => report.outcome === 'ok')).toBe(true);
-    const merged = mergeSlices(sources, counterIdSource(5000), plan.project);
-    expect(merged.issues).toEqual([]);
-    expect(merged.rekeyed).toEqual([]);
-    expect(normal(merged.artwork)).toEqual(normal(artwork));
-    for (const [index, file] of plan.files.entries()) {
-      const source = sources.find((item) => item.path === file.path);
-      expect(source && encodeSlice(source.slice)).toEqual(stored[index]?.bytes);
-    }
+    expectBytesRoundTrip(plan, artwork);
   });
 
   it('write format and reader version 3 only where the file needs an animation', () => {

@@ -3,7 +3,7 @@ import { updateSheet } from '../../draft/update-sheet';
 import { sheetGuidesSchema } from '../../schema/sheet-guides-schema';
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
-import { copyGuides } from '../guide/copy-guides';
+import { withGuides } from '../guide/with-guides';
 import { pickSheet } from './pick-sheet';
 
 const sheetGuides = defineCommand({
@@ -12,11 +12,7 @@ const sheetGuides = defineCommand({
   schema: sheetGuidesSchema,
   run: (draft, input) => {
     const sheet = pickSheet(draft, input.options.sheet);
-    updateSheet(draft, sheet.id, (current) => {
-      const { guides: _old, ...rest } = current;
-      const guides = copyGuides(input.options.guides);
-      return guides ? { ...rest, guides } : rest;
-    });
+    updateSheet(draft, sheet.id, (current) => withGuides(current, input.options.guides));
   },
 });
 

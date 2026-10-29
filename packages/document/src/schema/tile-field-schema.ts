@@ -1,8 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { MAX_FIELD_CHOICES } from '../model/tilemap-limits.constants';
-
-const fieldValueSchema = z.union([z.string().max(200), z.number().finite(), z.boolean()]);
+import { fieldValueSchema } from './field-value-schema';
 
 const tileFieldSchema = z.strictObject({
   name: z.string().min(1).max(32),
@@ -11,4 +10,4 @@ const tileFieldSchema = z.strictObject({
   choices: z.array(z.string().min(1).max(32)).max(MAX_FIELD_CHOICES).optional(),
 });
 
-export { fieldValueSchema, tileFieldSchema };
+export { tileFieldSchema };

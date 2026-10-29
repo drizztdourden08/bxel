@@ -1,6 +1,6 @@
 /* @layer core @kind types */
 import type { Animation } from './animation.type';
-import type { CustomBrush } from './brush.type';
+import type { SavedBrush } from './brush.type';
 import type { ExportPreset } from './export-preset.type';
 import type { BankId, DocumentId, ArtworkId, SpriteId } from './ids.type';
 import type { PaletteBank } from './palette.type';
@@ -19,7 +19,7 @@ type Artwork = {
   readonly sprites: readonly Sprite[];
   readonly sheets: readonly Sheet[];
   readonly presets: readonly ExportPreset[];
-  readonly brushes?: readonly CustomBrush[];
+  readonly brushes?: readonly SavedBrush[];
   readonly tilesets: readonly Tileset[];
   readonly tilemaps: readonly Tilemap[];
   readonly animations: readonly Animation[];

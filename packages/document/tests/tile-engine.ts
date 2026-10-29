@@ -11,8 +11,6 @@ import type {
   TransactionResult,
   Tileset,
 } from '@bxel/document';
-import { expect } from 'vitest';
-import { canonicalArtwork } from './canonical-artwork';
 import { heartEngine, request } from './heart-engine';
 
 type World = {
@@ -105,17 +103,6 @@ const onGround = (world: World, options: Record<string, unknown>) => ({
   ...options,
 });
 
-const checkOneUndoStep = (engine: Engine, edit: () => void): void => {
-  const before = canonicalArtwork(engine.state().artwork);
-  const revision = engine.state().revision;
-  edit();
-  expect(engine.state().revision).toBe(revision + 1);
-  const after = canonicalArtwork(engine.state().artwork);
-  const ask = () => ({ documentId: engine.documentId, expectedRevision: engine.state().revision });
-  expect(engine.undo(ask()).ok).toBe(true);
-  expect(canonicalArtwork(engine.state().artwork)).toBe(before);
-  expect(engine.redo(ask()).ok).toBe(true);
-  expect(canonicalArtwork(engine.state().artwork)).toBe(after);
-};
-
-export { applySteps, checkOneUndoStep, buildWorld, cellsOf, failure, layerOf, mapOf, onGround, patch, run, spriteStep, step, tilesetOf };
+export { checkOneUndoStep } from './one-undo-step';
+export { undoLast } from './undo-last';
+export { applySteps, buildWorld, cellsOf, failure, layerOf, mapOf, onGround, patch, run, spriteStep, step, tilesetOf };
