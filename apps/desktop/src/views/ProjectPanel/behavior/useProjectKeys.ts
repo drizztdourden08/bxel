@@ -25,7 +25,7 @@ const useProjectKeys = (model: ProjectPanelModel): void => {
     if (first) edit.startRename(first.key);
   });
   useZoneKey(PROJECT_TRASH_KEY, (context) => void trashItems(commandTargets(model, context).filter((item) => item.role !== 'group')));
-  useZoneKey(PROJECT_DUPLICATE_KEY, (context) => duplicateItems(commandTargets(model, context)));
+  useZoneKey(PROJECT_DUPLICATE_KEY, (context) => void duplicateItems(commandTargets(model, context), model.refresh));
   useZoneKey(PROJECT_SELECT_ALL_KEY, () => selection.selectAll());
   useZoneKey(PROJECT_NEW_FOLDER_KEY, () => rowActions.newFolder());
   useZoneKey(PROJECT_FIND_KEY, () => rowActions.focusSearch());

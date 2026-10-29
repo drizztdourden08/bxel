@@ -7,10 +7,10 @@ import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { SEARCH_SELECTOR } from '../ProjectPanel.constants';
 import type { BulkActions, PanelParts } from '../ProjectPanel.type';
 
-const useRowBulk = ({ selection, edit }: PanelParts): BulkActions => {
+const useRowBulk = ({ selection, edit, source }: PanelParts): BulkActions => {
   const { targets } = selection;
   const trash = useCallback(() => void trashItems(targets.filter((item) => item.role !== 'group')), [targets]);
-  const duplicate = useCallback(() => duplicateItems(targets), [targets]);
+  const duplicate = useCallback(() => void duplicateItems(targets, source.refresh), [targets, source.refresh]);
   const rename = useCallback(() => {
     const first = targets.find((item) => item.role !== 'group' && item.role !== 'ghost' && !item.readOnly);
     if (first) edit.startRename(first.key);

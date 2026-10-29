@@ -25,7 +25,7 @@ const assetCommands = (model: ProjectPanelModel): readonly CommandDef[] => [
       for (const item of commandTargets(model, context)) model.rowActions.open(item);
     },
   },
-  { id: 'asset.duplicate', label: 'Duplicate an asset', group: PROJECT_GROUP, run: (context?: CommandContext) => duplicateItems(commandTargets(model, context)) },
+  { id: 'asset.duplicate', label: 'Duplicate an asset', group: PROJECT_GROUP, run: (context?: CommandContext) => void duplicateItems(commandTargets(model, context), model.refresh) },
   { id: 'asset.copy_for_sheet', label: 'Copy a sprite for this sheet', group: PROJECT_GROUP, run: onFirstRow(model, copyForSheet) },
   { id: 'asset.export', label: 'Export an asset', group: PROJECT_GROUP, run: onFirstRow(model, exportRow) },
   {
