@@ -14,7 +14,7 @@ const selectClickedCell = (cell: Point | null): void => {
     if (store.selection !== null) store.setSelection(null);
     return;
   }
-  store.setSelection({ rect: { x: cell.x, y: cell.y, width: 1, height: 1 }, from: readCell(target.tilemap, target.layer, cell)?.key ?? 0 });
+  store.setSelection({ rect: { x: cell.x, y: cell.y, width: 1, height: 1 }, from: readCell(target.tilemap, target.layer, cell)?.key ?? 0, mask: null });
 };
 
 export { selectClickedCell };

@@ -53,6 +53,12 @@ const OPTION_TEXT = {
   clear: 'Clear',
   clearDescription: 'Empty the selected cells. The tiles stay in the tileset.',
   needSelection: 'Select some cells first.',
+  mapSelectShape: 'Select by',
+  mapSelectShapeDescription: 'How a click or drag turns into a selection of cells.',
+  sameTile: 'Same tile',
+  sameTileDescription: 'Select every cell on the layer that holds the tile of the first selected cell.',
+  stamp: 'Take stamp',
+  stampDescription: 'Make the selected cells the stamp, so the Place tool puts the same block, with its turns, anywhere.',
 } as const;
 
 const BRUSH_TIP_CHOICES: readonly OptionChoice[] = [
@@ -102,4 +108,10 @@ const SELECT_MODE_CHOICES: readonly OptionChoice[] = SELECT_MODES.map((mode) => 
   keys: MODE_KEYS[mode].length > 0 ? MODE_KEYS[mode] : undefined,
 }));
 
-export { BRUSH_ANGLE_CHOICES, BRUSH_TIP_CHOICES, FILL_AREA_CHOICES, NEIGHBOUR_CHOICES, OPTION_TEXT, SAMPLE_CHOICES, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES };
+const MAP_SELECT_SHAPE_CHOICES: readonly OptionChoice[] = [
+  { value: 'rect', label: 'Rectangle', description: 'Drag a rectangle of cells.', icon: 'pixel-select-rect' },
+  { value: 'wand', label: 'Wand', description: 'Click a cell to select the connected cells that hold the same tile with the same turn.', icon: 'pixel-select-wand' },
+  { value: 'same', label: 'Same tile', description: 'Click a cell to select every cell of the layer that holds its tile, whatever its turn.', icon: 'pixel-select-color' },
+];
+
+export { BRUSH_ANGLE_CHOICES, BRUSH_TIP_CHOICES, FILL_AREA_CHOICES, MAP_SELECT_SHAPE_CHOICES, NEIGHBOUR_CHOICES, OPTION_TEXT, SAMPLE_CHOICES, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES };

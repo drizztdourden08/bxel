@@ -151,7 +151,7 @@ const TILEMAP_ROWS = [
   ...rows('tilemaps', 'edit', ['tilemap.add_tile', 'tilemap.duplicate_tile', 'tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.replace_everywhere']),
   ...rows('tilemaps', 'edit', ['tilemap.clear_cells', 'tilemap.flip_x', 'tilemap.flip_y', 'tilemap.turn', 'tilemap.layer_up', 'tilemap.layer_down']),
   one('tilemap.delete_tile', 'tilemaps', 'edit', { dialog: 'confirm' }),
-  ...rows('tilemaps', 'app', ['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'terrain.toggle_brush']),
+  ...rows('tilemaps', 'app', ['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'terrain.toggle_brush', 'tilemap.select_same', 'tilemap.capture_stamp']),
   one('collision.toggle_overlay', 'tilemaps', 'show'),
   ...rows('tilemaps', 'app', ['tileset.mode_tiles', 'tileset.mode_terrain', 'tileset.mode_collision', 'tileset.mode_data', 'tileset.mode_animation', 'tileset.focus_search']),
   one('tileset.animation_from_tiles', 'tilemaps', 'edit'),

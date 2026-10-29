@@ -12,6 +12,7 @@ const BASE: ContextInput = {
   spriteSelection: 0,
   frameSelection: 0,
   clipboard: 'none',
+  cellClipboard: false,
   pending: false,
   tool: 'pencil',
   animatedTile: false,

@@ -106,6 +106,8 @@ const COMMAND_NAME = {
   mapLine: 'map.line',
   mapReplace: 'map.replace',
   mapWrite: 'map.write',
+  mapCopy: 'map.copy',
+  mapMove: 'map.move',
   swatchAdd: 'swatch.add',
   swatchUpdate: 'swatch.update',
   paletteReorder: 'palette.reorder',

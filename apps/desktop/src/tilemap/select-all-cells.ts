@@ -8,7 +8,7 @@ const selectAllCells = (): void => {
   if (!target) return;
   const { columns, rows } = target.tilemap;
   const from = readCell(target.tilemap, target.layer, { x: 0, y: 0 })?.key ?? 0;
-  useTilemapStore.getState().setSelection({ rect: { x: 0, y: 0, width: columns, height: rows }, from });
+  useTilemapStore.getState().setSelection({ rect: { x: 0, y: 0, width: columns, height: rows }, from, mask: null });
 };
 
 export { selectAllCells };

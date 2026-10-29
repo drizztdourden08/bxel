@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind types */
 import type { FocusEventHandler, KeyboardEventHandler, PointerEvent, RefObject } from 'react';
 import type { CellFlags, Point, Rect } from '@bxel/document';
+import type { CombineMode } from '@bxel/raster';
 import type { CanvasLook } from '../../canvas-look/canvas-look.type';
-import type { MapSelection, TileStamp } from '../../stores/tilemap-store.type';
+import type { CellClip, MapSelection, TileStamp } from '../../stores/tilemap-store.type';
 import type { MapTarget, MapTool } from '../../tilemap/tilemap.type';
 import type { PixelPoint, PixelViewportHandle } from '../PixelViewport';
 
@@ -10,12 +11,15 @@ type MapDrag =
   | { kind: 'stroke'; tool: 'place' | 'erase' | 'scatter'; cells: Point[] }
   | { kind: 'line'; from: Point; to: Point }
   | { kind: 'rect'; from: Point; to: Point }
-  | { kind: 'select'; from: Point; to: Point }
+  | { kind: 'select'; from: Point; to: Point; mode: CombineMode }
+  | { kind: 'move'; from: Point; to: Point; copy: boolean }
+  | { kind: 'capture'; from: Point; to: Point }
   | { kind: 'pick'; from: Point; to: Point };
 
 interface MapLive {
   hover: Point | null;
   drag: MapDrag | null;
+  captured: boolean;
 }
 
 interface MapPaintBase {
@@ -24,6 +28,7 @@ interface MapPaintBase {
   stamp: TileStamp;
   flags: CellFlags;
   selection: MapSelection | null;
+  paste: CellClip | null;
   filled: boolean;
   cells: boolean;
   collision: boolean;

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { AssetKey, AssetKind, DocumentId, FrameId, PaletteBank, Sprite } from '@bxel/document';
+import type { AssetKey, AssetKind, CellMaskDescriptor, DocumentId, FrameId, PaletteBank, Sprite } from '@bxel/document';
 import type { RgbaImage } from '@bxel/formats';
 import type { FileKind } from '@bxel/project';
 
@@ -37,7 +37,12 @@ type ReadPaletteInput = DocumentInput & { readonly bankId?: string; readonly inc
 
 type ListMapLayersInput = DocumentInput & { readonly tilemapId?: string; readonly includeTiles: boolean };
 
-type ReadMapCellsInput = DocumentInput & { readonly tilemapId: string; readonly layerId: string; readonly rect: WireRect };
+type ReadMapCellsInput = DocumentInput & {
+  readonly tilemapId: string;
+  readonly layerId: string;
+  readonly rect?: WireRect;
+  readonly mask?: CellMaskDescriptor;
+};
 
 type ReadPixelsInput = DocumentInput & {
   readonly spriteId: string;

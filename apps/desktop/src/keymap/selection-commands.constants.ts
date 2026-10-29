@@ -34,6 +34,10 @@ import { enterReady } from '../sheet/enter-ready';
 import { useSelectionNamesStore } from '../stores/useSelectionNamesStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { clearCells } from '../tilemap/clear-cells';
+import { copyCells } from '../tilemap/copy-cells';
+import { cutCells } from '../tilemap/cut-cells';
+import { invertCells } from '../tilemap/invert-cells';
+import { pasteCells } from '../tilemap/paste-cells';
 import { selectAllCells } from '../tilemap/select-all-cells';
 import { turnCells } from '../tilemap/turn-cells';
 import { COMMAND_ZONE } from './command-zone.constants';
@@ -55,7 +59,7 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     whileTyping: false,
     run: mapOr(() => useTilemapStore.getState().setSelection(null), clearSelection),
   },
-  { id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: () => void invertSelection() },
+  { id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: mapOr(invertCells, () => void invertSelection()) },
   { id: ID.reselect, label: 'Reselect', group, chord: 'Mod+Alt+D', whileTyping: false, run: () => void reselect() },
   { id: ID.save, label: 'Saved selections...', group, run: () => useSelectionNamesStore.getState().show() },
   { id: ID.expand, label: 'Expand selection', group, chord: 'Mod+Alt+=', whileTyping: false, run: () => void resizeByAmount(1) },
@@ -81,10 +85,10 @@ const SELECTION_EDITS: readonly CommandDef[] = [
   { id: ID.selectByFrame, label: 'Select by frame', group, run: () => void selectByFrame() },
   { id: ID.toGuides, label: 'Selection to guides', group, run: () => void selectionToGuides() },
   { id: ID.pasteExpand, label: 'Paste and expand the canvas', group, run: () => void pasteFromSystem('expand') },
-  { id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: () => void copySelection() },
-  { id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: () => void cutSelection() },
-  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: () => void pasteFromSystem('pointer') },
-  { id: ID.pasteInPlace, label: 'Paste in place', group, chord: 'Mod+Shift+V', whileTyping: false, run: () => void pasteFromSystem('place') },
+  { id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: mapOr(copyCells, () => void copySelection()) },
+  { id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: mapOr(cutCells, () => void cutSelection()) },
+  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: mapOr(() => void pasteCells(false), () => void pasteFromSystem('pointer')) },
+  { id: ID.pasteInPlace, label: 'Paste in place', group, chord: 'Mod+Shift+V', whileTyping: false, run: mapOr(() => void pasteCells(true), () => void pasteFromSystem('place')) },
   { id: ID.copyMerged, label: 'Copy merged', group, chord: 'Mod+Shift+C', whileTyping: false, run: () => void copyMerged() },
   {
     id: ID.delete,

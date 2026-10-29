@@ -47,6 +47,8 @@ import { mapLine } from './map/map-line';
 import { mapRect } from './map/map-rect';
 import { mapReplace } from './map/map-replace';
 import { mapTerrain } from './map/map-terrain';
+import { mapCopy } from './map/map-copy';
+import { mapMove } from './map/map-move';
 import { mapWrite } from './map/map-write';
 import { mapLayerAdd } from './map-layer/map-layer-add';
 import { mapLayerDelete } from './map-layer/map-layer-delete';
@@ -185,6 +187,8 @@ const documentCommands: readonly CommandDef[] = [
   mapReplace,
   mapTerrain,
   mapWrite,
+  mapCopy,
+  mapMove,
   brushAdd,
   brushUpdate,
   brushDelete,

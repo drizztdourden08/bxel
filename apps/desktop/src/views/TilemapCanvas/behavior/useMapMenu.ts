@@ -16,7 +16,7 @@ import { ruledEntries } from '../../../context-menu/ruled-entries';
 const useMapMenu = (viewport: RefObject<PixelViewportHandle | null>, target: MapTarget, live: RefObject<MapLive>): void => {
   useContextMenu(MAP_MENU.zone, {
     label: MAP_MENU.label,
-    shouldOpen: () => useToolStore.getState().tool !== 'zoom',
+    shouldOpen: () => useToolStore.getState().tool !== 'zoom' && !live.current.captured,
     anchor: () => {
       const cell = live.current.hover;
       const pixel = useReadoutStore.getState().pointer;

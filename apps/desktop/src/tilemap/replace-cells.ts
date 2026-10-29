@@ -4,6 +4,7 @@ import { layerOptions } from './layer-options';
 import { readyStamp } from './ready-stamp';
 import { runMap } from './run-map';
 import { selectedMap } from './selected-map';
+import { selectionDescriptor } from './selection-descriptor';
 import { TILE_LABEL } from './tilemap.constants';
 
 const replaceCells = (everywhere: boolean): boolean => {
@@ -12,7 +13,7 @@ const replaceCells = (everywhere: boolean): boolean => {
   const to = stamp?.keys.find((key) => key !== 0);
   if (!picked || to === undefined) return false;
   const { target, selection } = picked;
-  const options = { ...layerOptions(target), from: selection.from, to, ...(everywhere ? {} : { rect: selection.rect }) };
+  const options = { ...layerOptions(target), from: selection.from, to, ...(everywhere ? {} : { within: selectionDescriptor(selection, target.tilemap) }) };
   return runMap(TILE_LABEL.replace, [{ name: COMMAND_NAME.mapReplace, targets: null, options }]);
 };
 

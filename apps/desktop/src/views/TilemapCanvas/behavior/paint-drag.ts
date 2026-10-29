@@ -3,6 +3,7 @@ import { lineCells } from '@bxel/document';
 import type { PixelView } from '../../PixelViewport';
 import type { MapLook, MapPaintState } from '../TilemapCanvas.type';
 import { paintGhost } from './paint-ghost';
+import { paintMove } from './paint-move';
 import { paintRegion } from './paint-region';
 import { spanRect } from './span-rect';
 
@@ -19,6 +20,10 @@ const paintDrag = (ctx: CanvasRenderingContext2D, view: PixelView, state: MapPai
   }
   if (drag.kind === 'line') {
     for (const cell of lineCells(drag.from, drag.to)) paintGhost(ctx, state, cell);
+    return;
+  }
+  if (drag.kind === 'move') {
+    paintMove(ctx, view, state, drag, look);
     return;
   }
   const style = { colour: drag.kind === 'rect' ? look.cursor : look.select, dashed: drag.kind !== 'rect' };

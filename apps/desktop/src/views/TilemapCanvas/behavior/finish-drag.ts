@@ -1,14 +1,14 @@
 /* @layer renderer-app @kind logic */
-import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { linePlace } from '../../../tilemap/line-place';
+import { moveCells } from '../../../tilemap/move-cells';
 import { rectPlace } from '../../../tilemap/rect-place';
 import { scatterPlace } from '../../../tilemap/scatter-place';
-import { readCell } from '../../../tilemap/read-cell';
 import { strokeErase } from '../../../tilemap/stroke-erase';
 import { strokePlace } from '../../../tilemap/stroke-place';
 import type { MapTarget } from '../../../tilemap/tilemap.type';
 import type { MapDrag } from '../TilemapCanvas.type';
 import { capturePick } from './capture-pick';
+import { selectDragged } from './select-dragged';
 import { spanRect } from './span-rect';
 
 const finishDrag = (drag: MapDrag, target: MapTarget): void => {
@@ -20,11 +20,12 @@ const finishDrag = (drag: MapDrag, target: MapTarget): void => {
     linePlace(drag.from, drag.to);
   } else if (drag.kind === 'rect') {
     rectPlace(spanRect(drag.from, drag.to));
-  } else if (drag.kind === 'pick') {
+  } else if (drag.kind === 'pick' || drag.kind === 'capture') {
     capturePick(drag.from, drag.to);
+  } else if (drag.kind === 'move') {
+    moveCells({ x: drag.to.x - drag.from.x, y: drag.to.y - drag.from.y }, drag.copy);
   } else {
-    const from = readCell(target.tilemap, target.layer, drag.from)?.key ?? 0;
-    useTilemapStore.getState().setSelection({ rect: spanRect(drag.from, drag.to), from });
+    selectDragged(drag, target);
   }
 };
 

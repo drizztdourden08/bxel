@@ -11,7 +11,7 @@ const MAP_SLOTS: readonly ToolSlot[] = [
     tool: 'pencil',
     surfaces: MAP_SURFACES,
     members: [
-      { id: 'map.place', tool: 'pencil', label: 'Place', description: 'Place the picked tile or tiles. Drag to paint a line of tiles.', icon: 'pixel-map-paint' },
+      { id: 'map.place', tool: 'pencil', label: 'Place', description: 'Place the picked tile or tiles. Drag to paint a line of tiles. Drag with the right button to take a stamp from the map.', icon: 'pixel-map-paint' },
     ],
   },
   {
@@ -92,7 +92,7 @@ const MAP_SLOTS: readonly ToolSlot[] = [
         id: 'map.select',
         tool: 'select',
         label: 'Select',
-        description: 'Select a rectangle of cells to replace a tile, turn, clear or make unique.',
+        description: 'Select cells by rectangle, wand or same tile. Shift adds, Alt subtracts, Shift+Alt intersects. Drag inside the selection to move its cells, with Alt to duplicate them.',
         icon: 'pixel-select-rect',
       },
     ],
