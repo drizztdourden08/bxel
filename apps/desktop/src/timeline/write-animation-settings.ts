@@ -2,7 +2,7 @@
 import type { TimelineSettings } from '../stores/timeline-store.type';
 import type { Persisted } from './write-animation-settings.type';
 
-const writeAnimationSettings = (state: Pick<TimelineSettings, 'onion' | 'playMode' | 'subtags' | 'rewind' | 'speed' | 'timeMode' | 'units'>): Persisted => {
+const writeAnimationSettings = (state: Pick<TimelineSettings, 'onion' | 'playMode' | 'subtags' | 'rewind' | 'speed'>): Persisted => {
   const { onion } = state;
   return {
     animOnionOn: onion.on,
@@ -24,8 +24,6 @@ const writeAnimationSettings = (state: Pick<TimelineSettings, 'onion' | 'playMod
     animSubtags: state.subtags,
     animRewind: state.rewind,
     animSpeed: state.speed,
-    animTimeMode: state.timeMode,
-    animUnits: state.units,
   };
 };
 

@@ -8,6 +8,7 @@ import { TIMELINE_KEY_COMMANDS } from '../../../keymap/timeline-key-commands.con
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
 import { timelineModel } from '../../../timeline/timeline-model';
+import { useTimelineView } from '../../../hooks/useTimelineView';
 import { useBoxSize } from '../behavior/useBoxSize';
 import { useTimelineKeys } from '../behavior/useTimelineKeys';
 import { useTimelineMenu } from '../behavior/useTimelineMenu';
@@ -24,10 +25,12 @@ const TimelineView = ({ focus }: FocusProps) => {
   const { width, height } = useBoxSize(root);
   const selection = useTimelineStore((state) => state.selection);
   const tagId = useTimelineStore((state) => state.tagId);
+  const byFacing = useTimelineStore((state) => state.groupByFacing);
   const onKeyDown = useTimelineKeys();
   useTimelineMenu();
+  useTimelineView(focus);
   useCommands(TIMELINE_KEY_COMMANDS);
-  const model = useMemo(() => timelineModel(focus, selection, tagId), [focus, selection, tagId]);
+  const model = useMemo(() => timelineModel(focus, selection, tagId, byFacing), [focus, selection, tagId, byFacing]);
   const compact = width < COMPACT_WIDTH;
   return (
     <Box

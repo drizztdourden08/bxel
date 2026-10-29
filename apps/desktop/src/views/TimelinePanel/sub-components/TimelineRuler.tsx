@@ -2,10 +2,10 @@
 import { Box, Icon, Pressable, Text } from '@drizztdourden08/tessera';
 import { useState } from 'react';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
-import { formatDuration } from '../../../timeline/format-duration';
 import { loopBand } from '../behavior/loop-band';
 import type { LoopSpan } from '../behavior/loop-band.type';
 import { spanStyle } from '../behavior/span-style';
+import { tickLabel } from '../behavior/tick-label';
 import { useScrub } from '../behavior/useScrub';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import type { RulerProps } from '../TimelinePanel.type';
@@ -22,7 +22,6 @@ const TimelineRuler = ({ focus, layout }: RulerProps) => {
   const current = frames.findIndex((frame) => frame.id === focus.frame.id);
   const stride = Math.max(1, Math.ceil(TICK_MIN / Math.max(1, layout.widths[0] ?? TICK_MIN)));
   const { valid, band, start, end } = loopBand(frames, loopRange, draft);
-  let elapsed = 0;
   return (
     <Box className="ruler" style={{ inlineSize: layout.total }} data-ruler>
       <Box
@@ -37,9 +36,7 @@ const TimelineRuler = ({ focus, layout }: RulerProps) => {
         {...scrub}
       >
         {frames.map((frame, index) => {
-          const at = elapsed;
-          elapsed += frame.durationMs;
-          const label = timeMode ? formatDuration(at, units) : String(index + 1);
+          const label = tickLabel(frames, index, timeMode, units);
           return (
             <Text
               key={frame.id}
@@ -49,6 +46,7 @@ const TimelineRuler = ({ focus, layout }: RulerProps) => {
               className="ruler__tick"
               style={{ insetInlineStart: layout.lefts[index], inlineSize: layout.widths[index] }}
               data-current={index === current ? 'yes' : 'no'}
+              data-tick-frame={frame.id}
               aria-hidden="true"
             >
               {timeMode || index % stride === 0 ? label : ''}

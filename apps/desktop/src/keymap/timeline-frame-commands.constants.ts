@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import { nav } from '@drizztdourden08/brock-react';
 import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
+import { addFromImages } from '../add-frames/add-from-images';
 import { commandArgs } from '../context-menu/command-args';
 import type { DurationArgs, FrameArgs } from '../context-menu/menu-args.type';
 import type { TimeUnits } from '../stores/timeline-store.type';
@@ -63,10 +64,18 @@ const TIMELINE_FRAME_COMMANDS: readonly CommandDef[] = [
     checked: () => store.getState().timeMode,
     run: () => store.getState().setTimeMode(!store.getState().timeMode),
   },
+  {
+    id: 'timeline.toggle_group_facing',
+    label: 'Group the tag lanes by facing',
+    group,
+    checked: () => store.getState().groupByFacing,
+    run: () => store.getState().setGroupByFacing(!store.getState().groupByFacing),
+  },
   { id: 'timeline.add_tag', label: 'Add a tag on the selected frames', group, run: () => addTag() },
   { id: 'timeline.add_from_sprites', label: 'Add frames from sprites', group, run: () => useAddFramesStore.getState().show('sprites') },
   { id: 'timeline.add_from_strip', label: 'Add frames from a strip', group, run: () => useAddFramesStore.getState().show('strip') },
   { id: 'timeline.add_from_sheet', label: 'Add frames from a sheet', group, run: () => useAddFramesStore.getState().show('sheet') },
+  { id: 'timeline.add_from_images', label: 'Add frames from image files', group, run: () => void addFromImages() },
   { id: 'timeline.new_direction_set', label: 'Make a new direction set', group, run: () => useDirectionSetStore.getState().show() },
   { id: 'timeline.split_to_sprites', label: 'Split the frames into sprites', group, run: () => void splitToSprites() },
   { id: 'timeline.make_spritesheet', label: 'Make a spritesheet of the animation', group, run: () => void makeSpritesheet() },

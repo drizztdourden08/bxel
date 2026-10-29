@@ -6,4 +6,10 @@ type StripLayout = {
   readonly cellHeight: number;
 };
 
-export type { StripLayout };
+type StripSize = {
+  readonly name: string;
+  readonly width: number;
+  readonly height: number;
+};
+
+export type { StripLayout, StripSize };

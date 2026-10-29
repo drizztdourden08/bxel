@@ -14,6 +14,7 @@ import { makeSpritesheet } from '../../../timeline/make-spritesheet';
 import { pickFacing } from '../../../timeline/pick-facing';
 import { splitToSprites } from '../../../timeline/split-to-sprites';
 import { ADD_TEXT } from '../../../add-frames/add-frames.constants';
+import { addFromImages } from '../../../add-frames/add-from-images';
 import { FACING_TEXT } from '../../../timeline/timeline.constants';
 import type { AnimationFocus } from '../../../timeline/timeline.type';
 import { TIMELINE_PANEL_TEXT, TRANSFORM_TEXT } from '../TimelinePanel.constants';
@@ -32,6 +33,7 @@ const frameGroup = (disabled: boolean): MenuGroup => ({
         { id: 'sprites', label: ADD_TEXT.fromSprites, onSelect: () => useAddFramesStore.getState().show('sprites') },
         { id: 'strip', label: ADD_TEXT.fromStrip, onSelect: () => useAddFramesStore.getState().show('strip') },
         { id: 'sheet', label: ADD_TEXT.fromSheet, onSelect: () => useAddFramesStore.getState().show('sheet') },
+        { id: 'images', label: ADD_TEXT.fromImages, onSelect: () => void addFromImages() },
       ],
     },
     {
@@ -47,13 +49,21 @@ const frameGroup = (disabled: boolean): MenuGroup => ({
   ],
 });
 
-const viewGroup = (): MenuGroup => {
+const facingItems = (focus: AnimationFocus): MenuGroup['items'] => {
+  const store = useTimelineStore.getState();
+  const { groupByFacing } = store;
+  if (FACING_SETS[focus.animation.directions].length === 0) return [];
+  return [{ id: 'group-facing', label: TIMELINE_PANEL_TEXT.groupFacing, kind: 'check', checked: groupByFacing, onSelect: () => store.setGroupByFacing(!groupByFacing) }];
+};
+
+const viewGroup = (focus: AnimationFocus): MenuGroup => {
   const store = useTimelineStore.getState();
   const { timeMode } = store;
   return {
     id: 'view',
     items: [
       { id: 'time-mode', label: TIMELINE_PANEL_TEXT.timeMode, kind: 'check', checked: timeMode, shortcut: 'T', onSelect: () => store.setTimeMode(!timeMode) },
+      ...facingItems(focus),
       { id: 'settings', label: TIMELINE_PANEL_TEXT.settings, onSelect: () => nav.open(ANIMATION_PAGE) },
     ],
   };
@@ -94,7 +104,7 @@ const foldedGroup = (focus: AnimationFocus): MenuGroup => {
 const moreGroups = (focus: AnimationFocus, compact: boolean): MenuGroup[] => [
   frameGroup(focus.readOnly),
   ...(compact ? [foldedGroup(focus)] : []),
-  viewGroup(),
+  viewGroup(focus),
 ];
 
 export { moreGroups };

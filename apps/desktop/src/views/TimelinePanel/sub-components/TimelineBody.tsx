@@ -27,7 +27,7 @@ const TimelineBody = ({ focus, model, width }: BodyProps) => {
   useWheelZoom(scroller);
   useKeepCurrentVisible(scroller, focus.frame.id, thumb);
   return (
-    <ScrollArea ref={scroller} axis="both" scrollbar="slim" fade={false} className="timeline__body">
+    <ScrollArea ref={scroller} axis="x" scrollbar="slim" fade={false} className="timeline__body">
       <Box className="timeline__content" style={{ inlineSize: layout.total + END_GUTTER }}>
         <TimelineRuler focus={focus} layout={layout} thumb={thumb} model={model} />
         <TagLanes focus={focus} layout={layout} thumb={thumb} model={model} />

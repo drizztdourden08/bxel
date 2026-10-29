@@ -5,9 +5,9 @@ import { frameCells } from './frame-cells';
 import { tagLanes } from './tag-lanes';
 import type { AnimationFocus, TimelineModel } from './timeline.type';
 
-const timelineModel = (focus: AnimationFocus, selection: TimelineSelection, tagId: TagId | null): TimelineModel => ({
+const timelineModel = (focus: AnimationFocus, selection: TimelineSelection, tagId: TagId | null, byFacing = false): TimelineModel => ({
   cells: frameCells(focus, selection),
-  tagLanes: tagLanes(focus.animation, tagId),
+  tagLanes: tagLanes(focus.animation, tagId, byFacing),
 });
 
 export { timelineModel };

@@ -36,7 +36,7 @@ const DEFAULT_THUMB = 48;
 
 const FIT_LIMITS = { min: 16, max: 96 } as const;
 
-const VIEW_DEFAULTS: ViewSettings = { zoom: DEFAULT_THUMB, timeMode: false, units: 'ms' };
+const VIEW_DEFAULTS: ViewSettings = { zoom: DEFAULT_THUMB, timeMode: false, units: 'ms', groupByFacing: false };
 
 const TIMELINE_DEFAULTS: TimelineSettings = {
   frameId: null,

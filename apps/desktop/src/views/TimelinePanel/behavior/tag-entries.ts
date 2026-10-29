@@ -11,12 +11,12 @@ import { FACING_TEXT, TAG_DIRECTION_TEXT, TAG_DIRECTIONS } from '../../../timeli
 import { TIMELINE_MENU } from './timeline-menu.constants';
 import { REPEATS } from './tag-entries.constants';
 
-const mirrorEntries = (tag: AnimSpanTag, animation: Animation): ContextMenuEntry => ({
-  label: TIMELINE_MENU.makeMirror,
-  items: FACING_SETS[animation.directions]
+const mirrorEntries = (tag: AnimSpanTag, animation: Animation): ContextMenuEntry => {
+  const items = FACING_SETS[animation.directions]
     .filter((facing) => facingTag(animation, facing) === undefined)
-    .map((facing) => ({ command: 'tag.make_mirror', label: FACING_TEXT[facing], args: { tagId: tag.id, facing } })),
-});
+    .map((facing) => ({ command: 'tag.make_mirror', label: FACING_TEXT[facing], args: { tagId: tag.id, facing } }));
+  return { label: TIMELINE_MENU.makeMirror, items, disabled: items.length === 0 };
+};
 
 const spanEntries = (tag: AnimSpanTag, picked: number, animation: Animation): readonly ContextMenuEntry[] => [
   { command: 'tag.edit', label: TIMELINE_MENU.editTag, args: { tagId: tag.id } },

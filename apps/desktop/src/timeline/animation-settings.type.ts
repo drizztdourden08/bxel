@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { OnionFalloff, OnionOrder, OnionPosition, OnionScope, OnionStyle, OnionTint, PlayMode, TimeUnits } from '../stores/timeline-store.type';
+import type { OnionFalloff, OnionOrder, OnionPosition, OnionScope, OnionStyle, OnionTint, PlayMode } from '../stores/timeline-store.type';
 
 interface AnimationSettings {
   animOnionOn: boolean;
@@ -22,9 +22,6 @@ interface AnimationSettings {
   animRewind: boolean;
   animSpeed: number;
   animThumb: number;
-  animTimeMode: boolean;
-  animUnits: TimeUnits;
-  animThumbs: Readonly<Record<string, number>>;
 }
 
 export type { AnimationSettings };

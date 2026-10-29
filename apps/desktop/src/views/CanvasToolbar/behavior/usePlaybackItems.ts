@@ -5,14 +5,17 @@ import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { togglePlayback } from '../../../timeline/toggle-playback';
 import { toggleItem } from '../../../toolbar-items';
 import { ONION_HINT, PAUSE_HINT, PLAY_HINT } from '../CanvasToolbar.constants';
+import { onionGroups } from './onion-groups';
 
 const usePlaybackItems = (): ToolbarItem[] => {
   const disabled = useActiveDocument() === null;
-  const onion = useTimelineStore((state) => state.onion.on);
+  const onion = useTimelineStore((state) => state.onion);
   const playing = useTimelineStore((state) => state.playing);
   const setOnion = useTimelineStore((state) => state.setOnion);
   return [
-    toggleItem({ id: 'onion', icon: 'pixel-onion-skin', hint: ONION_HINT, disabled, pressed: onion, onChange: (on) => setOnion({ on }) }),
+    toggleItem({
+      id: 'onion', icon: 'pixel-onion-skin', hint: ONION_HINT, disabled, pressed: onion.on, onChange: (on) => setOnion({ on }), options: onionGroups(onion, setOnion), openOn: 'hold',
+    }),
     toggleItem({
       id: 'play', icon: playing ? 'pixel-pause' : 'pixel-play', hint: playing ? PAUSE_HINT : PLAY_HINT, disabled, pressed: playing, onChange: togglePlayback,
     }),

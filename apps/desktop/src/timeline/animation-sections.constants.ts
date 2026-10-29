@@ -42,14 +42,6 @@ const ANIMATION_SECTIONS: Section[] = [
         hint: 'Each animation remembers the size you set on its own timeline.',
         control: { kind: 'number', min: FIT_LIMITS.min, max: FIT_LIMITS.max, step: 8, unit: 'px' },
       },
-      {
-        key: 'animUnits',
-        label: 'Time units',
-        description: 'How the timeline writes times.',
-        hint: 'Ticks count frames of a game at 12 frames per second.',
-        control: { kind: 'choice', options: [{ value: 'ms', label: 'Milliseconds' }, { value: 'seconds', label: 'Seconds' }, { value: 'ticks', label: 'Ticks' }] },
-      },
-      { key: 'animTimeMode', label: 'Time mode', description: 'Frame width follows its duration, so holds read at a glance.' },
     ],
   },
   {

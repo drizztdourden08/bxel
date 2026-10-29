@@ -6,6 +6,7 @@ import { TIMELINE_MENU } from './timeline-menu.constants';
 import { emptyEntries } from './empty-entries';
 import { frameEntries } from './frame-entries';
 import { rulerEntries } from './ruler-entries';
+import { rulerFrame } from './ruler-frame';
 import { tagEntries } from './tag-entries';
 
 const timelineMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[] => {
@@ -13,7 +14,7 @@ const timelineMenuEntries = (context: ContextMenuContext): readonly ContextMenuE
   const frame = menuTarget(context, TIMELINE_MENU.frame);
   if (tag) return tagEntries(tag.dataset.tagId);
   if (frame) return frameEntries(frame.dataset.frameId ?? currentFocus()?.frame.id);
-  if (menuTarget(context, TIMELINE_MENU.ruler)) return rulerEntries();
+  if (menuTarget(context, TIMELINE_MENU.ruler)) return rulerEntries(rulerFrame(context));
   return emptyEntries(menuTarget(context, TIMELINE_MENU.lane) !== null);
 };
 

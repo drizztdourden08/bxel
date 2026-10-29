@@ -5,10 +5,10 @@ import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { TIMELINE_PANEL_TEXT } from '../TimelinePanel.constants';
 import { TIMELINE_MENU } from './timeline-menu.constants';
 
-const rulerEntries = (): readonly ContextMenuEntry[] => {
+const rulerEntries = (frameId?: string): readonly ContextMenuEntry[] => {
   const { loopRange, units } = useTimelineStore.getState();
   return [
-    { command: 'timeline.play_from', label: TIMELINE_MENU.playFrom },
+    { command: 'timeline.play_from', label: TIMELINE_MENU.playFrom, args: { frameId } },
     { command: 'timeline.set_loop_range', label: TIMELINE_MENU.setLoopRange },
     { command: 'timeline.clear_loop_range', label: TIMELINE_MENU.clearLoopRange, ...unless(loopRange !== null, TIMELINE_MENU.noLoop) },
     {

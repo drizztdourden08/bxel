@@ -1,0 +1,30 @@
+
+> bxel@0.1.0 lint X:\Bxel\.claude\worktrees\agent-a4334ce88f0145001\apps\desktop
+> pnpm typecheck && eslint . && stylelint "src/**/*.css" && brock prose && brock knip && jscpd .
+
+
+> bxel@0.1.0 typecheck X:\Bxel\.claude\worktrees\agent-a4334ce88f0145001\apps\desktop
+> tsc --noEmit
+
+
+X:\Bxel\.claude\worktrees\agent-a4334ce88f0145001\apps\desktop\src\add-frames\file-strip-steps.ts
+  8:7  error  "MAP_EXACT" is a constant in an implementation file. Move it to file-strip-steps.constants.ts  local/constants-in-constants-file
+
+X:\Bxel\.claude\worktrees\agent-a4334ce88f0145001\apps\desktop\src\add-frames\fit-image.ts
+  10:7  error  "EXACT" is a constant in an implementation file. Move it to fit-image.constants.ts  local/constants-in-constants-file
+
+X:\Bxel\.claude\worktrees\agent-a4334ce88f0145001\apps\desktop\src\views\CanvasToolbar\behavior\onion-groups.ts
+  17:7  error  "OPACITY_STEP" is a constant in an implementation file. Move it to onion-groups.constants.ts  local/constants-in-constants-file
+
+X:\Bxel\.claude\worktrees\agent-a4334ce88f0145001\apps\desktop\src\views\TimelinePanel\behavior\onion-cells.ts
+  2:1  error  "OnionCell" is a type declared in an implementation file. Move it to onion-cells.type.ts and import it with `import type`  local/types-in-type-file
+
+X:\Bxel\.claude\worktrees\agent-a4334ce88f0145001\apps\desktop\src\views\TimelinePanel\sub-components\TimelineRuler.tsx
+  15:55  error  Arrow function has too many lines (61). Maximum allowed is 60  max-lines-per-function
+
+X:\Bxel\.claude\worktrees\agent-a4334ce88f0145001\apps\desktop\tests\timeline\menu-targets.test.ts
+  49:23  error  No `as unknown as T`. A double cast hides a type the code does not have; parse or validate the value instead  no-restricted-syntax
+
+✖ 6 problems (6 errors, 0 warnings)
+
+ ELIFECYCLE  Command failed with exit code 1.

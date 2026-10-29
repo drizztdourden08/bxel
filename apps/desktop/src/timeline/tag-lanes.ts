@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { AnimTag, Animation, TagId } from '@bxel/document';
+import { FACING_SETS } from '@bxel/document';
+import type { AnimFacing, AnimTag, Animation, TagId } from '@bxel/document';
 import { spanTagOf } from './span-tag-of';
 import { tagBarLabel } from './tag-bar-label';
 import { TAG_COLOURS } from './timeline.constants';
@@ -29,8 +30,7 @@ const barOf = (animation: Animation, tag: AnimTag, index: number, selectedId: Ta
   return { ...bar, label: tagBarLabel(bar) };
 };
 
-const tagLanes = (animation: Animation, selectedId: TagId | null): TagBar[][] => {
-  const bars = animation.tags.flatMap((tag, index) => barOf(animation, tag, index, selectedId) ?? []);
+const packLanes = (bars: readonly TagBar[]): TagBar[][] => {
   const lanes: TagBar[][] = [];
   for (const bar of [...bars].sort((a, b) => a.start - b.start || b.end - a.end)) {
     const lane = lanes.find((each) => (each.at(-1)?.end ?? -1) < bar.start);
@@ -38,6 +38,17 @@ const tagLanes = (animation: Animation, selectedId: TagId | null): TagBar[][] =>
     else lanes.push([bar]);
   }
   return lanes;
+};
+
+const facingLanes = (bars: readonly TagBar[], facings: readonly AnimFacing[]): TagBar[][] => [
+  ...facings.flatMap((facing) => packLanes(bars.filter((bar) => bar.facing === facing))),
+  ...packLanes(bars.filter((bar) => bar.facing === null || !facings.includes(bar.facing))),
+];
+
+const tagLanes = (animation: Animation, selectedId: TagId | null, byFacing = false): TagBar[][] => {
+  const bars = animation.tags.flatMap((tag, index) => barOf(animation, tag, index, selectedId) ?? []);
+  const facings = FACING_SETS[animation.directions];
+  return byFacing && facings.length > 0 ? facingLanes(bars, facings) : packLanes(bars);
 };
 
 export { tagLanes };

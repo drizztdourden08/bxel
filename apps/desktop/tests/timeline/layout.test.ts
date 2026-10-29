@@ -7,8 +7,8 @@ import { formatDuration } from '../../src/timeline/format-duration';
 import { indexAtX } from '../../src/timeline/index-at-x';
 import { readOnion } from '../../src/timeline/read-onion';
 import { readPlay } from '../../src/timeline/read-play';
-import { readThumbs } from '../../src/timeline/read-thumbs';
-import { readView } from '../../src/timeline/read-view';
+import { readSavedView } from '../../src/timeline/read-saved-view';
+import { readZoom } from '../../src/timeline/read-zoom';
 import { snapDuration } from '../../src/timeline/snap-duration';
 import { stepZoom } from '../../src/timeline/step-zoom';
 import { cellWidth } from '../../src/timeline/cell-width';
@@ -87,15 +87,17 @@ describe('the saved animation settings', () => {
   it('start as the defaults', () => {
     expect(readOnion(ANIMATION_DEFAULTS)).toEqual(ONION_DEFAULTS);
     expect(readPlay(ANIMATION_DEFAULTS)).toEqual(PLAY_DEFAULTS);
-    expect(readView(ANIMATION_DEFAULTS)).toEqual(VIEW_DEFAULTS);
+    expect(readZoom(ANIMATION_DEFAULTS)).toBe(VIEW_DEFAULTS.zoom);
+    expect(readSavedView(undefined)).toEqual({ zooms: {}, timeMode: VIEW_DEFAULTS.timeMode, units: VIEW_DEFAULTS.units });
   });
 
   it('round trip through the store', () => {
     const onion = { ...ONION_DEFAULTS, on: true, before: 6, after: 3, falloff: 'flat' as const, style: 'outline' as const, wrap: false, position: 'front' as const };
-    const written = writeAnimationSettings({ onion, playMode: 'pingpong', subtags: true, rewind: false, speed: 0.5, timeMode: true, units: 'ticks' });
+    const written = writeAnimationSettings({ onion, playMode: 'pingpong', subtags: true, rewind: false, speed: 0.5 });
     expect(readOnion(written)).toEqual(onion);
     expect(readPlay(written)).toEqual({ playMode: 'pingpong', subtags: true, rewind: false, speed: 0.5 });
-    expect(readView({ ...written, animThumb: 64 })).toEqual({ zoom: 64, timeMode: true, units: 'ticks' });
+    expect(readZoom({ ...written, animThumb: 64 })).toBe(64);
+    expect(readSavedView({ zooms: { a: 64 }, timeMode: true, units: 'ticks' })).toEqual({ zooms: { a: 64 }, timeMode: true, units: 'ticks' });
   });
 
   it('clamp or drop a value that is not valid', () => {
@@ -106,8 +108,7 @@ describe('the saved animation settings', () => {
       beforeColour: ONION_DEFAULTS.beforeColour,
     });
     expect(readPlay({ animSpeed: 3 }).speed).toBe(1);
-    expect(readView({ animThumb: 500 }).zoom).toBe(96);
-    expect(readThumbs({ animThumbs: { a: 64, b: 'x', c: 4 } })).toEqual({ a: 64, c: 16 });
-    expect(readThumbs({})).toEqual({});
+    expect(readZoom({ animThumb: 500 })).toBe(96);
+    expect(readSavedView({ zooms: { a: 64, b: 'x', c: 4 }, units: 'years' })).toEqual({ zooms: { a: 64, c: 16 }, timeMode: false, units: 'ms' });
   });
 });

@@ -55,6 +55,7 @@ const TIMELINE_PANEL_TEXT = {
   more: 'More timeline actions',
   settings: 'Animation settings...',
   timeMode: 'Time mode',
+  groupFacing: 'Group by facing',
   durationCaption: 'Duration',
   offsetCaption: 'Offset',
   pivotCaption: 'Pivot',

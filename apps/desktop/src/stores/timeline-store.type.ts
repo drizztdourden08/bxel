@@ -58,6 +58,7 @@ interface ViewSettings {
   zoom: number;
   timeMode: boolean;
   units: TimeUnits;
+  groupByFacing: boolean;
 }
 
 interface TimelineSettings extends PlaySettings, ViewSettings {
@@ -99,6 +100,7 @@ interface TimelineState extends TimelineSettings {
   setFit: (fit: boolean) => void;
   setTimeMode: (timeMode: boolean) => void;
   setUnits: (units: TimeUnits) => void;
+  setGroupByFacing: (groupByFacing: boolean) => void;
   setPivotDraft: (pivotDraft: Pivot2 | null) => void;
   setColourPicker: (colourPicker: boolean) => void;
   setPopover: (popover: TimelinePopover | null) => void;

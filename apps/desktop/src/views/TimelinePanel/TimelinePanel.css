@@ -328,6 +328,31 @@
   cursor: default;
 }
 
+.frame-track[data-drop='over'] {
+  outline: var(--border-width-thick) dashed var(--c-primary-bright);
+  outline-offset: calc(-1 * var(--size-2));
+}
+
+.frame-track[data-refused] {
+  outline: var(--border-width-thick) solid var(--c-danger);
+  outline-offset: calc(-1 * var(--size-2));
+  background: var(--c-danger-soft);
+}
+
+.frame-track[data-refused]::after {
+  content: attr(data-refused);
+  position: sticky;
+  inset-inline-start: var(--space-sm);
+  align-self: center;
+  max-inline-size: var(--size-320);
+  padding: var(--space-2xs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  background: var(--c-danger);
+  color: var(--c-on-danger);
+  font-size: var(--text-sm);
+  pointer-events: none;
+}
+
 .frame-option {
   position: relative;
   display: flex;

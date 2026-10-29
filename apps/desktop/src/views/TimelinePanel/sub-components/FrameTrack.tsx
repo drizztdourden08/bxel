@@ -7,6 +7,8 @@ import { dropFrames } from '../../../timeline/drag-frame';
 import { selectFrameIds } from '../../../timeline/select-frame-ids';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
 import { useDragMode } from '../behavior/useDragMode';
+import { useFrameSelection } from '../behavior/useFrameSelection';
+import { useFileDrop } from '../behavior/useFileDrop';
 import { useStripDrop } from '../behavior/useStripDrop';
 import { useStripFocus } from '../behavior/useStripFocus';
 import { END_GUTTER } from '../TimelinePanel.constants';
@@ -32,7 +34,9 @@ const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackPro
     },
     onDrop: (_from, _to, info) => dropFrames(info),
   });
+  const selection = useFrameSelection(focus);
   const drop = useStripDrop(focus);
+  const refused = useFileDrop(listRef, focus);
   const selected = useTimelineStore((state) => state.selection.frames);
   const marquee = useMarqueeSelect({
     containerRef: scroller,
@@ -54,11 +58,12 @@ const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackPro
       className="frame-track"
       style={{ inlineSize: layout.total + END_GUTTER }}
       data-drag-mode={modes.mode}
+      data-refused={refused ?? undefined}
       {...drop}
       {...marquee.bind}
     >
       {model.cells.map((cell, index) => (
-        <FrameOption key={cell.id} focus={focus} cell={cell} index={index} total={model.cells.length} drag={drag} mode={modes.mode} layout={layout} thumb={thumb} onDraft={onDraft} />
+        <FrameOption key={cell.id} focus={focus} cell={cell} index={index} total={model.cells.length} drag={drag} selection={selection} mode={modes.mode} layout={layout} thumb={thumb} onDraft={onDraft} />
       ))}
       <MarqueeBox rect={marquee.rect} />
       <DragGhost

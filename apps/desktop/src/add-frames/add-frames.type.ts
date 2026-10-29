@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { Rect, SheetId, SpriteId } from '@bxel/document';
+import type { StripFile } from './image-drop.type';
 
 type FrameMode = 'reference' | 'copy';
 
@@ -15,6 +16,12 @@ interface StripSpec {
   rows: number;
   cellWidth: number;
   cellHeight: number;
+}
+
+interface StripSource {
+  name: string;
+  width: number;
+  height: number;
 }
 
 interface StripPlan {
@@ -35,7 +42,7 @@ interface SpritesAdd extends AddFramesRequest {
 
 interface StripAdd extends AddFramesRequest {
   kind: 'strip';
-  sprite: SpriteId;
+  sprite: SpriteId | { ref: string };
   spec: StripSpec;
   cells: number;
   result: StripResult;
@@ -47,12 +54,26 @@ interface SheetAdd extends AddFramesRequest {
   mode: FrameMode;
 }
 
-type AddRequest = SpritesAdd | StripAdd | SheetAdd;
+interface ImagesAdd extends AddFramesRequest {
+  kind: 'images';
+  frames: readonly Uint8Array[];
+}
+
+interface FileStripAdd extends AddFramesRequest {
+  kind: 'file';
+  file: StripFile;
+  spec: StripSpec;
+  cells: number;
+  result: StripResult;
+}
+
+type AddRequest = SpritesAdd | StripAdd | SheetAdd | ImagesAdd | FileStripAdd;
 
 interface AddFramesState {
   mode: AddMode | null;
-  show: (mode: AddMode) => void;
+  file: StripFile | null;
+  show: (mode: AddMode, file?: StripFile) => void;
   hide: () => void;
 }
 
-export type { AddFramesState, AddRequest, FrameMode, StripPlan, StripResult, StripSpec };
+export type { AddFramesState, AddRequest, FrameMode, StripPlan, StripResult, StripSource, StripSpec };

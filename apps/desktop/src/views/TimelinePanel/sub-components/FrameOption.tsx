@@ -2,7 +2,6 @@
 import { Box, Text } from '@drizztdourden08/tessera';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { dropPosition } from '../../../timeline/drop-position';
-import { goToFrame } from '../../../timeline/go-to-frame';
 import { frameOptionData } from '../behavior/frame-option-data';
 import type { FrameOptionProps } from '../TimelinePanel.type';
 import { DurationChip } from './DurationChip';
@@ -11,7 +10,7 @@ import { DROP_TEXT } from './FrameOption.constants';
 import { FrameBadges } from './FrameBadges';
 import { FrameThumb } from './FrameThumb';
 
-const FrameOption = ({ focus, cell, index, total, drag, mode, layout, thumb, onDraft }: FrameOptionProps) => {
+const FrameOption = ({ focus, cell, index, total, drag, selection, mode, layout, thumb, onDraft }: FrameOptionProps) => {
   const timeMode = useTimelineStore((state) => state.timeMode);
   const mark = drag.dropMark(index, total);
   const width = layout.widths[index] ?? 0;
@@ -29,12 +28,8 @@ const FrameOption = ({ focus, cell, index, total, drag, mode, layout, thumb, onD
       aria-posinset={cell.number}
       aria-setsize={total}
       {...frameOptionData(cell, index, mark, drag.dragging === index)}
-      onClick={(event) => goToFrame(cell.id, event.shiftKey, event.ctrlKey || event.metaKey)}
-      onKeyDown={(event) => {
-        if (event.target !== event.currentTarget || event.key !== ' ') return;
-        event.preventDefault();
-        goToFrame(cell.id, false, true);
-      }}
+      onClick={(event) => selection.click(cell.id, event)}
+      onKeyDown={(event) => selection.onKeyDown(event, cell.id)}
       {...drag.handlers(index)}
     >
       <Box className="frame-option__well" style={{ inlineSize: Math.min(thumb, width - 4), blockSize: Math.min(thumb, width - 4) }}>

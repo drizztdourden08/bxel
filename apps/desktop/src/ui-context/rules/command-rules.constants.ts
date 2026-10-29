@@ -125,7 +125,7 @@ const TILES: RuleTable = {
 };
 
 const WRITING = [
-  'timeline.delete', 'timeline.add_frame', 'timeline.duplicate_frames', 'timeline.add_from_sprites', 'timeline.add_from_strip', 'timeline.add_from_sheet',
+  'timeline.delete', 'timeline.add_frame', 'timeline.duplicate_frames', 'timeline.add_from_sprites', 'timeline.add_from_strip', 'timeline.add_from_sheet', 'timeline.add_from_images',
   'timeline.new_direction_set', 'timeline.split_to_sprites', 'timeline.delete_frames', 'timeline.move_frames_earlier', 'timeline.move_frames_later',
   'timeline.add_tag', 'timeline.set_duration', 'tag.rename', 'tag.set_direction', 'tag.set_colour', 'tag.custom_colour', 'tag.set_range', 'tag.delete',
   'timeline.paste_frames', 'timeline.paste_linked', 'timeline.open_duration', 'timeline.move_frames_start', 'timeline.move_frames_end', 'timeline.move_frames_to',
@@ -141,6 +141,7 @@ const WATCHING = [
 
 const ANIMATION_VIEW = [
   'timeline.set_loop_range', 'timeline.clear_loop_range', 'timeline.set_units', 'timeline.set_zoom', 'timeline.onion_settings', 'timeline.toggle_time_mode',
+  'timeline.toggle_group_facing',
 ];
 
 const TIMELINES: RuleTable = {

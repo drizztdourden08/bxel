@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import { DEFAULT_THUMB, ONION_DEFAULTS, PLAY_DEFAULTS, VIEW_DEFAULTS } from '../stores/timeline-store.constants';
+import { DEFAULT_THUMB, ONION_DEFAULTS, PLAY_DEFAULTS } from '../stores/timeline-store.constants';
 import type { AnimationSettings } from './animation-settings.type';
 
 const ANIMATION_DEFAULTS: AnimationSettings = {
@@ -23,9 +23,6 @@ const ANIMATION_DEFAULTS: AnimationSettings = {
   animRewind: PLAY_DEFAULTS.rewind,
   animSpeed: PLAY_DEFAULTS.speed,
   animThumb: DEFAULT_THUMB,
-  animTimeMode: VIEW_DEFAULTS.timeMode,
-  animUnits: VIEW_DEFAULTS.units,
-  animThumbs: {},
 };
 
 export { ANIMATION_DEFAULTS };
