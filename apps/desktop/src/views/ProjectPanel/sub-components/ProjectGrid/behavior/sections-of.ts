@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { VirtualGridSection } from '@drizztdourden08/tessera';
-import type { BrowserItem, VisibleRow } from '../../../../panel-browser/project-browser.type';
+import type { BrowserItem, VisibleRow } from '../../../../../panel-browser/project-browser.type';
 
 const sectionsOf = (rows: readonly VisibleRow[]): readonly VirtualGridSection<BrowserItem>[] => {
   const sections: { key: string; label: string; items: BrowserItem[]; count: number }[] = [];

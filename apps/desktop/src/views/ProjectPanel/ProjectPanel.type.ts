@@ -51,7 +51,6 @@ type BulkActions = Pick<RowActions, 'trash' | 'duplicate' | 'rename' | 'showMenu
 
 type DragActions = {
   readonly dropKey: string | null;
-  readonly dragOut: (item: BrowserItem) => Record<string, unknown>;
   readonly dropOn: (target: BrowserItem | null) => Record<string, unknown>;
   readonly moveKeys: (keys: readonly string[], folderKey: string) => void;
   readonly canMoveInto: (keys: readonly string[], folderKey: string | null) => boolean;
@@ -98,10 +97,7 @@ type ProjectPanelModel = StartActions &
 
 type PanelPartProps = { readonly model: ProjectPanelModel };
 
-type AddAssetProps = { readonly onPick: (kind: CreatableKind) => void };
-
 export type {
-  AddAssetProps,
   BulkActions,
   CreateActions,
   DragActions,
@@ -111,10 +107,6 @@ export type {
   PanelPartProps,
   PickActions,
   PickMods,
-  Point,
-  ProjectActions,
   ProjectPanelModel,
-  RowActions,
-  StartActions,
   ViewSetter,
 };

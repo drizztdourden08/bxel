@@ -5,7 +5,7 @@ import { describe, expect, test } from 'vitest';
 import { buildSampleArtwork } from './support/build-sample-artwork';
 import { POLL_MS } from './support/e2e.constants';
 import type { Session } from './support/e2e.type';
-import { dragBetween } from './support/drag-between';
+import { dragByPointer } from './support/drag-by-pointer';
 import { inFreshPlace } from './support/in-place';
 import { openAssetTab } from './support/open-asset-tab';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
@@ -68,7 +68,7 @@ const makesAFolderInTheRow = async (session: Session, root: string): Promise<voi
 };
 
 const dropsOnAFolder = async (session: Session, root: string): Promise<void> => {
-  await dragBetween(session.page, assetRow(session, SAMPLE.sprites[0]), assetRow(session, 'props').locator('.project-label'));
+  await dragByPointer(session.page, assetRow(session, SAMPLE.sprites[0]).locator('.project-thumb'), assetRow(session, 'props').locator('.project-label'));
   const confirm = session.page.getByRole('button', { name: 'Move', exact: true });
   await confirm.waitFor(POLL).then(() => confirm.click(), () => undefined);
   await expect.poll(() => existsSync(join(root, 'props', `${SAMPLE.sprites[0]}.bxsprite`)), POLL).toBe(true);

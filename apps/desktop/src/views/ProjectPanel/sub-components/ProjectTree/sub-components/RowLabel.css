@@ -8,7 +8,8 @@
   border-radius: var(--radius-sm);
 }
 
-.project-label[data-over='true'] {
+.project-label[data-over='true'],
+.project-label[data-drop='over'] {
   background: var(--c-primary-soft);
   outline: var(--border-width-thin) dashed var(--c-primary);
   outline-offset: calc(-1 * var(--border-width-thin));

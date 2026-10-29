@@ -9,13 +9,11 @@
 
 .project-trail__more {
   flex: none;
-  opacity: 0;
+  opacity: 0.55;
   transition: opacity var(--transition-fast);
 }
 
-.tree__row:hover .project-trail__more,
-.tree__row:focus-within .project-trail__more,
-.tree__row--selected .project-trail__more,
+.project-trail__more:hover,
 .project-trail__more:focus-visible {
   opacity: 1;
 }

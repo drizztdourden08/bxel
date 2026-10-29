@@ -1,15 +1,11 @@
 /* @layer renderer-app @kind hook */
 import { useCallback, useState } from 'react';
-import { isExpandable } from '../../../panel-browser/is-expandable';
 import { moveItems } from '../../../panel-browser/move-items';
 import type { BrowserItem } from '../../../panel-browser/project-browser.type';
 import { ASSET_DRAG_TYPE } from '../../ProjectBrowser/ProjectBrowser.constants';
 import type { DragActions, DropEvent, PanelParts } from '../ProjectPanel.type';
-import { dragOutProps } from './drag-out-props';
+import { dropFolder } from './drop-folder';
 import { exportable } from './exportable';
-
-const dropFolder = (item: BrowserItem | undefined): BrowserItem | undefined =>
-  item !== undefined && isExpandable(item) && item.role !== 'group' && !item.readOnly && item.path !== '' ? item : undefined;
 
 const pathsOf = (event: DropEvent): readonly string[] => {
   try {
@@ -22,7 +18,7 @@ const pathsOf = (event: DropEvent): readonly string[] => {
 
 const carries = (event: DropEvent): boolean => event.dataTransfer.types.includes(ASSET_DRAG_TYPE);
 
-const useRowDrag = ({ data, selection }: PanelParts): DragActions => {
+const useRowDrag = ({ data }: PanelParts): DragActions => {
   const [dropKey, setDropKey] = useState<string | null>(null);
   const { tree } = data;
 
@@ -45,8 +41,6 @@ const useRowDrag = ({ data, selection }: PanelParts): DragActions => {
     },
     [tree],
   );
-
-  const dragOut = useCallback((item: BrowserItem) => dragOutProps(item, selection), [selection]);
 
   const dropOn = useCallback(
     (target: BrowserItem | null): Record<string, unknown> => {
@@ -73,7 +67,7 @@ const useRowDrag = ({ data, selection }: PanelParts): DragActions => {
     [tree],
   );
 
-  return { dropKey, dragOut, dropOn, moveKeys, canMoveInto };
+  return { dropKey, dropOn, moveKeys, canMoveInto };
 };
 
 export { useRowDrag };

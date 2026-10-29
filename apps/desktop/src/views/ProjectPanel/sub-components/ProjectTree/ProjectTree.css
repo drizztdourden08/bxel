@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind style */
 .project-body > .project-tree {
-  --tree-row-h: calc(var(--size-32) + var(--size-4));
+  --tree-row-h: var(--size-40);
   --tree-thumb: var(--size-28);
+
   flex: 1;
   block-size: auto;
   min-block-size: 0;

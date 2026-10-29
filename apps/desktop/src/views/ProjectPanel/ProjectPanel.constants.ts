@@ -15,8 +15,6 @@ const ITEM_ATTRIBUTE = 'data-tree-key';
 
 const ITEM_SELECTOR = '[data-tree-key]';
 
-const KIND_SHORTCUT: Readonly<Record<CreatableKind, string>> = { sprite: 'S', animation: 'A', sheet: 'H', palette: 'P', tileset: 'T', tilemap: 'M' };
-
 const TILE_CHOICES: readonly { readonly size: TileSize; readonly label: string }[] = [
   { size: 48, label: 'Tiles, small' },
   { size: 64, label: 'Tiles, medium' },
@@ -69,11 +67,13 @@ const PANEL_UI = {
   searchHelp: 'Words match names and folders. Tokens: kind:sprite, is:unsaved, is:open, is:unused, is:missing, uses:name, in:folder. Type a space after a token to make it a filter.',
   filterLabel: 'Filter by kind or state',
   clearFilters: 'Clear filters',
+  clearLabel: 'Clear',
+  showAll: 'Show every file',
   moreFilters: (count: number): string => `${count} more filters`,
   newLabel: 'New',
   newMenuLabel: 'Choose what to make',
   menuLabel: 'Project menu',
-  optionsLabel: 'View options',
+  optionsLabel: 'Tree and list options',
   assistantLabel: (level: string): string => `Assistant access: ${level}`,
   loading: 'Reading the project',
   emptyTitle: 'No assets yet',
@@ -116,7 +116,6 @@ export {
   GROUP_CHOICES,
   ITEM_ATTRIBUTE,
   ITEM_SELECTOR,
-  KIND_SHORTCUT,
   NEW_ASSET_KINDS,
   NEW_BUTTON_SELECTOR,
   PANEL_UI,

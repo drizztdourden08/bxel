@@ -20,8 +20,8 @@ const FilterChips = ({ model }: PanelPartProps) => {
       {folded.length === 0 ? null : (
         <Tag title={folded.map((chip) => chip.label).join(', ')}>{PANEL_UI.moreFilters(folded.length)}</Tag>
       )}
-      <Button variant="ghost" size="xs" onClick={model.search.clear}>
-        {PANEL_UI.clearFilters}
+      <Button variant="ghost" size="xs" aria-label={PANEL_UI.clearFilters} onClick={model.search.clear}>
+        {PANEL_UI.clearLabel}
       </Button>
     </Flex>
   );

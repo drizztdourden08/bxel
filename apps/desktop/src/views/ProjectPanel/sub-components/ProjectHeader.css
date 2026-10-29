@@ -2,6 +2,7 @@
 .project-header {
   flex-wrap: nowrap;
   min-inline-size: 0;
+  padding-inline-end: var(--size-24);
 }
 
 .project-header__name {

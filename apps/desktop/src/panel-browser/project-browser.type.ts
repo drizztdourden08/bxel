@@ -104,7 +104,6 @@ export type {
   FilterResult,
   ItemCompare,
   ItemKind,
-  ItemRole,
   ItemState,
   ItemStatus,
   ItemTree,

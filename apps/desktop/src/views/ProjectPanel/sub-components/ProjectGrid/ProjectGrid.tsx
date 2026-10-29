@@ -6,7 +6,7 @@ import type { BrowserItem } from '../../../../panel-browser/project-browser.type
 import { PANEL_UI, TILE_BOX } from '../../ProjectPanel.constants';
 import type { PanelPartProps } from '../../ProjectPanel.type';
 import { GridTile } from './sub-components/GridTile';
-import { sectionsOf } from './sections-of';
+import { sectionsOf } from './behavior/sections-of';
 import './ProjectGrid.css';
 
 const ProjectGrid = ({ model }: PanelPartProps) => {

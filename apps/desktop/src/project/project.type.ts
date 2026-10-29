@@ -46,11 +46,6 @@ type AccessTarget = Pick<RecentProject, 'projectId' | 'rootRealPath'>;
 
 type ProjectTask = (documents: DocumentsPort) => Promise<ProjectOutcome | null>;
 
-type ProjectLocation = {
-  readonly folderId: string;
-  readonly segments: readonly string[];
-};
-
 type LinkedFolder = {
   readonly manifest: ProjectDocument;
   readonly folder: ResolvedFolder;
@@ -82,7 +77,6 @@ export type {
   OpenProject,
   ProjectFolderState,
   ProjectIdentity,
-  ProjectLocation,
   ProjectOutcome,
   ProjectPort,
   ProjectSettings,

@@ -1,9 +1,11 @@
 /* @layer renderer-app @kind component */
 import { useRef } from 'react';
+import { keepsWidgetFocus } from '@drizztdourden08/brock-react';
 import { Box, REORDER_ITEM_SELECTOR, ScrollArea, useReorderDrag } from '@drizztdourden08/tessera';
 import { dragFrame } from '../../../timeline/drag-frame';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
 import { useStripFocus } from '../behavior/useStripFocus';
+import { useStripAssetDrop } from '../behavior/useStripAssetDrop';
 import { useStripDrop } from '../behavior/useStripDrop';
 import type { FrameStripProps } from '../TimelinePanel.type';
 import { FrameCellView } from './FrameCellView';
@@ -14,9 +16,10 @@ const FrameStrip = ({ focus, model }: FrameStripProps) => {
   const listRef = useRef<HTMLElement>(null);
   const drag = useReorderDrag({ listRef, selector: REORDER_ITEM_SELECTOR, axis: 'horizontal', onDrop: dragFrame });
   const drop = useStripDrop(focus);
+  useStripAssetDrop(stripRef, focus);
   useStripFocus(stripRef, focus.frame.id);
   return (
-    <ScrollArea ref={stripRef} axis="x" scrollbar="slim" className="frame-strip" role="group" aria-label={TIMELINE_TEXT.strip} {...drop}>
+    <ScrollArea ref={stripRef} axis="x" scrollbar="slim" className="frame-strip" role="group" aria-label={TIMELINE_TEXT.strip} {...keepsWidgetFocus()} {...drop}>
       {model.tagLanes.map((cells, lane) => (
         <TagLane key={lane} cells={cells} />
       ))}

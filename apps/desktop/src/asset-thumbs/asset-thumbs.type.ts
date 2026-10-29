@@ -33,4 +33,4 @@ type ThumbTarget = {
   readonly loaded: boolean;
 };
 
-export type { ThumbEntry, ThumbJob, ThumbRequest, ThumbStore, ThumbTarget };
+export type { ThumbEntry, ThumbRequest, ThumbStore, ThumbTarget };

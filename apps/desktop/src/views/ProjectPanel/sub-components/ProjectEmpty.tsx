@@ -25,7 +25,7 @@ const ProjectEmpty = ({ model }: PanelPartProps) => {
         message={PANEL_UI.nothingMatches}
         action={
           <Button variant="secondary" size="sm" onClick={search.clear}>
-            {PANEL_UI.clearFilters}
+            {PANEL_UI.showAll}
           </Button>
         }
       />

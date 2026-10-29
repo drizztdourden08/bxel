@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, test } from 'vitest';
 import { frameButton, openAnimationTab, timelineOf } from './support/animation-ui';
-import { dragBetween } from './support/drag-between';
+import { dragByPointer } from './support/drag-by-pointer';
 import type { Session } from './support/e2e.type';
 import { openAssetRow } from './support/open-asset-row';
 import { openStripRig } from './support/open-strip-rig';
@@ -14,7 +14,7 @@ const dropsFromTheAssetsList = async (session: Session): Promise<void> => {
   await openAnimationTab(session, STRIP.animation);
   await frameButton(session, 1).waitFor();
   await session.page.getByRole('searchbox', { name: 'Search the project' }).fill(STRIP.strip);
-  await dragBetween(session.page, assetRow(session, STRIP.strip), timelineOf(session).getByRole('group', { name: 'Frames' }));
+  await dragByPointer(session.page, assetRow(session, STRIP.strip).locator('.project-thumb'), timelineOf(session).getByRole('group', { name: 'Frames' }));
   await frameButton(session, 2).waitFor();
   expect(await frameButton(session, 2).getAttribute('aria-label')).toBe('Frame 2, 100 milliseconds, shared');
 };

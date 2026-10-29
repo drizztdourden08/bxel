@@ -1,15 +1,19 @@
 /* @layer renderer-app @kind component */
 import { Badge, Box, Icon, Image, Text } from '@drizztdourden08/tessera';
+import { useRef } from 'react';
 import type { MouseEvent } from 'react';
 import { useThumb } from '../../../../../asset-thumbs/useThumb';
 import { EMPTY_STATUS, ITEM_ICON } from '../../../../../panel-browser/project-browser.constants';
 import { rowLabel } from '../../../../../panel-browser/row-label';
 import { ITEM_ATTRIBUTE } from '../../../ProjectPanel.constants';
+import { useAssetDragOut } from '../../../behavior/useAssetDragOut';
 import type { GridTileProps } from '../ProjectGrid.type';
 import './GridTile.css';
 
 const GridTile = ({ model, item, cell }: GridTileProps) => {
-  const { selection, rowActions, drag, data } = model;
+  const { selection, rowActions, data } = model;
+  const ref = useRef<HTMLDivElement>(null);
+  useAssetDragOut(ref, item, selection);
   const status = data.statuses.get(item.key) ?? EMPTY_STATUS;
   const url = useThumb(item);
   const icon = <Icon name={ITEM_ICON[item.kind]} />;
@@ -17,6 +21,7 @@ const GridTile = ({ model, item, cell }: GridTileProps) => {
     rowActions.pick(item, { shift: event.shiftKey, toggle: event.ctrlKey || event.metaKey, detail: event.detail });
   return (
     <Box
+      ref={ref}
       {...cell}
       className={`${cell.className} project-tile`}
       aria-label={rowLabel(item, status, false)}
@@ -26,7 +31,6 @@ const GridTile = ({ model, item, cell }: GridTileProps) => {
       {...{ [ITEM_ATTRIBUTE]: item.key }}
       onClick={click}
       onDoubleClick={() => rowActions.open(item)}
-      {...drag.dragOut(item)}
     >
       <Box className="project-tile__thumb">{url === null ? icon : <Image className="project-tile__img" src={url} alt="" fit="contain" pixelated fallback={icon} />}</Box>
       <Text variant="caption" className="project-tile__name">
