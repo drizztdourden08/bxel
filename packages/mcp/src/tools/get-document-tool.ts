@@ -177,7 +177,7 @@ const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
     tilesets: z.array(tileset).describe('The tilesets. Read the tiles of one with list_map_layers.'),
     tilemaps: z.array(tilemap).describe('The tilemaps. Read the layers and cells of one with list_map_layers and read_map_cells.'),
     presets: z.array(preset).optional().describe('Only with include presets. The export presets saved in the document.'),
-    TILESET_DETAIL_SCHEMAs: z.array(TILESET_DETAIL_SCHEMA).optional().describe('The detail of each tileset. Only present when include has tileset.'),
+    tilesetDetails: z.array(TILESET_DETAIL_SCHEMA).optional().describe('The detail of each tileset. Only present when include has tileset.'),
   }),
 });
 

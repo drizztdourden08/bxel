@@ -16,7 +16,7 @@ const TOOLS = buildTools(APP_COMMANDS);
 
 type Made = { readonly documentId: string; readonly assetId: string };
 
-const useAssistantRig = (): (() => ToolRig) => {
+const rigForTests = (): (() => ToolRig) => {
   const held: { rig?: ToolRig } = {};
   beforeEach(async () => {
     held.rig = await toolRig();
@@ -29,7 +29,7 @@ const useAssistantRig = (): (() => ToolRig) => {
 };
 
 const assistantTools = () => {
-  const current = useAssistantRig();
+  const current = rigForTests();
   const make = async (kind: string, extra: object = {}): Promise<Made> => {
     const made = await current().run('create_document', { name: `tt ${kind}`, kind, bank: BANK, ...extra }, []);
     expect(made).toMatchObject({ ok: true });
