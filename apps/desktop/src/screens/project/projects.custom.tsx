@@ -5,7 +5,7 @@ import { ProjectList } from '../../views/ProjectList';
 const meta: ScreenMeta = {
   title: 'Projects',
   icon: 'folder',
-  order: 1,
+  order: 2,
   keywords: ['project', 'projects', 'recent', 'open', 'new', 'remove', 'list'],
 };
 

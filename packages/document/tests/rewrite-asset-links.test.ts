@@ -22,6 +22,12 @@ describe('rewriteAssetLinks', () => {
     expect(rewriteAssetLinks(Uint8Array.from([1, 2, 3]), (link) => link)).toBeNull();
   });
 
+  it('drops a link when the change returns null', () => {
+    const bytes = encodeSprite(spriteSlice(), null, assetClock);
+    const dropped = rewriteAssetLinks(bytes, () => null);
+    expect(readAssetManifest(dropped ?? new Uint8Array())?.links).toEqual([]);
+  });
+
   it('keeps the preview of the file', () => {
     const bytes = encodeSprite(spriteSlice(), assetPreview, assetClock);
     const moved = rewriteAssetLinks(bytes, (link) => ({ id: link.id, path: 'x/y.bxpalette' }));

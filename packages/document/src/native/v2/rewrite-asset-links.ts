@@ -16,9 +16,9 @@ const levelOf = (path: string) => (path === ENTRY.mimetype || path === ENTRY.pre
 
 /**
  * Writes new link paths into the manifest of an asset file and leaves every other byte of content as it was.
- * Returns null when the file cannot be read or no link changes.
+ * A change that returns null drops that link. Returns null when the file cannot be read or no link changes.
  */
-const rewriteAssetLinks = (bytes: Uint8Array, change: (link: AssetRef) => AssetRef): Uint8Array | null => {
+const rewriteAssetLinks = (bytes: Uint8Array, change: (link: AssetRef) => AssetRef | null): Uint8Array | null => {
   try {
     const files = unzipSync(bytes);
     const raw = files[ENTRY.manifest];
@@ -26,7 +26,7 @@ const rewriteAssetLinks = (bytes: Uint8Array, change: (link: AssetRef) => AssetR
     const json: unknown = JSON.parse(strFromU8(raw));
     const parsed = assetManifestSchema.safeParse(json);
     if (!parsed.success) return null;
-    const links = parsed.data.links.map(change);
+    const links = parsed.data.links.flatMap((link) => change(link) ?? []);
     if (sameLinks(parsed.data.links, links)) return null;
     const zippable: Zippable = {};
     for (const [path, data] of Object.entries(files)) {

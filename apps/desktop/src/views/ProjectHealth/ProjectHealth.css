@@ -1,0 +1,43 @@
+/* @layer renderer-app @kind style */
+.project-health {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  overflow: auto;
+  block-size: 100%;
+  box-sizing: border-box;
+}
+
+.project-health__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.project-health__title {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.project-health__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.project-health__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.project-health__section-actions,
+.project-health__row-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
