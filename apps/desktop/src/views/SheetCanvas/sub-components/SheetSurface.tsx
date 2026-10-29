@@ -21,6 +21,7 @@ import type { PixelViewportHandle } from '../../PixelViewport';
 import { SHEET_CANVAS_TEXT, SHEET_MENU } from '../SheetCanvas.constants';
 import type { SheetDrag, SheetSurfaceProps } from '../SheetCanvas.type';
 import { sheetKeyDown } from '../behavior/sheet-key-down';
+import { useCanvasAssetDrop } from '../behavior/useCanvasAssetDrop';
 import { useSheetDrop } from '../behavior/useSheetDrop';
 import { useSheetMenu } from '../behavior/useSheetMenu';
 import { useSheetGestures } from '../behavior/useSheetGestures';
@@ -46,6 +47,8 @@ const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
   const draw = useSheetPaint(base, drag, viewport);
   const gestures = useSheetGestures(viewport, sheet, drag);
   const dropping = useSheetDrop(viewport, model.sheet?.id ?? null, exported !== null);
+  const frame = useRef<HTMLElement>(null);
+  useCanvasAssetDrop(frame, viewport, model.sheet?.id ?? null, exported !== null);
   useSheetMenu(viewport, model.items);
   useViewportBridge(viewport, true);
   useViewDefaults();
@@ -57,7 +60,7 @@ const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
   const size = exported ?? model.extent;
   const live = reading ? READING_BINDS : { draw, onPointerDown: gestures.down, onPointerMove: gestures.move, onPointerUp: gestures.up, onKeyDown: sheetKeyDown };
   return (
-    <Box className="sheet-canvas" {...contextMenuZone(SHEET_MENU.zone)} {...dropping}>
+    <Box ref={frame} className="sheet-canvas" {...contextMenuZone(SHEET_MENU.zone)} {...dropping}>
       <RulerFrame>
         <PixelViewport
           ref={viewport}

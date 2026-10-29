@@ -5,6 +5,7 @@ import type { Artwork, Rect, Sheet, SpriteId } from '@bxel/document';
 import type { SpriteScene } from '../../sheet/sheet.type';
 import type { FolderGroup, SavedSelection } from '../../sheet-manager/folders.type';
 import type { AnimationFacts, EntryFacts, ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
+import type { EntryDrag } from './behavior/useSpriteDrag.type';
 import type { EntryTileDrag, EntryTileHandlers, EntryTileState } from '../EntryTile/EntryTile.type';
 
 interface ManagerModel {
@@ -27,6 +28,13 @@ interface ManagerModel {
 
 interface ManagerModelProps {
   model: ManagerModel;
+}
+
+interface SheetZoneProps {
+  model: ManagerModel;
+  onKeyDown: SpriteKeyHandler;
+  bind: EntryDrag['zone'];
+  children: ReactNode;
 }
 
 interface SpriteRenameProps {
@@ -172,6 +180,7 @@ export type {
   SpriteDragHandlers,
   SpriteGridProps,
   SpriteHandlers,
+  SheetZoneProps,
   SpriteKeyHandler,
   SpriteNameCellProps,
   SpriteMarquee,

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { commandZone, keepsWidgetFocus, useContextMenu } from '@drizztdourden08/brock-react';
+import { useContextMenu } from '@drizztdourden08/brock-react';
 import { Box, Stack } from '@drizztdourden08/tessera';
 import type { DataTableHandle } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
@@ -25,6 +25,7 @@ import { LayoutSection } from './LayoutSection';
 import { BrowserSplit } from './BrowserSplit';
 import { ManagerFilters } from './ManagerFilters';
 import { SheetTitle } from './SheetTitle';
+import { SheetZone } from './SheetZone';
 import { SpriteCollection } from './SpriteCollection';
 import { SpriteRename } from './SpriteRename';
 import { ruledEntries } from '../../../context-menu/ruled-entries';
@@ -59,9 +60,9 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const body = (
     <Stack gap="xs" className="sprites-panel__main">
       <BatchBar model={model} groups={groups} open={open} />
-      <Box onKeyDown={onKeyDown} className="sprites-panel__zone" {...commandZone(COMMAND_ZONE.sprites)} {...keepsWidgetFocus()} {...drag.zone}>
+      <SheetZone model={model} onKeyDown={onKeyDown} bind={drag.zone}>
         <SpriteCollection model={model} table={table} affected={affected} dragFor={drag.dragFor} marks={drag.marks} handlersFor={handlersFor(model, rename.begin)} />
-      </Box>
+      </SheetZone>
       {!wide && <LayoutSection model={model} />}
     </Stack>
   );
