@@ -31,6 +31,7 @@ const RowThumb = (props: RowThumbProps) => {
       data-active={status.active}
       title={item.role === 'ghost' || item.kind === 'folder' ? undefined : 'Drag to a canvas, a timeline or a folder'}
       onPointerDown={(event) => event.stopPropagation()}
+      onDragStart={(event) => event.preventDefault()}
     >
       {url === null ? fallback : <Image className="project-thumb__img" src={url} alt="" fit="contain" pixelated fallback={fallback} />}
     </Box>

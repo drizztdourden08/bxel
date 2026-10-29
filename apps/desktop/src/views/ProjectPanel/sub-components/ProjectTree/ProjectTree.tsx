@@ -8,6 +8,7 @@ import type { BrowserItem } from '../../../../panel-browser/project-browser.type
 import { PANEL_UI } from '../../ProjectPanel.constants';
 import type { PanelPartProps } from '../../ProjectPanel.type';
 import { useRevealRow } from './behavior/useRevealRow';
+import { useScrollOnSearch } from './behavior/useScrollOnSearch';
 import { useTreeExpansion } from './behavior/useTreeExpansion';
 import { RowLabel } from './sub-components/RowLabel';
 import { RowThumb } from './sub-components/RowThumb';
@@ -22,6 +23,7 @@ const ProjectTree = ({ model }: PanelPartProps) => {
   const handle = useRef<TreeHandle>(null);
   const expansion = useTreeExpansion(model);
   useRevealRow(selection.request, handle);
+  useScrollOnSearch(model, handle);
   const statusOf = (item: BrowserItem) => data.statuses.get(item.key) ?? EMPTY_STATUS;
   const visible = browser.visible;
 
