@@ -38,6 +38,7 @@ const CHANGE_SET_SCHEMA = z
     sprites: z.array(SPRITE_CHANGE_SCHEMA),
     sheets: z.array(entityChangeSchema(SHEET_ID_SCHEMA)),
     presets: z.array(entityChangeSchema(idSchemaOf('exp'))),
+    brushes: z.array(entityChangeSchema(idSchemaOf('brs'))),
     tilesets: z.array(entityChangeSchema(TILESET_ID_SCHEMA)),
     tilemaps: z.array(entityChangeSchema(TILEMAP_ID_SCHEMA)),
     animations: z.array(entityChangeSchema(ANIMATION_ID_SCHEMA)),

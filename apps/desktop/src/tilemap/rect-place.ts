@@ -1,9 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
-import type { Rect } from '@bxel/document';
+import type { CommandStep, Rect } from '@bxel/document';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { groupPlacements } from './group-placements';
 import { layerOptions } from './layer-options';
+import { mapMirrors } from './map-mirrors';
 import { paintSteps } from './paint-steps';
 import { patternPlacements } from './pattern-placements';
 import { readiedMap } from './readied-map';
@@ -26,8 +27,13 @@ const rectPlace = (rect: Rect): boolean => {
     const groups = groupPlacements(patternPlacements(stamp, rect, filled, target.tilemap), flags);
     return runMap(TILE_LABEL.rect, paintSteps(target, groups));
   }
-  const options = { ...layerOptions(target), rect, tile: stamp.keys[0], flags, filled };
-  return runMap(TILE_LABEL.rect, [{ name: COMMAND_NAME.mapRect, targets: null, options }]);
+  const step = (area: Rect, each: typeof flags): CommandStep => ({
+    name: COMMAND_NAME.mapRect,
+    targets: null,
+    options: { ...layerOptions(target), rect: area, tile: stamp.keys[0], flags: each, filled },
+  });
+  const mirrored = mapMirrors(target.tilemap).map((mirror) => step(mirror.rect(rect), mirror.flags(flags)));
+  return runMap(TILE_LABEL.rect, [step(rect, flags), ...mirrored]);
 };
 
 export { rectPlace };

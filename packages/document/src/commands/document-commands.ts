@@ -9,6 +9,9 @@ import { layerReorder } from './layer/layer-reorder';
 import { layerUpdate } from './layer/layer-update';
 import { pixelsPatch } from './pixels/pixels-patch';
 import { artworkUpdate } from './artwork/artwork-update';
+import { brushAdd } from './brush/brush-add';
+import { brushDelete } from './brush/brush-delete';
+import { brushUpdate } from './brush/brush-update';
 import { presetAdd } from './preset/preset-add';
 import { presetDelete } from './preset/preset-delete';
 import { presetRename } from './preset/preset-rename';
@@ -38,6 +41,7 @@ import { spriteUpdate } from './sprite/sprite-update';
 import { mapErase } from './map/map-erase';
 import { mapFill } from './map/map-fill';
 import { mapPaint } from './map/map-paint';
+import { mapLine } from './map/map-line';
 import { mapRect } from './map/map-rect';
 import { mapReplace } from './map/map-replace';
 import { mapTerrain } from './map/map-terrain';
@@ -173,9 +177,13 @@ const documentCommands: readonly CommandDef[] = [
   mapErase,
   mapFill,
   mapRect,
+  mapLine,
   mapReplace,
   mapTerrain,
   mapWrite,
+  brushAdd,
+  brushUpdate,
+  brushDelete,
 ];
 
 export { documentCommands };

@@ -43,6 +43,7 @@ const everything = (artwork: Artwork): ChangeSet => {
     sprites: [touch('spr_000010'), touch(firstOf(tileset.tiles).spriteId)],
     sheets: [{ id: firstOf(artwork.sheets).id, kind: 'updated' }],
     presets: ['Hearts at 4x', 'Tree alone', 'Characters sheet'].map((name) => ({ id: presetId(artwork, name), kind: 'updated' })),
+    brushes: [],
     tilesets: [{ id: tileset.id, kind: 'updated' }],
     tilemaps: [{ id: firstOf(artwork.tilemaps).id, kind: 'updated' }],
     animations: [],

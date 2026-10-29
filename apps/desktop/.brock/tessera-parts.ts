@@ -35,6 +35,7 @@ declare module '@drizztdourden08/tessera' {
         | 'ImportWizard'
         | 'LayerStack'
         | 'LegacyBar'
+        | 'LinkedCelDialog'
         | 'MigrationBar'
         | 'MismatchBar'
         | 'Navigator'

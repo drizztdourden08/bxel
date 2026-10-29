@@ -7,6 +7,8 @@ import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.typ
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
+import { drawingVersion } from '../../../stores/drawing-version';
+import { useDrawingStore } from '../../../stores/useDrawingStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { useOptionsVersion } from '../../OptionControls';
 import { flyoutGroups } from '../../../tool-menu/flyout-groups';
@@ -26,8 +28,8 @@ const useRailItems = (): ToolbarItem[] => {
   const context = useBxelContext((current) => current);
   const surface = surfaceOfContext(context);
   const active = useToolStore((state) => state.tool);
-  const shape = useToolStore((state) => state.shape);
-  const filled = useToolStore((state) => state.filled);
+  const filledTools = useDrawingStore((state) => state.filled);
+  useDrawingStore(drawingVersion);
   const fillMode = useToolStore((state) => state.fillMode);
   const mode = useSelectionStore((state) => state.mode);
   const variant = useSelectionStore((state) => state.variant);
@@ -43,9 +45,9 @@ const useRailItems = (): ToolbarItem[] => {
     return {
       surface,
       active,
-      shown: shownMember(slot, { shape, variant }),
-      filled: slot.tool === 'shape' && filled,
-      badge: slotBadge(slot, { fillMode, filled, shape, mode }),
+      shown: shownMember(slot, { variant }),
+      filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false,
+      badge: slotBadge(slot, { fillMode, filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false, mode }),
       keys: keysOf(slot.tool),
       ui: evaluate(COMMAND_ID.tool(slot.tool), context),
       groups: hover && model.hasContent ? flyoutGroups(flyoutSections(model, true)) : undefined,

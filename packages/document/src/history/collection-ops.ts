@@ -29,9 +29,9 @@ const metaOps = (base: Artwork, next: Artwork): UndoOp[] => {
 const collectionOps = (base: Artwork, next: Artwork): UndoOp[] => [
   ...metaOps(base, next),
   ...COLLECTION_KEYS.flatMap((key): UndoOp[] =>
-    sameList(base[key], next[key])
+    sameList(base[key] ?? [], next[key] ?? [])
       ? []
-      : [{ kind: 'entity', path: `${COLLECTION_PREFIX}${key}`, before: base[key], after: next[key] }],
+      : [{ kind: 'entity', path: `${COLLECTION_PREFIX}${key}`, before: base[key] ?? [], after: next[key] ?? [] }],
   ),
 ];
 

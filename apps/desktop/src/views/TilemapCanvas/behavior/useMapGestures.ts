@@ -39,7 +39,7 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
     move: (event) => {
       if (guide.move(event)) return;
       const { drag } = live.current;
-      if (drag) live.current.drag = extendDrag(drag, drag.kind === 'stroke' ? cellAt(event) : cellNear(event), useTilemapStore.getState().stamp, target);
+      if (drag) live.current.drag = extendDrag(drag, drag.kind === 'stroke' || drag.kind === 'line' ? cellAt(event) : cellNear(event), useTilemapStore.getState().stamp, target);
       live.current.hover = cellAt(event);
       redraw();
     },

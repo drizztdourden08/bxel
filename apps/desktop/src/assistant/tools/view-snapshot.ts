@@ -1,7 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { dialogs, nav } from '@drizztdourden08/brock-react';
 import { currentTarget } from '../../editor/current-target';
+import type { FilledTool } from '../../stores/drawing-store.type';
+import { inkFor } from '../../stores/ink-for';
 import { useDocumentStore } from '../../stores/useDocumentStore';
+import { useDrawingStore } from '../../stores/useDrawingStore';
 import { useManagerStore } from '../../stores/useManagerStore';
 import { useSelectionStore } from '../../stores/useSelectionStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
@@ -14,6 +17,7 @@ import { activeAssetOf } from '../../workspace/active-asset-of';
 import { assetName } from '../../workspace/asset-name';
 import { keyId } from '../../workspace/key-id';
 import { selectionReply } from './selection-reply';
+import { FILLED_TOOL_IDS } from './view-snapshot.constants';
 import type { Sees } from './view-snapshot.type';
 
 const tabsOf = (sees: Sees) => {
@@ -67,8 +71,8 @@ const toolOf = () => {
     pixelPerfect: tool.pixelPerfect,
     fillMode: tool.fillMode,
     connectivity: tool.connectivity,
-    shape: tool.shape,
-    filled: tool.filled,
+    filled: FILLED_TOOL_IDS.includes(tool.tool) ? useDrawingStore.getState().filled[tool.tool as FilledTool] : false,
+    ink: inkFor(useDrawingStore.getState(), tool.tool),
   };
 };
 

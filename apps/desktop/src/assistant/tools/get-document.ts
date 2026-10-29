@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { hiddenFailure } from '@bxel/mcp';
 import { sheetExtent, sheetSizes } from '@bxel/document';
-import type { Animation, Artwork, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
+import type { Animation, Artwork, CustomBrush, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
 import { hiddenAssets } from './hidden-assets';
 import { tilesetDetail } from './tileset-detail';
@@ -16,6 +16,13 @@ const bankSummary = (bank: PaletteBank) => ({
   cap: bank.cap,
   used: bank.slots.length,
   transparent: bank.transparent,
+});
+
+const brushSummary = (brush: CustomBrush) => ({
+  brushId: brush.id,
+  name: brush.name,
+  width: brush.width,
+  height: brush.height,
 });
 
 const animationSummary = (animation: Animation) => ({
@@ -74,6 +81,7 @@ const getDocument: ToolHandler = (input, context) => {
     truncated: spriteOffset + sprites.length < seen.length,
     animations: artwork.animations.filter((animation) => !hidden.has(animation.id)).map(animationSummary),
     sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork)),
+    brushes: (artwork.brushes ?? []).map(brushSummary),
     tilesets: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map(tilesetSummary),
     tilemaps: artwork.tilemaps.filter((tilemap) => !hidden.has(tilemap.id)).map(tilemapSummary),
     ...(include.includes('tileset')

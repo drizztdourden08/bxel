@@ -62,6 +62,8 @@ const TILED_ORDER: readonly TileMode[] = ['off', 'x', 'y', 'both'];
 const SYMMETRY_TEXT = {
   mirrorX: 'Mirror X',
   mirrorY: 'Mirror Y',
+  diagonal: 'Mirror across the diagonal',
+  turn: 'Turn four ways around the crossing',
   centre: 'Centre',
   centred: 'Centred',
   at: (value: number): string => `At ${value}`,

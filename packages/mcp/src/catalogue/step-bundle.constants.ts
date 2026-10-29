@@ -12,6 +12,7 @@ const STEP_BUNDLE: Readonly<Record<string, BundleId>> = {
   guide: 'edit_pixels',
   slice: 'edit_pixels',
   preset: 'edit_pixels',
+  brush: 'edit_pixels',
   artwork: 'edit_pixels',
   animation: 'animation',
   tag: 'animation',

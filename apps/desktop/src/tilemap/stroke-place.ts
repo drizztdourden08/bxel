@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
-import type { Point } from '@bxel/document';
+import type { CommandStep, Point } from '@bxel/document';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { layerOptions } from './layer-options';
+import { mapMirrors } from './map-mirrors';
 import { placeStampAt } from './place-stamp-at';
 import { readiedMap } from './readied-map';
 import { readyStamp } from './ready-stamp';
@@ -19,8 +20,14 @@ const strokePlace = (points: readonly Point[]): boolean => {
   if (!target || !stamp) return false;
   if (stamp.scatter) return scatterAt(points);
   if (stamp.keys.length > 1) return placeStampAt(points);
-  const options = { ...layerOptions(target), points, tile: stamp.keys[0], flags: useTilemapStore.getState().flags };
-  return runMap(TILE_LABEL.place, [{ name: COMMAND_NAME.mapPaint, targets: null, options }]);
+  const { flags } = useTilemapStore.getState();
+  const step = (cells: readonly Point[], each: typeof flags): CommandStep => ({
+    name: COMMAND_NAME.mapPaint,
+    targets: null,
+    options: { ...layerOptions(target), points: cells, tile: stamp.keys[0], flags: each },
+  });
+  const mirrored = mapMirrors(target.tilemap).map((mirror) => step(points.map(mirror.point), mirror.flags(flags)));
+  return runMap(TILE_LABEL.place, [step(points, flags), ...mirrored]);
 };
 
 export { strokePlace };

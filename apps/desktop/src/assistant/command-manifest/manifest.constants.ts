@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { BundleId } from '@bxel/mcp';
 import { OPTION_COMMAND, TOOL_COMMAND } from '../../keymap/option-command-id.constants';
+import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_TOOL_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
 import { OPTION_VALUE_COMMAND_IDS } from '../../keymap/option-commands.constants';
 import type { CommandEffect, ManifestEntry, ManifestExtra } from './manifest.type';
 
@@ -23,12 +24,16 @@ const VIEW_ROWS = [
   one('status.copy_cursor', 'app_control', 'app'),
   one('ruler.set_unit', 'app_control', 'app', { args: 'unit' }),
   ...rows('app_control', 'app', ['tab.move_left', 'tab.move_right'], { args: 'tab' }),
-  ...rows('app_control', 'app', ['tool.select_pencil', 'tool.select_eraser', 'tool.select_fill', 'tool.select_picker', 'tool.select_shape']),
+  ...rows('app_control', 'app', ['tool.select_pencil', 'tool.select_eraser', 'tool.select_fill', 'tool.select_picker']),
+  ...rows('app_control', 'app', DRAWING_TOOL_IDS.map((tool) => `tool.select_${tool}`)),
+  ...rows('app_control', 'app', DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection && !OUTLINE_ACTIONS.includes(id))),
+  ...rows('edit_pixels', 'edit', OUTLINE_ACTIONS),
+  one(DRAWING_COMMAND.brushFromSelection, 'edit_pixels', 'edit'),
   ...rows('app_control', 'app', ['tool.select_zoom', 'tool.select_hand', 'tool.select_select', 'tool.select_move', 'brush.smaller', 'brush.larger']),
   ...rows('app_control', 'app', OPTION_VALUE_COMMAND_IDS, { args: 'optionValue' }),
   ...rows('app_control', 'app', [OPTION_COMMAND.set, OPTION_COMMAND.reset], { args: 'optionTarget' }),
   ...rows('app_control', 'app', [OPTION_COMMAND.resetAll, OPTION_COMMAND.focus, OPTION_COMMAND.open, OPTION_COMMAND.sizeDownBy, OPTION_COMMAND.sizeUpBy]),
-  ...rows('app_control', 'app', ['shape', 'select', 'fill'].map(TOOL_COMMAND.cycleBack)),
+  ...rows('app_control', 'app', ['select'].map(TOOL_COMMAND.cycleBack)),
   ...rows('app_control', 'app', [1, 2, 3, 4, 5].map(TOOL_COMMAND.quickPreset)),
   ...rows('app_control', 'app', [TOOL_COMMAND.previous, TOOL_COMMAND.resetOptions]),
   one(TOOL_COMMAND.applyPreset, 'app_control', 'app', { args: 'preset' }),

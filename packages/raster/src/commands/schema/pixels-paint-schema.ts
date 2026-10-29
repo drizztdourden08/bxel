@@ -1,8 +1,8 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
 import { indexSchema } from './index-schema';
-import { strokeFields } from './stroke-fields';
+import { inkedStrokeFields } from './inked-stroke-fields';
 
-const pixelsPaintSchema = z.strictObject({ index: indexSchema, ...strokeFields });
+const pixelsPaintSchema = z.strictObject({ index: indexSchema, ...inkedStrokeFields });
 
 export { pixelsPaintSchema };

@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { BRUSH_SIZE_MAX, BRUSH_SIZE_MIN } from './brush.constants';
+import { fillLine } from './brush-line';
 import type { Brush, BrushStamp } from './brush.type';
 import { stampOffset } from './stamp-offset';
 
@@ -25,6 +26,8 @@ const brushStamp = (brush: Brush): BrushStamp => {
   const cells = new Uint8Array(size * size);
   if (brush.shape === 'circle') {
     fillCircle(cells, size);
+  } else if (brush.shape === 'line') {
+    fillLine(cells, size, brush.angle ?? 0);
   } else {
     cells.fill(1);
   }

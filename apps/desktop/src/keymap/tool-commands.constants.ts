@@ -4,6 +4,7 @@ import { allPresets } from '../editor/presets/all-presets';
 import { applyPreset } from '../editor/presets/apply-preset';
 import { openSaveDraft } from '../editor/presets/open-save-draft';
 import { quickPresets } from '../editor/presets/quick-presets';
+import { chordOfKey } from '../editor/tool-catalogue/chord-of-key';
 import { keyOfTool } from '../editor/tool-catalogue/key-of-tool';
 import { labelOfTool } from '../editor/tool-catalogue/label-of-tool';
 import { toolIds } from '../editor/tool-catalogue/tool-ids';
@@ -18,17 +19,17 @@ import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
 import { TOOL_COMMAND } from './option-command-id.constants';
 import { ruled } from './ruled';
 
-const CYCLING: readonly ToolId[] = ['shape', 'select', 'fill'];
+const CYCLING: readonly ToolId[] = ['select'];
 
 const selectCommand = (tool: ToolId): CommandDef =>
-  ruled({ id: COMMAND_ID.tool(tool), label: labelOfTool('sprite', tool), group: COMMAND_GROUP.tools, chord: keyOfTool(tool).toUpperCase(), run: () => pressToolKey(tool) });
+  ruled({ id: COMMAND_ID.tool(tool), label: labelOfTool('sprite', tool), group: COMMAND_GROUP.tools, chord: chordOfKey(keyOfTool(tool)), run: () => pressToolKey(tool) });
 
 const backCommand = (tool: ToolId): CommandDef =>
   ruled({
     id: TOOL_COMMAND.cycleBack(tool),
     label: `${labelOfTool('sprite', tool)}, previous variant`,
     group: COMMAND_GROUP.tools,
-    chord: `Shift+${keyOfTool(tool).toUpperCase()}`,
+    chord: `Shift+${chordOfKey(keyOfTool(tool))}`,
     run: () => pressToolKey(tool, -1),
   });
 

@@ -1,72 +1,40 @@
 /* @layer renderer-app @kind hook */
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { RefObject } from 'react';
-import { allowPress } from '../../../editor/allow-press';
-import { commitSession } from '../../../editor/commit-session';
-import { currentTarget } from '../../../editor/current-target';
-import type { PaintSession } from '../../../editor/editor.type';
-import { extendStroke } from '../../../editor/extend-stroke';
-import { foldToSprite } from '../../../editor/fold-to-sprite';
-import { handOffImage } from '../../../editor/hand-off-image';
-import { insidePaintArea } from '../../../editor/inside-paint-area';
-import { pressPlan } from '../../../editor/press-plan';
-import { runInstant } from '../../../editor/run-instant';
-import { startSession } from '../../../editor/start-session';
-import { updateShape } from '../../../editor/update-shape';
-import { useLivePaintStore } from '../../../stores/useLivePaintStore';
+import { pathDraft } from '../../../editor/path-draft';
 import { useToolStore } from '../../../stores/useToolStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
+import { cancelGesture } from './cancel-gesture';
 import type { PaintGesture } from './canvas-tools.type';
-import { pixelAtEvent } from './pixel-at-event';
-import { zoomAtPointer } from './zoom-at-pointer';
+import { clearGesture } from './clear-gesture';
+import { finishGesture } from './finish-gesture';
+import { gestureLive } from './gesture-live';
+import { pressDown } from './press-down';
+import { pressMove } from './press-move';
+import { pressUp } from './press-up';
+import { redrawGesture } from './redraw-gesture';
+import { useDraftKeys } from './useDraftKeys';
 
 const usePaintGesture = (viewport: RefObject<PixelViewportHandle | null>): PaintGesture => {
-  const session = useRef<PaintSession | null>(null);
-  const image = useRef<ImageData | null>(null);
   const [live, setLive] = useState<ImageData | null>(null);
+  useEffect(() => {
+    gestureLive.show = setLive;
+    gestureLive.redraw = () => viewport.current?.redraw();
+    return clearGesture;
+  }, [viewport]);
+  useDraftKeys({ finish: finishGesture, cancel: cancelGesture, redraw: redrawGesture });
+  useEffect(
+    () =>
+      useToolStore.subscribe((state, previous) => {
+        if (state.tool !== previous.tool && pathDraft.current) cancelGesture();
+      }),
+    [],
+  );
   return {
     live,
-    down: (event) => {
-      const target = currentTarget();
-      const plan = pressPlan(useToolStore.getState().tool, event);
-      if (!target || !plan) return;
-      if (plan.kind === 'zoom') {
-        zoomAtPointer(viewport.current, event, plan.out);
-        return;
-      }
-      const at = pixelAtEvent(viewport.current, event);
-      if (!insidePaintArea(target, at) || !allowPress(plan, target)) return;
-      if (plan.kind === 'pick' || plan.kind === 'fill') {
-        runInstant(plan.kind, target, foldToSprite(target, at), plan.slot);
-        return;
-      }
-      event.currentTarget.setPointerCapture(event.pointerId);
-      const started = startSession(plan, target, at);
-      session.current = started;
-      useLivePaintStore.getState().start(started);
-      image.current = new ImageData(started.rgba, started.width, started.height);
-      setLive(image.current);
-    },
-    move: (event) => {
-      const active = session.current;
-      if (!active) return;
-      const at = pixelAtEvent(viewport.current, event);
-      if (active.kind === 'stroke') extendStroke(active, at);
-      else updateShape(active, at, event.shiftKey);
-      viewport.current?.redraw();
-      useLivePaintStore.getState().update();
-    },
-    up: () => {
-      const done = session.current;
-      const shown = image.current;
-      session.current = null;
-      image.current = null;
-      useLivePaintStore.getState().end();
-      setLive(null);
-      if (!done) return;
-      const result = commitSession(done);
-      if (shown) handOffImage(done, shown, result);
-    },
+    down: (event) => pressDown(viewport.current, event),
+    move: (event) => pressMove(viewport.current, event),
+    up: pressUp,
   };
 };
 
