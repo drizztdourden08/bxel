@@ -65,7 +65,7 @@ const shade: OptionSpec[] = [
     read: () => d().shadeSteps, write: (value) => d().patch({ shadeSteps: value }),
   }),
   choiceSpec({
-    tool: 'shade', name: 'ramp', label: DRAWING_TEXT.shadeRamp, description: DRAWING_TEXT.shadeRampDescription, priority: 42, group: 'ink', tier: 2, default: '',
+    tool: 'shade', name: 'ramp', label: DRAWING_TEXT.shadeRamp, description: DRAWING_TEXT.shadeRampDescription, priority: 42, group: 'ink', default: '', display: 'menu',
     choices: rampChoices, read: () => d().shadeRamp ?? '', write: (value) => d().patch({ shadeRamp: value === '' ? null : value }), appliesWhen: () => d().shadeMode === 'shade',
   }),
 ];

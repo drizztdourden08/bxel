@@ -28,4 +28,6 @@ const TOOL_HINTS: Readonly<Partial<Record<ToolId, string>>> = {
   move: 'Drag the selection, or nudge it with the arrow keys',
 };
 
-export { OPTIONS_TEXT, TOOL_HINTS };
+const SYMMETRY_PRIORITY = 900;
+
+export { OPTIONS_TEXT, SYMMETRY_PRIORITY, TOOL_HINTS };

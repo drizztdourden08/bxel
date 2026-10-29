@@ -14,6 +14,7 @@ const specParts = (input: SpecInput) => ({
   group: input.group,
   ...(input.command === undefined ? {} : { command: input.command }),
   ...(input.chord === undefined ? {} : { chord: input.chord }),
+  ...(input.display === undefined ? {} : { display: input.display }),
   ...(input.appliesWhen === undefined ? {} : { appliesWhen: input.appliesWhen }),
 });
 

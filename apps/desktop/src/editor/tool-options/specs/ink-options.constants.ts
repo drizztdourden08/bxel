@@ -19,7 +19,7 @@ const asInk = (value: string): InkKind => (INK_CHOICES.find((choice) => choice.v
 const inkChoice = (tool: (typeof INK_TOOLS)[number]): OptionSpec =>
   choiceSpec({
     tool, name: 'ink', label: DRAWING_TEXT.ink, description: DRAWING_TEXT.inkDescription, priority: 50, group: 'ink', default: 'normal', choices: INK_CHOICES,
-    command: INK_COMMAND, chord: 'Shift+S', read: () => inkFor(d(), tool), write: (value) => d().setInk(tool, asInk(value)),
+    display: 'menu', command: INK_COMMAND, chord: 'Shift+S', read: () => inkFor(d(), tool), write: (value) => d().setInk(tool, asInk(value)),
   });
 
 const ditherSpecs = (tool: (typeof INK_TOOLS)[number]): OptionSpec[] => [

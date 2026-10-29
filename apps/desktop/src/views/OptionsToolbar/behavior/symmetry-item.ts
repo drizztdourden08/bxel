@@ -5,7 +5,7 @@ import type { Surface } from '../../../editor/tool-catalogue/surface.type';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { VIEW_WIDGET_ID } from '../../../tool-menu/tool-menu.constants';
-import { OPTIONS_TEXT } from '../OptionsToolbar.constants';
+import { OPTIONS_TEXT, SYMMETRY_PRIORITY } from '../OptionsToolbar.constants';
 
 const symmetryNames = (): string[] => {
   const tools = useToolStore.getState();
@@ -31,6 +31,7 @@ const symmetryItem = (surface: Surface): ToolbarItem[] => {
       description: OPTIONS_TEXT.symmetryDescription,
       icon: 'pixel-view-mirror',
       caption: OPTIONS_TEXT.symmetryCaption,
+      priority: SYMMETRY_PRIORITY,
       onSelect: () => useWidgetLayoutStore.getState().open(VIEW_WIDGET_ID),
     },
   ];

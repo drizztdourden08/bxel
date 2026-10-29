@@ -14,6 +14,7 @@ interface SpecInput {
   surface?: OptionSurface;
   command?: string;
   chord?: string;
+  display?: 'set' | 'menu';
   appliesWhen?: () => boolean;
 }
 
