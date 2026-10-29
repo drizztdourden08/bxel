@@ -2,6 +2,7 @@
 import type { Artwork, AssetKey } from '@bxel/document';
 import { assetHash } from './asset-hash';
 import { assetName } from './asset-name';
+import { pathsForLinks } from './paths-for-links';
 import { newAssetPath } from './new-asset-path';
 import { savedHash } from './saved-hash';
 import type { Tally, Workspace } from './workspace.type';
@@ -18,7 +19,7 @@ const judgeAsset = (workspace: Workspace, artwork: Artwork, key: AssetKey, tally
     const planned = newAssetPath({ ...workspace, paths: tally.paths }, artwork, key);
     if (planned !== null) tally.paths.set(key.id, planned);
   }
-  return baseline === undefined || assetHash(artwork, key, tally.paths) !== baseline;
+  return baseline === undefined || assetHash(artwork, key, pathsForLinks(workspace, key, tally.paths)) !== baseline;
 };
 
 export { judgeAsset };

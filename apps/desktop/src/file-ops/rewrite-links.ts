@@ -7,6 +7,7 @@ import { movedPath } from '../files/moved-path';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { assetHash } from '../workspace/asset-hash';
 import { keyId } from '../workspace/key-id';
+import { pathsForLinks } from '../workspace/paths-for-links';
 import { toSlashes } from '../workspace/to-slashes';
 import type { Affected, Relocation } from './file-ops.type';
 
@@ -37,7 +38,7 @@ const settleClean = (written: readonly Affected[]): void => {
       const saved = new Map(workspace.saved);
       for (const each of written.filter((one) => one.documentId === documentId)) {
         const id = keyId(each.key);
-        const hash = workspace.dirty.has(id) ? null : assetHash(workspace.last, each.key, workspace.paths);
+        const hash = workspace.dirty.has(id) ? null : assetHash(workspace.last, each.key, pathsForLinks(workspace, each.key, workspace.paths));
         if (hash !== null) saved.set(id, hash);
       }
       return { ...workspace, saved };

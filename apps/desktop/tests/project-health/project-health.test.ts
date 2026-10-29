@@ -8,8 +8,8 @@ import { saveTab } from '../../src/workspace/save-tab';
 import { tabOf } from '../../src/workspace/tab-of';
 import { linksIn } from '../project/links-in';
 import { ROOT } from '../project/project-harness';
+import { artworkOf, openSampleProject, workspaceOf } from '../workspace/open-sample-project';
 import { heldRig } from '../workspace/held-rig';
-import { artworkOf, openSampleProject } from '../workspace/open-sample-project';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
@@ -114,6 +114,23 @@ describe('the repairs on the files and on the open project', () => {
     const saved = await saveTab(held.rig.kit, tabOf(documentId, key), false);
     expect(saved.kind).toBe('done');
     expect(linksOf(spritePath)).toEqual([]);
+  });
+
+  it('keeps the link in the other files that link to the same missing target, which the owner did not fix', async () => {
+    const { spritePath, palettePath } = await open();
+    const { documentId, key } = openedSprite();
+    const other = artworkOf(documentId).sprites[1];
+    const otherPath = workspaceOf(documentId).paths.get(other?.id ?? '') ?? '';
+    expect(linksOf(otherPath)).toEqual([palettePath]);
+    held.rig.disk.files.delete(palettePath);
+    const { report, index } = await scan();
+    const finding = report.broken.find((each) => each.file === spritePath);
+    await repairLinks(held.rig.disk.port, index, [{ file: spritePath, linkId: finding?.linkId ?? '', by: 'remove' }]);
+    expect((await saveTab(held.rig.kit, tabOf(documentId, key), false)).kind).toBe('done');
+    expect((await saveTab(held.rig.kit, tabOf(documentId, { kind: 'sprite', id: other?.id ?? '' }), false)).kind).toBe('done');
+    expect(linksOf(spritePath)).toEqual([]);
+    expect(linksOf(otherPath)).toEqual([palettePath]);
+    expect((await scan()).report.broken.map((each) => each.file)).toEqual([otherPath]);
   });
 
   it('refuses a fix that names a link or a file the project does not have, and a path that holds another asset', async () => {

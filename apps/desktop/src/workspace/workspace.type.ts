@@ -26,11 +26,12 @@ type Workspace = {
   readonly legacy: LegacySource | null;
   readonly migration: AnimatedMigration | null;
   readonly steps: HistorySteps;
+  readonly unlinked: ReadonlyMap<string, ReadonlySet<string>>;
 };
 
 type HistorySteps = { readonly undo: readonly string[]; readonly redo: readonly string[] };
 
-type WorkspaceSeed = Omit<Workspace, 'documentId' | 'base' | 'last' | 'saved' | 'steps' | 'migration'> & {
+type WorkspaceSeed = Omit<Workspace, 'documentId' | 'base' | 'last' | 'saved' | 'steps' | 'migration' | 'unlinked'> & {
   readonly migration?: AnimatedMigration;
   readonly artwork: Artwork;
   readonly readOnly: boolean;
@@ -76,6 +77,8 @@ type MergedWorkspace = {
 type NameSync = { readonly paths: Map<string, string>; readonly referrers: readonly AssetKey[] };
 
 type WrittenAsset = { readonly key: AssetKey; readonly hash: string; readonly path: string };
+
+type EncodeRequest = { readonly artwork: Artwork; readonly keys: readonly AssetKey[]; readonly paths: ReadonlyMap<string, string> };
 
 type EncodedAsset = WrittenAsset & { readonly bytes: Uint8Array };
 
@@ -136,6 +139,7 @@ export type {
   DecodedPool,
   DirtyKeys,
   EncodedAsset,
+  EncodeRequest,
   DecodedFiles,
   Decoder,
   Encoder,
