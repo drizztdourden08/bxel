@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { LayerId } from '@bxel/document';
-import type { BrushShape, Connectivity, FillMode, Point, ShapeKind } from '@bxel/raster';
+import type { BrushAngle, BrushShape, Connectivity, FillMode, Point } from '@bxel/raster';
 import type { ColourSlot } from '../editor/press-plan.type';
 import type { ToolId } from '../editor/tool.type';
 import type { OptionValue } from '../editor/tool-options/tool-options.type';
@@ -24,11 +24,10 @@ interface ToolSettings {
   fourth: number;
   brushSize: number;
   brushShape: BrushShape;
+  brushAngle: BrushAngle;
   pixelPerfect: boolean;
   fillMode: FillMode;
   connectivity: Connectivity;
-  shape: ShapeKind;
-  filled: boolean;
   symmetryX: boolean;
   symmetryY: boolean;
   axisX: number | null;
@@ -53,11 +52,10 @@ interface ToolState extends ToolSettings {
   setBrushSize: (size: number) => void;
   stepBrushSize: (delta: number) => void;
   setBrushShape: (shape: BrushShape) => void;
+  setBrushAngle: (angle: BrushAngle) => void;
   setPixelPerfect: (on: boolean) => void;
   setFillMode: (mode: FillMode) => void;
   setConnectivity: (connectivity: Connectivity) => void;
-  setShape: (shape: ShapeKind) => void;
-  setFilled: (filled: boolean) => void;
   toggleSymmetry: (axis: SymmetryAxis) => void;
   setAxis: (axis: SymmetryAxis, doubled: number | null) => void;
   setLastPoint: (point: Point | null) => void;

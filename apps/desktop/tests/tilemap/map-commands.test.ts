@@ -38,8 +38,10 @@ describe('Tilemap mode', () => {
 
   it('keeps the tool keys and maps them to the map tools', () => {
     switchMode('tilemap');
-    run('tool.select_shape');
-    expect(useToolStore.getState().tool).toBe('shape');
+    run('tool.select_rect');
+    expect(useToolStore.getState().tool).toBe('rect');
+    run('tool.select_line');
+    expect(useToolStore.getState().tool).toBe('line');
     run('tool.select_eraser');
     expect(useToolStore.getState().tool).toBe('eraser');
   });

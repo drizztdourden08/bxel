@@ -2,7 +2,9 @@
 import { z } from 'zod';
 import { allUsesSchema } from './all-uses-schema';
 import { indexSchema } from './index-schema';
+import { inkSchema } from './ink-schema';
 import { maskSchema } from './mask-schema';
+import { symmetrySchema } from './symmetry-schema';
 import { wrapSchema } from './wrap-schema';
 
 const pixelsFillSchema = z.strictObject({
@@ -11,6 +13,10 @@ const pixelsFillSchema = z.strictObject({
   index: indexSchema,
   mode: z.enum(['contiguous', 'global']).default('contiguous'),
   connectivity: z.union([z.literal(4), z.literal(8)]).default(4),
+  sample: z.enum(['layer', 'visible']).default('layer'),
+  match: z.enum(['index', 'ramp']).default('index'),
+  ink: inkSchema,
+  symmetry: symmetrySchema,
   mask: maskSchema,
   wrap: wrapSchema,
   allUses: allUsesSchema,

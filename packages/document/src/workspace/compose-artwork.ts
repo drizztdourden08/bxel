@@ -32,6 +32,7 @@ const composeArtwork = (accepted: readonly AcceptedSource[], meta: WorkspaceMeta
     sprites: sprites.items,
     sheets: gatherContent(accepted, 'sheets').items,
     presets: presets.items,
+    ...((meta.brushes ?? []).length > 0 ? { brushes: meta.brushes } : {}),
     tilesets: gatherContent(accepted, 'tilesets').items,
     tilemaps: gatherContent(accepted, 'tilemaps').items,
     animations: gatherContent(accepted, 'animations').items,

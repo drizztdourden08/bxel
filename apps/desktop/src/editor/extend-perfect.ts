@@ -17,7 +17,7 @@ const extendPerfect = (session: StrokeSession, at: Point): void => {
   const cleared = clearFootprints(session, stamp, gone, session.options.wrap);
   const again = gone.length > 0 ? nearPoints(session.trails, gone, stamp.size) : [];
   const target = { pixels: session.indices, width: session.width, height: session.height };
-  const painted = stampPoints({ target, index: session.index, mask: session.mask, wrap: session.options.wrap }, brush, [...again, ...fresh]);
+  const painted = stampPoints({ target, index: session.index, mask: session.mask, wrap: session.options.wrap, ink: session.options.rule }, brush, [...again, ...fresh]);
   const changed = unionDirty(cleared, painted);
   session.dirty = unionDirty(session.dirty, changed);
   if (changed) refreshRect(session, changed);

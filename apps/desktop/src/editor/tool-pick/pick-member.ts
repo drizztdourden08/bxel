@@ -6,7 +6,6 @@ import type { ToolMember } from '../tool-catalogue/tool-catalogue.type';
 const pickMember = (member: ToolMember): void => {
   const tools = useToolStore.getState();
   const { variant } = member;
-  if (variant?.kind === 'shape') tools.setShape(variant.value);
   if (variant?.kind === 'select') useSelectionStore.getState().setVariant(variant.value);
   tools.setTool(member.tool);
 };

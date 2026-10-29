@@ -7,6 +7,8 @@ import type { pixelsFlipSchema } from './pixels-flip-schema';
 import type { pixelsGradientSchema } from './pixels-gradient-schema';
 import type { pixelsMoveSchema } from './pixels-move-schema';
 import type { pixelsPaintSchema } from './pixels-paint-schema';
+import type { pixelsOutlineSchema } from './pixels-outline-schema';
+import type { pixelsPlotSchema } from './pixels-plot-schema';
 import type { pixelsReplaceSchema } from './pixels-replace-schema';
 import type { pixelsRotateSchema } from './pixels-rotate-schema';
 import type { pixelsScaleSchema } from './pixels-scale-schema';
@@ -23,6 +25,8 @@ type PixelsFillOptions = z.output<typeof pixelsFillSchema>;
 type PixelsShapeOptions = z.output<typeof pixelsShapeSchema>;
 type PixelsFlipOptions = z.output<typeof pixelsFlipSchema>;
 type PixelsTurnOptions = z.output<typeof pixelsTurnSchema>;
+type PixelsPlotOptions = z.output<typeof pixelsPlotSchema>;
+type PixelsOutlineOptions = z.output<typeof pixelsOutlineSchema>;
 type PixelsReplaceOptions = z.output<typeof pixelsReplaceSchema>;
 type PixelsShadeOptions = z.output<typeof pixelsShadeSchema>;
 type PixelsGradientOptions = z.output<typeof pixelsGradientSchema>;
@@ -42,6 +46,8 @@ export type {
   PixelsGradientOptions,
   PixelsMoveOptions,
   PixelsPaintOptions,
+  PixelsOutlineOptions,
+  PixelsPlotOptions,
   PixelsReplaceOptions,
   PixelsRotateOptions,
   PixelsScaleOptions,

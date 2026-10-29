@@ -13,13 +13,29 @@ const maskPart = (target: EditorTarget): { mask?: MaskView } => {
   return mask ? { mask } : {};
 };
 
+const extras = (choice: FillChoice) => ({
+  ...(choice.ink ? { ink: choice.ink } : {}),
+  ...(choice.symmetry && Object.keys(choice.symmetry).length > 0 ? { symmetry: choice.symmetry } : {}),
+  ...(choice.sample === 'visible' ? { sample: choice.sample } : {}),
+  ...(choice.match === 'ramp' ? { match: choice.match } : {}),
+});
+
 const fillRequest = (target: EditorTarget, at: Point, choice: FillChoice): TransactionRequest =>
   commitRequest(
     target,
     FILL_LABEL,
     {
       name: COMMAND_NAME.pixelsFill,
-      options: { x: at.x, y: at.y, index: choice.index, mode: choice.mode, connectivity: choice.connectivity, wrap: choice.wrap, ...maskPart(target) },
+      options: {
+        x: at.x,
+        y: at.y,
+        index: choice.index,
+        mode: choice.mode,
+        connectivity: choice.connectivity,
+        wrap: choice.wrap,
+        ...extras(choice),
+        ...maskPart(target),
+      },
     },
     paintScope(target),
   );

@@ -8,14 +8,13 @@ import { optionsOf } from '../editor/tool-options/options-of';
 import { useSelectionStore } from '../stores/useSelectionStore';
 import { useToolPrefsStore } from '../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../stores/useToolPresetStore';
-import { useToolStore } from '../stores/useToolStore';
 import type { Surface } from '../editor/tool-catalogue/surface.type';
 import type { FlyoutModel } from './tool-menu.type';
 
 const flyoutModel = (slot: ToolSlot, surface: Surface): FlyoutModel => {
   const hiddenMembers = useToolPrefsStore.getState().hiddenMembers;
   const members = slot.members.filter((member) => !hiddenMembers.includes(member.id));
-  const shown = shownMember(slot, { shape: useToolStore.getState().shape, variant: useSelectionStore.getState().variant });
+  const shown = shownMember(slot, { variant: useSelectionStore.getState().variant });
   const options = optionsOf(surface, slot.tool).filter((spec) => spec.flyout === true);
   const presets = surface === 'map' ? [] : presetsOfTool(allPresets(useToolPresetStore.getState().user), slot.tool);
   return {

@@ -5,8 +5,10 @@ import { currentTarget } from '../../src/editor/current-target';
 import type { EditorTarget, StrokeSession } from '../../src/editor/editor.type';
 import { extendStroke } from '../../src/editor/extend-stroke';
 import { startSession } from '../../src/editor/start-session';
+import { DRAWING_DEFAULTS } from '../../src/stores/drawing-store.constants';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
+import { useDrawingStore } from '../../src/stores/useDrawingStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 
 const live = (): EditorTarget => {
@@ -34,6 +36,7 @@ const penStroke = (start: Point, ...more: Point[]): StrokeSession => {
 
 const resetEditor = (): void => {
   useToolStore.setState({ ...TOOL_DEFAULTS });
+  useDrawingStore.setState({ ...DRAWING_DEFAULTS });
   createDefaultArtwork(useDocumentStore.getState().host);
 };
 

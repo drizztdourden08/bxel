@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { BrushShape } from '@bxel/raster';
+import type { BrushAngle, BrushShape } from '@bxel/raster';
 import type { OptionSpec, OptionValue } from '../../editor/tool-options/tool-options.type';
 
 interface OptionFieldProps {
@@ -17,6 +17,7 @@ interface OptionRowProps {
 interface BrushPreviewProps {
   size: number;
   shape: BrushShape;
+  angle?: BrushAngle;
   small?: boolean;
 }
 

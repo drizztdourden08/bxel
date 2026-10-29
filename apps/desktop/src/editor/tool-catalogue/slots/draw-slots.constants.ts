@@ -26,6 +26,28 @@ const DRAW_SLOTS: readonly ToolSlot[] = [
     ],
   },
   {
+    id: 'spray',
+    group: 'draw',
+    label: 'Spray',
+    key: 'Shift+B',
+    tool: 'spray',
+    surfaces: PAINT_SURFACES,
+    members: [
+      { id: 'spray', tool: 'spray', label: 'Spray', description: 'Spray random dots in a disc while the button is held. Hold still to build up density.', icon: 'pixel-brush-spray' },
+    ],
+  },
+  {
+    id: 'shade',
+    group: 'draw',
+    label: 'Shade',
+    key: 's',
+    tool: 'shade',
+    surfaces: PAINT_SURFACES,
+    members: [
+      { id: 'shade', tool: 'shade', label: 'Shade', description: 'Move pixels along their ramp: the left button lightens, the right button darkens. Each pixel changes once per stroke.', icon: 'pixel-shade' },
+    ],
+  },
+  {
     id: 'fill',
     group: 'draw',
     label: 'Fill',
@@ -33,6 +55,23 @@ const DRAW_SLOTS: readonly ToolSlot[] = [
     tool: 'fill',
     surfaces: PAINT_SURFACES,
     members: [{ id: 'fill', tool: 'fill', label: 'Fill', description: 'Fill an area with the front colour.', icon: 'pixel-fill-bucket' }],
+  },
+  {
+    id: 'gradient',
+    group: 'draw',
+    label: 'Gradient',
+    key: 'Shift+G',
+    tool: 'gradient',
+    surfaces: PAINT_SURFACES,
+    members: [
+      {
+        id: 'gradient',
+        tool: 'gradient',
+        label: 'Gradient',
+        description: 'Drag a line to fill the selection, or the whole cel, with a ramp. Hold Shift to snap the angle.',
+        icon: 'pixel-gradient',
+      },
+    ],
   },
   {
     id: 'picker',

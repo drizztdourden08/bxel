@@ -3,6 +3,7 @@ import { findTile } from '@bxel/document';
 import { switchMode } from '../sheet/switch-mode';
 import { useNoticeStore } from '../stores/useNoticeStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
+import { useViewStore } from '../stores/useViewStore';
 import { currentTileset } from './current-tileset';
 import { TILEMAP_TEXT } from './tilemap.constants';
 
@@ -18,6 +19,7 @@ const editTile = (wanted?: number): boolean => {
   if (!switchMode('tilemap')) return false;
   store.setStamp({ columns: 1, rows: 1, keys: [tile.key] });
   store.editTile(tile.key, tile.spriteId);
+  useViewStore.getState().setTiled('both');
   return true;
 };
 

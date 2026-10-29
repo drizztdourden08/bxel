@@ -1,8 +1,10 @@
 /* @layer renderer-app @kind types */
-import type { Brush, Connectivity, FillMode, MaskView, PerfectTrail, Point, Rect, ShapeKind, Symmetry, Wrap } from '@bxel/raster';
+import type {
+  Brush, BufferView, Connectivity, Corners, FillMode, GradientKind, GradientPattern, Ink, InkRule, MaskView, PerfectTrail, Point, Rect, ShapeKind, Symmetry, Wrap,
+} from '@bxel/raster';
 import type { AnimFrame, Animation, DocumentId, FrameId, Layer, LayerId, PaletteBank, Sprite } from '@bxel/document';
 import type { ToolSettings } from '../stores/tool-store.type';
-import type { StrokeTool } from './tool.type';
+import type { PathTool, StrokeTool } from './tool.type';
 
 interface AnimationContext {
   animation: Animation;
@@ -20,11 +22,22 @@ interface EditorTarget {
   animation?: AnimationContext;
 }
 
+interface BrushPatch {
+  patch: BufferView;
+  brushId: string | null;
+  flipX: boolean;
+  flipY: boolean;
+  turn: 0 | 90 | 180 | 270;
+}
+
 interface BrushOptions {
   brush: Brush;
   pixelPerfect: boolean;
   symmetry: Symmetry;
   wrap?: Wrap;
+  ink?: Ink;
+  rule?: InkRule | null;
+  custom?: BrushPatch | null;
 }
 
 interface Overlay {
@@ -43,6 +56,7 @@ interface StrokeSession extends Overlay {
   kind: 'stroke';
   tool: StrokeTool;
   index: number;
+  inverse: boolean;
   options: BrushOptions;
   points: Point[];
   trails: PerfectTrail[];
@@ -51,10 +65,15 @@ interface StrokeSession extends Overlay {
 interface ShapeSpec {
   shape: ShapeKind;
   filled: boolean;
+  fillIndex?: number;
+  radius: number;
+  evenSteps: boolean;
   index: number;
   brush: Brush;
   symmetry: Symmetry;
   wrap?: Wrap;
+  ink?: Ink;
+  rule: InkRule | null;
   from: Point;
   to: Point;
 }
@@ -62,14 +81,79 @@ interface ShapeSpec {
 interface ShapeSession extends Overlay {
   kind: 'shape';
   spec: ShapeSpec;
+  anchor: Point;
+  last: Point;
+  label: string;
 }
 
-type PaintSession = StrokeSession | ShapeSession;
+interface PathSpec {
+  filled: boolean;
+  fillIndex?: number;
+  index: number;
+  brush: Brush;
+  symmetry: Symmetry;
+  wrap?: Wrap;
+  ink?: Ink;
+  rule: InkRule | null;
+  pixelPerfect: boolean;
+  cubic?: boolean;
+}
+
+type PathPhase = 'draw' | 'bend';
+
+interface PathSession extends Overlay {
+  kind: 'path';
+  tool: PathTool;
+  spec: PathSpec;
+  vertices: Point[];
+  hover: Point;
+  handle: Point | null;
+  phase: PathPhase;
+}
+
+interface GradientSpec {
+  colors: number[];
+  line: Corners;
+  kind: GradientKind;
+  reflect: boolean;
+  bayer: 2 | 4 | 8 | null;
+  pattern: GradientPattern;
+  wrap?: Wrap;
+}
+
+interface GradientSession extends Overlay {
+  kind: 'gradient';
+  spec: GradientSpec;
+  label: string;
+}
+
+interface SprayOptions {
+  size: number;
+  density: number;
+  symmetry: Symmetry;
+  wrap?: Wrap;
+  ink?: Ink;
+  rule: InkRule | null;
+}
+
+interface SpraySession extends Overlay {
+  kind: 'spray';
+  index: number;
+  options: SprayOptions;
+  seed: number;
+  state: number;
+  at: Point;
+  dots: Point[];
+  pressure: number;
+}
+
+type PaintSession = StrokeSession | ShapeSession | PathSession | GradientSession | SpraySession;
 
 interface StrokeStart {
   target: EditorTarget;
   tool: StrokeTool;
   index: number;
+  inverse?: boolean;
   options: BrushOptions;
   at: Point;
 }
@@ -84,6 +168,10 @@ interface FillChoice {
   mode: FillMode;
   connectivity: Connectivity;
   wrap?: Wrap;
+  ink?: Ink;
+  symmetry?: Symmetry;
+  sample?: 'layer' | 'visible';
+  match?: 'index' | 'ramp';
 }
 
 type SymmetryFields = Pick<ToolSettings, 'symmetryX' | 'symmetryY' | 'axisX' | 'axisY'>;
@@ -93,6 +181,6 @@ type ZoomStep = 'in' | 'out' | 'fit' | 'actual';
 type HistoryDirection = 'undo' | 'redo';
 
 export type {
-  AnimationContext, BrushOptions, EditorTarget, FillChoice, HistoryDirection, Overlay, PaintSession, ShapeSession, ShapeSpec, ShapeStart, StrokeSession, StrokeStart,
-  SymmetryFields, ZoomStep,
+  AnimationContext, BrushOptions, BrushPatch, EditorTarget, FillChoice, GradientSession, GradientSpec, HistoryDirection, Overlay, PaintSession, PathSession, PathSpec,
+  ShapeSession, ShapeSpec, ShapeStart, SprayOptions, SpraySession, StrokeSession, StrokeStart, SymmetryFields, ZoomStep,
 };

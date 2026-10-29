@@ -22,6 +22,7 @@ const ANNOUNCE_TEXT = {
   mapCorner: (x: number, y: number): string => `Corner set at cell ${x}, ${y}. Move and press Space to finish.`,
   mapActed: (x: number, y: number): string => `Done at cell ${x}, ${y}`,
   shapeDone: 'Shape drawn',
+  pointAdded: (count: number, x: number, y: number): string => `Point ${count} at x ${x}, y ${y}. Press again on the same cell to finish.`,
   edge: 'Edge of the sprite',
   blocked: 'Nothing was drawn',
 } as const;

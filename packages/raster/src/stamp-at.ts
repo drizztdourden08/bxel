@@ -20,7 +20,7 @@ const stampMasked = (writer: PixelWriter, stamp: BrushStamp, left: number, top: 
 const stampAt = (writer: PixelWriter, stamp: BrushStamp, point: Point): void => {
   const left = point.x - stamp.offset;
   const top = point.y - stamp.offset;
-  if (writer.mask || isWrapped(writer.wrap)) {
+  if (writer.mask || writer.ink || isWrapped(writer.wrap)) {
     stampMasked(writer, stamp, left, top);
     return;
   }

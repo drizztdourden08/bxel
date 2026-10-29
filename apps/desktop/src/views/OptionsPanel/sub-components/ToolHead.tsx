@@ -14,12 +14,11 @@ import { BrushPreview } from '../../OptionControls';
 import { BRUSH_TOOLS, OPTIONS_PANEL_TEXT } from '../OptionsPanel.constants';
 
 const ToolHead = ({ slot, editable }: { slot: ToolSlot; editable: boolean }) => {
-  const shape = useToolStore((state) => state.shape);
   const size = useToolStore((state) => state.brushSize);
   const tip = useToolStore((state) => state.brushShape);
   const variant = useSelectionStore((state) => state.variant);
   const user = useToolPresetStore((state) => state.user);
-  const member = shownMember(slot, { shape, variant });
+  const member = shownMember(slot, { variant });
   const matched = matchingPreset(presetsOfTool(allPresets(user), slot.tool), member.id);
   return (
     <Box as="header" className="options-panel__head">

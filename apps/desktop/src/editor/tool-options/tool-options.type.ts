@@ -45,6 +45,7 @@ interface OptionSpec {
   choices?: readonly OptionChoice[];
   icon?: IconName;
   caption?: string;
+  display?: 'set' | 'menu';
   command?: string;
   chord?: string;
   shortcuts?: readonly OptionShortcut[];

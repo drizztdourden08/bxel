@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { KeyboardEvent } from 'react';
+import { gesture } from '../../../editor/gesture-state';
 import { ARROW_DELTAS, NUDGE_STEP, NUDGE_STEP_FAST } from '../../../editor/selection/selection.constants';
 import { nudgeOffset } from '../../../timeline/nudge-offset';
 import { nudgeKey } from '../../../editor/transform/nudge-key';
@@ -12,7 +13,10 @@ const plain = (event: KeyboardEvent<HTMLElement>): boolean => !event.altKey && !
 
 const handles = (event: KeyboardEvent<HTMLElement>, context: KeyContext): boolean => {
   if (event.key in ARROW_DELTAS) return !event.ctrlKey && !event.shiftKey && moveCursor(event.key, context);
-  if (event.key === 'Escape') context.anchor.current = null;
+  if (event.key === 'Escape') {
+    context.anchor.current = null;
+    context.points.current = [];
+  }
   const pressing = PRESS_KEYS.includes(event.key) && (event.key === 'Enter' || context.active.current);
   return pressing && pressKey(event, context);
 };
@@ -25,6 +29,10 @@ const frameNudge = (event: KeyboardEvent<HTMLElement>): boolean => {
 };
 
 const canvasKey = (event: KeyboardEvent<HTMLElement>, context: KeyContext): void => {
+  if (event.key === ' ' && gesture.dragging) {
+    event.preventDefault();
+    return;
+  }
   if (frameNudge(event)) {
     event.preventDefault();
     return;

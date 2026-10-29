@@ -10,11 +10,13 @@ import type { CanvasKeys } from './canvas-tools.type';
 const useCanvasKeys = (viewport: RefObject<PixelViewportHandle | null>): CanvasKeys => {
   const active = useRef(false);
   const anchor = useRef<Point | null>(null);
+  const points = useRef<Point[]>([]);
   const release = useCursorRelease(active, () => {
     anchor.current = null;
+    points.current = [];
   });
   return {
-    onKeyDown: (event: KeyboardEvent<HTMLElement>) => canvasKey(event, { viewport, active, anchor }),
+    onKeyDown: (event: KeyboardEvent<HTMLElement>) => canvasKey(event, { viewport, active, anchor, points }),
     ...release,
   };
 };

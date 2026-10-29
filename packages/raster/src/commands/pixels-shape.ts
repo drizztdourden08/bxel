@@ -1,9 +1,10 @@
 /* @layer core @kind logic */
 import { COMMAND_NAME, defineCommand } from '@bxel/document';
-import { applyToCels } from './apply-to-cels';
+import { applyInked } from './apply-inked';
 import { checkPointCount } from './check-point-count';
 import { checkTargets } from './check-targets';
 import { drawShapeOptions } from './draw-shape-options';
+import { withInkIndex } from './ink-indexes';
 import { pixelsShapeSchema } from './schema/pixels-shape-schema';
 
 const pixelsShape = defineCommand({
@@ -15,8 +16,9 @@ const pixelsShape = defineCommand({
     if ('points' in options) {
       checkPointCount(options.points.length, input.step);
     }
-    checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: options.index, mask: options.mask });
-    applyToCels(draft, input.cels, (target) => drawShapeOptions(target, options));
+    const highest = Math.max(options.index, options.fillIndex ?? 0);
+    checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: withInkIndex(highest, options.ink), mask: options.mask });
+    applyInked({ draft, cels: input.cels, ink: options.ink }, (target, rule) => drawShapeOptions(target, options, rule));
   },
 });
 

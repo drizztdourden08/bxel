@@ -1,9 +1,9 @@
 /* @layer core @kind config */
 import type { TerrainKind } from '../model/tilemap.type';
 
-const TERRAIN_KINDS = ['blob16', 'blob47'] as const;
+const TERRAIN_KINDS = ['blob16', 'blob47', 'corner16'] as const;
 
-const TERRAIN_SLOTS: Readonly<Record<TerrainKind, number>> = { blob16: 16, blob47: 47 };
+const TERRAIN_SLOTS: Readonly<Record<TerrainKind, number>> = { blob16: 16, blob47: 47, corner16: 16 };
 
 const NEIGHBOUR = { N: 1, NE: 2, E: 4, SE: 8, S: 16, SW: 32, W: 64, NW: 128 } as const;
 
@@ -23,6 +23,15 @@ const BLOB47_MASKS: readonly number[] = [
   197, 199, 209, 213, 215, 221, 223, 241, 245, 247, 253, 255,
 ];
 
+const CORNER_BITS: readonly number[] = [NEIGHBOUR.NE, NEIGHBOUR.SE, NEIGHBOUR.SW, NEIGHBOUR.NW];
+
+const CORNER_EDGES: readonly number[] = [
+  NEIGHBOUR.N | NEIGHBOUR.E,
+  NEIGHBOUR.E | NEIGHBOUR.S,
+  NEIGHBOUR.S | NEIGHBOUR.W,
+  NEIGHBOUR.W | NEIGHBOUR.N,
+];
+
 const BLOB16_EDGES = NEIGHBOUR.N | NEIGHBOUR.E | NEIGHBOUR.S | NEIGHBOUR.W;
 
-export { BLOB16_EDGES, BLOB47_MASKS, NEIGHBOUR, NEIGHBOUR_STEPS, TERRAIN_KINDS, TERRAIN_SLOTS };
+export { BLOB16_EDGES, BLOB47_MASKS, CORNER_BITS, CORNER_EDGES, NEIGHBOUR, NEIGHBOUR_STEPS, TERRAIN_KINDS, TERRAIN_SLOTS };

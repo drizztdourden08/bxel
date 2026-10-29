@@ -4,6 +4,7 @@ import type { Rect } from '../model/geometry.type';
 import type {
   AnimationId,
   BankId,
+  BrushId,
   CelId,
   FrameId,
   LayerId,
@@ -38,6 +39,7 @@ type ChangeSet = {
   readonly sprites: readonly SpriteChange[];
   readonly sheets: readonly EntityChange<SheetId>[];
   readonly presets: readonly EntityChange<PresetId>[];
+  readonly brushes: readonly EntityChange<BrushId>[];
   readonly tilesets: readonly EntityChange<TilesetId>[];
   readonly tilemaps: readonly EntityChange<TilemapId>[];
   readonly animations: readonly EntityChange<AnimationId>[];

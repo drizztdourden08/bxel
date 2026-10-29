@@ -12,8 +12,6 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('./tools-harne
 
 const commandIds = new Set(APP_COMMANDS.map((def) => def.id));
 
-const labelsOf = (id: string): string[] => (slotsOf('sprite').find((slot) => slot.id === id)?.members ?? []).map((member) => member.label);
-
 const groupRank = (slot: ToolSlot): number => SLOT_GROUPS.findIndex((group) => group.id === slot.group);
 
 const allMembers = () => TOOL_SLOTS.flatMap((slot) => [...slot.members]);
@@ -40,22 +38,22 @@ describe('the tool catalogue', () => {
     expect(new Set(keys).size).toBe(keys.length);
   });
 
-  it('feeds a cycle back command for every slot with variants and the fill', () => {
-    for (const tool of ['shape', 'select', 'fill'] as const) expect(commandIds.has(TOOL_COMMAND.cycleBack(tool))).toBe(true);
+  it('feeds a cycle back command for every slot with variants', () => {
+    for (const tool of ['select'] as const) expect(commandIds.has(TOOL_COMMAND.cycleBack(tool))).toBe(true);
     expect(commandIds.has(TOOL_COMMAND.previous)).toBe(true);
   });
 
   it('gives the map its own member ids and keeps the same keys', () => {
     const map = slotsOf('map');
-    expect(map.map((slot) => slot.members[0]?.id)).toEqual(['map.place', 'map.erase', 'map.fill', 'map.pick', 'map.rect', 'map.select', 'zoom', 'hand']);
-    expect(map.map((slot) => slot.key)).toEqual(['b', 'e', 'g', 'i', 'u', 'm', 'z', 'h']);
+    expect(map.map((slot) => slot.members[0]?.id)).toEqual(['map.place', 'map.erase', 'map.fill', 'map.pick', 'map.scatter', 'map.rect', 'map.line', 'map.select', 'zoom', 'hand']);
+    expect(map.map((slot) => slot.key)).toEqual(['b', 'e', 'g', 'i', 'Shift+B', 'u', 'l', 'm', 'z', 'h']);
   });
 
   it('shows only the view group on a sheet and lists groups in order', () => {
     expect(slotsOf('sheet').map((slot) => slot.id)).toEqual(['zoom', 'hand']);
     const order = slotsOf('sprite').map(groupRank);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
-    expect(labelsOf('shape')).toEqual(['Line', 'Rectangle', 'Ellipse']);
+    expect(slotsOf('sprite').filter((slot) => slot.group === 'shape').map((slot) => slot.key)).toEqual(['l', 'Shift+L', 'u', 'Shift+U', 'd', 'Shift+D']);
     expect(slotsOf('sprite').find((slot) => slot.id === 'select')?.members).toHaveLength(6);
   });
 

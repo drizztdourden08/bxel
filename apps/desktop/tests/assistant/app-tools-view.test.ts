@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind test */
 import { PRESETS } from '@bxel/mcp';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useDrawingStore } from '../../src/stores/useDrawingStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { useViewStore } from '../../src/stores/useViewStore';
 import { check } from './app-tools-check';
@@ -50,13 +51,14 @@ describe('set_view state, selection and pages', () => {
     openDocument();
     const done = await ok('set_view', {
       toggles: { grid: true, tiled: 'both' },
-      tool: { id: 'fill', options: { brushSize: 3, filled: true } },
+      tool: { id: 'rect', options: { brushSize: 3, filled: true, ink: 'behind' } },
       colours: { foreground: 2, background: 1 },
       symmetry: { x: true, axisX: 8 },
     });
     expect(done.applied).toEqual(['toggles', 'tool', 'colours', 'symmetry']);
     expect(useViewStore.getState()).toMatchObject({ grid: true, tiled: 'both' });
-    expect(useToolStore.getState()).toMatchObject({ tool: 'fill', brushSize: 3, filled: true, foreground: 2, background: 1, symmetryX: true, axisX: 8 });
+    expect(useToolStore.getState()).toMatchObject({ tool: 'rect', brushSize: 3, foreground: 2, background: 1, symmetryX: true, axisX: 8 });
+    expect(useDrawingStore.getState()).toMatchObject({ inks: { rect: 'behind' }, filled: { rect: true } });
     expect(fake.announced.at(-1)).toContain('changed the view');
   });
 

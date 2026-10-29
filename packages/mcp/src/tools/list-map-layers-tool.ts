@@ -34,7 +34,7 @@ const tileset = z.strictObject({
   tileWidth: COUNT_SCHEMA,
   tileHeight: COUNT_SCHEMA,
   tileCount: COUNT_SCHEMA,
-  terrain: z.enum(['blob16', 'blob47']).nullable().describe('The autotile rule set of the tileset, or null.'),
+  terrain: z.enum(['blob16', 'blob47', 'corner16']).nullable().describe('The autotile rule set of the tileset, or null.'),
   tiles: z.array(tile).describe('Only listed when includeTiles is true.'),
 });
 
