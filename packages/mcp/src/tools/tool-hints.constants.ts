@@ -41,6 +41,14 @@ const TOOL_HINTS = {
   get_settings: SAFE_READ,
   set_setting: SAFE_ACTION,
   restart_bxel: DESTRUCTIVE,
+  find_references: SAFE_READ,
+  project_health: SAFE_READ,
+  repair_links: ACTION,
+  organise: SAFE_ACTION,
+  move_files: ACTION,
+  rename_file: ACTION,
+  create_folder: ACTION,
+  trash_files: DESTRUCTIVE,
 } as const satisfies Record<string, ToolHints>;
 
 export { TOOL_HINTS };

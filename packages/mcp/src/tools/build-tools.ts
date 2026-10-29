@@ -3,7 +3,9 @@ import type { StepCommand } from '../schema/step-command.type';
 import { buildApplyEditsTool } from './apply-edits-tool';
 import { closeDocumentTool } from './close-document-tool';
 import { createDocumentTool } from './create-document-tool';
+import { createFolderTool } from './create-folder-tool';
 import { exportDocumentTool } from './export-document-tool';
+import { findReferencesTool } from './find-references-tool';
 import { getAnimationTool } from './get-animation-tool';
 import { getDocumentTool } from './get-document-tool';
 import { getHistoryTool } from './get-history-tool';
@@ -17,12 +19,17 @@ import { listLayoutTool } from './list-layout-tool';
 import { listFilesTool } from './list-files-tool';
 import { listMapLayersTool } from './list-map-layers-tool';
 import { listPlacesTool } from './list-places-tool';
+import { moveFilesTool } from './move-files-tool';
 import { openFileTool } from './open-file-tool';
+import { organiseTool } from './organise-tool';
+import { projectHealthTool } from './project-health-tool';
 import { buildPreviewEditsTool } from './preview-edits-tool';
 import { readMapCellsTool } from './read-map-cells-tool';
 import { readPaletteTool } from './read-palette-tool';
 import { readPixelsTool } from './read-pixels-tool';
+import { renameFileTool } from './rename-file-tool';
 import { renderPreviewTool } from './render-preview-tool';
+import { repairLinksTool } from './repair-links-tool';
 import { restartBxelTool } from './restart-bxel-tool';
 import { runCommandTool } from './run-command-tool';
 import { saveDocumentTool } from './save-document-tool';
@@ -33,6 +40,7 @@ import { showWindowTool } from './show-window-tool';
 import { startBxelTool } from './start-bxel-tool';
 import { splitLegacyFileTool } from './split-legacy-file-tool';
 import { stopBxelTool } from './stop-bxel-tool';
+import { trashFilesTool } from './trash-files-tool';
 import type { ToolSpec } from './tool.type';
 import { undoTool } from './undo-tool';
 
@@ -71,6 +79,14 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   getSettingsTool,
   setSettingTool,
   restartBxelTool,
+  findReferencesTool,
+  projectHealthTool,
+  repairLinksTool,
+  organiseTool,
+  moveFilesTool,
+  renameFileTool,
+  createFolderTool,
+  trashFilesTool,
 ];
 
 export { buildTools };

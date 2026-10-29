@@ -20,12 +20,15 @@ const assetEntry = z.strictObject({
   usedBy: z.array(z.string()).describe('For a sprite, the ids of the sheets and animations that use it. For an animation, the ids of the sheets and tilesets that play it.'),
   documentId: DOCUMENT_ID_SCHEMA.nullable(),
   modifiedAt: TIMESTAMP_SCHEMA.nullable(),
+  tags: z.array(z.string()).describe('The tags the project keeps for the asset.'),
+  collections: z.array(z.string()).describe('The names of the collections that hold the asset.'),
+  pinned: z.boolean(),
 });
 
 const listAssetsTool = defineTool(TOOL_NAME.listAssets, {
   title: 'List assets',
   description:
-    'Every Bxel asset of a granted project in one flat list: sprites (.bxsprite), animations (.bxanim), sheets (.bxsheet), palettes (.bxpalette), tilesets (.bxtiles) and tilemaps (.bxmap), across all its folders the assistant may see. Narrow it with kinds, a folder, a name search, or usedBy to get only the assets that use one sprite or one animation. Assets are sorted by name.',
+    'Every Bxel asset of a granted project in one flat list: sprites (.bxsprite), animations (.bxanim), sheets (.bxsheet), palettes (.bxpalette), tilesets (.bxtiles) and tilemaps (.bxmap), across all its folders the assistant may see. Narrow it with kinds, a folder, a name search, a query with tokens (tag:hero is:unused), or usedBy to get only the assets that use one sprite or one animation. Assets are sorted by name.',
   input: z.strictObject({
     projectId: PROJECT_ID_SCHEMA,
     kinds: z.array(ASSET_KIND_SCHEMA).default([...ASSET_KIND_VALUES]),
@@ -33,6 +36,11 @@ const listAssetsTool = defineTool(TOOL_NAME.listAssets, {
     path: REL_PATH_SCHEMA.optional().describe('Only assets under this path of the folder. Needs folderId.'),
     usedBy: z.string().min(1).max(64).optional().describe('A sprite or animation id. Lists the assets that use it.'),
     search: z.string().max(64).optional().describe('Part of an asset name, any case.'),
+    query: z
+      .string()
+      .max(300)
+      .optional()
+      .describe('The search box of the Project window: words match names and folders; kind:sprite, tag:hero, collection:name, in:folder, uses:name, usedby:name, is:unused, is:unsaved, is:open, is:pinned, size>64, colours<16. Kinds add up, other tokens narrow.'),
     ...PAGING_SHAPE,
   }),
   output: withFailure({
