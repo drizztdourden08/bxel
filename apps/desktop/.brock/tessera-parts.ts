@@ -67,6 +67,7 @@ declare module '@drizztdourden08/tessera' {
         | 'SelectionNamesDialog'
         | 'SettingsSplit'
         | 'SheetCanvas'
+        | 'SliceDialog'
         | 'SlotIcon'
         | 'SlotToolbar'
         | 'SphereTest'

@@ -3,6 +3,8 @@ import type { GuideAxis } from './guide.type';
 
 const GUIDE_GRAB = 3;
 
+const GUIDE_SNAP_REACH = 4;
+
 const GUIDE_AXES: readonly GuideAxis[] = ['x', 'y'];
 
 const RULER_ZONE = '[data-context-menu^="canvas.ruler"]';
@@ -14,4 +16,4 @@ const GUIDE_LABEL = {
   clear: 'Clear guides',
 } as const;
 
-export { GUIDE_AXES, GUIDE_GRAB, GUIDE_LABEL, RULER_ZONE };
+export { GUIDE_AXES, GUIDE_GRAB, GUIDE_LABEL, GUIDE_SNAP_REACH, RULER_ZONE };

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import type { BxelContext, ContextInput, EditTarget, FileType, SelectionKind, StageSurface, TileEditing } from './bxel-context.type';
+import type { BxelContext, ClipboardKind, ContextInput, EditTarget, FileType, SelectionKind, StageSurface, TileEditing } from './bxel-context.type';
 
 const fileTypeOf = (input: ContextInput): FileType => {
   if (input.imageActive) return 'image';
@@ -39,9 +39,14 @@ const selectionOf = (surface: StageSurface, input: ContextInput): SelectionKind 
   return 'none';
 };
 
-const liveInput = (fileType: FileType, input: ContextInput): ContextInput => {
+const clipboardOf = (surface: StageSurface, input: ContextInput): ClipboardKind => {
+  if (surface === 'map') return input.cellClipboard ? 'cells' : 'none';
+  return input.clipboard;
+};
+
+const liveInput =(fileType: FileType, input: ContextInput): ContextInput => {
   if (fileType !== 'none' && fileType !== 'image') return input;
-  return { ...input, isolated: false, clipboard: 'none', pending: false, canUndo: false, canRedo: false, readOnly: fileType === 'image' };
+  return { ...input, isolated: false, clipboard: 'none', cellClipboard: false, pending: false, canUndo: false, canRedo: false, readOnly: fileType === 'image' };
 };
 
 const deriveContext = (raw: ContextInput): BxelContext => {
@@ -55,7 +60,7 @@ const deriveContext = (raw: ContextInput): BxelContext => {
     tileMode: tileModeOf(fileType, input),
     isolated: input.isolated,
     selection: selectionOf(surface, input),
-    clipboard: input.clipboard,
+    clipboard: clipboardOf(surface, input),
     pending: input.pending,
     tool: input.tool,
     animatedTile: (fileType === 'tileset' || fileType === 'tilemap') && input.animatedTile,

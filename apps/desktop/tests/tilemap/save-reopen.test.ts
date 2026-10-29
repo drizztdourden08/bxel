@@ -55,7 +55,7 @@ describe('saving and reopening a map', () => {
 
   it('keeps a made-unique tile and leaves no dangling reference', () => {
     useTilemapStore.getState().setLayer(mapNow().layers[0]?.id ?? null);
-    useTilemapStore.getState().setSelection({ rect: { x: 0, y: 0, width: 1, height: 1 }, from: 2 });
+    useTilemapStore.getState().setSelection({ rect: { x: 0, y: 0, width: 1, height: 1 }, from: 2, mask: null });
     makeUnique();
     const report = reopened();
     expect(report.artwork?.tilesets[0]?.tiles.map((tile) => tile.key)).toEqual([1, 2, 3]);

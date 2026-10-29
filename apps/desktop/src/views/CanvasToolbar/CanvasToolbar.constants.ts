@@ -54,6 +54,11 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
     description: 'Guides and moved sprites land on the grid lines. Hold Alt to turn it off for one drag.',
     shortcuts: [{ command: COMMAND_ID.snap }],
   },
+  slices: {
+    name: 'Slices',
+    description: 'Show the named slice rectangles of the sprite with their pivot and 9-slice centre. The Slice tool shows them too.',
+    shortcuts: [{ command: COMMAND_ID.slices }],
+  },
 };
 
 const VIEW_TOGGLES: readonly ViewToggle[] = ['grid', 'gridMajor', 'gridTile', 'guides', 'rulers', 'snap'];
@@ -65,6 +70,7 @@ const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
   guides: 'guides',
   rulers: 'pixel-rulers',
   snap: 'magnet',
+  slices: 'square',
 };
 
 const TILED_HINT: HintSpec = {

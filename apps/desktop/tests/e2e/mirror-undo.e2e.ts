@@ -41,10 +41,12 @@ describe('check 3: symmetry and tiling', () => {
     expect(filled(await shown())).toEqual(expected);
     await session.page.keyboard.press(SHORTCUT.undo);
     expect(filled(await shown())).toEqual([]);
+    await session.page.keyboard.press(SHORTCUT.undo);
     expect(await nothingToUndo(session)).toBe(1);
     await session.page.keyboard.press(SHORTCUT.redo);
+    await session.page.keyboard.press(SHORTCUT.redo);
     expect(filled(await shown())).toEqual(expected);
-    await session.page.getByRole('button', { name: /^Mirror X/ }).click();
+    await session.page.keyboard.press(SHORTCUT.undo);
     await session.page.keyboard.press(SHORTCUT.undo);
   });
 

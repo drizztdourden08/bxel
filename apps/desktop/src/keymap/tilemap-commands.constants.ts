@@ -3,6 +3,7 @@ import type { CommandDef } from '@drizztdourden08/brock-react';
 import { useTilemapDialogStore } from '../stores/useTilemapDialogStore';
 import { addTile } from '../tilemap/add-tile';
 import { askDeleteTile } from '../tilemap/ask-delete-tile';
+import { captureSelection } from '../tilemap/capture-selection';
 import { clearCells } from '../tilemap/clear-cells';
 import { duplicateTile } from '../tilemap/duplicate-tile';
 import { editTile } from '../tilemap/edit-tile';
@@ -11,6 +12,7 @@ import { moveMapLayer } from '../tilemap/move-map-layer';
 import { pickedKey } from '../tilemap/picked-key';
 import { placeTiles } from '../tilemap/place-tiles';
 import { replaceCells } from '../tilemap/replace-cells';
+import { selectSameTile } from '../tilemap/select-same-tile';
 import { toggleEdit } from '../tilemap/toggle-edit';
 import { turnCells } from '../tilemap/turn-cells';
 import { COMMAND_ZONE } from './command-zone.constants';
@@ -52,6 +54,8 @@ const CELL_COMMANDS: readonly CommandDef[] = [
   { id: ID.replaceSelection, label: 'Replace tile in selection', group, run: () => void replaceCells(false) },
   { id: ID.replaceEverywhere, label: 'Replace tile everywhere on the layer', group, run: () => void replaceCells(true) },
   { id: ID.clearCells, label: 'Clear selected cells', group, run: () => void clearCells() },
+  { id: ID.selectSame, label: 'Select every cell with the same tile', group, run: () => void selectSameTile() },
+  { id: ID.captureStamp, label: 'Take a stamp from the selected cells', group, run: () => void captureSelection() },
   { id: ID.flipX, label: 'Flip placed tile X', group, run: () => void turnCells('flipX') },
   { id: ID.flipY, label: 'Flip placed tile Y', group, run: () => void turnCells('flipY') },
   { id: ID.turn, label: 'Rotate placed tile 90', group, run: () => void turnCells('turn') },

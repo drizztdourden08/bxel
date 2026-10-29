@@ -1,18 +1,29 @@
 /* @layer renderer-app @kind types */
-import type { CellFlags, MapLayerId, Rect, SpriteId, TilemapId, TilesetId } from '@bxel/document';
+import type { CellFlags, MapLayerId, Point, Rect, SpriteId, TilemapId, TilesetId } from '@bxel/document';
+import type { CombineMode } from '@bxel/raster';
 
 type TileEditMode = 'place' | 'edit';
+
+type MapSelectVariant = 'rect' | 'wand' | 'same';
 
 interface TileStamp {
   readonly columns: number;
   readonly rows: number;
   readonly keys: readonly number[];
+  readonly bits?: readonly number[];
   readonly scatter?: boolean;
 }
 
 interface MapSelection {
   readonly rect: Rect;
   readonly from: number;
+  readonly mask: Uint8Array | null;
+}
+
+interface CellClip {
+  readonly stamp: TileStamp;
+  readonly origin: Point;
+  readonly tilesetId: TilesetId;
 }
 
 interface TilemapSettings {
@@ -26,6 +37,10 @@ interface TilemapSettings {
   flags: CellFlags;
   filled: boolean;
   selection: MapSelection | null;
+  selectVariant: MapSelectVariant;
+  selectMode: CombineMode;
+  clip: CellClip | null;
+  paste: CellClip | null;
   showCollision: boolean;
   terrainBrush: boolean;
   animateTiles: boolean;
@@ -42,9 +57,13 @@ interface TilemapState extends TilemapSettings {
   setFlags: (flags: CellFlags) => void;
   setFilled: (filled: boolean) => void;
   setSelection: (selection: MapSelection | null) => void;
+  setSelectVariant: (selectVariant: MapSelectVariant) => void;
+  setSelectMode: (selectMode: CombineMode) => void;
+  setClip: (clip: CellClip | null) => void;
+  setPaste: (paste: CellClip | null) => void;
   setShowCollision: (showCollision: boolean) => void;
   setTerrainBrush: (terrainBrush: boolean) => void;
   setAnimateTiles: (animateTiles: boolean) => void;
 }
 
-export type { MapSelection, TileEditMode, TileStamp, TilemapSettings, TilemapState };
+export type { CellClip, MapSelectVariant, MapSelection, TileEditMode, TileStamp, TilemapSettings, TilemapState };

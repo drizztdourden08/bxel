@@ -30,6 +30,7 @@ import { sheetGuides } from './sheet/sheet-guides';
 import { sheetUpdate } from './sheet/sheet-update';
 import { guideAdd } from './guide/guide-add';
 import { guideClear } from './guide/guide-clear';
+import { spriteSymmetry } from './sprite/sprite-symmetry';
 import { guideMove } from './guide/guide-move';
 import { guideRemove } from './guide/guide-remove';
 import { sliceAdd } from './slice/slice-add';
@@ -47,6 +48,8 @@ import { mapLine } from './map/map-line';
 import { mapRect } from './map/map-rect';
 import { mapReplace } from './map/map-replace';
 import { mapTerrain } from './map/map-terrain';
+import { mapCopy } from './map/map-copy';
+import { mapMove } from './map/map-move';
 import { mapWrite } from './map/map-write';
 import { mapLayerAdd } from './map-layer/map-layer-add';
 import { mapLayerDelete } from './map-layer/map-layer-delete';
@@ -124,6 +127,7 @@ const documentCommands: readonly CommandDef[] = [
   guideMove,
   guideRemove,
   guideClear,
+  spriteSymmetry,
   pixelsPatch,
   layerAdd,
   layerDelete,
@@ -185,6 +189,8 @@ const documentCommands: readonly CommandDef[] = [
   mapReplace,
   mapTerrain,
   mapWrite,
+  mapCopy,
+  mapMove,
   brushAdd,
   brushUpdate,
   brushDelete,

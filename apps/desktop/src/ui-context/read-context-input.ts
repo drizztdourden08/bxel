@@ -36,7 +36,7 @@ const tabKindOf = (activeId: string | null, open: boolean): ContextInput['tabKin
   return kind === 'project' ? null : kind;
 };
 
-const selectionInput = (activeId: string | null): Pick<ContextInput, 'pixelSelection' | 'cellSelection' | 'spriteSelection' | 'frameSelection' | 'clipboard'> => {
+const selectionInput = (activeId: string | null): Pick<ContextInput, 'pixelSelection' | 'cellSelection' | 'spriteSelection' | 'frameSelection' | 'clipboard' | 'cellClipboard'> => {
   const selection = useSelectionStore.getState();
   return {
     pixelSelection: selection.mask !== null && selection.owner === activeId,
@@ -44,6 +44,7 @@ const selectionInput = (activeId: string | null): Pick<ContextInput, 'pixelSelec
     spriteSelection: useSpriteStore.getState().selected.length,
     frameSelection: useTimelineStore.getState().selection.frames.length,
     clipboard: selection.clipboard === null && !selection.systemClip ? 'none' : 'pixels',
+    cellClipboard: useTilemapStore.getState().clip !== null,
   };
 };
 

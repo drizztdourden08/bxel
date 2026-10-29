@@ -1,0 +1,10 @@
+/* @layer renderer-app @kind types */
+import type { Rect, SliceId } from '@bxel/document';
+import type { SliceHandle } from './slice-handle.type';
+
+type SliceDrag =
+  | { kind: 'new'; from: { x: number; y: number }; rect: Rect }
+  | { kind: 'resize'; id: SliceId; handle: SliceHandle; origin: Rect; rect: Rect }
+  | { kind: 'move'; id: SliceId; start: { x: number; y: number }; origin: Rect; rect: Rect };
+
+export type { SliceDrag };

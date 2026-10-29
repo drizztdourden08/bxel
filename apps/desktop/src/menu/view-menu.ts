@@ -35,6 +35,7 @@ const viewMenu = (state: EditorMenuState): MenuItem => {
       item(COMMAND_ID.rulers, 'Rulers', state.rulers),
       item(COMMAND_ID.guides, 'Guides', state.guides),
       item(COMMAND_ID.snap, 'Snap', state.snap),
+      item(COMMAND_ID.slices, 'Slices', state.slices),
       group(state, 'menu.view.symmetry', { key: 'view-symmetry', label: MENU_TEXT.symmetry }, [
         item(COMMAND_ID.symmetryX, MENU_TEXT.mirrorX, state.symmetryX),
         item(COMMAND_ID.symmetryY, MENU_TEXT.mirrorY, state.symmetryY),

@@ -24,6 +24,7 @@ const APP_TOOL_TEXT = {
   noFrame: 'The frame is not in the active sprite. Call get_document.',
   noSelectionTarget: 'There is no sprite to select in. Focus a document tab first.',
   wandOutside: 'The point is outside the sprite.',
+  noMapSelectionTarget: 'There is no tilemap to select cells in. Focus a tilemap tab first.',
   noHistory: 'The document is not open.',
   playbackNeedsAnimation: 'Playback needs an animation tab.',
   timelineNeedsAnimation: 'The playhead, the pick and the range need an animation tab. Focus one with set_view focus, or open it with open_file.',

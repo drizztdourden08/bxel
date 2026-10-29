@@ -2,6 +2,7 @@
 import type { KeyboardEvent } from 'react';
 import { gesture } from '../../../editor/gesture-state';
 import { ARROW_DELTAS, NUDGE_STEP, NUDGE_STEP_FAST } from '../../../editor/selection/selection.constants';
+import { sliceKey } from '../../../slice/slice-key';
 import { nudgeOffset } from '../../../timeline/nudge-offset';
 import { nudgeKey } from '../../../editor/transform/nudge-key';
 import { PRESS_KEYS } from './canvas-key.constants';
@@ -29,6 +30,10 @@ const frameNudge = (event: KeyboardEvent<HTMLElement>): boolean => {
 };
 
 const canvasKey = (event: KeyboardEvent<HTMLElement>, context: KeyContext): void => {
+  if (sliceKey(event.key)) {
+    event.preventDefault();
+    return;
+  }
   if (event.key === ' ' && gesture.dragging) {
     event.preventDefault();
     return;

@@ -69,7 +69,7 @@ describe('the keymap table', () => {
     const letters = Object.fromEntries(toolIds().map((tool) => [tool, chordsOf(find(COMMAND_ID.tool(tool)))]));
     expect(letters).toEqual({
       pencil: ['B'], eraser: ['E'], spray: ['Shift+B'], shade: ['S'], fill: ['G'], gradient: ['Shift+G'], picker: ['I'], line: ['L'], curve: ['Shift+L'], rect: ['U'],
-      ellipse: ['Shift+U'], contour: ['D'], polygon: ['Shift+D'], zoom: ['Z'], hand: ['H'], select: ['M'], move: ['V'],
+      ellipse: ['Shift+U'], contour: ['D'], polygon: ['Shift+D'], zoom: ['Z'], hand: ['H'], select: ['M'], move: ['V'], slice: ['Shift+C'],
     });
   });
 

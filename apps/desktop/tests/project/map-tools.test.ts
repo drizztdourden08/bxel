@@ -88,3 +88,41 @@ describe('read_map_cells and map.write', () => {
     expect(current.rig.kit.host.view(documentId())?.state.revision).toBe(before);
   });
 });
+
+describe('map cell masks over the tools', () => {
+  const edit = (name: string, options: Record<string, unknown>, tilemap = level().id) => ({
+    documentId: documentId(),
+    baseRevision: current.rig.kit.host.view(documentId())?.state.revision ?? 1,
+    label: 'Map',
+    steps: [{ name, targets: null, options: { tilemap, layer: { by: 'name', name: 'Layer 1' }, ...options } }],
+  });
+  const base = () => ({ documentId: documentId(), tilemapId: level().id, layerId: level().layers[0]?.id ?? '' });
+
+  it('finds cells by description with read_map_cells', async () => {
+    await current.run('apply_edits', write(level(), [1, 2]), current.grants('edit'));
+    const same = await current.run('read_map_cells', { ...base(), mask: { by: 'same', x: 2, y: 1 } }, current.grants('read'));
+    expect(fieldOf(same, 'selected')).toMatchObject({ count: 1, bounds: { x: 2, y: 1, width: 1, height: 1 }, cells: [[2, 1, 2, 0]], truncated: false });
+    const wand = await current.run('read_map_cells', { ...base(), mask: { by: 'wand', x: 0, y: 0 } }, current.grants('read'));
+    expect(fieldOf(wand, 'selected')).toMatchObject({ count: 10 });
+    expect(await current.run('read_map_cells', base(), current.grants('read'))).toMatchObject({ ok: false });
+  });
+
+  it('copies and moves the described cells through apply_edits', async () => {
+    await current.run('apply_edits', write(level(), [1, 2]), current.grants('edit'));
+    const copied = await current.run('apply_edits', edit('map.copy', { from: { by: 'rect', rect: { x: 1, y: 1, width: 2, height: 1 } }, to: { x: 0, y: 2 } }), current.grants('edit'));
+    expect(copied).toMatchObject({ ok: true });
+    const whole = { ...base(), rect: { x: 0, y: 0, width: 4, height: 3 } };
+    expect(fieldOf(await current.run('read_map_cells', whole, current.grants('read')), 'keys')).toEqual([0, 0, 0, 0, 0, 1, 2, 0, 1, 2, 0, 0]);
+    const moved = await current.run('apply_edits', edit('map.move', { from: { by: 'tile', key: 2 }, to: { x: 2, y: 0 } }), current.grants('edit'));
+    expect(moved).toMatchObject({ ok: true });
+    expect(fieldOf(await current.run('read_map_cells', whole, current.grants('read')), 'keys')).toEqual([0, 0, 0, 2, 0, 1, 2, 0, 1, 0, 0, 0]);
+  });
+
+  it('refuses cells that would leave the map and a map the assistant may not see', async () => {
+    await current.run('apply_edits', write(level(), [1, 2]), current.grants('edit'));
+    const off = await current.run('apply_edits', edit('map.move', { from: { by: 'tile', key: 1 }, to: { x: 4, y: 0 } }), current.grants('edit'));
+    expect(off).toMatchObject({ ok: false, error: { code: 'OUT_OF_BOUNDS' } });
+    const hidden = edit('map.copy', { from: { by: 'tile', key: 1 }, to: { x: 0, y: 0 } }, vault().id);
+    expect(await current.run('apply_edits', hidden, current.grants('edit'))).toMatchObject({ ok: false, error: { code: 'TARGET_NOT_FOUND' } });
+  });
+});

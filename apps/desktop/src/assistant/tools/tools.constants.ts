@@ -29,6 +29,7 @@ const TOOL_TEXT = {
   readOnlyProject: 'This project is granted read only. Ask the owner to grant editing in Project settings.',
   noMap: 'The tilemap or its layer is not in this document. Call list_map_layers.',
   outsideMap: 'The rectangle reaches outside the map.',
+  needRectOrMask: 'Give a rect, a mask or both.',
   outside: 'The rectangle reaches outside the sprite.',
   tooLarge: (side: number) => `The image would be more than ${side} pixels on a side. Ask for a smaller scale.`,
   pngTooLarge: 'The PNG is larger than one reply may carry. Ask for a smaller scale.',

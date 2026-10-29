@@ -83,6 +83,12 @@ const TOOL_ROWS: Readonly<Record<ToolId, readonly HintShortcut[]>> = {
     { label: 'Move the selection', mouse: 'drag' },
     { label: 'Nudge with the arrow keys, Shift for 8 pixels' },
   ],
+  slice: [
+    { label: 'Drag a new slice', mouse: 'drag' },
+    { label: 'Select a slice', mouse: 'left' },
+    { label: 'Open the slice properties by double click', mouse: 'left' },
+    { label: 'Delete the slice', keys: ['delete'] },
+  ],
 };
 
 const TURN_ROWS: readonly HintShortcut[] = [
@@ -107,6 +113,7 @@ const MAP_ROWS: Readonly<Record<ToolId, readonly HintShortcut[]>> = {
   polygon: [],
   zoom: [{ label: 'Zoom in', mouse: 'left' }, { label: 'Zoom out', mouse: 'right' }],
   hand: [{ label: 'Move the map', mouse: 'drag' }],
+  slice: [],
   select: [
     { label: 'Select cells', mouse: 'drag' },
     { label: 'Turn the selected cells', command: SELECTION_COMMAND_ID.flipHorizontal },

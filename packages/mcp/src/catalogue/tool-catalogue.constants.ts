@@ -6,7 +6,7 @@ import { fieldIs } from './field-is';
 const read = (bundle: ToolEntry['bundle']): ToolEntry => ({ bundle, kind: 'read' });
 const write = (bundle: ToolEntry['bundle']): ToolEntry => ({ bundle, kind: 'write' });
 
-const STATE_FIELDS = ['select', 'tool', 'colours', 'symmetry', 'selection', 'dialog'] as const;
+const STATE_FIELDS = ['select', 'tool', 'colours', 'symmetry', 'selection', 'mapSelection', 'dialog'] as const;
 
 const setsState = (input: unknown): boolean =>
   typeof input === 'object' && input !== null && STATE_FIELDS.some((field) => Reflect.get(input, field) !== undefined);

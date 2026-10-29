@@ -23,6 +23,23 @@ const SELECT_SLOTS: readonly ToolSlot[] = [
     })),
   },
   {
+    id: 'slice',
+    group: 'select',
+    label: 'Slice',
+    key: 'Shift+C',
+    tool: 'slice',
+    surfaces: PAINT_SURFACES,
+    members: [
+      {
+        id: 'slice',
+        tool: 'slice',
+        label: 'Slice',
+        description: 'Drag to cut a named slice out of the sprite. Click a slice to select it, drag its edges to resize it and double click it for its pivot and 9-slice centre.',
+        icon: 'pixel-select-rect',
+      },
+    ],
+  },
+  {
     id: 'move',
     group: 'select',
     label: 'Move',

@@ -12,6 +12,7 @@ import { useTransformUiStore } from '../../../stores/useTransformUiStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import type { AxisDrag } from './canvas-tools.type';
 import { handleCursor } from './handle-cursor';
+import { snapHandle } from './snap-handle';
 import { transformHit } from './transform-hit';
 
 const useTransformGesture = (viewport: RefObject<PixelViewportHandle | null>): AxisDrag => {
@@ -32,7 +33,7 @@ const useTransformGesture = (viewport: RefObject<PixelViewportHandle | null>): A
       const grab = held.current;
       if (grab) {
         const point = viewport.current?.screenToPixel(event.clientX, event.clientY);
-        if (point) usePendingStore.getState().revise(dragTransform(grab, point, heldKeys(event)));
+        if (point) usePendingStore.getState().revise(dragTransform(grab, snapHandle(viewport.current, point, grab.handle.kind), heldKeys(event)));
         return true;
       }
       event.currentTarget.style.cursor = handleCursor(transformHit(viewport.current, event)?.handle ?? null);

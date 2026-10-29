@@ -1,12 +1,14 @@
 /* @layer renderer-app @kind types */
 import type { DocumentId } from '@bxel/document';
 import type { MaskView } from '@bxel/raster';
+import type { MapSelection } from './tilemap-store.type';
 
 interface SelectionStep {
   documentId: DocumentId;
   tag: number;
   before: MaskView | null;
   after: MaskView | null;
+  cells?: { before: MapSelection | null; after: MapSelection | null };
 }
 
 interface SelectionHistoryState {

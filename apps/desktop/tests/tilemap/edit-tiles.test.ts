@@ -23,7 +23,7 @@ const rockAt = (...cells: number[][]): void => {
   placeStampAt(cells.map(([x, y]) => ({ x: x ?? 0, y: y ?? 0 })));
 };
 
-const select = (rect: Rect, from: number): void => useTilemapStore.getState().setSelection({ rect, from });
+const select = (rect: Rect, from: number): void => useTilemapStore.getState().setSelection({ rect, from, mask: null });
 
 describe('editing a tile', () => {
   it('changes every placement when the pixels of the tile change', () => {

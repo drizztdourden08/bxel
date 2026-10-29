@@ -1,35 +1,13 @@
 /* @layer renderer-app @kind logic */
-import { findSprite, findTile } from '@bxel/document';
 import type { Point } from '@bxel/document';
-import { stampPlacements } from '../../../tilemap/stamp-placements';
-import { tileCanvas } from '../../../tilemap/tile-canvas';
 import { orientStamp } from '../../../tilemap/orient-stamp';
 import { usableStamp } from '../../../tilemap/usable-stamp';
-import { GHOST_ALPHA } from '../TilemapCanvas.constants';
 import type { MapPaintState } from '../TilemapCanvas.type';
-import { cellMatrix } from './cell-matrix';
-import { targetGeometry } from './target-geometry';
+import { paintStamp } from './paint-stamp';
 
 const paintGhost = (ctx: CanvasRenderingContext2D, state: MapPaintState, origin: Point): void => {
   const { target, stamp, flags } = state;
-  const { tileset, artwork } = target;
-  const size = { width: tileset.tileWidth, height: tileset.tileHeight };
-  const geometry = targetGeometry(target);
-  ctx.save();
-  ctx.globalAlpha = GHOST_ALPHA;
-  for (const { key, cell } of stampPlacements(orientStamp(usableStamp(stamp, tileset), flags), origin, target.tilemap)) {
-    const tile = findTile(tileset, key);
-    const sprite = tile ? findSprite(artwork, tile.spriteId) : undefined;
-    const canvas = sprite ? tileCanvas(artwork, sprite) : null;
-    if (!canvas) continue;
-    ctx.save();
-    const origin = geometry.originOf(cell.x, cell.y);
-    ctx.translate(origin.x, origin.y);
-    ctx.transform(...cellMatrix(flags, size));
-    ctx.drawImage(canvas, 0, 0);
-    ctx.restore();
-  }
-  ctx.restore();
+  paintStamp(ctx, state, orientStamp(usableStamp(stamp, target.tileset), flags), origin);
 };
 
 export { paintGhost };

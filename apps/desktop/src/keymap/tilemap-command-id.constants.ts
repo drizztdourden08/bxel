@@ -17,6 +17,8 @@ const TILEMAP_COMMAND = {
   turn: 'tilemap.turn',
   layerUp: 'tilemap.layer_up',
   layerDown: 'tilemap.layer_down',
+  selectSame: 'tilemap.select_same',
+  captureStamp: 'tilemap.capture_stamp',
 } as const;
 
 export { TILEMAP_COMMAND };

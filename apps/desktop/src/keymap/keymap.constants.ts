@@ -37,6 +37,7 @@ const COMMAND_ID = {
   zoomSelection: 'view.zoom_selection',
   zoomPercent: (percent: number): string => `view.zoom_${percent}`,
   snap: 'view.toggle_snap',
+  slices: 'view.toggle_slices',
   hideOverlays: 'view.hide_overlays',
   pixelGrid: 'view.toggle_pixel_grid',
   majorGrid: 'view.toggle_major_grid',
