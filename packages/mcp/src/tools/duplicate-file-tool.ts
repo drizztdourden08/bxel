@@ -1,8 +1,8 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
-import { PROJECT_ID_SCHEMA } from '../schema/ids.constants';
-import { LOCATION_SCHEMA } from '../schema/place.constants';
 import { FILE_PLACE_SCHEMA } from '../schema/project-files.constants';
+import { LOCATION_SCHEMA } from '../schema/place.constants';
+import { PROJECT_ID_SCHEMA } from '../schema/ids.constants';
 import { defineTool } from './define-tool';
 import { withFailure } from '../schema/with-failure';
 import { TOOL_NAME } from './tool-name.constants';
