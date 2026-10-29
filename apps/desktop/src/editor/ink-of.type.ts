@@ -8,4 +8,4 @@ type InkContext = { readonly other: number; readonly reversed: boolean; readonly
 
 type InkBuilder = (context: InkContext) => Ink | undefined;
 
-export type { InkBuilder, InkChoice, InkContext };
+export type { InkBuilder, InkChoice };

@@ -66,8 +66,6 @@ interface DrawingState extends DrawingSettings {
 }
 
 export type {
-  BrushMode,
-  DitherSize,
   DrawingSettings,
   DrawingState,
   FillColour,
@@ -76,6 +74,5 @@ export type {
   FillSample,
   GradientMode,
   InkKind,
-  LinkedChoice,
   PickSample,
 };

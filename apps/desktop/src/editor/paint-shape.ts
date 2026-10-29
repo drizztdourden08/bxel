@@ -1,9 +1,8 @@
 /* @layer renderer-app @kind logic */
 import { drawShape } from '@bxel/raster';
 import type { ShapeSession } from './editor.type';
-import { refreshRect } from './refresh-rect';
 import { restoreRect } from './restore-rect';
-import { unionDirty } from './union-dirty';
+import { settlePaint } from './settle-paint';
 
 const paintShape = (session: ShapeSession): void => {
   const { spec } = session;
@@ -25,9 +24,7 @@ const paintShape = (session: ShapeSession): void => {
     mask: session.mask,
     ink: spec.rule,
   });
-  session.dirty = painted;
-  const changed = unionDirty(before, painted);
-  if (changed) refreshRect(session, changed);
+  settlePaint(session, before, painted);
 };
 
 export { paintShape };

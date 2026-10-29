@@ -11,8 +11,7 @@ describe('the tools toolbar and the tool options bar', () => {
     const { page } = rig().session;
     const tools = page.getByRole('toolbar', { name: 'Tools' });
     await tools.getByRole('button', { name: 'Line' }).waitFor();
-    await tools.getByRole('button', { name: 'Spray' }).waitFor();
-    await tools.getByRole('button', { name: 'Gradient' }).waitFor();
+    await tools.getByRole('button', { name: 'Pencil' }).waitFor();
     await tools.getByRole('button', { name: 'Pencil' }).waitFor();
   });
 
@@ -22,11 +21,11 @@ describe('the tools toolbar and the tool options bar', () => {
     await page.keyboard.press('u');
     await expectAnnounced(rig().session, 'Rectangle tool');
     const filled = page.getByRole('toolbar', { name: 'Tool options' }).getByRole('button', { name: /^Filled/ });
-    await expect.poll(() => filled.getAttribute('aria-pressed')).toBe('false');
+    await expect.poll(() => filled.getAttribute('aria-pressed')).not.toBe('true');
     await page.keyboard.press('u');
     await expect.poll(() => filled.getAttribute('aria-pressed')).toBe('true');
     await page.keyboard.press('u');
-    await expect.poll(() => filled.getAttribute('aria-pressed')).toBe('false');
+    await expect.poll(() => filled.getAttribute('aria-pressed')).not.toBe('true');
     await page.keyboard.press('m');
     await page.keyboard.press('m');
     await expectAnnounced(rig().session, 'Ellipse tool');

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import type { PlanBuilder } from './press-plan.constants.type';
+import type { PlanBuilder } from './plan-builder.type';
 import type { PressEvent } from './press-plan.type';
 import { SECONDARY_BUTTON } from './tools.constants';
 import type { ToolId } from './tool.type';

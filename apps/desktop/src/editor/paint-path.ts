@@ -2,9 +2,8 @@
 import { drawPath } from '@bxel/raster';
 import type { PathSession } from './editor.type';
 import { pathPoints } from './path-points';
-import { refreshRect } from './refresh-rect';
 import { restoreRect } from './restore-rect';
-import { unionDirty } from './union-dirty';
+import { settlePaint } from './settle-paint';
 
 const paintPath = (session: PathSession): void => {
   const before = session.dirty;
@@ -24,9 +23,7 @@ const paintPath = (session: PathSession): void => {
     mask: session.mask,
     ink: spec.rule,
   });
-  session.dirty = painted;
-  const changed = unionDirty(before, painted);
-  if (changed) refreshRect(session, changed);
+  settlePaint(session, before, painted);
 };
 
 export { paintPath };

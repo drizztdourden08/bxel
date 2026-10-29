@@ -1,19 +1,16 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
 import type { CommandStep, Point } from '@bxel/document';
-import { useTilemapStore } from '../stores/useTilemapStore';
 import { layerOptions } from './layer-options';
 import { mapMirrors } from './map-mirrors';
-import { readiedMap } from './readied-map';
-import { readyStamp } from './ready-stamp';
+import { placedMap } from './placed-map';
 import { runMap } from './run-map';
 import { TILE_LABEL } from './tilemap.constants';
 
 const linePlace = (from: Point, to: Point): boolean => {
-  const target = readiedMap();
-  const stamp = target ? readyStamp(target) : null;
-  if (!target || !stamp) return false;
-  const { flags } = useTilemapStore.getState();
+  const placed = placedMap();
+  if (!placed) return false;
+  const { target, stamp, flags } = placed;
   const key = stamp.keys.find((each) => each !== 0) ?? stamp.keys[0];
   const step = (start: Point, end: Point, each: typeof flags): CommandStep => ({
     name: COMMAND_NAME.mapLine,

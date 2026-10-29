@@ -178,6 +178,6 @@ type ZoomStep = 'in' | 'out' | 'fit' | 'actual';
 type HistoryDirection = 'undo' | 'redo';
 
 export type {
-  AnimationContext, BrushOptions, BrushPatch, EditorTarget, FillChoice, GradientSession, GradientSpec, HistoryDirection, Overlay, PaintSession, PathPhase, PathSession, PathSpec,
+  AnimationContext, BrushOptions, BrushPatch, EditorTarget, FillChoice, GradientSession, GradientSpec, HistoryDirection, Overlay, PaintSession, PathSession, PathSpec,
   ShapeSession, ShapeSpec, ShapeStart, SprayOptions, SpraySession, StrokeSession, StrokeStart, SymmetryFields, ZoomStep,
 };
