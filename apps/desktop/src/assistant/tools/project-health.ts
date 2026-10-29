@@ -1,27 +1,16 @@
 /* @layer renderer-app @kind logic */
+import { unsavedFiles } from '../../project-health/unsaved-files';
 import { buildHealth } from '../../project-health/build-health';
 import { HEALTH_CHECKS, HEALTH_TEXT } from '../../project-health/project-health.constants';
 import type { HealthCheck, HealthReport, LinkFinding } from '../../project-health/project-health.type';
 import type { OpenProject } from '../../project/project.type';
 import { scanLinkIndex } from '../../workspace/scan-link-index';
-import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
-import { keyOf } from '../../workspace/key-of';
 import type { ToolHandler } from '../assistant.type';
 import { locateInProject } from './locate-in-project';
 import type { ProjectHealthInput } from './project-files-input.type';
+import type { Finding } from './project-health.type';
 import { reply } from './reply';
 import { visibleProject } from './visible-project';
-
-type Finding = {
-  check: HealthCheck;
-  fix: string;
-  message: string;
-  file: ReturnType<typeof locateInProject>;
-  linkId?: string;
-  foundAt?: ReturnType<typeof locateInProject>;
-  expectedFolder?: ReturnType<typeof locateInProject>;
-  sharedWith?: NonNullable<ReturnType<typeof locateInProject>>[];
-};
 
 const linkFinding = (project: OpenProject, check: HealthCheck, link: LinkFinding): Finding => ({
   check,
@@ -48,18 +37,13 @@ const findingsOf = (project: OpenProject, report: HealthReport): Finding[] => [
   ...report.access.map((each): Finding => ({ check: 'access', fix: each.fix, message: `${each.name}: ${HEALTH_TEXT.accessHint}`, file: null })),
 ];
 
-const unsavedIn = (): number => {
-  const workspace = Object.values(useWorkspaceStore.getState().workspaces).find((each) => each.kind === 'project');
-  return workspace === undefined ? 0 : [...workspace.dirty].filter((id) => keyOf(id)?.kind !== 'project').length;
-};
-
 const projectHealth: ToolHandler = async (input, context) => {
   const request = input as ProjectHealthInput;
   const scope = visibleProject(context, request.projectId, false);
   if (!scope.ok) return reply(scope);
   const { visible } = scope.value;
   const index = await scanLinkIndex(context.documents, visible);
-  const report = buildHealth(index, { project: visible, unsaved: scope.value.found.open ? unsavedIn() : 0 });
+  const report = buildHealth(index, { project: visible, unsaved: scope.value.found.open ? unsavedFiles() : 0 });
   const wanted = new Set<string>(request.checks ?? HEALTH_CHECKS);
   const findings = findingsOf(visible, report).filter((each) => wanted.has(each.check) && (each.file !== null || each.check === 'unsaved' || each.check === 'access'));
   return reply({ ok: true, projectId: request.projectId, files: report.files, total: findings.length, findings });

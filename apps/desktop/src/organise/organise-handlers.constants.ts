@@ -103,7 +103,7 @@ const ORGANISE_HANDLERS: OrganiseHandlers = {
     if (query === null) return refuse(ORGANISE_TEXT.badQuery);
     if (organise.smart.length >= ORGANISE_LIMITS.smartMax) return refuse(ORGANISE_TEXT.tooMany);
     const same = organise.smart.find((each) => sameName(each.name, name));
-    if (same && same.query === query) return done(organise, ORGANISE_TEXT.savedSearch(name));
+    if (same?.query === query) return done(organise, ORGANISE_TEXT.savedSearch(name));
     if (same) return refuse(ORGANISE_TEXT.searchNameTaken(name));
     const made: OrganiseSearch = { id: organiseId('smart'), name, query };
     return done({ ...organise, smart: [...organise.smart, made] }, ORGANISE_TEXT.savedSearch(name));

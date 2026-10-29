@@ -1,14 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Box, ListItemList, Text } from '@drizztdourden08/tessera';
-import type { ReactNode } from 'react';
-
-type HealthSectionProps = {
-  readonly title: string;
-  readonly hint: string;
-  readonly count: number;
-  readonly actions?: ReactNode;
-  readonly children: ReactNode;
-};
+import type { HealthSectionProps } from './HealthSection.type';
 
 const HealthSection = ({ title, hint, count, actions, children }: HealthSectionProps) => (
   <Box as="section" className="project-health__section" aria-label={title}>

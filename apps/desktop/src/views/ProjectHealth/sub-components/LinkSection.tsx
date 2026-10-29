@@ -3,16 +3,8 @@ import { Box, Button, Icon, ListItemRow } from '@drizztdourden08/tessera';
 import { iconOfKind } from '../../../project-health/icon-of-kind';
 import { HEALTH_TEXT } from '../../../project-health/project-health.constants';
 import type { LinkFinding } from '../../../project-health/project-health.type';
-import type { HealthActions } from '../ProjectHealth.type';
 import { HealthSection } from './HealthSection';
-
-type LinkSectionProps = {
-  readonly findings: readonly LinkFinding[];
-  readonly actions: HealthActions;
-  readonly title: string;
-  readonly hint: string;
-  readonly moved: boolean;
-};
+import type { LinkSectionProps } from './LinkSection.type';
 
 const metaOf = (finding: LinkFinding): string => {
   if (finding.foundPath !== null) return `${HEALTH_TEXT.lastPath(finding.lastPath)}. ${HEALTH_TEXT.foundAt(finding.foundPath)}`;

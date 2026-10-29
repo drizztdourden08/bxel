@@ -5,7 +5,6 @@ import { scanHealth } from './scan-health';
 let running: Promise<void> | null = null;
 let again = false;
 
-/** Scans the project and puts the result in the health store. A scan asked for while one runs makes one more run after it. */
 const refreshHealth = (): Promise<void> => {
   if (running !== null) {
     again = true;

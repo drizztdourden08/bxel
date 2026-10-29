@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { browserViewSchema } from './browser-view-schema';
 import type { BrowserViews } from './project-browser.type';
 
-/** The saved views without the pins and filters of one project, once they live in its project file. */
 const clearLegacyOrganise = (raw: unknown, key: string): BrowserViews => {
   const record = z.record(z.string(), z.unknown()).safeParse(raw);
   if (!record.success) return {};

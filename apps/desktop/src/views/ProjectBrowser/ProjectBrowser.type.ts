@@ -4,7 +4,7 @@ import type { BrowserModel } from '../../project-browser/browser-model.type';
 import type { OpenProject } from '../../project/project.type';
 import type { DiskProject } from '../../project-manager/project-manager.type';
 import type { ContextMenuPoint, MenuGroup, VirtualGridCellBind } from '@drizztdourden08/tessera';
-import type { DragEvent } from 'react';
+import type { DragEvent, ReactNode } from 'react';
 import type { RgbaImage } from '@bxel/formats';
 import type { OrganiseCollection } from '@bxel/project';
 import type { BrowserEntry, FolderNode, SortKey } from '../../project-browser/project-browser.type';
@@ -45,6 +45,8 @@ type BrowserContextValue = {
   readonly renameError: string | null;
   readonly thumb: number;
 };
+
+type SourceSectionProps = { readonly title: string; readonly empty?: string | undefined; readonly children?: ReactNode };
 
 type EntryProps = { readonly entry: BrowserEntry };
 
@@ -106,4 +108,4 @@ type SourceTreeProps = {
   readonly onSelect: (key: string) => void;
 };
 
-export type { OrganiseActions, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };
+export type { OrganiseActions, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };

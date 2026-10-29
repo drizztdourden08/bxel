@@ -1,11 +1,9 @@
 /* @layer renderer-app @kind logic */
 import { ORGANISE_LIMITS } from '@bxel/project';
+import { CONTROL_CHARACTERS } from './organise.constants';
 
-const CONTROL = /\p{Cc}/gu;
-
-/** A tag is short plain text in lower case with single spaces. Returns null when nothing is left. */
 const cleanTag = (typed: string): string | null => {
-  const text = typed.replace(CONTROL, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+  const text = typed.replace(CONTROL_CHARACTERS, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
   return text === '' || text.length > ORGANISE_LIMITS.tagMax ? null : text;
 };
 

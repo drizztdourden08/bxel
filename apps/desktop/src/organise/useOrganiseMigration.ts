@@ -10,7 +10,6 @@ import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { editOrganise } from './edit-organise';
 import { opsFromSettings } from './ops-from-settings';
 
-/** Moves the pins and smart filters of this project from the owner's settings into the project file, once the files are loaded. */
 const useOrganiseMigration = (project: OpenProject | null): void => {
   const { settings, patch } = useSettings<AppSettings>();
   const paths = useWorkspaceStore((state) => Object.values(state.workspaces).find((each) => each.kind === 'project')?.paths);

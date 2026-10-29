@@ -5,12 +5,9 @@ import type { ToolContext } from '../assistant.type';
 import type { OpenProject } from '../../project/project.type';
 import { entryKindAt } from './entry-kind-at';
 import { placePath } from './place-path';
-import type { FilePlace } from './project-files-input.type';
+import type { Entry, FilePlace } from './project-files-input.type';
 import { TOOL_TEXT } from './tools.constants';
 
-type Entry = { readonly path: string; readonly folder: boolean };
-
-/** The files and folders a call names, as full paths that exist. A folder id and path that lead nowhere fail the whole call. */
 const resolveEntries = async (context: ToolContext, project: OpenProject, places: readonly FilePlace[], field: string): Promise<McpResult<readonly Entry[]>> => {
   const entries: Entry[] = [];
   for (const [at, place] of places.entries()) {
@@ -24,4 +21,3 @@ const resolveEntries = async (context: ToolContext, project: OpenProject, places
 };
 
 export { resolveEntries };
-export type { Entry };

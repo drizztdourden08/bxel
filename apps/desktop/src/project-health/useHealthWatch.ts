@@ -8,7 +8,6 @@ import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { refreshHealth } from './refresh-health';
 import type { HealthState } from './project-health.type';
 
-/** Keeps the health of the open project current: a scan on open, after file changes, and when the unsaved files change. */
 const useHealthWatch = (project: OpenProject | null): HealthState => {
   const state = useHealthStore((each) => each.state);
   const roots = useMemo(() => project?.folders.filter((folder) => folder.granted).map((folder) => folder.path) ?? [], [project]);

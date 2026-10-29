@@ -1,10 +1,9 @@
 /* @layer renderer-app @kind test */
-import { resolveLinkPath } from '@bxel/document';
-import { readAssetManifest } from '@bxel/document/native';
 import { describe, expect, it, vi } from 'vitest';
 import { repairLinks } from '../../src/project-health/repair-links';
 import { scanHealth } from '../../src/project-health/scan-health';
 import { useProjectStore } from '../../src/stores/useProjectStore';
+import { linksIn } from '../project/links-in';
 import { ROOT } from '../project/project-harness';
 import { heldRig } from '../workspace/held-rig';
 import { artworkOf, openSampleProject } from '../workspace/open-sample-project';
@@ -35,12 +34,7 @@ const scan = async () => {
   return found;
 };
 
-const linksOf = (path: string): readonly string[] => {
-  const bytes = held.rig.disk.files.get(path);
-  const manifest = bytes instanceof Uint8Array ? readAssetManifest(bytes) : null;
-  if (!manifest) throw new Error(`no asset file at ${path}`);
-  return manifest.links.map((link) => resolveLinkPath(path, link.path));
-};
+const linksOf = (path: string): readonly string[] => linksIn(held.rig.disk, path);
 
 const moveOnDisk = (from: string, to: string): void => {
   const { files, dirs } = held.rig.disk;
@@ -114,6 +108,9 @@ describe('the link index and the health checks', () => {
     ]);
   });
 
+});
+
+describe('the health checks on the files themselves', () => {
   it('lists two files with the same asset id', async () => {
     const { spritePath } = await open();
     held.rig.disk.files.set(`${ROOT}/sprites/slime copy.bxsprite`, held.rig.disk.files.get(spritePath) ?? new Uint8Array());

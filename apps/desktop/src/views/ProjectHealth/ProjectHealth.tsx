@@ -1,12 +1,11 @@
 /* @layer renderer-app @kind component */
 import { Box, Button, EmptyState, Icon, Text } from '@drizztdourden08/tessera';
+import { healthSummary } from '../../project-health/health-summary';
 import { HEALTH_TEXT } from '../../project-health/project-health.constants';
 import { useHealthWatch } from '../../project-health/useHealthWatch';
 import { useProjectStore } from '../../stores/useProjectStore';
 import { useHealthActions } from './behavior/useHealthActions';
-import { FileSections } from './sub-components/FileSections';
-import { LinkSection } from './sub-components/LinkSection';
-import { StateSections } from './sub-components/StateSections';
+import { HealthBody } from './sub-components/HealthBody';
 import './ProjectHealth.css';
 
 const ProjectHealth = () => {
@@ -24,18 +23,14 @@ const ProjectHealth = () => {
             {HEALTH_TEXT.title}
           </Text>
           <Text as="p" variant="caption" tone="muted" role="status">
-            {report === null ? HEALTH_TEXT.scanning : report.total === 0 ? HEALTH_TEXT.allGood : HEALTH_TEXT.summary(report.total, report.files)}
+            {healthSummary(report)}
           </Text>
         </Box>
         <Button size="sm" variant="secondary" onClick={actions.recheck} disabled={state.status === 'scanning'}>
           {HEALTH_TEXT.recheck}
         </Button>
       </Box>
-      {report !== null && report.total === 0 && <EmptyState size="sm" title={HEALTH_TEXT.allGood} message={HEALTH_TEXT.allGoodMessage(report.files)} />}
-      {report !== null && report.broken.length > 0 && <LinkSection findings={report.broken} actions={actions} title={HEALTH_TEXT.brokenTitle} hint={HEALTH_TEXT.brokenHint} moved={false} />}
-      {report !== null && report.moved.length > 0 && <LinkSection findings={report.moved} actions={actions} title={HEALTH_TEXT.movedTitle} hint={HEALTH_TEXT.movedHint} moved />}
-      {report !== null && <FileSections report={report} actions={actions} />}
-      {report !== null && <StateSections report={report} actions={actions} />}
+      {report !== null && <HealthBody report={report} actions={actions} />}
     </Box>
   );
 };

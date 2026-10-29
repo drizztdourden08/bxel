@@ -41,13 +41,15 @@ type CreateFolderInput = { readonly projectId: string; readonly in: FolderPlace;
 
 type TrashFilesInput = { readonly projectId: string; readonly files: readonly FilePlace[]; readonly breakLinks: boolean };
 
+type Entry = { readonly path: string; readonly folder: boolean };
+
 type VisibleProject = { readonly found: GrantedProject; readonly visible: OpenProject };
 
 export type {
   CreateFolderInput,
+  Entry,
   FilePlace,
   FindReferencesInput,
-  FolderPlace,
   MoveFilesInput,
   OrganiseInput,
   ProjectHealthInput,

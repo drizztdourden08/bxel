@@ -6,18 +6,15 @@ import type { AssetRef } from '../../model/asset.type';
 import { DEFLATE_LEVEL, ENTRY, STORED_LEVEL, ZIP_MTIME } from '../container.constants';
 import { canonicalJson } from './canonical-json';
 
-const sameLinks = (left: readonly AssetRef[], right: readonly AssetRef[]): boolean =>
-  left.length === right.length && left.every((link, at) => link.id === right[at]?.id && link.path === right[at]?.path);
+const keyOf = (links: readonly AssetRef[]): string => JSON.stringify(links.map((link) => [link.id, link.path]));
+
+const sameLinks = (left: readonly AssetRef[], right: readonly AssetRef[]): boolean => keyOf(left) === keyOf(right);
 
 const deflated = { level: DEFLATE_LEVEL } as const;
 const stored = { level: STORED_LEVEL } as const;
 
 const levelOf = (path: string) => (path === ENTRY.mimetype || path === ENTRY.preview ? stored : deflated);
 
-/**
- * Writes new link paths into the manifest of an asset file and leaves every other byte of content as it was.
- * A change that returns null drops that link. Returns null when the file cannot be read or no link changes.
- */
 const rewriteAssetLinks = (bytes: Uint8Array, change: (link: AssetRef) => AssetRef | null): Uint8Array | null => {
   try {
     const files = unzipSync(bytes);

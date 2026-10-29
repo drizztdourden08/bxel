@@ -7,18 +7,15 @@ import { locateInProject } from './locate-in-project';
 import type { TrashFilesInput } from './project-files-input.type';
 import { reply } from './reply';
 import { referrersVisible } from './referrers-visible';
-import { resolveEntries } from './resolve-entries';
 import { TOOL_TEXT } from './tools.constants';
-import { visibleProject } from './visible-project';
+import { writeScope } from './write-scope';
 
 const trashFiles: ToolHandler = async (input, context) => {
   const request = input as TrashFilesInput;
-  const scope = visibleProject(context, request.projectId, true);
+  const scope = await writeScope(context, request.projectId, request.files, 'files');
   if (!scope.ok) return reply(scope);
-  const { visible } = scope.value;
-  const entries = await resolveEntries(context, visible, request.files, 'files');
-  if (!entries.ok) return reply(entries);
-  const paths = entries.value.map((each) => each.path);
+  const { visible, entries } = scope.value;
+  const paths = entries.map((each) => each.path);
   const users = referrerPaths(paths);
   if (users.length > 0 && !request.breakLinks) {
     const names = users.flatMap((path) => locateInProject(visible, path)?.path ?? []);

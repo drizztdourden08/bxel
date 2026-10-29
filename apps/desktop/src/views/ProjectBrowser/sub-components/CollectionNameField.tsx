@@ -5,7 +5,7 @@ import type { KeyboardEvent } from 'react';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import { useBrowserContext } from '../behavior/useBrowserContext';
 
-const NewCollection = () => {
+const CollectionNameField = () => {
   const { actions } = useBrowserContext();
   const [name, setName] = useState('');
   const commit = (event: KeyboardEvent): void => {
@@ -25,4 +25,4 @@ const NewCollection = () => {
   );
 };
 
-export { NewCollection };
+export { CollectionNameField };

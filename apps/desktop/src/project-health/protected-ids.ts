@@ -11,7 +11,6 @@ const fileAt = (project: OpenProject, files: readonly IndexedFile[], place: { re
   return wanted === undefined ? [] : files.filter((file) => comparablePath(file.path) === wanted).map((file) => file.assetId);
 };
 
-/** The assets that count as used without anything linking to them: pinned, collected, the cover and the default palette. */
 const protectedIds = (project: OpenProject, files: readonly IndexedFile[]): ReadonlySet<string> => {
   const organise = organiseOf(project.manifest);
   const palette = project.manifest.defaults.palette;

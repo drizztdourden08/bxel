@@ -10,10 +10,9 @@ import type { IndexedFile, IndexedLink, LinkIndex } from '../workspace/link-inde
 import { toSlashes } from '../workspace/to-slashes';
 import { HEALTH_TEXT } from './project-health.constants';
 import type { FixOutcome, LinkFix } from './project-health.type';
+import type { Decision } from './repair-links.type';
 
 const samePath = (left: string, right: string): boolean => (comparablePath(left) ?? left.toLowerCase()) === (comparablePath(right) ?? right.toLowerCase());
-
-type Decision = { readonly link: AssetRef | null } | { readonly reason: string };
 
 const decide = (fix: LinkFix, link: IndexedLink, index: LinkIndex): Decision => {
   if (fix.by === 'remove') return { link: null };
@@ -29,17 +28,12 @@ const decide = (fix: LinkFix, link: IndexedLink, index: LinkIndex): Decision => 
   return target.assetId === link.linkId ? { link: { id: link.linkId, path: relativeLinkPath(from, target.path) } } : { reason: HEALTH_TEXT.wrongId(wanted) };
 };
 
-/** Looks up the link of a fix in the index and decides what the file should hold instead. */
 const decided = (fix: LinkFix, index: LinkIndex): Decision => {
   const link = index.links.find((each) => samePath(each.from.path, fix.file) && each.linkId === fix.linkId);
   if (link === undefined) return index.files.some((file) => samePath(file.path, fix.file)) ? { reason: HEALTH_TEXT.noLink(fileName(fix.file), fix.linkId) } : { reason: HEALTH_TEXT.notIndexed(fileName(fix.file)) };
   return decide(fix, link, index);
 };
 
-/**
- * Writes the new link of each fix into its file. Only the manifest of a file changes; a loaded file keeps its unsaved edits.
- * The index says what each file holds, so a fix that names a file or a link the project does not have is refused with its reason.
- */
 const repairLinks = async (documents: DocumentsPort, index: LinkIndex, fixes: readonly LinkFix[]): Promise<FixOutcome> => {
   const skipped: { fix: LinkFix; reason: string }[] = [];
   const byFile = new Map<string, { fix: LinkFix; link: AssetRef | null }[]>();

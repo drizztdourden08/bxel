@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind types */
-import type { AssetKind } from '@bxel/document';
 import type { AccessFinding, FileFinding, HealthReport, LinkFinding, MisplacedFinding } from '../../project-health/project-health.type';
 
 type HealthActions = {
@@ -16,6 +15,4 @@ type HealthActions = {
 
 type ReportProps = { readonly report: HealthReport; readonly actions: HealthActions };
 
-type KindProps = { readonly kind: AssetKind | null };
-
-export type { HealthActions, KindProps, ReportProps };
+export type { HealthActions, ReportProps };

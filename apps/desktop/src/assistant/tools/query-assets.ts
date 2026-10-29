@@ -12,7 +12,6 @@ import type { OpenProject } from '../../project/project.type';
 import { useDocumentStore } from '../../stores/useDocumentStore';
 import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 
-/** The rows the search box grammar of the Project window keeps. The facts come from the open project when it is open, and from the tags alone when it is not. */
 const queryAssets = (rows: readonly AssetRow[], project: OpenProject, text: string): readonly AssetRow[] => {
   const query = parseQuery(text);
   const organise = organiseOf(project.manifest);

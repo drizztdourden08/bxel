@@ -12,8 +12,7 @@ import { toSlashes } from '../workspace/to-slashes';
 import { trashRemoved } from '../workspace/trash-removed';
 import { FILE_OPS_TEXT } from './file-ops.constants';
 import { heldAssetsUnder } from './held-assets';
-
-type TrashResult = { readonly ok: true } | { readonly ok: false; readonly message: string };
+import type { TrashResult } from './trash-paths.type';
 
 const stillThere = async (path: string): Promise<boolean> => {
   const kit = fileKit();
@@ -21,10 +20,6 @@ const stillThere = async (path: string): Promise<boolean> => {
   return listing?.entries.some((entry) => entry.name.toLowerCase() === fileName(path).toLowerCase()) ?? false;
 };
 
-/**
- * Moves one file or folder to the system trash without asking. An asset the project holds is deleted from the project first, so the
- * project does not write the file back; the files that link to it keep a link that now shows as missing.
- */
 const trashPath = async (path: string): Promise<TrashResult> => {
   const kit = fileKit();
   if (!kit) return { ok: false, message: FILE_OPS_TEXT.unavailable };

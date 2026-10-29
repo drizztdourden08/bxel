@@ -9,16 +9,12 @@ import type { AssetFile } from './workspace.type';
 const placeOf = (path: string): string => comparablePath(path) ?? path.toLowerCase();
 
 const stateOf = (atPath: IndexedFile | undefined, id: string, holders: readonly IndexedFile[]): { readonly state: LinkState; readonly found: IndexedFile | null } => {
-  if (atPath !== undefined && atPath.assetId === id) return { state: 'ok', found: atPath };
+  if (atPath?.assetId === id) return { state: 'ok', found: atPath };
   const [only] = holders;
   if (holders.length === 1 && only !== undefined) return { state: 'moved', found: only };
   return { state: holders.length > 1 ? 'ambiguous' : 'missing', found: null };
 };
 
-/**
- * Which file links to which, from the manifests of the project files.
- * A link is found by its stored path first and by the asset id when the path no longer holds that asset.
- */
 const buildLinkIndex = (files: readonly AssetFile[]): LinkIndex => {
   const indexed: IndexedFile[] = files.map((file) => ({ path: file.path, assetId: file.manifest.assetId, kind: file.manifest.kind, name: file.manifest.name }));
   const byPath = new Map(indexed.map((file) => [placeOf(file.path), file] as const));

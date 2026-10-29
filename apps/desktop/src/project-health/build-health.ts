@@ -1,12 +1,11 @@
 /* @layer renderer-app @kind logic */
 import { fileName } from '../files/file-name';
 import type { IndexedLink, LinkIndex } from '../workspace/link-index.type';
+import { linkFixId } from './link-fix-id';
 import { misplacedFiles } from './misplaced-files';
 import { EMPTY_REPORT, LEAF_KINDS } from './project-health.constants';
 import type { FileFinding, HealthContext, HealthReport, LinkFinding } from './project-health.type';
 import { protectedIds } from './protected-ids';
-
-const linkFixId = (file: string, linkId: string): string => `link:${file}|${linkId}`;
 
 const findingOf = (link: IndexedLink, index: LinkIndex): LinkFinding => ({
   fix: linkFixId(link.from.path, link.linkId),
@@ -30,7 +29,6 @@ const unusedFiles = (index: LinkIndex, context: HealthContext): readonly FileFin
     .map((file) => ({ fix: `unused:${file.path}`, path: file.path, name: file.name, kind: file.kind }));
 };
 
-/** The findings of the checks, from the link index and what the project holds. */
 const buildHealth = (index: LinkIndex, context: HealthContext): HealthReport => {
   const broken = index.links.filter((link) => link.state === 'missing' || link.state === 'ambiguous').map((link) => findingOf(link, index));
   const moved = index.links.filter((link) => link.state === 'moved').map((link) => findingOf(link, index));
@@ -51,4 +49,4 @@ const buildHealth = (index: LinkIndex, context: HealthContext): HealthReport => 
   return { ...report, total: report.broken.length + report.moved.length + report.unused.length + report.misplaced.length + report.duplicates.length + (report.unsaved > 0 ? 1 : 0) + report.access.length };
 };
 
-export { buildHealth, linkFixId };
+export { buildHealth };

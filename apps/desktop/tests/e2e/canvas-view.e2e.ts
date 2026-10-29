@@ -13,21 +13,15 @@ import { pickTransform } from './support/pick-transform';
 import { runMenu } from './support/run-menu';
 import { centreOf } from './support/ruler-centre';
 import type { RulerName } from './support/ruler-centre';
+import { setWindow, WINDOW_SIZE } from './support/set-window';
 import { shoot } from './support/shoot';
 import { useRig } from './support/use-rig';
 import { waitText } from './support/wait-text';
 import { zoomOf } from './support/zoom-of';
 
-const SIZE = { width: 1280, height: 800 } as const;
-
 const header = (session: Session) => session.page.getByRole('navigation', { name: 'Stage path' });
 
 const widget = (session: Session) => session.page.getByRole('region', { name: 'View' });
-
-const setWindow = (session: Session): Promise<void> =>
-  session.app.evaluate(({ BrowserWindow }, size) => {
-    BrowserWindow.getAllWindows()[0]?.setSize(size.width, size.height);
-  }, SIZE);
 
 const openDemo = async (session: Session, place: string): Promise<void> => {
   await answerDialogs(session, { open: place, save: null });
@@ -113,7 +107,7 @@ describe('the canvas: View widget, stage header and floating Apply bar', () => {
     await bar.waitFor();
     expect(await canvasBox(session)).toEqual(before);
     const box = await bar.boundingBox();
-    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(SIZE.width);
+    expect((box?.x ?? 0) + (box?.width ?? 0)).toBeLessThanOrEqual(WINDOW_SIZE.width);
     await shoot(session, 'canvas-3-apply-bar');
     await expectAccessible(session, 'floating Apply bar');
     await bar.getByRole('button', { name: 'Cancel' }).click();

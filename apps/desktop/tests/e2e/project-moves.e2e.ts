@@ -1,13 +1,10 @@
 /* @layer renderer-app @kind test */
-import { existsSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { resolveLinkPath } from '@bxel/document';
-import { readAssetManifest } from '@bxel/document/native';
+import { existsSync } from 'node:fs';
 import type { Page } from 'playwright-core';
 import { describe, expect, test } from 'vitest';
+import { linkTargets, slash } from './support/link-targets';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
-import { buildGalleryArtwork } from './support/build-gallery-artwork';
-import { writeSampleProject } from './support/write-sample-project';
+import { writeGalleryProject } from './support/write-gallery-project';
 import type { Session } from './support/e2e.type';
 import { openSession } from './support/open-session';
 import { inFreshPlace } from './support/in-place';
@@ -17,14 +14,6 @@ import { useRig } from './support/use-rig';
 import { openHub } from './support/open-hub';
 
 const POLL = { timeout: POLL_MS } as const;
-
-const linkTargets = (path: string): readonly string[] => {
-  const manifest = readAssetManifest(new Uint8Array(readFileSync(path)));
-  if (!manifest) throw new Error('the file did not read');
-  return manifest.links.map((link) => resolveLinkPath(path.replaceAll('\\', '/'), link.path));
-};
-
-const slash = (path: string): string => path.replaceAll('\\', '/');
 
 const dragCellToCrumb = async (page: Page, name: string, crumb: string): Promise<void> => {
   const dataTransfer = await page.evaluateHandle(() => new DataTransfer());
@@ -39,10 +28,7 @@ const dragCellToCrumb = async (page: Page, name: string, crumb: string): Promise
 
 const movesRenamesAndUndoes = async (session: Session, place: string): Promise<void> => {
   const { page } = session;
-  const root = join(place, GALLERY.project);
-  const written = await writeSampleProject(root, buildGalleryArtwork(), GALLERY.project);
-  const sheetPath = [...written.values()].find((path) => path.endsWith('.bxsheet')) ?? '';
-  const spritePath = linkTargets(sheetPath).find((path) => path.endsWith('.bxsprite')) ?? '';
+  const { root, sheetPath, spritePath } = await writeGalleryProject(place);
   expect(existsSync(spritePath)).toBe(true);
   const name = spritePath.slice(spritePath.lastIndexOf('/') + 1).replace('.bxsprite', '');
   const movedPath = `${slash(root)}/${name}.bxsprite`;

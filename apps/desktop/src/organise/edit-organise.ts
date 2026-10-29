@@ -19,7 +19,6 @@ const run = async (op: OrganiseOp): Promise<OrganiseOutcome> => {
   return saved.ok ? { ok: true, note: change.note } : { ok: false, message: ORGANISE_TEXT.saveFailed(saved.message) };
 };
 
-/** Changes the organise block of the open project and writes the project file. Changes run one after the other. */
 const editOrganise = (op: OrganiseOp): Promise<OrganiseOutcome> => {
   const next = queue.then(() => run(op));
   queue = next.catch(() => undefined);

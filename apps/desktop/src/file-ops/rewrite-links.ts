@@ -30,7 +30,6 @@ const writeOne = async (kit: FileKit, moves: readonly Relocation[], file: Affect
   return true;
 };
 
-/** A file that was clean stays clean: its saved baseline takes the new link paths. A file with unsaved edits stays as it is. */
 const settleClean = (written: readonly Affected[]): void => {
   const { patch } = useWorkspaceStore.getState();
   for (const documentId of new Set(written.map((each) => each.documentId))) {
@@ -46,12 +45,6 @@ const settleClean = (written: readonly Affected[]): void => {
   }
 };
 
-/**
- * Writes the new link paths into the files on disk that a move touched: the files that link to a moved file, and the moved files themselves,
- * because their own links are relative to where they were. Only the manifest of each file is rewritten, so a file with unsaved edits keeps
- * them, and the edits are not saved by this.
- * Returns how many of the files that link to the moved ones were rewritten.
- */
 const rewriteLinks = async (kit: FileKit, moves: readonly Relocation[], affected: readonly Affected[]): Promise<number> => {
   const written: Affected[] = [];
   for (const file of affected) {

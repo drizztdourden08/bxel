@@ -8,10 +8,6 @@ type IndexedFile = {
   readonly name: string;
 };
 
-/**
- * ok: the stored path holds the file with this id. moved: it does not, and exactly one other file has the id.
- * ambiguous: several files have the id. missing: no file has it.
- */
 type LinkState = 'ok' | 'moved' | 'ambiguous' | 'missing';
 
 type IndexedLink = {

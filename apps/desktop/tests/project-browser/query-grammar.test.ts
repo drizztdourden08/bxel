@@ -91,6 +91,9 @@ describe('the search grammar of the project browser', () => {
     expect(matchEntry(opened, parseQuery('is:pinned'))).toBe(false);
     expect(matchEntry(opened, parseQuery('is:open'))).toBe(true);
   });
+});
+
+describe('the tag and collection tokens', () => {
   it('finds files by tag and by collection, and reads a quoted tag as one token', () => {
     const tagged = entry(row('hero', 'sprite', 'sprites'), { tags: ['hero', 'big boss'], collections: ['Players'] });
     const plain = entry(row('spare', 'sprite', 'sprites'));

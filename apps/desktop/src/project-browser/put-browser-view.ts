@@ -13,7 +13,6 @@ const heldViews = (raw: unknown): [string, StoredBrowserView][] => {
   });
 };
 
-/** The saved view of a project. Pins and filters that an older version kept here stay until they are moved into the project file. */
 const putBrowserView = (raw: unknown, key: string, view: SavedBrowserView): BrowserViews => {
   const held = heldViews(raw);
   const older = held.find(([each]) => each === key)?.[1];

@@ -10,23 +10,20 @@ import { planFailure } from './plan-failure';
 import type { MoveFilesInput } from './project-files-input.type';
 import { reply } from './reply';
 import { referrersVisible } from './referrers-visible';
-import { resolveEntries } from './resolve-entries';
 import { TOOL_TEXT } from './tools.constants';
-import { visibleProject } from './visible-project';
+import { writeScope } from './write-scope';
 
 const moveFiles: ToolHandler = async (input, context) => {
   const request = input as MoveFilesInput;
-  const scope = visibleProject(context, request.projectId, true);
+  const scope = await writeScope(context, request.projectId, request.files, 'files');
   if (!scope.ok) return reply(scope);
-  const { visible } = scope.value;
-  const entries = await resolveEntries(context, visible, request.files, 'files');
-  if (!entries.ok) return reply(entries);
+  const { visible, entries } = scope.value;
   const target = placePath(visible, request.into, 'into');
   if (!target.ok) return reply(target);
   if (request.into.path !== undefined && (await entryKindAt(context.documents, target.value)) !== 'folder') {
     return reply(mcpFailure(MCP_ERROR_CODE.FOLDER_NOT_FOUND, TOOL_TEXT.noFolder, { path: 'into' }));
   }
-  const paths = entries.value.map((each) => each.path);
+  const paths = entries.map((each) => each.path);
   const plan = await planMoves(paths, target.value);
   if (typeof plan === 'string') return reply(planFailure(plan, 'into'));
   const hidden = referrersVisible(visible, paths);

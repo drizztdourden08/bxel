@@ -7,10 +7,6 @@ import { projectAccess } from './project-access';
 import type { VisibleProject } from './project-files-input.type';
 import { TOOL_TEXT } from './tools.constants';
 
-/**
- * The project of a call, with only the folders the assistant may see and the owner has opened.
- * A write needs editing access, the write setting, and the project open in Bxel, because the files are changed through its workspace.
- */
 const visibleProject = (context: ToolContext, projectId: string, writes: boolean): McpResult<VisibleProject> => {
   const found = grantedProjects(context).find((each) => each.project.manifest.projectId === projectId);
   if (!found) return hiddenFailure('project');
