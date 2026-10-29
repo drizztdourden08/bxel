@@ -1,17 +1,25 @@
 /* @layer renderer-app @kind logic */
 import { announce } from '@drizztdourden08/brock-react';
 import { currentTarget } from '../../editor/current-target';
+import { useTilemapStore } from '../../stores/useTilemapStore';
+import { currentMap } from '../../tilemap/current-map';
 import { selectionMask } from '../../editor/selection/selection-mask';
 import type { ToolHandler } from '../assistant.type';
 import { APP_TOOL_TEXT } from './app-tool.constants';
 import type { SetViewInput } from './app-tool-input.type';
 import { reply } from './reply';
 import { selectionReply } from './selection-reply';
+import { mapSelectionReply } from './map-selection-reply';
 import { VIEW_STEPS } from './set-view.constants';
 
 const selectionNow = () => {
   const target = currentTarget();
   return selectionReply(target ? selectionMask(target) : null);
+};
+
+const mapSelectionNow = () => {
+  const target = currentMap();
+  return target ? mapSelectionReply(useTilemapStore.getState().selection, target.tilemap) : null;
 };
 
 const setView: ToolHandler = (input, context) => {
@@ -30,6 +38,7 @@ const setView: ToolHandler = (input, context) => {
     applied,
     visible: context.call.instance.window === 'visible',
     selection: applied.includes('selection') ? selectionNow() : null,
+    mapSelection: applied.includes('mapSelection') ? mapSelectionNow() : null,
   });
 };
 

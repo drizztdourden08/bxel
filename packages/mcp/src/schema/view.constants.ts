@@ -1,6 +1,8 @@
 /* @layer core @kind constants */
 import { z } from 'zod';
 import { ANIM_FRAME_ID_SCHEMA, DOCUMENT_ID_SCHEMA, LAYER_ID_SCHEMA, MAP_LAYER_ID_SCHEMA, SPRITE_ID_SCHEMA, TAG_ID_SCHEMA } from './ids.constants';
+import { CELL_MASK_SCHEMA } from './cell-mask.constants';
+import { CELL_RECT_SCHEMA } from './cell-rect.constants';
 import { TIMELINE_INPUT_SCHEMA } from './timeline-view.constants';
 
 const COORDINATE_SCHEMA = z.number().int().min(-100000).max(100000);
@@ -43,6 +45,15 @@ const SELECTION_REPLY_SCHEMA = z.strictObject({
   bounds: VIEW_RECT_SCHEMA.nullable(),
   pixels: z.number().int().min(0),
   runs: RUNS_SCHEMA.nullable().describe('Null when the mask has more runs than one reply may carry.'),
+});
+
+const MAP_RUNS_SCHEMA = z.array(z.array(z.number().int().min(0)).length(3)).max(20000).describe('Selected cells as row runs [row, first column, last column], last included.');
+
+const MAP_SELECTION_REPLY_SCHEMA = z.strictObject({
+  empty: z.boolean(),
+  bounds: CELL_RECT_SCHEMA.nullable(),
+  cells: z.number().int().min(0),
+  runs: MAP_RUNS_SCHEMA.nullable().describe('Null when the selection has more runs than one reply may carry.'),
 });
 
 const SET_VIEW_INPUT_SCHEMA = z.strictObject({
@@ -129,11 +140,19 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       shape: SELECTION_SHAPE_SCHEMA,
     })
     .optional(),
+  mapSelection: z
+    .strictObject({
+      op: z.enum(COMBINE_VALUES).default('replace'),
+      cells: z.union([z.literal('none'), CELL_MASK_SCHEMA]).describe('"none" drops the selection. Otherwise the cells to select, described, on the open tilemap and its active layer.'),
+    })
+    .optional()
+    .describe('Selects cells on the tilemap the owner has open, with the same combine rules as selection. The owner sees the cells and can move, copy or cut them.'),
 });
 
 export {
   COMBINE_VALUES,
   COORDINATE_SCHEMA,
+  MAP_SELECTION_REPLY_SCHEMA,
   RUNS_SCHEMA,
   SELECTION_REPLY_SCHEMA,
   SELECTION_SHAPE_SCHEMA,

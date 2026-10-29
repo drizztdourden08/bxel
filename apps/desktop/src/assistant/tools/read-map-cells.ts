@@ -23,6 +23,7 @@ const readMapCells: ToolHandler = (input, context) => {
   const { documentId, tilemapId, layerId, rect, mask } = input as ReadMapCellsInput;
   const view = viewFor(context, documentId);
   if (!view) return reply(hiddenFailure('document'));
+  if (!rect && !mask) return reply(mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.needRectOrMask, { path: 'rect' }));
   const map = mapFor(view.state.artwork, tilemapId, hiddenAssets(context, documentId));
   const layer = map?.layers.find((candidate) => candidate.id === layerId);
   if (!map || !layer) return reply(mcpFailure(ERROR_CODE.TARGET_NOT_FOUND, TOOL_TEXT.noMap, { path: 'tilemapId' }));
