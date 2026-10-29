@@ -3,10 +3,10 @@ import { Button, ColorSwatch, Flex } from '@drizztdourden08/tessera';
 import { setTagColour } from '../../../timeline/set-tag-colour';
 import { TAG_COLOUR_CHOICES } from '../../../timeline/tag-colour.constants';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
-import type { TagEditorProps } from '../TimelinePanel.type';
+import type { TagPartProps } from '../TimelinePanel.type';
 import { TagColourPicker } from './TagColourPicker';
 
-const TagColours = ({ tag, readOnly }: TagEditorProps) => (
+const TagColours = ({ tag, readOnly }: TagPartProps) => (
   <Flex gap="xs" align="center" wrap role="group" aria-label={TIMELINE_TEXT.tagColour}>
     {TAG_COLOUR_CHOICES.map((choice) => (
       <ColorSwatch

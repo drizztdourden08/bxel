@@ -12,7 +12,8 @@ const linkOf = (reply: ToolReply): CallToolResult['content'] => {
 
 const toCallResult = (reply: ToolReply): CallToolResult => {
   const base = toToolResult(reply.outcome, JSON.stringify(reply.outcome));
-  const images = reply.images.map((data) => ({ type: 'image' as const, data, mimeType: 'image/png' }));
+  const mime = reply.outcome.ok ? fieldOf(reply.outcome, 'mimeType') : undefined;
+  const images = reply.images.map((data) => ({ type: 'image' as const, data, mimeType: typeof mime === 'string' ? mime : 'image/png' }));
   return {
     content: [...base.content, ...images, ...linkOf(reply)],
     structuredContent: { ...base.structuredContent },

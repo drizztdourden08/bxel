@@ -1,21 +1,20 @@
 /* @layer renderer-app @kind hook */
 import { useEffect } from 'react';
 import { useTimelineStore } from '../stores/useTimelineStore';
-import { advancePlayback } from '../timeline/advance-playback';
-import { frameDelay } from '../timeline/frame-delay';
+import { resetClock } from '../timeline/reset-clock';
+import { tickClock } from '../timeline/tick-clock';
 
 const useTimelinePlayback = (): void => {
   const playing = useTimelineStore((state) => state.playing);
   useEffect(() => {
     if (!playing) return undefined;
-    let timer = 0;
-    const schedule = (): void => {
-      timer = window.setTimeout(() => {
-        if (advancePlayback()) schedule();
-      }, frameDelay());
+    resetClock();
+    let frame = 0;
+    const loop = (now: number): void => {
+      if (tickClock(now)) frame = window.requestAnimationFrame(loop);
     };
-    schedule();
-    return () => window.clearTimeout(timer);
+    frame = window.requestAnimationFrame(loop);
+    return () => window.cancelAnimationFrame(frame);
   }, [playing]);
   useEffect(() => () => useTimelineStore.getState().pause(), []);
 };

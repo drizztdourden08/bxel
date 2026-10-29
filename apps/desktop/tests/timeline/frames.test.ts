@@ -5,7 +5,7 @@ import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { addFrame } from '../../src/timeline/add-frame';
 import { deleteFrames } from '../../src/timeline/delete-frames';
-import { dragFrame } from '../../src/timeline/drag-frame';
+import { dropFrames } from '../../src/timeline/drag-frame';
 import { duplicateFrames } from '../../src/timeline/duplicate-frames';
 import { goToFrame } from '../../src/timeline/go-to-frame';
 import { moveFrames } from '../../src/timeline/move-frames';
@@ -79,7 +79,7 @@ describe('moving frames', () => {
     const [a, b, c] = withFrames(3);
     moveFrames(1);
     expect(frameIds()).toEqual([b, a, c]);
-    expect(dragFrame(2, 0)).toBe(true);
+    expect(dropFrames({ keys: [frameAt(2)], before: 0, modifier: 'none' })).toBe(true);
     expect(frameIds()).toEqual([c, b, a]);
     expect(moveFrames(-1, [frameAt(0)])).toBe(false);
   });
