@@ -12,6 +12,7 @@ import type { MapTarget } from '../../../tilemap/tilemap.type';
 import type { PixelPoint, PixelViewportHandle } from '../../PixelViewport';
 import type { MapGesture, MapLive } from '../TilemapCanvas.type';
 import { useGuideGrab } from '../../EditorCanvas/behavior/useGuideGrab';
+import { useZoomGesture } from '../../EditorCanvas/behavior/useZoomGesture';
 import { beginDrag } from './begin-drag';
 import { cancelMapGesture } from './cancel-map-gesture';
 import { cellInSelection } from './cell-in-selection';
@@ -29,6 +30,7 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
   const spanning = tool === 'rect' || tool === 'select' || tool === 'pick';
   const redraw = (): void => viewport.current?.redraw();
   const guide = useGuideGrab(viewport);
+  const zoom = useZoomGesture(viewport);
   const begin = (event: PointerEvent<HTMLElement>): void => {
     const store = useTilemapStore.getState();
     const cell = cellAt(event);
@@ -47,10 +49,10 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
   return {
     down: (event) => {
       if (guide.down(event)) return;
+      if (zoom.down(event)) return;
       live.current.captured = false;
       if (tool === 'zoom') {
-        if (event.button === 0) viewport.current?.zoomIn(pixelAt(event));
-        if (event.button === 2) viewport.current?.zoomOut(pixelAt(event));
+        if (event.button === 2) viewport.current?.zoomOut({ x: event.clientX, y: event.clientY });
         return;
       }
       if (event.button === 2 && tool === 'place' && !useTilemapStore.getState().paste) {
@@ -66,6 +68,7 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
     },
     move: (event) => {
       if (guide.move(event)) return;
+      if (zoom.move(event)) return;
       const { drag } = live.current;
       if (drag) live.current.drag = extendDrag(drag, drag.kind === 'stroke' || drag.kind === 'line' ? cellAt(event) : cellNear(event), useTilemapStore.getState().stamp, target);
       live.current.hover = cellAt(event);
@@ -73,6 +76,7 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
     },
     up: () => {
       if (guide.up()) return;
+      if (zoom.up()) return;
       const { drag } = live.current;
       live.current.drag = null;
       const taken = drag?.kind === 'capture' && (drag.from.x !== drag.to.x || drag.from.y !== drag.to.y);
