@@ -1,10 +1,10 @@
 /* @layer core @kind logic */
 import { registerRef } from '../../draft/register-ref';
 import { updateArtwork } from '../../draft/update-artwork';
-import type { CustomBrush } from '../../model/brush.type';
+import type { SavedBrush } from '../../model/brush.type';
 import type { BrushId } from '../../model/ids.type';
 import { MAX_BRUSHES } from '../../model/limits.constants';
-import { decodeBrushPixels } from '../../pixels/brush-pixels';
+import { decodeBrushPixels } from '../../pixels/decode-brush-pixels';
 import { brushAddSchema } from '../../schema/brush-add-schema';
 import { checkName } from '../../validate/check-name';
 import { COMMAND_NAME } from '../command-name.constants';
@@ -26,7 +26,7 @@ const brushAdd = defineCommand({
     if (existing.length >= MAX_BRUSHES) {
       throw fail(ERROR_CODE.BATCH_TOO_LARGE, `An artwork holds at most ${MAX_BRUSHES} brushes.`);
     }
-    const brush: CustomBrush = {
+    const brush: SavedBrush = {
       id: draft.ids.next('brs') as BrushId,
       name: checkName(options.name),
       width: options.width,

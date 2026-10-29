@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
-import { RADIUS_MAX } from '../../rounded-rect';
+import { RADIUS_MAX } from '../../rounded-rect.constants';
 import { CONTOUR_MIN_POINTS, POLYGON_MIN_POINTS } from '../../path/path.constants';
 import { pointSchema } from './point-schema';
 import { shapeFields } from './shape-fields';

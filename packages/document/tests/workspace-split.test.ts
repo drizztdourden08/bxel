@@ -1,24 +1,9 @@
 /* @layer core @kind test */
-import type { Artwork, AssetKind, SplitFile } from '@bxel/document';
+import type { SplitFile } from '@bxel/document';
 import { counterIdSource, mergeSlices, splitIntoAssets } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { decodeFiles, encodeSlice } from './asset-bytes';
 import { legacyArtwork } from './legacy-fixture';
-
-const byId = <T extends { readonly id: string }>(items: readonly T[]): T[] =>
-  [...items].sort((left, right) => (left.id < right.id ? -1 : 1));
-
-const normal = (artwork: Artwork): Artwork => ({
-  ...artwork,
-  banks: byId(artwork.banks),
-  sprites: byId(artwork.sprites),
-  sheets: byId(artwork.sheets),
-  presets: byId(artwork.presets),
-  tilesets: byId(artwork.tilesets),
-  tilemaps: byId(artwork.tilemaps),
-});
-
-const ofKind = (files: readonly SplitFile[], kind: AssetKind): SplitFile[] => files.filter((file) => file.key.kind === kind);
+import { expectBytesRoundTrip, expectMergedEqual, ofKind } from './split-checks';
 
 const fileOf = (files: readonly SplitFile[], name: string): SplitFile => {
   const found = files.find((file) => file.name === name);
@@ -78,25 +63,13 @@ describe('merging the split files back', () => {
     const artwork = legacyArtwork();
     const plan = splitIntoAssets(artwork);
     const sources = plan.files.map((file) => ({ path: file.path, slice: file.slice }));
-    const merged = mergeSlices(sources, counterIdSource(5000), plan.project);
-    expect(merged.issues).toEqual([]);
-    expect(merged.rekeyed).toEqual([]);
-    expect(normal(merged.artwork)).toEqual(normal(artwork));
+    expectMergedEqual(sources, plan, artwork);
   });
 
   it('rebuilds an equal artwork when the files go through bytes, and rewrites the same bytes', () => {
     const artwork = legacyArtwork();
     const plan = splitIntoAssets(artwork);
-    const stored = plan.files.map((file) => ({ path: file.path, bytes: encodeSlice(file.slice) }));
-    const { sources, reports } = decodeFiles(stored);
-    expect(reports.every((report) => report.outcome === 'ok')).toBe(true);
-    const merged = mergeSlices(sources, counterIdSource(5000), plan.project);
-    expect(merged.issues).toEqual([]);
-    expect(normal(merged.artwork)).toEqual(normal(artwork));
-    for (const [index, file] of plan.files.entries()) {
-      const source = sources.find((item) => item.path === file.path);
-      expect(source && encodeSlice(source.slice)).toEqual(stored[index]?.bytes);
-    }
+    expectBytesRoundTrip(plan, artwork);
   });
 
   it('shares one bank between the sprites and the palette file', () => {

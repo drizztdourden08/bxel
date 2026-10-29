@@ -1,7 +1,7 @@
 /* @layer core @kind logic */
 import type { Sheet } from '../model/sheet.type';
 import { boxOverlaps } from './box-overlaps';
-import { spriteBoxes } from './sheet-boxes';
+import { spriteBoxes } from './sprite-boxes';
 import type { SheetOverlap, SheetSizes } from './sheet-overlap.type';
 
 const findOverlaps = (sheet: Sheet, sizes: SheetSizes): SheetOverlap[] =>

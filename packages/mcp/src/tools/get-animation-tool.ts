@@ -14,10 +14,8 @@ import {
 import { COUNT_SCHEMA, HEX_COLOR_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
+import { DIRECTION_SCHEMA, FACING_SCHEMA, FLIP_SCHEMA } from './get-animation-tool.constants';
 import { TOOL_NAME } from './tool-name.constants';
-
-const DIRECTION = z.enum(['forward', 'reverse', 'pingpong', 'pingpongReverse']);
-const FACING = z.enum(['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']);
 
 const frame = z.strictObject({
   frameId: ANIM_FRAME_ID_SCHEMA,
@@ -31,22 +29,20 @@ const frame = z.strictObject({
   sameSpriteAs: COUNT_SCHEMA.nullable().describe('Index of an earlier frame that shows the same sprite (a repeat), else null.'),
 });
 
-const FLIP = z.enum(['x', 'y']);
-
 const playStep = z.strictObject({
   index: COUNT_SCHEMA.describe('Index of the frame.'),
   frameId: ANIM_FRAME_ID_SCHEMA,
-  flip: FLIP.nullable().describe('Mirrored on this axis by a mirror tag, else null.'),
+  flip: FLIP_SCHEMA.nullable().describe('Mirrored on this axis by a mirror tag, else null.'),
   ms: COUNT_SCHEMA,
 });
 
 const play = z.strictObject({
   tagId: TAG_ID_SCHEMA.nullable().describe('Null for the whole animation.'),
   name: z.string(),
-  facing: FACING.nullable(),
+  facing: FACING_SCHEMA.nullable(),
   mirrorOf: TAG_ID_SCHEMA.nullable().describe('The tag a mirror tag copies, else null.'),
-  flip: FLIP.nullable(),
-  direction: DIRECTION,
+  flip: FLIP_SCHEMA.nullable(),
+  direction: DIRECTION_SCHEMA,
   repeat: COUNT_SCHEMA.describe('0 plays forever.'),
   forever: z.boolean(),
   steps: z.array(playStep).describe('The frames in play order with the repeats expanded. A forever play lists one pass.'),
@@ -62,9 +58,9 @@ const spanTag = z.strictObject({
   name: z.string(),
   from: COUNT_SCHEMA.describe('Index of the first frame.'),
   to: COUNT_SCHEMA.describe('Index of the last frame.'),
-  direction: DIRECTION,
+  direction: DIRECTION_SCHEMA,
   repeat: COUNT_SCHEMA.describe('0 plays forever.'),
-  facing: FACING.optional(),
+  facing: FACING_SCHEMA.optional(),
   colour: HEX_COLOR_SCHEMA.optional(),
 });
 
@@ -73,7 +69,7 @@ const mirrorTag = z.strictObject({
   tagId: TAG_ID_SCHEMA,
   of: TAG_ID_SCHEMA,
   flip: z.enum(['x', 'y']),
-  facing: FACING,
+  facing: FACING_SCHEMA,
 });
 
 const getAnimationTool = defineTool(TOOL_NAME.getAnimation, {
@@ -92,7 +88,7 @@ const getAnimationTool = defineTool(TOOL_NAME.getAnimation, {
     height: COUNT_SCHEMA,
     bankId: BANK_ID_SCHEMA,
     anchor: z.strictObject({ x2: z.number().int(), y2: z.number().int() }),
-    loop: z.strictObject({ direction: DIRECTION, repeat: COUNT_SCHEMA }),
+    loop: z.strictObject({ direction: DIRECTION_SCHEMA, repeat: COUNT_SCHEMA }),
     directions: z.enum(['none', 'four', 'eight']),
     cycleMs: COUNT_SCHEMA.describe('Duration of one pass of the whole animation.'),
     frames: z.array(frame),

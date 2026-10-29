@@ -2,25 +2,14 @@
 import type { Artwork, SpriteId } from '@bxel/document';
 import { describe, expect, test } from 'vitest';
 import { brand } from './brand';
-import { buildArtwork } from './build-artwork';
 import { pixelEngine, scopeOf, stepOf } from './pixel-engine';
+import { smallArtwork } from './small-artwork';
 import { refusalOf } from './transform-checks';
 
 const frame = brand<SpriteId>('spr_000070');
 
 const framed = (): Artwork => {
-  const base = buildArtwork([
-    {
-      id: 'spr_000070',
-      name: 'small',
-      width: 4,
-      height: 4,
-      pivot: { x2: 4, y2: 4 },
-      frames: ['frm_000072'],
-      layers: [{ id: 'lay_000071', name: 'Body', cels: { frm_000072: 'cel_000073' } }],
-      cels: { cel_000073: ['....', '.12.', '.34.', '....'] },
-    },
-  ]);
+  const base = smallArtwork();
   return { ...base, sprites: base.sprites.map((sprite) => ({ ...sprite, role: 'frame' as const })) };
 };
 

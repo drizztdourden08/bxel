@@ -98,6 +98,14 @@ describe('round trips', () => {
     expect(JSON.stringify(descriptor?.outputSchema)).toContain('"colour"');
   });
 
+  it('takes include on get_document with the detail names only', () => {
+    const tool = tools.find((candidate) => candidate.name === 'get_document');
+    const job = { documentId: 'doc_4k9m2q7x1v8c' };
+    expect(tool && parseToolInput(tool, { ...job, include: ['guides', 'slices', 'presets', 'tags', 'entries', 'tileset'] }).ok).toBe(true);
+    expect(tool && parseToolInput(tool, { ...job, include: ['colours'] }).ok).toBe(false);
+    expect(tool && parseToolInput(tool, job).ok).toBe(true);
+  });
+
   it('rejects an unknown property on a strict input', () => {
     const tool = tools.find((candidate) => candidate.name === 'get_session');
     expect(tool && parseToolInput(tool, { extra: 1 }).ok).toBe(false);

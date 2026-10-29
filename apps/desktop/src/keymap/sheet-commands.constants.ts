@@ -20,6 +20,8 @@ import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { SHEET_COMMAND as ID } from './sheet-command-id.constants';
 import { ruled } from './ruled';
+import { needs } from './needs';
+import { REASON } from '../ui-context/reasons.constants';
 
 const group = COMMAND_GROUP.sheet;
 
@@ -33,7 +35,7 @@ const onSelection = (run: (ids: ReturnType<typeof selectionIds>) => void) => ():
 };
 
 const SCOPE_COMMANDS: readonly CommandDef[] = [
-  { id: ID.back, label: 'Back to sheet', group, chord: 'Escape', whileTyping: false, when: leavable, run: leaveAction },
+  { id: ID.back, label: 'Back to sheet', group, chord: 'Escape', whileTyping: false, ...needs(leavable, REASON.notIsolated), run: leaveAction },
   { id: ID.broadcast, label: 'Paint all selected', group, chord: 'Alt+B', whileTyping: false, run: toggleBroadcast },
 ];
 
@@ -48,7 +50,7 @@ const SPRITE_COMMANDS: readonly CommandDef[] = [
     chord: 'Delete',
     zone: COMMAND_ZONE.sprites,
     whileTyping: false,
-    when: () => hasActiveDocument() && hasActiveSprite(),
+    ...needs(() => hasActiveDocument() && hasActiveSprite(), REASON.noActiveSprite),
     run: () => useManagerStore.getState().patch({ dialog: 'delete' }),
   },
   { id: ID.moveEarlier, label: 'Move sprite earlier', group, run: onSelection((ids) => reorderSprites(ids, { by: -1 })) },

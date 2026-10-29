@@ -8,6 +8,8 @@ import { openProject } from '../project/open-project';
 import { packCurrentProject } from '../project/pack-current-project';
 import { PROJECT_COMMAND, PROJECT_GROUP, PROJECT_TEXT, PROJECT_WIDGET_ID } from '../project/project.constants';
 import { useProjectStore } from '../stores/useProjectStore';
+import { needs } from './needs';
+import { REASON } from '../ui-context/reasons.constants';
 
 const hasProject = (): boolean => useProjectStore.getState().project !== null;
 
@@ -32,7 +34,7 @@ const PROJECT_COMMANDS: readonly CommandDef[] = [
     id: PROJECT_COMMAND.close,
     label: 'Close project',
     group: PROJECT_GROUP,
-    when: hasProject,
+    ...needs(hasProject, REASON.noProject),
     run: () => {
       void closeProject();
     },
@@ -50,7 +52,7 @@ const PROJECT_COMMANDS: readonly CommandDef[] = [
     label: 'Project settings',
     icon: 'settings',
     group: PROJECT_GROUP,
-    when: hasProject,
+    ...needs(hasProject, REASON.noProject),
     run: () => openProjectSettings(),
   },
   {
@@ -58,7 +60,7 @@ const PROJECT_COMMANDS: readonly CommandDef[] = [
     label: 'Pack project',
     icon: 'package',
     group: PROJECT_GROUP,
-    when: hasProject,
+    ...needs(hasProject, REASON.noProject),
     run: () => {
       void packCurrentProject();
     },

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
-import { TOOL_CATALOGUE, toolLevel } from '@bxel/mcp';
-import type { Grant, ToolName } from '@bxel/mcp';
+import { rowLevel, TOOL_ROWS } from '@bxel/mcp';
+import type { Grant, ToolRowId } from '@bxel/mcp';
 import { GRANT_TEXT_UI, TOOL_TEXT } from '../sub-components/ProgramGrant.constants';
 import { bundleDef } from './bundle-def';
 import type { LevelLimits, ToolRowModel } from './grant-rows.type';
@@ -12,14 +12,14 @@ const limitsOf = (kind: ToolRowModel['kind']): LevelLimits => {
   return kind === 'write' ? { read: GRANT_TEXT_UI.onlyWrites } : {};
 };
 
-const toolRow = (grant: Grant, id: ToolName): ToolRowModel => {
-  const entry = TOOL_CATALOGUE[id];
+const toolRow = (grant: Grant, id: ToolRowId): ToolRowModel => {
+  const entry = TOOL_ROWS[id];
   const overridden = grant.tools[id] !== undefined;
   return {
     id,
     description: TOOL_TEXT[id],
     kind: entry.kind,
-    level: shownLevel(toolLevel(grant, id), entry.kind),
+    level: shownLevel(rowLevel(grant, id), entry.kind),
     overridden,
     options: levelOptions(limitsOf(entry.kind)),
     name: GRANT_TEXT_UI.toolName(id, bundleDef(entry.bundle).label, overridden),

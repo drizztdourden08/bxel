@@ -1,9 +1,11 @@
 /* @layer core @kind logic */
-import type { Guides, Sprite } from '../../model/sprite.type';
+import type { Guides } from '../../model/sprite.type';
+import { copyGuides } from './copy-guides';
 
-const withGuides = (sprite: Sprite, guides: Guides): Sprite => {
-  const { guides: _old, ...rest } = sprite;
-  return guides.x.length === 0 && guides.y.length === 0 ? rest : { ...rest, guides };
+const withGuides = <Held extends { readonly guides?: Guides }>(current: Held, guides: Guides): Omit<Held, 'guides'> & { readonly guides?: Guides } => {
+  const { guides: _old, ...rest } = current;
+  const copy = copyGuides(guides);
+  return copy ? { ...rest, guides: copy } : rest;
 };
 
 export { withGuides };

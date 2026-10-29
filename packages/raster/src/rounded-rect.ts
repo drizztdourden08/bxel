@@ -1,8 +1,7 @@
 /* @layer core @kind logic */
 import type { Corners, Span } from './geometry.type';
 import { normalizeCorners } from './normalize-corners';
-
-const RADIUS_MAX = 8;
+import { RADIUS_MAX } from './rounded-rect.constants';
 
 const cut = (radius: number, depth: number): number => {
   const rise = radius - depth - 0.5;
@@ -21,4 +20,4 @@ const roundedRect = (corners: Corners, radius: number): Span[] => {
   return spans;
 };
 
-export { RADIUS_MAX, roundedRect };
+export { roundedRect };

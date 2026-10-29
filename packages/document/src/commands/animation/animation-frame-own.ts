@@ -8,16 +8,14 @@ import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
 import { ownedBlank } from './owned-blank';
 import { ownedCopy } from './owned-copy';
-import { pickAnimFrame } from './pick-anim-frame';
-import { pickAnimation } from './pick-animation';
+import { pickAnimationFrame } from './pick-animation-frame';
 
 const animationFrameOwn = defineCommand({
   name: COMMAND_NAME.animationFrameOwn,
   scope: 'none',
   schema: animationFramePickSchema,
   run: (draft, input) => {
-    const animation = pickAnimation(draft, input.options.animation);
-    const { frame } = pickAnimFrame(animation, input.options.frame, 'options.frame');
+    const { animation, frame } = pickAnimationFrame(draft, input.options);
     const source = frame.spriteId === null ? undefined : findSprite(draft.artwork, frame.spriteId);
     if (source?.role === 'frame') {
       registerRef(draft, input.ref, source.id);
