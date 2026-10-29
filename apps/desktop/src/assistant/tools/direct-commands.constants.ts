@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind constants */
 import { resizeActiveSprite } from '../../canvas-size/resize-active-sprite';
 import { commitSpec } from '../../editor/pending/commit-spec';
+import { rotateSpec } from '../../editor/transform/rotate-spec';
+import { scaleSpec } from '../../editor/transform/scale-spec';
 import type { ResizeSpec } from '../../sheet-manager/manager.type';
 import type { Args, Direct } from './direct-commands.type';
 import { paletteDirect } from './palette-direct';
@@ -12,8 +14,8 @@ const num = (args: Args, key: string): number => Number(args[key]);
 const boundsOf = (args: Args): 'expand' | 'crop' => (args.bounds === 'expand' ? 'expand' : 'crop');
 
 const DIRECT: Readonly<Record<string, Direct>> = {
-  'transform.rotate': (args) => commitSpec({ kind: 'rotate', angle: num(args, 'angle'), bounds: boundsOf(args) }),
-  'transform.scale': (args) => commitSpec({ kind: 'scale', width: num(args, 'width'), height: num(args, 'height'), bounds: boundsOf(args) }),
+  'transform.rotate': (args) => commitSpec(rotateSpec(num(args, 'angle'), boundsOf(args))),
+  'transform.scale': (args) => commitSpec(scaleSpec(num(args, 'width'), num(args, 'height'), boundsOf(args))),
   'canvas.size': (args) =>
     resizeActiveSprite({ width: num(args, 'width'), height: num(args, 'height'), anchor: args.anchor as ResizeSpec['anchor'] }) ? null : 'The canvas size did not change.',
   'palette.delete_swatch': (args) => paletteDirect('delete', num(args, 'index'), null, null),

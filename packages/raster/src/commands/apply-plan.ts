@@ -6,12 +6,12 @@ import { shiftView } from '../region/shift-view';
 import { unionFrame } from '../region/union-frame';
 import { applyToCels } from './apply-to-cels';
 import { growSprite } from './grow-sprite';
-import type { ResampleSpec, SpritePlan } from './resample.type';
+import type { ResampleSpec, SpritePlan, Tally } from './resample.type';
 import { spriteCels } from './sprite-cels';
 
-const applyPlan = (draft: Draft, cels: readonly ResolvedCel[], plan: SpritePlan, spec: ResampleSpec): number => {
+const applyPlan = (draft: Draft, cels: readonly ResolvedCel[], plan: SpritePlan, spec: ResampleSpec): Tally => {
   if (!plan.area) {
-    return 0;
+    return { clipped: 0, added: null };
   }
   let view = plan.view;
   if (spec.bounds === 'expand' && !areaInside(plan.size, plan.area)) {
@@ -21,12 +21,14 @@ const applyPlan = (draft: Draft, cels: readonly ResolvedCel[], plan: SpritePlan,
   }
   const resample = spec.mover(view);
   let clipped = 0;
+  let added: number | null = null;
   applyToCels(draft, spriteCels(cels, plan.spriteId), (target) => {
     const result = landRegion({ target, mask: view.mask, resample, skipZero: spec.skipZero });
     clipped = Math.max(clipped, result.clipped);
+    added = result.added === null ? added : Math.max(added ?? 0, result.added);
     return result.rect;
   });
-  return clipped;
+  return { clipped, added };
 };
 
 export { applyPlan };

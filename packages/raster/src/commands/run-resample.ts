@@ -14,8 +14,14 @@ const runResample = (draft: Draft, input: CommandInput, spec: ResampleSpec): voi
   const plans = input.sprites.map((spriteId) => planSprite(draft.artwork, spriteId, spec));
   checkPlans(plans, spec.bounds);
   let clipped = 0;
+  let added: number | null = null;
   for (const plan of plans) {
-    clipped = Math.max(clipped, applyPlan(draft, input.cels, plan, spec));
+    const tally = applyPlan(draft, input.cels, plan, spec);
+    clipped = Math.max(clipped, tally.clipped);
+    added = tally.added === null ? added : Math.max(added ?? 0, tally.added);
+  }
+  if (added !== null) {
+    addReport(draft, REPORT_KEY.colorsAdded, added);
   }
   if (clipped > 0) {
     addReport(draft, REPORT_KEY.pixelsClipped, clipped);

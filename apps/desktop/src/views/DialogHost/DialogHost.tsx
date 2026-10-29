@@ -2,6 +2,8 @@
 import { AddFramesDialog } from '../AddFramesDialog';
 import { CanvasSizeDialog } from '../CanvasSizeDialog';
 import { DirectionSetDialog } from '../DirectionSetDialog';
+import { PasteChoiceDialog } from '../PasteChoiceDialog';
+import { SelectionNamesDialog } from '../SelectionNamesDialog';
 import { ImportWizard } from '../ImportWizard';
 import { LinkedCelDialog } from '../LinkedCelDialog';
 import { CreateDialog } from '../CreateDialog';
@@ -18,6 +20,8 @@ const DialogHost = () => {
     <>
       <CreateDialog />
       <CanvasSizeDialog />
+      <SelectionNamesDialog />
+      <PasteChoiceDialog />
       <AddFramesDialog />
       <DirectionSetDialog />
       <ProjectCreateDialog />

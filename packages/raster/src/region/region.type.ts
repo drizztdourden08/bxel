@@ -24,7 +24,15 @@ type ScaleTarget =
 
 type ScaleSpec = { readonly target: ScaleTarget; readonly anchor: Anchor };
 
-type Resample = { readonly area: Rect; readonly source: (x: number, y: number) => number };
+type Pick = (x: number, y: number) => number;
+
+type Resample = {
+  readonly area: Rect;
+  readonly source: (x: number, y: number) => number;
+  readonly prepare?: (before: Uint8Array) => Pick;
+};
+
+type Geometry = { readonly area: Rect; readonly inverse: (x: number, y: number) => { readonly x: number; readonly y: number } };
 
 type MoverView = { readonly mask: MaskView; readonly box: Rect; readonly pivot: Pivot2 };
 
@@ -34,6 +42,7 @@ type Lift = {
   readonly target: BufferView;
   readonly before: Uint8Array;
   readonly resample: Resample;
+  readonly pick: Pick | null;
   readonly skipZero: boolean;
 };
 
@@ -44,19 +53,21 @@ type LandOptions = {
   readonly skipZero: boolean;
 };
 
-type LandResult = { readonly rect: Rect | null; readonly clipped: number };
+type LandResult = { readonly rect: Rect | null; readonly clipped: number; readonly added: number | null };
 
 type RotationTerms = { readonly cos: number; readonly sin: number };
 
 export type {
   Anchor,
   BoundsPolicy,
+  Geometry,
   Halves,
   LandOptions,
   LandResult,
   Lift,
   Mover,
   MoverView,
+  Pick,
   Resample,
   RotationTerms,
   ScaleSpec,

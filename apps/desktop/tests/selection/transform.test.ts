@@ -6,6 +6,7 @@ import { spriteLayerActions } from '../../src/editor/layer-actions';
 import { selectionMask } from '../../src/editor/selection/selection-mask';
 import { startFlip } from '../../src/editor/transform/start-flip';
 import { startRotate } from '../../src/editor/transform/start-rotate';
+import { IDENTITY } from '../../src/editor/transform/transform.constants';
 import { startScale } from '../../src/editor/transform/start-scale';
 import { startTurn } from '../../src/editor/transform/start-turn';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
@@ -51,8 +52,8 @@ describe('rotating and scaling', () => {
     const rig = openRig();
     rig.paint({ x: 8, y: 8, width: 16, height: 16 }, 4);
     expect(startRotate()).toBe(true);
-    expect(usePendingStore.getState().pending?.editing).toBe(true);
-    usePendingStore.getState().revise({ kind: 'rotate', angle: 45, bounds: 'expand' });
+    expect(usePendingStore.getState().pending?.spec.kind).toBe('transform');
+    usePendingStore.getState().revise({ ...IDENTITY, algorithm: 'nearest', angle: 45, bounds: 'expand' });
     const { outcome } = usePendingStore.getState();
     expect(outcome?.width).toBeGreaterThan(32);
     commitPending();
@@ -65,7 +66,7 @@ describe('rotating and scaling', () => {
     const rig = openRig();
     rig.paint({ x: 0, y: 0, width: 32, height: 32 }, 4);
     startRotate();
-    usePendingStore.getState().revise({ kind: 'rotate', angle: 45, bounds: 'cancel' });
+    usePendingStore.getState().revise({ ...IDENTITY, algorithm: 'nearest', angle: 45, bounds: 'cancel' });
     expect(usePendingStore.getState().outcome?.error).not.toBeNull();
     expect(commitPending()).toBe(false);
     expect(rig.pixels()[at(5, 5)]).toBe(4);
@@ -76,8 +77,8 @@ describe('rotating and scaling', () => {
     rig.paint(BLOCK, 4);
     rig.select(BLOCK);
     startScale();
-    expect(usePendingStore.getState().pending?.spec).toMatchObject({ kind: 'scale', width: 4, height: 3 });
-    usePendingStore.getState().revise({ kind: 'scale', width: 8, height: 6, bounds: 'crop' });
+    expect(usePendingStore.getState().pending?.spec).toMatchObject({ kind: 'transform', scale: { x: 1, y: 1 } });
+    usePendingStore.getState().revise({ ...IDENTITY, algorithm: 'nearest', scale: { x: 2, y: 2 } });
     const preview = usePendingStore.getState().outcome?.frame?.indices;
     commitPending();
     expect(rig.pixels()).toEqual(preview);

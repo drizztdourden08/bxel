@@ -10,6 +10,10 @@ import { labelOfTool } from '../editor/tool-catalogue/label-of-tool';
 import { toolIds } from '../editor/tool-catalogue/tool-ids';
 import { resetTool } from '../editor/tool-options/reset-tool';
 import { announcePreset } from '../editor/tool-pick/announce-preset';
+import { beginSpring } from '../editor/tool-pick/begin-spring';
+import { endSpring } from '../editor/tool-pick/end-spring';
+import { isSpringTool } from '../editor/tool-pick/is-spring-tool';
+import { SPRING_TAP_MS } from '../editor/tool-pick/spring-tool.constants';
 import { pressToolKey } from '../editor/tool-pick/press-tool-key';
 import type { ToolId } from '../editor/tool.type';
 import { QUICK_SLOTS } from '../editor/presets/builtin-presets.constants';
@@ -21,8 +25,20 @@ import { ruled } from './ruled';
 
 const CYCLING: readonly ToolId[] = ['select'];
 
+const springHold = (tool: ToolId): Pick<CommandDef, 'hold'> => (isSpringTool(tool) ? { hold: { release: endSpring, tapMs: SPRING_TAP_MS } } : {});
+
 const selectCommand = (tool: ToolId): CommandDef =>
-  ruled({ id: COMMAND_ID.tool(tool), label: labelOfTool('sprite', tool), group: COMMAND_GROUP.tools, chord: chordOfKey(keyOfTool(tool)), run: () => pressToolKey(tool) });
+  ruled({
+    id: COMMAND_ID.tool(tool),
+    label: labelOfTool('sprite', tool),
+    group: COMMAND_GROUP.tools,
+    chord: chordOfKey(keyOfTool(tool)),
+    ...springHold(tool),
+    run: () => {
+      if (isSpringTool(tool)) beginSpring(tool);
+      pressToolKey(tool);
+    },
+  });
 
 const backCommand = (tool: ToolId): CommandDef =>
   ruled({
