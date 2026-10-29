@@ -1,12 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { GUIDE_SNAP_REACH } from './guide.constants';
-import type { GuideLines } from './guide.type';
-
-interface SnapRequest {
-  readonly lines: GuideLines | undefined;
-  readonly zoom: number;
-  readonly from: { x: number; y: number } | null;
-}
+import type { SnapRequest } from './snap-to-guides.type';
 
 const lineNear = (position: number, lines: readonly number[], zoom: number): number | null => {
   const near = lines.filter((line) => Math.abs(line - position) * zoom <= GUIDE_SNAP_REACH);

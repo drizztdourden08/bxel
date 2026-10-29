@@ -23,7 +23,7 @@ const paintDrag = (ctx: CanvasRenderingContext2D, view: PixelView, state: MapPai
     return;
   }
   if (drag.kind === 'move') {
-    paintMove(ctx, view, state, drag, look);
+    paintMove(ctx, view, state, { drag, look });
     return;
   }
   const style = { colour: drag.kind === 'rect' ? look.cursor : look.select, dashed: drag.kind !== 'rect' };

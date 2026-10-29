@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { cellKey, cellMaskBounds, flagBitsOf, resolveCellMask } from '@bxel/document';
 import type { CellMaskDescriptor, MapLayer, Tilemap } from '@bxel/document';
-
-const MAX_REPLY_CELLS = 4096;
+import { MAX_REPLY_CELLS } from './selected-map-cells.constants';
 
 const selectedMapCells = (map: Tilemap, layer: MapLayer, mask: CellMaskDescriptor) => {
   const resolved = resolveCellMask(mask, { columns: map.columns, rows: map.rows, cells: layer.cells });

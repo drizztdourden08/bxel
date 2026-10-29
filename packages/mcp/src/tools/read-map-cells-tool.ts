@@ -6,19 +6,13 @@ import { DOCUMENT_ID_SCHEMA, MAP_LAYER_ID_SCHEMA, REVISION_SCHEMA, TILEMAP_ID_SC
 import { COUNT_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
+import { SELECTED_SCHEMA } from './read-map-cells-tool.constants';
 import { TOOL_NAME } from './tool-name.constants';
-
-const SELECTED_SCHEMA = z.strictObject({
-  count: COUNT_SCHEMA,
-  bounds: CELL_RECT_SCHEMA.nullable(),
-  cells: z.array(z.tuple([COUNT_SCHEMA, COUNT_SCHEMA, COUNT_SCHEMA, z.number().int().min(0).max(7)])).max(4096).describe('Each cell as [x, y, key, flags], row by row.'),
-  truncated: z.boolean().describe('True when more than 4096 cells matched and cells holds the first 4096.'),
-});
 
 const readMapCellsTool = defineTool(TOOL_NAME.readMapCells, {
   title: 'Read map cells',
   description:
-    'Cells from one layer of a tilemap. Give a rect to get its cells row by row: keys holds the tile key of each cell (0 is empty) and flags the turn bits: 1 flip x, 2 flip y, 4 turn. At most 16384 cells. map.write takes the same shape, so a read can be changed and written back in one step. Give a mask instead of, or as well as, a rect to find cells by description: a connected area of one tile (wand), every cell of a tile (same or tile), a list or a combination. The reply then holds selected, with the cells that match, and map.copy and map.move take the same mask.',
+    'Cells from one layer of a tilemap. Give a rect to get its cells row by row: keys holds the tile key of each cell (0 is empty) and flags the turn bits: 1 flip x, 2 flip y, 4 turn. At most 16384 cells. map.write takes the same shape, so a read can be changed and written back in one step. Give a mask instead of a rect, or with it, to find cells by description: a connected area of one tile (wand), every cell of a tile (same or tile), a list, row runs or a combination. The reply then holds selected, with the cells that match, and map.copy and map.move take the same mask.',
   input: z
     .strictObject({
       documentId: DOCUMENT_ID_SCHEMA,

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { CellFlags } from '@bxel/document';
-import { bitsOfFlags } from './flag-bits-convert';
+import { bitsOfFlags } from './bits-of-flags';
 import type { Placement, PlacementGroup } from './tilemap.type';
 
 const groupPlacements = (placements: readonly Placement[], flags: CellFlags): PlacementGroup[] => {

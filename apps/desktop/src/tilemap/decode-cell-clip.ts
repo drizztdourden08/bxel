@@ -17,13 +17,28 @@ const parsed = (bytes: Uint8Array): Record<string, unknown> | null => {
   }
 };
 
+const sizeOf = (found: Record<string, unknown>): { columns: number; rows: number } | null => {
+  const { columns, rows } = found;
+  const sane = isWhole(columns) && isWhole(rows) && columns >= 1 && rows >= 1 && columns * rows <= MAX_CLIP_CELLS;
+  return sane ? { columns, rows } : null;
+};
+
+const headOf = (found: Record<string, unknown>) => {
+  const size = sizeOf(found);
+  const { x, y, tileset } = found;
+  const sane = size !== null && found.v === CELL_CLIP_VERSION && typeof tileset === 'string' && isWhole(x) && isWhole(y);
+  return sane ? { ...size, x, y, tileset } : null;
+};
+
 const decodeCellClip = (bytes: Uint8Array): CellClip | null => {
   const found = parsed(bytes);
-  if (!found || found.v !== CELL_CLIP_VERSION || typeof found.tileset !== 'string') return null;
-  const { columns, rows, x, y, keys, bits } = found;
-  if (!isWhole(columns) || !isWhole(rows) || !isWhole(x) || !isWhole(y) || columns < 1 || rows < 1 || columns * rows > MAX_CLIP_CELLS) return null;
-  if (!isList(keys, columns * rows, 0x0fffffff) || (bits !== undefined && !isList(bits, columns * rows, 7))) return null;
-  return { tilesetId: found.tileset as TilesetId, origin: { x, y }, stamp: { columns, rows, keys, ...(bits === undefined ? {} : { bits: bits as number[] }) } };
+  const head = found ? headOf(found) : null;
+  if (!found || !head) return null;
+  const cells = head.columns * head.rows;
+  const { keys, bits } = found;
+  if (!isList(keys, cells, 0x0fffffff) || (bits !== undefined && !isList(bits, cells, 7))) return null;
+  const stamp = { columns: head.columns, rows: head.rows, keys, ...(bits === undefined ? {} : { bits }) };
+  return { tilesetId: head.tileset as TilesetId, origin: { x: head.x, y: head.y }, stamp };
 };
 
 export { decodeCellClip };

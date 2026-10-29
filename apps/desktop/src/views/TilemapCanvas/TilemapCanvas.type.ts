@@ -64,6 +64,14 @@ interface MapGesture {
   cancel: () => void;
 }
 
+interface MapPress {
+  viewport: RefObject<PixelViewportHandle | null>;
+  tool: MapTool;
+  target: MapTarget;
+  live: RefObject<MapLive>;
+  cells: { here: Point; near: Point };
+}
+
 interface MapKeyContext {
   viewport: RefObject<PixelViewportHandle | null>;
   target: MapTarget;
@@ -86,4 +94,4 @@ interface TilemapSurfaceProps {
   view: MapView;
 }
 
-export type { BoxStyle, CellRegion, MapDrag, MapGesture, MapKeyContext, MapKeys, MapLive, MapLook, MapPaintBase, MapPaintState, MapView, TilemapSurfaceProps };
+export type { BoxStyle, CellRegion, MapDrag, MapGesture, MapKeyContext, MapKeys, MapLive, MapLook, MapPaintBase, MapPress, MapPaintState, MapView, TilemapSurfaceProps };

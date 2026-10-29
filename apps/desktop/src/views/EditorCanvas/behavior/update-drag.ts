@@ -28,8 +28,7 @@ const updateDrag = (active: ActiveDrag, viewport: PixelViewportHandle | null, ev
   const target = currentTarget();
   if (!target) return;
   const { shape } = active;
-  const plain = pixelAtEvent(viewport, event);
-  const at = shape.variant === 'rect' || shape.variant === 'ellipse' ? snapMarquee(viewport, event, plain, shape.from) : plain;
+  const at = snapMarquee(viewport, event, { at: pixelAtEvent(viewport, event), from: shape.from, variant: shape.variant });
   active.shape = { ...shape, to: at, path: shape.variant === 'lasso' ? [...shape.path, at] : shape.path };
   active.hold = shapeHold(active.keys, heldKeys(event));
   useSelectionStore.getState().setDraft(mergeMask(active.base, incomingMask(active.shape, target.sprite, active.hold), active.mode));

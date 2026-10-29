@@ -4,6 +4,8 @@ import type { cellMaskSchema } from '../schema/cell-mask-schema';
 
 type CellMaskDescriptor = z.output<typeof cellMaskSchema>;
 
+type BaseCellMask = Exclude<CellMaskDescriptor, { by: 'combine' }>;
+
 type CellMaskOp = Extract<CellMaskDescriptor, { by: 'combine' }>['op'];
 
 type CellView = {
@@ -12,4 +14,4 @@ type CellView = {
   readonly cells: Uint32Array;
 };
 
-export type { CellMaskDescriptor, CellMaskOp, CellView };
+export type { BaseCellMask, CellMaskDescriptor, CellMaskOp, CellView };

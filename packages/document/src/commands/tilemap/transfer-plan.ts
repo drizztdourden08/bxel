@@ -7,11 +7,7 @@ import { transferCells } from '../../tilemap/transfer-cells';
 import { ERROR_CODE } from '../error-code.constants';
 import { fail } from '../fail';
 import type { OpenedLayer } from './map-layer.type';
-
-type TransferPlan = {
-  readonly mask: Uint8Array;
-  readonly moved: readonly { readonly at: number; readonly value: number }[];
-};
+import type { TransferPlan } from './transfer-plan.type';
 
 const transferPlan = (opened: OpenedLayer, from: CellMaskDescriptor, to: Point, empty: 'skip' | 'copy'): TransferPlan => {
   const { columns, rows } = opened.tilemap;

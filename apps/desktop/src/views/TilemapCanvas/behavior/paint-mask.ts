@@ -11,8 +11,8 @@ const edge = (ctx: CanvasRenderingContext2D, from: [number, number], to: [number
   ctx.lineTo(to[0], to[1]);
 };
 
-const paintMask = (ctx: CanvasRenderingContext2D, view: PixelView, state: MapPaintState, shape: { rect: Rect; mask: Uint8Array }, style: BoxStyle): void => {
-  const { rect, mask } = shape;
+const paintMask = (ctx: CanvasRenderingContext2D, view: PixelView, state: MapPaintState, shape: { rect: Rect; mask: Uint8Array; style: BoxStyle }): void => {
+  const { rect, mask, style } = shape;
   if (state.target.tilemap.orientation) {
     mask.forEach((bit, at) => {
       if (bit === 1) paintRegion(ctx, view, state, { cells: { x: rect.x + (at % rect.width), y: rect.y + Math.floor(at / rect.width), width: 1, height: 1 }, style });

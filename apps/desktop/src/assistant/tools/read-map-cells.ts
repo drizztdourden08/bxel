@@ -19,23 +19,33 @@ const rectCells = (map: Tilemap, layer: MapLayer, rect: NonNullable<ReadMapCells
   return cells;
 };
 
+const rectPart = (map: Tilemap, layer: MapLayer, rect: ReadMapCellsInput['rect']) => {
+  if (!rect) return {};
+  const cells = rectCells(map, layer, rect);
+  return { rect, keys: cells.map(cellKey), flags: cells.map(flagBitsOf) };
+};
+
+const refusal = (map: Tilemap, input: ReadMapCellsInput) => {
+  const { rect, mask } = input;
+  if (!rect && !mask) return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.needRectOrMask, { path: 'rect' });
+  const outside = rect !== undefined && (rect.x + rect.width > map.columns || rect.y + rect.height > map.rows);
+  return outside ? mcpFailure(ERROR_CODE.OUT_OF_BOUNDS, TOOL_TEXT.outsideMap, { path: 'rect' }) : null;
+};
+
 const readMapCells: ToolHandler = (input, context) => {
-  const { documentId, tilemapId, layerId, rect, mask } = input as ReadMapCellsInput;
-  const view = viewFor(context, documentId);
+  const asked = input as ReadMapCellsInput;
+  const view = viewFor(context, asked.documentId);
   if (!view) return reply(hiddenFailure('document'));
-  if (!rect && !mask) return reply(mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.needRectOrMask, { path: 'rect' }));
-  const map = mapFor(view.state.artwork, tilemapId, hiddenAssets(context, documentId));
-  const layer = map?.layers.find((candidate) => candidate.id === layerId);
+  const map = mapFor(view.state.artwork, asked.tilemapId, hiddenAssets(context, asked.documentId));
+  const layer = map?.layers.find((candidate) => candidate.id === asked.layerId);
   if (!map || !layer) return reply(mcpFailure(ERROR_CODE.TARGET_NOT_FOUND, TOOL_TEXT.noMap, { path: 'tilemapId' }));
-  if (rect && (rect.x + rect.width > map.columns || rect.y + rect.height > map.rows)) {
-    return reply(mcpFailure(ERROR_CODE.OUT_OF_BOUNDS, TOOL_TEXT.outsideMap, { path: 'rect' }));
-  }
-  const cells = rect ? rectCells(map, layer, rect) : [];
+  const refused = refusal(map, asked);
+  if (refused) return reply(refused);
   return reply({
     ok: true,
     revision: view.state.revision,
-    ...(rect ? { rect, keys: cells.map(cellKey), flags: cells.map(flagBitsOf) } : {}),
-    ...(mask ? { selected: selectedMapCells(map, layer, mask) } : {}),
+    ...rectPart(map, layer, asked.rect),
+    ...(asked.mask ? { selected: selectedMapCells(map, layer, asked.mask) } : {}),
   });
 };
 

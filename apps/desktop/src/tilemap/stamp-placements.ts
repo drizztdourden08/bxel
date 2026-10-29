@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Point, Tilemap } from '@bxel/document';
 import type { TileStamp } from '../stores/tilemap-store.type';
-import { flagsOfBits } from './flag-bits-convert';
+import { flagsOfBits } from './flags-of-bits';
 import { inBounds } from './in-bounds';
 import type { Placement } from './tilemap.type';
 

@@ -7,19 +7,11 @@ import { useToolStore } from '../../../stores/useToolStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import { ZOOM_SCRUB_PIXELS } from '../EditorCanvas.constants';
 import type { SelectGesture } from './canvas-tools.type';
+import { MOVE_SLOP } from './useZoomGesture.constants';
+import type { ZoomPress } from './useZoomGesture.type';
 import { zoomAtPointer } from './zoom-at-pointer';
 import { zoomDraft } from './zoom-draft';
 import { zoomRectOf } from './zoom-rect-of';
-
-interface ZoomPress {
-  readonly startX: number;
-  readonly startY: number;
-  readonly startZoom: number;
-  readonly rect: boolean;
-  moved: boolean;
-}
-
-const MOVE_SLOP = 3;
 
 const useZoomGesture = (viewport: RefObject<PixelViewportHandle | null>): SelectGesture => {
   const press = useRef<ZoomPress | null>(null);

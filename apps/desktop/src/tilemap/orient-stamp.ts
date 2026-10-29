@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind logic */
 import type { CellFlags } from '@bxel/document';
 import type { TileStamp } from '../stores/tilemap-store.type';
-import { bitsOfFlags, flagsOfBits } from './flag-bits-convert';
+import { bitsOfFlags } from './bits-of-flags';
+import { flagsOfBits } from './flags-of-bits';
 import { stackFlags } from './stack-flags';
 
 const sourceIndex = (flags: CellFlags, at: { column: number; row: number }, size: { width: number; height: number; columns: number }): number => {

@@ -69,8 +69,7 @@ const beginSelectDrag = (viewport: PixelViewportHandle | null, event: PointerEve
     clickPolygon(store, event, { at, mode });
     return null;
   }
-  const marquee = store.variant === 'rect' || store.variant === 'ellipse';
-  return beginShape(target, base, { at: marquee ? snapMarquee(viewport, event, at, null) : at, mode, event });
+  return beginShape(target, base, { at: snapMarquee(viewport, event, { at, from: null, variant: store.variant }), mode, event });
 };
 
 export { beginSelectDrag };

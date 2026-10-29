@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Rect } from '@bxel/document';
 import type { TileStamp } from '../stores/tilemap-store.type';
-import { bitsOfFlags } from './flag-bits-convert';
+import { bitsOfFlags } from './bits-of-flags';
 import { readCell } from './read-cell';
 import type { MapTarget } from './tilemap.type';
 

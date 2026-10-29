@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { PixelRect } from '../../PixelViewport';
-import type { ZoomDraft } from './zoom-draft';
+import type { ZoomDraft } from './zoom-draft.type';
 
 const zoomRectOf = (draft: ZoomDraft): PixelRect => ({
   x: Math.min(draft.from.x, draft.to.x),

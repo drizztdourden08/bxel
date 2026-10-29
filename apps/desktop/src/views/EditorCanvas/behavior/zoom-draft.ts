@@ -1,12 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { Point } from '@bxel/raster';
-
-interface ZoomDraft {
-  from: Point;
-  to: Point;
-}
+import type { ZoomDraft } from './zoom-draft.type';
 
 const zoomDraft: { current: ZoomDraft | null } = { current: null };
 
 export { zoomDraft };
-export type { ZoomDraft };

@@ -4,6 +4,7 @@ import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.const
 import { SELECT_MODES } from '../../selection/selection.constants';
 import { TERRAIN_COMMAND } from '../../../keymap/terrain-command-id.constants';
 import { TILEMAP_COMMAND } from '../../../keymap/tilemap-command-id.constants';
+import type { MapSelectVariant } from '../../../stores/tilemap-store.type';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { captureSelection } from '../../../tilemap/capture-selection';
 import { clearCells } from '../../../tilemap/clear-cells';
@@ -31,7 +32,7 @@ const CELL_ACTIONS: readonly CellAction[] = [
   { name: 'stamp', label: OPTION_TEXT.stamp, description: OPTION_TEXT.stampDescription, icon: 'pixel-map-pick', command: TILEMAP_COMMAND.captureStamp, priority: 90, run: captureSelection },
 ];
 
-const asShape = (value: unknown): 'rect' | 'wand' | 'same' => (value === 'wand' || value === 'same' ? value : 'rect');
+const asShape = (value: unknown): MapSelectVariant => (value === 'wand' || value === 'same' ? value : 'rect');
 
 const asMode = (value: unknown): CombineMode => SELECT_MODES.find((mode) => mode === value) ?? 'replace';
 

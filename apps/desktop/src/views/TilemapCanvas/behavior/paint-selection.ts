@@ -9,7 +9,7 @@ const paintSelection = (ctx: CanvasRenderingContext2D, view: PixelView, state: M
   if (!selection) return;
   const style = { colour: look.select, dashed: true };
   if (selection.mask === null) paintRegion(ctx, view, state, { cells: selection.rect, style });
-  else paintMask(ctx, view, state, { rect: selection.rect, mask: selection.mask }, style);
+  else paintMask(ctx, view, state, { rect: selection.rect, mask: selection.mask, style });
 };
 
 export { paintSelection };

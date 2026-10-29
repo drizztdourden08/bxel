@@ -1,11 +1,9 @@
 /* @layer core @kind logic */
 import { cellKey } from './cell-key';
-import type { CellMaskDescriptor, CellView } from './cell-mask.type';
+import type { BaseCellMask, CellMaskDescriptor, CellView } from './cell-mask.type';
 import { combineCellMasks } from './combine-cell-masks';
 import { tileCells } from './tile-cells';
 import { wandCells } from './wand-cells';
-
-type BaseDescriptor = Exclude<CellMaskDescriptor, { by: 'combine' }>;
 
 const rectMask = (view: CellView, rect: { x: number; y: number; width: number; height: number }): Uint8Array => {
   const out = new Uint8Array(view.columns * view.rows);
@@ -29,12 +27,12 @@ const runsMask = (view: CellView, runs: readonly (readonly number[])[]): Uint8Ar
   return out;
 };
 
-const sameMask =(view: CellView, at: { x: number; y: number }): Uint8Array => {
+const sameMask = (view: CellView, at: { x: number; y: number }): Uint8Array => {
   const inside = at.x < view.columns && at.y < view.rows;
   return inside ? tileCells(view, cellKey(view.cells[at.y * view.columns + at.x] ?? 0)) : new Uint8Array(view.columns * view.rows);
 };
 
-const resolveBase = (descriptor: BaseDescriptor, view: CellView): Uint8Array => {
+const resolveBase = (descriptor: BaseCellMask, view: CellView): Uint8Array => {
   if (descriptor.by === 'rect') return rectMask(view, descriptor.rect);
   if (descriptor.by === 'cells') return listMask(view, descriptor.cells);
   if (descriptor.by === 'runs') return runsMask(view, descriptor.runs);
