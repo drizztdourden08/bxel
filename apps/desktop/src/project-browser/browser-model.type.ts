@@ -1,11 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, AssetKey } from '@bxel/document';
-<<<<<<< HEAD
 import type { ProjectOrganise } from '@bxel/project';
-import type { AssetRow } from '../asset-list/asset-list.type';
-=======
 import type { AssetRow, ListedFile } from '../asset-list/asset-list.type';
->>>>>>> main
 import type { BrowserEntry, BrowserFacts, BrowserQuery, Crumb, FileEntry, SourceRoot } from './project-browser.type';
 
 type BrowserModel = {

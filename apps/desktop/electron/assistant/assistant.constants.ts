@@ -42,6 +42,14 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   get_settings: read,
   set_setting: edit,
   restart_bxel: saveExport,
+  find_references: read,
+  project_health: read,
+  repair_links: edit,
+  organise: edit,
+  move_files: saveExport,
+  rename_file: saveExport,
+  create_folder: edit,
+  trash_files: saveExport,
 };
 
 const NATIVE_PAIR_TEXT = {

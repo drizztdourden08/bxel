@@ -17,6 +17,7 @@ import { meta as optionsStoragePageMeta } from '../src/screens/options/storage.p
 import { meta as optionsSurroundCustomMeta } from '../src/screens/options/surround.custom';
 import { meta as optionsSwatchesCustomMeta } from '../src/screens/options/swatches.custom';
 import { meta as projectBrowseCustomMeta } from '../src/screens/project/browse.custom';
+import { meta as projectHealthCustomMeta } from '../src/screens/project/health.custom';
 import ProjectProjectSettingsDefaultsSettings, { meta as projectProjectSettingsDefaultsSettingsMeta } from '../src/screens/project/project-settings/defaults.settings';
 import ProjectProjectSettingsExportSettings, { meta as projectProjectSettingsExportSettingsMeta } from '../src/screens/project/project-settings/export.settings';
 import ProjectProjectSettingsFoldersSettings, { meta as projectProjectSettingsFoldersSettingsMeta } from '../src/screens/project/project-settings/folders.settings';
@@ -49,6 +50,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'custom', bucket: 'options', id: 'surround', component: lazyComponent(() => import('../src/screens/options/surround.custom')), meta: optionsSurroundCustomMeta },
   { kind: 'custom', bucket: 'options', id: 'swatches', component: lazyComponent(() => import('../src/screens/options/swatches.custom')), meta: optionsSwatchesCustomMeta },
   { kind: 'custom', bucket: 'project', id: 'browse', component: lazyComponent(() => import('../src/screens/project/browse.custom')), meta: projectBrowseCustomMeta },
+  { kind: 'custom', bucket: 'project', id: 'health', component: lazyComponent(() => import('../src/screens/project/health.custom')), meta: projectHealthCustomMeta },
   { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'defaults', sections: ProjectProjectSettingsDefaultsSettings, meta: projectProjectSettingsDefaultsSettingsMeta },
   { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'export', sections: ProjectProjectSettingsExportSettings, meta: projectProjectSettingsExportSettingsMeta },
   { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'folders', sections: ProjectProjectSettingsFoldersSettings, meta: projectProjectSettingsFoldersSettingsMeta },

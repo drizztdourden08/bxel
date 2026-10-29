@@ -135,6 +135,7 @@ type ListAssetsInput = {
   readonly path?: string;
   readonly usedBy?: string;
   readonly search?: string;
+  readonly query?: string;
   readonly offset: number;
   readonly limit: number;
 };
