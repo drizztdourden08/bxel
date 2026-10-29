@@ -3,6 +3,8 @@ import { useMemo } from 'react';
 import { useBoundSheetId } from '../../../hooks/useBoundSheetId';
 import { useSpriteScene } from '../../../hooks/useSpriteScene';
 import { selectionIds } from '../../../sheet/selection-ids';
+import { entryIds } from '../../../sheet-manager/entry-ids';
+import { entryKeys } from '../../../sheet-manager/entry-keys';
 import { managerLists } from '../../../sheet-manager/manager-lists';
 import { sizeOptions } from '../../../sheet-manager/size-options';
 import { tagOptions } from '../../../sheet-manager/tag-options';
@@ -29,7 +31,7 @@ const useManagerModel = (): ManagerModel | null => {
   return useMemo(
     () =>
       base && lists
-        ? { artwork: base.artwork, scene: base.scene, sheet, ...lists, picked, sizes, tags, ids: selectionIds(base.scene) }
+        ? { artwork: base.artwork, scene: base.scene, sheet, ...lists, picked: entryKeys(picked, lists.animationFacts), sizes, tags, ids: entryIds(selectionIds(base.scene), lists.facts) }
         : null,
     [base, sheet, lists, picked, sizes, tags],
   );

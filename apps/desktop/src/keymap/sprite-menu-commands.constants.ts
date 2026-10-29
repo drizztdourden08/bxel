@@ -130,7 +130,7 @@ const SPRITE_SHEET: readonly CommandDef[] = [
   { id: 'sprite.copy_entries', label: 'Copy the picked entries', group, run: withManager((manager) => holdEntries(manager.ids, manager.picked, manager.sheet?.id ?? null, false)) },
   { id: 'sprite.cut_entries', label: 'Cut the picked entries', group, run: withManager((manager) => holdEntries(manager.ids, manager.picked, manager.sheet?.id ?? null, true)) },
   { id: 'sprite.paste_entries', label: 'Paste entries on the sheet', group, run: () => void pasteEntries() },
-  { id: 'sprite.distribute_rows', label: 'Distribute the picked sprites in rows', group, run: withManager((manager) => distributeRows(manager.sheet, manager.ids)) },
+  { id: 'sprite.distribute_rows', label: 'Distribute the picked sprites in rows', group, run: withManager((manager) => distributeRows(manager.sheet, manager.ids, manager.picked)) },
   { id: 'sprite.export_selection_sheet', label: 'Export the picked sprites as a sheet', group, run: () => exportSelection('sheet') },
   { id: 'sprite.export_selection_files', label: 'Export the picked sprites as PNG files', group, run: () => exportSelection('sprite') },
   {

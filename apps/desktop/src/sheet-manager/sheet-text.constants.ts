@@ -12,6 +12,8 @@ const SHEET_TEXT = {
     return layout.kind === 'packed' ? 'Packed' : 'By hand';
   },
   layoutOpen: 'Open the layout settings',
+  overlaps: (count: number): string => plural(count, 'overlap', 'overlaps'),
+  overlapsHint: 'Some entries cover each other on the sheet. Press to spread them out in rows.',
   titleLabel: 'Sheet',
   widgetTitle: (name: string, count: number): string => `Sheet: ${name} (${count})`,
   add: 'Add',
@@ -48,7 +50,7 @@ const SHEET_TEXT = {
     noSheet: 'Open a sheet to see its sprites.',
     noSheetBody: 'This panel lists the sprites and animations of the sheet in the open tab.',
     sheet: 'This sheet is empty.',
-    sheetBody: 'Drag sprites or animations here from the Project panel, or add them from the Library below.',
+    sheetBody: 'Drag sprites or animations here from the Project panel, or add them from the Library.',
     noMatch: 'No entry matches.',
     clearSearch: 'Clear search',
     libraryAll: 'Every sprite of the project is on this sheet.',
@@ -57,7 +59,7 @@ const SHEET_TEXT = {
   },
   library: {
     title: 'Library',
-    label: (count: number): string => (count === 0 ? 'Library, everything is on this sheet' : `Library, ${count} not on this sheet`),
+    label: (count: number): string => (count === 0 ? 'Library' : `Library (${count})`),
     search: 'Search the library',
     add: (count: number): string => (count === 1 ? 'Add 1 to sheet' : `Add ${count} to sheet`),
     addNone: 'Add to sheet',

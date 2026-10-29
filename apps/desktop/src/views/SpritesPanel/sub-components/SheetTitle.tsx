@@ -1,5 +1,8 @@
 /* @layer renderer-app @kind component */
+import { useMemo } from 'react';
 import { Button, DropdownMenu, Flex, Icon, SplitButton, Text } from '@drizztdourden08/tessera';
+import { distributeRows } from '../../../sheet-manager/distribute-rows';
+import { overlapCount } from '../../../sheet-manager/overlap-count';
 import { SHEET_TEXT } from '../../../sheet-manager/sheet-text.constants';
 import { useManagerStore } from '../../../stores/useManagerStore';
 import { overflowGroups } from '../behavior/overflow-groups';
@@ -12,6 +15,7 @@ const SheetTitle = ({ model }: ManagerModelProps) => {
   const shown = model.shown.length + model.animations.length;
   const picked = model.ids.length + model.picked.length;
   const layout = model.sheet?.layout;
+  const overlaps = useMemo(() => overlapCount(model.artwork, model.sheet), [model.artwork, model.sheet]);
   return (
     <Flex align="center" justify="between" gap="sm" className="sprites-panel__title">
       <Flex gap="xs" align="center" wrap className="sprites-panel__heading">
@@ -21,6 +25,19 @@ const SheetTitle = ({ model }: ManagerModelProps) => {
         {layout && (
           <Button size="xs" variant="tertiary" icon={<Icon name="pixel-grid-view" size={12} />} aria-label={SHEET_TEXT.layoutOpen} onClick={() => store.patch({ layoutOpen: true })}>
             {SHEET_TEXT.layout(layout)}
+          </Button>
+        )}
+        {overlaps > 0 && (
+          <Button
+            size="xs"
+            variant="tertiary"
+            icon={<Icon name="triangle-alert" size={12} />}
+            title={SHEET_TEXT.overlapsHint}
+            aria-label={`${SHEET_TEXT.overlaps(overlaps)}. ${SHEET_TEXT.overlapsHint}`}
+            className="sprites-panel__overlaps"
+            onClick={() => distributeRows(model.sheet, [], [])}
+          >
+            {SHEET_TEXT.overlaps(overlaps)}
           </Button>
         )}
         <Text variant="caption" tone="dim" aria-live="polite">

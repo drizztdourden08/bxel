@@ -38,6 +38,10 @@
   min-inline-size: 0;
 }
 
+.sprites-panel__overlaps {
+  color: var(--c-warning);
+}
+
 .sprites-panel__sheet-name {
   flex: 1 0 100%;
   overflow: hidden;

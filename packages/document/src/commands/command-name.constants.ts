@@ -17,6 +17,7 @@ const COMMAND_NAME = {
   sheetAnimationAdd: 'sheet.animation.add',
   sheetAnimationRemove: 'sheet.animation.remove',
   sheetAnimationMove: 'sheet.animation.move',
+  sheetAnimationPlace: 'sheet.animation.place',
   presetAdd: 'preset.add',
   presetUpdate: 'preset.update',
   presetRename: 'preset.rename',

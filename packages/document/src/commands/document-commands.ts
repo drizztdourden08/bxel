@@ -16,6 +16,7 @@ import { presetUpdate } from './preset/preset-update';
 import { sheetAdd } from './sheet/sheet-add';
 import { sheetAnimationAdd } from './sheet/sheet-animation-add';
 import { sheetAnimationMove } from './sheet/sheet-animation-move';
+import { sheetAnimationPlace } from './sheet/sheet-animation-place';
 import { sheetAnimationRemove } from './sheet/sheet-animation-remove';
 import { sheetArrange } from './sheet/sheet-arrange';
 import { sheetCreate } from './sheet/sheet-create';
@@ -102,6 +103,7 @@ const documentCommands: readonly CommandDef[] = [
   sheetAnimationAdd,
   sheetAnimationRemove,
   sheetAnimationMove,
+  sheetAnimationPlace,
   presetAdd,
   presetUpdate,
   presetRename,

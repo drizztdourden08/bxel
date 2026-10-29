@@ -34,3 +34,22 @@ describe('sheet.animation.move', () => {
     expect(refuse(world.engine, [step('sheet.animation.move', { sheet, animation: walk, to: 0 })]).code).toBe('TARGET_NOT_FOUND');
   });
 });
+
+describe('sheet.animation.place', () => {
+  it('puts an animation entry at a point, goes by hand and is one undo step', () => {
+    const { world, walk, sheet } = started();
+    checkOneUndoStep(world.engine, () => {
+      apply(world.engine, [step('sheet.animation.place', { sheet, animation: walk, at: { x: 5, y: 7 } })]);
+    });
+    apply(world.engine, [step('sheet.animation.place', { sheet, animation: walk, at: { x: 5, y: 7 } })]);
+    const placed = world.engine.state().artwork.sheets[0];
+    expect(placed?.layout.kind).toBe('manual');
+    expect(placed?.animationEntries?.find((entry) => entry.animationId === walk)?.at).toEqual({ x: 5, y: 7 });
+  });
+
+  it('refuses an animation that is not on the sheet', () => {
+    const { world, walk, sheet } = started();
+    apply(world.engine, [step('sheet.animation.remove', { sheet, animation: walk })]);
+    expect(refuse(world.engine, [step('sheet.animation.place', { sheet, animation: walk, at: { x: 0, y: 0 } })]).code).toBe('TARGET_NOT_FOUND');
+  });
+});
