@@ -43,7 +43,9 @@ const picksAndRemoves = async (session: Session): Promise<void> => {
   await scrollEnd(session);
   await tile(session, FOLDER_ANIMATION).click({ modifiers: ['Control'] });
   await session.page.getByRole('toolbar', { name: 'Actions for the picked entries' }).waitFor();
-  await session.page.getByRole('toolbar', { name: 'Actions for the picked entries' }).getByRole('button', { name: 'Remove from sheet' }).click();
+  await tile(session, FOLDER_ANIMATION).click({ button: 'right' });
+  await session.page.getByText('Sheet', { exact: true }).last().click();
+  await session.page.getByText('Remove from sheet', { exact: true }).last().click();
   await expect.poll(async () => (await names(session)).includes(FOLDER_ANIMATION)).toBe(false);
   await session.page.keyboard.press('Control+z');
   await scrollEnd(session);

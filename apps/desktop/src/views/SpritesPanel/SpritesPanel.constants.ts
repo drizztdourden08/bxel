@@ -21,7 +21,7 @@ const MARQUEE_ITEM = '[data-marquee-key]';
 
 const MARQUEE_SKIP = 'button, input, [role="columnheader"]';
 
-const GRID_CELL = '[role="gridcell"]';
+const GRID_CELL = '[role="gridcell"], [role="cell"], [role="row"]';
 
 const VIRTUAL_LIST_MIN = 200;
 

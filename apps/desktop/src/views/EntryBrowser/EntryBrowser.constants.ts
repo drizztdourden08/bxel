@@ -5,9 +5,9 @@ const BROWSER_START: BrowserState = { query: '', kind: 'all', view: 'grid', zoom
 
 const BROWSER_TEXT = {
   search: 'Search',
-  views: 'View',
-  grid: 'Grid view',
-  list: 'List view',
+  views: 'Entry view',
+  grid: 'Entries as a grid',
+  list: 'Entries as a list',
   size: 'Thumbnail size',
   kinds: { all: 'All', sprites: 'Sprites', animations: 'Animations' },
   noMatch: 'No entry matches.',
