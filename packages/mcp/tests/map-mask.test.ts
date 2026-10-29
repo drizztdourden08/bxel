@@ -1,14 +1,9 @@
 /* @layer tests @kind test */
 import { documentCommands } from '@bxel/document';
-import { buildTools, describeTools, parseToolInput } from '@bxel/mcp';
+import { describeTools, parseToolInput } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
 import { INPUT_EXAMPLES } from './examples';
-
-const toolNamed = (name: string) => {
-  const found = buildTools(documentCommands).find((tool) => tool.name === name);
-  if (!found) throw new Error(`No tool ${name}`);
-  return found;
-};
+import { toolOf } from './support/tool-of';
 
 const TILEMAP = 'tlm_4k9m2q7x1v8c';
 const LAYER = 'tml_4k9m2q7x1v8c';
@@ -30,13 +25,13 @@ describe('map cell mask descriptors', () => {
       { by: 'tile', key: 3 },
       { by: 'combine', op: 'subtract', of: [{ by: 'tile', key: 3 }, { by: 'rect', rect: { x: 0, y: 0, width: 1, height: 1 } }] },
     ];
-    for (const from of descriptors) expect(parseToolInput(toolNamed('apply_edits'), copy(from)).ok).toBe(true);
+    for (const from of descriptors) expect(parseToolInput(toolOf('apply_edits'), copy(from)).ok).toBe(true);
     const move = { ...copy(descriptors[0]), steps: [{ name: 'map.move', targets: null, options: { tilemap: TILEMAP, layer: { by: 'name', name: 'Ground' }, from: descriptors[5], to: { x: 0, y: 0 } } }] };
-    expect(parseToolInput(toolNamed('apply_edits'), move).ok).toBe(true);
+    expect(parseToolInput(toolOf('apply_edits'), move).ok).toBe(true);
   });
 
   it('refuses a pixel style mask, an unknown descriptor and a negative cell', () => {
-    const apply = toolNamed('apply_edits');
+    const apply = toolOf('apply_edits');
     expect(parseToolInput(apply, copy({ width: 2, height: 2, bits: 'AAAAAA==' })).ok).toBe(false);
     expect(parseToolInput(apply, copy({ by: 'colour', index: 1 })).ok).toBe(false);
     expect(parseToolInput(apply, copy({ by: 'wand', x: -1, y: 0 })).ok).toBe(false);
@@ -45,7 +40,7 @@ describe('map cell mask descriptors', () => {
   });
 
   it('read_map_cells takes a rect, a mask or both, and refuses neither', () => {
-    const read = toolNamed('read_map_cells');
+    const read = toolOf('read_map_cells');
     expect(parseToolInput(read, { ...BASE, rect: { x: 0, y: 0, width: 2, height: 2 } }).ok).toBe(true);
     expect(parseToolInput(read, { ...BASE, mask: { by: 'same', x: 0, y: 0 } }).ok).toBe(true);
     expect(parseToolInput(read, { ...BASE, rect: { x: 0, y: 0, width: 1, height: 1 }, mask: { by: 'tile', key: 2 } }).ok).toBe(true);
@@ -56,7 +51,7 @@ describe('map cell mask descriptors', () => {
     const text = JSON.stringify(describeTools(documentCommands).find((descriptor) => descriptor.name === 'read_map_cells'));
     expect(text).toContain('CellMask');
     expect(text).toContain('"const":"wand"');
-    const output = toolNamed('read_map_cells').output;
+    const output = toolOf('read_map_cells').output;
     expect(output.safeParse({ ok: true, revision: 3, selected: { count: 1, bounds: { x: 1, y: 1, width: 1, height: 1 }, cells: [[1, 1, 2, 0]], truncated: false } }).success).toBe(true);
   });
 });

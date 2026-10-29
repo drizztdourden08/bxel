@@ -1,20 +1,11 @@
 /* @layer tests @kind test */
-import { documentCommands } from '@bxel/document';
-import { buildTools, parseToolInput } from '@bxel/mcp';
-import type { ToolSpec } from '@bxel/mcp';
+import { parseToolInput } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
 import { INPUT_EXAMPLES, SCOPE } from './examples';
-
-const tools = buildTools(documentCommands);
-
-const toolNamed = (name: string): ToolSpec => {
-  const found = tools.find((tool) => tool.name === name);
-  if (!found) throw new Error(`No tool ${name}`);
-  return found;
-};
+import { toolOf } from './support/tool-of';
 
 const failureOf = (name: string, input: unknown) => {
-  const result = parseToolInput(toolNamed(name), input);
+  const result = parseToolInput(toolOf(name), input);
   if (result.ok) throw new Error('Expected a failure');
   return result.error;
 };
@@ -74,14 +65,14 @@ describe('invalid inputs', () => {
   it('rejects file names that break the rule', () => {
     for (const fileName of ['..\\x.png', 'a/b.png', '.hidden.png', 'x.exe1234']) {
       const input = { documentId: 'doc_4k9m2q7x1v8c', target: { fileName } };
-      expect(parseToolInput(toolNamed('save_document'), input).ok).toBe(false);
+      expect(parseToolInput(toolOf('save_document'), input).ok).toBe(false);
     }
   });
 
   it('rejects project paths that break the rule', () => {
     const base = { projectId: 'prj_8d2k4m6q9x1v', folderId: 'fld_7r2k9m4q' };
     for (const path of ['../x', 'a//b', '/abs', 'a\\b', 'c:/x', 'a/./b']) {
-      expect(parseToolInput(toolNamed('list_files'), { ...base, path }).ok).toBe(false);
+      expect(parseToolInput(toolOf('list_files'), { ...base, path }).ok).toBe(false);
     }
   });
 });
