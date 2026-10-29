@@ -15,7 +15,7 @@ const strokeSelection = (side: 'inside' | 'outside'): boolean => {
     return false;
   }
   const { foreground, connectivity } = useToolStore.getState();
-  return runSelectionStep(SELECTION_LABELS.stroke, { name: ADVANCED_COMMAND.pixelsOutline, options: { mask, side, connectivity, index: foreground } });
+  return runSelectionStep(SELECTION_LABELS.stroke, { name: ADVANCED_COMMAND.pixelsOutline, options: { of: 'selection', mask, side, ring: connectivity, index: foreground } });
 };
 
 export { strokeSelection };

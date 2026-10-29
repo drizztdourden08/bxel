@@ -21,6 +21,6 @@ const OPTIONS_PANEL_TEXT = {
   },
 } as const;
 
-const BRUSH_TOOLS: readonly string[] = ['pencil', 'eraser', 'shape'];
+const BRUSH_TOOLS: readonly string[] = ['pencil', 'eraser', 'shade', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon'];
 
 export { BRUSH_TOOLS, OPTIONS_PANEL_TEXT };

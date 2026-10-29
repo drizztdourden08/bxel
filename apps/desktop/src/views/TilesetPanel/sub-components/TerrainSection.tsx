@@ -1,34 +1,30 @@
 /* @layer renderer-app @kind component */
 import { Stack, Text } from '@drizztdourden08/tessera';
-import { assignSlot } from '../../../tilemap/terrain/assign-slot';
 import { TERRAIN_TEXT } from '../../../tilemap/terrain/terrain.constants';
-import { setTerrain } from '../../../tilemap/set-terrain';
-import type { TilesetHeaderProps } from '../TilesetPanel.type';
+import { useTerrainSet } from '../behavior/useTerrainSet';
+import type { TilesetModelProps } from '../TilesetPanel.type';
+import { SlotDetail } from './SlotDetail';
+import { TemplateBoard } from './TemplateBoard';
 import { TerrainActions } from './TerrainActions';
-import { TerrainKindControl } from './TerrainKindControl';
-import { TerrainSlots } from './TerrainSlots';
+import { TerrainSetBar } from './TerrainSetBar';
+import { TerrainStart } from './TerrainStart';
 
-const TerrainSection = ({ model }: TilesetHeaderProps) => {
-  const rules = model.tileset.terrain;
-  const pick = (index: number): void => {
-    if (rules && model.pickedKey !== null) setTerrain(assignSlot(rules, index, model.pickedKey));
-  };
+const TerrainSection = ({ model }: TilesetModelProps) => {
+  const { sets, set } = useTerrainSet(model);
   return (
-    <Stack gap="xs" role="group" aria-label={TERRAIN_TEXT.title}>
-      <Text variant="label">{TERRAIN_TEXT.title}</Text>
-      <TerrainKindControl model={model} />
-      {rules ? (
+    <Stack gap="sm" role="group" aria-label={TERRAIN_TEXT.title}>
+      {set ? (
         <>
-          <TerrainSlots model={model} rules={rules} onPick={pick} />
+          <TerrainSetBar sets={sets} set={set} />
+          <TemplateBoard model={model} set={set} />
+          <SlotDetail model={model} sets={sets} set={set} />
+          <TerrainActions model={model} sets={sets} set={set} />
           <Text variant="caption" tone="muted">
-            {TERRAIN_TEXT.help}
+            {TERRAIN_TEXT.marksHint}
           </Text>
-          <TerrainActions model={model} rules={rules} />
         </>
       ) : (
-        <Text variant="caption" tone="muted">
-          {TERRAIN_TEXT.none}
-        </Text>
+        <TerrainStart />
       )}
     </Stack>
   );

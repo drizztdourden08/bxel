@@ -11,6 +11,7 @@ import { defineCommand } from '../define-command';
 import { cellIndex } from '../tilemap/cell-index';
 import { openLayer } from '../tilemap/open-layer';
 import { attachTile } from './attach-tile';
+import { tileKeep } from './tile-keep';
 import { nextTileKey } from './next-tile-key';
 import { placedKey } from './placed-key';
 import { tileSpriteName } from './tile-sprite-name';
@@ -28,7 +29,7 @@ const tileUnique = defineCommand({
     const taken = draft.artwork.sprites.map((sprite) => sprite.name);
     const name = tileSpriteName(options.name, taken, opened.tileset, newKey);
     const copy = cloneSprite(draft.ids, requireSprite(draft.artwork, source.spriteId), name, draft.stamp);
-    attachTile(draft, opened.tileset, copy, source.collision);
+    attachTile(draft, opened.tileset, copy, tileKeep(source));
     editLayerCells(draft, opened, (cells) => {
       for (const index of indexes) cells[index] = rekeyCell(cells[index] ?? 0, newKey);
     });

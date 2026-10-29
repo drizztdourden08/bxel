@@ -5,6 +5,7 @@ import type { Draft } from '../../draft/draft.type';
 import type { TileId } from '../../model/ids.type';
 import type { Tile, Tileset } from '../../model/tilemap.type';
 import { requireSprite } from '../../read/require-sprite';
+import { tileKeep } from '../tile/tile-keep';
 import { freeName } from '../layer/free-name';
 
 const copyTiles = (draft: Draft, source: Tileset): readonly Tile[] =>
@@ -20,8 +21,9 @@ const copyTiles = (draft: Draft, source: Tileset): readonly Tile[] =>
       id: draft.ids.next('til') as TileId,
       key: tile.key,
       spriteId: copy.id,
-      ...(tile.collision ? { collision: tile.collision } : {}),
+      ...tileKeep(tile),
       ...(tile.animation ? { animation: tile.animation } : {}),
+      ...(tile.layout !== undefined ? { layout: tile.layout } : {}),
     };
   });
 

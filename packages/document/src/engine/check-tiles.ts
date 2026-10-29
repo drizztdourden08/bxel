@@ -11,7 +11,9 @@ import { collisionIssue } from '../read/collision-issue';
 import { findTileset } from '../read/find-tileset';
 import { orientationIssue } from '../read/orientation-issue';
 import { terrainIssue } from '../read/terrain-issue';
+import { terrainSetsIssue } from '../read/terrain-sets-issue';
 import { tileAnimationIssue } from '../read/tile-animation-issue';
+import { tileShapes } from '../read/tile-shapes';
 import { cellKey } from '../tilemap/cell-key';
 
 const broken = (message: string): CommandFailure => fail(ERROR_CODE.REFERENCE_BROKEN, message);
@@ -23,7 +25,8 @@ const fits = (sprite: Sprite, tileset: Tileset): boolean =>
   sprite.bankId === tileset.bankId;
 
 const tileIssue = (artwork: Artwork, tileset: Tileset, tile: Tile): string | null => {
-  const shape = tile.collision ? collisionIssue(tile.collision, { width: tileset.tileWidth, height: tileset.tileHeight }) : null;
+  const size = { width: tileset.tileWidth, height: tileset.tileHeight };
+  const shape = tileShapes(tile).map((each) => collisionIssue(each, size)).find((issue) => issue !== null) ?? null;
   return shape ?? tileAnimationIssue(artwork, tileset, tile);
 };
 
@@ -43,6 +46,8 @@ const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
   }
   const rules = tileset.terrain ? terrainIssue(tileset.terrain, tileset) : null;
   if (rules !== null) throw broken(rules);
+  const sets = tileset.terrainSets ? terrainSetsIssue(tileset.terrainSets, tileset) : null;
+  if (sets !== null) throw broken(sets);
 };
 
 const checkMaps = (draft: Draft): void => {

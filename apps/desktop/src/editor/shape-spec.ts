@@ -1,18 +1,24 @@
 /* @layer renderer-app @kind logic */
-import type { Point, Size } from '@bxel/raster';
-import type { ToolSettings } from '../stores/tool-store.type';
-import { brushOf } from './brush-of';
 import type { ShapeSpec } from './editor.type';
-import { symmetryOf } from './symmetry-of';
+import { PARTNER } from './ink-of.constants';
+import { inkOf } from './ink-of';
+import { paintParts } from './paint-parts';
+import type { ShapeInput } from './shape-spec.type';
 
-const shapeSpec = (settings: ToolSettings, size: Size, index: number, at: Point): ShapeSpec => ({
-  shape: settings.shape,
-  filled: settings.filled,
-  index,
-  brush: brushOf(settings),
-  symmetry: symmetryOf(settings, size),
-  from: at,
-  to: at,
-});
+const shapeSpec = ({ tools, drawing, target, size, shape, slot, at }: ShapeInput): ShapeSpec => {
+  const choice = inkOf(slot, tools, drawing, at);
+  const filled = shape !== 'line' && drawing.filled[shape];
+  return {
+    shape,
+    filled,
+    ...(filled && drawing.fillColour === 'back' ? { fillIndex: tools[PARTNER[slot]] } : {}),
+    radius: shape === 'rect' ? drawing.cornerRadius : 0,
+    evenSteps: shape === 'line' && drawing.evenSteps,
+    index: choice.index,
+    ...paintParts(tools, target, size, choice),
+    from: at,
+    to: at,
+  };
+};
 
 export { shapeSpec };

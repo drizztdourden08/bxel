@@ -10,18 +10,22 @@ describe('the tools toolbar and the tool options bar', () => {
   test('shows the variant of a slot in its name', async () => {
     const { page } = rig().session;
     const tools = page.getByRole('toolbar', { name: 'Tools' });
-    await tools.getByRole('button', { name: 'Shapes, Line' }).waitFor();
+    await tools.getByRole('button', { name: 'Line' }).waitFor();
+    await tools.getByRole('button', { name: 'Pencil' }).waitFor();
     await tools.getByRole('button', { name: 'Pencil' }).waitFor();
   });
 
-  test('cycles the shape kind with U, the selection shapes with M and back with Shift+M', async () => {
+  test('toggles Filled with U, cycles the selection shapes with M and back with Shift+M', async () => {
     const { page } = rig().session;
-    const tools = page.getByRole('toolbar', { name: 'Tools' });
     await page.getByRole('application', { name: 'Sprite canvas' }).focus();
     await page.keyboard.press('u');
-    await page.keyboard.press('u');
-    await tools.getByRole('button', { name: 'Shapes, Rectangle' }).waitFor();
     await expectAnnounced(rig().session, 'Rectangle tool');
+    const filled = page.getByRole('toolbar', { name: 'Tool options' }).getByRole('button', { name: /^Filled/ });
+    await expect.poll(() => filled.getAttribute('aria-pressed')).not.toBe('true');
+    await page.keyboard.press('u');
+    await expect.poll(() => filled.getAttribute('aria-pressed')).toBe('true');
+    await page.keyboard.press('u');
+    await expect.poll(() => filled.getAttribute('aria-pressed')).not.toBe('true');
     await page.keyboard.press('m');
     await page.keyboard.press('m');
     await expectAnnounced(rig().session, 'Ellipse tool');
@@ -31,7 +35,7 @@ describe('the tools toolbar and the tool options bar', () => {
 
   test('opens the tool menu with a right click and closes it with Escape', async () => {
     const { page } = rig().session;
-    await page.getByRole('toolbar', { name: 'Tools' }).getByRole('button', { name: /^Shapes/ }).click({ button: 'right' });
+    await page.getByRole('toolbar', { name: 'Tools' }).getByRole('button', { name: /^Select/ }).click({ button: 'right' });
     await page.getByRole('menuitemradio', { name: 'Ellipse' }).waitFor();
     const box = await page.getByRole('menu').first().boundingBox();
     const height = await page.evaluate(() => window.innerHeight);

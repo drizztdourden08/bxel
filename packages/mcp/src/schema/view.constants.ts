@@ -15,7 +15,11 @@ const RUN_SCHEMA = z.array(COORDINATE_SCHEMA).length(3).describe('One run of sel
 
 const RUNS_SCHEMA = z.array(RUN_SCHEMA).max(20000).meta({ id: 'Runs', description: 'A mask as row runs [[y, x0, x1], ...], never raw bits.' });
 
-const TOOL_ID_VALUES = ['pencil', 'eraser', 'fill', 'picker', 'shape', 'zoom', 'hand', 'select', 'move'] as const;
+const TOOL_ID_VALUES = [
+  'pencil', 'eraser', 'spray', 'fill', 'gradient', 'picker', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon', 'zoom', 'hand', 'select', 'move',
+] as const;
+
+const INK_VALUES = ['normal', 'behind', 'lockAlpha', 'onlyColour', 'dither', 'shade', 'lighten', 'darken', 'pattern'] as const;
 
 const TILED_VALUES = ['off', 'x', 'y', 'both'] as const;
 
@@ -90,12 +94,13 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       options: z
         .strictObject({
           brushSize: z.number().int().min(1).max(64).optional(),
-          brushShape: z.enum(['square', 'circle']).optional(),
+          brushShape: z.enum(['square', 'circle', 'line']).optional(),
+          brushAngle: z.union([z.literal(0), z.literal(45), z.literal(90), z.literal(135)]).optional().describe('The angle of the line brush.'),
           pixelPerfect: z.boolean().optional(),
           fillMode: z.enum(['contiguous', 'global']).optional(),
           connectivity: z.union([z.literal(4), z.literal(8)]).optional(),
-          shape: z.enum(['line', 'rect', 'ellipse']).optional(),
-          filled: z.boolean().optional(),
+          filled: z.boolean().optional().describe('Fill the shape of the current tool: rect, ellipse, curve, polygon or contour.'),
+          ink: z.enum(INK_VALUES).optional().describe('How paint lands on the pixels under it.'),
         })
         .optional(),
     })

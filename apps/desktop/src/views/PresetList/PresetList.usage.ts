@@ -24,7 +24,7 @@ const usage = {
 
 const Example = () => <PresetList tool="pencil" />;
 `,
-  propsHash: '6d480f419f1bd748',
+  propsHash: '9383eb3c7982bd0e',
 } satisfies ComponentUsage;
 
 export { usage };

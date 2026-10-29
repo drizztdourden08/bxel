@@ -25,7 +25,7 @@ const CHANGES = {
       cels: [{ celId: 'cel_4k9m2q7x1v8c', layerId: LAYER, frameId: FRAME, rect: RECT }],
     },
   ],
-  sheets: [], presets: [], tilesets: [], tilemaps: [], animations: [],
+  sheets: [], presets: [], brushes: [], tilesets: [], tilemaps: [], animations: [],
 };
 const TRANSACTION = {
   ok: true,
@@ -171,6 +171,7 @@ const OUTPUT_EXAMPLES: Record<string, unknown> = {
     truncated: false,
     animations: [{ animationId: 'anm_4k9m2q7x1v8c', name: 'walk', width: 32, height: 32, frames: 4, tags: 1 }],
     sheets: [{ sheetId: SHEET, name: 'atlas', width: 128, height: 64, entries: 3 }],
+    brushes: [{ brushId: 'brs_4k9m2q7x1v8c', name: 'Corner', width: 2, height: 2 }],
     tilesets: [{ tilesetId: 'tls_4k9m2q7x1v8c', name: 'ground', bankId: BANK, tileWidth: 16, tileHeight: 16, tiles: 12 }],
     tilemaps: [{ tilemapId: 'tlm_4k9m2q7x1v8c', name: 'level', tilesetId: 'tls_4k9m2q7x1v8c', columns: 20, rows: 10, layers: 2 }],
   },

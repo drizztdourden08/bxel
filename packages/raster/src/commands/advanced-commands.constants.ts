@@ -4,13 +4,14 @@ const ADVANCED_COMMAND = {
   pixelsShade: 'pixels.shade',
   pixelsGradient: 'pixels.gradient',
   pixelsStamp: 'pixels.stamp',
+  pixelsPlot: 'pixels.plot',
+  pixelsOutline: 'pixels.outline',
   pixelsClear: 'pixels.clear',
   pixelsMove: 'pixels.move',
   pixelsScale: 'pixels.scale',
   pixelsRotate: 'pixels.rotate',
   pixelsTransform: 'pixels.transform',
   pixelsDistort: 'pixels.distort',
-  pixelsOutline: 'pixels.outline',
   pixelsCopyRegion: 'pixels.copy_region',
 } as const;
 

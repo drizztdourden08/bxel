@@ -7,10 +7,11 @@ import { pixelsFlip } from './pixels-flip';
 import { pixelsGradient } from './pixels-gradient';
 import { pixelsMove } from './pixels-move';
 import { pixelsPaint } from './pixels-paint';
+import { pixelsOutline } from './pixels-outline';
+import { pixelsPlot } from './pixels-plot';
 import { pixelsReplace } from './pixels-replace';
 import { pixelsDistort } from './pixels-distort';
 import { pixelsCopyRegion } from './pixels-copy-region';
-import { pixelsOutline } from './pixels-outline';
 import { pixelsRotate } from './pixels-rotate';
 import { pixelsScale } from './pixels-scale';
 import { pixelsShade } from './pixels-shade';
@@ -44,13 +45,14 @@ const rasterCommands: readonly CommandDef[] = [
   pixelsShade,
   pixelsGradient,
   pixelsStamp,
+  pixelsPlot,
+  pixelsOutline,
   pixelsClear,
   pixelsMove,
   pixelsScale,
   pixelsRotate,
   pixelsTransform,
   pixelsDistort,
-  pixelsOutline,
   pixelsCopyRegion,
   selectionSave,
   selectionDelete,

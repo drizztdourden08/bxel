@@ -15,7 +15,7 @@ const railOf = (column: Column): ToolbarItem[] => {
   return railItems(slotsOf(surface), (slot) => ({
     surface,
     active: 'pencil',
-    shown: shownMember(slot, { shape: 'line', variant: 'rect' }),
+    shown: shownMember(slot, { variant: 'rect' }),
     filled: false,
     badge: null,
     keys: undefined,

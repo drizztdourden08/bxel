@@ -13,7 +13,7 @@ const pressMapCell = (context: MapKeyContext): boolean => {
   if (!context.active.current || !cell) return false;
   const held = live.current.drag;
   const drag = held ?? beginDrag(MAP_TOOL_OF[useToolStore.getState().tool], cell, target);
-  if (drag && (held || drag.kind === 'stroke')) {
+  if (drag && (held || drag.kind === 'stroke' || drag.kind === 'pick')) {
     finishDrag(drag, target);
     live.current.drag = null;
     announce(ANNOUNCE_TEXT.mapDone(cell.x, cell.y));

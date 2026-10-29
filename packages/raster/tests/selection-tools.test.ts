@@ -39,14 +39,14 @@ describe('pixels.outline', () => {
   test('draws a one pixel line of the index as one undo step', () => {
     const engine = pixelEngine(rowsArtwork(['......', '......', '......', '......', '......', '......']));
     const original = engine.state().artwork;
-    okOf(engine.execute(request([stepOf('pixels.outline', scope, { mask: BLOCK, side: 'inside', index: 3 })])));
+    okOf(engine.execute(request([stepOf('pixels.outline', scope, { of: 'selection', mask: BLOCK, side: 'inside', ring: 4, index: 3 })])));
     expect(celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel)).toEqual(['......', '.333..', '.3.3..', '.333..', '......', '......']);
     expectOneUndo(engine, original);
   });
 
   test('refuses a mask of the wrong size', () => {
     const engine = pixelEngine(rowsArtwork(['....', '....']));
-    expect(errorOf(engine.execute(request([stepOf('pixels.outline', scope, { mask: BLOCK, index: 1 })]))).code).toBeDefined();
+    expect(errorOf(engine.execute(request([stepOf('pixels.outline', scope, { of: 'selection', mask: BLOCK, index: 1 })]))).code).toBeDefined();
   });
 });
 

@@ -2,6 +2,8 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { stepColour } from '../editor/step-colour';
 import { useToolStore } from '../stores/useToolStore';
+import { transformStamp } from '../tilemap/transform-stamp';
+import { mapOr } from './map-or';
 import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
 import { ruled } from './ruled';
 
@@ -11,14 +13,14 @@ const BRUSH_COMMANDS: readonly CommandDef[] = [
     label: 'Smaller brush',
     group: COMMAND_GROUP.brush,
     chord: '[',
-    run: () => useToolStore.getState().stepBrushSize(-1),
+    run: mapOr(() => transformStamp('turnLeft'), () => useToolStore.getState().stepBrushSize(-1)),
   },
   {
     id: COMMAND_ID.brushLarger,
     label: 'Larger brush',
     group: COMMAND_GROUP.brush,
     chord: ']',
-    run: () => useToolStore.getState().stepBrushSize(1),
+    run: mapOr(() => transformStamp('turnRight'), () => useToolStore.getState().stepBrushSize(1)),
   },
   {
     id: COMMAND_ID.symmetryX,
@@ -26,7 +28,7 @@ const BRUSH_COMMANDS: readonly CommandDef[] = [
     group: COMMAND_GROUP.brush,
     chord: 'Alt+X',
     checked: () => useToolStore.getState().symmetryX,
-    run: () => useToolStore.getState().toggleSymmetry('x'),
+    run: mapOr(() => transformStamp('flipX'), () => useToolStore.getState().toggleSymmetry('x')),
   },
   {
     id: COMMAND_ID.symmetryY,
@@ -34,7 +36,7 @@ const BRUSH_COMMANDS: readonly CommandDef[] = [
     group: COMMAND_GROUP.brush,
     chord: 'Alt+Y',
     checked: () => useToolStore.getState().symmetryY,
-    run: () => useToolStore.getState().toggleSymmetry('y'),
+    run: mapOr(() => transformStamp('flipY'), () => useToolStore.getState().toggleSymmetry('y')),
   },
   {
     id: COMMAND_ID.swapColours,

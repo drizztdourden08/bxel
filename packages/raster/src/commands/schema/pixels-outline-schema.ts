@@ -2,13 +2,17 @@
 import { z } from 'zod';
 import { allUsesSchema } from './all-uses-schema';
 import { indexSchema } from './index-schema';
-import { requiredMaskSchema } from './required-mask-schema';
+import { maskSchema } from './mask-schema';
+import { wrapSchema } from './wrap-schema';
 
 const pixelsOutlineSchema = z.strictObject({
-  mask: requiredMaskSchema,
-  side: z.enum(['inside', 'outside']).default('inside').describe('Which side of the selection edge the one pixel line is drawn on.'),
-  connectivity: z.union([z.literal(4), z.literal(8)]).default(4).describe('4 draws a thin line, 8 draws a line that also covers the corners.'),
-  index: indexSchema.describe('The palette index of the line.'),
+  side: z.enum(['outside', 'inside']).default('outside'),
+  ring: z.union([z.literal(4), z.literal(8)]).default(8),
+  of: z.enum(['art', 'selection']).default('art').describe('art outlines the painted pixels. selection draws the edge of the mask itself, which needs a mask and an index.'),
+  index: indexSchema.optional(),
+  selOut: z.boolean().default(false),
+  mask: maskSchema,
+  wrap: wrapSchema,
   allUses: allUsesSchema,
 });
 

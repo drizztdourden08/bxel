@@ -17,7 +17,7 @@ describe('the tool surfaces stay quiet when nothing happens', () => {
     const { page } = session;
     await page.waitForTimeout(WINDOW_MS);
     expect(await countMutations(session, WINDOW_MS)).toBeLessThan(MAX_CHURN);
-    await page.getByRole('toolbar', { name: 'Tools' }).getByRole('button', { name: /^Shapes/ }).click({ button: 'right' });
+    await page.getByRole('toolbar', { name: 'Tools' }).getByRole('button', { name: /^Select/ }).click({ button: 'right' });
     await page.getByRole('menuitemradio', { name: 'Ellipse' }).waitFor();
     expect(await countMutations(session, WINDOW_MS)).toBeLessThan(MAX_CHURN);
     await page.keyboard.press('Escape');

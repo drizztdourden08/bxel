@@ -5,6 +5,7 @@ const EXTRA_TEXT = {
   index: 'Index',
   selection: 'Selection',
   drag: 'Moving by',
+  snap: 'Snap',
   frame: 'Frame',
   cell: 'Cell',
   tile: 'Under it',
@@ -16,6 +17,6 @@ const EXTRA_TEXT = {
   cellValue: (column: number, row: number): string => `${column}, ${row}`,
 } as const;
 
-const EMPTY_EXTRAS: StatusExtras = { index: null, selection: null, drag: null, frame: null, cell: null, tile: null };
+const EMPTY_EXTRAS: StatusExtras = { index: null, selection: null, drag: null, frame: null, cell: null, tile: null, snap: null };
 
 export { EMPTY_EXTRAS, EXTRA_TEXT };
