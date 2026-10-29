@@ -1,5 +1,6 @@
 /* @layer core @kind test */
 import { splitIntoAssets } from '@bxel/document';
+import type { Tile } from '@bxel/document';
 import { decodeArtwork, decodeTileset, encodeArtwork } from '@bxel/document/native';
 import { describe, expect, it } from 'vitest';
 import { encodeSlice } from './asset-bytes';
@@ -90,7 +91,7 @@ describe('collision in saved files', () => {
     const file = splitIntoAssets(world.engine.state().artwork).files.find((each) => each.key.kind === 'tileset');
     const tileset = file?.slice.artwork.tilesets?.[0];
     if (!file || !tileset) throw new Error('no tileset file');
-    const old = (tile: object) => ({ ...tile, shapes: undefined, collision: { kind: 'rect' as const, x: 0, y: 0, width: 9, height: 9 } });
+    const old = (tile: Tile) => ({ ...tile, shapes: undefined, collision: { kind: 'rect' as const, x: 0, y: 0, width: 9, height: 9 } });
     const bad = { ...tileset, tiles: tileset.tiles.map(old) };
     const report = decodeTileset(encodeSlice({ ...file.slice, artwork: { ...file.slice.artwork, tilesets: [bad] } }));
     expect(report.slice).toBeNull();
