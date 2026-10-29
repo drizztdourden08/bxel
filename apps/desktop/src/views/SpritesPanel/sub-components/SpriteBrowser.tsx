@@ -60,7 +60,7 @@ const SpriteBrowser = ({ model }: ManagerModelProps) => {
   const body = (
     <Stack gap="xs" className="sprites-panel__main">
       <BatchBar model={model} groups={groups} open={open} />
-      <SheetZone model={model} onKeyDown={onKeyDown} bind={drag.zone}>
+      <SheetZone model={model} onKeyDown={onKeyDown} onMark={drag.setMark}>
         <SpriteCollection model={model} table={table} affected={affected} dragFor={drag.dragFor} marks={drag.marks} handlersFor={handlersFor(model, rename.begin)} />
       </SheetZone>
       {!wide && <LayoutSection model={model} />}

@@ -7,7 +7,7 @@ import { EntryTile, tileSize } from '../../EntryTile';
 import type { BrowserBodyProps } from '../EntryBrowser.type';
 import { NO_MARK } from './EntryGrid.constants';
 
-const EntryGrid = ({ label, artwork, shown, picked, zoom, pick, activate, draggable, dragFor }: BrowserBodyProps) => {
+const EntryGrid = ({ label, artwork, shown, picked, zoom, pick, activate, dragFor }: BrowserBodyProps) => {
   const size = tileSize(zoom);
   return (
     <VirtualGrid
@@ -18,7 +18,6 @@ const EntryGrid = ({ label, artwork, shown, picked, zoom, pick, activate, dragga
       tileHeight={size.height}
       renderTile={(fact: EntryFacts, _index: number, cell: VirtualGridCellBind) => {
         const key = entryId(fact);
-        const drag = dragFor(key);
         return (
           <EntryTile
             fact={fact}
@@ -44,7 +43,7 @@ const EntryGrid = ({ label, artwork, shown, picked, zoom, pick, activate, dragga
                 if (!picked.includes(key)) pick(key, 'replace');
               },
             }}
-            drag={{ onDragStart: draggable ? drag.onDragStart : (event) => event.preventDefault(), onDragEnd: drag.onDragEnd, onDragOver: () => undefined, onDrop: () => undefined }}
+            drag={dragFor(key)}
           />
         );
       }}

@@ -28,7 +28,7 @@ const none = (): void => undefined;
 
 const handlers: SpriteHandlers = { onPick: none, onEdit: none, onRename: none, onMenu: none };
 
-const drag = { onDragStart: none, onDragOver: none, onDrop: none };
+const drag = { entries: () => [], source: 'sheet' as const };
 
 const itemIds = (groups: readonly MenuGroup[]): string[] =>
   groups.flatMap((group) => group.items.flatMap((item) => ('id' in item ? [item.id] : [])));

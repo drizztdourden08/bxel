@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind types */
-import type { DropSide } from '../../../sheet-manager/drag-payload.type';
-import type { SpriteDragHandlers } from '../SpritesPanel.type';
+import type { DropSide, EntryDragSpec } from '../../../sheet-manager/drag-payload.type';
 
 interface EntryDrag {
-  dragFor: (key: string) => SpriteDragHandlers;
+  dragFor: (key: string) => EntryDragSpec;
   marks: ReadonlyMap<string, DropSide>;
-  zone: Pick<SpriteDragHandlers, 'onDragOver' | 'onDrop' | 'onDragLeave'>;
+  setMark: (mark: { key: string; side: DropSide } | null) => void;
 }
 
 export type { EntryDrag };
