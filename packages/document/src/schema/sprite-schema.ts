@@ -12,6 +12,7 @@ import {
 import { brandedIdSchema } from './branded-id-schema';
 import { createdSchema } from './created-schema';
 import { guidesSchema } from './guides-schema';
+import { spriteSymmetrySchema } from './sprite-symmetry-schema';
 import { savedSelectionSchema } from './saved-selection-schema';
 import { nameSchema } from './name-schema';
 import { pivotSchema } from './pivot-schema';
@@ -71,6 +72,7 @@ const spriteShellSchema = z.object({
   pixelGrid: pixelGridSchema.optional(),
   guides: guidesSchema.optional(),
   selections: z.array(savedSelectionSchema).max(MAX_SAVED_SELECTIONS).optional(),
+  symmetry: spriteSymmetrySchema.optional(),
   layers: z.array(layerSchema),
   frames: z.array(frameSchema),
   tags: z.array(tagSchema),

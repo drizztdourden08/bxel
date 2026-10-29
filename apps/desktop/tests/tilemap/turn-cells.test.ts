@@ -47,7 +47,7 @@ describe('turning placed cells', () => {
 
   const place = (): void => {
     placeStampAt([{ x: 0, y: 0 }]);
-    useTilemapStore.getState().setSelection({ rect: { x: 0, y: 0, width: 1, height: 1 }, from: 2 });
+    useTilemapStore.getState().setSelection({ rect: { x: 0, y: 0, width: 1, height: 1 }, from: 2, mask: null });
   };
 
   it('turns the picture of a selected cell a quarter clockwise in one undo step', () => {

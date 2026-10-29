@@ -45,6 +45,7 @@ const OverlaysSection = ({ surface }: SurfaceProps) => {
       {row('guides')}
       {row('rulers')}
       {row('snap')}
+      {pixels && row('slices')}
       <SegmentedControl
         size="sm"
         label={OVERLAY_TEXT.rulerUnit}

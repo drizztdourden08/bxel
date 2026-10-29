@@ -18,6 +18,8 @@ import { activeAssetOf } from '../../workspace/active-asset-of';
 import { assetName } from '../../workspace/asset-name';
 import { keyId } from '../../workspace/key-id';
 import { selectionReply } from './selection-reply';
+import { mapSelectionReply } from './map-selection-reply';
+import { currentMap } from '../../tilemap/current-map';
 import { FILLED_TOOL_IDS } from './view-snapshot.constants';
 import { timelineOf } from './timeline-view-of';
 import type { Sees } from './view-snapshot.type';
@@ -103,6 +105,13 @@ const selectionOf = (sees: Sees) => {
   return shown === null ? null : { ...selectionReply(shown), variant, combine: mode };
 };
 
+const mapSelectionOf = (sees: Sees) => {
+  const { selection, selectVariant, selectMode } = useTilemapStore.getState();
+  const { activeId } = useDocumentStore.getState();
+  const target = selection !== null && activeId !== null && sees(activeId) ? currentMap() : null;
+  return target ? { ...mapSelectionReply(selection, target.tilemap), variant: selectVariant, combine: selectMode } : null;
+};
+
 const clipboardOf = () => {
   const { clipboard } = useSelectionStore.getState();
   return clipboard === null ? null : { width: clipboard.width, height: clipboard.height, origin: clipboard.origin };
@@ -146,6 +155,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     playback: playbackOf(),
     timeline: timelineOf(sees),
     selection: selectionOf(sees),
+    mapSelection: mapSelectionOf(sees),
     clipboard: clipboardOf(),
     sprites: spritesOf(),
   };

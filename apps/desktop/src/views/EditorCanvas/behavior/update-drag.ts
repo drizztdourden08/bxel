@@ -12,11 +12,13 @@ import type { PixelViewportHandle } from '../../PixelViewport';
 import type { ActiveDrag } from './canvas-tools.type';
 import { pixelAtEvent } from './pixel-at-event';
 import { rawPixelAt } from './raw-pixel-at';
+import { snapFloat } from './snap-float';
+import { snapMarquee } from './snap-marquee';
 
 const updateDrag = (active: ActiveDrag, viewport: PixelViewportHandle | null, event: PointerEvent<HTMLElement>): void => {
   if (active.kind === 'float') {
     const at = rawPixelAt(viewport, event);
-    setFloatOffset({ x: active.origin.x + at.x - active.start.x, y: active.origin.y + at.y - active.start.y });
+    setFloatOffset(snapFloat(viewport, { x: active.origin.x + at.x - active.start.x, y: active.origin.y + at.y - active.start.y }));
     return;
   }
   if (active.kind === 'outline') {
@@ -26,8 +28,8 @@ const updateDrag = (active: ActiveDrag, viewport: PixelViewportHandle | null, ev
   }
   const target = currentTarget();
   if (!target) return;
-  const at = pixelAtEvent(viewport, event);
   const { shape } = active;
+  const at = snapMarquee(viewport, event, { at: pixelAtEvent(viewport, event), from: shape.from, variant: shape.variant });
   active.shape = { ...shape, to: at, path: shape.variant === 'lasso' ? [...shape.path, at] : shape.path };
   active.hold = shapeHold(active.keys, heldKeys(event));
   useSelectionStore.getState().setDraft(mergeMask(active.base, incomingMask(active.shape, target.sprite, active.hold), active.mode));

@@ -3,7 +3,7 @@ import type { PixelViewportHandle } from '../views/PixelViewport';
 
 type TileMode = 'off' | 'x' | 'y' | 'both';
 
-type ViewToggle = 'grid' | 'gridMajor' | 'gridTile' | 'guides' | 'rulers' | 'snap';
+type ViewToggle = 'grid' | 'gridMajor' | 'gridTile' | 'guides' | 'rulers' | 'snap' | 'slices';
 
 interface ViewToggles {
   grid: boolean;
@@ -12,6 +12,7 @@ interface ViewToggles {
   guides: boolean;
   rulers: boolean;
   snap: boolean;
+  slices: boolean;
 }
 
 interface ViewToggleRow {

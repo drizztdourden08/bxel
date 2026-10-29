@@ -1,14 +1,19 @@
 /* @layer renderer-app @kind constants */
+import type { CombineMode } from '@bxel/raster';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
+import { SELECT_MODES } from '../../selection/selection.constants';
 import { TERRAIN_COMMAND } from '../../../keymap/terrain-command-id.constants';
 import { TILEMAP_COMMAND } from '../../../keymap/tilemap-command-id.constants';
+import type { MapSelectVariant } from '../../../stores/tilemap-store.type';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
+import { captureSelection } from '../../../tilemap/capture-selection';
 import { clearCells } from '../../../tilemap/clear-cells';
 import { makeUnique } from '../../../tilemap/make-unique';
 import { replaceCells } from '../../../tilemap/replace-cells';
+import { selectSameTile } from '../../../tilemap/select-same-tile';
 import { turnCells } from '../../../tilemap/turn-cells';
 import type { ToolId } from '../../tool.type';
-import { OPTION_TEXT } from '../tool-options.constants';
+import { MAP_SELECT_SHAPE_CHOICES, OPTION_TEXT, SELECT_MODE_CHOICES } from '../tool-options.constants';
 import type { OptionSpec } from '../tool-options.type';
 import type { CellAction, TurnSpec } from './map-options.type';
 
@@ -23,7 +28,13 @@ const CELL_ACTIONS: readonly CellAction[] = [
   { name: 'replace_all', label: OPTION_TEXT.replaceAll, description: OPTION_TEXT.replaceAllDescription, icon: 'layout-grid', command: TILEMAP_COMMAND.replaceEverywhere, priority: 60, run: () => replaceCells(true) },
   { name: 'unique', label: OPTION_TEXT.unique, description: OPTION_TEXT.uniqueDescription, icon: 'pixel-tile-unique', command: TILEMAP_COMMAND.makeUnique, priority: 70, run: makeUnique },
   { name: 'clear', label: OPTION_TEXT.clear, description: OPTION_TEXT.clearDescription, icon: 'pixel-map-erase', command: TILEMAP_COMMAND.clearCells, priority: 80, run: clearCells },
+  { name: 'same_tile', label: OPTION_TEXT.sameTile, description: OPTION_TEXT.sameTileDescription, icon: 'pixel-select-color', command: TILEMAP_COMMAND.selectSame, priority: 85, run: selectSameTile },
+  { name: 'stamp', label: OPTION_TEXT.stamp, description: OPTION_TEXT.stampDescription, icon: 'pixel-map-pick', command: TILEMAP_COMMAND.captureStamp, priority: 90, run: captureSelection },
 ];
+
+const asShape = (value: unknown): MapSelectVariant => (value === 'wand' || value === 'same' ? value : 'rect');
+
+const asMode = (value: unknown): CombineMode => SELECT_MODES.find((mode) => mode === value) ?? 'replace';
 
 const maps = () => useTilemapStore.getState();
 
@@ -99,6 +110,36 @@ const cellAction = (action: CellAction): OptionSpec => ({
   disabledReason: () => (maps().selection === null ? OPTION_TEXT.needSelection : undefined),
 });
 
+const selectChoices: readonly OptionSpec[] = [
+  {
+    ...mapBase('select', 'select', 'shape'),
+    kind: 'choice',
+    label: OPTION_TEXT.mapSelectShape,
+    description: OPTION_TEXT.mapSelectShapeDescription,
+    tier: 1,
+    priority: 1,
+    group: 'select',
+    default: 'rect',
+    choices: MAP_SELECT_SHAPE_CHOICES,
+    read: () => maps().selectVariant,
+    write: (value) => maps().setSelectVariant(asShape(value)),
+  },
+  {
+    ...mapBase('select', 'select', 'mode'),
+    kind: 'choice',
+    label: OPTION_TEXT.selectMode,
+    description: OPTION_TEXT.selectModeDescription,
+    tier: 1,
+    priority: 2,
+    group: 'select',
+    default: 'replace',
+    choices: SELECT_MODE_CHOICES,
+    flyout: true,
+    read: () => maps().selectMode,
+    write: (value) => maps().setSelectMode(asMode(value)),
+  },
+];
+
 const MAP_OPTIONS: readonly OptionSpec[] = [
   ...turnOptions('pencil', 'place'),
   terrainOption('pencil', 'place'),
@@ -111,6 +152,7 @@ const MAP_OPTIONS: readonly OptionSpec[] = [
   ...turnOptions('line', 'line'),
   terrainOption('line', 'line'),
   ...turnOptions('spray', 'scatter'),
+  ...selectChoices,
   ...turnOptions('select', 'select'),
   ...CELL_ACTIONS.map(cellAction),
 ];

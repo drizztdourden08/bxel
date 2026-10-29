@@ -2,7 +2,7 @@
 import { z } from 'zod';
 import { withFailure } from '../schema/with-failure';
 import { TIMELINE_STATE_SCHEMA } from '../schema/timeline-view.constants';
-import { SELECTION_REPLY_SCHEMA } from '../schema/view.constants';
+import { MAP_SELECTION_REPLY_SCHEMA, SELECTION_REPLY_SCHEMA } from '../schema/view.constants';
 import { defineTool } from './define-tool';
 import { NO_INPUT_SCHEMA, WINDOW_SCHEMA } from './tool-enums.constants';
 import { TOOL_NAME } from './tool-name.constants';
@@ -31,6 +31,7 @@ const getViewTool = defineTool(TOOL_NAME.getView, {
     playback: block,
     timeline: TIMELINE_STATE_SCHEMA.describe('The timeline: animation, playhead, pick, range, play state, zoom and the onion skin settings.'),
     selection: SELECTION_REPLY_SCHEMA.extend({ variant: z.string(), combine: z.string() }).nullable(),
+    mapSelection: MAP_SELECTION_REPLY_SCHEMA.extend({ variant: z.string(), combine: z.string() }).nullable().describe('The cells selected on the open tilemap, or null.'),
     clipboard: block.nullable(),
     sprites: block.describe('The sprite selection and filters of the sheet manager.'),
   }),

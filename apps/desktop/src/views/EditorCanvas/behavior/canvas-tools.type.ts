@@ -42,6 +42,12 @@ type ActiveDrag =
   | { kind: 'outline'; start: Point; base: MaskView }
   | { kind: 'float'; start: Point; origin: Point };
 
+interface MarqueeCorner {
+  at: Point;
+  from: Point | null;
+  variant: string;
+}
+
 interface SelectGesture {
   down: (event: PointerEvent<HTMLElement>) => boolean;
   move: (event: PointerEvent<HTMLElement>) => boolean;
@@ -91,4 +97,4 @@ interface ClientPoint {
   clientY: number;
 }
 
-export type { ActiveDrag, AxisDrag, AxisShown, CanvasKeys, CanvasReadout, CanvasTools, ClientPoint, GripLines, KeyContext, OverlayLook, PaintGesture, PivotAxis, PivotDrag, PivotFrame, SelectGesture };
+export type { ActiveDrag, AxisDrag, AxisShown, CanvasKeys, CanvasReadout, CanvasTools, ClientPoint, GripLines, KeyContext, MarqueeCorner, OverlayLook, PaintGesture, PivotAxis, PivotDrag, PivotFrame, SelectGesture };

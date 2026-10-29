@@ -45,9 +45,11 @@ const CELLS_SELECTED: Need = [has('cells'), REASON.noCells];
 
 const ANY_SELECTED: Need = [has('pixels', 'cells'), REASON.noSelection];
 
-const CLIPBOARD: Need = [clip('pixels'), REASON.emptyClipboard];
+const SELECTED_HERE: Need = [has('pixels', 'cells'), (context) => (context.surface === 'map' ? REASON.noCells : REASON.noPixels)];
+
+const CLIPBOARD: Need = [any(clip('pixels'), clip('cells')), REASON.emptyClipboard];
 
 export {
   ANY_SELECTED, CELLS_SELECTED, CLIPBOARD, DOC, DRAW, DRAW_STAGE, EDIT_STAGE, FILE, GRID_STAGE, MAP, NONE_OR_PIXEL, NOT_TILE_FILE, ONION,
-  PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, TIMELINE, VIEW_STAGE, WRITE, ZOOM_STAGE,
+  PIXEL, PIXELS_SELECTED, RULER_STAGE, SELECTED_HERE, SHEET, TILE_FILES, TIMELINE, VIEW_STAGE, WRITE, ZOOM_STAGE,
 };

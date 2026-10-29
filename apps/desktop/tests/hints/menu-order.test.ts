@@ -13,6 +13,7 @@ const stateOf = (column: Column, given: Partial<EditorMenuState> = {}): EditorMe
   context: columnContext(column, { canUndo: true, canRedo: true }),
   grid: true,
   gridMajor: false,
+  slices: false,
   gridTile: false,
   guides: true,
   rulers: false,
@@ -154,11 +155,11 @@ describe('the Edit menu', () => {
     for (const item of items) if (item !== 'separator') expect(item).toMatchObject({ disabled: true });
   });
 
-  it('hides Cut, Copy and Paste on a map and keeps Delete for the cells', () => {
+  it('shows Cut, Copy and Paste on a map for cells, hides Copy merged and keeps Delete', () => {
     const edit = editorMenu(stateOf('Tm'))[0];
     const labels = edit !== undefined && edit !== 'separator' ? (edit.children ?? []).flatMap((item) => (item === 'separator' ? [] : [item.label])) : [];
-    expect(labels).not.toContain('Cut');
-    expect(labels).toContain('Delete');
+    expect(labels).toEqual(expect.arrayContaining(['Cut', 'Copy', 'Paste', 'Paste in place', 'Delete']));
+    expect(labels).not.toContain('Copy merged');
     expect(childLabels(editorMenu(stateOf('Tm')), 'Select')).toContain('Select all');
   });
 
@@ -186,7 +187,7 @@ describe('the view menu', () => {
   it('lists only what the open file can use', () => {
     expect(childLabels(editorMenu(stateOf('Sh')), 'View')).toEqual(['Zoom', 'Rulers', 'Guides', 'Snap']);
     expect(childLabels(editorMenu(stateOf('Tm')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap']);
-    expect(childLabels(editorMenu(stateOf('Sp')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap', 'Symmetry', 'Tiled preview']);
+    expect(childLabels(editorMenu(stateOf('Sp')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap', 'Slices', 'Symmetry', 'Tiled preview']);
     expect(childLabels(editorMenu(stateOf('Im')), 'View')).toEqual(['Zoom', 'Grid']);
   });
 });

@@ -16,8 +16,8 @@ const labelsOf = (items: readonly ToolbarItem[]): string[] => items.flatMap((ite
 const button = (id: string): ToolbarItem => ({ kind: 'button', id, label: id, icon: 'check', onSelect: () => undefined });
 
 describe('the tool rail per context', () => {
-  it('lists the seventeen pixel tool slots on a sprite, an animation and a tile', () => {
-    for (const column of ['Sp', 'Se', 'An', 'Si', 'Ts', 'Te'] as const) expect(railOf(column).filter((item) => item.kind !== 'separator')).toHaveLength(17);
+  it('lists the eighteen pixel tool slots on a sprite, an animation and a tile', () => {
+    for (const column of ['Sp', 'Se', 'An', 'Si', 'Ts', 'Te'] as const) expect(railOf(column).filter((item) => item.kind !== 'separator')).toHaveLength(18);
   });
 
   it('lists the map tools on a map', () => {

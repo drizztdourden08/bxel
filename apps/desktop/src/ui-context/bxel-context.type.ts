@@ -40,6 +40,7 @@ interface ContextInput {
   readonly spriteSelection: number;
   readonly frameSelection: number;
   readonly clipboard: ClipboardKind;
+  readonly cellClipboard: boolean;
   readonly pending: boolean;
   readonly tool: ToolId;
   readonly animatedTile: boolean;
@@ -49,4 +50,4 @@ interface ContextInput {
   readonly canRedo: boolean;
 }
 
-export type { BxelContext, ContextInput, EditTarget, FileType, SelectionKind, StageSurface, TileEditing };
+export type { BxelContext, ClipboardKind, ContextInput, EditTarget, FileType, SelectionKind, StageSurface, TileEditing };

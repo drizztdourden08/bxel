@@ -23,6 +23,7 @@ import { MOVING_VARIANTS } from './begin-select-drag.constants';
 import type { ActiveDrag } from './canvas-tools.type';
 import { pixelAtEvent } from './pixel-at-event';
 import { rawPixelAt } from './raw-pixel-at';
+import { snapMarquee } from './snap-marquee';
 
 const nearFirst = (first: Point | undefined, at: Point): boolean => first !== undefined && Math.abs(first.x - at.x) <= 1 && Math.abs(first.y - at.y) <= 1;
 
@@ -68,7 +69,7 @@ const beginSelectDrag = (viewport: PixelViewportHandle | null, event: PointerEve
     clickPolygon(store, event, { at, mode });
     return null;
   }
-  return beginShape(target, base, { at, mode, event });
+  return beginShape(target, base, { at: snapMarquee(viewport, event, { at, from: null, variant: store.variant }), mode, event });
 };
 
 export { beginSelectDrag };

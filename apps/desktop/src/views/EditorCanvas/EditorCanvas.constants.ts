@@ -77,7 +77,11 @@ const EDGE_CURSORS: readonly string[] = ['ns-resize', 'ew-resize'];
 
 const HANDLE_CURSORS: Readonly<Record<string, string>> = { pivot: 'crosshair', rotate: 'alias', body: 'move' };
 
+const ZOOM_RECT_DASH: readonly number[] = [4, 3];
+
+const ZOOM_SCRUB_PIXELS = 120;
+
 export {
   ANCHOR_ARM, ANT_DASH, CORNER_CURSORS, EDGE_CURSORS, HANDLE_CURSORS, HANDLE_DRAW, ANT_PERIOD, ANT_STEP_MS, AREA_FILL_ALPHA, AREA_LINE, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, CANVAS_MENU, EDITOR_CANVAS_TEXT, GUIDE_ALPHA, MENU_TOOLS, OUTLINE_PATHS, OVERLAY_TOKENS,
-  REDUCED_MOTION,
+  REDUCED_MOTION, ZOOM_RECT_DASH, ZOOM_SCRUB_PIXELS,
 };

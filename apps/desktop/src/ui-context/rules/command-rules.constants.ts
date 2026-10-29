@@ -6,7 +6,7 @@ import { rule } from '../rule';
 import { family } from './family';
 import type { RuleTable } from './rule-table.type';
 import {
-  ANY_SELECTED, CELLS_SELECTED, CLIPBOARD, DOC, DRAW, DRAW_STAGE, EDIT_STAGE, FILE, GRID_STAGE, MAP, NONE_OR_PIXEL, NOT_TILE_FILE,
+  ANY_SELECTED, CELLS_SELECTED, CLIPBOARD, DOC, DRAW, DRAW_STAGE, EDIT_STAGE, FILE, GRID_STAGE, MAP, NONE_OR_PIXEL, NOT_TILE_FILE, SELECTED_HERE,
   ONION, PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, TIMELINE, WRITE, ZOOM_STAGE,
 } from './groups.constants';
 
@@ -14,7 +14,7 @@ const TOOLS: RuleTable = {
   ...family(['tool.select_pencil', 'tool.select_eraser', 'tool.select_fill', 'tool.select_line', 'tool.select_spray', 'tool.select_rect'], DRAW_STAGE, [DRAW, WRITE], ONLY.drawing),
   ...family(['shade', 'gradient', 'curve', 'ellipse', 'contour', 'polygon'].map((tool) => `tool.select_${tool}`), NONE_OR_PIXEL, [DRAW, WRITE], ONLY.pixels),
   ...family(['tool.select_picker', 'tool.select_select'], DRAW_STAGE, [DRAW], ONLY.drawing),
-  ...family(['tool.select_move'], NONE_OR_PIXEL, [DRAW, WRITE], ONLY.pixels),
+  ...family(['tool.select_move', 'tool.select_slice'], NONE_OR_PIXEL, [DRAW, WRITE], ONLY.pixels),
   ...family(['tool.select_zoom', 'tool.select_hand'], ZOOM_STAGE, [[hasFile, REASON.noDraw]]),
 };
 
@@ -78,7 +78,8 @@ const LAYERS: RuleTable = {
 
 const SELECTION: RuleTable = {
   ...family(['selection.select_all', 'selection.clear'], DRAW_STAGE, [DOC]),
-  ...family(['selection.invert', 'selection.expand', 'selection.shrink'], PIXEL, [PIXELS_SELECTED], ONLY.pixels),
+  ...family(['selection.invert'], any(PIXEL, MAP), [SELECTED_HERE], ONLY.drawing),
+  ...family(['selection.expand', 'selection.shrink'], PIXEL, [PIXELS_SELECTED], ONLY.pixels),
   ...family(['selection.reselect', 'selection.save', 'selection.select_opaque', 'selection.select_by_frame'], PIXEL, [DOC], ONLY.pixels),
   ...family(['selection.border', 'selection.smooth', 'selection.to_guides'], PIXEL, [PIXELS_SELECTED], ONLY.pixels),
   ...family(
@@ -88,11 +89,13 @@ const SELECTION: RuleTable = {
     ONLY.pixels,
   ),
   ...family(['selection.paste_as_layer', 'selection.paste_into_selection', 'selection.paste_expand', 'selection.paste_transform', 'selection.paste_new_sprite', 'selection.paste_choose'], PIXEL, [DOC, WRITE, CLIPBOARD], ONLY.pixels),
-  ...family(['selection.copy', 'selection.copy_merged'], NONE_OR_PIXEL, [DOC, PIXELS_SELECTED], ONLY.pixels),
-  ...family(['selection.cut'], NONE_OR_PIXEL, [DOC, WRITE, PIXELS_SELECTED], ONLY.pixels),
-  ...family(['selection.paste', 'selection.paste_in_place'], NONE_OR_PIXEL, [DOC, WRITE, CLIPBOARD], ONLY.pixels),
+  ...family(['selection.copy_merged'], NONE_OR_PIXEL, [DOC, PIXELS_SELECTED], ONLY.pixels),
+  ...family(['selection.copy'], DRAW_STAGE, [DOC, SELECTED_HERE], ONLY.drawing),
+  ...family(['selection.cut'], DRAW_STAGE, [DOC, WRITE, SELECTED_HERE], ONLY.drawing),
+  ...family(['selection.paste', 'selection.paste_in_place'], DRAW_STAGE, [DOC, WRITE, CLIPBOARD], ONLY.drawing),
   ...family(['selection.delete'], DRAW_STAGE, [DOC, WRITE, ANY_SELECTED]),
-  ...family(['selection.by_colour'], PIXEL, [], ONLY.pixels),
+  ...family(['selection.by_colour', 'view.toggle_slices'], PIXEL, [], ONLY.pixels),
+  ...family(['slice.delete_selected', 'slice.properties'], PIXEL, [WRITE], ONLY.pixels),
   ...family(['preview.apply', 'preview.cancel'], always),
 };
 
@@ -136,6 +139,7 @@ const TILES: RuleTable = {
   ),
   ...family(['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'tilemap.use_tile'], file('tilemap'), [], ONLY.maps),
   ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
+  ...family(['tilemap.select_same', 'tilemap.capture_stamp'], MAP, [CELLS_SELECTED], ONLY.maps),
   ...family(['tilemap.replace_everywhere', 'tilemap.layer_up', 'tilemap.layer_down'], MAP, [WRITE], ONLY.maps),
   ...family(
     ['tilemap.flip_x', 'tilemap.flip_y', 'tilemap.turn', 'tilemap.pick_tile_here', 'tilemap.edit_tile_here', 'terrain.toggle_brush', 'animation.toggle_tiles'],

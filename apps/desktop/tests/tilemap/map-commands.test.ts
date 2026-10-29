@@ -64,7 +64,7 @@ describe('Tilemap mode', () => {
   it('clears the selected cells with Delete and drops the selection with Deselect', () => {
     switchMode('tilemap');
     placeStampAt([{ x: 0, y: 0 }, { x: 1, y: 0 }]);
-    useTilemapStore.getState().setSelection({ rect: { x: 0, y: 0, width: 1, height: 1 }, from: 2 });
+    useTilemapStore.getState().setSelection({ rect: { x: 0, y: 0, width: 1, height: 1 }, from: 2, mask: null });
     run(SELECTION_COMMAND_ID.delete);
     expect(cellsNow().slice(0, 2)).toEqual([0, 2]);
     run(SELECTION_COMMAND_ID.clear);

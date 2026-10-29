@@ -43,6 +43,15 @@ type SavedSelection = { readonly name: string; readonly width: number; readonly 
 
 type Guides = { readonly x: readonly number[]; readonly y: readonly number[] };
 
+type SpriteSymmetry = {
+  readonly x: boolean;
+  readonly y: boolean;
+  readonly axisX: number | null;
+  readonly axisY: number | null;
+  readonly diagonal: boolean;
+  readonly turn: boolean;
+};
+
 type Sprite = {
   readonly id: SpriteId;
   readonly name: string;
@@ -57,6 +66,7 @@ type Sprite = {
   readonly pixelGrid?: Size;
   readonly guides?: Guides;
   readonly selections?: readonly SavedSelection[];
+  readonly symmetry?: SpriteSymmetry;
   readonly layers: readonly Layer[];
   readonly frames: readonly Frame[];
   readonly tags: readonly Tag[];
@@ -66,4 +76,4 @@ type Sprite = {
 
 type SpriteShell = Omit<Sprite, 'cels'>;
 
-export type { Cel, Frame, Guides, Layer, SavedRun, SavedSelection, Slice, Sprite, SpriteRole, SpriteShell, Tag, TagDirection };
+export type { Cel, Frame, Guides, Layer, SavedRun, SavedSelection, Slice, Sprite, SpriteRole, SpriteShell, SpriteSymmetry, Tag, TagDirection };

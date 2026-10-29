@@ -37,14 +37,15 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
   const flags = useTilemapStore((state) => state.flags);
   const filled = useTilemapStore((state) => state.filled);
   const selection = useTilemapStore((state) => state.selection);
+  const paste = useTilemapStore((state) => state.paste);
   const collision = useTilemapStore((state) => state.showCollision);
   const grid = useViewStore((state) => state.grid);
   const gridTile = useViewStore((state) => state.gridTile);
   const look = useAssetLook(useCanvasLook());
   const { target, image } = view;
   const base = useMemo(
-    () => ({ target, tool: MAP_TOOL_OF[tool], stamp, flags, selection, filled, collision, cells: grid || gridTile, look }),
-    [target, tool, stamp, flags, selection, filled, collision, grid, gridTile, look],
+    () => ({ target, tool: MAP_TOOL_OF[tool], stamp, flags, selection, paste, filled, collision, cells: grid || gridTile, look }),
+    [target, tool, stamp, flags, selection, paste, filled, collision, grid, gridTile, look],
   );
   const draw = useMapPaint(base, live, viewport);
   useTileAnimation(view, live, viewport);

@@ -19,6 +19,7 @@ import { PROJECT_COMMANDS } from './project-commands.constants';
 import { PROJECT_FILE_COMMANDS } from './project-file-commands.constants';
 import { RULER_UNIT_COMMANDS } from './ruler-unit-commands.constants';
 import { SELECTION_COMMANDS } from './selection-commands.constants';
+import { SLICE_COMMANDS } from './slice-commands.constants';
 import { SHEET_EDITOR_COMMANDS } from './sheet-commands.constants';
 import { SPRITE_MENU_COMMANDS } from './sprite-menu-commands.constants';
 import { STATUS_MENU_COMMANDS } from './status-menu-commands.constants';
@@ -43,6 +44,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...VIEW_COMMANDS,
   ...EDIT_COMMANDS,
   ...SELECTION_COMMANDS,
+  ...SLICE_COMMANDS,
   ...CANVAS_SIZE_COMMANDS,
   ...SHEET_EDITOR_COMMANDS,
   ...TILEMAP_COMMANDS,

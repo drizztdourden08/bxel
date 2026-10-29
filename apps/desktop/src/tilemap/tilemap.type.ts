@@ -36,6 +36,7 @@ interface SelectedMap {
 interface Placement {
   key: number;
   cell: Point;
+  flags?: CellFlags;
 }
 
 interface PlacementGroup {

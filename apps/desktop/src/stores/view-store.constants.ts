@@ -3,7 +3,7 @@ import { CANVAS_DEFAULTS } from '../canvas-look/canvas-look.constants';
 import { COMMAND_ID } from '../keymap/keymap.constants';
 import type { TileMode, ViewSettings, ViewToggleRow } from './view-store.type';
 
-const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, guides: true, rulers: true, snap: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, viewport: null };
+const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, guides: true, rulers: true, snap: false, slices: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, viewport: null };
 
 const TILE_MODES: readonly TileMode[] = ['off', 'x', 'y', 'both'];
 
@@ -21,6 +21,7 @@ const VIEW_TOGGLE_ROWS: readonly ViewToggleRow[] = [
   { toggle: 'guides', command: COMMAND_ID.guides, label: 'Guides' },
   { toggle: 'rulers', command: COMMAND_ID.rulers, label: 'Rulers' },
   { toggle: 'snap', command: COMMAND_ID.snap, label: 'Snap', chord: 'Mod+Shift+;' },
+  { toggle: 'slices', command: COMMAND_ID.slices, label: 'Slices' },
 ];
 
 export { TILE_LABELS, TILE_MODES, VIEW_DEFAULTS, VIEW_TOGGLE_ROWS };

@@ -58,6 +58,18 @@ const TILE_LABEL = {
   layerColour: 'Set map layer colour',
   layerSolo: 'Show only one map layer',
   layerDeleteMany: 'Delete map layers',
+  cut: 'Cut cells',
+  paste: 'Paste cells',
+  move: 'Move cells',
+  duplicate: 'Duplicate cells',
+} as const;
+
+const CELL_CLIP_TEXT = {
+  noCells: 'Copy some cells first.',
+  otherTileset: 'The copied cells use another tileset, so their tiles do not match this map.',
+  copied: 'Copied the cells.',
+  noStamp: 'The selected cells are empty, so there is no stamp to take.',
+  tooMany: 'The selection has too many separate runs to move in one step.',
 } as const;
 
 const TILE_REF = {
@@ -85,8 +97,9 @@ const MAP_TOOL_OF: Readonly<Record<ToolId, MapTool>> = {
   hand: 'hand',
   select: 'select',
   move: 'place',
+  slice: 'hand',
 };
 
 const TILE_CANVASES = new WeakMap<FrameImage, HTMLCanvasElement>();
 
-export { MAP_TOOL_OF, TILE_CANVASES, TILE_LABEL, TILE_REF, TILEMAP_TEXT };
+export { CELL_CLIP_TEXT, MAP_TOOL_OF, TILE_CANVASES, TILE_LABEL, TILE_REF, TILEMAP_TEXT };

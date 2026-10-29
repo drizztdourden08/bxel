@@ -10,7 +10,7 @@ const VIEW_SLOTS: readonly ToolSlot[] = [
     key: 'z',
     tool: 'zoom',
     surfaces: ALL_SURFACES,
-    members: [{ id: 'zoom', tool: 'zoom', label: 'Zoom', description: 'Click to zoom in. Right click to zoom out.', icon: 'pixel-zoom' }],
+    members: [{ id: 'zoom', tool: 'zoom', label: 'Zoom', description: 'Click to zoom in. Alt click or right click to zoom out. Drag left or right to scrub the zoom. Control and drag draws a rectangle to zoom into.', icon: 'pixel-zoom' }],
   },
   {
     id: 'hand',

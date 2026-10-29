@@ -31,6 +31,7 @@ const GET_DOCUMENT_OUTPUT = {
       ],
       slices: [{ sliceId: 'slc_4k9m2q7x1v8c', name: 'hit', rect: RECT, pivot: { x2: 2, y2: 2 }, center: null }],
       guides: GUIDES,
+      symmetry: null,
     },
   ],
   spritesTotal: 1,

@@ -9,7 +9,9 @@ import { paintCanvasPreview } from './paint-canvas-preview';
 import { paintCursor } from './paint-cursor';
 import { paintGuides } from './paint-guides';
 import { paintSelection } from './paint-selection';
+import { paintSlices } from './paint-slices';
 import { paintTransform } from './paint-transform';
+import { paintZoomRect } from './paint-zoom-rect';
 
 const paintOverlay: PixelDraw = (ctx, view) => {
   const look = overlayLook(ctx.canvas);
@@ -21,6 +23,8 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   paintCursor(ctx, view, symmetry, look);
   paintTransform(ctx, view, look);
   paintCanvasPreview(ctx, view, look);
+  paintSlices(ctx, view, look);
+  paintZoomRect(ctx, view, look);
 };
 
 export { paintOverlay };
