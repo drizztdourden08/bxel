@@ -7,8 +7,8 @@ const gridRequest = (sheet: Sheet, style: SheetStyle): object => {
   return {
     kind: 'grid',
     columns: style.columns ?? keep?.columns,
-    cellWidth: keep?.cellWidth,
-    cellHeight: keep?.cellHeight,
+    cellWidth: style.cellWidth ?? keep?.cellWidth,
+    cellHeight: style.cellHeight ?? keep?.cellHeight,
     order: keep?.order,
   };
 };
@@ -24,7 +24,7 @@ const layoutRequest = (sheet: Sheet, style: SheetStyle): object => {
 };
 
 const wantsLayout = (style: SheetStyle): boolean =>
-  style.layout !== undefined || style.columns !== undefined || style.maxWidth !== undefined;
+  style.layout !== undefined || style.columns !== undefined || style.maxWidth !== undefined || style.cellWidth !== undefined || style.cellHeight !== undefined;
 
 const sheetStyleOptions = (sheet: Sheet, style: SheetStyle): object => ({
   sheet: sheet.id,

@@ -1,0 +1,62 @@
+/* @layer renderer-app @kind component */
+import { Box, Icon, Tile } from '@drizztdourden08/tessera';
+import { useId, useState } from 'react';
+import { pickHow } from '../../sheet/pick-how';
+import { ENTRY_TILE_TEXT } from './EntryTile.constants';
+import type { EntryTileProps } from './EntryTile.type';
+import { entryDetail } from './behavior/entry-detail';
+import { entryTileClass } from './behavior/entry-tile-class';
+import { EntryBadges } from './sub-components/EntryBadges';
+import { EntryName } from './sub-components/EntryName';
+import { EntryThumb } from './sub-components/EntryThumb';
+import './EntryTile.css';
+
+const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTileProps) => {
+  const [hot, setHot] = useState(false);
+  const detailId = useId();
+  const { className, onFocus, ...bind } = cell;
+  const id = fact.kind === 'sprite' ? fact.sprite.id : fact.key;
+  return (
+    <Box
+      {...bind}
+      className={`${className} ${entryTileClass(state)}`}
+      aria-label={fact.kind === 'sprite' ? fact.sprite.name : fact.name}
+      aria-describedby={detailId}
+      aria-selected={state.selected}
+      title={state.loose ? ENTRY_TILE_TEXT.notOnSheet : ENTRY_TILE_TEXT.onSheets(fact.sheets)}
+      data-sprite-id={id}
+      data-entry-kind={fact.kind}
+      draggable
+      onFocus={() => {
+        onFocus();
+        setHot(true);
+      }}
+      onBlur={() => setHot(false)}
+      onPointerEnter={() => setHot(true)}
+      onPointerLeave={() => setHot(false)}
+      onClick={(event) => handlers.onPick(pickHow(event) ?? 'replace')}
+      onDoubleClick={handlers.onEdit}
+      onContextMenu={() => handlers.onMenu()}
+      {...drag}
+    >
+      <Box as="span" id={detailId} hidden>
+        {entryDetail(fact, state)}
+      </Box>
+      <Tile
+        selected={state.selected}
+        media={<EntryThumb fact={fact} artwork={artwork} box={box} playing={hot} />}
+        corners={{
+          topStart: state.selected ? (
+            <Box as="span" className="entry-tile__check" aria-hidden="true">
+              <Icon name="check" size={12} />
+            </Box>
+          ) : undefined,
+          topEnd: <EntryBadges fact={fact} twin={state.twin} />,
+        }}
+        name={<EntryName name={fact.kind === 'sprite' ? fact.sprite.name : fact.name} />}
+      />
+    </Box>
+  );
+};
+
+export { EntryTile };

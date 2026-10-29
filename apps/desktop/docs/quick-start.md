@@ -75,9 +75,11 @@ an exported sprite sheet. The labels are the ones on screen.
 
 ## Sprites, animation and sheets
 
-- The Timeline panel holds frames and layers. Add frame adds a column, and the duration field
-  sets the time of the selected frames. Add tag on the selected frames names a loop, for example run.
-  Onion skin shows the neighbour frames on the canvas.
+- The Timeline panel holds the frames of an animation, with their tags above and the picked frames
+  below. Add frame adds one after the current frame, and the duration field sets the time of the
+  picked frames. Enter plays and pauses, and Comma and Period step by one frame. Drag across the tag
+  lane, or press F2, to name a loop such as run. The ruler moves the playhead, and the Onion button
+  shows the neighbour frames on the canvas. Layers belong to a sprite and live in the Layers panel.
 - Import image with Import as set to Sheet cuts a sheet into sprites. Set the cell size, the
   offset and the spacing, and name them with a pattern such as part_{n}.
 - A sheet is its own file. New, then Sheet of sprites, makes one, and a sheet you open from the Project
@@ -98,6 +100,34 @@ Place Tile you put tiles on the map without changing them. Alt+T
 switches to Edit Tile, where a change to a tile shows in every cell that uses it. Import, then Tiled
 map, in the File menu reads a TMX map with its tileset.
 
+The Tileset panel has a grid of tiles on top and an inspector below it. Drag the bar between them to
+resize, or fold the inspector to one line. The grid keeps the layout the tiles were drawn in, with
+empty places left empty. Grid columns in the tileset Properties sets how many tiles sit in a row.
+Alt and drag moves a tile to another place without changing its key, so maps keep working.
+
+- Pick: click one tile, Shift and click or drag for a block that is placed as a block, Ctrl and click to
+  add single tiles to a scatter set. A scatter set puts one tile from the set in each cell, and a
+  tile with probability 0 is never chosen. Ctrl+F searches by key, name, type or value, and the
+  filter chips show used, unused, animated, collision and terrain tiles. The keys 1 to 5 switch the mode.
+- Brush: the strip above the grid shows what you paint with, flipped and turned. Alt+X and Alt+Y flip it,
+  [ and ] turn it, while the map is open. The Picker tool on the map, dragged over cells, takes the cells
+  as the brush.
+- Tiles mode: set the name, type, probability and allowed turns of one or many tiles. A field that
+  differs shows Mixed, and a change sets only that field on every selected tile as one undo step.
+- Collision mode: a tile holds any number of boxes, shapes and full shapes, each on a named layer such as
+  solid, water or hurt, and a shape can be one way. Drag a box on the tile, add a shape, or use Trace
+  pixels to hug the opaque pixels. Choose Paint full or Paint last shape, then drag across tiles to
+  set many tiles in one undo step. Layers are named in the Properties of the tileset.
+- Data mode: define fields (on or off, whole number, number, text, choice list, colour) and set their
+  values on tiles. The brush button paints a value across tiles by dragging, and choice values show as
+  coloured chips on the tiles.
+- Animation mode: link a tile to an animation, or pick tiles in play order with Ctrl and click and press
+  Animation from selected tiles to make one animation of those frames, linked to the first tile.
+- Terrain mode shows which tiles belong to the terrain rules and holds the slot board.
+
+An assistant reads all of this with get_document and include tileset, which works with no map, and
+checks its work with render_preview on a tileset with the collision overlay.
+
 ## Projects and the asset files
 
 A project is a folder with a `.bxproject` file. Each asset is its own file, so a sprite shared by two
@@ -105,8 +135,11 @@ sheets is stored once.
 
 - Project, then New project makes the folder and the subfolders sprites, sheets, palettes, tilemaps and exports.
 - Project, then Open project opens a folder. Open recent project lists the last ones.
-- The Project panel lists the assets, filters them by kind and shows which sheets use a sprite.
-  Click a row to open it. The Folders view shows every file.
+- The Project panel shows the folders and files as one tree, with a thumbnail for every file, and marks
+  what is unsaved, open, missing a link or used by other assets. Click a row to select it; double click
+  or Enter opens it. Search takes words and tokens such as kind:sprite, is:unsaved and is:missing, which
+  become removable filters. F2 renames in the row, and a drop on a folder moves files with their links kept.
+  The setting Open assets with one click makes a single click open an asset.
 - Save file writes the open asset. Save all (Ctrl+Alt+S) writes every changed asset. A save that
   fails leaves the last good file as it was.
 - Pack project puts the project in one `.bxproject` file. Opening a packed project asks for a

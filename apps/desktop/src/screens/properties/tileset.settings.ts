@@ -11,7 +11,7 @@ const meta: ScreenMeta = {
   order: 1,
   source: ASSET_SOURCE,
   when: showForKind('tileset'),
-  keywords: ['tileset', 'tiles', 'name', 'palette'],
+  keywords: ['tileset', 'tiles', 'name', 'palette', 'columns', 'grid', 'collision', 'layers', 'data', 'fields'],
 };
 
 const sections: Section[] = [
@@ -20,6 +20,32 @@ const sections: Section[] = [
     title: 'General',
     items: [
       { key: 'tileset.name', label: 'Name', description: 'The name of the tileset and of its file.', control: { kind: 'text', placeholder: 'Tileset name' } },
+    ],
+  },
+  {
+    id: 'grid',
+    title: 'Tile grid',
+    items: [
+      {
+        key: 'tileset.columns',
+        label: 'Grid columns',
+        description: 'How many tiles sit in one row of the tile grid. An imported sheet keeps the columns it was drawn in.',
+        hint: 'Tiles keep their place; empty places stay empty.',
+        control: { kind: 'number', min: 1, max: 64, step: 1 },
+      },
+    ],
+  },
+  {
+    id: 'collision',
+    title: 'Collision layers',
+    items: [
+      {
+        key: 'tileset.collisionLayers',
+        label: 'Layer names',
+        description: 'The named layers a collision shape can sit on, separated by commas. The first one is the default.',
+        hint: 'A shape on a layer you remove moves to the first layer.',
+        control: { kind: 'text', placeholder: 'solid, water, hurt' },
+      },
     ],
   },
   {

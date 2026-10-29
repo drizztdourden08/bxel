@@ -60,7 +60,7 @@ describe('the tool rail', () => {
   it('lists every tool of the editor as a toggle named with the slot and its current member', () => {
     const toggles = railOf('Sp').filter((item) => item.kind === 'toggle');
     expect(toggles).toHaveLength(slotsOf('sprite').length);
-    expect(toggles.map((item) => item.label)).toContain('Shapes, Line');
+    expect(toggles.map((item) => item.label)).toContain('Line');
     expect(toggles.map((item) => item.label)).toContain('Select, Rectangle');
   });
 

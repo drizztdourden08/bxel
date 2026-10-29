@@ -32,7 +32,7 @@ const optionItem = (spec: OptionSpec, keysOf: KeysOf): ToolbarItem => {
   }
   if (spec.kind === 'choice') {
     const choices = (spec.choices ?? []).map(choiceOf);
-    return { ...common, kind: 'group', value: String(value), choices, onChange: (next) => setOption(spec, next) };
+    return { ...common, kind: 'group', value: String(value), choices, ...(spec.display === undefined ? {} : { display: spec.display }), onChange: (next) => setOption(spec, next) };
   }
   const icon = spec.icon ?? 'square';
   if (spec.kind === 'toggle') {

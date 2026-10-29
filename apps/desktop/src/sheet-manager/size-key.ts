@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { Sprite } from '@bxel/document';
+import type { Size } from '@bxel/document';
 
-const sizeKey = (sprite: Pick<Sprite, 'width' | 'height'>): string => `${sprite.width}x${sprite.height}`;
+const sizeKey = (item: Size): string => `${item.width}x${item.height}`;
 
 export { sizeKey };

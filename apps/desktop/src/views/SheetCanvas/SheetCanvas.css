@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind style */
 .sheet-canvas {
+  position: relative;
   display: flex;
   flex: 1;
   min-inline-size: 0;
@@ -8,4 +9,16 @@
 
 .sheet-canvas__viewport {
   flex: 1;
+}
+
+.sheet-canvas__bar {
+  position: absolute;
+  inset-block-start: var(--space-xs);
+  inset-inline-start: var(--space-xs);
+  max-inline-size: calc(100% - var(--space-md));
+  padding: var(--space-2xs) var(--space-xs);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-md);
+  background: var(--c-panel);
+  color: var(--c-text);
 }

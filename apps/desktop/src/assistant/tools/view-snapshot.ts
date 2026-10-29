@@ -1,8 +1,12 @@
 /* @layer renderer-app @kind logic */
 import { dialogs, nav } from '@drizztdourden08/brock-react';
 import { currentTarget } from '../../editor/current-target';
+import type { FilledTool } from '../../stores/drawing-store.type';
+import { inkFor } from '../../stores/ink-for';
 import { useDocumentStore } from '../../stores/useDocumentStore';
+import { useDrawingStore } from '../../stores/useDrawingStore';
 import { useManagerStore } from '../../stores/useManagerStore';
+import { boundSheetId } from '../../sheet-manager/bound-sheet';
 import { useSelectionStore } from '../../stores/useSelectionStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { useTilemapStore } from '../../stores/useTilemapStore';
@@ -14,6 +18,8 @@ import { activeAssetOf } from '../../workspace/active-asset-of';
 import { assetName } from '../../workspace/asset-name';
 import { keyId } from '../../workspace/key-id';
 import { selectionReply } from './selection-reply';
+import { FILLED_TOOL_IDS } from './view-snapshot.constants';
+import { timelineOf } from './timeline-view-of';
 import type { Sees } from './view-snapshot.type';
 
 const tabsOf = (sees: Sees) => {
@@ -67,8 +73,8 @@ const toolOf = () => {
     pixelPerfect: tool.pixelPerfect,
     fillMode: tool.fillMode,
     connectivity: tool.connectivity,
-    shape: tool.shape,
-    filled: tool.filled,
+    filled: FILLED_TOOL_IDS.includes(tool.tool) ? useDrawingStore.getState().filled[tool.tool as FilledTool] : false,
+    ink: inkFor(useDrawingStore.getState(), tool.tool),
   };
 };
 
@@ -106,7 +112,7 @@ const playbackOf = () => {
   const timeline = useTimelineStore.getState();
   return {
     playing: timeline.playing,
-    loop: timeline.loop,
+    loop: timeline.playMode !== 'once',
     frame: timeline.frameId,
     tag: timeline.tagId,
     selectedFrames: timeline.selection.frames,
@@ -122,7 +128,7 @@ const togglesOf = () => {
 const spritesOf = () => {
   const manager = useManagerStore.getState();
   const sprites = useSpriteStore.getState();
-  return { selected: sprites.selected, scope: sprites.spritesScope, query: manager.query, filter: manager.filter, sheetId: manager.sheetId };
+  return { selected: sprites.selected, scope: sprites.spritesScope, query: manager.query, filter: manager.filter, sheetId: boundSheetId() };
 };
 
 const viewSnapshot = (sees: Sees = () => true) => {
@@ -138,6 +144,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     zoom: zoomOf(),
     toggles: togglesOf(),
     playback: playbackOf(),
+    timeline: timelineOf(sees),
     selection: selectionOf(sees),
     clipboard: clipboardOf(),
     sprites: spritesOf(),

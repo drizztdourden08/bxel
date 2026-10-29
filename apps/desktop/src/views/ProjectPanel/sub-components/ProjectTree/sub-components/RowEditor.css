@@ -1,0 +1,24 @@
+/* @layer renderer-app @kind style */
+.project-editor {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-inline-size: 0;
+}
+
+.project-editor__suffix {
+  flex: none;
+}
+
+.project-editor__error {
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline: 0;
+  z-index: var(--z-floating);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  background: var(--c-danger-dim);
+  color: var(--c-danger-bright);
+}

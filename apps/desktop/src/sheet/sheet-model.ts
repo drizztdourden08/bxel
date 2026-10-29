@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { findOverlaps, sheetExtent, sheetSizes } from '@bxel/document';
+import { findPartOverlaps, sheetExtent, sheetSizes } from '@bxel/document';
 import type { Size } from '@bxel/document';
 import { managerSheet } from '../sheet-manager/manager-sheet';
 import { listSprites } from './list-sprites';
@@ -34,7 +34,7 @@ const sheetModel = ({ artwork, activeId, sheetId = null }: ModelInput): SheetMod
   const rest: SheetItem[] = loose.map((sprite) => ({ sprite, at: spots.get(sprite.id) ?? { x: 0, y: 0 }, onSheet: false }));
   const items = [...placed, ...rest];
   const animations = sheetAnimationItems(artwork, sheet);
-  return { sheet, items, animations, extent: boundsOf(items, animations), overlaps: sheet ? findOverlaps(sheet, sizes) : [] };
+  return { sheet, items, animations, extent: boundsOf(items, animations), overlaps: sheet ? findPartOverlaps(sheet, sizes, artwork.animations) : [] };
 };
 
 export { sheetModel };

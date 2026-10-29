@@ -1,17 +1,27 @@
 /* @layer renderer-app @kind logic */
+import { ALL_FACINGS, FACING_SETS } from '@bxel/document';
+import type { AnimSpanTag, Animation } from '@bxel/document';
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
-import type { AnimSpanTag } from '@bxel/document';
 import { unless } from '../../../context-menu/unless';
 import { currentFocus } from '../../../timeline/current-focus';
 import { currentSelection } from '../../../timeline/current-selection';
+import { facingTag } from '../../../timeline/facing-tag';
 import { TAG_COLOUR_CHOICES } from '../../../timeline/tag-colour.constants';
-import { TAG_DIRECTION_TEXT, TAG_DIRECTIONS } from '../../../timeline/timeline.constants';
-import { TIMELINE_MENU } from '../TimelinePanel.constants';
+import { FACING_TEXT, TAG_DIRECTION_TEXT, TAG_DIRECTIONS } from '../../../timeline/timeline.constants';
+import { TIMELINE_MENU } from './timeline-menu.constants';
+import { REPEATS } from './tag-entries.constants';
 
-const spanEntries = (tag: AnimSpanTag, picked: number): readonly ContextMenuEntry[] => [
-  { command: 'tag.rename', label: TIMELINE_MENU.renameTag, args: { tagId: tag.id } },
+const mirrorEntries = (tag: AnimSpanTag, animation: Animation): ContextMenuEntry => {
+  const items = FACING_SETS[animation.directions]
+    .filter((facing) => facingTag(animation, facing) === undefined)
+    .map((facing) => ({ command: 'tag.make_mirror', label: FACING_TEXT[facing], args: { tagId: tag.id, facing } }));
+  return { label: TIMELINE_MENU.makeMirror, items, disabled: items.length === 0 };
+};
+
+const spanEntries = (tag: AnimSpanTag, picked: number, animation: Animation): readonly ContextMenuEntry[] => [
+  { command: 'tag.edit', label: TIMELINE_MENU.editTag, args: { tagId: tag.id } },
   {
-    label: TIMELINE_MENU.direction,
+    label: TIMELINE_MENU.loopMode,
     items: TAG_DIRECTIONS.map((direction) => ({
       command: 'tag.set_direction',
       label: TAG_DIRECTION_TEXT[direction],
@@ -19,6 +29,21 @@ const spanEntries = (tag: AnimSpanTag, picked: number): readonly ContextMenuEntr
       kind: 'radio' as const,
       checked: tag.direction === direction,
     })),
+  },
+  {
+    label: TIMELINE_MENU.repeat,
+    items: [
+      { command: 'tag.set_repeat', label: TIMELINE_MENU.forever, args: { tagId: tag.id, repeat: 0 }, kind: 'radio' as const, checked: tag.repeat === 0 },
+      ...REPEATS.map((repeat) => ({ command: 'tag.set_repeat', label: String(repeat), args: { tagId: tag.id, repeat }, kind: 'radio' as const, checked: tag.repeat === repeat })),
+      { command: 'tag.edit', label: TIMELINE_MENU.otherRepeat, args: { tagId: tag.id } },
+    ],
+  },
+  {
+    label: TIMELINE_MENU.facing,
+    items: [
+      { command: 'tag.set_facing', label: 'None', args: { tagId: tag.id }, kind: 'radio' as const, checked: tag.facing === undefined },
+      ...ALL_FACINGS.map((facing) => ({ command: 'tag.set_facing', label: FACING_TEXT[facing], args: { tagId: tag.id, facing }, kind: 'radio' as const, checked: tag.facing === facing })),
+    ],
   },
   {
     label: TIMELINE_MENU.colour,
@@ -35,6 +60,7 @@ const spanEntries = (tag: AnimSpanTag, picked: number): readonly ContextMenuEntr
     ],
   },
   { command: 'tag.set_range', label: TIMELINE_MENU.setRange, args: { tagId: tag.id }, ...unless(picked > 0, TIMELINE_MENU.needFrames) },
+  mirrorEntries(tag, animation),
 ];
 
 const tagEntries = (tagId: string | undefined): readonly ContextMenuEntry[] => {
@@ -44,8 +70,9 @@ const tagEntries = (tagId: string | undefined): readonly ContextMenuEntry[] => {
   const args = { tagId: tag.id };
   return [
     { command: 'tag.play', label: TIMELINE_MENU.playTag, args },
+    { command: 'tag.play_once', label: TIMELINE_MENU.playOnce, args },
     { command: 'tag.select_frames', label: TIMELINE_MENU.selectTagFrames, args },
-    ...(tag.kind === 'span' ? spanEntries(tag, currentSelection(focus).length) : []),
+    ...(tag.kind === 'span' ? spanEntries(tag, currentSelection(focus).length, focus.animation) : []),
     'separator',
     { command: 'tag.delete', label: TIMELINE_MENU.deleteTag, args },
   ];

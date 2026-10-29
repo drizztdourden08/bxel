@@ -11,10 +11,10 @@ import { sortFacts } from '../../src/sheet-manager/sort-facts';
 import { pickVisible } from '../../src/sheet-manager/pick-visible';
 import { currentScene } from '../../src/sheet/current-scene';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
-import { artwork, idOf, namesOf, openFile, revision } from '../sheet/sheet-harness';
-import { idsOf } from './manager-harness';
+import { artwork, idOf, namesOf, revision } from '../sheet/sheet-harness';
+import { idsOf, openOnSheet } from './manager-harness';
 
-beforeEach(() => openFile(['walk_10', 'walk_2', 'idle'], 8));
+beforeEach(() => openOnSheet(['walk_10', 'walk_2', 'idle'], 8));
 
 describe('moves that make an order', () => {
   it('needs no move for an order that is already right', () => {
@@ -30,7 +30,7 @@ describe('moves that make an order', () => {
 
 describe('sorting the sheet order', () => {
   it('puts the sprites in natural name order as one undo step', () => {
-    const sorted = sortFacts(allFacts(artwork(), null), 'name', false).map((fact) => fact.sprite.id);
+    const sorted = sortFacts(allFacts(artwork(), artwork().sheets[0] ?? null), 'name', false).map((fact) => fact.sprite.id);
     const before = revision();
     expect(applyOrder(sorted)).toBe(true);
     expect(revision()).toBe(before + 1);

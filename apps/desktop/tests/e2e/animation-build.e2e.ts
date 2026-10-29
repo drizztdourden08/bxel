@@ -61,7 +61,7 @@ const showsOnionSkin = async (session: Session): Promise<void> => {
 };
 
 const listsTheTag = async (session: Session): Promise<void> => {
-  await timelineOf(session).getByRole('button', { name: new RegExp(`^${UI_ANIMATION.tag}, Forward`) }).first().waitFor();
+  await timelineOf(session).getByRole('button', { name: new RegExp(`^${UI_ANIMATION.tag}, forward`) }).first().waitFor();
 };
 
 const reopensAndSavesAgain = async (session: Session): Promise<void> => {

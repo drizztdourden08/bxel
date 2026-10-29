@@ -23,11 +23,11 @@ const copiesAndOpens = async (session: Session, place: string): Promise<void> =>
   expect(await filesUnder(copy)).toEqual(await filesUnder(DEMO_SOURCE));
   for (const file of await filesUnder(DEMO_SOURCE)) expect(Buffer.compare(await readFile(join(copy, file)), await readFile(join(DEMO_SOURCE, file))), file).toBe(0);
   for (const name of ['hero', 'slime', 'party', 'ground', 'meadow']) await assetRow(session, name).waitFor();
-  await assetRow(session, 'hero').click();
+  await assetRow(session, 'hero').dblclick();
   const timeline = session.page.getByRole('region', { name: 'Timeline' });
-  await timeline.getByText('3 frames').first().waitFor();
-  await timeline.getByRole('button', { name: /^walk, Forward/ }).first().waitFor();
-  await assetRow(session, 'party').click();
+  await timeline.getByRole('listbox', { name: 'Frames' }).getByRole('option').nth(2).waitFor();
+  await timeline.getByRole('button', { name: /^walk, forward/ }).first().waitFor();
+  await assetRow(session, 'party').dblclick();
   await openAssetTab(session, /party/).waitFor();
 };
 

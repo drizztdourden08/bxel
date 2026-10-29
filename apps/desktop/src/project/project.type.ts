@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { AccessLevel, ProjectDocument, ProjectGrant, RecentProject, ResolvedFolder } from '@bxel/project';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
+import type { ProjectViewSettings } from '../panel-browser/browser-state.type';
 import type { StoredTabsMap } from '../workspace/stored-tabs.type';
 
 type ProjectFolderState = ResolvedFolder & { readonly granted: boolean };
@@ -23,6 +24,8 @@ type LoadedManifest = {
 interface ProjectSettings {
   projectRecents: readonly RecentProject[];
   projectTabs: StoredTabsMap;
+  projectOpenOnClick: boolean;
+  projectView: ProjectViewSettings;
 }
 
 type ProjectValues = Pick<ProjectSettings, 'projectRecents'> & {
@@ -42,11 +45,6 @@ type UnpackOutcome = { readonly ok: true; readonly root: string } | { readonly o
 type AccessTarget = Pick<RecentProject, 'projectId' | 'rootRealPath'>;
 
 type ProjectTask = (documents: DocumentsPort) => Promise<ProjectOutcome | null>;
-
-type ProjectLocation = {
-  readonly folderId: string;
-  readonly segments: readonly string[];
-};
 
 type LinkedFolder = {
   readonly manifest: ProjectDocument;
@@ -79,7 +77,6 @@ export type {
   OpenProject,
   ProjectFolderState,
   ProjectIdentity,
-  ProjectLocation,
   ProjectOutcome,
   ProjectPort,
   ProjectSettings,

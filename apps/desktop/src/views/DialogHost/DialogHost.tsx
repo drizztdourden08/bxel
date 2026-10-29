@@ -2,7 +2,10 @@
 import { AddFramesDialog } from '../AddFramesDialog';
 import { CanvasSizeDialog } from '../CanvasSizeDialog';
 import { DirectionSetDialog } from '../DirectionSetDialog';
+import { PasteChoiceDialog } from '../PasteChoiceDialog';
+import { SelectionNamesDialog } from '../SelectionNamesDialog';
 import { ImportWizard } from '../ImportWizard';
+import { LinkedCelDialog } from '../LinkedCelDialog';
 import { CreateDialog } from '../CreateDialog';
 import { ProjectCreateDialog } from '../ProjectCreateDialog';
 import { PaletteChangeDialog } from '../PaletteChangeDialog';
@@ -17,6 +20,8 @@ const DialogHost = () => {
     <>
       <CreateDialog />
       <CanvasSizeDialog />
+      <SelectionNamesDialog />
+      <PasteChoiceDialog />
       <AddFramesDialog />
       <DirectionSetDialog />
       <ProjectCreateDialog />
@@ -25,6 +30,7 @@ const DialogHost = () => {
       <PresetDialog />
       <RampBuilderDialog />
       <PaletteSheetDialog />
+      <LinkedCelDialog />
     </>
   );
 };

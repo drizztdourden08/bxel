@@ -3,9 +3,10 @@ import type { CombineMode, Connectivity } from '@bxel/raster';
 import { OPTION_COMMAND } from '../../../keymap/option-command-id.constants';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
+import type { SampleSource } from '../../selection/selection.type';
 import { resizeSelection } from '../../selection/resize-selection';
 import { SELECT_MODES, SELECT_VARIANTS } from '../../selection/selection.constants';
-import { NEIGHBOUR_CHOICES, OPTION_TEXT, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES } from '../tool-options.constants';
+import { NEIGHBOUR_CHOICES, OPTION_TEXT, SAMPLE_CHOICES, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES } from '../tool-options.constants';
 import type { OptionSpec } from '../tool-options.type';
 
 const selection = () => useSelectionStore.getState();
@@ -15,6 +16,8 @@ const base = { tool: 'select', surface: 'paint', memory: 'global' } as const;
 const asMode = (value: unknown): CombineMode => SELECT_MODES.find((mode) => mode === value) ?? 'replace';
 
 const asVariant = (value: unknown) => SELECT_VARIANTS.find((variant) => variant === value) ?? 'rect';
+
+const asSample = (value: unknown): SampleSource => (value === 'visible' ? 'visible' : 'layer');
 
 const asNeighbours = (value: unknown): Connectivity => (String(value) === '8' ? 8 : 4);
 
@@ -33,7 +36,7 @@ const resizeOption = (name: 'expand' | 'shrink', delta: number, priority: number
   caption: name === 'expand' ? OPTION_TEXT.expand : OPTION_TEXT.shrink,
   shortcuts: [{ command: name === 'expand' ? SELECTION_COMMAND_ID.expand : SELECTION_COMMAND_ID.shrink }],
   read: () => false,
-  write: () => resizeSelection(delta),
+  write: () => resizeSelection(delta * selection().amount),
 });
 
 const SELECT_OPTIONS: readonly OptionSpec[] = [
@@ -86,6 +89,40 @@ const SELECT_OPTIONS: readonly OptionSpec[] = [
     read: () => String(selection().connectivity),
     write: (value) => selection().setConnectivity(asNeighbours(value)),
     appliesWhen: () => selection().variant === 'wand',
+  },
+  {
+    ...base,
+    id: 'select.sample',
+    name: 'sample',
+    kind: 'choice',
+    label: OPTION_TEXT.sampleSource,
+    description: OPTION_TEXT.sampleSourceDescription,
+    tier: 1,
+    priority: 40,
+    group: 'select',
+    default: 'layer',
+    choices: SAMPLE_CHOICES,
+    flyout: true,
+    read: () => selection().sample,
+    write: (value) => selection().setSample(asSample(value)),
+    appliesWhen: () => selection().variant === 'wand' || selection().variant === 'colour',
+  },
+  {
+    ...base,
+    id: 'select.amount',
+    name: 'amount',
+    kind: 'number',
+    label: OPTION_TEXT.amount,
+    description: OPTION_TEXT.amountDescription,
+    tier: 1,
+    priority: 50,
+    group: 'actions',
+    default: 1,
+    min: 1,
+    max: 64,
+    step: 1,
+    read: () => selection().amount,
+    write: (value) => selection().setAmount(Number(value)),
   },
   resizeOption('expand', 1, 60),
   resizeOption('shrink', -1, 70),

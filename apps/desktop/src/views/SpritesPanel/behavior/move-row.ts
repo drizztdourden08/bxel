@@ -1,24 +1,19 @@
 /* @layer renderer-app @kind logic */
 import type { RowMoveTarget } from '@drizztdourden08/tessera';
-import type { SpriteId } from '@bxel/document';
-import { reorderSprites } from '../../../sheet/reorder-sprites';
+import { dropEntries } from '../../../sheet-manager/drop-entries';
+import type { DropTarget } from '../../../sheet-manager/drag-payload.type';
 import type { ManagerModel } from '../SpritesPanel.type';
+import { dragEntriesOf } from './drag-entries-of';
 
-const slotOf = (model: ManagerModel, from: SpriteId, target: RowMoveTarget): number | null => {
-  const at = (key: string | undefined): number => (key === undefined ? -1 : model.artwork.sprites.findIndex((sprite) => sprite.id === key));
-  const origin = at(from);
-  const before = at(target.beforeKey);
-  if (before >= 0) return origin >= 0 && origin < before ? before - 1 : before;
-  const after = at(target.afterKey);
-  if (after < 0) return null;
-  return origin >= 0 && origin < after ? after : after + 1;
+const targetOf = (target: RowMoveTarget): DropTarget | null => {
+  if (target.beforeKey !== undefined) return { key: target.beforeKey, side: 'before' };
+  if (target.afterKey !== undefined) return { key: target.afterKey, side: 'after' };
+  return null;
 };
 
 const moveRow = (model: ManagerModel, fromKey: string, target: RowMoveTarget): void => {
-  const from = model.artwork.sprites.find((sprite) => sprite.id === fromKey)?.id;
-  const to = from === undefined ? null : slotOf(model, from, target);
-  if (from === undefined || to === null) return;
-  reorderSprites(model.ids.includes(from) ? model.ids : [from], { to });
+  const drop = targetOf(target);
+  if (drop) dropEntries(dragEntriesOf(model, fromKey), drop, model.sheet?.id ?? null);
 };
 
 export { moveRow };

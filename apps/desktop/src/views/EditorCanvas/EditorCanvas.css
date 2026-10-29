@@ -43,7 +43,18 @@
   cursor: url('/cursors/picker.svg') 3 25, crosshair;
 }
 
-.pixel-viewport.editor-canvas__viewport--shape,
+.pixel-viewport.editor-canvas__viewport--spray,
+.pixel-viewport.editor-canvas__viewport--shade,
+.pixel-viewport.editor-canvas__viewport--gradient {
+  cursor: url('/cursors/pencil.svg') 3 25, crosshair;
+}
+
+.pixel-viewport.editor-canvas__viewport--line,
+.pixel-viewport.editor-canvas__viewport--curve,
+.pixel-viewport.editor-canvas__viewport--rect,
+.pixel-viewport.editor-canvas__viewport--ellipse,
+.pixel-viewport.editor-canvas__viewport--contour,
+.pixel-viewport.editor-canvas__viewport--polygon,
 .pixel-viewport.editor-canvas__viewport--select {
   cursor: url('/cursors/select.svg') 15 15, crosshair;
 }

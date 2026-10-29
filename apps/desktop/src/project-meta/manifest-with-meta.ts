@@ -42,6 +42,7 @@ const manifestWithMeta = (manifest: ProjectDocument, source: MetaSource): Projec
   defaults: { ...keptDefaults(manifest.defaults), ...paletteOf(source, manifest.defaults), ...platformOf(source.artwork, manifest.defaults) },
   ...exportWithPresets(manifest, presetsOf(source.artwork, { kind: 'project', id: source.artwork.id })),
   ...(manifest.organise === undefined ? {} : { organise: manifest.organise }),
+  ...((source.artwork.brushes ?? []).length > 0 ? { brushes: source.artwork.brushes } : {}),
   assistant: manifest.assistant,
 });
 

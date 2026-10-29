@@ -7,10 +7,10 @@ import { OPTION_CONTROLS_TEXT, PREVIEW_CELLS } from '../OptionControls.constants
 import type { BrushPreviewProps } from '../OptionControls.type';
 import './BrushPreview.css';
 
-const BrushPreview = ({ size, shape, small = false }: BrushPreviewProps) => {
+const BrushPreview = ({ size, shape, angle = 0, small = false }: BrushPreviewProps) => {
   const draw = useCallback(
     (canvas: HTMLCanvasElement) => {
-      const stamp = brushStamp({ size: Math.min(size, PREVIEW_CELLS), shape });
+      const stamp = brushStamp({ size: Math.min(size, PREVIEW_CELLS), shape, angle });
       const cells = Math.max(stamp.size, PREVIEW_CELLS);
       canvas.width = cells;
       canvas.height = cells;
@@ -25,7 +25,7 @@ const BrushPreview = ({ size, shape, small = false }: BrushPreviewProps) => {
         }
       }
     },
-    [size, shape],
+    [size, shape, angle],
   );
   const ref = usePaintedCanvas(draw);
   return <Canvas ref={ref} className="option-preview" data-size={small ? 'small' : undefined} role="img" aria-label={OPTION_CONTROLS_TEXT.previewLabel(size, shape)} />;

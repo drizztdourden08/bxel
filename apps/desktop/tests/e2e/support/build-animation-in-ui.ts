@@ -24,9 +24,9 @@ const buildAnimationInUi = async (session: Session): Promise<void> => {
   await frameButton(session, 1).click();
   await frameButton(session, 3).click({ modifiers: ['Shift'] });
   await timeline.getByRole('button', { name: 'Add tag on the picked frames' }).click();
-  const name = timeline.getByRole('textbox', { name: 'Tag name' });
+  const name = session.page.getByRole('dialog', { name: 'Edit tag' }).getByRole('textbox', { name: 'Tag name' });
   await name.fill(UI_ANIMATION.tag);
-  await name.press('Tab');
+  await name.press('Enter');
 };
 
 export { buildAnimationInUi };

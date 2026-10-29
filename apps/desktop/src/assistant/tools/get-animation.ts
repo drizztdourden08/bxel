@@ -3,13 +3,22 @@ import { animationSequence } from '@bxel/document';
 import type { AnimTag, Animation, Artwork, Sprite } from '@bxel/document';
 import { hiddenFailure } from '@bxel/mcp';
 import type { ToolHandler } from '../assistant.type';
+import { animationFacings } from './animation-facings';
 import { animationFor } from './animation-for';
+import { animationPlay } from './animation-plays';
 import { hiddenAssets } from './hidden-assets';
 import { reply } from './reply';
 import type { GetAnimationInput } from './tool-input.type';
 import { viewFor } from './view-for';
 
-const frameEntry = (sprites: ReadonlyMap<string, Sprite>) => (frame: Animation['frames'][number], index: number) => ({
+const sameSpriteAs = (frames: Animation['frames'], index: number): number | null => {
+  const spriteId = frames[index]?.spriteId ?? null;
+  if (spriteId === null) return null;
+  const earlier = frames.findIndex((frame) => frame.spriteId === spriteId);
+  return earlier >= 0 && earlier < index ? earlier : null;
+};
+
+const frameEntry = (sprites: ReadonlyMap<string, Sprite>, all: Animation['frames']) => (frame: Animation['frames'][number], index: number) => ({
   frameId: frame.id,
   index,
   spriteId: frame.spriteId,
@@ -18,6 +27,7 @@ const frameEntry = (sprites: ReadonlyMap<string, Sprite>) => (frame: Animation['
   durationMs: frame.durationMs,
   offset: frame.offset,
   pivot: frame.pivot,
+  sameSpriteAs: sameSpriteAs(all, index),
 });
 
 const indexOf = (animation: Animation, frameId: string): number => Math.max(0, animation.frames.findIndex((frame) => frame.id === frameId));
@@ -66,8 +76,10 @@ const getAnimation: ToolHandler = (input, context) => {
     loop: animation.loop,
     directions: animation.directions,
     cycleMs: animationSequence(animation, null).cycleMs,
-    frames: animation.frames.map(frameEntry(sprites)),
+    frames: animation.frames.map(frameEntry(sprites, animation.frames)),
     tags: animation.tags.map(tagEntry(animation)),
+    plays: [animationPlay(animation, null), ...animation.tags.map((tag) => animationPlay(animation, tag))],
+    facings: animationFacings(animation),
     usedBy: usersOf(artwork, animation),
   });
 };

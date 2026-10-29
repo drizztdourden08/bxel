@@ -13,7 +13,7 @@ const useApplyBar = (): ApplyBarModel | null => {
   const pending = usePendingStore((state) => state.pending);
   const outcome = usePendingStore((state) => state.outcome);
   return useMemo(() => {
-    if (!target || !pending || pending.editing || !outcome) return null;
+    if (!target || !pending || pending.editing || !outcome || pending.spec.kind === 'transform') return null;
     const landing = outcome.landing ? maskBounds(outcome.landing) : null;
     return {
       title: pendingLabel(pending.spec),

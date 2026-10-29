@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import type { CustomBrush } from '@bxel/document';
 import type { PaletteDefault, PixelSize, ProjectDefaults } from '../defaults/asset-defaults.type';
 import { isOrganiseEmpty } from './is-organise-empty';
 import { orderExportPreset } from './order-export-preset';
@@ -42,6 +43,7 @@ const orderExport = (settings: ProjectExport) => ({
 
 const keptOrganise = (manifest: ProjectDocument) =>
   manifest.organise === undefined || isOrganiseEmpty(manifest.organise) ? {} : { organise: orderOrganise(manifest.organise) };
+const orderBrush = (brush: CustomBrush) => ({ id: brush.id, name: brush.name, width: brush.width, height: brush.height, pixels: brush.pixels });
 
 const orderProjectDocument = (manifest: ProjectDocument) => ({
   format: manifest.format,
@@ -53,6 +55,7 @@ const orderProjectDocument = (manifest: ProjectDocument) => ({
   defaults: orderDefaults(manifest.defaults),
   ...(manifest.export === undefined ? {} : { export: orderExport(manifest.export) }),
   ...keptOrganise(manifest),
+  ...(manifest.brushes === undefined || manifest.brushes.length === 0 ? {} : { brushes: manifest.brushes.map(orderBrush) }),
   assistant: {
     access: manifest.assistant.access,
     ...(manifest.assistant.folders === undefined ? {} : { folders: [...manifest.assistant.folders] }),

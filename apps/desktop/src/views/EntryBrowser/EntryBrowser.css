@@ -1,0 +1,56 @@
+/* @layer renderer-app @kind style */
+.entry-browser {
+  flex: 1;
+  min-height: 0;
+}
+
+.entry-browser__bar > :first-child {
+  flex: 1;
+  min-width: var(--size-96);
+}
+
+.entry-browser__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: var(--size-96);
+}
+
+.entry-browser__row {
+  inline-size: 100%;
+  padding-inline: var(--space-xs);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--c-text);
+  cursor: pointer;
+  text-align: start;
+}
+
+.entry-browser__row:hover {
+  background: var(--c-hover);
+}
+
+.entry-browser__row--picked {
+  border-color: var(--c-primary-bright);
+  background: var(--c-selected);
+}
+
+.entry-browser__row-name {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.entry-browser__row-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  flex: none;
+}
+
+.entry-browser--tall .entry-browser__body {
+  min-height: var(--size-256);
+}

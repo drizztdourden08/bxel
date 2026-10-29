@@ -5,7 +5,7 @@ import { nameMatches } from './name-matches';
 import { sizeKey } from './size-key';
 
 const flagsMatch = (fact: SpriteFacts, filter: ManagerFilter): boolean =>
-  (!filter.animated || fact.frames > 1) && (!filter.unplaced || !fact.onSheet);
+  filter.kind !== 'animations' && (!filter.slices || fact.slices > 0);
 
 const traitsMatch = (fact: SpriteFacts, filter: ManagerFilter): boolean =>
   (filter.size === null || sizeKey(fact.sprite) === filter.size) &&

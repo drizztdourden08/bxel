@@ -106,10 +106,9 @@ const checksProject = async (session: Session, place: string): Promise<void> => 
   const root = join(place, 'Sample');
   await writeSampleProject(root, buildSampleArtwork(), SAMPLE.name);
   await openProjectAtInUi(session, root, SAMPLE.name);
-  await showPanelView(session, 'Assets');
-  await expectAccessible(session, 'Project panel, Assets view');
-  await showPanelView(session, 'Folders');
-  await expectAccessible(session, 'Project panel, Folders view');
+  await expectAccessible(session, 'Project panel, Tree mode');
+  await showPanelView(session, 'List');
+  await expectAccessible(session, 'Project panel, List mode');
   await openSheetTab(session, SAMPLE.sheets[0]);
   await expectAccessible(session, 'Sheet mode with the sheet manager');
   await showSheetList(session);

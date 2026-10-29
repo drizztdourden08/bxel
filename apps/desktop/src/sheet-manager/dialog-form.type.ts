@@ -3,6 +3,7 @@ import type { Artwork, Sprite } from '@bxel/document';
 import type { AnimatePlan, AnimateSpec, CutStripSpec, PiecePlan, SlicePlan, SliceSpec, SplitSpec } from './compose.type';
 import type { StripPlan } from '../add-frames/add-frames.type';
 import type { SpriteComparison } from './identical.type';
+import type { StripHint } from './strip-hint.type';
 
 interface AnimateForm {
   spec: AnimateSpec;
@@ -16,6 +17,8 @@ interface CutStripForm {
   plan: StripPlan;
   target: Sprite | null;
   blocker: string | null;
+  onSheet: boolean;
+  hint: StripHint | null;
   update: (change: Partial<CutStripSpec>) => void;
 }
 
@@ -42,8 +45,15 @@ interface PieceNamesProps {
 }
 
 interface SliceFieldsProps {
+  clashes: number;
   spec: SliceSpec;
   update: (change: Partial<SliceSpec>) => void;
+}
+
+interface SlicePreviewProps {
+  artwork: Artwork;
+  sprite: Sprite | undefined;
+  plan: SlicePlan;
 }
 
 interface SliceNoteProps {
@@ -78,5 +88,6 @@ export type {
   SliceFieldsProps,
   SliceForm,
   SliceNoteProps,
+  SlicePreviewProps,
   CutStripForm,
 };

@@ -4,6 +4,7 @@ import { hasPreview } from '../editor/pending/has-preview';
 import { useDocumentStore } from '../stores/useDocumentStore';
 import { useImageTabStore } from '../stores/useImageTabStore';
 import { useProjectStore } from '../stores/useProjectStore';
+import { useSelectionHistoryStore } from '../stores/useSelectionHistoryStore';
 import { useSelectionStore } from '../stores/useSelectionStore';
 import { useSpriteStore } from '../stores/useSpriteStore';
 import { useTilemapStore } from '../stores/useTilemapStore';
@@ -42,7 +43,7 @@ const selectionInput = (activeId: string | null): Pick<ContextInput, 'pixelSelec
     cellSelection: useTilemapStore.getState().selection !== null,
     spriteSelection: useSpriteStore.getState().selected.length,
     frameSelection: useTimelineStore.getState().selection.frames.length,
-    clipboard: selection.clipboard === null ? 'none' : 'pixels',
+    clipboard: selection.clipboard === null && !selection.systemClip ? 'none' : 'pixels',
   };
 };
 
@@ -60,8 +61,8 @@ const readContextInput = (): ContextInput => {
     animatedTile: animatedTileOf(),
     readOnly: view?.state.readOnly ?? false,
     projectOpen: useProjectStore.getState().project !== null,
-    canUndo: view?.canUndo ?? false,
-    canRedo: view?.canRedo ?? false,
+    canUndo: (view?.canUndo ?? false) || useSelectionHistoryStore.getState().undo.some((step) => step.documentId === activeId),
+    canRedo: (view?.canRedo ?? false) || useSelectionHistoryStore.getState().redo.some((step) => step.documentId === activeId),
   };
 };
 

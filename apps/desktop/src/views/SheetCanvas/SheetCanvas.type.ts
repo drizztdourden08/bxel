@@ -2,6 +2,7 @@
 import type { PointerEvent, RefObject } from 'react';
 import type { Point, Sprite, SpriteId } from '@bxel/document';
 import type { SceneModel, SheetItem, SheetModel } from '../../sheet/sheet.type';
+import type { ExportResult } from '../../sheet-manager/export-result.type';
 
 type SheetDrag =
   | { kind: 'move'; ids: readonly SpriteId[]; start: Point; delta: Point; pending: SpriteId | null }
@@ -52,6 +53,8 @@ interface SheetView {
   data: SceneModel;
   model: SheetModel;
   image: ImageData;
+  exported: ExportResult | null;
+  failure: string | null;
 }
 
 interface DownInput {

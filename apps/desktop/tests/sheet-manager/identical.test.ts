@@ -14,7 +14,8 @@ import { selectDuplicates } from '../../src/sheet-manager/select-duplicates';
 import { twinIds } from '../../src/sheet-manager/twin-ids';
 import { visibleFacts } from '../../src/sheet-manager/visible-facts';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
-import { artwork, idOf, lastNotice, openFile, patch, spriteOf } from '../sheet/sheet-harness';
+import { artwork, idOf, lastNotice, patch, spriteOf } from '../sheet/sheet-harness';
+import { openOnSheet } from './manager-harness';
 
 vi.mock('../../src/documents/document-host.constants', async () => (await import('../legacy/legacy-app-commands')).legacyAppCommands());
 
@@ -26,7 +27,7 @@ const named = (ids: readonly string[][]): string[][] =>
 const chosen = (): string[] => useSpriteStore.getState().selected.map((id) => artwork().sprites.find((sprite) => sprite.id === id)?.name ?? '');
 
 beforeEach(() => {
-  openFile(['a', 'b', 'c', 'f', 'e'], 8);
+  openOnSheet(['a', 'b', 'c', 'f', 'e'], 8);
   patch('a', dot(0, 0), 1);
   patch('b', dot(0, 0), 1);
   patch('f', dot(7, 0), 1);
@@ -48,7 +49,7 @@ describe('finding identical sprites', () => {
   });
 
   it('puts blank sprites of one size together', () => {
-    openFile(['x', 'y', 'z'], 8);
+    openOnSheet(['x', 'y', 'z'], 8);
     expect(named(findIdentical(artwork().sprites, false))).toEqual([['x', 'y', 'z']]);
   });
 });

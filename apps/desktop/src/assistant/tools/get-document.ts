@@ -1,10 +1,12 @@
 /* @layer renderer-app @kind logic */
 import { hiddenFailure } from '@bxel/mcp';
 import { sheetExtent, sheetSizes } from '@bxel/document';
-import type { Animation, Artwork, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
+import type { Animation, Artwork, CustomBrush, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
 import { hiddenAssets } from './hidden-assets';
+import { tilesetDetail } from './tileset-detail';
 import { reply } from './reply';
+import { sheetEntries } from './sheet-entries';
 import { spriteSummary } from './sprite-summary';
 import type { GetDocumentInput } from './tool-input.type';
 import { viewFor } from './view-for';
@@ -15,6 +17,13 @@ const bankSummary = (bank: PaletteBank) => ({
   cap: bank.cap,
   used: bank.slots.length,
   transparent: bank.transparent,
+});
+
+const brushSummary = (brush: CustomBrush) => ({
+  brushId: brush.id,
+  name: brush.name,
+  width: brush.width,
+  height: brush.height,
 });
 
 const animationSummary = (animation: Animation) => ({
@@ -44,15 +53,16 @@ const tilemapSummary = (tilemap: Tilemap) => ({
   layers: tilemap.layers.length,
 });
 
-const sheetSummary = (artwork: Artwork) => (sheet: Sheet) => ({
+const sheetSummary = (artwork: Artwork, entries: boolean, hidden: ReadonlySet<string>) => (sheet: Sheet) => ({
   sheetId: sheet.id,
   name: sheet.name,
-  ...sheetExtent(sheet, sheetSizes(artwork)),
-  entries: sheet.entries.length,
+  ...sheetExtent(sheet, sheetSizes(artwork), artwork.animations),
+  entries: sheet.entries.length + (sheet.animationEntries ?? []).length,
+  ...(entries ? sheetEntries(artwork, sheet, hidden) : {}),
 });
 
 const getDocument: ToolHandler = (input, context) => {
-  const { documentId, spriteOffset, spriteLimit } = input as GetDocumentInput;
+  const { documentId, spriteOffset, spriteLimit, include = [] } = input as GetDocumentInput;
   const view = viewFor(context, documentId);
   if (!view) return reply(hiddenFailure('document'));
   const { artwork, revision } = view.state;
@@ -72,9 +82,13 @@ const getDocument: ToolHandler = (input, context) => {
     spritesTotal: seen.length,
     truncated: spriteOffset + sprites.length < seen.length,
     animations: artwork.animations.filter((animation) => !hidden.has(animation.id)).map(animationSummary),
-    sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork)),
+    sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork, include.includes('entries'), hidden)),
+    brushes: (artwork.brushes ?? []).map(brushSummary),
     tilesets: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map(tilesetSummary),
     tilemaps: artwork.tilemaps.filter((tilemap) => !hidden.has(tilemap.id)).map(tilemapSummary),
+    ...(include.includes('tileset')
+      ? { tilesetDetails: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map((tileset) => tilesetDetail(artwork, tileset)) }
+      : {}),
   });
 };
 

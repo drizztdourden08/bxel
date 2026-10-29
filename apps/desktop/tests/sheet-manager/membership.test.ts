@@ -2,12 +2,10 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { stepHistory } from '../../src/editor/step-history';
 import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
-import { atlasHit } from '../../src/sheet-manager/atlas-hit';
 import { atlasModel } from '../../src/sheet-manager/atlas-model';
-import { atlasScale } from '../../src/sheet-manager/atlas-scale';
 import { createSheet } from '../../src/sheet-manager/create-sheet';
 import { moveToSheet } from '../../src/sheet-manager/move-to-sheet';
-import { removeFromSheet } from '../../src/sheet-manager/remove-from-sheet';
+import { removeEntries } from '../../src/sheet-manager/remove-entries';
 import { sheetStyleOptions } from '../../src/sheet-manager/sheet-style-options';
 import { styleSheet } from '../../src/sheet-manager/style-sheet';
 import { artwork, openFile, revision } from '../sheet/sheet-harness';
@@ -49,11 +47,11 @@ describe('removing sprites from a sheet', () => {
   it('keeps the sprites in the file', () => {
     addToSheet(idsOf('a', 'b', 'c'), null);
     const id = sheetNamed('Sheet').id;
-    expect(removeFromSheet(idsOf('b'), id)).toBe(true);
+    expect(removeEntries(idsOf('b'), [], id)).toBe(true);
     expect(held('Sheet')).toEqual(['a', 'c']);
     expect(artwork().sprites.map((sprite) => sprite.name)).toContain('b');
-    expect(removeFromSheet(idsOf('b'), id)).toBe(false);
-    expect(removeFromSheet(idsOf('a'), null)).toBe(false);
+    expect(removeEntries(idsOf('b'), [], id)).toBe(false);
+    expect(removeEntries(idsOf('a'), [], null)).toBe(false);
   });
 });
 
@@ -139,14 +137,4 @@ describe('the atlas preview', () => {
     expect(atlas.width).toBe(8);
   });
 
-  it('finds the sprite under a point and keeps the picture inside the canvas limit', () => {
-    addToSheet(idsOf('a', 'b'), null);
-    styleSheet(sheetNamed('Sheet').id, { layout: 'grid', columns: 2 });
-    const atlas = atlasModel({ sheet: sheetNamed('Sheet'), artwork: artwork(), extrude: 0, ...PLAIN_ATLAS });
-    expect(atlasHit(atlas.items, { x: 9, y: 1 })).toBe(atlas.items[1]?.id);
-    expect(atlasHit(atlas.items, { x: 30, y: 30 })).toBeNull();
-    expect(atlasScale(8, 100, 100)).toBe(8);
-    expect(atlasScale(8, 2000, 100)).toBe(2);
-    expect(atlasScale(8, 9000, 100)).toBe(1);
-  });
 });

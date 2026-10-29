@@ -10,4 +10,12 @@ const COMBINE_RULES: Readonly<Record<CombineMode, (base: number, incoming: numbe
 
 const MAX_MORPH_RADIUS = 4096;
 
-export { COMBINE_RULES, MAX_MORPH_RADIUS };
+const CROSS_STEPS: readonly (readonly [number, number])[] = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+const SQUARE_STEPS: readonly (readonly [number, number])[] = [...CROSS_STEPS, [1, 1], [1, -1], [-1, 1], [-1, -1]];
+
+const SMOOTH_KEEP = 2;
+
+const SMOOTH_FILL = 3;
+
+export { COMBINE_RULES, CROSS_STEPS, MAX_MORPH_RADIUS, SMOOTH_FILL, SMOOTH_KEEP, SQUARE_STEPS };

@@ -1,14 +1,15 @@
 /* @layer renderer-app @kind test */
-import { PRESETS, programKey } from '@bxel/mcp';
+import { PRESETS } from '@bxel/mcp';
 import type { Grant } from '@bxel/mcp';
 import { ToolListChangedNotificationSchema } from '@modelcontextprotocol/sdk/types.js';
 import { describe, expect, test } from 'vitest';
 import { callMcp } from './support/call-mcp';
 import { createMcpSprite } from './support/create-mcp-sprite';
-import { MCP_CLIENT_NAME, MCP_DRAWN, MCP_TOOL_COUNT } from './support/mcp.constants';
+import { MCP_DRAWN, MCP_TOOL_COUNT } from './support/mcp.constants';
 import type { DrawnSprite, McpRig } from './support/mcp-rig.type';
 import { openMcpRig } from './support/open-mcp-rig';
 import { patchStep } from './support/patch-step';
+import { pushGrant } from './support/push-grant';
 import { useRig } from './support/use-rig';
 
 const held: { sprite?: DrawnSprite; changes: number } = { changes: 0 };
@@ -27,9 +28,6 @@ const narrowed: Grant = {
   bundles: { ...PRESETS.edit_documents.grant.bundles, sheets_sprites: 'read', files_saving: 'read' },
   tools: { get_animation: 'disabled' },
 };
-
-const pushGrant = ({ session }: McpRig, grant: Grant): Promise<unknown> =>
-  session.page.evaluate(`window.api.assistantSyncGrants(${JSON.stringify([{ key: programKey(MCP_CLIENT_NAME), grant }])})`);
 
 const namesOf = async ({ link }: McpRig): Promise<string[]> => (await link.client.listTools()).tools.map((tool) => tool.name);
 

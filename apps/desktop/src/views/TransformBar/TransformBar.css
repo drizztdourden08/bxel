@@ -1,0 +1,30 @@
+/* @layer renderer-app @kind style */
+.transform-bar {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.transform-bar__number {
+  flex: none;
+  inline-size: var(--size-96);
+}
+
+.transform-bar__angle {
+  flex: none;
+  inline-size: var(--size-160);
+}
+
+.transform-bar__method {
+  flex: none;
+  inline-size: var(--size-128);
+}
+
+.transform-bar__note {
+  min-inline-size: 0;
+  color: var(--c-text-dim);
+}
+
+.transform-bar__end {
+  margin-inline-start: auto;
+}

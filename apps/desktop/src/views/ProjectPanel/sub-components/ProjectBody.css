@@ -1,0 +1,8 @@
+/* @layer renderer-app @kind style */
+.project-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-block-size: var(--size-96);
+  min-inline-size: 0;
+}
