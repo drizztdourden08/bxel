@@ -34,6 +34,16 @@ const TOOL_NAME = {
   getSettings: 'get_settings',
   setSetting: 'set_setting',
   restartBxel: 'restart_bxel',
+  findReferences: 'find_references',
+  projectHealth: 'project_health',
+  repairLinks: 'repair_links',
+  organise: 'organise',
+  moveFiles: 'move_files',
+  renameFile: 'rename_file',
+  createFolder: 'create_folder',
+  trashFiles: 'trash_files',
+  duplicateFile: 'duplicate_file',
+  importFiles: 'import_files',
 } as const;
 
 const TOOLS_WITHOUT_SESSION: readonly string[] = [TOOL_NAME.startBxel];

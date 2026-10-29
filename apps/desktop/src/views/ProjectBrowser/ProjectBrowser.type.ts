@@ -4,8 +4,9 @@ import type { BrowserModel } from '../../project-browser/browser-model.type';
 import type { OpenProject } from '../../project/project.type';
 import type { DiskProject } from '../../project-manager/project-manager.type';
 import type { ContextMenuPoint, MenuGroup, VirtualGridCellBind } from '@drizztdourden08/tessera';
-import type { DragEvent } from 'react';
+import type { DragEvent, ReactNode } from 'react';
 import type { RgbaImage } from '@bxel/formats';
+import type { OrganiseCollection } from '@bxel/project';
 import type { BrowserEntry, FolderNode, SortKey } from '../../project-browser/project-browser.type';
 
 type BrowserActions = {
@@ -22,6 +23,14 @@ type BrowserActions = {
   readonly reveal: (entry: BrowserEntry) => void;
   readonly copyPath: (entry: BrowserEntry) => void;
   readonly pin: (entries: readonly BrowserEntry[], on: boolean) => void;
+  readonly tag: (entries: readonly BrowserEntry[], typed: string) => void;
+  readonly untag: (entries: readonly BrowserEntry[], tag: string) => void;
+  readonly collect: (entries: readonly BrowserEntry[], collection: string, on: boolean) => void;
+  readonly collectInNew: (entries: readonly BrowserEntry[], name: string) => void;
+  readonly newCollection: (name: string) => void;
+  readonly deleteCollection: (collection: string) => void;
+  readonly saveFilter: (query: string) => void;
+  readonly removeFilter: (id: string) => void;
   readonly moveInto: (ids: readonly string[], folder: string) => void;
   readonly importImage: () => void;
   readonly importPalette: () => void;
@@ -37,6 +46,8 @@ type BrowserContextValue = {
   readonly thumb: number;
 };
 
+type SourceSectionProps = { readonly title: string; readonly empty?: string | undefined; readonly children?: ReactNode };
+
 type EntryProps = { readonly entry: BrowserEntry };
 
 type ProjectBrowserProps = { readonly project: OpenProject | null; readonly disk: DiskProject | null };
@@ -48,6 +59,7 @@ type MenuInput = {
   readonly picked: readonly BrowserEntry[];
   readonly actions: BrowserActions;
   readonly editable: boolean;
+  readonly collections: readonly OrganiseCollection[];
 };
 
 type FolderDrop = {
@@ -68,6 +80,8 @@ type Column = { readonly key: SortKey; readonly label: string; readonly classNam
 type Commands = Readonly<Record<string, () => void>>;
 
 type BrowserActionState = { readonly actions: BrowserActions; readonly renaming: string | null; readonly renameError: string | null };
+
+type OrganiseActions = Pick<BrowserActions, 'pin' | 'tag' | 'untag' | 'collect' | 'collectInNew' | 'newCollection' | 'deleteCollection' | 'saveFilter' | 'removeFilter'>;
 
 type ImportActions = { readonly importImage: () => void; readonly importPalette: () => void };
 
@@ -94,4 +108,4 @@ type SourceTreeProps = {
   readonly onSelect: (key: string) => void;
 };
 
-export type { SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };
+export type { OrganiseActions, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };

@@ -73,7 +73,7 @@ describe('the mode derived from a grant', () => {
 
   it('is edit when one write tool is raised above its Read bundle', () => {
     expect(modeOfGrant({ ...PRESETS.read_only.grant, tools: { save_document: 'edit' } })).toBe('edit');
-    expect(modeOfGrant({ ...PRESETS.full_control.grant, tools: { apply_edits: 'read', undo: 'read', save_document: 'read', export_document: 'read', create_document: 'read', split_legacy_file: 'read' } })).toBe('read');
+    expect(modeOfGrant({ ...PRESETS.full_control.grant, tools: { apply_edits: 'read', undo: 'read', save_document: 'read', export_document: 'read', create_document: 'read', split_legacy_file: 'read', repair_links: 'read', organise: 'read', move_files: 'read', rename_file: 'read', create_folder: 'read', trash_files: 'read', duplicate_file: 'read', import_files: 'read' } })).toBe('read');
   });
 });
 

@@ -1,10 +1,12 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, AssetKey } from '@bxel/document';
+import type { ProjectOrganise } from '@bxel/project';
 import type { AssetRow, ListedFile } from '../asset-list/asset-list.type';
 import type { BrowserEntry, BrowserFacts, BrowserQuery, Crumb, FileEntry, SourceRoot } from './project-browser.type';
 
 type BrowserModel = {
   readonly editable: boolean;
+  readonly organise: ProjectOrganise;
   readonly projectName: string;
   readonly artwork: Artwork | null;
   readonly roots: readonly SourceRoot[];
@@ -27,6 +29,7 @@ type BrowserModel = {
 
 type BrowserSource = {
   readonly live: boolean;
+  readonly organise: ProjectOrganise;
   readonly artwork: Artwork | null;
   readonly roots: readonly SourceRoot[];
   readonly rows: readonly AssetRow[];

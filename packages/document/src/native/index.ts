@@ -32,6 +32,7 @@ export { encodeSheet } from './v2/encode-sheet';
 export { encodeTilemap } from './v2/encode-tilemap';
 export { encodeTileset } from './v2/encode-tileset';
 export { readAssetManifest } from './v2/read-asset-manifest';
+export { rewriteAssetLinks } from './v2/rewrite-asset-links';
 export type * from './v2/asset-parts.type';
 export type * from './v2/opened-asset.type';
 export type * from './v2/read-asset.type';

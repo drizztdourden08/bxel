@@ -3,6 +3,7 @@ import { Box, Text } from '@drizztdourden08/tessera';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import type { BrowserEntry, FileEntry } from '../../../project-browser/project-browser.type';
 import { summaryOf } from '../../../project-browser/summary-of';
+import { PreviewTags } from './PreviewTags';
 import { ThumbBox } from './ThumbBox';
 
 const ManyPreview = ({ entries }: { readonly entries: readonly BrowserEntry[] }) => (
@@ -18,6 +19,7 @@ const ManyPreview = ({ entries }: { readonly entries: readonly BrowserEntry[] })
     <Text as="span" variant="caption" tone="muted">
       {summaryOf(entries.filter((entry): entry is FileEntry => entry.kind === 'file'))}
     </Text>
+    <PreviewTags entries={entries.filter((entry): entry is FileEntry => entry.kind === 'file')} />
   </Box>
 );
 

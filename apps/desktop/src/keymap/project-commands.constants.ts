@@ -2,6 +2,7 @@
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import { openProjectWindow } from '../config-entry/open-project-window';
+import { openProjectHealth } from '../config-entry/open-project-health';
 import { openProjectSettings } from '../config-entry/open-project-settings';
 import { closeProject } from '../project/close-project';
 import { openProject } from '../project/open-project';
@@ -54,6 +55,14 @@ const PROJECT_COMMANDS: readonly CommandDef[] = [
     group: PROJECT_GROUP,
     ...needs(hasProject, REASON.noProject),
     run: () => openProjectSettings(),
+  },
+  {
+    id: PROJECT_COMMAND.health,
+    label: PROJECT_TEXT.health,
+    icon: 'heart',
+    group: PROJECT_GROUP,
+    when: hasProject,
+    run: openProjectHealth,
   },
   {
     id: PROJECT_COMMAND.pack,

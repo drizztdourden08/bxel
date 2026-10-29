@@ -3,6 +3,7 @@ import { resolveFolders } from '@bxel/project';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
 import { toast, useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import { fileKit } from '../files/file-kit';
+import { refreshHealth } from '../project-health/refresh-health';
 import { useProjectStore } from '../stores/useProjectStore';
 import { loadProjectWorkspace } from '../workspace/load-project-workspace';
 import { askTurnOn } from './ask-turn-on';
@@ -27,6 +28,7 @@ const activateProject = async (documents: DocumentsPort, root: string, loaded: L
   if (migrated) toast(PROJECT_TEXT.migrated, { variant: 'info' });
   const kit = fileKit();
   if (kit) await loadProjectWorkspace({ ...kit, documents }, next);
+  void refreshHealth();
   void askTurnOn(manifest, root);
   return { ok: true };
 };

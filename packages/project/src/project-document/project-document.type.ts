@@ -4,7 +4,8 @@ import type { ProjectDefaults } from '../defaults/asset-defaults.type';
 import type { FolderId, ProjectId } from '../ids/id.type';
 import type { MANIFEST_FORMAT } from '../manifest/manifest.constants';
 import type { AccessLevel, ProjectFolder } from '../manifest/manifest.type';
-import type { FOLDER_ROLES, PROJECT_DOCUMENT_VERSION } from './project-document.constants';
+import type { ProjectOrganise } from './organise.type';
+import type { FOLDER_ROLES, PROJECT_DOCUMENT_VERSION, PROJECT_ORGANISE_VERSION } from './project-document.constants';
 
 type FolderRole = (typeof FOLDER_ROLES)[number];
 
@@ -23,13 +24,14 @@ type ProjectExport = { readonly scale?: number; readonly pathTemplate?: string; 
 
 type ProjectDocument = {
   readonly format: typeof MANIFEST_FORMAT;
-  readonly formatVersion: typeof PROJECT_DOCUMENT_VERSION;
+  readonly formatVersion: typeof PROJECT_DOCUMENT_VERSION | typeof PROJECT_ORGANISE_VERSION;
   readonly projectId: ProjectId;
   readonly name: string;
   readonly cover?: ProjectCover;
   readonly folders: readonly DocumentFolder[];
   readonly defaults: ProjectDefaults;
   readonly export?: ProjectExport;
+  readonly organise?: ProjectOrganise;
   readonly brushes?: readonly SavedBrush[];
   readonly assistant: AssistantScope;
 };

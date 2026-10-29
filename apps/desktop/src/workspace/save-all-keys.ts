@@ -5,6 +5,7 @@ import { baseName } from '../files/base-name';
 import { assetHash } from './asset-hash';
 import { assetName } from './asset-name';
 import { keyId } from './key-id';
+import { pathsForLinks } from './paths-for-links';
 import { referrersOf } from './referrers-of';
 import { savedHash } from './saved-hash';
 import { NAME_FALLBACK } from './workspace.constants';
@@ -17,7 +18,7 @@ const renamed = (workspace: Workspace, artwork: Artwork, key: AssetKey): boolean
 };
 
 const stale = (workspace: Workspace, artwork: Artwork, key: AssetKey): boolean =>
-  savedHash(workspace, key, new Map(workspace.saved)) !== assetHash(artwork, key, workspace.paths);
+  savedHash(workspace, key, new Map(workspace.saved)) !== assetHash(artwork, key, pathsForLinks(workspace, key, workspace.paths));
 
 const refreshed = (workspace: Workspace, artwork: Artwork, key: AssetKey): readonly AssetKey[] => {
   if (key.kind === 'project') return [];

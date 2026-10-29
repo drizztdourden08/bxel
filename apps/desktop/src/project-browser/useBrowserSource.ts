@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useMemo } from 'react';
 import { buildRows } from '../asset-list/build-rows';
+import { organiseOf } from '../organise/organise-of';
 import { diskRows } from '../project-manager/disk-rows';
 import type { DiskProject } from '../project-manager/project-manager.type';
 import type { OpenProject } from '../project/project.type';
@@ -29,9 +30,11 @@ const useBrowserSource = (project: OpenProject | null, disk: DiskProject | null)
     if (live) return buildRows({ workspace, artwork, files: tree.files });
     return disk ? diskRows(disk) : [];
   }, [live, workspace, artwork, tree.files, disk]);
-  const known = useMemo(() => (live ? factsAndKeys(artwork, rows, tabs) : { facts: new Map(rows.map((row) => [row.id, NO_FACTS] as const)), keys: NO_KEYS }), [live, artwork, rows, tabs]);
+  const organise = useMemo(() => organiseOf(live ? project.manifest : disk?.manifest), [live, project, disk]);
+  const known = useMemo(() => (live ? factsAndKeys(artwork, rows, tabs, organise) : { facts: new Map(rows.map((row) => [row.id, NO_FACTS] as const)), keys: NO_KEYS }), [live, artwork, rows, tabs, organise]);
   return {
     live,
+    organise,
     artwork: live ? artwork : null,
     roots,
     rows,

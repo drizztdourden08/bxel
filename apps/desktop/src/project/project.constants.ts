@@ -14,6 +14,7 @@ const PROJECT_COMMAND = {
   settings: 'project.settings',
   window: 'project.window',
   pack: 'project.pack',
+  health: 'project.health',
 } as const;
 
 const PROJECT_FILE_COMMAND = {
@@ -39,6 +40,8 @@ const PROJECT_TEXT = {
   recentNone: 'No recent projects',
   closeProject: 'Close project',
   settings: 'Project settings...',
+  health: 'Project health',
+  healthWith: (problems: number): string => `Project health (${problems})`,
   window: 'Project window',
   showPanel: 'Show project panel',
   pickTitle: 'Choose the project folder',

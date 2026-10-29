@@ -11,7 +11,8 @@ import { checkProjectDocument } from './check-project-document';
 import { documentFolderSchema } from './document-folder-schema';
 import { exportSchema } from './export-schema';
 import { locationPathSchema } from './location-path-schema';
-import { PROJECT_DOCUMENT_VERSION } from './project-document.constants';
+import { organiseSchema } from './organise-schema';
+import { PROJECT_DOCUMENT_VERSION, PROJECT_ORGANISE_VERSION } from './project-document.constants';
 
 const projectNameSchema = z
   .string()
@@ -21,13 +22,14 @@ const projectNameSchema = z
 const projectDocumentSchema = z
   .strictObject({
     format: z.literal(MANIFEST_FORMAT),
-    formatVersion: z.literal(PROJECT_DOCUMENT_VERSION),
+    formatVersion: z.union([z.literal(PROJECT_DOCUMENT_VERSION), z.literal(PROJECT_ORGANISE_VERSION)]),
     projectId: projectIdSchema,
     name: projectNameSchema,
     cover: z.strictObject({ folderId: folderIdSchema, path: locationPathSchema(false) }).optional(),
     folders: z.array(documentFolderSchema).min(1).max(PATH_LIMITS.maxFolders),
     defaults: defaultsSchema.default({}),
     export: exportSchema.optional(),
+    organise: organiseSchema.optional(),
     brushes: z.array(customBrushSchema).max(MAX_BRUSHES).optional(),
     assistant: z.strictObject({
       access: z.enum(ACCESS_LEVELS),

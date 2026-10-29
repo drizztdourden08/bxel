@@ -17,6 +17,7 @@ const workspaceOf = (documentId: DocumentId, seed: WorkspaceSeed): Workspace => 
   legacy: seed.legacy,
   migration: seed.migration ?? null,
   steps: { undo: [], redo: [] },
+  unlinked: new Map(),
 });
 
 export { workspaceOf };

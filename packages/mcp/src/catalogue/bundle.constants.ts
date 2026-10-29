@@ -9,6 +9,7 @@ const BUNDLES = [
   { id: 'animation', label: 'Animation', description: 'Edit animations and tags.', document: true },
   { id: 'sheets_sprites', label: 'Sheets and sprites', description: 'Edit sheets and sprites.', document: true },
   { id: 'tilemaps', label: 'Tilemaps', description: 'Edit maps, tiles, tilemaps and tilesets.', document: true },
+  { id: 'project_files', label: 'Project files', description: 'Find references and check project health; move, rename and trash files with their links kept; repair links; tag, pin and collect files.', document: true },
   { id: 'files_saving', label: 'Files and saving', description: 'Create, save and export documents; split legacy files.', document: true },
   { id: 'app_control', label: 'App control', description: 'Run commands and change the view in the owner window.', document: false },
   { id: 'layout', label: 'Layout', description: 'Show, hide and move widgets and toolbars.', document: false },

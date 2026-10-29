@@ -15,6 +15,7 @@ import { startNewAsset } from '../../../project/start-new-asset';
 import type { BrowserActions, BrowserActionState } from '../ProjectBrowser.type';
 import { trashSelection } from './trash-selection';
 import { useImportActions } from './useImportActions';
+import { useOrganiseActions } from './useOrganiseActions';
 import { useRenameFlow } from './useRenameFlow';
 
 const filesOf = (entries: readonly BrowserEntry[]): FileEntry[] => entries.filter((entry): entry is FileEntry => entry.kind === 'file');
@@ -31,6 +32,7 @@ const openEntry = (entry: BrowserEntry): void => {
 const useBrowserActions = (model: BrowserModel): BrowserActionState => {
   const rename = useRenameFlow(model.folder);
   const imports = useImportActions();
+  const organise = useOrganiseActions();
   const { folder, entries } = model;
 
   const actions = useMemo<BrowserActions>(
@@ -57,7 +59,7 @@ const useBrowserActions = (model: BrowserModel): BrowserActionState => {
       },
       reveal: (entry) => revealRow({ path: pathOfEntry(entry) }),
       copyPath: (entry) => void copyPath(pathOfEntry(entry)),
-      pin: (picked, on) => useBrowserStore.getState().setPinned(filesOf(picked).map((entry) => entry.id), on),
+      ...organise,
       moveInto: (ids, target) => {
         const wanted = new Set(ids);
         void moveEntries(entries.filter((entry) => wanted.has(entry.id)).map(pathOfEntry).filter((path) => path !== ''), target);
@@ -66,7 +68,7 @@ const useBrowserActions = (model: BrowserModel): BrowserActionState => {
       importPalette: imports.importPalette,
       filterBy: (text) => useBrowserStore.getState().setQuery(text),
     }),
-    [rename.startRename, rename.commitRename, rename.cancelRename, rename.newFolder, imports.importImage, imports.importPalette, folder, entries],
+    [rename.startRename, rename.commitRename, rename.cancelRename, rename.newFolder, imports.importImage, imports.importPalette, organise, folder, entries],
   );
 
   return { actions, renaming: rename.renaming, renameError: rename.renameError };

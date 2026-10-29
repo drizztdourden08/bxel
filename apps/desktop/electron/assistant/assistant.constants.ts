@@ -42,12 +42,22 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   get_settings: read,
   set_setting: edit,
   restart_bxel: saveExport,
+  find_references: read,
+  project_health: read,
+  repair_links: edit,
+  organise: edit,
+  move_files: saveExport,
+  rename_file: saveExport,
+  create_folder: edit,
+  trash_files: saveExport,
+  duplicate_file: saveExport,
+  import_files: saveExport,
 };
 
 const NATIVE_PAIR_TEXT = {
   title: 'A program wants to use Bxel',
   message: (program: string) => `${program} started Bxel without a window and wants to use it. Programs report their own name, and Bxel cannot check it.`,
-  detail: 'Read only lets it look at documents, read pixels and preview edits. It cannot change or save anything. Enter, Esc and closing this box all choose read only. Allow editing lets it change, save and export your files. Full control also lets it change the layout and settings. Only those buttons give more than read only.',
+  detail: 'Read only lets it look at documents, read pixels and preview edits. It cannot change or save anything. Enter, Esc and closing this box all choose read only. Allow editing lets it change, save and export your files. Full control also lets it move, rename, trash and import project files, and change the layout and settings. Only those buttons give more than read only.',
   readLabel: 'Allow read only',
   editLabel: 'Allow editing',
   fullLabel: 'Full control',

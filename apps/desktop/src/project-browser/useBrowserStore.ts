@@ -29,10 +29,6 @@ const useBrowserStore = create<BrowserState>()((set) => ({
   setSize: (size) => set({ size }),
   setSort: (sort) => set({ sort }),
   togglePreview: () => set((state) => ({ preview: !state.preview })),
-  setPinned: (ids, on) =>
-    set((state) => ({ pinned: on ? [...new Set([...state.pinned, ...ids])] : state.pinned.filter((each) => !ids.includes(each)) })),
-  addSmart: (name, query) => set((state) => ({ smart: [...state.smart, { id: `smart:${Date.now().toString(36)}`, name, query }] })),
-  removeSmart: (id) => set((state) => ({ smart: state.smart.filter((each) => each.id !== id) })),
   load: (saved) => set({ ...saved, query: '', selection: EMPTY_SELECTION, past: [], future: [] }),
   reveal: (folder, id) => set((state) => ({ folder, query: '', selection: { ids: [id], anchor: id }, past: [...state.past, state.folder].slice(-50), future: [] })),
 }));

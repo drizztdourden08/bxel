@@ -7,10 +7,10 @@ import { useBrowserContext } from '../behavior/useBrowserContext';
 const without = (text: string, token: string): string => text.split(/\s+/).filter((each) => each !== '' && each !== token).join(' ');
 
 const SearchBar = () => {
-  const { model } = useBrowserContext();
+  const { model, actions } = useBrowserContext();
   const query = useBrowserStore((state) => state.query);
   const setQuery = useBrowserStore((state) => state.setQuery);
-  const saved = useBrowserStore((state) => state.smart).find((filter) => filter.query === query);
+  const saved = model.organise.smart.find((filter) => filter.query === query.trim());
   return (
     <Box className="browser-search">
       <SearchInput value={query} onChange={setQuery} placeholder={BROWSER_TEXT.searchPlaceholder} aria-label={BROWSER_TEXT.searchLabel} title={BROWSER_TEXT.searchHelp} />
@@ -22,12 +22,12 @@ const SearchBar = () => {
             </Tag>
           ))}
           {model.editable && saved === undefined && (
-            <Button size="sm" variant="ghost" onClick={() => useBrowserStore.getState().addSmart(query.trim(), query.trim())}>
+            <Button size="sm" variant="ghost" onClick={() => actions.saveFilter(query.trim())}>
               {BROWSER_TEXT.saveFilter}
             </Button>
           )}
           {saved !== undefined && (
-            <Button size="sm" variant="ghost" onClick={() => useBrowserStore.getState().removeSmart(saved.id)}>
+            <Button size="sm" variant="ghost" onClick={() => actions.removeFilter(saved.id)}>
               {BROWSER_TEXT.removeFilter(saved.name)}
             </Button>
           )}

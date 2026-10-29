@@ -39,6 +39,16 @@ const MCP_ROUTE = {
   getSettings: 'bxel:mcp:get_settings',
   setSetting: 'bxel:mcp:set_setting',
   restartBxel: 'bxel:mcp:restart_bxel',
+  findReferences: 'bxel:mcp:find_references',
+  projectHealth: 'bxel:mcp:project_health',
+  repairLinks: 'bxel:mcp:repair_links',
+  organise: 'bxel:mcp:organise',
+  moveFiles: 'bxel:mcp:move_files',
+  renameFile: 'bxel:mcp:rename_file',
+  createFolder: 'bxel:mcp:create_folder',
+  trashFiles: 'bxel:mcp:trash_files',
+  duplicateFile: 'bxel:mcp:duplicate_file',
+  importFiles: 'bxel:mcp:import_files',
 } as const;
 
 const MCP_EVENT = {
@@ -79,6 +89,16 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   get_settings: MCP_ROUTE.getSettings,
   set_setting: MCP_ROUTE.setSetting,
   restart_bxel: MCP_ROUTE.restartBxel,
+  find_references: MCP_ROUTE.findReferences,
+  project_health: MCP_ROUTE.projectHealth,
+  repair_links: MCP_ROUTE.repairLinks,
+  organise: MCP_ROUTE.organise,
+  move_files: MCP_ROUTE.moveFiles,
+  rename_file: MCP_ROUTE.renameFile,
+  create_folder: MCP_ROUTE.createFolder,
+  trash_files: MCP_ROUTE.trashFiles,
+  duplicate_file: MCP_ROUTE.duplicateFile,
+  import_files: MCP_ROUTE.importFiles,
 };
 
 const MCP_ASK = {

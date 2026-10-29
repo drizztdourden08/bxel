@@ -61,6 +61,8 @@ const rowFacts = (artwork: Artwork, key: AssetKey, open: boolean): BrowserFacts 
   uses: namesOf(artwork, linkedKeys(artwork, key)),
   usedBy: namesOf(artwork, referrersOf(artwork, key)),
   open,
+  tags: [],
+  collections: [],
 });
 
 export { rowFacts };

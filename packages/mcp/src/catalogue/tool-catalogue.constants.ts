@@ -46,6 +46,16 @@ const TOOL_CATALOGUE: Readonly<Record<ToolName, ToolEntry>> = {
   get_settings: read('settings'),
   set_setting: write('settings'),
   restart_bxel: { bundle: 'session', kind: 'write', special: 'mayRestart' },
+  find_references: read('project_files'),
+  project_health: read('project_files'),
+  repair_links: write('project_files'),
+  organise: write('project_files'),
+  move_files: write('project_files'),
+  rename_file: write('project_files'),
+  create_folder: write('project_files'),
+  trash_files: write('project_files'),
+  duplicate_file: write('project_files'),
+  import_files: write('project_files'),
 };
 
 export { TOOL_CATALOGUE };

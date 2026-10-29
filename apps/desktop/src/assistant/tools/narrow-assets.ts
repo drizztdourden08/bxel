@@ -4,6 +4,7 @@ import { sortRows } from '../../asset-list/sort-rows';
 import type { AssetRow } from '../../asset-list/asset-list.type';
 import type { OpenProject } from '../../project/project.type';
 import { locateInProject } from './locate-in-project';
+import { queryAssets } from './query-assets';
 import { usingAssets } from './using-assets';
 import type { ListAssetsInput } from './tool-input.type';
 
@@ -17,7 +18,8 @@ const inFolder = (project: OpenProject, request: ListAssetsInput) => (row: Asset
 const narrowAssets = (rows: readonly AssetRow[], project: OpenProject, request: ListAssetsInput): readonly AssetRow[] => {
   const kinds = new Set<string>(request.kinds);
   const wanted = rows.filter((row) => kinds.has(row.kind)).filter(inFolder(project, request));
-  return sortRows(usingAssets(searchRows(wanted, request.search ?? ''), rows, request.usedBy ?? null), 'name');
+  const found = usingAssets(searchRows(wanted, request.search ?? ''), rows, request.usedBy ?? null);
+  return sortRows(request.query === undefined || request.query.trim() === '' ? found : queryAssets(found, project, request.query), 'name');
 };
 
 export { narrowAssets };

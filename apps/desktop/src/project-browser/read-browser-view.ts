@@ -8,7 +8,9 @@ const readBrowserView = (raw: unknown, key: string): SavedBrowserView => {
   const record = z.record(z.string(), z.unknown()).safeParse(raw);
   const held = record.success ? record.data[key] : undefined;
   const parsed = browserViewSchema.safeParse(held ?? {});
-  return parsed.success ? parsed.data : DEFAULT_VIEW;
+  if (!parsed.success) return DEFAULT_VIEW;
+  const { view, size, sort, preview, folder } = parsed.data;
+  return { view, size, sort, preview, folder };
 };
 
 export { readBrowserView };

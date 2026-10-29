@@ -38,6 +38,16 @@ const TOOL_TEXT: Readonly<Record<ToolRowId, string>> = {
   'set_setting:project': 'Changes a setting of the open project, as its Project settings page would.',
   'set_setting:asset': 'Changes a setting of the open asset, as its Properties page would.',
   restart_bxel: 'Restarts Bxel and reconnects with the same permissions. Needs May restart Bxel.',
+  find_references: 'Finds the files that link to a file and the files it links to.',
+  project_health: 'Checks a project for broken links, unused files and other problems.',
+  repair_links: 'Rewrites link paths in project files.',
+  organise: 'Tags, pins and collects files, and keeps saved searches.',
+  move_files: 'Moves files and folders of a project and keeps their links.',
+  rename_file: 'Renames a file or folder of a project and keeps its links.',
+  create_folder: 'Makes a folder in a project.',
+  trash_files: 'Moves files of a project to the system trash.',
+  duplicate_file: 'Copies files of a project beside the originals.',
+  import_files: 'Turns image and palette files of a project into assets.',
 };
 
 const LEVEL_NAME: Readonly<Record<Level, string>> = { disabled: 'Disabled', read: 'Read', edit: 'Edit' };

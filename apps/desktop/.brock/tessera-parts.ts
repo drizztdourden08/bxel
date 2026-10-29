@@ -58,6 +58,7 @@ declare module '@drizztdourden08/tessera' {
         | 'ProjectBrowser'
         | 'ProjectControl'
         | 'ProjectCreateDialog'
+        | 'ProjectHealth'
         | 'ProjectList'
         | 'ProjectPanel'
         | 'RampBuilderDialog'

@@ -20,6 +20,7 @@ const FILE_OPS_TEXT = {
   trashed: (count: number, name: string): string => (count === 1 ? `Moved ${name} to the trash.` : `Moved ${count} files to the trash.`),
   folderExists: (name: string): string => `A folder named ${name} is already there.`,
   newFolder: 'New folder',
+  trashLabel: 'Move to the trash',
 } as const;
 
 export { FILE_OPS_TEXT };

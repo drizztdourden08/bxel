@@ -31,6 +31,17 @@ import { setSetting } from './tools/set-setting';
 import { setView } from './tools/set-view';
 import { splitLegacyFile } from './tools/split-legacy-file';
 import { undo } from './tools/undo';
+import { duplicateFile } from './tools/duplicate-file';
+import { importFiles } from './tools/import-files';
+import { createFolder } from './tools/create-folder';
+import { findReferences } from './tools/find-references';
+import { moveFiles } from './tools/move-files';
+import { organise } from './tools/organise';
+import { projectHealth } from './tools/project-health';
+import { renameFile } from './tools/rename-file';
+import { repairLinks } from './tools/repair-links';
+import { trashFiles } from './tools/trash-files';
+
 
 const RAW_HANDLERS: ToolHandlers = {
   get_session: getSession,
@@ -63,6 +74,16 @@ const RAW_HANDLERS: ToolHandlers = {
   set_layout: setLayout,
   get_settings: getSettings,
   set_setting: setSetting,
+  find_references: findReferences,
+  project_health: projectHealth,
+  repair_links: repairLinks,
+  organise,
+  move_files: moveFiles,
+  rename_file: renameFile,
+  create_folder: createFolder,
+  trash_files: trashFiles,
+  duplicate_file: duplicateFile,
+  import_files: importFiles,
 };
 
 const TOOL_HANDLERS: ToolHandlers = guardHandlers(RAW_HANDLERS);

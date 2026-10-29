@@ -16,7 +16,7 @@ const fileEntry = (row: AssetRow, input: EntryInput): FileEntry => ({
   id: row.id,
   row,
   facts: input.facts.get(row.id) ?? NO_FACTS,
-  pinned: input.pinned.has(row.id),
+  pinned: row.assetId !== null && input.pinned.has(row.assetId),
   key: input.keys.get(row.id) ?? null,
 });
 

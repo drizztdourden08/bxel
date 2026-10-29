@@ -2,6 +2,7 @@
 import type { Artwork } from '@bxel/document';
 import { assetHash } from './asset-hash';
 import { keyId } from './key-id';
+import { pathsForLinks } from './paths-for-links';
 import type { SavedAssets, Workspace } from './workspace.type';
 
 const settledPaths = (workspace: Workspace, result: SavedAssets): Map<string, string> => {
@@ -17,7 +18,7 @@ const settleSaved = (workspace: Workspace, current: Artwork, result: SavedAssets
   const written = new Set(result.written.map((each) => keyId(each.key)));
   for (const { key, hash } of result.written) {
     saved.set(keyId(key), hash);
-    const unchanged = current === result.artwork || assetHash(current, key, result.paths) === hash;
+    const unchanged = current === result.artwork || assetHash(current, key, pathsForLinks(workspace, key, result.paths)) === hash;
     if (unchanged) dirty.delete(keyId(key));
     else dirty.add(keyId(key));
   }

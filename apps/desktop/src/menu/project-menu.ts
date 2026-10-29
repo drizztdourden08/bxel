@@ -16,7 +16,7 @@ const recentEntries = (recent: readonly RecentProject[], open: (root: string) =>
         onClick: () => open(entry.rootRealPath),
       }));
 
-const projectMenu = (recent: readonly RecentProject[], isOpen: boolean, open: (root: string) => void): MenuItem => {
+const projectMenu = (recent: readonly RecentProject[], isOpen: boolean, open: (root: string) => void, problems = 0): MenuItem => {
   const closed = { disabled: !isOpen, ...(isOpen ? {} : { description: REASON.noProject }) };
   return {
   key: 'project',
@@ -30,6 +30,7 @@ const projectMenu = (recent: readonly RecentProject[], isOpen: boolean, open: (r
     menuItem(PROJECT_COMMAND.window, PROJECT_TEXT.window),
     menuItem(PROJECT_COMMAND.panel, PROJECT_TEXT.showPanel),
     menuItem(PROJECT_COMMAND.settings, PROJECT_TEXT.settings, closed),
+    menuItem(PROJECT_COMMAND.health, problems > 0 ? PROJECT_TEXT.healthWith(problems) : PROJECT_TEXT.health, closed),
     menuItem(PROJECT_COMMAND.pack, PACK_TEXT.menu, closed),
     menuItem(PROJECT_COMMAND.close, PROJECT_TEXT.closeProject, closed),
   ],
