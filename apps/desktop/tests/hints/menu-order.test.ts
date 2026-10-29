@@ -187,7 +187,7 @@ describe('the view menu', () => {
   it('lists only what the open file can use', () => {
     expect(childLabels(editorMenu(stateOf('Sh')), 'View')).toEqual(['Zoom', 'Rulers', 'Guides', 'Snap']);
     expect(childLabels(editorMenu(stateOf('Tm')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap']);
-    expect(childLabels(editorMenu(stateOf('Sp')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap', 'Symmetry', 'Tiled preview']);
+    expect(childLabels(editorMenu(stateOf('Sp')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap', 'Slices', 'Symmetry', 'Tiled preview']);
     expect(childLabels(editorMenu(stateOf('Im')), 'View')).toEqual(['Zoom', 'Grid']);
   });
 });

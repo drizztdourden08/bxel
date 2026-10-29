@@ -8,12 +8,12 @@ import { beginSliceDrag } from '../../../slice/begin-slice-drag';
 import { extendSliceDrag } from '../../../slice/extend-slice-drag';
 import { finishSliceDrag } from '../../../slice/finish-slice-drag';
 import { sliceAt } from '../../../slice/slice-at';
+import { sliceDoubleClick } from '../../../slice/slice-double-click';
 import { sliceDraft } from '../../../slice/slice-draft';
 import { useSliceToolStore } from '../../../stores/useSliceToolStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import type { SelectGesture } from './canvas-tools.type';
-import { DOUBLE_CLICK } from './useSliceGesture.constants';
 
 const useSliceGesture = (viewport: RefObject<PixelViewportHandle | null>): SelectGesture => {
   const held = useRef(false);
@@ -25,7 +25,7 @@ const useSliceGesture = (viewport: RefObject<PixelViewportHandle | null>): Selec
       if (useToolStore.getState().tool !== 'slice' || event.button !== PRIMARY_BUTTON || !handle || !target) return false;
       const raw = rawAt(event);
       const hit = sliceAt(raw);
-      if (event.detail >= DOUBLE_CLICK && hit) {
+      if (hit && sliceDoubleClick(hit, event.timeStamp)) {
         useSliceToolStore.getState().openDialog(hit.id);
         return true;
       }

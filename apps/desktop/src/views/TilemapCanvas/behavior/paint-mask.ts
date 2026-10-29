@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Rect } from '@bxel/document';
 import type { PixelView } from '../../PixelViewport';
-import { SHADE_ALPHA } from '../TilemapCanvas.constants';
+import { CURSOR_LINE, HALO, SHADE_ALPHA } from '../TilemapCanvas.constants';
 import type { BoxStyle, MapPaintState } from '../TilemapCanvas.type';
 import { applyStroke } from './apply-stroke';
 import { paintRegion } from './paint-region';
@@ -37,6 +37,10 @@ const paintMask = (ctx: CanvasRenderingContext2D, view: PixelView, state: MapPai
       if (!has(column + 1, row)) edge(ctx, [left + w, top], [left + w, top + h]);
     }
   }
+  ctx.globalAlpha = 1;
+  ctx.strokeStyle = HALO;
+  ctx.lineWidth = (2 * CURSOR_LINE) / view.zoom;
+  ctx.stroke();
   applyStroke(ctx, view, style);
   ctx.stroke();
   ctx.restore();

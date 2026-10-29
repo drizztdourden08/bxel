@@ -14,7 +14,7 @@ const TOOLS: RuleTable = {
   ...family(['tool.select_pencil', 'tool.select_eraser', 'tool.select_fill', 'tool.select_line', 'tool.select_spray', 'tool.select_rect'], DRAW_STAGE, [DRAW, WRITE], ONLY.drawing),
   ...family(['shade', 'gradient', 'curve', 'ellipse', 'contour', 'polygon'].map((tool) => `tool.select_${tool}`), NONE_OR_PIXEL, [DRAW, WRITE], ONLY.pixels),
   ...family(['tool.select_picker', 'tool.select_select'], DRAW_STAGE, [DRAW], ONLY.drawing),
-  ...family(['tool.select_move'], NONE_OR_PIXEL, [DRAW, WRITE], ONLY.pixels),
+  ...family(['tool.select_move', 'tool.select_slice'], NONE_OR_PIXEL, [DRAW, WRITE], ONLY.pixels),
   ...family(['tool.select_zoom', 'tool.select_hand'], ZOOM_STAGE, [[hasFile, REASON.noDraw]]),
 };
 
@@ -54,7 +54,7 @@ const VIEW: RuleTable = {
   ...family(['view.zoom_in', 'view.zoom_out', 'view.zoom_fit', 'view.zoom_actual', 'view.zoom_to', 'view.zoom_selection', ...ZOOM_DIGITS], ZOOM_STAGE, [FILE]),
   ...family(['view.toggle_pixel_grid'], GRID_STAGE),
   ...family(['view.toggle_major_grid'], EDIT_STAGE),
-  ...family(['view.toggle_tile_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_slices', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
+  ...family(['view.toggle_tile_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
   ...family(['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both'], PIXEL, [], ONLY.pixels),
   ...family(['status.copy_cursor'], any(PIXEL, MAP, SHEET)),
 };
@@ -94,7 +94,7 @@ const SELECTION: RuleTable = {
   ...family(['selection.cut'], DRAW_STAGE, [DOC, WRITE, SELECTED_HERE], ONLY.drawing),
   ...family(['selection.paste', 'selection.paste_in_place'], DRAW_STAGE, [DOC, WRITE, CLIPBOARD], ONLY.drawing),
   ...family(['selection.delete'], DRAW_STAGE, [DOC, WRITE, ANY_SELECTED]),
-  ...family(['selection.by_colour'], PIXEL, [], ONLY.pixels),
+  ...family(['selection.by_colour', 'view.toggle_slices'], PIXEL, [], ONLY.pixels),
   ...family(['slice.delete_selected', 'slice.properties'], PIXEL, [WRITE], ONLY.pixels),
   ...family(['preview.apply', 'preview.cancel'], always),
 };

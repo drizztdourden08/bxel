@@ -39,7 +39,6 @@ import { invertCells } from '../tilemap/invert-cells';
 import { pasteCells } from '../tilemap/paste-cells';
 import { selectAllCells } from '../tilemap/select-all-cells';
 import { turnCells } from '../tilemap/turn-cells';
-import { sliceSelectedByTool } from '../slice/slice-selected-by-tool';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { mapOr } from './map-or';
@@ -98,7 +97,6 @@ const SELECTION_EDITS: readonly CommandDef[] = [
     chord: 'Delete',
     zone,
     whileTyping: false,
-    when: () => !sliceSelectedByTool(),
     run: mapOr(clearCells, deleteSelection),
   },
 ];

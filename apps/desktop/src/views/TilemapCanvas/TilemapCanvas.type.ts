@@ -19,7 +19,6 @@ type MapDrag =
 interface MapLive {
   hover: Point | null;
   drag: MapDrag | null;
-  captured: boolean;
 }
 
 interface MapPaintBase {

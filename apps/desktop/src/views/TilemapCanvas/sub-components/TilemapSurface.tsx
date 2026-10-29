@@ -31,7 +31,7 @@ import { feedView } from '../../../view-feed/feed-view';
 
 const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
   const viewport = useRef<PixelViewportHandle>(null);
-  const live = useRef<MapLive>({ hover: null, drag: null, captured: false });
+  const live = useRef<MapLive>({ hover: null, drag: null });
   const tool = useToolStore((state) => state.tool);
   const stamp = useTilemapStore((state) => state.stamp);
   const flags = useTilemapStore((state) => state.flags);

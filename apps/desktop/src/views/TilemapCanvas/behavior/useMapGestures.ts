@@ -31,7 +31,6 @@ const useMapGestures = (viewport: RefObject<PixelViewportHandle | null>, target:
   return {
     down: (event) => {
       if (guide.down(event) || zoom.down(event)) return;
-      live.current.captured = false;
       beginMapPress(event, { viewport, tool, target, live, cells: { here: cellAt(event), near: cellNear(event) } });
       redraw();
     },
