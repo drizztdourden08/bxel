@@ -142,6 +142,7 @@ export { sheetExtent } from './sheet/sheet-extent';
 export { sheetSizes } from './sheet/sheet-sizes';
 export * from './validate';
 export { celClearSchema } from './schema/cel-clear-schema';
+export { customBrushSchema } from './schema/custom-brush-schema';
 export { celSlotSchema } from './schema/cel-slot-schema';
 export { celTransferSchema } from './schema/cel-transfer-schema';
 export { celUnlinkSchema } from './schema/cel-unlink-schema';

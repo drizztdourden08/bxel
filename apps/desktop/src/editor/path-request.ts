@@ -10,7 +10,8 @@ const shapeOptions = (session: PathSession) => {
   const [first, second] = session.vertices;
   const hover = session.hover;
   if (session.tool === 'curve') {
-    return { shape: 'curve', from: first ?? hover, control: hover, to: second ?? hover, pixelPerfect: session.spec.pixelPerfect };
+    const bend = session.handle ? { control: session.handle, control2: hover } : { control: hover };
+    return { shape: 'curve', from: first ?? hover, ...bend, to: second ?? hover, pixelPerfect: session.spec.pixelPerfect };
   }
   return {
     shape: session.tool,

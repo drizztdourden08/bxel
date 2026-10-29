@@ -7,7 +7,8 @@ const middle = (first: Point, second: Point): Point => ({ x: Math.round((first.x
 const pathPoints = (session: PathSession): Point[] => {
   const [first = session.hover, second = session.hover] = session.vertices;
   if (session.tool === 'curve') {
-    return session.phase === 'draw' ? [first, middle(first, session.hover), session.hover] : [first, session.hover, second];
+    if (session.phase === 'draw') return [first, middle(first, session.hover), session.hover];
+    return session.handle ? [first, session.handle, session.hover, second] : [first, session.hover, second];
   }
   return session.tool === 'polygon' ? [...session.vertices, session.hover] : session.vertices;
 };

@@ -7,6 +7,7 @@ import { pixelsFlip } from './pixels-flip';
 import { pixelsGradient } from './pixels-gradient';
 import { pixelsMove } from './pixels-move';
 import { pixelsPaint } from './pixels-paint';
+import { pixelsOutline } from './pixels-outline';
 import { pixelsPlot } from './pixels-plot';
 import { pixelsReplace } from './pixels-replace';
 import { pixelsRotate } from './pixels-rotate';
@@ -40,6 +41,7 @@ const rasterCommands: readonly CommandDef[] = [
   pixelsGradient,
   pixelsStamp,
   pixelsPlot,
+  pixelsOutline,
   pixelsClear,
   pixelsMove,
   pixelsScale,

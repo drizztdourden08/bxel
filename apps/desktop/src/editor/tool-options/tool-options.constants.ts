@@ -10,6 +10,8 @@ const OPTION_TEXT = {
   sizeDescription: 'How many pixels wide the brush is.',
   tip: 'Brush tip',
   tipDescription: 'The shape of the brush.',
+  angle: 'Line angle',
+  angleDescription: 'The angle of the line brush: 0 across, 45 climbing to the right, 90 down, 135 falling to the right.',
   pixelPerfect: 'Pixel perfect',
   pixelPerfectDescription: 'Drop the extra corner pixels that make a freehand line look thick.',
   fillArea: 'Fill area',
@@ -52,7 +54,15 @@ const OPTION_TEXT = {
 const BRUSH_TIP_CHOICES: readonly OptionChoice[] = [
   { value: 'square', label: 'Square', description: 'Paint with a square brush tip.', icon: 'pixel-brush-square' },
   { value: 'circle', label: 'Circle', description: 'Paint with a round brush tip.', icon: 'pixel-brush-circle' },
+  { value: 'line', label: 'Line', description: 'Paint with a one pixel line at an angle. The size is its length.', icon: 'pixel-shape-line' },
 ];
+
+const BRUSH_ANGLE_CHOICES: readonly OptionChoice[] = ['0', '45', '90', '135'].map((value) => ({
+  value,
+  label: `Line angle ${value} degrees`,
+  description: 'The angle of the line brush. 0 is across, 90 is down, 45 climbs to the right.',
+  glyph: value,
+}));
 
 const FILL_AREA_CHOICES: readonly OptionChoice[] = FILL_MODES.map((mode) => ({
   value: mode,
@@ -83,4 +93,4 @@ const SELECT_MODE_CHOICES: readonly OptionChoice[] = SELECT_MODES.map((mode) => 
   keys: MODE_KEYS[mode].length > 0 ? MODE_KEYS[mode] : undefined,
 }));
 
-export { BRUSH_TIP_CHOICES, FILL_AREA_CHOICES, NEIGHBOUR_CHOICES, OPTION_TEXT, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES };
+export { BRUSH_ANGLE_CHOICES, BRUSH_TIP_CHOICES, FILL_AREA_CHOICES, NEIGHBOUR_CHOICES, OPTION_TEXT, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES };

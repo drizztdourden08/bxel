@@ -27,6 +27,7 @@ const useToolStore = create<ToolState>()((set) => ({
   setBrushSize: (size) => set({ brushSize: clampBrushSize(size) }),
   stepBrushSize: (delta) => set((state) => ({ brushSize: clampBrushSize(state.brushSize + delta) })),
   setBrushShape: (brushShape) => set({ brushShape }),
+  setBrushAngle: (brushAngle) => set({ brushAngle }),
   setPixelPerfect: (pixelPerfect) => set({ pixelPerfect }),
   setFillMode: (fillMode) => set({ fillMode }),
   setConnectivity: (connectivity) => set({ connectivity }),

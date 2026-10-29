@@ -18,6 +18,7 @@ const pixelsShapeSchema = z.discriminatedUnion('shape', [
     shape: z.literal('curve'),
     from: pointSchema,
     control: pointSchema,
+    control2: pointSchema.optional(),
     to: pointSchema,
     pixelPerfect: z.boolean().optional(),
     ...shapeFields,

@@ -6,7 +6,7 @@ import { paintParts } from './paint-parts';
 import type { ShapeInput } from './shape-spec.type';
 
 const shapeSpec = ({ tools, drawing, target, size, shape, slot, at }: ShapeInput): ShapeSpec => {
-  const choice = inkOf(slot, tools, drawing);
+  const choice = inkOf(slot, tools, drawing, at);
   const filled = shape !== 'line' && drawing.filled[shape];
   return {
     shape,

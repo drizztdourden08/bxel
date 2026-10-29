@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { BrushShape } from '@bxel/raster';
+import { BRUSH_ANGLES } from '@bxel/raster';
+import type { BrushAngle, BrushShape } from '@bxel/raster';
 import { TOOL_DEFAULTS } from '../../stores/tool-store.constants';
 import type { ToolSettings } from '../../stores/tool-store.type';
 import type { ToolId } from '../tool.type';
@@ -9,12 +10,14 @@ import type { OptionValue } from './tool-options.type';
 
 const numberOf = (value: OptionValue | undefined, otherwise: number): number => (typeof value === 'number' ? value : otherwise);
 
-const tipOf = (value: OptionValue | undefined): BrushShape => (value === 'circle' ? 'circle' : TOOL_DEFAULTS.brushShape);
+const tipOf = (value: OptionValue | undefined): BrushShape => (value === 'circle' || value === 'line' ? value : TOOL_DEFAULTS.brushShape);
+
+const angleOf = (value: OptionValue | undefined): BrushAngle => BRUSH_ANGLES.find((angle) => angle === value) ?? TOOL_DEFAULTS.brushAngle;
 
 const loadBrush = (tool: ToolId, memory: Readonly<Record<string, OptionValue>>): Partial<ToolSettings> => {
   if (!BRUSH_TOOLS.includes(tool)) return {};
   const keys = brushKeys(tool);
-  const brush = { brushSize: numberOf(memory[keys.size], TOOL_DEFAULTS.brushSize), brushShape: tipOf(memory[keys.tip]) };
+  const brush = { brushSize: numberOf(memory[keys.size], TOOL_DEFAULTS.brushSize), brushShape: tipOf(memory[keys.tip]), brushAngle: angleOf(memory[keys.angle]) };
   return WITH_PERFECT.includes(tool) ? { ...brush, pixelPerfect: memory[keys.perfect] === true } : brush;
 };
 

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS } from '../../keymap/drawing-command-id.constants';
+import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
 import { always, any, canRedo, canUndo, file, hasDocument, hasFile, isolated, never, not, projectOpen } from '../predicates.constants';
 import { ONLY, REASON } from '../reasons.constants';
 import { rule } from '../rule';
@@ -36,7 +36,8 @@ const OPTIONS: RuleTable = {
   ),
   ...family(['brush.size_down_by_four', 'brush.size_up_by_four'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
   ...family(['options.focus', 'options.open'], EDIT_STAGE),
-  ...family([...DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection), ...DRAWING_OPTION_COMMAND_IDS], PIXEL, [DOC], ONLY.pixels),
+  ...family([...DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection && !OUTLINE_ACTIONS.includes(id)), ...DRAWING_OPTION_COMMAND_IDS], PIXEL, [DOC], ONLY.pixels),
+  ...family(OUTLINE_ACTIONS, PIXEL, [DOC, WRITE], ONLY.pixels),
   ...family([DRAWING_COMMAND.brushFromSelection], PIXEL, [DOC, WRITE, PIXELS_SELECTED], ONLY.pixels),
 };
 

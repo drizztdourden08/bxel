@@ -19,7 +19,7 @@ const TOOL_ID_VALUES = [
   'pencil', 'eraser', 'spray', 'fill', 'gradient', 'picker', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon', 'zoom', 'hand', 'select', 'move',
 ] as const;
 
-const INK_VALUES = ['normal', 'behind', 'lockAlpha', 'onlyColour', 'dither', 'shade', 'lighten', 'darken'] as const;
+const INK_VALUES = ['normal', 'behind', 'lockAlpha', 'onlyColour', 'dither', 'shade', 'lighten', 'darken', 'pattern'] as const;
 
 const TILED_VALUES = ['off', 'x', 'y', 'both'] as const;
 
@@ -94,7 +94,8 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       options: z
         .strictObject({
           brushSize: z.number().int().min(1).max(64).optional(),
-          brushShape: z.enum(['square', 'circle']).optional(),
+          brushShape: z.enum(['square', 'circle', 'line']).optional(),
+          brushAngle: z.union([z.literal(0), z.literal(45), z.literal(90), z.literal(135)]).optional().describe('The angle of the line brush.'),
           pixelPerfect: z.boolean().optional(),
           fillMode: z.enum(['contiguous', 'global']).optional(),
           connectivity: z.union([z.literal(4), z.literal(8)]).optional(),

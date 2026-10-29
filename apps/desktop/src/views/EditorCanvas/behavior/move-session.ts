@@ -7,8 +7,10 @@ import { hoverPath } from '../../../editor/hover-path';
 import { moveSpray } from '../../../editor/move-spray';
 import { updateGradient } from '../../../editor/update-gradient';
 import { updateShape } from '../../../editor/update-shape';
+import { useDrawingStore } from '../../../stores/useDrawingStore';
 import { useGestureStore } from '../../../stores/useGestureStore';
 import { gestureMods } from './gesture-mods';
+import { penPressure } from './pen-pressure';
 
 const moveSession = (session: PaintSession, at: Point, event: PointerEvent<HTMLElement>): void => {
   const hint = useGestureStore.getState();
@@ -28,7 +30,7 @@ const moveSession = (session: PaintSession, at: Point, event: PointerEvent<HTMLE
       hint.setHint(session.label);
       return;
     case 'spray':
-      moveSpray(session, at);
+      moveSpray(session, at, useDrawingStore.getState().sprayPressure ? penPressure(event) : 1);
       break;
   }
 };

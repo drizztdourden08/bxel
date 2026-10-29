@@ -30,4 +30,7 @@ const inkTable = (bank: PaletteBank, ink: Ink | undefined): Uint8Array | null =>
   return slots ? shadeTable({ slots, direction: ink.direction, steps: ink.steps }) : null;
 };
 
-export { inkTable };
+/** One step darker along the ramp of every colour that sits on one. */
+const darkerTable = (bank: PaletteBank): Uint8Array => autoTable(bank, 'down', 1);
+
+export { darkerTable, inkTable };

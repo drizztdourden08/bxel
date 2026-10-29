@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { BundleId } from '@bxel/mcp';
 import { OPTION_COMMAND, TOOL_COMMAND } from '../../keymap/option-command-id.constants';
-import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_TOOL_IDS } from '../../keymap/drawing-command-id.constants';
+import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_TOOL_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
 import { OPTION_VALUE_COMMAND_IDS } from '../../keymap/option-commands.constants';
 import type { CommandEffect, ManifestEntry, ManifestExtra } from './manifest.type';
 
@@ -26,7 +26,8 @@ const VIEW_ROWS = [
   ...rows('app_control', 'app', ['tab.move_left', 'tab.move_right'], { args: 'tab' }),
   ...rows('app_control', 'app', ['tool.select_pencil', 'tool.select_eraser', 'tool.select_fill', 'tool.select_picker']),
   ...rows('app_control', 'app', DRAWING_TOOL_IDS.map((tool) => `tool.select_${tool}`)),
-  ...rows('app_control', 'app', DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection)),
+  ...rows('app_control', 'app', DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection && !OUTLINE_ACTIONS.includes(id))),
+  ...rows('edit_pixels', 'edit', OUTLINE_ACTIONS),
   one(DRAWING_COMMAND.brushFromSelection, 'edit_pixels', 'edit'),
   ...rows('app_control', 'app', ['tool.select_zoom', 'tool.select_hand', 'tool.select_select', 'tool.select_move', 'brush.smaller', 'brush.larger']),
   ...rows('app_control', 'app', OPTION_VALUE_COMMAND_IDS, { args: 'optionValue' }),

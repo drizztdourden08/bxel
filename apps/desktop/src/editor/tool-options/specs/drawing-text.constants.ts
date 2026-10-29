@@ -11,12 +11,16 @@ const DRAWING_TEXT = {
   ditherLevel: 'Dither level',
   ditherLevelDescription: 'How much of the front colour the Bayer pattern keeps, 1 to 15 of 16.',
   shadeMode: 'Shade mode',
-  shadeModeDescription: 'Move along the ramp of each pixel: lighten and darken go one way, shade follows the button.',
+  shadeModeDescription: 'Lighter and Darker always move the same way along the ramp. Shade follows the button: left is lighter, right is darker.',
   shadeSteps: 'Shade steps',
-  shadeStepsDescription: 'How many ramp steps a pixel moves, 1 to 4.',
-  shadeRamp: 'Shade ramp',
-  shadeRampDescription: 'The ramp to move along. Automatic uses the ramp that holds each pixel.',
-  autoRamp: 'Automatic',
+  shadeStepsDescription: 'How many colours along the ramp a pixel moves with each pass, 1 to 4.',
+  patternAlign: 'Pattern aligned to',
+  patternAlignDescription: 'Repeat the pattern from the canvas corner, so strokes line up, or from where each stroke starts.',
+  shadeRamp: 'Move along ramp',
+  shadeRampDescription: 'A ramp is a row of palette colours from dark to light. The pixels move along the ramp you pick, and stay put when their colour is not on it.',
+  autoRamp: "Each pixel's own ramp",
+  autoRampDescription: 'Move each pixel along the ramp that holds its colour. Colours that sit on no ramp do not change.',
+  rampNamed: (name: string): string => `Move pixels along the ${name} ramp, from its darkest colour to its lightest.`,
   filled: 'Filled',
   filledDescription: 'Fill the inside of the shape. Press the tool key again to toggle.',
   fillColour: 'Fill colour',
@@ -25,6 +29,8 @@ const DRAWING_TEXT = {
   radiusDescription: 'Round the corners of rectangles, 0 to 8 pixels.',
   evenSteps: 'Even steps',
   evenStepsDescription: 'Draw lines with equal runs so there are no uneven breaks.',
+  cubic: 'Two handles',
+  cubicDescription: 'Bend the curve with two handles, for an S shape. Click once for each handle after the drag.',
   perfect: 'Pixel perfect',
   perfectDescription: 'Drop the extra corner pixels that make a line look thick.',
   pickSample: 'Pick from',
@@ -37,6 +43,10 @@ const DRAWING_TEXT = {
   sprayRadiusDescription: 'The width of the spray disc in pixels.',
   sprayDensity: 'Spray density',
   sprayDensityDescription: 'How many dots land every tick while the button is held.',
+  sprayPressure: 'Pen pressure',
+  sprayPressureDescription: 'A harder press sprays more dots. A mouse always sprays at full density.',
+  stabiliser: 'Stabiliser',
+  stabiliserDescription: 'The stroke trails the pointer by this many screen pixels, which smooths a shaky hand. 0 is off.',
   spraySeed: 'Lock seed',
   spraySeedDescription: 'Repeat the same scatter on every stroke.',
   gradientKind: 'Gradient kind',
@@ -77,6 +87,7 @@ const INK_LABELS: Readonly<Record<InkKind, string>> = {
   shade: 'Shade',
   lighten: 'Lighten',
   darken: 'Darken',
+  pattern: 'Pattern',
 };
 
 const INK_DESCRIPTIONS: Readonly<Record<InkKind, string>> = {
@@ -88,6 +99,7 @@ const INK_DESCRIPTIONS: Readonly<Record<InkKind, string>> = {
   shade: 'Move each pixel one step along its ramp. The right button goes the other way.',
   lighten: 'Move each pixel one step lighter along its ramp. The right button darkens.',
   darken: 'Move each pixel one step darker along its ramp. The right button lightens.',
+  pattern: 'Paint the custom brush as a pattern, with the colours it holds. Pick a custom brush first.',
 };
 
 const INK_CHOICES: readonly OptionChoice[] = [
@@ -99,12 +111,18 @@ const INK_CHOICES: readonly OptionChoice[] = [
   { value: 'shade', label: INK_LABELS.shade, description: INK_DESCRIPTIONS.shade, icon: 'pixel-shade' },
   { value: 'lighten', label: INK_LABELS.lighten, description: INK_DESCRIPTIONS.lighten, icon: 'pixel-brush-lighten' },
   { value: 'darken', label: INK_LABELS.darken, description: INK_DESCRIPTIONS.darken, icon: 'pixel-brush-darken' },
+  { value: 'pattern', label: INK_LABELS.pattern, description: INK_DESCRIPTIONS.pattern, icon: 'pixel-brush-custom' },
+];
+
+const PATTERN_ALIGN_CHOICES: readonly OptionChoice[] = [
+  { value: 'canvas', label: 'The canvas', description: 'The pattern repeats from the top left corner, so every stroke lines up with the last.', icon: 'pixel-grid' },
+  { value: 'start', label: 'The stroke start', description: 'The pattern starts at the first pixel of each stroke.', icon: 'pixel-brush-custom' },
 ];
 
 const SHADE_MODE_CHOICES: readonly OptionChoice[] = [
-  { value: 'shade', label: 'Shade', description: 'Left lightens up the ramp, right darkens. Pick a ramp or use the ramp of each pixel.', icon: 'pixel-shade' },
-  { value: 'lighten', label: 'Lighten', description: 'Move every pixel one step lighter along its own ramp.', icon: 'pixel-brush-lighten' },
-  { value: 'darken', label: 'Darken', description: 'Move every pixel one step darker along its own ramp.', icon: 'pixel-brush-darken' },
+  { value: 'shade', label: 'Shade', description: 'The left button moves pixels lighter along the ramp, the right button darker.', icon: 'pixel-shade' },
+  { value: 'lighten', label: 'Lighter', description: 'Always move pixels one step lighter along the ramp. The right button goes darker.', icon: 'pixel-brush-lighten' },
+  { value: 'darken', label: 'Darker', description: 'Always move pixels one step darker along the ramp. The right button goes lighter.', icon: 'pixel-brush-darken' },
 ];
 
 const DITHER_PATTERN_LABELS: Readonly<Record<DitherPattern, string>> = {
@@ -182,5 +200,5 @@ const TURN_CHOICES: readonly OptionChoice[] = ['0', '90', '180', '270'].map((val
 
 export {
   BAYER_SIZE_CHOICES, DITHER_PATTERN_CHOICES, DRAWING_TEXT, FILL_COLOUR_CHOICES, FILL_MATCH_CHOICES, FILL_SAMPLE_CHOICES, GRADIENT_KIND_CHOICES, GRADIENT_MODE_CHOICES,
-  GRADIENT_PATTERN_CHOICES, INK_CHOICES, PICK_SAMPLE_CHOICES, SHADE_MODE_CHOICES, TURN_CHOICES,
+  GRADIENT_PATTERN_CHOICES, INK_CHOICES, PATTERN_ALIGN_CHOICES, PICK_SAMPLE_CHOICES, SHADE_MODE_CHOICES, TURN_CHOICES,
 };

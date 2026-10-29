@@ -96,6 +96,7 @@ interface PathSpec {
   ink?: Ink;
   rule: InkRule | null;
   pixelPerfect: boolean;
+  cubic?: boolean;
 }
 
 type PathPhase = 'draw' | 'bend';
@@ -106,6 +107,7 @@ interface PathSession extends Overlay {
   spec: PathSpec;
   vertices: Point[];
   hover: Point;
+  handle: Point | null;
   phase: PathPhase;
 }
 
@@ -142,6 +144,7 @@ interface SpraySession extends Overlay {
   state: number;
   at: Point;
   dots: Point[];
+  pressure: number;
 }
 
 type PaintSession = StrokeSession | ShapeSession | PathSession | GradientSession | SpraySession;

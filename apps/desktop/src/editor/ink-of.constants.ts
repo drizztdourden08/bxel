@@ -22,8 +22,14 @@ const INK_BUILDERS: Readonly<Record<InkKind, InkBuilder>> = {
     direction: reversed ? 'down' : 'up',
     steps: drawing.shadeSteps,
   }),
+  pattern: ({ drawing, origin }) =>
+    drawing.brushId === null
+      ? undefined
+      : { kind: 'pattern', brushId: drawing.brushId, originX: drawing.patternAlign === 'start' ? origin.x : 0, originY: drawing.patternAlign === 'start' ? origin.y : 0 },
   lighten: ({ drawing, reversed }) => ({ kind: reversed ? 'darken' : 'lighten', steps: drawing.shadeSteps }),
   darken: ({ drawing, reversed }) => ({ kind: reversed ? 'lighten' : 'darken', steps: drawing.shadeSteps }),
 };
 
-export { INK_BUILDERS, PARTNER };
+const ORIGIN = { x: 0, y: 0 } as const;
+
+export { INK_BUILDERS, ORIGIN, PARTNER };

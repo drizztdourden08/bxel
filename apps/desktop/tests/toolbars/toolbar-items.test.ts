@@ -46,7 +46,7 @@ describe('the toolbar items', () => {
   });
 
   it('put a separator between the groups of options and none before the first', () => {
-    const specs = OPTION_SPECS.filter((spec) => spec.tool === 'pencil' && spec.surface === 'paint');
+    const specs = OPTION_SPECS.filter((spec) => spec.tool === 'pencil' && spec.surface === 'paint' && spec.appliesWhen?.() !== false);
     const joined = optionItems(specs, () => undefined);
     expect(joined[0]?.kind).not.toBe('separator');
     expect(joined.map((item) => item.id).slice(0, 3)).toEqual(['pencil.size', 'pencil.tip', 'pencil.pixel_perfect']);

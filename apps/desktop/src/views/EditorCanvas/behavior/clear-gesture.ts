@@ -7,6 +7,7 @@ import { gestureLive } from './gesture-live';
 const clearGesture = (): void => {
   if (gestureLive.timer !== null) window.clearInterval(gestureLive.timer);
   gestureLive.timer = null;
+  gestureLive.held = null;
   gestureLive.session = null;
   gestureLive.image = null;
   gesture.dragging = false;

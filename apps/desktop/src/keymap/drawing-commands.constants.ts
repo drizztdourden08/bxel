@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
+import { gesture } from '../editor/gesture-state';
 import { brushFromSelection } from '../editor/brush-from-selection';
+import { outlineLayer } from '../editor/outline-layer';
 import { useDrawingStore } from '../stores/useDrawingStore';
 import { DRAWING_COMMAND } from './drawing-command-id.constants';
 import { COMMAND_GROUP } from './keymap.constants';
@@ -22,6 +24,49 @@ const DRAWING_COMMANDS: readonly CommandDef[] = [
     chord: 'Alt+R',
     checked: () => useDrawingStore.getState().symmetryTurn,
     run: () => useDrawingStore.getState().toggleSymmetryMode('turn'),
+  },
+  {
+    id: DRAWING_COMMAND.moveShape,
+    label: 'Move the shape while drawing',
+    group: COMMAND_GROUP.brush,
+    chord: 'Space',
+    when: () => gesture.dragging,
+    run: () => {
+      gesture.space = true;
+    },
+    hold: {
+      release: () => {
+        gesture.space = false;
+      },
+    },
+  },
+  {
+    id: DRAWING_COMMAND.outline,
+    label: 'Outline outside',
+    group: COMMAND_GROUP.edit,
+    chord: 'Shift+O',
+    run: () => void outlineLayer('outside'),
+  },
+  {
+    id: DRAWING_COMMAND.outlineInside,
+    label: 'Outline inside',
+    group: COMMAND_GROUP.edit,
+    chord: 'Alt+Shift+O',
+    run: () => void outlineLayer('inside'),
+  },
+  {
+    id: DRAWING_COMMAND.outlineRing,
+    label: 'Outline with 4 neighbours',
+    group: COMMAND_GROUP.edit,
+    checked: () => useDrawingStore.getState().outlineRing === 4,
+    run: () => useDrawingStore.getState().patch({ outlineRing: useDrawingStore.getState().outlineRing === 4 ? 8 : 4 }),
+  },
+  {
+    id: DRAWING_COMMAND.outlineSelOut,
+    label: 'Outline with the darker ramp step',
+    group: COMMAND_GROUP.edit,
+    checked: () => useDrawingStore.getState().outlineSelOut,
+    run: () => useDrawingStore.getState().patch({ outlineSelOut: !useDrawingStore.getState().outlineSelOut }),
   },
   {
     id: DRAWING_COMMAND.brushFromSelection,

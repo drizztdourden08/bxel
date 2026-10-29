@@ -1,16 +1,19 @@
 /* @layer renderer-app @kind constants */
-import type { BrushShape } from '@bxel/raster';
+import { BRUSH_ANGLES } from '@bxel/raster';
+import type { BrushAngle, BrushShape } from '@bxel/raster';
 import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { OPTION_COMMAND } from '../../../keymap/option-command-id.constants';
 import { BRUSH_SIZE } from '../../../stores/tool-store.constants';
 import { useToolStore } from '../../../stores/useToolStore';
-import { BRUSH_TIP_CHOICES, OPTION_TEXT } from '../tool-options.constants';
+import { BRUSH_ANGLE_CHOICES, BRUSH_TIP_CHOICES, OPTION_TEXT } from '../tool-options.constants';
 import type { OptionBase, OptionSpec } from '../tool-options.type';
 import type { BrushTool } from './brush-options.type';
 
 const tools = () => useToolStore.getState();
 
-const asTip = (value: unknown): BrushShape => (value === 'circle' ? 'circle' : 'square');
+const asTip = (value: unknown): BrushShape => (value === 'circle' || value === 'line' ? value : 'square');
+
+const asAngle = (value: unknown): BrushAngle => BRUSH_ANGLES.find((angle) => String(angle) === String(value)) ?? 0;
 
 const brushBase = (tool: BrushTool): OptionBase => ({ tool, surface: 'paint', memory: 'tool' });
 
@@ -53,6 +56,23 @@ const tipOption = (tool: BrushTool, priority: number): OptionSpec => ({
   write: (value) => tools().setBrushShape(asTip(value)),
 });
 
+const angleOption = (tool: BrushTool, priority: number): OptionSpec => ({
+  ...brushBase(tool),
+  id: `${tool}.angle`,
+  name: 'angle',
+  kind: 'choice',
+  label: OPTION_TEXT.angle,
+  description: OPTION_TEXT.angleDescription,
+  tier: 1,
+  priority,
+  group: 'brush',
+  default: '0',
+  choices: BRUSH_ANGLE_CHOICES,
+  read: () => String(tools().brushAngle),
+  write: (value) => tools().setBrushAngle(asAngle(value)),
+  appliesWhen: () => tools().brushShape === 'line',
+});
+
 const pixelPerfectOption = (tool: BrushTool, priority: number): OptionSpec => ({
   ...brushBase(tool),
   id: `${tool}.pixel_perfect`,
@@ -77,24 +97,33 @@ const pixelPerfectOption = (tool: BrushTool, priority: number): OptionSpec => ({
 const BRUSH_OPTIONS: readonly OptionSpec[] = [
   sizeOption('pencil', 10),
   tipOption('pencil', 20),
+  angleOption('pencil', 21),
   pixelPerfectOption('pencil', 30),
   sizeOption('eraser', 10),
   tipOption('eraser', 20),
+  angleOption('eraser', 21),
   pixelPerfectOption('eraser', 30),
   sizeOption('shade', 10),
   tipOption('shade', 20),
+  angleOption('shade', 21),
   sizeOption('line', 30),
   tipOption('line', 40),
+  angleOption('line', 41),
   sizeOption('curve', 30),
   tipOption('curve', 40),
+  angleOption('curve', 41),
   sizeOption('rect', 30),
   tipOption('rect', 40),
+  angleOption('rect', 41),
   sizeOption('ellipse', 30),
   tipOption('ellipse', 40),
+  angleOption('ellipse', 41),
   sizeOption('contour', 30),
   tipOption('contour', 40),
+  angleOption('contour', 41),
   sizeOption('polygon', 30),
   tipOption('polygon', 40),
+  angleOption('polygon', 41),
 ];
 
 export { BRUSH_OPTIONS };

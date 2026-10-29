@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button, Flex, Text, Toggle } from '@drizztdourden08/tessera';
+import { Button, Flex, Icon, Text, Toggle } from '@drizztdourden08/tessera';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { SYMMETRY_TEXT } from '../ViewPanel.constants';
@@ -31,8 +31,14 @@ const SymmetrySection = () => {
           </Flex>
         </Flex>
       ))}
-      <Toggle size="sm" label={SYMMETRY_TEXT.diagonal} checked={diagonal} onChange={() => toggleMode('diagonal')} />
-      <Toggle size="sm" label={SYMMETRY_TEXT.turn} checked={turn} onChange={() => toggleMode('turn')} />
+      <Flex gap="sm" align="center">
+        <Icon name="pixel-symmetry-diagonal" />
+        <Toggle size="sm" label={SYMMETRY_TEXT.diagonal} checked={diagonal} onChange={() => toggleMode('diagonal')} />
+      </Flex>
+      <Flex gap="sm" align="center">
+        <Icon name="pixel-symmetry-turn" />
+        <Toggle size="sm" label={SYMMETRY_TEXT.turn} checked={turn} onChange={() => toggleMode('turn')} />
+      </Flex>
     </Flex>
   );
 };

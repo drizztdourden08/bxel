@@ -15,6 +15,10 @@ const OPTIONS_TEXT = {
   sheetName: 'Sheet',
   sheetHint: 'Pick a sprite to paint it',
   noOptions: 'Nothing to set',
+  symmetryCaption: 'Symmetry',
+  symmetryNames: { x: 'across', y: 'down', diagonal: 'diagonal', turn: '4 way' },
+  symmetryOn: (names: readonly string[]): string => `Symmetry on: ${names.join(', ')}`,
+  symmetryDescription: 'Strokes, fills and stamps are mirrored. Open the View panel to change or turn off the symmetry.',
 } as const;
 
 const TOOL_HINTS: Readonly<Partial<Record<ToolId, string>>> = {

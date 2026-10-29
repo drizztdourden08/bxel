@@ -58,7 +58,7 @@ describe('set_view state, selection and pages', () => {
     expect(done.applied).toEqual(['toggles', 'tool', 'colours', 'symmetry']);
     expect(useViewStore.getState()).toMatchObject({ grid: true, tiled: 'both' });
     expect(useToolStore.getState()).toMatchObject({ tool: 'rect', brushSize: 3, foreground: 2, background: 1, symmetryX: true, axisX: 8 });
-    expect(useDrawingStore.getState()).toMatchObject({ inkKind: 'behind', filled: { rect: true } });
+    expect(useDrawingStore.getState()).toMatchObject({ inks: { rect: 'behind' }, filled: { rect: true } });
     expect(fake.announced.at(-1)).toContain('changed the view');
   });
 

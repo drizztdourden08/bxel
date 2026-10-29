@@ -21,6 +21,7 @@ const pathSpec = ({ tools, drawing, target, size, tool, slot }: PathInput): Path
     index: choice.index,
     ...paintParts(tools, target, size, choice),
     pixelPerfect: perfectOf(tool, drawing),
+    ...(tool === 'curve' && drawing.curveCubic ? { cubic: true } : {}),
   };
 };
 

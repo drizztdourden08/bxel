@@ -35,18 +35,19 @@ describe('the ink of a press', () => {
   it('swaps the roles of the two colours for the right button', () => {
     tools().setForeground(5);
     tools().setBackground(9);
-    drawing().patch({ inkKind: 'onlyColour' });
+    drawing().setInk('pencil', 'onlyColour');
     expect(inkOf('foreground', tools(), drawing())).toEqual({ index: 5, ink: { kind: 'onlyColour', index: 9 } });
     expect(inkOf('background', tools(), drawing())).toEqual({ index: 9, ink: { kind: 'onlyColour', index: 5 } });
-    drawing().patch({ inkKind: 'dither' });
+    drawing().setInk('pencil', 'dither');
     expect(inkOf('background', tools(), drawing()).ink).toMatchObject({ kind: 'dither', second: 5 });
   });
 
   it('shades up with the left button and down with the right', () => {
-    drawing().patch({ inkKind: 'shade', shadeSteps: 2 });
+    drawing().setInk('pencil', 'shade');
+    drawing().patch({ shadeSteps: 2 });
     expect(inkOf('foreground', tools(), drawing()).ink).toEqual({ kind: 'shade', direction: 'up', steps: 2 });
     expect(inkOf('background', tools(), drawing()).ink).toEqual({ kind: 'shade', direction: 'down', steps: 2 });
-    drawing().patch({ inkKind: 'lighten' });
+    drawing().setInk('pencil', 'lighten');
     expect(inkOf('fourth', tools(), drawing()).ink).toEqual({ kind: 'darken', steps: 2 });
   });
 });
@@ -79,7 +80,7 @@ describe('an ink on a stroke', () => {
     tools().setForeground(4);
     commitSession(startSession({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live(), { x: 5, y: 5 }));
     tools().setForeground(6);
-    drawing().patch({ inkKind: 'lockAlpha' });
+    drawing().setInk('pencil', 'lockAlpha');
     const session = startSession({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live(), { x: 4, y: 5 });
     if (session.kind !== 'stroke') throw new Error('expected a stroke');
     session.points.push({ x: 5, y: 5 });

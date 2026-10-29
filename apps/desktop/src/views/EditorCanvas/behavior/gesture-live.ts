@@ -5,6 +5,7 @@ const gestureLive: GestureLive = {
   session: null,
   image: null,
   timer: null,
+  held: null,
   show: () => undefined,
   redraw: () => undefined,
 };

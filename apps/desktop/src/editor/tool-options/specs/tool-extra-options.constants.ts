@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import { SPRAY_LIMITS } from '../../../stores/drawing-store.constants';
+import { SPRAY_LIMITS, STABILISER_LIMITS } from '../../../stores/drawing-store.constants';
 import type { FillMatch, FillSample, PickSample } from '../../../stores/drawing-store.type';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
 import type { OptionSpec } from '../tool-options.type';
@@ -41,9 +41,19 @@ const spray: OptionSpec[] = [
     tool: 'spray', name: 'density', label: DRAWING_TEXT.sprayDensity, description: DRAWING_TEXT.sprayDensityDescription, priority: 11, group: 'spray', default: 6,
     min: SPRAY_LIMITS.densityMin, max: SPRAY_LIMITS.densityMax, read: () => d().sprayDensity, write: (value) => d().patch({ sprayDensity: value }),
   }),
+  toggleSpec({
+    tool: 'spray', name: 'pressure', label: DRAWING_TEXT.sprayPressure, description: DRAWING_TEXT.sprayPressureDescription, priority: 13, group: 'spray', tier: 2,
+    default: true, icon: 'pixel-brush-spray', read: () => d().sprayPressure, write: (on) => d().patch({ sprayPressure: on }),
+  }),
   seedSpec('paint'),
   seedSpec('map'),
 ];
+
+const stabiliserSpec = (tool: 'pencil' | 'eraser' | 'shade'): OptionSpec =>
+  numberSpec({
+    tool, name: 'stabiliser', label: DRAWING_TEXT.stabiliser, description: DRAWING_TEXT.stabiliserDescription, priority: 60, group: 'stroke', tier: tool === 'pencil' ? 1 : 2, default: 0,
+    min: STABILISER_LIMITS.min, max: STABILISER_LIMITS.max, read: () => d().stabiliser, write: (value) => d().patch({ stabiliser: value }),
+  });
 
 const shade: OptionSpec[] = [
   choiceSpec({
@@ -60,6 +70,6 @@ const shade: OptionSpec[] = [
   }),
 ];
 
-const TOOL_EXTRA_OPTIONS: readonly OptionSpec[] = [...pickAndFill, ...spray, ...shade];
+const TOOL_EXTRA_OPTIONS: readonly OptionSpec[] = [...pickAndFill, ...spray, ...shade, stabiliserSpec('pencil'), stabiliserSpec('eraser'), stabiliserSpec('shade')];
 
 export { TOOL_EXTRA_OPTIONS };

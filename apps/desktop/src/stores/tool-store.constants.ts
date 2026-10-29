@@ -15,6 +15,7 @@ const TOOL_DEFAULTS: ToolSettings = {
   fourth: 3,
   brushSize: 1,
   brushShape: 'square',
+  brushAngle: 0,
   pixelPerfect: false,
   fillMode: 'contiguous',
   connectivity: 4,

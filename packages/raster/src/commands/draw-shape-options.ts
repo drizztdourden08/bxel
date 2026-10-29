@@ -1,10 +1,13 @@
 /* @layer core @kind logic */
 import type { BufferView } from '../buffer.type';
 import { drawShape } from '../draw-shape';
-import type { Rect } from '../geometry.type';
+import type { Point, Rect } from '../geometry.type';
 import type { InkRule } from '../ink/ink.type';
 import { drawPath } from '../path/draw-path';
 import type { PixelsShapeOptions } from './schema/pixels-options.type';
+
+const curveHandles = (options: Extract<PixelsShapeOptions, { shape: 'curve' }>): Point[] =>
+  options.control2 === undefined ? [options.from, options.control, options.to] : [options.from, options.control, options.control2, options.to];
 
 const drawShapeOptions = (target: BufferView, options: PixelsShapeOptions, ink: InkRule | null = null): Rect | null => {
   const { index, mask, wrap, filled, fillIndex, brush, symmetry } = options;
@@ -15,7 +18,7 @@ const drawShapeOptions = (target: BufferView, options: PixelsShapeOptions, ink: 
     case 'contour':
       return drawPath({ ...base, kind: 'contour', points: options.points, pixelPerfect: options.pixelPerfect });
     case 'curve':
-      return drawPath({ ...base, kind: 'curve', points: [options.from, options.control, options.to], pixelPerfect: options.pixelPerfect });
+      return drawPath({ ...base, kind: 'curve', points: curveHandles(options), pixelPerfect: options.pixelPerfect });
     case 'line':
     case 'rect':
     case 'ellipse':

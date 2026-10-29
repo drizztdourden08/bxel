@@ -2,6 +2,7 @@
 import { dialogs, nav } from '@drizztdourden08/brock-react';
 import { currentTarget } from '../../editor/current-target';
 import type { FilledTool } from '../../stores/drawing-store.type';
+import { inkFor } from '../../stores/ink-for';
 import { useDocumentStore } from '../../stores/useDocumentStore';
 import { useDrawingStore } from '../../stores/useDrawingStore';
 import { useManagerStore } from '../../stores/useManagerStore';
@@ -71,7 +72,7 @@ const toolOf = () => {
     fillMode: tool.fillMode,
     connectivity: tool.connectivity,
     filled: FILLED_TOOL_IDS.includes(tool.tool) ? useDrawingStore.getState().filled[tool.tool as FilledTool] : false,
-    ink: useDrawingStore.getState().inkKind,
+    ink: inkFor(useDrawingStore.getState(), tool.tool),
   };
 };
 

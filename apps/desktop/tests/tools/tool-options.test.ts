@@ -64,12 +64,12 @@ describe('the option model coverage', () => {
 
   it('shows a bar for every tool of a surface with the options of the old toolbar', () => {
     const names = (surface: 'sprite' | 'map', tool: Parameters<typeof optionsOf>[1]): string[] => optionsOf(surface, tool).map((spec) => spec.name);
-    expect(names('sprite', 'pencil')).toEqual(['size', 'tip', 'pixel_perfect', 'custom_brush', 'ink']);
-    expect(names('sprite', 'eraser')).toEqual(['size', 'tip', 'pixel_perfect']);
+    expect(names('sprite', 'pencil')).toEqual(['size', 'tip', 'pixel_perfect', 'custom_brush', 'ink', 'stabiliser']);
+    expect(names('sprite', 'eraser')).toEqual(['size', 'tip', 'pixel_perfect', 'stabiliser']);
     expect(names('sprite', 'fill')).toEqual(['area', 'neighbours', 'sample', 'match', 'ink']);
     expect(names('sprite', 'rect')).toEqual(['filled', 'radius', 'size', 'tip', 'ink']);
     expect(names('sprite', 'line')).toEqual(['even_steps', 'size', 'tip', 'ink']);
-    expect(names('sprite', 'spray')).toEqual(['size', 'density', 'seed', 'ink']);
+    expect(names('sprite', 'spray')).toEqual(['size', 'density', 'pressure', 'seed', 'ink']);
     expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'expand', 'shrink']);
     useSelectionStore.getState().setVariant('wand');
     expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'neighbours', 'expand', 'shrink']);

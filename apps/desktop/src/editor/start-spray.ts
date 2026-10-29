@@ -15,7 +15,7 @@ const freshSeed = (locked: number | null): number => locked ?? Math.floor(Math.r
 const spraySession = (plan: Extract<DrawPlan, { kind: 'spray' }>, target: EditorTarget, at: Point): SpraySession => {
   const tools = useToolStore.getState();
   const drawing = useDrawingStore.getState();
-  const choice = inkOf(plan.slot, tools, drawing);
+  const choice = inkOf(plan.slot, tools, drawing, at);
   const options = {
     size: drawing.spraySize,
     density: drawing.sprayDensity,

@@ -5,6 +5,7 @@ const ADVANCED_COMMAND = {
   pixelsGradient: 'pixels.gradient',
   pixelsStamp: 'pixels.stamp',
   pixelsPlot: 'pixels.plot',
+  pixelsOutline: 'pixels.outline',
   pixelsClear: 'pixels.clear',
   pixelsMove: 'pixels.move',
   pixelsScale: 'pixels.scale',

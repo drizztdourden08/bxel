@@ -13,7 +13,8 @@ const continueDraft = (draft: PathSession, at: Point, click: Click): void => {
     else addVertex(draft, at, click.shiftKey);
   } else if (draft.tool === 'curve') {
     hoverPath(draft, at, false);
-    finishGesture();
+    if (draft.spec.cubic === true && draft.handle === null) draft.handle = draft.hover;
+    else finishGesture();
   }
   gestureLive.redraw();
 };

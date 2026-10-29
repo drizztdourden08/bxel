@@ -21,6 +21,7 @@ const inkSchema = z
     z.strictObject({ kind: z.literal('shade'), ramp: rampNameSchema.optional(), direction: z.enum(['up', 'down']), steps }),
     z.strictObject({ kind: z.literal('lighten'), steps }),
     z.strictObject({ kind: z.literal('darken'), steps }),
+    z.strictObject({ kind: z.literal('pattern'), brushId: z.string().min(1), originX: z.number().int().default(0), originY: z.number().int().default(0) }),
   ])
   .optional();
 

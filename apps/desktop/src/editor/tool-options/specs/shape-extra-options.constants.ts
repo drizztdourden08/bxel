@@ -36,6 +36,10 @@ const EXTRAS: readonly OptionSpec[] = [
     read: () => d().curvePerfect, write: (on) => d().patch({ curvePerfect: on }),
   }),
   toggleSpec({
+    tool: 'curve', name: 'cubic', label: DRAWING_TEXT.cubic, description: DRAWING_TEXT.cubicDescription, priority: 26, group: 'shape',
+    icon: 'pixel-shape-curve', read: () => d().curveCubic, write: (on) => d().patch({ curveCubic: on }),
+  }),
+  toggleSpec({
     tool: 'contour', name: 'perfect', label: DRAWING_TEXT.perfect, description: DRAWING_TEXT.perfectDescription, priority: 25, group: 'shape',
     read: () => d().contourPerfect, write: (on) => d().patch({ contourPerfect: on }),
   }),

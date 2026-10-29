@@ -1,11 +1,14 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, test } from 'vitest';
 import { clickCells } from './support/click-cells';
+import { clickCellWith } from './support/click-cell-with';
 import { drawStroke } from './support/draw-stroke';
 import { SHORTCUT } from './support/e2e.constants';
 import { filledCells } from './support/filled-cells';
+import { makeRamp } from './support/make-ramp';
 import { MARKS_SIDE } from './support/marks.constants';
 import { openSpriteRig } from './support/open-sprite-rig';
+import { pickSwatch } from './support/pick-swatch';
 import { pressToolKey } from './support/press-tool-key';
 import { useRig } from './support/use-rig';
 
@@ -97,5 +100,46 @@ describe('the spray, gradient and polygon tools', () => {
     await session.page.keyboard.press('Enter');
     expect(filledCells(await shownNow()).length).toBeGreaterThan(10);
     await session.page.keyboard.press(SHORTCUT.undo);
+  });
+});
+
+describe('the shade tool on a ramp made in the palette panel', () => {
+  const rig = useRig(openSpriteRig);
+
+  test('moves a pixel up the ramp with the left button and down with the right, and undoes each pass', async () => {
+    const { session, remap, shownNow } = rig();
+    const cell = { x: 6, y: 6 };
+    await makeRamp(session, [2, 3, 4]);
+    await pickSwatch(session, 3);
+    await pressToolKey(session, 'b');
+    await clickCells(session, await remap(), [cell]);
+    expect(indexAt(await shownNow(), cell.x, cell.y)).toBe(3);
+    await pressToolKey(session, 's');
+    await clickCellWith(session, await remap(), cell, 'left');
+    expect(indexAt(await shownNow(), cell.x, cell.y)).toBe(4);
+    await clickCellWith(session, await remap(), cell, 'right');
+    expect(indexAt(await shownNow(), cell.x, cell.y)).toBe(3);
+    await clickCellWith(session, await remap(), cell, 'right');
+    expect(indexAt(await shownNow(), cell.x, cell.y)).toBe(2);
+    await session.page.keyboard.press(SHORTCUT.undo);
+    expect(indexAt(await shownNow(), cell.x, cell.y)).toBe(3);
+  });
+
+  test('stops at the end of the ramp and leaves a colour that is on no ramp alone', async () => {
+    const { session, remap, shownNow } = rig();
+    const cell = { x: 9, y: 9 };
+    await pickSwatch(session, 4);
+    await pressToolKey(session, 'b');
+    await clickCells(session, await remap(), [cell]);
+    await pressToolKey(session, 's');
+    await clickCellWith(session, await remap(), cell, 'left');
+    expect(indexAt(await shownNow(), cell.x, cell.y)).toBe(4);
+    const loose = { x: 10, y: 9 };
+    await pickSwatch(session, 7);
+    await pressToolKey(session, 'b');
+    await clickCells(session, await remap(), [loose]);
+    await pressToolKey(session, 's');
+    await clickCellWith(session, await remap(), loose, 'left');
+    expect(indexAt(await shownNow(), loose.x, loose.y)).toBe(7);
   });
 });

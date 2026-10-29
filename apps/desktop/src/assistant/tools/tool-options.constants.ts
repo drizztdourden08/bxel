@@ -14,6 +14,9 @@ const TOOL_OPTION_SETTERS: readonly OptionSetter[] = [
     if (options.brushShape !== undefined) store.setBrushShape(options.brushShape);
   },
   (store, options) => {
+    if (options.brushAngle !== undefined) store.setBrushAngle(options.brushAngle);
+  },
+  (store, options) => {
     if (options.pixelPerfect !== undefined) store.setPixelPerfect(options.pixelPerfect);
   },
   (store, options) => {
@@ -27,7 +30,7 @@ const TOOL_OPTION_SETTERS: readonly OptionSetter[] = [
     if (options.filled !== undefined && FILLED.includes(tool)) useDrawingStore.getState().setFilled(tool as FilledTool, options.filled);
   },
   (_store, options) => {
-    if (options.ink !== undefined) useDrawingStore.getState().patch({ inkKind: options.ink });
+    if (options.ink !== undefined) useDrawingStore.getState().setInk(useToolStore.getState().tool, options.ink);
   },
 ];
 
