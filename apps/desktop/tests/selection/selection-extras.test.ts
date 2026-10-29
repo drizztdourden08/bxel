@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
+import { gated } from '../../src/keymap/gated';
 import { pasteNewSprite } from '../../src/editor/selection/paste-new-sprite';
 import { selectByFrame } from '../../src/editor/selection/select-by-frame';
 import { selectionMask } from '../../src/editor/selection/selection-mask';
@@ -41,5 +42,15 @@ describe('selection extras', () => {
     useCanvasSizeStore.getState().setPreview({ width: 40, height: 40, anchor: 'center' });
     useCanvasSizeStore.getState().hide();
     expect(useCanvasSizeStore.getState().preview).toBeNull();
+  });
+
+  it('a selection command that needs a selection says so in its own words, and select by frame needs none', () => {
+    const rig = openRig();
+    const reason = (id: string) => gated({ id, label: id, run: () => undefined }).reason?.();
+    expect(reason('selection.border')).toBe('Select some pixels first.');
+    expect(reason('selection.to_guides')).toBe('Select some pixels first.');
+    expect(reason('selection.select_by_frame')).toBeNull();
+    rig.select(BLOCK);
+    expect(reason('selection.border')).toBeNull();
   });
 });
