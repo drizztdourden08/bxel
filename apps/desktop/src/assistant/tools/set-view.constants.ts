@@ -10,6 +10,7 @@ import { selectStep } from './select-step';
 import { selectionStep } from './selection-step';
 import { symmetryStep } from './symmetry-step';
 import { togglesStep } from './toggles-step';
+import { timelineStep } from './timeline-step';
 import { toolStep } from './tool-step';
 import type { ViewStep } from './view-steps.type';
 import { zoomStep } from './zoom-step';
@@ -22,6 +23,7 @@ const VIEW_STEPS: readonly (readonly [keyof SetViewInput, ViewStep])[] = [
   ['pan', panStep],
   ['toggles', togglesStep],
   ['playback', playbackStep],
+  ['timeline', timelineStep],
   ['select', selectStep],
   ['tool', toolStep],
   ['colours', coloursStep],

@@ -14,6 +14,7 @@ import { activeAssetOf } from '../../workspace/active-asset-of';
 import { assetName } from '../../workspace/asset-name';
 import { keyId } from '../../workspace/key-id';
 import { selectionReply } from './selection-reply';
+import { timelineOf } from './timeline-view-of';
 import type { Sees } from './view-snapshot.type';
 
 const tabsOf = (sees: Sees) => {
@@ -138,6 +139,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     zoom: zoomOf(),
     toggles: togglesOf(),
     playback: playbackOf(),
+    timeline: timelineOf(sees),
     selection: selectionOf(sees),
     clipboard: clipboardOf(),
     sprites: spritesOf(),

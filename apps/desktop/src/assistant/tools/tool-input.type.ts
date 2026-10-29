@@ -15,7 +15,13 @@ type SpriteSource = { readonly spriteId: string; readonly frameId?: string };
 
 type SheetSource = { readonly sheetId: string };
 
-type AnimationSource = { readonly animationId: string; readonly frameId?: string; readonly tagId?: string };
+type AnimationSource = {
+  readonly animationId: string;
+  readonly frameId?: string;
+  readonly tagId?: string;
+  readonly facing?: string;
+  readonly allFacings?: boolean;
+};
 
 type AnimationStrip = { readonly image: RgbaImage; readonly indices: Uint8Array };
 
@@ -39,6 +45,8 @@ type ReadPixelsInput = DocumentInput & {
 type RenderInput = DocumentInput & {
   readonly target: SpriteSource | AnimationSource | SheetSource;
   readonly scale: number;
+  readonly onion?: boolean;
+  readonly animated?: 'gif' | 'apng';
 };
 
 type WireStep = {
