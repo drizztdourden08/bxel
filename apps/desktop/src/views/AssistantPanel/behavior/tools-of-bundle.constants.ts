@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
-import { TOOL_CATALOGUE } from '@bxel/mcp';
-import type { ToolName } from '@bxel/mcp';
+import { TOOL_ROWS } from '@bxel/mcp';
+import type { ToolRowId } from '@bxel/mcp';
 
-const TOOL_IDS = Object.keys(TOOL_CATALOGUE) as ToolName[];
+const TOOL_IDS = Object.keys(TOOL_ROWS) as ToolRowId[];
 
 export { TOOL_IDS };

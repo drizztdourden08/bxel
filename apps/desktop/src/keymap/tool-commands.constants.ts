@@ -19,7 +19,9 @@ import type { ToolId } from '../editor/tool.type';
 import { QUICK_SLOTS } from '../editor/presets/builtin-presets.constants';
 import { useToolPresetStore } from '../stores/useToolPresetStore';
 import { useToolStore } from '../stores/useToolStore';
+import { REASON } from '../ui-context/reasons.constants';
 import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
+import { needs } from './needs';
 import { TOOL_COMMAND } from './option-command-id.constants';
 import { ruled } from './ruled';
 
@@ -28,17 +30,28 @@ const CYCLING: readonly ToolId[] = ['select'];
 const springHold = (tool: ToolId): Pick<CommandDef, 'hold'> => (isSpringTool(tool) ? { hold: { release: endSpring, tapMs: SPRING_TAP_MS } } : {});
 
 const selectCommand = (tool: ToolId): CommandDef =>
-  ruled({
-    id: COMMAND_ID.tool(tool),
-    label: labelOfTool('sprite', tool),
-    group: COMMAND_GROUP.tools,
-    chord: chordOfKey(keyOfTool(tool)),
-    ...springHold(tool),
-    run: () => {
-      if (isSpringTool(tool)) beginSpring(tool);
-      pressToolKey(tool);
-    },
-  });
+  ruled({
+
+    id: COMMAND_ID.tool(tool),
+
+    label: labelOfTool('sprite', tool),
+
+    group: COMMAND_GROUP.tools,
+
+    chord: chordOfKey(keyOfTool(tool)),
+
+    ...springHold(tool),
+
+    run: () => {
+
+      if (isSpringTool(tool)) beginSpring(tool);
+
+      pressToolKey(tool);
+
+    },
+
+  });
+
 
 const backCommand = (tool: ToolId): CommandDef =>
   ruled({
@@ -62,7 +75,7 @@ const quickCommand = (slot: number): CommandDef =>
     label: `Apply preset ${slot} of the tool`,
     group: COMMAND_GROUP.tools,
     chord: `Alt+${slot}`,
-    when: () => quickPresets(useToolStore.getState().tool)[slot - 1] !== undefined,
+    ...needs(() => quickPresets(useToolStore.getState().tool)[slot - 1] !== undefined, REASON.noQuickPreset),
     run: () => {
       const preset = quickPresets(useToolStore.getState().tool)[slot - 1];
       if (preset && applyPreset(preset)) announcePreset(preset);
@@ -78,7 +91,7 @@ const PRESET_COMMANDS: readonly CommandDef[] = [
     label: 'Previous tool',
     group: COMMAND_GROUP.tools,
     chord: 'Shift+`',
-    when: () => useToolStore.getState().previousTool !== null,
+    ...needs(() => useToolStore.getState().previousTool !== null, REASON.noPreviousTool),
     run: () => {
       const { previousTool, setTool } = useToolStore.getState();
       if (previousTool) setTool(previousTool);

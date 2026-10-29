@@ -7,7 +7,6 @@ import { outlineColour } from './outline-colour';
 import { RING_4, RING_8 } from './outline.constants';
 import type { OutlineOptions } from './outline.type';
 
-/** The first neighbour on the ring that is painted (outside) or transparent (inside), as its colour, or null. */
 const touchingOf = (source: BufferView, x: number, y: number, options: OutlineOptions): number | null => {
   const wanted = options.side === 'outside';
   for (const [dx, dy] of options.ring === 4 ? RING_4 : RING_8) {

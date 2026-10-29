@@ -8,10 +8,10 @@ import { EntryBrowserContent } from './sub-components/EntryBrowserContent';
 import './EntryBrowser.css';
 
 const EntryBrowser = (props: EntryBrowserProps) => {
-  const { label, artwork, entries, picked, kinds = ALL_KINDS, emptyMessage, noMatchMessage, searchLabel = BROWSER_TEXT.search, footer, className, dragSource } = props;
+  const { label, artwork, entries, picked, kinds = ALL_KINDS, emptyMessage, noMatchMessage, searchLabel = BROWSER_TEXT.search, footer, className } = props;
   const model = useEntryBrowser(props);
   const { state, shown } = model;
-  const body = { label, artwork, shown, picked, zoom: state.zoom, pick: model.pick, activate: model.activate, draggable: dragSource !== undefined, dragFor: model.dragFor };
+  const body = { label, artwork, shown, picked, zoom: state.zoom, pick: model.pick, activate: model.activate, dragFor: model.dragFor };
   return (
     <Stack gap="xs" className={`entry-browser${className ? ` ${className}` : ''}`}>
       {entries.length > 0 && <EntryBrowserBar state={state} kinds={kinds} searchLabel={searchLabel} patch={model.patch} />}

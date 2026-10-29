@@ -24,4 +24,4 @@ const BASE_MEMBERS = [
   }),
 ] as const;
 
-export { BASE_MEMBERS, MAX_CELL_RUNS };
+export { BASE_MEMBERS };

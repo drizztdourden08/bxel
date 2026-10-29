@@ -1,18 +1,20 @@
 /* @layer core @kind test */
 import type { DocumentEvent, Engine } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { documentId, heartEngine, patchStep, request } from './heart-engine';
+import { heartEngine, patchStep, redoOnce, request, undoOnce } from './heart-engine';
 
 const stroke = (engine: Engine, value: number): void => {
   expect(engine.execute(request([patchStep(value)], { baseRevision: engine.state().revision })).ok).toBe(true);
 };
 
-const undo = (engine: Engine): void => {
-  expect(engine.undo({ documentId, expectedRevision: engine.state().revision }).ok).toBe(true);
-};
-
-const redo = (engine: Engine): void => {
-  expect(engine.redo({ documentId, expectedRevision: engine.state().revision }).ok).toBe(true);
+const backAndForth = (engine: Engine): void => {
+  undoOnce(engine);
+  expect(engine.isClean()).toBe(false);
+  undoOnce(engine);
+  expect(engine.isClean()).toBe(false);
+  redoOnce(engine);
+  redoOnce(engine);
+  expect(engine.isClean()).toBe(true);
 };
 
 describe('the saved marker', () => {
@@ -23,8 +25,8 @@ describe('the saved marker', () => {
     engine.markSaved();
     expect(engine.canUndo()).toBe(true);
     expect(engine.canRedo()).toBe(false);
-    undo(engine);
-    undo(engine);
+    undoOnce(engine);
+    undoOnce(engine);
     expect(engine.canUndo()).toBe(false);
     expect(engine.canRedo()).toBe(true);
   });
@@ -35,22 +37,16 @@ describe('the saved marker', () => {
     stroke(engine, 2);
     engine.markSaved();
     expect(engine.isClean()).toBe(true);
-    undo(engine);
-    expect(engine.isClean()).toBe(false);
-    undo(engine);
-    expect(engine.isClean()).toBe(false);
-    redo(engine);
-    redo(engine);
-    expect(engine.isClean()).toBe(true);
+    backAndForth(engine);
   });
 
   it('is clean when undo returns to the opened state and dirty again after redo', () => {
     const { engine } = heartEngine();
     stroke(engine, 1);
     expect(engine.isClean()).toBe(false);
-    undo(engine);
+    undoOnce(engine);
     expect(engine.isClean()).toBe(true);
-    redo(engine);
+    redoOnce(engine);
     expect(engine.isClean()).toBe(false);
   });
 
@@ -58,12 +54,12 @@ describe('the saved marker', () => {
     const { engine } = heartEngine();
     stroke(engine, 1);
     engine.markSaved();
-    undo(engine);
+    undoOnce(engine);
     stroke(engine, 2);
     expect(engine.isClean()).toBe(false);
-    undo(engine);
+    undoOnce(engine);
     expect(engine.isClean()).toBe(false);
-    redo(engine);
+    redoOnce(engine);
     expect(engine.isClean()).toBe(false);
   });
 });
@@ -75,13 +71,7 @@ describe('moving the saved marker', () => {
     engine.markSaved();
     stroke(engine, 2);
     engine.markSaved();
-    undo(engine);
-    expect(engine.isClean()).toBe(false);
-    undo(engine);
-    expect(engine.isClean()).toBe(false);
-    redo(engine);
-    redo(engine);
-    expect(engine.isClean()).toBe(true);
+    backAndForth(engine);
   });
 
   it('forgets the saved point on markUnsaved and takes a new one on the next markSaved', () => {
@@ -90,11 +80,11 @@ describe('moving the saved marker', () => {
     engine.markSaved();
     engine.markUnsaved();
     expect(engine.isClean()).toBe(false);
-    undo(engine);
+    undoOnce(engine);
     expect(engine.isClean()).toBe(false);
     engine.markSaved();
     expect(engine.isClean()).toBe(true);
-    redo(engine);
+    redoOnce(engine);
     expect(engine.isClean()).toBe(false);
   });
 

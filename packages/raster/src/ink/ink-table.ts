@@ -2,23 +2,8 @@
 import type { PaletteBank } from '@bxel/document';
 import { rampSlots } from '../shade/ramp-slots';
 import { shadeTable } from '../shade/shade-table';
+import { autoTable } from './auto-table';
 import type { Ink } from './ink.type';
-
-const autoTable = (bank: PaletteBank, direction: 'up' | 'down', steps: number): Uint8Array => {
-  const table = Uint8Array.from({ length: 256 }, (_, slot) => slot);
-  const claimed = new Set<number>();
-  for (const ramp of bank.ramps) {
-    const slots = rampSlots(bank, ramp.name) ?? [];
-    const one = shadeTable({ slots, direction, steps });
-    for (const slot of slots) {
-      if (!claimed.has(slot)) {
-        claimed.add(slot);
-        table[slot] = one[slot] ?? slot;
-      }
-    }
-  }
-  return table;
-};
 
 const inkTable = (bank: PaletteBank, ink: Ink | undefined): Uint8Array | null => {
   if (!ink) return null;
@@ -30,7 +15,4 @@ const inkTable = (bank: PaletteBank, ink: Ink | undefined): Uint8Array | null =>
   return slots ? shadeTable({ slots, direction: ink.direction, steps: ink.steps }) : null;
 };
 
-/** One step darker along the ramp of every colour that sits on one. */
-const darkerTable = (bank: PaletteBank): Uint8Array => autoTable(bank, 'down', 1);
-
-export { darkerTable, inkTable };
+export { inkTable };

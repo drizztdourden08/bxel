@@ -30,24 +30,32 @@ const tileIssue = (artwork: Artwork, tileset: Tileset, tile: Tile): string | nul
   return shape ?? tileAnimationIssue(artwork, tileset, tile);
 };
 
-const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
-  const keys = new Set<number>();
-  for (const tile of tileset.tiles) {
-    const sprite = findSprite(artwork, tile.spriteId);
-    if (!sprite || !fits(sprite, tileset)) {
-      throw broken(`Tile ${tile.key} of tileset "${tileset.name}" needs a tile sprite of the tileset size and bank.`);
-    }
-    if (keys.has(tile.key) || tile.key >= tileset.nextKey) {
-      throw broken(`Tile key ${tile.key} of tileset "${tileset.name}" is not unique or not issued.`);
-    }
-    const issue = tileIssue(artwork, tileset, tile);
-    if (issue !== null) throw broken(`Tile ${tile.key} of tileset "${tileset.name}": ${issue}`);
-    keys.add(tile.key);
+const checkTile = (artwork: Artwork, tileset: Tileset, tile: Tile, keys: ReadonlySet<number>): void => {
+  const sprite = findSprite(artwork, tile.spriteId);
+  if (!sprite || !fits(sprite, tileset)) {
+    throw broken(`Tile ${tile.key} of tileset "${tileset.name}" needs a tile sprite of the tileset size and bank.`);
   }
+  if (keys.has(tile.key) || tile.key >= tileset.nextKey) {
+    throw broken(`Tile key ${tile.key} of tileset "${tileset.name}" is not unique or not issued.`);
+  }
+  const issue = tileIssue(artwork, tileset, tile);
+  if (issue !== null) throw broken(`Tile ${tile.key} of tileset "${tileset.name}": ${issue}`);
+};
+
+const checkTerrain = (tileset: Tileset): void => {
   const rules = tileset.terrain ? terrainIssue(tileset.terrain, tileset) : null;
   if (rules !== null) throw broken(rules);
   const sets = tileset.terrainSets ? terrainSetsIssue(tileset.terrainSets, tileset) : null;
   if (sets !== null) throw broken(sets);
+};
+
+const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
+  const keys = new Set<number>();
+  for (const tile of tileset.tiles) {
+    checkTile(artwork, tileset, tile, keys);
+    keys.add(tile.key);
+  }
+  checkTerrain(tileset);
 };
 
 const checkMaps = (draft: Draft): void => {

@@ -5,8 +5,7 @@ import { updateTileset } from '../../draft/update-tileset';
 import type { TileId } from '../../model/ids.type';
 import type { Sprite } from '../../model/sprite.type';
 import type { Tile, Tileset } from '../../model/tilemap.type';
-
-type TileKeep = Pick<Tile, 'shapes' | 'type' | 'probability' | 'turns' | 'data'>;
+import type { TileKeep } from './attach-tile.type';
 
 const attachTile = (draft: Draft, tileset: Tileset, sprite: Sprite, keep: TileKeep = {}): number => {
   const key = tileset.nextKey;
@@ -16,5 +15,4 @@ const attachTile = (draft: Draft, tileset: Tileset, sprite: Sprite, keep: TileKe
   return key;
 };
 
-export type { TileKeep };
 export { attachTile };

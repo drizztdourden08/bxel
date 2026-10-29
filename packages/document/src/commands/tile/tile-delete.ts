@@ -10,6 +10,7 @@ import { defineCommand } from '../define-command';
 import { ERROR_CODE } from '../error-code.constants';
 import { fail } from '../fail';
 import { pickTileset } from '../tilemap/pick-tileset';
+import { terrainWithoutKey } from './terrain-without-key';
 
 const tileDelete = defineCommand({
   name: COMMAND_NAME.tileDelete,
@@ -35,8 +36,7 @@ const tileDelete = defineCommand({
     updateTileset(draft, tileset.id, (current) => ({
       ...current,
       tiles: current.tiles.filter((item) => item.key !== key),
-      ...(current.terrainSets ? { terrainSets: current.terrainSets.map((set) => ({ ...set, slots: set.slots.map((slot) => slot.filter((variant) => variant.key !== key)) })) } : {}),
-      ...(current.terrain ? { terrain: { ...current.terrain, keys: current.terrain.keys.map((slot) => (slot === key ? 0 : slot)) } } : {}),
+      ...terrainWithoutKey(current, key),
     }));
     removeSprites(draft, new Set([tile.spriteId]));
   },

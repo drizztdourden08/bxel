@@ -1,7 +1,6 @@
 /* @layer core @kind logic */
 import type { TileFieldEntry, TilesetEntry } from './tilemap.type';
-
-const TILED_TYPE = { bool: 'bool', int: 'int', number: 'float', text: 'string', choice: 'string', colour: 'color' } as const;
+import { TILED_TYPE } from './tiled-tile-properties.constants';
 
 const tiledValue = (kind: TileFieldEntry['kind'], value: string | number | boolean): string | number | boolean =>
   kind === 'colour' && typeof value === 'string' ? `#ff${value.slice(1)}` : value;

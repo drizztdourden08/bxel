@@ -5,8 +5,8 @@ import type { Artwork, Rect, Sheet, SpriteId } from '@bxel/document';
 import type { SpriteScene } from '../../sheet/sheet.type';
 import type { FolderGroup, SavedSelection } from '../../sheet-manager/folders.type';
 import type { AnimationFacts, EntryFacts, ManagerDialog, ManagerFilter, SortKey, SpriteFacts } from '../../sheet-manager/manager.type';
-import type { EntryDrag } from './behavior/useSpriteDrag.type';
-import type { EntryTileDrag, EntryTileHandlers, EntryTileState } from '../EntryTile/EntryTile.type';
+import type { DropSide, EntryDragSpec } from '../../sheet-manager/drag-payload.type';
+import type { EntryTileHandlers, EntryTileState } from '../EntryTile/EntryTile.type';
 
 interface ManagerModel {
   artwork: Artwork;
@@ -33,7 +33,7 @@ interface ManagerModelProps {
 interface SheetZoneProps {
   model: ManagerModel;
   onKeyDown: SpriteKeyHandler;
-  bind: EntryDrag['zone'];
+  onMark: (mark: { key: string; side: DropSide } | null) => void;
   children: ReactNode;
 }
 
@@ -48,8 +48,6 @@ interface SpriteRenameState {
   begin: (spriteId: SpriteId) => void;
   finish: () => void;
 }
-
-type SpriteDragHandlers = EntryTileDrag;
 
 type SpriteState = EntryTileState;
 
@@ -88,7 +86,7 @@ interface SpriteViewProps {
   model: ManagerModel;
   table: RefObject<DataTableHandle | null>;
   affected: readonly SpriteId[];
-  dragFor: (id: string) => SpriteDragHandlers;
+  dragFor: (id: string) => EntryDragSpec;
   handlersFor: (id: string) => SpriteHandlers;
   marks: ReadonlyMap<string, 'before' | 'after'>;
 }
@@ -177,7 +175,6 @@ export type {
   ListRow,
   ManagerModel,
   ManagerModelProps,
-  SpriteDragHandlers,
   SpriteGridProps,
   SpriteHandlers,
   SheetZoneProps,

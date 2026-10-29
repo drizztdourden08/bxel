@@ -4,27 +4,24 @@ import { createBounds } from '../create-bounds';
 import type { Rect } from '../geometry.type';
 import { growBounds } from '../grow-bounds';
 import { maskAllows } from '../mask-allows';
-import { bayerMatrix } from './bayer-matrix';
+import { gradientDither } from './gradient-dither';
 import { gradientPick } from './gradient-pick';
 import { gradientPosition } from './gradient-position';
 import { gradientThreshold } from './gradient-threshold';
 import type { GradientOptions } from './gradient.type';
-import { seamlessSide } from './seamless-side';
 
-const gradientFill = ({ target, mask, colors, line, bayer, origin, kind, reflect, pattern, wrap }: GradientOptions): Rect | null => {
+const gradientFill = (options: GradientOptions): Rect | null => {
+  const { target, mask, colors, line, origin, kind, reflect } = options;
   const bounds = createBounds();
   const shape = { kind, reflect };
-  const style = pattern ?? 'bayer';
-  const side = bayer === null ? 1 : seamlessSide(bayer, target, wrap ?? {});
-  const matrix = side === 1 ? new Uint8Array(1) : bayerMatrix(side);
-  const dithered = bayer !== null && (style !== 'bayer' || side > 1);
+  const dither = gradientDither(options);
   for (const [at, current] of target.pixels.entries()) {
     const x = at % target.width;
     const y = Math.floor(at / target.width);
     if (!maskAllows(mask, x, y)) {
       continue;
     }
-    const threshold = dithered ? gradientThreshold(style, matrix, side, x - origin.x, y - origin.y) : null;
+    const threshold = dither ? gradientThreshold(dither.style, dither.grid, { x: x - origin.x, y: y - origin.y }) : null;
     const index = gradientPick({ colors, position: gradientPosition(line, x, y, shape), threshold });
     if (index !== current) {
       target.pixels[at] = index;

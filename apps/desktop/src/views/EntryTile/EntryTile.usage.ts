@@ -12,7 +12,7 @@ const usage = {
     { case: 'The entries are shown as text rows.', use: 'DataTable' },
   ],
   rules: [
-    'The tile takes its facts, its state, its handlers and its drag handlers from the caller and holds no document state.',
+    'The tile takes its facts, its state, its handlers and its drag entries from the caller and starts a typed drag from them and holds no document state.',
     'A click picks, Ctrl and click toggles, Shift and click extends a range, and a double click opens the entry.',
     'The animation of a tile plays only while the tile is hot, and not at all when the user asks for reduced motion.',
   ],
@@ -29,7 +29,7 @@ import { EntryTile } from '../EntryTile';
 
 const Cell = (props: EntryTileProps) => <EntryTile {...props} box={48} />;
 `,
-  propsHash: '2773d5529ba32dd7',
+  propsHash: '641a74ec83964588',
 } satisfies ComponentUsage;
 
 export { usage };

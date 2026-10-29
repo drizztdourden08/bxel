@@ -1,14 +1,11 @@
 /* @layer tests @kind test */
 import { documentCommands } from '@bxel/document';
 import { buildTools, describeTools, parseToolInput } from '@bxel/mcp';
-import type { ToolSpec } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
 import { INPUT_EXAMPLES } from './examples';
 
-const tools = buildTools(documentCommands);
-
-const toolNamed = (name: string): ToolSpec => {
-  const found = tools.find((tool) => tool.name === name);
+const toolNamed = (name: string) => {
+  const found = buildTools(documentCommands).find((tool) => tool.name === name);
   if (!found) throw new Error(`No tool ${name}`);
   return found;
 };

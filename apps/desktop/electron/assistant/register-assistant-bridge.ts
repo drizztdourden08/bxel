@@ -21,7 +21,7 @@ const registerAssistantBridge = (bridge: BridgeServer, ctx: MainContext): void =
   const state = assistantMain;
   state.ctx = ctx;
   state.bridge = bridge;
-  state.handoff = readHandoff(takeRestartHandoff());
+  state.handoff = readHandoff(takeRestartHandoff(), Date.now());
   bridge.handleWith(HELLO_ROUTE, serveHello(state), { validate: (args) => args.length === 1 });
   bridge.handleWith(BYE_ROUTE, serveBye(state), { validate: (args) => args.length === 1 });
   for (const tool of buildTools(APP_COMMANDS)) {

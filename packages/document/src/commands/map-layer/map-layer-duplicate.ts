@@ -3,17 +3,14 @@ import { registerRef } from '../../draft/register-ref';
 import { updateTilemap } from '../../draft/update-tilemap';
 import type { MapLayerId } from '../../model/ids.type';
 import type { MapLayer } from '../../model/tilemap.type';
-import { MAX_MAP_LAYERS } from '../../model/tilemap-limits.constants';
 import { mapLayerDuplicateSchema } from '../../schema/map-layer-duplicate-schema';
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
-import { ERROR_CODE } from '../error-code.constants';
-import { fail } from '../fail';
 import { chooseLayerName } from '../layer/choose-layer-name';
 import { freeName } from '../layer/free-name';
 import { COPY_SUFFIX } from '../layer/layer.constants';
 import { pickMapLayer } from '../tilemap/pick-map-layer';
-import { pickTilemap } from '../tilemap/pick-tilemap';
+import { pickRoomyTilemap } from '../tilemap/pick-roomy-tilemap';
 
 const mapLayerDuplicate = defineCommand({
   name: COMMAND_NAME.mapLayerDuplicate,
@@ -21,10 +18,7 @@ const mapLayerDuplicate = defineCommand({
   schema: mapLayerDuplicateSchema,
   run: (draft, input) => {
     const { options } = input;
-    const tilemap = pickTilemap(draft, options.tilemap);
-    if (tilemap.layers.length >= MAX_MAP_LAYERS) {
-      throw fail(ERROR_CODE.LIMIT_REACHED, `A tilemap holds at most ${MAX_MAP_LAYERS} layers.`);
-    }
+    const tilemap = pickRoomyTilemap(draft, options.tilemap);
     const { layer, index } = pickMapLayer(tilemap, options.layer);
     const names = tilemap.layers.map((item) => item.name);
     const copy: MapLayer = {

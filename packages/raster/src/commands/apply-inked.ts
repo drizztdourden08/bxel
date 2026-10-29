@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import { ERROR_CODE, fail, requireBank, requireSprite } from '@bxel/document';
 import type { Artwork, ResolvedCel } from '@bxel/document';
+import { SHADING_KINDS } from '../ink/ink.constants';
 import { inkRule } from '../ink/ink-rule';
 import { inkTable } from '../ink/ink-table';
 import type { Ink } from '../ink/ink.type';
@@ -9,8 +10,6 @@ import { savedBrushPatch } from './saved-brush-patch';
 import type { InkedOperate, InkedRun } from './ink-run.type';
 import { targetIssue } from './target-issue';
 import { uniqueCels } from './unique-cels';
-
-const SHADING = new Set(['shade', 'lighten', 'darken']);
 
 const tableOf = (artwork: Artwork, cel: ResolvedCel, ink: Ink): Uint8Array => {
   const table = inkTable(requireBank(artwork, requireSprite(artwork, cel.spriteId).bankId), ink);
@@ -23,7 +22,7 @@ const tableOf = (artwork: Artwork, cel: ResolvedCel, ink: Ink): Uint8Array => {
 };
 
 const applyInked = ({ draft, cels, ink }: InkedRun, operate: InkedOperate): void => {
-  const shading = ink !== undefined && SHADING.has(ink.kind);
+  const shading = ink !== undefined && SHADING_KINDS.has(ink.kind);
   for (const cel of uniqueCels(cels)) {
     const patch = ink?.kind === 'pattern' ? savedBrushPatch(draft.artwork, ink.brushId) : null;
     const rule = inkRule(ink, shading ? tableOf(draft.artwork, cel, ink) : null, patch);

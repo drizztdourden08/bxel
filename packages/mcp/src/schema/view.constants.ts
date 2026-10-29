@@ -150,15 +150,4 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
     .describe('Selects cells on the tilemap the owner has open, with the same combine rules as selection. The owner sees the cells and can move, copy or cut them.'),
 });
 
-export {
-  COMBINE_VALUES,
-  COORDINATE_SCHEMA,
-  MAP_SELECTION_REPLY_SCHEMA,
-  RUNS_SCHEMA,
-  SELECTION_REPLY_SCHEMA,
-  SELECTION_SHAPE_SCHEMA,
-  SET_VIEW_INPUT_SCHEMA,
-  TILED_VALUES,
-  TOOL_ID_VALUES,
-  VIEW_RECT_SCHEMA,
-};
+export { COMBINE_VALUES, MAP_SELECTION_REPLY_SCHEMA, RUNS_SCHEMA, SELECTION_REPLY_SCHEMA, SET_VIEW_INPUT_SCHEMA, TOOL_ID_VALUES };

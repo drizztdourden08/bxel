@@ -9,16 +9,10 @@ import {
   readGrant,
   toolsForGrant,
 } from '@bxel/mcp';
-import type { BundleId, Grant, Level, ToolRowId } from '@bxel/mcp';
+import type { Grant } from '@bxel/mcp';
 import { documentCommands } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-
-const withBundles = (changes: Partial<Record<BundleId, Level>>, base: Grant = PRESETS.full_control.grant): Grant => ({
-  ...base,
-  bundles: { ...base.bundles, ...changes },
-});
-
-const withTools = (tools: Partial<Record<ToolRowId, Level>>, base: Grant = PRESETS.full_control.grant): Grant => ({ ...base, tools });
+import { withBundles, withTools } from './grant-builders';
 
 describe('the tool list a program sees', () => {
   const descriptors = describeTools(documentCommands);

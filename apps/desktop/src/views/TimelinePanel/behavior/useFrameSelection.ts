@@ -7,13 +7,14 @@ import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { goToFrame } from '../../../timeline/go-to-frame';
 import { selectFrameIds } from '../../../timeline/select-frame-ids';
 import type { AnimationFocus } from '../../../timeline/timeline.type';
+import { zoneHandlesKey } from './zone-handles-key';
 
 const useFrameSelection = (focus: AnimationFocus): SelectionModel => {
   const picked = useTimelineStore((state) => state.selection.frames);
   const order = useMemo(() => focus.animation.frames.map((frame) => frame.id), [focus.animation.frames]);
   const selected = useMemo<ReadonlySet<string>>(() => new Set(picked), [picked]);
   const current = focus.frame.id;
-  return useSelectionModel({
+  const model = useSelectionModel({
     order,
     selected,
     onPick: (key) => goToFrame(key as AnimFrameId),
@@ -23,6 +24,15 @@ const useFrameSelection = (focus: AnimationFocus): SelectionModel => {
       else selectFrameIds(ids, ids.includes(current) ? current : ids.at(-1));
     },
   });
+  return useMemo<SelectionModel>(
+    () => ({
+      ...model,
+      onKeyDown: (event, key) => {
+        if (!zoneHandlesKey(event)) model.onKeyDown(event, key);
+      },
+    }),
+    [model],
+  );
 };
 
 export { useFrameSelection };

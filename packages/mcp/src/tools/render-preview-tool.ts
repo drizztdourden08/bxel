@@ -14,9 +14,8 @@ import {
 import { COUNT_SCHEMA, SHA256_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
+import { FACING_SCHEMA } from './get-animation-tool.constants';
 import { TOOL_NAME } from './tool-name.constants';
-
-const FACING_VALUES = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'] as const;
 
 const spriteTarget = z.strictObject({ spriteId: SPRITE_ID_SCHEMA, frameId: FRAME_ID_SCHEMA.optional() });
 const sheetTarget = z.strictObject({ sheetId: SHEET_ID_SCHEMA });
@@ -29,7 +28,7 @@ const animationTarget = z
     animationId: ANIMATION_ID_SCHEMA,
     frameId: ANIM_FRAME_ID_SCHEMA.optional().describe('Draw this one frame, composed on the animation canvas.'),
     tagId: TAG_ID_SCHEMA.optional().describe('Draw the frames of this tag in play order as a strip, left to right.'),
-    facing: z.enum(FACING_VALUES).optional().describe('Draw the tag that plays this facing in play order. A mirror tag draws its frames flipped.'),
+    facing: FACING_SCHEMA.optional().describe('Draw the tag that plays this facing in play order. A mirror tag draws its frames flipped.'),
     allFacings: z.boolean().optional().describe('Draw one row per facing of the animation, each a strip of its tag in play order.'),
   })
   .refine((target) => [target.frameId, target.tagId, target.facing, target.allFacings].filter((each) => each !== undefined).length <= 1, {
@@ -63,7 +62,7 @@ const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
     mimeType: z.enum(['image/png', 'image/gif', 'image/apng']).optional().describe('The type of the image block. Absent means image/png.'),
     frames: COUNT_SCHEMA.optional().describe('Animated: the number of frames in the file.'),
     totalMs: COUNT_SCHEMA.optional().describe('Animated: the duration of one pass.'),
-    rows: z.array(z.strictObject({ facing: z.enum(FACING_VALUES), tagId: TAG_ID_SCHEMA })).optional().describe('allFacings: the facing of each row from the top, with its tag.'),
+    rows: z.array(z.strictObject({ facing: FACING_SCHEMA, tagId: TAG_ID_SCHEMA })).optional().describe('allFacings: the facing of each row from the top, with its tag.'),
   }),
 });
 

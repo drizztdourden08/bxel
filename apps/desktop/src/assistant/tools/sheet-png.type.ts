@@ -7,6 +7,7 @@ type SheetPicture = {
   readonly revision: number;
   readonly sheetId: string;
   readonly scale: number;
+  readonly fileName?: string;
   readonly hidden: ReadonlySet<string>;
   readonly exported?: boolean;
 };

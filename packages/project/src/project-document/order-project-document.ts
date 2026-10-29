@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import type { CustomBrush } from '@bxel/document';
+import type { SavedBrush } from '@bxel/document';
 import type { PaletteDefault, PixelSize, ProjectDefaults } from '../defaults/asset-defaults.type';
 import { orderExportPreset } from './order-export-preset';
 import { FOLDER_ROLES } from './project-document.constants';
@@ -39,7 +39,7 @@ const orderExport = (settings: ProjectExport) => ({
   ...(settings.presets === undefined ? {} : { presets: settings.presets.map(orderExportPreset) }),
 });
 
-const orderBrush = (brush: CustomBrush) => ({ id: brush.id, name: brush.name, width: brush.width, height: brush.height, pixels: brush.pixels });
+const orderBrush = (brush: SavedBrush) => ({ id: brush.id, name: brush.name, width: brush.width, height: brush.height, pixels: brush.pixels });
 
 const orderProjectDocument = (manifest: ProjectDocument) => ({
   format: manifest.format,

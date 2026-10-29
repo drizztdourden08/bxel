@@ -5,11 +5,13 @@ import { celChanges } from './cel-changes';
 
 const structureKeys = ['width', 'height', 'layers', 'frames', 'tags', 'slices'] as const;
 
+const gridChanged = (before: Sprite, after: Sprite): boolean =>
+  before.pixelGrid?.width !== after.pixelGrid?.width || before.pixelGrid?.height !== after.pixelGrid?.height;
+
 const optionsChanged = (before: Sprite, after: Sprite): boolean =>
   before.platformId !== after.platformId ||
   before.platformStrict !== after.platformStrict ||
-  before.pixelGrid?.width !== after.pixelGrid?.width ||
-  before.pixelGrid?.height !== after.pixelGrid?.height ||
+  gridChanged(before, after) ||
   before.guides !== after.guides ||
   before.selections !== after.selections ||
   before.symmetry !== after.symmetry;

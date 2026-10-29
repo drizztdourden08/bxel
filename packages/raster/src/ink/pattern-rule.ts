@@ -3,7 +3,6 @@ import type { BufferView } from '../buffer.type';
 import { foldCoord } from '../fold-coord';
 import type { Ink, InkRule } from './ink.type';
 
-/** Paints the colours of a saved brush as a pattern that repeats from the origin, and leaves the pixels where the brush is empty. */
 const patternRule = (patch: BufferView, ink: Extract<Ink, { kind: 'pattern' }>): InkRule => ({
   once: false,
   apply: (_current, x, y) => {
