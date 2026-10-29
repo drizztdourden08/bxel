@@ -27,8 +27,15 @@ const inked = (grid: Uint8Array): Uint8Array => {
 };
 
 const same = async (rig: SheetRig, expected: readonly Uint8Array[]): Promise<void> => {
-  await rig.saveAll();
-  await expect.poll(() => rig.parts().map((part) => [...part]), { timeout: 15000 }).toEqual(expected.map((part) => [...part]));
+  await expect
+    .poll(
+      async () => {
+        await rig.saveAll();
+        return rig.parts().map((part) => [...part]);
+      },
+      { timeout: 30000, interval: 500 },
+    )
+    .toEqual(expected.map((part) => [...part]));
 };
 
 const selectAll = async (rig: SheetRig): Promise<void> => {

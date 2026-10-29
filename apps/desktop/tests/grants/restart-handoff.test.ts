@@ -9,7 +9,7 @@ const grant: Grant = { ...PRESETS.full_control.grant, special: { mayRestart: tru
 
 const NOW = 1_800_000_000_000;
 
-const stateWith = (raw: unknown) => ({ handoff: readHandoff(raw) });
+const stateWith = (raw: unknown, receivedAt: number = NOW) => ({ handoff: readHandoff(raw, receivedAt) });
 
 const note = (overrides: Record<string, unknown> = {}) => ({ kind: 'assistant-restart', key: 'sample agent', grant, at: NOW, ...overrides });
 
@@ -27,9 +27,18 @@ describe('the restart handoff', () => {
     expect(inheritedPairing(state, { name: 'Sample Agent', version: null }, NOW + 1000)).toBeNull();
   });
 
-  it('ignores a note older than 60 seconds or from the future', () => {
-    expect(inheritedPairing(stateWith(note()), { name: 'Sample Agent', version: null }, NOW + 60_001)).toBeNull();
-    expect(inheritedPairing(stateWith(note()), { name: 'Sample Agent', version: null }, NOW - 1)).toBeNull();
+  it('counts the 60 seconds from when the new app started, not from the restart request', () => {
+    const slowStart = NOW + 90_000;
+    const client = { name: 'Sample Agent', version: null };
+    expect(inheritedPairing(stateWith(note(), slowStart), client, slowStart + 5000)).toMatchObject({ ok: true, trust: 'this_launch' });
+    expect(inheritedPairing(stateWith(note(), slowStart), client, slowStart + 60_001)).toBeNull();
+    expect(inheritedPairing(stateWith(note(), slowStart), client, slowStart - 1)).toBeNull();
+  });
+
+  it('ignores a note whose restart request is far older than the start, or newer than it', () => {
+    const client = { name: 'Sample Agent', version: null };
+    expect(inheritedPairing(stateWith(note(), NOW + 300_001), client, NOW + 300_002)).toBeNull();
+    expect(inheritedPairing(stateWith(note(), NOW - 1), client, NOW)).toBeNull();
   });
 
   it('ignores a malformed note, a blocked grant and a note of another kind', () => {

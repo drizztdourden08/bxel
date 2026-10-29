@@ -13,6 +13,12 @@ interface DragState {
   entries: readonly DragEntry[];
 }
 
+interface EntryDragSpec {
+  entries: () => readonly DragEntry[];
+  source: DragSource;
+  disabled?: boolean;
+}
+
 type DropSide = 'before' | 'after';
 
 interface DropTarget {
@@ -20,4 +26,4 @@ interface DropTarget {
   side: DropSide;
 }
 
-export type { DragEntry, DragSource, DragState, DropSide, DropTarget };
+export type { DragEntry, DragSource, DragState, DropSide, DropTarget, EntryDragSpec };

@@ -59,7 +59,7 @@ describe('the drawn grid of a large sheet', () => {
       affected: [],
       box: 48,
       marks: new Map(),
-      dragFor: () => ({ onDragStart: none, onDragOver: none, onDrop: none }),
+      dragFor: () => ({ entries: () => [], source: 'sheet' }),
       handlersFor: () => ({ onPick: none, onEdit: none, onRename: none, onMenu: none }),
     };
     const page = renderToString(createElement(SpriteGrid, props));

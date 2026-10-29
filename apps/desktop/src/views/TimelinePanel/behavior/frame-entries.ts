@@ -42,6 +42,9 @@ const frameEntries = (frameId: string | undefined): readonly ContextMenuEntry[] 
   const shared = durations.size === 1 ? [...durations][0] : undefined;
   const sprite = frames.find((frame) => frame.id === frameId)?.spriteId;
   const kind = sprite === null || sprite === undefined ? undefined : findSprite(focus.artwork, sprite)?.role;
+  const owned = frames.some(
+    (frame) => picked.includes(frame.id) && frame.spriteId !== null && findSprite(focus.artwork, frame.spriteId)?.role === 'frame',
+  );
   const spans = tags.flatMap((tag) => (tag.kind === 'span' ? [tag] : []));
   return [
     { command: 'timeline.play_from', label: TIMELINE_MENU.playFrom, args: { frameId } },
@@ -58,6 +61,8 @@ const frameEntries = (frameId: string | undefined): readonly ContextMenuEntry[] 
       items: [
         { command: 'timeline.open_sprite', label: TIMELINE_MENU.openSprite, ...unless(kind === 'sprite', TIMELINE_MENU.noSprite) },
         { command: 'timeline.make_copy', label: TIMELINE_MENU.makeCopy, ...unless(kind === 'sprite', TIMELINE_MENU.noSprite) },
+        { command: 'timeline.move_to_own_file', label: TIMELINE_MENU.moveToOwnFile, ...unless(owned, TIMELINE_MENU.ownFileAlready) },
+        { command: 'timeline.show_in_project', label: TIMELINE_MENU.showInProject, ...unless(kind === 'sprite', kind === undefined ? TIMELINE_MENU.noSprite : TIMELINE_MENU.noOwnFile) },
       ],
     },
     {
