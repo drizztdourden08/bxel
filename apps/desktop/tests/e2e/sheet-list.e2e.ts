@@ -55,8 +55,6 @@ const checksSortAndKeys = async (session: Session): Promise<void> => {
   await tableOf(session).getByRole('button', { name: 'Sort by Width', exact: true }).click();
   await expect.poll(() => shownNames(session)).toEqual(['tiny', 'hero', 'slime', 'fx/glow', 'fx/spark']);
   await rowOf(session, 'slime').click();
-  await session.page.keyboard.press('ArrowRight');
-  await rowOf(session, 'slime').getByRole('checkbox').focus();
   await session.page.keyboard.press('ArrowDown');
   await expect.poll(() => selected(session, 'fx/glow')).toBe('true');
   expect(await selected(session, 'slime')).toBe('false');

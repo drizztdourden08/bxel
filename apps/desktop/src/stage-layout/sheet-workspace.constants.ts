@@ -10,10 +10,10 @@ const SHEET_WORKSPACE = defineWorkspace({
   when: { when: (context) => context.flags[WORKSPACE_FLAG.sheet] === true },
   layout: {
     rows: [
-      ['main', 'palette'],
-      ['timeline', 'sprites', 'tileset'],
+      ['project', 'main', 'palette'],
+      { cells: ['timeline', 'sprites', 'tileset'], under: 'main' },
     ],
-    widths: [[0.8, 0.2], [0.5, 0.3, 0.2]],
+    widths: [[0.2, 0.6, 0.2], [0.5, 0.3, 0.2]],
     sizes: [0.55, 0.45],
   },
 });
