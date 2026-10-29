@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Point } from '@bxel/document';
 import type { DropTarget } from './drag-payload.type';
-
-const ENTRY_SELECTOR = '[data-sprite-id]';
+import { ENTRY_SELECTOR } from './drop-target-at.constants';
 
 const dropTargetAt = (point: Point): DropTarget => {
   const tile = document.elementFromPoint(point.x, point.y)?.closest(ENTRY_SELECTOR);
