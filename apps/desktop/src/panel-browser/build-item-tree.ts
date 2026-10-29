@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { AssetRow } from '../asset-list/asset-list.type';
 import { parentOf } from '../workspace/parent-of';
+import { toSlashes } from '../workspace/to-slashes';
 import { entryItem } from './entry-item';
 import { folderItem } from './folder-item';
 import { ghostItems } from './ghost-items';
@@ -46,7 +47,10 @@ const attach = (items: ReadonlyMap<string, BrowserItem>): ReadonlyMap<string | n
   return new Map([...groups].map(([parent, keys]) => [parent, sortChildren(keys, items)] as const));
 };
 
-const unsavedRows = (rows: readonly AssetRow[]): readonly AssetRow[] => rows.filter((row) => row.path === '');
+const unwritten = (row: AssetRow, known: ReadonlyMap<string, string>): boolean => row.loaded && row.dirty && !known.has(toSlashes(row.path).toLowerCase());
+
+const unsavedRows = (rows: readonly AssetRow[], known: ReadonlyMap<string, string>, listed: boolean): readonly AssetRow[] =>
+  rows.filter((row) => row.path === '' || (listed && unwritten(row, known)));
 
 const buildItemTree = (input: TreeInput): ItemTree => {
   const roots = input.roots.map(rootItem);
@@ -56,8 +60,9 @@ const buildItemTree = (input: TreeInput): ItemTree => {
   withKeyedItems(items, folderItems(input, rootKeys));
   withKeyedItems(items, fileItems(input, rootKeys));
   const ghostRoots = input.listed ? roots.filter((root) => !root.readOnly).map((root) => root.key) : [];
-  withKeyedItems(items, ghostItems(input.rows, lowerIndex(items), ghostRoots));
-  const unsaved = unsavedRows(input.rows);
+  const listedKeys = lowerIndex(items);
+  withKeyedItems(items, ghostItems(input.rows, listedKeys, ghostRoots));
+  const unsaved = unsavedRows(input.rows, listedKeys, input.listed);
   if (unsaved.length > 0) {
     items.set(UNSAVED_KEY, groupItem(UNSAVED_KEY, UNSAVED_NAME));
     withKeyedItems(items, unsaved.map((row) => unsavedItem(row, UNSAVED_KEY)));

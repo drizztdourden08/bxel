@@ -15,6 +15,8 @@ const visibleCenter = async (page: Page, box: Box): Promise<{ x: number; y: numb
 };
 
 const dragByPointer = async (page: Page, from: Locator, to: Locator): Promise<void> => {
+  await to.scrollIntoViewIfNeeded();
+  await from.scrollIntoViewIfNeeded();
   const start = await from.boundingBox();
   const end = await to.boundingBox();
   if (!start || !end) throw new Error('The drag source or target is not on the page.');

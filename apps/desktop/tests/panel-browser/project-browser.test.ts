@@ -72,6 +72,14 @@ describe('the project tree', () => {
     expect(group && nested.childrenOf(group)?.length).toBe(1);
   });
 
+  test('puts a copy that has a planned path but no file yet in the unsaved group', () => {
+    const copy = row('sprite', `${ROOT}/sprites/hero copy.bxsprite`, { dirty: true });
+    const tree = treeOf([...BASE_ROWS, copy]);
+    const group = treeNest(tree, null).top.find((each) => each.role === 'group');
+    expect(group && treeNest(tree, null).childrenOf(group)?.map((each) => each.name)).toEqual(['hero copy']);
+    expect(tree.items.get(copy.id)?.path).toBe('');
+  });
+
   test('offers a new sprite row first inside the folder it is made in', () => {
     const tree = treeOf();
     const nested = treeNest(tree, { parentKey: `${ROOT}/sprites`, create: 'sprite' });
