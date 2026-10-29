@@ -98,7 +98,8 @@ describe('export_document', () => {
     const done = await handled('export_document', input, { target: `${FOLDER}/tt-sheet.json` });
     expect(done.outcome).toMatchObject({ ok: true, files: [{ fileName: 'tt-sheet.json' }] });
     const written = current.rig.disk.files.get(`${FOLDER}/tt-sheet.json`) as Uint8Array;
-    expect(() => JSON.parse(new TextDecoder().decode(written))).not.toThrow();
+    const parsed: unknown = JSON.parse(new TextDecoder().decode(written));
+    expect(parsed).toBeTypeOf('object');
   });
 
   it('refuses atlas-json for a sprite and an animation', async () => {

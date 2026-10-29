@@ -14,4 +14,4 @@ interface EntryClipboardState {
   clear: () => void;
 }
 
-export type { EntryClip, EntryClipboardState };
+export type { EntryClipboardState };

@@ -2,7 +2,6 @@
 import type { WidgetMeta } from '@drizztdourden08/brock-react';
 import { WIDGET_CONTEXT } from '../ui-context/widget-context.constants';
 import { SpritesPanel } from '../views/SpritesPanel';
-import { SheetEmpty } from '../views/SpritesPanel/sub-components/SheetEmpty';
 
 const meta: WidgetMeta = {
   label: 'Sheet',
@@ -14,7 +13,6 @@ const meta: WidgetMeta = {
   popOut: false,
   defaultVisibility: 'context-only',
   context: WIDGET_CONTEXT.sheet,
-  empty: SheetEmpty,
 };
 
 const SpritesWidget = () => <SpritesPanel />;

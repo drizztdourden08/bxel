@@ -28,7 +28,13 @@ const names = async (session: Session): Promise<string[]> => {
   return labels.map((label) => label.split(',')[0] ?? '');
 };
 
-const showsTheEntriesOfTheSheet = async (session: Session): Promise<void> => {
+const undoToTheEnd = async (session: Session): Promise<void> => {
+  await session.page.keyboard.press('Control+z');
+  await scrollEnd(session);
+  await expect.poll(() => names(session)).toContain(FOLDER_ANIMATION);
+};
+
+const showsTheEntriesOfTheSheet =async (session: Session): Promise<void> => {
   await expect.poll(() => names(session)).toEqual(expect.arrayContaining(['hero', 'slime', 'tiny']));
   await scrollEnd(session);
   await expect.poll(() => names(session)).toContain(FOLDER_ANIMATION);
@@ -47,15 +53,11 @@ const picksAndRemoves = async (session: Session): Promise<void> => {
   await session.page.getByText('Sheet', { exact: true }).last().click();
   await session.page.getByText('Remove from sheet', { exact: true }).last().click();
   await expect.poll(async () => (await names(session)).includes(FOLDER_ANIMATION)).toBe(false);
-  await session.page.keyboard.press('Control+z');
-  await scrollEnd(session);
-  await expect.poll(() => names(session)).toContain(FOLDER_ANIMATION);
+  await undoToTheEnd(session);
   await tile(session, FOLDER_ANIMATION).click();
   await session.page.keyboard.press('Backspace');
   await expect.poll(async () => (await names(session)).includes(FOLDER_ANIMATION)).toBe(false);
-  await session.page.keyboard.press('Control+z');
-  await scrollEnd(session);
-  await expect.poll(() => names(session)).toContain(FOLDER_ANIMATION);
+  await undoToTheEnd(session);
 };
 
 const libraryHoldsTheRest = async (session: Session): Promise<void> => {

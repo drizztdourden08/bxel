@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { AlignBox, AlignMove } from './align.type';
+import { movedOnly } from './moved-only';
 
 const rowsPlan = (boxes: readonly AlignBox[], gap: number): AlignMove[] => {
   if (boxes.length < 2) return [];
@@ -20,10 +21,7 @@ const rowsPlan = (boxes: readonly AlignBox[], gap: number): AlignMove[] => {
     x += box.width + gap;
     tallest = Math.max(tallest, box.height);
   });
-  return moves.filter((move) => {
-    const box = boxes.find((each) => each.id === move.id);
-    return box !== undefined && (box.x !== move.at.x || box.y !== move.at.y);
-  });
+  return movedOnly(boxes, moves);
 };
 
 export { rowsPlan };

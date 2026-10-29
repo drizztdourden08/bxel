@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { ALIGN_AT, MIN_DISTRIBUTE } from './align.constants';
+import { movedOnly } from './moved-only';
 import type { AlignBounds, AlignBox, AlignEdge, AlignMode, AlignMove } from './align.type';
 
 const boundsOf = (boxes: readonly AlignBox[]): AlignBounds => ({
@@ -35,10 +36,7 @@ const distribute = (boxes: readonly AlignBox[], horizontal: boolean): AlignMove[
 const alignPlan = (boxes: readonly AlignBox[], mode: AlignMode): AlignMove[] => {
   if (boxes.length < 2) return [];
   const moves = mode === 'horizontal' || mode === 'vertical' ? distribute(boxes, mode === 'horizontal') : alignEdge(boxes, mode);
-  return moves.filter((move) => {
-    const box = boxes.find((each) => each.id === move.id);
-    return box !== undefined && (box.x !== move.at.x || box.y !== move.at.y);
-  });
+  return movedOnly(boxes, moves);
 };
 
 export { alignPlan };

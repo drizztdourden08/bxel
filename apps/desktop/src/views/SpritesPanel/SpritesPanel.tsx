@@ -11,7 +11,7 @@ import './SpritesPanel.css';
 const SpritesPanel = () => {
   const model = useManagerModel();
   useSheetView(model?.sheet?.id ?? null);
-  useSheetTitle(model?.sheet?.name ?? null, (model?.facts.length ?? 0) + (model?.animationFacts.length ?? 0));
+  useSheetTitle(model);
   if (!model?.sheet) return <SheetEmpty />;
   return (
     <Stack gap="xs" className="sprites-panel">

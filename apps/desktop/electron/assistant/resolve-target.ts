@@ -10,8 +10,7 @@ import { join } from 'path';
 import { fieldOf } from '../../src/assistant-bridge/field-of';
 import { saveKindOf } from '../../src/assistant-bridge/save-kind-of';
 import type { TargetCall, WantedFile } from './assistant.type';
-
-const EXPORT_KIND: Readonly<Record<string, FileKind>> = { gif: 'gif', 'atlas-json': 'sheet' };
+import { EXPORT_KIND } from './resolve-target.constants';
 
 const exportKindOf = (input: unknown): FileKind => {
   const format = fieldOf(input, 'format');
