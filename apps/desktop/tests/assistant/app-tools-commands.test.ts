@@ -115,7 +115,7 @@ describe('run_command dialogs and revisions', () => {
     openDocument();
     const shown = await ok('run_command', { id: 'transform.scale', args: { width: 8, height: 8 }, show: true });
     expect(shown).toMatchObject({ ran: false, opened: 'dialog:scale' });
-    expect(usePendingStore.getState().pending?.spec).toMatchObject({ kind: 'scale', width: 8, height: 8 });
+    expect(usePendingStore.getState().pending?.spec).toMatchObject({ kind: 'transform' });
     expect(fake.commands[0]?.ran).toBeUndefined();
   });
 

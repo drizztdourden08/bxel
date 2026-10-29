@@ -9,7 +9,6 @@ interface PendingSettings {
 interface PendingState extends PendingSettings {
   begin: (pending: PendingEdit) => void;
   revise: (spec: PendingSpec) => void;
-  setEditing: (editing: boolean) => void;
   clear: () => void;
 }
 

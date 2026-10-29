@@ -10,7 +10,7 @@ const buildView = (engine: Engine, lastEvent: DocumentEvent): DocumentView => {
     canUndo: engine.canUndo(),
     canRedo: engine.canRedo(),
     lastEvent,
-    newest: newest === null ? null : { label: newest.label, origin: newest.origin, actor: newest.actor },
+    newest: newest === null ? null : { id: newest.id, label: newest.label, origin: newest.origin, actor: newest.actor },
   };
 };
 

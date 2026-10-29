@@ -25,12 +25,24 @@ const MODE_LABELS: Readonly<Record<CombineMode, string>> = {
 const SELECTION_TEXT = {
   nothingSelected: 'Select some pixels first.',
   nothingToPaste: 'Copy a selection first.',
-  tooLarge: 'The copied pixels are larger than this sprite.',
+  nothingToAlign: 'Select some pixels first, then align them.',
+  pastedCropped: 'The copied pixels were larger than this sprite, so the paste is cropped to fit.',
+  pastedRemapped: 'The colours were matched to the nearest ones in this palette.',
+  savedSizeChanged: (name: string): string => `The saved selection "${name}" was made for another canvas size.`,
 } as const;
 
 const SELECTION_LABELS = {
   cut: 'Cut',
   delete: 'Delete selection',
+  fill: 'Fill selection',
+  stroke: 'Stroke selection',
+  align: 'Align',
+  guides: 'Selection to guides',
+  pasteLayer: 'Paste as new layer',
+  pasteSprite: 'Paste as new sprite',
+  pastedName: 'Pasted',
+  save: (name: string): string => `Save selection ${name}`,
+  forget: (name: string): string => `Delete saved selection ${name}`,
 } as const;
 
 const NUDGE_STEP = 1;
@@ -48,7 +60,9 @@ const ARROW_DELTAS: Readonly<Record<string, Point>> = {
   ArrowDown: { x: 0, y: 1 },
 };
 
+const NEW_SPRITE_REF = 'pasted';
+
 export {
-  ARROW_DELTAS, DOUBLE_CLICK, MODE_LABELS, NUDGE_STEP, NUDGE_STEP_FAST, POLYGON_MIN_VERTICES, SELECT_LABELS, SELECT_MODES, SELECT_VARIANTS,
+  ARROW_DELTAS, DOUBLE_CLICK, MODE_LABELS, NEW_SPRITE_REF, NUDGE_STEP, NUDGE_STEP_FAST, POLYGON_MIN_VERTICES, SELECT_LABELS, SELECT_MODES, SELECT_VARIANTS,
   SELECTION_LABELS, SELECTION_TEXT,
 };

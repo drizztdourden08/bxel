@@ -11,6 +11,7 @@ import type { EditorTarget } from '../../src/editor/editor.type';
 import type { PendingEdit } from '../../src/editor/pending/pending.type';
 import { pendingRequest } from '../../src/editor/pending/pending-request';
 import { previewImage } from '../../src/editor/pending/preview-image';
+import { IDENTITY } from '../../src/editor/transform/transform.constants';
 
 const SIDE = 16;
 
@@ -40,7 +41,7 @@ const markedSprite = (): { host: DocumentHost; target: () => EditorTarget } => {
 const rotation = (target: EditorTarget, angle: number): PendingEdit => ({
   documentId: target.documentId,
   sprites: [target.sprite.id],
-  spec: { kind: 'rotate', angle, bounds: 'crop' },
+  spec: { ...IDENTITY, algorithm: 'nearest', angle },
   mask: null,
   editing: false,
 });

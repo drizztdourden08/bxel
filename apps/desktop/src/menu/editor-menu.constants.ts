@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 const MENU_TEXT = {
   edit: 'Edit',
+  select: 'Select',
   palette: 'Palette',
   layer: 'Layer',
   mapLayer: 'Map layer',
@@ -26,6 +27,7 @@ const MENU_TEXT = {
 
 const MENU_KEYS = {
   edit: 'edit',
+  select: 'select',
   transform: 'edit-transform',
   palette: 'palette',
   layer: 'layer',

@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Box, Pressable, Text } from '@drizztdourden08/tessera';
+import { selectLayerPixels } from '../../../editor/selection/select-layer-pixels';
 import { pickHow } from '../../../sheet/pick-how';
 import { colourName } from '../behavior/colour-name';
 import type { LayerMainProps } from '../LayerStack.type';
@@ -11,7 +12,10 @@ const LayerMain = ({ row, active, picked, tabbable, thumbSize, follow, onPick, o
     aria-pressed={picked}
     aria-current={active ? 'true' : undefined}
     tabIndex={tabbable ? 0 : -1}
-    onClick={(event) => onPick(pickHow(event) ?? 'replace')}
+    onClick={(event) => {
+      if (event.ctrlKey && event.altKey) selectLayerPixels(row.id, event.shiftKey ? 'add' : 'replace');
+      else onPick(pickHow(event) ?? 'replace');
+    }}
     onDoubleClick={onRename}
   >
     {row.thumb && thumbSize > 0 && <LayerThumb source={row.thumb} size={thumbSize} follow={follow} />}

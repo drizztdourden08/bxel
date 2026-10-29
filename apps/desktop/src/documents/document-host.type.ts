@@ -26,7 +26,7 @@ type DocumentView = {
   readonly newest: HistoryMark | null;
 };
 
-type HistoryMark = Pick<HistoryEntry, 'label' | 'origin' | 'actor'>;
+type HistoryMark = Pick<HistoryEntry, 'id' | 'label' | 'origin' | 'actor'>;
 
 type HostChange = {
   readonly kind: 'open' | 'close';

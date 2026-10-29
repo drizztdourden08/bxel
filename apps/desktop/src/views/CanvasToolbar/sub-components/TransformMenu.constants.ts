@@ -4,6 +4,7 @@ import { trimActiveSprite } from '../../../canvas-size/trim-active-sprite';
 import { startFlip } from '../../../editor/transform/start-flip';
 import { startRotate } from '../../../editor/transform/start-rotate';
 import { startScale } from '../../../editor/transform/start-scale';
+import { startTransform } from '../../../editor/transform/start-transform';
 import { startTurn } from '../../../editor/transform/start-turn';
 import { CANVAS_SIZE_COMMAND_ID } from '../../../keymap/canvas-size-command-id.constants';
 import { useCanvasSizeStore } from '../../../stores/useCanvasSizeStore';
@@ -32,6 +33,18 @@ const TURN_CCW_HINT: HintSpec = {
   name: 'Rotate 90 counterclockwise',
   description: 'Turn the pixels a quarter turn to the left.',
   shortcuts: [{ command: ID.turnCounterClockwise }],
+};
+
+const TURN_HALF_HINT: HintSpec = {
+  name: 'Rotate 180',
+  description: 'Turn the pixels a half turn.',
+  shortcuts: [{ command: ID.turnHalf }],
+};
+
+const TRANSFORM_TOOL_HINT: HintSpec = {
+  name: 'Transform',
+  description: 'Move, scale, rotate, skew or distort with handles on the canvas. The preview is live and Apply is one undo step.',
+  shortcuts: [{ command: ID.transform }],
 };
 
 const ROTATE_HINT: HintSpec = {
@@ -69,6 +82,8 @@ const TRANSFORM_ACTIONS: readonly TransformAction[] = [
   { id: 'flip-v', run: () => startFlip('vertical'), hint: FLIP_V_HINT, icon: 'pixel-flip-v' },
   { id: 'turn-cw', run: () => startTurn('clockwise'), hint: TURN_CW_HINT, icon: 'pixel-turn-right' },
   { id: 'turn-ccw', run: () => startTurn('counter-clockwise'), hint: TURN_CCW_HINT, icon: 'pixel-turn-left' },
+  { id: 'turn-half', run: () => startTurn('half'), hint: TURN_HALF_HINT },
+  { id: 'transform', run: () => startTransform(), hint: TRANSFORM_TOOL_HINT, icon: 'pixel-transform' },
   { id: 'rotate', run: startRotate, hint: ROTATE_HINT },
   { id: 'scale', run: startScale, hint: SCALE_HINT },
 ];

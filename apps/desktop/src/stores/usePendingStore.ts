@@ -13,7 +13,6 @@ const usePendingStore = create<PendingState>()((set) => ({
       const pending = { ...state.pending, spec };
       return { pending, outcome: pendingOutcome(pending) };
     }),
-  setEditing: (editing) => set((state) => (state.pending ? { pending: { ...state.pending, editing } } : state)),
   clear: () => set(PENDING_DEFAULTS),
 }));
 

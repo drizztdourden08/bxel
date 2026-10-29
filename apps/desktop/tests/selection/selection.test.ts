@@ -89,9 +89,10 @@ describe('the selection commands', () => {
     rig.paint({ x: 3, y: 3, width: 1, height: 1 }, 5);
     rig.paint({ x: 10, y: 10, width: 1, height: 1 }, 5);
     const at = { x: 2, y: 2 };
-    expect(countOn(pointMask(rig.target(), 'wand', at, 4))).toBe(1);
-    expect(countOn(pointMask(rig.target(), 'wand', at, 8))).toBe(2);
-    expect(countOn(pointMask(rig.target(), 'colour', at, 4))).toBe(3);
+    expect(countOn(pointMask(rig.target(), 'wand', at))).toBe(1);
+    useSelectionStore.getState().setConnectivity(8);
+    expect(countOn(pointMask(rig.target(), 'wand', at))).toBe(2);
+    expect(countOn(pointMask(rig.target(), 'colour', at))).toBe(3);
     expect(celPixels(rig.target())[2 * 32 + 2]).toBe(5);
   });
 });
