@@ -66,3 +66,22 @@ describe('sprite.slice by islands', () => {
     expect(refusal(engineOf(['....', '....']), 'sprite.slice', [sheet], { islands: { minSize: 1, merge: 0 } })).toBe('INVALID_OPTION');
   });
 });
+
+describe('sprite.slice when a piece name is already used', () => {
+  const cutOnce = () => {
+    const engine = engineOf(NINE);
+    applyTo(engine, 'sprite.slice', [sheet], { islands: { minSize: 1, merge: 0 }, keep: true });
+    return engine;
+  };
+
+  test('refuses by default, numbers the new pieces with keep and leaves the used names out with skip', () => {
+    expect(refusal(cutOnce(), 'sprite.slice', [sheet], { islands: { minSize: 1, merge: 0 }, keep: true })).toBe('NAME_TAKEN');
+    const kept = cutOnce();
+    applyTo(kept, 'sprite.slice', [sheet], { islands: { minSize: 1, merge: 0 }, keep: true, existing: 'keep' });
+    expect(names(kept)).toContain('blobs_1_2');
+    const skipped = cutOnce();
+    const before = names(skipped).length;
+    applyTo(skipped, 'sprite.slice', [sheet], { islands: { minSize: 1, merge: 0 }, keep: true, existing: 'skip' });
+    expect(names(skipped)).toHaveLength(before);
+  });
+});

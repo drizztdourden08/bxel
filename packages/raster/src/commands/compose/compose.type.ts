@@ -62,7 +62,10 @@ type IslandRequest = {
   readonly merge: number;
 };
 
+type SliceExisting = 'fail' | 'keep' | 'skip';
+
 type SpriteSliceRequest = SliceRequest & {
+  readonly existing?: SliceExisting | undefined;
   readonly islands?: IslandRequest | undefined;
   readonly pattern: string;
   readonly start: number;
@@ -71,4 +74,4 @@ type SpriteSliceRequest = SliceRequest & {
 
 type CelCopier = (celId: CelId, pixels: () => Uint8Array) => CelId;
 
-export type { CelCopier, IslandRequest, LayerBuild, MergeSource, MergeSpec, PieceSpec, SliceCell, SliceGrid, SliceRequest, SpriteParts, SpriteSliceRequest };
+export type { CelCopier, IslandRequest, SliceExisting, LayerBuild, MergeSource, MergeSpec, PieceSpec, SliceCell, SliceGrid, SliceRequest, SpriteParts, SpriteSliceRequest };

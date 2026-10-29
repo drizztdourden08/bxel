@@ -39,6 +39,7 @@ type ReadPixelsInput = DocumentInput & {
 type RenderInput = DocumentInput & {
   readonly target: SpriteSource | AnimationSource | SheetSource;
   readonly scale: number;
+  readonly exported?: boolean;
 };
 
 type WireStep = {

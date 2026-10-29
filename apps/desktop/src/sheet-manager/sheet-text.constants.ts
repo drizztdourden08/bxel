@@ -13,6 +13,7 @@ const SHEET_TEXT = {
   },
   layoutOpen: 'Open the layout settings',
   titleLabel: 'Sheet',
+  widgetTitle: (name: string, count: number): string => `Sheet: ${name} (${count})`,
   add: 'Add',
   addMenu: 'Add to the sheet',
   addFromProject: 'Add from project',

@@ -12,8 +12,9 @@ import { TOOL_TEXT } from './tools.constants';
 
 const renderSheetPreview = async (context: ToolContext, view: DocumentView, input: RenderInput, source: SheetSource): Promise<ToolReply> => {
   const { documentId, scale } = input;
+  const exported = input.exported === true;
   const { revision, artwork } = view.state;
-  const png = sheetPng({ artwork, revision, sheetId: source.sheetId, scale, hidden: hiddenAssets(context, documentId) });
+  const png = sheetPng({ artwork, revision, sheetId: source.sheetId, scale, hidden: hiddenAssets(context, documentId), exported });
   if (!png.ok) return reply(png);
   if (png.value.bytes.length > RENDER_PNG_BYTES_MAX) return reply(mcpFailure(MCP_ERROR_CODE.RESULT_TOO_LARGE, TOOL_TEXT.pngTooLarge));
   return reply(
@@ -24,7 +25,7 @@ const renderSheetPreview = async (context: ToolContext, view: DocumentView, inpu
       height: png.value.height,
       scale,
       indexHash: await indexHash(png.value.bytes),
-      uri: `bxel://${documentId}/sheet/${source.sheetId}/preview.png?scale=${scale}&rev=${revision}`,
+      uri: `bxel://${documentId}/sheet/${source.sheetId}/preview.png?scale=${scale}${exported ? '&exported=1' : ''}&rev=${revision}`,
     },
     [encodeBase64(png.value.bytes)],
   );

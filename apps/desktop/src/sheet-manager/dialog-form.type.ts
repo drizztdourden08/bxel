@@ -45,6 +45,7 @@ interface PieceNamesProps {
 }
 
 interface SliceFieldsProps {
+  clashes: number;
   spec: SliceSpec;
   update: (change: Partial<SliceSpec>) => void;
 }

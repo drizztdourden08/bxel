@@ -14,6 +14,7 @@ interface ManagerSettings {
   picked: readonly string[];
   sheetId: SheetId | null;
   layoutOpen: boolean;
+  folderTarget: string | null;
   showExport: boolean;
   libraryRequest: number;
   atlas: AtlasSettings;

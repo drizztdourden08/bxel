@@ -15,6 +15,7 @@ const spriteSliceSchema = z
     cellWidth: count.optional(),
     cellHeight: count.optional(),
     islands: z.strictObject({ minSize: z.number().int().min(1).max(MAX_SPRITE_SIZE), merge: z.number().int().min(0).max(MAX_SPRITE_SIZE) }).optional(),
+    existing: z.enum(['fail', 'keep', 'skip']).default('fail'),
     skipEmpty: z.boolean().default(true),
   })
   .refine(

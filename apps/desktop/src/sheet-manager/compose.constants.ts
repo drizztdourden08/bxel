@@ -18,6 +18,7 @@ const SLICE_START: SliceSpec = {
   pattern: DEFAULT_PIECE_PATTERN,
   start: 1,
   keep: false,
+  existing: 'keep',
   skipEmpty: true,
 };
 

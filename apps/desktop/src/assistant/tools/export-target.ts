@@ -2,6 +2,7 @@
 import { ERROR_CODE } from '@bxel/document';
 import { checkWrite, EXPORT_FORMAT_VALUES, hiddenFailure, MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { Failure, McpResult } from '@bxel/mcp';
+import type { FileKind } from '@bxel/project';
 import type { ToolContext } from '../assistant.type';
 import { projectWriteTarget } from './project-write-target';
 import type { ExportInput, ExportTarget } from './tool-input.type';
@@ -18,14 +19,20 @@ const folderTarget = (input: ExportInput, context: ToolContext): McpResult<strin
 const formatProblem = ({ source, format }: ExportInput): Failure | null => {
   if (!EXPORT_FORMAT_VALUES.some((each) => each === format)) return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.formatMissing, { path: 'format' });
   if ('spriteId' in source && format === 'gif') return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.gifSprite, { path: 'format' });
-  if ('sheetId' in source && format !== 'png') return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.sheetFormat, { path: 'format' });
+  if ('sheetId' in source && format !== 'png' && format !== 'atlas-json') return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.sheetFormat, { path: 'format' });
+  if (!('sheetId' in source) && format === 'atlas-json') return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.atlasSource, { path: 'format' });
   return null;
+};
+
+const kindOf = (format: string): FileKind => {
+  if (format === 'gif') return 'gif';
+  return format === 'atlas-json' ? 'sheet' : 'png';
 };
 
 const exportTarget = async (input: ExportInput, context: ToolContext): Promise<McpResult<ExportTarget>> => {
   const problem = formatProblem(input);
   if (problem) return problem;
-  const kind = input.format === 'gif' ? 'gif' : 'png';
+  const kind = kindOf(input.format);
   const path = input.location
     ? await projectWriteTarget(context, { location: input.location, kind, overwrite: input.overwrite ?? false })
     : folderTarget(input, context);

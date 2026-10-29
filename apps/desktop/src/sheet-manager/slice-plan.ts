@@ -6,6 +6,8 @@ import { COMPOSE_TEXT } from './compose-text.constants';
 import type { SlicePlan, SliceSpec } from './compose.type';
 import { MAX_PIECES } from './slice-plan.constants';
 import { pieceError } from './piece-error';
+import { resolveSliceNames } from './resolve-slice-names';
+import { sliceClashes } from './slice-clashes';
 import { sliceRequest } from './slice-request';
 
 const namesFor = (sprite: Sprite, pieces: number, spec: SliceSpec): string[] =>
@@ -30,18 +32,22 @@ const islandPlan = (spec: SliceSpec, sources: readonly Sprite[]): Pick<SlicePlan
   return { names: sources.flatMap((sprite, at) => namesFor(sprite, found[at]?.length ?? 0, spec)), grid: null, leftOut: 0, rects: found[0] ?? [] };
 };
 
-const errorOf = (names: readonly string[], spec: SliceSpec, others: readonly string[]): string | null => {
+const errorOf = (names: readonly string[], spec: SliceSpec, taken: readonly string[]): string | null => {
   if (names.length === 0) return spec.by === 'islands' ? COMPOSE_TEXT.noIslands : COMPOSE_TEXT.nothingInGrid;
   if (names.length > MAX_PIECES) return COMPOSE_TEXT.tooManyPieces(MAX_PIECES);
-  return pieceError(names, others);
+  return pieceError(names, taken);
 };
 
-const slicePlan = (spec: SliceSpec, sources: readonly Sprite[], others: readonly string[]): SlicePlan => {
+const slicePlan = (spec: SliceSpec, sources: readonly Sprite[], stay: readonly Sprite[]): SlicePlan => {
   try {
     const parts = spec.by === 'islands' ? islandPlan(spec, sources) : gridPlan(spec, sources);
-    return { ...parts, error: errorOf(parts.names, spec, others) };
+    const others = stay.map((sprite) => sprite.name);
+    const names = resolveSliceNames(parts.names, others, spec.existing);
+    const clashes = sliceClashes(parts.names, stay);
+    const taken = spec.existing === 'replace' ? [] : others;
+    return { ...parts, names, clashes, error: errorOf(names, spec, taken) };
   } catch (failure) {
-    return { names: [], grid: null, leftOut: 0, rects: [], error: failure instanceof Error ? failure.message : COMPOSE_TEXT.nameProblem };
+    return { names: [], clashes: [], grid: null, leftOut: 0, rects: [], error: failure instanceof Error ? failure.message : COMPOSE_TEXT.nameProblem };
   }
 };
 

@@ -45,7 +45,7 @@ const SpriteGrid = (props: SpriteGridProps) => {
       ) : (
         <VirtualGrid
           {...common}
-          sections={[...groups.map(gridSection), ...animationSection(model.animations)]}
+          sections={[...groups.map((group) => gridSection(group, groups.map((each) => each.path).filter((path) => path !== group.path && path !== ''))), ...animationSection(model.animations)]}
           collapsed={closed}
           onToggleSection={(path) => toggle(path)}
         />

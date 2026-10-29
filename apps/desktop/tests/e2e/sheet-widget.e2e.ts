@@ -50,6 +50,12 @@ const picksAndRemoves = async (session: Session): Promise<void> => {
   await session.page.keyboard.press('Control+z');
   await scrollEnd(session);
   await expect.poll(() => names(session)).toContain(FOLDER_ANIMATION);
+  await tile(session, FOLDER_ANIMATION).click();
+  await session.page.keyboard.press('Backspace');
+  await expect.poll(async () => (await names(session)).includes(FOLDER_ANIMATION)).toBe(false);
+  await session.page.keyboard.press('Control+z');
+  await scrollEnd(session);
+  await expect.poll(() => names(session)).toContain(FOLDER_ANIMATION);
 };
 
 const libraryHoldsTheRest = async (session: Session): Promise<void> => {

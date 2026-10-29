@@ -20,8 +20,11 @@ import { APP_COMMANDS } from './keymap/app-commands.constants';
 import { useAppMenu } from './hooks/useAppMenu';
 import { SETTINGS, TITLE_BAR_MENU } from './main.constants';
 import { product } from './product';
+import { registerSheetWorkspace } from './stage-layout/register-sheet-workspace';
 import { closeGuard } from './recovery/close-guard';
 import type { AppSettings } from './settings.type';
+
+registerSheetWorkspace();
 
 const root = document.getElementById('root');
 if (!root) throw new Error('index.html has no #root element');

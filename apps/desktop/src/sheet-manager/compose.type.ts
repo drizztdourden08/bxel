@@ -1,9 +1,11 @@
 /* @layer renderer-app @kind types */
-import type { Rect } from '@bxel/document';
+import type { Rect, SpriteId } from '@bxel/document';
 import type { IslandRequest, SliceGrid, SliceRequest } from '@bxel/raster';
 import type { FrameMode, StripResult, StripSpec } from '../add-frames/add-frames.type';
 
 type SliceBy = 'count' | 'size' | 'islands';
+
+type SliceExistingRule = 'replace' | 'keep' | 'skip';
 
 interface AnimateSpec {
   name: string;
@@ -45,6 +47,7 @@ interface SliceSpec {
   pattern: string;
   start: number;
   keep: boolean;
+  existing: SliceExistingRule;
   skipEmpty: boolean;
 }
 
@@ -62,9 +65,10 @@ interface PiecePlan {
 }
 
 interface SlicePlan extends PiecePlan {
+  clashes: readonly SpriteId[];
   grid: SliceGrid | null;
   leftOut: number;
   rects: readonly Rect[];
 }
 
-export type { AnimatePlan, AnimateSpec, CutStripSpec, PiecePlan, SliceOptions, SlicePlan, SliceSpec, SplitSpec };
+export type { SliceExistingRule, AnimatePlan, AnimateSpec, CutStripSpec, PiecePlan, SliceOptions, SlicePlan, SliceSpec, SplitSpec };

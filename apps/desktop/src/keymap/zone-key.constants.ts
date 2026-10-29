@@ -60,4 +60,28 @@ const SPRITE_REMOVE_KEY: ZoneKey = {
   zone: COMMAND_ZONE.sprites,
 };
 
-export { LAYER_RENAME_KEY, PROJECT_RENAME_KEY, PROJECT_TRASH_KEY, SPRITE_ADD_KEY, SPRITE_REMOVE_KEY, SPRITE_SEARCH_KEY, SPRITE_SELECT_ALL_KEY };
+const SPRITE_COPY_KEY: ZoneKey = {
+  id: 'sprite.copy_entries_key',
+  label: 'Copy the picked entries',
+  group: COMMAND_GROUP.sheet,
+  chord: 'Mod+C',
+  zone: COMMAND_ZONE.sprites,
+};
+
+const SPRITE_CUT_KEY: ZoneKey = {
+  id: 'sprite.cut_entries_key',
+  label: 'Cut the picked entries',
+  group: COMMAND_GROUP.sheet,
+  chord: 'Mod+X',
+  zone: COMMAND_ZONE.sprites,
+};
+
+const SPRITE_PASTE_KEY: ZoneKey = {
+  id: 'sprite.paste_entries_key',
+  label: 'Paste entries on the sheet',
+  group: COMMAND_GROUP.sheet,
+  chord: 'Mod+V',
+  zone: COMMAND_ZONE.sprites,
+};
+
+export { LAYER_RENAME_KEY, PROJECT_RENAME_KEY, PROJECT_TRASH_KEY, SPRITE_ADD_KEY, SPRITE_COPY_KEY, SPRITE_CUT_KEY, SPRITE_PASTE_KEY, SPRITE_REMOVE_KEY, SPRITE_SEARCH_KEY, SPRITE_SELECT_ALL_KEY };

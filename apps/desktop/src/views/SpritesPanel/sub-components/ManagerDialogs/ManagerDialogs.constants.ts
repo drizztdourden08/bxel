@@ -16,6 +16,7 @@ import { AnimateDialog } from './sub-components/AnimateDialog';
 import { CutStripDialog } from './sub-components/CutStripDialog';
 import { PivotDialog } from './sub-components/PivotDialog';
 import { RenameDialog } from './sub-components/RenameDialog';
+import { RenameFolderDialog } from './sub-components/RenameFolderDialog';
 import { ResizeDialog } from './sub-components/ResizeDialog';
 import { SelectionDialog } from './sub-components/SelectionDialog';
 import { SliceDialog } from './sub-components/SliceDialog';
@@ -38,6 +39,12 @@ const SLICE_KINDS = [
   { value: 'islands', label: COMPOSE_TEXT.byIslands },
 ] as const;
 
+const EXISTING_RULES = [
+  { value: 'keep', label: COMPOSE_TEXT.existingKeep },
+  { value: 'replace', label: COMPOSE_TEXT.existingReplace },
+  { value: 'skip', label: COMPOSE_TEXT.existingSkip },
+] as const;
+
 const PREVIEW_ROWS = 8;
 
 const COMPARE_BOX = 128;
@@ -55,6 +62,7 @@ const DIALOG_VIEWS: Readonly<Record<Exclude<ManagerDialog, null>, ComponentType<
   animate: AnimateDialog,
   strip: CutStripDialog,
   slice: SliceDialog,
+  renameFolder: RenameFolderDialog,
 };
 
-export { COMPARE_BOX, DIALOG_VIEWS, DUPLICATE_START, PIVOT_KINDS, PIVOT_START, PREVIEW_ROWS, RENAME_START, SLICE_KINDS };
+export { COMPARE_BOX, DIALOG_VIEWS, DUPLICATE_START, PIVOT_KINDS, EXISTING_RULES, PIVOT_START, PREVIEW_ROWS, RENAME_START, SLICE_KINDS };

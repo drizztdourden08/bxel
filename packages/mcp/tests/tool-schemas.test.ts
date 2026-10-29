@@ -139,6 +139,8 @@ describe('the asset tools', () => {
     expect(parseToolInput(tool('render_preview'), { documentId: DOCUMENT, target: { animationId: animation, tagId: 'tag_4k9m2q7x1v8c' } }).ok).toBe(true);
     expect(parseToolInput(tool('render_preview'), { documentId: DOCUMENT, target: { animationId: animation, frameId: 'afr_4k9m2q7x1v8c', tagId: 'tag_4k9m2q7x1v8c' } }).ok).toBe(false);
     expect(parseToolInput(tool('export_document'), { documentId: DOCUMENT, format: 'gif', source: { animationId: animation }, fileName: 'water.gif' }).ok).toBe(true);
+    expect(parseToolInput(tool('export_document'), { documentId: DOCUMENT, format: 'atlas-json', source: { sheetId: 'sht_4k9m2q7x1v8c' }, fileName: 'atlas.json' }).ok).toBe(true);
+    expect(parseToolInput(tool('render_preview'), { documentId: DOCUMENT, target: { sheetId: 'sht_4k9m2q7x1v8c' }, exported: true }).ok).toBe(true);
   });
 
   it('save_document keeps the asset where it is unless moveAsset is asked for', () => {

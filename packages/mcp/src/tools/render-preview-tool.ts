@@ -28,13 +28,17 @@ const animationTarget = z
 const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
   title: 'Render a preview',
   description:
-    'A PNG of one sprite frame, one animation frame, a strip of an animation (the whole animation, or the frames of one tag, in play order) or one sheet, drawn by the same code as the canvas and the export. Nearest-neighbour scale only. The image is returned as an image block and a resource link.',
+    'A PNG of one sprite frame, one animation frame, a strip of an animation (the whole animation, or the frames of one tag, in play order) or one sheet, drawn by the same code as the canvas and the export (a sheet with exported true is drawn as the exporter packs it). Nearest-neighbour scale only. The image is returned as an image block and a resource link.',
   input: z.strictObject({
     documentId: DOCUMENT_ID_SCHEMA,
     target: z.union([spriteTarget, animationTarget, sheetTarget]),
     scale: z.number().int().min(1).max(16).default(4),
     background: z.enum(['transparent', 'checker']).default('transparent'),
     grid: z.boolean().default(false),
+    exported: z
+      .boolean()
+      .default(false)
+      .describe('A sheet target only: draw the sheet as the exporter packs it (grid or packed layout, spacing, margin; the first page when there are several) instead of the default sheet image.'),
   }),
   output: withFailure({
     revision: REVISION_SCHEMA,

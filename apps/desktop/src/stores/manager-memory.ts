@@ -15,6 +15,7 @@ const settingsOf = (state: ManagerState): ManagerSettings => ({
   picked: [],
   sheetId: state.sheetId,
   layoutOpen: state.layoutOpen,
+  folderTarget: null,
   showExport: state.showExport,
   libraryRequest: 0,
   atlas: state.atlas,

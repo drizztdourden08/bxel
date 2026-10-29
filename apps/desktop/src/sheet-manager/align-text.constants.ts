@@ -15,6 +15,7 @@ const ALIGN_TEXT = {
     horizontal: 'Space evenly across',
     vertical: 'Space evenly down',
   } as Readonly<Record<AlignMode, string>>,
+  rowsLabel: (count: number): string => `Distribute ${count} sprites in rows`,
   label: (mode: AlignMode, count: number): string => `${count === 1 ? 'Align sprite' : `Align ${count} sprites`}: ${mode}`,
 } as const;
 

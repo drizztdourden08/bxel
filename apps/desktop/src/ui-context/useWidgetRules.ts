@@ -2,7 +2,7 @@
 import { useSetAppContext, useShowFlags } from '@drizztdourden08/brock-react';
 import { evaluate } from './evaluate';
 import { useBxelContext } from './useBxelContext';
-import { TOOLBAR_FLAG, WIDGET_CONTEXT } from './widget-context.constants';
+import { TOOLBAR_FLAG, WIDGET_CONTEXT, WORKSPACE_FLAG } from './widget-context.constants';
 
 const useWidgetRules = (): void => {
   const context = useBxelContext((current) => current);
@@ -19,6 +19,7 @@ const useWidgetRules = (): void => {
     [TOOLBAR_FLAG.tools]: visible('toolbar.tools'),
     [TOOLBAR_FLAG.canvas]: visible('toolbar.canvas'),
     [TOOLBAR_FLAG.options]: visible('toolbar.options'),
+    [WORKSPACE_FLAG.sheet]: visible('sheet'),
   });
 };
 

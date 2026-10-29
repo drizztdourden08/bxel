@@ -15,6 +15,10 @@ import { flipSprites } from '../sheet-manager/flip-sprites';
 import { idsByTrait } from '../sheet-manager/ids-by-trait';
 import { invertIds } from '../sheet-manager/invert-ids';
 import { copyToSheet } from '../sheet-manager/copy-to-sheet';
+import { distributeRows } from '../sheet-manager/distribute-rows';
+import { exportSelection } from '../sheet-manager/export-selection';
+import { holdEntries } from '../sheet-manager/hold-entries';
+import { pasteEntries } from '../sheet-manager/paste-entries';
 import { idsLike } from '../sheet-manager/ids-like';
 import { makeTileset } from '../sheet-manager/make-tileset';
 import { moveToSheet } from '../sheet-manager/move-to-sheet';
@@ -123,6 +127,12 @@ const SPRITE_SHEET: readonly CommandDef[] = [
     group,
     run: toSheet((manager, sheet) => moveToSheet(manager.ids, sheet.id)),
   },
+  { id: 'sprite.copy_entries', label: 'Copy the picked entries', group, run: withManager((manager) => holdEntries(manager.ids, manager.picked, manager.sheet?.id ?? null, false)) },
+  { id: 'sprite.cut_entries', label: 'Cut the picked entries', group, run: withManager((manager) => holdEntries(manager.ids, manager.picked, manager.sheet?.id ?? null, true)) },
+  { id: 'sprite.paste_entries', label: 'Paste entries on the sheet', group, run: () => void pasteEntries() },
+  { id: 'sprite.distribute_rows', label: 'Distribute the picked sprites in rows', group, run: withManager((manager) => distributeRows(manager.sheet, manager.ids)) },
+  { id: 'sprite.export_selection_sheet', label: 'Export the picked sprites as a sheet', group, run: () => exportSelection('sheet') },
+  { id: 'sprite.export_selection_files', label: 'Export the picked sprites as PNG files', group, run: () => exportSelection('sprite') },
   {
     id: 'sprite.copy_to_sheet',
     label: 'Copy the picked entries to another sheet',

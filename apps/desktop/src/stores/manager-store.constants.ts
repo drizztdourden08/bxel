@@ -13,6 +13,7 @@ const MANAGER_DEFAULTS: ManagerSettings = {
   picked: [],
   sheetId: null,
   layoutOpen: false,
+  folderTarget: null,
   showExport: false,
   libraryRequest: 0,
   atlas: { extrude: 0, trim: false, powerOfTwo: false, rotate: false, pageSide: 0, page: 0 },

@@ -5,6 +5,7 @@ import { startEntryDrag } from '../../../sheet-manager/drag-payload';
 import type { DropSide, DropTarget } from '../../../sheet-manager/drag-payload.type';
 import { dropEntries } from '../../../sheet-manager/drop-entries';
 import { dragEntriesOf } from './drag-entries-of';
+import { dropImageFiles } from './drop-image-files';
 import { dragGhost } from './drag-ghost';
 import type { ManagerModel, SpriteDragHandlers } from '../SpritesPanel.type';
 import { endEntryDrag } from '../../../sheet-manager/end-entry-drag';
@@ -56,12 +57,14 @@ const useSpriteDrag = (model: ManagerModel | null): EntryDrag => {
   });
   const zone: EntryDrag['zone'] = {
     onDragOver: (event) => {
+      if (event.dataTransfer.types.includes('Files')) event.preventDefault();
       if (!accepts(event)) return;
       event.preventDefault();
       event.dataTransfer.dropEffect = 'move';
     },
     onDragLeave: () => setMark(null),
     onDrop: (event) => {
+      if (dropImageFiles(event)) return;
       if (accepts(event)) finish(event, { key: null, side: 'after' });
     },
   };

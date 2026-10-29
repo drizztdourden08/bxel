@@ -25,6 +25,14 @@ const sheetEntries = (manager: Pick<CurrentManager, 'ids' | 'picked' | 'sheet' |
         items: others.map((each) => ({ command: 'sprite.copy_to_sheet', label: each.name, args: { sheetId: each.id } })),
       },
       { label: MANAGER_TEXT.arrangeLabel, items: arrangeEntries(manager) },
+      {
+        label: MANAGER_TEXT.exportSelection,
+        disabled: ids.length === 0,
+        items: [
+          { command: 'sprite.export_selection_sheet', label: MANAGER_TEXT.exportAsSheet },
+          { command: 'sprite.export_selection_files', label: MANAGER_TEXT.exportAsFiles },
+        ],
+      },
     ],
   };
 };
