@@ -19,6 +19,7 @@ const settleSaved = (workspace: Workspace, current: Artwork, result: SavedAssets
     saved.set(keyId(key), hash);
     const unchanged = current === result.artwork || assetHash(current, key, result.paths) === hash;
     if (unchanged) dirty.delete(keyId(key));
+    else dirty.add(keyId(key));
   }
   for (const key of result.referrers) if (!written.has(keyId(key))) dirty.add(keyId(key));
   return { ...workspace, paths: settledPaths(workspace, result), saved, dirty };

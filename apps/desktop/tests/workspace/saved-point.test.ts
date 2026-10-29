@@ -65,3 +65,25 @@ describe('the saved point of a project', () => {
     expect(clean(documentId)).toBe(false);
   });
 });
+
+describe('an undo that lands while a save is writing', () => {
+  it('keeps the asset unsaved when the file written is not the state the undo went back to', async () => {
+    const { documentId } = await openSampleProject(held);
+    const [first] = artworkOf(documentId).sprites;
+    if (!first) throw new Error('no sprites');
+    await saveWorkspace(held.kit, documentId);
+    paintSprite(documentId, first.id);
+    const write = held.kit.documents.write;
+    let undone = false;
+    held.kit.documents.write = (...args: Parameters<typeof write>) => {
+      if (!undone) {
+        undone = true;
+        host().undo(documentId);
+      }
+      return write(...args);
+    };
+    await saveWorkspace(held.kit, documentId);
+    expect(undone).toBe(true);
+    expect(useWorkspaceStore.getState().workspaces[documentId]?.dirty.has(`sprite:${first.id}`)).toBe(true);
+  });
+});
