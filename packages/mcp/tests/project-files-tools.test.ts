@@ -52,19 +52,24 @@ describe('the project files tools', () => {
     for (const [name, input] of READING) expect(checkGrant(name, input, grant, 'Tester'), name).toBeNull();
   });
 
-  it('allows the writes for the edit presets, and turns them off with the group', () => {
+  it('leaves the changes off in the Edit documents preset and on in Full control, and turns them off with the group', () => {
+    expect(PRESETS.edit_documents.grant.bundles.project_files).toBe('read');
     for (const [name, input] of WRITING) {
-      expect(checkGrant(name, input, PRESETS.edit_documents.grant), name).toBeNull();
+      expect(checkGrant(name, input, PRESETS.edit_documents.grant)?.error.code, name).toBe(MCP_ERROR_CODE.READ_LEVEL);
       expect(checkGrant(name, input, PRESETS.full_control.grant), name).toBeNull();
     }
+    for (const [name, input] of READING) expect(checkGrant(name, input, PRESETS.edit_documents.grant), name).toBeNull();
     const off = { ...PRESETS.full_control.grant, bundles: { ...PRESETS.full_control.grant.bundles, project_files: 'disabled' as const } };
     for (const [name, input] of [...WRITING, ...READING]) expect(checkGrant(name, input, off)?.error.code, name).toBe(MCP_ERROR_CODE.TOOL_DISABLED);
   });
 
   it('lets one tool follow its own level over the group', () => {
-    const grant = { ...PRESETS.edit_documents.grant, tools: { trash_files: 'read' as const } };
+    const grant = { ...PRESETS.full_control.grant, tools: { trash_files: 'read' as const } };
     expect(checkGrant('trash_files', WRITING[5]?.[1], grant)?.error.code).toBe(MCP_ERROR_CODE.READ_LEVEL);
     expect(checkGrant('move_files', WRITING[2]?.[1], grant)).toBeNull();
+    const one = { ...PRESETS.edit_documents.grant, tools: { rename_file: 'edit' as const } };
+    expect(checkGrant('rename_file', WRITING[3]?.[1], one)).toBeNull();
+    expect(checkGrant('move_files', WRITING[2]?.[1], one)?.error.code).toBe(MCP_ERROR_CODE.READ_LEVEL);
   });
 });
 

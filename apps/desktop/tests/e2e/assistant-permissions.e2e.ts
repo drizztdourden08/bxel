@@ -14,7 +14,7 @@ import { patchStep } from './support/patch-step';
 import { useRig } from './support/use-rig';
 
 const FILES = 'Files and saving permission';
-const BUNDLES = 11;
+const BUNDLES = 12;
 
 const RESTART_ROW = 1;
 const SETTING_SCOPE_ROWS = 2;
