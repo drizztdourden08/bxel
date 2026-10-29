@@ -13,6 +13,7 @@ const usage = {
     'Grid, list and columns show the same entries and keep the selection when the view changes.',
     'A move, rename or trash goes through the file operations layer, so the files that link to the moved file are rewritten.',
     'The view, sort, size and folder are kept per project in the owner settings, never in the project file.',
+    'Tags, collections, pinned files and smart filters are kept in the project file, keyed by asset id, so a move keeps them.',
   ],
   a11y: [
     'Tiles are grid cells named by the file, with the selected state set.',
