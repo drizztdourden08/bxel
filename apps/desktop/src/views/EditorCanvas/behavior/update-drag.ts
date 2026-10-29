@@ -5,6 +5,7 @@ import { setFloatOffset } from '../../../editor/pending/set-float-offset';
 import { shiftMask } from '../../../editor/pending/shift-mask';
 import { incomingMask } from '../../../editor/selection/incoming-mask';
 import { mergeMask } from '../../../editor/selection/merge-mask';
+import { heldKeys } from '../../../editor/selection/held-keys';
 import { shapeHold } from '../../../editor/selection/shape-hold';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
@@ -28,7 +29,7 @@ const updateDrag = (active: ActiveDrag, viewport: PixelViewportHandle | null, ev
   const at = pixelAtEvent(viewport, event);
   const { shape } = active;
   active.shape = { ...shape, to: at, path: shape.variant === 'lasso' ? [...shape.path, at] : shape.path };
-  active.hold = shapeHold(active.keys, event);
+  active.hold = shapeHold(active.keys, heldKeys(event));
   useSelectionStore.getState().setDraft(mergeMask(active.base, incomingMask(active.shape, target.sprite, active.hold), active.mode));
 };
 

@@ -10,7 +10,8 @@ import type { PreviewFrame } from './pending.type';
 const frameSize = (target: EditorTarget, result: TransactionOk): Size => {
   const change = result.changes.sprites.find((each) => each.id === target.sprite.id);
   const first = change?.structure === true ? change.cels[0] : undefined;
-  return first ? { width: first.rect.width, height: first.rect.height } : target.sprite;
+  const grown = first !== undefined && (first.rect.width > target.sprite.width || first.rect.height > target.sprite.height);
+  return first && grown ? { width: first.rect.width, height: first.rect.height } : target.sprite;
 };
 
 const layerBuffer = (target: EditorTarget, layer: Layer, size: Size, cels: readonly PreviewCel[]): Uint8Array => {

@@ -4,4 +4,6 @@ import type { MASK_DESCRIPTOR_SCHEMA } from '@bxel/mcp';
 
 type MaskDescriptor = z.output<typeof MASK_DESCRIPTOR_SCHEMA>;
 
-export type { MaskDescriptor };
+type BaseDescriptor = Exclude<MaskDescriptor, { by: 'combine' }>;
+
+export type { BaseDescriptor, MaskDescriptor };

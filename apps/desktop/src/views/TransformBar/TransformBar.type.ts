@@ -16,8 +16,4 @@ interface PivotFieldProps {
   model: TransformBarModel;
 }
 
-interface MethodFieldProps {
-  model: TransformBarModel;
-}
-
-export type { MethodFieldProps, NumberFieldProps, PivotFieldProps, TransformBarModel };
+export type { NumberFieldProps, PivotFieldProps, TransformBarModel };

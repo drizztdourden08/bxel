@@ -83,7 +83,7 @@ const TRANSFORM_ACTIONS: readonly TransformAction[] = [
   { id: 'turn-cw', run: () => startTurn('clockwise'), hint: TURN_CW_HINT, icon: 'pixel-turn-right' },
   { id: 'turn-ccw', run: () => startTurn('counter-clockwise'), hint: TURN_CCW_HINT, icon: 'pixel-turn-left' },
   { id: 'turn-half', run: () => startTurn('half'), hint: TURN_HALF_HINT },
-  { id: 'transform', run: () => startTransform(), hint: TRANSFORM_TOOL_HINT },
+  { id: 'transform', run: () => startTransform(), hint: TRANSFORM_TOOL_HINT, icon: 'pixel-transform' },
   { id: 'rotate', run: startRotate, hint: ROTATE_HINT },
   { id: 'scale', run: startScale, hint: SCALE_HINT },
 ];

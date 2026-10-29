@@ -10,7 +10,14 @@ import { deleteSelection } from '../editor/selection/delete-selection';
 import { invertSelection } from '../editor/selection/invert-selection';
 import { pasteFromSystem } from '../editor/selection/paste-from-system';
 import { reselect } from '../editor/selection/reselect';
-import { resizeSelection } from '../editor/selection/resize-selection';
+import { alignSelection } from '../editor/selection/align-selection';
+import { borderSelection } from '../editor/selection/border-selection';
+import { fillSelection } from '../editor/selection/fill-selection';
+import { resizeByAmount } from '../editor/selection/resize-by-amount';
+import { pasteAndTransform } from '../editor/selection/paste-and-transform';
+import { selectOpaque } from '../editor/selection/select-opaque';
+import { smoothSelection } from '../editor/selection/smooth-selection';
+import { strokeSelection } from '../editor/selection/stroke-selection';
 import { selectAll } from '../editor/selection/select-all';
 import { startFlip } from '../editor/transform/start-flip';
 import { startTransform } from '../editor/transform/start-transform';
@@ -47,12 +54,29 @@ const SELECTION_EDITS: readonly CommandDef[] = [
   { id: ID.invert, label: 'Invert selection', group, chord: 'Mod+Shift+I', whileTyping: false, run: () => void invertSelection() },
   { id: ID.reselect, label: 'Reselect', group, chord: 'Mod+Alt+D', whileTyping: false, run: () => void reselect() },
   { id: ID.save, label: 'Saved selections...', group, run: () => useSelectionNamesStore.getState().show() },
-  { id: ID.expand, label: 'Expand selection by 1 pixel', group, run: () => void resizeSelection(1) },
-  { id: ID.shrink, label: 'Shrink selection by 1 pixel', group, run: () => void resizeSelection(-1) },
+  { id: ID.expand, label: 'Expand selection', group, chord: 'Mod+Alt+=', whileTyping: false, run: () => void resizeByAmount(1) },
+  { id: ID.shrink, label: 'Shrink selection', group, chord: 'Mod+Alt+-', whileTyping: false, run: () => void resizeByAmount(-1) },
+  { id: ID.border, label: 'Border selection', group, run: () => void borderSelection() },
+  { id: ID.smooth, label: 'Smooth selection', group, run: () => void smoothSelection() },
+  { id: ID.selectOpaque, label: 'Select opaque pixels of the layer', group, run: () => void selectOpaque() },
+  { id: ID.strokeInside, label: 'Stroke selection inside', group, run: () => void strokeSelection('inside') },
+  { id: ID.strokeOutside, label: 'Stroke selection outside', group, run: () => void strokeSelection('outside') },
+  { id: ID.fillFront, label: 'Fill selection with the front colour', group, chord: 'Alt+Delete', whileTyping: false, run: () => void fillSelection('foreground') },
+  { id: ID.fillBack, label: 'Fill selection with the back colour', group, chord: 'Mod+Delete', whileTyping: false, run: () => void fillSelection('background') },
+  { id: ID.alignLeft, label: 'Align left', group, run: () => void alignSelection('left') },
+  { id: ID.alignCentre, label: 'Align centre', group, run: () => void alignSelection('centre') },
+  { id: ID.alignRight, label: 'Align right', group, run: () => void alignSelection('right') },
+  { id: ID.alignTop, label: 'Align top', group, run: () => void alignSelection('top') },
+  { id: ID.alignMiddle, label: 'Align middle', group, run: () => void alignSelection('middle') },
+  { id: ID.alignBottom, label: 'Align bottom', group, run: () => void alignSelection('bottom') },
+  { id: ID.pasteAsLayer, label: 'Paste as new layer', group, run: () => void pasteFromSystem('layer') },
+  { id: ID.pasteIntoSelection, label: 'Paste into selection', group, run: () => void pasteFromSystem('selection') },
+  { id: ID.pasteTransform, label: 'Paste and transform', group, run: () => void pasteAndTransform() },
+  { id: ID.pasteExpand, label: 'Paste and expand the canvas', group, run: () => void pasteFromSystem('expand') },
   { id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: () => void copySelection() },
   { id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: () => void cutSelection() },
-  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: () => void pasteFromSystem(false) },
-  { id: ID.pasteInPlace, label: 'Paste in place', group, chord: 'Mod+Shift+V', whileTyping: false, run: () => void pasteFromSystem(true) },
+  { id: ID.paste, label: 'Paste', group, chord: 'Mod+V', whileTyping: false, run: () => void pasteFromSystem('pointer') },
+  { id: ID.pasteInPlace, label: 'Paste in place', group, chord: 'Mod+Shift+V', whileTyping: false, run: () => void pasteFromSystem('place') },
   { id: ID.copyMerged, label: 'Copy merged', group, chord: 'Mod+Shift+C', whileTyping: false, run: () => void copyMerged() },
   {
     id: ID.delete,

@@ -24,9 +24,8 @@ describe('selection and transform', () => {
     await session.page.keyboard.press('Control+t');
     const fields = session.page.getByRole('group', { name: 'Transform' });
     await fields.getByRole('spinbutton', { name: 'Angle', exact: true }).fill('90');
-    const bar = session.page.getByRole('alertdialog', { name: 'Apply bar' });
-    await bar.getByRole('button', { name: 'Apply', exact: true }).click();
-    await bar.waitFor({ state: 'detached' });
+    await fields.getByRole('button', { name: 'Apply', exact: true }).click();
+    await fields.waitFor({ state: 'detached' });
     expect([...(await shownNow())]).toEqual([...turnGrid(original, MARKS_SIDE)]);
     await session.page.keyboard.press('Control+z');
     expect([...(await shownNow())]).toEqual([...original]);

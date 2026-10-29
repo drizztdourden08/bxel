@@ -25,6 +25,7 @@ const MODE_LABELS: Readonly<Record<CombineMode, string>> = {
 const SELECTION_TEXT = {
   nothingSelected: 'Select some pixels first.',
   nothingToPaste: 'Copy a selection first.',
+  nothingToAlign: 'Select some pixels first, then align them.',
   pastedCropped: 'The copied pixels were larger than this sprite, so the paste is cropped to fit.',
   pastedRemapped: 'The colours were matched to the nearest ones in this palette.',
   savedSizeChanged: (name: string): string => `The saved selection "${name}" was made for another canvas size.`,
@@ -33,6 +34,10 @@ const SELECTION_TEXT = {
 const SELECTION_LABELS = {
   cut: 'Cut',
   delete: 'Delete selection',
+  fill: 'Fill selection',
+  stroke: 'Stroke selection',
+  align: 'Align',
+  pasteLayer: 'Paste as new layer',
   save: (name: string): string => `Save selection ${name}`,
   forget: (name: string): string => `Delete saved selection ${name}`,
 } as const;

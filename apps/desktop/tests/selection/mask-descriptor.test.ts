@@ -44,6 +44,23 @@ describe('mask descriptors over MCP', () => {
     expect(count({ by: 'saved', name: 'missing' })).toBe(-1);
   });
 
+  it('combines a list of described shapes', () => {
+    const rig = openRig();
+    const artwork = rig.host.view(rig.documentId)?.state.artwork;
+    if (!artwork) throw new Error('no artwork');
+    const targets = { sprites: [rig.target().sprite.id] };
+    const big = { by: 'rect' as const, rect: { x: 0, y: 0, width: 4, height: 4 } };
+    const small = { by: 'rect' as const, rect: { x: 2, y: 2, width: 4, height: 4 } };
+    const count = (op: 'add' | 'subtract' | 'intersect'): number => {
+      const found = resolveMaskDescriptor({ by: 'combine', op, of: [big, small] }, artwork, targets);
+      return found.ok ? countOn(found.value) : -1;
+    };
+    expect(count('add')).toBe(16 + 16 - 4);
+    expect(count('subtract')).toBe(16 - 4);
+    expect(count('intersect')).toBe(4);
+    expect(MASK_DESCRIPTOR_SCHEMA.safeParse({ by: 'combine', op: 'add', of: [big] }).success).toBe(false);
+  });
+
   it('turns a described mask into a real mask inside a step', () => {
     const rig = openRig();
     rig.paint(MARKS[0], 5);

@@ -2,6 +2,7 @@
 import { commandZone, ToolbarHost } from '@drizztdourden08/brock-react';
 import { Flex } from '@drizztdourden08/tessera';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
+import { useSystemClipWatch } from '../../hooks/useSystemClipWatch';
 import { useTimelinePlayback } from '../../hooks/useTimelinePlayback';
 import { useFileTypePanelStore } from '../../stores/useFileTypePanelStore';
 import { useBxelContext } from '../../ui-context/useBxelContext';
@@ -16,7 +17,6 @@ import { MismatchBar } from '../MismatchBar';
 import { PresetMoveBar } from '../PresetMoveBar';
 import { RecoveryDialog } from '../RecoveryDialog';
 import { StageHeader } from '../StageHeader';
-import { TransformBar } from '../TransformBar';
 import { SplitDialog } from '../SplitDialog';
 import { TilemapDialog } from '../TilemapDialog';
 import { useTilesetMenu } from '../TilesetPanel';
@@ -29,6 +29,7 @@ const EditorScreen = () => {
   const adding = useFileTypePanelStore((state) => state.open);
   const editing = useBxelContext((context) => context.fileType === 'tilemap' && context.tileMode === 'edit') && !adding;
   useTimelinePlayback();
+  useSystemClipWatch();
   useTilesetMenu();
   return (
     <Flex as="main" direction="column" className="editor-screen" aria-label={EDITOR_SCREEN_LABEL}>
@@ -39,7 +40,6 @@ const EditorScreen = () => {
       <PresetMoveBar />
       <MismatchBar />
       <StageHeader />
-      <TransformBar />
       <Flex className="editor-screen__body" {...commandZone(COMMAND_ZONE.canvas)}>
         <ToolbarHost>
           <Flex className={editing ? 'editor-screen__stage editor-screen__stage--tile-edit' : 'editor-screen__stage'}>

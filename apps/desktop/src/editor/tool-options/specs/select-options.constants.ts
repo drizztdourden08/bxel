@@ -36,7 +36,7 @@ const resizeOption = (name: 'expand' | 'shrink', delta: number, priority: number
   caption: name === 'expand' ? OPTION_TEXT.expand : OPTION_TEXT.shrink,
   shortcuts: [{ command: name === 'expand' ? SELECTION_COMMAND_ID.expand : SELECTION_COMMAND_ID.shrink }],
   read: () => false,
-  write: () => resizeSelection(delta),
+  write: () => resizeSelection(delta * selection().amount),
 });
 
 const SELECT_OPTIONS: readonly OptionSpec[] = [
@@ -106,6 +106,23 @@ const SELECT_OPTIONS: readonly OptionSpec[] = [
     read: () => selection().sample,
     write: (value) => selection().setSample(asSample(value)),
     appliesWhen: () => selection().variant === 'wand' || selection().variant === 'colour',
+  },
+  {
+    ...base,
+    id: 'select.amount',
+    name: 'amount',
+    kind: 'number',
+    label: OPTION_TEXT.amount,
+    description: OPTION_TEXT.amountDescription,
+    tier: 1,
+    priority: 50,
+    group: 'actions',
+    default: 1,
+    min: 1,
+    max: 64,
+    step: 1,
+    read: () => selection().amount,
+    write: (value) => selection().setAmount(Number(value)),
   },
   resizeOption('expand', 1, 60),
   resizeOption('shrink', -1, 70),

@@ -27,7 +27,7 @@ const canvasSelectionEntries = (here: Point | null, pending: boolean, tile: bool
     ...back,
     ID.cut,
     ID.copy,
-    { command: ID.paste, ...unless(useSelectionStore.getState().clipboard !== null, CANVAS_MENU.emptyClipboard) },
+    { command: ID.paste, ...unless(useSelectionStore.getState().clipboard !== null || useSelectionStore.getState().systemClip, CANVAS_MENU.emptyClipboard) },
     ...(tile ? ['tilemap.duplicate_tile'] : []),
     'separator',
     transformEntries(),

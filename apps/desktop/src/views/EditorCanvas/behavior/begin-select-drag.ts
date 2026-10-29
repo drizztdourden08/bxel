@@ -8,6 +8,7 @@ import { addVertex } from '../../../editor/selection/add-vertex';
 import { closePolygon } from '../../../editor/selection/close-polygon';
 import { commitSelection } from '../../../editor/selection/commit-selection';
 import { freshKeys } from '../../../editor/selection/fresh-keys';
+import { heldKeys } from '../../../editor/selection/held-keys';
 import { incomingMask } from '../../../editor/selection/incoming-mask';
 import { mergeMask } from '../../../editor/selection/merge-mask';
 import { modeOf } from '../../../editor/selection/mode-of';
@@ -45,7 +46,7 @@ const beginShape = (target: EditorTarget, base: MaskView | null, request: { at: 
   const store = useSelectionStore.getState();
   const shape = { variant: store.variant, from: request.at, to: request.at, path: [request.at] };
   store.setDraft(mergeMask(base, incomingMask(shape, target.sprite), request.mode));
-  return { kind: 'shape', shape, base, mode: request.mode, keys: freshKeys(request.event), hold: { square: false, centre: false } };
+  return { kind: 'shape', shape, base, mode: request.mode, keys: freshKeys(heldKeys(request.event)), hold: { square: false, centre: false } };
 };
 
 const beginSelectDrag = (viewport: PixelViewportHandle | null, event: PointerEvent<HTMLElement>): ActiveDrag | null => {
@@ -53,10 +54,11 @@ const beginSelectDrag = (viewport: PixelViewportHandle | null, event: PointerEve
   if (!target) return null;
   const store = useSelectionStore.getState();
   const at = pixelAtEvent(viewport, event);
-  const mode = modeOf(event, store.mode);
+  const held = heldKeys(event);
+  const mode = modeOf(held, store.mode);
   const base = selectionMask(target);
   const inside = isInside(base, at);
-  if (inside && base && event.ctrlKey && event.altKey) return { kind: 'outline', start: rawPixelAt(viewport, event), base };
+  if (inside && base && held.ctrlKey && held.altKey) return { kind: 'outline', start: rawPixelAt(viewport, event), base };
   if (movesPixels(store, mode, inside)) return beginFloatDrag(viewport, event);
   if (store.variant === 'wand' || store.variant === 'colour') {
     pickPoint(target, store, base, { at, mode });

@@ -20,12 +20,10 @@ describe('check 4: an arbitrary angle rotation', () => {
     await pickTransform(session, 'Rotate...');
     const fields = session.page.getByRole('group', { name: 'Transform' });
     await fields.getByRole('spinbutton', { name: 'Angle' }).fill('90');
-    const bar = session.page.getByRole('alertdialog', { name: 'Apply bar' });
-    await bar.waitFor();
     seen.preview = await shownNow();
     expect([...seen.preview]).not.toEqual([...original]);
-    await bar.getByRole('button', { name: 'Apply', exact: true }).click();
-    await bar.waitFor({ state: 'detached' });
+    await fields.getByRole('button', { name: 'Apply', exact: true }).click();
+    await fields.waitFor({ state: 'detached' });
     seen.committed = await shown();
     const path = join(session.dir, 'rotated.bxsprite');
     await saveFile(session, path);

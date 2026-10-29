@@ -43,7 +43,7 @@ const selectionInput = (activeId: string | null): Pick<ContextInput, 'pixelSelec
     cellSelection: useTilemapStore.getState().selection !== null,
     spriteSelection: useSpriteStore.getState().selected.length,
     frameSelection: useTimelineStore.getState().selection.frames.length,
-    clipboard: selection.clipboard === null ? 'none' : 'pixels',
+    clipboard: selection.clipboard === null && !selection.systemClip ? 'none' : 'pixels',
   };
 };
 

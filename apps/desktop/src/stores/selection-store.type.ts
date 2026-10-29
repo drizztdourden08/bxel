@@ -8,11 +8,13 @@ interface SelectionSettings {
   mode: CombineMode;
   connectivity: Connectivity;
   sample: SampleSource;
+  amount: number;
   owner: DocumentId | null;
   mask: MaskView | null;
   draft: MaskView | null;
   vertices: readonly Point[];
   clipboard: Clip | null;
+  systemClip: boolean;
 }
 
 interface SelectionState extends SelectionSettings {
@@ -20,10 +22,12 @@ interface SelectionState extends SelectionSettings {
   setMode: (mode: CombineMode) => void;
   setConnectivity: (connectivity: Connectivity) => void;
   setSample: (sample: SampleSource) => void;
+  setAmount: (amount: number) => void;
   setMask: (mask: MaskView | null, owner: DocumentId | null) => void;
   setDraft: (draft: MaskView | null) => void;
   setVertices: (vertices: readonly Point[]) => void;
   setClipboard: (clipboard: Clip | null) => void;
+  setSystemClip: (held: boolean) => void;
 }
 
 export type { SelectionSettings, SelectionState };

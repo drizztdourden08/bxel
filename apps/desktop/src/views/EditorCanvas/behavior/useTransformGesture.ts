@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useRef } from 'react';
 import type { RefObject } from 'react';
+import { heldKeys } from '../../../editor/selection/held-keys';
 import { activeTransform } from '../../../editor/transform/active-transform';
 import { dragTransform } from '../../../editor/transform/drag-transform';
 import { grabOf } from '../../../editor/transform/grab-of';
@@ -20,7 +21,7 @@ const useTransformGesture = (viewport: RefObject<PixelViewportHandle | null>): A
       if (!activeTransform()) return false;
       const hit = transformHit(viewport.current, event);
       if (event.button !== PRIMARY_BUTTON || !hit?.handle) return true;
-      held.current = grabOf({ box: hit.box, spec: hit.spec, point: hit.point, handle: hit.handle }, event);
+      held.current = grabOf({ box: hit.box, spec: hit.spec, point: hit.point, handle: hit.handle }, heldKeys(event));
       usePendingStore.getState().revise(held.current.spec);
       useTransformUiStore.getState().setGrab(hit.handle);
       event.currentTarget.setPointerCapture(event.pointerId);
@@ -31,7 +32,7 @@ const useTransformGesture = (viewport: RefObject<PixelViewportHandle | null>): A
       const grab = held.current;
       if (grab) {
         const point = viewport.current?.screenToPixel(event.clientX, event.clientY);
-        if (point) usePendingStore.getState().revise(dragTransform(grab, point, event));
+        if (point) usePendingStore.getState().revise(dragTransform(grab, point, heldKeys(event)));
         return true;
       }
       event.currentTarget.style.cursor = handleCursor(transformHit(viewport.current, event)?.handle ?? null);
