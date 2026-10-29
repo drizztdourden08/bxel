@@ -92,6 +92,7 @@ const TIMELINE_LABEL = {
   copy: 'Make a copy for this animation',
   make: 'Make an animation',
   split: 'Split to sprites',
+  moveOut: 'Move to own file',
   spritesheet: 'Make spritesheet',
   directions: 'New direction set',
   drawFacing: 'Draw this facing',

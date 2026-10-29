@@ -6,11 +6,11 @@ import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { useAssetDrop } from '../behavior/useAssetDrop';
 import type { SheetZoneProps } from '../SpritesPanel.type';
 
-const SheetZone = ({ model, onKeyDown, bind, children }: SheetZoneProps) => {
+const SheetZone = ({ model, onKeyDown, onMark, children }: SheetZoneProps) => {
   const ref = useRef<HTMLElement>(null);
-  useAssetDrop(ref, model);
+  useAssetDrop(ref, model, onMark);
   return (
-    <Box ref={ref} onKeyDown={onKeyDown} className="sprites-panel__zone" {...commandZone(COMMAND_ZONE.sprites)} {...keepsWidgetFocus()} {...bind}>
+    <Box ref={ref} onKeyDown={onKeyDown} className="sprites-panel__zone" {...commandZone(COMMAND_ZONE.sprites)} {...keepsWidgetFocus()}>
       {children}
     </Box>
   );

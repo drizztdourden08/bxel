@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
-import type { DragEvent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type { Artwork } from '@bxel/document';
-import type { DragEntry, DragSource } from '../../sheet-manager/drag-payload.type';
+import type { DragEntry, DragSource, EntryDragSpec } from '../../sheet-manager/drag-payload.type';
 import type { EntryFacts, EntryKind } from '../../sheet-manager/manager.type';
 import type { PickHow } from '../../sheet/sheet.type';
 
@@ -38,11 +38,6 @@ interface BrowserBarProps {
   patch: (change: Partial<BrowserState>) => void;
 }
 
-interface BrowserDrag {
-  onDragStart: (event: DragEvent<HTMLElement>) => void;
-  onDragEnd: () => void;
-}
-
 interface BrowserBodyProps {
   label: string;
   artwork: Artwork;
@@ -51,8 +46,18 @@ interface BrowserBodyProps {
   zoom: number;
   pick: (key: string, how: PickHow) => void;
   activate: (key: string) => void;
-  draggable: boolean;
-  dragFor: (key: string) => BrowserDrag;
+  dragFor: (key: string) => EntryDragSpec;
+}
+
+interface EntryRowProps {
+  fact: EntryFacts;
+  artwork: Artwork;
+  chosen: boolean;
+  hot: boolean;
+  drag: EntryDragSpec;
+  onPick: (how: PickHow) => void;
+  onActivate: () => void;
+  onHot: (on: boolean) => void;
 }
 
 interface EntryBrowserContentProps {
@@ -64,4 +69,4 @@ interface EntryBrowserContentProps {
   onClear: () => void;
 }
 
-export type { BrowserBarProps, BrowserDrag, BrowserBodyProps, BrowserState, BrowserView, EntryBrowserContentProps, EntryBrowserProps };
+export type { BrowserBarProps, BrowserBodyProps, BrowserState, BrowserView, EntryBrowserContentProps, EntryBrowserProps, EntryRowProps };

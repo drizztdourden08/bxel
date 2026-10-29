@@ -99,6 +99,10 @@
 }
 
 .sprites-panel__dropbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
   position: absolute;
   inset-inline: 0;
   inset-block-end: 0;
@@ -140,15 +144,6 @@
   pointer-events: none;
 }
 
-.entry-drag-ghost {
-  position: fixed;
-  inset-block-start: calc(var(--size-48) * -2);
-  inset-inline-start: 0;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-md);
-  background: var(--c-primary-bright);
-  color: var(--c-on-primary);
-}
 
 .slice-preview {
   align-self: center;

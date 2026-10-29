@@ -29,6 +29,7 @@ import { scaleDurations } from '../timeline/scale-durations';
 import { selectAllFrames } from '../timeline/select-all-frames';
 import { selectFramesWhere } from '../timeline/select-frames-where';
 import { setDuration } from '../timeline/set-duration';
+import { showSpriteInProject } from '../timeline/show-sprite-in-project';
 import { splitToSprites } from '../timeline/split-to-sprites';
 import { TIMELINE_LABEL } from '../timeline/timeline.constants';
 import { COMMAND_GROUP } from './keymap.constants';
@@ -98,6 +99,8 @@ const TIMELINE_FRAME_COMMANDS: readonly CommandDef[] = [
   { id: 'timeline.select_same_sprite', label: 'Select the frames that show the same sprite', group, run: () => void selectFramesWhere('same-sprite') },
   { id: 'timeline.invert_selection', label: 'Invert the picked frames', group, run: () => void selectFramesWhere('invert') },
   { id: 'timeline.open_sprite', label: 'Open the sprite of the current frame', group, run: () => void openSprite() },
+  { id: 'timeline.move_to_own_file', label: 'Move the sprites of the picked frames to their own files', group, run: () => void splitToSprites(true) },
+  { id: 'timeline.show_in_project', label: 'Show the sprite of the current frame in the Project panel', group, run: () => void showSpriteInProject() },
   { id: 'timeline.make_copy', label: 'Make a copy of the sprite for this animation', group, run: () => void ownFrame(TIMELINE_LABEL.copy) },
   {
     id: 'timeline.go_to_frame',

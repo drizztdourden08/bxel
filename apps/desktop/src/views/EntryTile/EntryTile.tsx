@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Box, Icon, Tile } from '@drizztdourden08/tessera';
-import { useId, useState } from 'react';
+import { useId, useRef, useState } from 'react';
+import { useEntryDragSource } from '../../asset-drag/useEntryDragSource';
 import { pickHow } from '../../sheet/pick-how';
 import { ENTRY_TILE_TEXT } from './EntryTile.constants';
 import type { EntryTileProps } from './EntryTile.type';
@@ -13,11 +14,14 @@ import './EntryTile.css';
 
 const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTileProps) => {
   const [hot, setHot] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  useEntryDragSource(ref, drag);
   const detailId = useId();
   const { className, onFocus, ...bind } = cell;
   const id = fact.kind === 'sprite' ? fact.sprite.id : fact.key;
   return (
     <Box
+      ref={ref}
       {...bind}
       className={`${className} ${entryTileClass(state)}`}
       aria-label={fact.kind === 'sprite' ? fact.sprite.name : fact.name}
@@ -26,7 +30,6 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
       title={state.loose ? ENTRY_TILE_TEXT.notOnSheet : ENTRY_TILE_TEXT.onSheets(fact.sheets)}
       data-sprite-id={id}
       data-entry-kind={fact.kind}
-      draggable
       onFocus={() => {
         onFocus();
         setHot(true);
@@ -37,7 +40,6 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
       onClick={(event) => handlers.onPick(pickHow(event) ?? 'replace')}
       onDoubleClick={handlers.onEdit}
       onContextMenu={() => handlers.onMenu()}
-      {...drag}
     >
       <Box as="span" id={detailId} hidden>
         {entryDetail(fact, state)}
