@@ -34,7 +34,10 @@ const RowBadges = ({ item, status, model }: RowPartProps) => {
           className="project-badges__users"
           title={marks.users}
           aria-label={`${item.name}: ${marks.users}`}
-          onClick={() => model.search.toggle(`uses:${quoted(item.name)}`)}
+          onClick={() => {
+            model.search.setText('');
+            model.search.toggle(`uses:${quoted(item.name)}`);
+          }}
         >
           {marks.usedBy}
         </Button>

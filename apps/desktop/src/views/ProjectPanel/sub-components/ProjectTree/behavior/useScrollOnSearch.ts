@@ -6,7 +6,7 @@ import type { PanelPartProps } from '../../../ProjectPanel.type';
 
 const useScrollOnSearch = ({ search, browser }: PanelPartProps['model'], handle: RefObject<TreeHandle | null>): void => {
   const signature = `${search.text}|${search.tokens}|${search.missing}`;
-  const first = browser.nested.top[0]?.key;
+  const first = (browser.rows.find((row) => row.expanded === null) ?? browser.rows[0])?.item.key;
 
   useEffect(() => {
     if (search.active && first !== undefined) handle.current?.scrollToKey(first, 'start');
