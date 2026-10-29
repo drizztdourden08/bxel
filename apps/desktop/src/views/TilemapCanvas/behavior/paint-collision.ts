@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { cellKey, readCellFlags } from '@bxel/document';
+import { cellKey, readCellFlags, tileShapes } from '@bxel/document';
 import type { TileCollision } from '@bxel/document';
 import { outlinePoints } from '../../../tilemap/collision/outline-points';
 import { COLLISION_ALPHA } from '../TilemapCanvas.constants';
@@ -7,8 +7,8 @@ import type { MapLook, MapPaintState } from '../TilemapCanvas.type';
 import { cellMatrix } from './cell-matrix';
 import { targetGeometry } from './target-geometry';
 
-const shapesOf = (state: MapPaintState): ReadonlyMap<number, TileCollision> =>
-  new Map(state.target.tileset.tiles.flatMap((tile) => (tile.collision ? [[tile.key, tile.collision] as const] : [])));
+const shapesOf = (state: MapPaintState): ReadonlyMap<number, readonly TileCollision[]> =>
+  new Map(state.target.tileset.tiles.flatMap((tile) => (tileShapes(tile).length > 0 ? [[tile.key, tileShapes(tile)] as const] : [])));
 
 const paintCollision = (ctx: CanvasRenderingContext2D, state: MapPaintState, look: MapLook): void => {
   if (!state.collision) return;
@@ -22,17 +22,19 @@ const paintCollision = (ctx: CanvasRenderingContext2D, state: MapPaintState, loo
   ctx.fillStyle = look.collision;
   for (const layer of tilemap.layers.filter((each) => each.visible)) {
     layer.cells.forEach((cell, index) => {
-      const shape = shapes.get(cellKey(cell));
-      if (!shape) return;
+      const found = shapes.get(cellKey(cell));
+      if (!found) return;
       const column = index % tilemap.columns;
       ctx.save();
       const origin = geometry.originOf(column, (index - column) / tilemap.columns);
       ctx.translate(origin.x, origin.y);
       ctx.transform(...cellMatrix(readCellFlags(cell), size));
-      ctx.beginPath();
-      outlinePoints(shape, size).forEach((point, at) => (at === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y)));
-      ctx.closePath();
-      ctx.fill();
+      for (const shape of found) {
+        ctx.beginPath();
+        outlinePoints(shape, size).forEach((point, at) => (at === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y)));
+        ctx.closePath();
+        ctx.fill();
+      }
       ctx.restore();
     });
   }

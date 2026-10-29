@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind constants */
-import { COMMAND_NAME } from '@bxel/document';
+import { COMMAND_NAME, layoutColumns, MAX_LAYOUT_COLUMNS } from '@bxel/document';
 import type { OrientRequest, Tilemap } from '@bxel/document';
 import { ASSET_LABEL } from './asset-config.constants';
 import type { AssetFields, AssetFocus, AssetOutcome } from './asset-config.type';
@@ -41,8 +41,27 @@ const orientMap = (focus: AssetFocus, patch: Partial<OrientRequest>): AssetOutco
   return runField(focus, ASSET_LABEL.orientation, [{ name: COMMAND_NAME.tilemapOrient, targets: null, options: { tilemap: map.id, orientation } }]);
 };
 
+const setColumns = (focus: AssetFocus, value: unknown): AssetOutcome =>
+  typeof value === 'number' && Number.isInteger(value) && value >= 1 && value <= MAX_LAYOUT_COLUMNS
+    ? runField(focus, ASSET_LABEL.layout, [{ name: COMMAND_NAME.tilesetLayout, targets: null, options: { tileset: focus.key.id, columns: value } }])
+    : null;
+
+const setLayers = (focus: AssetFocus, value: unknown): AssetOutcome => {
+  const layers = typeof value === 'string' ? [...new Set(value.split(',').map((layer) => layer.trim()).filter((layer) => layer !== ''))] : [];
+  return layers.length === 0 ? null : runField(focus, ASSET_LABEL.layers, [{ name: COMMAND_NAME.tilesetFields, targets: null, options: { tileset: focus.key.id, collisionLayers: layers } }]);
+};
+
 const TILESET_FIELDS: AssetFields = {
   'tileset.name': { read: (focus) => focusAssetOf(focus, 'tileset')?.name ?? '', write: renameTileset, buffered: true },
+  'tileset.columns': {
+    read: (focus) => {
+      const tileset = focusAssetOf(focus, 'tileset');
+      return tileset ? layoutColumns(tileset) : 0;
+    },
+    write: setColumns,
+    buffered: true,
+  },
+  'tileset.collisionLayers': { read: (focus) => (focusAssetOf(focus, 'tileset')?.collisionLayers ?? ['solid']).join(', '), write: setLayers, buffered: true },
 };
 
 const TILEMAP_FIELDS: AssetFields = {

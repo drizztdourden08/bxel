@@ -10,6 +10,7 @@ import { readiedMap } from './readied-map';
 import { readyStamp } from './ready-stamp';
 import { rectCells } from './rect-cells';
 import { runMap } from './run-map';
+import { scatterAt } from './scatter-at';
 import { terrainActive } from './terrain/terrain-active';
 import { terrainCells } from './terrain/terrain-cells';
 import { TILE_LABEL } from './tilemap.constants';
@@ -20,6 +21,7 @@ const rectPlace = (rect: Rect): boolean => {
   const stamp = target ? readyStamp(target) : null;
   if (!target || !stamp) return false;
   const { flags, filled } = useTilemapStore.getState();
+  if (stamp.scatter) return scatterAt(rectCells(rect, filled));
   if (stamp.keys.length > 1) {
     const groups = groupPlacements(patternPlacements(stamp, rect, filled, target.tilemap), flags);
     return runMap(TILE_LABEL.rect, paintSteps(target, groups));

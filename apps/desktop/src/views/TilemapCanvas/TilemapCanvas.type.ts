@@ -9,7 +9,8 @@ import type { PixelPoint, PixelViewportHandle } from '../PixelViewport';
 type MapDrag =
   | { kind: 'stroke'; tool: 'place' | 'erase'; cells: Point[] }
   | { kind: 'rect'; from: Point; to: Point }
-  | { kind: 'select'; from: Point; to: Point };
+  | { kind: 'select'; from: Point; to: Point }
+  | { kind: 'pick'; from: Point; to: Point };
 
 interface MapLive {
   hover: Point | null;

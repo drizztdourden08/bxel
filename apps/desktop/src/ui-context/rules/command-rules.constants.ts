@@ -37,9 +37,10 @@ const OPTIONS: RuleTable = {
 };
 
 const BRUSH: RuleTable = {
-  ...family(['brush.smaller', 'brush.larger'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
+  ...family(['brush.smaller', 'brush.larger'], any(NONE_OR_PIXEL, MAP), [DOC], ONLY.pixels),
   ...family(['palette.swap_colors', 'palette.swap_pairs', 'palette.step_back', 'palette.step_forward'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
-  ...family(['symmetry.toggle_x', 'symmetry.toggle_y', 'symmetry.axis_here', 'symmetry.axis_centre', 'symmetry.axis_remove'], PIXEL, [], ONLY.pixels),
+  ...family(['symmetry.toggle_x', 'symmetry.toggle_y'], any(PIXEL, MAP), [], ONLY.pixels),
+  ...family(['symmetry.axis_here', 'symmetry.axis_centre', 'symmetry.axis_remove'], PIXEL, [], ONLY.pixels),
 };
 
 const ZOOM_DIGITS = [100, 200, 400, 800, 1600, 3200].map((percent) => `view.zoom_${percent}`);
@@ -112,7 +113,13 @@ const SHEETS: RuleTable = {
 
 const TILES: RuleTable = {
   ...family(['tilemap.new_tileset', 'tilemap.new_tilemap', 'collision.toggle_overlay'], TILE_FILES, [], ONLY.tiles),
-  ...family(['tilemap.add_tile', 'tilemap.duplicate_tile', 'tilemap.delete_tile'], TILE_FILES, [WRITE], ONLY.tiles),
+  ...family(['tilemap.add_tile', 'tilemap.duplicate_tile', 'tilemap.delete_tile', 'tileset.animation_from_tiles'], TILE_FILES, [WRITE], ONLY.tiles),
+  ...family(
+    ['tileset.mode_tiles', 'tileset.mode_terrain', 'tileset.mode_collision', 'tileset.mode_data', 'tileset.mode_animation', 'tileset.focus_search'],
+    TILE_FILES,
+    [],
+    ONLY.tiles,
+  ),
   ...family(['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'tilemap.use_tile'], file('tilemap'), [], ONLY.maps),
   ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
   ...family(['tilemap.replace_everywhere', 'tilemap.layer_up', 'tilemap.layer_down'], MAP, [WRITE], ONLY.maps),

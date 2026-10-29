@@ -6,6 +6,8 @@ type MapTool = 'place' | 'erase' | 'fill' | 'rect' | 'pick' | 'select' | 'hand' 
 
 type FlagOp = 'flipX' | 'flipY' | 'turn';
 
+type StampTransform = 'flipX' | 'flipY' | 'turnRight' | 'turnLeft' | 'reset';
+
 interface MapPicks {
   tilesetId: TilesetId | null;
   mapId: TilemapId | null;
@@ -47,4 +49,4 @@ interface CellRead {
   flags: CellFlags;
 }
 
-export type { CellRead, FlagOp, MapContext, MapPicks, MapTarget, MapTool, Placement, PlacementGroup, SelectedMap };
+export type { CellRead, FlagOp, MapContext, MapPicks, MapTarget, MapTool, Placement, PlacementGroup, SelectedMap, StampTransform };

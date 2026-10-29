@@ -8,7 +8,7 @@ import { nextCells } from './next-cells';
 
 const extendDrag = (drag: MapDrag, cell: Point, stamp: TileStamp, target: MapTarget): MapDrag => {
   if (drag.kind !== 'stroke') return { ...drag, to: clampCell(cell, target.tilemap) };
-  const step = drag.tool === 'place' ? { width: stamp.columns, height: stamp.rows } : { width: 1, height: 1 };
+  const step = drag.tool === 'place' && !stamp.scatter ? { width: stamp.columns, height: stamp.rows } : { width: 1, height: 1 };
   return { ...drag, cells: nextCells(drag.cells, cell, step) };
 };
 

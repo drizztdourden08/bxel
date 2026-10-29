@@ -98,6 +98,34 @@ Place Tile you put tiles on the map without changing them. Alt+T
 switches to Edit Tile, where a change to a tile shows in every cell that uses it. Import, then Tiled
 map, in the File menu reads a TMX map with its tileset.
 
+The Tileset panel has a grid of tiles on top and an inspector below it. Drag the bar between them to
+resize, or fold the inspector to one line. The grid keeps the layout the tiles were drawn in, with
+empty places left empty. Grid columns in the tileset Properties sets how many tiles sit in a row.
+Alt and drag moves a tile to another place without changing its key, so maps keep working.
+
+- Pick: click one tile, Shift and click or drag for a block that is placed as a block, Ctrl and click to
+  add single tiles to a scatter set. A scatter set puts one tile from the set in each cell, and a
+  tile with probability 0 is never chosen. Ctrl+F searches by key, name, type or value, and the
+  filter chips show used, unused, animated, collision and terrain tiles. The keys 1 to 5 switch the mode.
+- Brush: the strip above the grid shows what you paint with, flipped and turned. Alt+X and Alt+Y flip it,
+  [ and ] turn it, while the map is open. The Picker tool on the map, dragged over cells, takes the cells
+  as the brush.
+- Tiles mode: set the name, type, probability and allowed turns of one or many tiles. A field that
+  differs shows Mixed, and a change sets only that field on every selected tile as one undo step.
+- Collision mode: a tile holds any number of boxes, shapes and full shapes, each on a named layer such as
+  solid, water or hurt, and a shape can be one way. Drag a box on the tile, add a shape, or use Trace
+  pixels to hug the opaque pixels. Choose Paint full or Paint last shape, then drag across tiles to
+  set many tiles in one undo step. Layers are named in the Properties of the tileset.
+- Data mode: define fields (on or off, whole number, number, text, choice list, colour) and set their
+  values on tiles. The brush button paints a value across tiles by dragging, and choice values show as
+  coloured chips on the tiles.
+- Animation mode: link a tile to an animation, or pick tiles in play order with Ctrl and click and press
+  Animation from selected tiles to make one animation of those frames, linked to the first tile.
+- Terrain mode shows which tiles belong to the terrain rules and holds the slot board.
+
+An assistant reads all of this with get_document and include tileset, which works with no map, and
+checks its work with render_preview on a tileset with the collision overlay.
+
 ## Projects and the asset files
 
 A project is a folder with a `.bxproject` file. Each asset is its own file, so a sprite shared by two
