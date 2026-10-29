@@ -145,7 +145,7 @@ const REPEAT_MAX = 255;
 
 const COMPACT_WIDTH = 560;
 
-const SHORT_HEIGHT = 180;
+const SHORT_HEIGHT = 140;
 
 const END_GUTTER = END_GUTTER_PX;
 

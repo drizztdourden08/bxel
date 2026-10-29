@@ -32,7 +32,7 @@ const SPEEDS: readonly number[] = [0.25, 0.5, 1, 1.5, 2];
 
 const THUMB_SIZES: readonly number[] = [24, 32, 48, 64, 96];
 
-const DEFAULT_THUMB = 48;
+const DEFAULT_THUMB = 32;
 
 const FIT_LIMITS = { min: 16, max: 96 } as const;
 
