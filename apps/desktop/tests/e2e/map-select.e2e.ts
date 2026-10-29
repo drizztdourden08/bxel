@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, test } from 'vitest';
 import type { CellMapper, Session } from './support/e2e.type';
+import { dragRight } from './support/drag-right';
 import { drawStroke } from './support/draw-stroke';
 import { exportTilemap } from './support/export-tilemap';
 import { openTilemapRig } from './support/open-tilemap-rig';
@@ -96,12 +97,7 @@ const captureStamp = async ({ session, mapper }: Rig): Promise<void> => {
   const { page } = session;
   await page.getByRole('application', { name: TILEMAP_E2E.label }).focus();
   await page.keyboard.press('b');
-  const from = map(centre({ x: 10, y: 8 }));
-  const to = map(centre({ x: 11, y: 9 }));
-  await page.mouse.move(from.x, from.y);
-  await page.mouse.down({ button: 'right' });
-  await page.mouse.move(to.x, to.y);
-  await page.mouse.up({ button: 'right' });
+  await dragRight(session, map(centre({ x: 10, y: 8 })), map(centre({ x: 11, y: 9 })));
   const drop = map(centre({ x: 25, y: 3 }));
   await page.mouse.click(drop.x, drop.y);
   const stamped = keys([{ x: 25, y: 3 }, { x: 26, y: 3 }, { x: 25, y: 4 }, { x: 26, y: 4 }]);
