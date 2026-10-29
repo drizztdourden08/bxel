@@ -1,10 +1,8 @@
 /* @layer core @kind test */
-import { sliceAsset } from '@bxel/document';
 import type { Engine } from '@bxel/document';
-import { decodeSprite } from '@bxel/document/native';
 import { describe, expect, it } from 'vitest';
-import { encodeSlice } from './asset-bytes';
 import { heartEngine } from './heart-engine';
+import { savedHeart } from './saved-sprite';
 import { apply, expectUndoRedo, HEART, onSprites, plain, rejection } from './sheet-engine';
 
 const sprite = (engine: Engine) => engine.state().artwork.sprites.find((each) => each.id === HEART);
@@ -40,11 +38,8 @@ describe('the pixel grid of one sprite', () => {
 
   it('is saved with the sprite, read back, and absent from a file that never had one', () => {
     const { engine } = heartEngine();
-    const bare = sliceAsset(engine.state().artwork, { kind: 'sprite', id: HEART }, new Map());
-    expect(decodeSprite(encodeSlice(bare)).slice?.artwork.sprites?.find((each) => each.id === HEART)?.pixelGrid).toBeUndefined();
+    expect(savedHeart(engine)?.pixelGrid).toBeUndefined();
     apply(engine, update({ pixelGrid: { width: 4, height: 4 } }));
-    const slice = sliceAsset(engine.state().artwork, { kind: 'sprite', id: HEART }, new Map());
-    const found = decodeSprite(encodeSlice(slice)).slice?.artwork.sprites?.find((each) => each.id === HEART);
-    expect(found?.pixelGrid).toEqual({ width: 4, height: 4 });
+    expect(savedHeart(engine)?.pixelGrid).toEqual({ width: 4, height: 4 });
   });
 });

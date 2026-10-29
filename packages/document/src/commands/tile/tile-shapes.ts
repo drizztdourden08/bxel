@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { setTileShapes } from '../../draft/set-tile-collision';
+import { setTileShapes } from '../../draft/set-tile-shapes';
 import { requireTile } from '../../read/require-tile';
 import { tileShapesSchema } from '../../schema/tile-shapes-schema';
 import { COMMAND_NAME } from '../command-name.constants';

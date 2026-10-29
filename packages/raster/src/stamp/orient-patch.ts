@@ -1,9 +1,8 @@
 /* @layer core @kind logic */
 import type { BufferView } from '../buffer.type';
 import type { Point } from '../geometry.type';
+import type { Oriented } from './orient-patch.type';
 import type { StampOrient } from './stamp.type';
-
-type Oriented = { readonly patch: BufferView; readonly anchor: Point };
 
 const orientPatch = (patch: BufferView, anchor: Point, orient: StampOrient): Oriented => {
   const turns = ((orient.turn ?? 0) / 90) % 4;

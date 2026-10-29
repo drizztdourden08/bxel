@@ -8,12 +8,11 @@ import { sheetAnimationAddSchema } from '../../schema/sheet-animation-add-schema
 import { sheetExtent } from '../../sheet/sheet-extent';
 import { sheetSizes } from '../../sheet/sheet-sizes';
 import { pickAnimTag } from '../animation/pick-anim-tag';
-import { pickAnimation } from '../animation/pick-animation';
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
 import { ERROR_CODE } from '../error-code.constants';
 import { fail } from '../fail';
-import { pickSheet } from './pick-sheet';
+import { pickSheetAnimation } from './pick-sheet-animation';
 import { warnOverlaps } from './warn-overlaps';
 
 const belowContent = (artwork: Artwork, sheet: Sheet): Point => {
@@ -27,8 +26,7 @@ const sheetAnimationAdd = defineCommand({
   scope: 'none',
   schema: sheetAnimationAddSchema,
   run: (draft, input) => {
-    const sheet = pickSheet(draft, input.options.sheet);
-    const animation = pickAnimation(draft, input.options.animation);
+    const { sheet, animation } = pickSheetAnimation(draft, input.options);
     const tag = input.options.tag === null ? null : pickAnimTag(animation, input.options.tag, 'options.tag');
     const tagId = tag?.id ?? null;
     const placed = (sheet.animationEntries ?? []).some((entry) => entry.animationId === animation.id && entry.tagId === tagId);

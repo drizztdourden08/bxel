@@ -1,6 +1,7 @@
 /* @layer core @kind logic */
 import { BUNDLE_IDS } from '../catalogue/bundle.constants';
 import type { BundleId, Level } from '../catalogue/catalogue.type';
+import { SETTING_ROWS } from '../catalogue/setting-rows.constants';
 import { LEVEL_SCHEMA, STORED_GRANT_SCHEMA, TOOL_ROW_IDS } from './grant-schema.constants';
 import type { Grant } from './grant.type';
 
@@ -13,8 +14,9 @@ const readGrant = (raw: unknown): Grant | null => {
   const parsed = STORED_GRANT_SCHEMA.safeParse(raw);
   if (!parsed.success) return null;
   const { blocked, bundles, tools, special } = parsed.data;
+  const legacySetting = levelOf(tools['set_setting'], null);
   const toolEntries = TOOL_ROW_IDS.flatMap((id) => {
-    const level = levelOf(tools[id], null);
+    const level = levelOf(tools[id], Object.values<string>(SETTING_ROWS).includes(id) ? legacySetting : null);
     return level === null ? [] : [[id, level] as const];
   });
   return {

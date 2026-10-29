@@ -16,7 +16,7 @@
     "start:headless": "brock start -- --no-focus --muted",
     "sync": "brock sync",
     "typecheck": "tsc --noEmit",
-    "lint": "pnpm typecheck && eslint . && stylelint \"src/**/*.css\" && brock prose && brock knip && jscpd .",
+    "lint": "pnpm typecheck && eslint . && stylelint \"src/**/*.css\" && brock prose && brock knip && jscpd . && pnpm --workspace-root run lint:packages",
     "lint:md": "markdownlint-cli2",
     "structure": "brock structure --check",
     "deadcode": "brock knip",

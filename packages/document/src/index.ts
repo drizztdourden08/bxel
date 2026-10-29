@@ -112,7 +112,8 @@ export { BACKGROUND_LABEL, COLOR_PATTERN, MIN_ALPHA, OPAQUE_ALPHA, RGB_PATTERN, 
 export { diffBounds } from './pixels/diff-bounds';
 export { emptyCel } from './pixels/empty-cel';
 export { hasIndexAtLeast } from './pixels/has-index-at-least';
-export { decodeBrushPixels, encodeBrushPixels } from './pixels/brush-pixels';
+export { decodeBrushPixels } from './pixels/decode-brush-pixels';
+export { encodeBrushPixels } from './pixels/encode-brush-pixels';
 export { maxIndex } from './pixels/max-index';
 export { overlayPixels } from './pixels/overlay-pixels';
 export { readRect } from './pixels/read-rect';

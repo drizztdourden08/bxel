@@ -36,7 +36,8 @@ describe('the permissions detail of one program', () => {
     expect(html).toContain('aria-label="Edit pixels permission"');
     expect(html).toContain('aria-label="Files and saving permission"');
     expect(html).toContain('aria-label="save_document permission"');
-    expect(html.match(/role="radiogroup"/g)).toHaveLength(12 + 42);
+    expect(html).toContain('aria-label="set_setting:project permission"');
+    expect(html.match(/role="radiogroup"/g)).toHaveLength(12 + 44);
   });
 
   it('shows an override badge, a Follow bundle button and the bundle count for an overridden tool', () => {

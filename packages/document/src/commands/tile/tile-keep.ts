@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import type { Tile } from '../../model/tilemap.type';
-import type { TileKeep } from './attach-tile';
+import type { TileKeep } from './attach-tile.type';
 
 const tileKeep = (tile: Tile): TileKeep => ({
   ...(tile.shapes ? { shapes: tile.shapes } : {}),

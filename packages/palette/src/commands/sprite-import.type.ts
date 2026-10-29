@@ -10,4 +10,4 @@ type ImportImage = SpriteImportOptions['image'];
 
 type ImportMapping = SpriteImportOptions['mapping'];
 
-export type { ImportBank, ImportImage, ImportMapping, SpriteImportOptions };
+export type { ImportBank, ImportImage, ImportMapping };

@@ -1,15 +1,7 @@
 /* @layer core @kind logic */
-import { DEFAULT_LAYOUT_COLUMNS } from '../model/tilemap-limits.constants';
 import type { Tile, Tileset } from '../model/tilemap.type';
-
-type TileLayout = {
-  readonly columns: number;
-  readonly rows: number;
-  readonly slots: readonly (Tile | null)[];
-  readonly indexOf: ReadonlyMap<number, number>;
-};
-
-const layoutColumns = (tileset: Tileset): number => tileset.columns ?? DEFAULT_LAYOUT_COLUMNS;
+import { layoutColumns } from './layout-columns';
+import type { TileLayout } from './tile-layout.type';
 
 const claimed = (tileset: Tileset): Map<number, Tile> => {
   const taken = new Map<number, Tile>();
@@ -38,5 +30,4 @@ const tileLayout = (tileset: Tileset): TileLayout => {
   return { columns, rows, slots, indexOf };
 };
 
-export type { TileLayout };
-export { layoutColumns, tileLayout };
+export { tileLayout };

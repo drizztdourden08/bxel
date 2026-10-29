@@ -3,7 +3,6 @@ import type { BufferView } from '../buffer.type';
 import { foldCoord } from '../fold-coord';
 import type { Wrap } from '../wrap.type';
 
-/** The colour next to a pixel. Past the edge it is transparent, unless the preview wraps there. */
 const neighbourAt = (source: BufferView, x: number, y: number, wrap: Wrap | undefined): number => {
   const { width, height, pixels } = source;
   const col = wrap?.x === true ? foldCoord(x, width) : x;

@@ -1,10 +1,7 @@
 /* @layer core @kind test */
 import { describe, expect, it } from 'vitest';
 import { canonicalArtwork } from './canonical-artwork';
-import { applySteps, buildWorld, cellsOf, failure, layerOf, mapOf, onGround, step } from './tile-engine';
-
-const undo = (engine: ReturnType<typeof buildWorld>['engine']) =>
-  engine.undo({ documentId: engine.documentId, expectedRevision: engine.state().revision });
+import { applySteps, buildWorld, cellsOf, failure, layerOf, mapOf, onGround, step, undoLast } from './tile-engine';
 
 describe('tilemap.create, update and delete', () => {
   it('creates a map with one empty layer in one undo step', () => {
@@ -13,7 +10,7 @@ describe('tilemap.create, update and delete', () => {
     expect(mapOf(engine)).toMatchObject({ name: 'level', columns: 4, rows: 3, tilesetId: world.tileset });
     expect(cellsOf(engine)).toEqual(new Array(12).fill(0));
     expect(mapOf(engine).layers).toHaveLength(1);
-    expect(undo(engine).ok).toBe(true);
+    expect(undoLast(engine).ok).toBe(true);
     expect(engine.state().artwork.tilemaps).toEqual([]);
   });
 
@@ -53,7 +50,7 @@ describe('tilemap.resize', () => {
     applySteps(engine, [step('tilemap.resize', { tilemap: map, columns: 5, rows: 2 })]);
     expect(mapOf(engine)).toMatchObject({ columns: 5, rows: 2 });
     expect(cellsOf(engine)).toEqual([1, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    expect(undo(engine).ok).toBe(true);
+    expect(undoLast(engine).ok).toBe(true);
     expect(cellsOf(engine)[11]).toBe(1);
   });
 
@@ -122,7 +119,7 @@ describe('map layers', () => {
     const before = canonicalArtwork(engine.state().artwork);
     applySteps(engine, [step('map.layer.delete', { tilemap: map, layer: ground, allowLocked: true })]);
     expect(mapOf(engine).layers.map((layer) => layer.name)).toEqual(['Top']);
-    expect(undo(engine).ok).toBe(true);
+    expect(undoLast(engine).ok).toBe(true);
     expect(canonicalArtwork(engine.state().artwork)).toBe(before);
   });
 });

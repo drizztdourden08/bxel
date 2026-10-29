@@ -1,30 +1,16 @@
 /* @layer tests @kind test */
 import { findSprite } from '@bxel/document';
-import type { Artwork, CelId, SpriteId } from '@bxel/document';
+import type { CelId, SpriteId } from '@bxel/document';
 import { describe, expect, test } from 'vitest';
 import { brand } from './brand';
-import { buildArtwork } from './build-artwork';
 import { documentId, pixelEngine, scopeOf, stepOf } from './pixel-engine';
 import { okOf } from './result-checks';
+import { smallArtwork } from './small-artwork';
 import { applyStep, dimsOf, refusalOf, rowsOf } from './transform-checks';
 import { transformIds as ids, transformArtwork } from './transform-artwork';
 
 const small = brand<SpriteId>('spr_000070');
 const smallCel = brand<CelId>('cel_000073');
-
-const smallArtwork = (): Artwork =>
-  buildArtwork([
-    {
-      id: 'spr_000070',
-      name: 'small',
-      width: 4,
-      height: 4,
-      pivot: { x2: 4, y2: 4 },
-      frames: ['frm_000072'],
-      layers: [{ id: 'lay_000071', name: 'Body', cels: { frm_000072: 'cel_000073' } }],
-      cels: { cel_000073: ['....', '.12.', '.34.', '....'] },
-    },
-  ]);
 
 describe('sprite.resize', () => {
   test('grows the canvas from the top left and keeps the pivot on the same pixel', () => {

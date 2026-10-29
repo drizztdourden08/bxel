@@ -9,8 +9,8 @@ import { defineCommand } from '../define-command';
 import { ERROR_CODE } from '../error-code.constants';
 import { fail } from '../fail';
 import { pickTileset } from '../tilemap/pick-tileset';
-
-type DataChange = Readonly<Record<string, FieldValue | null>>;
+import { resolvedChange } from './resolved-change';
+import type { DataChange, PlainChange } from './tile-data.type';
 
 const checkData = (tileset: Tileset, change: DataChange): void => {
   for (const [name, value] of Object.entries(change)) {
@@ -31,13 +31,11 @@ const mergedData = (tile: Tile, change: DataChange): Tile['data'] => {
   return Object.keys(next).length > 0 ? next : undefined;
 };
 
-type Plain = { type?: string | null; probability?: number | null; turns?: Tile['turns'] | null };
-
-const applied = (tile: Tile, plain: Plain, change: DataChange | undefined): Tile => {
+const applied = (tile: Tile, plain: PlainChange, change: DataChange | undefined): Tile => {
   const { type, probability, turns, data, ...rest } = tile;
-  const nextType = plain.type === undefined ? type : (plain.type ?? undefined);
-  const nextProbability = plain.probability === undefined ? probability : (plain.probability ?? undefined);
-  const nextTurns = plain.turns === undefined ? turns : (plain.turns ?? undefined);
+  const nextType = resolvedChange(plain.type, type);
+  const nextProbability = resolvedChange(plain.probability, probability);
+  const nextTurns = resolvedChange(plain.turns, turns);
   const nextData = change ? mergedData(tile, change) : data;
   return {
     ...rest,

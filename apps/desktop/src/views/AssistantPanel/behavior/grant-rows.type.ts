@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { BundleId, Level, ToolKind, ToolName } from '@bxel/mcp';
+import type { BundleId, Level, ToolKind, ToolRowId } from '@bxel/mcp';
 
 type LevelOption = {
   readonly value: Level;
@@ -13,7 +13,7 @@ type LevelLimits = {
 };
 
 type ToolRowModel = {
-  readonly id: ToolName;
+  readonly id: ToolRowId;
   readonly description: string;
   readonly kind: ToolKind;
   readonly level: Level;

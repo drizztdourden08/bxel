@@ -13,6 +13,7 @@
   },
   "scripts": {
     "lint": "eslint . && stylelint \"**/*.css\" --ignore-path .gitignore --allow-empty-input && brock prose && brock knip && jscpd .",
+    "lint:packages": "pnpm -r --filter \"./packages/*\" run lint && jscpd packages && brock knip",
     "lint:md": "markdownlint-cli2",
     "structure": "brock structure --check",
     "prose": "brock prose",

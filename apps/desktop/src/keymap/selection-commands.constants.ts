@@ -41,6 +41,8 @@ import { COMMAND_GROUP } from './keymap.constants';
 import { mapOr } from './map-or';
 import { SELECTION_COMMAND_ID as ID } from './selection-command-id.constants';
 import { ruled } from './ruled';
+import { needs } from './needs';
+import { REASON } from '../ui-context/reasons.constants';
 
 const group = COMMAND_GROUP.edit;
 const zone = COMMAND_ZONE.canvas;
@@ -104,14 +106,14 @@ const PREVIEW_COMMANDS: readonly CommandDef[] = [
     group,
     chord: 'Enter',
     whileTyping: false,
-    when: () => hasActiveDocument() && enterReady(),
+    ...needs(() => hasActiveDocument() && enterReady(), REASON.noPending),
     run: enterAction,
   },
   {
     id: ID.cancel,
     label: 'Cancel',
     group,
-    when: () => hasActiveDocument() && hasPreview(),
+    ...needs(() => hasActiveDocument() && hasPreview(), REASON.noPreview),
     run: () => void cancelPreview(),
   },
 ];

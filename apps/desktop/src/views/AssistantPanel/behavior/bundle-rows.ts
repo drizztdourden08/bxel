@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { BUNDLE_IDS, ROUTED_BUNDLES, TOOL_CATALOGUE } from '@bxel/mcp';
+import { BUNDLE_IDS, ROUTED_BUNDLES, TOOL_ROWS } from '@bxel/mcp';
 import type { BundleId, Grant } from '@bxel/mcp';
 import { GRANT_TEXT_UI } from '../sub-components/ProgramGrant.constants';
 import { bundleDef } from './bundle-def';
@@ -18,7 +18,7 @@ const hits = (words: readonly string[], ...texts: readonly string[]): boolean =>
 
 const onlyReads = (bundle: BundleId): boolean => {
   const ids = toolsOfBundle(bundle);
-  return ids.length > 0 && ids.every((id) => TOOL_CATALOGUE[id].kind === 'read');
+  return ids.length > 0 && ids.every((id) => TOOL_ROWS[id].kind === 'read');
 };
 
 const noteOf = (bundle: BundleId, tools: readonly ToolRowModel[]): string | null => {

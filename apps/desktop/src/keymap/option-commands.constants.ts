@@ -20,6 +20,8 @@ import { COMMAND_GROUP } from './keymap.constants';
 import { OPTION_COMMAND } from './option-command-id.constants';
 import { optionGroups } from './option-groups';
 import { optionTarget } from './option-target';
+import { needs } from './needs';
+import { REASON } from '../ui-context/reasons.constants';
 
 const generated = (spec: OptionSpec): boolean => spec.surface === 'paint' && spec.kind !== 'action';
 
@@ -48,7 +50,7 @@ const groupCommand = ([id, specs]: [string, OptionSpec[]]): CommandDef => {
     label: specs.length > 1 ? name : `${labelOfTool('sprite', first?.tool ?? 'pencil')}: ${name}`,
     group: COMMAND_GROUP.brush,
     chord: first?.chord,
-    when: () => specFor(specs) !== undefined,
+    ...needs(() => specFor(specs) !== undefined, REASON.noOptionSpec),
     run: runGenerated(specs),
   });
 };
