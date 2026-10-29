@@ -1,7 +1,7 @@
 /* @layer core @kind types */
 import type { BrushId } from './ids.type';
 
-type CustomBrush = {
+type SavedBrush = {
   readonly id: BrushId;
   readonly name: string;
   readonly width: number;
@@ -9,4 +9,4 @@ type CustomBrush = {
   readonly pixels: string;
 };
 
-export type { CustomBrush };
+export type { SavedBrush };

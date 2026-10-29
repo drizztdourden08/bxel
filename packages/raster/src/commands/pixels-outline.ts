@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import { ERROR_CODE, defineCommand, fail, requireBank, requireSprite } from '@bxel/document';
-import { darkerTable } from '../ink/ink-table';
+import { darkerTable } from '../ink/darker-table';
 import { outlineCel } from '../outline/outline-cel';
 import { paintMask } from '../region/paint-mask';
 import { outlineMask } from '../selection/outline-mask';

@@ -1,6 +1,6 @@
 /* @layer core @kind logic */
 import type { Animation } from '../model/animation.type';
-import type { CustomBrush } from '../model/brush.type';
+import type { SavedBrush } from '../model/brush.type';
 import type { ExportPreset } from '../model/export-preset.type';
 import type { CelId, SpriteId } from '../model/ids.type';
 import type { PaletteBank } from '../model/palette.type';
@@ -13,7 +13,7 @@ import { findSprite } from '../read/find-sprite';
 import { CEL_PREFIX, COLLECTION_PREFIX, META_PATH, ORDER_PATH, SHELL_PREFIX, SPRITE_PREFIX } from './entity-path.constants';
 import type { CollectionKey, ArtworkMeta } from './history.type';
 
-const withBrushes = (artwork: Artwork, brushes: readonly CustomBrush[]): Artwork => {
+const withBrushes = (artwork: Artwork, brushes: readonly SavedBrush[]): Artwork => {
   const { brushes: _previous, ...rest } = artwork;
   return brushes.length > 0 ? { ...rest, brushes } : rest;
 };
@@ -27,7 +27,7 @@ const setCollection = (artwork: Artwork, key: CollectionKey, value: unknown): Ar
     case 'presets':
       return { ...artwork, presets: value as readonly ExportPreset[] };
     case 'brushes':
-      return withBrushes(artwork, value as readonly CustomBrush[]);
+      return withBrushes(artwork, value as readonly SavedBrush[]);
     case 'tilesets':
       return { ...artwork, tilesets: value as readonly Tileset[] };
     case 'tilemaps':

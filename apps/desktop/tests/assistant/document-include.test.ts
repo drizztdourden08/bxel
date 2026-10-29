@@ -2,13 +2,11 @@
 import { describe, expect, it, vi } from 'vitest';
 import { spriteSummary } from '../../src/assistant/tools/sprite-summary';
 import { fieldOf, rowsOf } from '../project/project-tool-rig';
-import { assistantTools, TOOLS, useAssistantRig } from './assistant-rig';
+import { assistantTools, TOOLS } from './assistant-rig';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
-const current = useAssistantRig();
-
-const { make, spriteOf, handled, revisionOf } = assistantTools(current);
+const { current, make, handled, revisionOf } = assistantTools();
 
 const read = (documentId: string, include?: readonly string[]) =>
   current().run('get_document', { documentId, spriteOffset: 0, spriteLimit: 10, ...(include ? { include } : {}) }, []);

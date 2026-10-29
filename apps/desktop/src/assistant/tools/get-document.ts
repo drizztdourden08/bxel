@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { hiddenFailure } from '@bxel/mcp';
 import { sheetExtent, sheetSizes } from '@bxel/document';
-import type { Animation, Artwork, CustomBrush, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
+import type { Animation, Artwork, SavedBrush, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
 import { guidesOf } from './guides-of';
 import { hiddenAssets } from './hidden-assets';
@@ -21,7 +21,7 @@ const bankSummary = (bank: PaletteBank) => ({
   transparent: bank.transparent,
 });
 
-const brushSummary = (brush: CustomBrush) => ({
+const brushSummary = (brush: SavedBrush) => ({
   brushId: brush.id,
   name: brush.name,
   width: brush.width,

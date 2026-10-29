@@ -12,8 +12,6 @@ import type {
   TransactionOk,
   TransactionResult,
 } from '@bxel/document';
-import { expect } from 'vitest';
-import { canonicalArtwork } from './canonical-artwork';
 import { patch, spriteStep, step } from './tile-engine';
 
 type AnimWorld = {

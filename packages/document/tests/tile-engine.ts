@@ -11,8 +11,6 @@ import type {
   TransactionResult,
   Tileset,
 } from '@bxel/document';
-import { expect } from 'vitest';
-import { canonicalArtwork } from './canonical-artwork';
 import { heartEngine, request } from './heart-engine';
 
 type World = {
@@ -106,4 +104,5 @@ const onGround = (world: World, options: Record<string, unknown>) => ({
 });
 
 export { checkOneUndoStep } from './one-undo-step';
+export { undoLast } from './undo-last';
 export { applySteps, buildWorld, cellsOf, failure, layerOf, mapOf, onGround, patch, run, spriteStep, step, tilesetOf };

@@ -28,7 +28,8 @@ const useAssistantRig = (): (() => ToolRig) => {
   };
 };
 
-const assistantTools = (current: () => ToolRig) => {
+const assistantTools = () => {
+  const current = useAssistantRig();
   const make = async (kind: string, extra: object = {}): Promise<Made> => {
     const made = await current().run('create_document', { name: `tt ${kind}`, kind, bank: BANK, ...extra }, []);
     expect(made).toMatchObject({ ok: true });
@@ -53,7 +54,7 @@ const assistantTools = (current: () => ToolRig) => {
 
   const revisionOf = (documentId: string): number => current().rig.kit.host.view(documentId as never)?.state.revision ?? 1;
 
-  return { make, spriteOf, handled, revisionOf };
+  return { current, make, spriteOf, handled, revisionOf };
 };
 
-export { assistantTools, FOLDER, TOOLS, useAssistantRig };
+export { assistantTools, FOLDER, TOOLS };

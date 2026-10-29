@@ -1,10 +1,7 @@
 /* @layer core @kind test */
 import { describe, expect, it } from 'vitest';
 import { canonicalArtwork } from './canonical-artwork';
-import { applySteps, buildWorld, cellsOf, failure, layerOf, mapOf, onGround, step } from './tile-engine';
-
-const undo = (engine: ReturnType<typeof buildWorld>['engine']) =>
-  engine.undo({ documentId: engine.documentId, expectedRevision: engine.state().revision });
+import { applySteps, buildWorld, cellsOf, failure, layerOf, mapOf, onGround, step, undoLast } from './tile-engine';
 
 const ground = { by: 'name', name: 'Ground' } as const;
 const top = { by: 'name', name: 'Top' } as const;
@@ -33,7 +30,7 @@ describe('map.layer.duplicate', () => {
     expect(Array.from(copy.cells)).toEqual(cellsOf(engine));
     expect(copy).toMatchObject({ colour: '#4cc5b8', locked: false, visible: true });
     expect(copy.cells).not.toBe(layerOf(engine).cells);
-    expect(undo(engine).ok).toBe(true);
+    expect(undoLast(engine).ok).toBe(true);
     expect(canonicalArtwork(engine.state().artwork)).toBe(before);
   });
 });
@@ -51,7 +48,7 @@ describe('map.layer.merge', () => {
     expect(cells[0]).toBe(1);
     expect(cells[1]).toBe(2);
     expect(cells[11]).toBe(2);
-    expect(undo(engine).ok).toBe(true);
+    expect(undoLast(engine).ok).toBe(true);
     expect(mapOf(engine).layers).toHaveLength(2);
   });
 

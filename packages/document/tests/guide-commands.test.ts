@@ -1,10 +1,8 @@
 /* @layer core @kind test */
-import { sliceAsset } from '@bxel/document';
 import type { Engine } from '@bxel/document';
-import { decodeSprite } from '@bxel/document/native';
 import { describe, expect, it } from 'vitest';
-import { encodeSlice } from './asset-bytes';
 import { heartEngine } from './heart-engine';
+import { savedHeart } from './saved-sprite';
 import { apply, expectUndoRedo, HEART, onSprites, rejection } from './sheet-engine';
 
 const guidesOf = (engine: Engine) => engine.state().artwork.sprites.find((each) => each.id === HEART)?.guides;
@@ -43,11 +41,8 @@ describe('guides', () => {
 
   it('are saved with the sprite and read back, and absent from a file that never had one', () => {
     const { engine } = heartEngine();
-    const bare = sliceAsset(engine.state().artwork, { kind: 'sprite', id: HEART }, new Map());
-    expect(decodeSprite(encodeSlice(bare)).slice?.artwork.sprites?.find((each) => each.id === HEART)?.guides).toBeUndefined();
+    expect(savedHeart(engine)?.guides).toBeUndefined();
     apply(engine, run('guide.add', { axis: 'x', position: 2.5 }), run('guide.add', { axis: 'y', position: 4 }));
-    const slice = sliceAsset(engine.state().artwork, { kind: 'sprite', id: HEART }, new Map());
-    const found = decodeSprite(encodeSlice(slice)).slice?.artwork.sprites?.find((each) => each.id === HEART);
-    expect(found?.guides).toEqual({ x: [2.5], y: [4] });
+    expect(savedHeart(engine)?.guides).toEqual({ x: [2.5], y: [4] });
   });
 });

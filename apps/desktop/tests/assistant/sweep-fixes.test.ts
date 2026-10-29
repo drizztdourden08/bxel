@@ -2,13 +2,11 @@
 import { encodeBase64, EXPORT_FORMAT_VALUES, toolJsonSchema } from '@bxel/mcp';
 import { describe, expect, it, vi } from 'vitest';
 import { fieldOf, rowsOf } from '../project/project-tool-rig';
-import { assistantTools, FOLDER, TOOLS, useAssistantRig } from './assistant-rig';
+import { assistantTools, FOLDER, TOOLS } from './assistant-rig';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
-const current = useAssistantRig();
-
-const { make, spriteOf, handled, revisionOf } = assistantTools(current);
+const { current, make, spriteOf, handled, revisionOf } = assistantTools();
 
 describe('get_session', () => {
   it('lists exactly the export formats the export schema takes', async () => {
