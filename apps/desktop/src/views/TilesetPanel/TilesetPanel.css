@@ -37,6 +37,7 @@
   min-block-size: 0;
   min-inline-size: 0;
   padding-inline: var(--space-2xs);
+  padding-block-end: var(--size-24);
 }
 
 .tileset-panel__scroll {

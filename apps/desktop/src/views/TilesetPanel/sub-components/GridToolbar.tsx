@@ -10,7 +10,7 @@ const GridToolbar = () => {
   const view = useTilesetViewStore();
   return (
     <Stack gap="xs" role="search" aria-label={TILESET_TEXT.search}>
-      <Flex gap="xs" align="center">
+      <Flex gap="xs" align="center" wrap>
         <SearchInput
           id={TILESET_TEXT.searchId}
           size="sm"
