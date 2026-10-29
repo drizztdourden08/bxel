@@ -93,3 +93,22 @@ describe('the tileset widget collision mode', () => {
     await expect.poll(label(cellsIn(session).last()), { timeout: POLL_MS }).toContain('collision full');
   });
 });
+
+describe('the tileset widget terrain mode', () => {
+  const rig = useRig(openTilemapRig);
+
+  test('starts an edge set, fills it from the layout and marks a tile', async () => {
+    const { session } = rig();
+    await openInspector(session);
+    await modeSwitch(session).getByRole('radio', { name: /Terrain/ }).click();
+    await tileset(session).getByRole('button', { name: 'Edge 16' }).click();
+    const board = tileset(session).getByRole('group', { name: 'Terrain template' });
+    await board.getByText('16 of 16 missing').waitFor();
+    await cellsIn(session).first().click();
+    await tileset(session).getByRole('group', { name: 'Terrain' }).getByRole('button', { name: /^4 x 4$/ }).click();
+    await board.getByText('14 of 16 missing').waitFor();
+    await cellsIn(session).last().getByRole('button', { name: 'Mark east' }).click();
+    await board.getByRole('button', { name: /^Slot 4, filled north and east, 1 tile/ }).waitFor();
+  });
+});
+

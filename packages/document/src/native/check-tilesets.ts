@@ -3,6 +3,7 @@ import type { Tile, Tileset } from '../model/tilemap.type';
 import { collisionIssue } from '../read/collision-issue';
 import { tileShapes } from '../read/tile-shapes';
 import { terrainIssue } from '../read/terrain-issue';
+import { terrainSetsIssue } from '../read/terrain-sets-issue';
 import type { DocumentJson } from './document-json.type';
 import { LOAD_ERROR } from './load-error.constants';
 import type { LoadIssue } from './load-report.type';
@@ -21,6 +22,11 @@ const shapeIssues = (tile: Tile, tileset: Tileset, path: string): readonly LoadI
 const terrainIssues = (tileset: Tileset, base: string): readonly LoadIssue[] => {
   const issue = tileset.terrain ? terrainIssue(tileset.terrain, tileset) : null;
   return issue === null ? [] : [invalid(issue, `${base}.terrain`)];
+};
+
+const setsIssues = (tileset: Tileset, base: string): readonly LoadIssue[] => {
+  const issue = tileset.terrainSets ? terrainSetsIssue(tileset.terrainSets, tileset) : null;
+  return issue === null ? [] : [invalid(issue, `${base}.terrainSets`)];
 };
 
 const tileIssues = (document: DocumentJson, tileset: Tileset, base: string): readonly LoadIssue[] => {
@@ -48,6 +54,7 @@ const checkTilesets = (document: DocumentJson): readonly LoadIssue[] =>
   document.tilesets.flatMap((tileset, index) => [
     ...tileIssues(document, tileset, `$.tilesets[${index}]`),
     ...terrainIssues(tileset, `$.tilesets[${index}]`),
+    ...setsIssues(tileset, `$.tilesets[${index}]`),
   ]);
 
 export { checkTilesets };

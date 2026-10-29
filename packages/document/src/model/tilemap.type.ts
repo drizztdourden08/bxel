@@ -25,7 +25,22 @@ type TileField = {
 
 type TileData = Readonly<Record<string, FieldValue>>;
 
-type TerrainKind = 'blob16' | 'blob47';
+type TerrainKind = 'blob16' | 'blob47' | 'corner16';
+
+type TerrainVariant = {
+  readonly key: number;
+  readonly weight: number;
+  readonly flipX?: boolean;
+  readonly flipY?: boolean;
+  readonly diagonal?: boolean;
+};
+
+type TerrainSet = {
+  readonly id: string;
+  readonly name: string;
+  readonly kind: TerrainKind;
+  readonly slots: readonly (readonly TerrainVariant[])[];
+};
 
 type TerrainRules = { readonly kind: TerrainKind; readonly keys: readonly number[] };
 
@@ -67,6 +82,7 @@ type Tileset = {
   readonly nextKey: number;
   readonly tiles: readonly Tile[];
   readonly terrain?: TerrainRules;
+  readonly terrainSets?: readonly TerrainSet[];
   readonly columns?: number;
   readonly fields?: readonly TileField[];
   readonly collisionLayers?: readonly string[];
@@ -99,6 +115,8 @@ export type {
   MapOrientation,
   TerrainKind,
   TerrainRules,
+  TerrainSet,
+  TerrainVariant,
   Tile,
   TileAnimation,
   TileAnimationStart,

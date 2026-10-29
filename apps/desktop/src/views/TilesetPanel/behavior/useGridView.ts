@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import { CELL_FRAME, GRID_PADDING, ZOOM_MAX } from '../TilesetPanel.constants';
+import { useTerrainSet } from './useTerrainSet';
 import type { TilesetModel } from '../TilesetPanel.type';
 import type { GridViewHandle } from './useGridView.type';
 
@@ -21,6 +22,7 @@ const useGridView = (model: TilesetModel, focused: number, painted: ReadonlySet<
   const { columns } = model.layout;
   const fit = Math.floor(((width - GRID_PADDING) / columns - CELL_FRAME) / model.tileset.tileWidth);
   const zoom = store.zoom === 'fit' ? Math.max(1, Math.min(ZOOM_MAX, fit)) : store.zoom;
+  const { sets, set } = useTerrainSet(model);
   const order = new Map(model.selected.map((key, at) => [key, at + 1]));
   return {
     ref,
@@ -35,6 +37,7 @@ const useGridView = (model: TilesetModel, focused: number, painted: ReadonlySet<
       painted,
       focused,
       order,
+      terrain: set ? { set, sets } : null,
     },
   };
 };

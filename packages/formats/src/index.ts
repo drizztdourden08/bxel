@@ -121,6 +121,8 @@ export type {
   TileShape,
   TileSize,
   TilesetDescriptor,
+  TerrainSetEntry,
+  TerrainVariantEntry,
   TileFieldEntry,
   TileFieldValue,
   TileShapeEntry,

@@ -78,6 +78,7 @@ const COMMAND_NAME = {
   animationSplit: 'animation.split',
   animationFacingDraw: 'animation.facing.draw',
   tilesetTerrain: 'tileset.terrain',
+  tilesetTerrainSets: 'tileset.terrain_sets',
   mapTerrain: 'map.terrain',
   tilemapCreate: 'tilemap.create',
   tilemapUpdate: 'tilemap.update',

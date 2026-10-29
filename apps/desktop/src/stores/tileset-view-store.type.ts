@@ -28,6 +28,9 @@ interface TilesetViewSettings {
   shapeIndex: number;
   lastShape: TileCollision | null;
   shapeClipboard: readonly TileShape[];
+  terrainSetId: string | null;
+  terrainSlot: number | null;
+  markDrafts: Readonly<Record<number, number>>;
 }
 
 interface TilesetViewState extends TilesetViewSettings {
@@ -45,6 +48,9 @@ interface TilesetViewState extends TilesetViewSettings {
   setShapeIndex: (index: number) => void;
   setLastShape: (shape: TileCollision | null) => void;
   setShapeClipboard: (shapes: readonly TileShape[]) => void;
+  setTerrainSetId: (id: string | null) => void;
+  setTerrainSlot: (slot: number | null) => void;
+  setMarkDraft: (key: number, mask: number | null) => void;
 }
 
 export type { ThumbZoom, TileFilter, TilesetMode, TilesetViewSettings, TilesetViewState };

@@ -22,7 +22,7 @@ const GridArea = ({ model }: TilesetModelProps) => {
     <Stack gap="xs" className="tileset-panel__grid-area">
       <TilesetHeader model={model} />
       <GridToolbar />
-      <ScrollArea axis="both" scrollbar="slim" fade={false} className="tileset-panel__scroll">
+      <ScrollArea axis="y" scrollbar="slim" fade={false} className="tileset-panel__scroll">
         <Box ref={ref} className="tileset-panel__measure">
           {empty ? <EmptyState size="sm" message={TILESET_TEXT.noTiles} /> : <TileGrid model={model} view={view} handlers={selection.handlers} />}
         </Box>

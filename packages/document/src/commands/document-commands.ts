@@ -85,6 +85,7 @@ import { tilesetCreate } from './tileset/tileset-create';
 import { tilesetDelete } from './tileset/tileset-delete';
 import { tilesetDuplicate } from './tileset/tileset-duplicate';
 import { tilesetTerrain } from './tileset/tileset-terrain';
+import { tilesetTerrainSets } from './tileset/tileset-terrain-sets';
 import { tilesetUpdate } from './tileset/tileset-update';
 
 const documentCommands: readonly CommandDef[] = [
@@ -153,6 +154,7 @@ const documentCommands: readonly CommandDef[] = [
   animationFacingDraw,
   tileAnimation,
   tilesetTerrain,
+  tilesetTerrainSets,
   tilemapCreate,
   tilemapUpdate,
   tilemapResize,

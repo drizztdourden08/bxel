@@ -6,7 +6,7 @@ import { COLUMN_NAMES, columnContext } from './columns';
 const MATRIX: readonly (readonly [string, string])[] = [
   ['widget.layers', 'HSSSHSSSSSSH'],
   ['widget.palette', 'HSSSHHSSHSSH'],
-  ['widget.timeline', 'HSSSHHSSHSSH'],
+  ['widget.timeline', 'HSSSHHSHHSSH'],
   ['widget.options', 'HSSSHHSSSSSH'],
   ['widget.tools', 'HSSSHSSSSSSH'],
   ['widget.view', 'HSSSHSSSSSSS'],

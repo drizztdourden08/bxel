@@ -1,13 +1,10 @@
 /* @layer renderer-app @kind style */
-.tileset-panel__widget {
-  flex: 1;
-  min-block-size: 0;
-}
-
 .tileset-panel {
+  flex: 1;
   block-size: 100%;
-  min-block-size: var(--size-448);
+  min-block-size: 0;
   min-inline-size: 0;
+  overflow: hidden;
 }
 
 .tileset-panel__split {
@@ -46,16 +43,25 @@
 
 .tileset-panel__measure {
   min-inline-size: 0;
+  overflow-x: hidden;
 }
 
 .tileset-panel__grid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-2xs);
   padding: var(--space-2xs);
-  justify-items: center;
 }
 
 .tileset-panel__row {
-  display: contents;
+  display: flex;
+  flex: none;
+  gap: var(--space-2xs);
+}
+
+.tileset-panel__cell {
+  flex: none;
 }
 
 .tileset-panel__cell,
@@ -265,29 +271,146 @@
 }
 
 .tileset-panel__slots {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--size-40), 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-2xs);
+  padding-block: var(--space-2xs);
+}
+
+.tileset-panel__slot,
+.tileset-panel__kind,
+.tileset-panel__packing {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-surface);
+  color: var(--c-text);
+  cursor: pointer;
+}
+
+.tileset-panel__slot[data-missing] {
+  border-style: dashed;
+  background: var(--c-sunken);
+}
+
+.tileset-panel__slot[aria-pressed='true'] {
+  border-color: var(--c-primary-bright);
+  background: var(--c-selected);
+}
+
+.tileset-panel__variants {
+  position: absolute;
+  inset-block-start: var(--size-2);
+  inset-inline-end: var(--size-2);
+  padding-inline: var(--size-2);
+  border-radius: var(--radius-sm);
+  background: var(--c-primary);
+  color: var(--c-primary-text);
+}
+
+.tileset-panel__variant {
+  padding: var(--space-2xs);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-sm);
+  background: var(--c-sunken);
 }
 
 .tileset-panel__slot-empty {
   display: block;
-  inline-size: var(--size-40);
-  block-size: var(--size-40);
+  inline-size: var(--size-32);
+  block-size: var(--size-32);
   border: var(--border-width-thin) dashed var(--c-border);
 }
 
 .tileset-panel__glyph {
   display: grid;
-  grid-template-columns: repeat(3, var(--size-8));
-  grid-template-rows: repeat(3, var(--size-8));
+  grid-template-columns: repeat(3, var(--size-6));
+  grid-template-rows: repeat(3, var(--size-6));
   gap: var(--border-width-thin);
+}
+
+.tileset-panel__glyph--big {
+  grid-template-columns: repeat(3, var(--size-10));
+  grid-template-rows: repeat(3, var(--size-10));
 }
 
 .tileset-panel__glyph-cell {
   background: var(--c-sunken);
+  border: var(--border-width-thin) solid var(--c-border);
 }
 
 .tileset-panel__glyph-cell--on {
   background: var(--c-primary-bright);
+  border-color: var(--c-primary-bright);
+}
+
+.tileset-panel__packing-grid {
+  display: grid;
+  gap: var(--border-width-thin);
+}
+
+.tileset-panel__packing-grid[data-columns='4'] {
+  grid-template-columns: repeat(4, var(--size-4));
+}
+
+.tileset-panel__packing-grid[data-columns='6'] {
+  grid-template-columns: repeat(6, var(--size-4));
+}
+
+.tileset-panel__packing-grid[data-columns='7'] {
+  grid-template-columns: repeat(7, var(--size-4));
+}
+
+.tileset-panel__packing-grid[data-columns='8'] {
+  grid-template-columns: repeat(8, var(--size-4));
+}
+
+.tileset-panel__packing-grid[data-columns='12'] {
+  grid-template-columns: repeat(12, var(--size-4));
+}
+
+.tileset-panel__packing-cell {
+  inline-size: var(--size-4);
+  block-size: var(--size-4);
+  background: var(--c-sunken);
+}
+
+.tileset-panel__packing-cell--on {
+  background: var(--c-primary-bright);
+}
+
+.tileset-panel__marks {
+  position: absolute;
+  inset: var(--space-2xs);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.tileset-panel__marks[data-bad] {
+  outline: var(--border-width-thick) dashed var(--c-danger);
+}
+
+.tileset-panel__mark {
+  min-inline-size: 0;
+  min-block-size: 0;
+  padding: 0;
+  border: var(--border-width-thin) dashed var(--c-text-faint);
+  background: transparent;
+  cursor: pointer;
+}
+
+.tileset-panel__mark--off {
+  border-color: transparent;
+}
+
+.tileset-panel__mark[aria-pressed='true'] {
+  border-style: solid;
+  border-color: var(--c-primary-bright);
+  background: var(--c-primary-soft);
 }

@@ -75,6 +75,21 @@ type TileFieldEntry = {
   readonly choices?: readonly string[];
 };
 
+type TerrainVariantEntry = {
+  readonly key: number;
+  readonly weight: number;
+  readonly flipX?: boolean;
+  readonly flipY?: boolean;
+  readonly diagonal?: boolean;
+};
+
+type TerrainSetEntry = {
+  readonly id: string;
+  readonly name: string;
+  readonly kind: string;
+  readonly slots: readonly (readonly TerrainVariantEntry[])[];
+};
+
 type TilesetDescriptor = {
   readonly name: string;
   readonly image: string;
@@ -86,6 +101,7 @@ type TilesetDescriptor = {
   readonly tiles: readonly TilesetEntry[];
   readonly fields?: readonly TileFieldEntry[];
   readonly terrain?: { readonly kind: string; readonly keys: readonly number[] };
+  readonly terrainSets?: readonly TerrainSetEntry[];
   readonly animations?: readonly TileAnimationEntry[];
 };
 
@@ -126,6 +142,8 @@ export type {
   TileShape,
   TileSize,
   TilesetDescriptor,
+  TerrainSetEntry,
+  TerrainVariantEntry,
   TileFieldEntry,
   TileFieldValue,
   TileShapeEntry,

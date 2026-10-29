@@ -15,6 +15,9 @@ const TILESET_VIEW_DEFAULTS: TilesetViewSettings = {
   shapeIndex: 0,
   lastShape: null,
   shapeClipboard: [],
+  terrainSetId: null,
+  terrainSlot: null,
+  markDrafts: {},
 };
 
 export { TILESET_VIEW_DEFAULTS };

@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { findSprite, tileLayout, tileShapes, tileUseCounts } from '@bxel/document';
+import { findSprite, terrainSetsOf, tileLayout, tileShapes, tileUseCounts } from '@bxel/document';
 import type { Artwork, Tile, TileShape, Tileset } from '@bxel/document';
 
 const shapeDetail = (shape: TileShape) => ({
@@ -33,7 +33,13 @@ const tilesetDetail = (artwork: Artwork, tileset: Tileset) => {
     rows: layout.rows,
     collisionLayers: [...(tileset.collisionLayers ?? ['solid'])],
     fields: (tileset.fields ?? []).map((field) => ({ name: field.name, kind: field.kind, default: field.default, ...(field.choices ? { choices: [...field.choices] } : {}) })),
-    terrain: tileset.terrain ? { kind: tileset.terrain.kind, keys: [...tileset.terrain.keys] } : null,
+    terrainSets: terrainSetsOf(tileset).map((set) => ({
+      id: set.id,
+      name: set.name,
+      kind: set.kind,
+      slots: set.slots.map((variants) => variants.map((variant) => ({ ...variant }))),
+      missing: set.slots.flatMap((variants, slot) => (variants.length === 0 ? [slot] : [])),
+    })),
     tiles: tileset.tiles.map((tile) => tileDetail(artwork, tile, { index: layout.indexOf.get(tile.key) ?? 0, uses: uses.get(tile.key) ?? 0 })),
   };
 };

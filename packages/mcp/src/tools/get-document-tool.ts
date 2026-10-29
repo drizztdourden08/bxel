@@ -111,7 +111,19 @@ const tilesetDetail = z.strictObject({
   rows: COUNT_SCHEMA,
   collisionLayers: z.array(z.string()),
   fields: z.array(fieldDetail).describe('The custom data fields of the tileset. Define them with tileset.fields, set values with tile.data.'),
-  terrain: z.strictObject({ kind: z.enum(['blob16', 'blob47']), keys: z.array(z.number().int()) }).nullable(),
+  terrainSets: z
+    .array(
+      z.strictObject({
+        id: z.string(),
+        name: z.string(),
+        kind: z.enum(['blob16', 'blob47', 'corner16']),
+        slots: z
+          .array(z.array(z.strictObject({ key: z.number().int(), weight: z.number(), flipX: z.boolean().optional(), flipY: z.boolean().optional(), diagonal: z.boolean().optional() })))
+          .describe('One list of variants per slot, in slot order. An empty list is a missing slot. Set them with tileset.terrain_sets and paint with map.terrain (option set).'),
+        missing: z.array(z.number().int()).describe('The slot numbers, counted from 0, that hold no tile.'),
+      }),
+    )
+    .describe('The terrain sets. A tileset from an older file shows its single terrain rule set here as one set.'),
   tiles: z.array(tileDetail),
 });
 

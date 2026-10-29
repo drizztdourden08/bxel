@@ -101,6 +101,8 @@ export { tilesetDeleteSchema } from './tileset-delete-schema';
 export { tilesetDuplicateSchema } from './tileset-duplicate-schema';
 export { tilesetRefSchema } from './tileset-ref-schema';
 export { tilesetTerrainSchema } from './tileset-terrain-schema';
+export { tilesetTerrainSetsSchema } from './tileset-terrain-sets-schema';
+export { terrainSetSchema } from './terrain-set-schema';
 export { tilesetUpdateSchema } from './tileset-update-schema';
 export { mapTerrainSchema } from './map-terrain-schema';
 export { mapWriteSchema } from './map-write-schema';

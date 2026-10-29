@@ -11,6 +11,7 @@ import { collisionIssue } from '../read/collision-issue';
 import { findTileset } from '../read/find-tileset';
 import { orientationIssue } from '../read/orientation-issue';
 import { terrainIssue } from '../read/terrain-issue';
+import { terrainSetsIssue } from '../read/terrain-sets-issue';
 import { tileAnimationIssue } from '../read/tile-animation-issue';
 import { tileShapes } from '../read/tile-shapes';
 import { cellKey } from '../tilemap/cell-key';
@@ -45,6 +46,8 @@ const checkTileset = (artwork: Artwork, tileset: Tileset): void => {
   }
   const rules = tileset.terrain ? terrainIssue(tileset.terrain, tileset) : null;
   if (rules !== null) throw broken(rules);
+  const sets = tileset.terrainSets ? terrainSetsIssue(tileset.terrainSets, tileset) : null;
+  if (sets !== null) throw broken(sets);
 };
 
 const checkMaps = (draft: Draft): void => {

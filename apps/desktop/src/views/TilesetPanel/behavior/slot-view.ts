@@ -14,6 +14,7 @@ const slotView = (artwork: Artwork, tileset: Tileset): GridView => ({
   painted: NONE,
   focused: -1,
   order: NO_ORDER,
+  terrain: null,
 });
 
 export { slotView };

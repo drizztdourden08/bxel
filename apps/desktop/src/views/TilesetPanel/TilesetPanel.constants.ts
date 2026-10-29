@@ -8,6 +8,7 @@ const TILESET_TEXT = {
   mixed: 'Mixed',
   gridPane: 'Tile grid',
   inspector: 'Tile inspector',
+  inspectorHeader: 'Inspector',
   shapeCanvas: 'Collision shape editor',
   shapeActions: 'Collision shape actions',
   boxField: 'Box',

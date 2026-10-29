@@ -1,22 +1,15 @@
 /* @layer renderer-app @kind component */
-import type { KeyboardEvent, PointerEvent } from 'react';
 import { Box, Canvas } from '@drizztdourden08/tessera';
+import { cellEvents } from '../behavior/cell-events';
 import { tileLabel } from '../behavior/tile-label';
 import { TILESET_TEXT } from '../TilesetPanel.constants';
 import type { TileCellProps } from '../TilesetPanel.type';
 import { TileBadges } from './TileBadges';
+import { TileMarks } from './TileMarks';
 import { TileThumb } from './TileThumb';
 
 const TileSlot = ({ cell, index, view, handlers }: TileCellProps) => {
-  const events = {
-    'data-grid-index': index,
-    tabIndex: view.focused === index ? 0 : -1,
-    onPointerDown: (event: PointerEvent<HTMLElement>) => handlers.down(index, event),
-    onPointerEnter: (event: PointerEvent<HTMLElement>) => handlers.enter(index, event),
-    onPointerUp: handlers.up,
-    onFocus: () => handlers.focus(index),
-    onKeyDown: (event: KeyboardEvent<HTMLElement>) => handlers.keyDown(index, event),
-  };
+  const events = cellEvents(index, view.focused, handlers);
   if (!cell) {
     return (
       <Box role="gridcell" aria-label={TILESET_TEXT.emptySlot(index + 1)} className="tileset-panel__cell tileset-panel__cell--hole" {...events}>
@@ -43,6 +36,7 @@ const TileSlot = ({ cell, index, view, handlers }: TileCellProps) => {
     >
       <TileThumb view={view} cell={cell} />
       <TileBadges view={view} cell={cell} />
+      {view.mode === 'terrain' && view.terrain ? <TileMarks view={view} cell={cell} /> : null}
     </Box>
   );
 };

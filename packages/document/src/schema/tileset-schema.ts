@@ -9,6 +9,7 @@ import { tileFieldSchema, fieldValueSchema } from './tile-field-schema';
 import { tileShapeSchema } from './tile-shape-schema';
 import { createdSchema } from './created-schema';
 import { terrainSchema } from './terrain-schema';
+import { terrainSetSchema } from './terrain-set-schema';
 import { nameSchema } from './name-schema';
 import { MAX_TILE_KEY } from './tileset-schema.constants';
 
@@ -53,6 +54,7 @@ const tilesetSchema = z.object({
   nextKey: z.number().int().min(1),
   tiles: z.array(tileSchema),
   terrain: terrainSchema.optional(),
+  terrainSets: z.array(terrainSetSchema).max(12).optional(),
   columns: z.number().int().min(1).max(MAX_LAYOUT_COLUMNS).optional(),
   fields: z.array(tileFieldSchema).max(MAX_TILE_FIELDS).optional(),
   collisionLayers: z.array(z.string().min(1).max(32)).max(MAX_COLLISION_LAYERS).optional(),

@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { KeyboardEvent, MouseEvent, PointerEvent, RefObject } from 'react';
+import type { TerrainContext } from './behavior/terrain-panel.type';
 import type { Artwork, FieldValue, Point, Sprite, Tile, TileField, TileLayout, TileShape, Tileset } from '@bxel/document';
 import type { TileEditMode, TileStamp } from '../../stores/tilemap-store.type';
 import type { ThumbZoom, TilesetMode } from '../../stores/tileset-view-store.type';
@@ -43,6 +44,7 @@ interface GridView {
   painted: ReadonlySet<number>;
   focused: number;
   order: ReadonlyMap<number, number>;
+  terrain: TerrainContext | null;
 }
 
 interface GridHandlers {
@@ -91,25 +93,6 @@ interface AnimationPartProps {
   artwork: Artwork;
   tileset: Tileset;
   tile: Tile;
-}
-
-interface TerrainSlotProps {
-  index: number;
-  mask: number;
-  cell: TileCell | undefined;
-  view: GridView;
-  onPick: (index: number) => void;
-}
-
-interface TerrainSlotsProps {
-  model: TilesetModel;
-  rules: NonNullable<Tileset['terrain']>;
-  onPick: (index: number) => void;
-}
-
-interface TerrainActionsProps {
-  model: TilesetModel;
-  rules: NonNullable<Tileset['terrain']>;
 }
 
 interface ShapeEditorProps {
@@ -189,6 +172,7 @@ export type {
   AnimationPartProps,
   DataFieldRowProps,
   FieldValueEditorProps,
+  GridHandlers,
   GridSelection,
   GridView,
   MixedChoiceProps,
@@ -198,9 +182,6 @@ export type {
   ShapeEditorHandle,
   ShapeEditorProps,
   ShapeRowProps,
-  TerrainActionsProps,
-  TerrainSlotProps,
-  TerrainSlotsProps,
   TileCell,
   TileCellProps,
   TileGridProps,

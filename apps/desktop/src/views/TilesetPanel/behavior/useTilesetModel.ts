@@ -1,10 +1,12 @@
 /* @layer renderer-app @kind hook */
 import { useMemo } from 'react';
-import { findSprite, tileLayout, tileUseCounts } from '@bxel/document';
+import { findSprite, terrainSetsOf, tileLayout, tileUseCounts } from '@bxel/document';
 import { useMapContext } from '../../../hooks/useMapContext';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import type { TileCell, TilesetModel } from '../TilesetPanel.type';
+import { slotOfTile } from '../../../tilemap/terrain/slot-of-tile';
+import { chosenSet } from '../../../tilemap/terrain/chosen-set';
 import { tileMatches } from './tile-matches';
 
 const useTilesetModel = (): TilesetModel | null => {
@@ -15,6 +17,7 @@ const useTilesetModel = (): TilesetModel | null => {
   const mapSelected = useTilemapStore((state) => state.selection !== null);
   const search = useTilesetViewStore((state) => state.search);
   const filters = useTilesetViewStore((state) => state.filters);
+  const terrainSetId = useTilesetViewStore((state) => state.terrainSetId);
   const artwork = context?.artwork ?? null;
   const tileset = context?.tileset ?? null;
   const hasMap = context?.tilemap != null;
@@ -22,14 +25,13 @@ const useTilesetModel = (): TilesetModel | null => {
   return useMemo(() => {
     if (!artwork || !tileset || !counts) return null;
     const layout = tileLayout(tileset);
-    const terrain = tileset.terrain?.keys ?? [];
+    const active = chosenSet(terrainSetsOf(tileset), terrainSetId);
     const filtering = search.trim() !== '' || filters.length > 0;
     const cells = tileset.tiles.flatMap((tile): TileCell[] => {
       const sprite = findSprite(artwork, tile.spriteId);
       if (!sprite) return [];
       const uses = counts.get(tile.key) ?? 0;
-      const slot = terrain.indexOf(tile.key);
-      const base = { tile, sprite, uses, terrainSlot: slot < 0 ? null : slot };
+      const base = { tile, sprite, uses, terrainSlot: slotOfTile(active, tile.key) };
       const matches = tileMatches({ ...base, name: sprite.name }, { search, filters });
       return [{ ...base, picked: stamp.keys.includes(tile.key), editing: editMode === 'edit' && editKey === tile.key, index: layout.indexOf.get(tile.key) ?? 0, matches }];
     });
@@ -52,7 +54,7 @@ const useTilesetModel = (): TilesetModel | null => {
       matched: cells.filter((cell) => cell.matches).length,
       hasMap,
     };
-  }, [artwork, tileset, counts, stamp, editMode, editKey, mapSelected, search, filters, hasMap]);
+  }, [artwork, tileset, counts, stamp, editMode, editKey, mapSelected, search, filters, hasMap, terrainSetId]);
 };
 
 export { useTilesetModel };

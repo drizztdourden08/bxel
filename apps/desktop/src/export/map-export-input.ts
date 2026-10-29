@@ -42,6 +42,7 @@ const mapExportInput = ({ tilemap, tileset }: MapPick, held: TileHeld): TilemapE
     spacing: MAP_EXPORT.spacing,
     margin: MAP_EXPORT.margin,
     ...(tileset.terrain ? { terrain: tileset.terrain } : {}),
+    ...(tileset.terrainSets ? { terrainSets: tileset.terrainSets } : {}),
     ...(tileset.fields ? { fields: tileset.fields } : {}),
     ...(held.animations.length > 0 ? { animations: held.animations } : {}),
     tiles: held.sheet.tiles.map((placement) => entryOf(placement, tileset.tiles.find((tile) => tile.key === placement.key))),
