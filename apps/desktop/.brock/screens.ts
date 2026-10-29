@@ -4,6 +4,7 @@ import config from '../src/screens/screens.config';
 import { searchIndex } from './search';
 import { meta as creditsCardMeta } from '../src/screens/credits.card';
 import { meta as editorBaseMeta } from '../src/screens/editor.base';
+import OptionsAnimationSettings, { meta as optionsAnimationSettingsMeta } from '../src/screens/options/animation.settings';
 import { meta as optionsAssistantProgramsCustomMeta } from '../src/screens/options/assistant-programs.custom';
 import { meta as optionsAssistantProjectsCustomMeta } from '../src/screens/options/assistant-projects.custom';
 import OptionsAssistantSettings, { meta as optionsAssistantSettingsMeta } from '../src/screens/options/assistant.settings';
@@ -35,6 +36,7 @@ import PropertiesTilesetSettings, { meta as propertiesTilesetSettingsMeta } from
 const screenTree = buildScreenTree(config, [
   { kind: 'card', id: 'credits', component: lazyComponent(() => import('../src/screens/credits.card')), meta: creditsCardMeta },
   { kind: 'base', id: 'editor', component: lazyComponent(() => import('../src/screens/editor.base')), meta: editorBaseMeta },
+  { kind: 'settings', bucket: 'options', id: 'animation', sections: OptionsAnimationSettings, meta: optionsAnimationSettingsMeta },
   { kind: 'custom', bucket: 'options', id: 'assistant-programs', component: lazyComponent(() => import('../src/screens/options/assistant-programs.custom')), meta: optionsAssistantProgramsCustomMeta },
   { kind: 'custom', bucket: 'options', id: 'assistant-projects', component: lazyComponent(() => import('../src/screens/options/assistant-projects.custom')), meta: optionsAssistantProjectsCustomMeta },
   { kind: 'settings', bucket: 'options', id: 'assistant', sections: OptionsAssistantSettings, meta: optionsAssistantSettingsMeta },

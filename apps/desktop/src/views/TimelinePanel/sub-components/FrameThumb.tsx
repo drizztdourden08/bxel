@@ -4,7 +4,7 @@ import { Canvas } from '@drizztdourden08/tessera';
 import { composedImage } from '../../../timeline/composed-image';
 import type { FrameThumbProps } from '../TimelinePanel.type';
 
-const FrameThumb = ({ focus, cell }: FrameThumbProps) => {
+const FrameThumb = ({ focus, cell, thumb }: FrameThumbProps) => {
   const canvas = useRef<HTMLCanvasElement>(null);
   const { artwork, animation } = focus;
   useEffect(() => {
@@ -15,7 +15,16 @@ const FrameThumb = ({ focus, cell }: FrameThumbProps) => {
     const image = composedImage(artwork, animation, cell.id);
     if (image) context.putImageData(image, 0, 0);
   }, [artwork, animation, cell.id]);
-  return <Canvas ref={canvas} className="frame-cell__thumb" width={animation.width} height={animation.height} aria-hidden="true" />;
+  return (
+    <Canvas
+      ref={canvas}
+      className="frame-option__thumb"
+      style={{ inlineSize: thumb, blockSize: thumb }}
+      width={animation.width}
+      height={animation.height}
+      aria-hidden="true"
+    />
+  );
 };
 
 export { FrameThumb };

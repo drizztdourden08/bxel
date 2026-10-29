@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useContextMenu } from '@drizztdourden08/brock-react';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
-import { TIMELINE_MENU } from '../TimelinePanel.constants';
+import { TIMELINE_MENU } from './timeline-menu.constants';
 import { pickTimelineTarget } from './pick-timeline-target';
 import { timelineMenuEntries } from './timeline-menu-entries';
 import { ruledEntries } from '../../../context-menu/ruled-entries';

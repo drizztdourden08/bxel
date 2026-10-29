@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { AnimFlip, AnimFrameId, Animation, Artwork, PaletteBank } from '@bxel/document';
-import type { OnionSettings, OnionTint } from '../stores/timeline-store.type';
+import type { OnionStyle, OnionTint } from '../stores/timeline-store.type';
 
 type OnionSide = 'before' | 'after';
 
@@ -18,10 +18,16 @@ interface OnionGhost {
   flip: AnimFlip | null;
   side: OnionSide;
   tint: OnionTint;
+  colour: string;
+  style: OnionStyle;
+  behind: boolean;
 }
 
 type OnionSource = { readonly artwork: Artwork; readonly animation: Animation; readonly bank: PaletteBank };
 
-type OnionAround = { readonly onion: OnionSettings; readonly shown: AnimFrameId };
+interface OnionStep {
+  frameId: AnimFrameId;
+  flip: AnimFlip | null;
+}
 
-export type { OnionAround, OnionGhost, OnionLayer, OnionSide, OnionSource, Rgb };
+export type { OnionGhost, OnionLayer, OnionSide, OnionSource, OnionStep, Rgb };

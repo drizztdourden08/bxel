@@ -13,7 +13,7 @@ import { pickFacing } from '../../src/timeline/pick-facing';
 import { setTagColour } from '../../src/timeline/set-tag-colour';
 import { setTagRange } from '../../src/timeline/set-tag-range';
 import { tagLanes } from '../../src/timeline/tag-lanes';
-import { tagOptions } from '../../src/timeline/tag-options';
+import { rangeOptions } from '../../src/timeline/range-options';
 import { animationOf, frameAt, freshAnimation, live, noticeText, pickRange, run, withFrames } from './timeline-harness';
 
 beforeEach(() => {
@@ -88,10 +88,10 @@ describe('the tag lanes', () => {
     addTag();
     const lanes = tagLanes(animationOf(), null);
     expect(lanes).toHaveLength(2);
-    expect(lanes[0]?.map((cell) => cell?.edge ?? null)).toEqual(['start', 'mid', 'end', null]);
-    expect(lanes[1]?.map((cell) => cell?.edge ?? null)).toEqual([null, 'start', 'mid', 'end']);
+    expect(lanes[0]?.map((bar) => [bar.start, bar.end])).toEqual([[0, 2]]);
+    expect(lanes[1]?.map((bar) => [bar.start, bar.end])).toEqual([[1, 3]]);
     expect(lanes[0]?.[0]?.name).toBe('Tag 1');
-    expect(lanes[0]?.[1]?.name).toBe('');
+    expect(lanes[0]?.[0]?.label).toBe('Tag 1, forward, frames 1 to 3');
   });
 
   it('drop a tag whose frames are gone', () => {
@@ -136,12 +136,14 @@ describe('directions', () => {
 
   it('lists the tags to play, a mirrored one by the tag it copies', () => {
     eightWays();
-    expect(tagOptions(animationOf()).map((option) => option.label)).toEqual(['Whole animation', 'Tag 1 (east)', 'Tag 1 (west, mirrored)']);
+    expect(rangeOptions(animationOf(), false).map((option) => option.label)).toEqual(['Whole animation', 'Picked frames', 'Tag 1', 'Tag 1 (w)']);
   });
 
   it('draws a mirrored tag over the frames of the tag it copies', () => {
     eightWays();
     const lanes = tagLanes(animationOf(), null);
-    expect(lanes.flat().filter((cell) => cell?.mirror === true)).toHaveLength(2);
+    const bars = lanes.flat().filter((bar) => bar.mirror);
+    expect(bars).toHaveLength(1);
+    expect([bars[0]?.start, bars[0]?.end, bars[0]?.flip]).toEqual([0, 1, 'x']);
   });
 });

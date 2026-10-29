@@ -1,6 +1,7 @@
 /* @layer core @kind constants */
 import { z } from 'zod';
 import { ANIM_FRAME_ID_SCHEMA, DOCUMENT_ID_SCHEMA, LAYER_ID_SCHEMA, MAP_LAYER_ID_SCHEMA, SPRITE_ID_SCHEMA, TAG_ID_SCHEMA } from './ids.constants';
+import { TIMELINE_INPUT_SCHEMA } from './timeline-view.constants';
 
 const COORDINATE_SCHEMA = z.number().int().min(-100000).max(100000);
 
@@ -77,6 +78,7 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       loop: z.boolean().optional(),
     })
     .optional(),
+  timeline: TIMELINE_INPUT_SCHEMA.optional(),
   select: z
     .strictObject({
       sprite: SPRITE_ID_SCHEMA.optional(),

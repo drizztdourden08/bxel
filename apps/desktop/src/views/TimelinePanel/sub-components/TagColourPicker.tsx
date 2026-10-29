@@ -6,9 +6,9 @@ import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { setTagColour } from '../../../timeline/set-tag-colour';
 import { TAG_COLOUR_START } from '../../../timeline/tag-colour.constants';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
-import type { TagEditorProps } from '../TimelinePanel.type';
+import type { TagPartProps } from '../TimelinePanel.type';
 
-const TagColourPicker = ({ tag, readOnly }: TagEditorProps) => {
+const TagColourPicker = ({ tag, readOnly }: TagPartProps) => {
   const anchor = useRef<HTMLSpanElement>(null);
   const open = useTimelineStore((state) => state.colourPicker) && !readOnly;
   const setOpen = useTimelineStore((state) => state.setColourPicker);

@@ -13,6 +13,7 @@ const ADD_TEXT = {
   fromSprites: 'Sprites...',
   fromStrip: 'A strip...',
   fromSheet: 'A sheet...',
+  fromImages: 'Image files...',
   spritesTitle: 'Add frames from sprites',
   stripTitle: 'Add frames from a strip',
   sheetTitle: 'Add frames from a sheet',
@@ -47,7 +48,7 @@ const ADD_TEXT = {
   pickOne: 'Pick at least one sprite.',
   unavailable: 'Open an animation first.',
   notDroppable: 'Only a sprite of the same palette as the animation can be dropped here.',
-  dropHint: 'Drop a sprite from the Sprites panel or the Assets list on the strip to add it as a frame. Hold Alt to add a copy.',
+  dropHint: 'Drop a sprite from the Sprites panel or the Assets list on the strip to add it as a frame. Hold Alt to add a copy. Drop PNG images of the frame size, or a strip of them, from your desktop.',
 } as const;
 
 const MODE_OPTIONS: readonly { value: FrameMode; label: string; description: string }[] = [

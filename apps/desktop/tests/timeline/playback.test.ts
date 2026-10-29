@@ -1,51 +1,24 @@
 /* @layer renderer-app @kind test */
-import { COMMAND_NAME } from '@bxel/document';
 import type { TagId } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { allowPress } from '../../src/editor/allow-press';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useTimelineStore } from '../../src/stores/useTimelineStore';
-import { addTag } from '../../src/timeline/add-tag';
-import { advancePlayback } from '../../src/timeline/advance-playback';
 import { changeTag } from '../../src/timeline/change-tag';
 import { fpsOf } from '../../src/timeline/fps-of';
-import { frameDelay } from '../../src/timeline/frame-delay';
-import { goToFrame } from '../../src/timeline/go-to-frame';
-import { nextCursor } from '../../src/timeline/next-cursor';
+import { playPlan } from '../../src/timeline/play-plan';
 import { playSteps } from '../../src/timeline/play-steps';
-import { selectTag } from '../../src/timeline/select-tag';
 import { setDuration } from '../../src/timeline/set-duration';
-import { statusText } from '../../src/timeline/status-text';
-import { totalsText } from '../../src/timeline/totals-text';
-import { animationOf, frameAt, frameIds, freshAnimation, live, pickRange, revision, run, target, withFrames } from './timeline-harness';
+import { timeReadout } from '../../src/timeline/time-readout';
+import { tagFrames } from './playback-harness';
+import { animationOf, frameAt, frameIds, freshAnimation, live, pickRange, withFrames } from './timeline-harness';
 
 beforeEach(() => {
   freshAnimation();
 });
 
-const tagFrames = (first: number, last: number, direction: 'forward' | 'reverse' | 'pingpong' | 'pingpongReverse'): TagId => {
-  pickRange(first, last);
-  addTag();
-  const id = animationOf().tags.at(-1)?.id;
-  if (!id) throw new Error('no tag');
-  changeTag('Change tag', id, { direction });
-  return id;
-};
-
 const order = (tagId: TagId | null): number[] => {
   const ids = frameIds();
   return playSteps(animationOf(), tagId).steps.map((step) => ids.indexOf(step.frameId));
-};
-
-const visited = (steps: number): number[] => {
-  const ids = frameIds();
-  const seen: number[] = [];
-  useTimelineStore.getState().play();
-  for (let step = 0; step < steps; step += 1) {
-    if (!advancePlayback()) break;
-    seen.push(ids.indexOf(live().frame.id));
-  }
-  return seen;
 };
 
 describe('the play order', () => {
@@ -78,89 +51,37 @@ describe('the play order', () => {
   });
 });
 
-describe('stepping the cursor', () => {
-  it('moves on, wraps when looping and stops at the end when not', () => {
-    expect(nextCursor(3, 0, true)).toBe(1);
-    expect(nextCursor(3, 2, true)).toBe(0);
-    expect(nextCursor(3, 2, false)).toBeNull();
-    expect(nextCursor(1, 0, true)).toBeNull();
-  });
-});
+describe('the play plan', () => {
+  const planOf = (extra: Partial<Parameters<typeof playPlan>[0]> = {}) =>
+    playPlan({ animation: animationOf(), tagId: null, picked: [], rangePicked: false, loopRange: null, mode: 'loop', subtags: false, ...extra });
+  const indices = (plan: ReturnType<typeof planOf>): number[] => plan.steps.map((step) => frameIds().indexOf(step.frameId));
 
-describe('playing', () => {
-  it('walks the frames in order and wraps while looping', () => {
-    withFrames(3);
-    expect(visited(5)).toEqual([1, 2, 0, 1, 2]);
+  it('bounces the range out and back in ping-pong preview', () => {
+    withFrames(4);
+    expect(indices(planOf({ mode: 'pingpong' }))).toEqual([0, 1, 2, 3, 2, 1]);
   });
 
-  it('stops at the last frame when looping is off', () => {
-    withFrames(3);
-    useTimelineStore.getState().setLoop(false);
-    expect(visited(6)).toEqual([1, 2]);
-    expect(useTimelineStore.getState().playing).toBe(false);
-  });
-
-  it('plays a ping-pong tag out and back', () => {
+  it('plays only the picked frames, in order', () => {
     withFrames(5);
-    const id = tagFrames(1, 3, 'pingpong');
-    selectTag(id);
-    goToFrame(frameAt(1));
-    expect(visited(6)).toEqual([2, 3, 2, 1, 2, 3]);
+    expect(indices(planOf({ rangePicked: true, picked: [frameAt(3), frameAt(1)] }))).toEqual([1, 3]);
   });
 
-  it('plays a mirrored tag with its flip', () => {
-    withFrames(3);
-    const id = tagFrames(0, 2, 'forward');
-    const animation = animationOf().id;
-    run('Mirror', [
-      { name: COMMAND_NAME.animationUpdate, targets: null, options: { animation, directions: 'eight' } },
-      { name: COMMAND_NAME.animationTagUpdate, targets: null, options: { animation, tag: { by: 'id', id }, facing: 'e' } },
-      { name: COMMAND_NAME.animationTagAdd, targets: null, options: { animation, kind: 'mirror', of: { by: 'id', id }, flip: 'x', facing: 'w' } },
-    ]);
-    const mirror = animationOf().tags.find((tag) => tag.kind === 'mirror');
-    expect(mirror?.kind).toBe('mirror');
-    expect(playSteps(animationOf(), mirror?.id ?? null).steps.map((step) => step.flip)).toEqual(['x', 'x', 'x']);
+  it('plays a loop range of the ruler before anything else', () => {
+    withFrames(5);
+    expect(indices(planOf({ loopRange: { from: frameAt(3), to: frameAt(1) }, rangePicked: true, picked: [frameAt(0)] }))).toEqual([1, 2, 3]);
   });
 
-  it('follows a frame the user clicks while it plays', () => {
-    withFrames(4);
-    expect(visited(1)).toEqual([1]);
-    goToFrame(frameAt(3));
-    expect(visited(1)).toEqual([0]);
-  });
-
-  it('pauses at once when there is one frame', () => {
-    useTimelineStore.getState().play();
-    expect(advancePlayback()).toBe(false);
-    expect(useTimelineStore.getState().playing).toBe(false);
-  });
-
-  it('never changes the document', () => {
-    withFrames(4);
-    const before = { revision: revision(), animation: animationOf() };
-    visited(9);
-    expect(revision()).toBe(before.revision);
-    expect(animationOf()).toBe(before.animation);
-  });
-
-  it('stops when the user starts to draw', () => {
-    withFrames(3);
-    useTimelineStore.getState().play();
-    allowPress({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, target());
-    expect(useTimelineStore.getState().playing).toBe(false);
+  it('repeats a tag and plays tags inside the whole animation under subtags', () => {
+    withFrames(5);
+    const id = tagFrames(1, 2, 'forward');
+    changeTag('Change tag', id, { repeat: 2 });
+    expect(indices(planOf({ tagId: id, subtags: true }))).toEqual([1, 2, 1, 2]);
+    expect(indices(planOf({ tagId: id }))).toEqual([1, 2]);
+    expect(indices(planOf({ subtags: true }))).toEqual([0, 1, 2, 1, 2, 3, 4]);
   });
 });
 
 describe('timing', () => {
-  it('waits the duration of the frame on show', () => {
-    withFrames(3);
-    pickRange(1, 1);
-    setDuration(240);
-    expect(frameDelay()).toBe(240);
-    pickRange(0, 0);
-    expect(frameDelay()).toBe(100);
-  });
-
   it('reads the frame rate from the durations of the frames that play', () => {
     withFrames(2);
     expect(fpsOf(playSteps(animationOf(), null))).toBe(10);
@@ -170,19 +91,24 @@ describe('timing', () => {
     expect(fpsOf({ steps: [], cycleMs: 0 })).toBe(0);
   });
 
-  it('counts a repeated ping-pong frame twice in the totals', () => {
+  it('writes the time readout of the range in the chosen units', () => {
+    withFrames(4);
+    pickRange(1, 1);
+    expect(timeReadout(live(), 'ms')).toEqual({ clock: '100 / 400 ms', fps: '10 fps' });
+    expect(timeReadout(live(), 'seconds').clock).toBe('0.10 / 0.40 s');
+    expect(timeReadout(live(), 'ticks').clock).toBe('1 / 5 ticks');
+    expect(frameIds().indexOf(live().frame.id)).toBe(1);
+    expect(useDocumentStore.getState().activeId).not.toBeNull();
+  });
+
+  it('counts a repeated ping-pong frame twice in the plan', () => {
     withFrames(3);
     const id = tagFrames(0, 2, 'pingpong');
     pickRange(0, 0);
     setDuration(200);
-    expect(totalsText(live(), id)).toBe('4 frames, 500 ms, 8 fps');
-  });
-
-  it('writes the status line', () => {
-    withFrames(4);
-    pickRange(1, 1);
-    expect(statusText(live())).toBe('Frame 2 of 4, 100 ms');
-    expect(frameIds().indexOf(live().frame.id)).toBe(1);
-    expect(useDocumentStore.getState().activeId).not.toBeNull();
+    useTimelineStore.getState().selectTag(id);
+    const plan = playPlan({ animation: animationOf(), tagId: id, picked: [], rangePicked: false, loopRange: null, mode: 'loop', subtags: false });
+    expect(plan.steps).toHaveLength(4);
+    expect(plan.cycleMs).toBe(500);
   });
 });

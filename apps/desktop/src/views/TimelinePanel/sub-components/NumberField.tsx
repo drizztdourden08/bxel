@@ -1,25 +1,38 @@
 /* @layer renderer-app @kind component */
 import { useState } from 'react';
-import { NumberInput } from '@drizztdourden08/tessera';
+import { NumberField as TesseraNumberField } from '@drizztdourden08/tessera';
 import type { NumberFieldProps } from '../TimelinePanel.type';
 
-const NumberField = ({ label, value, min, max, step, disabled, onCommit }: NumberFieldProps) => {
+const NumberField = ({ label, value, min, max, step, disabled, mixed = false, presets, suffix, onCommit }: NumberFieldProps) => {
   const [draft, setDraft] = useState(value);
-  const commit = (): void => {
-    if (draft !== value && !onCommit(draft)) setDraft(value);
+  const [touched, setTouched] = useState(false);
+  const commit = (next = draft): void => {
+    if (!touched && next === value) return;
+    if (Number.isNaN(next) || (next === value && !mixed)) return;
+    if (!onCommit(next)) {
+      setDraft(value);
+      setTouched(false);
+    }
   };
   return (
-    <NumberInput
+    <TesseraNumberField
       size="sm"
-      sizeToContent
+      className="timeline-number"
       min={min}
       max={max}
       step={step}
       value={draft}
       disabled={disabled}
+      mixed={mixed && !touched}
+      presets={presets}
+      suffix={suffix}
       aria-label={label}
-      onChange={setDraft}
-      onBlur={commit}
+      onChange={(next) => {
+        setDraft(next);
+        setTouched(true);
+        if (presets?.includes(next)) commit(next);
+      }}
+      onBlur={() => commit()}
       onKeyDown={(event) => {
         if (event.key === 'Enter') commit();
       }}
