@@ -1,4 +1,6 @@
 /* @layer tests @kind test */
+import { ONION_DEFAULTS } from '../src/schema/onion-defaults.constants';
+
 const DOC = 'doc_4k9m2q7x1v8c';
 const SPRITE = 'spr_4k9m2q7x1v8c';
 const LAYER = 'lay_4k9m2q7x1v8c';
@@ -94,23 +96,7 @@ const APP_OUTPUT_EXAMPLES: Record<string, unknown> = {
       zoom: 48,
       timeMode: false,
       units: 'ms',
-      onion: {
-        on: true,
-        before: 2,
-        after: 2,
-        opacity: 40,
-        falloff: 'linear',
-        tint: 'split',
-        beforeColour: '#e04848',
-        afterColour: '#4880e8',
-        style: 'filled',
-        order: 'play',
-        wrap: true,
-        scope: 'range',
-        skipRepeats: false,
-        position: 'behind',
-        hideWhilePlaying: true,
-      },
+      onion: { ...ONION_DEFAULTS, on: true, before: 2, after: 2 },
     },
     selection: { ...SELECTION, variant: 'rect', combine: 'replace' },
     mapSelection: null,

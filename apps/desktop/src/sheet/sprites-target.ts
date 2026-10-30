@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
-import type { SpriteId, TargetScope } from '@bxel/document';
+import type { SpriteRef, TargetScope } from '@bxel/document';
 
-const spritesTarget = (ids: readonly SpriteId[]): TargetScope => ({
+const spritesTarget = (ids: readonly SpriteRef[]): TargetScope => ({
   sprites: [...ids],
   layers: { by: 'all' },
   frames: { by: 'all' },

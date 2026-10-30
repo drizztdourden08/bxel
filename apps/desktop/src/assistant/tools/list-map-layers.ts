@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { solidShape, terrainSetsOf } from '@bxel/document';
+import { mapLayerFlags, solidShape, terrainSetsOf } from '@bxel/document';
 import { hiddenFailure } from '@bxel/mcp';
 import type { Artwork, Tilemap, Tileset } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
@@ -17,10 +17,7 @@ const tilemapEntry = (map: Tilemap) => ({
   orientation: map.orientation?.kind ?? ('orthogonal' as const),
   layers: map.layers.map((layer) => ({
     layerId: layer.id,
-    name: layer.name,
-    visible: layer.visible,
-    locked: layer.locked,
-    ...(layer.colour === undefined ? {} : { colour: layer.colour }),
+    ...mapLayerFlags(layer),
   })),
 });
 

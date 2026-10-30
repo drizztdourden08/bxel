@@ -16,11 +16,11 @@
     "start:headless": "brock start -- --no-focus --muted",
     "sync": "brock sync",
     "typecheck": "tsc --noEmit",
-    "lint": "pnpm typecheck && eslint . && stylelint \"src/**/*.css\" && brock prose && brock knip && jscpd . && pnpm --workspace-root run lint:packages",
+    "lint": "pnpm typecheck && eslint . && stylelint \"src/**/*.css\" && brock prose && brock knip && pnpm --workspace-root run duplicates && pnpm --workspace-root run lint:packages",
     "lint:md": "markdownlint-cli2",
     "structure": "brock structure --check",
     "deadcode": "brock knip",
-    "duplicates": "jscpd ."
+    "duplicates": "pnpm --workspace-root run duplicates"
   },
   "dependencies": {
     "@bxel/document": "workspace:*",
@@ -55,7 +55,6 @@
     "electron-builder": "catalog:",
     "electron-vite": "catalog:",
     "eslint": "catalog:",
-    "jscpd": "catalog:",
     "knip": "catalog:",
     "markdownlint-cli2": "catalog:",
     "playwright-core": "catalog:",

@@ -41,12 +41,12 @@ const startsOnTheSheet = async (rig: TileRig): Promise<void> => {
   await savedWith(rig, ORIGINAL);
 };
 
-const followsHero = (names: readonly string[] | null): boolean => names !== null && names.length === ORIGINAL.length && names.indexOf('tiny') === names.indexOf('hero') + 1;
+const REORDERED = ['hero', 'tiny', 'slime', 'fx/glow', 'fx/spark'];
 
 const reordersATile = async (rig: TileRig): Promise<void> => {
   await dragByPointer(rig.session.page, tile(rig, 'tiny'), tile(rig, 'hero'));
-  await expect.poll(async () => followsHero(await shown(rig))).toBe(true);
-  await expect.poll(async () => followsHero(await savedNames(rig)())).toBe(true);
+  await expect.poll(() => shown(rig)).toEqual(REORDERED);
+  await savedWith(rig, REORDERED);
   await undoesToTheOriginal(rig);
 };
 

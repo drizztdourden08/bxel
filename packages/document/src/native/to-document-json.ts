@@ -3,6 +3,7 @@ import type { CelId } from '../model/ids.type';
 import type { Artwork } from '../model/artwork.type';
 import type { Layer, Sprite } from '../model/sprite.type';
 import type { Tilemap } from '../model/tilemap.type';
+import { mapLayerFlags } from '../tilemap/map-layer-flags';
 import type { DocumentJson, SpriteJson, TilemapJson } from './document-json.type';
 
 const sortedLayer = (layer: Layer): Layer => ({
@@ -37,10 +38,7 @@ const tilemapToJson = (tilemap: Tilemap): TilemapJson => ({
   ...(tilemap.guides ? { guides: tilemap.guides } : {}),
   layers: tilemap.layers.map((layer) => ({
     id: layer.id,
-    name: layer.name,
-    visible: layer.visible,
-    locked: layer.locked,
-    ...(layer.colour === undefined ? {} : { colour: layer.colour }),
+    ...mapLayerFlags(layer),
   })),
 });
 

@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { AnimFlip, AnimMirrorTag, AnimSpanTag } from '@bxel/document';
+import { sheetTagStyle } from '@bxel/formats';
 import type { ExportFrame, SheetTagEntry } from '@bxel/formats';
 import type { AnimationWorld, SpanRange, TagBuild, TagFrames } from './animation-export.type';
 import { animationFrameOf } from './animation-frame-of';
@@ -10,10 +11,7 @@ const spanEntry = (world: AnimationWorld, tag: AnimSpanTag, range: SpanRange): S
   name: animationTagName(world.animation, tag.name, tag.facing),
   from: range.first,
   to: range.last,
-  direction: tag.direction,
-  repeat: tag.repeat,
-  ...(tag.colour === undefined ? {} : { colour: tag.colour }),
-  ...(tag.facing === undefined ? {} : { facing: tag.facing }),
+  ...sheetTagStyle(tag),
 });
 
 const mirrorFrames = (world: AnimationWorld, range: SpanRange, flip: AnimFlip): ExportFrame[] =>

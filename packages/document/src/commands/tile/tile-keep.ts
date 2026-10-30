@@ -1,13 +1,11 @@
 /* @layer core @kind logic */
 import type { Tile } from '../../model/tilemap.type';
+import { tileMeta } from '../../tilemap/tile-meta';
 import type { TileKeep } from './attach-tile.type';
 
 const tileKeep = (tile: Tile): TileKeep => ({
   ...(tile.shapes ? { shapes: tile.shapes } : {}),
-  ...(tile.type ? { type: tile.type } : {}),
-  ...(tile.probability !== undefined ? { probability: tile.probability } : {}),
-  ...(tile.turns ? { turns: tile.turns } : {}),
-  ...(tile.data ? { data: tile.data } : {}),
+  ...tileMeta(tile),
 });
 
 export { tileKeep };
