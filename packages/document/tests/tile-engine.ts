@@ -11,6 +11,7 @@ import type {
   TransactionResult,
   Tileset,
 } from '@bxel/document';
+import { plainStep } from '@bxel/document';
 import { heartEngine, request } from './heart-engine';
 
 type World = {
@@ -21,12 +22,7 @@ type World = {
   readonly rock: number;
 };
 
-const step = (name: string, options: unknown, ref?: string): CommandStep => ({
-  name,
-  targets: null,
-  options,
-  ...(ref === undefined ? {} : { ref }),
-});
+const step = plainStep;
 
 const spriteStep = (name: string, options: unknown, sprite: string | SpriteId): CommandStep => ({
   name,

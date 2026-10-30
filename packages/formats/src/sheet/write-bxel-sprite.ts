@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { boxJson } from './box-json';
+import { sheetTagStyle } from './sheet-tag-style';
 import type {
   JsonValue,
   SheetFrameEntry,
@@ -20,10 +21,7 @@ const tagJson = (tag: SheetTagEntry): JsonValue => ({
   name: tag.name,
   from: tag.from,
   to: tag.to,
-  direction: tag.direction,
-  repeat: tag.repeat,
-  ...(tag.colour === undefined ? {} : { colour: tag.colour }),
-  ...(tag.facing === undefined ? {} : { facing: tag.facing }),
+  ...sheetTagStyle(tag),
   ...(tag.mirrorOf === undefined ? {} : { mirrorOf: tag.mirrorOf }),
   ...(tag.flip === undefined ? {} : { flip: tag.flip }),
 });

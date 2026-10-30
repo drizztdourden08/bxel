@@ -14,7 +14,7 @@ const dropEntries = (entries: readonly DragEntry[], target: DropTarget, sheetId:
   const known = new Set(artwork.sprites.map((sprite) => sprite.id as string));
   const sprites = entries.filter((entry) => entry.kind === 'sprite' && known.has(entry.assetId)).map((entry) => entry.assetId as SpriteId);
   const animations = entries.filter((entry) => entry.kind === 'animation' && artwork.animations.some((each) => each.id === entry.assetId));
-  const steps = [...(sprites.length > 0 ? spriteStepsFor(artwork, sheet, sprites, target) : []), ...(animations.length > 0 ? animationStepsFor(sheet, animations, target) : [])];
+  const steps = [...(sprites.length > 0 ? spriteStepsFor(sheet, sprites, target) : []), ...(animations.length > 0 ? animationStepsFor(sheet, animations, target) : [])];
   if (steps.length === 0) return false;
   return runDocument(LABEL.dropEntries(sprites.length + animations.length), steps) !== null;
 };

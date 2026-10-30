@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { solidShape, tileShapes } from '@bxel/document';
+import { solidShape, tileMeta, tileShapes } from '@bxel/document';
 import type { Tile } from '@bxel/document';
 import type { TilemapExportInput, TilesetEntry } from '@bxel/formats';
 import type { MapPick } from './export.type';
@@ -19,10 +19,7 @@ const entryOf = (placement: { key: number; x: number; y: number }, tile: Tile | 
     ...placement,
     ...plainShape(tile),
     ...(tileShapes(tile).length > 0 ? { shapes: tileShapes(tile) } : {}),
-    ...(tile.type ? { type: tile.type } : {}),
-    ...(tile.probability !== undefined ? { probability: tile.probability } : {}),
-    ...(tile.turns ? { turns: tile.turns } : {}),
-    ...(tile.data ? { data: tile.data } : {}),
+    ...tileMeta(tile),
   };
 };
 

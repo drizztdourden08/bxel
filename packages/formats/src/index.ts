@@ -64,6 +64,8 @@ export { planAtlas } from './sheet/plan-atlas';
 export type { AtlasPlan, AtlasPlanInput, AtlasPlanResult } from './sheet/plan-atlas.type';
 export { readBxelSheetJson } from './sheet/read-bxel-sheet-json';
 export { sheetFrameKey } from './sheet/sheet-frame-key';
+export { sheetTagStyle } from './sheet/sheet-tag-style';
+export type { SheetTagStyle } from './sheet/sheet-tag-style.type';
 export type {
   JsonValue,
   SheetFlip,

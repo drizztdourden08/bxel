@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind test */
+import { plainStep } from '@bxel/document';
 import type { CommandStep } from '@bxel/document';
+import { spritesTarget } from '../../src/sheet/sprites-target';
 import { commitSteps, harness } from './export-harness';
 import type { ExportHarness } from './export-harness';
 
@@ -9,16 +11,11 @@ type WalkWorld = ExportHarness & { readonly animation: string };
 
 const FRAME_SPRITES = [0, 0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-const stepOf = (name: string, options: unknown, ref?: string): CommandStep => ({
-  name,
-  targets: null,
-  options,
-  ...(ref === undefined ? {} : { ref }),
-});
+const stepOf = plainStep;
 
 const spriteStep = (name: string, options: unknown, sprite: string): CommandStep => ({
   name,
-  targets: { sprites: [{ ref: sprite }], layers: { by: 'all' }, frames: { by: 'all' } },
+  targets: spritesTarget([{ ref: sprite }]),
   options,
 });
 

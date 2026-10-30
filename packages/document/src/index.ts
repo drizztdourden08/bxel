@@ -34,6 +34,7 @@ export { legacyFrameCommands } from './commands/legacy-frame-commands';
 export { RETIRED_MESSAGE } from './commands/retired-commands.constants';
 export { ERROR_CODE } from './commands/error-code.constants';
 export { fail } from './commands/fail';
+export { plainStep } from './commands/plain-step';
 export { parseOptions } from './commands/parse-options';
 export { layerAdd } from './commands/layer/layer-add';
 export { layerDelete } from './commands/layer/layer-delete';

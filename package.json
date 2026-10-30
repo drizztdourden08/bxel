@@ -7,13 +7,13 @@
     "@drizztdourden08/brock-build": "^0.115.5",
     "@drizztdourden08/brock-lint-config": "^0.115.5",
     "@drizztdourden08/brock-thread": "^0.115.5",
-    "jscpd": "^4.0.5",
+    "jscpd": "catalog:",
     "knip": "^5.65.0",
     "vitest": "^4.1.11"
   },
   "scripts": {
     "lint": "eslint . && stylelint \"**/*.css\" --ignore-path .gitignore --allow-empty-input && brock prose && brock knip && jscpd .",
-    "lint:packages": "pnpm -r --filter \"./packages/*\" run lint && jscpd packages && brock knip",
+    "lint:packages": "pnpm -r --filter \"./packages/*\" run lint && brock knip",
     "lint:md": "markdownlint-cli2",
     "structure": "brock structure --check",
     "prose": "brock prose",

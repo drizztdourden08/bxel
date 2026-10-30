@@ -1,25 +1,10 @@
 /* @layer renderer-app @kind constants */
+import { ONION_DEFAULTS as ONION_STATE_DEFAULTS } from '@bxel/mcp';
 import type { OnionSettings, PlaySettings, TimelineSelection, TimelineSettings, ViewSettings } from './timeline-store.type';
 
 const NO_SELECTION: TimelineSelection = { frames: [], anchor: null };
 
-const ONION_DEFAULTS: OnionSettings = {
-  on: false,
-  before: 1,
-  after: 1,
-  opacity: 40,
-  falloff: 'linear',
-  tint: 'split',
-  beforeColour: '#e04848',
-  afterColour: '#4880e8',
-  style: 'filled',
-  order: 'play',
-  wrap: true,
-  scope: 'range',
-  skipRepeats: false,
-  position: 'behind',
-  hideWhilePlaying: true,
-};
+const ONION_DEFAULTS: OnionSettings = ONION_STATE_DEFAULTS;
 
 const ONION_LIMITS = {
   frames: { min: 0, max: 8 },
