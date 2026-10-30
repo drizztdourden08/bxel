@@ -68,11 +68,6 @@
   align-items: flex-start;
 }
 
-.split-button {
-  display: inline-flex;
-  align-items: stretch;
-}
-
 .ruler {
   position: sticky;
   inset-block-start: 0;

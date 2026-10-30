@@ -17,6 +17,4 @@
 
 .project-badges__users {
   flex: none;
-  min-inline-size: var(--size-24);
-  min-block-size: var(--size-24);
 }
