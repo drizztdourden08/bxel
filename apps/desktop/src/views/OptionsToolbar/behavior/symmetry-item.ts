@@ -29,7 +29,7 @@ const symmetryItem = (surface: Surface): ToolbarItem[] => {
       id: 'symmetry-badge',
       label,
       description: OPTIONS_TEXT.symmetryDescription,
-      icon: 'pixel-view-mirror',
+      icon: 'pixel-symmetry-badge',
       caption: OPTIONS_TEXT.symmetryCaption,
       priority: SYMMETRY_PRIORITY,
       onSelect: () => useWidgetLayoutStore.getState().open(VIEW_WIDGET_ID),

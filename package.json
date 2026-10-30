@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@drizztdourden08/brock-build": "^0.115.5",
-    "@drizztdourden08/brock-lint-config": "^0.115.5",
-    "@drizztdourden08/brock-thread": "^0.115.5",
+    "@drizztdourden08/brock-build": "^0.116.0",
+    "@drizztdourden08/brock-lint-config": "^0.116.0",
+    "@drizztdourden08/brock-thread": "^0.116.0",
     "jscpd": "catalog:",
     "knip": "^5.65.0",
     "vitest": "^4.1.11"
@@ -25,7 +25,7 @@
     "postinstall": "node bin/bxel.mjs --link"
   },
   "brock": {
-    "version": "0.115.5"
+    "version": "0.116.0"
   },
   "packageManager": "pnpm@10.17.0",
   "bin": {
