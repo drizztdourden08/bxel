@@ -17,6 +17,7 @@ const useTilesetModel = (): TilesetModel | null => {
   const mapSelected = useTilemapStore((state) => state.selection !== null);
   const search = useTilesetViewStore((state) => state.search);
   const filters = useTilesetViewStore((state) => state.filters);
+  const choices = useTilesetViewStore((state) => state.choices);
   const terrainSetId = useTilesetViewStore((state) => state.terrainSetId);
   const artwork = context?.artwork ?? null;
   const tileset = context?.tileset ?? null;
@@ -26,13 +27,14 @@ const useTilesetModel = (): TilesetModel | null => {
     if (!artwork || !tileset || !counts) return null;
     const layout = tileLayout(tileset);
     const active = chosenSet(terrainSetsOf(tileset), terrainSetId);
-    const filtering = search.trim() !== '' || filters.length > 0;
+    const filtering = search.trim() !== '' || filters.length > 0 || choices.length > 0;
+    const fields = tileset.fields ?? [];
     const cells = tileset.tiles.flatMap((tile): TileCell[] => {
       const sprite = findSprite(artwork, tile.spriteId);
       if (!sprite) return [];
       const uses = counts.get(tile.key) ?? 0;
       const base = { tile, sprite, uses, terrainSlot: slotOfTile(active, tile.key) };
-      const matches = tileMatches({ ...base, name: sprite.name }, { search, filters });
+      const matches = tileMatches({ ...base, name: sprite.name }, { search, filters, choices, fields });
       return [{ ...base, picked: stamp.keys.includes(tile.key), editing: editMode === 'edit' && editKey === tile.key, index: layout.indexOf.get(tile.key) ?? 0, matches }];
     });
     const byKey = new Map(cells.map((cell) => [cell.tile.key, cell]));
@@ -54,7 +56,7 @@ const useTilesetModel = (): TilesetModel | null => {
       matched: cells.filter((cell) => cell.matches).length,
       hasMap,
     };
-  }, [artwork, tileset, counts, stamp, editMode, editKey, mapSelected, search, filters, hasMap, terrainSetId]);
+  }, [artwork, tileset, counts, stamp, editMode, editKey, mapSelected, search, filters, choices, hasMap, terrainSetId]);
 };
 
 export { useTilesetModel };

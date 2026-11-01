@@ -5,6 +5,7 @@ const TILESET_VIEW_DEFAULTS: TilesetViewSettings = {
   mode: 'tiles',
   search: '',
   filters: [],
+  choices: [],
   zoom: 'fit',
   showKeys: true,
   showUses: false,

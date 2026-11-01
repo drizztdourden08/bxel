@@ -134,6 +134,7 @@
 .tileset-panel__thumb,
 .tileset-panel__stamp,
 .tileset-panel__preview,
+.tileset-panel__context,
 .tileset-panel__shape-canvas {
   display: block;
   image-rendering: pixelated;
@@ -142,6 +143,7 @@
 
 .tileset-panel__stamp,
 .tileset-panel__preview,
+.tileset-panel__context,
 .tileset-panel__shape-canvas {
   border-radius: var(--radius-md);
   border: var(--border-width-thin) solid var(--c-border);
@@ -423,4 +425,9 @@
   border-style: solid;
   border-color: var(--c-primary-bright);
   background: var(--c-primary-soft);
+}
+
+.tileset-panel__context {
+  inline-size: 100%;
+  max-inline-size: calc(var(--size-8) * 18);
 }

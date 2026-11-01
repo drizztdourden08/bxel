@@ -2,6 +2,7 @@
 import { create } from 'zustand';
 import { TILESET_VIEW_DEFAULTS } from './tileset-view-store.constants';
 import type { TilesetViewState } from './tileset-view-store.type';
+import { sameChoice } from './same-choice';
 import { useDocumentStore } from './useDocumentStore';
 
 const useTilesetViewStore = create<TilesetViewState>()((set) => ({
@@ -10,7 +11,11 @@ const useTilesetViewStore = create<TilesetViewState>()((set) => ({
   setSearch: (search) => set({ search }),
   toggleFilter: (filter) =>
     set((state) => ({ filters: state.filters.includes(filter) ? state.filters.filter((each) => each !== filter) : [...state.filters, filter] })),
-  clearFilters: () => set({ filters: [], search: '' }),
+  toggleChoice: (choice) =>
+    set((state) => ({
+      choices: state.choices.some((each) => sameChoice(each, choice)) ? state.choices.filter((each) => !sameChoice(each, choice)) : [...state.choices, choice],
+    })),
+  clearFilters: () => set({ filters: [], choices: [], search: '' }),
   setZoom: (zoom) => set({ zoom }),
   setShowKeys: (showKeys) => set({ showKeys }),
   setShowUses: (showUses) => set({ showUses }),
@@ -33,7 +38,7 @@ const useTilesetViewStore = create<TilesetViewState>()((set) => ({
 
 useDocumentStore.subscribe((state, previous) => {
   if (state.activeId !== previous.activeId) {
-    useTilesetViewStore.setState({ search: '', filters: [], dataPaint: null, shapeIndex: 0, terrainSetId: null, terrainSlot: null, markDrafts: {}, hoverKey: null });
+    useTilesetViewStore.setState({ search: '', filters: [], choices: [], dataPaint: null, shapeIndex: 0, terrainSetId: null, terrainSlot: null, markDrafts: {}, hoverKey: null });
   }
 });
 

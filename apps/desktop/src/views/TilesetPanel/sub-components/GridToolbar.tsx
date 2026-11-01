@@ -1,12 +1,15 @@
 /* @layer renderer-app @kind component */
 import { Flex, Icon, IconButton, SearchInput, Select, Stack, Tag } from '@drizztdourden08/tessera';
+import { sameChoice } from '../../../stores/same-choice';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import type { ThumbZoom } from '../../../stores/tileset-view-store.type';
+import { choiceOptions } from '../behavior/choice-options';
 import { FILTERS, TILESET_TEXT, ZOOMS } from '../TilesetPanel.constants';
+import type { TilesetModelProps } from '../TilesetPanel.type';
 
 const zoomValue = (zoom: ThumbZoom): string => String(zoom);
 
-const GridToolbar = () => {
+const GridToolbar = ({ model }: TilesetModelProps) => {
   const view = useTilesetViewStore();
   return (
     <Stack gap="xs" role="search" aria-label={TILESET_TEXT.search}>
@@ -39,6 +42,11 @@ const GridToolbar = () => {
         {FILTERS.map((filter) => (
           <Tag key={filter.value} selected={view.filters.includes(filter.value)} onSelect={() => view.toggleFilter(filter.value)}>
             {filter.label}
+          </Tag>
+        ))}
+        {choiceOptions(model.tileset).map((option) => (
+          <Tag key={`${option.field}:${option.value}`} selected={view.choices.some((each) => sameChoice(each, option))} onSelect={() => view.toggleChoice(option)}>
+            {option.label}
           </Tag>
         ))}
       </Flex>

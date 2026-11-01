@@ -14,7 +14,7 @@ import type { PaletteImportRequest } from '../../../stores/palette-panel-store.t
 import type { ImportState } from '../PaletteImportDialog.type';
 
 const usePaletteImport = (request: PaletteImportRequest, target: PaletteTarget): ImportState => {
-  const [source, setSource] = useState<ImportSource | null>(null);
+  const [source, setSource] = useState<ImportSource | null>(request.source ?? null);
   const [text, setTextValue] = useState('');
   const [mode, setMode] = useState<ImportMode>('append');
   const [notice, setNotice] = useState<string | null>(null);

@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { BankId, DocumentId } from '@bxel/document';
+import type { ImportSource } from '../palette-import/palette-import.type';
 import type { CleanUpKind } from '../palette-panel/palette-panel.type';
 
 interface PaletteSelection {
@@ -55,6 +56,7 @@ interface RampBuilderState {
 interface PaletteImportRequest {
   documentId: DocumentId;
   bankId: BankId;
+  source?: ImportSource;
 }
 
 interface PaletteImportState {

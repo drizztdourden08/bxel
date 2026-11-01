@@ -82,6 +82,9 @@ const TILESET_TEXT = {
   summary: (name: string, width: number, height: number, count: number): string =>
     `${name}: ${count} ${count === 1 ? 'tile' : 'tiles'} of ${width} x ${height} px`,
   noPick: 'Pick a tile to see its properties.',
+  context: 'Terrain context',
+  contextHint: 'The tile with its neighbours, so seams show while you draw.',
+  contextPicture: (key: number): string => `Tile ${key} in a 3 by 3 block of its terrain`,
   pickedOne: (key: number, uses: number): string => `Tile ${key}, placed ${uses} ${uses === 1 ? 'time' : 'times'}`,
   pickedMany: (count: number): string => `${count} tiles selected`,
   stampLine: (columns: number, rows: number): string => `${columns} x ${rows} stamp`,

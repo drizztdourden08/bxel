@@ -88,6 +88,11 @@ interface TileThumbProps {
   cell: TileCell;
 }
 
+interface TerrainContextProps {
+  model: TilesetModel;
+  tileKey: number;
+}
+
 interface TilesetModelProps {
   model: TilesetModel;
 }
@@ -189,6 +194,7 @@ export type {
   TileCellProps,
   TileGridProps,
   TilePaint,
+  TerrainContextProps,
   TileThumbProps,
   TilesetModel,
   TilesetModelProps,
