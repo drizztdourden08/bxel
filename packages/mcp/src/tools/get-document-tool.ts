@@ -56,6 +56,22 @@ const guides = z.strictObject({
   y: z.array(z.number().int()),
 });
 
+const spriteLayer = z.strictObject({
+  layerId: LAYER_ID_SCHEMA,
+  name: z.string(),
+  visible: z.boolean(),
+  locked: z.boolean().describe('The same as lock.pixels.'),
+  lock: z.strictObject({ pixels: z.boolean(), transparency: z.boolean(), position: z.boolean() }).describe('The lock kinds: pixels refuses every change, transparency paints only on painted pixels, position refuses Move and Transform.'),
+  kind: z.enum(['pixel', 'group', 'reference']).describe('A group holds no pixels. A reference layer shows a linked image, is never exported and never takes paint.'),
+  parentId: LAYER_ID_SCHEMA.optional().describe('The group this layer sits in. Absent at the top level.'),
+  viewOpacity: z.number().int().min(0).max(100).optional().describe('The canvas opacity in percent. Absent means 100. A view setting only: export and flatten ignore it.'),
+  clip: z.boolean().optional().describe('True: draws only where the pixel layer below in the same group has pixels.'),
+  exported: z.boolean().optional().describe('False: the layer is left out of every export. Absent means exported.'),
+  reference: z.strictObject({ path: z.string(), x: z.number().int(), y: z.number().int() }).optional().describe('The image file of a reference layer and where it sits.'),
+  colour: z.string().optional().describe('The colour tag, a hex colour.'),
+  linkedCels: z.array(FRAME_ID_SCHEMA).describe('The frames whose cel on this layer is shared with another layer or frame (linked cels).'),
+});
+
 const sprite = z.strictObject({
   spriteId: SPRITE_ID_SCHEMA,
   name: z.string(),
@@ -63,9 +79,7 @@ const sprite = z.strictObject({
   height: COUNT_SCHEMA,
   bankId: BANK_ID_SCHEMA,
   pivot,
-  layers: z.array(
-    z.strictObject({ layerId: LAYER_ID_SCHEMA, name: z.string(), visible: z.boolean(), locked: z.boolean() }),
-  ),
+  layers: z.array(spriteLayer).describe('From the bottom layer to the top. A group comes after its children; a child names its group in parentId.'),
   frames: z.array(z.strictObject({ frameId: FRAME_ID_SCHEMA, durationMs: COUNT_SCHEMA })),
   tags: z.array(tag),
   slices: z.array(slice).describe('The slices of the sprite. Edit them with the slice.* steps.'),

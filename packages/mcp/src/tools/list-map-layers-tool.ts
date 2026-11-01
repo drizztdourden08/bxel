@@ -6,7 +6,16 @@ import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
 import { TOOL_NAME } from './tool-name.constants';
 
-const layer = z.strictObject({ layerId: MAP_LAYER_ID_SCHEMA, name: z.string(), visible: z.boolean(), locked: z.boolean() });
+const layer = z.strictObject({
+  layerId: MAP_LAYER_ID_SCHEMA,
+  name: z.string(),
+  visible: z.boolean(),
+  locked: z.boolean(),
+  colour: z.string().optional().describe('The colour tag, a hex colour.'),
+  kind: z.enum(['tiles', 'group']).optional().describe('A group holds no cells. Absent means tiles.'),
+  parentId: MAP_LAYER_ID_SCHEMA.optional().describe('The group this layer sits in. Absent at the top level.'),
+  opacity: z.number().int().min(0).max(100).optional().describe('Written into Tiled and JSON exports. Absent means 100.'),
+});
 
 const tilemap = z.strictObject({
   tilemapId: TILEMAP_ID_SCHEMA,
