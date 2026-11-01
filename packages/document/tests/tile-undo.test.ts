@@ -2,7 +2,6 @@
 import type { CommandStep } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { canonicalArtwork } from './canonical-artwork';
-import { eachCommandUndoes } from './each-command-undoes';
 import { applySteps, buildWorld, onGround, step } from './tile-engine';
 
 type World = ReturnType<typeof buildWorld>;
@@ -38,7 +37,9 @@ const commands = (world: World): Record<string, CommandStep> => ({
 });
 
 describe('K1 tile and map commands are one undo step each', { tags: ['critical'] }, () => {
-  eachCommandUndoes(populated, commands, (world, _name, chosen) => {
+  it.each(Object.keys(commands(populated())))('%s undoes and redoes as one step', (name) => {
+    const world = populated();
+    const chosen = commands(world)[name] ?? step('none', {});
     const { engine } = world;
     const before = canonicalArtwork(engine.state().artwork);
     const revision = engine.state().revision;

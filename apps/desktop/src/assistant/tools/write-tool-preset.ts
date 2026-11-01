@@ -5,6 +5,7 @@ import type { ToolPreset } from '../../editor/presets/tool-preset.type';
 import { memberById } from '../../editor/tool-catalogue/member-by-id';
 import { useToolPresetStore } from '../../stores/useToolPresetStore';
 import type { ToolContext } from '../assistant.type';
+import type { WriteToolPresetOptions } from './write-tool-preset.type';
 import { APP_TOOL_TEXT } from './app-tool.constants';
 import { isReply } from './is-reply';
 import { presetFieldsOf } from './preset-fields-of';
@@ -12,7 +13,8 @@ import { presetRow } from './preset-row';
 import { reply } from './reply';
 import { viewFail } from './view-fail';
 
-const writeToolPreset = (context: ToolContext, base: ToolPreset, fields: Readonly<Record<string, unknown>> | undefined, memberPath: string, verb: string): ToolReply => {
+const writeToolPreset = (context: ToolContext, options: WriteToolPresetOptions): ToolReply => {
+  const { base, fields, memberPath, verb } = options;
   const found = memberById(base.member);
   if (!found) return viewFail(APP_TOOL_TEXT.noMember(base.member), memberPath);
   const values = fields === undefined ? base.fields : presetFieldsOf(found.member.tool, fields, 'fields');

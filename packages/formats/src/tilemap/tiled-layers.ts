@@ -10,9 +10,10 @@ const tiledLayers = (input: TilemapExportInput): { layers: TiledLayer[]; count: 
   const parentOf = (layer: TilemapLayerInput): string | undefined => (layer.parentId && known.has(layer.parentId) ? layer.parentId : undefined);
   const build = (layer: TilemapLayerInput): TiledLayer => {
     count += 1;
-    const base = { id: count, name: layer.name, visible: layer.visible, locked: layer.locked, opacity: layerOpacity(layer), x: 0, y: 0 };
-    if (layer.group) return { ...base, type: 'group', layers: input.layers.filter((child) => parentOf(child) === layer.id).map(build) };
-    return { ...base, type: 'tilelayer', width: input.columns, height: input.rows, data: tiledGids(input, layer.cells) };
+    const head = { id: count, name: layer.name };
+    const tail = { visible: layer.visible, locked: layer.locked, opacity: layerOpacity(layer), x: 0, y: 0 };
+    if (layer.group) return { ...head, type: 'group', ...tail, layers: input.layers.filter((child) => parentOf(child) === layer.id).map(build) };
+    return { ...head, type: 'tilelayer', ...tail, width: input.columns, height: input.rows, data: tiledGids(input, layer.cells) };
   };
   const layers = input.layers.filter((layer) => parentOf(layer) === undefined).map(build);
   return { layers, count };

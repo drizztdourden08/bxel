@@ -32,4 +32,12 @@ interface ColourRowProps {
   colours: readonly string[];
 }
 
-export type { ColourRowProps, ImportDialogProps, ImportState, ImportSummaryProps };
+interface PlanActionsProps {
+  cancelLabel: string;
+  applyLabel: string;
+  disabled: boolean;
+  onCancel: () => void;
+  onApply: () => void;
+}
+
+export type { ColourRowProps, ImportDialogProps, ImportState, ImportSummaryProps, PlanActionsProps };

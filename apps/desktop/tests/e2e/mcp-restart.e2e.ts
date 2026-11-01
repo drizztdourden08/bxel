@@ -1,20 +1,16 @@
 /* @layer renderer-app @kind test */
-import { access, readFile, rm } from 'node:fs/promises';
-import { join } from 'node:path';
+import { readFile } from 'node:fs/promises';
 import { afterAll, describe, expect, test } from 'vitest';
 import { callMcp } from './support/call-mcp';
-import { connectMcp } from './support/connect-mcp';
 import { drawMcpSprite } from './support/draw-mcp-sprite';
 import { POLL_MS } from './support/e2e.constants';
-import { makeTempDir } from './support/make-temp-dir';
 import type { ClientConfig, McpLink } from './support/mcp.type';
-import { rememberProgram } from './support/remember-program';
+import { openRememberedLink } from './support/open-remembered-link';
+import { pathExists } from './support/path-exists';
+import { releaseProfile } from './support/release-profile';
 import { setProgramRestart } from './support/set-program-restart';
-import { stopOrphan } from './support/stop-orphan';
 
 const held: { dir?: string; userData?: string; config?: ClientConfig; link?: McpLink; documentId?: string; pid?: number } = {};
-
-const exists = (path: string): Promise<boolean> => access(path).then(() => true, () => false);
 
 const bridgeOf = (): string => held.config?.env.BROCK_BRIDGE_FILE ?? '';
 
@@ -28,19 +24,17 @@ const namesOf = async (): Promise<string[]> => (await clientOf().listTools()).to
 const pidNow = async (): Promise<number> => Number((JSON.parse(await readFile(bridgeOf(), 'utf8')) as { pid: number }).pid);
 
 afterAll(async () => {
-  if (held.link && (await exists(bridgeOf()))) await callMcp(held.link.client, 'stop_bxel', { unsaved: 'recover' }).catch(() => undefined);
+  if (held.link && (await pathExists(bridgeOf()))) await callMcp(held.link.client, 'stop_bxel', { unsaved: 'recover' }).catch(() => undefined);
   await held.link?.close().catch(() => undefined);
-  if (held.config && (await exists(bridgeOf()))) await stopOrphan(bridgeOf());
-  if (held.dir) await rm(held.dir, { recursive: true, force: true, maxRetries: 20, retryDelay: 500 });
+  await releaseProfile(held.dir, held.config ? bridgeOf() : null);
 });
 
 const startsWithTheRestartPermission = async (): Promise<void> => {
-  const dir = await makeTempDir();
-  held.dir = dir;
-  held.userData = join(dir, 'profile');
-  held.config = await rememberProgram(held.userData, dir);
-  await setProgramRestart(held.userData, true);
-  held.link = await connectMcp(held.config);
+  const opened = await openRememberedLink((userData) => setProgramRestart(userData, true));
+  held.dir = opened.dir;
+  held.userData = opened.userData;
+  held.config = opened.config;
+  held.link = opened.link;
   expect((await callMcp(clientOf(), 'start_bxel', { window: 'headless' })).data).toMatchObject({ ok: true, started: true });
   expect((await callMcp(clientOf(), 'get_session')).ok).toBe(true);
   expect(await namesOf()).toContain('restart_bxel');
@@ -74,7 +68,7 @@ const reconnectsAtTheSameGrant = async (): Promise<void> => {
 const stopsBeforeTheNextCase = async (): Promise<void> => {
   const stopped = await callMcp(clientOf(), 'stop_bxel', { unsaved: 'recover' });
   expect(stopped.data).toMatchObject({ ok: true, stopped: true });
-  await expect.poll(() => exists(bridgeOf()), { timeout: POLL_MS }).toBe(false);
+  await expect.poll(() => pathExists(bridgeOf()), { timeout: POLL_MS }).toBe(false);
 };
 
 const refusesWithThePermissionOff = async (): Promise<void> => {

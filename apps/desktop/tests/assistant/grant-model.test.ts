@@ -127,7 +127,7 @@ describe('K1 search', { tags: ['critical'] }, () => {
   });
 
   it('shows all tools of a bundle whose own name matches', () => {
-    expect(row(full, 'files_saving', 'files and')?.tools).toHaveLength(4);
+    expect(row(full, 'files_saving', 'files and')?.tools).toHaveLength(5);
   });
 
   it('matches on the tool description and on several words, and finds nothing for nonsense', () => {

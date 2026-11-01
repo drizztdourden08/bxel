@@ -13,6 +13,13 @@ type McpLink = {
   readonly close: () => Promise<void>;
 };
 
+type RememberedLink = {
+  readonly dir: string;
+  readonly userData: string;
+  readonly config: ClientConfig;
+  readonly link: McpLink;
+};
+
 type Structured = Readonly<Record<string, unknown>>;
 
 type CallOutcome = {
@@ -22,4 +29,4 @@ type CallOutcome = {
   readonly isError: boolean;
 };
 
-export type { CallOutcome, ClientConfig, McpLink, Structured };
+export type { CallOutcome, ClientConfig, McpLink, RememberedLink, Structured };
