@@ -9,7 +9,7 @@ const openSaveDraft = (replacing?: ToolPreset): boolean => {
   const member = replacing ? memberById(replacing.member)?.member : activeMember();
   if (!member) return false;
   const ticked = replacing ? Object.keys(replacing.fields) : presetFields(member.tool).map((spec) => spec.id);
-  useToolPresetStore.getState().openDraft({ member: member.id, name: replacing?.name ?? '', ticked, replaces: replacing?.id });
+  useToolPresetStore.getState().openDraft({ member: member.id, name: replacing?.name ?? '', ticked, replaces: replacing?.id, inProject: replacing?.project === true });
   return true;
 };
 

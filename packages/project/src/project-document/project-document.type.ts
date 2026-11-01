@@ -22,6 +22,13 @@ type ProjectCover = { readonly folderId: FolderId; readonly path: string };
 
 type ProjectExport = { readonly scale?: number; readonly pathTemplate?: string; readonly presets?: readonly ExportPreset[] };
 
+type ProjectToolPreset = {
+  readonly id: string;
+  readonly name: string;
+  readonly member: string;
+  readonly fields: Readonly<Record<string, number | string | boolean>>;
+};
+
 type ProjectDocument = {
   readonly format: typeof MANIFEST_FORMAT;
   readonly formatVersion: typeof PROJECT_DOCUMENT_VERSION | typeof PROJECT_ORGANISE_VERSION;
@@ -33,7 +40,8 @@ type ProjectDocument = {
   readonly export?: ProjectExport;
   readonly organise?: ProjectOrganise;
   readonly brushes?: readonly SavedBrush[];
+  readonly toolPresets?: readonly ProjectToolPreset[];
   readonly assistant: AssistantScope;
 };
 
-export type { AssistantScope, FolderRole, FolderRoles, DocumentFolder, ProjectCover, ProjectDocument, ProjectExport };
+export type { AssistantScope, FolderRole, FolderRoles, DocumentFolder, ProjectCover, ProjectDocument, ProjectExport, ProjectToolPreset };

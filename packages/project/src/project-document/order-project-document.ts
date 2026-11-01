@@ -5,7 +5,8 @@ import { isOrganiseEmpty } from './is-organise-empty';
 import { orderExportPreset } from './order-export-preset';
 import { orderOrganise } from './order-organise';
 import { FOLDER_ROLES, PROJECT_DOCUMENT_VERSION, PROJECT_ORGANISE_VERSION } from './project-document.constants';
-import type { FolderRoles, DocumentFolder, ProjectDocument, ProjectExport } from './project-document.type';
+import type { FolderRoles, DocumentFolder, ProjectDocument, ProjectExport, ProjectToolPreset } from './project-document.type';
+import { sortKeys } from './sort-keys';
 
 const orderSize = (size: PixelSize) => ({ width: size.width, height: size.height });
 
@@ -45,7 +46,14 @@ const keptOrganise = (manifest: ProjectDocument) =>
   manifest.organise === undefined || isOrganiseEmpty(manifest.organise) ? {} : { organise: orderOrganise(manifest.organise) };
 const orderBrush = (brush: SavedBrush) => ({ id: brush.id, name: brush.name, width: brush.width, height: brush.height, pixels: brush.pixels });
 
-const orderProjectDocument = (manifest: ProjectDocument) => ({
+const orderToolPreset = (preset: ProjectToolPreset) => ({
+  id: preset.id,
+  name: preset.name,
+  member: preset.member,
+  fields: sortKeys(preset.fields),
+});
+
+const orderProjectDocument =(manifest: ProjectDocument) => ({
   format: manifest.format,
   formatVersion: keptOrganise(manifest).organise === undefined ? PROJECT_DOCUMENT_VERSION : PROJECT_ORGANISE_VERSION,
   projectId: manifest.projectId,
@@ -56,6 +64,7 @@ const orderProjectDocument = (manifest: ProjectDocument) => ({
   ...(manifest.export === undefined ? {} : { export: orderExport(manifest.export) }),
   ...keptOrganise(manifest),
   ...(manifest.brushes === undefined || manifest.brushes.length === 0 ? {} : { brushes: manifest.brushes.map(orderBrush) }),
+  ...(manifest.toolPresets === undefined || manifest.toolPresets.length === 0 ? {} : { toolPresets: manifest.toolPresets.map(orderToolPreset) }),
   assistant: {
     access: manifest.assistant.access,
     ...(manifest.assistant.folders === undefined ? {} : { folders: [...manifest.assistant.folders] }),

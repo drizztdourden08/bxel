@@ -6,17 +6,25 @@ import { optionSnapshot } from '../editor/tool-options/option-snapshot';
 import { parsePrefs } from '../editor/tool-options/parse-prefs';
 import { parseOptionValues } from '../editor/tool-options/parse-option-values';
 import { parsePresets } from '../editor/tool-options/parse-presets';
+import { prefsOfSettings } from '../editor/tool-options/prefs-of-settings';
+import { settingsOfPrefs } from '../editor/tool-options/settings-of-prefs';
 import type { AppSettings } from '../settings.type';
 import { useSelectionStore } from '../stores/useSelectionStore';
 import { useToolPrefsStore } from '../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../stores/useToolPresetStore';
 import { useToolStore } from '../stores/useToolStore';
-import { SAVE_DELAY_MS } from './use-tool-persistence.constants';
+import { isRecord } from '../editor/tool-options/is-record';
+import { LEGACY_KEYS, SAVE_DELAY_MS } from './use-tool-persistence.constants';
 
 const collect = () => {
   const { openOnHover, holdMs, springMs, hiddenMembers, optionTiers } = useToolPrefsStore.getState();
-  const prefs = { openOnHover, holdMs, springMs, hiddenMembers, optionTiers, shareBrush: useToolStore.getState().shareBrush };
-  return { toolOptions: optionSnapshot(), toolPresets: useToolPresetStore.getState().user, toolPrefs: prefs };
+  const shareBrush = useToolStore.getState().shareBrush;
+  return {
+    toolOptions: optionSnapshot(),
+    toolPresets: useToolPresetStore.getState().user,
+    toolPrefs: { hiddenMembers, optionTiers },
+    ...settingsOfPrefs({ openOnHover, holdMs, springMs, shareBrush }),
+  };
 };
 
 const useToolPersistence = (): void => {
@@ -30,13 +38,24 @@ const useToolPersistence = (): void => {
   useEffect(() => {
     if (!hydrated || loaded.current) return;
     const prefs = parsePrefs(first.current.toolPrefs);
-    useToolPrefsStore.getState().patch({ openOnHover: prefs.openOnHover, holdMs: prefs.holdMs, springMs: prefs.springMs, hiddenMembers: prefs.hiddenMembers, optionTiers: prefs.optionTiers });
-    useToolStore.getState().setShareBrush(prefs.shareBrush);
+    const flat = prefsOfSettings(first.current);
+    useToolPrefsStore.getState().patch({ openOnHover: flat.openOnHover, holdMs: flat.holdMs, springMs: flat.springMs, hiddenMembers: prefs.hiddenMembers, optionTiers: prefs.optionTiers });
+    useToolStore.getState().setShareBrush(flat.shareBrush);
     useToolPresetStore.getState().load(parsePresets(first.current.toolPresets));
     applyOptionSnapshot(parseOptionValues(first.current.toolOptions));
     saved.current = JSON.stringify(collect());
     loaded.current = true;
-  }, [hydrated]);
+    if (LEGACY_KEYS.some((key) => isRecord(first.current.toolPrefs) && key in first.current.toolPrefs)) patch(collect());
+  }, [hydrated, patch]);
+  useEffect(() => {
+    if (!loaded.current) return;
+    const flat = prefsOfSettings(settings);
+    const now = useToolPrefsStore.getState();
+    if (flat.openOnHover !== now.openOnHover || flat.holdMs !== now.holdMs || flat.springMs !== now.springMs) {
+      now.patch({ openOnHover: flat.openOnHover, holdMs: flat.holdMs, springMs: flat.springMs });
+    }
+    if (flat.shareBrush !== useToolStore.getState().shareBrush) useToolStore.getState().setShareBrush(flat.shareBrush);
+  }, [settings.toolOpenOnHover, settings.toolHoldMs, settings.toolSpringMs, settings.toolShareBrush]);
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
     const save = (): void => {

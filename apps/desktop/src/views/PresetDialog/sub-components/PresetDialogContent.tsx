@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Button, DialogShell, Stack, TextInput } from '@drizztdourden08/tessera';
+import { Button, Checkbox, DialogShell, Stack, TextInput } from '@drizztdourden08/tessera';
 import { saveDraft } from '../../../editor/presets/save-draft';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { usePresetForm } from '../behavior/usePresetForm';
@@ -13,7 +13,7 @@ const PresetDialogContent = () => {
   if (draft === null) return null;
   const hide = (): void => close(null);
   const save = (): void => {
-    if (form.valid && saveDraft({ ...draft, name: form.name, ticked: form.ticked }) !== null) hide();
+    if (form.valid && saveDraft({ ...draft, name: form.name, ticked: form.ticked, inProject: form.inProject }) !== null) hide();
   };
   const actions = (
     <>
@@ -37,6 +37,7 @@ const PresetDialogContent = () => {
           onChange={(event) => form.setName(event.target.value)}
           onEnter={save}
         />
+        {form.canProject && <Checkbox checked={form.inProject} onChange={form.setInProject} label={PRESET_DIALOG_TEXT.inProject} help={PRESET_DIALOG_TEXT.inProjectHint} />}
         <PresetFields member={draft.member} form={form} />
       </Stack>
     </DialogShell>

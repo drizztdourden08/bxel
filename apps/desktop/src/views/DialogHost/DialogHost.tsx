@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { AddFramesDialog } from '../AddFramesDialog';
 import { CanvasSizeDialog } from '../CanvasSizeDialog';
+import { CustomizeTools } from '../CustomizeTools';
 import { DirectionSetDialog } from '../DirectionSetDialog';
 import { PasteChoiceDialog } from '../PasteChoiceDialog';
 import { SelectionNamesDialog } from '../SelectionNamesDialog';
@@ -31,6 +32,7 @@ const DialogHost = () => {
       <ImportWizard />
       <PaletteChangeDialog />
       <PresetDialog />
+      <CustomizeTools />
       <RampBuilderDialog />
       <PaletteSheetDialog />
       <PaletteImportDialog />

@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind component */
 import { useContextMenu } from '@drizztdourden08/brock-react';
-import { Callout, ScrollArea, Stack, Text } from '@drizztdourden08/tessera';
+import { Button, Callout, Icon, ScrollArea, Stack, Text } from '@drizztdourden08/tessera';
 import { presetFields } from '../../editor/presets/preset-fields';
 import { slotsOf } from '../../editor/tool-catalogue/slots-of';
 import { SLOT_GROUPS } from '../../editor/tool-catalogue/tool-catalogue.constants';
 import { useCatalogueSurface } from '../../hooks/useCatalogueSurface';
 import { useSelectionStore } from '../../stores/useSelectionStore';
+import { useCustomizeStore } from '../../stores/useCustomizeStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { useOptionsVersion } from '../OptionControls';
 import { PresetList } from '../PresetList';
@@ -45,6 +46,9 @@ const ToolsPanel = () => {
             <PresetList tool={active} />
           </Stack>
         )}
+        <Button size="sm" variant="secondary" icon={<Icon name="sliders-horizontal" />} onClick={() => useCustomizeStore.getState().show(true)}>
+          {TOOLS_PANEL_TEXT.customize}
+        </Button>
         <ToolPreferences />
       </Stack>
     </ScrollArea>

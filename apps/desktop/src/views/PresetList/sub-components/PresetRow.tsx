@@ -3,6 +3,7 @@ import { Box, Button, Flex, Shortcut, Tag, Text, TextInput } from '@drizztdourde
 import { useState } from 'react';
 import { applyPreset } from '../../../editor/presets/apply-preset';
 import { presetSummary } from '../../../editor/presets/preset-summary';
+import { renameProjectPreset } from '../../../editor/presets/rename-project-preset';
 import { announcePreset } from '../../../editor/tool-pick/announce-preset';
 import { useKeysOf } from '../../../hooks/useKeysOf';
 import { TOOL_COMMAND } from '../../../keymap/option-command-id.constants';
@@ -16,7 +17,10 @@ const PresetRow = ({ preset, active, slot }: PresetRowProps) => {
   const [name, setName] = useState<string | null>(null);
   const keys = useKeysOf()(slot === null ? undefined : TOOL_COMMAND.quickPreset(slot));
   const commit = (): void => {
-    if (name !== null && name.trim() !== '') useToolPresetStore.getState().rename(preset.id, name.trim());
+    if (name !== null && name.trim() !== '') {
+      if (preset.project === true) void renameProjectPreset(preset.id, name.trim());
+      else useToolPresetStore.getState().rename(preset.id, name.trim());
+    }
     setName(null);
   };
   return (
@@ -33,7 +37,7 @@ const PresetRow = ({ preset, active, slot }: PresetRowProps) => {
         </Flex>
         <Flex align="center" justify="between" gap="sm">
           <Text variant="caption" tone="muted" className="preset-row__summary">
-            {preset.builtin === true ? `${PRESET_TEXT.builtIn}. ${presetSummary(preset)}` : presetSummary(preset)}
+            {preset.builtin === true ? `${PRESET_TEXT.builtIn}. ${presetSummary(preset)}` : preset.project === true ? `${PRESET_TEXT.inProject}. ${presetSummary(preset)}` : presetSummary(preset)}
           </Text>
           <Flex align="center" gap="xs">
             {active ? (

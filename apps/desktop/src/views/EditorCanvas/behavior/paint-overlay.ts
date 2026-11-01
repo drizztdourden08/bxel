@@ -14,6 +14,7 @@ import { paintLint } from './paint-lint';
 import { paintSelection } from './paint-selection';
 import { paintSlices } from './paint-slices';
 import { paintTransform } from './paint-transform';
+import { paintBrushResize } from './paint-brush-resize';
 import { paintZoomRect } from './paint-zoom-rect';
 
 const paintOverlay: PixelDraw = (ctx, view) => {
@@ -32,6 +33,7 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   paintCanvasPreview(ctx, view, look);
   paintSlices(ctx, view, look);
   paintZoomRect(ctx, view, look);
+  paintBrushResize(ctx, view, look);
   paintMarker(ctx, view, look);
 };
 

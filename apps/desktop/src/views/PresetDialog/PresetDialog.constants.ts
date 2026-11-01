@@ -6,6 +6,8 @@ const PRESET_DIALOG_TEXT = {
   namePlaceholder: 'For example Soft shading',
   fields: 'Save these options',
   fieldsHint: 'A preset keeps only the options you tick. The others stay as they are when it is applied. Colours are never saved.',
+  inProject: 'Keep it in this project',
+  inProjectHint: 'The preset is saved in the project file and follows it to other machines.',
   save: 'Save',
   cancel: 'Cancel',
   nothing: 'Tick at least one option.',

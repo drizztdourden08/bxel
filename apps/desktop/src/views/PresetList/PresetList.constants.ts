@@ -15,6 +15,9 @@ const PRESET_TEXT = {
   down: 'Move down',
   nameField: 'Preset name',
   builtIn: 'Built in',
+  inProject: 'In this project',
+  toProject: 'Move to this project',
+  toMine: 'Move to my presets',
 } as const;
 
 export { PRESET_TEXT };

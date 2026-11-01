@@ -11,6 +11,7 @@ const TOOLS_PANEL_TEXT = {
   hiddenHint: 'Off the rail. Their keys still pick them.',
   showOnRail: 'Show on the rail',
   preferences: 'Preferences',
+  customize: 'Customize',
   openOnHover: 'Open tool menus on hover',
   openOnHoverHint: 'A menu opens when the pointer rests on a tool. Off, hold a tool, right click it or press the arrow key.',
   springDelay: 'Hold a tool key to borrow it',
