@@ -9,7 +9,6 @@ import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
 import { useDragMode } from '../behavior/useDragMode';
 import { useFrameSelection } from '../behavior/useFrameSelection';
 import { useTrackDrop } from '../behavior/useTrackDrop';
-import { useStripDrop } from '../behavior/useStripDrop';
 import { useStripFocus } from '../behavior/useStripFocus';
 import { END_GUTTER } from '../TimelinePanel.constants';
 import type { TrackProps } from '../TimelinePanel.type';
@@ -35,7 +34,6 @@ const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackPro
     onDrop: (_from, _to, info) => dropFrames(info),
   });
   const selection = useFrameSelection(focus);
-  const drop = useStripDrop(focus);
   const refused = useTrackDrop(listRef, focus);
   const selected = useTimelineStore((state) => state.selection.frames);
   const marquee = useMarqueeSelect({
@@ -59,7 +57,6 @@ const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackPro
       style={{ inlineSize: layout.total + END_GUTTER }}
       data-drag-mode={modes.mode}
       data-refused={refused ?? undefined}
-      {...drop}
       {...marquee.bind}
     >
       {model.cells.map((cell, index) => (

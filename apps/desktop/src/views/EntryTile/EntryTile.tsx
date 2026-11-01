@@ -6,6 +6,8 @@ import { pickHow } from '../../sheet/pick-how';
 import { ENTRY_TILE_TEXT } from './EntryTile.constants';
 import type { EntryTileProps } from './EntryTile.type';
 import { entryDetail } from './behavior/entry-detail';
+import { entryLabel } from './behavior/entry-label';
+import { entryName } from './behavior/entry-name';
 import { entryTileClass } from './behavior/entry-tile-class';
 import { EntryBadges } from './sub-components/EntryBadges';
 import { EntryName } from './sub-components/EntryName';
@@ -24,7 +26,7 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
       ref={ref}
       {...bind}
       className={`${className} ${entryTileClass(state)}`}
-      aria-label={fact.kind === 'sprite' ? fact.sprite.name : fact.name}
+      aria-label={entryLabel(fact, state.twin)}
       aria-describedby={detailId}
       aria-selected={state.selected}
       title={state.loose ? ENTRY_TILE_TEXT.notOnSheet : ENTRY_TILE_TEXT.onSheets(fact.sheets)}
@@ -55,7 +57,7 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
           ) : undefined,
           topEnd: <EntryBadges fact={fact} twin={state.twin} />,
         }}
-        name={<EntryName name={fact.kind === 'sprite' ? fact.sprite.name : fact.name} />}
+        name={<EntryName name={entryName(fact)} />}
       />
     </Box>
   );
