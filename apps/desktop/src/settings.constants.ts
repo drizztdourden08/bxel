@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import { DEFAULT_BASE_SETTINGS } from '@drizztdourden08/brock-core';
 import { ASSISTANT_DEFAULTS } from './assistant/assistant.constants';
+import { TOOL_PREF_SETTINGS_DEFAULTS } from './editor/tool-options/tool-pref-settings.constants';
 import { CANVAS_DEFAULTS } from './canvas-look/canvas-look.constants';
 import { APP_ASSET_DEFAULTS } from './asset-defaults/asset-defaults.constants';
 import { PROJECT_DEFAULTS } from './project/project.constants';
@@ -13,6 +14,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   ...ASSISTANT_DEFAULTS,
   ...PROJECT_DEFAULTS,
   ...ANIMATION_DEFAULTS,
+  ...TOOL_PREF_SETTINGS_DEFAULTS,
   assetDefaults: APP_ASSET_DEFAULTS,
 };
 
