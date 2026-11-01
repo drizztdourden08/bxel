@@ -103,7 +103,7 @@ const refusals = async ({ link, session, sessionId }: McpRig): Promise<void> => 
   expect(link.stderr()).not.toMatch(/[0-9a-f]{64}/);
 };
 
-describe('check 7: a standard MCP client drives Bxel', () => {
+describe('E1 assistant pairing and edit', { tags: ['e2e'] }, () => {
   const rig = useRig(openMcpRig);
   test('lists every tool and pairs once the owner approves editing', () => listsAndPairs(rig()));
   test('a preview changes nothing and the same batch then commits as one step', () => previewThenCommit(rig()));

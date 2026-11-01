@@ -15,7 +15,7 @@ import { waitUnsaved } from './support/wait-unsaved';
 
 const mark = (y: number) => [{ x: 2, y }, { x: 3, y }, { x: 4, y }];
 
-describe('check 8: damaged input and failed writes change nothing', () => {
+describe('E1 damaged input and failed writes change nothing', { tags: ['e2e'] }, () => {
   const rig = useRig(openSpriteRig);
   const painted = async () => [...await rig().shownNow()].filter((index) => index !== 0).length;
 

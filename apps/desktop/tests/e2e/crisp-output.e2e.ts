@@ -27,7 +27,7 @@ const ZOOM_STEPS = ['', 'Minus', 'Minus', 'Control+0', 'Control+1', '=', '=', '=
 
 const line = (from: { x: number; y: number }, to: { x: number; y: number }) => [from, to];
 
-describe('release blocker: pixel output is never blurred', () => {
+describe('E1 export a sprite with crisp pixels', { tags: ['e2e'] }, () => {
   const rig = useRig(openSpriteRig);
 
   test('the canvas shows only palette colours at every zoom, with no blend at a pixel edge', async () => {
