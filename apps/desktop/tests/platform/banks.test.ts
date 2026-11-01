@@ -22,7 +22,7 @@ const paintIndex = (file: PlatformFile, index: number): void => {
   expect(run(file, COMMAND_NAME.pixelsPatch, { rect, pixels }, spriteScope(sprite?.id ?? '')).ok).toBe(true);
 };
 
-describe('the palettes a new file starts with', () => {
+describe('S2 the palettes a new file starts with', { tags: ['standard'] }, () => {
   it('follows the platform: one palette on a flat target and the whole set on a banked one', () => {
     expect(chosen('snes-sprite').banks).toBe(8);
     expect(chosen('nes-sprite').banks).toBe(4);
@@ -65,7 +65,7 @@ describe('the palettes a new file starts with', () => {
   });
 });
 
-describe('switching the palette of a sprite', () => {
+describe('S2 switching the palette of a sprite', { tags: ['standard'] }, () => {
   it('lists the palettes of the file', () => {
     const options = bankOptions(artworkOf(platformFile(chosen('snes-sprite'))));
     expect(options).toHaveLength(8);

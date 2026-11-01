@@ -27,7 +27,7 @@ const FORMATS = [
   ['APNG', apngBytes(3), 'run.png'],
 ] as const;
 
-describe('reading an animated image', () => {
+describe('K3 reading an animated image', { tags: ['critical'] }, () => {
   it.each(FORMATS)('reads every frame of a %s with its duration', (_, bytes, fileName) => {
     const image = imageOf(bytes, fileName);
     expect([image.width, image.height]).toEqual([side, side]);
@@ -64,7 +64,7 @@ const stripPaint = (x: number): readonly [number, number, number, number] => {
 
 const animationsOf = (host: ReturnType<typeof newHost>, documentId: DocumentId) => host.view(documentId)?.state.artwork.animations ?? [];
 
-describe('importing an animated image', () => {
+describe('K3 importing an animated image', { tags: ['critical'] }, () => {
   it.each(FORMATS)('makes one animation with a frame for each picture of a %s, in one undo step', (_, bytes, fileName) => {
     const host = newHost();
     const image = imageOf(bytes, fileName);

@@ -11,7 +11,7 @@ const move = (offset: { x: number; y: number }, extra: Record<string, unknown> =
   stepOf('pixels.move', scope, { offset, mask: MASK, ...extra });
 const rowsOf = (engine: ReturnType<typeof pixelEngine>) => celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
 
-describe('pixels.move', () => {
+describe('K2 pixels.move', { tags: ['critical'] }, () => {
   test('lifts the masked region and drops it at the offset as one undo step', () => {
     const engine = pixelEngine(rowsArtwork(PIXELS));
     const original = engine.state().artwork;

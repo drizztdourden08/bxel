@@ -6,7 +6,7 @@ import { snapToGuides } from '../../src/guides/snap-to-guides';
 
 const LINES = { x: [10], y: [6, 20] };
 
-describe('snapping a marquee corner to guides', () => {
+describe('K1 snapping a marquee corner to guides', { tags: ['critical'] }, () => {
   it('lands the dragged edge on a guide within 4 screen pixels', () => {
     const rising = snapToGuides({ x: 10.9, y: 5.6 }, { x: 10, y: 5 }, { lines: LINES, zoom: 4, from: { x: 2, y: 2 } });
     expect(rising).toEqual({ x: 9, y: 5 });
@@ -27,7 +27,7 @@ describe('snapping a marquee corner to guides', () => {
   });
 });
 
-describe('snapping a float and a transform handle to guides', () => {
+describe('K1 snapping a float and a transform handle to guides', { tags: ['critical'] }, () => {
   const lines = { x: [10], y: [6, 20] };
 
   it('pulls whichever edge of a moved box is nearer a guide, within 4 screen pixels', () => {

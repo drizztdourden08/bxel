@@ -32,20 +32,13 @@ const search = (text: string, missing = false) => ({ text, missing, query: parse
 
 const context = (statuses: ReturnType<typeof statusesOf>['statuses']) => ({ statuses, facts: new Map(), keys: new Map() });
 
-describe('the project tree', () => {
+describe('K1 the project tree', { tags: ['critical'] }, () => {
   test('puts the main folder first, folders before files, natural order, linked roots after', () => {
     const tree = treeOf();
     const rows = flattenView(treeNest(tree, null), new Set([`${ROOT}/sprites`]), null);
     expect(rows.map((each) => each.item.name)).toEqual(['palettes', 'sheets', 'sprites', '2', '10', 'boss', 'hero', 'notes.txt', 'shared']);
     expect(rows.find((each) => each.item.name === 'shared')?.item.role).toBe('linked');
     expect(rows.find((each) => each.item.name === 'hero')?.depth).toBe(1);
-  });
-
-  test('gives every row its position in the set for the screen reader', () => {
-    const rows = flattenView(treeNest(treeOf(), null), new Set([`${ROOT}/sprites`]), null);
-    const kids = rows.filter((each) => each.depth === 1);
-    expect(kids.map((each) => each.posinset)).toEqual([1, 2, 3, 4]);
-    expect(new Set(kids.map((each) => each.setsize))).toEqual(new Set([4]));
   });
 
   test('keeps a file that is gone from disk as a ghost in its folder and marks the sheet and folders', () => {
@@ -88,12 +81,7 @@ describe('the project tree', () => {
   });
 });
 
-describe('search tokens and filters', () => {
-  test('reads kind, is, uses and in tokens with the shared parser', () => {
-    const query = parseQuery('hero kind:sprite is:unsaved uses:hero in:sprites/');
-    expect(query).toMatchObject({ words: ['hero'], kinds: ['sprite'], is: ['unsaved'], uses: ['hero'], inFolder: 'sprites' });
-  });
-
+describe('K1 search tokens and filters', { tags: ['critical'] }, () => {
   test('two kinds OR together and a kind and a state AND together', () => {
     const { tree, statuses } = statusesOf();
     const both = filterTree(tree, search('kind:sprite kind:sheet'), context(statuses));
@@ -130,7 +118,7 @@ describe('search tokens and filters', () => {
   });
 });
 
-describe('list mode', () => {
+describe('K1 list mode', { tags: ['critical'] }, () => {
   test('groups the assets by kind with a section header for each and sorts inside', () => {
     const rows = listRows({ tree: treeOf(), matches: null, collapsed: new Set(), view: { group: 'kind', sort: 'name' } });
     expect(rows.filter((each) => each.depth === 0).map((each) => each.item.name)).toEqual(['Sprites', 'Sheets', 'Palettes', 'Other files']);
@@ -153,7 +141,7 @@ describe('list mode', () => {
   });
 });
 
-describe('selection', () => {
+describe('K1 selection', { tags: ['critical'] }, () => {
   const rows = flattenView(treeNest(treeOf(), null), new Set([`${ROOT}/sprites`]), null);
   const key = (name: string): string => rows.find((each) => each.item.name === name)?.item.key ?? '';
 

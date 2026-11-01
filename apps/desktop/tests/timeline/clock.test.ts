@@ -14,7 +14,7 @@ beforeEach(() => {
   freshAnimation();
 });
 
-describe('the clock', () => {
+describe('S2 the clock', { tags: ['standard'] }, () => {
   it('walks the frames in order and wraps while looping', () => {
     withFrames(3);
     begin();
@@ -65,7 +65,7 @@ describe('the clock', () => {
   });
 });
 
-describe('the clock on tags', () => {
+describe('S2 the clock on tags', { tags: ['standard'] }, () => {
   it('plays a ping-pong tag out and back', () => {
     withFrames(5);
     const id = tagFrames(1, 3, 'pingpong');

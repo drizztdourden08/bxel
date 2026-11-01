@@ -11,7 +11,7 @@ const { ok, code } = check;
 
 beforeEach(reset);
 
-describe('list_layout and set_layout', () => {
+describe('S2 list_layout and set_layout', { tags: ['standard'] }, () => {
   it('lists the widgets, the toolbars and the presets', async () => {
     const seen = await ok('list_layout', {});
     expect(seen).toMatchObject({ presets: ['Default'] });

@@ -27,7 +27,7 @@ const pngOf = (): Uint8Array => {
 
 const GPL = ['GIMP Palette', 'Name: Fire', '#', '255 0 0 Red', '255 128 0 Orange', '255 255 0 Yellow', ''].join(String.fromCharCode(10));
 
-describe('duplicate_file and import_files', () => {
+describe('K3 duplicate_file and import_files', { tags: ['standard'] }, () => {
   it('copies a sprite as its own asset, saved beside it, and copies a plain file as it is', async () => {
     const { current } = held;
     const outcome = await current.run('duplicate_file', { projectId: current.projectId, files: [held.place(held.spritePath())] }, current.grants('edit'));

@@ -14,7 +14,7 @@ import { usePendingStore } from '../../src/stores/usePendingStore';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { at, BLOCK, openRig } from './selection-harness';
 
-describe('the transforms', () => {
+describe('S2 the transforms', { tags: ['standard'] }, () => {
   it('flips a selection with pixels.flip and the whole sprite with sprite.flip', () => {
     const rig = openRig();
     rig.paint({ x: 4, y: 4, width: 1, height: 1 }, 3);
@@ -44,10 +44,9 @@ describe('the transforms', () => {
     rig.host.undo(rig.documentId);
     expect(rig.pixels()[at(0, 0)]).toBe(3);
   });
-
 });
 
-describe('rotating and scaling', () => {
+describe('S2 rotating and scaling', { tags: ['standard'] }, () => {
   it('previews a rotation that expands the canvas exactly as it commits', () => {
     const rig = openRig();
     rig.paint({ x: 8, y: 8, width: 16, height: 16 }, 4);

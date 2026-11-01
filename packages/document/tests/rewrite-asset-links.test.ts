@@ -3,7 +3,7 @@ import { decodePalette, decodeSprite, encodePalette, encodeSprite, readAssetMani
 import { describe, expect, it } from 'vitest';
 import { assetClock, assetPreview, PALETTE_PATH, paletteSlice, spriteSlice } from './asset-fixture';
 
-describe('rewriteAssetLinks', () => {
+describe('K3 rewriteAssetLinks', { tags: ['critical'] }, () => {
   it('writes the new link path and keeps the file readable with the same content', () => {
     const bytes = encodeSprite(spriteSlice(), assetPreview, assetClock);
     const moved = rewriteAssetLinks(bytes, (link) => ({ id: link.id, path: `../${link.path}` }));

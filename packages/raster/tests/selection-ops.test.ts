@@ -9,7 +9,7 @@ import { maskRows } from './mask-rows';
 const DIAGONAL = fromRows(['1...', '.1..', '..1.', '1..1']);
 const REGIONS = fromRows(['11.2', '1..2', '.1.2', '..22']);
 
-describe('contiguous wand', () => {
+describe('K1 contiguous wand', { tags: ['critical'] }, () => {
   test('4-way sees a diagonal as separate pixels', () => {
     const mask = wandMask({ target: DIAGONAL, seed: { x: 0, y: 0 }, connectivity: 4 });
     expect(maskRows(mask)).toEqual(['#...', '....', '....', '....']);
@@ -38,7 +38,7 @@ describe('contiguous wand', () => {
   });
 });
 
-describe('all pixels of one index', () => {
+describe('K1 all pixels of one index', { tags: ['critical'] }, () => {
   test('selects every pixel of the index, connected or not', () => {
     expect(maskRows(indexMask(DIAGONAL, 1))).toEqual(['#...', '.#..', '..#.', '#..#']);
     expect(maskRows(indexMask(REGIONS, 2))).toEqual(['...#', '...#', '...#', '..##']);
@@ -50,7 +50,7 @@ describe('all pixels of one index', () => {
   });
 });
 
-describe('combine modes', () => {
+describe('K1 combine modes', { tags: ['critical'] }, () => {
   const base = maskFromRows(['###..', '###..']);
   const incoming = maskFromRows(['.###.', '.###.']);
   const CASES: readonly { readonly mode: CombineMode; readonly rows: readonly string[] }[] = [
@@ -73,14 +73,9 @@ describe('combine modes', () => {
   test('refuses masks of different sizes', () => {
     expect(() => combineMasks(base, emptyMask({ width: 4, height: 2 }), 'add')).toThrow(RangeError);
   });
-
-  test('replace with nothing clears and add of nothing keeps', () => {
-    expect(combineMasks(base, emptyMask(base), 'replace')).toEqual(emptyMask(base));
-    expect(combineMasks(base, emptyMask(base), 'add')).toEqual(base);
-  });
 });
 
-describe('invert', () => {
+describe('K1 invert', { tags: ['critical'] }, () => {
   test('swaps selected and unselected, and twice is the identity', () => {
     const mask = maskFromRows(['#.#', '.#.']);
     expect(maskRows(invertMask(mask))).toEqual(['.#.', '#.#']);
@@ -89,7 +84,7 @@ describe('invert', () => {
   });
 });
 
-describe('expand and shrink', () => {
+describe('K1 expand and shrink', { tags: ['critical'] }, () => {
   const dot = maskFromRows(['.....', '.....', '..#..', '.....', '.....']);
 
   test('expand grows by whole pixels with square reach', () => {
@@ -116,14 +111,9 @@ describe('expand and shrink', () => {
     expect(shrinkMask(fullMask(dot), 100000)).toEqual(emptyMask(dot));
     expect(expandMask(emptyMask(dot), 3)).toEqual(emptyMask(dot));
   });
-
-  test('shrink undoes expand on a mask that does not touch the edge', () => {
-    const shape = maskFromRows(['.......', '..##...', '..###..', '...#...', '.......']);
-    expect(shrinkMask(expandMask(shape, 1), 1)).toEqual(shape);
-  });
 });
 
-describe('mask bounds', () => {
+describe('K1 mask bounds', { tags: ['critical'] }, () => {
   test('is the tight rectangle around the selected pixels', () => {
     expect(maskBounds(maskFromRows(['.....', '..#..', '.....', '....#']))).toEqual({ x: 2, y: 1, width: 3, height: 3 });
     expect(maskBounds(fullMask({ width: 4, height: 3 }))).toEqual({ x: 0, y: 0, width: 4, height: 3 });

@@ -10,7 +10,7 @@ import { applySteps, buildWorld, checkOneUndoStep, mapOf, step } from './tile-en
 
 const GUIDES = { x: [8, 16.5], y: [4] };
 
-describe('guides of a tilemap', () => {
+describe('K3 guides of a tilemap', { tags: ['critical'] }, () => {
   it('are absent until set, are one undo step, and go away when emptied', () => {
     const world = buildWorld();
     expect(mapOf(world.engine).guides).toBeUndefined();
@@ -33,7 +33,7 @@ describe('guides of a tilemap', () => {
   });
 });
 
-describe('guides of a sheet', () => {
+describe('K3 guides of a sheet', { tags: ['critical'] }, () => {
   it('are absent until set, are one undo step, and refuse a position off the half pixel step', () => {
     const { engine } = heartEngine();
     expect(sheetOf(engine).guides).toBeUndefined();
@@ -53,7 +53,7 @@ describe('guides of a sheet', () => {
   });
 });
 
-describe('guides in the files of a split project', () => {
+describe('K3 guides in the files of a split project', { tags: ['critical'] }, () => {
   it('travel in the map file and the sheet file and come back after a reload', () => {
     const world = buildWorld();
     applySteps(world.engine, [step('tilemap.guides', { tilemap: world.map, guides: GUIDES })]);

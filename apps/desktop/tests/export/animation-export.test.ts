@@ -25,7 +25,7 @@ const sheetOf = (world: WalkWorld, patch: Parameters<typeof settingsOf>[0]) => {
   return plan;
 };
 
-describe('animation GIF export', () => {
+describe('K3 animation GIF export', { tags: ['standard'] }, () => {
   it('writes one GIF for each facing', () => {
     const plan = planOf(walkWorld(), { kind: 'animation', animation: 'gif' });
     expect(plan.problem).toBeNull();
@@ -63,7 +63,7 @@ describe('animation GIF export', () => {
   });
 });
 
-describe('animation sheet export', () => {
+describe('K3 animation sheet export', { tags: ['standard'] }, () => {
   it('writes the Aseprite hash with a frame tag for each facing', () => {
     const plan = sheetOf(walkWorld(), { flavour: 'hash' });
     expect(plan.files.map((file) => file.name)).toEqual(['walk.png', 'walk.json']);

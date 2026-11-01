@@ -92,7 +92,7 @@ const refusesWithThePermissionOff = async (): Promise<void> => {
   expect((await callMcp(clientOf(), 'get_session')).ok).toBe(true);
 };
 
-describe('restart: a program with the permission restarts Bxel and reconnects at the same grant', { timeout: 300000 }, () => {
+describe('E1 assistant restart', { timeout: 300000, tags: ['e2e'] }, () => {
   test('is listed with the permission on', startsWithTheRestartPermission);
   test('refuses with unsaved work, then restarts keeping the work for recovery', refusesWithUnsavedWorkThenRestarts);
   test('reconnects without a prompt at the same grant', reconnectsAtTheSameGrant);

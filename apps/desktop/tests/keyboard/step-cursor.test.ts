@@ -4,7 +4,7 @@ import { stepCursor } from '../../src/editor/step-cursor';
 
 const size = { width: 4, height: 3 };
 
-describe('stepping the keyboard drawing cursor', () => {
+describe('K1 stepping the keyboard drawing cursor', { tags: ['critical'] }, () => {
   it('moves one cell along the arrow', () => {
     expect(stepCursor({ x: 1, y: 1 }, 'ArrowRight', size)).toEqual({ x: 2, y: 1 });
     expect(stepCursor({ x: 1, y: 1 }, 'ArrowUp', size)).toEqual({ x: 1, y: 0 });

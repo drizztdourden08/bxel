@@ -15,7 +15,7 @@ import { useRig } from './support/use-rig';
 
 const { columns, tile, cells, edited, stroke } = TILEMAP_E2E;
 
-describe('check 8: editing a tile changes every placement of it', () => {
+describe('E1 tilemap round trip', { tags: ['e2e'] }, () => {
   const rig = useRig(openTilemapRig);
 
   test('places a tile twice, edits the tile, and both placements show the new pixels', async () => {

@@ -14,7 +14,7 @@ const withBoth = (): { engine: Engine; tiny: SpriteId; wide: SpriteId } => {
   return world;
 };
 
-describe('sprite.reorder inside a sheet', () => {
+describe('K1 sprite.reorder inside a sheet', { tags: ['critical'] }, () => {
   it('moves only the entry on the sheet and leaves the order of the file alone', () => {
     const { engine, wide } = withBoth();
     expect(onSheet(engine)).toEqual(['heart', 'heart-b', 'tiny', 'wide']);
@@ -55,7 +55,7 @@ describe('sprite.reorder inside a sheet', () => {
   });
 });
 
-describe('sprite.reorder without a sheet', () => {
+describe('K1 sprite.reorder without a sheet', { tags: ['critical'] }, () => {
   it('still moves the order of the file and the sheets follow it', () => {
     const { engine, wide } = withBoth();
     apply(engine, onSprites('sprite.reorder', { to: 0, sheet: SHEET }, [wide]));

@@ -20,7 +20,7 @@ const rules16 = (world: World) => step('tileset.terrain', { tileset: world.tiles
 const terrain = (world: World, mode: 'paint' | 'erase', cells: readonly { x: number; y: number }[]) =>
   step('map.terrain', onGround(world, { mode, cells }));
 
-describe('terrain neighbour rules', () => {
+describe('K1 terrain neighbour rules', { tags: ['critical'] }, () => {
   it('lists the 47 blob masks, every one reduced, and finds each by its index', () => {
     expect(BLOB47_MASKS).toHaveLength(47);
     expect(new Set(BLOB47_MASKS).size).toBe(47);
@@ -41,7 +41,7 @@ describe('terrain neighbour rules', () => {
   });
 });
 
-describe('tileset.terrain', () => {
+describe('K1 tileset.terrain', { tags: ['critical'] }, () => {
   it('sets the rule set as one undo step and clears it', () => {
     const world = withTiles();
     checkOneUndoStep(world.engine, () => applySteps(world.engine, [rules16(world)]));
@@ -74,7 +74,7 @@ describe('tileset.terrain', () => {
   });
 });
 
-describe('map.terrain', () => {
+describe('K1 map.terrain', { tags: ['critical'] }, () => {
   const ready = (): World => {
     const world = withTiles();
     applySteps(world.engine, [rules16(world)]);

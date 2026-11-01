@@ -59,7 +59,7 @@ const ACCEPTED: readonly (readonly [string, FileKind])[] = [
   [`${segmentsOf(15)}/x.bxel`, 'bxel'],
 ];
 
-describe('path refusals', () => {
+describe('K4 path refusals', { tags: ['critical'] }, () => {
   it.each(REFUSED)('refuses %j as a %s write target with %s', (relPath, kind, code) => {
     const result = joinInside(ROOT, relPath, kind);
     expect(result.ok).toBe(false);
@@ -86,7 +86,7 @@ describe('path refusals', () => {
   });
 });
 
-describe('file names', () => {
+describe('K4 file names', { tags: ['critical'] }, () => {
   it.each([
     ['..\\x.png', 'png', NAME_INVALID],
     ['../x.png', 'png', NAME_INVALID],

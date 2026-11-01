@@ -22,7 +22,7 @@ import { countOn, openRig } from './selection-harness';
 
 const square = (from: number, to: number) => ({ variant: 'rect', from: { x: from, y: from }, to: { x: to, y: to }, path: [] }) as const;
 
-describe('the selection modes', () => {
+describe('K1 the selection modes', { tags: ['critical'] }, () => {
   const size = { width: 8, height: 8 };
   const first = incomingMask(square(1, 4), size);
   const second = incomingMask(square(3, 6), size);
@@ -53,7 +53,7 @@ describe('the selection modes', () => {
   });
 });
 
-describe('the selection commands', () => {
+describe('S2 the selection commands', { tags: ['standard'] }, () => {
   it('select all, invert, expand, shrink and deselect change the session mask', () => {
     const rig = openRig();
     selectAll();
@@ -97,7 +97,7 @@ describe('the selection commands', () => {
   });
 });
 
-describe('the outline', () => {
+describe('K1 the outline', { tags: ['critical'] }, () => {
   it('walks the edge of a pixel and merges straight runs', () => {
     const one = rectMask({ width: 4, height: 4 }, { from: { x: 1, y: 1 }, to: { x: 1, y: 1 } });
     expect(maskOutline(one)).toHaveLength(16);
@@ -106,7 +106,7 @@ describe('the outline', () => {
   });
 });
 
-describe('the pixel tools honour the selection', () => {
+describe('S2 the pixel tools honour the selection', { tags: ['standard'] }, () => {
   it('keeps a pencil stroke inside the mask, in the overlay and in the commit', () => {
     const rig = openRig();
     rig.select({ x: 0, y: 0, width: 4, height: 4 });

@@ -5,7 +5,7 @@ import { makeTiles, mustImage } from './make-tilemap-input';
 
 const base = { tileWidth: 2, tileHeight: 2, columns: 2, spacing: 0, margin: 0 };
 
-describe('exportTilesetImage', () => {
+describe('K2 exportTilesetImage', { tags: ['critical'] }, () => {
   it('packs the tiles in a grid in the order given', () => {
     const result = mustImage({ ...base, columns: 3, tiles: makeTiles([5, 9, 12, 20]) });
     expect([result.image.width, result.image.height]).toEqual([6, 4]);

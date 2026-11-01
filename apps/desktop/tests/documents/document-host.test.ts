@@ -57,7 +57,7 @@ const collect = (host: DocumentHost): DocumentEvent[] => {
 
 const newHost = (): DocumentHost => createDocumentHost({ ids: counterIdSource() });
 
-describe('DocumentHost lifecycle', () => {
+describe('K1 DocumentHost lifecycle', { tags: ['critical'] }, () => {
   it('opens an artwork as a clean document at revision 1 and publishes open once', () => {
     const host = newHost();
     const events = collect(host);
@@ -69,10 +69,9 @@ describe('DocumentHost lifecycle', () => {
     expect(host.list()).toEqual([documentId]);
     expect(events.map((event) => event.kind)).toEqual(['open']);
   });
-
 });
 
-describe('DocumentHost transactions', () => {
+describe('K1 DocumentHost transactions', { tags: ['critical'] }, () => {
   it('tracks revision and dirty state through commit, undo, redo and save', () => {
     const host = newHost();
     const documentId = openOne(host, 'first');
@@ -94,10 +93,9 @@ describe('DocumentHost transactions', () => {
     expect(host.markUnsaved(documentId)).toBe(true);
     expect(host.view(documentId)).toMatchObject({ clean: false, canUndo: true });
   });
-
 });
 
-describe('DocumentHost events', () => {
+describe('K1 DocumentHost events', { tags: ['critical'] }, () => {
   it('publishes one event per change and none for a preview', () => {
     const host = newHost();
     const documentId = openOne(host, 'first');
@@ -123,10 +121,9 @@ describe('DocumentHost events', () => {
     paint(host, documentId);
     expect(seen).toEqual([2]);
   });
-
 });
 
-describe('DocumentHost rejections', () => {
+describe('K1 DocumentHost rejections', { tags: ['critical'] }, () => {
   it('changes nothing for a stale transaction', () => {
     const host = newHost();
     const documentId = openOne(host, 'first');
@@ -138,10 +135,9 @@ describe('DocumentHost rejections', () => {
     expect(host.view(documentId)).toBe(before);
     expect(events).toHaveLength(0);
   });
-
 });
 
-describe('DocumentHost independence', () => {
+describe('K1 DocumentHost independence', { tags: ['critical'] }, () => {
   it('keeps two documents independent', () => {
     const host = newHost();
     const first = openOne(host, 'first');
@@ -158,10 +154,9 @@ describe('DocumentHost independence', () => {
     expect(host.list()).toEqual([second]);
     expect(host.view(first)).toBeNull();
   });
-
 });
 
-describe('DocumentHost missing documents', () => {
+describe('K1 DocumentHost missing documents', { tags: ['critical'] }, () => {
   it('answers DOCUMENT_NOT_FOUND for a document that is not open', () => {
     const host = newHost();
     const documentId = openOne(host, 'first');

@@ -17,7 +17,7 @@ const folders = (...paths: readonly string[]): ProjectFolder[] => [
   ...paths.map((path, index) => folder(index + 1, path)),
 ];
 
-describe('folder resolution', () => {
+describe('K4 folder resolution', { tags: ['critical'] }, () => {
   it('resolves the root, a relative folder and an absolute folder', () => {
     const result = resolveFolders(sampleManifest().folders, ROOT);
     expect(result).toMatchObject({ ok: true });
@@ -61,7 +61,7 @@ describe('folder resolution', () => {
   });
 });
 
-describe('stored folder paths', () => {
+describe('K4 stored folder paths', { tags: ['critical'] }, () => {
   it.each([
     ['C:/Games/Dungeon', '.'],
     ['C:/Games/Dungeon/sprites/hero', 'sprites/hero'],

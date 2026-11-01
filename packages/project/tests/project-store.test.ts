@@ -31,7 +31,7 @@ const recent = (extra: Partial<RecentProject> = {}): RecentProject => ({
   ...extra,
 });
 
-describe('a new manifest', () => {
+describe('K1 a new manifest', { tags: ['critical'] }, () => {
   const manifest = createManifest({ projectId: 'prj_8d2k4m6q9x1v', folderId: 'fld_7r2k9m4q', name: 'Dungeon' });
 
   it('has one root folder, no assistant access and passes the manifest rules', () => {
@@ -53,7 +53,7 @@ describe('a new manifest', () => {
   });
 });
 
-describe('stored grants', () => {
+describe('K4 stored grants', { tags: ['critical'] }, () => {
   it('adds a grant, replaces the same project at the same path and removes it on off', () => {
     const added = setGrant([], grant());
     expect(added).toHaveLength(1);
@@ -78,7 +78,7 @@ describe('stored grants', () => {
   });
 });
 
-describe('recent projects', () => {
+describe('K1 recent projects', { tags: ['critical'] }, () => {
   it('puts the newest first and moves a reopened project to the front', () => {
     const first = pushRecentProject([], recent());
     const second = pushRecentProject(first, recent({ projectId: 'prj_zzzzzzzzzzzz', name: 'Forest', rootRealPath: 'C:/Games/Forest' }));

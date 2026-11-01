@@ -37,7 +37,7 @@ const centreOf = (cell: Point): Point => {
   return { x: origin.x + tileset.tileWidth / 2, y: origin.y + tileset.tileHeight / 2 };
 };
 
-describe('an isometric map under the pointer', () => {
+describe('S2 an isometric map under the pointer', { tags: ['standard'] }, () => {
   beforeEach(() => {
     openMapFile();
     setMapOrientation({ kind: 'isometric' });
@@ -61,7 +61,7 @@ describe('an isometric map under the pointer', () => {
   });
 });
 
-describe('the orientation settings of a map', () => {
+describe('S2 the orientation settings of a map', { tags: ['standard'] }, () => {
   beforeEach(() => openMapFile());
 
   it('read as orthogonal and change to hexagonal with a side length in one step each', () => {

@@ -22,7 +22,7 @@ const RETIRED = [
   'sprite.split',
 ];
 
-describe('retired sprite frame commands', () => {
+describe('K2 retired sprite frame commands', { tags: ['critical'] }, () => {
   it.each(RETIRED)('%s is refused with the animation hint', (name) => {
     const { engine } = buildAnimWorld();
     const error = refuse(engine, [step(name, {})]);

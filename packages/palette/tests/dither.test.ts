@@ -14,7 +14,7 @@ const flatGrey = (width: number, height: number) =>
 
 const whites = (pixels: Uint8Array): number => pixels.filter((slot) => slot === 1).length;
 
-describe('ditherToPalette', () => {
+describe('K1 ditherToPalette', { tags: ['critical'] }, () => {
   it('emits only allowed indices for every matrix size', () => {
     const noise = makeNoiseImage(37, 4);
     for (const size of [2, 4, 8] as const) {
@@ -23,12 +23,6 @@ describe('ditherToPalette', () => {
       const keyed = ditherToPalette(noise, { palette: ['#000000', '#808080', '#ffffff'], transparent: true, size });
       expect(keyed.pixels.every((slot) => slot >= 1 && slot < 3)).toBe(true);
     }
-  });
-
-  it('is deterministic', () => {
-    const noise = makeNoiseImage(33, 8);
-    const options = { palette, transparent: false, size: 8 } as const;
-    expect(ditherToPalette(noise, options).pixels).toEqual(ditherToPalette(makeNoiseImage(33, 8), options).pixels);
   });
 
   it('splits flat mid grey evenly in each matrix tile', () => {

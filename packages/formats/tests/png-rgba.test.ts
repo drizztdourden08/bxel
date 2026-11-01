@@ -13,7 +13,7 @@ const encodeOk = (...args: Parameters<typeof encodePngRgba>): Uint8Array => {
   return result.bytes;
 };
 
-describe('encodePngRgba', () => {
+describe('K3 encodePngRgba', { tags: ['critical'] }, () => {
   it('round trips a gradient with the adaptive filter', () => {
     const image = makeGradient(7, 5);
     const decoded = expectDecoded(encodeOk(image));

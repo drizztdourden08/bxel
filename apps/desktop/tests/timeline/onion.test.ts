@@ -23,7 +23,7 @@ const planFor = (index: number, patch: Partial<OnionSettings>, mode: 'loop' | 'o
   return onionPlan(animation, frameAt(index), plan, { onion: settings(patch), mode }).map((layer) => [frameIds().indexOf(layer.frameId), layer.side, Math.round(layer.alpha * 100)]);
 };
 
-describe('the onion plan', () => {
+describe('S2 the onion plan', { tags: ['standard'] }, () => {
   it('shows nothing while it is off', () => {
     withFrames(4);
     const animation = animationOf();
@@ -68,7 +68,7 @@ describe('the onion plan', () => {
   });
 });
 
-describe('the ghost pixels', () => {
+describe('S2 the ghost pixels', { tags: ['standard'] }, () => {
   const ghostOf = (patch: { style: 'filled' | 'outline'; behind: boolean }) => {
     const { artwork, animation, frame } = live();
     const bank = findBank(artwork, animation.bankId);

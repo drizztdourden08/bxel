@@ -22,7 +22,7 @@ const span = (id: string, name: string, [from, to]: readonly [number, number], f
 const spans = (tags: readonly AnimTag[]): AnimSpanTag[] => tags.filter((tag): tag is AnimSpanTag => tag.kind === 'span');
 const mirrors = (tags: readonly AnimTag[]): AnimMirrorTag[] => tags.filter((tag): tag is AnimMirrorTag => tag.kind === 'mirror');
 
-describe('animation.tag.add', () => {
+describe('K1 animation.tag.add', { tags: ['critical'] }, () => {
   it('adds span tags with a facing and a mirror tag', () => {
     const world = walking();
     apply(world.engine, [step('animation.update', { animation: world.id, directions: 'eight' })]);
@@ -57,7 +57,7 @@ describe('animation.tag.add', () => {
   });
 });
 
-describe('animation.tag.update and delete', () => {
+describe('K1 animation.tag.update and delete', { tags: ['critical'] }, () => {
   it('updates a span tag and a mirror tag', () => {
     const world = walking();
     apply(world.engine, [step('animation.update', { animation: world.id, directions: 'four' })]);
@@ -84,7 +84,7 @@ describe('animation.tag.update and delete', () => {
   });
 });
 
-describe('animation.directions', () => {
+describe('K1 animation.directions', { tags: ['critical'] }, () => {
   it('scaffolds an eight direction set with three mirrored facings', () => {
     const world = buildAnimWorld();
     const id = createdAnimation(world.engine, [

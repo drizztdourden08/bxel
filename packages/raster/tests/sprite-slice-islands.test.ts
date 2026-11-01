@@ -27,7 +27,7 @@ const artworkOf = (rows: readonly string[]) =>
 
 const engineOf = (rows: readonly string[]) => pixelEngine(artworkOf(rows));
 
-describe('findIslands', () => {
+describe('K2 findIslands', { tags: ['critical'] }, () => {
   test('finds nine islands in reading order', () => {
     const sprite = artworkOf(NINE).sprites[0];
     if (!sprite) throw new Error('no sprite');
@@ -46,7 +46,7 @@ describe('findIslands', () => {
   });
 });
 
-describe('sprite.slice by islands', () => {
+describe('K2 sprite.slice by islands', { tags: ['critical'] }, () => {
   test('cuts nine sprites in one undo step, each sized to its island', () => {
     const engine = engineOf(NINE);
     const before = engine.state().artwork;
@@ -68,7 +68,7 @@ describe('sprite.slice by islands', () => {
   });
 });
 
-describe('sprite.slice when a piece name is already used', () => {
+describe('K2 sprite.slice when a piece name is already used', { tags: ['critical'] }, () => {
   const cutOnce = () => {
     const engine = engineOf(NINE);
     applyTo(engine, 'sprite.slice', [sheet], { islands: { minSize: 1, merge: 0 }, keep: true });

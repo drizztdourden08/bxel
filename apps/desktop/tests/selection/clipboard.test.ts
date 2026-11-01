@@ -12,7 +12,7 @@ import { usePendingStore } from '../../src/stores/usePendingStore';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { at, BLOCK, openRig } from './selection-harness';
 
-describe('the clipboard', () => {
+describe('S2 the clipboard', { tags: ['standard'] }, () => {
   it('copies the selected indices, pastes a floating preview at the same place and commits with skipZero', () => {
     const rig = openRig();
     rig.paint({ x: 4, y: 4, width: 2, height: 2 }, 5);

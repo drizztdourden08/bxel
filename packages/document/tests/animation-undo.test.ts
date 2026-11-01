@@ -42,7 +42,7 @@ const commands = (world: AnimWorld & { readonly id: string }): Record<string, Co
   };
 };
 
-describe('animation commands are one undo step each', () => {
+describe('K1 animation commands are one undo step each', { tags: ['critical'] }, () => {
   const names = Object.keys(commands(populated()));
 
   it.each(names)('%s undoes and redoes as one step', (name) => {

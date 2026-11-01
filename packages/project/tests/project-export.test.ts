@@ -17,7 +17,7 @@ const JUNK: readonly (readonly [string, unknown])[] = [
   ['an unknown key', { colour: 'rgba' }],
 ];
 
-describe('the export settings of a project', () => {
+describe('K2 the export settings of a project', { tags: ['critical'] }, () => {
   it('are absent from a project that never set them, and the file keeps its version', () => {
     const output = must(writeProjectDocument(sampleDocument()));
     const parsed = JSON.parse(output) as Record<string, unknown>;
@@ -58,7 +58,7 @@ const PRESET: ExportPreset = {
   settings: { scale: 2, kind: 'sprite', sprites: 'all' },
 };
 
-describe('the export presets of a project', () => {
+describe('K2 the export presets of a project', { tags: ['critical'] }, () => {
   it('are written with their keys in a fixed order and read back unchanged', () => {
     const document = { ...sampleDocument(), export: { scale: 2, presets: [PRESET] } };
     const output = must(writeProjectDocument(document));

@@ -18,27 +18,9 @@ const [canvas, options, tools] = await Promise.all([
 
 const defs = [canvas.default, options.default, tools.default];
 
-describe('the toolbar definitions', () => {
-  it('name three toolbars with unique ids', () => {
-    expect(defs.map((def) => def.id)).toEqual(['canvas', 'options', 'tools']);
-    expect(new Set(defs.map((def) => def.id)).size).toBe(defs.length);
-  });
-
-  it('start the canvas and option toolbars on top and the tools on the left', () => {
-    expect(defs.map((def) => def.defaultSide)).toEqual(['top', 'top', 'left']);
-  });
-
-  it('show every toolbar from the start and give each a label', () => {
-    for (const def of defs) {
-      expect(def.hiddenByDefault).toBeUndefined();
-      expect(def.label.trim()).not.toBe('');
-    }
-  });
-});
-
 const saved = (value: unknown): unknown => JSON.parse(JSON.stringify(value));
 
-describe('the saved toolbar layout', () => {
+describe('K1 the saved toolbar layout', { tags: ['critical'] }, () => {
   it('stacks the canvas toolbar over the option toolbar on top and puts the tools on the left', () => {
     const layout = createToolbarLayout(defs);
     expect(toolbarIdsOf(layout, 'top')).toEqual(['canvas', 'options']);

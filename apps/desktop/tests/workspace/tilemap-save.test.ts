@@ -44,7 +44,7 @@ beforeEach(() => {
   held.disk.dirs.add(DIR);
 });
 
-describe('saving a tilemap of a new file', () => {
+describe('K3 saving a tilemap of a new file', { tags: ['standard'] }, () => {
   it('asks where the new tileset it needs goes, and writes both', async () => {
     showMap();
     vi.spyOn(held.disk.port, 'saveAs').mockImplementation(documentPicker(() => `${DIR}/level.bxmap`));

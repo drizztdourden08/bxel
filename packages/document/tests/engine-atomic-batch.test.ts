@@ -5,7 +5,7 @@ import { snapshotArtwork } from './snapshot-artwork';
 
 const undoRequest = (revision: number) => ({ documentId, expectedRevision: revision });
 
-describe('atomic batch', () => {
+describe('K1 atomic batch', { tags: ['critical'] }, () => {
   it('applies nothing when the third step is invalid', () => {
     const { engine } = heartEngine();
     const before = snapshotArtwork(engine.state().artwork);
@@ -48,7 +48,7 @@ describe('atomic batch', () => {
   });
 });
 
-describe('history navigation', () => {
+describe('K1 history navigation', { tags: ['critical'] }, () => {
   it('reports nothing to undo or redo and stale expectations', () => {
     const { engine } = heartEngine();
     const empty = engine.undo(undoRequest(1));

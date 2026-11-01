@@ -18,7 +18,7 @@ const commitBytes = (points: number, size: number): number => {
   return historyBytes(benchEngine(state).execute(requestOf(state, step, 'commit')));
 };
 
-describe('history cost of a stroke on a 2048 by 2048 sprite', () => {
+describe('S2 history cost of a stroke on a 2048 by 2048 sprite', { tags: ['standard'] }, () => {
   test('a one point dab records only its own rectangle', () => {
     expect(commitBytes(1, 4)).toBeLessThanOrEqual(2 * 4 * 4);
   });

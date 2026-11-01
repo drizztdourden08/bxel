@@ -4,7 +4,7 @@ import { applyTo, fresh, idle, named, run, walk } from './compose-world';
 
 const NOW = Date.UTC(2026, 9, 24, 12, 0, 0);
 
-describe('the created time of the sprites a split, a slice and a merge make', () => {
+describe('K1 the created time of the sprites a split, a slice and a merge make', { tags: ['critical'] }, () => {
   test('is the time of the clock for each piece of a split', () => {
     const engine = fresh(() => NOW);
     applyTo(engine, 'sprite.split', [walk], {});

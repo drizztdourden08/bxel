@@ -15,7 +15,7 @@ const started = () => {
 
 const order = (world: ReturnType<typeof buildAnimWorld>): string[] => (world.engine.state().artwork.sheets[0]?.animationEntries ?? []).map((entry) => entry.animationId);
 
-describe('sheet.animation.move', () => {
+describe('K1 sheet.animation.move', { tags: ['critical'] }, () => {
   it('moves an animation entry to a place and is one undo step', () => {
     const { world, walk, run, sheet } = started();
     expect(order(world)).toEqual([walk, run]);
@@ -35,7 +35,7 @@ describe('sheet.animation.move', () => {
   });
 });
 
-describe('sheet.animation.place', () => {
+describe('K1 sheet.animation.place', { tags: ['critical'] }, () => {
   it('puts an animation entry at a point, goes by hand and is one undo step', () => {
     const { world, walk, sheet } = started();
     checkOneUndoStep(world.engine, () => {

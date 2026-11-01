@@ -34,7 +34,7 @@ afterAll(async () => {
   if (held.dir) await rm(held.dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 300 }).catch(() => undefined);
 });
 
-describe('release blocker: a crash loses at most the last few seconds of work', () => {
+describe('E1 recovery after a crash', { tags: ['e2e'] }, () => {
   test('the app is killed with unsaved strokes and the next start offers them back, pixel for pixel', async () => {
     const dir = await mkdtemp(join(tmpdir(), TEMP_PREFIX));
     held.dir = dir;

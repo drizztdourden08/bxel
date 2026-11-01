@@ -13,7 +13,7 @@ const OLD_KEY = 'doc_previous';
 
 const listed = (key: string): RecoverableSnapshot => ({ key, name: `${key}.bxel`, path: null, savedAt: 1, size: 1 });
 
-describe('the snapshots that are still waiting to be restored', () => {
+describe('S2 the snapshots that are still waiting to be restored', { tags: ['standard'] }, () => {
   it('drops a snapshot whose key is an open document', () => {
     const snapshots = [listed('a'), listed('b'), listed('c')];
     expect(unopenedSnapshots(snapshots, ['b']).map((snapshot) => snapshot.key)).toEqual(['a', 'c']);

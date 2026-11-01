@@ -20,7 +20,7 @@ const ANIMATION = 'anm_4k9m2q7x1v8c';
 
 const setView = (timeline: unknown) => parseToolInput(tool('set_view'), { timeline }).ok;
 
-describe('set_view timeline', () => {
+describe('K2 set_view timeline', { tags: ['critical'] }, () => {
   it('accepts the playhead, the pick, every kind of range and the play settings', () => {
     expect(setView({ frameId: FRAME, pickedFrameIds: [FRAME, OTHER], playing: false, playMode: 'pingpong', speed: 0.5, zoom: 'fit', timeMode: true, units: 'ticks' })).toBe(true);
     for (const range of [{ kind: 'whole' }, { kind: 'picked' }, { kind: 'tag', tagId: TAG }, { kind: 'loop', from: FRAME, to: OTHER }]) expect(setView({ range }), range.kind).toBe(true);
@@ -49,7 +49,7 @@ describe('set_view timeline', () => {
   });
 });
 
-describe('get_view timeline', () => {
+describe('K2 get_view timeline', { tags: ['critical'] }, () => {
   it('has the timeline block in its output and requires it', () => {
     const view = tool('get_view');
     const example = APP_OUTPUT_EXAMPLES.get_view as Record<string, unknown>;
@@ -66,7 +66,7 @@ describe('get_view timeline', () => {
   });
 });
 
-describe('get_animation and render_preview additions', () => {
+describe('K2 get_animation and render_preview additions', { tags: ['critical'] }, () => {
   it('lists the play order, the totals and the facing map in the get_animation output', () => {
     const animation = tool('get_animation');
     const example = ASSET_OUTPUT_EXAMPLES.get_animation as { plays: object[]; facings: object };

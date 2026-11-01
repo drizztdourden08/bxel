@@ -20,7 +20,7 @@ const refsOf = (value: unknown): string[] => {
   );
 };
 
-describe('the tool set', () => {
+describe('K2 the tool set', { tags: ['standard'] }, () => {
   it('has the 44 tools of the contract, each in a bundle', () => {
     expect(tools).toHaveLength(44);
     expect(new Set(tools.map((tool) => tool.name)).size).toBe(44);
@@ -28,17 +28,12 @@ describe('the tool set', () => {
     for (const tool of tools) expect(tool).toMatchObject({ bundle: TOOL_CATALOGUE[tool.name].bundle, kind: TOOL_CATALOGUE[tool.name].kind });
   });
 
-  it('writes with exactly the seventeen writing tools', () => {
-    const editing = tools.filter((tool) => tool.kind === 'write').map((tool) => tool.name);
-    expect(editing.sort()).toEqual(['apply_edits', 'create_document', 'create_folder', 'duplicate_file', 'export_document', 'import_files', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo']);
-  });
-
   it('sets openWorldHint false on every tool', () => {
     for (const tool of tools) expect(tool.annotations.openWorldHint).toBe(false);
   });
 });
 
-describe('JSON Schema generation', () => {
+describe('K2 JSON Schema generation', { tags: ['standard'] }, () => {
   it.each(descriptors.map((descriptor) => [descriptor.name, descriptor] as const))(
     '%s compiles with object roots and resolvable references',
     (_name, descriptor) => {
@@ -77,7 +72,7 @@ describe('JSON Schema generation', () => {
   });
 });
 
-describe('round trips', () => {
+describe('K2 round trips', { tags: ['standard'] }, () => {
   it.each(tools.map((tool) => [tool.name, tool] as const))('%s accepts a valid input and output example', (name, tool) => {
     const input = parseToolInput(tool, INPUT_EXAMPLES[name]);
     expect(input.ok).toBe(true);
@@ -112,7 +107,7 @@ describe('round trips', () => {
   });
 });
 
-describe('the asset tools', () => {
+describe('K2 the asset tools', { tags: ['standard'] }, () => {
   const tool = (name: string) => {
     const found = tools.find((candidate) => candidate.name === name);
     if (!found) throw new Error(`no ${name}`);

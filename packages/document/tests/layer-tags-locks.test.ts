@@ -13,7 +13,7 @@ const patchStep = (layerId: string, pixels: number[]): CommandStep => ({
   options: { rect: { x: 0, y: 0, width: pixels.length, height: 1 }, pixels: new Uint8Array(pixels) },
 });
 
-describe('layer.update colour tags and the transparency lock', () => {
+describe('K1 layer.update colour tags and the transparency lock', { tags: ['critical'] }, () => {
   it('sets, changes and clears a colour tag in one undo step each', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.update', { layer: named('Body'), colour: '#F0718A' }));
@@ -44,7 +44,7 @@ describe('layer.update colour tags and the transparency lock', () => {
   });
 });
 
-describe('saving a layer with a tag and a lock', () => {
+describe('K3 saving a layer with a tag and a lock', { tags: ['critical'] }, () => {
   it('keeps the colour tag and the transparency lock through save and reopen', () => {
     const engine = layerEngine();
     apply(engine, layerStep('layer.update', { layer: named('Body'), colour: '#a78bf5', lockTransparency: true }));
@@ -56,7 +56,7 @@ describe('saving a layer with a tag and a lock', () => {
   });
 });
 
-describe('the transparency lock on painting', () => {
+describe('K1 the transparency lock on painting', { tags: ['critical'] }, () => {
   it('paints over painted pixels only, and neither fills empty ones nor erases painted ones', () => {
     const engine = layerEngine();
     const body = layerOf(engine, 'Body');

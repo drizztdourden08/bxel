@@ -18,7 +18,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('closing a project', () => {
+describe('K3 closing a project', { tags: ['standard'] }, () => {
   it('takes the folder grant of every folder of the project away', async () => {
     await openedProject(held);
     await linkFolderAt(held, SHARED);
@@ -43,7 +43,7 @@ describe('closing a project', () => {
   });
 });
 
-describe('opening a recent project', () => {
+describe('K3 opening a recent project', { tags: ['standard'] }, () => {
   it('restores the grant silently from the remembered folders and skips the folder window', async () => {
     withManifest(held.disk);
     held.disk.remembered.add(ROOT);
@@ -72,7 +72,7 @@ describe('opening a recent project', () => {
   });
 });
 
-describe('a new project', () => {
+describe('K3 a new project', { tags: ['standard'] }, () => {
   it('makes its role folders up front and names them in the project file', async () => {
     held.disk.granted.add(ROOT.toLowerCase());
     await createProject('Dungeon', ROOT);
@@ -90,7 +90,7 @@ describe('a new project', () => {
   });
 });
 
-describe('the title of a file in the project', () => {
+describe('K3 the title of a file in the project', { tags: ['standard'] }, () => {
   it('names the project when the file is inside one of its folders', async () => {
     await openedProject(held);
     expect(titleInProject('hero.bxel', `${ROOT}/sprites/hero.bxel`, currentProject())).toBe('hero.bxel in Dungeon');

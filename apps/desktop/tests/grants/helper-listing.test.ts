@@ -37,9 +37,7 @@ const narrowed = (tools: Grant['tools'], bundles: Partial<Grant['bundles']> = {}
   tools,
 });
 
-const settle = () => new Promise<void>((resolve) => setTimeout(resolve, 20));
-
-describe('the tools a program sees through the helper', () => {
+describe('S2 the tools a program sees through the helper', { tags: ['standard'] }, () => {
   it('lists every tool before it has a grant and declares that the list can change', async () => {
     const { names, client } = await open();
     expect(await names()).toHaveLength(buildTools(APP_COMMANDS).length - 1);
@@ -51,7 +49,7 @@ describe('the tools a program sees through the helper', () => {
     const { tracker, names, changes } = await open();
     await names();
     tracker.accept('s1', narrowed({ get_document: 'disabled' }, { files_saving: 'disabled' }));
-    await settle();
+    await names();
     expect(changes.count).toBe(1);
     const listed = await names();
     expect(listed).not.toContain('get_document');
@@ -64,10 +62,10 @@ describe('the tools a program sees through the helper', () => {
     tracker.accept('s1', PRESETS.full_control.grant);
     await names();
     tracker.follow('s2', narrowed({ undo: 'disabled' }));
-    await settle();
+    await names();
     expect(changes.count).toBe(0);
     tracker.follow('s1', narrowed({ undo: 'disabled' }));
-    await settle();
+    await names();
     expect(changes.count).toBe(1);
     expect(await names()).not.toContain('undo');
   });
@@ -84,7 +82,7 @@ describe('the tools a program sees through the helper', () => {
     tracker.accept('s1', PRESETS.full_control.grant);
     await names();
     tracker.accept('s1', narrowed({}));
-    await settle();
+    await names();
     expect(changes.count).toBe(0);
   });
 });

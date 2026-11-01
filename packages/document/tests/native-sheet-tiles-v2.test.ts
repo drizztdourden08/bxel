@@ -51,7 +51,7 @@ const paletteOf = (slice: AssetSlice): AssetSlice => {
   return sliceOf(decodePalette(encodeSlice({ kind: 'palette', id: bank.id, name: bank.name, artwork: { banks: [bank] }, links: [] })));
 };
 
-describe('sheet files', () => {
+describe('K3 sheet files', { tags: ['critical'] }, () => {
   it('round trips byte for byte, with its presets and its clip', () => {
     const bytes = encodeSheet(sliceNamed('Characters'), assetPreview, assetClock);
     const sprites = ['Hero', 'hero', 'Tree'].map((name) => sliceNamed(name));
@@ -106,7 +106,7 @@ describe('sheet files', () => {
   });
 });
 
-describe('tileset files', () => {
+describe('K3 tileset files', { tags: ['critical'] }, () => {
   it('round trips byte for byte with its tile sprites and its palette copy', () => {
     const slice = tilesetSlice();
     const bytes = encodeTileset(slice, assetPreview, assetClock);
@@ -126,7 +126,7 @@ describe('tileset files', () => {
   });
 });
 
-describe('tilemap files', () => {
+describe('K3 tilemap files', { tags: ['critical'] }, () => {
   it('round trips byte for byte, one cell file per layer', () => {
     const bytes = encodeTilemap(tilemapSlice(), assetPreview, assetClock);
     const report = decodeTilemap(bytes, tilesetSlice());

@@ -14,7 +14,7 @@ const documentText = (bytes: Uint8Array): string => strFromU8(unzipSync(bytes)['
 
 const save = (engine: ReturnType<typeof frameEngine>): Uint8Array => encodeArtwork(engine.state(), null, fixedClock);
 
-describe('tag colour in commands', () => {
+describe('K1 tag colour in commands', { tags: ['critical'] }, () => {
   it('adds a tag with a colour, lowercases it and undoes it', () => {
     const engine = frameEngine();
     const step = layerStep('tag.add', { name: 'jump', from: byIndex(0), to: byIndex(1), colour: '#3B82F6' });
@@ -55,7 +55,7 @@ describe('tag colour in commands', () => {
   });
 });
 
-describe('tag colour in the native file', () => {
+describe('K3 tag colour in the native file', { tags: ['critical'] }, () => {
   it('reads an old file with no colours and gives its tags no colour key', () => {
     const engine = frameEngine();
     const bytes = save(engine);

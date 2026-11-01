@@ -6,7 +6,7 @@ import { editDocument, editFiles, editManifest, pack } from './container-edit';
 import { firstCode } from './first-code';
 import { encodeHeart, artworkOf } from './native-fixture';
 
-describe('native open checks: the archive', () => {
+describe('S3 native open checks: the archive', { tags: ['standard'] }, () => {
   it('rejects bytes that are not a zip', () => {
     const report = decodeArtwork(Uint8Array.from([1, 2, 3, 4, 5]));
     expect(report.outcome).toBe('fatal');
@@ -53,7 +53,7 @@ describe('native open checks: the archive', () => {
   });
 });
 
-describe('native open checks: versions', () => {
+describe('S3 native open checks: versions', { tags: ['standard'] }, () => {
   it('opens a newer file read-only when the minimum reader version is known', () => {
     const bytes = editManifest(encodeHeart(), (manifest) => {
       manifest.formatVersion = 2;
@@ -77,7 +77,7 @@ describe('native open checks: versions', () => {
   });
 });
 
-describe('native open checks: entries and document', () => {
+describe('S3 native open checks: entries and document', { tags: ['standard'] }, () => {
   it('reports a missing document.json', () => {
     const bytes = editFiles(encodeHeart(), (files) => {
       delete files['document.json'];

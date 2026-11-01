@@ -23,7 +23,7 @@ const storeAt = (level: TrustLevel, programs: TrustEntry[] = []): TrustStore => 
 
 const launch: LaunchApproval[] = [{ key: 'pixel-agent', grant: grantOfMode('edit') }];
 
-describe('program keys', () => {
+describe('K4 program keys', { tags: ['critical'] }, () => {
   it('trims, lowercases and collapses inner spaces', () => {
     expect(programKey('  Pixel   Agent ')).toBe('pixel agent');
     expect(programKey('pixel-agent')).toBe('pixel-agent');
@@ -41,7 +41,7 @@ describe('program keys', () => {
   });
 });
 
-describe('level: ask for every connection', () => {
+describe('K4 level: ask for every connection', { tags: ['critical'] }, () => {
   const store = storeAt('ask_every', [entry('pixel-agent', 'edit')]);
 
   it('asks even for a remembered program and remembers nothing', () => {
@@ -54,7 +54,7 @@ describe('level: ask for every connection', () => {
   });
 });
 
-describe('level: ask once until Bxel quits', () => {
+describe('K4 level: ask once until Bxel quits', { tags: ['critical'] }, () => {
   const store = storeAt('ask_once_session', [entry('pixel-agent', 'edit')]);
 
   it('asks the first time and offers to remember for this launch', () => {
@@ -75,7 +75,7 @@ describe('level: ask once until Bxel quits', () => {
   });
 });
 
-describe('level: ask once and remember (default)', () => {
+describe('K4 level: ask once and remember (default)', { tags: ['critical'] }, () => {
   it('is the default level', () => {
     expect(DEFAULT_TRUST_STORE.level).toBe('ask_once_remember');
     expect(DEFAULT_TRUST_STORE.allowAllMode).toBe('read');
@@ -107,7 +107,7 @@ describe('level: ask once and remember (default)', () => {
   });
 });
 
-describe('level: allow all', () => {
+describe('K4 level: allow all', { tags: ['critical'] }, () => {
   it('pairs any program with the allow all mode, read only by default', () => {
     const store = storeAt('allow_all');
     const grant = grantOfMode('read');

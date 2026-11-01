@@ -52,7 +52,7 @@ const built = (patch: Partial<HeaderInput>, given = actions()): HeaderModel => {
 
 const labels = (model: HeaderModel): string[] => model.crumbs.map((crumb) => crumb.label);
 
-describe('the stage header of a sprite', () => {
+describe('K1 the stage header of a sprite', { tags: ['critical'] }, () => {
   it('shows nothing without an open asset', () => {
     expect(buildHeader(input({ surface: 'none' }), actions())).toBeNull();
   });
@@ -119,10 +119,9 @@ describe('the stage header of a sprite', () => {
   it('says when the grid is hidden at this zoom', () => {
     expect(built({ hiddenGrids: true }).chips.map((chip) => chip.text)).toEqual(['Grid hidden at this zoom']);
   });
-
 });
 
-describe('the stage header of an animation frame and a sheet', () => {
+describe('K1 the stage header of an animation frame and a sheet', { tags: ['critical'] }, () => {
   it('shows the path of an animation frame with the shared sprite notes and actions', () => {
     const given = actions();
     const model = built({
@@ -152,10 +151,9 @@ describe('the stage header of an animation frame and a sheet', () => {
     expect(labels(model)).toEqual(['World']);
     expect(model.chips.map((chip) => chip.text)).toEqual(['2 sprites selected']);
   });
-
 });
 
-describe('the stage header of a tile and a map', () => {
+describe('K1 the stage header of a tile and a map', { tags: ['critical'] }, () => {
   it('shows the edit scope menus after the sheet when several sprites are selected', () => {
     const model = built({ surface: 'sheet', assetName: 'World', sheetSelected: 3, sprite: sprite({ multi: true, count: 3, spritesScope: 'selected' }) });
     expect(labels(model)).toEqual(['World', 'Sprites: 3 selected', 'Layers: Body']);

@@ -8,7 +8,7 @@ import { LONELY, MUSHROOM, MUSHROOM_B, apply, celPixels, expectUndoRedo, layerEn
 const FIRST = brand<FrameId>('frm_000110');
 const SECOND = brand<FrameId>('frm_000111');
 
-describe('layer.duplicate', () => {
+describe('K1 layer.duplicate', { tags: ['critical'] }, () => {
   it('copies the layer above the source with fresh cels and equal pixels', () => {
     const engine = layerEngine();
     const source = layerOf(engine, 'Body');
@@ -69,7 +69,7 @@ describe('layer.duplicate', () => {
   });
 });
 
-describe('layer.flatten', () => {
+describe('K1 layer.flatten', { tags: ['critical'] }, () => {
   it('adds a top layer holding the visible layers composited, frame by frame', () => {
     const engine = layerEngine();
     const first = flattenFrame(sprite(engine), FIRST);

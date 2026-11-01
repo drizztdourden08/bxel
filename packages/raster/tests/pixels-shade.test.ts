@@ -12,7 +12,7 @@ const across = (y: number) => [{ x: 0, y }, { x: 3, y }];
 const shade = (extra: Record<string, unknown>) => stepOf('pixels.shade', scope, { ramp: 'Violet', points: across(0), brush: BRUSH, ...extra });
 const rowsOf = (engine: ReturnType<typeof pixelEngine>) => celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
 
-describe('pixels.shade', () => {
+describe('K2 pixels.shade', { tags: ['critical'] }, () => {
   test('steps the stroke one place up the ramp as one undo step', () => {
     const engine = pixelEngine(rampArtwork(ROWS));
     const original = engine.state().artwork;
@@ -47,7 +47,7 @@ describe('pixels.shade', () => {
 
 });
 
-describe('pixels.shade ramps and guards', () => {
+describe('K2 pixels.shade ramps and guards', { tags: ['critical'] }, () => {
   test('matches the ramp name without regard to case', () => {
     const engine = pixelEngine(rampArtwork(ROWS));
     okOf(engine.execute(request([shade({ direction: 'up', ramp: ' violet ' })])));

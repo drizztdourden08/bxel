@@ -42,7 +42,7 @@ const rgbs = (bank: PaletteBank): string[] => bank.slots.flatMap((slot) => (slot
 
 const hex = (index: number): string => `#00${(index + 16).toString(16).padStart(2, '0')}00`;
 
-describe('the load plan', () => {
+describe('S2 the load plan', { tags: ['standard'] }, () => {
   it('appends only colours the palette does not hold yet, in order', () => {
     const bank = bankOf(roomy());
     const plan = loadPlan(bank, colors(rgbs(bank)[0] ?? '#000000', '#010203', '#010203', '#040506'), 'append');
@@ -76,7 +76,7 @@ describe('the load plan', () => {
   });
 });
 
-describe('loading a set into the open palette', () => {
+describe('S2 loading a set into the open palette', { tags: ['standard'] }, () => {
   it('appends the colours as one undo step', () => {
     const open = roomy();
     const bank = bankOf(open);

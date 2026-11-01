@@ -10,7 +10,7 @@ const iso: MapOrientationInput = { kind: 'isometric', staggerAxis: 'y', staggerI
 const staggered: MapOrientationInput = { kind: 'staggered', staggerAxis: 'x', staggerIndex: 'even', hexSideLength: 0 };
 const hex: MapOrientationInput = { kind: 'hexagonal', staggerAxis: 'y', staggerIndex: 'odd', hexSideLength: 4 };
 
-describe('map orientation in the Tiled JSON', () => {
+describe('K2 map orientation in the Tiled JSON', { tags: ['critical'] }, () => {
   it('stays orthogonal without an orientation', () => {
     const map = parseTiled(writeTiledJson(makeMapInput([5, 9, 0, 12])));
     expect(map.orientation).toBe('orthogonal');
@@ -32,7 +32,7 @@ describe('map orientation in the Tiled JSON', () => {
   });
 });
 
-describe('map orientation in the Bxel map JSON', () => {
+describe('K2 map orientation in the Bxel map JSON', { tags: ['critical'] }, () => {
   it('lists the orientation only when the map has one', () => {
     expect(parseMap(writeTilemapJson(withOrientation(hex)))).toMatchObject({ orientation: hex });
     expect(parseMap(writeTilemapJson(makeMapInput([5, 9, 0, 12])))).not.toHaveProperty('orientation');

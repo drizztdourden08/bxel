@@ -37,7 +37,7 @@ const itemOf = (items: readonly PackedItem[], key: string): PackedItem => {
   return found;
 };
 
-describe('packing with rotation', () => {
+describe('K1 packing with rotation', { tags: ['critical'] }, () => {
   const tall = { key: 'tall', width: 4, height: 12 };
   const wide = { key: 'wide', width: 12, height: 4 };
 
@@ -99,7 +99,7 @@ describe('packing with rotation', () => {
   });
 });
 
-describe('rendering and writing a turned sprite', () => {
+describe('K1 rendering and writing a turned sprite', { tags: ['critical'] }, () => {
   const sprites = [
     makeExportSprite({ name: 'tall', width: 4, height: 12, frames: 1 }),
     makeExportSprite({ name: 'wide', width: 12, height: 4, frames: 1 }),
@@ -161,7 +161,7 @@ describe('rendering and writing a turned sprite', () => {
   });
 });
 
-describe('exportSheet without rotation', () => {
+describe('K1 exportSheet without rotation', { tags: ['critical'] }, () => {
   it('writes the flag as false on every frame', () => {
     const sheet = mustExport(request());
     expect(framesOf(sheet.metadata).every((frame) => !frame.rotated)).toBe(true);

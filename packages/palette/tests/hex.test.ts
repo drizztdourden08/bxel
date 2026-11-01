@@ -2,7 +2,7 @@
 import { formatHex, isHexColor, parseHex } from '@bxel/palette';
 import { describe, expect, it } from 'vitest';
 
-describe('hex helpers', () => {
+describe('K1 hex helpers', { tags: ['critical'] }, () => {
   it('parses lowercase and uppercase #rrggbb', () => {
     expect(parseHex('#ff8000')).toBe(0xff8000);
     expect(parseHex('#FF8000')).toBe(0xff8000);

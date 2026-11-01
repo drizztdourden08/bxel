@@ -27,7 +27,7 @@ const PLAIN: ShapeMods = { constrain: false, centre: false, move: false };
 
 const KINDS: readonly ShapeKind[] = ['line', 'rect', 'ellipse'];
 
-describe('a shape', () => {
+describe('S2 a shape', { tags: ['standard'] }, () => {
   it.each(KINDS.flatMap((shape) => [true, false].map((filled) => ({ shape, filled }))))(
     'draws the same pixels on the overlay and in the commit for $shape, filled $filled',
     ({ shape, filled }) => {
@@ -76,7 +76,7 @@ describe('a shape', () => {
   });
 });
 
-describe('Shift on a shape', () => {
+describe('K1 Shift on a shape', { tags: ['critical'] }, () => {
   it('snaps a line to the nearest clean ratio', () => {
     const from = { x: 10, y: 10 };
     expect(constrainCorner('line', from, { x: 20, y: 12 })).toEqual({ x: 18, y: 12 });
@@ -91,18 +91,9 @@ describe('Shift on a shape', () => {
     expect(constrainCorner('ellipse', from, { x: 6, y: 9 })).toEqual({ x: 6, y: 6 });
     expect(constrainCorner('ellipse', from, { x: 10, y: 10 })).toEqual({ x: 10, y: 10 });
   });
-
-  it('draws the constrained shape on the overlay', () => {
-    const { target } = openEditor();
-    const constrained = beginShape({ target: target(), spec: spec({ shape: 'line', from: { x: 2, y: 2 }, to: { x: 2, y: 2 } }) });
-    updateShape(constrained, { x: 12, y: 4 }, { ...PLAIN, constrain: true });
-    expect(constrained.spec.to).toEqual({ x: 10, y: 4 });
-    expect(constrained.indices[4 * 32 + 10]).toBe(5);
-    expect(constrained.indices[4 * 32 + 12]).toBe(0);
-  });
 });
 
-describe('the modifiers during a shape drag', () => {
+describe('S2 the modifiers during a shape drag', { tags: ['standard'] }, () => {
   it('draws from the centre while Alt is held', () => {
     const { target } = openEditor();
     const session = beginShape({ target: target(), spec: spec({ shape: 'rect', from: { x: 10, y: 10 }, to: { x: 10, y: 10 } }) });

@@ -18,7 +18,7 @@ const sliceOf = (layers: Tilemap['layers']): AssetSlice => ({
   links: [{ id: tilesetId, path: '../tiles/map.bxtileset' }],
 });
 
-describe('tilemap layer bytes are cached by the cells buffer', () => {
+describe('K1 tilemap layer bytes are cached by the cells buffer', { tags: ['critical'] }, () => {
   it('gives the same digest and file bytes on a repeat and for an equal copy', () => {
     const cells = [cellsOf(0), cellsOf(1)];
     const slice = sliceOf(cells.map((each, row) => layerOf(row, each)));

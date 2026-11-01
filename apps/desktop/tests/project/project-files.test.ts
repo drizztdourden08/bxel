@@ -21,7 +21,7 @@ beforeEach(() => {
   held.disk.dirs.add(ROOT);
 });
 
-describe('a new file in the project', () => {
+describe('K3 a new file in the project', { tags: ['standard'] }, () => {
   beforeEach(async () => {
     withManifest(held.disk);
     held.disk.picks.folder = ROOT;
@@ -77,7 +77,7 @@ describe('a new file in the project', () => {
   });
 });
 
-describe('the project rows of the assistant settings', () => {
+describe('K3 the project rows of the assistant settings', { tags: ['standard'] }, () => {
   const recent = (name: string, rootRealPath: string, projectId = manifestOf().projectId) => ({
     projectId,
     name,
@@ -96,7 +96,7 @@ describe('the project rows of the assistant settings', () => {
   });
 });
 
-describe('the Project menu', () => {
+describe('K3 the Project menu', { tags: ['standard'] }, () => {
   it('leads with New, Open and Open recent, and closes only an open project', () => {
     const item = projectMenu([], false, () => undefined);
     const keys = (item.children ?? []).map((child) => (child === 'separator' ? child : child.key));
@@ -117,7 +117,7 @@ describe('the Project menu', () => {
   });
 });
 
-describe('file sizes', () => {
+describe('K3 file sizes', { tags: ['standard'] }, () => {
   it('reads in bytes, kilobytes and megabytes', () => {
     expect([0, 999, 1024, 1536, 10240, 5 * 1024 * 1024].map(formatSize)).toEqual(['0 B', '999 B', '1.0 KB', '1.5 KB', '10 KB', '5.0 MB']);
   });

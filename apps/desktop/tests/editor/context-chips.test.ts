@@ -16,7 +16,7 @@ beforeEach(() => {
   resetEditor();
 });
 
-describe('the layer crumb and chips of the stage header, read from the live document', () => {
+describe('S2 the layer crumb and chips of the stage header, read from the live document', { tags: ['standard'] }, () => {
   it('names the layer with no note and no chip for a normal layer', () => {
     expect(layerCrumb(header(), noActions)).toMatchObject({ label: 'Layer 1', note: undefined });
     expect(layerChips(header(), noActions, false)).toEqual([]);

@@ -11,7 +11,7 @@ const fileOf = (files: readonly SplitFile[], name: string): SplitFile => {
   return found;
 };
 
-describe('splitIntoAssets', () => {
+describe('K3 splitIntoAssets', { tags: ['critical'] }, () => {
   it('writes one file per palette, sprite, sheet, tileset and tilemap', () => {
     const artwork = legacyArtwork();
     expect(artwork.sprites.filter((sprite) => sprite.role === 'sprite')).toHaveLength(6);
@@ -58,7 +58,7 @@ describe('splitIntoAssets', () => {
   });
 });
 
-describe('merging the split files back', () => {
+describe('K3 merging the split files back', { tags: ['critical'] }, () => {
   it('rebuilds an equal artwork from the slices', () => {
     const artwork = legacyArtwork();
     const plan = splitIntoAssets(artwork);

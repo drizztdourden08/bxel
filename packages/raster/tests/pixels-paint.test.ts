@@ -18,7 +18,7 @@ const markStep = (index = 6) =>
     { index, points: [{ x: 2, y: 2 }, { x: 3, y: 2 }], brush: { shape: 'square', size: 1 }, pixelPerfect: false },
   );
 
-describe('pixels.paint on the heart pair', () => {
+describe('K2 pixels.paint on the heart pair', { tags: ['critical'] }, () => {
   test('paints both hearts by layer name in one revision and one history entry', () => {
     const engine = pixelEngine(heartArtwork());
     const before = engine.state().artwork;
@@ -78,7 +78,7 @@ describe('pixels.paint on the heart pair', () => {
   });
 });
 
-describe('pixels.paint rejections', () => {
+describe('K2 pixels.paint rejections', { tags: ['critical'] }, () => {
   test('refuses an index at the palette size and lists every target sprite', () => {
     const engine = pixelEngine(heartArtwork());
     const before = engine.state().artwork;

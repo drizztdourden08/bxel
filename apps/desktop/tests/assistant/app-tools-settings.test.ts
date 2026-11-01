@@ -45,7 +45,7 @@ beforeEach(() => {
   fake.sourceStore.set('sprite.name', 'hero');
 });
 
-describe('get_settings', () => {
+describe('S2 get_settings', { tags: ['standard'] }, () => {
   it('lists the app pages with values, and keeps the assistant and keymap values to itself', async () => {
     const seen = await ok('get_settings', { scope: 'app', schema: true });
     const items = (seen.pages as { sections: { items: Record<string, unknown>[] }[] }[])[0]?.sections[0]?.items ?? [];
@@ -73,7 +73,7 @@ describe('get_settings', () => {
   });
 });
 
-describe('set_setting', () => {
+describe('S2 set_setting', { tags: ['standard'] }, () => {
   it('writes an app setting through Brock and returns the stored value', async () => {
     const done = await ok('set_setting', { scope: 'app', key: 'gridSize', value: 16 });
     expect(done).toMatchObject({ scope: 'app', key: 'gridSize', shown: false });

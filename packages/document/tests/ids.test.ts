@@ -2,7 +2,7 @@
 import { counterIdSource, forkIdSource, ID_PREFIX, isId, randomIdSource } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 
-describe('id sources', () => {
+describe('K1 id sources', { tags: ['critical'] }, () => {
   it('counts with one shared counter', () => {
     const ids = counterIdSource();
     expect(ids.next('art')).toBe('art_000001');

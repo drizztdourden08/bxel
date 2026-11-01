@@ -38,7 +38,7 @@ const packed = (manifest: ProjectDocument = sampleDocument()) => {
   return planned.value;
 };
 
-describe('pack', () => {
+describe('K3 pack', { tags: ['critical'] }, () => {
   it('adds every native asset under every folder as assets/<folder>/<path> and nothing else', () => {
     const plan = packed();
     expect(plan.operations.map((operation) => operation.entry)).toEqual([
@@ -87,7 +87,7 @@ describe('pack', () => {
   });
 });
 
-describe('pack then unpack', () => {
+describe('K3 pack then unpack', { tags: ['critical'] }, () => {
   it('reproduces the tree', () => {
     const files = tree();
     const { rebuilt, orphans } = roundTrip(files, 'C:/Work/Out');

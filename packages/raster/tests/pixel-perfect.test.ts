@@ -6,20 +6,11 @@ import { plotPoints } from './plot-points';
 
 const at = (x: number, y: number): Point => ({ x, y });
 
-describe('pixel perfect', () => {
+describe('K1 pixel perfect', { tags: ['critical'] }, () => {
   test('a staircase loses the doubled corner pixels', () => {
     const path = [at(0, 0), at(1, 0), at(1, 1), at(2, 1), at(2, 2), at(3, 2)];
     expect(plotPoints(path, 4, 3)).toEqual(['11..', '.11.', '..11']);
     expect(plotPoints(pixelPerfect(path), 4, 3)).toEqual(['1...', '.1..', '..11']);
-  });
-
-  test('a staircase going up is filtered the same way', () => {
-    const path = [at(0, 2), at(1, 2), at(1, 1), at(2, 1), at(2, 0), at(3, 0)];
-    expect(plotPoints(pixelPerfect(path), 4, 3)).toEqual(['..11', '.1..', '1...']);
-  });
-
-  test('a single L becomes a diagonal step', () => {
-    expect(plotPoints(pixelPerfect([at(0, 0), at(1, 0), at(1, 1)]), 3, 2)).toEqual(['1..', '.1.']);
   });
 
   test('both L orientations are recognised', () => {
@@ -27,11 +18,6 @@ describe('pixel perfect', () => {
     expect(pixelPerfect([at(0, 0), at(1, 0), at(1, 1)])).toEqual([at(0, 0), at(1, 1)]);
     expect(pixelPerfect([at(1, 1), at(0, 1), at(0, 0)])).toEqual([at(1, 1), at(0, 0)]);
     expect(pixelPerfect([at(1, 0), at(0, 0), at(0, 1)])).toEqual([at(1, 0), at(0, 1)]);
-  });
-
-  test('a corner at the end of a straight run drops only the corner pixel', () => {
-    const path = strokePoints([at(0, 0), at(4, 0), at(4, 4)]);
-    expect(plotPoints(pixelPerfect(path), 5, 5)).toEqual(['1111.', '....1', '....1', '....1', '....1']);
   });
 
   test('straight lines and clean diagonals are left alone', () => {

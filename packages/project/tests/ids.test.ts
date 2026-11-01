@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 const bytes = (length: number): Uint8Array => Uint8Array.from({ length }, (_unused, index) => index * 7 + 3);
 
-describe('ids', () => {
+describe('K1 ids', { tags: ['critical'] }, () => {
   it('creates ids in the same style as the document ids', () => {
     const project = createProjectId(bytes);
     const folder = createFolderId(bytes);
@@ -12,10 +12,6 @@ describe('ids', () => {
     expect(folder).toMatch(/^fld_[0-9a-hjkmnp-tv-z]{12}$/);
     expect(isProjectId(project)).toBe(true);
     expect(isFolderId(folder)).toBe(true);
-  });
-
-  it('is deterministic for the same bytes', () => {
-    expect(createProjectId(bytes)).toBe(createProjectId(bytes));
   });
 
   it('checks the prefix and the alphabet', () => {

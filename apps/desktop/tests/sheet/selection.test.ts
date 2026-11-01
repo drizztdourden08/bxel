@@ -17,7 +17,7 @@ import { idOf, lastNotice, openFile } from './sheet-harness';
 
 const order = (names: readonly string[]): SpriteId[] => names.map((name) => name as SpriteId);
 
-describe('the pick reducer', () => {
+describe('K1 the pick reducer', { tags: ['critical'] }, () => {
   const list = order(['a', 'b', 'c', 'd', 'e']);
   const base = { order: list, selected: [], anchor: null, active: null } as const;
 
@@ -44,7 +44,7 @@ describe('the pick reducer', () => {
   });
 });
 
-describe('picking sprites in the open file', () => {
+describe('S2 picking sprites in the open file', { tags: ['standard'] }, () => {
   beforeEach(() => openFile(['cap_red', 'cap_pink', 'cap_violet']));
 
   it('lists the first sprite as the active one and edits the picked sprite', () => {
@@ -96,7 +96,7 @@ describe('picking sprites in the open file', () => {
   });
 });
 
-describe('the modes', () => {
+describe('S2 the modes', { tags: ['standard'] }, () => {
   it('opens the sheet canvas for a sheet with one sprite', () => {
     openFile([]);
     expect(switchMode('sheet')).toBe(true);

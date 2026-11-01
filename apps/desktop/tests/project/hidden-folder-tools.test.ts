@@ -52,7 +52,7 @@ beforeEach(async () => {
   current = await openSharedRig(seed);
 });
 
-describe('a sprite in a folder the assistant may not see', () => {
+describe('K4 a sprite in a folder the assistant may not see', { tags: ['standard'] }, () => {
   it('opens in the workspace for the owner, so the guard has something to hide', () => {
     const view = current.rig.kit.host.view(documentId());
     expect(view?.state.artwork.sprites.map((sprite) => sprite.id)).toContain(hiddenSprite().id);
@@ -105,7 +105,7 @@ describe('a sprite in a folder the assistant may not see', () => {
   });
 });
 
-describe('a project whose every folder is hidden', () => {
+describe('K4 a project whose every folder is hidden', { tags: ['standard'] }, () => {
   beforeEach(async () => {
     const owner = manifestOf();
     current = await toolRig({ manifest: { ...owner, assistant: { ...owner.assistant, folders: [] } }, seed });

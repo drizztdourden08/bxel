@@ -8,7 +8,7 @@ import { apply, expectUndoRedo, plain, rejection } from './sheet-engine';
 
 const bank = { name: 'Dusk', cap: 16, transparent: true, colors: [{ rgb: '#140b26' }] };
 
-describe('artwork platform id', () => {
+describe('K1 artwork platform id', { tags: ['critical'] }, () => {
   it('is set when the artwork is created and absent otherwise', () => {
     const made = artworkCreate({ options: { name: 'hero', platformId: 'snes-sprite', bank }, ids: counterIdSource() });
     expect(made.ok && made.state.artwork.platformId).toBe('snes-sprite');
@@ -38,7 +38,7 @@ describe('artwork platform id', () => {
 
 });
 
-describe('artwork platform strict switch', () => {
+describe('K1 artwork platform strict switch', { tags: ['critical'] }, () => {
   it('keeps the strict switch with the platform, off by default, one undo step each', () => {
     const { engine } = heartEngine();
     expect(engine.state().artwork.platformStrict).toBeUndefined();
@@ -69,7 +69,7 @@ describe('artwork platform strict switch', () => {
 
 });
 
-describe('artwork platform id in a file', () => {
+describe('K3 artwork platform id in a file', { tags: ['critical'] }, () => {
   it('survives a save and a load, and an old file reads without it', () => {
     const { engine } = heartEngine();
     apply(engine, plain('artwork.update', { platformId: 'nes-sprite' }));

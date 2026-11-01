@@ -34,7 +34,7 @@ beforeEach(() => {
   patch('c', dot(1, 1), 1);
 });
 
-describe('finding identical sprites', () => {
+describe('S2 finding identical sprites', { tags: ['standard'] }, () => {
   it('groups sprites with the same pixels, size and palette', () => {
     expect(named(findIdentical(artwork().sprites, false))).toEqual([['a', 'b']]);
   });
@@ -54,7 +54,7 @@ describe('finding identical sprites', () => {
   });
 });
 
-describe('selecting duplicates', () => {
+describe('S2 selecting duplicates', { tags: ['standard'] }, () => {
   it('picks all but the first of each group', () => {
     expect(selectDuplicates(artwork().sprites, false)).toBe(true);
     expect(chosen()).toEqual(['b']);
@@ -81,7 +81,7 @@ describe('selecting duplicates', () => {
   });
 });
 
-describe('comparing two sprites', () => {
+describe('S2 comparing two sprites', { tags: ['standard'] }, () => {
   it('says identical, flipped, different and different in size', () => {
     const art = artwork();
     expect(compareSprites(art, spriteOf('a'), spriteOf('b'))).toMatchObject({ identical: true, flippedAs: null, differing: 0 });

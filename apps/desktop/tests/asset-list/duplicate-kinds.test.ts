@@ -59,7 +59,7 @@ const found = <T>(value: T | undefined): T => {
 
 const rowKind = (rows: readonly AssetRow[], kind: string): AssetRow => found(rows.find((each) => each.kind === kind));
 
-describe('Duplicate for palettes, tilesets and tilemaps', () => {
+describe('S2 Duplicate for palettes, tilesets and tilemaps', { tags: ['standard'] }, () => {
   it('is offered for every loaded asset kind', async () => {
     const rows = await rowsOf();
     const offered = ['palette', 'tileset', 'tilemap'].map((kind) => canDuplicate(rowKind(rows, kind)));

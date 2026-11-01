@@ -6,7 +6,7 @@ import { applySteps, buildWorld, cellsOf, failure, layerOf, mapOf, onGround, ste
 const ground = { by: 'name', name: 'Ground' } as const;
 const top = { by: 'name', name: 'Top' } as const;
 
-describe('map.layer.update colour tags', () => {
+describe('K1 map.layer.update colour tags', { tags: ['critical'] }, () => {
   it('sets and clears a colour tag', () => {
     const { engine, map } = buildWorld();
     applySteps(engine, [step('map.layer.update', { tilemap: map, layer: ground, colour: '#E8B84A' })]);
@@ -16,7 +16,7 @@ describe('map.layer.update colour tags', () => {
   });
 });
 
-describe('map.layer.duplicate', () => {
+describe('K1 map.layer.duplicate', { tags: ['critical'] }, () => {
   it('copies the cells and the tag above the source, unlocked, in one undo step', () => {
     const world = buildWorld();
     const { engine, map } = world;
@@ -35,7 +35,7 @@ describe('map.layer.duplicate', () => {
   });
 });
 
-describe('map.layer.merge', () => {
+describe('K1 map.layer.merge', { tags: ['critical'] }, () => {
   it('joins a layer into the one below, where the top layer wins a set cell', () => {
     const world = buildWorld();
     const { engine, map } = world;

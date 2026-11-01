@@ -11,7 +11,7 @@ import { OPTION_SPECS } from '../../src/editor/tool-options/option-specs.constan
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../keymap/brock-react-mock')).brockReactMock());
 
-describe('the toolbar items', () => {
+describe('K1 the toolbar items', { tags: ['critical'] }, () => {
   it('take the name and the description of a hint and keep the key off the label', () => {
     const face = hintFace({ name: 'Mirror X', description: 'Mirror strokes.', shortcuts: [{ keys: ['shift'], label: 'Hold' }] });
     expect(face).toEqual({ label: 'Mirror X', description: 'Mirror strokes.', shortcut: ['shift'] });

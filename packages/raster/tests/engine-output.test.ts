@@ -41,7 +41,7 @@ const run = (): string[] => {
   return out;
 };
 
-describe('stroke output on a 320 sprite', () => {
+describe('S2 stroke output on a 320 sprite', { tags: ['standard'] }, () => {
   test('every commit, preview, undo and redo stays byte for byte the same', () => {
     expect(run().join(' ')).toBe(WANT);
   });

@@ -20,7 +20,7 @@ const frameTag = (json: string): JsonObject => {
   return (meta['frameTags'] as JsonObject[])[0] ?? {};
 };
 
-describe('sheet tag colour', () => {
+describe('K2 sheet tag colour', { tags: ['critical'] }, () => {
   it('writes the colour into the Aseprite style frameTags with full alpha', () => {
     const sheet = mustExport(request({ flavour: 'hash', sprites: coloured('#3b82f6') }));
     expect(frameTag(sheet.json)['color']).toBe('#3b82f6ff');

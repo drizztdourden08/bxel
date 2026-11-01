@@ -63,7 +63,7 @@ const movesRenamesAndUndoes = async (session: Session, place: string): Promise<v
   await expect.poll(() => existsSync(spritePath) && linkTargets(sheetPath).includes(spritePath), POLL).toBe(true);
 };
 
-describe('moving and renaming a sprite that a sheet uses', () => {
+describe('E1 move and rename a project file', { tags: ['e2e'] }, () => {
   const rig = useRig(async () => ({ session: await openSession() }));
 
   test('keeps the sheet linked through a move, a rename and each undo', () => inFreshPlace((place) => movesRenamesAndUndoes(rig().session, place)));

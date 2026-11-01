@@ -30,7 +30,7 @@ beforeEach(() => {
   useSliceToolStore.setState({ selected: null, dialog: null });
 });
 
-describe('slices made on the canvas and through commands', () => {
+describe('S2 slices made on the canvas and through commands', { tags: ['standard'] }, () => {
   it('keep the same data whichever way they are made', () => {
     const id = addSliceRect(RECT);
     expect(id).not.toBeNull();
@@ -64,7 +64,7 @@ describe('slices made on the canvas and through commands', () => {
   });
 });
 
-describe('slice rectangles', () => {
+describe('S2 slice rectangles', { tags: ['standard'] }, () => {
   it('find the topmost slice under a point and the handle near an edge', () => {
     addSliceRect(RECT);
     expect(sliceAt({ x: 3, y: 3 })).not.toBeNull();
@@ -86,7 +86,7 @@ describe('slice rectangles', () => {
   });
 });
 
-describe('snapping a slice edge to a guide', () => {
+describe('S2 snapping a slice edge to a guide', { tags: ['standard'] }, () => {
   it('lands on a guide within 4 screen pixels when Snap is on, and rounds otherwise', () => {
     rig.host.execute(commitRequest(rig.target(), 'Guide', { name: COMMAND_NAME.guideAdd, options: { axis: 'x', position: 5 } }));
     useViewStore.setState({ snap: true, guides: true });

@@ -13,7 +13,7 @@ const stateWith = (raw: unknown, receivedAt: number = NOW) => ({ handoff: readHa
 
 const note = (overrides: Record<string, unknown> = {}) => ({ kind: 'assistant-restart', key: 'sample agent', grant, at: NOW, ...overrides });
 
-describe('the restart handoff', () => {
+describe('K1 the restart handoff', { tags: ['critical'] }, () => {
   it('pairs the same program again at the same grant, once, without a prompt', () => {
     const state = stateWith(note());
     const first = inheritedPairing(state, { name: 'Sample Agent', version: '1' }, NOW + 5000);
