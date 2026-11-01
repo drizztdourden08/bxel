@@ -36,6 +36,7 @@ const input = (patch: Partial<HeaderInput> = {}): HeaderInput => ({
   assetName: 'Hero',
   readOnly: false,
   hiddenGrids: false,
+  assistant: null,
   sprite: sprite(),
   animation: null,
   sheetSelected: 0,
@@ -118,6 +119,10 @@ describe('K1 the stage header of a sprite', { tags: ['critical'] }, () => {
 
   it('says when the grid is hidden at this zoom', () => {
     expect(built({ hiddenGrids: true }).chips.map((chip) => chip.text)).toEqual(['Grid hidden at this zoom']);
+  });
+
+  it('names the assistant action while it is fresh', () => {
+    expect(built({ assistant: 'Claude Code: Flip horizontal' }).chips.map((chip) => chip.text)).toEqual(['Claude Code: Flip horizontal']);
   });
 });
 
