@@ -3,6 +3,7 @@ import { ERROR_CODE, flattenFrame } from '@bxel/document';
 import { encodeBase64, hiddenFailure, MCP_ERROR_CODE, mcpFailure, RENDER_PNG_BYTES_MAX } from '@bxel/mcp';
 import type { ToolHandler } from '../assistant.type';
 import { framePng } from './frame-png';
+import { previewThrough } from './preview-through';
 import { renderAnimation } from './render-animation';
 import { renderTilesetPreview } from './render-tileset-preview';
 import { renderSheetPreview } from './render-sheet-preview';
@@ -25,7 +26,9 @@ const renderPreview: ToolHandler = async (input, context) => {
   if (!('spriteId' in target)) return reply(mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.formatMissing, { path: 'target' }));
   const found = spriteFrame(view.state.artwork, target.spriteId, target.frameId, hiddenAssets(context, documentId));
   if (!found.ok) return reply(found);
-  const png = framePng(found.value, scale);
+  const through = previewThrough(view.state.artwork, found.value, request.bankId);
+  if (!through.ok) return reply(through);
+  const png = framePng(through.value, scale);
   if (!png.ok) return reply(png);
   if (png.value.bytes.length > RENDER_PNG_BYTES_MAX) return reply(mcpFailure(MCP_ERROR_CODE.RESULT_TOO_LARGE, TOOL_TEXT.pngTooLarge));
   const { sprite, frameId } = found.value;

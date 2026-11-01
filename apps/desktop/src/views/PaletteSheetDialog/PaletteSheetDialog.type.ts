@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { EditorTarget } from '../../editor/editor.type';
+import type { PaletteTarget } from '../../editor/editor.type';
 import type { SheetPlan } from '../../palette-panel/palette-panel.type';
 import type { PaletteSheetRequest } from '../../stores/palette-panel-store.type';
 
@@ -13,7 +13,12 @@ interface SheetState {
 
 interface SheetDialogProps {
   request: PaletteSheetRequest;
-  target: EditorTarget;
+  target: PaletteTarget;
+}
+
+interface MoveFieldProps {
+  request: PaletteSheetRequest;
+  count: number;
 }
 
 interface SheetProblemProps {
@@ -26,4 +31,4 @@ interface StripRowProps {
   colours: readonly string[];
 }
 
-export type { SheetDialogProps, SheetProblemProps, SheetState, StripRowProps };
+export type { MoveFieldProps, SheetDialogProps, SheetProblemProps, SheetState, StripRowProps };

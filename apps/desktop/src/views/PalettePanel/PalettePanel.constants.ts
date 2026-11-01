@@ -46,6 +46,7 @@ const PALETTE_PANEL_TEXT = {
   filter: 'Filter by name or hex',
   applyOrder: 'Apply this order',
   rename: (index: number): string => `Rename swatch ${index}`,
+  frameUses: (frame: number, palette: string): string => `Frame ${frame} uses ${palette}`,
 } as const;
 
 const PALETTE_MENU_ZONE = 'palette';
@@ -63,6 +64,8 @@ const PALETTE_MENU = {
   remove: 'Delete swatch...',
   reveal: 'Show in the palette',
   settings: 'Palette settings',
+  import: 'Import colours...',
+  moveColour: 'Move colour only...',
   transparent: 'The transparent swatch has no colour value.',
   fixed: 'The first swatch is fixed.',
   emptyChip: 'This colour holds no swatch.',
@@ -99,6 +102,7 @@ const OVERFLOW_TEXT = {
   showUse: 'Show use',
   scope: 'Count use in',
   scopeSprite: 'This sprite',
+  scopeAnimation: 'This animation',
   scopePalette: 'Every sprite on this palette',
   size: 'Swatch size',
   sizeOf: (size: number): string => `${size} pixels`,

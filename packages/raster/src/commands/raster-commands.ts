@@ -10,6 +10,7 @@ import { pixelsPaint } from './pixels-paint';
 import { pixelsOutline } from './pixels-outline';
 import { pixelsPlot } from './pixels-plot';
 import { pixelsReplace } from './pixels-replace';
+import { pixelsReplaceRamp } from './pixels-replace-ramp';
 import { pixelsDistort } from './pixels-distort';
 import { pixelsCopyRegion } from './pixels-copy-region';
 import { pixelsRotate } from './pixels-rotate';
@@ -42,6 +43,7 @@ const rasterCommands: readonly CommandDef[] = [
   spriteCrop,
   spriteSlice,
   pixelsReplace,
+  pixelsReplaceRamp,
   pixelsShade,
   pixelsGradient,
   pixelsStamp,

@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind component */
-import { useEditorTarget } from '../../hooks/useEditorTarget';
+import { usePaletteTarget } from '../../hooks/usePaletteTarget';
 import { NoPalette } from './sub-components/NoPalette';
 import { PaletteBody } from './sub-components/PaletteBody';
 import './PalettePanel.css';
 
 const PalettePanel = () => {
-  const target = useEditorTarget();
+  const target = usePaletteTarget();
   return target ? <PaletteBody target={target} /> : <NoPalette />;
 };
 

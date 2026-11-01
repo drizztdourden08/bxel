@@ -6,6 +6,7 @@ const PAINTING_COMMANDS: ReadonlySet<string> = new Set([
   'pixels.fill',
   'pixels.shape',
   'pixels.replace',
+  'pixels.replace_ramp',
   'pixels.shade',
   'pixels.gradient',
   'pixels.stamp',

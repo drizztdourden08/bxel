@@ -105,11 +105,17 @@ export type {
   PaletteTextResult,
 } from './palette-file/palette-file.type';
 export { parseHexColor } from './palette-file/parse-hex-color';
+export { readAse } from './palette-file/read-ase';
 export { readGpl } from './palette-file/read-gpl';
+export { readHex } from './palette-file/read-hex';
 export { readJascPal } from './palette-file/read-jasc-pal';
+export { readPaintNet } from './palette-file/read-paint-net';
 export { readPalettePng } from './palette-file/read-palette-png';
+export { writeAse } from './palette-file/write-ase';
 export { writeGpl } from './palette-file/write-gpl';
+export { writeHex } from './palette-file/write-hex';
 export { writeJascPal } from './palette-file/write-jasc-pal';
+export { writePaintNet } from './palette-file/write-paint-net';
 export { writePalettePng } from './palette-file/write-palette-png';
 export { exportTilesetImage } from './tilemap/export-tileset-image';
 export { TILED_JSON, TILEMAP_JSON } from './tilemap/tilemap.constants';

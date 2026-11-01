@@ -3,6 +3,7 @@ import type { BundleId } from '@bxel/mcp';
 import { OPTION_COMMAND, TOOL_COMMAND } from '../../keymap/option-command-id.constants';
 import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_TOOL_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
 import { OPTION_VALUE_COMMAND_IDS } from '../../keymap/option-commands.constants';
+import { PALETTE_TRANSFER_COMMAND } from '../../keymap/palette-transfer-command-id.constants';
 import type { CommandEffect, ManifestEntry, ManifestExtra } from './manifest.type';
 
 const rows = (area: BundleId, effect: CommandEffect, ids: readonly string[], extra: ManifestExtra = {}): [string, ManifestEntry][] =>
@@ -33,7 +34,7 @@ const VIEW_ROWS = [
   ...rows('app_control', 'app', ['tool.select_zoom', 'tool.select_hand', 'tool.select_select', 'tool.select_move', 'tool.select_slice', 'brush.smaller', 'brush.larger']),
   ...rows('app_control', 'app', OPTION_VALUE_COMMAND_IDS, { args: 'optionValue' }),
   ...rows('app_control', 'app', [OPTION_COMMAND.set, OPTION_COMMAND.reset], { args: 'optionTarget' }),
-  ...rows('app_control', 'app', [OPTION_COMMAND.resetAll, OPTION_COMMAND.focus, OPTION_COMMAND.open, OPTION_COMMAND.sizeDownBy, OPTION_COMMAND.sizeUpBy]),
+  ...rows('app_control', 'app', [OPTION_COMMAND.resetAll, OPTION_COMMAND.focus, OPTION_COMMAND.open, OPTION_COMMAND.sizeDownBy, OPTION_COMMAND.sizeUpBy, OPTION_COMMAND.tipPrevious, OPTION_COMMAND.tipNext]),
   ...rows('app_control', 'app', ['select'].map(TOOL_COMMAND.cycleBack)),
   ...rows('app_control', 'app', [1, 2, 3, 4, 5].map(TOOL_COMMAND.quickPreset)),
   ...rows('app_control', 'app', [TOOL_COMMAND.previous, TOOL_COMMAND.resetOptions]),
@@ -78,6 +79,15 @@ const EDIT_ROWS = [
   ...rows('edit_pixels', 'edit', ['palette.add_colour', 'palette.make_ramp', 'palette.make_ramp_by_lightness', 'palette.sort_selection']),
   one('palette.new_ramp', 'edit_pixels', 'edit', { args: 'swatch', dialog: 'ramp_builder' }),
   one('palette.gradient_between', 'edit_pixels', 'edit', { dialog: 'palette_gradient' }),
+  one(PALETTE_TRANSFER_COMMAND.import, 'edit_pixels', 'edit', { dialog: 'palette_import' }),
+  one(PALETTE_TRANSFER_COMMAND.export, 'files_saving', 'file', { args: 'paletteExport', dialog: 'save_as' }),
+  one(PALETTE_TRANSFER_COMMAND.copyList, 'app_control', 'app', { args: 'listSelection' }),
+  one(PALETTE_TRANSFER_COMMAND.saveProject, 'files_saving', 'file', { args: 'listSelection' }),
+  one(PALETTE_TRANSFER_COMMAND.previewWith, 'app_control', 'show', { args: 'bank' }),
+  one(PALETTE_TRANSFER_COMMAND.previewEnd, 'app_control', 'show'),
+  one(PALETTE_TRANSFER_COMMAND.moveColour, 'edit_pixels', 'edit', { args: 'moveColour', dialog: 'palette_recolour' }),
+  one(PALETTE_TRANSFER_COMMAND.replaceFront, 'edit_pixels', 'edit', { args: 'replaceColour' }),
+  one(PALETTE_TRANSFER_COMMAND.replaceRamp, 'edit_pixels', 'edit', { args: 'replaceRamp' }),
   one('palette.remove_unused', 'edit_pixels', 'edit', { dialog: 'palette_remove_unused' }),
   one('palette.unite_duplicates', 'edit_pixels', 'edit', { dialog: 'palette_unite' }),
   one('guide.add_here', 'edit_pixels', 'edit', { args: 'axis' }),

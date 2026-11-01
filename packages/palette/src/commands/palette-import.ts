@@ -3,6 +3,7 @@ import { defineCommand, requireBank } from '@bxel/document';
 import type { BankId } from '@bxel/document';
 import { checkColor } from './check-color';
 import { importAppend } from './import-append';
+import { importMap } from './import-map';
 import { importReplace } from './import-replace';
 import { PALETTE_COMMAND_NAME } from './palette-command-name.constants';
 import { paletteImportSchema } from './palette-import-schema';
@@ -16,6 +17,7 @@ const paletteImport = defineCommand({
     const bank = requireBank(draft.artwork, options.bankId as BankId);
     const colors = options.colors.map((value, at) => checkColor(value, `options.colors.${at}`));
     if (options.mode === 'append') importAppend(draft, bank, colors);
+    else if (options.mode === 'map') importMap(draft, bank, colors);
     else importReplace(draft, bank, colors);
   },
 });

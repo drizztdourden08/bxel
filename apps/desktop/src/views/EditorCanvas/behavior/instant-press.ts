@@ -15,7 +15,7 @@ const instantPress = (viewport: PixelViewportHandle | null, event: PointerEvent<
     return;
   }
   if (!insidePaintArea(target, at) || !allowPress(plan, target)) return;
-  if (plan.kind === 'pick' || plan.kind === 'fill') runInstant(plan.kind, target, foldToSprite(target, at), plan.slot);
+  if (plan.kind === 'pick' || plan.kind === 'fill') runInstant(plan.kind, target, foldToSprite(target, at), plan.slot, plan.kind === 'pick' && plan.ramp === true);
 };
 
 export { instantPress };

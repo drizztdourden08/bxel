@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useMemo, useState } from 'react';
-import type { EditorTarget } from '../../../editor/editor.type';
+import type { PaletteTarget } from '../../../editor/editor.type';
 import { paletteSlots } from '../../../editor/palette-slots';
 import { duplicateGroups } from '../../../palette-panel/duplicate-groups';
 import { paletteLock } from '../../../palette-panel/palette-lock';
@@ -12,10 +12,10 @@ import { useHeldColours } from './useHeldColours';
 import { usePaletteView } from './usePaletteView';
 import { useSwatchSelection } from './useSwatchSelection';
 
-const usePanelModel = (target: EditorTarget, editor: SwatchEditModel): PanelModel | null => {
+const usePanelModel = (target: PaletteTarget, editor: SwatchEditModel): PanelModel | null => {
   const view = useDocumentStore((state) => state.views[target.documentId] ?? null);
   const artwork = view?.state.artwork ?? null;
-  const settings = usePaletteView();
+  const settings = usePaletteView(target.sprite === null);
   const held = useHeldColours();
   const selection = useSwatchSelection(target.bank);
   const [hinted, setHinted] = useState<number | null>(null);
@@ -23,7 +23,7 @@ const usePanelModel = (target: EditorTarget, editor: SwatchEditModel): PanelMode
   const { bank, sprite } = target;
   const slots = useMemo(() => paletteSlots(bank), [bank]);
   const duplicates = useMemo(() => duplicateGroups(bank), [bank]);
-  const usage = useMemo(() => (artwork && settings.showUse ? paletteUsage(artwork, bank, sprite, settings.scope) : null), [artwork, bank, sprite, settings.showUse, settings.scope]);
+  const usage = useMemo(() => (artwork && settings.showUse ? paletteUsage(artwork, bank, sprite, settings.scope, target.animation?.animation) : null), [artwork, bank, sprite, settings.showUse, settings.scope, target.animation]);
   const lock = useMemo(() => (artwork ? paletteLock(artwork, sprite) : { locked: false, reason: '' }), [artwork, sprite]);
   const sharing = useMemo(() => (artwork ? paletteSharing(artwork, bank.id) : { sprites: [], shared: false }), [artwork, bank.id]);
   if (!artwork) return null;

@@ -23,6 +23,8 @@ import { previewEdits } from './tools/preview-edits';
 import { readMapCells } from './tools/read-map-cells';
 import { readPalette } from './tools/read-palette';
 import { readPixels } from './tools/read-pixels';
+import { lintPixels } from './tools/lint-pixels';
+import { buildRamp } from './tools/build-ramp';
 import { renderPreview } from './tools/render-preview';
 import { runCommand } from './tools/run-command';
 import { saveDocument } from './tools/save-document';
@@ -55,6 +57,8 @@ const RAW_HANDLERS: ToolHandlers = {
   get_animation: getAnimation,
   read_palette: readPalette,
   read_pixels: readPixels,
+  lint_pixels: lintPixels,
+  build_ramp: buildRamp,
   render_preview: renderPreview,
   preview_edits: previewEdits,
   apply_edits: applyEdits,

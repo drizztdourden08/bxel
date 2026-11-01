@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { PaletteBank } from '@bxel/document';
 import type { RampBuild, RampHueMode } from '@bxel/palette';
-import type { EditorTarget } from '../../editor/editor.type';
+import type { PaletteTarget } from '../../editor/editor.type';
 import type { RampBuilderRequest } from '../../stores/palette-panel-store.type';
 
 interface BuilderSettings {
@@ -19,7 +19,7 @@ interface BuilderSettings {
 }
 
 interface BuilderState {
-  target: EditorTarget;
+  target: PaletteTarget;
   bank: PaletteBank;
   settings: BuilderSettings;
   change: (next: Partial<BuilderSettings>) => void;
@@ -42,7 +42,7 @@ interface NumberSlider {
 
 interface BuilderDialogProps {
   request: RampBuilderRequest;
-  live: EditorTarget;
+  live: PaletteTarget;
 }
 
 interface BuilderPartProps {

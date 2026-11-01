@@ -12,6 +12,8 @@ const TOOL_NAME = {
   getDocument: 'get_document',
   readPalette: 'read_palette',
   readPixels: 'read_pixels',
+  lintPixels: 'lint_pixels',
+  buildRamp: 'build_ramp',
   renderPreview: 'render_preview',
   previewEdits: 'preview_edits',
   applyEdits: 'apply_edits',

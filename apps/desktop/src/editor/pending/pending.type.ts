@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { DocumentId, FlipAxis, SpriteId, TurnDirection } from '@bxel/document';
-import type { MaskView, Point } from '@bxel/raster';
+import type { MaskView, Point, Rect } from '@bxel/raster';
 import type { Clip } from '../selection/selection.type';
 import type { TransformSpec } from '../transform/transform.type';
 
@@ -9,7 +9,8 @@ type PendingSpec =
   | { kind: 'turn'; direction: TurnDirection }
   | TransformSpec
   | { kind: 'move'; offset: Point }
-  | { kind: 'paste'; clip: Clip; offset: Point };
+  | { kind: 'paste'; clip: Clip; offset: Point }
+  | { kind: 'patch'; label: string; rect: Rect; pixels: Uint8Array };
 
 interface PendingEdit {
   documentId: DocumentId;

@@ -6,6 +6,7 @@ import { ADVANCED_COMMAND } from './advanced-commands.constants';
 import { applyToCels } from './apply-to-cels';
 import { checkPointCount } from './check-point-count';
 import { checkTargets } from './check-targets';
+import { resolveBrush } from './resolve-brush';
 import { resolveRamps } from './resolve-ramps';
 import { pixelsShadeSchema } from './schema/pixels-shade-schema';
 import { spriteCels } from './sprite-cels';
@@ -21,7 +22,7 @@ const pixelsShade = defineCommand({
     const ramps = resolveRamps({ artwork: draft.artwork, sprites: input.sprites, name: ramp, needs: 1 });
     for (const [spriteId, slots] of ramps) {
       const table = shadeTable({ slots, direction, steps });
-      applyToCels(draft, spriteCels(input.cels, spriteId), (target) => shadeStroke({ ...stroke, target, table, mask }));
+      applyToCels(draft, spriteCels(input.cels, spriteId), (target) => shadeStroke({ ...stroke, brush: resolveBrush(draft.artwork, stroke.brush), target, table, mask }));
     }
   },
 });

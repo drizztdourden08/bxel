@@ -15,6 +15,8 @@ const pendingLabel = (spec: PendingSpec): string => {
       return PENDING_TEXT.move;
     case 'paste':
       return PENDING_TEXT.paste;
+    case 'patch':
+      return spec.label;
   }
 };
 

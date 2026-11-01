@@ -17,7 +17,7 @@ const pressCell = (at: Point, press: PressEvent, anchor: ShapeAnchor, points: { 
   if (!gate) return ANNOUNCE_TEXT.blocked;
   const { target, plan } = gate;
   if (plan.kind === 'pick') {
-    runInstant('pick', target, at, plan.slot);
+    runInstant('pick', target, at, plan.slot, plan.ramp === true);
     return ANNOUNCE_TEXT.picked(slotName(target, useToolStore.getState()[plan.slot]));
   }
   if (plan.kind === 'fill') {

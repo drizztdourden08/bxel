@@ -12,7 +12,7 @@ interface PressEvent {
 }
 
 type PressPlan =
-  | { kind: 'pick'; slot: ColourSlot }
+  | { kind: 'pick'; slot: ColourSlot; ramp?: boolean }
   | { kind: 'fill'; slot: ColourSlot }
   | { kind: 'zoom'; out: boolean }
   | { kind: 'shape'; shape: ShapeTool; slot: ColourSlot }

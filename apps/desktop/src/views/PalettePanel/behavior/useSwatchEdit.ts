@@ -2,8 +2,8 @@
 import { toast } from '@drizztdourden08/brock-react';
 import { swatchAlpha } from '@bxel/document';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { currentTarget } from '../../../editor/current-target';
-import { useEditorTarget } from '../../../hooks/useEditorTarget';
+import { currentPaletteTarget } from '../../../palette-panel/current-palette-target';
+import { usePaletteTarget } from '../../../hooks/usePaletteTarget';
 import { unitToAlpha } from '../../../palette-bank/unit-to-alpha';
 import { recolourSwatch } from '../../../palette-bank/recolour-swatch';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
@@ -12,7 +12,7 @@ import type { EditSwatch, SwatchDraft, SwatchEditModel } from '../PalettePanel.t
 import { draftFields } from './draft-fields';
 
 const useSwatchEdit = (): SwatchEditModel => {
-  const target = useEditorTarget();
+  const target = usePaletteTarget();
   const anchor = useRef<HTMLElement | null>(null);
   const [draft, setDraft] = useState<SwatchDraft | null>(null);
 
@@ -28,7 +28,7 @@ const useSwatchEdit = (): SwatchEditModel => {
 
   const open = useCallback<EditSwatch>(
     (index, element) => {
-      const slot = currentTarget()?.bank.slots[index];
+      const slot = currentPaletteTarget()?.bank.slots[index];
       if (!slot || slot.kind === 'transparent') return;
       anchor.current = element;
       setDraft({ index, value: slot.rgb, alpha: swatchAlpha(slot), original: slot.rgb, originalAlpha: swatchAlpha(slot), name: slot.name });

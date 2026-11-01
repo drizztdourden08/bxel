@@ -7,6 +7,8 @@ const OPTION_COMMAND = {
   open: 'options.open',
   pixelPerfect: 'brush.toggle_pixel_perfect',
   cycleTip: 'brush.cycle_tip',
+  tipPrevious: 'brush.tip_previous',
+  tipNext: 'brush.tip_next',
   sizeDownBy: 'brush.size_down_by_four',
   sizeUpBy: 'brush.size_up_by_four',
   fillArea: 'fill.toggle_area',

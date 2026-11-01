@@ -41,6 +41,20 @@ type GetDocumentInput = DocumentInput & {
 
 type ReadPaletteInput = DocumentInput & { readonly bankId?: string; readonly include?: readonly ('usage' | 'duplicates' | 'sharing')[] };
 
+type LintInput = DocumentInput & { readonly spriteId: string; readonly frameId?: string; readonly rules?: readonly string[]; readonly limit: number };
+
+type BuildRampInput = DocumentInput & {
+  readonly bankId?: string;
+  readonly base: string;
+  readonly baseIndex?: number;
+  readonly dark: number;
+  readonly light: number;
+  readonly hueShift: number;
+  readonly hueMode: 'shift' | 'straight';
+  readonly chromaCurve: boolean;
+  readonly snap: number;
+};
+
 type ListMapLayersInput = DocumentInput & { readonly tilemapId?: string; readonly includeTiles: boolean };
 
 type ReadMapCellsInput = DocumentInput & {
@@ -62,6 +76,7 @@ type RenderInput = DocumentInput & {
   readonly scale: number;
   readonly exported?: boolean;
   readonly onion?: boolean;
+  readonly bankId?: string;
   readonly animated?: 'gif' | 'apng';
 };
 
@@ -203,6 +218,8 @@ export type {
   OpenTarget,
   ProjectLocation,
   ProjectWrite,
+  BuildRampInput,
+  LintInput,
   ReadPaletteInput,
   ReadPixelsInput,
   RenderInput,

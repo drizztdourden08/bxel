@@ -50,6 +50,8 @@ const pendingStep = (target: EditorTarget, pending: PendingEdit): CommitStep => 
       return { name: ADVANCED_COMMAND.pixelsMove, options: { offset: spec.offset, skipZero: false, ...maskPart(mask) } };
     case 'paste':
       return pasteStep(target, spec);
+    case 'patch':
+      return { name: COMMAND_NAME.pixelsPatch, options: { rect: spec.rect, pixels: spec.pixels, skipZero: true } };
   }
 };
 

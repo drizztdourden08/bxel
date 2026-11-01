@@ -1,0 +1,14 @@
+/* @layer renderer-app @kind style */
+.palette-import__row {
+  min-width: 0;
+}
+
+.palette-import__label {
+  width: var(--size-64);
+  flex-shrink: 0;
+}
+
+.palette-import__strip {
+  max-height: var(--size-96);
+  overflow-y: auto;
+}

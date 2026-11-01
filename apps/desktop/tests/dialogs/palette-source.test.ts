@@ -66,7 +66,7 @@ describe('reading a palette file', () => {
   });
 
   it('says plainly when the file cannot be read', () => {
-    const message = 'Cannot read that palette file. Bxel opens GPL, PAL and palette PNG files.';
+    const message = 'Cannot read that palette file. Bxel opens GPL, PAL, HEX, TXT, ASE and palette PNG files.';
     expect(readPaletteFile(bytesOf('hello'), 'notes.txt')).toEqual({ ok: false, message });
     expect(readPaletteFile(bytesOf('hello'), 'bad.gpl')).toEqual({ ok: false, message });
   });

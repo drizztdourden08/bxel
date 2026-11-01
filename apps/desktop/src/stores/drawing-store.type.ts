@@ -47,6 +47,7 @@ interface DrawingSettings {
   stabiliser: number;
   outlineRing: 4 | 8;
   outlineSelOut: boolean;
+  outlineFrames: 'frame' | 'tag' | 'all';
   spraySize: number;
   spraySeed: number | null;
   gradientKind: GradientKind;
@@ -60,6 +61,7 @@ interface DrawingSettings {
   lockToTile: boolean;
   linkedChoice: LinkedChoice;
   brushId: string | null;
+  brushSpacing: number;
   brushMode: BrushMode;
   brushFlipX: boolean;
   brushFlipY: boolean;

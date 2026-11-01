@@ -61,6 +61,8 @@ const DRAWING_TEXT = {
   gradientReflectDescription: 'Run the gradient back again after it reaches the end.',
   gradientRamp: 'Gradient ramp',
   gradientRampDescription: 'The ramp to run. Automatic uses the ramp of the front colour, from the front to the back colour.',
+  brushSpacing: 'Spacing',
+  brushSpacingDescription: 'Pixels between two stamps of the brush along a stroke, from 1 to 64.',
   customBrush: 'Custom brush',
   customBrushDescription: 'Paint with a brush saved from a selection. Make one with New brush from selection.',
   noBrush: 'Square or circle tip',

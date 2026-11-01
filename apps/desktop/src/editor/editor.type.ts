@@ -22,6 +22,15 @@ interface EditorTarget {
   animation?: AnimationContext;
 }
 
+/** What the Palette panel works on: a bank, and the sprite using it when one is being edited (none on a palette file). */
+interface PaletteTarget {
+  documentId: DocumentId;
+  revision: number;
+  bank: PaletteBank;
+  sprite: Sprite | null;
+  animation?: AnimationContext;
+}
+
 interface BrushPatch {
   patch: BufferView;
   brushId: string | null;
@@ -182,5 +191,5 @@ type HistoryDirection = 'undo' | 'redo';
 
 export type {
   AnimationContext, BrushOptions, BrushPatch, EditorTarget, FillChoice, GradientSession, GradientSpec, HistoryDirection, Overlay, PaintSession, PathSession, PathSpec,
-  ShapeSession, ShapeSpec, ShapeStart, SprayOptions, SpraySession, StrokeSession, StrokeStart, SymmetryFields, ZoomStep,
+  PaletteTarget, ShapeSession, ShapeSpec, ShapeStart, SprayOptions, SpraySession, StrokeSession, StrokeStart, SymmetryFields, ZoomStep,
 };

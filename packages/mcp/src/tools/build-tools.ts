@@ -29,6 +29,8 @@ import { buildPreviewEditsTool } from './preview-edits-tool';
 import { readMapCellsTool } from './read-map-cells-tool';
 import { readPaletteTool } from './read-palette-tool';
 import { readPixelsTool } from './read-pixels-tool';
+import { lintPixelsTool } from './lint-pixels-tool';
+import { buildRampTool } from './build-ramp-tool';
 import { renameFileTool } from './rename-file-tool';
 import { renderPreviewTool } from './render-preview-tool';
 import { repairLinksTool } from './repair-links-tool';
@@ -61,6 +63,8 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   getAnimationTool,
   readPaletteTool,
   readPixelsTool,
+  lintPixelsTool,
+  buildRampTool,
   listMapLayersTool,
   readMapCellsTool,
   renderPreviewTool,

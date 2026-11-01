@@ -2,7 +2,7 @@
 import type { Artwork, Ramp, RampId } from '@bxel/document';
 import type { MouseButton, ReorderDrag, ShortcutKey } from '@drizztdourden08/tessera';
 import type { HTMLAttributes, KeyboardEvent, RefObject } from 'react';
-import type { EditorTarget } from '../../editor/editor.type';
+import type { PaletteTarget } from '../../editor/editor.type';
 import type { PaletteSlot } from '../../editor/palette-slots.type';
 import type { ColourSlot } from '../../editor/press-plan.type';
 import type { PaletteLock, PaletteSharing, PaletteUsage } from '../../palette-panel/palette-panel.type';
@@ -68,7 +68,7 @@ interface SwatchEditModel extends DraftFields {
 }
 
 interface PanelModel {
-  target: EditorTarget;
+  target: PaletteTarget;
   artwork: Artwork;
   slots: readonly PaletteSlot[];
   held: HeldColours;

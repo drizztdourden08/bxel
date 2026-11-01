@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { toast } from '@drizztdourden08/brock-react';
 import { useCallback, useMemo, useState } from 'react';
-import type { EditorTarget } from '../../../editor/editor.type';
+import type { PaletteTarget } from '../../../editor/editor.type';
 import type { PaletteSheetRequest } from '../../../stores/palette-panel-store.type';
 import { currentBank } from '../../../palette-panel/current-bank';
 import { followHeld } from '../../../palette-panel/follow-held';
@@ -12,7 +12,7 @@ import { runSteps } from '../../../transactions/run-steps';
 import { stepRequest } from '../../../transactions/step-request';
 import type { SheetState } from '../PaletteSheetDialog.type';
 
-const usePaletteSheet = (request: PaletteSheetRequest, target: EditorTarget): SheetState => {
+const usePaletteSheet = (request: PaletteSheetRequest, target: PaletteTarget): SheetState => {
   const view = useDocumentStore((state) => state.views[request.documentId] ?? null);
   const [failure, setFailure] = useState<string | null>(null);
   const plan = useMemo(() => (view ? sheetPlan(view.state.artwork, target.bank, target.sprite, request) : null), [view, target, request]);

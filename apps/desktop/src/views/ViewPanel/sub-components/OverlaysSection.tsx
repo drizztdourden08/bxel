@@ -6,7 +6,9 @@ import { useCanvasLook } from '../../../canvas-look/useCanvasLook';
 import { RULER_UNITS } from '../../../ruler/ruler-unit.constants';
 import { useRulerUnitStore } from '../../../stores/useRulerUnitStore';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
+import { useLintStore } from '../../../stores/useLintStore';
 import { useViewStore } from '../../../stores/useViewStore';
+import { LINT_TEXT } from '../../../pixel-lint/pixel-lint.constants';
 import { ActionHint } from '../../ActionHint';
 import { VIEW_HINTS } from '../../CanvasToolbar/CanvasToolbar.constants';
 import { swatchOf } from '../behavior/swatch-of';
@@ -24,6 +26,7 @@ const OverlaysSection = ({ surface }: SurfaceProps) => {
   const collision = useTilemapStore((state) => state.showCollision);
   const animate = useTilemapStore((state) => state.animateTiles);
   const pixels = surface === 'sprite' || surface === 'tile';
+  const lintShown = useLintStore((state) => state.shown);
   const cells = surface === 'map' || surface === 'sheet';
   const row = (toggle: ViewToggle, label?: string) => (
     <ActionHint key={toggle} hint={VIEW_HINTS[toggle]} placement="left">
@@ -46,6 +49,7 @@ const OverlaysSection = ({ surface }: SurfaceProps) => {
       {row('rulers')}
       {row('snap')}
       {pixels && row('slices')}
+      {pixels && <OverlayRow label={LINT_TEXT.label} description={LINT_TEXT.description} checked={lintShown} onChange={(on) => useLintStore.getState().setShown(on)} />}
       <SegmentedControl
         size="sm"
         label={OVERLAY_TEXT.rulerUnit}
