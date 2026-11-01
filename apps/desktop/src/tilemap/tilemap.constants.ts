@@ -56,6 +56,7 @@ const TILE_LABEL = {
   layerDuplicate: 'Duplicate map layer',
   layerMerge: 'Merge map layer down',
   layerColour: 'Set map layer colour',
+  layerOpacity: 'Set map layer opacity',
   layerSolo: 'Show only one map layer',
   layerDeleteMany: 'Delete map layers',
   cut: 'Cut cells',

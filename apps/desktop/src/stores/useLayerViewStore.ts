@@ -13,6 +13,8 @@ const useLayerViewStore = create<LayerViewState>()((set) => ({
   setScope: (scope) => set({ scope }),
   setRenaming: (renamingId) => set({ renamingId }),
   setThumbSize: (thumbSize) => set({ thumbSize }),
+  toggleFold: (id) => set((state) => ({ folded: state.folded.includes(id) ? state.folded.filter((each) => each !== id) : [...state.folded, id] })),
+  setFolded: (id, folded) => set((state) => ({ folded: folded ? [...state.folded.filter((each) => each !== id), id] : state.folded.filter((each) => each !== id) })),
 }));
 
 useDocumentStore.subscribe((state, previous) => {

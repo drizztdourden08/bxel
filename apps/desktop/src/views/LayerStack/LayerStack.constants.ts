@@ -5,7 +5,7 @@ import type { LockKind } from '../../editor/layer-lock.type';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import type { LayerThumbSize } from '../../stores/layer-view-store.type';
 import type { HintSpec } from '../ActionHint';
-import type { MapChoice } from './LayerStack.type';
+import type { LayerRowTree, MapChoice } from './LayerStack.type';
 
 const LAYER_STACK_TEXT = {
   list: 'Layers',
@@ -118,6 +118,8 @@ const FILTER_FROM_ROWS = 8;
 
 const NO_MAPS: readonly MapChoice[] = [];
 
+const FLAT_ROW: LayerRowTree = { kind: 'pixel', depth: 0, parentId: null, childCount: 0, viewOpacity: 100, clip: false, exported: true, missing: false };
+
 const LAYER_REASONS = {
   last: 'A list keeps at least one layer.',
   bottom: 'There is no layer below to merge into.',
@@ -140,6 +142,6 @@ const LAYER_BAR_HINTS = {
 } satisfies Record<string, HintSpec>;
 
 export {
-  CUSTOM_COLOUR, FILTER_FROM_ROWS, LAYER_REASONS, NO_MAPS, LAYER_BAR_HINTS, LAYER_FLAG_HINTS, LAYER_FLAG_ICONS, LAYER_FOCUS_KEYS, LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_MENU_TEXT, LAYER_MOVE_KEYS, LAYER_SCOPES,
+  CUSTOM_COLOUR, FILTER_FROM_ROWS, FLAT_ROW, LAYER_REASONS, NO_MAPS, LAYER_BAR_HINTS, LAYER_FLAG_HINTS, LAYER_FLAG_ICONS, LAYER_FOCUS_KEYS, LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_MENU_TEXT, LAYER_MOVE_KEYS, LAYER_SCOPES,
   LAYER_STACK_TEXT, LAYER_THUMB_TEXT, THUMB_THROTTLE_MS,
 };

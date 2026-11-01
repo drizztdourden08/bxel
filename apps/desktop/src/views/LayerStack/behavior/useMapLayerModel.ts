@@ -5,7 +5,7 @@ import { lockKindOf } from '../../../editor/layer-lock-kind';
 import { useMapContext } from '../../../hooks/useMapContext';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { mapLayerActions } from '../../../tilemap/map-layer-actions';
-import { LAYER_STACK_TEXT, NO_MAPS } from '../LayerStack.constants';
+import { FLAT_ROW, LAYER_STACK_TEXT, NO_MAPS } from '../LayerStack.constants';
 import type { LayerRowModel, LayerStackModel } from '../LayerStack.type';
 
 const onMap = (id: string): void => useTilemapStore.getState().setMap(id as TilemapId);
@@ -27,6 +27,7 @@ const useMapLayerModel = (): LayerStackModel => {
         mixedLock: false,
         colour: each.colour ?? null,
         note: null,
+        ...FLAT_ROW,
         thumb: { kind: 'map' as const, layer: each, columns: tilemap.columns, rows: tilemap.rows },
       }))
       .reverse();

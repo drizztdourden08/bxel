@@ -4,6 +4,7 @@ interface MapLayerFields {
   visible?: boolean;
   locked?: boolean;
   colour?: string | null;
+  opacity?: number;
 }
 
 export type { MapLayerFields };

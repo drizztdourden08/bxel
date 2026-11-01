@@ -5,6 +5,7 @@ interface ShownImage {
   target: EditorTarget | null;
   image: ImageData | null;
   repaint: boolean;
+  entries: unknown;
 }
 
 interface Adopted {

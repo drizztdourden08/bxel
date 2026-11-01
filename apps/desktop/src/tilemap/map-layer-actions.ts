@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { MapLayerId } from '@bxel/document';
 import type { LayerActions } from '../editor/layer-actions.type';
+import { NO_TREE_ACTIONS } from '../editor/no-tree-actions';
 import { useTilemapStore } from '../stores/useTilemapStore';
 import { addMapLayer } from './add-map-layer';
 import { deleteMapLayer } from './delete-map-layer';
@@ -29,6 +30,10 @@ const mapLayerActions: LayerActions = {
   duplicate: () => void duplicateMapLayer(),
   merge: () => void mergeMapLayerDown(),
   flatten: () => undefined,
+  ...NO_TREE_ACTIONS,
+  setView: (ids, fields) => {
+    if (fields.viewOpacity !== undefined) void updateMapLayers(asIds(ids), { opacity: fields.viewOpacity }, TILE_LABEL.layerOpacity);
+  },
   remove: () => void deleteMapLayer(),
 };
 

@@ -5,6 +5,8 @@ import { commitHandoff } from './commit-handoff';
 import type { CommitHandoff } from './commit-handoff.type';
 import type { Adopted } from './committed-image.type';
 import type { EditorTarget } from './editor.type';
+import { useReferenceStore } from '../stores/useReferenceStore';
+import { frameView } from './frame-view';
 import { shownImage } from './shown-image';
 
 const sameFrame = (first: EditorTarget, second: EditorTarget): boolean =>
@@ -22,9 +24,11 @@ const fits = (handoff: CommitHandoff, target: EditorTarget, prior: EditorTarget 
 
 const rebuilt = (target: EditorTarget): ImageData => {
   const { sprite, bank, frameId } = target;
-  const rgba = frameToRgba(sprite, bank, frameId);
+  const rgba = frameToRgba(sprite, bank, frameId, frameView(sprite));
   return new ImageData(new Uint8ClampedArray(rgba.buffer, rgba.byteOffset, rgba.length), sprite.width, sprite.height);
 };
+
+const viewed = (target: EditorTarget): boolean => frameView(target.sprite) !== undefined;
 
 const adopted = (handoff: CommitHandoff, target: EditorTarget): Adopted => {
   const { sprite, bank, frameId } = target;
@@ -37,12 +41,14 @@ const adopted = (handoff: CommitHandoff, target: EditorTarget): Adopted => {
 
 const committedImage = (target: EditorTarget): ImageData => {
   const { target: prior, image } = shownImage;
-  if (prior && image && sameFrame(prior, target) && prior.revision === target.revision) {
+  const { entries } = useReferenceStore.getState();
+  if (prior && image && shownImage.entries === entries && sameFrame(prior, target) && prior.revision === target.revision) {
     shownImage.target = target;
     return image;
   }
   const handoff = commitHandoff.current;
-  const taken = handoff && fits(handoff, target, prior) ? adopted(handoff, target) : null;
+  const taken = handoff && !viewed(target) && fits(handoff, target, prior) ? adopted(handoff, target) : null;
+  shownImage.entries = entries;
   shownImage.target = target;
   shownImage.image = taken ? taken.image : rebuilt(target);
   shownImage.repaint = taken?.changed ?? false;

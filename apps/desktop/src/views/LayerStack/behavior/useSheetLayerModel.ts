@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import type { Sprite } from '@bxel/document';
 import { flagFields } from '../../../editor/flag-fields';
 import { lockFields } from '../../../editor/lock-fields';
+import { NO_TREE_ACTIONS } from '../../../editor/no-tree-actions';
 import { LAYER_LABEL } from '../../../editor/layer-text.constants';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
 import { listSprites } from '../../../sheet/list-sprites';
@@ -11,7 +12,7 @@ import { tryUpdateSheetLayers } from '../../../sheet/try-update-sheet-layers';
 import { updateSheetLayers } from '../../../sheet/update-sheet-layers';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import { useSpriteStore } from '../../../stores/useSpriteStore';
-import { LAYER_STACK_TEXT, NO_MAPS } from '../LayerStack.constants';
+import { FLAT_ROW, LAYER_STACK_TEXT, NO_MAPS } from '../LayerStack.constants';
 import type { LayerActions } from '../../../editor/layer-actions.type';
 import type { LayerRowModel, LayerStackModel } from '../LayerStack.type';
 
@@ -30,6 +31,7 @@ const actionsFor = (sprites: readonly Sprite[]): LayerActions => ({
   duplicate: noop,
   merge: noop,
   flatten: noop,
+  ...NO_TREE_ACTIONS,
   remove: noop,
 });
 
@@ -43,6 +45,7 @@ const rowOf = (row: ReturnType<typeof sheetLayerRows>[number]): LayerRowModel =>
   colour: row.colour,
   note: row.carriers < row.total ? LAYER_STACK_TEXT.inSprites(row.carriers, row.total) : null,
   thumb: null,
+  ...FLAT_ROW,
 });
 
 const useSheetLayerModel = (): LayerStackModel => {

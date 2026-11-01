@@ -11,6 +11,7 @@ const LAYER_VIEW_DEFAULTS: LayerViewSettings = {
   scope: 'frame',
   renamingId: null,
   thumbSize: 24,
+  folded: [],
 };
 
 export { LAYER_THUMB_SIZES, LAYER_VIEW_DEFAULTS };

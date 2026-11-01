@@ -11,6 +11,7 @@ interface LayerViewSettings {
   scope: LayerScopeChip;
   renamingId: string | null;
   thumbSize: LayerThumbSize;
+  folded: readonly string[];
 }
 
 interface LayerViewState extends LayerViewSettings {
@@ -21,6 +22,8 @@ interface LayerViewState extends LayerViewSettings {
   setScope: (scope: LayerScopeChip) => void;
   setRenaming: (id: string | null) => void;
   setThumbSize: (size: LayerThumbSize) => void;
+  toggleFold: (id: string) => void;
+  setFolded: (id: string, folded: boolean) => void;
 }
 
 export type { LayerScopeChip, LayerThumbSize, LayerViewSettings, LayerViewState };

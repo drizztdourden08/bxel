@@ -28,7 +28,20 @@ interface MapThumbSource {
 
 type LayerThumbSource = SpriteThumbSource | MapThumbSource;
 
-interface LayerRowModel {
+type LayerRowKind = 'pixel' | 'group' | 'reference';
+
+interface LayerRowTree {
+  kind: LayerRowKind;
+  depth: number;
+  parentId: string | null;
+  childCount: number;
+  viewOpacity: number;
+  clip: boolean;
+  exported: boolean;
+  missing: boolean;
+}
+
+interface LayerRowModel extends LayerRowTree {
   id: string;
   name: string;
   visible: boolean;
@@ -83,11 +96,13 @@ interface LayerRowProps {
   picked: boolean;
   tabbable: boolean;
   movable: boolean;
+  folded: boolean;
   thumbSize: LayerThumbSize;
   drag: ReorderDrag;
   sweep: LayerSweepView;
   model: LayerStackModel;
   onPick: (id: string, how: PickHow) => void;
+  onFold: (id: string) => void;
 }
 
 type LayerSweepHandlers = {
@@ -123,6 +138,7 @@ interface LayerStackViewProps extends LayerSourceProps {
 
 interface LayerListProps {
   model: LayerStackModel;
+  folded: readonly string[];
   shown: readonly LayerRowModel[];
   filtered: boolean;
   picked: readonly string[];
@@ -200,6 +216,6 @@ interface LayerMainProps {
 
 export type {
   LayerBarAction, LayerBarProps, LayerColoursProps, LayerFilterProps, LayerFilterState, LayerGripProps, LayerHeaderProps, LayerListProps, LayerMainProps,
-  LayerNameProps, LayerNoMatchProps, LayerRowModel, LayerRowProps, LayerSourceProps, LayerStackModel, LayerStackViewProps, LayerStripProps,
+  LayerNameProps, LayerNoMatchProps, LayerRowKind, LayerRowModel, LayerRowTree, LayerRowProps, LayerSourceProps, LayerStackModel, LayerStackViewProps, LayerStripProps,
   LayerSweepView, LayerThumbProps, LayerThumbSource, LayerToggleProps, MapChoice, ThumbDeps,
 };
