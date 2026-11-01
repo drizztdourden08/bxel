@@ -11,6 +11,7 @@ const SymmetrySection = () => {
   const toggle = useToolStore((state) => state.toggleSymmetry);
   const diagonal = useDrawingStore((state) => state.symmetryDiagonal);
   const turn = useDrawingStore((state) => state.symmetryTurn);
+  const tile = useDrawingStore((state) => state.symmetryTile);
   const toggleMode = useDrawingStore((state) => state.toggleSymmetryMode);
   return (
     <Flex direction="column" gap="xs">
@@ -38,6 +39,10 @@ const SymmetrySection = () => {
       <Flex gap="sm" align="center">
         <Icon name="pixel-symmetry-turn" />
         <Toggle size="sm" label={SYMMETRY_TEXT.turn} checked={turn} onChange={() => toggleMode('turn')} />
+      </Flex>
+      <Flex gap="sm" align="center">
+        <Icon name="pixel-symmetry-badge" />
+        <Toggle size="sm" label={SYMMETRY_TEXT.tile} checked={tile} onChange={() => toggleMode('tile')} />
       </Flex>
     </Flex>
   );

@@ -15,6 +15,7 @@ const symmetryEntries = (here: Point | null): ContextMenuEntry => {
       COMMAND_ID.symmetryY,
       COMMAND_ID.symmetryDiagonal,
       COMMAND_ID.symmetryTurn,
+      COMMAND_ID.symmetryTile,
       { command: 'symmetry.axis_here', label: CANVAS_MENU.axisX, args: { axis: 'x', position: (here?.x ?? 0) + 0.5 }, hidden: here === null },
       { command: 'symmetry.axis_here', label: CANVAS_MENU.axisY, args: { axis: 'y', position: (here?.y ?? 0) + 0.5 }, hidden: here === null },
       { command: 'symmetry.axis_centre', label: CANVAS_MENU.axisCentre, ...unless(symmetryX || symmetryY, CANVAS_MENU.symmetryOff) },

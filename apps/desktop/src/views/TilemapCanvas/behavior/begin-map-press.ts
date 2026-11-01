@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { PointerEvent } from 'react';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
+import { pickMapLayer } from '../../../tilemap/pick-map-layer';
 import type { MapPress } from '../TilemapCanvas.type';
 import { beginCapture } from './begin-capture';
 import { beginStroke } from './begin-stroke';
@@ -12,7 +13,8 @@ const beginMapPress = (event: PointerEvent<HTMLElement>, press: MapPress): void 
     return;
   }
   if (event.button === 2) {
-    beginCapture(event, press);
+    if (event.ctrlKey || event.metaKey) pickMapLayer(press.cells.here);
+    else beginCapture(event, press);
     return;
   }
   if (event.button !== 0) return;

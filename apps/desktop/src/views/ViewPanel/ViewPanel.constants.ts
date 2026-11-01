@@ -64,6 +64,7 @@ const SYMMETRY_TEXT = {
   mirrorY: 'Mirror Y',
   diagonal: 'Mirror across the diagonal',
   turn: 'Turn four ways around the crossing',
+  tile: 'Mirror inside each tile',
   centre: 'Centre',
   centred: 'Centred',
   at: (value: number): string => `At ${value}`,

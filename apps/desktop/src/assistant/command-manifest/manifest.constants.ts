@@ -191,6 +191,7 @@ const TILEMAP_ROWS = [
   one('animation.toggle_tiles', 'tilemaps', 'show'),
   one('tilemap.use_tile', 'tilemaps', 'app', { args: 'tile' }),
   one('tilemap.pick_tile_here', 'tilemaps', 'app', { args: 'pixel' }),
+  one('tilemap.pick_layer_here', 'tilemaps', 'app', { args: 'pixel' }),
   one('tilemap.edit_tile_here', 'tilemaps', 'app', { args: 'pixel' }),
   one('timeline.delete', 'animation', 'edit'),
 ];

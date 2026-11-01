@@ -31,6 +31,7 @@ const COMMAND_ID = {
   symmetryY: 'symmetry.toggle_y',
   symmetryDiagonal: 'symmetry.toggle_diagonal',
   symmetryTurn: 'symmetry.toggle_turn',
+  symmetryTile: 'symmetry.toggle_tile',
   zoomIn: 'view.zoom_in',
   zoomOut: 'view.zoom_out',
   zoomFit: 'view.zoom_fit',

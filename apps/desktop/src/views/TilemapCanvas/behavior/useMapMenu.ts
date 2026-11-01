@@ -10,6 +10,7 @@ import { MAP_MENU } from '../TilemapCanvas.constants';
 import type { MapLive } from '../TilemapCanvas.type';
 import { mapHere } from './map-here';
 import { mapMenuEntries } from './map-menu-entries';
+import { mapPixelHere } from './map-pixel-here';
 import { selectClickedCell } from './select-clicked-cell';
 import { ruledEntries } from '../../../context-menu/ruled-entries';
 
@@ -17,7 +18,7 @@ const useMapMenu = (viewport: RefObject<PixelViewportHandle | null>, target: Map
   useContextMenu(MAP_MENU.zone, {
     label: MAP_MENU.label,
     openOn: 'release-without-drag',
-    shouldOpen: () => useToolStore.getState().tool !== 'zoom',
+    shouldOpen: (event) => useToolStore.getState().tool !== 'zoom' && !event.ctrlKey && !event.metaKey,
     anchor: () => {
       const cell = live.current.hover;
       const pixel = useReadoutStore.getState().pointer;
@@ -25,7 +26,7 @@ const useMapMenu = (viewport: RefObject<PixelViewportHandle | null>, target: Map
       return at && cell ? { x: at.x, y: at.y, data: cell } : null;
     },
     beforeOpen: (context: ContextMenuContext) => selectClickedCell(mapHere(context, viewport.current, target)),
-    entries: ruledEntries((context) => mapMenuEntries(target, mapHere(context, viewport.current, target))),
+    entries: ruledEntries((context) => mapMenuEntries(target, { cell: mapHere(context, viewport.current, target), pixel: mapPixelHere(context, viewport.current) })),
   });
 };
 

@@ -60,6 +60,7 @@ const DRAWING_OPTION_COMMAND_IDS: readonly string[] = [
 const DRAWING_COMMAND = {
   symmetryDiagonal: 'symmetry.toggle_diagonal',
   symmetryTurn: 'symmetry.toggle_turn',
+  symmetryTile: 'symmetry.toggle_tile',
   brushFromSelection: 'brush.from_selection',
   moveShape: 'drawing.hold_move_shape',
   outline: 'edit.outline',

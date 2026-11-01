@@ -12,12 +12,12 @@ import type { MapLive, MapView } from '../TilemapCanvas.type';
 
 const useTileAnimation = (view: MapView, live: RefObject<MapLive>, viewport: RefObject<PixelViewportHandle | null>): void => {
   const animate = useTilemapStore((state) => state.animateTiles);
-  const { target, image } = view;
+  const { target, image, highlighted } = view;
   const { artwork, tilemap } = target;
   const plan = useMemo(() => tilePlan(artwork, tilemap), [artwork, tilemap]);
   useEffect(() => {
     const bank = findBank(artwork, target.tileset.bankId);
-    if (!animate || plan.cells.length === 0 || !bank) return undefined;
+    if (!animate || highlighted || plan.cells.length === 0 || !bank) return undefined;
     const animator = createAnimator(plan, image, bankRgba(bank));
     const stop = subscribeTileClock((now) => {
       if (live.current.drag === null && animator.advance(now)) viewport.current?.redraw();
@@ -27,7 +27,7 @@ const useTileAnimation = (view: MapView, live: RefObject<MapLive>, viewport: Ref
       animator.restore();
       viewport.current?.redraw();
     };
-  }, [animate, plan, image, artwork, target.tileset.bankId, live, viewport]);
+  }, [animate, highlighted, plan, image, artwork, target.tileset.bankId, live, viewport]);
 };
 
 export { useTileAnimation };

@@ -15,7 +15,7 @@ const shapeSpec = ({ tools, drawing, target, size, shape, slot, at }: ShapeInput
     radius: shape === 'rect' ? drawing.cornerRadius : 0,
     evenSteps: shape === 'line' && drawing.evenSteps,
     index: choice.index,
-    ...paintParts(tools, target, size, choice),
+    ...paintParts(tools, target, { size, at }, choice),
     from: at,
     to: at,
   };

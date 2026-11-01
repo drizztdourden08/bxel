@@ -72,6 +72,22 @@ interface MapPress {
   cells: { here: Point; near: Point };
 }
 
+interface FlatRgba {
+  rgba: Uint8ClampedArray<ArrayBuffer>;
+  width: number;
+  height: number;
+}
+
+interface HighlightPass {
+  shows: (index: number) => boolean;
+  strength: number;
+}
+
+interface MapWhere {
+  cell: Point | null;
+  pixel: Point | null;
+}
+
 interface MapKeyContext {
   viewport: RefObject<PixelViewportHandle | null>;
   target: MapTarget;
@@ -88,10 +104,11 @@ interface MapKeys {
 interface MapView {
   target: MapTarget;
   image: ImageData;
+  highlighted: boolean;
 }
 
 interface TilemapSurfaceProps {
   view: MapView;
 }
 
-export type { BoxStyle, CellRegion, MapDrag, MapGesture, MapKeyContext, MapKeys, MapLive, MapLook, MapPaintBase, MapPress, MapPaintState, MapView, TilemapSurfaceProps };
+export type { BoxStyle, CellRegion, FlatRgba, HighlightPass, MapDrag, MapGesture, MapKeyContext, MapKeys, MapLive, MapLook, MapPaintBase, MapPress, MapPaintState, MapView, MapWhere, TilemapSurfaceProps };

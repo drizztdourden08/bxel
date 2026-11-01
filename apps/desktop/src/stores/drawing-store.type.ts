@@ -25,6 +25,8 @@ type CelsChoice = 'frame' | 'selected';
 
 type BrushMode = 'colour' | 'stencil';
 
+type SymmetryMode = 'diagonal' | 'turn' | 'tile';
+
 interface DrawingSettings {
   inks: Readonly<Record<string, InkKind>>;
   onlyColour: number | null;
@@ -64,6 +66,7 @@ interface DrawingSettings {
   gradientRamp: string | null;
   symmetryDiagonal: boolean;
   symmetryTurn: boolean;
+  symmetryTile: boolean;
   lockToTile: boolean;
   linkedChoice: LinkedChoice;
   brushId: string | null;
@@ -78,7 +81,7 @@ interface DrawingState extends DrawingSettings {
   patch: (change: Partial<DrawingSettings>) => void;
   setFilled: (tool: FilledTool, filled: boolean) => void;
   setInk: (tool: string, ink: InkKind) => void;
-  toggleSymmetryMode: (mode: 'diagonal' | 'turn') => void;
+  toggleSymmetryMode: (mode: SymmetryMode) => void;
 }
 
 export type {
@@ -93,4 +96,5 @@ export type {
   InkKind,
   PatternAlign,
   PickSample,
+  SymmetryMode,
 };
