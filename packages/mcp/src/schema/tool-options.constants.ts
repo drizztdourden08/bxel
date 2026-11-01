@@ -38,4 +38,4 @@ const PRESET_ROW_SCHEMA = z.strictObject({
   active: z.boolean().describe('The options now equal this preset.'),
 });
 
-export { OPTION_ROW_SCHEMA, OPTION_VALUE_SCHEMA, OPTION_VALUES_SCHEMA, PRESET_ROW_SCHEMA, SURFACE_VALUES };
+export { OPTION_ROW_SCHEMA, OPTION_VALUES_SCHEMA, PRESET_ROW_SCHEMA, SURFACE_VALUES };

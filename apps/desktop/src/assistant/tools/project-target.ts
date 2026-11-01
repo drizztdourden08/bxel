@@ -1,21 +1,14 @@
 /* @layer renderer-app @kind logic */
-import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import type { McpResult } from '@bxel/mcp';
 import { isOpenablePath } from './is-openable-path';
 import type { ToolContext } from '../assistant.type';
-import { fileExists } from './file-exists';
-import { projectFolder } from './project-folder';
-import { projectPath } from './project-path';
+import { locatedPath } from './located-path';
 import type { OpenTarget, ProjectLocation } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
 
 const projectTarget = async (context: ToolContext, location: ProjectLocation): Promise<McpResult<OpenTarget>> => {
-  const found = projectFolder(context, location.projectId, location.folderId);
-  if (!found.ok) return found;
-  const path = projectPath(found.value.folder.path, location.path);
+  const path = await locatedPath(context, location, isOpenablePath, TOOL_TEXT.notBxel);
   if (!path.ok) return path;
-  if (!isOpenablePath(path.value)) return mcpFailure(MCP_ERROR_CODE.FILE_NOT_SUPPORTED, TOOL_TEXT.notBxel, { path: 'file.path' });
-  if (!(await fileExists(context.documents, path.value))) return mcpFailure(MCP_ERROR_CODE.FILE_NOT_FOUND, TOOL_TEXT.noFile, { path: 'file.path' });
   return { ok: true, value: { path: path.value, viaRecent: false } };
 };
 

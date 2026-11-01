@@ -17,4 +17,4 @@ type SlotFrame = {
   readonly terrainOf: ReadonlyMap<number, number>;
 };
 
-export type { FilledTile, SlotFrame, TileImage };
+export type { FilledTile, SlotFrame };
