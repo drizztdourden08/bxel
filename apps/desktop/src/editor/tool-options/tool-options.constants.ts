@@ -124,8 +124,8 @@ const SELECT_MODE_CHOICES: readonly OptionChoice[] = SELECT_MODES.map((mode) => 
 
 const MAP_SELECT_SHAPE_CHOICES: readonly OptionChoice[] = [
   { value: 'rect', label: 'Rectangle', description: 'Drag a rectangle of cells.', icon: 'pixel-select-rect' },
-  { value: 'wand', label: 'Wand', description: 'Click a cell to select the connected cells that hold the same tile with the same turn.', icon: 'pixel-select-wand' },
-  { value: 'same', label: 'Same tile', description: 'Click a cell to select every cell of the layer that holds its tile, whatever its turn.', icon: 'pixel-select-color' },
+  { value: 'wand', label: 'Wand', description: 'Click a cell to select the connected cells that hold the same tile with the same turn.', icon: 'pixel-map-wand' },
+  { value: 'same', label: 'Same tile', description: 'Click a cell to select every cell of the layer that holds its tile, whatever its turn.', icon: 'pixel-map-same-tile' },
 ];
 
 export { BRUSH_ANGLE_CHOICES, BRUSH_TIP_CHOICES, FILL_AREA_CHOICES, MAP_SELECT_SHAPE_CHOICES, MATCH_CHOICES, NEIGHBOUR_CHOICES, OPTION_TEXT, SAMPLE_CHOICES, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES };
