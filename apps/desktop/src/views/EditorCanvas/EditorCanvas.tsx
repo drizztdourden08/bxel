@@ -22,6 +22,7 @@ import { useCanvasRedraws } from './behavior/useCanvasRedraws';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasKeys } from './behavior/useCanvasKeys';
 import { useSplitTools } from './behavior/useSplitTools';
+import { useSplitView } from './behavior/useSplitView';
 import { useCommittedImage } from './behavior/useCommittedImage';
 import { useEscapeCancel } from './behavior/useEscapeCancel';
 import { usePendingImage } from './behavior/usePendingImage';
@@ -52,6 +53,7 @@ const EditorCanvas = () => {
   const swapped = usePreviewBankImage(target);
   const recoloured = draft ?? swapped;
   const tools = useSplitTools(viewport);
+  const views = useSplitView(viewport, second);
   const readout = useCanvasReadout(viewport);
   const secondReadout = useCanvasReadout(second);
   const keys = useCanvasKeys(viewport);
@@ -70,6 +72,7 @@ const EditorCanvas = () => {
       ref={viewport}
       {...common}
       {...tools.forView(viewport)}
+      {...views.first}
       draw={readout.draw}
       pivotGrips={preview ? undefined : paintPivotGrips}
       onView={feedView}
@@ -81,7 +84,7 @@ const EditorCanvas = () => {
       <CanvasOverlays source={shown} viewport={viewport} />
     </PixelViewport>
   );
-  const other = <PixelViewport ref={second} {...common} {...tools.forView(second)} draw={paintOverlay} onPointerPixel={secondReadout.onPointerPixel} />;
+  const other = <PixelViewport ref={second} {...common} {...tools.forView(second)} {...views.second} draw={paintOverlay} onPointerPixel={secondReadout.onPointerPixel} />;
   return (
     <Box className={canvasClass(flags.rulers)} onBlur={keys.onBlur} {...contextMenuZone(CANVAS_MENU.zone)}>
       {flags.rulers && <RulerBars />}

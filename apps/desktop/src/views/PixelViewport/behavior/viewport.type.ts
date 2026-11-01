@@ -28,6 +28,7 @@ interface ViewStateParams {
   levels: readonly number[];
   zoom?: number;
   pan?: PixelPoint;
+  zoomLocked?: boolean;
   onZoomChange?: (zoom: number) => void;
   onPanChange?: (pan: PixelPoint) => void;
 }

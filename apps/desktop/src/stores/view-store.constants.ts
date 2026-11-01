@@ -3,7 +3,7 @@ import { CANVAS_DEFAULTS } from '../canvas-look/canvas-look.constants';
 import { COMMAND_ID } from '../keymap/keymap.constants';
 import type { TileMode, ViewSettings, ViewToggleRow } from './view-store.type';
 
-const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, gridIso: false, guides: true, rulers: true, snap: false, slices: false, hideOverlays: false, mirror: false, loupe: false, fullscreen: false, split: false, lockGuides: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, viewport: null };
+const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, gridIso: false, guides: true, rulers: true, snap: false, slices: false, hideOverlays: false, mirror: false, loupe: false, fullscreen: false, split: false, splitLink: false, splitActual: false, lockGuides: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, viewport: null };
 
 const TILE_MODES: readonly TileMode[] = ['off', 'x', 'y', 'both'];
 
@@ -28,6 +28,8 @@ const VIEW_TOGGLE_ROWS: readonly ViewToggleRow[] = [
   { toggle: 'loupe', command: COMMAND_ID.loupe, label: 'Loupe' },
   { toggle: 'fullscreen', command: COMMAND_ID.fullscreenPreview, label: 'Fullscreen preview', chord: 'F8' },
   { toggle: 'split', command: COMMAND_ID.splitView, label: 'Split view', chord: 'Mod+Alt+\\' },
+  { toggle: 'splitLink', command: COMMAND_ID.splitLink, label: 'Link views' },
+  { toggle: 'splitActual', command: COMMAND_ID.splitActual, label: 'Actual size in second view' },
   { toggle: 'lockGuides', command: COMMAND_ID.lockGuides, label: 'Lock guides' },
 ];
 

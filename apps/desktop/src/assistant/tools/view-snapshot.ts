@@ -153,6 +153,8 @@ const togglesOf = () => {
     mirror: view.mirror,
     loupe: view.loupe,
     split: view.split,
+    splitLink: view.splitLink,
+    splitActual: view.splitActual,
     fullscreen: view.fullscreen,
     lockGuides: view.lockGuides,
     tiled: view.tiled,

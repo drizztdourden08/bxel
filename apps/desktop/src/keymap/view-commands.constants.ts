@@ -24,7 +24,7 @@ const TILED_COMMANDS: readonly CommandDef[] = TILE_MODES.map((mode) => ({
   run: () => useViewStore.getState().setTiled(mode),
 }));
 
-const SPOKEN: readonly ViewToggle[] = ['snap', 'mirror', 'split', 'hideOverlays', 'loupe', 'fullscreen', 'lockGuides'];
+const SPOKEN: readonly ViewToggle[] = ['snap', 'mirror', 'split', 'splitLink', 'splitActual', 'hideOverlays', 'loupe', 'fullscreen', 'lockGuides'];
 
 const TOGGLE_COMMANDS: readonly CommandDef[] = VIEW_TOGGLE_ROWS.map((row) => ({
   id: row.command,

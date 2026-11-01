@@ -25,7 +25,7 @@ const usePixelViewport = (props: PixelViewportProps): ViewportModel => {
   const image = useMemo(() => ({ width: Math.max(1, width), height: Math.max(1, height) }), [width, height]);
   const fit = fitZoom(image, box);
   const levels = useMemo(() => zoomLevels(zoomSteps, fit), [zoomSteps, fit]);
-  const view = useViewState({ image, box, levels, zoom: props.zoom, pan: props.pan, onZoomChange: props.onZoomChange, onPanChange: props.onPanChange });
+  const view = useViewState({ image, box, levels, zoom: props.zoom, pan: props.pan, zoomLocked: props.zoomLocked, onZoomChange: props.onZoomChange, onPanChange: props.onPanChange });
   const look = useMemo(() => props.look ?? lookOf(CANVAS_DEFAULTS), [props.look]);
   const grids = useMemo(() => ({ pixel: grid, major: gridMajor, tile: gridTile, iso: gridIso }), [grid, gridMajor, gridTile, gridIso]);
   const parts = { rootRef, canvasRef, view, box, image };
