@@ -131,6 +131,7 @@ export { findSheet } from './read/find-sheet';
 export { findSprite } from './read/find-sprite';
 export { flattenFrame } from './read/flatten-frame';
 export { effectiveLock } from './read/effective-lock';
+export { drawnLayers } from './read/drawn-layers';
 export { exportedArtwork } from './read/exported-artwork';
 export { exportedSprite } from './read/exported-sprite';
 export { layerKindOf } from './read/layer-kind-of';

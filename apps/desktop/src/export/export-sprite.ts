@@ -1,15 +1,11 @@
 /* @layer renderer-app @kind logic */
+import { drawnLayers } from '@bxel/document';
 import type { Frame, Sprite } from '@bxel/document';
 import type { ExportSprite, SheetTagEntry } from '@bxel/formats';
 import { bankRgba } from './bank-rgba';
 import type { Target } from './export.type';
 
-const layersOf = (sprite: Sprite, frame: Frame): Uint8Array[] =>
-  sprite.layers.flatMap((layer) => {
-    const celId = layer.visible ? layer.cels[frame.id] : undefined;
-    const cel = celId === undefined ? undefined : sprite.cels[celId];
-    return cel ? [cel.pixels] : [];
-  });
+const layersOf = (sprite: Sprite, frame: Frame): Uint8Array[] => drawnLayers(sprite, frame.id).map((drawn) => drawn.pixels);
 
 const tagsOf = (target: Target): SheetTagEntry[] =>
   target.sprite.tags.flatMap((tag) => {

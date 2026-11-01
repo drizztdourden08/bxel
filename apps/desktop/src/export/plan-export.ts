@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { exportedArtwork } from '@bxel/document';
 import { animationSources } from './animation-sources';
 import { baseName } from './base-name';
 import { clampSettings } from './clamp-settings';
@@ -49,9 +50,15 @@ const baseOf = (input: PlanInput, sources: AnimationSources | null, targets: rea
 const targetsFor = (input: PlanInput, settings: ExportSettings, sources: AnimationSources | null): TargetsResult =>
   sources?.only ? { ok: true, targets: [] } : resolveTargets(input.frozen.artwork, settings, input.selectedIds, input.current);
 
-const planExport = (input: PlanInput): ExportPlan => {
-  const settings = clampSettings(input.settings);
-  if (settings.kind === 'map') return planMap({ ...input, settings });
+const withExportedArtwork = (input: PlanInput): PlanInput => ({
+  ...input,
+  frozen: { ...input.frozen, artwork: exportedArtwork(input.frozen.artwork) },
+});
+
+const planExport = (whole: PlanInput): ExportPlan => {
+  const settings = clampSettings(whole.settings);
+  if (settings.kind === 'map') return planMap({ ...whole, settings });
+  const input = withExportedArtwork(whole);
   const { artwork, revision } = input.frozen;
   const sources = animationSources(artwork, settings);
   const failed = (problem: string): ExportPlan => ({ files: [], spriteCount: 0, indexed: NO_INDEXED, notes: [], problem, revision });
