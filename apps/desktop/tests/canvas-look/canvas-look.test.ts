@@ -63,6 +63,12 @@ describe('K1 the grid layers', { tags: ['critical'] }, () => {
     expect(gridLayers(look, all, 0.25, 8)).toEqual([]);
   });
 
+  it('adds the isometric diamond grid after the tile grid, on the tile line', () => {
+    const flags = { pixel: false, major: false, tile: true, iso: true };
+    expect(gridLayers(look, flags, 8, 8)).toEqual([look.tileLine, { ...look.tileLine, iso: true }]);
+    expect(gridLayers(look, { ...flags, tile: false }, 0.25, 8)).toEqual([]);
+  });
+
   it('draws nothing when every grid is off', () => {
     expect(gridLayers(look, { pixel: false, major: false, tile: false }, 32, 8)).toEqual([]);
   });
