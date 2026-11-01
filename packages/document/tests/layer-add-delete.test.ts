@@ -21,7 +21,7 @@ describe('layer.add', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.add', { name: 'Glow' }));
     expect(layerNames(engine).at(-1)).toBe('Glow');
-    expect(layerOf(engine, 'Glow')).toMatchObject({ visible: true, locked: false, cels: {} });
+    expect(layerOf(engine, 'Glow')).toMatchObject({ visible: true, lock: { pixels: false }, cels: {} });
   });
 
   it('names a new layer Layer N and keeps the name free', () => {

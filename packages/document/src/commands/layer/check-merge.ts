@@ -19,6 +19,11 @@ const pixelPair = (item: PickedLayer): boolean => {
 const checkMerge = (picked: readonly PickedLayer[], allowLocked: boolean): void => {
   failIfAny(
     ERROR_CODE.NO_LAYER_BELOW,
+    'Cannot merge down from the bottom layer.',
+    picked.filter((item) => item.index === 0).map(({ sprite, layer }) => layerIssue(sprite.id, layer, 'it is the bottom layer')),
+  );
+  failIfAny(
+    ERROR_CODE.NO_LAYER_BELOW,
     'Merge down needs a pixel layer and a pixel layer under it in the same group.',
     picked.filter((item) => !pixelPair(item)).map(({ sprite, layer }) => layerIssue(sprite.id, layer, 'no pixel layer below it in its group')),
   );

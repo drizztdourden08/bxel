@@ -6,7 +6,7 @@ import type { MapLayerHeader } from './map-layer-header.type';
 const mapLayerHeader = (layer: MapLayer | null | undefined): MapLayerHeader => ({
   layerId: layer?.id ?? null,
   layerName: layer?.name ?? null,
-  layerState: layer ? layerStateOf(layer) : '',
+  layerState: layer ? layerStateOf({ visible: layer.visible, lock: { pixels: layer.locked, transparency: false, position: false } }) : '',
 });
 
 export { mapLayerHeader };

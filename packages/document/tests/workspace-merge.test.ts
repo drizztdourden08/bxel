@@ -89,7 +89,7 @@ describe('mergeSlices: links and banks', () => {
     const palettes = sourcesOf(split).filter((source) => source.slice.kind === 'palette');
     const present = mergeSlices([...palettes, { path: 'sprites/Hero.bxsprite', slice: hero }, { path: 'sheets/c.bxsheet', slice: loaded }], counterIdSource(7000));
     expect(present.artwork.sprites.map((sprite) => sprite.name).sort()).toEqual(['Hero', 'hero 2', 'Tree'].sort());
-    expect(present.artwork.sprites.find((sprite) => sprite.name === 'Hero')?.layers[0]?.locked).toBe(false);
+    expect(present.artwork.sprites.find((sprite) => sprite.name === 'Hero')?.layers[0]?.lock.pixels).toBe(false);
     const absent = mergeSlices([{ path: 'sheets/c.bxsheet', slice: loaded }], counterIdSource(7000));
     expect(absent.artwork.sprites).toHaveLength(2);
     expect(absent.artwork.banks).toHaveLength(1);

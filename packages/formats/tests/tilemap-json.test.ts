@@ -30,7 +30,7 @@ describe('writeTilemapJson', () => {
 
   it('writes layers as key and flag arrays', () => {
     const json = parseMap(writeTilemapJson(makeMapInput(cells)));
-    expect(json.layers[0]).toEqual({ name: 'Ground', visible: true, locked: false, keys: [5, 9, 0, 12], flags: [0, 1, 0, 6] });
+    expect(json.layers[0]).toEqual({ name: 'Ground', visible: true, locked: false, opacity: 1, keys: [5, 9, 0, 12], flags: [0, 1, 0, 6] });
     expect(json.layers[1]).toMatchObject({ name: 'Top', visible: false, locked: true, keys: [0, 0, 0, 0] });
   });
 

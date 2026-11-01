@@ -6,7 +6,7 @@ describe('layer.update', () => {
   it('renames, hides and locks in one undo step', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.update', { layer: named('Paint'), name: 'Ink', visible: false, locked: true }));
-    expect(layerOf(engine, 'Ink')).toMatchObject({ visible: false, locked: true });
+    expect(layerOf(engine, 'Ink')).toMatchObject({ visible: false, lock: { pixels: true } });
   });
 
   it('allows a change of letter case only', () => {
@@ -18,7 +18,7 @@ describe('layer.update', () => {
   it('unlocks a locked layer', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.update', { layer: named('Frozen'), locked: false }));
-    expect(layerOf(engine, 'Frozen').locked).toBe(false);
+    expect(layerOf(engine, 'Frozen').lock.pixels).toBe(false);
   });
 
   it('is a no-op when nothing changes', () => {

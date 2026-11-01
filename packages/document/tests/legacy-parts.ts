@@ -44,7 +44,7 @@ const makeSprite = (start: number, name: string, bankId: BankId, extra: Partial<
     width: 4,
     height: 4,
     pivot: { x2: 0, y2: 0 },
-    layers: [{ id: brand<LayerId>(`lay_${num(start + 3)}`), name: 'Body', visible: true, locked: false, cels: { [frame]: cel } }],
+    layers: [{ id: brand<LayerId>(`lay_${num(start + 3)}`), name: 'Body', visible: true, lock: { pixels: false, transparency: false, position: false }, cels: { [frame]: cel } }],
     frames: [{ id: frame, durationMs: 100 }],
     tags: [],
     slices: [],

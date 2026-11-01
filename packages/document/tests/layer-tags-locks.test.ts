@@ -28,19 +28,19 @@ describe('layer.update colour tags and the transparency lock', () => {
     expect(rejection(layerEngine(), layerStep('layer.update', { layer: named('Body'), colour: 'red' })).code).toBe('INVALID_OPTION');
   });
 
-  it('sets and clears the transparency lock, and stores nothing when it is off', () => {
+  it('sets and clears the transparency lock', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.update', { layer: named('Body'), lockTransparency: true }));
-    expect(layerOf(engine, 'Body').lockTransparency).toBe(true);
+    expect(layerOf(engine, 'Body').lock.transparency).toBe(true);
     apply(engine, layerStep('layer.update', { layer: named('Body'), lockTransparency: false }));
-    expect(Object.keys(layerOf(engine, 'Body'))).not.toContain('lockTransparency');
+    expect(layerOf(engine, 'Body').lock.transparency).toBe(false);
   });
 
   it('copies the tag and the transparency lock to a duplicate', () => {
     const engine = layerEngine();
     apply(engine, layerStep('layer.update', { layer: named('Body'), colour: '#a6cf5a', lockTransparency: true }));
     apply(engine, layerStep('layer.duplicate', { layer: named('Body') }));
-    expect(layerOf(engine, 'Body copy')).toMatchObject({ colour: '#a6cf5a', lockTransparency: true });
+    expect(layerOf(engine, 'Body copy')).toMatchObject({ colour: '#a6cf5a', lock: { transparency: true } });
   });
 });
 
@@ -50,7 +50,7 @@ describe('saving a layer with a tag and a lock', () => {
     apply(engine, layerStep('layer.update', { layer: named('Body'), colour: '#a78bf5', lockTransparency: true }));
     const report = decodeArtwork(encodeArtwork(engine.state(), null, () => 0));
     const body = report.artwork?.sprites.find((each) => each.id === MUSHROOM)?.layers.find((layer) => layer.name === 'Body');
-    expect(body).toMatchObject({ colour: '#a78bf5', lockTransparency: true });
+    expect(body).toMatchObject({ colour: '#a78bf5', lock: { transparency: true } });
     const plain = report.artwork?.sprites.find((each) => each.id === MUSHROOM)?.layers.find((layer) => layer.name === 'Shadow');
     expect(Object.keys(plain ?? {})).not.toContain('colour');
   });

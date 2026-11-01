@@ -16,7 +16,7 @@ describe('layer.duplicate', () => {
     const copy = layerOf(engine, 'Body copy');
     expect(layerNames(engine).slice(0, 4)).toEqual(['Shadow', 'Body', 'Body copy', 'Frozen']);
     expect(copy.id).not.toBe(source.id);
-    expect(copy).toMatchObject({ visible: true, locked: false });
+    expect(copy).toMatchObject({ visible: true, lock: { pixels: false } });
     for (const frameId of [FIRST, SECOND]) {
       const copyCel = copy.cels[frameId];
       const sourceCel = source.cels[frameId];
@@ -29,8 +29,8 @@ describe('layer.duplicate', () => {
   it('copies a locked layer as an unlocked one', () => {
     const engine = layerEngine();
     apply(engine, layerStep('layer.duplicate', { layer: named('Frozen'), name: 'Thawed' }));
-    expect(layerOf(engine, 'Thawed').locked).toBe(false);
-    expect(layerOf(engine, 'Frozen').locked).toBe(true);
+    expect(layerOf(engine, 'Thawed').lock.pixels).toBe(false);
+    expect(layerOf(engine, 'Frozen').lock.pixels).toBe(true);
   });
 
   it('keeps a copy independent of its source when it is painted', () => {

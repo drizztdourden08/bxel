@@ -73,4 +73,12 @@ describe('pixels.move', () => {
   test('preview equals commit', () => {
     expectPreviewEqualsCommit(rowsArtwork(PIXELS), move({ x: 3, y: 1 }));
   });
+
+  test('refuses a layer with a locked position and changes nothing', () => {
+    const engine = pixelEngine(rowsArtwork(PIXELS));
+    okOf(engine.execute(request([stepOf('layer.update', scope, { layer: { by: 'name', name: 'Body' }, lock: { position: true } })])));
+    const before = rowsOf(engine);
+    expect(errorOf(engine.execute(request([move({ x: 0, y: 2 })], { baseRevision: engine.state().revision }))).code).toBe('LAYER_POSITION_LOCKED');
+    expect(rowsOf(engine)).toEqual(before);
+  });
 });

@@ -2,6 +2,7 @@
 const LAYER_TEXT = {
   locked: (name: string): string => `Layer ${name} is locked. Unlock it or choose another layer.`,
   hidden: (name: string): string => `Layer ${name} is hidden. Show it to draw on it.`,
+  notPixels: (name: string): string => `${name} is a group or a reference image. Pick a pixel layer to draw on.`,
   needUnlock: (name: string): string => `Layer ${name} is locked. Unlock it first.`,
   needShow: (name: string): string => `Layer ${name} is hidden. Show it first.`,
   lastLayer: 'A sprite keeps at least one layer.',

@@ -34,15 +34,15 @@ describe('animation files', () => {
     expectBytesRoundTrip(plan, artwork);
   });
 
-  it('write format and reader version 3 only where the file needs an animation', () => {
+  it('write reader version 4 where the file holds layers and 3 where it needs an animation only', () => {
     const plan = splitIntoAssets(migrated());
     const versions = (kind: AssetKind): number[] =>
       ofKind(plan.files, kind).map((file) => {
         const manifest = readAssetManifest(bytesOf(file));
         return manifest?.minReaderVersion === manifest?.formatVersion ? (manifest?.minReaderVersion ?? 0) : -1;
       });
-    expect(versions('animation')).toEqual([3, 3, 3]);
-    expect(versions('sprite').every((version) => version === 2)).toBe(true);
+    expect(versions('animation')).toEqual([4, 4, 4]);
+    expect(versions('sprite').every((version) => version === 4)).toBe(true);
     expect(versions('palette').every((version) => version === 2)).toBe(true);
     expect(versions('tilemap')).toEqual([2]);
     const sheets = ofKind(plan.files, 'sheet');
@@ -52,7 +52,7 @@ describe('animation files', () => {
     const plain = sheets.filter((file) => !animated.includes(file));
     expect(plain.map((file) => readAssetManifest(bytesOf(file))?.minReaderVersion)).toEqual(plain.map(() => 2));
     const tilesets = ofKind(plan.files, 'tileset');
-    expect(tilesets.map((file) => readAssetManifest(bytesOf(file))?.minReaderVersion)).toEqual([3]);
+    expect(tilesets.map((file) => readAssetManifest(bytesOf(file))?.minReaderVersion)).toEqual([4]);
   });
 
   it('are refused by a reader that stops at version 2, when they need version 3', () => {
@@ -64,7 +64,8 @@ describe('animation files', () => {
     expect(gateVersions(manifest, 3).issue).toBeNull();
     const sprite = ofKind(plan.files, 'sprite')[0];
     const plain = readAssetManifest(sprite ? bytesOf(sprite) : new Uint8Array());
-    expect(plain && gateVersions(plain, 2)).toMatchObject({ issue: null, readOnly: false });
+    expect(plain && gateVersions(plain, 2).issue?.code).toBe('VERSION_TOO_NEW');
+    expect(plain && gateVersions(plain, 4)).toMatchObject({ issue: null, readOnly: false });
   });
 });
 

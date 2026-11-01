@@ -23,7 +23,7 @@ const useMapLayerModel = (): LayerStackModel => {
         name: each.name,
         visible: each.visible,
         mixedVisible: false,
-        lock: lockKindOf({ locked: each.locked }),
+        lock: lockKindOf(each),
         mixedLock: false,
         colour: each.colour ?? null,
         note: null,

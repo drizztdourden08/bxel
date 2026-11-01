@@ -76,7 +76,7 @@ describe('check 1: a 16 slot sprite survives save and reopen', () => {
     const again = readSaved(join(second.dir, 'again.bxsprite'));
     const before = spriteOf(saved, 'hero');
     const after = spriteOf(again, 'again');
-    expect(after.layers.map((layer) => [layer.name, layer.visible, layer.locked])).toEqual(before.layers.map((layer) => [layer.name, layer.visible, layer.locked]));
+    expect(after.layers.map((layer) => [layer.name, layer.visible, layer.lock])).toEqual(before.layers.map((layer) => [layer.name, layer.visible, layer.lock]));
     for (const layer of before.layers) expect(layerIndices(after, layer.name)).toEqual(layerIndices(before, layer.name));
     expect(again.banks.map((bank) => [bank.cap, bank.transparent, bank.slots.length])).toEqual(saved.banks.map((bank) => [bank.cap, bank.transparent, bank.slots.length]));
     expect(again.banks.map((bank) => bank.slots)).toEqual(saved.banks.map((bank) => bank.slots));

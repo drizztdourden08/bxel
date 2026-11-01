@@ -65,7 +65,7 @@ describe('layer.merge rules', () => {
     expect(error.details.map((issue) => issue.layerId)).toEqual(['lay_000103']);
     apply(engine, layerStep('layer.merge', { layer: named('Paint'), allowLocked: true }));
     expect(layerNames(engine)).not.toContain('Paint');
-    expect(layerOf(engine, 'Frozen').locked).toBe(true);
+    expect(layerOf(engine, 'Frozen').lock.pixels).toBe(true);
   });
 
   it('refuses to merge a locked layer unless allowLocked is set', () => {

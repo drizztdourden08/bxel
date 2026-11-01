@@ -15,7 +15,7 @@ const sheetLayerRows = (sprites: readonly Sprite[]): SheetLayerRow[] => {
   }
   return [...names].map(([key, name]) => {
     const layers = found(sprites, key);
-    const kinds = new Set(layers.map(lockKindOf));
+    const kinds = new Set(layers.map((layer) => lockKindOf(layer)));
     const [first] = layers;
     return {
       name,

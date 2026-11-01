@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Sprite, Tag } from '@bxel/document';
 import { guidesOf } from './guides-of';
+import { linkedCels } from './linked-cels';
 
 const frameIndex = (sprite: Sprite, frameId: string): number =>
   Math.max(0, sprite.frames.findIndex((frame) => frame.id === frameId));
@@ -24,9 +25,16 @@ const spriteSummary = (detailedTags: boolean) => (sprite: Sprite) => ({
     layerId: layer.id,
     name: layer.name,
     visible: layer.visible,
-    locked: layer.locked,
-    ...(layer.lockTransparency === true ? { lockTransparency: true } : {}),
+    locked: layer.lock.pixels,
+    lock: layer.lock,
+    kind: layer.kind ?? 'pixel',
+    ...(layer.parentId === undefined ? {} : { parentId: layer.parentId }),
+    ...(layer.viewOpacity === undefined ? {} : { viewOpacity: layer.viewOpacity }),
+    ...(layer.clip === true ? { clip: true } : {}),
+    ...(layer.exported === false ? { exported: false } : {}),
+    ...(layer.reference === undefined ? {} : { reference: layer.reference }),
     ...(layer.colour === undefined ? {} : { colour: layer.colour }),
+    linkedCels: linkedCels(sprite, layer),
   })),
   frames: sprite.frames.map((frame) => ({ frameId: frame.id, durationMs: frame.durationMs })),
   tags: sprite.tags.map((tag) => tagSummary(sprite, tag, detailedTags)),

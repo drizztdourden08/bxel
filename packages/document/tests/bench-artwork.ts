@@ -57,7 +57,7 @@ const buildSprite = (spec: SpriteSpec): Sprite => {
       cels[id] = { id, pixels: sketch(spec.side, base + row + at) };
       byFrame[frame.id] = id;
     }
-    return { id: pad('lay', base + row) as LayerId, name: `Layer ${row + 1}`, visible: true, locked: false, cels: byFrame };
+    return { id: pad('lay', base + row) as LayerId, name: `Layer ${row + 1}`, visible: true, lock: { pixels: false, transparency: false, position: false }, cels: byFrame };
   });
   return {
     id: pad('spr', spec.index) as SpriteId,

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { LayerActions } from './layer-actions.type';
-import type { LockKind } from './layer-lock.type';
+import type { LockKind, LockSource } from './layer-lock.type';
 
 interface CommandLayers {
   actions: LayerActions;
@@ -14,7 +14,7 @@ interface CommandLayers {
 }
 
 interface LayerSource {
-  layers: readonly { id: string; visible: boolean; locked: boolean; lockTransparency?: boolean }[];
+  layers: readonly (LockSource & { id: string; visible: boolean; kind?: string; parentId?: string })[];
   active: string;
   actions: LayerActions;
 }

@@ -104,7 +104,7 @@ describe('native asset v2: container', () => {
     expect(methods.get('mimetype')).toBe(0);
     const manifest = decodeSprite(spriteBytes()).manifest;
     expect(manifest?.kind).toBe('sprite');
-    expect(manifest?.formatVersion).toBe(2);
+    expect(manifest?.formatVersion).toBe(4);
     expect(manifest?.assetId).toBe('spr_000010');
     expect(manifest?.links).toEqual([{ id: 'bnk_000002', path: PALETTE_PATH }]);
   });
@@ -154,14 +154,14 @@ describe('native asset v2: links and recovery', () => {
 
   it('opens a newer format read-only and refuses a newer minimum reader', () => {
     const newer = editManifest(spriteBytes(), (manifest) => {
-      manifest.formatVersion = 4;
+      manifest.formatVersion = 5;
     });
     const report = decodeSprite(newer, sliceOf(decodePalette(paletteBytes())));
     expect(report.readOnly).toBe(true);
     expect(report.notice).toContain('newer Bxel');
     const tooNew = editManifest(spriteBytes(), (manifest) => {
-      manifest.formatVersion = 4;
-      manifest.minReaderVersion = 4;
+      manifest.formatVersion = 5;
+      manifest.minReaderVersion = 5;
     });
     const refused = decodeSprite(tooNew);
     expect(refused.outcome).toBe('fatal');

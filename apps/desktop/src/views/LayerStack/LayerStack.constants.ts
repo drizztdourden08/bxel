@@ -82,12 +82,14 @@ const LAYER_LOCK_ICONS: Readonly<Record<LockKind, IconName>> = {
   none: 'lock-open',
   transparency: 'layout-grid',
   pixels: 'lock',
+  position: 'move',
 };
 
 const LAYER_LOCK_TEXT: Readonly<Record<LockKind, { name: string; description: string }>> = {
   none: { name: 'Unlocked', description: 'Pixels on this layer can be changed.' },
   transparency: { name: 'Lock transparency', description: 'Paint only on pixels that are already painted. Empty pixels stay empty.' },
   pixels: { name: 'Lock pixels', description: 'Nothing on this layer can be changed until you unlock it.' },
+  position: { name: 'Lock position', description: 'Paint as usual, but Move and Transform leave this layer where it is.' },
 };
 
 const LAYER_FLAG_HINTS: Readonly<Record<LayerFlag, HintSpec>> = {

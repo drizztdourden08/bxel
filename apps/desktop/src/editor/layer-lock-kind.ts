@@ -1,10 +1,11 @@
 /* @layer renderer-app @kind logic */
-import type { Layer } from '@bxel/document';
-import type { LockKind } from './layer-lock.type';
+import type { LockKind, LockSource } from './layer-lock.type';
 
-const lockKindOf = (layer: Pick<Layer, 'locked' | 'lockTransparency'>): LockKind => {
-  if (layer.locked) return 'pixels';
-  return layer.lockTransparency === true ? 'transparency' : 'none';
+const lockKindOf = (layer: LockSource): LockKind => {
+  const lock = layer.lock ?? { pixels: layer.locked === true, transparency: false, position: false };
+  if (lock.pixels) return 'pixels';
+  if (lock.transparency) return 'transparency';
+  return lock.position ? 'position' : 'none';
 };
 
 export { lockKindOf };

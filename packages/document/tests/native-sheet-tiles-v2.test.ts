@@ -79,7 +79,7 @@ describe('sheet files', () => {
     const placeholder = slice.artwork.sprites?.[0];
     expect(slice.artwork.sprites).toHaveLength(1);
     expect(placeholder).toMatchObject({ id: report.missingLinks[0]?.id, name: 'hero 2', width: 2, height: 2 });
-    expect(placeholder?.layers[0]?.locked).toBe(true);
+    expect(placeholder?.layers[0]?.lock.pixels).toBe(true);
     expect(slice.artwork.banks).toHaveLength(1);
     expect(slice.artwork.sheets?.[0]?.entries).toHaveLength(3);
     expect(encodeSheet(slice, null, assetClock)).toEqual(bytes);

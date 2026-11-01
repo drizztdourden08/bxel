@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { FORMAT_ERROR_CODE, writeTiledJson } from '@bxel/formats';
 import { describe, expect, it } from 'vitest';
-import { makeMapInput, parseTiled } from './make-tilemap-input';
+import { jsonText, makeMapInput, parseTiled } from './make-tilemap-input';
 
 const FLIP_X = 0x80000000;
 const FLIP_Y = 0x40000000;
@@ -80,4 +80,22 @@ describe('writeTiledJson layers and gids', () => {
       code: FORMAT_ERROR_CODE.TILEMAP_BROKEN_REFERENCE,
     });
   });
+
+  it('writes map layer opacity and nests the layers of a group', () => {
+    const input = makeMapInput([5, 0, 0, 0]);
+    const grouped = {
+      ...input,
+      layers: [
+        { id: 'tml_1', name: 'Ground', visible: true, locked: false, parentId: 'tml_3', opacity: 40, cells: Uint32Array.from([5, 0, 0, 0]) },
+        { id: 'tml_2', name: 'Top', visible: true, locked: false, cells: new Uint32Array(4) },
+        { id: 'tml_3', name: 'Level', visible: true, locked: false, group: true, cells: new Uint32Array(4) },
+      ],
+    };
+    const text = jsonText(writeTiledJson(grouped));
+    const map = JSON.parse(text) as { nextlayerid: number; layers: { name: string; type: string; opacity: number; layers?: { name: string; opacity: number }[] }[] };
+    expect(map.layers.map((layer) => [layer.name, layer.type])).toEqual([['Top', 'tilelayer'], ['Level', 'group']]);
+    expect(map.layers[1]?.layers?.map((layer) => [layer.name, layer.opacity])).toEqual([['Ground', 0.4]]);
+    expect(map.nextlayerid).toBe(4);
+  });
 });
+
