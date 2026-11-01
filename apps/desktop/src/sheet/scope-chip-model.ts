@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { layerKindOf, shownInTree } from '@bxel/document';
 import type { EditorTarget } from '../editor/editor.type';
 import type { LayerScope, SpritesScope } from '../stores/sprite-store.type';
 import { SHEET_TEXT } from './sheet.constants';
@@ -7,7 +8,7 @@ import type { ScopeChipModel, SpriteScene } from './sheet.type';
 const layersLabel = (scope: LayerScope, target: EditorTarget): string => {
   const { layers } = target.sprite;
   if (scope === 'active') return SHEET_TEXT.activeLayerLabel(target.layer.name);
-  if (scope === 'visible') return SHEET_TEXT.visibleLayersLabel(layers.filter((layer) => layer.visible).length);
+  if (scope === 'visible') return SHEET_TEXT.visibleLayersLabel(layers.filter((layer) => layerKindOf(layer) === 'pixel' && shownInTree(layers, layer)).length);
   return SHEET_TEXT.allLayers(layers.length);
 };
 

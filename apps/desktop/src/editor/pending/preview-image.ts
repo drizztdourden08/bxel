@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { overlayPixels, writeRect } from '@bxel/document';
+import { layerKindOf, overlayPixels, shownInTree, writeRect } from '@bxel/document';
 import type { Layer, PreviewCel, TransactionOk } from '@bxel/document';
 import type { Size } from '@bxel/raster';
 import { bankTable } from '../bank-table';
@@ -32,7 +32,8 @@ const previewImage = (target: EditorTarget, result: TransactionOk): PreviewFrame
   const size = frameSize(target, result);
   const indices = new Uint8Array(size.width * size.height);
   for (const layer of target.sprite.layers) {
-    if (layer.visible) overlayPixels(indices, layerBuffer(target, layer, size, preview.cels));
+    if (layerKindOf(layer) !== 'pixel' || !shownInTree(target.sprite.layers, layer)) continue;
+    overlayPixels(indices, layerBuffer(target, layer, size, preview.cels));
   }
   const table = bankTable(target.bank);
   const rgba = new Uint8ClampedArray(indices.length * CHANNELS);
