@@ -2,6 +2,7 @@
 import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
 import { commandArgs } from '../context-menu/command-args';
 import type { ZoomArgs } from '../context-menu/menu-args.type';
+import { copyIndex } from '../editor/copy-index';
 import { copyCursor } from '../editor/copy-cursor';
 import { zoomTo } from '../editor/zoom-to';
 import { COMMAND_GROUP } from './keymap.constants';
@@ -9,6 +10,7 @@ import { ruled } from './ruled';
 
 const STATUS_MENU_COMMANDS: readonly CommandDef[] = [
   { id: 'status.copy_cursor', label: 'Copy the cursor position', group: COMMAND_GROUP.view, run: () => void copyCursor() },
+  { id: 'status.copy_index', label: 'Copy the palette index under the cursor', group: COMMAND_GROUP.view, run: () => void copyIndex() },
   {
     id: 'view.zoom_to',
     label: 'Zoom to a percent',

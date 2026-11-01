@@ -25,6 +25,7 @@ const VIEW_ROWS = [
   ...rows('app_control', 'show', ['help.shortcuts', 'project.panel', 'project.window', 'project.settings', 'project.health', 'asset.settings']),
   one('help.demo', 'app_control', 'app', { dialog: 'demo' }),
   one('status.copy_cursor', 'app_control', 'app'),
+  one('status.copy_index', 'app_control', 'app'),
   one('ruler.set_unit', 'app_control', 'app', { args: 'unit' }),
   ...rows('app_control', 'app', ['tab.move_left', 'tab.move_right'], { args: 'tab' }),
   ...rows('app_control', 'app', ['tool.select_pencil', 'tool.select_eraser', 'tool.select_fill', 'tool.select_picker']),

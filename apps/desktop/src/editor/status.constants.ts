@@ -12,6 +12,8 @@ const STATUS_TEXT = {
   noCursor: 'Move the pointer over the image first.',
   cursorCopied: 'Copied the cursor position.',
   cursorFailed: 'Could not copy the cursor position.',
+  indexCopied: 'Copied the palette index.',
+  indexFailed: 'Could not copy the palette index.',
   cursor: (at: Point): string => `x ${at.x}, y ${at.y}`,
   zoom: (zoom: number): string => `${Math.round(zoom * 100)}%`,
   colourLabel: (position: 1 | 2): string => `Colour ${position}`,
