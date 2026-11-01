@@ -31,7 +31,7 @@ const rewrite = (bytes: Uint8Array, change: (files: Record<string, Uint8Array>) 
   return zipSync(files);
 };
 
-describe('the project file', () => {
+describe('K3 the project file', { tags: ['critical'] }, () => {
   it('is a zip that other readers detect as a project', () => {
     const bytes = encoded();
     expect(detectAssetKind(bytes, 'Dungeon.bxproject')).toEqual({ kind: 'project', extensionMatches: true });
@@ -75,7 +75,7 @@ describe('the project file', () => {
   });
 });
 
-describe('opening a project file', () => {
+describe('S3 opening a project file', { tags: ['standard'] }, () => {
   it('names the kind of a file that is not a project', () => {
     const palette = decodeProject(paletteBytes());
     expect(palette.ok).toBe(false);

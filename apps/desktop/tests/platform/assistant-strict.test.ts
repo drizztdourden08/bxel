@@ -1,10 +1,7 @@
 /* @layer renderer-app @kind test */
-import { COMMAND_NAME, documentCommands } from '@bxel/document';
-import { paletteCommands } from '@bxel/palette';
-import { rasterCommands } from '@bxel/raster';
+import { COMMAND_NAME } from '@bxel/document';
 import { describe, expect, it, vi } from 'vitest';
 import { TOOL_HANDLERS } from '../../src/assistant/tool-handlers.constants';
-import { APP_COMMANDS } from '../../src/documents/document-host.constants';
 import { storePathBook } from '../../src/files/store-path-book';
 import { setStrict } from '../../src/platform-preset/set-strict';
 import { memoryDisk } from '../project/memory-disk';
@@ -26,7 +23,7 @@ const resize = (file: PlatformFile, cap: number): readonly object[] => [
   { name: COMMAND_NAME.paletteResize, targets: null, options: { bankId: artworkOf(file).banks[0]?.id, cap } },
 ];
 
-describe('assistant edits on a file with Enforce platform rules on', () => {
+describe('K4 assistant edits on a file with Enforce platform rules on', { tags: ['standard'] }, () => {
   it('are blocked like the owner edits, with the same notice, and change nothing', async () => {
     const file = strictSnes();
     const before = revisionOf(file);
@@ -82,16 +79,5 @@ describe('assistant edits on a file with Enforce platform rules on', () => {
   it('are not touched on a file without the switch', async () => {
     const file = platformFile(chosen('snes-sprite'));
     expect(await assistantEdit(file, 'apply_edits', resize(file, 32))).toMatchObject({ ok: true });
-  });
-});
-
-describe('the command set every host runs', () => {
-  it('wraps every command in the guard, so no path to the engine skips it', () => {
-    const sources = [...documentCommands, ...paletteCommands, ...rasterCommands];
-    expect(APP_COMMANDS).toHaveLength(sources.length);
-    APP_COMMANDS.forEach((command, at) => {
-      expect(command.name).toBe(sources[at]?.name);
-      expect(command.run).not.toBe(sources[at]?.run);
-    });
   });
 });

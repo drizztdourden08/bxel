@@ -16,7 +16,7 @@ const writtenDocument = async (current: Rig): Promise<DocumentId> => {
   return documentId;
 };
 
-describe('recovery snapshot clearing', () => {
+describe('S2 recovery snapshot clearing', { tags: ['standard'] }, () => {
   it('clears the snapshot when the document is saved', async () => {
     const current = rig();
     const { host, stored, calls, cleaned, advance } = current;
@@ -52,7 +52,7 @@ describe('recovery snapshot clearing', () => {
   });
 });
 
-describe('recovery snapshot discarding', () => {
+describe('S2 recovery snapshot discarding', { tags: ['standard'] }, () => {
   it('clears the snapshot when the document is discarded by closing it', async () => {
     const current = rig();
     const { host, stored, advance } = current;

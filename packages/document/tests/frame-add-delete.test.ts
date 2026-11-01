@@ -5,7 +5,7 @@ import { request } from './heart-engine';
 import { FRAME, SINGLE, WALKER, byId, byIndex, celAt as layerCel, frameEngine, frameIds, tagSpans } from './frame-engine';
 import { apply, celPixels, expectUndoRedo, layerStep, rejection, sprite } from './layer-engine';
 
-describe('frame.add', () => {
+describe('K1 frame.add', { tags: ['critical'] }, () => {
   it('adds an empty 100 ms frame after a frame as one undo step', () => {
     const engine = frameEngine();
     const step = layerStep('frame.add', { after: byIndex(1) }, [WALKER], 'made');
@@ -48,7 +48,7 @@ describe('frame.add', () => {
   });
 });
 
-describe('preview', () => {
+describe('K1 preview', { tags: ['critical'] }, () => {
   it('equals commit for a frame copy and leaves the artwork alone', () => {
     const previewed = frameEngine();
     const step = layerStep('frame.duplicate', { frame: byIndex(0) }, [WALKER], 'copy');
@@ -66,7 +66,7 @@ describe('preview', () => {
   });
 });
 
-describe('frame.duplicate', () => {
+describe('K1 frame.duplicate', { tags: ['critical'] }, () => {
   it('copies the frame and its duration right after it', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, layerStep('frame.duplicate', { frame: byIndex(1) }));
@@ -91,7 +91,7 @@ describe('frame.duplicate', () => {
   });
 });
 
-describe('frame.delete', () => {
+describe('K1 frame.delete', { tags: ['critical'] }, () => {
   it('removes the frame, its cel slots and the cels nobody uses', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, layerStep('frame.delete', { frame: byId(FRAME[2]) }));

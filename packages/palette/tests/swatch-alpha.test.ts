@@ -10,7 +10,7 @@ const alphaAt = (rig: ReturnType<typeof makeRig>, index: number): number | null 
   return slot ? swatchAlpha(slot) : null;
 };
 
-describe('swatch alpha in commands', () => {
+describe('K2 swatch alpha in commands', { tags: ['critical'] }, () => {
   it('adds a swatch with an alpha option and names it after the eight digit colour', () => {
     const rig = makeRig();
     const result = succeed(execute(rig, [step('swatch.add', { bankId: rig.bankId, rgb: '#FF7A8A', alpha: HALF })]));
@@ -65,7 +65,7 @@ describe('swatch alpha in commands', () => {
 
 });
 
-describe('swatch alpha in banks', () => {
+describe('K2 swatch alpha in banks', { tags: ['critical'] }, () => {
   it('creates a bank whose colours carry alpha', () => {
     const rig = makeRig();
     succeed(execute(rig, [step('palette.create', { name: 'Glass', cap: 16, transparent: true, colors: ['#ff0000', '#00ff0080', '#0000ff00'] })]));

@@ -12,7 +12,7 @@ const plan = (manifest = sampleV1WithSets()) => {
   return result.value;
 };
 
-describe('migration from version 1', () => {
+describe('K3 migration from version 1', { tags: ['critical'] }, () => {
   it('turns a manifest with two swatch sets into a version 2 manifest and two palette plans', () => {
     const migrated = plan();
     expect(migrated.manifest.formatVersion).toBe(2);
@@ -52,7 +52,7 @@ describe('migration from version 1', () => {
 
 });
 
-describe('migration from version 1: folders and files', () => {
+describe('K3 migration from version 1: folders and files', { tags: ['critical'] }, () => {
   it('maps the new files and exports settings to roles and adds the other role folders', () => {
     const migrated = plan();
     expect(migrated.manifest.folders[0]?.roles).toEqual({ sprites: 'sprites', sheets: 'sheets', palettes: 'palettes', tilemaps: 'tilemaps', exports: 'exports' });

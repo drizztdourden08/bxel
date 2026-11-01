@@ -24,7 +24,7 @@ const flat = (engine: ReturnType<typeof buildWorld>['engine']): number[][] => {
 const rockSprite = (engine: ReturnType<typeof buildWorld>['engine']) =>
   engine.state().artwork.sprites.find((sprite) => sprite.name === 'rock tile');
 
-describe('tile source versus placement', () => {
+describe('K1 tile source versus placement', { tags: ['critical'] }, () => {
   it('shows a tile in every placement of the flattened map', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -67,7 +67,7 @@ describe('tile source versus placement', () => {
 
 });
 
-describe('tile placement rendering', () => {
+describe('K1 tile placement rendering', { tags: ['critical'] }, () => {
   it('turns and flips a placed tile the way Tiled does', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -108,7 +108,7 @@ describe('tile placement rendering', () => {
   });
 });
 
-describe('broken references', () => {
+describe('K1 broken references', { tags: ['critical'] }, () => {
   const sabotage = defineCommand({
     name: 'test.sabotage',
     scope: 'none',

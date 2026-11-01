@@ -1,11 +1,10 @@
 /* @layer root-config @kind config */
-import { defineConfig } from 'vitest/config';
+import { defineStandardsVitest } from '@drizztdourden08/standards/vitest';
 
-export default defineConfig({
+export default defineStandardsVitest({
   test: {
     include: ['apps/*/tests/e2e/**/*.e2e.ts'],
     exclude: ['**/node_modules/**', '**/dist/**'],
-    testTimeout: 180000,
     hookTimeout: 180000,
     fileParallelism: false,
     globalSetup: ['apps/desktop/tests/e2e/global-setup.ts'],

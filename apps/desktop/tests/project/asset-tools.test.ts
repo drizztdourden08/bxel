@@ -14,8 +14,6 @@ let current: ToolRig;
 let artwork: Artwork;
 let paths: ReadonlyMap<string, string>;
 
-
-
 const listing = (extra: object = {}) => ({ projectId: current.projectId, kinds: ['sprite', 'sheet', 'palette', 'tileset', 'tilemap'], offset: 0, limit: 200, ...extra });
 
 const documentOf = (): string => {
@@ -39,7 +37,7 @@ beforeEach(async () => {
   });
 });
 
-describe('list_assets', () => {
+describe('S2 list_assets', { tags: ['standard'] }, () => {
   it('lists every asset of a granted project with its place, and the sheets that use a sprite', async () => {
     const listed = await current.run('list_assets', listing(), current.grants('read'));
     const assets = rowsOf(listed, 'assets');
@@ -79,7 +77,7 @@ describe('list_assets', () => {
   });
 });
 
-describe('assistant.folders', () => {
+describe('S2 assistant.folders', { tags: ['standard'] }, () => {
   it('hides the folders the owner did not show, in list_places, list_assets and list_files', async () => {
     const owner = manifestOf();
     const hidden = await toolRig({ manifest: { ...owner, assistant: { access: 'off', folders: [] } }, seed: (disk) => void writeProjectAssets(disk, ROOT, artwork) });
@@ -95,7 +93,7 @@ describe('assistant.folders', () => {
   });
 });
 
-describe('open_file for every kind', () => {
+describe('S2 open_file for every kind', { tags: ['standard'] }, () => {
   it.each([
     ['sprites/slime.bxsprite', 'sprite'],
     ['sheets/walk.bxsheet', 'sheet'],
@@ -108,7 +106,7 @@ describe('open_file for every kind', () => {
   });
 });
 
-describe('create_document with a kind', () => {
+describe('S2 create_document with a kind', { tags: ['standard'] }, () => {
   const bank = { name: 'Main', cap: 16, transparent: true, colors: [{ rgb: '#ff0000' }] };
   const create = (kind: string, extra: object = {}) => current.run('create_document', { name: `made ${kind}`, kind, bank, ...extra }, current.grants());
 
@@ -130,7 +128,7 @@ describe('create_document with a kind', () => {
   });
 });
 
-describe('save_document with an asset', () => {
+describe('S2 save_document with an asset', { tags: ['standard'] }, () => {
   const saveOne = (extra: object) => current.run('save_document', { documentId: documentOf(), ...extra }, current.grants('edit'));
 
   it('writes only the asset it names', async () => {
@@ -175,7 +173,7 @@ describe('save_document with an asset', () => {
   });
 });
 
-describe('split_legacy_file', () => {
+describe('S2 split_legacy_file', { tags: ['standard'] }, () => {
   beforeEach(() => {
     current.rig.disk.files.set(`${ROOT}/old.bxel`, legacyBytes({ ...sampleArtwork(), name: 'Older' }));
   });

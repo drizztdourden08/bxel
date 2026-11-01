@@ -9,7 +9,7 @@ const LINE = { from: { x: 0, y: 0 }, to: { x: 7, y: 0 } };
 const gradient = (extra: Record<string, unknown> = {}) => stepOf('pixels.gradient', scope, { ramp: 'Violet', line: LINE, ...extra });
 const rowsOf = (engine: ReturnType<typeof pixelEngine>) => celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
 
-describe('pixels.gradient', () => {
+describe('K2 pixels.gradient', { tags: ['critical'] }, () => {
   test('fills solid bands from the ramp as one undo step', () => {
     const engine = pixelEngine(rampArtwork(['5.5.5.5.']));
     const original = engine.state().artwork;
@@ -69,7 +69,7 @@ describe('pixels.gradient', () => {
   });
 });
 
-describe('pixels.stamp', () => {
+describe('K2 pixels.stamp', { tags: ['critical'] }, () => {
   const patch = { width: 2, height: 2, pixels: Uint8Array.from([1, 2, 0, 3]) };
   const stamp = (extra: Record<string, unknown> = {}) =>
     stepOf('pixels.stamp', scope, { patch, points: [{ x: 1, y: 1 }, { x: 4, y: 1 }], anchor: { x: 0, y: 0 }, ...extra });

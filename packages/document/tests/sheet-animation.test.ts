@@ -23,7 +23,7 @@ const sheetOf = (world: AnimWorld): Sheet => {
 
 const animationOf = (world: AnimWorld): Animation => animationNamed(world.engine, 'walk');
 
-describe('sheet.animation.add and sheet.animation.remove', () => {
+describe('K1 sheet.animation.add and sheet.animation.remove', { tags: ['critical'] }, () => {
   it('places a whole animation at the corner and the next one below it', () => {
     const world = started();
     apply(world.engine, [step('sheet.animation.add', { sheet: world.sheet, animation: world.id })]);
@@ -102,7 +102,7 @@ const withSprites = (): AnimWorld & { readonly id: string; readonly sheet: strin
 
 const north = { by: 'name', name: 'walk', facing: 'n' } as const;
 
-describe('animation entries in an arranged sheet', () => {
+describe('K1 animation entries in an arranged sheet', { tags: ['critical'] }, () => {
   it('flows the strips under the cells of a grid and closes the gap when one goes', () => {
     const world = withSprites();
     apply(world.engine, [
@@ -145,7 +145,7 @@ describe('animation entries in an arranged sheet', () => {
   });
 });
 
-describe('animation entries kept in place', () => {
+describe('K1 animation entries kept in place', { tags: ['critical'] }, () => {
   it('keeps a manual sheet as it is and warns about a strip over a sprite', () => {
     const world = started();
     apply(world.engine, [spriteStep('sheet.add', { sheet: world.sheet, places: [{ at: { x: 2, y: 0 } }] }, world.a)]);

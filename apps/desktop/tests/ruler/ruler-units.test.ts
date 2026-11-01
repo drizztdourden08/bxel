@@ -8,7 +8,7 @@ import { unitScale } from '../../src/ruler/unit-scale';
 const ticksIn = (unit: 'pixels' | 'tiles' | 'percent', count: number, zoom: number, tile = 16) =>
   rulerTicks({ origin: 0, zoom, length: count * zoom, count, unit: unitScale(unit, count, tile) });
 
-describe('ruler units', () => {
+describe('K1 ruler units', { tags: ['critical'] }, () => {
   it('counts pixels as before, with the plain number as the label', () => {
     const ticks = ticksIn('pixels', 32, 4);
     expect(ticks.filter((tick) => tick.label).map((tick) => tick.text)).toEqual(['0', '20']);

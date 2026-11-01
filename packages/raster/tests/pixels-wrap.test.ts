@@ -8,7 +8,7 @@ const SCOPE = scopeOf([rowsIds.sprite]);
 
 const run = (name: string, options: Record<string, unknown>) => request([stepOf(name, SCOPE, options)]);
 
-describe('wrapped commands', () => {
+describe('K2 wrapped commands', { tags: ['critical'] }, () => {
   test('a wrapped pencil stroke continues from the opposite edge as one undo step', () => {
     const engine = pixelEngine(emptyArtwork(6, 3));
     const points = [{ x: 4, y: 1 }, { x: 7, y: 1 }];

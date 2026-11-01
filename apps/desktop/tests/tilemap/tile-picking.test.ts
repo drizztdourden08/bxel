@@ -17,7 +17,7 @@ const layoutOf = (count: number, columns: number, places?: readonly number[]) =>
     tiles: tiles(count).map((tile, at) => (places ? { ...tile, layout: places[at] } : tile)),
   });
 
-describe('picking a rectangle of tiles', () => {
+describe('K1 picking a rectangle of tiles', { tags: ['critical'] }, () => {
   it('builds a stamp from two corners of the tile layout in any direction', () => {
     const layout = layoutOf(7, 5);
     expect(layoutStamp(layout, 1, 7)).toEqual({ columns: 2, rows: 2, keys: [2, 3, 7, 0] });

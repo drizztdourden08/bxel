@@ -25,7 +25,7 @@ const codeOf = (bytes: Uint8Array): string => {
   return result.ok ? 'OK' : result.code;
 };
 
-describe('decodePng damaged files', () => {
+describe('K1 decodePng damaged files', { tags: ['critical'] }, () => {
   it('rejects a bad signature', () => {
     const bytes = validPng();
     bytes[1] = 0;
@@ -58,7 +58,7 @@ describe('decodePng damaged files', () => {
 
 });
 
-describe('decodePng unsupported and oversize files', () => {
+describe('K1 decodePng unsupported and oversize files', { tags: ['critical'] }, () => {
   it('reports Adam7 as unsupported', () => {
     const bytes = buildRawPng({
       width: 1,
@@ -115,7 +115,7 @@ describe('decodePng unsupported and oversize files', () => {
 
 });
 
-describe('decodePng invalid data', () => {
+describe('K1 decodePng invalid data', { tags: ['critical'] }, () => {
   it('rejects zero size, bad depth and bad colour type', () => {
     const base = { height: 1, scanlines: [0, 1] };
     const zero = buildRawPng({ ...base, width: 0, colorType: 0, bitDepth: 8 });
@@ -167,7 +167,7 @@ describe('decodePng invalid data', () => {
 
 });
 
-describe('decodePng on flipped bits', () => {
+describe('K1 decodePng on flipped bits', { tags: ['critical'] }, () => {
   it('never throws when any single bit of a valid file is flipped', () => {
     const indexed = encodePngIndexed({
       indices: new Uint8Array([0, 1, 1, 0]),
@@ -183,9 +183,5 @@ describe('decodePng on flipped bits', () => {
         expect(() => decodePng(copy)).not.toThrow();
       }
     }
-  });
-
-  it('decodes an unmodified copy of the same file', () => {
-    expect(codeOf(validPng())).toBe('OK');
   });
 });

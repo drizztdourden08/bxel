@@ -12,7 +12,7 @@ const SCOPE = scopeOf([rowsIds.sprite]);
 
 const paint = (options: Record<string, unknown>) => request([stepOf('pixels.paint', SCOPE, { index: 1, ...options })]);
 
-describe('pixels.paint options', () => {
+describe('K2 pixels.paint options', { tags: ['critical'] }, () => {
   test('clips a stroke that starts outside the sprite and creates the missing cel', () => {
     const engine = pixelEngine(emptyArtwork(4, 4));
     const result = okOf(engine.execute(paint({ points: [{ x: -3, y: -3 }, { x: 1, y: 1 }] })));
@@ -71,7 +71,7 @@ describe('pixels.paint options', () => {
   });
 });
 
-describe('pixels.paint limits', () => {
+describe('K2 pixels.paint limits', { tags: ['critical'] }, () => {
   const failing = (options: Record<string, unknown>) => {
     const engine = pixelEngine(emptyArtwork(4, 4));
     return errorOf(engine.execute(paint(options)));

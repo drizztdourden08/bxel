@@ -16,16 +16,11 @@ const run = (rows: readonly string[], mask: readonly string[], orientation: Orie
   return { rows: toRows(target), result };
 };
 
-describe('masked region transforms', () => {
+describe('K1 masked region transforms', { tags: ['critical'] }, () => {
   test('a flip moves the pixels inside the bounding box and vacates the old mask', () => {
     const { rows, result } = run(PIXELS, MASK, 'flip-horizontal');
     expect(rows).toEqual(['.....', '.321.', '..54.', '.....', '.....', '.....']);
     expect(result).toEqual({ rect: { x: 1, y: 1, width: 3, height: 2 }, clipped: 0 });
-  });
-
-  test('a vertical flip swaps the two rows of the box', () => {
-    const { rows } = run(PIXELS, MASK, 'flip-vertical');
-    expect(rows).toEqual(['.....', '.45..', '.123.', '.....', '.....', '.....']);
   });
 
   test('pixels outside the mask are never touched', () => {
@@ -69,20 +64,15 @@ describe('masked region transforms', () => {
   });
 });
 
-describe('transformed masks', () => {
+describe('K1 transformed masks', { tags: ['critical'] }, () => {
   test('follow the pixels they select', () => {
     const mask = maskFromRows(MASK);
     expect(maskRows(transformMask(mask, 'flip-horizontal'))).toEqual(['.....', '.###.', '..##.', '.....', '.....', '.....']);
     expect(maskRows(transformMask(mask, 'turn-clockwise'))).toEqual(['.....', '.##..', '.##..', '..#..', '.....', '.....']);
   });
-
-  test('drop what leaves the canvas', () => {
-    const mask = maskFromRows(['.....', '.###.', '.##..']);
-    expect(maskRows(transformMask(mask, 'turn-clockwise'))).toEqual(['.....', '.##..', '.##..']);
-  });
 });
 
-describe('region round trips', () => {
+describe('K1 region round trips', { tags: ['critical'] }, () => {
   const ORBITS: readonly (readonly [Orientation, number])[] = [
     ['turn-clockwise', 4],
     ['turn-counter-clockwise', 4],

@@ -7,7 +7,7 @@ import { step } from './tile-engine';
 const target = (sprite: string) => ({ sprites: [sprite as never], layers: { by: 'all' }, frames: { by: 'all' } }) as const;
 const at = (index: number) => ({ by: 'index', index }) as const;
 
-describe('deleting a sprite an animation uses', () => {
+describe('K1 deleting a sprite an animation uses', { tags: ['critical'] }, () => {
   it('asks for a confirmation, then empties the frames', () => {
     const { engine, a, b } = buildAnimWorld();
     createdAnimation(engine, [step('animation.create', { name: 'walk', source: { kind: 'sprites', sprites: [a, b, a] } }, 'anim')]);
@@ -53,7 +53,7 @@ describe('deleting a sprite an animation uses', () => {
   });
 });
 
-describe('spriteOwners and assetsTouched', () => {
+describe('K1 spriteOwners and assetsTouched', { tags: ['critical'] }, () => {
   it('names the animation as the owner of its frame sprites only', () => {
     const { engine, a, b } = buildAnimWorld();
     const id = createdAnimation(engine, [step('animation.create', { name: 'walk', source: { kind: 'sprites', sprites: [a, b], mode: 'copy' } }, 'anim')]);

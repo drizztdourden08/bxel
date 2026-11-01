@@ -6,7 +6,7 @@ import { startSettings } from '../../src/export/start-settings';
 import { upsertPreset } from '../../src/export/upsert-preset';
 import { settingsOf } from './export-harness';
 
-describe('export presets and settings', () => {
+describe('K1 export presets and settings', { tags: ['critical'] }, () => {
   it('adds a preset and updates one with the same name', () => {
     const first = { name: 'Web sheet', settings: settingsOf({ kind: 'sheet' }) };
     const added = upsertPreset([], first);

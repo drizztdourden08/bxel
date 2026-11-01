@@ -13,7 +13,7 @@ const factor = (value: number) => ({ by: 'factor', x: value, y: value });
 const scale = (extra: Record<string, unknown>) => stepOf('pixels.scale', scope, { target: factor(2), ...extra });
 const rowsOf = (engine: ReturnType<typeof pixelEngine>) => celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
 
-describe('pixels.scale', () => {
+describe('K2 pixels.scale', { tags: ['critical'] }, () => {
   test('scales a masked region by an integer factor as one undo step', () => {
     const engine = pixelEngine(rowsArtwork(BLOCK));
     const original = engine.state().artwork;
@@ -54,7 +54,7 @@ describe('pixels.scale', () => {
 
 });
 
-describe('pixels.scale on several sprites', () => {
+describe('K2 pixels.scale on several sprites', { tags: ['critical'] }, () => {
   test('expand pads the layers it does not paint', () => {
     const engine = pixelEngine(heartArtwork());
     const original = engine.state().artwork;
@@ -70,7 +70,7 @@ describe('pixels.scale on several sprites', () => {
 
 });
 
-describe('pixels.scale bounds and guards', () => {
+describe('K2 pixels.scale bounds and guards', { tags: ['critical'] }, () => {
   test('crop drops what leaves the sprite and says how many pixels', () => {
     const engine = pixelEngine(rowsArtwork(['12', '34']));
     const result = okOf(engine.execute(request([scale({ bounds: 'crop' })])));

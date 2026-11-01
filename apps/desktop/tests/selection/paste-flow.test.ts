@@ -17,7 +17,7 @@ import { BLOCK, openRig } from './selection-harness';
 
 const TABLE = Uint8Array.from([0, 0, 0, 0, 255, 0, 0, 255, 0, 255, 0, 255]);
 
-describe('the paste flow', () => {
+describe('S2 the paste flow', { tags: ['standard'] }, () => {
   it('pastes in the middle of the sprite when the pointer is off the canvas, and in place keeps the source', () => {
     const rig = openRig();
     rig.paint(BLOCK, 4);
@@ -63,7 +63,7 @@ describe('the paste flow', () => {
   });
 });
 
-describe('the clip on the system clipboard', () => {
+describe('K3 the clip on the system clipboard', { tags: ['standard'] }, () => {
   it('round trips through its bytes with the palette it was copied under', () => {
     const rig = openRig();
     rig.paint(BLOCK, 2);

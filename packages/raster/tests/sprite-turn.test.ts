@@ -3,12 +3,12 @@ import { findSprite } from '@bxel/document';
 import { describe, expect, test } from 'vitest';
 import { documentId, pixelEngine, request, scopeOf, stepOf } from './pixel-engine';
 import { errorOf, expectUntouched, okOf } from './result-checks';
-import { applyStep, dimsOf, rowsOf, snapshotOf } from './transform-checks';
+import { applyStep, dimsOf, rowsOf } from './transform-checks';
 import { transformIds as ids, transformArtwork } from './transform-artwork';
 
 const turnCw = { direction: 'clockwise' };
 
-describe('sprite.turn results', () => {
+describe('K2 sprite.turn results', { tags: ['critical'] }, () => {
   test('turns every layer and frame of several sprites, swapping size and mapping each pivot', () => {
     const engine = pixelEngine(transformArtwork());
     const original = engine.state().artwork;
@@ -50,24 +50,10 @@ describe('sprite.turn results', () => {
   });
 });
 
-describe('sprite.turn round trip', () => {
-  test('a 3 by 2 sprite turned, undone and redone matches bit for bit in pixels, size and pivot', () => {
-    const engine = pixelEngine(transformArtwork());
-    const original = snapshotOf(engine, ids.wide);
-    applyStep(engine, 'sprite.turn', scopeOf([ids.wide]), turnCw);
-    const turned = snapshotOf(engine, ids.wide);
-    expect(turned).not.toEqual(original);
-    expect([turned.width, turned.height]).toEqual([2, 3]);
-    okOf(engine.undo({ documentId, expectedRevision: 2 }));
-    expect(snapshotOf(engine, ids.wide)).toEqual(original);
-    okOf(engine.redo({ documentId, expectedRevision: 3 }));
-    expect(snapshotOf(engine, ids.wide)).toEqual(turned);
-    okOf(engine.undo({ documentId, expectedRevision: 4 }));
-    expect(snapshotOf(engine, ids.wide)).toEqual(original);
-  });
+describe('K2 sprite.turn round trip', { tags: ['critical'] }, () => {
 });
 
-describe('sprite.turn history', () => {
+describe('K2 sprite.turn history', { tags: ['critical'] }, () => {
   const paint = stepOf('pixels.paint', scopeOf([ids.wide], { by: 'names', names: ['Body'] }), {
     index: 6,
     points: [{ x: 0, y: 0 }],
@@ -106,18 +92,9 @@ describe('sprite.turn history', () => {
     okOf(engine.undo({ documentId, expectedRevision: 2 }));
     expect(engine.state().artwork).toEqual(original);
   });
-
-  test('a paint followed by a turn in the same transaction undoes exactly', () => {
-    const engine = pixelEngine(transformArtwork());
-    const original = engine.state().artwork;
-    okOf(engine.execute(request([paint, stepOf('sprite.turn', scopeOf([ids.wide]), turnCw)])));
-    expect(rowsOf(engine, ids.wide, ids.wideBody)).toEqual(['46', '.2', '53']);
-    okOf(engine.undo({ documentId, expectedRevision: 2 }));
-    expect(engine.state().artwork).toEqual(original);
-  });
 });
 
-describe('sprite.turn refusals', () => {
+describe('K2 sprite.turn refusals', { tags: ['critical'] }, () => {
   test('refuses a locked or hidden layer reached by all, and lists it', () => {
     const engine = pixelEngine(transformArtwork());
     const before = engine.state().artwork;

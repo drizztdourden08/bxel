@@ -4,7 +4,7 @@ import { useSubjectStore } from '../../src/properties-subject/useSubjectStore';
 
 const ref = (path: string) => ({ path, key: null });
 
-describe('the pin of the Properties window', () => {
+describe('K1 the pin of the Properties window', { tags: ['critical'] }, () => {
   beforeEach(() => useSubjectStore.getState().restore(null));
 
   it('follows the tab until a file is pinned, and follows again when unpinned', () => {

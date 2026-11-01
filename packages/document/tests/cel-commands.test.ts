@@ -7,7 +7,7 @@ const slot = (layer: string, frame: number) => ({ layer: named(layer), frame: by
 const fxOnly = { layers: { by: 'names', names: ['Fx'] }, frames: { by: 'all' } } as const;
 const bodyAll = { layers: { by: 'names', names: ['Body'] }, frames: { by: 'all' } } as const;
 
-describe('cel.clear', () => {
+describe('K1 cel.clear', { tags: ['critical'] }, () => {
   it('empties the cels in scope as one undo step and drops the cels nobody uses', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, scopedStep('cel.clear', {}, fxOnly));
@@ -37,7 +37,7 @@ describe('cel.clear', () => {
   });
 });
 
-describe('cel.copy', () => {
+describe('K1 cel.copy', { tags: ['critical'] }, () => {
   it('copies the pixels into a new cel and leaves the source alone', () => {
     const engine = frameEngine();
     const step = layerStep('cel.copy', { from: slot('Body', 2), to: slot('Fx', 1) });
@@ -71,7 +71,7 @@ describe('cel.copy', () => {
   });
 });
 
-describe('cel.move', () => {
+describe('K1 cel.move', { tags: ['critical'] }, () => {
   it('moves the cel and empties the source slot', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, layerStep('cel.move', { from: slot('Body', 2), to: slot('Fx', 2) }));

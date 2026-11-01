@@ -19,7 +19,7 @@ beforeEach(() => {
 
 const spriteIds = (): (string | null)[] => animationOf().frames.map((frame) => frame.spriteId);
 
-describe('adding a frame', () => {
+describe('S2 adding a frame', { tags: ['standard'] }, () => {
   it('puts a blank frame of its own after the current one and picks it', () => {
     withFrames(2);
     addFrame();
@@ -39,7 +39,7 @@ describe('adding a frame', () => {
   });
 });
 
-describe('duplicating frames', () => {
+describe('S2 duplicating frames', { tags: ['standard'] }, () => {
   it('copies the sprite each owned frame draws on, in order, and picks the copies', () => {
     withFrames(3);
     paintFrame(0, 1, 1, 2);
@@ -56,7 +56,7 @@ describe('duplicating frames', () => {
   });
 });
 
-describe('deleting frames', () => {
+describe('S2 deleting frames', { tags: ['standard'] }, () => {
   it('removes the picked frames and picks the next one', () => {
     withFrames(4);
     pickRange(1, 2);
@@ -74,7 +74,7 @@ describe('deleting frames', () => {
   });
 });
 
-describe('moving frames', () => {
+describe('S2 moving frames', { tags: ['standard'] }, () => {
   it('moves the picked frames by their keys and by dragging', () => {
     const [a, b, c] = withFrames(3);
     moveFrames(1);
@@ -85,7 +85,7 @@ describe('moving frames', () => {
   });
 });
 
-describe('timing', () => {
+describe('S2 timing', { tags: ['standard'] }, () => {
   it('sets the time of every picked frame at once', () => {
     withFrames(3);
     pickRange(0, 1);
@@ -100,7 +100,7 @@ describe('timing', () => {
   });
 });
 
-describe('moving along the frames', () => {
+describe('S2 moving along the frames', { tags: ['standard'] }, () => {
   it('steps to the neighbour and stays at the ends', () => {
     withFrames(3);
     stepFrame(1);

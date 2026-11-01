@@ -3,7 +3,7 @@ import { checkSprite } from '@bxel/presets';
 import { describe, expect, it } from 'vitest';
 import { preset, size } from './preset-fixtures';
 
-describe('checkSprite', () => {
+describe('K1 checkSprite', { tags: ['critical'] }, () => {
   it('accepts every size in a list and refuses the rest', () => {
     const gba = preset('gba-4bpp');
     expect(checkSprite(gba, size(64, 32)).ok).toBe(true);

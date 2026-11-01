@@ -7,7 +7,7 @@ import { withBundles } from './grant-builders';
 
 const item = (area: BundleId, changes: boolean) => ({ what: 'run_command thing', area, changes });
 
-describe('run_command and set_view grants', () => {
+describe('K4 run_command and set_view grants', { tags: ['critical'] }, () => {
   it('runs a show command at Read and refuses an editing one, naming the bundle', () => {
     const grant = PRESETS.edit_documents.grant;
     expect(checkCommand(grant, 'run_command', item('app_control', false))).toBeNull();
@@ -46,7 +46,7 @@ describe('run_command and set_view grants', () => {
   });
 });
 
-describe('the restart permission', () => {
+describe('K4 the restart permission', { tags: ['critical'] }, () => {
   it('hides restart_bxel and refuses it by name until the owner allows it', () => {
     const descriptors = describeTools(documentCommands);
     const namesOf = (grant: Grant): string[] => toolsForGrant(descriptors, grant).map((tool) => tool.name);

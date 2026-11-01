@@ -7,7 +7,7 @@ import { selectionMask } from '../../src/editor/selection/selection-mask';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
 import { BLOCK, openRig } from './selection-harness';
 
-describe('the canvas size actions', () => {
+describe('S2 the canvas size actions', { tags: ['standard'] }, () => {
   it('crops the sprite to the box of the selection in one undo step and clears the selection', () => {
     const rig = openRig();
     rig.paint(BLOCK, 3);

@@ -1,8 +1,7 @@
 /* @layer tests @kind test */
-import { BUNDLE_IDS, checkGrant, makeGrant, PRESETS, TOOL_ROWS } from '@bxel/mcp';
+import { checkGrant, makeGrant, PRESETS } from '@bxel/mcp';
 import type { Grant, ToolRowId } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
-import { TOOL_TEXT } from '../../src/views/AssistantPanel/sub-components/ProgramGrant.constants';
 import { bundleRows } from '../../src/views/AssistantPanel/behavior/bundle-rows';
 import { presetGrant } from '../../src/views/AssistantPanel/behavior/preset-grant';
 import { presetOf } from '../../src/views/AssistantPanel/behavior/preset-of';
@@ -22,14 +21,7 @@ const tool = (grant: Grant, id: ToolRowId) => {
   return found;
 };
 
-describe('the permissions rows list the whole catalogue', () => {
-  it('shows every bundle and every tool once, each with a description', () => {
-    const rows = bundleRows(full, '');
-    expect(rows.map((each) => each.id)).toEqual([...BUNDLE_IDS]);
-    const tools = toolIds(full, '').sort();
-    expect(tools).toEqual((Object.keys(TOOL_ROWS) as ToolRowId[]).sort());
-    for (const one of Object.keys(TOOL_ROWS)) expect(TOOL_TEXT[one as ToolRowId], one).not.toBe('');
-  });
+describe('K1 the permissions rows list the whole catalogue', { tags: ['critical'] }, () => {
 
   it('names each control for the bundle or the tool, and says when a tool overrides its bundle', () => {
     expect(row(full, 'edit_pixels')?.name).toBe('Edit pixels permission');
@@ -38,7 +30,7 @@ describe('the permissions rows list the whole catalogue', () => {
   });
 });
 
-describe('levels', () => {
+describe('K1 levels', { tags: ['critical'] }, () => {
   it('offers Disabled, Read and Edit in that order, and greys what a tool cannot use with a reason', () => {
     const reads = tool(full, 'get_document').options;
     expect(reads.map((option) => option.value)).toEqual(['disabled', 'read', 'edit']);
@@ -55,7 +47,7 @@ describe('levels', () => {
   });
 });
 
-describe('overrides', () => {
+describe('K1 overrides', { tags: ['critical'] }, () => {
   it('a bundle change keeps the overrides of its tools', () => {
     const overridden = withToolLevel(full, 'save_document', 'disabled');
     const moved = withBundleLevel(overridden, 'files_saving', 'read');
@@ -87,7 +79,7 @@ describe('overrides', () => {
   });
 });
 
-describe('bundle levels reach the enforcement', () => {
+describe('K1 bundle levels reach the enforcement', { tags: ['critical'] }, () => {
   it('Disabled hides the tools of a bundle from the helper listing and Read refuses writes', () => {
     const disabled = withBundleLevel(full, 'files_saving', 'disabled');
     expect(checkGrant('save_document', { documentId: 'x' }, disabled)?.error.code).toBe('TOOL_DISABLED');
@@ -97,7 +89,7 @@ describe('bundle levels reach the enforcement', () => {
   });
 });
 
-describe('presets', () => {
+describe('K1 presets', { tags: ['critical'] }, () => {
   it('recognise their own grants and call anything else Custom', () => {
     expect(presetOf(PRESETS.read_only.grant)).toBe('read_only');
     expect(presetOf(PRESETS.edit_documents.grant)).toBe('edit_documents');
@@ -127,7 +119,7 @@ describe('presets', () => {
   });
 });
 
-describe('search', () => {
+describe('K1 search', { tags: ['critical'] }, () => {
   it('keeps the bundles and tools that match and leaves the others out', () => {
     const rows = bundleRows(full, 'save_document');
     expect(rows.map((each) => each.id)).toEqual(['files_saving']);

@@ -14,7 +14,7 @@ const { ok, code, valid } = check;
 
 beforeEach(reset);
 
-describe('get_view and zooming', () => {
+describe('S2 get_view and zooming', { tags: ['standard'] }, () => {
   it('reports the tool, colours and zoom of the window', async () => {
     const documentId = openDocument();
     useViewStore.getState().setViewport(viewport);
@@ -46,7 +46,7 @@ describe('get_view and zooming', () => {
 
 });
 
-describe('set_view state, selection and pages', () => {
+describe('S2 set_view state, selection and pages', { tags: ['standard'] }, () => {
   it('flips the toggles, picks the tool and colours, and sets symmetry', async () => {
     openDocument();
     const done = await ok('set_view', {

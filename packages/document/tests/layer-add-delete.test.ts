@@ -16,7 +16,7 @@ import {
   sprite,
 } from './layer-engine';
 
-describe('layer.add', () => {
+describe('K1 layer.add', { tags: ['critical'] }, () => {
   it('adds a named layer on top as one undo step', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.add', { name: 'Glow' }));
@@ -66,7 +66,7 @@ describe('layer.add', () => {
   });
 });
 
-describe('layer.delete', () => {
+describe('K1 layer.delete', { tags: ['critical'] }, () => {
   it('removes the layer and the cels only it used, and undo restores them', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.delete', { layer: named('Body') }));

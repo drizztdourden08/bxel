@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { recolourSwatch } from '../../src/palette-bank/recolour-swatch';
 import { openEditor } from '../editor/editor-harness';
 
-describe('changing the colour of a swatch from the palette', () => {
+describe('S2 changing the colour of a swatch from the palette', { tags: ['standard'] }, () => {
   it('writes the new colour into the bank as one command', () => {
     const { host, documentId, target } = openEditor();
     const before = host.view(documentId)?.state.revision ?? 0;

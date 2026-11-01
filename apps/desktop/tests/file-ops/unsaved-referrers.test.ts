@@ -18,7 +18,7 @@ const DESTINATION = `${ROOT}/destination`;
 
 const manifestAt = (path: string) => manifestIn(held.rig.disk, path);
 
-describe('moving a file that a file with unsaved edits links to', () => {
+describe('K3 moving a file that a file with unsaved edits links to', { tags: ['standard'] }, () => {
   it('writes the new link into the file on disk, keeps the edits unsaved, and does not save them', async () => {
     const { documentId, paths } = await openSampleProject(held.rig);
     held.rig.disk.dirs.add(DESTINATION);

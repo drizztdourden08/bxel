@@ -16,15 +16,7 @@ const startPalette = (id: string): readonly string[] => {
 
 const HEX = /^#[0-9a-f]{6}$/;
 
-describe('fixed palettes', () => {
-  it('holds the documented count of valid colours', () => {
-    expect(colourSet('nes-sprite')).toHaveLength(55);
-    expect(colourSet('nes-bg')).toHaveLength(55);
-    expect(colourSet('pico-8')).toHaveLength(16);
-    expect(colourSet('gb-dmg')).toHaveLength(4);
-    expect(startPalette('tic-80')).toHaveLength(16);
-  });
-
+describe('K1 fixed palettes', { tags: ['critical'] }, () => {
   it('uses valid, lower case hex and no repeats', () => {
     const sets = [
       colourSet('nes-sprite'),

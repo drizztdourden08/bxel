@@ -80,7 +80,7 @@ beforeEach(() => {
   addToSheet(idsOf('a', 'b', 'c', 'd', 'e'), null);
 });
 
-describe('the atlas preview and the export of the same sheet', () => {
+describe('S2 the atlas preview and the export of the same sheet', { tags: ['standard'] }, () => {
   it('lay out every frame of every sprite the same way on a grid', () => {
     styleSheet(sheet().id, { layout: 'grid', columns: 3 });
     expect(expectSame(PACK)).toBe(1);
@@ -137,7 +137,7 @@ const walk = (sprites: string[], more: Parameters<typeof runDocument>[1] = []): 
   if (!done) throw new Error('the build failed');
 };
 
-describe('a sheet that places an animation', () => {
+describe('S2 a sheet that places an animation', { tags: ['standard'] }, () => {
   it('draws the frames of the animation where the export puts them, on a grid and packed', () => {
     walk(['a', 'b']);
     styleSheet(sheet().id, { layout: 'grid', columns: 3 });

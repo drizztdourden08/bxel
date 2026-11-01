@@ -11,7 +11,7 @@ const symmetryOf = (engine: Engine) => engine.state().artwork.sprites.find((each
 
 const run = (options: unknown) => onSprites('sprite.symmetry', options, [HEART]);
 
-describe('sprite symmetry', () => {
+describe('K1 sprite symmetry', { tags: ['critical'] }, () => {
   it('is absent until set, merges the fields given and is one undo step each time', () => {
     const { engine } = heartEngine();
     expect(symmetryOf(engine)).toBeUndefined();

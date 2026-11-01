@@ -7,7 +7,7 @@ import { flat, live, penStroke, resetEditor, tools } from './option-harness';
 
 beforeEach(resetEditor);
 
-describe('Shift and click', () => {
+describe('S2 Shift and click', { tags: ['standard'] }, () => {
   it('draws a straight line from the last point of the previous stroke', () => {
     const plan = { kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false } as const;
     const first = startSession(plan, live(), { x: 2, y: 2 });
@@ -29,7 +29,7 @@ describe('Shift and click', () => {
   });
 });
 
-describe('the fill options', () => {
+describe('S2 the fill options', { tags: ['standard'] }, () => {
   const wall = () => {
     tools().setForeground(9);
     commitSession(penStroke({ x: 5, y: 0 }, { x: 5, y: 31 }));

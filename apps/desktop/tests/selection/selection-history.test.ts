@@ -9,7 +9,7 @@ import { stepHistory } from '../../src/editor/step-history';
 import { useSelectionHistoryStore } from '../../src/stores/useSelectionHistoryStore';
 import { BLOCK, countOn, openRig } from './selection-harness';
 
-describe('selection history', () => {
+describe('S2 selection history', { tags: ['standard'] }, () => {
   it('makes a selection change undoable and redoable without touching the pixels', () => {
     const rig = openRig();
     useSelectionHistoryStore.getState().reset();

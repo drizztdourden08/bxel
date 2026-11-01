@@ -26,7 +26,7 @@ const filled = (count: number): TrustStore =>
     DEFAULT_TRUST_STORE,
   );
 
-describe('remembering programs', () => {
+describe('K3 remembering programs', { tags: ['critical'] }, () => {
   it('stores the normalized key, the shown name, the mode and the times', () => {
     const store = rememberProgram(DEFAULT_TRUST_STORE, named('  Pixel   Agent '), 'edit', at(1));
     expect(store.programs).toEqual([
@@ -66,7 +66,7 @@ describe('remembering programs', () => {
   });
 });
 
-describe('changing and forgetting', () => {
+describe('K3 changing and forgetting', { tags: ['critical'] }, () => {
   const store = filled(3);
 
   it('changes the grant of one program and keeps the derived mode in step', () => {
@@ -93,7 +93,7 @@ describe('changing and forgetting', () => {
   });
 });
 
-describe('recording the owner answer', () => {
+describe('K3 recording the owner answer', { tags: ['critical'] }, () => {
   const start = (level: TrustStore['level']): TrustState => ({ store: { ...DEFAULT_TRUST_STORE, level }, launch: [] });
 
   it('saves the choice at the remember level', () => {
@@ -133,7 +133,7 @@ describe('recording the owner answer', () => {
   });
 });
 
-describe('reading stored settings', () => {
+describe('K3 reading stored settings', { tags: ['critical'] }, () => {
   it('falls back to the defaults for junk', () => {
     expect(normalizeTrustStore(undefined)).toEqual(DEFAULT_TRUST_STORE);
     expect(normalizeTrustStore('x')).toEqual(DEFAULT_TRUST_STORE);

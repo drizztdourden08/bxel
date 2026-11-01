@@ -30,7 +30,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('Pack project and unpack it again', () => {
+describe('K3 Pack project and unpack it again', { tags: ['standard'] }, () => {
   it('packs every native asset into one .bxproject and unpacks it into an identical project', async () => {
     await openSampleProject(held);
     aimDialogs();

@@ -9,7 +9,7 @@ const started = () => {
   return { ...world, id };
 };
 
-describe('animation.split on a frame the animation does not own', () => {
+describe('K1 animation.split on a frame the animation does not own', { tags: ['critical'] }, () => {
   it('changes nothing without strict, as the Split to sprites button does', () => {
     const world = started();
     const done = apply(world.engine, [step('animation.split', { animation: world.id })]);

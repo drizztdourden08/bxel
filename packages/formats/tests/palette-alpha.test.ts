@@ -14,7 +14,7 @@ const SIDE = 2;
 const wanted = (palette: Uint8Array, indices: Uint8Array): number[] =>
   Array.from(indices).flatMap((index) => Array.from(palette.subarray(index * 4, index * 4 + 4)));
 
-describe('palette alpha in PNG and APNG', () => {
+describe('K1 palette alpha in PNG and APNG', { tags: ['critical'] }, () => {
   it('writes every partial alpha of the palette into tRNS and reads it back', () => {
     const encoded = encodePngIndexed({ indices: INDICES, palette: PALETTE, width: SIDE, height: SIDE });
     if (!encoded.ok) throw new Error(encoded.message);
@@ -52,7 +52,7 @@ describe('palette alpha in PNG and APNG', () => {
   });
 });
 
-describe('palette alpha in GIF', () => {
+describe('K1 palette alpha in GIF', { tags: ['critical'] }, () => {
   const gif = (palette: Uint8Array, transparentIndex: number | null) => {
     const encoded = encodeGif({ width: SIDE, height: SIDE, palette, transparentIndex, loops: 0, frames: [{ indices: INDICES, delayMs: 100 }] });
     if (!encoded.ok) throw new Error(encoded.message);

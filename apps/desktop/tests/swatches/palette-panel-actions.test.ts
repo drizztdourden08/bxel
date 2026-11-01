@@ -3,7 +3,6 @@ import { frameToRgba } from '@bxel/document';
 import { buildRamp } from '@bxel/palette';
 import { describe, expect, it } from 'vitest';
 import { movedOrder } from '../../src/palette-panel/moved-order';
-import { recolourSwatch } from '../../src/palette-bank/recolour-swatch';
 import { sheetPlan } from '../../src/palette-panel/sheet-plan';
 import { swappedOrder } from '../../src/palette-panel/swapped-order';
 import { applyRamp } from '../../src/palette-ramps/apply-ramp';
@@ -16,7 +15,7 @@ const rig = () => {
   return editor;
 };
 
-describe('palette panel actions', () => {
+describe('S2 palette panel actions', { tags: ['standard'] }, () => {
   it('moves a block of swatches into a gap and keeps slot 0 first', () => {
     const { target } = rig();
     const bank = target().bank;
@@ -24,15 +23,6 @@ describe('palette panel actions', () => {
     expect(movedOrder(bank, [5], 7)).toEqual([...ids.slice(0, 5), ids[6], ids[5], ...ids.slice(7)]);
     expect(movedOrder(bank, [2, 3], 0)[0]).toBe(ids[0]);
     expect(swappedOrder(bank, 1, 2).slice(0, 3)).toEqual([ids[0], ids[2], ids[1]]);
-  });
-
-  it('renames a swatch with its colour in one step', () => {
-    const { host, documentId, target } = rig();
-    const before = host.view(documentId)?.state.revision ?? 0;
-    expect(recolourSwatch(host, documentId, target().bank, { index: 5, rgb: '#102030', name: 'moss' }).ok).toBe(true);
-    const slot = target().bank.slots[5];
-    expect(slot?.kind === 'color' ? [slot.rgb, slot.name] : null).toEqual(['#102030', 'moss']);
-    expect(host.view(documentId)?.state.revision).toBe(before + 1);
   });
 
   it('plans Remove unused with the colours that go and the palette after', () => {

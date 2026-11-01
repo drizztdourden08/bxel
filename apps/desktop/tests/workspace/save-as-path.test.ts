@@ -32,7 +32,7 @@ const twoSprites = async () => {
   return { documentId, paths, first, second };
 };
 
-describe('Save As onto a path', () => {
+describe('K3 Save As onto a path', { tags: ['standard'] }, () => {
   it('refuses a file that another open asset owns and writes nothing', async () => {
     const { documentId, paths, first, second } = await twoSprites();
     const taken = paths.get(second.id) ?? '';

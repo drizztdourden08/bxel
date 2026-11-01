@@ -12,7 +12,7 @@ const BLOCK: TileStamp = { columns: 3, rows: 2, keys: [1, 2, 3, 4, 5, 6] };
 
 const flags = (set: Partial<CellFlags>): CellFlags => ({ flipX: false, flipY: false, diagonal: false, ...set });
 
-describe('orienting a stamp as a block', () => {
+describe('K1 orienting a stamp as a block', { tags: ['critical'] }, () => {
   it('mirrors the block with flip X and flip Y', () => {
     expect(orientStamp(BLOCK, flags({ flipX: true }))).toEqual({ columns: 3, rows: 2, keys: [3, 2, 1, 6, 5, 4] });
     expect(orientStamp(BLOCK, flags({ flipY: true }))).toEqual({ columns: 3, rows: 2, keys: [4, 5, 6, 1, 2, 3] });
@@ -30,7 +30,7 @@ describe('orienting a stamp as a block', () => {
   });
 });
 
-describe('scatter sets', () => {
+describe('K1 scatter sets', { tags: ['critical'] }, () => {
   const set = (weights: readonly (number | undefined)[]) => ({
     ...tilesetOf(weights.length),
     tiles: tilesetOf(weights.length).tiles.map((tile, at): Tile => (weights[at] === undefined ? tile : { ...tile, probability: weights[at] })),
@@ -57,7 +57,7 @@ describe('scatter sets', () => {
   });
 });
 
-describe('tracing pixels into a collision shape', () => {
+describe('K1 tracing pixels into a collision shape', { tags: ['critical'] }, () => {
   it('makes a box of a filled tile and a polygon of a diagonal one', () => {
     expect(tracePixels(Uint8Array.from([1, 1, 1, 1]), 2)).toEqual({ kind: 'rect', x: 0, y: 0, width: 2, height: 2 });
     const shape = tracePixels(Uint8Array.from([0, 0, 1, 0, 1, 1, 1, 1, 1]), 3);

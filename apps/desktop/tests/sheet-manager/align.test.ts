@@ -30,7 +30,7 @@ const place = (name: string, x: number, y: number): void => {
   if (sheet && id) runDocument('Place', [{ name: COMMAND_NAME.sheetPlace, targets: spritesTarget([id]), options: { sheet: sheet.id, at: { x, y } } }]);
 };
 
-describe('the plan for aligning boxes', () => {
+describe('K1 the plan for aligning boxes', { tags: ['critical'] }, () => {
   const boxes = [box('a', [0, 0], [8, 8]), box('b', [20, 10], [4, 4]), box('c', [40, 3], [6, 6])];
 
   it('aligns edges and middles of the group', () => {
@@ -50,7 +50,7 @@ describe('the plan for aligning boxes', () => {
   });
 });
 
-describe('aligning sprites on a sheet', () => {
+describe('S2 aligning sprites on a sheet', { tags: ['standard'] }, () => {
   beforeEach(() => {
     openFile(['a', 'b', 'c'], 8);
     resizeSprites(idsOf('b'), { width: 4, height: 4, anchor: 'top-left' });

@@ -31,7 +31,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('the saved point of a project', () => {
+describe('K3 the saved point of a project', { tags: ['standard'] }, () => {
   it('keeps the undo history of every asset across Save all and follows the saved point', async () => {
     const { documentId } = await paintedTwo();
     await saveWorkspace(held.kit, documentId);
@@ -66,7 +66,7 @@ describe('the saved point of a project', () => {
   });
 });
 
-describe('an undo that lands while a save is writing', () => {
+describe('K3 an undo that lands while a save is writing', { tags: ['standard'] }, () => {
   it('keeps the asset unsaved when the file written is not the state the undo went back to', async () => {
     const { documentId } = await openSampleProject(held);
     const [first] = artworkOf(documentId).sprites;

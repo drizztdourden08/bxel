@@ -7,7 +7,7 @@ import { fitLabel } from '../../src/views/SheetCanvas/behavior/fit-label';
 
 const box = (id: string, x: number, y: number): AlignBox => ({ id: id as SpriteId, x, y, width: 10, height: 10 });
 
-describe('distribute in rows', () => {
+describe('K1 distribute in rows', { tags: ['critical'] }, () => {
   it('does nothing for fewer than two boxes', () => {
     expect(rowsPlan([box('a', 0, 0)], 2)).toEqual([]);
   });
@@ -20,7 +20,7 @@ describe('distribute in rows', () => {
   });
 });
 
-describe('canvas label fit', () => {
+describe('K1 canvas label fit', { tags: ['critical'] }, () => {
   const measure = (text: string): number => text.length * 5;
 
   it('keeps a name that fits', () => {

@@ -53,7 +53,7 @@ const run = (): string[] => {
   return out;
 };
 
-describe('palette remap output on a 300 sprite', () => {
+describe('S2 palette remap output on a 300 sprite', { tags: ['standard'] }, () => {
   test('reorder, merge, delete, undo and redo stay byte for byte the same', () => {
     expect(run().join(' ')).toBe(WANT);
   });

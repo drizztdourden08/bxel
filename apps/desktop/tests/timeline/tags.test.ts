@@ -22,7 +22,7 @@ beforeEach(() => {
 
 const tags = () => animationOf().tags;
 
-describe('tags on the picked frames', () => {
+describe('S2 tags on the picked frames', { tags: ['standard'] }, () => {
   it('adds a numbered tag over the picked span and picks it', () => {
     withFrames(4);
     pickRange(1, 2);
@@ -79,7 +79,7 @@ describe('tags on the picked frames', () => {
   });
 });
 
-describe('the tag lanes', () => {
+describe('S2 the tag lanes', { tags: ['standard'] }, () => {
   it('draw each tag over its frames and put overlapping tags in lanes of their own', () => {
     withFrames(4);
     pickRange(0, 2);
@@ -104,7 +104,7 @@ describe('the tag lanes', () => {
   });
 });
 
-describe('directions', () => {
+describe('S2 directions', { tags: ['standard'] }, () => {
   const eightWays = (): void => {
     withFrames(3);
     const animation = animationOf().id;

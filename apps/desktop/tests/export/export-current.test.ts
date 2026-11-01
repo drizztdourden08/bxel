@@ -20,7 +20,7 @@ const opaqueColumns = (bytes: Uint8Array): number[] => {
   return Array.from({ length: 8 }, (_, x) => x).filter((x) => (decoded.data[x * 4 + 3] ?? 0) > 0);
 };
 
-describe('export of the current frame', () => {
+describe('S2 export of the current frame', { tags: ['standard'] }, () => {
   it('writes frame 1 when no frame is passed', () => {
     const h = threeFrames();
     const plan = planExport({ frozen: frozenOf(h), settings: settingsOf({}), selectedIds: [] });
@@ -66,7 +66,7 @@ describe('export of the current frame', () => {
   });
 });
 
-describe('the file preview of the current frame', () => {
+describe('S2 the file preview of the current frame', { tags: ['standard'] }, () => {
   it('uses frame 1 without a current frame and the timeline frame with one', () => {
     const h = threeFrames();
     const artwork = artworkOf(h);
@@ -80,7 +80,7 @@ describe('the file preview of the current frame', () => {
   });
 });
 
-describe('tag colour in the sheet export', () => {
+describe('S2 tag colour in the sheet export', { tags: ['standard'] }, () => {
   const tagged = (colour: string | undefined): ExportHarness => {
     const h = threeFrames();
     const options = { name: 'run', from: { by: 'index', index: 0 }, to: { by: 'index', index: 2 }, ...(colour ? { colour } : {}) };

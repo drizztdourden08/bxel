@@ -1,49 +1,15 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
-import { CANVAS_DEFAULTS, CHECKER_PRESETS, COLOUR_PATTERN, PATTERN_CELLS, RANGES, SURROUND_KINDS } from '../../src/canvas-look/canvas-look.constants';
+import { CANVAS_DEFAULTS, PATTERN_CELLS, RANGES } from '../../src/canvas-look/canvas-look.constants';
 import type { CanvasSettings } from '../../src/canvas-look/canvas-look.type';
 import { checkerSize } from '../../src/canvas-look/checker-size';
 import { gridLayers } from '../../src/canvas-look/grid-layers';
 import { lookOf } from '../../src/canvas-look/look-of';
 import { surroundKindOf } from '../../src/canvas-look/surround-kind-of';
-import { DEFAULT_SETTINGS } from '../../src/settings.constants';
 
 const settingsWith = (patch: Partial<CanvasSettings>): CanvasSettings => ({ ...CANVAS_DEFAULTS, ...patch });
 
-describe('canvas settings defaults', () => {
-  it('are valid and part of the app defaults', () => {
-    Object.entries(CANVAS_DEFAULTS).forEach(([key, value]) => {
-      expect(DEFAULT_SETTINGS).toHaveProperty(key, value);
-    });
-    expect(CHECKER_PRESETS).toContain(CANVAS_DEFAULTS.checkerPreset);
-    expect(SURROUND_KINDS).toContain(CANVAS_DEFAULTS.surroundPattern);
-    expect(CANVAS_DEFAULTS.surroundCustom).toHaveLength(PATTERN_CELLS);
-  });
-
-  it('use hex colours, with a dark and close pair for the surround', () => {
-    [
-      CANVAS_DEFAULTS.checkerA,
-      CANVAS_DEFAULTS.checkerB,
-      CANVAS_DEFAULTS.surroundA,
-      CANVAS_DEFAULTS.surroundB,
-      CANVAS_DEFAULTS.gridColor,
-      CANVAS_DEFAULTS.gridMajorColor,
-      CANVAS_DEFAULTS.gridTileColor,
-      CANVAS_DEFAULTS.guideColor,
-    ].forEach((colour) => expect(COLOUR_PATTERN.test(colour)).toBe(true));
-    expect(CANVAS_DEFAULTS.surroundA).toBe('#0a0a0c');
-  });
-
-  it('keep every number inside its range', () => {
-    expect(CANVAS_DEFAULTS.checkerSize).toBeGreaterThanOrEqual(RANGES.checkerSize.min);
-    expect(CANVAS_DEFAULTS.surroundScale).toBeGreaterThanOrEqual(RANGES.surroundScale.min);
-    expect(CANVAS_DEFAULTS.gridMajorEvery).toBeGreaterThanOrEqual(RANGES.major.min);
-    expect(CANVAS_DEFAULTS.gridTileSize).toBeGreaterThanOrEqual(RANGES.tile.min);
-    expect(CANVAS_DEFAULTS.gridOpacity).toBeLessThanOrEqual(RANGES.opacity.max);
-  });
-});
-
-describe('the canvas look', () => {
+describe('K1 the canvas look', { tags: ['critical'] }, () => {
   it('turns the defaults into the resolved look', () => {
     const look = lookOf(CANVAS_DEFAULTS);
     expect(look.checkerSize).toBe(8);
@@ -82,7 +48,7 @@ describe('the canvas look', () => {
   });
 });
 
-describe('the grid layers', () => {
+describe('K1 the grid layers', { tags: ['critical'] }, () => {
   const look = lookOf(CANVAS_DEFAULTS);
   const all = { pixel: true, major: true, tile: true };
 

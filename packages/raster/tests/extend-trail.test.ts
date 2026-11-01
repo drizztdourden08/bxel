@@ -6,7 +6,7 @@ import { randomPoints } from './random-points';
 
 const SEEDS = [1, 2, 3, 4, 5, 6, 7, 8];
 
-describe('the incremental pixel perfect trail', () => {
+describe('K1 the incremental pixel perfect trail', { tags: ['critical'] }, () => {
   it('keeps exactly what the whole path filter keeps after every point', () => {
     for (const seed of SEEDS) {
       const raw = randomPoints(seed, 120, 24);

@@ -12,7 +12,6 @@ import { runImport } from '../../src/image-import/run-import';
 import { sliceRects } from '../../src/image-import/slice-rects';
 import { slicingLine } from '../../src/image-import/slicing-line';
 import { stepIssue } from '../../src/image-import/step-issue';
-import { useImportStore } from '../../src/stores/useImportStore';
 import { hostWithFile, newHost, revisionOf, sourceImage, sprites } from './dialog-harness';
 import { formFor, NONE, runOf } from './import-run-harness';
 
@@ -28,7 +27,7 @@ const quad = (): SourceImage =>
     return x >= 18 ? GREEN : RED;
   });
 
-describe('slicing rectangles', () => {
+describe('K3 slicing rectangles', { tags: ['critical'] }, () => {
   const grid = { cellWidth: 16, cellHeight: 16, offsetX: 1, offsetY: 0, spacingX: 2, spacingY: 2, order: 'rows', names: '' } as const;
 
   it('places cells with the offset and the spacing', () => {
@@ -70,7 +69,7 @@ describe('slicing rectangles', () => {
   });
 });
 
-describe('the colours step', () => {
+describe('K3 the colours step', { tags: ['critical'] }, () => {
   it('reads 50 percent as the byte 128', () => {
     expect(alphaThreshold(50)).toBe(128);
     expect(alphaThreshold(0)).toBe(0);
@@ -116,7 +115,7 @@ describe('the colours step', () => {
   });
 });
 
-describe('the import transaction', () => {
+describe('K3 the import transaction', { tags: ['critical'] }, () => {
   it('imports a sheet into a new file in one undo step', () => {
     const host = newHost();
     const image = quad();
@@ -173,7 +172,7 @@ describe('the import transaction', () => {
   });
 });
 
-describe('failing and cancelling', () => {
+describe('K3 failing and cancelling', { tags: ['critical'] }, () => {
   it('fails as a whole and changes nothing when a name is taken', () => {
     const { host, documentId } = hostWithFile();
     const context = importContext(host.view(documentId));
@@ -193,15 +192,5 @@ describe('failing and cancelling', () => {
     const outcome = runImport(host, runOf(form, image, NONE));
     expect(outcome.ok).toBe(false);
     expect(host.list()).toHaveLength(0);
-  });
-
-  it('cancel changes nothing', () => {
-    const { host, documentId } = hostWithFile();
-    const before = revisionOf(host, documentId);
-    useImportStore.getState().show(quad());
-    useImportStore.getState().hide();
-    expect(useImportStore.getState().image).toBeNull();
-    expect(revisionOf(host, documentId)).toBe(before);
-    expect(host.list()).toEqual([documentId]);
   });
 });

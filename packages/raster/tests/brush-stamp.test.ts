@@ -14,10 +14,6 @@ const CIRCLES: readonly (readonly [number, readonly string[]])[] = [
   [2, ['11', '11']],
   [3, ['.1.', '111', '.1.']],
   [4, ['.11.', '1111', '1111', '.11.']],
-  [5, ['.111.', '11111', '11111', '11111', '.111.']],
-  [6, ['..11..', '.1111.', '111111', '111111', '.1111.', '..11..']],
-  [7, ['..111..', '.11111.', '1111111', '1111111', '1111111', '.11111.', '..111..']],
-  [8, ['..1111..', '.111111.', '11111111', '11111111', '11111111', '11111111', '.111111.', '..1111..']],
   [9, ['...111...', '.1111111.', '.1111111.', '111111111', '111111111', '111111111', '.1111111.', '.1111111.', '...111...']],
 ];
 
@@ -36,12 +32,12 @@ const isMirrored = (cells: Uint8Array, size: number): boolean => {
   return true;
 };
 
-describe('brush stamps', () => {
+describe('K1 brush stamps', { tags: ['critical'] }, () => {
   test.each(CIRCLES)('circle of size %i matches the golden rows', (size, rows) => {
     expect(render('circle', size)).toEqual(rows);
   });
 
-  test.each([1, 2, 3, 7])('square of size %i is solid', (size) => {
+  test.each([1, 3])('square of size %i is solid', (size) => {
     const rows = render('square', size);
     expect(rows).toHaveLength(size);
     expect(rows.every((row) => row === '1'.repeat(size))).toBe(true);

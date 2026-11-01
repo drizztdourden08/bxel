@@ -50,7 +50,7 @@ beforeEach(() => {
   paintFrame(1, 5, 5, 1);
 });
 
-describe('get_animation play order', () => {
+describe('S2 get_animation play order', { tags: ['standard'] }, () => {
   it('lists the play order of the whole animation and of each tag with totals and fps', async () => {
     const { idle, mirror } = withTags();
     const read = await ok('get_animation', { documentId: documentId(), animationId: animationOf().id });
@@ -71,7 +71,7 @@ describe('get_animation play order', () => {
   });
 });
 
-describe('render_preview additions', () => {
+describe('S2 render_preview additions', { tags: ['standard'] }, () => {
   it('draws the tag of a facing, flipped for a mirror tag, as a strip of its frames', async () => {
     const { idle, mirror } = withTags();
     const east = await render({ facing: 'e' });

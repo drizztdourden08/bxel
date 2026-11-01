@@ -70,7 +70,7 @@ const parsed = (world: Water): TiledMap => {
   return JSON.parse(textOf(fileAt(plan, 1))) as TiledMap;
 };
 
-describe('Tiled map with an animated tile', () => {
+describe('K3 Tiled map with an animated tile', { tags: ['standard'] }, () => {
   it('keeps the gids and appends the composed frames after the normal tiles', () => {
     const world = waterWorld();
     const map = parsed(world);

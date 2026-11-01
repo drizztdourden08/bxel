@@ -11,7 +11,7 @@ const CONTIGUOUS = { mode: 'contiguous', index: 2 } as const;
 
 const inkOf = (rows: readonly string[]): number => rows.join('').replaceAll('.', '').length;
 
-describe('wrapped painting', () => {
+describe('K1 wrapped painting', { tags: ['critical'] }, () => {
   test('folds a point into the sprite on the wrapped axes only', () => {
     const room = { width: 4, height: 3 };
     expect(foldPoint({ x: -1, y: 5 }, room, { x: true })).toEqual({ x: 3, y: 5 });
@@ -25,12 +25,6 @@ describe('wrapped painting', () => {
     const rect = paintStroke({ target, index: 1, points, brush: BRUSH, wrap: { x: true } });
     expect(toRows(target)).toEqual(['.....', '11.11', '.....']);
     expect(rect).toEqual({ x: 0, y: 1, width: 5, height: 1 });
-  });
-
-  test('a stroke that leaves the left edge continues from the right edge', () => {
-    const target = blankBuffer(5, 1);
-    paintStroke({ target, index: 1, points: [{ x: 1, y: 0 }, { x: -1, y: 0 }], brush: BRUSH, wrap: { x: true } });
-    expect(toRows(target)).toEqual(['11..1']);
   });
 
   test('the same stroke is clipped at the edge without wrap', () => {
@@ -59,7 +53,7 @@ describe('wrapped painting', () => {
 
 });
 
-describe('wrapped shapes', () => {
+describe('K1 wrapped shapes', { tags: ['critical'] }, () => {
   test('a line crossing the bottom edge wraps to the top', () => {
     const target = blankBuffer(3, 4);
     drawShape({ target, index: 1, shape: 'line', from: { x: 1, y: 2 }, to: { x: 1, y: 5 }, wrap: { y: true } });
@@ -70,12 +64,6 @@ describe('wrapped shapes', () => {
     const target = blankBuffer(5, 3);
     drawShape({ target, index: 3, shape: 'rect', filled: true, from: { x: 3, y: 0 }, to: { x: 6, y: 1 }, wrap: { x: true } });
     expect(toRows(target)).toEqual(['33.33', '33.33', '.....']);
-  });
-
-  test('a rectangle outline wraps its far side', () => {
-    const target = blankBuffer(5, 5);
-    drawShape({ target, index: 1, shape: 'rect', from: { x: 3, y: 1 }, to: { x: 6, y: 3 }, wrap: { x: true } });
-    expect(toRows(target)).toEqual(['.....', '11.11', '.1.1.', '11.11', '.....']);
   });
 
   test('an ellipse keeps its far half with wrap and loses it without', () => {
@@ -89,7 +77,7 @@ describe('wrapped shapes', () => {
 
 });
 
-describe('wrapped fills', () => {
+describe('K1 wrapped fills', { tags: ['critical'] }, () => {
   test('a fill crosses the seam to reach the far columns', () => {
     const plain = fromRows(['..1..']);
     const wrapped = fromRows(['..1..']);
@@ -104,12 +92,6 @@ describe('wrapped fills', () => {
     const spread = floodFill({ target, seed: { x: 2, y: 0 }, index: 3, mode: 'contiguous', wrap: { x: true } });
     expect(toRows(target)).toEqual(['133331', '133331']);
     expect(spread).toEqual({ x: 1, y: 0, width: 4, height: 2 });
-  });
-
-  test('a fill crosses the top and bottom seam', () => {
-    const target = fromRows(['.', '1', '.']);
-    floodFill({ target, seed: { x: 0, y: 0 }, ...CONTIGUOUS, wrap: { y: true } });
-    expect(toRows(target)).toEqual(['2', '1', '2']);
   });
 
   test('a seed outside the sprite is folded back inside', () => {

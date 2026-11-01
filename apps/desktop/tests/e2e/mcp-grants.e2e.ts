@@ -93,7 +93,7 @@ const widensAgain = async (rig: McpRig): Promise<void> => {
   expect(batch.ok, JSON.stringify(batch.data)).toBe(true);
 };
 
-describe('per program grants: a narrowed bundle hides a tool and refuses a write', () => {
+describe('E1 assistant grants', { tags: ['e2e'] }, () => {
   const rig = useRig(openMcpRig);
   test('lists every tool and pairs with the editing preset', () => setsUp(rig()));
   test('narrowing the grant removes a tool from the list and tells the client', () => narrowsAndHidesTheTool(rig()));
