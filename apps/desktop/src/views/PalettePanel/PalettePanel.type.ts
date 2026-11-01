@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, Ramp, RampId } from '@bxel/document';
 import type { MouseButton, ReorderDrag, ShortcutKey } from '@drizztdourden08/tessera';
-import type { HTMLAttributes, KeyboardEvent, RefObject } from 'react';
+import type { DragEvent, HTMLAttributes, KeyboardEvent, RefObject } from 'react';
 import type { PaletteTarget } from '../../editor/editor.type';
 import type { PaletteSlot } from '../../editor/palette-slots.type';
 import type { ColourSlot } from '../../editor/press-plan.type';
@@ -23,6 +23,15 @@ interface HeldChipDef {
 type HeldColours = Readonly<Record<ColourSlot, number>>;
 
 type EditSwatch = (index: number, element: HTMLElement) => void;
+
+interface PaletteDrop {
+  over: boolean;
+  handlers: {
+    onDragOver: (event: DragEvent<HTMLElement>) => void;
+    onDragLeave: () => void;
+    onDrop: (event: DragEvent<HTMLElement>) => void;
+  };
+}
 
 type PickMode = 'only' | 'toggle' | 'extend';
 
@@ -203,5 +212,5 @@ interface SwatchEditorProps {
 
 export type {
   BeforeAfterProps, CellLook, DraftFields, ChannelSliderProps, CornerMarksProps, EditorFieldsProps, EditorModel, EditSwatch, GridCellProps, GridControl, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, ModelPaneProps, PanelModel, PanelProps,
-  PaletteViewModel, PickMode, RampDrag, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps,
+  PaletteDrop, PaletteViewModel, PickMode, RampDrag, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps,
 };

@@ -124,8 +124,17 @@ const SPRITE_PASTE_KEY: ZoneKey = {
   zone: COMMAND_ZONE.sprites,
 };
 
+const PALETTE_PASTE_KEY: ZoneKey = {
+  id: 'palette.paste_colours_key',
+  label: 'Paste hex colours into the palette',
+  group: COMMAND_GROUP.colours,
+  chord: 'Mod+V',
+  zone: COMMAND_ZONE.palette,
+};
+
 export {
   LAYER_RENAME_KEY,
+  PALETTE_PASTE_KEY,
   PROJECT_DUPLICATE_KEY,
   PROJECT_FIND_KEY,
   PROJECT_NEW_FOLDER_KEY,

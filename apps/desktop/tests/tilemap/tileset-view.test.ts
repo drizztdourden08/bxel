@@ -1,8 +1,11 @@
 /* @layer renderer-app @kind test */
-import type { Tile } from '@bxel/document';
+import type { TerrainSet, Tile } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { shapeCovers } from '../../src/assistant/tools/shape-covers';
+import { choiceOptions } from '../../src/views/TilesetPanel/behavior/choice-options';
 import { chipOf } from '../../src/views/TilesetPanel/behavior/chip-of';
+import { contextSet } from '../../src/views/TilesetPanel/behavior/context-set';
+import { terrainContext } from '../../src/views/TilesetPanel/behavior/terrain-context';
 import { gridStep } from '../../src/views/TilesetPanel/behavior/grid-step';
 import { tileMatches } from '../../src/views/TilesetPanel/behavior/tile-matches';
 import { tilesetOf } from './tile-fixture';
@@ -14,19 +17,77 @@ const base = (extra: Partial<Tile> = {}, uses = 0) => ({ tile: tile(extra), name
 describe('K1 searching and filtering tiles', { tags: ['critical'] }, () => {
   it('matches key, name, type and field values', () => {
     const wall = base({ key: 12, type: 'wall', data: { surface: 'stone' } });
-    expect(tileMatches(wall, { search: '12', filters: [] })).toBe(true);
-    expect(tileMatches(wall, { search: 'GRA', filters: [] })).toBe(true);
-    expect(tileMatches(wall, { search: 'type:wall', filters: [] })).toBe(true);
-    expect(tileMatches(wall, { search: 'type:water', filters: [] })).toBe(false);
-    expect(tileMatches(wall, { search: 'stone wall', filters: [] })).toBe(true);
-    expect(tileMatches(wall, { search: 'lava', filters: [] })).toBe(false);
+    expect(tileMatches(wall, { search: '12', filters: [], choices: [], fields: [] })).toBe(true);
+    expect(tileMatches(wall, { search: 'GRA', filters: [], choices: [], fields: [] })).toBe(true);
+    expect(tileMatches(wall, { search: 'type:wall', filters: [], choices: [], fields: [] })).toBe(true);
+    expect(tileMatches(wall, { search: 'type:water', filters: [], choices: [], fields: [] })).toBe(false);
+    expect(tileMatches(wall, { search: 'stone wall', filters: [], choices: [], fields: [] })).toBe(true);
+    expect(tileMatches(wall, { search: 'lava', filters: [], choices: [], fields: [] })).toBe(false);
   });
 
   it('filters used and unused tiles and keeps the others for the layout holes', () => {
-    expect(tileMatches(base({}, 3), { search: '', filters: ['unused'] })).toBe(false);
-    expect(tileMatches(base({}, 0), { search: '', filters: ['unused'] })).toBe(true);
-    expect(tileMatches(base({}, 3), { search: '', filters: ['used', 'collision'] })).toBe(false);
-    expect(tileMatches(base({ shapes: [{ kind: 'full', layer: 'solid' }] }, 3), { search: '', filters: ['used', 'collision'] })).toBe(true);
+    expect(tileMatches(base({}, 3), { search: '', filters: ['unused'], choices: [], fields: [] })).toBe(false);
+    expect(tileMatches(base({}, 0), { search: '', filters: ['unused'], choices: [], fields: [] })).toBe(true);
+    expect(tileMatches(base({}, 3), { search: '', filters: ['used', 'collision'], choices: [], fields: [] })).toBe(false);
+    expect(tileMatches(base({ shapes: [{ kind: 'full', layer: 'solid' }] }, 3), { search: '', filters: ['used', 'collision'], choices: [], fields: [] })).toBe(true);
+  });
+});
+
+describe('K1 filtering tiles by choice values', { tags: ['critical'] }, () => {
+  const fields = [{ name: 'surface', kind: 'choice' as const, default: 'stone', choices: ['stone', 'water', 'sand'] }];
+  const query = (choices: readonly { field: string; value: string }[]) => ({ search: '', filters: [], choices, fields });
+
+  it('matches the stored value and falls back to the field default', () => {
+    const water = base({ data: { surface: 'water' } });
+    const plain = base({});
+    expect(tileMatches(water, query([{ field: 'surface', value: 'water' }]))).toBe(true);
+    expect(tileMatches(plain, query([{ field: 'surface', value: 'water' }]))).toBe(false);
+    expect(tileMatches(plain, query([{ field: 'surface', value: 'stone' }]))).toBe(true);
+  });
+
+  it('takes any of the values chosen for one field', () => {
+    const sand = base({ data: { surface: 'sand' } });
+    expect(tileMatches(sand, query([{ field: 'surface', value: 'water' }, { field: 'surface', value: 'sand' }]))).toBe(true);
+  });
+
+  it('needs every field that has a chosen value', () => {
+    const both = [...fields, { name: 'mood', kind: 'choice' as const, default: 'calm', choices: ['calm', 'wild'] }];
+    const tileA = base({ data: { surface: 'water', mood: 'wild' } });
+    const chosen = [{ field: 'surface', value: 'water' }, { field: 'mood', value: 'calm' }];
+    expect(tileMatches(tileA, { search: '', filters: [], choices: chosen, fields: both })).toBe(false);
+  });
+
+  it('lists a chip for each value of each choice field', () => {
+    const set = { ...tilesetOf(1), fields: [...fields, { name: 'hp', kind: 'int' as const, default: 0 }] };
+    expect(choiceOptions(set).map((option) => option.label)).toEqual(['surface: stone', 'surface: water', 'surface: sand']);
+  });
+});
+
+describe('K1 the 3 by 3 terrain context of a tile', { tags: ['critical'] }, () => {
+  const slots = Array.from({ length: 16 }, (): { key: number; weight: number }[] => []);
+  slots[0] = [{ key: 1, weight: 1 }];
+  slots[1] = [{ key: 2, weight: 1 }];
+  slots[15] = [{ key: 9, weight: 1 }];
+  const set: TerrainSet = { id: 'set_a', name: 'Grass', kind: 'blob16', slots };
+
+  it('fills the sides the tile marks with the interior tile and leaves the rest empty', () => {
+    expect(terrainContext(set, 2)).toEqual([null, 9, null, null, 2, null, null, null, null]);
+  });
+
+  it('shows a tile with no marked sides alone', () => {
+    expect(terrainContext(set, 1)).toEqual([null, null, null, null, 1, null, null, null, null]);
+  });
+
+  it('repeats a tile that is in no set, so the seams show', () => {
+    expect(terrainContext(set, 5)).toEqual(Array.from({ length: 9 }, () => 5));
+    expect(terrainContext(undefined, 5)).toEqual(Array.from({ length: 9 }, () => 5));
+  });
+
+  it('prefers the active set among those that hold the tile', () => {
+    const other: TerrainSet = { ...set, id: 'set_b' };
+    expect(contextSet([set, other], 'set_b', 2)?.id).toBe('set_b');
+    expect(contextSet([set, other], null, 2)?.id).toBe('set_a');
+    expect(contextSet([set], null, 5)).toBeUndefined();
   });
 });
 

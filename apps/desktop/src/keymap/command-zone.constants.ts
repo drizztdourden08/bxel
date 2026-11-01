@@ -2,6 +2,7 @@
 const COMMAND_ZONE = {
   canvas: 'canvas',
   layers: 'layers',
+  palette: 'palette',
   sprites: 'sprites',
   timeline: 'timeline',
   tileset: 'tileset',

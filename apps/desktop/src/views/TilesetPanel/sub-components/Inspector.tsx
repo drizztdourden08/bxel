@@ -6,6 +6,7 @@ import type { TilesetModelProps } from '../TilesetPanel.type';
 import { AnimationSection } from './AnimationSection';
 import { CollisionInspector } from './CollisionInspector';
 import { DataInspector } from './DataInspector';
+import { EditContext } from './EditContext';
 import { TerrainSection } from './TerrainSection';
 import { TileProperties } from './TileProperties';
 
@@ -28,6 +29,7 @@ const Inspector = ({ model }: TilesetModelProps) => {
     <ScrollArea axis="y" scrollbar="slim" fade={false} className="tileset-panel__inspector" aria-label={TILESET_TEXT.inspector}>
       <Stack gap="sm" className="tileset-panel__inspector-body">
         {body}
+        {mode === 'tiles' && <EditContext model={model} />}
       </Stack>
     </ScrollArea>
   );

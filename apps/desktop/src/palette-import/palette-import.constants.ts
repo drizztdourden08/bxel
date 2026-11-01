@@ -11,6 +11,7 @@ const IMPORT_TEXT = {
   source: (name: string, count: number): string => `${name}: ${count} ${count === 1 ? 'colour' : 'colours'}`,
   noSource: 'Choose a file or paste some colours to see what an import would do.',
   unreadable: 'No colours were found in that text.',
+  noneOnClipboard: 'The clipboard holds no hex colours.',
   present: (count: number): string => (count === 1 ? '1 colour is already in the palette.' : `${count} colours are already in the palette.`),
   over: (count: number, free: number): string =>
     `${count} ${count === 1 ? 'colour does' : 'colours do'} not fit the ${free} free ${free === 1 ? 'slot' : 'slots'}. ${count === 1 ? 'It is' : 'They are'} left out. Raise the colour limit to keep ${count === 1 ? 'it' : 'them'}.`,
@@ -43,4 +44,6 @@ const IMPORT_MODE_OPTIONS: SegmentOption<ImportMode>[] = [
   { value: 'map', label: 'Map by nearest' },
 ];
 
-export { IMPORT_MODE_OPTIONS, IMPORT_TEXT };
+const PALETTE_DROP_EXTENSIONS: readonly string[] = ['.gpl', '.pal', '.hex', '.txt', '.ase', '.png'];
+
+export { IMPORT_MODE_OPTIONS, IMPORT_TEXT, PALETTE_DROP_EXTENSIONS };

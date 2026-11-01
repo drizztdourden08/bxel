@@ -8,7 +8,7 @@ const PaletteImportDialog = () => {
   const request = usePaletteImportStore((state) => state.request);
   const target = usePaletteTarget();
   if (!request || target?.documentId !== request.documentId || target.bank.id !== request.bankId) return null;
-  return <ImportDialog request={request} target={target} />;
+  return <ImportDialog key={request.source?.name} request={request} target={target} />;
 };
 
 export { PaletteImportDialog };

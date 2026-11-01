@@ -5,7 +5,9 @@ import { hexListOf } from '../../src/palette-export/hex-list-of';
 import { paletteExportBytes } from '../../src/palette-export/palette-export-bytes';
 import { PALETTE_EXPORT_FORMATS } from '../../src/palette-export/palette-export.constants';
 import { paletteFileOf } from '../../src/palette-export/palette-file-of';
+import { droppedPaletteFile } from '../../src/palette-import/dropped-palette-file';
 import { importPlan } from '../../src/palette-import/import-plan';
+import { pastePlan } from '../../src/palette-import/paste-plan';
 import { sourceFromText } from '../../src/palette-import/source-from-text';
 import { readPaletteFile } from '../../src/palette-source/read-palette-file';
 
@@ -97,5 +99,33 @@ describe('K1 sourceFromText', { tags: ['critical'] }, () => {
 
   it('returns null for text with no colours', () => {
     expect(sourceFromText('nothing here')).toBeNull();
+  });
+});
+
+describe('K1 pastePlan', { tags: ['critical'] }, () => {
+  it('plans an append of the pasted colours that are not in the palette', () => {
+    const planned = pastePlan(bank, '#112233\n#abcdef\n');
+    expect(planned.ok).toBe(true);
+    if (planned.ok) {
+      expect(planned.plan.mode).toBe('append');
+      expect(planned.plan.kept.map((color) => color.rgb)).toEqual(['#abcdef']);
+    }
+  });
+
+  it('says so when the clipboard holds no colours', () => {
+    expect(pastePlan(bank, 'hello')).toEqual({ ok: false, message: 'The clipboard holds no hex colours.' });
+    expect(pastePlan(bank, null).ok).toBe(false);
+  });
+
+  it('says so when every pasted colour is already there', () => {
+    expect(pastePlan(bank, '#112233')).toEqual({ ok: false, message: 'Nothing to import.' });
+  });
+});
+
+describe('K1 droppedPaletteFile', { tags: ['critical'] }, () => {
+  it('picks the first palette file by extension and ignores the others', () => {
+    const files = [new File([''], 'notes.md'), new File([''], 'Dusk.GPL'), new File([''], 'other.hex')];
+    expect(droppedPaletteFile(files)?.name).toBe('Dusk.GPL');
+    expect(droppedPaletteFile([new File([''], 'notes.md')])).toBeNull();
   });
 });

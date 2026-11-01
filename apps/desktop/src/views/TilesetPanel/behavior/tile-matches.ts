@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { tileShapes } from '@bxel/document';
 import type { TileFilter } from '../../../stores/tileset-view-store.type';
+import { choiceMatches } from './choice-match';
 import type { MatchQuery, MatchTile } from './tile-matches.type';
 
 const passes = (filter: TileFilter, tile: MatchTile): boolean => {
@@ -27,7 +28,11 @@ const termMatches = (term: string, tile: MatchTile): boolean => {
 
 const tileMatches = (tile: MatchTile, query: MatchQuery): boolean => {
   const terms = query.search.trim().split(/\s+/).filter((term) => term !== '');
-  return terms.every((term) => termMatches(term, tile)) && query.filters.every((filter) => passes(filter, tile));
+  return (
+    terms.every((term) => termMatches(term, tile)) &&
+    query.filters.every((filter) => passes(filter, tile)) &&
+    choiceMatches(tile.tile, query.choices, query.fields)
+  );
 };
 
 export { tileMatches };
