@@ -28,6 +28,7 @@ const useMapLayerModel = (): LayerStackModel => {
         colour: each.colour ?? null,
         note: null,
         ...FLAT_ROW,
+        viewOpacity: each.opacity ?? 100,
         thumb: { kind: 'map' as const, layer: each, columns: tilemap.columns, rows: tilemap.rows },
       }))
       .reverse();

@@ -4,6 +4,7 @@ import type { LockKind } from '../../../editor/layer-lock.type';
 import { LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_SCOPES, LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerStripProps } from '../LayerStack.type';
 import { LayerColours } from './LayerColours';
+import { LayerViewControls } from './LayerViewControls';
 import './LayerStrip.css';
 
 const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
@@ -37,6 +38,7 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
         )}
         <LayerColours value={lead.colour} label={LAYER_STACK_TEXT.tagColours} onPick={(colour) => actions.setColour(picked, colour)} />
       </Flex>
+      {model.kind !== 'sheet' && <LayerViewControls model={model} picked={picked} lead={lead} />}
     </Box>
   );
 };

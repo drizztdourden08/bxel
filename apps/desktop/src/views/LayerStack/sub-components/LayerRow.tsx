@@ -2,8 +2,9 @@
 import { useEffect, useRef } from 'react';
 import { Box } from '@drizztdourden08/tessera';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
-import { layerTagStyle } from '../behavior/layer-tag-style';
+import { layerRowStyle } from '../behavior/layer-tag-style';
 import type { LayerRowProps } from '../LayerStack.type';
+import { LayerFold } from './LayerFold';
 import { LayerGrip } from './LayerGrip';
 import { LayerMain } from './LayerMain';
 import { LayerName } from './LayerName';
@@ -11,7 +12,7 @@ import { LayerToggle } from './LayerToggle';
 import './LayerRow.css';
 
 const LayerRow = (props: LayerRowProps) => {
-  const { row, index, total, active, picked, tabbable, movable, thumbSize, drag, sweep, model, onPick } = props;
+  const { row, index, total, active, picked, tabbable, movable, tree, folded, thumbSize, drag, sweep, model, onPick, onFold } = props;
   const renaming = useLayerViewStore((state) => state.renamingId === row.id);
   const rowRef = useRef<HTMLLIElement>(null);
   const was = useRef(false);
@@ -25,7 +26,7 @@ const LayerRow = (props: LayerRowProps) => {
       as="li"
       ref={rowRef}
       className="layer-row"
-      style={layerTagStyle(row.colour)}
+      style={layerRowStyle(row)}
       data-reorder-index={index}
       data-reorder-key={row.id}
       data-layer-id={row.id}
@@ -33,6 +34,9 @@ const LayerRow = (props: LayerRowProps) => {
       data-picked={picked ? 'yes' : undefined}
       data-hidden={row.visible || row.mixedVisible ? undefined : 'yes'}
       data-tagged={row.colour ? 'yes' : undefined}
+      data-kind={row.kind}
+      data-depth={row.depth}
+      data-missing={row.missing ? 'yes' : undefined}
       data-drop={drag.dropMark(index, total)}
       data-dragging={drag.dragging === index ? 'yes' : undefined}
     >
@@ -41,6 +45,7 @@ const LayerRow = (props: LayerRowProps) => {
         <LayerToggle row={row} flag="visible" sweep={sweep} />
         <LayerToggle row={row} flag="locked" sweep={sweep} />
       </Box>
+      {tree && <LayerFold row={row} folded={folded} onFold={onFold} />}
       {renaming ? (
         <LayerName name={row.name} onRename={(name) => model.actions.rename(row.id, name)} onDone={done} />
       ) : (
@@ -51,6 +56,7 @@ const LayerRow = (props: LayerRowProps) => {
           tabbable={tabbable}
           thumbSize={thumbSize}
           follow={active && model.kind === 'sprite'}
+          folded={folded}
           onPick={(how) => onPick(row.id, how)}
           onRename={() => useLayerViewStore.getState().setRenaming(row.id)}
         />

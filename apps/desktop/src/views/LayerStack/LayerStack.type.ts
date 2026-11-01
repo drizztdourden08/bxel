@@ -96,6 +96,7 @@ interface LayerRowProps {
   picked: boolean;
   tabbable: boolean;
   movable: boolean;
+  tree: boolean;
   folded: boolean;
   thumbSize: LayerThumbSize;
   drag: ReorderDrag;
@@ -138,7 +139,6 @@ interface LayerStackViewProps extends LayerSourceProps {
 
 interface LayerListProps {
   model: LayerStackModel;
-  folded: readonly string[];
   shown: readonly LayerRowModel[];
   filtered: boolean;
   picked: readonly string[];
@@ -197,6 +197,18 @@ interface LayerGripProps {
   disabled: boolean;
 }
 
+interface LayerFoldProps {
+  row: LayerRowModel;
+  folded: boolean;
+  onFold: (id: string) => void;
+}
+
+interface LayerViewControlsProps {
+  model: LayerStackModel;
+  picked: readonly string[];
+  lead: LayerRowModel;
+}
+
 interface LayerNameProps {
   name: string;
   onRename: (name: string) => string | null;
@@ -210,12 +222,13 @@ interface LayerMainProps {
   tabbable: boolean;
   thumbSize: LayerThumbSize;
   follow: boolean;
+  folded: boolean;
   onPick: (how: PickHow) => void;
   onRename: () => void;
 }
 
 export type {
-  LayerBarAction, LayerBarProps, LayerColoursProps, LayerFilterProps, LayerFilterState, LayerGripProps, LayerHeaderProps, LayerListProps, LayerMainProps,
+  LayerBarAction, LayerBarProps, LayerColoursProps, LayerFilterProps, LayerFilterState, LayerFoldProps, LayerViewControlsProps, LayerGripProps, LayerHeaderProps, LayerListProps, LayerMainProps,
   LayerNameProps, LayerNoMatchProps, LayerRowKind, LayerRowModel, LayerRowTree, LayerRowProps, LayerSourceProps, LayerStackModel, LayerStackViewProps, LayerStripProps,
   LayerSweepView, LayerThumbProps, LayerThumbSource, LayerToggleProps, MapChoice, ThumbDeps,
 };

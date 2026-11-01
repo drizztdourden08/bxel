@@ -42,7 +42,22 @@ const LAYER_STACK_TEXT = {
   noTag: 'No colour',
   inSprites: (have: number, total: number): string => `in ${have} of ${total} ${total === 1 ? 'sprite' : 'sprites'}`,
   moved: (name: string, position: number, total: number): string => `${name} moved to position ${position} of ${total}`,
-  moveHint: 'Alt and Up or Down moves the row. Shift and Up or Down extends the pick.',
+  moveHint: 'Alt and Up or Down moves the row. Alt and Left or Right takes it out of a group or into the group above. Shift and Up or Down extends the pick.',
+  fold: (name: string): string => `Fold ${name}`,
+  unfold: (name: string): string => `Unfold ${name}`,
+  groupOf: (name: string, count: number): string => `${name}, group of ${count}`,
+  referenceOf: (name: string): string => `${name}, reference image`,
+  opacity: 'Opacity',
+  opacityValue: (percent: number): string => `${percent} percent`,
+  clipLabel: 'Clip',
+  clipHint: 'Draw this layer only where the pixel layer below it has pixels.',
+  exportLabel: 'Export',
+  exportHint: 'Leave this layer out of every export when off. A reference image is never exported.',
+  missingBadge: 'Missing',
+  relink: 'Relink image',
+  clippedBadge: 'Clip',
+  hiddenFromExport: 'Not exported',
+  fadedBadge: (percent: number): string => `${percent}%`,
   soloOn: (name: string): string => `Showing only ${name}`,
   renameLabel: (name: string): string => `Rename ${name}`,
   oneLayer: 'A list with one layer has nothing else to show or hide.',
@@ -66,6 +81,16 @@ const LAYER_MENU_TEXT = {
   colour: 'Colour tag',
   mergeDown: 'Merge down',
   mergeMapDown: 'Merge map layer down (top wins)',
+  group: 'Group',
+  ungroup: 'Ungroup',
+  mergeSelected: 'Merge picked layers',
+  toLayer: 'Selection to new layer',
+  cutToLayer: 'Cut selection to new layer',
+  reference: 'Reference image from file',
+  relink: 'Relink image',
+  highlight: 'Highlight current layer',
+  fold: 'Fold',
+  unfold: 'Unfold',
 } as const;
 
 const LAYER_SCOPES = [
@@ -105,7 +130,7 @@ const LAYER_FLAG_HINTS: Readonly<Record<LayerFlag, HintSpec>> = {
 
 const LAYER_FOCUS_KEYS: Readonly<Record<string, 'first' | 'last'>> = { Home: 'first', End: 'last' };
 
-const LAYER_MOVE_KEYS = 'Alt+ArrowUp Alt+ArrowDown Shift+ArrowUp Shift+ArrowDown';
+const LAYER_MOVE_KEYS = 'Alt+ArrowUp Alt+ArrowDown Alt+ArrowLeft Alt+ArrowRight Shift+ArrowUp Shift+ArrowDown';
 
 const LAYER_THUMB_TEXT: Readonly<Record<LayerThumbSize, string>> = {
   0: LAYER_STACK_TEXT.thumbOff,

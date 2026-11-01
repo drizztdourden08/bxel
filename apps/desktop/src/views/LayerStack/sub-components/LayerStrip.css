@@ -16,3 +16,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.layer-strip__opacity {
+  flex: 1;
+  min-inline-size: var(--size-96);
+}
