@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { MUSHROOM, MUSHROOM_B, apply, expectUndoRedo, layerEngine, layerNames, layerOf, layerStep, named, rejection } from './layer-engine';
 
-describe('layer.update', () => {
+describe('K1 layer.update', { tags: ['critical'] }, () => {
   it('renames, hides and locks in one undo step', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.update', { layer: named('Paint'), name: 'Ink', visible: false, locked: true }));
@@ -52,7 +52,7 @@ describe('layer.update', () => {
   });
 });
 
-describe('layer.reorder', () => {
+describe('K1 layer.reorder', { tags: ['critical'] }, () => {
   it('moves a layer to a position, counted from the bottom', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.reorder', { layer: named('Body'), to: 5 }));

@@ -9,7 +9,7 @@ const guidesOf = (engine: Engine) => engine.state().artwork.sprites.find((each) 
 
 const run = (name: string, options: unknown) => onSprites(name, options, [HEART]);
 
-describe('guides', () => {
+describe('K1 guides', { tags: ['critical'] }, () => {
   it('are absent until one is added, and each add, move, remove and clear is one undo step', () => {
     const { engine } = heartEngine();
     expect(guidesOf(engine)).toBeUndefined();

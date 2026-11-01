@@ -4,7 +4,7 @@ import { pixelsOf, redo, run, spriteOf, undo } from './cel-swap-checks';
 import { CEL_A, CEL_B, swapEngine } from './cel-swap-engine';
 import { request } from './heart-engine';
 
-describe('entity ops stay ordered with remaps and change rects', () => {
+describe('K1 entity ops stay ordered with remaps and change rects', { tags: ['critical'] }, () => {
   it('undoes a deleted cel and a later palette remap in one transaction exactly', () => {
     const engine = swapEngine();
     const original = engine.state().artwork;

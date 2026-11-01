@@ -7,7 +7,7 @@ import { addFrame, frozenOf, harness, settingsOf } from './export-harness';
 
 const namesOf = (plan: ReturnType<typeof planExport>): string[] => plan.files.map((file) => file.name);
 
-describe('filling a file name template', () => {
+describe('K1 filling a file name template', { tags: ['critical'] }, () => {
   const values = { name: 'caps', sprite: 'hero', frame: '2' };
 
   it('puts the name, the sprite and the frame in place', () => {
@@ -28,7 +28,7 @@ describe('filling a file name template', () => {
   });
 });
 
-describe('export file names with a project template', () => {
+describe('S2 export file names with a project template', { tags: ['standard'] }, () => {
   it('names every frame by the template', () => {
     const h = harness();
     addFrame(h, 80);
@@ -56,7 +56,7 @@ describe('export file names with a project template', () => {
   });
 });
 
-describe('the export window in a project', () => {
+describe('S2 the export window in a project', { tags: ['critical'] }, () => {
   it('starts on the project scale and template, which win over the remembered ones', () => {
     const last = settingsOf({ scale: 2, pathTemplate: '{name}' });
     const start = startSettings(last, '', { scale: 4, pathTemplate: '{sprite}-{frame}' });

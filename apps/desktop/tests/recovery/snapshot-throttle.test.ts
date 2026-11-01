@@ -7,7 +7,7 @@ import { paintAt, rig } from './recovery-harness';
 
 const { pauseMs, minGapMs } = SNAPSHOT_TIMING;
 
-describe('recovery snapshot timing', () => {
+describe('S2 recovery snapshot timing', { tags: ['standard'] }, () => {
   it('writes nothing while a document is clean', async () => {
     const { host, tracker, calls, advance } = rig();
     tracker.start();
@@ -44,7 +44,7 @@ describe('recovery snapshot timing', () => {
 
 });
 
-describe('recovery snapshot spacing', () => {
+describe('S2 recovery snapshot spacing', { tags: ['standard'] }, () => {
   it('keeps at least the minimum gap between two snapshots of one document', async () => {
     const { host, tracker, calls, advance, now } = rig();
     tracker.start();

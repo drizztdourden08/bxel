@@ -12,7 +12,7 @@ const facts = (bank: BankFacts, sprites = [size(16, 16)]): PlatformFacts => ({ b
 
 const findings = (value: PlatformFacts) => checkPlatform(preset(SNES), value);
 
-describe('findNewBreaks', () => {
+describe('K1 findNewBreaks', { tags: ['critical'] }, () => {
   it('finds nothing when nothing changed', () => {
     const start = findings(facts(startBank()));
     expect(findNewBreaks(start, start)).toEqual([]);

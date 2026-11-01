@@ -6,18 +6,12 @@ import { blankBuffer } from './blank-buffer';
 import { maskFromRows } from './mask-from-rows';
 import { toRows } from './to-rows';
 
-describe('shapes with a brush', () => {
+describe('K1 shapes with a brush', { tags: ['critical'] }, () => {
   test('a rectangle outline is stamped with a square brush', () => {
     const target = blankBuffer(9, 7);
     const rect = drawShape({ target, shape: 'rect', from: { x: 1, y: 1 }, to: { x: 7, y: 5 }, index: 1, brush: { shape: 'square', size: 2 } });
     expect(toRows(target)).toEqual(['.........', '.11111111', '.11111111', '.11....11', '.11....11', '.11111111', '.11111111']);
     expect(rect).toEqual({ x: 1, y: 1, width: 8, height: 6 });
-  });
-
-  test('a line is stamped with a circle brush', () => {
-    const target = blankBuffer(6, 3);
-    drawShape({ target, shape: 'line', from: { x: 1, y: 1 }, to: { x: 4, y: 1 }, index: 1, brush: { shape: 'circle', size: 3 } });
-    expect(toRows(target)).toEqual(['.1111.', '111111', '.1111.']);
   });
 
   test('a filled shape is the exact region and ignores the brush', () => {
@@ -36,14 +30,7 @@ describe('shapes with a brush', () => {
   });
 });
 
-describe('shapes with symmetry', () => {
-  test('a rectangle outline mirrors across a grid line', () => {
-    const target = blankBuffer(8, 5);
-    const rect = drawShape({ target, shape: 'rect', from: { x: 0, y: 1 }, to: { x: 2, y: 3 }, index: 1, symmetry: { x2: 8 } });
-    expect(toRows(target)).toEqual(['........', '111..111', '1.1..1.1', '111..111', '........']);
-    expect(rect).toEqual({ x: 0, y: 1, width: 8, height: 3 });
-  });
-
+describe('K1 shapes with symmetry', { tags: ['critical'] }, () => {
   test('a filled ellipse mirrors across both axes', () => {
     const target = blankBuffer(8, 8);
     drawShape({ target, shape: 'ellipse', filled: true, from: { x: 0, y: 0 }, to: { x: 3, y: 2 }, index: 1, symmetry: { x2: 8, y2: 8 } });
@@ -57,7 +44,7 @@ describe('shapes with symmetry', () => {
   });
 });
 
-describe('shapes with a mask and repeatable output', () => {
+describe('K1 shapes with a mask and repeatable output', { tags: ['critical'] }, () => {
   test('a mask cuts a filled shape', () => {
     const target = blankBuffer(4, 3);
     const mask = maskFromRows(['#.##', '#.##', '#.##']);

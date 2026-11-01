@@ -21,7 +21,7 @@ const inflate = (item: PackedItem, extrude: number): PackedItem => ({
 
 const SHELF = (padding: number, maxWidth = 64): PackedLayout => ({ kind: 'packed', maxWidth, padding });
 
-describe('packSheet grid', () => {
+describe('K1 packSheet grid', { tags: ['critical'] }, () => {
   const settings = (order: 'rows' | 'columns'): PackSettings => ({
     layout: { kind: 'grid', columns: 4, cellWidth: 16, cellHeight: 16, spacingX: 2, spacingY: 3, order },
     margin: 5,
@@ -62,7 +62,7 @@ describe('packSheet grid', () => {
   });
 });
 
-describe('packSheet shelf', () => {
+describe('K1 packSheet shelf', { tags: ['critical'] }, () => {
   const items = makePackItems(60, 20);
 
   it.each([

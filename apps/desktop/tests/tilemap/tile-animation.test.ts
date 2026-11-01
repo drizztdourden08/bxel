@@ -53,7 +53,7 @@ const world = () => {
   return { artwork, tilemap, plan: tilePlan(artwork, tilemap), image, colour, paletteOf, table, still: Uint8ClampedArray.from(data) };
 };
 
-describe('animated tiles on the map', () => {
+describe('S2 animated tiles on the map', { tags: ['standard'] }, () => {
   it('plans only the placed cells whose tile plays an animation', () => {
     const { plan } = world();
     expect(plan.cells.map((cell) => cell.index).sort((left, right) => left - right)).toEqual([0, 1, 3, 10]);

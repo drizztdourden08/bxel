@@ -29,7 +29,7 @@ beforeEach(() => {
   addMapLayer();
 });
 
-describe('saving and reopening a map', () => {
+describe('K3 saving and reopening a map', { tags: ['standard'] }, () => {
   it('keeps the ids, the tile keys and the turn of every cell', () => {
     const report = reopened();
     expect(report.outcome).toBe('ok');

@@ -6,7 +6,7 @@ import type { ViewBox, ViewTarget } from '../../src/views/PixelViewport/behavior
 const box: ViewBox = { width: 200, height: 100, dpr: 1, margin: 0, step: 32 };
 const target: ViewTarget = { zoom: 10, pan: { x: 50, y: 50 } };
 
-describe('revealing a pixel in the view', () => {
+describe('K1 revealing a pixel in the view', { tags: ['critical'] }, () => {
   it('does not pan for a pixel well inside the view', () => {
     expect(revealDelta({ x: 50, y: 50 }, target, box)).toEqual({ x: 0, y: 0 });
   });

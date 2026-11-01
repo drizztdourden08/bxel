@@ -75,7 +75,7 @@ const reopensIdentical = async (rig: SheetRig): Promise<void> => {
   }
 };
 
-describe('check 5: pivots, export and reopen of the sheet', () => {
+describe('E1 export a sheet and reopen it', { tags: ['e2e'] }, () => {
   const rig = useRig(openSheetRig);
   test('exports the PNG and JSON with the exact rectangles, pixels and pivots', () => exportsRectanglesAndPivots(rig()));
   test('reopens the project with the same three sprites and the same pixels', () => reopensIdentical(rig()));

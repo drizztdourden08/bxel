@@ -11,7 +11,7 @@ const BOW = { from: { x: 1, y: 5 }, control: { x: 4, y: 0 }, to: { x: 8, y: 5 } 
 const scope = scopeOf([rowsIds.sprite]);
 const shape = (options: Record<string, unknown>) => stepOf('pixels.shape', scope, { index: 2, ...options });
 
-describe('pixels.shape polygon, curve and contour', () => {
+describe('K2 pixels.shape polygon, curve and contour', { tags: ['critical'] }, () => {
   test('a polygon outline and fill match the direct rasterizer and undo in one step', () => {
     for (const filled of [false, true]) {
       const engine = pixelEngine(emptyArtwork(9, 7));

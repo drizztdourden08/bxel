@@ -17,7 +17,7 @@ beforeEach(async () => {
   rig = await openFileRig();
 });
 
-describe('find_references', () => {
+describe('S2 find_references', { tags: ['standard'] }, () => {
   it('lists the files that use a sprite and the file it uses, from the links on disk', async () => {
     const { current } = rig;
     const found = await current.run('find_references', { projectId: current.projectId, file: rig.place(rig.spritePath()) }, current.grants('read'));
@@ -42,7 +42,7 @@ describe('find_references', () => {
   });
 });
 
-describe('project_health and repair_links', () => {
+describe('S2 project_health and repair_links', { tags: ['standard'] }, () => {
   it('finds a link with an old path and repairs it with all: true', async () => {
     const { current } = rig;
     const moved = `${ROOT}/heroes/slime-moved.bxsprite`;
@@ -73,7 +73,7 @@ describe('project_health and repair_links', () => {
   });
 });
 
-describe('move_files and rename_file', () => {
+describe('S2 move_files and rename_file', { tags: ['standard'] }, () => {
   it('moves a sprite, keeps the links of the files that use it and says how many it rewrote', async () => {
     const { current } = rig;
     const outcome = await current.run('move_files', { projectId: current.projectId, files: [rig.place(rig.spritePath())], into: { folderId: current.folderId, path: 'heroes' } }, current.grants('edit'));
@@ -101,7 +101,7 @@ describe('move_files and rename_file', () => {
   });
 });
 
-describe('create_folder and trash_files', () => {
+describe('S2 create_folder and trash_files', { tags: ['standard'] }, () => {
   it('makes a folder and refuses a name that is taken', async () => {
     const { current } = rig;
     const made = await current.run('create_folder', { projectId: current.projectId, in: { folderId: current.folderId }, name: 'enemies' }, current.grants('edit'));
@@ -131,7 +131,7 @@ describe('create_folder and trash_files', () => {
   });
 });
 
-describe('organise and the query of list_assets', () => {
+describe('S2 organise and the query of list_assets', { tags: ['standard'] }, () => {
   it('tags sprites, finds them by tag, collects and pins, and the project file holds it', async () => {
     const { current } = rig;
     const ids = rig.artwork.sprites.map((sprite) => sprite.id);

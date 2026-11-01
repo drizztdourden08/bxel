@@ -35,7 +35,7 @@ beforeEach(async () => {
   rig = await grantRig();
 });
 
-describe('a project the owner has not granted to the assistant', () => {
+describe('K4 a project the owner has not granted to the assistant', { tags: ['standard'] }, () => {
   it('is left out of list_documents', async () => {
     const listed = await rig.current.run('list_documents', {}, []);
     expect(rowsOf(listed, 'documents')).toEqual([]);
@@ -55,7 +55,7 @@ describe('a project the owner has not granted to the assistant', () => {
   });
 });
 
-describe('a project granted read only', () => {
+describe('K4 a project granted read only', { tags: ['standard'] }, () => {
   it.each(READS.filter((tool) => tool !== 'export_document'))('still answers %s', async (tool) => {
     expect(await rig.current.run(tool, inputFor(tool), rig.current.grants('read'))).toMatchObject({ ok: true });
   });

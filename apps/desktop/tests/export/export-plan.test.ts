@@ -26,7 +26,7 @@ const bankOf = (id: string, count: number, seed: number): PaletteBank => ({
   ramps: [],
 });
 
-describe('export file names and counts', () => {
+describe('S2 export file names and counts', { tags: ['standard'] }, () => {
   it('writes one PNG named after the sprite for the default settings', () => {
     const h = harness();
     const plan = planExport({ frozen: frozenOf(h), settings: settingsOf({}), selectedIds: [] });
@@ -62,10 +62,9 @@ describe('export file names and counts', () => {
     expect(namesOf(plan)).toEqual(['caps.png', 'caps.json']);
     expect(plan.files[1]?.detail).toBe('caps.json, 1 sprite with names, rectangles, pivots');
   });
-
 });
 
-describe('export targets', () => {
+describe('S2 export targets', { tags: ['standard'] }, () => {
   it('adds the sprite name to every file when several sprites are exported', () => {
     const h = harness();
     const artwork = withBank(artworkOf(h), bankOf('bnk_two', 3, 1), 'second');
@@ -110,7 +109,7 @@ describe('export targets', () => {
   });
 });
 
-describe('export scale and limits', () => {
+describe('S2 export scale and limits', { tags: ['standard'] }, () => {
   it('scales by a whole number without blurring', () => {
     const h = harness();
     paint(h, 0, 0, 1);
@@ -143,7 +142,7 @@ describe('export scale and limits', () => {
   });
 });
 
-describe('export colour modes', () => {
+describe('S2 export colour modes', { tags: ['standard'] }, () => {
   it('offers indexed PNG for sprites that share one palette and keeps their indices', () => {
     const h = harness();
     paint(h, 0, 0, 4);
@@ -182,7 +181,7 @@ describe('export colour modes', () => {
   });
 });
 
-describe('export blockers', () => {
+describe('S2 export blockers', { tags: ['standard'] }, () => {
   it('asks for a folder', () => {
     const h = harness();
     const plan = planExport({ frozen: frozenOf(h), settings: settingsOf({ folder: '' }), selectedIds: [] });

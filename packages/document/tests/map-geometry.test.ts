@@ -19,7 +19,7 @@ const centre = (kind: MapOrientation | undefined, column: number, row: number, t
   return { x: origin.x + tile.width / 2, y: origin.y + tile.height / 2 };
 };
 
-describe('orthogonal map geometry', () => {
+describe('K1 orthogonal map geometry', { tags: ['critical'] }, () => {
   it('lays cells on a plain grid and finds them by pixel', () => {
     const shape = geometry(undefined);
     expect([shape.width, shape.height]).toEqual([32, 12]);
@@ -30,7 +30,7 @@ describe('orthogonal map geometry', () => {
   });
 });
 
-describe('isometric map geometry', () => {
+describe('K1 isometric map geometry', { tags: ['critical'] }, () => {
   it('sizes the map as a diamond of cells and puts cell (0,0) at the top corner', () => {
     const shape = geometry(ISO);
     expect([shape.width, shape.height]).toEqual([28, 14]);
@@ -60,7 +60,7 @@ describe('isometric map geometry', () => {
   });
 });
 
-describe('staggered map geometry', () => {
+describe('K1 staggered map geometry', { tags: ['critical'] }, () => {
   it('shifts the odd rows half a tile right and stacks rows at half the tile height', () => {
     const shape = geometry(STAGGERED);
     expect(shape.originOf(1, 0)).toEqual({ x: 8, y: 0 });
@@ -85,7 +85,7 @@ describe('staggered map geometry', () => {
   });
 });
 
-describe('hexagonal map geometry', () => {
+describe('K1 hexagonal map geometry', { tags: ['critical'] }, () => {
   it('steps rows by half the height plus half the side for a pointy hexagon', () => {
     const shape = geometry(HEX_Y, 4, 3, { width: 8, height: 12 });
     expect(shape.originOf(0, 1)).toEqual({ x: 4, y: 8 });

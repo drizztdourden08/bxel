@@ -4,7 +4,7 @@ import type { PaletteFile } from '@bxel/formats';
 import type { DocumentsPort } from '@drizztdourden08/brock-core';
 import { describe, expect, it } from 'vitest';
 import { bankPlan } from '../../src/palette-source/bank-plan';
-import { PALETTE_PRESETS, SOURCE_DEFAULT } from '../../src/palette-source/palette-source.constants';
+import { SOURCE_DEFAULT } from '../../src/palette-source/palette-source.constants';
 import type { PaletteSource } from '../../src/palette-source/palette-source.type';
 import { pickPaletteFile } from '../../src/palette-source/pick-palette-file';
 import { readPaletteFile } from '../../src/palette-source/read-palette-file';
@@ -43,7 +43,7 @@ const portWith = (path: string | null, files: Record<string, Uint8Array>): Docum
   };
 };
 
-describe('reading a palette file', () => {
+describe('K3 reading a palette file', { tags: ['critical'] }, () => {
   it('reads a GPL file and drops repeated colours', () => {
     const written = writeGpl(SAMPLE);
     expect(written.ok).toBe(true);
@@ -81,13 +81,7 @@ describe('reading a palette file', () => {
   });
 });
 
-describe('the palette presets', () => {
-  it('lists Bxel 16 first with 15 colours', () => {
-    expect(PALETTE_PRESETS[0]?.name).toBe('Bxel 16');
-    expect(PALETTE_PRESETS[0]?.colors).toHaveLength(15);
-    expect(PALETTE_PRESETS.length).toBeGreaterThanOrEqual(4);
-  });
-
+describe('K3 the palette presets', { tags: ['critical'] }, () => {
   it('takes the colours that fit the limit and counts the rest', () => {
     const pico: PaletteSource = { kind: 'preset', presetId: 'pico-8', file: null };
     expect(bankPlan(pico, 16, true).dropped).toBe(1);

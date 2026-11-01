@@ -9,7 +9,7 @@ const sparse = (width: number, height: number, points: readonly (readonly [numbe
   return { data, width, height };
 };
 
-describe('trim and untrim', () => {
+describe('K1 trim and untrim', { tags: ['critical'] }, () => {
   it('crops transparent borders and remembers the offset', () => {
     const image = sparse(10, 8, [
       [3, 2],

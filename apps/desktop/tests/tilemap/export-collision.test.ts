@@ -17,7 +17,7 @@ beforeEach(() => {
   setCollision(2, { kind: 'polygon', points: [{ x: 0, y: 0 }, { x: 2, y: 0 }, { x: 0, y: 2 }] });
 });
 
-describe('exporting tile collision', () => {
+describe('K3 exporting tile collision', { tags: ['standard'] }, () => {
   it('writes each shape into the Bxel map JSON beside its tile', () => {
     const tileset = jsonOf(planMapExport(artworkNow(), { mapFormat: 'bxel' })).tileset as { tiles: { key: number; collision?: { kind: string } }[] };
     expect(tileset.tiles.map((tile) => [tile.key, tile.collision?.kind])).toEqual([

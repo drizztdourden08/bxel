@@ -14,7 +14,7 @@ const { held, open } = heldProject();
 
 const opened = () => open(animatedSampleArtwork());
 
-describe('opening a project with a sprite that has frames', () => {
+describe('K3 opening a project with a sprite that has frames', { tags: ['standard'] }, () => {
   it('turns the sprite into an animation in memory and leaves the files as they were', async () => {
     const { documentId, paths, artwork } = await opened();
     const animated = artwork.sprites.find((sprite) => sprite.frames.length > 1);
@@ -47,7 +47,7 @@ describe('opening a project with a sprite that has frames', () => {
   });
 });
 
-describe('saving the migration', () => {
+describe('K3 saving the migration', { tags: ['standard'] }, () => {
   it('writes the animation, moves the old sprite file to the trash after one question and clears the bar', async () => {
     const { documentId, paths, artwork } = await opened();
     const animated = artwork.sprites.find((sprite) => sprite.frames.length > 1);

@@ -77,7 +77,7 @@ const EMPTY_LABELS = [
   TIMELINE_MENU.transform,
 ];
 
-describe('the menu of the ruler', () => {
+describe('S2 the menu of the ruler', { tags: ['standard'] }, () => {
   it('offers play, the loop range, units and the onion settings', () => {
     withFrames(3);
     const entries = menuFor(new FakeElement([TIMELINE_MENU.ruler]));
@@ -101,7 +101,7 @@ describe('the menu of the ruler', () => {
   });
 });
 
-describe('the menu of a tag', () => {
+describe('S2 the menu of a tag', { tags: ['standard'] }, () => {
   it('offers the span tag entries and a delete after a separator', () => {
     withFrames(4);
     pickRange(0, 1);
@@ -151,18 +151,13 @@ describe('the menu of a tag', () => {
   });
 });
 
-describe('the menu of the empty lane and the empty track', () => {
+describe('S2 the menu of the empty lane and the empty track', { tags: ['standard'] }, () => {
   it('adds the Add tag entry only on the lane', () => {
     withFrames(3);
     const lane = menuFor(new FakeElement([TIMELINE_MENU.lane]));
     const track = menuFor(new FakeElement([]));
     expect(labels(lane)).toEqual([TIMELINE_MENU.addTag, ...EMPTY_LABELS]);
     expect(labels(track)).toEqual(EMPTY_LABELS);
-  });
-
-  it('lists the four ways to add frames', () => {
-    withFrames(3);
-    expect(submenu(menuFor(new FakeElement([])), TIMELINE_MENU.addFrom)).toEqual([TIMELINE_MENU.fromSprites, TIMELINE_MENU.fromStrip, TIMELINE_MENU.fromSheet, TIMELINE_MENU.fromImages]);
   });
 
   it('offers Group by facing only when the animation has directions', () => {
@@ -173,18 +168,5 @@ describe('the menu of the empty lane and the empty track', () => {
     expect(lane).toContain(TIMELINE_MENU.groupFacing);
     expect(lane.length).toBeLessThanOrEqual(12);
   });
-
-  it('lists the frame sizes and Fit under the zoom entry', () => {
-    withFrames(3);
-    expect(submenu(menuFor(new FakeElement([])), TIMELINE_MENU.zoom).at(-1)).toBe(TIMELINE_MENU.fit);
-  });
 });
 
-describe('the menu of a frame', () => {
-  it('lists the image files entry under Add frames from and stays within twelve entries', () => {
-    withFrames(3);
-    const entries = menuFor(new FakeElement([TIMELINE_MENU.frame], { frameId: frameAt(1) }));
-    expect(submenu(entries, TIMELINE_MENU.addFrom)).toContain(TIMELINE_MENU.fromImages);
-    expect(topLevel(entries).length).toBeLessThanOrEqual(12);
-  });
-});

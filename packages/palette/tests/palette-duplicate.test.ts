@@ -4,7 +4,7 @@ import { createBank } from './import-helpers';
 import { currentBank, execute, makeRig, rejectionCode, slotId, step, succeed } from './palette-engine';
 import { bankOf, roundTrip } from './palette-rig';
 
-describe('palette.duplicate', () => {
+describe('K2 palette.duplicate', { tags: ['critical'] }, () => {
   it('copies slots, names, cap, transparency and ramps with new ids, in one undo step', () => {
     const rig = makeRig();
     succeed(execute(rig, [step('ramp.add', { bankId: rig.bankId, name: 'Violets', swatches: [slotId(rig, 1), slotId(rig, 3)] })]));
@@ -34,7 +34,7 @@ describe('palette.duplicate', () => {
   });
 });
 
-describe('the created time of a palette', () => {
+describe('K2 the created time of a palette', { tags: ['critical'] }, () => {
   it('is set on a duplicate and on a new palette from the clock, and stays unknown without one', () => {
     const at = Date.UTC(2026, 9, 24, 12, 0, 0);
     const rig = makeRig({ clock: () => at });

@@ -23,7 +23,7 @@ const FLIP_Y = 0x40000000;
 
 const unsigned = (cell: number | undefined): number => (cell ?? 0) >>> 0;
 
-describe('the map line', () => {
+describe('S2 the map line', { tags: ['standard'] }, () => {
   it('places a line of cells as one undo step', () => {
     const before = revision();
     expect(linePlace({ x: 0, y: 0 }, { x: 3, y: 2 })).toBe(true);
@@ -34,7 +34,7 @@ describe('the map line', () => {
   });
 });
 
-describe('random place', () => {
+describe('S2 random place', { tags: ['standard'] }, () => {
   it('places tiles from the selection and repeats the scatter for the same seed', () => {
     useTilemapStore.getState().setStamp({ columns: 2, rows: 1, keys: [1, 2] });
     useDrawingStore.getState().patch({ spraySeed: 5 });
@@ -49,7 +49,7 @@ describe('random place', () => {
   });
 });
 
-describe('symmetry on the map', () => {
+describe('S2 symmetry on the map', { tags: ['standard'] }, () => {
   it('mirrors a placement across the map and sets the flip flag on the mirrored cell', () => {
     useToolStore.getState().toggleSymmetry('x');
     const before = revision();

@@ -14,14 +14,14 @@ beforeEach(async () => {
   current = await toolRig();
 });
 
-describe('recentIdOf', () => {
+describe('K1 recentIdOf', { tags: ['critical'] }, () => {
   it('gives one id to a path however its slashes and case are written', () => {
     expect(recentIdOf('C:\\Art\\Hero.bxsprite')).toBe(recentIdOf('c:/art/hero.bxsprite'));
     expect(recentIdOf('C:/Art/Hero.bxsprite')).not.toBe(recentIdOf('C:/Art/Other.bxsprite'));
   });
 });
 
-describe('the recent id of a document outside every project', () => {
+describe('S2 the recent id of a document outside every project', { tags: ['standard'] }, () => {
   it('is the same in list_documents and list_places, and open_file takes it', async () => {
     const made = await current.run('create_document', { name: 'hero', kind: 'sprite', bank, sprite: { name: 'hero', width: 8, height: 8 } }, []);
     const documentId = String(fieldOf(made, 'documentId'));

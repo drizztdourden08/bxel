@@ -13,7 +13,7 @@ const { ok, code } = check;
 
 beforeEach(reset);
 
-describe('list_commands', () => {
+describe('S2 list_commands', { tags: ['standard'] }, () => {
   it('lists the commands with their area, effect, chord and why one is off', async () => {
     fake.commands = [
       { id: 'view.zoom_in', label: 'Zoom in' },
@@ -49,7 +49,7 @@ describe('list_commands', () => {
   });
 });
 
-describe('run_command', () => {
+describe('S2 run_command', { tags: ['standard'] }, () => {
   it('runs a command with the assistant trigger and says it in the status line', async () => {
     fake.commands = [{ id: 'view.zoom_in', label: 'Zoom in' }];
     const done = await ok('run_command', { id: 'view.zoom_in', show: false });
@@ -91,7 +91,7 @@ describe('run_command', () => {
 
 });
 
-describe('run_command dialogs and revisions', () => {
+describe('S2 run_command dialogs and revisions', { tags: ['standard'] }, () => {
   it('never blocks on a dialog: a dialog command without args is a plain input error, with show it opens', async () => {
     fake.commands = [{ id: 'file.open', label: 'Open file' }];
     expect(await code('run_command', { id: 'file.open', show: false })).toBe('COMMAND_ARGS');

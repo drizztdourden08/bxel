@@ -38,7 +38,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('a project of 200 assets', () => {
+describe('S2 a project of 200 assets', { tags: ['standard'] }, () => {
   it('opens every asset, clean', async () => {
     const { paths, documentId } = await openMany();
     expect(paths.size).toBe(ASSETS);

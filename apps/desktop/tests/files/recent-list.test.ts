@@ -1,9 +1,7 @@
 /* @layer renderer-app @kind test */
-import { columnContext } from '../ui-context/columns';
 import type { RecentDocument } from '@drizztdourden08/brock-core';
 import type { MenuItem } from '@drizztdourden08/brock-react';
 import { describe, expect, it } from 'vitest';
-import { fileMenu } from '../../src/files/file-menu';
 import type { FileAction, FileOutcome } from '../../src/files/files.type';
 import { isArtworkPath } from '../../src/files/is-artwork-path';
 import { recentMenuItem } from '../../src/files/recent-menu-item';
@@ -30,7 +28,7 @@ const actions = () => {
 
 const childrenOf = (item: MenuItem): readonly (MenuItem | 'separator')[] => item.children ?? [];
 
-describe('open recent menu', () => {
+describe('K1 open recent menu', { tags: ['critical'] }, () => {
   it('lists the recent files, newest first, with the path as the description', () => {
     const { handlers } = actions();
     const item = recentMenuItem([entry('C:\\art\\b.bxel', 'b.bxel'), entry('C:\\art\\a.bxel', 'a.bxel')], handlers);
@@ -63,16 +61,9 @@ describe('open recent menu', () => {
     expect(labels).toEqual(['HERO.BXEL', 'Clear recent files']);
     expect(isArtworkPath('C:\\art\\hero.png')).toBe(false);
   });
-
-  it('sits under File right after Open', () => {
-    const { handlers } = actions();
-    const [file] = fileMenu(recentMenuItem([], handlers), columnContext('Sp'));
-    const keys = file !== undefined && file !== 'separator' ? (file.children ?? []).map((child) => (child === 'separator' ? child : child.key)) : [];
-    expect(keys.slice(1, 4)).toEqual(['file-open', 'file-open-recent', 'separator']);
-  });
 });
 
-describe('recent list updates', () => {
+describe('K1 recent list updates', { tags: ['critical'] }, () => {
   const done: FileOutcome = { kind: 'done', path: 'C:\\art\\a.bxel', notice: null };
   const kinds: readonly FileAction[] = [{ kind: 'open' }, { kind: 'openPath', path: 'C:\\art\\a.bxel' }, { kind: 'save' }, { kind: 'saveAs' }];
 

@@ -29,7 +29,7 @@ const glassArtwork = (artwork: Artwork, alpha: number): Artwork => ({
   })),
 });
 
-describe('swatch alpha in the palette panel', () => {
+describe('S2 swatch alpha in the palette panel', { tags: ['standard'] }, () => {
   it('reports the alpha of a slot, its eight digit colour and its label', () => {
     const { host, documentId, target } = openEditor();
     expect(recolourSwatch(host, documentId, target().bank, { index: 5, rgb: '#336699', alpha: HALF }).ok).toBe(true);
@@ -69,7 +69,7 @@ describe('swatch alpha in the palette panel', () => {
   });
 });
 
-describe('swatch alpha in the colour tables', () => {
+describe('S2 swatch alpha in the colour tables', { tags: ['standard'] }, () => {
   it('gives the export table and the canvas table the alpha of each swatch', () => {
     const { host, documentId, target } = openEditor();
     recolourSwatch(host, documentId, target().bank, { index: 5, rgb: '#336699', alpha: HALF });
@@ -82,7 +82,7 @@ describe('swatch alpha in the colour tables', () => {
   });
 });
 
-describe('swatch alpha in swatch sets', () => {
+describe('S2 swatch alpha in swatch sets', { tags: ['standard'] }, () => {
   it('keeps the alpha through a set, its library entry and a recolour', () => {
     const set = makeSwatchSet('Glass', [{ rgb: '#112233', alpha: HALF, name: 'Pane' }, { rgb: '#445566', name: '#445566' }], [], bytes);
     expect(set.colors).toEqual([{ rgb: '#112233', alpha: HALF, name: 'Pane' }, { rgb: '#445566', name: '#445566' }]);
@@ -104,7 +104,7 @@ describe('swatch alpha in swatch sets', () => {
   });
 });
 
-describe('swatch alpha in palette files', () => {
+describe('K1 swatch alpha in palette files', { tags: ['critical'] }, () => {
   it('reads the alpha of a palette image and drops fully clear entries', () => {
     const written = writePalettePng(
       {
@@ -125,7 +125,7 @@ describe('swatch alpha in palette files', () => {
   });
 });
 
-describe('swatch alpha in exports', () => {
+describe('S2 swatch alpha in exports', { tags: ['standard'] }, () => {
   const glass = () => {
     const h = harness();
     paint(h, 0, 0, PAINTED);

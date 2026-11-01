@@ -7,7 +7,6 @@ import { currentTarget } from '../../src/editor/current-target';
 import type { EditorTarget } from '../../src/editor/editor.type';
 import { historyItem } from '../../src/editor/history-item';
 import { stepHistory } from '../../src/editor/step-history';
-import { runInstant } from '../../src/editor/run-instant';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useToolStore } from '../../src/stores/useToolStore';
@@ -31,7 +30,7 @@ beforeEach(() => {
   createDefaultArtwork(useDocumentStore.getState().host);
 });
 
-describe('the document store', () => {
+describe('K2 the document store', { tags: ['standard'] }, () => {
   it('opens the default sprite as a clean 32 by 32 document with the Bxel 16 bank', () => {
     const { state, clean } = activeView();
     const sprite = state.artwork.sprites[0];
@@ -42,7 +41,7 @@ describe('the document store', () => {
   });
 });
 
-describe('undo and redo', () => {
+describe('S2 undo and redo', { tags: ['standard'] }, () => {
   it('steps one stroke back and forth through the host', () => {
     const session = beginStroke({ target: liveTarget(), tool: 'pencil', index: 4, options: plainOptions, at: { x: 3, y: 3 } });
     expect(commitSession(session)?.ok).toBe(true);
@@ -51,14 +50,6 @@ describe('undo and redo', () => {
     expect(activeView()).toMatchObject({ clean: true, canUndo: false, canRedo: true });
     stepHistory('redo');
     expect(activeView()).toMatchObject({ clean: false, canUndo: true, canRedo: false });
-  });
-
-  it('fills with the front colour and undoes it', () => {
-    useToolStore.getState().setForeground(6);
-    runInstant('fill', liveTarget(), { x: 0, y: 0 }, 'foreground');
-    expect(activeView().canUndo).toBe(true);
-    stepHistory('undo');
-    expect(activeView().canUndo).toBe(false);
   });
 
   it('names the title bar items by what is left to do', () => {

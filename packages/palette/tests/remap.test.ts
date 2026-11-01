@@ -20,7 +20,7 @@ const buffer: IndexBuffer = {
 const render = (source: IndexBuffer, colors: readonly string[]): string[] =>
   [...source.pixels].map((slot) => colors[slot] ?? 'out of range');
 
-describe('reorder tables', () => {
+describe('K1 reorder tables', { tags: ['critical'] }, () => {
   const order = [0, 3, 1, 4, 2];
 
   it('builds full-size tables', () => {
@@ -66,7 +66,7 @@ describe('reorder tables', () => {
   });
 });
 
-describe('remove tables', () => {
+describe('K1 remove tables', { tags: ['critical'] }, () => {
   it('merges a slot into another and closes the gap', () => {
     const table = buildRemoveTable({ slotCount: 5, removed: 1, replacement: 3 });
     expect([...table.slice(0, 5)]).toEqual([0, 2, 1, 2, 3]);

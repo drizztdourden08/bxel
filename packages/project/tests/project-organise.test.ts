@@ -14,7 +14,7 @@ const organise = (): ProjectOrganise => ({
 
 const withOrganise = (): ProjectDocument => ({ ...sampleDocument(), organise: organise() });
 
-describe('the organise block', () => {
+describe('K2 the organise block', { tags: ['critical'] }, () => {
   it('is written as version 3 after the export settings and read back with sorted tags', () => {
     const output = must(writeProjectDocument(withOrganise()));
     const json = JSON.parse(output) as Record<string, unknown>;

@@ -25,7 +25,7 @@ const colourAt = (rgba: Uint8ClampedArray, width: number, x: number, y: number):
 
 beforeEach(() => openFile(['a', 'b'], SIZE));
 
-describe('a sheet that places an animation', () => {
+describe('S2 a sheet that places an animation', { tags: ['standard'] }, () => {
   it('draws the frames in a row, live, and follows an edit of a frame sprite', () => {
     patch('a', { x: 0, y: 0, width: 1, height: 1 }, 2);
     patch('b', { x: 0, y: 0, width: 1, height: 1 }, 3);

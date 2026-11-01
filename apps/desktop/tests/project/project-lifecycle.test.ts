@@ -46,7 +46,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('creating a project', () => {
+describe('S2 creating a project', { tags: ['standard'] }, () => {
   it('writes the project file in the folder, opens the project and remembers it', async () => {
     held.disk.granted.add(ROOT.toLowerCase());
     expect(await createProject('Dungeon', ROOT)).toEqual({ ok: true });
@@ -86,7 +86,7 @@ describe('creating a project', () => {
   });
 });
 
-describe('opening a project', () => {
+describe('S2 opening a project', { tags: ['standard'] }, () => {
   it('reads the project file and opens its workspace', async () => {
     withManifest(held.disk);
     pick(held, ROOT);
@@ -151,7 +151,7 @@ describe('opening a project', () => {
   });
 });
 
-describe('the assistant grant when a project opens', () => {
+describe('S2 the assistant grant when a project opens', { tags: ['standard'] }, () => {
   const opened = async (access: 'off' | 'read' | 'edit'): Promise<void> => {
     withManifest(held.disk, manifestOf({ assistant: { access } }));
     pick(held, ROOT);
@@ -189,7 +189,7 @@ describe('the assistant grant when a project opens', () => {
   });
 });
 
-describe('the grant of the open project', () => {
+describe('S2 the grant of the open project', { tags: ['standard'] }, () => {
   it('is stored in the settings and shown in the project file', async () => {
     withManifest(held.disk);
     pick(held, ROOT);

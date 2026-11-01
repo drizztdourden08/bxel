@@ -39,7 +39,7 @@ const frameSprite = (rig: ReturnType<typeof makeRig>, animation: Animation, at: 
   return sprite;
 };
 
-describe('animation.import', () => {
+describe('K2 animation.import', { tags: ['critical'] }, () => {
   it('creates one animation with an owned frame sprite and a duration for every picture', () => {
     const rig = makeRig();
     const done = succeed(run(rig, importOptions(rig)));

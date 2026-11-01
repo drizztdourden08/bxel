@@ -14,7 +14,7 @@ const app = (): AssetDefaults => ({
   pixelGrid: { width: 8, height: 8 },
 });
 
-describe('resolveDefaults', () => {
+describe('K1 resolveDefaults', { tags: ['critical'] }, () => {
   it('gives every app default when the project sets nothing', () => {
     expect(resolveDefaults(app(), {})).toEqual(app());
   });

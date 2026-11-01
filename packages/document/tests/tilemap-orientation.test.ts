@@ -9,7 +9,7 @@ type World = ReturnType<typeof buildWorld>;
 
 const orient = (world: World, orientation: unknown) => step('tilemap.orient', { tilemap: world.map, orientation });
 
-describe('tilemap.orient', () => {
+describe('K1 tilemap.orient', { tags: ['critical'] }, () => {
   it('sets an orientation, fills the Tiled defaults and goes back to orthogonal', () => {
     const world = buildWorld();
     applySteps(world.engine, [orient(world, { kind: 'staggered', staggerIndex: 'even' })]);
@@ -45,7 +45,7 @@ describe('tilemap.orient', () => {
   });
 });
 
-describe('drawing and saving oriented maps', () => {
+describe('K3 drawing and saving oriented maps', { tags: ['critical'] }, () => {
   it('lays the tiles of an isometric map on the diamond grid when it is flattened', () => {
     const world = buildWorld();
     applySteps(world.engine, [orient(world, { kind: 'isometric' })]);

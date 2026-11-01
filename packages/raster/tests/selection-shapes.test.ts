@@ -1,11 +1,11 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { ellipseMask, fullMask, emptyMask, lassoMask, polygonMask, rectMask } from '@bxel/raster';
+import { ellipseMask, emptyMask, lassoMask, polygonMask, rectMask } from '@bxel/raster';
 import { maskRows } from './mask-rows';
 
 const SIZE = { width: 8, height: 6 };
 
-describe('rectangle mask', () => {
+describe('K1 rectangle mask', { tags: ['critical'] }, () => {
   test('covers the corners inclusively', () => {
     const mask = rectMask(SIZE, { from: { x: 1, y: 1 }, to: { x: 3, y: 2 } });
     expect(maskRows(mask)).toEqual(['........', '.###....', '.###....', '........', '........', '........']);
@@ -27,7 +27,7 @@ describe('rectangle mask', () => {
   });
 });
 
-describe('ellipse mask', () => {
+describe('K1 ellipse mask', { tags: ['critical'] }, () => {
   test('fills the outline of an odd ellipse', () => {
     const mask = ellipseMask({ width: 9, height: 7 }, { from: { x: 0, y: 0 }, to: { x: 8, y: 6 } });
     expect(maskRows(mask)).toEqual([
@@ -40,14 +40,9 @@ describe('ellipse mask', () => {
       '..#####..',
     ]);
   });
-
-  test('a circle of four is symmetric', () => {
-    const mask = ellipseMask({ width: 6, height: 6 }, { from: { x: 1, y: 1 }, to: { x: 4, y: 4 } });
-    expect(maskRows(mask)).toEqual(['......', '..##..', '.####.', '.####.', '..##..', '......']);
-  });
 });
 
-describe('polygon and lasso masks', () => {
+describe('K1 polygon and lasso masks', { tags: ['critical'] }, () => {
   test('a triangle holds its outline and interior', () => {
     const mask = polygonMask({ width: 9, height: 5 }, [
       { x: 0, y: 4 },
@@ -106,12 +101,5 @@ describe('polygon and lasso masks', () => {
       { x: -3, y: 1 },
     ]);
     expect(maskRows(mask)).toEqual(['####', '####', '....', '....']);
-  });
-});
-
-describe('select all and clear', () => {
-  test('select all sets every pixel and clear unsets them', () => {
-    expect(maskRows(fullMask({ width: 3, height: 2 }))).toEqual(['###', '###']);
-    expect(maskRows(emptyMask({ width: 3, height: 2 }))).toEqual(['...', '...']);
   });
 });

@@ -17,7 +17,7 @@ const backAndForth = (engine: Engine): void => {
   expect(engine.isClean()).toBe(true);
 };
 
-describe('the saved marker', () => {
+describe('K1 the saved marker', { tags: ['critical'] }, () => {
   it('keeps every entry across a save so undo still steps back through them', () => {
     const { engine } = heartEngine();
     stroke(engine, 1);
@@ -64,7 +64,7 @@ describe('the saved marker', () => {
   });
 });
 
-describe('moving the saved marker', () => {
+describe('K1 moving the saved marker', { tags: ['critical'] }, () => {
   it('moves with a second save and keeps the older entries', () => {
     const { engine } = heartEngine();
     stroke(engine, 1);

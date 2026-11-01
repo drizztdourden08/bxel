@@ -21,7 +21,7 @@ const flipFirstPixel = (sprite: Sprite): Sprite => {
   return { ...sprite, cels: { ...sprite.cels, [id]: { ...cel, pixels } } };
 };
 
-describe('assetDigest', () => {
+describe('K1 assetDigest', { tags: ['critical'] }, () => {
   it('is the same for equal content whatever the preview or the clock', () => {
     const early = encodeSprite(spriteSlice(), null, WRITER_CLOCK);
     const late = encodeSprite(spriteSlice(), assetPreview, assetClock);

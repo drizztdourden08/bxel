@@ -40,7 +40,7 @@ beforeEach(async () => {
   confirmSave.mockClear();
 });
 
-describe('save_document in the assistant folder', () => {
+describe('K4 save_document in the assistant folder', { tags: ['standard'] }, () => {
   it('saves a sheet and the sprite it holds, with no dialog', async () => {
     const id = await make('sheet');
     const saved = await saveInto(id, 'tt-sheet.bxsheet');
@@ -79,7 +79,7 @@ describe('save_document in the assistant folder', () => {
   });
 });
 
-describe('a dependency that cannot be given a file', () => {
+describe('K4 a dependency that cannot be given a file', { tags: ['standard'] }, () => {
   it('fails with DEPENDENCY_UNSAVED and lists the assets, and writes nothing', async () => {
     const id = await make('sheet');
     const parts = { host: current.rig.kit.host, paths: current.rig.kit.paths, documents: current.rig.disk.port, call: { folder: FOLDER } };
@@ -93,7 +93,7 @@ describe('a dependency that cannot be given a file', () => {
   });
 });
 
-describe('the dialog guard', () => {
+describe('K4 the dialog guard', { tags: ['standard'] }, () => {
   it('turns a refused dialog into NEEDS_OWNER instead of opening it', async () => {
     const opening = async () => {
       await refusingPrompts().saveAs({ grantFolder: 'ask' });
@@ -120,7 +120,7 @@ describe('the dialog guard', () => {
   });
 });
 
-describe('open_file', () => {
+describe('K4 open_file', { tags: ['standard'] }, () => {
   it('refuses a project file, which would switch the owner project and may ask', async () => {
     const opened = await current.run('open_file', { file: current.locate('Dungeon.bxproject'), activate: false }, current.grants());
     expect(opened).toMatchObject({ ok: false, error: { code: 'FILE_NOT_SUPPORTED' } });

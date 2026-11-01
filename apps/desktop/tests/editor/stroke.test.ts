@@ -9,7 +9,7 @@ import { openEditor, plainOptions } from './editor-harness';
 const rowStart = 33;
 const crimson = [224, 36, 94, 255];
 
-describe('a pencil stroke', () => {
+describe('S2 a pencil stroke', { tags: ['standard'] }, () => {
   it('draws the live overlay and commits one transaction with the same pixels', () => {
     const { host, target, pixels } = openEditor();
     const kinds: string[] = [];
@@ -41,7 +41,7 @@ describe('a pencil stroke', () => {
   });
 });
 
-describe('an eraser stroke', () => {
+describe('S2 an eraser stroke', { tags: ['standard'] }, () => {
   it('clears pixels in the overlay and in the commit', () => {
     const { host, target, pixels } = openEditor();
     const pencil = beginStroke({ target: target(), tool: 'pencil', index: 7, options: plainOptions, at: { x: 2, y: 2 } });
@@ -56,7 +56,7 @@ describe('an eraser stroke', () => {
   });
 });
 
-describe('a fill', () => {
+describe('S2 a fill', { tags: ['standard'] }, () => {
   it('floods the empty sprite with the chosen index in one step', () => {
     const { host, documentId, target, pixels } = openEditor();
     const result = host.execute(fillRequest(target(), { x: 9, y: 9 }, { index: 3, mode: 'contiguous', connectivity: 4 }));

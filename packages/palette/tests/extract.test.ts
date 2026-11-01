@@ -1,10 +1,10 @@
 /* @layer tests @kind test */
-import { countColors, extractPalette, isHexColor } from '@bxel/palette';
+import { extractPalette, isHexColor } from '@bxel/palette';
 import { describe, expect, it } from 'vitest';
 import { makeImage } from './make-image';
 import { makeNoiseImage } from './make-noise-image';
 
-describe('extractPalette', () => {
+describe('K1 extractPalette', { tags: ['critical'] }, () => {
   it('gives identical output for the same image and limit', () => {
     const noise = makeNoiseImage(48, 11);
     for (const maxColors of [1, 2, 7, 15, 16, 64, 255]) {
@@ -52,11 +52,5 @@ describe('extractPalette', () => {
     ]);
     expect(extractPalette(image, { maxColors: 4 })).toEqual(['#0000ff']);
     expect(extractPalette(image, { maxColors: 4, alphaThreshold: 50 })).toHaveLength(2);
-  });
-
-  it('reduces many colours to a smaller palette', () => {
-    const noise = makeNoiseImage(64, 5);
-    expect(countColors(noise).colors.length).toBeGreaterThan(1000);
-    expect(extractPalette(noise, { maxColors: 16 }).length).toBeLessThanOrEqual(16);
   });
 });

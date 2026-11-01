@@ -20,7 +20,7 @@ const centreOfPixel = (pixel: PixelPoint, target: ViewTarget, box: ViewBox): Pix
   return { x: corner.x + target.zoom / 2, y: corner.y + target.zoom / 2 };
 };
 
-describe('zoom at the pointer', () => {
+describe('K1 zoom at the pointer', { tags: ['critical'] }, () => {
   it.each([1, 2])('keeps the pixel under the pointer fixed through every step at DPR %i', (dpr) => {
     const box = boxOf(dpr);
     const levels = zoomLevels(PIXEL_ZOOM_STEPS, fitZoom(image, box));
@@ -48,7 +48,7 @@ describe('zoom at the pointer', () => {
   });
 });
 
-describe('zoom levels', () => {
+describe('K1 zoom levels', { tags: ['critical'] }, () => {
   it('steps by whole factors at and above 1x, down to 25% and up to 128x', () => {
     const levels = zoomLevels(PIXEL_ZOOM_STEPS, 6);
     expect(levels).toEqual([0.25, 0.5, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128]);
@@ -85,7 +85,7 @@ describe('zoom levels', () => {
   });
 });
 
-describe('pan clamp', () => {
+describe('K1 pan clamp', { tags: ['critical'] }, () => {
   it.each([1, 4, 32])('keeps a margin of the image on screen at %ix', (zoom) => {
     const box = boxOf();
     for (const far of [-1e6, 1e6]) {
@@ -104,7 +104,7 @@ describe('pan clamp', () => {
   });
 });
 
-describe('screen and pixel mapping', () => {
+describe('K1 screen and pixel mapping', { tags: ['critical'] }, () => {
   it.each([1, 2])('round trips at DPR %i over whole and fractional zooms', (dpr) => {
     const box = boxOf(dpr);
     for (const zoom of [0.37, 1, 3, 12, 64]) {
@@ -124,7 +124,7 @@ describe('screen and pixel mapping', () => {
   });
 });
 
-describe('wheel steps', () => {
+describe('K1 wheel steps', { tags: ['critical'] }, () => {
   it('takes a mouse notch as one step and adds small pinch deltas up', () => {
     expect(wheelSteps(0, -100)).toEqual({ steps: 1, carried: 0 });
     expect(wheelSteps(0, 120)).toEqual({ steps: -1, carried: 0 });

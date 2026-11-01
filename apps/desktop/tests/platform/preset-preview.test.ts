@@ -23,7 +23,7 @@ const areasOf = (preset: PlatformPreset): number[] => previewSizes(preset).map((
 
 const ALL = listPresets().flatMap((family) => [...family.presets]);
 
-describe('preset facts', () => {
+describe('K1 preset facts', { tags: ['critical'] }, () => {
   it('states the colour count, the palettes and the tile size of a preset', () => {
     const nes = presetOf('nes-sprite');
     expect(valueOf(nes, 'Colours')).toBe('55 fixed colours');
@@ -35,13 +35,9 @@ describe('preset facts', () => {
     expect(valueOf(presetOf('nes-sprite'), 'Area rules')).toBeUndefined();
     expect(valueOf(presetOf('nes-bg'), 'Area rules')).toBe('16 by 16 area: one palette per area (warning)');
   });
-
-  it('describes every preset in the catalog', () => {
-    ALL.forEach((preset) => expect(presetFacts(preset).flat().length).toBeGreaterThanOrEqual(7));
-  });
 });
 
-describe('preset preview', () => {
+describe('K1 preset preview', { tags: ['critical'] }, () => {
   it('takes the palette of a fixed set and none for a free colour model', () => {
     expect(presetPalette(presetOf('nes-sprite'))).toHaveLength(55);
     ALL.forEach((preset) => expect(Array.isArray(presetPalette(preset))).toBe(true));

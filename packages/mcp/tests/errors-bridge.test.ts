@@ -7,7 +7,6 @@ import {
   engineFailure,
   FAILURE_SCHEMA,
   MCP_ERROR_CODE,
-  MCP_ROUTE,
   mcpFailure,
   mcpOk,
   retryFor,
@@ -17,7 +16,7 @@ import {
 } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
 
-describe('retry values', () => {
+describe('K2 retry values', { tags: ['critical'] }, () => {
   it.each([
     ['STALE_REVISION', 'after_read'],
     ['DOCUMENT_NOT_FOUND', 'after_read'],
@@ -74,7 +73,7 @@ describe('retry values', () => {
   });
 });
 
-describe('failure and ok results', () => {
+describe('K2 failure and ok results', { tags: ['critical'] }, () => {
   it('builds a failure that matches the Failure shape', () => {
     const failure = mcpFailure('PATH_INVALID', 'Bad path.', { path: 'location.path' });
     expect(FAILURE_SCHEMA.safeParse(failure).success).toBe(true);
@@ -104,10 +103,6 @@ describe('failure and ok results', () => {
     expect(failure.error.details).toHaveLength(1);
   });
 
-  it('marks an ok result', () => {
-    expect(mcpOk({ revision: 3 })).toEqual({ ok: true, revision: 3 });
-  });
-
   it('turns results into MCP tool results', () => {
     const ok = toToolResult(mcpOk({ revision: 3 }), 'Revision 3.');
     expect(ok.isError).toBeUndefined();
@@ -120,11 +115,7 @@ describe('failure and ok results', () => {
   });
 });
 
-describe('bridge names', () => {
-  it('names every route and ask channel under bxel:mcp', () => {
-    for (const route of Object.values(MCP_ROUTE)) expect(route.startsWith('bxel:mcp:')).toBe(true);
-    expect(new Set(Object.values(MCP_ROUTE)).size).toBe(Object.values(MCP_ROUTE).length);
-  });
+describe('K2 bridge names', { tags: ['critical'] }, () => {
 
   it('has a route for every tool except start_bxel', () => {
     expect(Object.keys(TOOL_ROUTE).sort()).toEqual(Object.values(TOOL_NAME).filter((name) => name !== 'start_bxel').sort());

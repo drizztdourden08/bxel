@@ -13,7 +13,7 @@ const assign = (sprites: readonly SpriteId[], options: object) => onSprites(step
 
 const destId = (rig: Rig): BankId => createBank(rig, destColors, true);
 
-describe('palette.assign', () => {
+describe('K2 palette.assign', { tags: ['critical'] }, () => {
   it('moves a sprite to another bank by nearest colour in one undo', () => {
     const rig = makeRig();
     const dest = destId(rig);

@@ -16,7 +16,7 @@ const land = (rows: readonly string[], mask: MaskView, mover: Mover, skipZero = 
   return { rows: toRows(target), ...result };
 };
 
-describe('replaceIndex', () => {
+describe('K1 replaceIndex', { tags: ['critical'] }, () => {
   test('replaces every pixel of one index and counts them', () => {
     const target = fromRows(['1122', '2211', '3333']);
     const result = replaceIndex({ target, from: 2, to: 5 });
@@ -38,7 +38,7 @@ describe('replaceIndex', () => {
   });
 });
 
-describe('clearRegion', () => {
+describe('K1 clearRegion', { tags: ['critical'] }, () => {
   test('clears the masked pixels and reports their box', () => {
     const target = fromRows(['123', '456']);
     expect(clearRegion(target, maskFromRows(['.##', '#..']))).toEqual({ x: 0, y: 0, width: 3, height: 2 });
@@ -53,7 +53,7 @@ describe('clearRegion', () => {
   });
 });
 
-describe('moveMover', () => {
+describe('K1 moveMover', { tags: ['critical'] }, () => {
   const rows = ['.....', '.12..', '.34..'];
   const mask = maskFromRows(['.....', '.##..', '.##..']);
 
@@ -82,7 +82,7 @@ describe('moveMover', () => {
   });
 });
 
-describe('scaleMover', () => {
+describe('K1 scaleMover', { tags: ['critical'] }, () => {
   const rows = ['......', '.12...', '.34...', '......', '......', '......'];
   const mask = maskFromRows(['......', '.##...', '.##...', '......', '......', '......']);
 

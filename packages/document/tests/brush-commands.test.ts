@@ -10,7 +10,7 @@ const PIXELS = encodeBrushPixels(Uint8Array.from([1, 2, 0, 3]));
 
 const addBrush = (name = 'Corner') => plain('brush.add', { name, width: 2, height: 2, pixels: PIXELS });
 
-describe('brush.add', () => {
+describe('K1 brush.add', { tags: ['critical'] }, () => {
   it('saves a brush in the artwork as one undo step and lists it as an entity change', () => {
     const { engine } = heartEngine();
     const done = expectUndoRedo(engine, addBrush());
@@ -27,7 +27,7 @@ describe('brush.add', () => {
   });
 });
 
-describe('brush.update and brush.delete', () => {
+describe('K1 brush.update and brush.delete', { tags: ['critical'] }, () => {
   it('renames and removes a saved brush', () => {
     const { engine } = heartEngine();
     apply(engine, addBrush());
@@ -39,7 +39,7 @@ describe('brush.update and brush.delete', () => {
   });
 });
 
-describe('a saved brush in a file', () => {
+describe('K3 a saved brush in a file', { tags: ['critical'] }, () => {
   it('survives save and reopen', () => {
     const { engine } = heartEngine();
     apply(engine, addBrush());

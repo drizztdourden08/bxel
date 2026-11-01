@@ -11,7 +11,7 @@ const addRamp = (rig: Rig, name: string, indices: readonly number[]) =>
 
 const rampsOf = (rig: Rig) => bankOf(rig, rig.bankId).ramps;
 
-describe('ramp.add', () => {
+describe('K2 ramp.add', { tags: ['critical'] }, () => {
   it('appends a ramp, registers its ref and undoes exactly', () => {
     const rig = makeRig();
     const result = roundTrip(rig, [{ ...addRamp(rig, 'Violets', [1, 2, 3]), ref: 'violets' }]);
@@ -44,7 +44,7 @@ describe('ramp.add', () => {
   });
 });
 
-describe('ramp.update', () => {
+describe('K2 ramp.update', { tags: ['critical'] }, () => {
   it('renames a ramp and replaces its swatches', () => {
     const rig = makeRig();
     succeed(execute(rig, [addRamp(rig, 'Violets', [1, 2])]));
@@ -74,7 +74,7 @@ describe('ramp.update', () => {
   });
 });
 
-describe('ramp.delete', () => {
+describe('K2 ramp.delete', { tags: ['critical'] }, () => {
   it('removes a ramp and undoes exactly', () => {
     const rig = makeRig();
     succeed(execute(rig, [addRamp(rig, 'Violets', [1, 2])]));

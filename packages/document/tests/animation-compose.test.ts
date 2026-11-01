@@ -29,7 +29,7 @@ const composed = (world: AnimWorld & { readonly id: string }, edit: Record<strin
 
 const Z = [0, 0, 0, 0, 0, 0];
 
-describe('composeAnimationFrame golden indices', () => {
+describe('K1 composeAnimationFrame golden indices', { tags: ['critical'] }, () => {
   it('places a frame by anchor, sprite pivot and offset', () => {
     const rows = composed(sixBySix(), { offset: { x: 1, y: 0 } });
     expect(rows).toEqual([Z, [0, 0, 1, 2, 3, 4], [0, 0, 5, 6, 7, 8], [0, 0, 9, 10, 11, 12], [0, 0, 13, 14, 15, 0], Z]);
@@ -82,7 +82,7 @@ const timed = () => {
 
 const indexes = (sequence: ReturnType<typeof animationSequence>): number[] => sequence.steps.map((entry) => entry.index);
 
-describe('animationSequence and frameAt', () => {
+describe('K1 animationSequence and frameAt', { tags: ['critical'] }, () => {
   it('expands every direction of a span tag', () => {
     const { world, tag } = timed();
     for (const direction of ['forward', 'reverse', 'pingpong', 'pingpongReverse']) tag(direction);
@@ -121,7 +121,7 @@ describe('animationSequence and frameAt', () => {
   });
 });
 
-describe('animationUsers', () => {
+describe('K1 animationUsers', { tags: ['critical'] }, () => {
   it('lists the animations that use a sprite', () => {
     const world = sixBySix();
     apply(world.engine, [step('animation.frame.update', { animation: world.id, frame: { by: 'index', index: 0 }, sprite: world.a })]);

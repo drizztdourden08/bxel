@@ -20,7 +20,7 @@ const tilesetOf = (rig: Rig): Tileset => {
   return found;
 };
 
-describe('tileset.import', () => {
+describe('K2 tileset.import', { tags: ['critical'] }, () => {
   it('creates a tileset whose tiles are tile sprites keyed in order and mapped to the bank', () => {
     const rig = makeRig();
     const result = succeed(execute(rig, [{ ...importStep(rig), ref: 'set' }]));

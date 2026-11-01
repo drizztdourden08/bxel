@@ -23,7 +23,7 @@ const wizardFor = async (session: Session, path: string) => {
   return dialog;
 };
 
-describe('check 2: a PNG with more than 16 colours is reduced to the palette', () => {
+describe('E1 import an image into the palette', { tags: ['e2e'] }, () => {
   const state: { session?: Session; png?: string } = {};
   const live = () => {
     if (!state.session) throw new Error('no session');

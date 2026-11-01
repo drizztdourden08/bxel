@@ -23,7 +23,7 @@ const SIZE = { width: 16, height: 16 };
 
 const row = (y: number, from: number, to: number) => Array.from({ length: to - from + 1 }, (_, at) => ({ x: from + at, y }));
 
-describe('check 1: a 16 slot sprite survives save and reopen', () => {
+describe('E1 save and reopen a sprite', { tags: ['e2e'] }, () => {
   const state: { first?: Session; second?: Session } = {};
   const dir = () => state.first?.dir ?? '';
 

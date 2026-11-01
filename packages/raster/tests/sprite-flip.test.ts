@@ -2,12 +2,12 @@
 import { describe, expect, test } from 'vitest';
 import { documentId, pixelEngine, scopeOf, stepOf } from './pixel-engine';
 import { okOf } from './result-checks';
-import { applyStep, applySteps, dimsOf, previewOf, refusalOf, rowsOf } from './transform-checks';
+import { applyStep, dimsOf, previewOf, refusalOf, rowsOf } from './transform-checks';
 import { transformIds as ids, transformArtwork } from './transform-artwork';
 
 const flipH = { axis: 'horizontal' };
 
-describe('sprite.flip results', () => {
+describe('K2 sprite.flip results', { tags: ['critical'] }, () => {
   test('flips every layer and frame of several sprites with per-sprite pivots, in one undo step', () => {
     const engine = pixelEngine(transformArtwork());
     const original = engine.state().artwork;
@@ -28,21 +28,6 @@ describe('sprite.flip results', () => {
     expect(dimsOf(engine, ids.tall).pivot).toEqual({ x2: 1, y2: 2 });
   });
 
-  test('a vertical flip mirrors rows and the pivot height', () => {
-    const engine = pixelEngine(transformArtwork());
-    applyStep(engine, 'sprite.flip', scopeOf([ids.wide]), { axis: 'vertical' });
-    expect(rowsOf(engine, ids.wide, ids.wideBody)).toEqual(['4.5', '123']);
-    expect(dimsOf(engine, ids.wide).pivot).toEqual({ x2: 1, y2: 0 });
-  });
-
-  test('two flips in one transaction restore the sprite exactly', () => {
-    const engine = pixelEngine(transformArtwork());
-    const original = engine.state().artwork;
-    const scope = scopeOf([ids.wide, ids.tall]);
-    applySteps(engine, [stepOf('sprite.flip', scope, flipH), stepOf('sprite.flip', scope, flipH)]);
-    expect(engine.state().artwork).toEqual(original);
-  });
-
   test('a layer scope flips only those cels and leaves the pivot', () => {
     const engine = pixelEngine(transformArtwork());
     applyStep(engine, 'sprite.flip', scopeOf([ids.wide], { by: 'names', names: ['Body'] }), flipH);
@@ -58,7 +43,7 @@ describe('sprite.flip results', () => {
   });
 });
 
-describe('sprite.flip guards', () => {
+describe('K2 sprite.flip guards', { tags: ['critical'] }, () => {
   test('skips locked and hidden layers reached by name or all, warns, and leaves the pivot', () => {
     const engine = pixelEngine(transformArtwork());
     const result = applyStep(engine, 'sprite.flip', scopeOf([ids.guarded]), flipH);

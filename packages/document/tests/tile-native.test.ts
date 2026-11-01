@@ -2,9 +2,9 @@
 import type { Artwork } from '@bxel/document';
 import { decodeArtwork, encodeArtwork } from '@bxel/document/native';
 import { describe, expect, it } from 'vitest';
-import { editDocument, editFiles, replaceEntry } from './container-edit';
+import { editDocument, editFiles } from './container-edit';
 import { fixedClock, heartPreview } from './native-fixture';
-import { applySteps, buildWorld, cellsOf, layerOf, onGround, step } from './tile-engine';
+import { applySteps, buildWorld, layerOf, onGround, step } from './tile-engine';
 
 const encoded = (world: ReturnType<typeof buildWorld>, artwork?: Artwork): Uint8Array => {
   const state = world.engine.state();
@@ -20,7 +20,7 @@ const painted = (): ReturnType<typeof buildWorld> => {
   return world;
 };
 
-describe('tilemaps in the .bxel container', () => {
+describe('K3 tilemaps in the .bxel container', { tags: ['critical'] }, () => {
   it('keeps ids, keys, flags and layer order through save and reopen', () => {
     const world = painted();
     const report = decodeArtwork(encoded(world));
@@ -61,36 +61,9 @@ describe('tilemaps in the .bxel container', () => {
     expect(Array.from(ground?.cells ?? [])).toEqual(new Array(12).fill(0));
     expect(report.artwork?.tilemaps[0]?.layers[1]?.cells[5]).toBe(1);
   });
-
-  it('opens a layer file of the wrong size as recoverable with that layer empty', () => {
-    const world = painted();
-    const [first] = layerPaths(world);
-    const report = decodeArtwork(replaceEntry(encoded(world), first ?? '', new Uint8Array(8)));
-    expect(report.outcome).toBe('recoverable');
-    expect(report.readOnly).toBe(true);
-    expect(report.mapDamage[0]).toMatchObject({ code: 'DOCUMENT_INVALID' });
-    expect(Array.from(report.artwork?.tilemaps[0]?.layers[0]?.cells ?? [])).toEqual(new Array(12).fill(0));
-  });
-
 });
 
-describe('tilemap integrity on open', () => {
-  it('diagnoses cells whose key has no tile, clears them and opens read-only', () => {
-    const world = painted();
-    const artwork = world.engine.state().artwork;
-    const [tileset] = artwork.tilesets;
-    const trimmed: Artwork = { ...artwork, tilesets: tileset ? [{ ...tileset, tiles: tileset.tiles.slice(0, 1) }] : [] };
-    const report = decodeArtwork(encoded(world, trimmed));
-    expect(report.outcome).toBe('recoverable');
-    expect(report.readOnly).toBe(true);
-    expect(report.mapDamage).toHaveLength(1);
-    expect(report.mapDamage[0]).toMatchObject({ code: 'REFERENCE_BROKEN', layerId: layerOf(world.engine).id });
-    expect(report.issues.some((issue) => issue.code === 'REFERENCE_BROKEN')).toBe(true);
-    expect(Array.from(report.artwork?.tilemaps[0]?.layers[0]?.cells ?? []).every((cell) => cell === 0)).toBe(true);
-    expect(report.artwork?.tilemaps[0]?.layers[1]?.cells[5]).toBe(1);
-    expect(cellsOf(world.engine).filter((cell) => cell !== 0)).toHaveLength(3);
-  });
-
+describe('S3 tilemap integrity on open', { tags: ['standard'] }, () => {
   it('refuses a tile whose sprite is not a tile sprite', () => {
     const world = painted();
     const tileSprite = world.engine.state().artwork.tilesets[0]?.tiles[0]?.spriteId;

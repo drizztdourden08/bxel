@@ -35,7 +35,7 @@ const addFrame = (baseRevision = revisionOf()) => ({
   steps: [{ name: 'animation.frame.add', targets: null, options: { animation: water().id, source: { kind: 'empty', count: 1 }, durationMs: 50 } }],
 });
 
-describe('the animation kind in list_assets and get_document', () => {
+describe('S2 the animation kind in list_assets and get_document', { tags: ['standard'] }, () => {
   it('lists the animation with the tileset that plays it, and leaves its frame sprites out', async () => {
     const assets = rowsOf(await world().rig.run('list_assets', listing(), world().rig.grants('read')), 'assets');
     const animation = assets.find((asset) => asset.kind === 'animation');
@@ -62,7 +62,7 @@ describe('the animation kind in list_assets and get_document', () => {
   });
 });
 
-describe('get_animation', () => {
+describe('S2 get_animation', { tags: ['standard'] }, () => {
   it('reads the frames, the tags and what plays the animation', async () => {
     const read = await world().rig.run('get_animation', { documentId: documentOf(), animationId: water().id }, world().rig.grants('read'));
     expect(read).toMatchObject({ ok: true, name: 'water', width: 8, height: 8, cycleMs: 200, directions: 'none' });
@@ -81,7 +81,7 @@ describe('get_animation', () => {
   });
 });
 
-describe('render_preview of an animation', () => {
+describe('S2 render_preview of an animation', { tags: ['standard'] }, () => {
   const render = (target: object, extra: object = {}) => world().rig.run('render_preview', { documentId: documentOf(), target, scale: 2, ...extra }, world().rig.grants('read'));
 
   it('draws one frame on the animation canvas', async () => {
@@ -107,7 +107,7 @@ describe('render_preview of an animation', () => {
   });
 });
 
-describe('editing an animation in an edit granted project', () => {
+describe('S2 editing an animation in an edit granted project', { tags: ['standard'] }, () => {
   it('adds a frame, renders it, and saves only the animation', async () => {
     const edited = await world().rig.run('apply_edits', addFrame(), world().rig.grants('edit'));
     expect(edited).toMatchObject({ ok: true });
@@ -167,7 +167,7 @@ describe('editing an animation in an edit granted project', () => {
   });
 });
 
-describe('create_document and export_document with an animation', () => {
+describe('S2 create_document and export_document with an animation', { tags: ['standard'] }, () => {
   const bank = { name: 'Main', cap: 16, transparent: true, colors: [{ rgb: '#ff0000' }] };
 
   it('creates an animation of empty frames and names it in the answer', async () => {

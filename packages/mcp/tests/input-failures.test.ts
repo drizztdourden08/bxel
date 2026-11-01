@@ -12,7 +12,7 @@ const failureOf = (name: string, input: unknown) => {
 
 const edit = (steps: unknown) => ({ ...(INPUT_EXAMPLES.apply_edits as object), steps });
 
-describe('invalid inputs', () => {
+describe('K2 invalid inputs', { tags: ['critical'] }, () => {
   it('names the JSON path of a bad field', () => {
     const error = failureOf('read_pixels', { ...(INPUT_EXAMPLES.read_pixels as object), rect: { x: 0, y: 0, width: 0, height: 2 } });
     expect(error.code).toBe('INVALID_OPTION');

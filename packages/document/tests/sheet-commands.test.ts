@@ -4,7 +4,7 @@ import { heartEngine } from './heart-engine';
 import { heartPairFixture } from './heart-pair-fixture';
 import { HEART, HEART_B, SHEET, apply, engineAltered, expectUndoRedo, onSprites, plain, rejection, sheetOf, spotsOf, undo, worldWithExtras } from './sheet-engine';
 
-describe('sheet.create', () => {
+describe('K1 sheet.create', { tags: ['critical'] }, () => {
   it('adds an empty manual sheet as one undo step and reports it by ref', () => {
     const { engine } = heartEngine();
     const done = expectUndoRedo(engine, plain('sheet.create', { name: 'Atlas' }, 'atlas'));
@@ -30,7 +30,7 @@ describe('sheet.create', () => {
   });
 });
 
-describe('sheet.add', () => {
+describe('K1 sheet.add', { tags: ['critical'] }, () => {
   it('puts a new sprite to the right of a manual sheet', () => {
     const { engine, tiny } = worldWithExtras();
     apply(engine, plain('sheet.create', { name: 'Free' }, 'free'));
@@ -69,7 +69,7 @@ describe('sheet.add', () => {
   });
 });
 
-describe('sheet.remove', () => {
+describe('K1 sheet.remove', { tags: ['critical'] }, () => {
   it('removes a sprite and closes the gap of a grid sheet', () => {
     const { engine } = heartEngine();
     expectUndoRedo(engine, onSprites('sheet.remove', { sheet: SHEET }, [HEART]));
@@ -85,7 +85,7 @@ describe('sheet.remove', () => {
   });
 });
 
-describe('sheet.place', () => {
+describe('K1 sheet.place', { tags: ['critical'] }, () => {
   it('moves one sprite, switches to manual layout and never touches its pixels', () => {
     const { engine } = heartEngine();
     const before = engine.state().artwork.sprites.find((sprite) => sprite.id === HEART);
@@ -118,7 +118,7 @@ describe('sheet.place', () => {
   });
 });
 
-describe('sheet.arrange', () => {
+describe('K1 sheet.arrange', { tags: ['critical'] }, () => {
   it('lays a grid out by rows with defaults taken from the sprites', () => {
     const { engine, tiny, wide } = worldWithExtras();
     apply(engine, onSprites('sheet.add', { sheet: SHEET }, [tiny, wide]));
@@ -177,7 +177,7 @@ describe('sheet.arrange', () => {
   });
 });
 
-describe('sheet.update and sheet.delete', () => {
+describe('K1 sheet.update and sheet.delete', { tags: ['critical'] }, () => {
   it('renames a sheet and refuses a name that is taken', () => {
     const { engine } = heartEngine();
     apply(engine, plain('sheet.create', { name: 'Other' }));

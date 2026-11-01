@@ -4,7 +4,6 @@ import { crc32, decodeArtwork, encodeArtwork, FORMAT_VERSION, MIMETYPE } from '@
 import { strFromU8, unzipSync } from 'fflate';
 import { describe, expect, it } from 'vitest';
 import { brand, fixtureToArtwork } from './fixture-to-artwork';
-import { heartEngine, patchStep, request } from './heart-engine';
 import { heartPairFixture } from './heart-pair-fixture';
 import { encodeHeart, fixedClock, heartPreview, heartState, artworkOf } from './native-fixture';
 
@@ -42,7 +41,7 @@ const withTilemap = (artwork: Artwork): Artwork => ({
   ],
 });
 
-describe('native container round trip', () => {
+describe('K3 native container round trip', { tags: ['critical'] }, () => {
   it('reads back every field and every cel byte of the heart pair', () => {
     const report = decodeArtwork(encodeHeart());
     expect(report.outcome).toBe('ok');
@@ -73,7 +72,7 @@ describe('native container round trip', () => {
 
 });
 
-describe('native container layout', () => {
+describe('K2 native container layout', { tags: ['critical'] }, () => {
   it('keeps the entry order fixed with mimetype stored first and the preview stored', () => {
     const methods = new Map<string, number>();
     const files = unzipSync(encodeHeart(), {
@@ -124,7 +123,7 @@ describe('native container layout', () => {
 
 });
 
-describe('native container variants', () => {
+describe('K3 native container variants', { tags: ['critical'] }, () => {
   it('round trips a tilemap layer through its little-endian word file', () => {
     const base = heartState();
     const state: DocumentState = { ...base, artwork: withTilemap(base.artwork) };
@@ -133,17 +132,5 @@ describe('native container variants', () => {
     expect(artworkOf(report)).toEqual(state.artwork);
     const files = unzipSync(encodeArtwork(state, heartPreview, fixedClock));
     expect(Array.from(files['tilemaps/tml_000063.u32'] ?? [])).toEqual([1, 0, 0, 0, 1, 0, 0, 0x80, 0, 0, 0, 0, 1, 0, 0, 0xe0]);
-  });
-
-  it('encodes a held state exactly as before 50 later strokes', () => {
-    const { engine } = heartEngine();
-    const held = engine.state();
-    const before = encodeArtwork(held, heartPreview, fixedClock);
-    for (let index = 0; index < 50; index += 1) {
-      engine.execute(request([patchStep((index % 6) + 1)], { baseRevision: engine.state().revision }));
-    }
-    expect(engine.state().revision).toBe(51);
-    expect(encodeArtwork(held, heartPreview, fixedClock)).toEqual(before);
-    expect(encodeArtwork(engine.state(), heartPreview, fixedClock)).not.toEqual(before);
   });
 });

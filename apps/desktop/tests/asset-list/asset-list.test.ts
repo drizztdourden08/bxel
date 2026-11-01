@@ -43,7 +43,7 @@ const fixture = (): AssetRow[] => [
 
 const ask = (patch: Partial<AssetQuery>): AssetRow[] => [...queryRows(fixture(), { ...DEFAULT_QUERY, ...patch })];
 
-describe('asset list model on a 100 asset fixture', () => {
+describe('K1 asset list model on a 100 asset fixture', { tags: ['critical'] }, () => {
   test('All keeps every row and the chips count the kinds', () => {
     expect(ask({})).toHaveLength(100);
     const counts = Object.fromEntries(chipCounts(fixture(), '').map((each) => [each.chip, each.count]));

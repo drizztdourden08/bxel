@@ -13,7 +13,7 @@ const parseObject = (text: string): JsonObject => {
   return { ...value };
 };
 
-describe('Bxel sheet JSON', () => {
+describe('K2 Bxel sheet JSON', { tags: ['critical'] }, () => {
   it('reconstructs names, pivots, durations, tags and slices', () => {
     const sheet = mustExport(request());
     const read = readBxelSheetJson(sheet.json);
@@ -42,7 +42,7 @@ describe('Bxel sheet JSON', () => {
   });
 });
 
-describe('hash sheet JSON', () => {
+describe('K2 hash sheet JSON', { tags: ['critical'] }, () => {
   it('lists frames by name with the common engine fields', () => {
     const sheet = mustExport(request({ flavour: 'hash' }));
     const root = parseObject(sheet.json);
@@ -74,7 +74,7 @@ describe('hash sheet JSON', () => {
   });
 });
 
-describe('exportSheet errors', () => {
+describe('K2 exportSheet errors', { tags: ['critical'] }, () => {
   it('returns codes for invalid requests', () => {
     const hero = SPRITES[0];
     if (!hero) throw new Error('missing fixture');

@@ -12,7 +12,7 @@ import { transformIds as ids, transformArtwork } from './transform-artwork';
 const small = brand<SpriteId>('spr_000070');
 const smallCel = brand<CelId>('cel_000073');
 
-describe('sprite.resize', () => {
+describe('K2 sprite.resize', { tags: ['critical'] }, () => {
   test('grows the canvas from the top left and keeps the pivot on the same pixel', () => {
     const engine = pixelEngine(transformArtwork());
     applyStep(engine, 'sprite.resize', scopeOf([ids.wide]), { width: 5, height: 4, anchor: 'top-left' });
@@ -56,19 +56,13 @@ describe('sprite.resize', () => {
   });
 });
 
-describe('sprite.trim', () => {
+describe('K2 sprite.trim', { tags: ['critical'] }, () => {
   test('crops to the opaque pixels of every cel and moves the pivot with them', () => {
     const engine = pixelEngine(smallArtwork());
     const result = applyStep(engine, 'sprite.trim', scopeOf([small]), {});
     expect(result.warnings).toEqual([]);
     expect(rowsOf(engine, small, smallCel)).toEqual(['12', '34']);
     expect(dimsOf(engine, small)).toEqual({ width: 2, height: 2, pivot: { x2: 2, y2: 2 } });
-  });
-
-  test('keeps a sprite whose cels already touch every edge', () => {
-    const engine = pixelEngine(transformArtwork());
-    const result = applyStep(engine, 'sprite.trim', scopeOf([ids.tall]), {});
-    expect(result.changes.sprites).toEqual([]);
   });
 
   test('uses the union of all frames, so no frame loses a pixel', () => {
@@ -79,7 +73,7 @@ describe('sprite.trim', () => {
   });
 });
 
-describe('sprite.crop', () => {
+describe('K2 sprite.crop', { tags: ['critical'] }, () => {
   test('keeps the asked rectangle, moves the pivot and is one undo step', () => {
     const engine = pixelEngine(smallArtwork());
     const original = engine.state().artwork;

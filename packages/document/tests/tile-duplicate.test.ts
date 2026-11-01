@@ -17,7 +17,7 @@ const spriteOf = (artwork: Artwork, spriteId: string) => found(artwork.sprites.f
 
 const pixelsOf = (artwork: Artwork, spriteId: string): number[][] => Object.values(spriteOf(artwork, spriteId).cels).map((cel) => Array.from(cel.pixels));
 
-describe('tileset.duplicate', () => {
+describe('K1 tileset.duplicate', { tags: ['critical'] }, () => {
   it('copies the tileset and every tile sprite with new ids, in one undo step', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -51,7 +51,7 @@ describe('tileset.duplicate', () => {
   });
 });
 
-describe('tilemap.duplicate', () => {
+describe('K1 tilemap.duplicate', { tags: ['critical'] }, () => {
   it('copies the map layers and cells with new ids on the same tileset, in one undo step', () => {
     const world = buildWorld();
     const { engine } = world;

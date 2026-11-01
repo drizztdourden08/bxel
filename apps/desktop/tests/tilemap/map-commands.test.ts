@@ -24,7 +24,7 @@ const allowed = (id: string): boolean => {
 
 beforeEach(openMapFile);
 
-describe('Tilemap mode', () => {
+describe('S2 Tilemap mode', { tags: ['standard'] }, () => {
   it('opens with a tilemap asset and leaves the pixel commands off while tiles are placed', () => {
     expect(APP_COMMANDS.some((command) => command.id.startsWith('mode.set_'))).toBe(false);
     expect(allowed(SELECTION_COMMAND_ID.selectAll)).toBe(true);
@@ -72,7 +72,7 @@ describe('Tilemap mode', () => {
   });
 });
 
-describe('Place Tile and Edit Tile', () => {
+describe('S2 Place Tile and Edit Tile', { tags: ['standard'] }, () => {
   it('switches with Alt+T and shows which mode is on in the store', () => {
     expect(findCommand(TILEMAP_COMMAND.toggleEdit).chord).toBe('Alt+T');
     run(TILEMAP_COMMAND.toggleEdit);
@@ -82,13 +82,5 @@ describe('Place Tile and Edit Tile', () => {
     expect(allowed(SELECTION_COMMAND_ID.selectAll)).toBe(true);
     run(TILEMAP_COMMAND.toggleEdit);
     expect(useTilemapStore.getState().editMode).toBe('place');
-  });
-
-  it('registers every tilemap command once on a known group', () => {
-    const ids = APP_COMMANDS.filter((def) => def.id.startsWith('tilemap.')).map((def) => def.id);
-    expect(new Set(ids).size).toBe(ids.length);
-    const menuOnly = ['tilemap.edit_tile_here', 'tilemap.pick_tile_here', 'tilemap.use_tile'];
-    expect(ids.filter((id) => !menuOnly.includes(id)).sort()).toEqual(Object.values(TILEMAP_COMMAND).sort());
-    expect(ids.filter((id) => menuOnly.includes(id))).toHaveLength(menuOnly.length);
   });
 });

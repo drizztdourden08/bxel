@@ -38,7 +38,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('the projects the manager lists', () => {
+describe('S2 the projects the manager lists', { tags: ['standard'] }, () => {
   it('joins the recent projects with the open one and marks the open one', async () => {
     await openSampleProject(held);
     const open = useProjectStore.getState().project;
@@ -61,7 +61,7 @@ describe('the projects the manager lists', () => {
   });
 });
 
-describe('a project that is not open', () => {
+describe('S2 a project that is not open', { tags: ['standard'] }, () => {
   it('is read from the disk: its manifest and its asset files, and the folders are let go after', async () => {
     putCave();
     const outcome = await inspectProject(held.disk.port, CAVE, []);

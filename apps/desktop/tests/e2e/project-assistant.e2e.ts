@@ -187,7 +187,7 @@ const assetsOverMcp = async (rig: ProjectRig): Promise<void> => {
   expect(refused.data).toMatchObject({ ok: false, error: { code: 'PROJECT_NOT_GRANTED' } });
 };
 
-describe('projects: create, add a file, grant the assistant, browse over MCP', () => {
+describe('E1 project files and the assistant grant', { tags: ['e2e'] }, () => {
   const rig = useRig(openProjectRig);
   test('creates a project in a folder from the Project menu', () => created(rig()));
   test('adds a file to the project from the Project panel', () => filed(rig()));
