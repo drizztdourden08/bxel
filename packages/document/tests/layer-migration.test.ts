@@ -29,7 +29,7 @@ const palette = () => {
   return slice;
 };
 
-describe('a sprite file from before the layer model', () => {
+describe('K3 a sprite file from before the layer model', { tags: ['critical'] }, () => {
   it('opens with the old locks as lock kinds and the same pixels', () => {
     const now = encodeSprite(spriteSlice(), assetPreview, assetClock);
     const current = decodeSprite(now, palette());

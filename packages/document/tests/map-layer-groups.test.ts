@@ -10,7 +10,7 @@ const withTop = () => {
   return world;
 };
 
-describe('map layer groups and opacity', () => {
+describe('K1 map layer groups and opacity', { tags: ['critical'] }, () => {
   it('groups and ungroups map layers in one undo step each', () => {
     const { engine, map } = withTop();
     applySteps(engine, [step('map.layer.group', { tilemap: map, layers: [named('Ground'), named('Top')], name: 'Level' })]);

@@ -22,7 +22,7 @@ const grouped = () => {
 
 const firstRow = (engine: ReturnType<typeof layerEngine>): number[] => Array.from(flattenFrame(sprite(engine), FIRST).slice(0, 4));
 
-describe('layer.group and layer.ungroup', () => {
+describe('K1 layer.group, layer.ungroup, reorder, delete and duplicate with groups', { tags: ['critical'] }, () => {
   it('puts the layers under a new group above them, as one undo step', () => {
     const engine = layerEngine();
     expectUndoRedo(engine, layerStep('layer.group', { layers: [named('Body'), named('Shadow')], name: 'Cap' }));
@@ -94,7 +94,7 @@ describe('layer.group and layer.ungroup', () => {
   });
 });
 
-describe('clip, view opacity, export and position lock', () => {
+describe('K1 clip, view opacity, export flag and position lock', { tags: ['critical'] }, () => {
   it('draws a clipped layer only where the layer below has pixels', () => {
     const engine = layerEngine();
     apply(engine, patchStep(layerOf(engine, 'Paint').id, [4, 4, 4, 4]));
@@ -122,7 +122,7 @@ describe('clip, view opacity, export and position lock', () => {
   });
 });
 
-describe('reference layers', () => {
+describe('K1 reference layers', { tags: ['critical'] }, () => {
   it('adds a linked image that never draws into the pixels or the export, and relinks it', () => {
     const engine = layerEngine();
     const before = firstRow(engine);
