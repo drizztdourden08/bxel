@@ -6,6 +6,7 @@ const EDITOR_SCOPE = 'editor';
 
 const COMMAND_GROUP = {
   tools: 'Tools',
+  presets: 'Tool presets',
   brush: 'Brush and symmetry',
   colours: 'Colours',
   view: 'View',

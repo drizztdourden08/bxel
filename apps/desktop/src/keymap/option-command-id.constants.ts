@@ -24,6 +24,7 @@ const TOOL_COMMAND = {
   resetOptions: 'tool.reset_options',
   cycleBack: (tool: string): string => `tool.cycle_back_${tool}`,
   quickPreset: (slot: number): string => `tool.apply_quick_preset_${slot}`,
+  presetKey: (id: string): string => `tool.apply_preset_key.${id}`,
 } as const;
 
 export { OPTION_COMMAND, TOOL_COMMAND };
