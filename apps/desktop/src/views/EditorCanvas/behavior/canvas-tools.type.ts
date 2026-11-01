@@ -75,6 +75,7 @@ interface KeyContext {
 
 interface CanvasKeys {
   onKeyDown: KeyboardEventHandler<HTMLElement>;
+  onKeyUp: KeyboardEventHandler<HTMLElement>;
   onPointerPixel: () => void;
   onBlur: FocusEventHandler<HTMLElement>;
 }

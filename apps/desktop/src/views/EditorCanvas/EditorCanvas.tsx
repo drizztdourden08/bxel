@@ -83,7 +83,7 @@ const EditorCanvas = () => {
   );
   const other = <PixelViewport ref={second} {...common} {...tools.forView(second)} draw={paintOverlay} onPointerPixel={secondReadout.onPointerPixel} />;
   return (
-    <Box className={canvasClass(flags.rulers)} onBlur={keys.onBlur} {...contextMenuZone(CANVAS_MENU.zone)}>
+    <Box className={canvasClass(flags.rulers)} onBlur={keys.onBlur} onKeyUp={keys.onKeyUp} {...contextMenuZone(CANVAS_MENU.zone)}>
       {flags.rulers && <RulerBars />}
       {flags.split ? <SplitCanvas first={primary} second={other} /> : primary}
     </Box>
