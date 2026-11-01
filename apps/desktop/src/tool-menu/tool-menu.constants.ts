@@ -7,6 +7,7 @@ const TOOL_MENU_TEXT = {
   hide: 'Move to More tools',
   show: 'Show on the rail',
   panel: 'Tools panel...',
+  focusOptions: 'Tool options',
   optionsPanel: 'Tool options panel...',
   resetLayout: 'Show every tool on the rail',
 } as const;

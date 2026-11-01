@@ -11,6 +11,7 @@ import { clearCells } from '../../../tilemap/clear-cells';
 import { makeUnique } from '../../../tilemap/make-unique';
 import { replaceCells } from '../../../tilemap/replace-cells';
 import { selectSameTile } from '../../../tilemap/select-same-tile';
+import { terrainMissing } from '../../../tilemap/terrain/terrain-missing';
 import { turnCells } from '../../../tilemap/turn-cells';
 import type { ToolId } from '../../tool.type';
 import { MAP_SELECT_SHAPE_CHOICES, OPTION_TEXT, SELECT_MODE_CHOICES } from '../tool-options.constants';
@@ -76,6 +77,7 @@ const terrainOption = (tool: ToolId, member: string): OptionSpec => ({
   shortcuts: [{ command: TERRAIN_COMMAND.toggleBrush }],
   read: () => maps().terrainBrush,
   write: (value) => maps().setTerrainBrush(value === true),
+  disabledReason: terrainMissing,
 });
 
 const filledOption: OptionSpec = {

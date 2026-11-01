@@ -10,6 +10,7 @@ const TERRAIN_KIND_CHOICES: readonly { kind: TerrainKind; label: string; descrip
 
 const TERRAIN_TEXT = {
   title: 'Terrain',
+  noRules: 'The tileset has no terrain rules.',
   brush: 'Terrain brush',
   brushHint: 'Paint and erase pick tiles from the neighbours.',
   start: 'Start a terrain set. Pick the kind that matches your tiles.',
