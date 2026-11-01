@@ -5,6 +5,7 @@ import { useHealthStore } from '../stores/useHealthStore';
 import { HEALTH_TEXT } from './project-health.constants';
 import type { FixOutcome, LinkFix } from './project-health.type';
 import { refreshHealth } from './refresh-health';
+import { reloadOpenFiles } from './reload-open-files';
 import { repairLinks } from './repair-links';
 
 const tell = (outcome: FixOutcome): void => {
@@ -16,7 +17,10 @@ const applyLinkFixes = async (fixes: readonly LinkFix[]): Promise<void> => {
   const kit = fileKit();
   const state = useHealthStore.getState().state;
   if (!kit || state.status !== 'ready') return;
-  tell(await repairLinks(kit.documents, state.index, fixes));
+  const outcome = await repairLinks(kit.documents, state.index, fixes);
+  tell(outcome);
+  const fixedFiles = fixes.filter((fix) => !outcome.skipped.some((each) => each.fix === fix)).map((fix) => fix.file);
+  if (outcome.fixed > 0) await reloadOpenFiles(kit, fixedFiles);
   await refreshHealth();
 };
 

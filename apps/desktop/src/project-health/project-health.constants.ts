@@ -56,6 +56,7 @@ const HEALTH_TEXT = {
   repaired: (count: number): string => `Fixed ${count} ${count === 1 ? 'link' : 'links'}.`,
   repairFailed: (reason: string): string => `Could not fix the links. ${reason}`,
   nothingFixed: 'No link needed a fix.',
+  reloadKept: (file: string): string => `${file} has unsaved changes, so it was not reloaded. Save it and open it again to see the fixed link.`,
   unavailable: 'Folder access is not available here.',
   notIndexed: (file: string): string => `${file} is not a file of this project.`,
   noLink: (file: string, link: string): string => `${file} has no link ${link}.`,
