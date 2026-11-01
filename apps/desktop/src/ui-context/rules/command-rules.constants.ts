@@ -35,7 +35,7 @@ const OPTIONS: RuleTable = {
     ONLY.pixels,
   ),
   ...family(['brush.size_down_by_four', 'brush.size_up_by_four'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
-  ...family(['options.focus', 'options.open'], EDIT_STAGE),
+  ...family(['options.focus', 'options.open'], any(EDIT_STAGE, SHEET)),
   ...family([...DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection && !OUTLINE_ACTIONS.includes(id)), ...DRAWING_OPTION_COMMAND_IDS], PIXEL, [DOC], ONLY.pixels),
   ...family(OUTLINE_ACTIONS, PIXEL, [DOC, WRITE], ONLY.pixels),
   ...family([DRAWING_COMMAND.brushFromSelection], PIXEL, [DOC, WRITE, PIXELS_SELECTED], ONLY.pixels),

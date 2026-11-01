@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { confirmAction, toast } from '@drizztdourden08/brock-react';
+import { announce, confirmAction, toast } from '@drizztdourden08/brock-react';
 import { FILE_OPS_TEXT } from './file-ops.constants';
 import type { OpOutcome, Relocation } from './file-ops.type';
 import { heldAssetsUnder } from './held-assets';
@@ -28,7 +28,11 @@ const moveEntries = async (paths: readonly string[], toFolder: string): Promise<
   if (!(await sure(plan))) return { ok: false, message: FILE_OPS_TEXT.cancel };
   const outcome = await relocate(plan);
   if (!outcome.ok) toast(outcome.message, { variant: 'danger' });
-  else toast(outcome.rewritten > 0 ? FILE_OPS_TEXT.movedLinks(plan.length, outcome.rewritten) : FILE_OPS_TEXT.moved(plan.length), { variant: 'success', action: { label: FILE_OPS_TEXT.undo, onSelect: undoMove(plan) } });
+  else {
+    const said = outcome.rewritten > 0 ? FILE_OPS_TEXT.movedLinks(plan.length, outcome.rewritten) : FILE_OPS_TEXT.moved(plan.length);
+    toast(said, { variant: 'success', action: { label: FILE_OPS_TEXT.undo, onSelect: undoMove(plan) } });
+    announce(said);
+  }
   return outcome;
 };
 

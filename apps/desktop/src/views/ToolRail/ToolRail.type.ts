@@ -13,6 +13,7 @@ interface ToolRailProps {
 interface SlotItemContext {
   surface: Surface;
   active: ToolId;
+  borrowed: ToolId | null;
   shown: ToolMember;
   filled: boolean;
   badge: SlotBadge | null;

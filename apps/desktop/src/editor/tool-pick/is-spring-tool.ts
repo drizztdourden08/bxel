@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
+import { toolIds } from '../tool-catalogue/tool-ids';
 import type { ToolId } from '../tool.type';
-import { SPRING_TOOLS } from './spring-tool.constants';
 
-const isSpringTool = (tool: ToolId): boolean => SPRING_TOOLS.includes(tool);
+const isSpringTool = (tool: ToolId): boolean => toolIds().includes(tool);
 
 export { isSpringTool };

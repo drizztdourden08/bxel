@@ -28,6 +28,7 @@ const CANVAS_MENU = {
   symmetryOff: 'Both symmetries are off.',
   canvas: 'Canvas',
   frameSize: 'Frame sprite size',
+  animationSettings: 'Animation settings...',
   transform: 'Transform',
   selection: 'Selection',
   backToPlace: 'Back to Place Tile',

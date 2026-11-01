@@ -6,10 +6,12 @@ import { diskRows } from '../project-manager/disk-rows';
 import type { DiskProject } from '../project-manager/project-manager.type';
 import type { OpenProject } from '../project/project.type';
 import { useDocumentStore } from '../stores/useDocumentStore';
+import { useHealthStore } from '../stores/useHealthStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { toSlashes } from '../workspace/to-slashes';
 import type { BrowserSource } from './browser-model.type';
 import { factsAndKeys } from './facts-and-keys';
+import { withHealthFlags } from './with-health-flags';
 import { NO_FACTS, NO_KEYS } from './project-browser.constants';
 import type { SourceRoot } from './project-browser.type';
 import { useProjectTree } from './useProjectTree';
@@ -31,7 +33,9 @@ const useBrowserSource = (project: OpenProject | null, disk: DiskProject | null)
     return disk ? diskRows(disk) : [];
   }, [live, workspace, artwork, tree.files, disk]);
   const organise = useMemo(() => organiseOf(live ? project.manifest : disk?.manifest), [live, project, disk]);
-  const known = useMemo(() => (live ? factsAndKeys(artwork, rows, tabs, organise) : { facts: new Map(rows.map((row) => [row.id, NO_FACTS] as const)), keys: NO_KEYS }), [live, artwork, rows, tabs, organise]);
+  const health = useHealthStore((state) => state.state);
+  const measured = useMemo(() => (live ? factsAndKeys(artwork, rows, tabs, organise) : { facts: new Map(rows.map((row) => [row.id, NO_FACTS] as const)), keys: NO_KEYS }), [live, artwork, rows, tabs, organise]);
+  const known = useMemo(() => ({ ...measured, facts: withHealthFlags(measured.facts, rows, health) }), [measured, rows, health]);
   return {
     live,
     organise,

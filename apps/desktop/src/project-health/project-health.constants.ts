@@ -2,11 +2,11 @@
 import type { AssetKind } from '@bxel/document';
 import type { HealthCheck, HealthReport } from './project-health.type';
 
-const HEALTH_CHECKS: readonly HealthCheck[] = ['broken', 'moved', 'unused', 'misplaced', 'duplicates', 'unsaved', 'access'];
+const HEALTH_CHECKS: readonly HealthCheck[] = ['broken', 'moved', 'unused', 'misplaced', 'duplicates', 'unsaved', 'access', 'capped'];
 
 const LEAF_KINDS: ReadonlySet<AssetKind> = new Set(['sprite', 'animation', 'palette', 'tileset']);
 
-const EMPTY_REPORT: HealthReport = { broken: [], moved: [], unused: [], misplaced: [], duplicates: [], unsaved: 0, access: [], total: 0, files: 0 };
+const EMPTY_REPORT: HealthReport = { broken: [], moved: [], unused: [], misplaced: [], duplicates: [], unsaved: 0, access: [], capped: [], total: 0, files: 0 };
 
 const META_MAX = 84;
 
@@ -35,6 +35,8 @@ const HEALTH_TEXT = {
   unsavedHint: 'These have changes that are not on disk yet.',
   accessTitle: 'Folders without access',
   accessHint: 'Bxel lost its permission for these linked folders, so their files are not checked.',
+  cappedTitle: 'Files past the opening limit',
+  cappedHint: (limit: number): string => `Bxel opens the first ${limit} assets of a project with the project. These files come after them and open when you pick them, so links to them and counts of their use are not shown until then.`,
   findById: 'Find by id',
   removeLink: 'Remove the link',
   fixAll: 'Fix all',

@@ -60,6 +60,8 @@ const PROJECT_MENU = {
 
 const PANEL_UI = {
   treeLabel: 'Project files',
+  legacySplit: 'An old file with several assets in it. Open it, then split it into one file per asset.',
+  legacySplitMark: 'Split',
   listLabel: 'Project assets',
   gridLabel: 'Project assets as tiles',
   searchLabel: 'Search the project',

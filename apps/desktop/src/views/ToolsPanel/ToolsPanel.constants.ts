@@ -13,6 +13,8 @@ const TOOLS_PANEL_TEXT = {
   preferences: 'Preferences',
   openOnHover: 'Open tool menus on hover',
   openOnHoverHint: 'A menu opens when the pointer rests on a tool. Off, hold a tool, right click it or press the arrow key.',
+  springDelay: 'Hold a tool key to borrow it',
+  springDelayHint: 'A quick press switches to the tool. Held longer than this, in milliseconds, the tool is borrowed and you go back to the one before when you let go.',
   holdDelay: 'Hold delay',
   holdDelayHint: 'How long a press must be held to open the tool menu, in milliseconds.',
   shareBrush: 'Share brush settings between tools',

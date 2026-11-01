@@ -63,6 +63,8 @@ const rowFacts = (artwork: Artwork, key: AssetKey, open: boolean): BrowserFacts 
   open,
   tags: [],
   collections: [],
+  broken: false,
+  misplaced: false,
 });
 
 export { rowFacts };

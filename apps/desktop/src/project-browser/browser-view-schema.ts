@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { DEFAULT_SORT, DEFAULT_VIEW, THUMB_STOPS } from './project-browser.constants';
 
 const sortSchema = z
-  .object({ key: z.enum(['name', 'kind', 'modified', 'folder', 'size', 'frames', 'usedBy']).catch('name'), descending: z.boolean().catch(false) })
+  .object({ key: z.enum(['name', 'kind', 'modified', 'created', 'folder', 'size', 'colours', 'frames', 'usedBy']).catch('name'), descending: z.boolean().catch(false) })
   .catch(DEFAULT_SORT);
 
 const browserViewSchema = z.object({

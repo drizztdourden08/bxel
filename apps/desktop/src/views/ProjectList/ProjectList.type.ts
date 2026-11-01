@@ -7,6 +7,7 @@ type ProjectListActions = {
   readonly openProject: (project: KnownProject) => void;
   readonly closeProject: () => void;
   readonly removeFromList: (project: KnownProject) => void;
+  readonly togglePin: (project: KnownProject) => void;
   readonly reveal: (project: KnownProject) => void;
 };
 

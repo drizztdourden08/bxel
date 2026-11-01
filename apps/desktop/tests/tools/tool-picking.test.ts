@@ -162,7 +162,7 @@ describe('the saved values', () => {
     expect(parsePresets([{ id: 'a', name: 'A', member: 'pencil', fields: { 'pencil.size': 2, bad: {} } }, 5, { id: 1 }])).toEqual([
       { id: 'a', name: 'A', member: 'pencil', fields: { 'pencil.size': 2 } },
     ]);
-    expect(parsePrefs({ holdMs: 5000, openOnHover: true })).toMatchObject({ holdMs: 800, openOnHover: true, showKeys: false, hiddenMembers: [] });
+    expect(parsePrefs({ holdMs: 5000, openOnHover: true })).toMatchObject({ holdMs: 800, openOnHover: true, hiddenMembers: [] });
     expect(parsePrefs(undefined).shareBrush).toBe(false);
   });
 });

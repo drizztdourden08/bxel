@@ -15,7 +15,7 @@ const ToolRail = ({ slot }: ToolRailProps) => {
   useRailMenu();
   return (
     <Box className="tool-rail" {...contextMenuZone(TOOL_RAIL_TEXT.zone)} {...hold}>
-      <SlotToolbar label={TOOL_RAIL_TEXT.region} items={items} slot={slot} columns="auto" />
+      <SlotToolbar label={TOOL_RAIL_TEXT.region} items={items} slot={slot} columns={slot.columns ?? 'auto'} />
     </Box>
   );
 };

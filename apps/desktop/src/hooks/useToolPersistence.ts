@@ -14,8 +14,8 @@ import { useToolStore } from '../stores/useToolStore';
 import { SAVE_DELAY_MS } from './use-tool-persistence.constants';
 
 const collect = () => {
-  const { openOnHover, holdMs, showKeys, hiddenMembers } = useToolPrefsStore.getState();
-  const prefs = { openOnHover, holdMs, showKeys, hiddenMembers, shareBrush: useToolStore.getState().shareBrush };
+  const { openOnHover, holdMs, springMs, hiddenMembers } = useToolPrefsStore.getState();
+  const prefs = { openOnHover, holdMs, springMs, hiddenMembers, shareBrush: useToolStore.getState().shareBrush };
   return { toolOptions: optionSnapshot(), toolPresets: useToolPresetStore.getState().user, toolPrefs: prefs };
 };
 
@@ -30,7 +30,7 @@ const useToolPersistence = (): void => {
   useEffect(() => {
     if (!hydrated || loaded.current) return;
     const prefs = parsePrefs(first.current.toolPrefs);
-    useToolPrefsStore.getState().patch({ openOnHover: prefs.openOnHover, holdMs: prefs.holdMs, showKeys: prefs.showKeys, hiddenMembers: prefs.hiddenMembers });
+    useToolPrefsStore.getState().patch({ openOnHover: prefs.openOnHover, holdMs: prefs.holdMs, springMs: prefs.springMs, hiddenMembers: prefs.hiddenMembers });
     useToolStore.getState().setShareBrush(prefs.shareBrush);
     useToolPresetStore.getState().load(parsePresets(first.current.toolPresets));
     applyOptionSnapshot(parseOptionValues(first.current.toolOptions));

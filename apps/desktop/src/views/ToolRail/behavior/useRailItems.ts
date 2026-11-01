@@ -5,6 +5,7 @@ import { shownMember } from '../../../editor/tool-catalogue/shown-member';
 import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
 import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
+import { useSpringStore } from '../../../editor/tool-pick/use-spring-store';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { drawingVersion } from '../../../stores/drawing-version';
@@ -28,6 +29,7 @@ const useRailItems = (): ToolbarItem[] => {
   const context = useBxelContext((current) => current);
   const surface = surfaceOfContext(context);
   const active = useToolStore((state) => state.tool);
+  const borrowed = useSpringStore((state) => state.borrowed);
   const filledTools = useDrawingStore((state) => state.filled);
   useDrawingStore(drawingVersion);
   const fillMode = useToolStore((state) => state.fillMode);
@@ -45,6 +47,7 @@ const useRailItems = (): ToolbarItem[] => {
     return {
       surface,
       active,
+      borrowed,
       shown: shownMember(slot, { variant }),
       filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false,
       badge: slotBadge(slot, { fillMode, filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false, mode }),

@@ -22,6 +22,8 @@ const TILE_OF: Readonly<Record<number, { readonly width: VirtualSize; readonly h
 
 const MAX_SAVED_BROWSERS = 100;
 
+const RECENT_DAYS = 7;
+
 const SAVE_DELAY_MS = 400;
 
 const VIEW_OPTIONS: readonly { readonly value: BrowserView; readonly label: string; readonly icon: IconName }[] = [
@@ -34,16 +36,21 @@ const SORT_OPTIONS: readonly { readonly value: SortKey; readonly label: string }
   { value: 'name', label: 'Name' },
   { value: 'kind', label: 'Kind' },
   { value: 'modified', label: 'Modified' },
+  { value: 'created', label: 'Date created' },
   { value: 'folder', label: 'Folder' },
   { value: 'size', label: 'Size in pixels' },
+  { value: 'colours', label: 'Colours' },
   { value: 'frames', label: 'Frames' },
   { value: 'usedBy', label: 'Used by' },
 ];
 
 const BUILT_IN_FILTERS: readonly SavedFilter[] = [
   { id: 'built-in:unsaved', name: 'Unsaved', query: 'is:unsaved' },
+  { id: 'built-in:recent', name: 'Recently changed', query: 'is:recent' },
   { id: 'built-in:open', name: 'Open in a tab', query: 'is:open' },
   { id: 'built-in:unused', name: 'Unused', query: 'is:unused' },
+  { id: 'built-in:broken', name: 'Broken links', query: 'is:broken' },
+  { id: 'built-in:misplaced', name: 'Outside its role folder', query: 'is:misplaced' },
   { id: 'built-in:pinned', name: 'Pinned', query: 'is:pinned' },
 ];
 
@@ -52,7 +59,7 @@ const BROWSER_TEXT = {
   searchLabel: 'Search the project',
   searchPlaceholder: 'Search or kind:sprite is:unsaved',
   searchHelp:
-    'Words match names and folders. Tokens: kind:sprite, tag:hero, collection:name, in:folder, uses:name (files that use it), usedby:name (files it uses), is:unused, is:unsaved, is:open, is:pinned, size>64, colours<16. Kinds add up, other tokens narrow.',
+    'Words match names and folders. Tokens: kind:sprite, tag:hero, collection:name, in:folder, uses:name (files that use it), usedby:name (files it uses), is:unused, is:unsaved, is:open, is:pinned, is:recent, is:broken, is:misplaced, size>64, colours<16. Kinds add up, other tokens narrow.',
   clearSearch: 'Clear the search',
   back: 'Back',
   forward: 'Forward',
@@ -66,6 +73,8 @@ const BROWSER_TEXT = {
   newAsset: 'New',
   newFolder: 'New folder',
   import: 'Import',
+  importImage: 'Import an image...',
+  importPalette: 'Import a palette file...',
   more: 'More',
   pack: 'Pack project...',
   revealProject: 'Show the project folder in Explorer',
@@ -160,11 +169,11 @@ const BROWSER_TEXT = {
 
 const EMPTY_SELECTION: Selection = { ids: [], anchor: null };
 
-const NO_FACTS: BrowserFacts = { width: null, height: null, frames: null, palette: null, colours: null, uses: [], usedBy: [], open: false, tags: [], collections: [] };
+const NO_FACTS: BrowserFacts = { width: null, height: null, frames: null, palette: null, colours: null, uses: [], usedBy: [], open: false, tags: [], collections: [], broken: false, misplaced: false };
 
 const EMPTY_QUERY: BrowserQuery = { words: [], kinds: [], inFolder: null, uses: [], usedBy: [], tags: [], collections: [], is: [], size: [], colours: [], chips: [] };
 
-const QUERY_FLAGS: readonly QueryFlag[] = ['unused', 'unsaved', 'open', 'pinned'];
+const QUERY_FLAGS: readonly QueryFlag[] = ['unused', 'unsaved', 'open', 'pinned', 'broken', 'misplaced', 'recent'];
 
 const KIND_ALIAS: Readonly<Record<string, RowKind>> = { map: 'tilemap', tiles: 'tileset', anim: 'animation', atlas: 'sheet', png: 'image', gif: 'image', bmp: 'image' };
 
@@ -182,4 +191,4 @@ const NO_KEYS: ReadonlyMap<string, AssetKey> = new Map();
 
 const EMPTY_CELLS: RowCells = { kind: '', size: '', frames: '', palette: '', folder: '', modified: '', users: '' };
 
-export { BROWSER_TEXT, NO_KEYS, EMPTY_CELLS, EMPTY_QUERY, EMPTY_SELECTION, KIND_ALIAS, LEAF_KINDS, MOSAIC_LIMIT, NO_FACTS, NO_TREE, OVERFLOW_AFTER, QUERY_FLAGS, SWATCH_THUMB, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_STOPS, TILE_OF, VIEW_OPTIONS };
+export { RECENT_DAYS, BROWSER_TEXT, NO_KEYS, EMPTY_CELLS, EMPTY_QUERY, EMPTY_SELECTION, KIND_ALIAS, LEAF_KINDS, MOSAIC_LIMIT, NO_FACTS, NO_TREE, OVERFLOW_AFTER, QUERY_FLAGS, SWATCH_THUMB, BUILT_IN_FILTERS, DEFAULT_SORT, DEFAULT_VIEW, MAX_SAVED_BROWSERS, SAVE_DELAY_MS, SORT_OPTIONS, THUMB_STOPS, TILE_OF, VIEW_OPTIONS };

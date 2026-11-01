@@ -2,7 +2,7 @@
 interface ToolPrefs {
   openOnHover: boolean;
   holdMs: number;
-  showKeys: boolean;
+  springMs: number;
   hiddenMembers: readonly string[];
 }
 

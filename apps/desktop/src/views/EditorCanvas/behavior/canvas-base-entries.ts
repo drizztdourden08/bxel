@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { Point } from '@bxel/raster';
+import { nav } from '@drizztdourden08/brock-react';
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { unless } from '../../../context-menu/unless';
 import { viewEntries } from '../../../context-menu/view-entries';
@@ -8,6 +9,7 @@ import { FILE_COMMAND } from '../../../files/files.constants';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { currentContext } from '../../../ui-context/current-context';
+import { ANIMATION_PAGE } from '../../TimelinePanel/behavior/more-groups.constants';
 import { CANVAS_MENU } from '../EditorCanvas.constants';
 import { historyEntries } from './history-entries';
 import { pickHereEntries } from './pick-here-entries';
@@ -34,7 +36,11 @@ const canvasBaseEntries = (here: Point | null, tile: boolean): readonly ContextM
   symmetryEntries(here),
   {
     label: CANVAS_MENU.canvas,
-    items: [{ command: CANVAS_SIZE_COMMAND_ID.size, ...(currentContext().fileType === 'animation' ? { label: CANVAS_MENU.frameSize } : {}) }, CANVAS_SIZE_COMMAND_ID.trim],
+    items: [
+      { command: CANVAS_SIZE_COMMAND_ID.size, ...(currentContext().fileType === 'animation' ? { label: CANVAS_MENU.frameSize } : {}) },
+      CANVAS_SIZE_COMMAND_ID.trim,
+      { label: CANVAS_MENU.animationSettings, hidden: currentContext().fileType !== 'animation', run: () => nav.open(ANIMATION_PAGE) },
+    ],
   },
   { command: FILE_COMMAND.export, hidden: tile },
 ];

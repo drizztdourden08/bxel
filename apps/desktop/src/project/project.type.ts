@@ -25,6 +25,8 @@ interface ProjectSettings {
   projectRecents: readonly RecentProject[];
   projectTabs: StoredTabsMap;
   projectOpenOnClick: boolean;
+  workspacePerFileType: boolean;
+  pinnedProjects: readonly string[];
   projectView: ProjectViewSettings;
 }
 

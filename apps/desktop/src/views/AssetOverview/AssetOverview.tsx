@@ -6,6 +6,7 @@ import { SubjectCard } from '../SubjectCard';
 import { useAssetOverview } from './behavior/useAssetOverview';
 import { DetailsPanel } from './sub-components/DetailsPanel';
 import { LinksPanel } from './sub-components/LinksPanel';
+import { TagsPanel } from './sub-components/TagsPanel';
 
 const AssetOverview = () => {
   const model = useAssetOverview();
@@ -15,6 +16,7 @@ const AssetOverview = () => {
       <SubjectCard />
       <Stack gap="md">
         <DetailsPanel model={model} />
+        <TagsPanel model={model} />
         <LinksPanel model={model} />
       </Stack>
     </Grid>

@@ -5,6 +5,7 @@ import { useBrowserStore } from '../../../project-browser/useBrowserStore';
 import { useBrowserContext } from '../behavior/useBrowserContext';
 import { Breadcrumbs } from './Breadcrumbs';
 import { CreateMenu } from './CreateMenu';
+import { MoreMenu } from './MoreMenu';
 import { SearchBar } from './SearchBar';
 import { ViewControls } from './ViewControls';
 
@@ -40,6 +41,7 @@ const BrowserToolbar = () => {
         >
           <Icon name="panel-right" />
         </IconButton>
+        <MoreMenu />
       </Box>
       <Box className="browser-toolbar__row">
         <SearchBar />
