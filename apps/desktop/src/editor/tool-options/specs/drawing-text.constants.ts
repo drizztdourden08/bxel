@@ -35,6 +35,8 @@ const DRAWING_TEXT = {
   cubicDescription: 'Bend the curve with two handles, for an S shape. Click once for each handle after the drag.',
   perfect: 'Pixel perfect',
   perfectDescription: 'Drop the extra corner pixels that make a line look thick.',
+  pickReturn: 'Return after one pick',
+  pickReturnDescription: 'Go back to the tool you used before after the picker takes one colour.',
   pickSample: 'Pick from',
   pickSampleDescription: 'Pick the colour of the top visible pixel, or only of the current layer.',
   fillSample: 'Fill bounds',

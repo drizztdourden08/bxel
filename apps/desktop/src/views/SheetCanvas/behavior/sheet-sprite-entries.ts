@@ -3,6 +3,7 @@ import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { alignEntries } from '../../../context-menu/align-entries';
 import { arrangeKindEntries } from '../../../context-menu/arrange-kind-entries';
 import { unless } from '../../../context-menu/unless';
+import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
 import { SHEET_COMMAND as ID } from '../../../keymap/sheet-command-id.constants';
 import { ALIGN_TEXT } from '../../../sheet-manager/align-text.constants';
@@ -28,6 +29,7 @@ const sheetSpriteEntries = (): readonly ContextMenuEntry[] => {
       items: [ID.moveEarlier, ID.moveLater, { command: 'sprite.move_to_start', label: SHEET_MENU.toStart }, { command: 'sprite.move_to_end', label: SHEET_MENU.toEnd }],
     },
     { command: SELECTION_COMMAND_ID.selectAll, label: SHEET_MENU.selectAll },
+    { command: COMMAND_ID.zoomSelection, label: SHEET_MENU.zoomTo },
     'separator',
     { command: 'sprite.remove_from_sheet', label: SHEET_MENU.removeFromSheet, ...unless(onSheet > 0, SHEET_MENU.notOnSheet) },
     { command: ID.askDeleteSprite, tone: 'danger' },

@@ -51,6 +51,7 @@ type LandOptions = {
   readonly mask: MaskView;
   readonly resample: Resample;
   readonly skipZero: boolean;
+  readonly keep?: boolean;
 };
 
 type LandResult = { readonly rect: Rect | null; readonly clipped: number; readonly added: number | null };

@@ -30,6 +30,7 @@ const zoomEntries = (): readonly ContextMenuEntry[] => {
     },
     COMMAND_ID.zoomFit,
     COMMAND_ID.zoomActual,
+    COMMAND_ID.zoomSelection,
   ];
 };
 
@@ -55,7 +56,7 @@ const colourEntries = (position: number): readonly ContextMenuEntry[] => [
 ];
 
 const itemEntries = (item: string | undefined): readonly ContextMenuEntry[] => {
-  if (item === 'cursor') return [{ command: 'status.copy_cursor', ...unless(useReadoutStore.getState().pointer !== null, STATUS_MENU.outside) }, rulerEntry()];
+  if (item === 'cursor') return [{ command: 'status.copy_cursor', ...unless(useReadoutStore.getState().pointer !== null, STATUS_MENU.outside) }, { command: 'status.copy_index', ...unless(useReadoutStore.getState().pointer !== null, STATUS_MENU.outside) }, rulerEntry()];
   if (item === 'zoom') return [...zoomEntries(), rulerEntry()];
   if (item === 'colour-1') return colourEntries(1);
   if (item === 'colour-2') return colourEntries(2);

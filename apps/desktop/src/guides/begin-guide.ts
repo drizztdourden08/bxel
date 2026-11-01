@@ -6,7 +6,9 @@ import { guideScope } from './guide-scope';
 import { showGuides } from './show-guides';
 
 const beginGuide = (axis: GuideAxis, from: number | null): boolean => {
-  if (!useViewStore.getState().viewport || !guideScope()) return false;
+  const view = useViewStore.getState();
+  if (!view.viewport || !guideScope()) return false;
+  if (from !== null && view.lockGuides) return false;
   showGuides();
   useGuideStore.getState().setDrag({ axis, from, position: from });
   return true;

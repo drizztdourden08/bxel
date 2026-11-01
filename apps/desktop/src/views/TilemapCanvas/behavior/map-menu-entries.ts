@@ -3,6 +3,7 @@ import type { Point } from '@bxel/document';
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { unless } from '../../../context-menu/unless';
 import { viewEntries } from '../../../context-menu/view-entries';
+import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
 import { TILEMAP_COMMAND as ID } from '../../../keymap/tilemap-command-id.constants';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
@@ -32,8 +33,11 @@ const mapMenuEntries = (target: MapTarget, here: Point | null): readonly Context
     'separator',
     SELECTION_COMMAND_ID.selectAll,
     { command: SELECTION_COMMAND_ID.clear, ...needCells },
+    { command: ID.selectSame, ...needCells },
+    { command: ID.captureStamp, ...needCells },
+    { command: COMMAND_ID.zoomSelection, ...needCells },
     mapSubmenuEntries(target),
-    viewEntries({ major: false, tile: true, tiled: false, guides: false }),
+    viewEntries({ major: false, tile: true, tiled: false, guides: true }),
     'separator',
     { command: ID.clearCells, tone: 'danger', ...needCells },
   ];

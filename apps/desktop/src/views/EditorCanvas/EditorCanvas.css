@@ -23,8 +23,23 @@
   flex: 1;
 }
 
-.editor-canvas--rulers > .editor-canvas__viewport {
+.editor-canvas--rulers > .editor-canvas__viewport,
+.editor-canvas--rulers > .editor-canvas__split {
   grid-area: 2 / 2;
+}
+
+.editor-canvas__split {
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 0;
+}
+
+.editor-canvas__pane {
+  display: flex;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 0;
 }
 
 .pixel-viewport.editor-canvas__viewport--pencil {

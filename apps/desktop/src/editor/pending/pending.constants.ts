@@ -17,6 +17,7 @@ const TURN_LABELS: Readonly<Record<TurnDirection, string>> = {
 
 const PENDING_TEXT = {
   move: 'Move',
+  copy: 'Copy',
   paste: 'Paste',
   targets: (count: number): string => (count === 1 ? '1 sprite' : `${count} sprites`),
   activeLayer: (name: string): string => `Active layer (${name})`,

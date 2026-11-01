@@ -18,6 +18,7 @@ const OPTIONS_PANEL_TEXT = {
     turn: 'Tile turn',
     terrain: 'Terrain',
     actions: 'Actions',
+    move: 'Move',
   },
 } as const;
 

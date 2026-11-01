@@ -129,6 +129,7 @@ export { emptyMask } from './selection/empty-mask';
 export { expandMask } from './selection/expand-mask';
 export { fullMask } from './selection/full-mask';
 export { indexMask } from './selection/index-mask';
+export { matchMask } from './selection/match-mask';
 export { invertMask } from './selection/invert-mask';
 export { lassoMask } from './selection/lasso-mask';
 export { maskBounds } from './selection/mask-bounds';

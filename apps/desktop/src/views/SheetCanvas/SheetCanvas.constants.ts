@@ -19,6 +19,7 @@ const SHEET_MENU = {
   toStart: 'Move to start',
   toEnd: 'Move to end',
   selectAll: 'Select all sprites',
+  zoomTo: 'Zoom to sprite',
   removeFromSheet: 'Remove from sheet',
   notOnSheet: 'The sprite is not on this sheet.',
   importImage: 'Import image...',

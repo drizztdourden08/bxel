@@ -7,6 +7,7 @@ import { useDocumentStore } from '../../stores/useDocumentStore';
 import { useDrawingStore } from '../../stores/useDrawingStore';
 import { useManagerStore } from '../../stores/useManagerStore';
 import { boundSheetId } from '../../sheet-manager/bound-sheet';
+import { useReadoutStore } from '../../stores/useReadoutStore';
 import { useSelectionStore } from '../../stores/useSelectionStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { useTilemapStore } from '../../stores/useTilemapStore';
@@ -139,7 +140,23 @@ const playbackOf = () => {
 
 const togglesOf = () => {
   const view = useViewStore.getState();
-  return { grid: view.grid, gridMajor: view.gridMajor, gridTile: view.gridTile, guides: view.guides, rulers: view.rulers, tiled: view.tiled };
+  return {
+    grid: view.grid,
+    gridMajor: view.gridMajor,
+    gridTile: view.gridTile,
+    gridIso: view.gridIso,
+    guides: view.guides,
+    rulers: view.rulers,
+    snap: view.snap,
+    slices: view.slices,
+    hideOverlays: view.hideOverlays,
+    mirror: view.mirror,
+    loupe: view.loupe,
+    split: view.split,
+    fullscreen: view.fullscreen,
+    lockGuides: view.lockGuides,
+    tiled: view.tiled,
+  };
 };
 
 const spritesOf = () => {
@@ -163,6 +180,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     symmetry: { x: tool.symmetryX, y: tool.symmetryY, axisX: tool.axisX, axisY: tool.axisY },
     zoom: zoomOf(),
     toggles: togglesOf(),
+    pointer: useReadoutStore.getState().pointer,
     playback: playbackOf(),
     timeline: timelineOf(sees),
     selection: selectionOf(sees),

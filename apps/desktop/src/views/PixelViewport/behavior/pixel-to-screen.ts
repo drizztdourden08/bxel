@@ -5,7 +5,8 @@ import { originOf } from './origin-of';
 
 const pixelToScreen = (pixel: PixelPoint, target: ViewTarget, box: ViewBox): PixelPoint => {
   const origin = originOf(target, box);
-  return { x: origin.x + pixel.x * target.zoom, y: origin.y + pixel.y * target.zoom };
+  const across = origin.x + pixel.x * target.zoom;
+  return { x: box.mirror ? box.width - across : across, y: origin.y + pixel.y * target.zoom };
 };
 
 export { pixelToScreen };

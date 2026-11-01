@@ -39,6 +39,11 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
     description: 'Draw the borders of the tiles over the canvas.',
     shortcuts: [{ command: COMMAND_ID.tileGrid }],
   },
+  gridIso: {
+    name: 'Isometric grid',
+    description: 'Draw a 2 to 1 diamond grid as wide as one tile, to line up isometric art.',
+    shortcuts: [{ command: COMMAND_ID.isoGrid }],
+  },
   guides: {
     name: 'Guides',
     description: 'Show the guide lines you dragged out of the rulers.',
@@ -59,6 +64,36 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
     description: 'Show the named slice rectangles of the sprite with their pivot and 9-slice centre. The Slice tool shows them too.',
     shortcuts: [{ command: COMMAND_ID.slices }],
   },
+  hideOverlays: {
+    name: 'Hide overlays',
+    description: 'Hide the grids, guides, axes, selection ants and onion skin at once, for a clean look at the art.',
+    shortcuts: [{ command: COMMAND_ID.hideOverlays }],
+  },
+  mirror: {
+    name: 'Mirror view',
+    description: 'Flip the display left to right to spot mistakes. The pixels do not change and painting stays under the pointer.',
+    shortcuts: [{ command: COMMAND_ID.mirrorView }],
+  },
+  loupe: {
+    name: 'Loupe',
+    description: 'Show a round magnifier beside the pointer at four times the zoom.',
+    shortcuts: [{ command: COMMAND_ID.loupe }],
+  },
+  fullscreen: {
+    name: 'Fullscreen preview',
+    description: 'Show the art at a whole number scale on the background. Press any key to return.',
+    shortcuts: [{ command: COMMAND_ID.fullscreenPreview }],
+  },
+  split: {
+    name: 'Split view',
+    description: 'Show a second view of the same art beside the first, at its own zoom.',
+    shortcuts: [{ command: COMMAND_ID.splitView }],
+  },
+  lockGuides: {
+    name: 'Lock guides',
+    description: 'Keep the guides where they are so a drag cannot move or remove them.',
+    shortcuts: [{ command: COMMAND_ID.lockGuides }],
+  },
 };
 
 const VIEW_TOGGLES: readonly ViewToggle[] = ['grid', 'gridMajor', 'gridTile', 'guides', 'rulers', 'snap'];
@@ -67,10 +102,17 @@ const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
   grid: 'pixel-grid',
   gridMajor: 'layout-grid',
   gridTile: 'columns-3',
+  gridIso: 'layout-grid',
   guides: 'guides',
   rulers: 'pixel-rulers',
   snap: 'magnet',
   slices: 'square',
+  hideOverlays: 'eye-off',
+  mirror: 'pixel-mirror-x',
+  loupe: 'search',
+  fullscreen: 'maximize-2',
+  split: 'columns-3',
+  lockGuides: 'lock',
 };
 
 const TILED_HINT: HintSpec = {

@@ -4,12 +4,15 @@ const EDITOR_CANVAS_TEXT = {
   hint: 'Arrow keys move the drawing cursor. Space paints with the front colour and Enter with the back colour. Shift with Space draws a line from the last point. Control picks the third and fourth colours. With the shapes tool, press once to start and again to finish. Shift with an arrow pans the view.',
   empty: 'No sprite is open.',
   emptyFrame: 'This frame has no sprite yet.',
+  splitLabel: 'Second view',
 } as const;
 
 const CANVAS_CLASS = {
   plain: 'editor-canvas',
   rulers: 'editor-canvas editor-canvas--rulers',
   viewport: 'editor-canvas__viewport',
+  split: 'editor-canvas__split',
+  pane: 'editor-canvas__pane',
 } as const;
 
 const CANVAS_MENU = {
@@ -19,6 +22,9 @@ const CANVAS_MENU = {
   asColour: (slot: number): string => `As colour ${slot}`,
   pickHere: 'Pick colour here',
   selectHere: 'Select here',
+  addGuide: 'Add guide here',
+  guideX: 'Vertical guide (X)',
+  guideY: 'Horizontal guide (Y)',
   region: 'Region of this colour',
   everywhere: 'Every pixel of this colour',
   symmetry: 'Symmetry',
@@ -31,6 +37,8 @@ const CANVAS_MENU = {
   animationSettings: 'Animation settings...',
   transform: 'Transform',
   selection: 'Selection',
+  fillStroke: 'Fill and stroke',
+  align: 'Align',
   backToPlace: 'Back to Place Tile',
   emptyClipboard: 'The clipboard holds no pixels.',
   thin: 'The selection is too thin to shrink.',
@@ -47,6 +55,10 @@ const OVERLAY_TOKENS = {
 } as const;
 
 const OUTLINE_PATHS = new WeakMap<object, Path2D>();
+
+const TINT_PATHS = new WeakMap<object, Path2D>();
+
+const QUICK_MASK_ALPHA = 0.45;
 
 const AREA_FILL_ALPHA = 0.25;
 
@@ -80,9 +92,11 @@ const HANDLE_CURSORS: Readonly<Record<string, string>> = { pivot: 'crosshair', r
 
 const ZOOM_RECT_DASH: readonly number[] = [4, 3];
 
+const MARKER_DASH: readonly number[] = [6, 3];
+
 const ZOOM_SCRUB_PIXELS = 120;
 
 export {
-  ANCHOR_ARM, ANT_DASH, CORNER_CURSORS, EDGE_CURSORS, HANDLE_CURSORS, HANDLE_DRAW, ANT_PERIOD, ANT_STEP_MS, AREA_FILL_ALPHA, AREA_LINE, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, CANVAS_MENU, EDITOR_CANVAS_TEXT, GUIDE_ALPHA, MENU_TOOLS, OUTLINE_PATHS, OVERLAY_TOKENS,
-  REDUCED_MOTION, ZOOM_RECT_DASH, ZOOM_SCRUB_PIXELS,
+  ANCHOR_ARM, ANT_DASH, CORNER_CURSORS, EDGE_CURSORS, HANDLE_CURSORS, HANDLE_DRAW, ANT_PERIOD, ANT_STEP_MS, AREA_FILL_ALPHA, AREA_LINE, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, CANVAS_MENU, EDITOR_CANVAS_TEXT, GUIDE_ALPHA, MENU_TOOLS, OUTLINE_PATHS, OVERLAY_TOKENS, QUICK_MASK_ALPHA, TINT_PATHS,
+  MARKER_DASH, REDUCED_MOTION, ZOOM_RECT_DASH, ZOOM_SCRUB_PIXELS,
 };

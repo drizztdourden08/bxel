@@ -6,6 +6,8 @@ import { commitPending } from '../../src/editor/pending/commit-pending';
 import { setFloatOffset } from '../../src/editor/pending/set-float-offset';
 import { selectionMask } from '../../src/editor/selection/selection-mask';
 import { nudgeFloat } from '../../src/editor/transform/nudge-float';
+import { nudgeKey } from '../../src/editor/transform/nudge-key';
+import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { usePendingStore } from '../../src/stores/usePendingStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { at, BLOCK, countOn, openRig } from './selection-harness';
@@ -58,5 +60,22 @@ describe('S2 moving a selection', { tags: ['standard'] }, () => {
     expect(commitPending()).toBe(true);
     expect(rig.pixels()[at(0, 0)]).toBe(4);
     expect(rig.pixels()[at(1, 0)]).toBe(0);
+  });
+
+  it('keeps the source when the drag started with Alt, and nudges by the nudge amount', () => {
+    const rig = openRig();
+    rig.paint(BLOCK, 6);
+    rig.select(BLOCK);
+    useSelectionStore.getState().setNudge(3);
+    useToolStore.getState().selectTool('move');
+    nudgeKey({ key: 'ArrowRight', ctrlKey: false, metaKey: false, altKey: false, shiftKey: false, preventDefault: () => undefined });
+    expect(usePendingStore.getState().pending?.spec).toMatchObject({ kind: 'move', offset: { x: 3, y: 0 } });
+    cancelPending();
+    beginPending({ kind: 'move', offset: { x: 0, y: 0 }, copy: true });
+    setFloatOffset({ x: 8, y: 0 });
+    expect(commitPending()).toBe(true);
+    expect(rig.pixels()[at(4, 4)]).toBe(6);
+    expect(rig.pixels()[at(12, 4)]).toBe(6);
+    useSelectionStore.getState().setNudge(1);
   });
 });

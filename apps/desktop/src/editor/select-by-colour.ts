@@ -20,6 +20,10 @@ const selectByColour = (args: Partial<ByColourArgs>): void => {
     commitSelection(target, mergeMask(base, pointMask(target, 'wand', at), mode));
     return;
   }
+  if (at && args.index === undefined) {
+    commitSelection(target, mergeMask(base, pointMask(target, 'colour', at), mode));
+    return;
+  }
   const { width, height } = target.sprite;
   const pixels = samplePixels(target);
   const index = args.index ?? (at ? pixels[at.y * width + at.x] : undefined);

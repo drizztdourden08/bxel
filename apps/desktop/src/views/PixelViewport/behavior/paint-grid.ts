@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { GridLine } from '../../../canvas-look/canvas-look.type';
+import { paintIsoGrid } from './paint-iso-grid';
 import type { GridAxis, ImageSize, PlacedImage } from './viewport.type';
 
 const linesOf = (axis: GridAxis): number[] => {
@@ -12,6 +13,10 @@ const linesOf = (axis: GridAxis): number[] => {
 };
 
 const paintGrid = (ctx: CanvasRenderingContext2D, placed: PlacedImage, image: ImageSize, line: GridLine): void => {
+  if (line.iso) {
+    paintIsoGrid(ctx, placed, image, line);
+    return;
+  }
   const { canvas } = ctx;
   const top = Math.max(0, placed.y);
   const bottom = Math.min(canvas.height, placed.y + placed.height);

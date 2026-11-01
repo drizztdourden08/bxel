@@ -23,7 +23,7 @@ const applyPlan = (draft: Draft, cels: readonly ResolvedCel[], plan: SpritePlan,
   let clipped = 0;
   let added: number | null = null;
   applyToCels(draft, spriteCels(cels, plan.spriteId), (target) => {
-    const result = landRegion({ target, mask: view.mask, resample, skipZero: spec.skipZero });
+    const result = landRegion({ target, mask: view.mask, resample, skipZero: spec.skipZero, keep: spec.keep === true });
     clipped = Math.max(clipped, result.clipped);
     added = result.added === null ? added : Math.max(added ?? 0, result.added);
     return result.rect;

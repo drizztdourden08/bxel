@@ -42,6 +42,12 @@ const paintCentre = (ctx: CanvasRenderingContext2D, view: PixelView, slice: Slic
 const paintGrips = (ctx: CanvasRenderingContext2D, view: PixelView, slice: Slice): void => {
   const { rect } = slice;
   const size = (GRIP * 2) / view.zoom;
+  const { center } = slice;
+  if (center) {
+    const cx = rect.x + center.x;
+    const cy = rect.y + center.y;
+    for (const [x, y] of [[cx, cy + center.height / 2], [cx + center.width, cy + center.height / 2], [cx + center.width / 2, cy], [cx + center.width / 2, cy + center.height]] as const) ctx.fillRect(x - size / 3, y - size / 3, (size * 2) / 3, (size * 2) / 3);
+  }
   for (const x of [rect.x, rect.x + rect.width / 2, rect.x + rect.width]) {
     for (const y of [rect.y, rect.y + rect.height / 2, rect.y + rect.height]) ctx.fillRect(x - size / 2, y - size / 2, size, size);
   }

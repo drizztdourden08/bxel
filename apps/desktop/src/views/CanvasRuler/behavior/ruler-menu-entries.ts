@@ -33,6 +33,7 @@ const rulerMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntr
     'separator',
     unitEntries(),
     COMMAND_ID.rulers,
+    COMMAND_ID.lockGuides,
     'separator',
     { command: 'guide.clear', label: RULER_MENU.clearGuides, tone: 'danger', ...unless(hasGuides(), RULER_MENU.noGuides) },
   ];

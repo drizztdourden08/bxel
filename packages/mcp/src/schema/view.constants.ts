@@ -77,14 +77,31 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
     .union([z.number().min(1).max(6400).describe('Percent.'), z.enum(['fit', 'actual']), z.strictObject({ rect: VIEW_RECT_SCHEMA })])
     .optional(),
   pan: z.strictObject({ centreX: z.number(), centreY: z.number() }).optional(),
+  marker: z
+    .strictObject({
+      rect: VIEW_RECT_SCHEMA,
+      label: z.string().max(80).optional(),
+      seconds: z.number().min(1).max(60).default(8).describe('How long the owner sees the marker.'),
+    })
+    .nullable()
+    .optional()
+    .describe('Draws a rectangle with a label on the sprite so the owner sees which pixels you mean. null clears it. A show effect, it never edits the document.'),
   toggles: z
     .strictObject({
       grid: z.boolean().optional(),
       gridMajor: z.boolean().optional(),
       gridTile: z.boolean().optional(),
+      gridIso: z.boolean().optional().describe('Draw a 2 to 1 isometric diamond grid, as wide as one tile of the tile grid.'),
       guides: z.boolean().optional(),
       rulers: z.boolean().optional(),
       slices: z.boolean().optional(),
+      snap: z.boolean().optional(),
+      hideOverlays: z.boolean().optional().describe('Hide the grids, guides, axes, selection ants and onion skin at once.'),
+      mirror: z.boolean().optional().describe('Flip the display left to right. The pixels never change.'),
+      loupe: z.boolean().optional().describe('Show the round magnifier beside the pointer.'),
+      split: z.boolean().optional().describe('Show a second view of the same art.'),
+      fullscreen: z.boolean().optional().describe('Show the art at a whole number scale on the background.'),
+      lockGuides: z.boolean().optional(),
       tiled: z.enum(TILED_VALUES).optional(),
       onionSkin: z.boolean().optional(),
     })

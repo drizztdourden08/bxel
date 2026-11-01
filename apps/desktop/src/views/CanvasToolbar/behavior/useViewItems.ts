@@ -19,6 +19,12 @@ const useViewItems = (): ToolbarItem[] => {
     rulers: useHintKeys(VIEW_HINTS.rulers),
     snap: useHintKeys(VIEW_HINTS.snap),
     slices: useHintKeys(VIEW_HINTS.slices),
+    hideOverlays: useHintKeys(VIEW_HINTS.hideOverlays),
+    mirror: useHintKeys(VIEW_HINTS.mirror),
+    loupe: useHintKeys(VIEW_HINTS.loupe),
+    fullscreen: useHintKeys(VIEW_HINTS.fullscreen),
+    split: useHintKeys(VIEW_HINTS.split),
+    lockGuides: useHintKeys(VIEW_HINTS.lockGuides),
   };
   const toggles = VIEW_TOGGLES.map((toggle) =>
     toggleItem({

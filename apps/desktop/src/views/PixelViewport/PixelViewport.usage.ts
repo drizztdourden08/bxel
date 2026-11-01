@@ -26,10 +26,12 @@ const usage = {
     'onPointerPixel reports the image pixel under the pointer, or null outside the image, for a StatusBar readout.',
     'The ref gives screenToPixel and pixelToScreen in client coordinates, fit, setZoom with an optional anchor, zoomIn, zoomOut, redraw and view.',
     'Pointer handlers passed in get every press the viewport does not take for a pan, so the app paints with the main button.',
+    'Pass onAltWheel to turn Alt with the wheel into whole steps, a positive step for a turn towards the user, for a frame stepper; without it Alt changes nothing.',
+    'Pass mirror to flip the display left to right without touching a pixel; screenToPixel and pixelToScreen follow the flip, so strokes land under the pointer. Children render inside the viewport box, above the canvas, for overlays such as a loupe.',
     'Pass hand to let the main button drag the view, for a hand tool; the middle button and Space with the main button always pan.',
     'Pass tiled with x, y or both to repeat the image across the view for a tile preview; the app overlay stays on the first copy, and screenToPixel maps the pointer in every copy so a stroke can cross the edge.',
     'look carries the checkerboard colours and size and the grid lines, and the viewport paints them on its canvas with no CSS token; without it the defaults apply. The viewport draws the surround pattern (SurroundBackdrop) behind the image, inside its own box only.',
-    'grid, gridMajor and gridTile switch the pixel grid, the major grid and the tile grid; the lines draw only where they are far enough apart to read.',
+    'grid, gridMajor and gridTile switch the pixel grid, the major grid and the tile grid; the lines draw only where they are far enough apart to read. gridIso draws a 2 to 1 diamond grid as wide as one tile.',
     'The viewport takes no zoom keys of its own. The app binds zoom in, zoom out, fit and actual size to its keymap and calls the ref.',
   ],
   a11y: [
@@ -63,7 +65,7 @@ const SpriteCanvas = ({ layers }: { layers: readonly ImageBitmap[] }) => {
   );
 };
 `,
-  propsHash: 'a6dab8bb9872dba0',
+  propsHash: '5f6e49347be49270',
 } satisfies ComponentUsage;
 
 export { usage };

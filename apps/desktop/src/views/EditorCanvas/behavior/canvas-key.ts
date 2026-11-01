@@ -1,9 +1,10 @@
 /* @layer renderer-app @kind logic */
 import type { KeyboardEvent } from 'react';
 import { gesture } from '../../../editor/gesture-state';
-import { ARROW_DELTAS, NUDGE_STEP, NUDGE_STEP_FAST } from '../../../editor/selection/selection.constants';
+import { ARROW_DELTAS } from '../../../editor/selection/selection.constants';
 import { sliceKey } from '../../../slice/slice-key';
 import { nudgeOffset } from '../../../timeline/nudge-offset';
+import { nudgeStep } from '../../../editor/transform/nudge-step';
 import { nudgeKey } from '../../../editor/transform/nudge-key';
 import { PRESS_KEYS } from './canvas-key.constants';
 import type { KeyContext } from './canvas-tools.type';
@@ -25,7 +26,7 @@ const handles = (event: KeyboardEvent<HTMLElement>, context: KeyContext): boolea
 const frameNudge = (event: KeyboardEvent<HTMLElement>): boolean => {
   const delta = ARROW_DELTAS[event.key];
   if (!delta || !event.altKey || event.ctrlKey || event.metaKey) return false;
-  const step = event.shiftKey ? NUDGE_STEP_FAST : NUDGE_STEP;
+  const step = nudgeStep(event.shiftKey);
   return nudgeOffset(delta.x * step, delta.y * step);
 };
 

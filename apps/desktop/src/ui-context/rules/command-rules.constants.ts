@@ -50,15 +50,20 @@ const BRUSH: RuleTable = {
   ...family(['symmetry.axis_here', 'symmetry.axis_centre', 'symmetry.axis_remove'], PIXEL, [], ONLY.pixels),
 };
 
+const STAMP_SLOT_COMMANDS = [1, 2, 3, 4, 5, 6, 7, 8, 9].flatMap((slot) => [`tilemap.store_stamp_${slot}`, `tilemap.recall_stamp_${slot}`]);
+
 const ZOOM_DIGITS = [100, 200, 400, 800, 1600, 3200].map((percent) => `view.zoom_${percent}`);
 
 const VIEW: RuleTable = {
   ...family(['view.zoom_in', 'view.zoom_out', 'view.zoom_fit', 'view.zoom_actual', 'view.zoom_to', 'view.zoom_selection', ...ZOOM_DIGITS], ZOOM_STAGE, [FILE]),
   ...family(['view.toggle_pixel_grid'], GRID_STAGE),
   ...family(['view.toggle_major_grid'], EDIT_STAGE),
-  ...family(['view.toggle_tile_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
+  ...family(['view.toggle_tile_grid', 'view.toggle_iso_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
   ...family(['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both'], PIXEL, [], ONLY.pixels),
+  ...family(['view.hide_overlays', 'view.lock_guides'], RULER_STAGE),
+  ...family(['view.toggle_mirror', 'view.toggle_loupe', 'view.fullscreen_preview', 'view.toggle_split', 'view.describe_canvas', 'view.read_row', 'view.centre_here'], PIXEL, [], ONLY.pixels),
   ...family(['status.copy_cursor'], any(PIXEL, MAP, SHEET)),
+  ...family(['status.copy_index'], PIXEL, [], ONLY.pixels),
 };
 
 const HISTORY: RuleTable = {
@@ -86,7 +91,7 @@ const SELECTION: RuleTable = {
   ...family(['selection.select_all', 'selection.clear'], DRAW_STAGE, [DOC]),
   ...family(['selection.invert'], any(PIXEL, MAP), [SELECTED_HERE], ONLY.drawing),
   ...family(['selection.expand', 'selection.shrink'], PIXEL, [PIXELS_SELECTED], ONLY.pixels),
-  ...family(['selection.reselect', 'selection.save', 'selection.select_opaque', 'selection.select_by_frame'], PIXEL, [DOC], ONLY.pixels),
+  ...family(['selection.reselect', 'selection.save', 'selection.select_opaque', 'selection.select_by_frame', 'selection.quick_mask'], PIXEL, [DOC], ONLY.pixels),
   ...family(['selection.border', 'selection.smooth', 'selection.to_guides'], PIXEL, [PIXELS_SELECTED], ONLY.pixels),
   ...family(
     ['selection.stroke_inside', 'selection.stroke_outside', 'selection.fill_front', 'selection.fill_back', 'selection.align_left', 'selection.align_centre', 'selection.align_right', 'selection.align_top', 'selection.align_middle', 'selection.align_bottom'],
@@ -95,6 +100,7 @@ const SELECTION: RuleTable = {
     ONLY.pixels,
   ),
   ...family(['selection.paste_as_layer', 'selection.paste_into_selection', 'selection.paste_expand', 'selection.paste_transform', 'selection.paste_new_sprite', 'selection.paste_choose'], PIXEL, [DOC, WRITE, CLIPBOARD], ONLY.pixels),
+  ...family(['selection.copy_new_sprite'], PIXEL, [DOC, WRITE, PIXELS_SELECTED], ONLY.pixels),
   ...family(['selection.copy_merged'], NONE_OR_PIXEL, [DOC, PIXELS_SELECTED], ONLY.pixels),
   ...family(['selection.copy'], DRAW_STAGE, [DOC, SELECTED_HERE], ONLY.drawing),
   ...family(['selection.cut'], DRAW_STAGE, [DOC, WRITE, SELECTED_HERE], ONLY.drawing),
@@ -150,6 +156,7 @@ const TILES: RuleTable = {
   ...family(['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'tilemap.use_tile'], file('tilemap'), [], ONLY.maps),
   ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
   ...family(['tilemap.select_same', 'tilemap.capture_stamp'], MAP, [CELLS_SELECTED], ONLY.maps),
+  ...family(STAMP_SLOT_COMMANDS, MAP, [], ONLY.maps),
   ...family(['tilemap.replace_everywhere', 'tilemap.layer_up', 'tilemap.layer_down'], MAP, [WRITE], ONLY.maps),
   ...family(
     ['tilemap.flip_x', 'tilemap.flip_y', 'tilemap.turn', 'tilemap.pick_tile_here', 'tilemap.edit_tile_here', 'terrain.toggle_brush', 'animation.toggle_tiles'],

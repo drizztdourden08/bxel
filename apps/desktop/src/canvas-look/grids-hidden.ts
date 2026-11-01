@@ -12,7 +12,7 @@ const majorHidden = (look: CanvasLook, flags: GridFlags, zoom: number, surface: 
   flags.major && (surface === 'sprite' || surface === 'tile') && look.majorLine.every * zoom < MAJOR_MIN_GAP;
 
 const tileHidden = (look: CanvasLook, flags: GridFlags, zoom: number, surface: CanvasSurface): boolean => {
-  if (!flags.tile) return false;
+  if (!flags.tile && !flags.iso) return false;
   if (surface === 'map') return Math.min(look.tileLine.every, look.tileLine.everyY ?? look.tileLine.every) * zoom < CELL_GRID_MIN;
   return look.tileLine.every * zoom < TILE_MIN_GAP;
 };

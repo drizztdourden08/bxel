@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind component */
+import type { ReactNode } from 'react';
 import { Flex, SegmentedControl } from '@drizztdourden08/tessera';
 import { useAssetView } from '../../../asset-view/useAssetView';
 import { useAssetLook } from '../../../asset-view/useAssetLook';
@@ -16,6 +17,7 @@ import { OVERLAY_TEXT, RULER_UNIT_NAMES } from '../ViewPanel.constants';
 import type { ViewToggle } from '../../../stores/view-store.type';
 import type { SurfaceProps } from '../ViewPanel.type';
 import { GridSpacing } from './GridSpacing';
+import { MODE_ROWS } from './OverlaysSection.constants';
 import { OverlayRow } from './OverlayRow';
 
 const OverlaysSection = ({ surface }: SurfaceProps) => {
@@ -39,17 +41,20 @@ const OverlaysSection = ({ surface }: SurfaceProps) => {
       />
     </ActionHint>
   );
+  const modeRows = (shown: boolean, make: (toggle: ViewToggle) => ReactNode): ReactNode => [make('lockGuides'), make('hideOverlays'), ...(shown ? MODE_ROWS.map(make) : [])];
   return (
     <Flex direction="column" gap="xs">
       {pixels && row('grid')}
       {pixels && row('gridMajor')}
       {row('gridTile', cells ? OVERLAY_TEXT.cellGrid : undefined)}
+      {pixels && row('gridIso')}
       <GridSpacing surface={surface} />
       {row('guides')}
       {row('rulers')}
       {row('snap')}
       {pixels && row('slices')}
       {pixels && <OverlayRow label={LINT_TEXT.label} description={LINT_TEXT.description} checked={lintShown} onChange={(on) => useLintStore.getState().setShown(on)} />}
+      {modeRows(pixels, row)}
       <SegmentedControl
         size="sm"
         label={OVERLAY_TEXT.rulerUnit}

@@ -7,6 +7,7 @@ const gridLayers = (look: CanvasLook, flags: GridFlags, zoom: number, pixelFrom:
   if (flags.pixel && zoom >= pixelFrom) layers.push(look.pixelLine);
   if (flags.major && look.majorLine.every * zoom >= MAJOR_MIN_GAP) layers.push(look.majorLine);
   if (flags.tile && look.tileLine.every * zoom >= TILE_MIN_GAP) layers.push(look.tileLine);
+  if (flags.iso && look.tileLine.every * zoom >= TILE_MIN_GAP) layers.push({ ...look.tileLine, iso: true });
   return layers;
 };
 

@@ -6,8 +6,9 @@ import { originOf } from './origin-of';
 
 const screenToPixel = (local: PixelPoint, target: ViewTarget, box: ViewBox): PixelPoint => {
   const origin = originOf(target, box);
+  const across = box.mirror ? box.width - local.x : local.x;
   return {
-    x: Math.floor((local.x - origin.x) / target.zoom + MAPPING_EPSILON),
+    x: Math.floor((across - origin.x) / target.zoom + MAPPING_EPSILON),
     y: Math.floor((local.y - origin.y) / target.zoom + MAPPING_EPSILON),
   };
 };

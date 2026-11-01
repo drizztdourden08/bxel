@@ -3,7 +3,7 @@ import { CANVAS_DEFAULTS } from '../canvas-look/canvas-look.constants';
 import { COMMAND_ID } from '../keymap/keymap.constants';
 import type { TileMode, ViewSettings, ViewToggleRow } from './view-store.type';
 
-const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, guides: true, rulers: true, snap: false, slices: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, viewport: null };
+const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, gridIso: false, guides: true, rulers: true, snap: false, slices: false, hideOverlays: false, mirror: false, loupe: false, fullscreen: false, split: false, lockGuides: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, viewport: null };
 
 const TILE_MODES: readonly TileMode[] = ['off', 'x', 'y', 'both'];
 
@@ -16,12 +16,19 @@ const TILE_LABELS: Readonly<Record<TileMode, string>> = {
 
 const VIEW_TOGGLE_ROWS: readonly ViewToggleRow[] = [
   { toggle: 'grid', command: COMMAND_ID.pixelGrid, label: 'Pixel grid', chord: "Mod+'" },
-  { toggle: 'gridMajor', command: COMMAND_ID.majorGrid, label: 'Major grid' },
-  { toggle: 'gridTile', command: COMMAND_ID.tileGrid, label: 'Tile grid' },
-  { toggle: 'guides', command: COMMAND_ID.guides, label: 'Guides' },
-  { toggle: 'rulers', command: COMMAND_ID.rulers, label: 'Rulers' },
+  { toggle: 'gridMajor', command: COMMAND_ID.majorGrid, label: 'Major grid', chord: "Mod+Shift+'" },
+  { toggle: 'gridTile', command: COMMAND_ID.tileGrid, label: 'Tile grid', chord: "Mod+Alt+'" },
+  { toggle: 'gridIso', command: COMMAND_ID.isoGrid, label: 'Isometric grid' },
+  { toggle: 'guides', command: COMMAND_ID.guides, label: 'Guides', chord: 'Mod+;' },
+  { toggle: 'rulers', command: COMMAND_ID.rulers, label: 'Rulers', chord: 'Mod+Alt+U' },
   { toggle: 'snap', command: COMMAND_ID.snap, label: 'Snap', chord: 'Mod+Shift+;' },
   { toggle: 'slices', command: COMMAND_ID.slices, label: 'Slices' },
+  { toggle: 'hideOverlays', command: COMMAND_ID.hideOverlays, label: 'Hide overlays', chord: 'Mod+H' },
+  { toggle: 'mirror', command: COMMAND_ID.mirrorView, label: 'Mirror view', chord: 'Shift+M' },
+  { toggle: 'loupe', command: COMMAND_ID.loupe, label: 'Loupe', chord: 'Alt+L' },
+  { toggle: 'fullscreen', command: COMMAND_ID.fullscreenPreview, label: 'Fullscreen preview', chord: 'F8' },
+  { toggle: 'split', command: COMMAND_ID.splitView, label: 'Split view', chord: 'Mod+Alt+\\' },
+  { toggle: 'lockGuides', command: COMMAND_ID.lockGuides, label: 'Lock guides' },
 ];
 
 export { TILE_LABELS, TILE_MODES, VIEW_DEFAULTS, VIEW_TOGGLE_ROWS };
