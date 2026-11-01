@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind types */
+import type { ReactNode } from 'react';
 import type { PaletteTarget } from '../../editor/editor.type';
 import type { ImportMode, ImportPlan, ImportSource } from '../../palette-import/palette-import.type';
 import type { PaletteImportRequest } from '../../stores/palette-panel-store.type';
@@ -40,4 +41,14 @@ interface PlanActionsProps {
   onApply: () => void;
 }
 
-export type { ColourRowProps, ImportDialogProps, ImportState, ImportSummaryProps, PlanActionsProps };
+interface PlanDialogProps {
+  title: string;
+  className: string;
+  actions: ReactNode;
+  error: string | null;
+  failure: string | null;
+  onClose: () => void;
+  children: ReactNode;
+}
+
+export type { ColourRowProps, ImportDialogProps, ImportState, ImportSummaryProps, PlanActionsProps, PlanDialogProps };
