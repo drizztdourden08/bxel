@@ -14,7 +14,7 @@ const rowsOfMask = (mask: { bits: Uint8Array; width: number; height: number }): 
 const BLOCK = maskFromRows(['......', '.###..', '.###..', '.###..', '......', '......']);
 const scope = scopeOf([rowsIds.sprite]);
 
-describe('selection shapes', () => {
+describe('K1 selection shapes', { tags: ['critical'] }, () => {
   test('outline inside, outside with 4 and 8 neighbours', () => {
     expect(rowsOfMask(outlineMask(BLOCK, 'inside', 4))).toEqual(['......', '.###..', '.#.#..', '.###..', '......', '......']);
     expect(rowsOfMask(outlineMask(BLOCK, 'outside', 4))).toEqual(['.###..', '#...#.', '#...#.', '#...#.', '.###..', '......']);
@@ -35,7 +35,7 @@ describe('selection shapes', () => {
   });
 });
 
-describe('pixels.outline', () => {
+describe('K1 pixels.outline', { tags: ['critical'] }, () => {
   test('draws a one pixel line of the index as one undo step', () => {
     const engine = pixelEngine(rowsArtwork(['......', '......', '......', '......', '......', '......']));
     const original = engine.state().artwork;
@@ -50,7 +50,7 @@ describe('pixels.outline', () => {
   });
 });
 
-describe('pixels.copy_region', () => {
+describe('K1 pixels.copy_region', { tags: ['critical'] }, () => {
   const art = () =>
     buildArtwork([
       { id: 'spr_000010', name: 'target', width: 5, height: 3, frames: ['frm_000012'], layers: [{ id: 'lay_000011', name: 'Body', cels: { frm_000012: 'cel_000014' } }], cels: { cel_000014: ['.....', '.....', '.....'] } },

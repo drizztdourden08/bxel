@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 const first: IndexBuffer = { pixels: Uint8Array.from([0, 0, 1, 1, 1, 3]), width: 3, height: 2 };
 const second: IndexBuffer = { pixels: Uint8Array.from([3, 5, 200]), width: 3, height: 1 };
 
-describe('countUsage', () => {
+describe('K1 countUsage', { tags: ['critical'] }, () => {
   it('counts per index across buffers', () => {
     const usage = countUsage([first, second]);
     expect(usage).toHaveLength(256);
@@ -22,7 +22,7 @@ describe('countUsage', () => {
   });
 });
 
-describe('reportPalette', () => {
+describe('K1 reportPalette', { tags: ['critical'] }, () => {
   const palette = ['#000000', '#ff0000', '#00ff00', '#FF0000', '#0000ff'];
 
   it('splits used and unused slots and flags out of range indices', () => {

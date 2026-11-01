@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 import { celAt } from '../src/commands/compose/cel-at';
 import { applyTo, frameRows, fresh, heldNames, idle, named, names, onSheet, refusal, run, undoLast, walk } from './compose-world';
 
-describe('sprite.merge', () => {
+describe('K2 sprite.merge', { tags: ['critical'] }, () => {
   test('puts the frames of the sprites in one animation and pads smaller ones to the largest', () => {
     const engine = fresh();
     applyTo(engine, 'sprite.merge', [walk, idle, run], { anchor: 'top-left' });

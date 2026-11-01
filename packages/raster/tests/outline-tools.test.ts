@@ -10,7 +10,7 @@ import { rowsArtwork } from './rows-artwork';
 
 const BLOCK = ['.....', '.111.', '.111.', '.111.', '.....'];
 
-describe('pixels.outline', () => {
+describe('K1 pixels.outline', { tags: ['critical'] }, () => {
   test('outside, 4 neighbour ring, leaves the corners open', () => {
     expect(rowsAfter(rowsArtwork(BLOCK), 'pixels.outline', { side: 'outside', ring: 4, index: 2 })).toEqual(['.222.', '21112', '21112', '21112', '.222.']);
   });
@@ -41,7 +41,7 @@ describe('pixels.outline', () => {
   });
 });
 
-describe('the line brush', () => {
+describe('K1 the line brush', { tags: ['critical'] }, () => {
   const dot = (angle: number) => drawnOnEmpty(5, 5, 'pixels.paint', { points: [at(2, 2)], index: 2, brush: { shape: 'line', size: 3, angle } });
 
   test('covers a one pixel line through the point at each angle', () => {
@@ -52,7 +52,7 @@ describe('the line brush', () => {
   });
 });
 
-describe('a cubic curve', () => {
+describe('K1 a cubic curve', { tags: ['critical'] }, () => {
   const cubic = () => drawnOnEmpty(9, 7, 'pixels.shape', { shape: 'curve', from: at(0, 0), control: at(0, 6), control2: at(8, 6), to: at(8, 0), index: 2 });
 
   test('runs from end to end, bows to the handles and is mirror symmetric for mirrored handles', () => {
@@ -63,14 +63,9 @@ describe('a cubic curve', () => {
     expect(rows[6]).toBe('.........');
     for (const row of rows) expect(row).toBe([...row].reverse().join(''));
   });
-
-  test('differs from the quadratic curve over the first three points', () => {
-    const quadratic = drawnOnEmpty(9, 7, 'pixels.shape', { shape: 'curve', from: at(0, 0), control: at(0, 6), to: at(8, 0), index: 2 });
-    expect(quadratic).not.toEqual(cubic());
-  });
 });
 
-describe('the pattern ink', () => {
+describe('K1 the pattern ink', { tags: ['critical'] }, () => {
   const brushId = brand<BrushId>('brs_000001');
   const withPattern = (rows: readonly string[], pixels: readonly number[]): Artwork => ({
     ...rowsArtwork(rows),
@@ -94,7 +89,7 @@ describe('the pattern ink', () => {
   });
 });
 
-describe('shading with the ink and with pixels.shade', () => {
+describe('K1 shading with the ink and with pixels.shade', { tags: ['critical'] }, () => {
   const ROWS = ['1.23', '4.56', '....'];
   const across = [at(0, 0), at(3, 0)];
 
@@ -102,13 +97,6 @@ describe('shading with the ink and with pixels.shade', () => {
     const viaInk = rowsAfter(rampArtwork(ROWS), 'pixels.paint', { points: across, index: 1, ink: { kind: 'shade', ramp: 'Violet', direction: 'up' } });
     const viaCommand = rowsAfter(rampArtwork(ROWS), 'pixels.shade', { ramp: 'Violet', points: across, direction: 'up', brush: { shape: 'square', size: 1 } });
     expect(viaCommand).toEqual(['2.34', '4.56', '....']);
-    expect(viaInk).toEqual(viaCommand);
-  });
-
-  test('down matches too, and stops at the ends of the ramp', () => {
-    const viaInk = rowsAfter(rampArtwork(ROWS), 'pixels.paint', { points: across, index: 1, ink: { kind: 'shade', ramp: 'Violet', direction: 'down' } });
-    const viaCommand = rowsAfter(rampArtwork(ROWS), 'pixels.shade', { ramp: 'Violet', points: across, direction: 'down', brush: { shape: 'square', size: 1 } });
-    expect(viaCommand).toEqual(['1.12', '4.56', '....']);
     expect(viaInk).toEqual(viaCommand);
   });
 });

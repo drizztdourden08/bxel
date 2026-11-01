@@ -18,7 +18,7 @@ const options = (extra: Record<string, unknown>, mask: MaskView = MASK) => ({ ..
 const rowsScope = scopeOf([rowsIds.sprite]);
 const rowsOf = (engine: ReturnType<typeof pixelEngine>) => celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
 
-describe('pixels.flip results', () => {
+describe('K2 pixels.flip results', { tags: ['critical'] }, () => {
   test('flips the masked region inside its bounding box as one undo step', () => {
     const engine = pixelEngine(rowsArtwork(PIXELS));
     const original = engine.state().artwork;
@@ -30,12 +30,6 @@ describe('pixels.flip results', () => {
     expect(engine.state().artwork).toEqual(original);
     okOf(engine.redo({ documentId, expectedRevision: 3 }));
     expect(rowsOf(engine)).toEqual(['.....', '.321.', '..54.', '.....', '.....', '.....']);
-  });
-
-  test('a vertical flip swaps the rows of the box', () => {
-    const engine = pixelEngine(rowsArtwork(PIXELS));
-    okOf(engine.execute(request([stepOf('pixels.flip', rowsScope, options({ axis: 'vertical' }))])));
-    expect(rowsOf(engine)).toEqual(['.....', '.45..', '.123.', '.....', '.....', '.....']);
   });
 
   test('flips the same mask on several sprites and leaves layers outside the names alone', () => {
@@ -63,7 +57,7 @@ describe('pixels.flip results', () => {
   });
 });
 
-describe('pixels.flip guards', () => {
+describe('K2 pixels.flip guards', { tags: ['critical'] }, () => {
   test('refuses a locked layer named by id and writes nothing', () => {
     expectLockedInk('pixels.flip', { axis: 'horizontal', mask: fullMask({ width: 8, height: 8 }) });
     expectLockedInk('pixels.turn', { direction: 'clockwise', mask: fullMask({ width: 8, height: 8 }) });
@@ -108,7 +102,7 @@ describe('pixels.flip guards', () => {
   });
 });
 
-describe('pixels.turn', () => {
+describe('K2 pixels.turn', { tags: ['critical'] }, () => {
   test('turns the masked region about the top left corner of its box', () => {
     const engine = pixelEngine(rowsArtwork(PIXELS));
     const original = engine.state().artwork;

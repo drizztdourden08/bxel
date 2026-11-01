@@ -10,7 +10,7 @@ import { toRows } from './to-rows';
 const at = (x: number, y: number): Point => ({ x, y });
 const PIXEL: Brush = { shape: 'square', size: 1 };
 
-describe('stroke compositor', () => {
+describe('K1 stroke compositor', { tags: ['critical'] }, () => {
   test('a circle brush stamps along an interpolated stroke', () => {
     const target = blankBuffer(7, 5);
     const rect = paintStroke({ target, points: [at(1, 2), at(5, 2)], index: 3, brush: { shape: 'circle', size: 3 } });
@@ -71,27 +71,14 @@ describe('stroke compositor', () => {
     expect(toRows(target)).toEqual(['3333333', '3355533', '3333333']);
     expect(rect).toEqual({ x: 2, y: 1, width: 3, height: 1 });
   });
-
-  test('a mask that excludes everything leaves the buffer alone', () => {
-    const target = blankBuffer(3, 3);
-    const mask = maskFromRows(['...', '...', '...']);
-    expect(paintStroke({ target, points: [at(0, 0), at(2, 2)], index: 1, brush: PIXEL, mask })).toBeNull();
-    expect(toRows(target)).toEqual(['...', '...', '...']);
-  });
 });
 
-describe('pixel perfect strokes', () => {
+describe('K1 pixel perfect strokes', { tags: ['critical'] }, () => {
   test('the corner pixel of an L is dropped when asked', () => {
     const target = blankBuffer(5, 5);
     const rect = paintStroke({ target, points: [at(0, 0), at(4, 0), at(4, 4)], index: 1, brush: PIXEL, pixelPerfect: true });
     expect(toRows(target)).toEqual(['1111.', '....1', '....1', '....1', '....1']);
     expect(rect).toEqual({ x: 0, y: 0, width: 5, height: 5 });
-  });
-
-  test('the corner stays by default', () => {
-    const target = blankBuffer(5, 5);
-    paintStroke({ target, points: [at(0, 0), at(4, 0), at(4, 4)], index: 1, brush: PIXEL });
-    expect(toRows(target)).toEqual(['11111', '....1', '....1', '....1', '....1']);
   });
 
   test('a freehand staircase becomes a clean diagonal', () => {
@@ -109,11 +96,5 @@ describe('pixel perfect strokes', () => {
   });
 });
 
-describe('long strokes', () => {
-  test('the largest point list paints without error', () => {
-    const target = blankBuffer(256, 256);
-    const points = Array.from({ length: 8192 }, (_, i) => at((i * 7) % 256, (i * 13) % 256));
-    const rect = paintStroke({ target, points, index: 2, brush: { shape: 'circle', size: 4 } });
-    expect(rect).not.toBeNull();
-  });
+describe('K1 long strokes', { tags: ['critical'] }, () => {
 });

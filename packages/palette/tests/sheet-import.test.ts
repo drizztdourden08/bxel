@@ -31,7 +31,7 @@ const request = (rig: Rig, cells: readonly SheetImportCell[], sheetName = 'strip
 const sixCells = (): SheetImportCell[] =>
   Array.from({ length: 6 }, (_, index) => cellAt(index % 3, Math.floor(index / 3), `cell ${index + 1}`));
 
-describe('sheet import steps', () => {
+describe('K2 sheet import steps', { tags: ['critical'] }, () => {
   it('imports every cell and puts it on a new sheet in one undo step', () => {
     const rig = makeRig();
     const before = rig.engine.state().artwork;

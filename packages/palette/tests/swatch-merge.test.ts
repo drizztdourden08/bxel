@@ -12,7 +12,7 @@ const mergedValue = (value: number): number => {
   return value - 1;
 };
 
-describe('swatch.merge', () => {
+describe('K2 swatch.merge', { tags: ['critical'] }, () => {
   it('recolours the merged swatch into the target and closes the gap', () => {
     const rig = makeRig();
     const flatBefore = celBytes(currentSprite(rig));

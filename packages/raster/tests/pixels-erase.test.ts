@@ -8,7 +8,7 @@ import { emptyArtwork, rowsIds, rowsArtwork } from './rows-artwork';
 const erase = (options: Record<string, unknown>) =>
   request([stepOf('pixels.erase', scopeOf([rowsIds.sprite]), options)]);
 
-describe('pixels.erase', () => {
+describe('K2 pixels.erase', { tags: ['critical'] }, () => {
   test('writes index 0 along the stroke', () => {
     const engine = pixelEngine(rowsArtwork(['1111', '1111', '1111']));
     okOf(engine.execute(erase({ points: [{ x: 1, y: 1 }, { x: 2, y: 1 }] })));

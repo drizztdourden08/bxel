@@ -10,7 +10,7 @@ const codeOf = (rig: Rig, options: object): string | null => rejectionCode(rig, 
 
 const base = { name: 'Made', cap: 16, transparent: true, colors: ['#FF0000', '#00ff00'] };
 
-describe('palette.create', () => {
+describe('K2 palette.create', { tags: ['critical'] }, () => {
   it('makes a transparent bank with lowercase colours and names the ref', () => {
     const rig = makeRig();
     const revision = rig.engine.state().revision;
@@ -54,7 +54,7 @@ describe('palette.create', () => {
 
 });
 
-describe('palette.create rejections', () => {
+describe('K2 palette.create rejections', { tags: ['critical'] }, () => {
   it('rejects a cap outside 1 to 256', () => {
     const rig = makeRig();
     expect(codeOf(rig, { ...base, cap: 0 })).toBe('CAP_OUT_OF_RANGE');

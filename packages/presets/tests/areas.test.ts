@@ -5,7 +5,7 @@ import { preset, runs, size } from './preset-fixtures';
 
 const NES_BANK = { cap: 16 };
 
-describe('checkAreas on the NES background', () => {
+describe('K1 checkAreas on the NES background', { tags: ['critical'] }, () => {
   it('reports a 16x16 area that uses two palettes', () => {
     const buffer = runs(16, [[1, 8], [5, 8], [9, 16]]);
     const result = checkAreas(preset('nes-bg'), buffer, size(32, 16), NES_BANK);
@@ -59,7 +59,7 @@ describe('checkAreas on the NES background', () => {
   });
 });
 
-describe('checkAreas on other presets', () => {
+describe('K1 checkAreas on other presets', { tags: ['critical'] }, () => {
   it('checks the 8x8 tiles of a tile based console', () => {
     const buffer = runs(8, [[0, 3], [17, 1], [1, 1], [0, 11]]);
     const result = checkAreas(preset('gba-4bpp'), buffer, size(16, 8), { cap: 256 });

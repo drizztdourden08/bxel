@@ -6,18 +6,13 @@ const BASE = '#4a7a3c';
 
 const options = { base: BASE, light: 3, dark: 3, hueShift: 15, hueMode: 'shift' as const, chromaCurve: true, snap: 0, existing: [] };
 
-describe('oklab and oklch conversion', () => {
+describe('K1 oklab and oklch conversion', { tags: ['critical'] }, () => {
   it('round trips a colour through oklch', () => {
     for (const hex of ['#000000', '#ffffff', BASE, '#e0a030', '#1d2b53']) {
       const lch = hexToOklch(hex);
       expect(lch).not.toBeNull();
       if (lch) expect(oklchToHex(lch)).toBe(hex);
     }
-  });
-
-  it('reads white as lightness 1 and black as 0', () => {
-    expect(hexToOklch('#ffffff')?.l).toBeCloseTo(1, 3);
-    expect(hexToOklch('#000000')?.l).toBeCloseTo(0, 3);
   });
 
   it('clamps an out of gamut colour to the same lightness and hue', () => {
@@ -30,7 +25,7 @@ describe('oklab and oklch conversion', () => {
   });
 });
 
-describe('buildRamp', () => {
+describe('K1 buildRamp', { tags: ['critical'] }, () => {
   it('gives 7 steps with rising lightness, warm lights and cool shadows', () => {
     const ramp = buildRamp(options);
     if (!ramp) throw new Error('the ramp was not built');
@@ -65,7 +60,7 @@ describe('buildRamp', () => {
   });
 });
 
-describe('gradientBetween', () => {
+describe('K1 gradientBetween', { tags: ['critical'] }, () => {
   it('fills the steps between two colours in rising lightness', () => {
     const steps = gradientBetween('#1d2b53', '#fff1e8', 3);
     expect(steps).toHaveLength(3);

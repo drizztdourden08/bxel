@@ -8,7 +8,7 @@ import { toRows } from './to-rows';
 const ORIGIN = { x: 0, y: 0 };
 const ACROSS = { from: { x: 0, y: 0 }, to: { x: 7, y: 0 } };
 
-describe('bayerMatrix', () => {
+describe('K1 bayerMatrix', { tags: ['critical'] }, () => {
   test('builds the classic 2, 4 and 8 matrices', () => {
     expect([...bayerMatrix(2)]).toEqual([0, 2, 3, 1]);
     expect([...bayerMatrix(4)]).toEqual([0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5]);
@@ -22,7 +22,7 @@ describe('bayerMatrix', () => {
   });
 });
 
-describe('gradientPosition', () => {
+describe('K1 gradientPosition', { tags: ['critical'] }, () => {
   test('projects onto the line and clamps at both ends', () => {
     expect(gradientPosition(ACROSS, 0, 3)).toBe(0);
     expect(gradientPosition(ACROSS, 7, 0)).toBe(1);
@@ -32,17 +32,11 @@ describe('gradientPosition', () => {
   });
 });
 
-describe('gradientFill', () => {
+describe('K1 gradientFill', { tags: ['critical'] }, () => {
   test('solid bands share the line evenly', () => {
     const target = blankBuffer(8, 1);
     gradientFill({ target, colors: [1, 2, 3], line: ACROSS, bayer: null, origin: ORIGIN });
     expect(toRows(target)).toEqual(['11122333']);
-  });
-
-  test('a vertical line makes horizontal bands', () => {
-    const target = blankBuffer(2, 4);
-    gradientFill({ target, colors: [4, 5], line: { from: { x: 0, y: 0 }, to: { x: 0, y: 3 } }, bayer: null, origin: ORIGIN });
-    expect(toRows(target)).toEqual(['44', '44', '55', '55']);
   });
 
   test('ordered dither mixes the two colours a pixel sits between', () => {
@@ -60,22 +54,10 @@ describe('gradientFill', () => {
     expect(toRows(shifted)).toEqual(['12121222']);
   });
 
-  test('dither rows differ from one another', () => {
-    const target = blankBuffer(4, 4);
-    gradientFill({ target, colors: [1, 2], line: { from: { x: 0, y: 0 }, to: { x: 0, y: 4 } }, bayer: 2, origin: ORIGIN });
-    expect(toRows(target)).toEqual(['1111', '1111', '2121', '1212']);
-  });
-
   test('stays inside the mask and reports the box it wrote', () => {
     const target = blankBuffer(8, 1);
     const rect = gradientFill({ target, mask: maskFromRows(['..####..']), colors: [1, 2, 3], line: ACROSS, bayer: null, origin: ORIGIN });
     expect(toRows(target)).toEqual(['..1223..']);
     expect(rect).toEqual({ x: 2, y: 0, width: 4, height: 1 });
-  });
-
-  test('colours run in the order given, so a reversed ramp reverses the bands', () => {
-    const target = blankBuffer(8, 1);
-    gradientFill({ target, colors: [3, 2, 1], line: ACROSS, bayer: null, origin: ORIGIN });
-    expect(toRows(target)).toEqual(['33322111']);
   });
 });

@@ -13,7 +13,7 @@ const savedOf = (engine: ReturnType<typeof pixelEngine>) => engine.state().artwo
 const next = (engine: ReturnType<typeof pixelEngine>, step: ReturnType<typeof save>) => request([step], { baseRevision: engine.state().revision });
 const BLOCK = maskFromRows(['....', '.##.', '.##.', '....']);
 
-describe('saved selections', () => {
+describe('K3 saved selections', { tags: ['critical'] }, () => {
   test('runs and masks convert both ways', () => {
     expect(maskRuns(BLOCK)).toEqual([[1, 1, 2], [2, 1, 2]]);
     expect(runsMask(BLOCK, maskRuns(BLOCK)).bits).toEqual(BLOCK.bits);
