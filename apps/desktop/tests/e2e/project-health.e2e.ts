@@ -97,5 +97,5 @@ describe('the Health page and the organise block', () => {
 
   test('keeps tags and collections in the project file and finds files by tag', () => inFreshPlace((place) => organisesFiles(rig().session, place, false)));
 
-  test.skip('adds to a collection and pins from the context menu, blocked on Tessera P-274 and P-275', () => inFreshPlace((place) => organisesFiles(rig().session, place, true)));
+  test('adds to a collection and pins from the context menu', () => inFreshPlace((place) => organisesFiles(rig().session, place, true)));
 });
