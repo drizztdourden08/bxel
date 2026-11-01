@@ -3,6 +3,7 @@ import type { CommandStep } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { apply, buildAnimWorld, checkOneUndoStep, createdAnimation } from './anim-engine';
 import type { AnimWorld } from './anim-engine';
+import { eachCommandUndoes } from './each-command-undoes';
 import { step } from './tile-engine';
 
 const at = (index: number) => ({ by: 'index', index }) as const;
@@ -43,11 +44,7 @@ const commands = (world: AnimWorld & { readonly id: string }): Record<string, Co
 };
 
 describe('K1 animation commands are one undo step each', { tags: ['critical'] }, () => {
-  const names = Object.keys(commands(populated()));
-
-  it.each(names)('%s undoes and redoes as one step', (name) => {
-    const world = populated();
-    const chosen = commands(world)[name] ?? step('none', {});
+  eachCommandUndoes(populated, commands, (world, name, chosen) => {
     const request = name === 'sprite.delete' ? { ...chosen, targets: { sprites: [world.strip], layers: { by: 'all' }, frames: { by: 'all' } } } : chosen;
     checkOneUndoStep(world.engine, () => {
       apply(world.engine, [request as CommandStep]);

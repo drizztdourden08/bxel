@@ -1,17 +1,9 @@
 /* @layer core @kind test */
-import type { CommandStep, FrameId, LayerId } from '@bxel/document';
 import { decodeArtwork, encodeArtwork } from '@bxel/document/native';
 import { describe, expect, it } from 'vitest';
-import { brand } from './fixture-to-artwork';
+import { FIRST } from './first-frame';
 import { MUSHROOM, apply, celPixels, expectUndoRedo, layerEngine, layerOf, layerStep, named, rejection } from './layer-engine';
-
-const FIRST = brand<FrameId>('frm_000110');
-
-const patchStep = (layerId: string, pixels: number[]): CommandStep => ({
-  name: 'pixels.patch',
-  targets: { sprites: [MUSHROOM], layers: { by: 'ids', ids: [brand<LayerId>(layerId)] }, frames: { by: 'ids', ids: [FIRST] } },
-  options: { rect: { x: 0, y: 0, width: pixels.length, height: 1 }, pixels: new Uint8Array(pixels) },
-});
+import { patchStep } from './layer-patch-step';
 
 describe('K1 layer.update colour tags and the transparency lock', { tags: ['critical'] }, () => {
   it('sets, changes and clears a colour tag in one undo step each', () => {

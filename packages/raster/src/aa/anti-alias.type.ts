@@ -14,16 +14,10 @@ interface AntiAliasPixel {
   readonly index: number;
 }
 
-interface Grid {
-  readonly pixels: Uint8Array;
-  readonly width: number;
-  readonly height: number;
-}
-
 interface Run {
   readonly x: number;
   readonly end: number;
   readonly y: number;
 }
 
-export type { AntiAliasInput, AntiAliasPixel, Grid, Run };
+export type { AntiAliasInput, AntiAliasPixel, Run };

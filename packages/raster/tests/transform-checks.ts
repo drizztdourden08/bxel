@@ -9,11 +9,6 @@ const dimsOf = (engine: Engine, id: SpriteId) => {
   return { width: sprite?.width, height: sprite?.height, pivot: sprite?.pivot };
 };
 
-const snapshotOf = (engine: Engine, id: SpriteId) => {
-  const cels = Object.values(findSprite(engine.state().artwork, id)?.cels ?? {});
-  return { ...dimsOf(engine, id), cels: cels.map((cel) => [cel.id, [...cel.pixels]] as const) };
-};
-
 const rowsOf = (engine: Engine, id: SpriteId, cel: CelId): string[] => celRows(engine.state().artwork, id, cel);
 
 const applyStep = (engine: Engine, name: string, scope: TargetScope, options: unknown): TransactionOk =>
@@ -31,4 +26,4 @@ const refusalOf = (engine: Engine, step: CommandStep): CommandError => {
   return error;
 };
 
-export { applyStep, applySteps, dimsOf, previewOf, refusalOf, rowsOf, snapshotOf };
+export { applyStep, applySteps, dimsOf, previewOf, refusalOf, rowsOf };

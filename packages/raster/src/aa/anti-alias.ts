@@ -1,13 +1,9 @@
 /* @layer core @kind logic */
-import type { AntiAliasInput, AntiAliasPixel, Grid, Run } from './anti-alias.type';
+import type { Grid } from '../grid/grid.type';
+import { transposeGrid } from '../grid/transpose-grid';
+import type { AntiAliasInput, AntiAliasPixel, Run } from './anti-alias.type';
 
 const at = ({ pixels, width, height }: Grid, x: number, y: number): number => (x < 0 || y < 0 || x >= width || y >= height ? -1 : (pixels[y * width + x] ?? 0));
-
-const turned = (grid: Grid): Grid => {
-  const pixels = new Uint8Array(grid.pixels.length);
-  for (let y = 0; y < grid.height; y += 1) for (let x = 0; x < grid.width; x += 1) pixels[x * grid.height + y] = at(grid, x, y);
-  return { pixels, width: grid.height, height: grid.width };
-};
 
 const runEnd = (grid: Grid, edge: number, x: number, y: number): number => {
   let end = x - 1;
@@ -58,7 +54,7 @@ const stepCorners = (grid: Grid, input: AntiAliasInput): AntiAliasPixel[] =>
 const antiAlias = (input: AntiAliasInput): AntiAliasPixel[] => {
   const grid = { pixels: input.pixels, width: input.width, height: input.height };
   const across = stepCorners(grid, input);
-  const down = stepCorners(turned(grid), input).map(({ x, y, index }) => ({ x: y, y: x, index }));
+  const down = stepCorners(transposeGrid(grid), input).map(({ x, y, index }) => ({ x: y, y: x, index }));
   const seen = new Set<number>();
   return [...across, ...down].filter(({ x, y }) => {
     const key = y * input.width + x;
