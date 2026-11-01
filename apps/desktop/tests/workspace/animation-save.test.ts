@@ -15,7 +15,7 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/pr
 
 const held = heldRig();
 
-describe('saving an animation of a loose document', () => {
+describe('K3 saving an animation of a loose document', { tags: ['standard'] }, () => {
   it('asks for a .bxanim path, writes the animation and keeps its own frames inside the file', async () => {
     const { host } = useDocumentStore.getState();
     const documentId = createDefaultArtwork(host);

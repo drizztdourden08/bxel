@@ -22,7 +22,7 @@ const openWithout = async () => {
   return { ...opened, gone };
 };
 
-describe('Save all with a sheet whose member file is missing', () => {
+describe('K3 Save all with a sheet whose member file is missing', { tags: ['standard'] }, () => {
   it('writes the sheets and keeps the link to the missing file', async () => {
     const { documentId, paths, gone } = await openWithout();
     const sheets = artworkOf(documentId).sheets;
@@ -36,7 +36,7 @@ describe('Save all with a sheet whose member file is missing', () => {
   });
 });
 
-describe('Save all with a file that cannot be written', () => {
+describe('K3 Save all with a file that cannot be written', { tags: ['standard'] }, () => {
   it('checks every file first and writes none of them', async () => {
     const { documentId } = await openSampleProject(held.rig);
     const [linked, painted] = artworkOf(documentId).sprites;
@@ -55,7 +55,7 @@ describe('Save all with a file that cannot be written', () => {
   });
 });
 
-describe('Save all when the project file cannot be written', () => {
+describe('K3 Save all when the project file cannot be written', { tags: ['standard'] }, () => {
   it('reports the failure and keeps the project settings unsaved', async () => {
     const { documentId } = await openSampleProject(held.rig);
     const cover = artworkOf(documentId).sprites[0];

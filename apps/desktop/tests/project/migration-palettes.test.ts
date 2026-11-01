@@ -27,7 +27,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('updating an older project whose palette name is taken', () => {
+describe('K3 updating an older project whose palette name is taken', { tags: ['standard'] }, () => {
   it('writes the swatch set under a free name and leaves the other file as it was', async () => {
     const other = new Uint8Array([9, 9, 9]);
     held.disk.files.set(`${ROOT}/palettes/Warm.bxpalette`, other);
@@ -39,7 +39,7 @@ describe('updating an older project whose palette name is taken', () => {
   });
 });
 
-describe('updating an older project when a palette cannot be written', () => {
+describe('K3 updating an older project when a palette cannot be written', { tags: ['standard'] }, () => {
   it('opens the project and keeps the older file', async () => {
     const write = held.disk.port.write;
     vi.spyOn(held.disk.port, 'write').mockImplementation((path, data, options) =>

@@ -45,7 +45,7 @@ beforeEach(async () => {
   current = await openSharedRig(seed);
 });
 
-describe('recent files', () => {
+describe('K4 recent files', { tags: ['standard'] }, () => {
   it('leaves out a file in a folder the assistant may not see', async () => {
     recents(HIDDEN, FREE);
     expect(await recentNames(current.grants('edit'))).toEqual(['free.bxsprite']);
@@ -66,7 +66,7 @@ describe('recent files', () => {
   });
 });
 
-describe('Save all by the assistant', () => {
+describe('K4 Save all by the assistant', { tags: ['standard'] }, () => {
   const saveAll = () => current.run('save_document', { documentId: workspaceDocumentId(), target: 'current' }, current.grants('edit'));
 
   it('does not write an owner asset in a hidden folder, and does not name it', async () => {

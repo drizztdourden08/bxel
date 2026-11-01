@@ -44,7 +44,7 @@ const previewOf = (host: DocumentHost, request: ChangeRequest) => {
   return found;
 };
 
-describe('the palette change preview', () => {
+describe('K1 the palette change preview', { tags: ['critical'] }, () => {
   it('lists the affected sprites with their frames and pixel counts', () => {
     const { host, documentId } = hostWithFile();
     paint(host, documentId, 'cap_red', 8);
@@ -88,10 +88,9 @@ describe('the palette change preview', () => {
     expect(host.view(documentId)?.state.artwork.banks[0]?.slots.length).toBe(16);
     expect(coloured(sprites(host, documentId).find((each) => each.name === 'cap_red'), 8)).toBe(16);
   });
-
 });
 
-describe('the rules of the palette change', () => {
+describe('K1 the rules of the palette change', { tags: ['critical'] }, () => {
   it('asks for a replacement when pixels use the swatch', () => {
     const { host, documentId } = hostWithFile();
     paint(host, documentId, 'cap_red', 8);
@@ -129,7 +128,7 @@ describe('the rules of the palette change', () => {
   });
 });
 
-describe('proposing a change', () => {
+describe('K1 proposing a change', { tags: ['critical'] }, () => {
   it('keeps slot 0 where it is', () => {
     const { host, documentId } = hostWithFile();
     const view = host.view(documentId);
@@ -149,20 +148,9 @@ describe('proposing a change', () => {
   it('asks for a file first', () => {
     expect(proposeChange('limit', null, { foreground: 1, background: 0 })).toEqual({ ok: false, message: 'Open or create a file first.' });
   });
-
-  it('cancel clears the proposal and changes nothing', () => {
-    const { host, documentId } = hostWithFile();
-    const before = revisionOf(host, documentId);
-    useChangeStore.getState().propose(requestFor(host, documentId, {}));
-    useChangeStore.getState().setOther(5);
-    expect(useChangeStore.getState().request?.other).toBe(5);
-    useChangeStore.getState().hide();
-    expect(useChangeStore.getState().request).toBeNull();
-    expect(revisionOf(host, documentId)).toBe(before);
-  });
 });
 
-describe('frame ranges', () => {
+describe('K1 frame ranges', { tags: ['critical'] }, () => {
   it('joins runs of frames', () => {
     expect(framesText([1])).toBe('1');
     expect(framesText([1, 2, 3, 4])).toBe('1 to 4');

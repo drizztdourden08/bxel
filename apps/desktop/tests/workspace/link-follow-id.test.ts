@@ -32,7 +32,7 @@ const swapInto = (paths: ReadonlyMap<string, string>, moved: string, other: stri
   files.delete(otherPath);
 };
 
-describe('a sprite whose palette link path now holds another palette', () => {
+describe('S2 a sprite whose palette link path now holds another palette', { tags: ['standard'] }, () => {
   it('follows the palette id to its new file instead of the stranger at the old path', async () => {
     const artwork = sampleArtwork();
     const bank = artwork.banks[0];
@@ -54,7 +54,7 @@ describe('a sprite whose palette link path now holds another palette', () => {
   });
 });
 
-describe('a tilemap whose tileset link path now holds another tileset', () => {
+describe('S2 a tilemap whose tileset link path now holds another tileset', { tags: ['standard'] }, () => {
   it('follows the tileset id and opens the map with its own tiles', async () => {
     const artwork = mapArtwork();
     const [ground, secret] = artwork.tilesets;
