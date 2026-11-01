@@ -23,7 +23,7 @@ const usePanelModel = (target: PaletteTarget, editor: SwatchEditModel): PanelMod
   const { bank, sprite } = target;
   const slots = useMemo(() => paletteSlots(bank), [bank]);
   const duplicates = useMemo(() => duplicateGroups(bank), [bank]);
-  const usage = useMemo(() => (artwork && settings.showUse ? paletteUsage(artwork, bank, sprite, settings.scope, target.animation?.animation) : null), [artwork, bank, sprite, settings.showUse, settings.scope, target.animation]);
+  const usage = useMemo(() => (artwork && settings.showUse ? paletteUsage(artwork, bank, { sprite, scope: settings.scope, animation: target.animation?.animation }) : null), [artwork, bank, sprite, settings.showUse, settings.scope, target.animation]);
   const lock = useMemo(() => (artwork ? paletteLock(artwork, sprite) : { locked: false, reason: '' }), [artwork, sprite]);
   const sharing = useMemo(() => (artwork ? paletteSharing(artwork, bank.id) : { sprites: [], shared: false }), [artwork, bank.id]);
   if (!artwork) return null;

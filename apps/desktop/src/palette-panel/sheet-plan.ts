@@ -25,7 +25,7 @@ const removalPlan = (bank: PaletteBank, gone: readonly number[], words: RemovalW
 };
 
 const unusedPlan = (artwork: Artwork, bank: PaletteBank, sprite: Sprite | null): SheetPlan =>
-  removalPlan(bank, paletteUsage(artwork, bank, sprite, 'palette').unused, {
+  removalPlan(bank, paletteUsage(artwork, bank, { sprite, scope: 'palette' }).unused, {
     command: PALETTE_COMMAND_NAME.paletteRemoveUnused,
     title: SHEET_TEXT.unusedTitle,
     note: SHEET_TEXT.unusedNote,

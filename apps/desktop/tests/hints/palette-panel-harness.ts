@@ -20,7 +20,7 @@ const fakePanel = (overrides: Partial<PanelModel> = {}): PanelModel => {
     artwork,
     slots: paletteSlots(target.bank),
     held,
-    usage: paletteUsage(artwork, target.bank, target.sprite, 'palette'),
+    usage: paletteUsage(artwork, target.bank, { sprite: target.sprite, scope: 'palette' }),
     duplicates: duplicateGroups(target.bank),
     lock: { locked: false, reason: '' },
     sharing: paletteSharing(artwork, target.bank.id),

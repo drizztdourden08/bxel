@@ -28,7 +28,11 @@ type CleanUpKind = 'unused' | 'duplicates';
 
 type ReplaceScope = 'frame' | 'sprite' | 'animation' | 'selection';
 
-type UsageReach = [scope: UsageScope, animation?: Animation];
+interface UsageReach {
+  sprite: Sprite | null;
+  scope: UsageScope;
+  animation?: Animation;
+}
 
 type PanelOutcome = { ok: true; message: string } | { ok: false; message: string };
 
