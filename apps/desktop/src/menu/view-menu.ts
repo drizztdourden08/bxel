@@ -31,6 +31,7 @@ const viewMenu = (state: EditorMenuState): MenuItem => {
         item(COMMAND_ID.pixelGrid, 'Pixel grid', state.grid),
         item(COMMAND_ID.majorGrid, 'Major grid', state.gridMajor),
         item(COMMAND_ID.tileGrid, 'Tile grid', state.gridTile),
+        item(COMMAND_ID.isoGrid, 'Isometric grid', state.gridIso),
       ]),
       item(COMMAND_ID.rulers, 'Rulers', state.rulers),
       item(COMMAND_ID.guides, 'Guides', state.guides),

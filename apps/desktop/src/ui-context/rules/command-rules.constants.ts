@@ -56,7 +56,7 @@ const VIEW: RuleTable = {
   ...family(['view.zoom_in', 'view.zoom_out', 'view.zoom_fit', 'view.zoom_actual', 'view.zoom_to', 'view.zoom_selection', ...ZOOM_DIGITS], ZOOM_STAGE, [FILE]),
   ...family(['view.toggle_pixel_grid'], GRID_STAGE),
   ...family(['view.toggle_major_grid'], EDIT_STAGE),
-  ...family(['view.toggle_tile_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
+  ...family(['view.toggle_tile_grid', 'view.toggle_iso_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
   ...family(['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both'], PIXEL, [], ONLY.pixels),
   ...family(['view.hide_overlays', 'view.lock_guides'], RULER_STAGE),
   ...family(['view.toggle_mirror', 'view.toggle_loupe', 'view.fullscreen_preview', 'view.toggle_split', 'view.describe_canvas', 'view.read_row', 'view.centre_here'], PIXEL, [], ONLY.pixels),

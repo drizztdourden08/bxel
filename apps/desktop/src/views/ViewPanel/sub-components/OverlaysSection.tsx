@@ -44,6 +44,7 @@ const OverlaysSection = ({ surface }: SurfaceProps) => {
       {pixels && row('grid')}
       {pixels && row('gridMajor')}
       {row('gridTile', cells ? OVERLAY_TEXT.cellGrid : undefined)}
+      {pixels && row('gridIso')}
       <GridSpacing surface={surface} />
       {row('guides')}
       {row('rulers')}

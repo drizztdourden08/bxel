@@ -3,7 +3,7 @@ import { CANVAS_DEFAULTS } from '../canvas-look/canvas-look.constants';
 import { COMMAND_ID } from '../keymap/keymap.constants';
 import type { TileMode, ViewSettings, ViewToggleRow } from './view-store.type';
 
-const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, guides: true, rulers: true, snap: false, slices: false, hideOverlays: false, mirror: false, loupe: false, fullscreen: false, split: false, lockGuides: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, viewport: null };
+const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, gridIso: false, guides: true, rulers: true, snap: false, slices: false, hideOverlays: false, mirror: false, loupe: false, fullscreen: false, split: false, lockGuides: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, viewport: null };
 
 const TILE_MODES: readonly TileMode[] = ['off', 'x', 'y', 'both'];
 
@@ -18,6 +18,7 @@ const VIEW_TOGGLE_ROWS: readonly ViewToggleRow[] = [
   { toggle: 'grid', command: COMMAND_ID.pixelGrid, label: 'Pixel grid', chord: "Mod+'" },
   { toggle: 'gridMajor', command: COMMAND_ID.majorGrid, label: 'Major grid', chord: "Mod+Shift+'" },
   { toggle: 'gridTile', command: COMMAND_ID.tileGrid, label: 'Tile grid', chord: "Mod+Alt+'" },
+  { toggle: 'gridIso', command: COMMAND_ID.isoGrid, label: 'Isometric grid' },
   { toggle: 'guides', command: COMMAND_ID.guides, label: 'Guides', chord: 'Mod+;' },
   { toggle: 'rulers', command: COMMAND_ID.rulers, label: 'Rulers', chord: 'Mod+Alt+U' },
   { toggle: 'snap', command: COMMAND_ID.snap, label: 'Snap', chord: 'Mod+Shift+;' },

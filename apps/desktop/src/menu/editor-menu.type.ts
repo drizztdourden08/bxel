@@ -7,6 +7,7 @@ interface EditorMenuState {
   grid: boolean;
   gridMajor: boolean;
   gridTile: boolean;
+  gridIso: boolean;
   guides: boolean;
   rulers: boolean;
   snap: boolean;

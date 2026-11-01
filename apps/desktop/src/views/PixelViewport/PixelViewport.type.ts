@@ -67,6 +67,7 @@ interface PixelViewportProps {
   grid?: boolean;
   gridMajor?: boolean;
   gridTile?: boolean;
+  gridIso?: boolean;
   gridFrom?: number;
   look?: CanvasLook;
   wheel?: PixelWheel;

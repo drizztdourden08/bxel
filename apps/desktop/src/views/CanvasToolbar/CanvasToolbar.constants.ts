@@ -39,6 +39,11 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
     description: 'Draw the borders of the tiles over the canvas.',
     shortcuts: [{ command: COMMAND_ID.tileGrid }],
   },
+  gridIso: {
+    name: 'Isometric grid',
+    description: 'Draw a 2 to 1 diamond grid as wide as one tile, to line up isometric art.',
+    shortcuts: [{ command: COMMAND_ID.isoGrid }],
+  },
   guides: {
     name: 'Guides',
     description: 'Show the guide lines you dragged out of the rulers.',
@@ -97,6 +102,7 @@ const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
   grid: 'pixel-grid',
   gridMajor: 'layout-grid',
   gridTile: 'columns-3',
+  gridIso: 'layout-grid',
   guides: 'guides',
   rulers: 'pixel-rulers',
   snap: 'magnet',

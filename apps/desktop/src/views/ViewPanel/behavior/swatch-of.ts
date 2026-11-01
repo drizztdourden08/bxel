@@ -7,6 +7,7 @@ const swatchOf = (toggle: ViewToggle, look: CanvasLook): LineSwatchProps | undef
   if (toggle === 'grid') return { colour: look.pixelLine.colour, opacity: look.pixelLine.opacity, gap: 1, label: 'Pixel grid line' };
   if (toggle === 'gridMajor') return { colour: look.majorLine.colour, opacity: look.majorLine.opacity, gap: 2, label: 'Major grid line' };
   if (toggle === 'gridTile') return { colour: look.tileLine.colour, opacity: look.tileLine.opacity, gap: 4, label: 'Tile grid line' };
+  if (toggle === 'gridIso') return { colour: look.tileLine.colour, opacity: look.tileLine.opacity, gap: 4, label: 'Isometric grid line' };
   return undefined;
 };
 

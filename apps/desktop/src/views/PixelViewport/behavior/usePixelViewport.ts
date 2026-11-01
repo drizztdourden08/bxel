@@ -16,7 +16,7 @@ import { useZoomAnnounce } from './useZoomAnnounce';
 import { zoomLevels } from './zoom-levels';
 
 const usePixelViewport = (props: PixelViewportProps): ViewportModel => {
-  const { width, height, zoomSteps = PIXEL_ZOOM_STEPS, grid = true, gridMajor = false, gridTile = false, gridFrom = PIXEL_GRID_FROM } = props;
+  const { width, height, zoomSteps = PIXEL_ZOOM_STEPS, grid = true, gridMajor = false, gridTile = false, gridIso = false, gridFrom = PIXEL_GRID_FROM } = props;
   const { wheel = 'zoom', tiled = NO_TILING } = props;
   const rootRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -27,7 +27,7 @@ const usePixelViewport = (props: PixelViewportProps): ViewportModel => {
   const levels = useMemo(() => zoomLevels(zoomSteps, fit), [zoomSteps, fit]);
   const view = useViewState({ image, box, levels, zoom: props.zoom, pan: props.pan, onZoomChange: props.onZoomChange, onPanChange: props.onPanChange });
   const look = useMemo(() => props.look ?? lookOf(CANVAS_DEFAULTS), [props.look]);
-  const grids = useMemo(() => ({ pixel: grid, major: gridMajor, tile: gridTile }), [grid, gridMajor, gridTile]);
+  const grids = useMemo(() => ({ pixel: grid, major: gridMajor, tile: gridTile, iso: gridIso }), [grid, gridMajor, gridTile, gridIso]);
   const parts = { rootRef, canvasRef, view, box, image };
   const frame = { target: view.target, box, image, draw: props.draw, pivotGrips: props.pivotGrips, source: props.source, gridFrom, grids, look, tiled, onView: props.onView };
   const redraw = useFrame(rootRef, canvasRef, frame);

@@ -84,6 +84,7 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       grid: z.boolean().optional(),
       gridMajor: z.boolean().optional(),
       gridTile: z.boolean().optional(),
+      gridIso: z.boolean().optional().describe('Draw a 2 to 1 isometric diamond grid, as wide as one tile of the tile grid.'),
       guides: z.boolean().optional(),
       rulers: z.boolean().optional(),
       slices: z.boolean().optional(),

@@ -136,6 +136,7 @@ const togglesOf = () => {
     grid: view.grid,
     gridMajor: view.gridMajor,
     gridTile: view.gridTile,
+    gridIso: view.gridIso,
     guides: view.guides,
     rulers: view.rulers,
     snap: view.snap,

@@ -39,6 +39,7 @@ interface GridLine {
   opacity: number;
   every: number;
   everyY?: number;
+  iso?: boolean;
 }
 
 interface CanvasLook {
@@ -58,6 +59,7 @@ interface GridFlags {
   pixel: boolean;
   major: boolean;
   tile: boolean;
+  iso?: boolean;
 }
 
 interface NumberRange {

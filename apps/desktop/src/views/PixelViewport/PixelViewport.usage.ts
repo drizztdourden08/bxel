@@ -31,7 +31,7 @@ const usage = {
     'Pass hand to let the main button drag the view, for a hand tool; the middle button and Space with the main button always pan.',
     'Pass tiled with x, y or both to repeat the image across the view for a tile preview; the app overlay stays on the first copy, and screenToPixel maps the pointer in every copy so a stroke can cross the edge.',
     'look carries the checkerboard colours and size and the grid lines, and the viewport paints them on its canvas with no CSS token; without it the defaults apply. The viewport draws the surround pattern (SurroundBackdrop) behind the image, inside its own box only.',
-    'grid, gridMajor and gridTile switch the pixel grid, the major grid and the tile grid; the lines draw only where they are far enough apart to read.',
+    'grid, gridMajor and gridTile switch the pixel grid, the major grid and the tile grid; the lines draw only where they are far enough apart to read. gridIso draws a 2 to 1 diamond grid as wide as one tile.',
     'The viewport takes no zoom keys of its own. The app binds zoom in, zoom out, fit and actual size to its keymap and calls the ref.',
   ],
   a11y: [

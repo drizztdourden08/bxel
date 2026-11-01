@@ -20,6 +20,7 @@ const stateOf = (column: Column, given: Partial<EditorMenuState> = {}): EditorMe
   split: false,
   lockGuides: false,
   gridTile: false,
+  gridIso: false,
   guides: true,
   rulers: false,
   snap: false,

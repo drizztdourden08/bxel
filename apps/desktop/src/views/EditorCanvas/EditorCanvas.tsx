@@ -80,6 +80,7 @@ const EditorCanvas = () => {
         grid={flags.grid}
         gridMajor={flags.gridMajor}
         gridTile={flags.gridTile}
+        gridIso={flags.gridIso}
         mirror={flags.mirror}
         onAltWheel={stepFrame}
         hand={tool === 'hand'}
