@@ -7,9 +7,8 @@ import { useDocumentStore } from '../stores/useDocumentStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { findAssetTab } from '../workspace/find-asset-tab';
 import { HEALTH_TEXT } from './project-health.constants';
+import type { Held } from './reload-open-files.type';
 import { reloadWorkspace } from './reload-workspace';
-
-type Held = { readonly documentId: DocumentId; readonly path: string };
 
 const isClean = (documentId: DocumentId): boolean => {
   const workspace = useWorkspaceStore.getState().workspaces[documentId];

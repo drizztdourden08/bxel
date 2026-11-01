@@ -2,6 +2,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { applyLinkFixes } from '../../src/project-health/apply-link-fixes';
 import { refreshHealth } from '../../src/project-health/refresh-health';
+import { useHealthStore } from '../../src/stores/useHealthStore';
 import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
 import { focusTab } from '../../src/workspace/focus-tab';
 import { keyId } from '../../src/workspace/key-id';
@@ -17,18 +18,27 @@ const held = heldRig();
 
 const MOVED_TO = `${ROOT}/palettes/relinked/moved.bxpalette`;
 
-const openWithMovedPalette = async () => {
-  const { documentId, artwork, paths } = await openSampleProject(held.rig);
-  const sprite = artwork.sprites[0];
-  const bank = artwork.banks.find((each) => each.id === sprite?.bankId);
-  const spritePath = paths.get(sprite?.id ?? '') ?? '';
-  const palettePath = paths.get(bank?.id ?? '') ?? '';
+const movePalette = (palettePath: string): void => {
   const { files, dirs } = held.rig.disk;
   dirs.add(MOVED_TO.slice(0, MOVED_TO.lastIndexOf('/')));
   files.set(MOVED_TO, files.get(palettePath) ?? new Uint8Array());
   files.delete(palettePath);
-  await refreshHealth();
-  return { documentId, bankId: bank?.id ?? '', spriteId: sprite?.id ?? '', spritePath, palettePath };
+};
+
+const indexed = (path: string): boolean => {
+  const { state } = useHealthStore.getState();
+  return state.status === 'ready' && state.index.files.some((file) => file.path === path);
+};
+
+const openWithMovedPalette = async () => {
+  const { documentId, artwork, paths } = await openSampleProject(held.rig);
+  const spriteId = artwork.sprites[0]?.id ?? '';
+  const bankId = artwork.banks.find((each) => each.id === artwork.sprites[0]?.bankId)?.id ?? '';
+  const pathOf = (id: string): string => paths.get(id) ?? '';
+  movePalette(pathOf(bankId));
+  void refreshHealth();
+  await vi.waitFor(() => expect(indexed(MOVED_TO)).toBe(true));
+  return { documentId, bankId, spriteId, spritePath: pathOf(spriteId), palettePath: pathOf(bankId) };
 };
 
 const relink = (spritePath: string, linkId: string) => applyLinkFixes([{ file: spritePath, linkId, by: 'path', to: MOVED_TO }]);
