@@ -16,7 +16,7 @@ const pixelAt = (x: number, y: number): number => flat()[y * WIDTH + x] ?? 0;
 beforeEach(resetEditor);
 afterEach(() => useViewStore.getState().setTiled('off'));
 
-describe('painting with the tiled preview on', () => {
+describe('S2 painting with the tiled preview on', { tags: ['standard'] }, () => {
   it('accepts a press in a repeated copy only on the tiled axis', () => {
     expect(insidePaintArea(live(), { x: 35, y: 4 })).toBe(false);
     useViewStore.getState().setTiled('x');

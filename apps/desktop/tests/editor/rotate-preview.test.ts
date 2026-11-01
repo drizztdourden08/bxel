@@ -52,7 +52,7 @@ const previewOf = (host: DocumentHost, target: EditorTarget, angle: number): Tra
   return result;
 };
 
-describe('the rotate preview', () => {
+describe('S2 the rotate preview', { tags: ['standard'] }, () => {
   it.each([90, 180, 270, 45, 15])('paints the pixels that a commit at %i degrees leaves', (angle) => {
     const { host, target } = markedSprite();
     const before = target();

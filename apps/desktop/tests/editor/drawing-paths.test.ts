@@ -19,7 +19,7 @@ beforeEach(resetEditor);
 
 const drawing = () => useDrawingStore.getState();
 
-describe('the path tools', () => {
+describe('S2 the path tools', { tags: ['standard'] }, () => {
   const start = (tool: 'polygon' | 'curve' | 'contour', at = { x: 4, y: 4 }) => {
     const spec = pathSpec({ tools: tools(), drawing: drawing(), target: live(), size: live().sprite, tool, slot: 'foreground' });
     return beginPath({ target: live(), tool, spec, at });
@@ -80,7 +80,7 @@ describe('the path tools', () => {
   });
 });
 
-describe('the rectangle with separate colours', () => {
+describe('S2 the rectangle with separate colours', { tags: ['standard'] }, () => {
   it('outlines in the front colour and fills in the back colour in one step', () => {
     tools().setForeground(5);
     tools().setBackground(9);
@@ -94,7 +94,7 @@ describe('the rectangle with separate colours', () => {
   });
 });
 
-describe('painting on a linked cel', () => {
+describe('S2 painting on a linked cel', { tags: ['standard'] }, () => {
   const linked = () => {
     const target = live();
     const celId = 'cel_000001' as never;

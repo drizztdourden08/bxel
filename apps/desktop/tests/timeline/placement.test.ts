@@ -44,7 +44,7 @@ const stripAnimation = (): void => {
   useTimelineStore.setState({ ...TIMELINE_DEFAULTS });
 };
 
-describe('onion ghosts follow the anchor', () => {
+describe('S2 onion ghosts follow the anchor', { tags: ['standard'] }, () => {
   it('place the other frame by its own offset, in canvas coordinates', () => {
     withFrames(2);
     paintFrame(0, 1, 1, 2);
@@ -74,7 +74,7 @@ describe('onion ghosts follow the anchor', () => {
   });
 });
 
-describe('moving a frame', () => {
+describe('S2 moving a frame', { tags: ['standard'] }, () => {
   it('nudges the offset by the step and by undo steps', () => {
     withFrames(2);
     expect(nudgeOffset(2, -1)).toBe(true);
@@ -105,7 +105,7 @@ describe('moving a frame', () => {
   });
 });
 
-describe('a frame that is a cell of a strip', () => {
+describe('S2 a frame that is a cell of a strip', { tags: ['standard'] }, () => {
   it('has the shared and clip badges, and an empty frame has the empty badge', () => {
     stripAnimation();
     const cells = frameCells(live(), useTimelineStore.getState().selection);

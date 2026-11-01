@@ -21,7 +21,7 @@ type Mounted = ReturnType<typeof mount>;
 
 const press = (view: Mounted, name: string, extra?: Partial<KeyLike>) => view.act((state) => viewportKey(key(name, extra), state, box)?.());
 
-describe('the keys of a pixel viewport', () => {
+describe('S2 the keys of a pixel viewport', { tags: ['standard'] }, () => {
   it('fits on mount, then steps the zoom around the centre for the zoom commands', () => {
     const view = mount();
     expect(view.current.target).toEqual({ zoom: 12, pan: { x: 32, y: 24 } });

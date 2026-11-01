@@ -12,7 +12,7 @@ import { freshMap, stampAt, store } from './map-selection-harness';
 
 beforeEach(freshMap);
 
-describe('capturing a stamp from cells', () => {
+describe('S2 capturing a stamp from cells', { tags: ['standard'] }, () => {
   it('takes the selected cells with their turns and places them identically', () => {
     stampAt({ columns: 2, rows: 2, keys: [1, 2, 2, 1], bits: [2, 5, 0, 4] }, { x: 0, y: 0 });
     selectCells({ by: 'rect', rect: { x: 0, y: 0, width: 2, height: 2 } }, 'replace');
@@ -36,7 +36,7 @@ describe('capturing a stamp from cells', () => {
   });
 });
 
-describe('the cell clip on the system clipboard', () => {
+describe('K3 the cell clip on the system clipboard', { tags: ['critical'] }, () => {
   it('survives a round trip and refuses damaged data', () => {
     const clip = { stamp: { columns: 2, rows: 1, keys: [1, 2], bits: [0, 5] }, origin: { x: 3, y: 4 }, tilesetId: 'tls_x' as never };
     expect(decodeCellClip(encodeCellClip(clip))).toEqual(clip);

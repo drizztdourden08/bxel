@@ -11,7 +11,7 @@ import { rulerTicks } from '../../src/ruler/ruler-ticks';
 
 const positionsAt = (zoom: number): number[] => rulerTicks({ origin: -37.5, zoom, length: 400, count: 256 }).map((tick) => tick.at);
 
-describe('ruler steps', () => {
+describe('K1 ruler steps', { tags: ['critical'] }, () => {
   it('labels fewer pixels at low zoom and every pixel at high zoom', () => {
     expect([0.5, 1, 2, 4, 8, 16, 32, 64].map(labelStep)).toEqual([100, 50, 50, 20, 10, 5, 2, 1]);
   });
@@ -28,7 +28,7 @@ describe('ruler steps', () => {
   });
 });
 
-describe('ruler ticks', () => {
+describe('K1 ruler ticks', { tags: ['critical'] }, () => {
   const span = (origin: number, zoom: number, length: number, count: number): RulerSpan => ({ origin, zoom, length, count });
 
   it('places ticks from the origin with the label every 20 pixels at 4x', () => {
@@ -61,7 +61,7 @@ describe('ruler ticks', () => {
   });
 });
 
-describe('mirror axis snapping', () => {
+describe('K1 mirror axis snapping', { tags: ['critical'] }, () => {
   it('snaps to the half pixel in doubled integers', () => {
     expect(snapAxis(3.2, 16, false)).toBe(6);
     expect(snapAxis(3.3, 16, false)).toBe(7);
@@ -90,7 +90,7 @@ describe('mirror axis snapping', () => {
   });
 });
 
-describe('ruler handles', () => {
+describe('K1 ruler handles', { tags: ['critical'] }, () => {
   const view = { origin: 10, zoom: 4, length: 200, count: 16 };
 
   it('sits on the doubled coordinate', () => {

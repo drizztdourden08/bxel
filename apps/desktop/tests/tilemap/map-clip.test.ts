@@ -19,7 +19,7 @@ const block = (): void => {
   selectCells({ by: 'rect', rect: { x: 0, y: 0, width: 3, height: 2 } }, 'replace');
 };
 
-describe('copy, cut and paste of cells', () => {
+describe('S2 copy, cut and paste of cells', { tags: ['standard'] }, () => {
   it('copies 3 x 2 cells and pastes them elsewhere with their keys and turns, in one undo step', async () => {
     block();
     const before = cellsNow();
@@ -69,7 +69,7 @@ describe('copy, cut and paste of cells', () => {
   });
 });
 
-describe('moving cells', () => {
+describe('S2 moving cells', { tags: ['standard'] }, () => {
   it('moves the selected cells as one undo step and the selection follows', () => {
     block();
     const base = revision();

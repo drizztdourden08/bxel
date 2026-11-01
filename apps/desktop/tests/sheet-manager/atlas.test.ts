@@ -28,7 +28,7 @@ beforeEach(() => {
   styleSheet(sheet().id, { layout: 'grid', columns: 2 });
 });
 
-describe('the trim of the atlas preview', () => {
+describe('S2 the trim of the atlas preview', { tags: ['standard'] }, () => {
   it('finds the filled part of a sprite and keeps one pixel for a blank sprite', () => {
     const trimmed = model({ trim: true });
     expect(trimmed.items[0]?.source).toEqual({ x: 2, y: 3, width: 2, height: 1 });
@@ -51,7 +51,7 @@ describe('the trim of the atlas preview', () => {
   });
 });
 
-describe('the power of two size and the pages of the atlas preview', () => {
+describe('S2 the power of two size and the pages of the atlas preview', { tags: ['standard'] }, () => {
   it('rounds the size of a packed sheet and of a sheet made by hand', () => {
     styleSheet(sheet().id, { layout: 'packed', maxWidth: 48 });
     const loose = model();
@@ -73,7 +73,7 @@ describe('the power of two size and the pages of the atlas preview', () => {
   });
 });
 
-describe('opening the export for the sheet', () => {
+describe('S2 opening the export for the sheet', { tags: ['standard'] }, () => {
   it('turns the atlas settings into export settings for the sprites of the sheet', () => {
     const settings = atlasExportSettings(sheet(), { ...PLAIN_ATLAS, trim: true, powerOfTwo: true, pageSide: 64, extrude: 1 });
     expect(settings).toMatchObject({ sprites: 'sheet', sheetId: sheet().id, layout: 'grid', columns: 2, extrusion: 1, trim: true, powerOfTwo: true, pageSide: 64 });

@@ -29,7 +29,7 @@ const reference = (source: Overlay, rect: { x: number; y: number; width: number;
   return out;
 };
 
-describe('refreshRect', () => {
+describe('K1 refreshRect', { tags: ['critical'] }, () => {
   it('writes the palette colour of every index in the rectangle and nothing outside it', () => {
     const target = overlay();
     const rect = { x: 3, y: 2, width: 7, height: 4 };

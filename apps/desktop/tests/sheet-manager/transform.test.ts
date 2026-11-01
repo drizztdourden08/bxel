@@ -15,7 +15,7 @@ beforeEach(() => {
   patch('b', { x: 0, y: 0, width: 1, height: 1 }, 2);
 });
 
-describe('flipping and turning many sprites', () => {
+describe('S2 flipping and turning many sprites', { tags: ['standard'] }, () => {
   it('flips both sprites in one undo step', () => {
     const before = revision();
     expect(flipSprites(idsOf('a', 'b'), 'horizontal')).toBe(true);
@@ -33,7 +33,7 @@ describe('flipping and turning many sprites', () => {
   });
 });
 
-describe('the canvas size of many sprites', () => {
+describe('S2 the canvas size of many sprites', { tags: ['standard'] }, () => {
   it('counts the pixels a smaller canvas would cut off', () => {
     const sprites = [spriteOf('a'), spriteOf('b')];
     expect(resizeClips(sprites, { width: 4, height: 4, anchor: 'center' })).toBe(0);
@@ -59,7 +59,7 @@ describe('the canvas size of many sprites', () => {
   });
 });
 
-describe('trimming many sprites', () => {
+describe('S2 trimming many sprites', { tags: ['standard'] }, () => {
   it('crops each sprite to its pixels', () => {
     expect(trimSprites(idsOf('a', 'b'))).toBe(true);
     expect(spriteOf('a')).toMatchObject({ width: 2, height: 1 });

@@ -16,7 +16,7 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/pr
 
 const { held, project } = presetRig();
 
-describe('saving a preset into the open project', () => {
+describe('S2 saving a preset into the open project', { tags: ['standard'] }, () => {
   it('writes a preset for the current sprite into the sprite and saves it with the sprite file', async () => {
     const { documentId, paths } = await project();
     const sprite = artworkOf(documentId).sprites[0];
@@ -52,10 +52,9 @@ describe('saving a preset into the open project', () => {
     openSheetTab(documentId, sheet.id);
     expect(savePreset('Tab sheet', settingsOf({ kind: 'sheet', sheetId: '' }))).toEqual({ ok: true, where: `sheet ${sheet.name}` });
   });
-
 });
 
-describe('saving a project preset', () => {
+describe('S2 saving a project preset', { tags: ['standard'] }, () => {
   it('keeps a preset for several sprites in the project file', async () => {
     const { documentId } = await project();
     const saved = savePreset('Everything', settingsOf({ kind: 'sprite', sprites: 'all', scale: 4 }));

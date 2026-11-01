@@ -19,7 +19,7 @@ const withSheet = (artwork: Artwork, entries: Sheet['animationEntries']): Artwor
   return { ...artwork, sheets: [...artwork.sheets, sheet] };
 };
 
-describe('sheets that hold animation entries', () => {
+describe('K3 sheets that hold animation entries', { tags: ['standard'] }, () => {
   it('exports the whole animation and one tag of it', () => {
     const world = walkWorld();
     const artwork = artworkOf(world);

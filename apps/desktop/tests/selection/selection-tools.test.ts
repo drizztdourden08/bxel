@@ -19,7 +19,7 @@ import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { at, BLOCK, countOn, openRig } from './selection-harness';
 
-describe('selection commands', () => {
+describe('S2 selection commands', { tags: ['standard'] }, () => {
   it('expands and shrinks by the amount option', () => {
     const rig = openRig();
     rig.select(BLOCK);
@@ -84,7 +84,7 @@ describe('selection commands', () => {
   });
 });
 
-describe('paste special', () => {
+describe('S2 paste special', { tags: ['standard'] }, () => {
   it('as a new layer puts the paste on a layer of its own', () => {
     const rig = openRig();
     rig.paint(BLOCK, 4);
@@ -116,7 +116,7 @@ describe('paste special', () => {
   });
 });
 
-describe('continuous transform', () => {
+describe('S2 continuous transform', { tags: ['standard'] }, () => {
   it('Mod+T right after Apply takes the last transform back and reopens it without stacking resamples', () => {
     const rig = openRig();
     rig.paint({ x: 8, y: 8, width: 8, height: 4 }, 4);

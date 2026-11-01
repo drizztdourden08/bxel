@@ -14,7 +14,7 @@ const targets = (...names: string[]) => artwork().sprites.filter((sprite) => nam
 
 beforeEach(() => openFile(['a', 'b', 'c'], 8));
 
-describe('making an animation of sprites', () => {
+describe('S2 making an animation of sprites', { tags: ['standard'] }, () => {
   it('plans the size and the frames and says why an animation cannot be made', () => {
     const taken = ['walk'];
     expect(animatePlan(targets('a', 'b'), ANIMATE_START, taken)).toMatchObject({ width: 8, height: 8, frames: 2, mixed: false, name: 'a', blocker: null });
@@ -44,7 +44,7 @@ describe('making an animation of sprites', () => {
   });
 });
 
-describe('cutting a strip into an animation', () => {
+describe('S2 cutting a strip into an animation', { tags: ['standard'] }, () => {
   const strip = { ...CUT_STRIP_START, strip: { ...CUT_STRIP_START.strip, columns: 2, rows: 2 } };
 
   it('uses the cells of the strip as clips without copying pixels', async () => {
@@ -69,7 +69,7 @@ describe('cutting a strip into an animation', () => {
   });
 });
 
-describe('slicing a sprite into a grid', () => {
+describe('S2 slicing a sprite into a grid', { tags: ['standard'] }, () => {
   it('plans the grid, the names and the pixels left out, and reports a bad grid in words', () => {
     const [source] = targets('sprite');
     if (!source) throw new Error('no sprite');

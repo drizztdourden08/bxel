@@ -12,7 +12,7 @@ beforeEach(() => {
   freshAnimation();
 });
 
-describe('the clock guards', () => {
+describe('S2 the clock guards', { tags: ['standard'] }, () => {
   it('pauses at once when there is one frame', () => {
     useTimelineStore.getState().play();
     tickClock(5);
@@ -47,7 +47,7 @@ describe('the clock guards', () => {
   });
 });
 
-describe('the clock speed and drift', () => {
+describe('S2 the clock speed and drift', { tags: ['standard'] }, () => {
   it('toggles with one call and runs a speed multiplier', () => {
     withFrames(4);
     useTimelineStore.setState({ speed: 2, rewind: false });

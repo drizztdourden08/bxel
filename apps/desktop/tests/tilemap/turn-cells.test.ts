@@ -15,7 +15,7 @@ import { artworkNow, cellsNow, openMapFile, picture } from './map-harness';
 
 const KEYS = (flags: CellFlags): string => `${Number(flags.flipX)}${Number(flags.flipY)}${Number(flags.diagonal)}`;
 
-describe('composing turns', () => {
+describe('K1 composing turns', { tags: ['critical'] }, () => {
   it('returns to the start after two flips or four quarter turns', () => {
     for (const start of ALL_FLAGS) {
       expect(composeFlags(composeFlags(start, 'flipX'), 'flipX')).toEqual(start);
@@ -42,7 +42,7 @@ describe('composing turns', () => {
   });
 });
 
-describe('turning placed cells', () => {
+describe('S2 turning placed cells', { tags: ['standard'] }, () => {
   beforeEach(openMapFile);
 
   const place = (): void => {

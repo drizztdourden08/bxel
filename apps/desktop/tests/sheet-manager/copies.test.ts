@@ -23,7 +23,7 @@ const allNames = (): string[] => namesOf();
 
 beforeEach(() => openFile(['walk', 'idle', 'jump'], 8));
 
-describe('duplicating with a name pattern', () => {
+describe('S2 duplicating with a name pattern', { tags: ['standard'] }, () => {
   it('plans a free name for each copy and flags the ones that are taken', () => {
     const plan = planRenames(copySpec(), sprites('walk', 'idle'), allNames());
     expect(plan.entries.map((entry) => entry.to)).toEqual(['walk_01', 'idle_02']);
@@ -56,7 +56,7 @@ describe('duplicating with a name pattern', () => {
   });
 });
 
-describe('what a delete takes with it', () => {
+describe('S2 what a delete takes with it', { tags: ['standard'] }, () => {
   it('counts the sheets that hold a sprite and says so in words', () => {
     addToSheet(idsOf('walk', 'idle'), null);
     runDocument('Sheet', [{ name: COMMAND_NAME.sheetCreate, targets: null, options: { name: 'Second' } }]);
