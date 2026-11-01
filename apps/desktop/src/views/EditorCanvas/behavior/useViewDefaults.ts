@@ -10,12 +10,13 @@ const useViewDefaults = (): void => {
   const { settings } = useSettings<AppSettings>();
   const { gridPixel, gridMajor, gridTile, rulers } = settings;
   const guideColour = colourOr(settings.guideColor, CANVAS_DEFAULTS.guideColor);
+  const guideColourY = settings.guideColorSplit === true ? colourOr(settings.guideColorY, CANVAS_DEFAULTS.guideColorY) : guideColour;
   useEffect(() => {
     useViewStore.getState().setToggles({ grid: gridPixel, gridMajor, gridTile, rulers });
   }, [gridPixel, gridMajor, gridTile, rulers]);
   useEffect(() => {
-    useViewStore.getState().setGuideColour(guideColour);
-  }, [guideColour]);
+    useViewStore.getState().setGuideColour(guideColour, guideColourY);
+  }, [guideColour, guideColourY]);
 };
 
 export { useViewDefaults };

@@ -13,14 +13,18 @@ const paintGuides = (ctx: CanvasRenderingContext2D, view: PixelView): void => {
   const { x, y } = shownGuides(lines, drag);
   if (x.length + y.length === 0) return;
   ctx.save();
-  ctx.strokeStyle = useViewStore.getState().guideColour;
+  const { guideColour, guideColourY } = useViewStore.getState();
   ctx.globalAlpha = GUIDE_ALPHA;
   ctx.lineWidth = 1 / view.zoom;
+  ctx.strokeStyle = guideColour;
   ctx.beginPath();
   for (const at of x) {
     ctx.moveTo(at, 0);
     ctx.lineTo(at, view.imageHeight);
   }
+  ctx.stroke();
+  ctx.strokeStyle = guideColourY;
+  ctx.beginPath();
   for (const at of y) {
     ctx.moveTo(0, at);
     ctx.lineTo(view.imageWidth, at);

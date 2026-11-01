@@ -25,7 +25,7 @@ const useViewState = (params: ViewStateParams): ViewState => {
 
   const apply = (next: ViewTarget) => {
     const before = latest.current;
-    const nextZoom = clampZoom(levels, next.zoom);
+    const nextZoom = params.zoomLocked ? before.zoom : clampZoom(levels, next.zoom);
     const settled = { zoom: nextZoom, pan: clampPan(next.pan, nextZoom, image, box) };
     latest.current = settled;
     if (settled.zoom !== before.zoom) {
@@ -38,7 +38,9 @@ const useViewState = (params: ViewStateParams): ViewState => {
     }
   };
   const anchorOr = (anchor?: PixelPoint): PixelPoint => anchor ?? { x: box.width / 2, y: box.height / 2 };
-  const zoomTo = (next: number, anchor?: PixelPoint) => apply(zoomAt(latest.current, clampZoom(levels, next), anchorOr(anchor), box));
+  const zoomTo = (next: number, anchor?: PixelPoint) => {
+    if (!params.zoomLocked) apply(zoomAt(latest.current, clampZoom(levels, next), anchorOr(anchor), box));
+  };
 
   return {
     target,

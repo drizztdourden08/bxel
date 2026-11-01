@@ -10,18 +10,27 @@ const isoOffsets = (image: ImageSize, rise: number): number[] => {
   return offsets;
 };
 
+const isoShift = (slide: number, rise: number): number => ((slide % rise) + rise) % rise;
+
 const paintIsoGrid = (ctx: CanvasRenderingContext2D, placed: PlacedImage, image: ImageSize, line: GridLine): void => {
   const cell = Math.max(2, line.every);
-  const offsets = isoOffsets(image, cell / 2);
+  const rise = cell / 2;
+  const across = (line.offsetX ?? 0) / 2;
+  const down = line.offsetY ?? 0;
+  const base = isoOffsets(image, rise);
+  const falling = base.map((offset) => offset + isoShift(down - across, rise));
+  const rising = base.map((offset) => offset + isoShift(down + across, rise));
   const scale = placed.scale;
   ctx.save();
   ctx.beginPath();
   ctx.rect(placed.x, placed.y, placed.width, placed.height);
   ctx.clip();
   ctx.beginPath();
-  offsets.forEach((offset) => {
+  falling.forEach((offset) => {
     ctx.moveTo(placed.x, placed.y + offset * scale);
     ctx.lineTo(placed.x + image.width * scale, placed.y + (offset + image.width / 2) * scale);
+  });
+  rising.forEach((offset) => {
     ctx.moveTo(placed.x, placed.y + offset * scale);
     ctx.lineTo(placed.x + image.width * scale, placed.y + (offset - image.width / 2) * scale);
   });

@@ -42,6 +42,8 @@ const viewMenu = (state: EditorMenuState): MenuItem => {
       item(COMMAND_ID.mirrorView, 'Mirror view', state.mirror),
       item(COMMAND_ID.loupe, 'Loupe', state.loupe),
       item(COMMAND_ID.splitView, 'Split view', state.split),
+      item(COMMAND_ID.splitLink, 'Link views', state.splitLink),
+      item(COMMAND_ID.splitActual, 'Actual size in second view', state.splitActual),
       item(COMMAND_ID.fullscreenPreview, 'Fullscreen preview', state.fullscreen),
       group(state, 'menu.view.symmetry', { key: 'view-symmetry', label: MENU_TEXT.symmetry }, [
         item(COMMAND_ID.symmetryX, MENU_TEXT.mirrorX, state.symmetryX),

@@ -28,6 +28,7 @@ interface ViewStateParams {
   levels: readonly number[];
   zoom?: number;
   pan?: PixelPoint;
+  zoomLocked?: boolean;
   onZoomChange?: (zoom: number) => void;
   onPanChange?: (pan: PixelPoint) => void;
 }
@@ -104,6 +105,7 @@ interface GridAxis {
   every: number;
   count: number;
   room: number;
+  offset?: number;
 }
 
 interface PanDrag {

@@ -89,6 +89,16 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
     description: 'Show a second view of the same art beside the first, at its own zoom.',
     shortcuts: [{ command: COMMAND_ID.splitView }],
   },
+  splitLink: {
+    name: 'Link views',
+    description: 'Pan and zoom both split views together.',
+    shortcuts: [{ command: COMMAND_ID.splitLink }],
+  },
+  splitActual: {
+    name: 'Actual size in second view',
+    description: 'Keep the second split view at actual size while the first one zooms.',
+    shortcuts: [{ command: COMMAND_ID.splitActual }],
+  },
   lockGuides: {
     name: 'Lock guides',
     description: 'Keep the guides where they are so a drag cannot move or remove them.',
@@ -112,6 +122,8 @@ const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
   loupe: 'search',
   fullscreen: 'maximize-2',
   split: 'columns-3',
+  splitLink: 'link',
+  splitActual: 'zoom-in',
   lockGuides: 'lock',
 };
 

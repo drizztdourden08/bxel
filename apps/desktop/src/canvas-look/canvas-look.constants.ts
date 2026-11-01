@@ -31,7 +31,11 @@ const CANVAS_DEFAULTS: CanvasSettings = {
   gridTileSize: 16,
   gridTileColor: '#d8d8e0',
   gridTileOpacity: 0.45,
+  gridOffsetX: 0,
+  gridOffsetY: 0,
   guideColor: '#ff4d6a',
+  guideColorSplit: false,
+  guideColorY: '#4da3ff',
   rulers: true,
   rulerUnit: 'pixels',
 };
@@ -65,12 +69,13 @@ const CHECKER_PRESET_LABELS: Readonly<Record<CheckerPreset, string>> = {
   custom: 'Custom',
 };
 
-const RANGES: Readonly<Record<'checkerSize' | 'surroundScale' | 'major' | 'tile' | 'opacity', NumberRange>> = {
+const RANGES: Readonly<Record<'checkerSize' | 'surroundScale' | 'major' | 'tile' | 'opacity' | 'offset', NumberRange>> = {
   checkerSize: { min: 1, max: 64 },
   surroundScale: { min: 1, max: 8 },
   major: { min: 2, max: 256 },
   tile: { min: 2, max: 1024 },
   opacity: { min: 0, max: 1 },
+  offset: { min: -256, max: 256 },
 };
 
 const COLOUR_PATTERN = /^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;

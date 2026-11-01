@@ -100,6 +100,8 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       mirror: z.boolean().optional().describe('Flip the display left to right. The pixels never change.'),
       loupe: z.boolean().optional().describe('Show the round magnifier beside the pointer.'),
       split: z.boolean().optional().describe('Show a second view of the same art.'),
+      splitLink: z.boolean().optional().describe('Pan and zoom both split views together.'),
+      splitActual: z.boolean().optional().describe('Keep the second split view at actual size.'),
       fullscreen: z.boolean().optional().describe('Show the art at a whole number scale on the background.'),
       lockGuides: z.boolean().optional(),
       tiled: z.enum(TILED_VALUES).optional(),

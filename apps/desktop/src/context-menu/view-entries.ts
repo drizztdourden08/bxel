@@ -23,6 +23,8 @@ const viewEntries = (parts: ViewParts): ContextMenuEntry => ({
     COMMAND_ID.hideOverlays,
     { command: COMMAND_ID.mirrorView, hidden: !parts.tiled },
     { command: COMMAND_ID.splitView, hidden: !parts.tiled },
+    { command: COMMAND_ID.splitLink, hidden: !parts.tiled },
+    { command: COMMAND_ID.splitActual, hidden: !parts.tiled },
     { command: COMMAND_ID.loupe, hidden: !parts.tiled },
     { command: COMMAND_ID.fullscreenPreview, hidden: !parts.tiled },
     {

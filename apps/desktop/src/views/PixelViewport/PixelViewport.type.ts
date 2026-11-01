@@ -62,6 +62,7 @@ interface PixelViewportProps {
   zoom?: number;
   onZoomChange?: (zoom: number) => void;
   pan?: PixelPoint;
+  zoomLocked?: boolean;
   onPanChange?: (pan: PixelPoint) => void;
   zoomSteps?: readonly number[];
   grid?: boolean;

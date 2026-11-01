@@ -25,6 +25,8 @@ const useViewItems = (): ToolbarItem[] => {
     loupe: useHintKeys(VIEW_HINTS.loupe),
     fullscreen: useHintKeys(VIEW_HINTS.fullscreen),
     split: useHintKeys(VIEW_HINTS.split),
+    splitLink: useHintKeys(VIEW_HINTS.splitLink),
+    splitActual: useHintKeys(VIEW_HINTS.splitActual),
     lockGuides: useHintKeys(VIEW_HINTS.lockGuides),
   };
   const toggles = VIEW_TOGGLES.map((toggle) =>

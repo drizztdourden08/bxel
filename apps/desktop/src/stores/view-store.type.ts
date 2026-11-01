@@ -3,7 +3,7 @@ import type { PixelViewportHandle } from '../views/PixelViewport';
 
 type TileMode = 'off' | 'x' | 'y' | 'both';
 
-type ViewToggle = 'grid' | 'gridMajor' | 'gridTile' | 'gridIso' | 'guides' | 'rulers' | 'snap' | 'slices' | 'hideOverlays' | 'mirror' | 'loupe' | 'fullscreen' | 'split' | 'lockGuides';
+type ViewToggle = 'grid' | 'gridMajor' | 'gridTile' | 'gridIso' | 'guides' | 'rulers' | 'snap' | 'slices' | 'hideOverlays' | 'mirror' | 'loupe' | 'fullscreen' | 'split' | 'splitLink' | 'splitActual' | 'lockGuides';
 
 interface ViewToggles {
   grid: boolean;
@@ -19,6 +19,8 @@ interface ViewToggles {
   loupe: boolean;
   fullscreen: boolean;
   split: boolean;
+  splitLink: boolean;
+  splitActual: boolean;
   lockGuides: boolean;
 }
 
@@ -32,6 +34,7 @@ interface ViewToggleRow {
 interface ViewSettings extends ViewToggles {
   tiled: TileMode;
   guideColour: string;
+  guideColourY: string;
   viewport: PixelViewportHandle | null;
 }
 
@@ -39,7 +42,7 @@ interface ViewState extends ViewSettings {
   toggleView: (toggle: ViewToggle) => void;
   setToggles: (toggles: Partial<ViewToggles>) => void;
   setTiled: (tiled: TileMode) => void;
-  setGuideColour: (colour: string) => void;
+  setGuideColour: (colour: string, colourY?: string) => void;
   setViewport: (viewport: PixelViewportHandle | null) => void;
 }
 

@@ -43,6 +43,8 @@ const COMMAND_ID = {
   loupe: 'view.toggle_loupe',
   fullscreenPreview: 'view.fullscreen_preview',
   splitView: 'view.toggle_split',
+  splitLink: 'view.toggle_split_link',
+  splitActual: 'view.toggle_split_actual',
   lockGuides: 'view.lock_guides',
   describeCanvas: 'view.describe_canvas',
   readRow: 'view.read_row',
