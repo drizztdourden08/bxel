@@ -7,6 +7,7 @@ import { surfaceOfContext } from '../../../editor/tool-catalogue/surface-of-cont
 import { useKeysOf } from '../../../hooks/useKeysOf';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
+import { useProjectStore } from '../../../stores/useProjectStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { evaluate } from '../../../ui-context/evaluate';
@@ -44,6 +45,7 @@ const useOptionsItems = (): ToolbarItem[] => {
   const tool = useToolStore((state) => state.tool);
   useSelectionStore((state) => state.variant);
   useToolPresetStore((state) => state.user);
+  useProjectStore((state) => state.project?.manifest.toolPresets);
   useOptionsVersion();
   useToolPrefsStore((state) => state.optionTiers);
   const keysOf = useKeysOf();

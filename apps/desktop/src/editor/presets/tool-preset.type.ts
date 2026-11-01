@@ -7,6 +7,7 @@ interface ToolPreset {
   member: string;
   fields: OptionValues;
   builtin?: boolean;
+  project?: boolean;
 }
 
 interface PresetDraft {
@@ -14,6 +15,7 @@ interface PresetDraft {
   name: string;
   ticked: readonly string[];
   replaces?: string;
+  inProject?: boolean;
 }
 
 export type { PresetDraft, ToolPreset };

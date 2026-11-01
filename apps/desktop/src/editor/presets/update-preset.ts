@@ -3,6 +3,6 @@ import { saveDraft } from './save-draft';
 import type { ToolPreset } from './tool-preset.type';
 
 const updatePreset = (preset: ToolPreset): boolean =>
-  saveDraft({ member: preset.member, name: preset.name, ticked: Object.keys(preset.fields), replaces: preset.id }) !== null;
+  saveDraft({ member: preset.member, name: preset.name, ticked: Object.keys(preset.fields), replaces: preset.id, inProject: preset.project === true }) !== null;
 
 export { updatePreset };

@@ -8,6 +8,7 @@ import { shownMember } from '../../../editor/tool-catalogue/shown-member';
 import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
 import { resetTool } from '../../../editor/tool-options/reset-tool';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
+import { useProjectStore } from '../../../stores/useProjectStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { BrushPreview } from '../../OptionControls';
@@ -18,6 +19,7 @@ const ToolHead = ({ slot, editable }: { slot: ToolSlot; editable: boolean }) => 
   const tip = useToolStore((state) => state.brushShape);
   const variant = useSelectionStore((state) => state.variant);
   const user = useToolPresetStore((state) => state.user);
+  useProjectStore((state) => state.project?.manifest.toolPresets);
   const member = shownMember(slot, { variant });
   const matched = matchingPreset(presetsOfTool(allPresets(user), slot.tool), member.id);
   return (

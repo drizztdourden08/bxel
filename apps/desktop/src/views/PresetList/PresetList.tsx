@@ -6,6 +6,7 @@ import { openSaveDraft } from '../../editor/presets/open-save-draft';
 import { presetsOfTool } from '../../editor/presets/presets-of-tool';
 import { quickPresets } from '../../editor/presets/quick-presets';
 import { activeMember } from '../../editor/tool-pick/active-member';
+import { useProjectStore } from '../../stores/useProjectStore';
 import { useToolPresetStore } from '../../stores/useToolPresetStore';
 import { useOptionsVersion } from '../OptionControls';
 import { PRESET_TEXT } from './PresetList.constants';
@@ -15,6 +16,7 @@ import './PresetList.css';
 
 const PresetList = ({ tool }: PresetListProps) => {
   const user = useToolPresetStore((state) => state.user);
+  useProjectStore((state) => state.project?.manifest.toolPresets);
   useOptionsVersion();
   const presets = presetsOfTool(allPresets(user), tool);
   const member = activeMember();

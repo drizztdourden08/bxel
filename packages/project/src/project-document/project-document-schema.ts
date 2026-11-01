@@ -12,7 +12,8 @@ import { documentFolderSchema } from './document-folder-schema';
 import { exportSchema } from './export-schema';
 import { locationPathSchema } from './location-path-schema';
 import { organiseSchema } from './organise-schema';
-import { PROJECT_DOCUMENT_VERSION, PROJECT_ORGANISE_VERSION } from './project-document.constants';
+import { PROJECT_DOCUMENT_VERSION, PROJECT_ORGANISE_VERSION, TOOL_PRESET_LIMITS } from './project-document.constants';
+import { toolPresetSchema } from './tool-preset-schema';
 
 const projectNameSchema = z
   .string()
@@ -31,6 +32,7 @@ const projectDocumentSchema = z
     export: exportSchema.optional(),
     organise: organiseSchema.optional(),
     brushes: z.array(customBrushSchema).max(MAX_BRUSHES).optional(),
+    toolPresets: z.array(toolPresetSchema).max(TOOL_PRESET_LIMITS.presetsMax).optional(),
     assistant: z.strictObject({
       access: z.enum(ACCESS_LEVELS),
       folders: z.array(folderIdSchema).optional(),
