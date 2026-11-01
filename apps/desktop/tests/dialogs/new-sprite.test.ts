@@ -14,7 +14,6 @@ import { newSummary } from '../../src/new-sprite/new-summary';
 import { patchForm } from '../../src/new-sprite/patch-form';
 import { limitError } from '../../src/palette-limit/limit-error';
 import { usageLine } from '../../src/palette-limit/usage-line';
-import { useCreateDialogStore } from '../../src/stores/useCreateDialogStore';
 import { hostWithFile, newHost, revisionOf, sprites } from './dialog-harness';
 
 const blank = (): CreationForm => initialForm(NEW_MEMORY_DEFAULT, []);

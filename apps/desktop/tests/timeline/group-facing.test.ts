@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { TIMELINE_FRAME_COMMANDS } from '../../src/keymap/timeline-frame-commands.constants';
 import { addTag } from '../../src/timeline/add-tag';
 import { tagLanes } from '../../src/timeline/tag-lanes';
 import { animationOf, freshAnimation, pickRange, run, withFrames } from './timeline-harness';
@@ -30,12 +29,6 @@ const eightWays = (): void => {
     { name: COMMAND_NAME.animationTagUpdate, targets: null, options: { animation, tag: { by: 'id', id: north?.id }, facing: 'n' } },
     { name: COMMAND_NAME.animationTagAdd, targets: null, options: { animation, kind: 'mirror', of: { by: 'id', id: east?.id }, flip: 'x', facing: 'w' } },
   ]);
-};
-
-const command = (id: string) => {
-  const found = TIMELINE_FRAME_COMMANDS.find((each) => each.id === id);
-  if (!found) throw new Error(`no command ${id}`);
-  return found;
 };
 
 describe('S2 the tag lanes grouped by facing', { tags: ['standard'] }, () => {

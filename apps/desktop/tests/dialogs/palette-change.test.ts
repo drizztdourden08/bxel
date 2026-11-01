@@ -8,7 +8,6 @@ import { framesText } from '../../src/palette-change/frames-text';
 import type { ChangeRequest } from '../../src/palette-change/palette-change.type';
 import { proposeChange } from '../../src/palette-change/propose-change';
 import { runChange } from '../../src/palette-change/run-change';
-import { useChangeStore } from '../../src/stores/useChangeStore';
 import { runSteps } from '../../src/transactions/run-steps';
 import { hostWithFile, revisionOf, sprites } from './dialog-harness';
 

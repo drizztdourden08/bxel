@@ -1,10 +1,7 @@
 /* @layer renderer-app @kind test */
 import { createElement } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { HeldRow } from '../../src/views/PalettePanel/sub-components/HeldRow';
-import { RampsView } from '../../src/views/PalettePanel/sub-components/RampsView';
 import { SwatchGrid } from '../../src/views/PalettePanel/sub-components/SwatchGrid';
-import { SwatchList } from '../../src/views/PalettePanel/sub-components/SwatchList';
 import { render } from './hint-harness';
 import { fakePanel } from './palette-panel-harness';
 

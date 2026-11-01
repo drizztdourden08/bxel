@@ -12,7 +12,6 @@ import { runImport } from '../../src/image-import/run-import';
 import { sliceRects } from '../../src/image-import/slice-rects';
 import { slicingLine } from '../../src/image-import/slicing-line';
 import { stepIssue } from '../../src/image-import/step-issue';
-import { useImportStore } from '../../src/stores/useImportStore';
 import { hostWithFile, newHost, revisionOf, sourceImage, sprites } from './dialog-harness';
 import { formFor, NONE, runOf } from './import-run-harness';
 
