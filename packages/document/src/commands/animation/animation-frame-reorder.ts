@@ -6,7 +6,7 @@ import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
 import { ERROR_CODE } from '../error-code.constants';
 import { fail } from '../fail';
-import { pickAnimFrame } from './pick-anim-frame';
+import { pickAnimFrames } from './pick-anim-frames';
 import { pickAnimation } from './pick-animation';
 
 const animationFrameReorder = defineCommand({
@@ -16,16 +16,15 @@ const animationFrameReorder = defineCommand({
   run: (draft, input) => {
     const { to } = input.options;
     const animation = pickAnimation(draft, input.options.animation);
-    const { frame, index } = pickAnimFrame(animation, input.options.frame, 'options.frame');
-    if (to >= animation.frames.length) {
+    const block = pickAnimFrames(animation, input.options);
+    if (to + block.length > animation.frames.length) {
       throw fail(ERROR_CODE.INDEX_OUT_OF_RANGE, 'The position is at or above the number of frames.', { path: 'options.to' });
     }
-    if (index === to) return;
-    updateAnimation(draft, animation.id, (current) => {
-      const rest = current.frames.filter((item) => item.id !== frame.id);
-      const frames = [...rest.slice(0, to), frame, ...rest.slice(to)];
-      return { ...current, frames, tags: orderAnimTags(current.tags, frames) };
-    });
+    const moving = new Set(block.map((frame) => frame.id));
+    const rest = animation.frames.filter((item) => !moving.has(item.id));
+    const frames = [...rest.slice(0, to), ...block, ...rest.slice(to)];
+    if (frames.every((frame, index) => frame.id === animation.frames[index]?.id)) return;
+    updateAnimation(draft, animation.id, (current) => ({ ...current, frames, tags: orderAnimTags(current.tags, frames) }));
   },
 });
 

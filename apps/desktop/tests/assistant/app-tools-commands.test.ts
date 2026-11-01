@@ -20,7 +20,7 @@ describe('list_commands', () => {
       { id: 'timeline.add_frame', label: 'Add a frame', enabled: false, reason: 'No animation is open.' },
       { id: 'transform.rotate', label: 'Rotate...' },
     ];
-    const listed = (await ok('list_commands', { includeDisabled: true })).commands as Record<string, unknown>[];
+    const listed = (await ok('list_commands', { includeDisabled: true, includeHidden: true })).commands as Record<string, unknown>[];
     const row = (id: string) => listed.find((each) => each.id === id);
     expect(row('view.zoom_in')).toMatchObject({ area: 'app_control', effect: 'show', chord: 'Mod+K', enabled: true, reason: null, opensDialog: false });
     expect(row('timeline.add_frame')).toMatchObject({ area: 'animation', effect: 'edit', enabled: false, reason: 'No animation is open.' });
@@ -33,7 +33,7 @@ describe('list_commands', () => {
       { id: 'view.zoom_in', label: 'Zoom in' },
       { id: 'timeline.add_frame', label: 'Add a frame', enabled: false },
     ];
-    expect(((await ok('list_commands', { area: 'animation', includeDisabled: true })).commands as unknown[]).length).toBe(1);
+    expect(((await ok('list_commands', { area: 'animation', includeDisabled: true, includeHidden: true })).commands as unknown[]).length).toBe(1);
     expect(((await ok('list_commands', { query: 'zoom', includeDisabled: true })).commands as unknown[]).length).toBe(1);
     expect(((await ok('list_commands', { includeDisabled: false })).commands as unknown[]).length).toBe(1);
   });
@@ -49,6 +49,32 @@ describe('list_commands', () => {
   });
 });
 
+describe('list_commands state and context', () => {
+  it('marks a command that does not apply to what is open as hidden, with the kinds it works on', async () => {
+    fake.commands = [
+      { id: 'view.zoom_in', label: 'Zoom in' },
+      { id: 'timeline.add_frame', label: 'Add a frame' },
+      { id: 'layer.add', label: 'New layer', enabled: false, reason: 'The sprite is locked.' },
+    ];
+    openDocument();
+    const shown = (await ok('list_commands', { includeDisabled: true })).commands as { id: string }[];
+    expect(shown.map((each) => each.id)).not.toContain('timeline.add_frame');
+    const listed = (await ok('list_commands', { includeDisabled: true, includeHidden: true })).commands as Record<string, unknown>[];
+    const row = (id: string) => listed.find((each) => each.id === id);
+    expect(row('view.zoom_in')).toMatchObject({ state: 'shown', only: null });
+    expect(row('layer.add')).toMatchObject({ state: 'disabled', enabled: false, reason: 'The sprite is locked.' });
+    expect(row('timeline.add_frame')).toMatchObject({ state: 'hidden' });
+    expect(typeof row('timeline.add_frame')?.only).toBe('string');
+  });
+
+  it('refuses a command outside its context with NOT_IN_CONTEXT before it parses the args', async () => {
+    fake.commands = [{ id: 'timeline.add_frame', label: 'Add a frame' }];
+    openDocument();
+    expect(await code('run_command', { id: 'timeline.add_frame', args: { nope: 1 }, show: false })).toBe('NOT_IN_CONTEXT');
+    expect(fake.commands[0]?.ran).toBeUndefined();
+  });
+});
+
 describe('run_command', () => {
   it('runs a command with the assistant trigger and says it in the status line', async () => {
     fake.commands = [{ id: 'view.zoom_in', label: 'Zoom in' }];
@@ -60,12 +86,13 @@ describe('run_command', () => {
 
   it('refuses an unknown id, a disabled command, undo and bad args', async () => {
     fake.commands = [
-      { id: 'timeline.add_frame', label: 'Add a frame', enabled: false, reason: 'No animation is open.' },
+      { id: 'layer.add', label: 'New layer', enabled: false, reason: 'The sprite is locked.' },
       { id: 'history.undo', label: 'Undo' },
       { id: 'layer.toggle_visible', label: 'Show or hide layer' },
     ];
+    openDocument();
     expect(await code('run_command', { id: 'nope', show: false })).toBe('COMMAND_UNKNOWN');
-    expect(await code('run_command', { id: 'timeline.add_frame', show: false })).toBe('COMMAND_OFF');
+    expect(await code('run_command', { id: 'layer.add', show: false })).toBe('COMMAND_OFF');
     expect(await code('run_command', { id: 'history.undo', show: false })).toBe('COMMAND_REFUSED');
     expect(await code('run_command', { id: 'layer.toggle_visible', args: { nope: 1 }, show: false })).toBe('COMMAND_ARGS');
     expect(fake.commands.every((command) => command.ran === undefined)).toBe(true);

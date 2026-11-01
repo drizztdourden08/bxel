@@ -49,6 +49,12 @@ const MCP_ROUTE = {
   trashFiles: 'bxel:mcp:trash_files',
   duplicateFile: 'bxel:mcp:duplicate_file',
   importFiles: 'bxel:mcp:import_files',
+  listTools: 'bxel:mcp:list_tools',
+  listPresets: 'bxel:mcp:list_presets',
+  applyPreset: 'bxel:mcp:apply_preset',
+  savePreset: 'bxel:mcp:save_preset',
+  updatePreset: 'bxel:mcp:update_preset',
+  deletePreset: 'bxel:mcp:delete_preset',
 } as const;
 
 const MCP_EVENT = {
@@ -99,6 +105,12 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   trash_files: MCP_ROUTE.trashFiles,
   duplicate_file: MCP_ROUTE.duplicateFile,
   import_files: MCP_ROUTE.importFiles,
+  list_tools: MCP_ROUTE.listTools,
+  list_presets: MCP_ROUTE.listPresets,
+  apply_preset: MCP_ROUTE.applyPreset,
+  save_preset: MCP_ROUTE.savePreset,
+  update_preset: MCP_ROUTE.updatePreset,
+  delete_preset: MCP_ROUTE.deletePreset,
 };
 
 const MCP_ASK = {

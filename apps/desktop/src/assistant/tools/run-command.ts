@@ -8,6 +8,7 @@ import { activeRevision } from './active-revision';
 import { APP_TOOL_TEXT } from './app-tool.constants';
 import type { RunCommandInput } from './app-tool-input.type';
 import { commandFail } from './command-fail';
+import { commandState } from './command-state';
 import { executeCommand } from './execute-command';
 import { guardCommand } from './guard-command';
 import { offReason } from './off-reason';
@@ -24,6 +25,8 @@ const runCommand: ToolHandler = async (raw, context) => {
   if (entry.refuse !== null) return commandFail(MCP_ERROR_CODE.COMMAND_REFUSED, entry.refuse);
   const blocked = guardCommand(context, input, entry);
   if (blocked) return blocked;
+  const ruled = commandState(def.id, true);
+  if (ruled.state === 'hidden') return commandFail(MCP_ERROR_CODE.NOT_IN_CONTEXT, APP_TOOL_TEXT.notInContext(def.id, ruled.only));
   const parsed = parseCommandArgs(def.id, entry, input.args);
   if ('failure' in parsed) return parsed.failure;
   const state = commands.describe(def.id);

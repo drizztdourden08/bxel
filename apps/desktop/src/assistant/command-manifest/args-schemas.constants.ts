@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind constants */
+import { BANK_FIELDS, FOLDER_FIELDS, RENAME_FIELDS, SLICE_FIELDS, STRIP_FIELDS } from '@bxel/mcp';
 import { z } from 'zod';
 
 const index = z.number().int().min(0).max(255);
@@ -47,6 +48,12 @@ const ARGS_KINDS = {
   optionValue: z.strictObject({ value: optionValue.optional() }),
   optionTarget: z.strictObject({ tool: z.string().min(1).optional(), option: z.string().min(1).describe('An option id from list_commands or the option model, such as fill.area.').optional(), value: optionValue.optional() }),
   preset: z.strictObject({ id: z.string().min(1).describe('A preset id, such as builtin.pencil-2.') }),
+  renameMany: z.strictObject(RENAME_FIELDS),
+  duplicateNamed: z.strictObject(RENAME_FIELDS),
+  moveToFolder: z.strictObject(FOLDER_FIELDS),
+  setPalette: z.strictObject(BANK_FIELDS),
+  spriteSlice: z.strictObject(SLICE_FIELDS),
+  cutStrip: z.strictObject(STRIP_FIELDS),
   colourLimit: z.strictObject({ cap: z.number().int().min(2).max(256) }),
 } as const;
 

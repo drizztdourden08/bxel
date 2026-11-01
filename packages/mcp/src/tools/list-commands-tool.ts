@@ -13,6 +13,7 @@ const listCommandsTool = defineTool(TOOL_NAME.listCommands, {
     area: z.string().min(1).max(64).optional().describe('Only the commands of one bundle, such as edit_pixels, animation or app_control.'),
     query: z.string().min(1).max(100).optional().describe('Only commands whose id or label contains this text.'),
     includeDisabled: z.boolean().default(true),
+    includeHidden: z.boolean().default(false).describe('Also list the commands that do not apply to what is open (a pencil command on a palette). Each carries only, the file kinds it works on.'),
   }),
   output: withFailure({ commands: z.array(COMMAND_ROW_SCHEMA), total: z.number().int().min(0) }),
 });

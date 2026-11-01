@@ -13,6 +13,8 @@ import { getHistoryTool } from './get-history-tool';
 import { getViewTool } from './get-view-tool';
 import { getSessionTool } from './get-session-tool';
 import { importFilesTool } from './import-files-tool';
+import { listToolsTool } from './list-tools-tool';
+import { applyPresetTool, deletePresetTool, listPresetsTool, savePresetTool, updatePresetTool } from './preset-tools';
 import { listAssetsTool } from './list-assets-tool';
 import { listDocumentsTool } from './list-documents-tool';
 import { getSettingsTool } from './get-settings-tool';
@@ -91,6 +93,12 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   trashFilesTool,
   duplicateFileTool,
   importFilesTool,
+  listToolsTool,
+  listPresetsTool,
+  applyPresetTool,
+  savePresetTool,
+  updatePresetTool,
+  deletePresetTool,
 ];
 
 export { buildTools };

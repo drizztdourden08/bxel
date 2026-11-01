@@ -14,6 +14,7 @@ const RETRY_TABLE: readonly (readonly [Retry, readonly string[]])[] = [
       MCP_ERROR_CODE.FILE_NOT_FOUND,
       MCP_ERROR_CODE.FOLDER_NOT_FOUND,
       MCP_ERROR_CODE.COMMAND_OFF,
+      MCP_ERROR_CODE.NOT_IN_CONTEXT,
     ],
   ],
   [
@@ -59,6 +60,7 @@ const RETRY_TABLE: readonly (readonly [Retry, readonly string[]])[] = [
     'later',
     [
       MCP_ERROR_CODE.DOCUMENT_BUSY,
+      MCP_ERROR_CODE.TOOL_BUSY,
       MCP_ERROR_CODE.START_FAILED,
       MCP_ERROR_CODE.SESSION_UNKNOWN,
       MCP_ERROR_CODE.APP_BUSY,

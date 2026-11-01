@@ -5,6 +5,7 @@ import { useProjectStore } from '../../stores/useProjectStore';
 import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 import { activateTab } from '../../workspace/activate-tab';
 import { APP_TOOL_TEXT } from './app-tool.constants';
+import { openFileTab } from './open-file-tab';
 import { reply } from './reply';
 import type { SettingScope } from './settings-scope.type';
 
@@ -14,8 +15,10 @@ const settingsTarget = (scope: SettingScope, target: string | undefined): ToolRe
     const id = useProjectStore.getState().project?.manifest.projectId;
     return id === target ? null : reply(mcpFailure(MCP_ERROR_CODE.SETTING_INVALID, APP_TOOL_TEXT.noProject, { path: 'target' }));
   }
-  if (!useWorkspaceStore.getState().tabs.some((tab) => tab.id === target)) return reply(mcpFailure(MCP_ERROR_CODE.SETTING_INVALID, APP_TOOL_TEXT.noTab, { path: 'target' }));
-  activateTab(target);
+  const byId = useWorkspaceStore.getState().tabs.find((tab) => tab.id === target);
+  const tab = byId ?? openFileTab(target);
+  if (tab === null || tab === undefined) return reply(mcpFailure(MCP_ERROR_CODE.SETTING_INVALID, APP_TOOL_TEXT.noTab, { path: 'target' }));
+  activateTab(tab.id);
   return null;
 };
 

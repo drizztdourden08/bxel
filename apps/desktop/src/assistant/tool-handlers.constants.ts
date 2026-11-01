@@ -41,6 +41,12 @@ import { projectHealth } from './tools/project-health';
 import { renameFile } from './tools/rename-file';
 import { repairLinks } from './tools/repair-links';
 import { trashFiles } from './tools/trash-files';
+import { applyToolPreset } from './tools/apply-tool-preset';
+import { deleteToolPreset } from './tools/delete-tool-preset';
+import { listPresets } from './tools/list-presets';
+import { listTools } from './tools/list-tools';
+import { saveToolPreset } from './tools/save-tool-preset';
+import { updateToolPreset } from './tools/update-tool-preset';
 
 
 const RAW_HANDLERS: ToolHandlers = {
@@ -84,6 +90,12 @@ const RAW_HANDLERS: ToolHandlers = {
   trash_files: trashFiles,
   duplicate_file: duplicateFile,
   import_files: importFiles,
+  list_tools: listTools,
+  list_presets: listPresets,
+  apply_preset: applyToolPreset,
+  save_preset: saveToolPreset,
+  update_preset: updateToolPreset,
+  delete_preset: deleteToolPreset,
 };
 
 const TOOL_HANDLERS: ToolHandlers = guardHandlers(RAW_HANDLERS);

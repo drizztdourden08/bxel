@@ -3,7 +3,10 @@ import { z } from 'zod';
 import { ANIM_FRAME_ID_SCHEMA, DOCUMENT_ID_SCHEMA, LAYER_ID_SCHEMA, MAP_LAYER_ID_SCHEMA, SPRITE_ID_SCHEMA, TAG_ID_SCHEMA } from './ids.constants';
 import { CELL_MASK_SCHEMA } from './cell-mask.constants';
 import { CELL_RECT_SCHEMA } from './cell-rect.constants';
+import { BROWSE_INPUT_SCHEMA, PROJECT_PANEL_INPUT_SCHEMA, PROPERTIES_INPUT_SCHEMA, TILESET_INPUT_SCHEMA } from './project-view.constants';
+import { LOCATION_SCHEMA } from './place.constants';
 import { TIMELINE_INPUT_SCHEMA } from './timeline-view.constants';
+import { OPTION_VALUES_SCHEMA } from './tool-options.constants';
 
 const COORDINATE_SCHEMA = z.number().int().min(-100000).max(100000);
 
@@ -19,10 +22,9 @@ const RUN_SCHEMA = z.array(COORDINATE_SCHEMA).length(3).describe('One run of sel
 const RUNS_SCHEMA = z.array(RUN_SCHEMA).max(20000).meta({ id: 'Runs', description: 'A mask as row runs [[y, x0, x1], ...], never raw bits.' });
 
 const TOOL_ID_VALUES = [
-  'pencil', 'eraser', 'spray', 'fill', 'gradient', 'picker', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon', 'zoom', 'hand', 'select', 'move',
+  'pencil', 'eraser', 'spray', 'fill', 'gradient', 'picker', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon', 'zoom', 'hand', 'select', 'move', 'shade', 'slice',
 ] as const;
 
-const INK_VALUES = ['normal', 'behind', 'lockAlpha', 'onlyColour', 'dither', 'shade', 'lighten', 'darken', 'pattern'] as const;
 
 const TILED_VALUES = ['off', 'x', 'y', 'both'] as const;
 
@@ -65,6 +67,11 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       raise: z.boolean().default(false).describe('Also bring the window to the front.'),
     })
     .optional(),
+  properties: PROPERTIES_INPUT_SCHEMA.optional().describe('Pins or unpins the subject of the Properties panel.'),
+  browse: BROWSE_INPUT_SCHEMA.optional().describe('The Browse page of the project: folder, view, selection and search.'),
+  reveal: LOCATION_SCHEMA.optional().describe('Opens the Browse page on the folder of this file and selects it.'),
+  projectPanel: PROJECT_PANEL_INPUT_SCHEMA.optional().describe('The Project panel widget: mode, selection, search and chips. The panel must be on screen.'),
+  tileset: TILESET_INPUT_SCHEMA.optional().describe('The tileset and tilemap tool state: panel mode, search, stamp, scatter, terrain brush and the collision overlay.'),
   page: z.strictObject({ route: z.string().min(1).max(200), section: z.string().min(1).max(200).optional() }).optional(),
   zoom: z
     .union([z.number().min(1).max(6400).describe('Percent.'), z.enum(['fit', 'actual']), z.strictObject({ rect: VIEW_RECT_SCHEMA })])
@@ -104,20 +111,12 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
     .optional(),
   tool: z
     .strictObject({
-      id: z.enum(TOOL_ID_VALUES).optional(),
-      options: z
-        .strictObject({
-          brushSize: z.number().int().min(1).max(64).optional(),
-          brushShape: z.enum(['square', 'circle', 'line']).optional(),
-          brushAngle: z.union([z.literal(0), z.literal(45), z.literal(90), z.literal(135)]).optional().describe('The angle of the line brush.'),
-          pixelPerfect: z.boolean().optional(),
-          fillMode: z.enum(['contiguous', 'global']).optional(),
-          connectivity: z.union([z.literal(4), z.literal(8)]).optional(),
-          filled: z.boolean().optional().describe('Fill the shape of the current tool: rect, ellipse, curve, polygon or contour.'),
-          ink: z.enum(INK_VALUES).optional().describe('How paint lands on the pixels under it.'),
-        })
-        .optional(),
+      id: z.enum(TOOL_ID_VALUES).optional().describe('Pick a tool by id. member and preset are the other ways; give at most one of the three.'),
+      member: z.string().min(1).max(100).optional().describe('Pick a tool member from list_tools, such as select-wand. It also sets the select variant the member stands for.'),
+      preset: z.string().min(1).max(200).optional().describe('Apply a preset from list_presets: picks its member and sets its fields.'),
+      options: OPTION_VALUES_SCHEMA.optional().describe('Option values by option id, set after the tool is picked. Refused during an owner stroke or a borrowed tool.'),
     })
+    .refine((tool) => [tool.id, tool.member, tool.preset].filter((each) => each !== undefined).length <= 1, { message: 'Give at most one of id, member and preset.' })
     .optional(),
   colours: z
     .strictObject({

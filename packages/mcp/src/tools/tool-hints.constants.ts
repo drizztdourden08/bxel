@@ -51,6 +51,12 @@ const TOOL_HINTS = {
   trash_files: DESTRUCTIVE,
   duplicate_file: ACTION,
   import_files: ACTION,
+  list_tools: SAFE_READ,
+  list_presets: SAFE_READ,
+  apply_preset: SAFE_ACTION,
+  save_preset: ACTION,
+  update_preset: SAFE_ACTION,
+  delete_preset: DESTRUCTIVE,
 } as const satisfies Record<string, ToolHints>;
 
 export { TOOL_HINTS };

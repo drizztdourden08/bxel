@@ -6,7 +6,7 @@ import { animationFrameUpdateSchema } from '../../schema/animation-frame-update-
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
 import { patchAnimFrame } from './patch-anim-frame';
-import { pickAnimFrame } from './pick-anim-frame';
+import { pickAnimFrames } from './pick-anim-frames';
 import { pickAnimation } from './pick-animation';
 
 const animationFrameUpdate = defineCommand({
@@ -15,11 +15,10 @@ const animationFrameUpdate = defineCommand({
   schema: animationFrameUpdateSchema,
   run: (draft, input) => {
     const animation = pickAnimation(draft, input.options.animation);
-    const { frame } = pickAnimFrame(animation, input.options.frame, 'options.frame');
-    const next = patchAnimFrame(draft, animation, frame, input.options);
+    const next = new Map(pickAnimFrames(animation, input.options).map((frame) => [frame.id, patchAnimFrame(draft, animation, frame, input.options)]));
     updateAnimation(draft, animation.id, (current) => ({
       ...current,
-      frames: current.frames.map((item) => (item.id === frame.id ? next : item)),
+      frames: current.frames.map((item) => next.get(item.id) ?? item),
     }));
     addReport(draft, 'sprites', dropOrphanFrames(draft));
   },

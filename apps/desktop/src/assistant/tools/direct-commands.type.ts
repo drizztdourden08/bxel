@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 type Args = Readonly<Record<string, unknown>>;
 
-type Direct = (args: Args) => string | null;
+type Direct = (args: Args) => string | null | Promise<string | null>;
 
 export type { Args, Direct };
