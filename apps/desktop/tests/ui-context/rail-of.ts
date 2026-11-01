@@ -23,6 +23,7 @@ const railOf = (column: Column): ToolbarItem[] => {
     ui: evaluate(COMMAND_ID.tool(slot.tool), context),
     groups: undefined,
     hasFlyout: false,
+    assistant: false,
     pick: () => undefined,
   }));
 };

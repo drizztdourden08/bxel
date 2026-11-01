@@ -19,7 +19,7 @@ const fillEntries = (): ContextMenuEntry => ({ label: CANVAS_MENU.fillStroke, it
 
 const alignEntries = (): ContextMenuEntry => ({
   label: CANVAS_MENU.align,
-  items: [ID.alignLeft, ID.alignCentre, ID.alignRight, ID.alignTop, ID.alignMiddle, ID.alignBottom],
+  items: [ID.alignLeft, ID.alignCentre, ID.alignRight, ID.alignTop, ID.alignMiddle, ID.alignBottom, ID.distributeHorizontal, ID.distributeVertical],
 });
 
 const thinSelection = (): boolean => {

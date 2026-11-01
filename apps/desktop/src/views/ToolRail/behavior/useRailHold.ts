@@ -7,6 +7,7 @@ import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { currentSurface } from '../../../editor/tool-catalogue/current-surface';
 import { RAIL_OPEN_KEYS, TOOL_RAIL_TEXT } from '../ToolRail.constants';
+import { railDoubleClick } from './rail-double-click';
 import { DRAG_LIMIT } from './useRailHold.constants';
 import { flyoutModel } from '../../../tool-menu/flyout-model';
 import { flyoutRows } from '../../../tool-menu/flyout-rows';
@@ -62,13 +63,17 @@ const useRailHold = (slot: ToolbarSlot) => {
     event.preventDefault();
     event.stopPropagation();
   };
-  const onKeyDown = (event: KeyboardEvent<HTMLElement>): void => {
+  const onDoubleClick = (event: MouseEvent<HTMLElement>): void => {
+    const stop = stopOf(event.target);
+    if (stop !== null && railDoubleClick(stop.getAttribute('data-toolbar-stop'))) event.preventDefault();
+  };
+  const onKeyDown =(event: KeyboardEvent<HTMLElement>): void => {
     const stop = stopOf(event.target);
     if (stop === null || event.key !== openKeyOf(slot) || !hasFlyout(stop.getAttribute('data-toolbar-stop'))) return;
     event.preventDefault();
     open(stop, 'keyboard');
   };
-  return { onPointerDown, onPointerMove, onPointerUp: cancel, onPointerCancel: cancel, onPointerLeave: cancel, onClickCapture, onContextMenu, onKeyDown };
+  return { onPointerDown, onPointerMove, onPointerUp: cancel, onPointerCancel: cancel, onPointerLeave: cancel, onClickCapture, onContextMenu, onDoubleClick, onKeyDown };
 };
 
 export { useRailHold };

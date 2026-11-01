@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Box, Button, Icon, Stack, Text } from '@drizztdourden08/tessera';
 import { memberById } from '../../../editor/tool-catalogue/member-by-id';
-import { pickMember } from '../../../editor/tool-pick/pick-member';
+import { pointerPick } from '../../../editor/tool-pick/pointer-pick';
 import { useToolStore } from '../../../stores/useToolStore';
 import { TOOLS_PANEL_TEXT } from '../ToolsPanel.constants';
 
@@ -21,7 +21,7 @@ const RecentStrip = () => {
       ) : (
         <Box className="tools-panel__recent">
           {found.map((member) => (
-            <Button key={member.id} size="xs" variant="ghost" icon={<Icon name={member.icon} />} onClick={() => pickMember(member)}>
+            <Button key={member.id} size="xs" variant="ghost" icon={<Icon name={member.icon} />} onClick={() => pointerPick(member)}>
               {member.label}
             </Button>
           ))}

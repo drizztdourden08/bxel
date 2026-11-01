@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
 import { deleteSelectedSlice } from '../slice/delete-selected-slice';
+import { distributeSlices } from '../slice/distribute-slices';
 import { selectedSlice } from '../slice/selected-slice';
 import { sliceSelectedByTool } from '../slice/slice-selected-by-tool';
 import { useSliceToolStore } from '../stores/useSliceToolStore';
@@ -15,6 +16,18 @@ const SLICE_COMMANDS: readonly CommandDef[] = [
     group: COMMAND_GROUP.edit,
     when: sliceSelectedByTool,
     run: () => void deleteSelectedSlice(),
+  },
+  {
+    id: ID.distributeHorizontal,
+    label: 'Distribute slices horizontally',
+    group: COMMAND_GROUP.edit,
+    run: () => void distributeSlices('horizontal'),
+  },
+  {
+    id: ID.distributeVertical,
+    label: 'Distribute slices vertically',
+    group: COMMAND_GROUP.edit,
+    run: () => void distributeSlices('vertical'),
   },
   {
     id: ID.properties,

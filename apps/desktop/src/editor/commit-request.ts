@@ -13,12 +13,7 @@ const stepOf = (step: CommitStep, scope: TargetScope, allUses: boolean): Command
   ...(step.ref === undefined ? {} : { ref: step.ref }),
 });
 
-const commitRequest = (
-  target: EditorTarget,
-  label: string,
-  step: CommitStep,
-  scope: TargetScope = cellScope(target),
-): TransactionRequest => {
+const commitSteps = (target: EditorTarget, label: string, steps: readonly CommitStep[], scope: TargetScope = cellScope(target)): TransactionRequest => {
   const choice = useDrawingStore.getState().linkedChoice;
   const linked = isLinkedCel(target);
   const unlink: CommandStep[] = linked && choice === 'unlink' ? [{ name: 'cel.unlink', targets: scope, options: {} }] : [];
@@ -28,9 +23,11 @@ const commitRequest = (
     mode: 'commit',
     origin: 'ui',
     label,
-    steps: [...unlink, stepOf(step, scope, linked && choice === 'all')],
+    steps: [...unlink, ...steps.map((step) => stepOf(step, scope, linked && choice === 'all'))],
     previewPixels: 0,
   };
 };
 
-export { commitRequest };
+const commitRequest = (target: EditorTarget, label: string, step: CommitStep, scope?: TargetScope): TransactionRequest => commitSteps(target, label, [step], scope);
+
+export { commitRequest, commitSteps };

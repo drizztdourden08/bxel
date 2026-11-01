@@ -3,6 +3,8 @@ const SLICE_LABEL = {
   add: 'Add slice',
   update: 'Edit slice',
   remove: 'Delete slice',
+  distribute: 'Distribute slices',
+  needThree: 'Add three or more slices to space them out.',
 } as const;
 
 const SLICE_HANDLE_REACH = 4;

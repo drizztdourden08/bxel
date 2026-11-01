@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
+import { stepBrushSizeBy } from '../editor/step-brush-size';
 import { stepColour } from '../editor/step-colour';
 import { useToolStore } from '../stores/useToolStore';
 import { transformStamp } from '../tilemap/transform-stamp';
@@ -13,14 +14,14 @@ const BRUSH_COMMANDS: readonly CommandDef[] = [
     label: 'Smaller brush',
     group: COMMAND_GROUP.brush,
     chord: '[',
-    run: mapOr(() => transformStamp('turnLeft'), () => useToolStore.getState().stepBrushSize(-1)),
+    run: mapOr(() => transformStamp('turnLeft'), () => stepBrushSizeBy(-1)),
   },
   {
     id: COMMAND_ID.brushLarger,
     label: 'Larger brush',
     group: COMMAND_GROUP.brush,
     chord: ']',
-    run: mapOr(() => transformStamp('turnRight'), () => useToolStore.getState().stepBrushSize(1)),
+    run: mapOr(() => transformStamp('turnRight'), () => stepBrushSizeBy(1)),
   },
   {
     id: COMMAND_ID.symmetryX,

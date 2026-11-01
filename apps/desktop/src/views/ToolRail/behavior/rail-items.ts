@@ -30,7 +30,7 @@ const slotItem = (slot: ToolSlot, context: SlotItemContext): ToolbarToggle => {
     label: slotLabel(slot, context),
     description: slotDescription(context),
     shortcut: context.keys,
-    icon: createElement(SlotIcon, { member: context.shown, filled: context.filled, mark: slotMark(slot, context), badge: context.badge }),
+    icon: createElement(SlotIcon, { member: context.shown, filled: context.filled, mark: slotMark(slot, context), badge: context.badge, assistant: context.assistant }),
     options: off ? undefined : context.groups,
     pressed: context.active === slot.tool && !off,
     borrowed: context.borrowed === slot.tool,

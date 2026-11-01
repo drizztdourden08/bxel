@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Box, Flex, Icon, Pressable, Shortcut, Tag, Text } from '@drizztdourden08/tessera';
-import { pickMember } from '../../../editor/tool-pick/pick-member';
+import { pointerPick } from '../../../editor/tool-pick/pointer-pick';
 import { TOOLS_PANEL_TEXT } from '../ToolsPanel.constants';
 import type { ToolRowProps } from '../ToolsPanel.type';
 
@@ -13,7 +13,7 @@ const ToolRow = ({ slot, member, active, hidden, disabled, keys, nested }: ToolR
     data-nested={nested}
     disabled={disabled}
     aria-pressed={active}
-    onClick={() => pickMember(member)}
+    onClick={() => pointerPick(member)}
     {...contextMenuZone(TOOLS_PANEL_TEXT.zone, { data: slot.id })}
   >
     <Box as="span" className="tools-row__icon">

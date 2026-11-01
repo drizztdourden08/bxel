@@ -12,6 +12,10 @@ const SELECTION_DEFAULTS: SelectionSettings = {
   sample: 'layer',
   amount: 1,
   nudge: 1,
+  fixed: 'free',
+  fixedWidth: 16,
+  fixedHeight: 16,
+  mirror: true,
   quickMask: false,
   owner: null,
   mask: null,
@@ -25,4 +29,6 @@ const AMOUNT_LIMIT = 64;
 
 const DISTANCE_LIMIT = 255;
 
-export { AMOUNT_LIMIT, DISTANCE_LIMIT, SELECTION_DEFAULTS };
+const FIXED_LIMIT = 4096;
+
+export { AMOUNT_LIMIT, DISTANCE_LIMIT, FIXED_LIMIT, SELECTION_DEFAULTS };

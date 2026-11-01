@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { MenuEntry } from '@drizztdourden08/brock-react';
 import { SHEET_COMMAND as ID } from '../keymap/sheet-command-id.constants';
+import { SLICE_COMMAND as SLICE } from '../keymap/slice-command-id.constants';
 import { evaluate } from '../ui-context/evaluate';
 import { MENU_KEYS, MENU_TEXT } from './editor-menu.constants';
 import type { EditorMenuState } from './editor-menu.type';
@@ -26,6 +27,8 @@ const sheetEntries = (state: EditorMenuState): MenuEntry[] => {
     arrange,
     item(ID.sliceAdd, 'Add slice'),
     item(ID.sliceRemove, 'Remove slices'),
+    item(SLICE.distributeHorizontal, 'Distribute slices horizontally'),
+    item(SLICE.distributeVertical, 'Distribute slices vertically'),
     item(ID.importSheet, 'Slice grid...'),
   ]);
 };

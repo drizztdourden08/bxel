@@ -35,6 +35,8 @@ const SELECTION_COMMAND_ID = {
   alignTop: 'selection.align_top',
   alignMiddle: 'selection.align_middle',
   alignBottom: 'selection.align_bottom',
+  distributeHorizontal: 'selection.distribute_horizontal',
+  distributeVertical: 'selection.distribute_vertical',
   delete: 'selection.delete',
   apply: 'preview.apply',
   cancel: 'preview.cancel',

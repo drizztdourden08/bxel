@@ -7,6 +7,8 @@ type MatchKind = 'exact' | 'ramp' | 'similar';
 
 type SampleSource = 'layer' | 'visible';
 
+type FixedMarquee = 'free' | 'ratio' | 'size';
+
 interface Clip {
   width: number;
   height: number;
@@ -20,6 +22,13 @@ interface DragShape {
   from: Point;
   to: Point;
   path: readonly Point[];
+  anchor?: number | null;
+}
+
+interface MarqueeRule {
+  fixed: FixedMarquee;
+  width: number;
+  height: number;
 }
 
 interface DragKeys {
@@ -34,4 +43,4 @@ interface ShapeHold {
   centre: boolean;
 }
 
-export type { Clip, DragKeys, DragShape, MatchKind, SampleSource, SelectVariant, ShapeHold };
+export type { Clip, DragKeys, DragShape, FixedMarquee, MarqueeRule, MatchKind, SampleSource, SelectVariant, ShapeHold };

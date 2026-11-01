@@ -13,6 +13,7 @@ interface SlotIconProps {
   filled: boolean;
   mark: SlotMark;
   badge: SlotBadge | null;
+  assistant?: boolean;
 }
 
 export type { SlotBadge, SlotIconProps };
