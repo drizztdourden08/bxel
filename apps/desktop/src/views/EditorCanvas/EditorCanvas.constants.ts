@@ -33,6 +33,8 @@ const CANVAS_MENU = {
   frameSize: 'Frame sprite size',
   transform: 'Transform',
   selection: 'Selection',
+  fillStroke: 'Fill and stroke',
+  align: 'Align',
   backToPlace: 'Back to Place Tile',
   emptyClipboard: 'The clipboard holds no pixels.',
   thin: 'The selection is too thin to shrink.',

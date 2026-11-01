@@ -12,6 +12,7 @@ const SELECTION_COMMAND_ID = {
   paste: 'selection.paste',
   pasteInPlace: 'selection.paste_in_place',
   copyMerged: 'selection.copy_merged',
+  copyNewSprite: 'selection.copy_new_sprite',
   pasteAsLayer: 'selection.paste_as_layer',
   pasteIntoSelection: 'selection.paste_into_selection',
   pasteExpand: 'selection.paste_expand',

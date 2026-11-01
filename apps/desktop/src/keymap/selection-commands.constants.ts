@@ -83,6 +83,7 @@ const SELECTION_EDITS: readonly CommandDef[] = [
   { id: ID.pasteIntoSelection, label: 'Paste into selection', group, run: () => void pasteFromSystem('selection') },
   { id: ID.pasteTransform, label: 'Paste and transform', group, run: () => void pasteAndTransform() },
   { id: ID.pasteNewSprite, label: 'Paste as new sprite', group, run: () => void pasteFromSystem('place').then(() => pasteNewSprite()) },
+  { id: ID.copyNewSprite, label: 'Copy as new sprite', group, run: () => void (copySelection() && pasteNewSprite()) },
   { id: ID.pasteChoose, label: 'Paste with a choice...', group, run: () => usePasteChoiceStore.getState().show() },
   { id: ID.selectByFrame, label: 'Select by frame', group, run: () => void selectByFrame() },
   { id: ID.toGuides, label: 'Selection to guides', group, run: () => void selectionToGuides() },

@@ -15,6 +15,13 @@ const transformEntries = (): ContextMenuEntry => ({
   items: [ID.flipHorizontal, ID.flipVertical, ID.turnClockwise, ID.turnCounterClockwise, ID.turnHalf, ID.transform, ID.rotate, ID.scale],
 });
 
+const fillEntries = (): ContextMenuEntry => ({ label: CANVAS_MENU.fillStroke, items: [ID.fillFront, ID.fillBack, ID.strokeInside, ID.strokeOutside] });
+
+const alignEntries = (): ContextMenuEntry => ({
+  label: CANVAS_MENU.align,
+  items: [ID.alignLeft, ID.alignCentre, ID.alignRight, ID.alignTop, ID.alignMiddle, ID.alignBottom],
+});
+
 const thinSelection = (): boolean => {
   const { mask } = useSelectionStore.getState();
   const bounds = mask ? maskBounds(mask) : null;
@@ -28,11 +35,18 @@ const canvasSelectionEntries = (here: Point | null, pending: boolean, tile: bool
     ...back,
     ID.cut,
     ID.copy,
+    ID.copyMerged,
+    ID.copyNewSprite,
     { command: ID.paste, ...unless(useSelectionStore.getState().clipboard !== null || useSelectionStore.getState().systemClip, CANVAS_MENU.emptyClipboard) },
     ...(tile ? ['tilemap.duplicate_tile'] : []),
     'separator',
     transformEntries(),
-    { label: CANVAS_MENU.selection, items: [ID.invert, ID.expand, { command: ID.shrink, ...unless(!thinSelection(), CANVAS_MENU.thin) }] },
+    {
+      label: CANVAS_MENU.selection,
+      items: [ID.invert, ID.expand, { command: ID.shrink, ...unless(!thinSelection(), CANVAS_MENU.thin) }, ID.border, ID.smooth, ID.reselect, ID.selectOpaque, ID.save, ID.toGuides],
+    },
+    fillEntries(),
+    alignEntries(),
     CANVAS_SIZE_COMMAND_ID.cropToSelection,
     COMMAND_ID.zoomSelection,
     pickHereEntries(here),

@@ -20,6 +20,7 @@ const canvasBaseEntries = (here: Point | null, tile: boolean): readonly ContextM
   { command: SELECTION_COMMAND_ID.paste, ...unless(useSelectionStore.getState().clipboard !== null, CANVAS_MENU.emptyClipboard) },
   ...(tile ? ['tilemap.duplicate_tile'] : []),
   SELECTION_COMMAND_ID.selectAll,
+  { label: CANVAS_MENU.selection, items: [SELECTION_COMMAND_ID.reselect, SELECTION_COMMAND_ID.selectOpaque] },
   {
     label: CANVAS_MENU.selectHere,
     hidden: here === null,

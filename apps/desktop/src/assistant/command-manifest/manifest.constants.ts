@@ -62,6 +62,7 @@ const EDIT_ROWS = [
   one('slice.properties', 'edit_pixels', 'app', { dialog: 'slice_properties' }),
   one('selection.by_colour', 'edit_pixels', 'app', { args: 'byColour' }),
   ...rows('edit_pixels', 'app', ['selection.copy', 'selection.copy_merged']),
+  one('selection.copy_new_sprite', 'edit_pixels', 'edit'),
   ...rows('edit_pixels', 'edit', ['selection.cut', 'selection.paste', 'selection.paste_in_place', 'selection.paste_as_layer', 'selection.paste_into_selection', 'selection.paste_expand', 'selection.paste_transform', 'selection.paste_new_sprite', 'selection.paste_choose', 'selection.stroke_inside', 'selection.stroke_outside', 'selection.fill_front', 'selection.fill_back', 'selection.align_left', 'selection.align_centre', 'selection.align_right', 'selection.align_top', 'selection.align_middle', 'selection.align_bottom', 'selection.delete', 'preview.apply']),
   one('preview.cancel', 'edit_pixels', 'app'),
   ...rows('edit_pixels', 'edit', ['transform.flip_horizontal', 'transform.flip_vertical', 'transform.turn_clockwise', 'transform.turn_counter_clockwise', 'transform.turn_half']),
