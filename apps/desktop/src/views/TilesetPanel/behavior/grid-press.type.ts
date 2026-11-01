@@ -20,4 +20,14 @@ interface GridPressInput {
   toggle: (index: number) => void;
 }
 
-export type { GridPressInput, PressKeys };
+interface GridReleaseInput {
+  paint: TilePaint;
+  pressed: RefObject<boolean>;
+  held: RefObject<number | null>;
+  moving: RefObject<number | null>;
+  hover: RefObject<number | null>;
+  dragged: RefObject<boolean>;
+  keyOf: (index: number) => number | null;
+}
+
+export type { GridPressInput, GridReleaseInput, PressKeys };

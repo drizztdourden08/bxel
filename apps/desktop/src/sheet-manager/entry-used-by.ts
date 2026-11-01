@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
+import type { Found } from './entry-used-by.type';
 import type { UsageSource } from './usage-source.type';
-
-type Found = Map<string, Set<string>>;
 
 const add = (found: Found, id: string, name: string): void => {
   const names = found.get(id) ?? new Set<string>();

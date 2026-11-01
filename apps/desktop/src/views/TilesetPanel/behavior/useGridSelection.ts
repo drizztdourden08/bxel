@@ -2,10 +2,9 @@
 import { useRef, useState } from 'react';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
-import { pickTile } from '../../../tilemap/pick-tile';
-import { setLayout } from '../../../tilemap/set-layout';
 import type { GridSelection, TilePaint, TilesetModel } from '../TilesetPanel.type';
 import { gridPress } from './grid-press';
+import { gridRelease } from './grid-release';
 import type { PressKeys } from './grid-press.type';
 import { layoutStamp } from './layout-stamp';
 import { toggleScatter } from './toggle-scatter';
@@ -31,17 +30,7 @@ const useGridSelection = (model: TilesetModel, paint: TilePaint): GridSelection 
     if (key !== null) useTilemapStore.getState().setStamp(toggleScatter(model.stamp, key));
   };
   const press = (index: number, event: PressKeys): void => gridPress(index, event, { model, paint, anchor, held, moving, keyOf, span, toggle });
-  const release = (): void => {
-    pressed.current = false;
-    if (paint.active) paint.commit();
-    const kept = held.current;
-    held.current = null;
-    const keptKey = kept === null ? null : keyOf(kept);
-    if (kept !== null && !dragged.current && keptKey !== null) pickTile(keptKey);
-    const from = moving.current;
-    moving.current = null;
-    if (from !== null && hover.current !== null) setLayout({ move: [{ key: from, to: hover.current }] });
-  };
+  const release = (): void => gridRelease({ paint, pressed, held, moving, hover, dragged, keyOf });
   const keys = useGridKeys({ model, anchor, setFocused, span, toggle });
   return {
     focused,

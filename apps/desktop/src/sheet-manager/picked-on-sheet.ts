@@ -1,11 +1,9 @@
 /* @layer renderer-app @kind logic */
-import type { Sheet } from '@bxel/document';
 import { useNoticeStore } from '../stores/useNoticeStore';
 import { ANIMATION_ENTRY_TEXT } from './animation-entry-text.constants';
-import type { AnimationFacts, CurrentManager } from './manager.type';
+import type { CurrentManager } from './manager.type';
 import { pickedAnimations } from './picked-animations';
-
-type PickedOnSheet = { readonly sheet: Sheet; readonly facts: AnimationFacts[] };
+import type { PickedOnSheet } from './picked-on-sheet.type';
 
 const pickedOnSheet = (manager: Pick<CurrentManager, 'animations' | 'picked' | 'sheet'>): PickedOnSheet | null => {
   const { sheet } = manager;
