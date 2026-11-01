@@ -2,18 +2,11 @@
 import { depthOf, layerKindOf } from '@bxel/document';
 import type { Layer } from '@bxel/document';
 import type { LayerRowModel, LayerRowTree } from '../views/LayerStack/LayerStack.type';
+import { childCounts } from './child-counts';
 import type { EditorTarget } from './editor.type';
 import type { FrameSpread } from './layer-items.type';
-import { lockKindOf } from './layer-lock-kind';
+import { layerRowHead } from './layer-row-head';
 import { LAYER_TEXT } from './layer-text.constants';
-
-const childCounts = (layers: readonly Layer[]): Map<string, number> => {
-  const counts = new Map<string, number>();
-  layers.forEach((layer) => {
-    if (layer.parentId !== undefined) counts.set(layer.parentId, (counts.get(layer.parentId) ?? 0) + 1);
-  });
-  return counts;
-};
 
 const treeOf = (layers: readonly Layer[], layer: Layer, counts: Map<string, number>, missing: ReadonlySet<string>): LayerRowTree => ({
   kind: layerKindOf(layer),
@@ -34,13 +27,7 @@ const layerItems = (target: EditorTarget, spread: FrameSpread | null, missing: R
       const have = spread?.have.get(layer.name.toLowerCase()) ?? 0;
       const tree = treeOf(sprite.layers, layer, counts, missing);
       return {
-        id: layer.id,
-        name: layer.name,
-        visible: layer.visible,
-        mixedVisible: false,
-        lock: lockKindOf(layer),
-        mixedLock: false,
-        colour: layer.colour ?? null,
+        ...layerRowHead(layer),
         note: tree.kind === 'pixel' && spread && have < spread.total ? LAYER_TEXT.inFrames(have, spread.total) : null,
         thumb: tree.kind === 'pixel' ? { kind: 'sprite' as const, sprite, bank, layer, frameId } : null,
         ...tree,

@@ -10,9 +10,11 @@ import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useTilemapStore } from '../../src/stores/useTilemapStore';
 import { focusTab } from '../../src/workspace/focus-tab';
 import { tabOf } from '../../src/workspace/tab-of';
+import { addMapLayer } from '../../src/tilemap/add-map-layer';
 import { addTile } from '../../src/tilemap/add-tile';
 import { createTilemap } from '../../src/tilemap/create-tilemap';
 import { createTileset } from '../../src/tilemap/create-tileset';
+import { placeStampAt } from '../../src/tilemap/place-stamp-at';
 import { openFile } from '../sheet/sheet-harness';
 
 const ROCK = [2, 3, 4, 5];
@@ -87,4 +89,15 @@ const openMapFile = (): void => {
   focusTab(tabOf(activeId, { kind: 'tilemap', id: mapNow().id }));
 };
 
-export { ROCK, artworkNow, cellsNow, layerNow, mapNow, openMapFile, paintTile, picture, tilePixels, tileSprite, tilesetNow };
+const twoLayers = (): { low: string; high: string } => {
+  placeStampAt([{ x: 0, y: 0 }]);
+  addMapLayer();
+  useTilemapStore.getState().setStamp({ columns: 1, rows: 1, keys: [1] });
+  placeStampAt([{ x: 0, y: 0 }]);
+  const [low, high] = mapNow().layers;
+  return { low: low?.id ?? '', high: high?.id ?? '' };
+};
+
+const groupOf = () => mapNow().layers.find((layer) => layer.kind === 'group');
+
+export { ROCK, artworkNow, cellsNow, groupOf, layerNow, mapNow, openMapFile, paintTile, picture, tilePixels, tileSprite, tilesetNow, twoLayers };

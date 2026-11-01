@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it } from 'vitest';
 import { stepHistory } from '../../src/editor/step-history';
-import { useTilemapStore } from '../../src/stores/useTilemapStore';
 import { addMapLayer } from '../../src/tilemap/add-map-layer';
 import { currentMap } from '../../src/tilemap/current-map';
 import { deleteMapLayer } from '../../src/tilemap/delete-map-layer';
@@ -11,7 +10,7 @@ import { placeStampAt } from '../../src/tilemap/place-stamp-at';
 import { stepMapLayer } from '../../src/tilemap/step-map-layer';
 import { strokePlace } from '../../src/tilemap/stroke-place';
 import { lastNotice, revision } from '../sheet/sheet-harness';
-import { cellsNow, mapNow, openMapFile, picture } from './map-harness';
+import { cellsNow, mapNow, openMapFile, picture, twoLayers } from './map-harness';
 
 beforeEach(openMapFile);
 
@@ -30,12 +29,9 @@ describe('S2 map layers', { tags: ['standard'] }, () => {
   });
 
   it('draws a visible upper layer over the lower one', () => {
-    placeStampAt([{ x: 0, y: 0 }]);
-    addMapLayer();
-    useTilemapStore.getState().setStamp({ columns: 1, rows: 1, keys: [1] });
-    placeStampAt([{ x: 0, y: 0 }]);
+    const { high } = twoLayers();
     expect(picture()[0]?.slice(0, 2)).toEqual([1, 1]);
-    mapLayerActions.setFlag([mapNow().layers[1]?.id ?? ''], 'visible', false);
+    mapLayerActions.setFlag([high], 'visible', false);
     expect(picture()[0]?.slice(0, 2)).toEqual([2, 3]);
   });
 

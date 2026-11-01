@@ -2,11 +2,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { splitControls } from '../../src/views/EditorCanvas/behavior/split-controls';
 import type { SplitFollow } from '../../src/views/EditorCanvas/behavior/split-view.type';
-import { useViewState } from '../../src/views/PixelViewport/behavior/useViewState';
-import type { ViewBox } from '../../src/views/PixelViewport/behavior/viewport.type';
-import { zoomLevels } from '../../src/views/PixelViewport/behavior/zoom-levels';
-import { PIXEL_ZOOM_STEPS } from '../../src/views/PixelViewport/PixelViewport.constants';
-import { mountHook } from './hook-harness';
+import { mountView } from './view-fixture';
 
 vi.mock('react', async (importOriginal) => ({ ...(await importOriginal<Record<string, unknown>>()), ...(await import('./hook-harness')).hooks }));
 
@@ -45,13 +41,9 @@ describe('K1 split view controls', { tags: ['critical'] }, () => {
   });
 });
 
-const box: ViewBox = { width: 800, height: 600, dpr: 1, margin: 32, step: 32 };
-const image = { width: 64, height: 48 };
-const levels = zoomLevels(PIXEL_ZOOM_STEPS, 12);
-
 describe('K1 actual size pane', { tags: ['critical'] }, () => {
   it('ignores zoom commands and the wheel while locked', () => {
-    const view = mountHook(() => useViewState({ image, box, levels, zoom: 1, zoomLocked: true }));
+    const view = mountView({ zoom: 1, zoomLocked: true });
     view.act((state) => state.zoomStep(1));
     view.act((state) => state.zoomTo(8));
     expect(view.current.target.zoom).toBe(1);
@@ -59,7 +51,7 @@ describe('K1 actual size pane', { tags: ['critical'] }, () => {
 
   it('still pans while locked and keeps the zoom', () => {
     const onPanChange = vi.fn();
-    const view = mountHook(() => useViewState({ image: { width: 2000, height: 1500 }, box, levels, zoom: 1, zoomLocked: true, onPanChange }));
+    const view = mountView({ image: { width: 2000, height: 1500 }, zoom: 1, zoomLocked: true, onPanChange });
     view.act((state) => state.panBy(4, 0));
     expect(view.current.target.zoom).toBe(1);
     expect(onPanChange).toHaveBeenCalled();

@@ -18,8 +18,8 @@ const refreshViewRect = (overlay: Overlay, view: OverlayView, rect: Rect): void 
         continue;
       }
       rgba.set(view.below.subarray(at, at + CHANNELS), at);
-      if (index !== 0) blendOver(rgba, at, table, index * CHANNELS, view.alpha);
-      blendOver(rgba, at, view.above, at, 1);
+      if (index !== 0) blendOver(rgba, at, { data: table, from: index * CHANNELS }, view.alpha);
+      blendOver(rgba, at, { data: view.above, from: at }, 1);
     }
   }
   markDirty(rgba, rect);

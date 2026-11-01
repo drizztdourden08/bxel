@@ -4,6 +4,7 @@ import { CANVAS_DEFAULTS } from '../../src/canvas-look/canvas-look.constants';
 import type { GridLine } from '../../src/canvas-look/canvas-look.type';
 import { lookOf } from '../../src/canvas-look/look-of';
 import { paintGrid } from '../../src/views/PixelViewport/behavior/paint-grid';
+import type { GridContext } from '../../src/views/PixelViewport/behavior/paint-grid.type';
 
 interface Stroke {
   verticals: number[];
@@ -14,12 +15,17 @@ const strokeOf = (line: GridLine, image: { width: number; height: number }): Str
   const verticals: number[] = [];
   const horizontals: number[] = [];
   let from = { x: 0, y: 0 };
-  const ctx = {
+  const ctx: GridContext = {
     canvas: { width: 200, height: 200 },
+    globalAlpha: 1,
+    lineWidth: 1,
+    strokeStyle: '',
     beginPath: () => undefined,
     save: () => undefined,
     restore: () => undefined,
     stroke: () => undefined,
+    rect: () => undefined,
+    clip: () => undefined,
     moveTo: (x: number, y: number) => {
       from = { x, y };
     },
@@ -27,7 +33,7 @@ const strokeOf = (line: GridLine, image: { width: number; height: number }): Str
       if (x === from.x) verticals.push(x);
       else if (y === from.y) horizontals.push(y);
     },
-  } as unknown as CanvasRenderingContext2D;
+  };
   paintGrid(ctx, { x: 0, y: 0, scale: 10, width: image.width * 10, height: image.height * 10 }, image, line);
   return { verticals, horizontals };
 };

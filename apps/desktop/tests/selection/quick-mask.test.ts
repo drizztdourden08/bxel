@@ -41,7 +41,7 @@ const settings = () => ({ ...useToolStore.getState(), brushSize: 1, brushShape: 
 
 const shapeBits = (shape: 'line' | 'rect' | 'ellipse', to: { x: number; y: number }, size = GRID): number[] => {
   const scratch = new Uint8Array(size.width * size.height);
-  stampQuickShape(scratch, size, shape, { from: { x: 0, y: 0 }, to }, settings());
+  stampQuickShape(scratch, size, { shape, corners: { from: { x: 0, y: 0 }, to } }, settings());
   return [...scratch];
 };
 

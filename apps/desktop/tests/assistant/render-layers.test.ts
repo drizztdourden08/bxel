@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind test */
-import type { Sprite } from '@bxel/document';
+import { NO_LOCK } from '@bxel/document';
+import type { BankId, Layer, LayerId, LayerKind, Sprite, SpriteId } from '@bxel/document';
 import { describe, expect, it, vi } from 'vitest';
 import { layersOnly } from '../../src/assistant/tools/layers-only';
 import { fieldOf } from '../project/project-tool-rig';
@@ -9,11 +10,32 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/pr
 
 const { current, make, spriteOf, handled } = assistantTools();
 
-const layer = (id: string, visible: boolean, kind?: string, parentId?: string) => ({ id, visible, ...(kind ? { kind } : {}), ...(parentId ? { parentId } : {}) });
+const layerId = (value: string): LayerId => value as LayerId;
 
-const sprite = {
+const layer = (id: string, visible: boolean, kind?: LayerKind, parentId?: string): Layer => ({
+  id: layerId(id),
+  name: id,
+  visible,
+  lock: NO_LOCK,
+  cels: {},
+  ...(kind ? { kind } : {}),
+  ...(parentId ? { parentId: layerId(parentId) } : {}),
+});
+
+const sprite: Sprite = {
+  id: 'spr_000001' as SpriteId,
+  name: 'groups',
+  role: 'sprite',
+  bankId: 'bnk_000001' as BankId,
+  width: 1,
+  height: 1,
+  pivot: { x2: 0, y2: 0 },
   layers: [layer('a', true, undefined, 'g'), layer('b', true, undefined, 'g'), layer('g', false, 'group'), layer('c', true)],
-} as unknown as Sprite;
+  frames: [],
+  tags: [],
+  slices: [],
+  cels: {},
+};
 
 const shown = (given: Sprite | null): string[] => (given?.layers ?? []).filter((each) => each.visible).map((each) => each.id);
 
