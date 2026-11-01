@@ -9,7 +9,7 @@ import { removeEntries } from '../../src/sheet-manager/remove-entries';
 import { SHEET_TEXT } from '../../src/sheet-manager/sheet-text.constants';
 import type { UsageSource } from '../../src/sheet-manager/usage-source.type';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
-import { artwork, openFile } from '../sheet/sheet-harness';
+import { artwork, idOf, openFile } from '../sheet/sheet-harness';
 
 describe('K1 the sheet entry columns', { tags: ['critical'] }, () => {
   it('names the animations, tilesets and other sheets that use an asset', () => {
@@ -45,7 +45,7 @@ describe('K3 the sheet live notices', { tags: ['standard'] }, () => {
   });
 
   it('announces what was added and what was removed', () => {
-    const ids = artwork().sprites.map((sprite) => sprite.id);
+    const ids = [idOf('walk_1'), idOf('walk_2')];
     expect(addToSheet(ids, null)).toBe(true);
     expect(useNoticeStore.getState().notice?.text).toBe(SHEET_TEXT.live.added(2));
     const sheetId = artwork().sheets[0]?.id ?? null;
