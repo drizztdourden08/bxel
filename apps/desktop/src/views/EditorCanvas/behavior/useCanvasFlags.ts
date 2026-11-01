@@ -12,6 +12,7 @@ const useCanvasFlags = () =>
       rulers: state.rulers,
       tiled: state.tiled,
       mirror: state.mirror,
+      split: state.split,
     })),
   );
 

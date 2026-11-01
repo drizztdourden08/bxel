@@ -22,7 +22,7 @@ import { useCanvasFlags } from './behavior/useCanvasFlags';
 import { useCanvasMenu } from './behavior/useCanvasMenu';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasKeys } from './behavior/useCanvasKeys';
-import { useCanvasTools } from './behavior/useCanvasTools';
+import { useSplitTools } from './behavior/useSplitTools';
 import { useCommittedImage } from './behavior/useCommittedImage';
 import { useGuideRedraw } from './behavior/useGuideRedraw';
 import { useEscapeCancel } from './behavior/useEscapeCancel';
@@ -35,6 +35,8 @@ import { useViewportBridge } from './behavior/useViewportBridge';
 import { viewportClass } from './behavior/viewport-class';
 import { EmptyCanvas } from './sub-components/EmptyCanvas';
 import { RulerBars } from './sub-components/RulerBars';
+import { SplitCanvas } from './sub-components/SplitCanvas';
+import { paintOverlay } from './behavior/paint-overlay';
 import './EditorCanvas.css';
 import { feedView } from '../../view-feed/feed-view';
 
@@ -42,6 +44,7 @@ const EditorCanvas = () => {
   const target = useEditorTarget();
   const preview = usePlaybackImage();
   const viewport = useRef<PixelViewportHandle>(null);
+  const second = useRef<PixelViewportHandle>(null);
   const tool = useToolStore((state) => state.tool);
   const flags = useCanvasFlags();
   const outcome = usePendingStore((state) => state.outcome);
@@ -49,8 +52,9 @@ const EditorCanvas = () => {
   const committed = useCommittedImage(target, viewport);
   const floating = usePendingImage(outcome);
   const recoloured = useSwatchDraftImage(target);
-  const tools = useCanvasTools(viewport);
+  const tools = useSplitTools(viewport);
   const readout = useCanvasReadout(viewport);
+  const secondReadout = useCanvasReadout(second);
   const keys = useCanvasKeys(viewport);
   useCanvasMenu(viewport);
   useViewSettings();
@@ -58,45 +62,53 @@ const EditorCanvas = () => {
   useMarchingAnts(viewport);
   useAreaRedraw(viewport);
   useGuideRedraw(viewport, target);
+  useMarchingAnts(second);
+  useAreaRedraw(second);
+  useGuideRedraw(second, target);
   useSyncPending(target);
   useEscapeCancel();
   if (!target && !preview) return <EmptyCanvas />;
   const size = canvasSize(preview, outcome, target);
   const shown = canvasSource(preview, floating, tools.live, recoloured, committed);
+  const common = {
+    className: viewportClass(tool),
+    label: EDITOR_CANVAS_TEXT.label,
+    hint: EDITOR_CANVAS_TEXT.hint,
+    width: size.width,
+    height: size.height,
+    source: shown,
+    look,
+    grid: flags.grid,
+    gridMajor: flags.gridMajor,
+    gridTile: flags.gridTile,
+    gridIso: flags.gridIso,
+    mirror: flags.mirror,
+    onAltWheel: stepFrame,
+    hand: tool === 'hand',
+    tiled: WRAP_OF[flags.tiled],
+    onKeyDown: keys.onKeyDown,
+  };
+  const primary = (
+    <PixelViewport
+      ref={viewport}
+      {...common}
+      {...tools.forView(viewport)}
+      draw={readout.draw}
+      pivotGrips={preview ? undefined : paintPivotGrips}
+      onView={feedView}
+      onPointerPixel={(pixel) => {
+        keys.onPointerPixel();
+        readout.onPointerPixel(pixel);
+      }}
+    >
+      <CanvasOverlays source={shown} viewport={viewport} />
+    </PixelViewport>
+  );
+  const other = <PixelViewport ref={second} {...common} {...tools.forView(second)} draw={paintOverlay} onPointerPixel={secondReadout.onPointerPixel} />;
   return (
     <Box className={canvasClass(flags.rulers)} onBlur={keys.onBlur} {...contextMenuZone(CANVAS_MENU.zone)}>
       {flags.rulers && <RulerBars />}
-      <PixelViewport
-        ref={viewport}
-        className={viewportClass(tool)}
-        label={EDITOR_CANVAS_TEXT.label}
-        hint={EDITOR_CANVAS_TEXT.hint}
-        width={size.width}
-        height={size.height}
-        source={shown}
-        draw={readout.draw}
-        pivotGrips={preview ? undefined : paintPivotGrips}
-        look={look}
-        grid={flags.grid}
-        gridMajor={flags.gridMajor}
-        gridTile={flags.gridTile}
-        gridIso={flags.gridIso}
-        mirror={flags.mirror}
-        onAltWheel={stepFrame}
-        hand={tool === 'hand'}
-        onView={feedView}
-        tiled={WRAP_OF[flags.tiled]}
-        onPointerPixel={(pixel) => {
-          keys.onPointerPixel();
-          readout.onPointerPixel(pixel);
-        }}
-        onPointerDown={tools.onPointerDown}
-        onPointerMove={tools.onPointerMove}
-        onPointerUp={tools.onPointerUp}
-        onKeyDown={keys.onKeyDown}
-      >
-        <CanvasOverlays source={shown} viewport={viewport} />
-      </PixelViewport>
+      {flags.split ? <SplitCanvas first={primary} second={other} /> : primary}
     </Box>
   );
 };
