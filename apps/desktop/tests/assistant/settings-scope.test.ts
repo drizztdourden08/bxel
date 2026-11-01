@@ -5,7 +5,7 @@ import { settingsScope } from '../../src/assistant/tools/settings-scope';
 
 const screen = (group: string): CatalogScreen => ({ group }) as CatalogScreen;
 
-describe('the scope of a settings page', () => {
+describe('K1 the scope of a settings page', { tags: ['critical'] }, () => {
   it('reads Properties as the asset scope, Project as the project scope and Options as the app scope', () => {
     expect(settingsScope(screen('Properties'))).toBe('asset');
     expect(settingsScope(screen('Project settings'))).toBe('project');

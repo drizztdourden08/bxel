@@ -8,14 +8,14 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/pr
 
 const { current, make, spriteOf, handled, revisionOf } = assistantTools();
 
-describe('get_session', () => {
+describe('S2 get_session', { tags: ['standard'] }, () => {
   it('lists exactly the export formats the export schema takes', async () => {
     const session = await current().run('get_session', {}, []);
     expect(fieldOf(session, 'exportFormats')).toEqual([...EXPORT_FORMAT_VALUES]);
   });
 });
 
-describe('export_document', () => {
+describe('S2 export_document', { tags: ['standard'] }, () => {
   it('writes a gif of an animation under a .gif name', async () => {
     const { documentId, assetId } = await make('animation');
     const input = { documentId, format: 'gif', source: { animationId: assetId }, scale: 1, overwrite: false, fileName: 'tt-anim.gif' };
@@ -73,7 +73,7 @@ describe('export_document', () => {
   });
 });
 
-describe('render_preview of a sheet', () => {
+describe('S2 render_preview of a sheet', { tags: ['standard'] }, () => {
   it('draws the sheet and names a resource for it', async () => {
     const { documentId, assetId } = await make('sheet');
     const preview = await handled('render_preview', { documentId, target: { sheetId: assetId }, scale: 2 });
@@ -96,7 +96,7 @@ describe('render_preview of a sheet', () => {
   });
 });
 
-describe('mask options on the wire', () => {
+describe('S2 mask options on the wire', { tags: ['standard'] }, () => {
   const full = (side: number) => ({ width: side, height: side, bits: encodeBase64(new Uint8Array(side * side).fill(1)) });
 
   it('takes a base64 mask on pixels.flip and flips the pixels', async () => {
@@ -135,7 +135,7 @@ describe('mask options on the wire', () => {
   });
 });
 
-describe('preview_edits', () => {
+describe('S2 preview_edits', { tags: ['standard'] }, () => {
   it('returns a picture of the draft when render is asked for, and none otherwise', async () => {
     const { documentId } = await make('sprite', { sprite: { name: 'tt', width: 8, height: 8 } });
     const spriteId = await spriteOf(documentId);
@@ -162,7 +162,7 @@ describe('preview_edits', () => {
   });
 });
 
-describe('get_document', () => {
+describe('S2 get_document', { tags: ['standard'] }, () => {
   it('lists the slices, guides, tilesets and tilemaps it holds', async () => {
     const { documentId } = await make('tilemap');
     const sprite = await make('sprite', { sprite: { name: 'tt', width: 8, height: 8 } });

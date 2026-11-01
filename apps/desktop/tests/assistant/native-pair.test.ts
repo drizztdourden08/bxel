@@ -8,7 +8,7 @@ const contextPicking = (id: string) => {
   return { choose, ctx: { dialogs: { confirm: vi.fn(), choose } } };
 };
 
-describe('the native question of a headless Bxel', () => {
+describe('K4 the native question of a headless Bxel', { tags: ['critical'] }, () => {
   it('asks once, with read only as the button for Enter, for Esc and for closing the box', async () => {
     const { ctx, choose } = contextPicking('read');
     expect(await askNativePair(ctx, 'Check')).toBe('read');

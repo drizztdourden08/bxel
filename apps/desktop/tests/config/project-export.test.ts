@@ -15,7 +15,7 @@ const manifest = () => {
   return found;
 };
 
-describe('the export page of the project hub', () => {
+describe('S2 the export page of the project hub', { tags: ['standard'] }, () => {
   it('starts unset: the scale reads 1, the template is empty and the file has no export block', async () => {
     const { held } = await openedProject();
     expect(PROJECT_SOURCE.get('project.export.scale')).toBe(1);

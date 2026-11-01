@@ -33,7 +33,7 @@ const state = { ...assistantMain, instance: { window: 'visible' as const, starte
 
 const codeOf = (reply: Awaited<ReturnType<typeof stopBxel>>): string | null => (reply.outcome.ok ? null : reply.outcome.error.code);
 
-describe('stopping a Bxel the owner opened', () => {
+describe('K4 stopping a Bxel the owner opened', { tags: ['critical'] }, () => {
   beforeEach(() => {
     vi.mocked(quitSoon).mockClear();
     vi.mocked(askFlush).mockClear();
@@ -65,7 +65,7 @@ describe('stopping a Bxel the owner opened', () => {
   });
 });
 
-describe('stopping the headless Bxel a session started', () => {
+describe('K4 stopping the headless Bxel a session started', { tags: ['critical'] }, () => {
   it('works without the permission and may discard', async () => {
     const headless = { ...state, instance: { window: 'headless' as const, started: true, launchToken: 'x' } };
     const reply = await stopBxel(headless, session(PRESETS.full_control.grant, true), { unsaved: 'discard' });

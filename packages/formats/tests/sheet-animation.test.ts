@@ -50,7 +50,7 @@ const must = (input: ExportSheetInput) => {
   return result;
 };
 
-describe('tagPlayOrder', () => {
+describe('K2 tagPlayOrder', { tags: ['critical'] }, () => {
   it('expands every direction', () => {
     expect(tagPlayOrder(2, 5, 'forward')).toEqual([2, 3, 4, 5]);
     expect(tagPlayOrder(2, 5, 'reverse')).toEqual([5, 4, 3, 2]);
@@ -60,7 +60,7 @@ describe('tagPlayOrder', () => {
   });
 });
 
-describe('merge identical frames', () => {
+describe('K2 merge identical frames', { tags: ['critical'] }, () => {
   it('packs one rectangle for each distinct picture and keeps every frame entry', () => {
     const plain = must(request());
     const merged = must(request({ mergeIdentical: true }));
@@ -74,7 +74,7 @@ describe('merge identical frames', () => {
   });
 });
 
-describe('sheet flavours', () => {
+describe('K2 sheet flavours', { tags: ['critical'] }, () => {
   it('writes the Aseprite hash with pingpong_reverse tags', () => {
     const sheet = must(request({ flavour: 'hash' }));
     const json = JSON.parse(sheet.json) as { frames: Record<string, unknown>; meta: { frameTags: { name: string; direction: string; from: number; to: number }[] } };

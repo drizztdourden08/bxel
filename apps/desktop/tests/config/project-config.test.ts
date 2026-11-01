@@ -18,7 +18,7 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/pr
 
 const manifest = () => useProjectStore.getState().project?.manifest;
 
-describe('the project defaults', () => {
+describe('S2 the project defaults', { tags: ['standard'] }, () => {
   it('start unset, so a new sprite follows the app default', async () => {
     const { documentId } = await openedProject();
     expect(PROJECT_SOURCE.get('project.default.size')).toBeUndefined();
@@ -82,7 +82,7 @@ describe('the project defaults', () => {
   });
 });
 
-describe('the project platform', () => {
+describe('S2 the project platform', { tags: ['standard'] }, () => {
   it('is live: a sprite with no platform of its own follows it, and a sprite with its own keeps it', async () => {
     const { held, documentId } = await openedProject();
     await PROJECT_SOURCE.set('project.default.platformId', 'gb-dmg');
@@ -104,7 +104,7 @@ describe('the project platform', () => {
   });
 });
 
-describe('the project cover and name', () => {
+describe('S2 the project cover and name', { tags: ['standard'] }, () => {
   it('writes the cover as a path in the project file and resolves it again when the project opens', async () => {
     const { held, documentId, paths } = await openedProject();
     const hero = liveArtwork(documentId).sprites[0];
@@ -125,7 +125,7 @@ describe('the project cover and name', () => {
   });
 });
 
-describe('a new asset of every kind', () => {
+describe('S2 a new asset of every kind', { tags: ['standard'] }, () => {
   it('is made in the project and written to the folder of its kind', async () => {
     const { held, documentId } = await openedProject();
     const host = useDocumentStore.getState().host;

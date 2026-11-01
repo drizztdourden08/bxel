@@ -22,7 +22,7 @@ const programEdit = (documentId: string, label: string) => {
 
 const revisionOf = (documentId: string): number => useDocumentStore.getState().host.view(documentId as never)?.state.revision ?? 0;
 
-describe('undo with redo and get_history', () => {
+describe('S2 undo with redo and get_history', { tags: ['standard'] }, () => {
   it('attributes a change made while acting as the program, lists it, undoes it and redoes it', async () => {
     const documentId = openDocument();
     expect((await programEdit(documentId, 'Draw')).ok).toBe(true);
