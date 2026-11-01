@@ -19,7 +19,7 @@ const useListData = (model: ManagerModel): ListData => {
   );
   const usedBy = useMemo(() => entryUsedBy(model.artwork, model.sheet?.id ?? null), [model.artwork, model.sheet]);
   const rows = useMemo(
-    () => listRows(model.artwork, model.groups, model.animations, model.sheet, { pages, usedBy }),
+    () => listRows(model.artwork, model.groups, model.animations, { sheet: model.sheet, extra: { pages, usedBy } }),
     [model.artwork, model.groups, model.animations, model.sheet, pages, usedBy],
   );
   const selected = useMemo(() => new Set<string>([...model.ids, ...model.picked]), [model.ids, model.picked]);

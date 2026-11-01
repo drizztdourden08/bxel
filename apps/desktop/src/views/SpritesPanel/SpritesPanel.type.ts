@@ -75,6 +75,11 @@ interface ListExtra {
   usedBy: ReadonlyMap<string, string>;
 }
 
+interface ListScope {
+  sheet: Sheet | null;
+  extra?: ListExtra;
+}
+
 interface ListData {
   rows: readonly ListRow[];
   selected: ReadonlySet<string>;
@@ -182,6 +187,7 @@ export type {
   ListData,
   ListExtra,
   ListRow,
+  ListScope,
   ManagerModel,
   ManagerModelProps,
   SpriteGridProps,

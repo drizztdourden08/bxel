@@ -11,7 +11,7 @@ const idsOf = (frames: readonly AnimFrame[]): SpriteId[] => frames.flatMap((fram
 const spritesOf = (fact: AnimationFacts): SpriteId[] => {
   const tag = fact.animation.tags.find((each) => each.id === fact.tagId);
   const { frames } = fact.animation;
-  if (!tag || tag.kind !== 'span') return idsOf(frames);
+  if (tag?.kind !== 'span') return idsOf(frames);
   const from = frames.findIndex((frame) => frame.id === tag.from);
   const to = frames.findIndex((frame) => frame.id === tag.to);
   return from < 0 || to < from ? [] : idsOf(frames.slice(from, to + 1));

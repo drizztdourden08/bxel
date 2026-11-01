@@ -19,7 +19,7 @@ const imageBlocks = async (file: File, tileset: Tileset): Promise<BlocksRead> =>
   const artwork = currentArtwork();
   const fit = fitImage(image, artwork ? findBank(artwork, tileset.bankId) : undefined);
   if (!fit.ok) return { ok: false, reason: fit.reason };
-  return { ok: true, blocks: tileBlocks(fit.pixels, image.width, image.height, tileWidth, tileHeight) };
+  return { ok: true, blocks: tileBlocks(fit.pixels, image, { width: tileWidth, height: tileHeight }) };
 };
 
 export { imageBlocks };

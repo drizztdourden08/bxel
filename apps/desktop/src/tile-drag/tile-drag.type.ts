@@ -27,6 +27,8 @@ interface TileBlock {
   pixels: Uint8Array;
 }
 
+type BlockSize = Pick<TileBlock, 'width' | 'height'>;
+
 type BlocksRead = { ok: true; blocks: TileBlock[] } | { ok: false; reason: string };
 
-export type { BlocksRead, TileBlock, TileDragPayload, TileDropPayload, TileSourceInput, TilesAdded, TilesetDropPayload };
+export type { BlockSize, BlocksRead, TileBlock, TileDragPayload, TileDropPayload, TileSourceInput, TilesAdded, TilesetDropPayload };

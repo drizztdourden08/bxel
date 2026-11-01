@@ -4,7 +4,8 @@ import type { DndElement } from '@drizztdourden08/brock-react';
 import type { RefObject } from 'react';
 import { ASSET_DRAG } from '../asset-drag/asset-drag.constants';
 import { assetEntries } from '../sheet-manager/asset-entries';
-import { dropAssetsOnTileset, dropFilesOnTileset } from './drop-on-tileset';
+import { dropAssetsOnTileset } from './drop-on-tileset';
+import { dropFilesOnTileset } from './drop-files-on-tileset';
 import type { TilesetDropPayload } from './tile-drag.type';
 
 const useTilesetDrop = (ref: RefObject<DndElement | null>): void =>

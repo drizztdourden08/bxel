@@ -2,11 +2,11 @@
 import { COMMAND_NAME } from '@bxel/document';
 import type { CommandStep } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
-import { useNoticeStore } from '../stores/useNoticeStore';
 import { ANIMATION_ENTRY_TEXT, COPY_REF } from './animation-entry-text.constants';
 import type { AnimationFacts, CurrentManager } from './manager.type';
-import { pickedAnimations } from './picked-animations';
-import { idRef, nameRef } from './tag-ref-of';
+import { nameRef } from './name-ref';
+import { pickedOnSheet } from './picked-on-sheet';
+import { idRef } from './tag-ref-of';
 
 const copySteps = (sheetId: string, fact: AnimationFacts, index: number): CommandStep[] => {
   const tag = nameRef(fact.animation, fact.tagId);
@@ -20,12 +20,9 @@ const copySteps = (sheetId: string, fact: AnimationFacts, index: number): Comman
 };
 
 const copyAnimationsForSheet = (manager: Pick<CurrentManager, 'animations' | 'picked' | 'sheet'>): boolean => {
-  const { sheet } = manager;
-  const facts = pickedAnimations(manager);
-  if (!sheet || facts.length === 0) {
-    useNoticeStore.getState().post(sheet ? ANIMATION_ENTRY_TEXT.needAnimation : ANIMATION_ENTRY_TEXT.needSheet);
-    return false;
-  }
+  const picked = pickedOnSheet(manager);
+  if (!picked) return false;
+  const { sheet, facts } = picked;
   const steps = facts.flatMap((fact, index) => copySteps(sheet.id, fact, index));
   return steps.length > 0 && runDocument(ANIMATION_ENTRY_TEXT.copyLabel(facts.length), steps) !== null;
 };

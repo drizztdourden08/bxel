@@ -1,19 +1,20 @@
 /* @layer renderer-app @kind logic */
-import { findSprite, nameKey } from '@bxel/document';
-import type { AnimFrameId, Artwork, SpriteId, TargetScope } from '@bxel/document';
-import type { EditorTarget } from './editor.type';
+import { nameKey } from '@bxel/document';
+import type { AnimFrameId, SpriteId, TargetScope } from '@bxel/document';
+import type { CelsArtwork, CelsTarget } from './cels-scope.type';
 
-const selectedSprites = (target: EditorTarget, artwork: Artwork, picked: readonly AnimFrameId[]): SpriteId[] => {
+const selectedSprites = (target: CelsTarget, artwork: CelsArtwork, picked: readonly AnimFrameId[]): SpriteId[] => {
   const context = target.animation;
   if (!context) return [];
   const key = nameKey(target.layer.name);
   const ids = context.animation.frames
     .filter((frame) => picked.includes(frame.id))
     .flatMap((frame) => (frame.spriteId === null ? [] : [frame.spriteId]));
-  return [...new Set(ids)].filter((id) => findSprite(artwork, id)?.layers.some((layer) => nameKey(layer.name) === key));
+  const holdsLayer = (id: SpriteId): boolean => artwork.sprites.find((sprite) => sprite.id === id)?.layers.some((layer) => nameKey(layer.name) === key) ?? false;
+  return [...new Set(ids)].filter(holdsLayer);
 };
 
-const celsScope = (target: EditorTarget, artwork: Artwork, picked: readonly AnimFrameId[]): TargetScope | null => {
+const celsScope = (target: CelsTarget, artwork: CelsArtwork, picked: readonly AnimFrameId[]): TargetScope | null => {
   const sprites = selectedSprites(target, artwork, picked);
   if (sprites.length < 2 || !sprites.includes(target.sprite.id)) return null;
   return {

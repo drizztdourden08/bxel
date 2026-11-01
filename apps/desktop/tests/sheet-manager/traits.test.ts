@@ -15,6 +15,7 @@ import { tagOptions } from '../../src/sheet-manager/tag-options';
 import { visibleFacts } from '../../src/sheet-manager/visible-facts';
 import { NO_FILTER } from '../../src/sheet-manager/manager.constants';
 import type { ListQuery } from '../../src/sheet-manager/manager.type';
+import { useNoticeStore } from '../../src/stores/useNoticeStore';
 import { artwork, idOf, lastNotice, patch, revision, spriteOf } from '../sheet/sheet-harness';
 import { BASE_QUERY, idsOf, openOnSheet } from './manager-harness';
 
@@ -92,6 +93,7 @@ describe('S2 changing the palette of sprites', { tags: ['standard'] }, () => {
   });
 
   it('moves the sprites to the palette in one undo step', () => {
+    useNoticeStore.setState({ notice: null });
     const before = revision();
     expect(assignBank(idsOf('a', 'b'), bankId('Single'))).toBe(true);
     expect(revision()).toBe(before + 1);
