@@ -11,7 +11,7 @@ import { waitStatus } from './support/wait-status';
 
 const filled = (grid: Uint8Array) => [...grid].flatMap((index, at) => (index === 0 ? [] : [`${at % MARKS_SIDE},${Math.floor(at / MARKS_SIDE)}`])).sort();
 
-describe('accessibility: drawing on the canvas with the keyboard alone', () => {
+describe('E1 draw with the keyboard alone', { tags: ['e2e'] }, () => {
   const rig = useRig(openSpriteRig);
 
   test('the arrow keys move a cursor cell and Space paints it', async () => {
