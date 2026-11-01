@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
 import { useAnimationFocus } from '../../../hooks/useAnimationFocus';
+import { useAssistantLine } from '../../../hooks/useAssistantLine';
 import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { useSpriteScene } from '../../../hooks/useSpriteScene';
 import { useCanvasSurface } from '../../../canvas-surface/useCanvasSurface';
@@ -23,6 +24,7 @@ const useHeaderInput = (): HeaderInput => {
   const selected = useSpriteScene()?.scene.selected.length ?? 0;
   const assetName = useAssetName();
   const hiddenGrids = useHiddenGrids();
+  const assistant = useAssistantLine();
   const tile = useTileHeader();
   const map = useMapHeader();
   return useMemo(
@@ -31,13 +33,14 @@ const useHeaderInput = (): HeaderInput => {
       assetName,
       readOnly,
       hiddenGrids,
+      assistant,
       sprite: target ? readSpriteHeader(target, { ...sprites, selected }) : null,
       animation: focus ? readAnimationHeader(focus) : null,
       sheetSelected: selected,
       tile,
       map,
     }),
-    [surface, assetName, readOnly, hiddenGrids, target, sprites, selected, focus, tile, map],
+    [surface, assetName, readOnly, hiddenGrids, assistant, target, sprites, selected, focus, tile, map],
   );
 };
 

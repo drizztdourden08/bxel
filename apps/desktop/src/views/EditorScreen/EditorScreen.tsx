@@ -3,6 +3,7 @@ import { commandZone, ToolbarHost } from '@drizztdourden08/brock-react';
 import { Flex } from '@drizztdourden08/tessera';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
 import { useAnimationHost } from '../../hooks/useAnimationHost';
+import { useAssistantPresence } from '../../hooks/useAssistantPresence';
 import { useSystemClipWatch } from '../../hooks/useSystemClipWatch';
 import { useTimelinePlayback } from '../../hooks/useTimelinePlayback';
 import { useFileTypePanelStore } from '../../stores/useFileTypePanelStore';
@@ -30,6 +31,7 @@ const EditorScreen = () => {
   const adding = useFileTypePanelStore((state) => state.open);
   const editing = useBxelContext((context) => context.fileType === 'tilemap' && context.tileMode === 'edit') && !adding;
   useAnimationHost();
+  useAssistantPresence();
   useTimelinePlayback();
   useSystemClipWatch();
   useTilesetMenu();

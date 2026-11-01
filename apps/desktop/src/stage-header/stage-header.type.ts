@@ -88,6 +88,7 @@ interface HeaderInput {
   assetName: string;
   readOnly: boolean;
   hiddenGrids: boolean;
+  assistant: string | null;
   sprite: SpriteHeader | null;
   animation: AnimationHeader | null;
   sheetSelected: number;

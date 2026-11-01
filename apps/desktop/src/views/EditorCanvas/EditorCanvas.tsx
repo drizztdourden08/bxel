@@ -1,7 +1,5 @@
 /* @layer renderer-app @kind component */
 import { useRef } from 'react';
-import { contextMenuZone } from '@drizztdourden08/brock-react';
-import { Box } from '@drizztdourden08/tessera';
 import { useSpriteLook } from '../../canvas-look/useSpriteLook';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { usePreviewBankImage } from '../../hooks/usePreviewBankImage';
@@ -11,7 +9,6 @@ import { useToolStore } from '../../stores/useToolStore';
 import { CanvasOverlays } from '../CanvasOverlays';
 import { PixelViewport } from '../PixelViewport';
 import type { PixelViewportHandle } from '../PixelViewport';
-import { CANVAS_MENU } from './EditorCanvas.constants';
 import { canvasClass } from './behavior/canvas-class';
 import { canvasSize } from './behavior/canvas-size';
 import { canvasSource } from './behavior/canvas-source';
@@ -31,6 +28,7 @@ import { useSyncPending } from './behavior/useSyncPending';
 import { useViewSettings } from './behavior/useViewSettings';
 import { useViewportBridge } from './behavior/useViewportBridge';
 import { viewportProps } from './behavior/viewport-props';
+import { CanvasFrame } from './sub-components/CanvasFrame';
 import { EmptyCanvas } from './sub-components/EmptyCanvas';
 import { RulerBars } from './sub-components/RulerBars';
 import { SplitCanvas } from './sub-components/SplitCanvas';
@@ -86,10 +84,10 @@ const EditorCanvas = () => {
   );
   const other = <PixelViewport ref={second} {...common} {...tools.forView(second)} {...views.second} draw={paintOverlay} onPointerPixel={secondReadout.onPointerPixel} />;
   return (
-    <Box className={canvasClass(flags.rulers)} onBlur={keys.onBlur} onKeyUp={keys.onKeyUp} {...contextMenuZone(CANVAS_MENU.zone)}>
+    <CanvasFrame className={canvasClass(flags.rulers)} spriteId={target?.sprite.id ?? null} onBlur={keys.onBlur} onKeyUp={keys.onKeyUp}>
       {flags.rulers && <RulerBars />}
       {flags.split ? <SplitCanvas first={primary} second={other} /> : primary}
-    </Box>
+    </CanvasFrame>
   );
 };
 

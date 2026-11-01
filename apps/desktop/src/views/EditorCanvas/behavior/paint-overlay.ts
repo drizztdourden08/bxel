@@ -9,6 +9,7 @@ import { paintAreas } from './paint-areas';
 import { paintAxes } from './paint-axes';
 import { paintCanvasPreview } from './paint-canvas-preview';
 import { paintCursor } from './paint-cursor';
+import { paintFlash } from './paint-flash';
 import { paintMarker } from './paint-marker';
 import { paintGuides } from './paint-guides';
 import { paintLint } from './paint-lint';
@@ -37,6 +38,7 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   paintZoomRect(ctx, view, look);
   paintBrushResize(ctx, view, look);
   paintMarker(ctx, view, look);
+  paintFlash(ctx, look);
 };
 
 export { paintOverlay };

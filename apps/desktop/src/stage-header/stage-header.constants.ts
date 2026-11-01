@@ -28,6 +28,7 @@ const HEADER_TEXT = {
   hidden: 'Layer hidden',
   hiddenTitle: 'A hidden layer is not drawn, and strokes on it cannot be seen.',
   show: 'Show layer',
+  assistantTitle: 'The assistant just changed this file.',
   gridHidden: 'Grid hidden at this zoom',
   gridHiddenTitle: 'Zoom in to see the grid lines.',
   sharedHint: 'Drawing here changes the sprite file.',

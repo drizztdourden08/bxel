@@ -25,3 +25,34 @@
   outline: var(--border-width-thick) solid var(--c-warning);
   outline-offset: calc(-1 * var(--border-width-thick));
 }
+
+.stage-state {
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 0;
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.stage-state__ring {
+  inline-size: var(--size-64);
+  block-size: var(--size-64);
+}
+
+.stage-state--missing {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--c-sunken) 0,
+    var(--c-sunken) var(--space-sm),
+    var(--c-surface) var(--space-sm),
+    var(--c-surface) var(--space-md)
+  );
+  border: var(--border-width-thin) dashed var(--c-border);
+}
+
+.stage-state__row {
+  padding: var(--space-xs) var(--space-md);
+  background: var(--c-surface);
+  border: var(--border-width-thin) solid var(--c-border);
+}
