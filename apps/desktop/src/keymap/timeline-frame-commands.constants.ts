@@ -55,6 +55,7 @@ const TIMELINE_FRAME_COMMANDS: readonly CommandDef[] = [
     id: 'timeline.toggle_onion',
     label: 'Turn onion skin on or off',
     group,
+    chord: 'F3',
     checked: () => store.getState().onion.on,
     run: () => store.getState().setOnion({ on: !store.getState().onion.on }),
   },

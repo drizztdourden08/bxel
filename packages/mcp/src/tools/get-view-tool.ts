@@ -28,6 +28,7 @@ const getViewTool = defineTool(TOOL_NAME.getView, {
     symmetry: block,
     zoom: block.nullable().describe('percent, pan and the visible pixel rectangle.'),
     toggles: block,
+    pointer: z.strictObject({ x: z.number().int(), y: z.number().int() }).nullable().describe('The pixel under the owner pointer or keyboard cursor, so "this pixel" can be resolved.'),
     playback: block,
     timeline: TIMELINE_STATE_SCHEMA.describe('The timeline: animation, playhead, pick, range, play state, zoom and the onion skin settings.'),
     selection: SELECTION_REPLY_SCHEMA.extend({ variant: z.string(), combine: z.string() }).nullable(),

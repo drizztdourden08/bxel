@@ -16,7 +16,7 @@ const PixelViewport = (props: PixelViewportProps) => {
   return (
     <Box
       ref={viewport.rootRef}
-      className={pixelViewportClass(className, hand === true)}
+      className={pixelViewportClass(className, hand === true, props.mirror === true)}
       tabIndex={0}
       {...focusRegion(label, label, { role: 'application' })}
       aria-roledescription={PIXEL_VIEWPORT_STRINGS.role}
@@ -27,6 +27,7 @@ const PixelViewport = (props: PixelViewportProps) => {
       <SurroundBackdrop />
       <Canvas ref={viewport.canvasRef} className="pixel-viewport__canvas" aria-hidden="true" />
       <Text as="span" className="pixel-viewport__status" aria-live="polite">{viewport.announcement}</Text>
+      {props.children}
     </Box>
   );
 };

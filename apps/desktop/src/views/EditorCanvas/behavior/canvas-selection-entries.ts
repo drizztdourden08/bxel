@@ -3,6 +3,7 @@ import { maskBounds } from '@bxel/raster';
 import type { Point } from '@bxel/raster';
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { unless } from '../../../context-menu/unless';
+import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { CANVAS_SIZE_COMMAND_ID } from '../../../keymap/canvas-size-command-id.constants';
 import { SELECTION_COMMAND_ID as ID } from '../../../keymap/selection-command-id.constants';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
@@ -33,6 +34,7 @@ const canvasSelectionEntries = (here: Point | null, pending: boolean, tile: bool
     transformEntries(),
     { label: CANVAS_MENU.selection, items: [ID.invert, ID.expand, { command: ID.shrink, ...unless(!thinSelection(), CANVAS_MENU.thin) }] },
     CANVAS_SIZE_COMMAND_ID.cropToSelection,
+    COMMAND_ID.zoomSelection,
     pickHereEntries(here),
     'separator',
     ID.clear,

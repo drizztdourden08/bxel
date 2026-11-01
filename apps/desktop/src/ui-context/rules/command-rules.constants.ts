@@ -48,6 +48,8 @@ const BRUSH: RuleTable = {
   ...family(['symmetry.axis_here', 'symmetry.axis_centre', 'symmetry.axis_remove'], PIXEL, [], ONLY.pixels),
 };
 
+const STAMP_SLOT_COMMANDS = [1, 2, 3, 4, 5, 6, 7, 8, 9].flatMap((slot) => [`tilemap.store_stamp_${slot}`, `tilemap.recall_stamp_${slot}`]);
+
 const ZOOM_DIGITS = [100, 200, 400, 800, 1600, 3200].map((percent) => `view.zoom_${percent}`);
 
 const VIEW: RuleTable = {
@@ -56,6 +58,8 @@ const VIEW: RuleTable = {
   ...family(['view.toggle_major_grid'], EDIT_STAGE),
   ...family(['view.toggle_tile_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.clear'], RULER_STAGE),
   ...family(['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both'], PIXEL, [], ONLY.pixels),
+  ...family(['view.hide_overlays', 'view.lock_guides'], RULER_STAGE),
+  ...family(['view.toggle_mirror', 'view.toggle_loupe', 'view.fullscreen_preview', 'view.toggle_split', 'view.describe_canvas', 'view.read_row', 'view.centre_here'], PIXEL, [], ONLY.pixels),
   ...family(['status.copy_cursor'], any(PIXEL, MAP, SHEET)),
 };
 
@@ -140,6 +144,7 @@ const TILES: RuleTable = {
   ...family(['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'tilemap.use_tile'], file('tilemap'), [], ONLY.maps),
   ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
   ...family(['tilemap.select_same', 'tilemap.capture_stamp'], MAP, [CELLS_SELECTED], ONLY.maps),
+  ...family(STAMP_SLOT_COMMANDS, MAP, [], ONLY.maps),
   ...family(['tilemap.replace_everywhere', 'tilemap.layer_up', 'tilemap.layer_down'], MAP, [WRITE], ONLY.maps),
   ...family(
     ['tilemap.flip_x', 'tilemap.flip_y', 'tilemap.turn', 'tilemap.pick_tile_here', 'tilemap.edit_tile_here', 'terrain.toggle_brush', 'animation.toggle_tiles'],

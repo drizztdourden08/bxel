@@ -29,6 +29,14 @@ const OPTION_TEXT = {
   wandNeighboursDescription: 'Whether the wand also follows pixels that touch at a corner.',
   sampleSource: 'Sample from',
   sampleSourceDescription: 'Which pixels the wand and Select by colour look at: the active layer, or the picture as it shows with every visible layer.',
+  matchMode: 'Match',
+  matchModeDescription: 'Which pixels the wand and Select by colour take: the same colour, the same ramp, or colours within a distance.',
+  distance: 'Distance',
+  distanceDescription: 'How far apart two palette colours may be, from 0 to 255, and still match.',
+  ignoreTransparent: 'Ignore transparent',
+  ignoreTransparentDescription: 'Never take transparent pixels, even when they match.',
+  inSelection: 'In selection only',
+  inSelectionDescription: 'Only take pixels inside the selection that exists now.',
   amount: 'Amount',
   amountDescription: 'How many pixels Expand, Shrink and Border change the selection by.',
   expand: 'Expand',
@@ -86,6 +94,12 @@ const NEIGHBOUR_CHOICES: readonly OptionChoice[] = [
   { value: '8', label: '8 neighbours', description: CONNECTIVITY_DESCRIPTIONS[8], glyph: '8' },
 ];
 
+const MATCH_CHOICES: readonly OptionChoice[] = [
+  { value: 'exact', label: 'Same colour', description: 'Only pixels of exactly the picked colour.', glyph: '=' },
+  { value: 'ramp', label: 'Same ramp', description: 'Pixels of any colour that shares a ramp with the picked colour.', glyph: 'R' },
+  { value: 'similar', label: 'Similar colour', description: 'Pixels whose colour lies within the distance of the picked colour.', glyph: '~' },
+];
+
 const SAMPLE_CHOICES: readonly OptionChoice[] = [
   { value: 'layer', label: 'Active layer', description: 'Look at the active layer only.', glyph: 'L' },
   { value: 'visible', label: 'All visible layers', description: 'Look at the flattened picture, every visible layer.', glyph: 'V' },
@@ -114,4 +128,4 @@ const MAP_SELECT_SHAPE_CHOICES: readonly OptionChoice[] = [
   { value: 'same', label: 'Same tile', description: 'Click a cell to select every cell of the layer that holds its tile, whatever its turn.', icon: 'pixel-select-color' },
 ];
 
-export { BRUSH_ANGLE_CHOICES, BRUSH_TIP_CHOICES, FILL_AREA_CHOICES, MAP_SELECT_SHAPE_CHOICES, NEIGHBOUR_CHOICES, OPTION_TEXT, SAMPLE_CHOICES, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES };
+export { BRUSH_ANGLE_CHOICES, BRUSH_TIP_CHOICES, FILL_AREA_CHOICES, MAP_SELECT_SHAPE_CHOICES, MATCH_CHOICES, NEIGHBOUR_CHOICES, OPTION_TEXT, SAMPLE_CHOICES, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES };

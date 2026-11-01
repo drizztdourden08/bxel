@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { CanvasLook } from '../../canvas-look/canvas-look.type';
-import type { KeyboardEventHandler, PointerEventHandler, Ref } from 'react';
+import type { KeyboardEventHandler, PointerEventHandler, ReactNode, Ref } from 'react';
 
 interface PixelPoint {
   x: number;
@@ -71,6 +71,8 @@ interface PixelViewportProps {
   look?: CanvasLook;
   wheel?: PixelWheel;
   hand?: boolean;
+  onAltWheel?: (steps: number) => void;
+  mirror?: boolean;
   tiled?: PixelTiling;
   onView?: (view: PixelView | null, source: PixelSource | undefined) => void;
   onPointerPixel?: (pixel: PixelPoint | null) => void;
@@ -80,6 +82,7 @@ interface PixelViewportProps {
   onPointerLeave?: PointerEventHandler<HTMLElement>;
   onKeyDown?: KeyboardEventHandler<HTMLElement>;
   className?: string;
+  children?: ReactNode;
   ref?: Ref<PixelViewportHandle>;
 }
 

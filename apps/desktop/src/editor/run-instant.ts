@@ -5,6 +5,7 @@ import { useDrawingStore } from '../stores/useDrawingStore';
 import { useToolStore } from '../stores/useToolStore';
 import type { EditorTarget } from './editor.type';
 import { fillRequest } from './fill-request';
+import { returnAfterPick } from './return-after-pick';
 import { inkOf } from './ink-of';
 import type { ColourSlot } from './press-plan.type';
 import { samplePixel } from './sample-pixel';
@@ -21,6 +22,7 @@ const pickColour = (target: EditorTarget, at: Point, slot: ColourSlot): void => 
 const runInstant = (kind: 'pick' | 'fill', target: EditorTarget, at: Point, slot: ColourSlot): void => {
   if (kind === 'pick') {
     pickColour(target, at, slot);
+    returnAfterPick();
     return;
   }
   const tools = useToolStore.getState();

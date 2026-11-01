@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { currentTarget } from '../../../editor/current-target';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
+import { useViewStore } from '../../../stores/useViewStore';
 import { canvasOrigin } from '../../../timeline/canvas-origin';
 import { currentFocus } from '../../../timeline/current-focus';
 import { currentPlan } from '../../../timeline/current-plan';
@@ -14,7 +15,7 @@ const paintOnion = (ctx: CanvasRenderingContext2D): void => {
   const { onion, playMode, playing } = useTimelineStore.getState();
   const artwork = targetArtwork(target);
   const focus = currentFocus();
-  if (!target?.animation || !artwork || !focus || (playing && onion.hideWhilePlaying)) return;
+  if (!target?.animation || !artwork || !focus || (playing && onion.hideWhilePlaying) || useViewStore.getState().hideOverlays) return;
   const { animation, frame } = target.animation;
   const plan = onionPlan(animation, frame.id, currentPlan(focus), { onion, mode: playMode });
   if (plan.length === 0) return;

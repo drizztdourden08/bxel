@@ -5,6 +5,7 @@ type ColourSlot = 'foreground' | 'background' | 'third' | 'fourth';
 
 interface PressEvent {
   button: number;
+  pointerType?: string;
   altKey: boolean;
   shiftKey: boolean;
   ctrlKey?: boolean;

@@ -1,0 +1,55 @@
+/* @layer core @kind logic */
+import type { MaskView } from '../buffer.type';
+import { emptyMask } from './empty-mask';
+import type { MatchOptions } from './selection.type';
+
+const EIGHT: readonly (readonly [number, number])[] = [
+  [-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [1, -1], [-1, 1], [1, 1],
+];
+
+const allowed = (options: MatchOptions, at: number, index: number): boolean => {
+  if (options.ignore?.(index) === true) return false;
+  return options.within ? options.within.bits[at] === 1 : true;
+};
+
+const everywhere = (options: MatchOptions, seedIndex: number, mask: MaskView): MaskView => {
+  for (const [at, value] of options.target.pixels.entries()) {
+    if (allowed(options, at, value) && options.matches(seedIndex, value)) mask.bits[at] = 1;
+  }
+  return mask;
+};
+
+const region = (options: MatchOptions, seedIndex: number, mask: MaskView): MaskView => {
+  const { width, height, pixels } = options.target;
+  const steps = options.connectivity === 8 ? EIGHT : EIGHT.slice(0, 4);
+  const queue: number[] = [options.seed.y * width + options.seed.x];
+  const take = (at: number): boolean => {
+    const value = pixels[at];
+    if (value === undefined || mask.bits[at] === 1 || !allowed(options, at, value) || !options.matches(seedIndex, value)) return false;
+    mask.bits[at] = 1;
+    return true;
+  };
+  if (!take(queue[0] ?? 0)) return mask;
+  for (let head = 0; head < queue.length; head += 1) {
+    const at = queue[head] ?? 0;
+    const x = at % width;
+    const y = Math.floor(at / width);
+    for (const [dx, dy] of steps) {
+      const nx = x + dx;
+      const ny = y + dy;
+      if (nx >= 0 && ny >= 0 && nx < width && ny < height && take(ny * width + nx)) queue.push(ny * width + nx);
+    }
+  }
+  return mask;
+};
+
+const matchMask = (options: MatchOptions): MaskView => {
+  const { target, seed } = options;
+  const mask = emptyMask(target);
+  const inside = seed.x >= 0 && seed.y >= 0 && seed.x < target.width && seed.y < target.height;
+  const seedIndex = options.seedIndex ?? (inside ? target.pixels[seed.y * target.width + seed.x] : undefined);
+  if (seedIndex === undefined) return mask;
+  return options.contiguous ? region(options, seedIndex, mask) : everywhere(options, seedIndex, mask);
+};
+
+export { matchMask };

@@ -17,6 +17,13 @@ const viewEntries = (parts: ViewParts): ContextMenuEntry => ({
     { command: COMMAND_ID.tileGrid, hidden: !parts.tile },
     { command: COMMAND_ID.guides, hidden: !parts.guides },
     COMMAND_ID.rulers,
+    COMMAND_ID.snap,
+    { command: COMMAND_ID.lockGuides, hidden: !parts.guides },
+    COMMAND_ID.hideOverlays,
+    { command: COMMAND_ID.mirrorView, hidden: !parts.tiled },
+    { command: COMMAND_ID.splitView, hidden: !parts.tiled },
+    { command: COMMAND_ID.loupe, hidden: !parts.tiled },
+    { command: COMMAND_ID.fullscreenPreview, hidden: !parts.tiled },
     {
       label: 'Tiled preview',
       hidden: !parts.tiled,

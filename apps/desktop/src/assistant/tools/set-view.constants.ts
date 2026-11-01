@@ -3,6 +3,7 @@ import type { SetViewInput } from './app-tool-input.type';
 import { coloursStep } from './colours-step';
 import { dialogStep } from './dialog-step';
 import { focusStep } from './focus-step';
+import { markerStep } from './marker-step';
 import { panStep } from './pan-step';
 import { pageStep } from './page-step';
 import { playbackStep } from './playback-step';
@@ -22,6 +23,7 @@ const VIEW_STEPS: readonly (readonly [keyof SetViewInput, ViewStep])[] = [
   ['page', pageStep],
   ['zoom', zoomStep],
   ['pan', panStep],
+  ['marker', markerStep],
   ['toggles', togglesStep],
   ['playback', playbackStep],
   ['timeline', timelineStep],

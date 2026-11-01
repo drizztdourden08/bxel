@@ -16,6 +16,10 @@ const pickAndFill: OptionSpec[] = [
     tool: 'picker', name: 'sample', label: DRAWING_TEXT.pickSample, description: DRAWING_TEXT.pickSampleDescription, priority: 10, group: 'pick', default: 'visible',
     choices: PICK_SAMPLE_CHOICES, read: () => d().pickSample, write: (value) => d().patch({ pickSample: value as PickSample }),
   }),
+  toggleSpec({
+    tool: 'picker', name: 'return', label: DRAWING_TEXT.pickReturn, description: DRAWING_TEXT.pickReturnDescription, priority: 20, group: 'pick',
+    icon: 'undo-2', read: () => d().pickReturn, write: (on) => d().patch({ pickReturn: on }),
+  }),
   choiceSpec({
     tool: 'fill', name: 'sample', label: DRAWING_TEXT.fillSample, description: DRAWING_TEXT.fillSampleDescription, priority: 30, group: 'area', tier: 2, default: 'layer',
     choices: FILL_SAMPLE_CHOICES, read: () => d().fillSample, write: (value) => d().patch({ fillSample: value as FillSample }),

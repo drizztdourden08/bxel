@@ -19,6 +19,9 @@ const CANVAS_MENU = {
   asColour: (slot: number): string => `As colour ${slot}`,
   pickHere: 'Pick colour here',
   selectHere: 'Select here',
+  addGuide: 'Add guide here',
+  guideX: 'Vertical guide (X)',
+  guideY: 'Horizontal guide (Y)',
   region: 'Region of this colour',
   everywhere: 'Every pixel of this colour',
   symmetry: 'Symmetry',
@@ -79,9 +82,11 @@ const HANDLE_CURSORS: Readonly<Record<string, string>> = { pivot: 'crosshair', r
 
 const ZOOM_RECT_DASH: readonly number[] = [4, 3];
 
+const MARKER_DASH: readonly number[] = [6, 3];
+
 const ZOOM_SCRUB_PIXELS = 120;
 
 export {
   ANCHOR_ARM, ANT_DASH, CORNER_CURSORS, EDGE_CURSORS, HANDLE_CURSORS, HANDLE_DRAW, ANT_PERIOD, ANT_STEP_MS, AREA_FILL_ALPHA, AREA_LINE, AXIS_DASH, AXIS_GRAB, AXIS_GRIP, CANVAS_CLASS, CANVAS_MENU, EDITOR_CANVAS_TEXT, GUIDE_ALPHA, MENU_TOOLS, OUTLINE_PATHS, OVERLAY_TOKENS,
-  REDUCED_MOTION, ZOOM_RECT_DASH, ZOOM_SCRUB_PIXELS,
+  MARKER_DASH, REDUCED_MOTION, ZOOM_RECT_DASH, ZOOM_SCRUB_PIXELS,
 };

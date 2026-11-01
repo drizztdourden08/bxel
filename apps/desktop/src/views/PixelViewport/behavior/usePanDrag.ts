@@ -4,7 +4,7 @@ import type { PointerEvent, RefObject } from 'react';
 import { MAIN_BUTTON, MIDDLE_BUTTON } from '../PixelViewport.constants';
 import type { PanDrag, PanDragging, ViewState } from './viewport.type';
 
-const usePanDrag = (view: ViewState, spaceHeld: RefObject<boolean>, hand: boolean): PanDragging => {
+const usePanDrag = (view: ViewState, spaceHeld: RefObject<boolean>, hand: boolean, mirror = false): PanDragging => {
   const drag = useRef<PanDrag | null>(null);
   const owns = (event: PointerEvent<HTMLElement>): boolean => drag.current?.pointer === event.pointerId;
   return {
@@ -21,7 +21,7 @@ const usePanDrag = (view: ViewState, spaceHeld: RefObject<boolean>, hand: boolea
       const from = drag.current;
       if (!from || !owns(event)) return false;
       const { zoom } = view.latest.current;
-      view.apply({ zoom, pan: { x: from.pan.x - (event.clientX - from.x) / zoom, y: from.pan.y - (event.clientY - from.y) / zoom } });
+      view.apply({ zoom, pan: { x: from.pan.x - ((mirror ? -1 : 1) * (event.clientX - from.x)) / zoom, y: from.pan.y - (event.clientY - from.y) / zoom } });
       return true;
     },
     end: (event) => {

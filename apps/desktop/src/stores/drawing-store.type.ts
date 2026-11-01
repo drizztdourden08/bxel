@@ -40,6 +40,7 @@ interface DrawingSettings {
   curveCubic: boolean;
   contourPerfect: boolean;
   pickSample: PickSample;
+  pickReturn: boolean;
   fillSample: FillSample;
   fillMatch: FillMatch;
   sprayDensity: number;

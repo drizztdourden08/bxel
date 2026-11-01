@@ -14,6 +14,7 @@ interface ViewBox {
   dpr: number;
   margin: number;
   step: number;
+  mirror?: boolean;
 }
 
 interface ViewTarget {

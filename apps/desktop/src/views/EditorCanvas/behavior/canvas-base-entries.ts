@@ -12,6 +12,7 @@ import { CANVAS_MENU } from '../EditorCanvas.constants';
 import { historyEntries } from './history-entries';
 import { pickHereEntries } from './pick-here-entries';
 import { symmetryEntries } from './symmetry-entries';
+import { viewHereEntries } from './view-here-entries';
 
 const canvasBaseEntries = (here: Point | null, tile: boolean): readonly ContextMenuEntry[] => [
   ...(tile ? [{ command: 'tilemap.place_tiles', label: CANVAS_MENU.backToPlace }] : []),
@@ -27,6 +28,7 @@ const canvasBaseEntries = (here: Point | null, tile: boolean): readonly ContextM
       { command: 'selection.by_colour', label: CANVAS_MENU.everywhere, args: { x: here?.x, y: here?.y, mode: 'everywhere' } },
     ],
   },
+  ...viewHereEntries(here),
   'separator',
   ...historyEntries(),
   'separator',

@@ -1,0 +1,59 @@
+/* @layer renderer-app @kind style */
+.canvas-overlays {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.canvas-overlays__loupe {
+  position: absolute;
+  inline-size: var(--size-96);
+  block-size: var(--size-96);
+  background: var(--c-sunken);
+  border: var(--border-width-thick) solid var(--c-text);
+  border-radius: 50%;
+  image-rendering: pixelated;
+}
+
+.canvas-overlays__loupe[hidden] {
+  display: none;
+}
+
+.canvas-overlays__hud {
+  position: absolute;
+  inset-block-end: var(--space-sm);
+  inset-inline-end: var(--space-sm);
+  padding: var(--size-2) var(--space-sm);
+  color: var(--c-text);
+  pointer-events: auto;
+  background: var(--c-surface);
+  border: var(--border-width-thin) solid var(--c-border);
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+.canvas-overlays__hud[data-visible] {
+  opacity: 1;
+}
+
+.canvas-overlays__fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-sunken);
+}
+
+.canvas-overlays__fullscreen-art {
+  image-rendering: pixelated;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .canvas-overlays__hud {
+    transition: none;
+  }
+}

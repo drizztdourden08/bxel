@@ -43,7 +43,6 @@ const KEYS: readonly KeyDef[] = [
   { id: 'timeline.key_select_all', label: 'Select all frames', chord: 'Mod+A', run: () => selectAllFrames() },
   { id: 'timeline.key_tag', label: 'Tag the selected frames or edit the picked tag', chord: 'F2', run: () => tagOrEdit() },
   { id: 'timeline.key_duration', label: 'Set the duration of the selected frames', chord: 'P', run: () => store.getState().setPopover({ kind: 'duration' }) },
-  { id: 'timeline.key_onion', label: 'Turn onion skin on or off', chord: 'F3', run: () => store.getState().setOnion({ on: !store.getState().onion.on }) },
   { id: 'timeline.key_time_mode', label: 'Show frame widths as durations', chord: 'T', run: () => store.getState().setTimeMode(!store.getState().timeMode) },
   { id: 'timeline.key_zoom_in', label: 'Larger frames', chord: ['Mod+Plus', 'Mod+='], run: () => store.getState().setZoom(stepZoom(store.getState().zoom, 1)) },
   { id: 'timeline.key_zoom_out', label: 'Smaller frames', chord: 'Mod+Minus', run: () => store.getState().setZoom(stepZoom(store.getState().zoom, -1)) },

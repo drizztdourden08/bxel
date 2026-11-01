@@ -64,6 +64,12 @@ const TILE_LABEL = {
   duplicate: 'Duplicate cells',
 } as const;
 
+const STAMP_SLOT_TEXT = {
+  empty: (slot: number): string => `Stamp slot ${slot} is empty. Pick a stamp, then press Ctrl+Alt+${slot} to keep it.`,
+  stored: (slot: number): string => `Stamp kept in slot ${slot}`,
+  recalled: (slot: number): string => `Stamp from slot ${slot}`,
+} as const;
+
 const CELL_CLIP_TEXT = {
   noCells: 'Copy some cells first.',
   otherTileset: 'The copied cells use another tileset, so their tiles do not match this map.',
@@ -102,4 +108,4 @@ const MAP_TOOL_OF: Readonly<Record<ToolId, MapTool>> = {
 
 const TILE_CANVASES = new WeakMap<FrameImage, HTMLCanvasElement>();
 
-export { CELL_CLIP_TEXT, MAP_TOOL_OF, TILE_CANVASES, TILE_LABEL, TILE_REF, TILEMAP_TEXT };
+export { CELL_CLIP_TEXT, MAP_TOOL_OF, STAMP_SLOT_TEXT, TILE_CANVASES, TILE_LABEL, TILE_REF, TILEMAP_TEXT };

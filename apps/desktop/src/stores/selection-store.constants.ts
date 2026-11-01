@@ -5,6 +5,10 @@ const SELECTION_DEFAULTS: SelectionSettings = {
   variant: 'rect',
   mode: 'replace',
   connectivity: 4,
+  match: 'exact',
+  distance: 32,
+  ignoreTransparent: false,
+  inSelection: false,
   sample: 'layer',
   amount: 1,
   owner: null,
@@ -17,4 +21,6 @@ const SELECTION_DEFAULTS: SelectionSettings = {
 
 const AMOUNT_LIMIT = 64;
 
-export { AMOUNT_LIMIT, SELECTION_DEFAULTS };
+const DISTANCE_LIMIT = 255;
+
+export { AMOUNT_LIMIT, DISTANCE_LIMIT, SELECTION_DEFAULTS };

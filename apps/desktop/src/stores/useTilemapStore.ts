@@ -7,8 +7,8 @@ import { useDocumentStore } from './useDocumentStore';
 const useTilemapStore = create<TilemapState>()((set, get) => ({
   ...TILEMAP_DEFAULTS,
   reset: () => {
-    const { animateTiles, clip, selectVariant, selectMode } = get();
-    set({ ...TILEMAP_DEFAULTS, animateTiles, clip, selectVariant, selectMode });
+    const { animateTiles, clip, selectVariant, selectMode, stampSlots } = get();
+    set({ ...TILEMAP_DEFAULTS, animateTiles, clip, selectVariant, selectMode, stampSlots });
   },
   setTileset: (tilesetId) => set({ tilesetId }),
   setMap: (mapId) => set({ mapId, layerId: null, selection: null, paste: null }),
@@ -16,6 +16,7 @@ const useTilemapStore = create<TilemapState>()((set, get) => ({
   placeTiles: () => set({ editMode: 'place', editKey: null, editSpriteId: null }),
   editTile: (editKey, editSpriteId) => set({ editMode: 'edit', editKey, editSpriteId }),
   setStamp: (stamp) => set({ stamp }),
+  storeStamp: (slot) => set((state) => ({ stampSlots: state.stampSlots.map((each, at) => (at === slot ? state.stamp : each)) })),
   setFlags: (flags) => set({ flags }),
   setFilled: (filled) => set({ filled }),
   setSelection: (selection) => set({ selection }),

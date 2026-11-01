@@ -18,6 +18,7 @@ const DRAWING_DEFAULTS: DrawingSettings = {
   curveCubic: false,
   contourPerfect: false,
   pickSample: 'visible',
+  pickReturn: false,
   fillSample: 'layer',
   fillMatch: 'index',
   sprayDensity: 6,

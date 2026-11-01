@@ -32,6 +32,10 @@
   image-rendering: pixelated;
 }
 
+.pixel-viewport--mirror .pixel-viewport__canvas {
+  transform: scaleX(-1);
+}
+
 .pixel-viewport__status {
   position: absolute;
   inline-size: var(--size-1);

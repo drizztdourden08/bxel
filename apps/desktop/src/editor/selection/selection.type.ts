@@ -3,6 +3,8 @@ import type { Point } from '@bxel/raster';
 
 type SelectVariant = 'rect' | 'ellipse' | 'lasso' | 'polygon' | 'wand' | 'colour';
 
+type MatchKind = 'exact' | 'ramp' | 'similar';
+
 type SampleSource = 'layer' | 'visible';
 
 interface Clip {
@@ -32,4 +34,4 @@ interface ShapeHold {
   centre: boolean;
 }
 
-export type { Clip, DragKeys, DragShape, SampleSource, SelectVariant, ShapeHold };
+export type { Clip, DragKeys, DragShape, MatchKind, SampleSource, SelectVariant, ShapeHold };

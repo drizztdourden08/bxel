@@ -34,6 +34,7 @@ interface TilemapSettings {
   editKey: number | null;
   editSpriteId: SpriteId | null;
   stamp: TileStamp;
+  stampSlots: readonly (TileStamp | null)[];
   flags: CellFlags;
   filled: boolean;
   selection: MapSelection | null;
@@ -54,6 +55,7 @@ interface TilemapState extends TilemapSettings {
   placeTiles: () => void;
   editTile: (key: number, spriteId: SpriteId) => void;
   setStamp: (stamp: TileStamp) => void;
+  storeStamp: (slot: number) => void;
   setFlags: (flags: CellFlags) => void;
   setFilled: (filled: boolean) => void;
   setSelection: (selection: MapSelection | null) => void;
