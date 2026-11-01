@@ -5,6 +5,8 @@ import { addLayer } from './add-layer';
 import { deleteLayer } from './delete-layer';
 import { chooseReferenceLayer } from './choose-reference-layer';
 import { duplicateLayer } from './duplicate-layer';
+import { currentTarget } from './current-target';
+import { flattenGroup } from './flatten-group';
 import { flattenLayers } from './flatten-layers';
 import { groupLayers } from './group-layers';
 import type { LayerActions, ViewFields } from './layer-actions.type';
@@ -14,6 +16,8 @@ import { mergeLayers } from './merge-layers';
 import { mergeSelectedLayers } from './merge-selected-layers';
 import { moveLayer } from './move-layer';
 import { moveLayersTo } from './move-layers-to';
+import { moveOutWish } from './move-out-wish';
+import { selectChildren } from './select-children';
 import { relinkReference } from './relink-reference';
 import { selectionToLayer } from './selection-to-layer';
 import { ungroupLayer } from './ungroup-layer';
@@ -44,6 +48,12 @@ const spriteLayerActions: LayerActions = {
   setView: (ids, fields) => void updateLayers(asIds(ids), fields, viewLabel(fields)),
   group: groupLayers,
   ungroup: ungroupLayer,
+  flattenGroup,
+  moveOut: (ids) => {
+    const wish = moveOutWish(currentTarget()?.sprite.layers ?? [], ids);
+    if (wish) void moveLayersTo(wish);
+  },
+  selectChildren: (id) => selectChildren(currentTarget()?.sprite.layers ?? [], id),
   mergeSelected: mergeSelectedLayers,
   toLayer: selectionToLayer,
   addReference: () => void chooseReferenceLayer(),

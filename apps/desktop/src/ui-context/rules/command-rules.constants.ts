@@ -82,10 +82,11 @@ const LAYERS: RuleTable = {
     [WRITE],
   ),
   ...family(['layer.duplicate', 'layer.merge', 'layer.move_up', 'layer.move_down', 'layer.move_top', 'layer.move_bottom', 'layer.solo'], EDIT_STAGE, [WRITE]),
-  ...family(['layer.flatten', 'layer.group', 'layer.ungroup', 'layer.merge_selected', 'layer.reference_add', 'layer.reference_relink'], PIXEL, [WRITE], ONLY.pixels),
+  ...family(['layer.flatten', 'layer.merge_selected', 'layer.reference_add', 'layer.reference_relink'], PIXEL, [WRITE], ONLY.pixels),
   ...family(['layer.selection_to_layer', 'layer.cut_to_layer'], PIXEL, [WRITE, PIXELS_SELECTED], ONLY.pixels),
   ...family(['layer.toggle_clip', 'layer.toggle_exported'], PIXEL, [WRITE], ONLY.pixels),
-  ...family(['layer.toggle_fold'], PIXEL, [], ONLY.pixels),
+  ...family(['layer.group', 'layer.ungroup', 'layer.flatten_group', 'layer.move_out'], EDIT_STAGE, [WRITE], ONLY.drawing),
+  ...family(['layer.toggle_fold', 'layer.select_children'], EDIT_STAGE, [], ONLY.drawing),
   ...family(['view.highlight_layer'], PIXEL, [], ONLY.pixels),
 };
 

@@ -3,10 +3,15 @@ import type { Rect } from '@bxel/raster';
 import { markDirty } from '../canvas-dirty/mark-dirty';
 import { CHANNELS } from './bank-table.constants';
 import type { Overlay } from './editor.type';
+import { refreshViewRect } from './refresh-view-rect';
 
 const wordsOf = (bytes: Uint8ClampedArray): Uint32Array => new Uint32Array(bytes.buffer, bytes.byteOffset, Math.floor(bytes.length / CHANNELS));
 
 const refreshRect = (overlay: Overlay, rect: Rect): void => {
+  if (overlay.view) {
+    refreshViewRect(overlay, overlay.view, rect);
+    return;
+  }
   const { indices, rgba, table, width } = overlay;
   const pixels = wordsOf(rgba);
   const colours = wordsOf(table);

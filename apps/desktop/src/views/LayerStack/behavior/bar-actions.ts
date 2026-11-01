@@ -8,7 +8,7 @@ const barActions = (model: LayerStackModel, picked: readonly string[]): LayerBar
   return [
     { id: 'duplicate', icon: 'copy', hint: LAYER_BAR_HINTS.duplicate, run: actions.duplicate, reason: at < 0 ? LAYER_STACK_TEXT.noSprite : null },
     { id: 'merge', icon: 'arrow-down', hint: LAYER_BAR_HINTS.merge, run: actions.merge, reason: at < 0 || at === rows.length - 1 ? LAYER_REASONS.bottom : null },
-    ...(model.kind === 'sprite' ? [{ id: 'group', icon: 'group' as const, hint: LAYER_BAR_HINTS.group, run: () => actions.group(picked), reason: picked.length === 0 ? LAYER_STACK_TEXT.noSprite : null }] : []),
+    { id: 'group', icon: 'group', hint: LAYER_BAR_HINTS.group, run: () => actions.group(picked), reason: picked.length === 0 ? LAYER_STACK_TEXT.noSprite : null },
     { id: 'remove', icon: 'trash-2', hint: LAYER_BAR_HINTS.remove, run: actions.remove, reason: rows.length < 2 ? LAYER_REASONS.last : null },
   ];
 };

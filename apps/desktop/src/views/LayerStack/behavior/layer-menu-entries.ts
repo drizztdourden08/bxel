@@ -32,15 +32,22 @@ const colourItems = (row: LayerRowModel, args: { layerId: string }): ContextMenu
   })),
 ];
 
-const treeItems = (row: LayerRowModel, args: { layerId: string }, picked: readonly string[]): ContextMenuEntry[] => [
+const groupItems = (row: LayerRowModel, args: { layerId: string }): ContextMenuEntry[] => [
   { command: COMMAND_ID.layerGroup, label: LAYER_MENU_TEXT.group },
   { command: COMMAND_ID.layerUngroup, label: LAYER_MENU_TEXT.ungroup, args, ...unless(row.kind === 'group', LAYER_TEXT.notGroup) },
+  { command: COMMAND_ID.layerFlattenGroup, label: LAYER_MENU_TEXT.flattenGroup, args, ...unless(row.kind === 'group', LAYER_TEXT.notGroup) },
+  { command: COMMAND_ID.layerMoveOut, label: LAYER_MENU_TEXT.moveOut, args, ...unless(row.parentId !== null, LAYER_TEXT.notInGroup) },
+  { command: COMMAND_ID.layerSelectChildren, label: LAYER_MENU_TEXT.selectChildren, args, ...unless(row.kind === 'group' && row.childCount > 0, LAYER_TEXT.noChildren) },
+  ...(row.kind === 'group' ? [{ command: COMMAND_ID.layerToggleFold, label: LAYER_MENU_TEXT.fold, args }] : []),
+];
+
+const treeItems = (row: LayerRowModel, args: { layerId: string }, picked: readonly string[]): ContextMenuEntry[] => [
+  ...groupItems(row, args),
   { command: COMMAND_ID.layerMergeSelected, label: LAYER_MENU_TEXT.mergeSelected, ...unless(picked.length > 1, LAYER_TEXT.oneToMerge) },
   { command: COMMAND_ID.layerToLayer, label: LAYER_MENU_TEXT.toLayer },
   { command: COMMAND_ID.layerCutToLayer, label: LAYER_MENU_TEXT.cutToLayer },
   { command: COMMAND_ID.layerReferenceAdd, label: LAYER_MENU_TEXT.reference },
   ...(row.kind === 'reference' ? [{ command: COMMAND_ID.layerReferenceRelink, label: LAYER_MENU_TEXT.relink, args }] : []),
-  ...(row.kind === 'group' ? [{ command: COMMAND_ID.layerToggleFold, label: LAYER_MENU_TEXT.fold, args }] : []),
   ...(row.kind === 'pixel' ? [{ command: COMMAND_ID.layerToggleClip, label: LAYER_MENU_TEXT.clip, args, checked: row.clip }] : []),
   ...(row.kind === 'reference' ? [] : [{ command: COMMAND_ID.layerToggleExported, label: LAYER_MENU_TEXT.exported, args, checked: row.exported }]),
   { command: COMMAND_ID.layerHighlight, label: LAYER_MENU_TEXT.highlight, checked: useLayerViewStore.getState().highlight },
@@ -60,7 +67,8 @@ const layerMenuEntries = (model: LayerStackModel, layerId: string | undefined, p
     { command: 'layer.solo', args, checked: isSolo(rows, row.id), ...unless(!only, LAYER_STACK_TEXT.oneLayer) },
     { command: 'layer.rename', label: LAYER_MENU_TEXT.rename },
     'separator',
-    ...(pixels ? [...treeItems(row, args, picked), 'separator' as const] : []),
+    ...(pixels ? treeItems(row, args, picked) : groupItems(row, args)),
+    'separator',
     COMMAND_ID.layerAdd,
     COMMAND_ID.layerDuplicate,
     { command: COMMAND_ID.layerMerge, label: pixels ? LAYER_MENU_TEXT.mergeDown : LAYER_MENU_TEXT.mergeMapDown, ...unless(at < rows.length - 1, LAYER_TEXT.bottom) },

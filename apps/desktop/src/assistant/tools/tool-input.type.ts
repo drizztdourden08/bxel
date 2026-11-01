@@ -84,6 +84,7 @@ type RenderInput = DocumentInput & {
   readonly exported?: boolean;
   readonly onion?: boolean;
   readonly bankId?: string;
+  readonly layers?: readonly string[];
   readonly animated?: 'gif' | 'apng';
 };
 
