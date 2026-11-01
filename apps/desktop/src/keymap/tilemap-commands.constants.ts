@@ -34,7 +34,7 @@ const NEW_COMMANDS: readonly CommandDef[] = [
 
 const TILE_COMMANDS: readonly CommandDef[] = [
   { id: ID.addTile, label: 'Add tile', group, run: () => void addTile() },
-  { id: ID.duplicateTile, label: 'Duplicate tile', group, run: onPicked(duplicateTile) },
+  { id: ID.duplicateTile, label: 'Duplicate tile', group, chord: 'Mod+D', zone: COMMAND_ZONE.tileset, whileTyping: false, run: onPicked(duplicateTile) },
   {
     id: ID.deleteTile,
     label: 'Delete tile',
