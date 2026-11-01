@@ -6,6 +6,7 @@ import {
   BANK_ID_SCHEMA,
   DOCUMENT_ID_SCHEMA,
   FRAME_ID_SCHEMA,
+  LAYER_ID_SCHEMA,
   REVISION_SCHEMA,
   SHEET_ID_SCHEMA,
   SPRITE_ID_SCHEMA,
@@ -49,7 +50,7 @@ const animationTarget = z
 const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
   title: 'Render a preview',
   description:
-    'A PNG of one sprite frame, one tileset laid out in its columns (holes shown dim, optional collision, terrain or tile key overlay), one tilemap (every visible layer, or one layer), one animation frame (with onion true, with its onion skin ghosts), a strip of an animation (the whole animation, the frames of one tag or one facing, in play order, mirrors flipped), a grid with one row per facing (allFacings) or one sheet, drawn by the same code as the canvas and the export (a sheet with exported true is drawn as the exporter packs it). With animated gif or apng an animation play comes back as an animated image to judge the timing. Nearest-neighbour scale only. The image is returned as an image block and a resource link.',
+    'A PNG of one sprite frame (every visible layer, or only the layers named in layers), one tileset laid out in its columns (holes shown dim, optional collision, terrain or tile key overlay), one tilemap (every visible layer, or only the layers named in layers), one animation frame (with onion true, with its onion skin ghosts), a strip of an animation (the whole animation, the frames of one tag or one facing, in play order, mirrors flipped), a grid with one row per facing (allFacings) or one sheet, drawn by the same code as the canvas and the export (a sheet with exported true is drawn as the exporter packs it). With animated gif or apng an animation play comes back as an animated image to judge the timing. Nearest-neighbour scale only. The image is returned as an image block and a resource link.',
   input: z
     .strictObject({
     documentId: DOCUMENT_ID_SCHEMA.optional(),
@@ -64,10 +65,20 @@ const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
       .describe('A sheet target only: draw the sheet as the exporter packs it (grid or packed layout, spacing, margin; the first page when there are several) instead of the default sheet image.'),
     onion: z.boolean().default(false).describe('Animation frame only: draw the frame with its onion skin ghosts as the canvas draws them, using the timeline onion settings from get_view with the onion switched on.'),
     bankId: BANK_ID_SCHEMA.optional().describe('Sprite frame only: draw the frame through this other palette, as the Preview with command does. Nothing is saved. The palette needs at least as many swatches as the sprite palette.'),
+    layers: z
+      .array(z.union([LAYER_ID_SCHEMA, MAP_LAYER_ID_SCHEMA]))
+      .min(1)
+      .max(64)
+      .optional()
+      .describe('Sprite frame or tilemap target only: draw only these layers, shown even when hidden. A group names every layer inside it. Sprite layer ids for a sprite, map layer ids for a tilemap. Absent draws every visible layer.'),
     animated: z.enum(['gif', 'apng']).optional().describe('Animation tag, facing or whole animation: return the play as a GIF or an APNG, with the frame times, instead of a still strip.'),
     })
     .refine((input) => (input.file !== undefined) !== (input.documentId !== undefined && input.target !== undefined), {
       message: 'Give a file, or a documentId with a target.',
+    })
+    .refine((input) => input.layers === undefined || (input.target !== undefined && ('spriteId' in input.target || 'tilemapId' in input.target)), {
+      message: 'layers needs a sprite or a tilemap target.',
+      path: ['layers'],
     }),
   output: withFailure({
     revision: REVISION_SCHEMA,

@@ -60,7 +60,7 @@ const INPUT_EXAMPLES: Record<string, unknown> = {
   read_pixels: { documentId: DOC, spriteId: SPRITE, frameId: FRAME, layer: 'flattened', rect: RECT },
   lint_pixels: { documentId: DOC, spriteId: SPRITE, frameId: FRAME },
   build_ramp: { documentId: DOC, base: '#6B3FA0', dark: 2, light: 2 },
-  render_preview: { documentId: DOC, target: { spriteId: SPRITE } },
+  render_preview: { documentId: DOC, target: { spriteId: SPRITE }, layers: [LAYER] },
   preview_edits: { documentId: DOC, baseRevision: 12, label: 'Outline', steps: EDIT_STEPS },
   apply_edits: { documentId: DOC, baseRevision: 12, label: 'Outline', steps: EDIT_STEPS, clientRequestId: 'try-1' },
   undo: { documentId: DOC, expectedRevision: 13, direction: 'redo', steps: 2 },

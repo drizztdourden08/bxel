@@ -7,6 +7,8 @@ import type { ToolContext } from '../assistant.type';
 import { framePng } from './frame-png';
 import { hiddenAssets } from './hidden-assets';
 import { indexHash } from './index-hash';
+import { layersQuery } from './layers-query';
+import { narrowFrame } from './narrow-frame';
 import { previewThrough } from './preview-through';
 import { reply } from './reply';
 import { spriteFrame } from './sprite-frame';
@@ -18,14 +20,16 @@ const renderSpritePreview = async (context: ToolContext, view: DocumentView, req
   if (!('spriteId' in target)) return reply(mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.formatMissing, { path: 'target' }));
   const found = spriteFrame(view.state.artwork, target.spriteId, target.frameId, hiddenAssets(context, documentId));
   if (!found.ok) return reply(found);
-  const through = previewThrough(view.state.artwork, found.value, request.bankId);
+  const narrowed = narrowFrame(found.value, request.layers);
+  if (!narrowed.ok) return reply(narrowed);
+  const through = previewThrough(view.state.artwork, narrowed.value, request.bankId);
   if (!through.ok) return reply(through);
   const png = framePng(through.value, scale);
   if (!png.ok) return reply(png);
   if (png.value.bytes.length > RENDER_PNG_BYTES_MAX) return reply(mcpFailure(MCP_ERROR_CODE.RESULT_TOO_LARGE, TOOL_TEXT.pngTooLarge));
-  const { sprite, frameId } = found.value;
+  const { sprite, frameId } = narrowed.value;
   const revision = view.state.revision;
-  const uri = `bxel://${documentId}/sprite/${sprite.id}/frame/${frameId}/preview.png?scale=${scale}&rev=${revision}`;
+  const uri = `bxel://${documentId}/sprite/${sprite.id}/frame/${frameId}/preview.png?scale=${scale}&rev=${revision}${layersQuery(request.layers)}`;
   return reply(
     {
       ok: true,

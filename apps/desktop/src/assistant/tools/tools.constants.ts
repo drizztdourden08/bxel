@@ -36,6 +36,7 @@ const TOOL_TEXT = {
   pngTooLarge: 'The PNG is larger than one reply may carry. Ask for a smaller scale.',
   noTilemapFound: 'The tilemap is not in this document. Call get_document.',
   noMapLayerFound: 'The tilemap has no such layer. Call list_map_layers.',
+  noLayerFound: 'The sprite has no such layer. Call get_document.',
   noTilesetFound: 'The tileset is not in this document. Call get_document.',
   noSheetFound: 'The sheet is not in this document. Call get_document.',
   noSheetImage: 'The sheet has no image to draw. Add sprites to it first.',
