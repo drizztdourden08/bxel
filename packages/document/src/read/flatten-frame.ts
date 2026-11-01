@@ -1,15 +1,13 @@
 /* @layer core @kind logic */
-import type { FrameId } from '../model/ids.type';
+import type { FrameId, LayerId } from '../model/ids.type';
 import type { Sprite } from '../model/sprite.type';
 import { emptyCel } from '../pixels/empty-cel';
-import { layerPixels } from './layer-pixels';
+import { drawnLayers } from './drawn-layers';
 
-const flattenFrame = (sprite: Sprite, frameId: FrameId): Uint8Array => {
+const flattenFrame = (sprite: Sprite, frameId: FrameId, only?: ReadonlySet<LayerId>): Uint8Array => {
   const out = emptyCel(sprite);
   let first = true;
-  for (const layer of sprite.layers) {
-    const pixels = layer.visible ? layerPixels(sprite, layer, frameId) : undefined;
-    if (!pixels) continue;
+  for (const { pixels } of drawnLayers(sprite, frameId, only)) {
     const length = Math.min(pixels.length, out.length);
     if (first) {
       out.set(length === pixels.length ? pixels : pixels.subarray(0, length));

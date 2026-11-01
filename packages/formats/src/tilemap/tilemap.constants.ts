@@ -21,4 +21,6 @@ const CELL_BITS = {
   FLAG_MASK: 0xe0000000,
 } as const;
 
-export { CELL_BITS, TILED_JSON, TILEMAP_JSON };
+const PERCENT = 100;
+
+export { CELL_BITS, PERCENT, TILED_JSON, TILEMAP_JSON };

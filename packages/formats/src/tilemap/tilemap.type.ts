@@ -106,9 +106,13 @@ type TilesetDescriptor = {
 };
 
 type TilemapLayerInput = {
+  readonly id?: string;
   readonly name: string;
   readonly visible: boolean;
   readonly locked: boolean;
+  readonly opacity?: number;
+  readonly group?: boolean;
+  readonly parentId?: string;
   readonly cells: Uint32Array;
 };
 

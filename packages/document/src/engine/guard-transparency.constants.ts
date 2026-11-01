@@ -14,4 +14,14 @@ const PAINTING_COMMANDS: ReadonlySet<string> = new Set([
   'pixels.clear',
 ]);
 
-export { PAINTING_COMMANDS };
+const MOVING_COMMANDS: ReadonlySet<string> = new Set([
+  'pixels.move',
+  'pixels.scale',
+  'pixels.rotate',
+  'pixels.transform',
+  'pixels.distort',
+  'pixels.flip',
+  'pixels.turn',
+]);
+
+export { MOVING_COMMANDS, PAINTING_COMMANDS };

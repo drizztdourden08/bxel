@@ -5,7 +5,7 @@ import type { LayerBuild } from './compose.type';
 const slotFor = (ids: IdSource, layers: LayerBuild[], layer: Layer, used: ReadonlySet<number>): number => {
   const found = layers.findIndex((each, at) => each.name === layer.name && !used.has(at));
   if (found >= 0) return found;
-  layers.push({ id: ids.next('lay') as LayerId, name: layer.name, visible: layer.visible, locked: layer.locked, cels: {} });
+  layers.push({ id: ids.next('lay') as LayerId, name: layer.name, visible: layer.visible, lock: layer.lock, cels: {} });
   return layers.length - 1;
 };
 

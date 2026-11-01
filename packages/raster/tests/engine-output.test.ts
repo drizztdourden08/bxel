@@ -6,7 +6,7 @@ import { benchEngine, benchState, requestOf, spriteOf, strokeStep } from './benc
 import { wanderPoints } from './bench-points';
 
 const SIDE = 320;
-const WANT = '366b6930d864 8994a5ac9ba2 795eaf81e323 a76cf90f6dde 85a5a1bdf226 7092cf565c68 35b5bc35463c be45ed73605a 41b4119579e6';
+const WANT = 'f4f1a89ddd21 fdfaa0cfbd95 ab7cc297cd26 736f91394ea6 d964b2698d3e 5a67509f4ba1 0f3dc4726521 709d2d2dabb6 b7753f8ff366';
 
 const digest = (value: unknown): string =>
   createHash('sha1')

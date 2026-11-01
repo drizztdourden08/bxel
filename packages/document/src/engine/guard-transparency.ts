@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { effectiveLock } from '../read/effective-lock';
 import type { Draft } from '../draft/draft.type';
 import type { CelId } from '../model/ids.type';
 import { requireSprite } from '../read/require-sprite';
@@ -6,8 +7,11 @@ import type { ResolvedCel } from '../scope/resolved-scope.type';
 import { PAINTING_COMMANDS } from './guard-transparency.constants';
 import type { Held } from './guard-transparency.type';
 
-const isLocked = (draft: Draft, cel: ResolvedCel): boolean =>
-  requireSprite(draft.artwork, cel.spriteId).layers.find((layer) => layer.id === cel.layerId)?.lockTransparency === true;
+const isLocked = (draft: Draft, cel: ResolvedCel): boolean => {
+  const sprite = requireSprite(draft.artwork, cel.spriteId);
+  const layer = sprite.layers.find((each) => each.id === cel.layerId);
+  return layer ? effectiveLock(sprite.layers, layer).transparency : false;
+};
 
 const celNow = (draft: Draft, cel: ResolvedCel): CelId | undefined =>
   requireSprite(draft.artwork, cel.spriteId).layers.find((layer) => layer.id === cel.layerId)?.cels[cel.frameId];

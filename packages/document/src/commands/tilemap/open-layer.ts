@@ -9,7 +9,7 @@ import { pickTilemap } from './pick-tilemap';
 const openLayer = (draft: Draft, options: LayerOptions): OpenedLayer => {
   const tilemap = pickTilemap(draft, options.tilemap);
   const { layer } = pickMapLayer(tilemap, options.layer);
-  assertLayerEditable(layer);
+  assertLayerEditable(layer, tilemap.layers);
   return { tilemap, layer, tileset: requireTileset(draft.artwork, tilemap.tilesetId) };
 };
 

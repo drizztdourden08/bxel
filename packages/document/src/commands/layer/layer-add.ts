@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { NO_LOCK } from '../../model/layer-lock.constants';
 import type { LayerId } from '../../model/ids.type';
 import { requireSprite } from '../../read/require-sprite';
 import { layerAddSchema } from '../../schema/layer-add-schema';
@@ -25,7 +26,7 @@ const layerAdd = defineCommand({
         id: draft.ids.next('lay') as LayerId,
         name: chooseLayerName(name, names, nextLayerName(names)),
         visible: true,
-        locked: false,
+        lock: NO_LOCK,
         cels: {},
       };
       const anchor = anchors.find((picked) => picked.sprite.id === spriteId);

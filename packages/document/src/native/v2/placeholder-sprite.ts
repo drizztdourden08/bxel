@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { NO_LOCK } from '../../model/layer-lock.constants';
 import type { AssetRef } from '../../model/asset.type';
 import type { Size } from '../../model/geometry.type';
 import type { BankId, CelId, FrameId, LayerId, SpriteId } from '../../model/ids.type';
@@ -21,7 +22,7 @@ const placeholderSprite = (link: AssetRef, size: Size, bankId: BankId): Sprite =
     width: size.width,
     height: size.height,
     pivot: { x2: 0, y2: 0 },
-    layers: [{ id: `lay_${body}` as LayerId, name: PLACEHOLDER_LAYER_NAME, visible: true, locked: true, cels: { [frame]: cel } }],
+    layers: [{ id: `lay_${body}` as LayerId, name: PLACEHOLDER_LAYER_NAME, visible: true, lock: { ...NO_LOCK, pixels: true }, cels: { [frame]: cel } }],
     frames: [{ id: frame, durationMs: DEFAULT_FRAME_DURATION_MS }],
     tags: [],
     slices: [],

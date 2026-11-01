@@ -88,11 +88,16 @@ type Tileset = {
   readonly collisionLayers?: readonly string[];
 };
 
+type MapLayerKind = 'tiles' | 'group';
+
 type MapLayer = {
   readonly id: MapLayerId;
   readonly name: string;
   readonly visible: boolean;
   readonly locked: boolean;
+  readonly kind?: MapLayerKind;
+  readonly parentId?: MapLayerId;
+  readonly opacity?: number;
   readonly colour?: string;
   readonly cells: Uint32Array;
 };
@@ -112,6 +117,7 @@ type Tilemap = {
 export type {
   FieldValue,
   MapLayer,
+  MapLayerKind,
   MapOrientation,
   TerrainKind,
   TerrainRules,

@@ -17,7 +17,7 @@ const mapCopy = defineCommand({
     const opened = openLayer(draft, options);
     const plan = transferPlan(opened, options.from, options.to, options.empty);
     const into = options.intoLayer ? pickMapLayer(opened.tilemap, options.intoLayer).layer : opened.layer;
-    assertLayerEditable(into);
+    assertLayerEditable(into, opened.tilemap.layers);
     editLayerCells(draft, { tilemap: opened.tilemap, layer: into }, (cells) => {
       for (const { at, value } of plan.moved) cells[at] = value;
     });

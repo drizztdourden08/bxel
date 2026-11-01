@@ -5,15 +5,11 @@ import type { FrameId } from '../model/ids.type';
 import type { PaletteBank } from '../model/palette.type';
 import type { Sprite } from '../model/sprite.type';
 import { RGBA_BYTES } from './frame-to-rgba.constants';
-import { layerPixels } from './layer-pixels';
+import { drawnLayers } from './drawn-layers';
 import { packedTable } from './packed-table';
 import type { FramePatch } from './patch-frame-rgba.type';
 
-const visibleCels = (sprite: Sprite, frameId: FrameId): Uint8Array[] =>
-  sprite.layers.flatMap((layer) => {
-    const pixels = layer.visible ? layerPixels(sprite, layer, frameId) : undefined;
-    return pixels ? [pixels] : [];
-  });
+const visibleCels = (sprite: Sprite, frameId: FrameId): Uint8Array[] => drawnLayers(sprite, frameId).map((drawn) => drawn.pixels);
 
 const topIndex = (cels: readonly Uint8Array[], position: number): number => {
   let top = 0;

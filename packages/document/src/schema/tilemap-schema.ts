@@ -8,15 +8,22 @@ import { createdSchema } from './created-schema';
 import { nameSchema } from './name-schema';
 import { orientationSchema } from './orientation-schema';
 import { tagColourSchema } from './tag-colour-schema';
+import { MAP_LAYER_KINDS } from '../model/layer-lock.constants';
+import { opacitySchema } from './opacity-schema';
 import { MAX_MAP_SIDE } from './tilemap-schema.constants';
 
 const sideSchema = z.number().int().min(1).max(MAX_MAP_SIDE);
 
+const mapLayerId = brandedIdSchema<MapLayerId>(ID_PREFIX.mapLayer);
+
 const mapLayerSchema = z.object({
-  id: brandedIdSchema<MapLayerId>(ID_PREFIX.mapLayer),
+  id: mapLayerId,
   name: nameSchema,
   visible: z.boolean(),
   locked: z.boolean(),
+  kind: z.enum(MAP_LAYER_KINDS).optional(),
+  parentId: mapLayerId.optional(),
+  opacity: opacitySchema.optional(),
   colour: tagColourSchema.optional(),
 });
 

@@ -16,7 +16,7 @@ export { toDocumentJson } from './to-document-json';
 export type * from './v2/asset-manifest.type';
 export type * from './v2/asset-report.type';
 export type * from './v2/detected-kind.type';
-export { ASSET_ANIMATED_VERSION, ASSET_BASE_VERSION, ASSET_FORMAT_VERSION, ASSET_MIN_READER_VERSION, RECOVERED_PALETTE_NAME } from './v2/asset-container.constants';
+export { ASSET_ANIMATED_VERSION, ASSET_BASE_VERSION, ASSET_FORMAT_VERSION, ASSET_LAYERS_VERSION, ASSET_MIN_READER_VERSION, RECOVERED_PALETTE_NAME } from './v2/asset-container.constants';
 export { checkAssetSlice } from './v2/check-asset-slice';
 export { decodeAnimation } from './v2/decode-animation';
 export { decodePalette } from './v2/decode-palette';

@@ -20,20 +20,35 @@ import { pixelGridSchema } from './pixel-grid-schema';
 import { platformIdSchema } from './platform-id-schema';
 import { rectSchema } from './rect-schema';
 import { tagColourSchema } from './tag-colour-schema';
+import { LAYER_KINDS } from '../model/layer-lock.constants';
+import { upgradeLayerJson } from '../native/migrations/upgrade-layer-json';
+import { layerLockSchema } from './layer-lock-schema';
+import { layerReferenceSchema } from './layer-reference-schema';
+import { opacitySchema } from './opacity-schema';
 
 const frameId = brandedIdSchema<FrameId>(ID_PREFIX.frame);
 const celId = brandedIdSchema<CelId>(ID_PREFIX.cel);
 const sizeSchema = z.number().int().min(MIN_SPRITE_SIZE).max(MAX_SPRITE_SIZE);
 
-const layerSchema = z.object({
-  id: brandedIdSchema<LayerId>(ID_PREFIX.layer),
-  name: nameSchema,
-  visible: z.boolean(),
-  locked: z.boolean(),
-  lockTransparency: z.boolean().optional(),
-  colour: tagColourSchema.optional(),
-  cels: z.record(z.string(), celId),
-});
+const layerId = brandedIdSchema<LayerId>(ID_PREFIX.layer);
+
+const layerSchema = z.preprocess(
+  upgradeLayerJson,
+  z.object({
+    id: layerId,
+    name: nameSchema,
+    visible: z.boolean(),
+    lock: layerLockSchema,
+    kind: z.enum(LAYER_KINDS).optional(),
+    parentId: layerId.optional(),
+    viewOpacity: opacitySchema.optional(),
+    clip: z.boolean().optional(),
+    colour: tagColourSchema.optional(),
+    exported: z.boolean().optional(),
+    reference: layerReferenceSchema.optional(),
+    cels: z.record(z.string(), celId),
+  }),
+);
 
 const frameSchema = z.object({
   id: frameId,

@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { NO_LOCK } from '../../model/layer-lock.constants';
 import type { IdSource } from '../../ids/id-source.type';
 import type { Pivot2 } from '../../model/geometry.type';
 import type { BankId, FrameId, LayerId, SpriteId } from '../../model/ids.type';
@@ -30,7 +31,7 @@ const buildSprite = ({
   width,
   height,
   pivot: pivot ?? { x2: width, y2: height },
-  layers: [{ id: ids.next('lay') as LayerId, name: DEFAULT_LAYER_NAME, visible: true, locked: false, cels: {} }],
+  layers: [{ id: ids.next('lay') as LayerId, name: DEFAULT_LAYER_NAME, visible: true, lock: NO_LOCK, cels: {} }],
   frames: [{ id: ids.next('frm') as FrameId, durationMs: DEFAULT_FRAME_DURATION_MS }],
   tags: [],
   slices: [],

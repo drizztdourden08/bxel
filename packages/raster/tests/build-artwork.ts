@@ -30,7 +30,7 @@ const buildLayer = (spec: LayerSpec): Sprite['layers'][number] => ({
   id: brand<LayerId>(spec.id),
   name: spec.name,
   visible: spec.visible ?? true,
-  locked: spec.locked ?? false,
+  lock: { pixels: spec.locked ?? false, transparency: false, position: false },
   cels: Object.fromEntries(Object.entries(spec.cels ?? {}).map(([frame, cel]) => [frame, brand<CelId>(cel)] as const)),
 });
 

@@ -1,16 +1,21 @@
 /* @layer core @kind logic */
 import { cellFlagBits } from './cell-flag-bits';
 import { checkTilemapInput } from './check-tilemap-input';
+import { layerOpacity } from './layer-opacity';
 import { CELL_BITS, TILEMAP_JSON } from './tilemap.constants';
 import type { TilemapExportInput, TilemapJsonResult, TilemapLayerInput } from './tilemap.type';
 
 const layerLine = (layer: TilemapLayerInput): string =>
   `    ${JSON.stringify({
+    ...(layer.id ? { id: layer.id } : {}),
     name: layer.name,
     visible: layer.visible,
     locked: layer.locked,
-    keys: Array.from(layer.cells, (cell) => cell & CELL_BITS.KEY_MASK),
-    flags: Array.from(layer.cells, cellFlagBits),
+    opacity: layerOpacity(layer),
+    ...(layer.parentId ? { parent: layer.parentId } : {}),
+    ...(layer.group
+      ? { kind: 'group' }
+      : { keys: Array.from(layer.cells, (cell) => cell & CELL_BITS.KEY_MASK), flags: Array.from(layer.cells, cellFlagBits) }),
   })}`;
 
 const writeTilemapJson = (input: TilemapExportInput): TilemapJsonResult => {

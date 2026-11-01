@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { pixelsLocked } from '../../read/pixels-locked';
 import { ERROR_CODE } from '../error-code.constants';
 import { failIfAny } from '../layer/fail-if-any';
 import { layerIssue } from '../layer/layer-issue';
@@ -17,7 +18,7 @@ const checkPairs = (pairs: readonly SlotPair[], locks: LockRule, allowLocked: bo
   failIfAny(
     ERROR_CODE.LAYER_LOCKED,
     'A locked layer takes cel changes only with allowLocked.',
-    locked.filter(({ layer }) => layer.locked).map(({ sprite, layer }) => layerIssue(sprite.id, layer, 'locked')),
+    locked.filter(({ sprite, layer }) => pixelsLocked(sprite, layer)).map(({ sprite, layer }) => layerIssue(sprite.id, layer, 'locked')),
   );
 };
 

@@ -6,6 +6,7 @@ import { RETIRED_COMMANDS, RETIRED_MESSAGE } from '../commands/retired-commands.
 import { parseOptions } from '../commands/parse-options';
 import type { DraftRun, StepRun } from './engine.type';
 import { checkLinked } from './check-linked';
+import { guardPosition } from './guard-position';
 import { guardTransparency } from './guard-transparency';
 import { resolveStepTargets } from './resolve-step-targets';
 
@@ -17,6 +18,7 @@ const runStep = ({ store, draft, step, index }: StepRun): void => {
   const options = parseOptions(def.schema, step.options, `steps.${index}.options`);
   const targets = resolveStepTargets({ draft, scope: def.scope, targets: step.targets, index });
   checkLinked({ draft, def, options, cels: targets.cels });
+  guardPosition(draft, step.name, targets.cels);
   const restore = guardTransparency(draft, step.name, targets.cels);
   def.run(draft, { options, step: index, ref: step.ref, sprites: targets.sprites, cels: targets.cels });
   restore?.();

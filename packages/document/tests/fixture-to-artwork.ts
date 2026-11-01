@@ -114,7 +114,7 @@ const toSprite = (sprite: FixtureSprite): Sprite => ({
     id: brand<LayerId>(layer.id),
     name: layer.name,
     visible: layer.visible,
-    locked: layer.locked,
+    lock: { pixels: layer.locked, transparency: false, position: false },
     cels: Object.fromEntries(Object.entries(layer.cels).map(([frame, cel]) => [frame, brand<CelId>(cel)] as const)),
   })),
   frames: sprite.frames.map((frame) => ({ id: brand<FrameId>(frame.id), durationMs: frame.durationMs })),

@@ -3,6 +3,7 @@ import { registerRef } from '../../draft/register-ref';
 import { updateTilemap } from '../../draft/update-tilemap';
 import type { MapLayerId } from '../../model/ids.type';
 import type { MapLayer } from '../../model/tilemap.type';
+import { blockOf } from '../../layer-tree/block-of';
 import { mapLayerDuplicateSchema } from '../../schema/map-layer-duplicate-schema';
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
@@ -21,19 +22,23 @@ const mapLayerDuplicate = defineCommand({
     const tilemap = pickRoomyTilemap(draft, options.tilemap);
     const { layer, index } = pickMapLayer(tilemap, options.layer);
     const names = tilemap.layers.map((item) => item.name);
-    const copy: MapLayer = {
-      id: draft.ids.next('tml') as MapLayerId,
-      name: chooseLayerName(options.name, names, freeName(names, `${layer.name}${COPY_SUFFIX}`)),
-      visible: layer.visible,
-      locked: false,
-      ...(layer.colour === undefined ? {} : { colour: layer.colour }),
-      cells: layer.cells.slice(),
-    };
+    const block = blockOf(tilemap.layers, layer.id);
+    const items = tilemap.layers.filter((item) => block.has(item.id));
+    const fresh = new Map(items.map((item) => [item.id, draft.ids.next('tml') as MapLayerId]));
+    const copies = items.map((item): MapLayer => {
+      const top = item.id === layer.id;
+      const name = top ? chooseLayerName(options.name, names, freeName(names, `${layer.name}${COPY_SUFFIX}`)) : freeName(names, `${item.name}${COPY_SUFFIX}`);
+      names.push(name);
+      const parentId = top ? item.parentId : fresh.get(item.parentId ?? item.id);
+      const copy = { ...item, id: fresh.get(item.id) ?? item.id, name, locked: false, cells: item.cells.slice() };
+      return parentId === undefined ? copy : { ...copy, parentId };
+    });
     updateTilemap(draft, tilemap.id, (current) => ({
       ...current,
-      layers: [...current.layers.slice(0, index + 1), copy, ...current.layers.slice(index + 1)],
+      layers: [...current.layers.slice(0, index + 1), ...copies, ...current.layers.slice(index + 1)],
     }));
-    registerRef(draft, input.ref, copy.id);
+    const added = copies.at(-1);
+    if (added) registerRef(draft, input.ref, added.id);
   },
 });
 

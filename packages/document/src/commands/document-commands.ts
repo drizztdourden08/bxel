@@ -7,6 +7,10 @@ import { layerFlatten } from './layer/layer-flatten';
 import { layerMerge } from './layer/layer-merge';
 import { layerReorder } from './layer/layer-reorder';
 import { layerUpdate } from './layer/layer-update';
+import { layerGroup } from './layer/layer-group';
+import { layerUngroup } from './layer/layer-ungroup';
+import { layerReferenceAdd } from './layer/layer-reference-add';
+import { layerReferenceRelink } from './layer/layer-reference-relink';
 import { pixelsPatch } from './pixels/pixels-patch';
 import { artworkUpdate } from './artwork/artwork-update';
 import { brushAdd } from './brush/brush-add';
@@ -57,6 +61,8 @@ import { mapLayerDuplicate } from './map-layer/map-layer-duplicate';
 import { mapLayerMerge } from './map-layer/map-layer-merge';
 import { mapLayerReorder } from './map-layer/map-layer-reorder';
 import { mapLayerUpdate } from './map-layer/map-layer-update';
+import { mapLayerGroup } from './map-layer/map-layer-group';
+import { mapLayerUngroup } from './map-layer/map-layer-ungroup';
 import { animationCreate } from './animation/animation-create';
 import { animationUpdate } from './animation/animation-update';
 import { animationDelete } from './animation/animation-delete';
@@ -136,6 +142,10 @@ const documentCommands: readonly CommandDef[] = [
   layerDuplicate,
   layerMerge,
   layerFlatten,
+  layerGroup,
+  layerUngroup,
+  layerReferenceAdd,
+  layerReferenceRelink,
   tilesetCreate,
   tilesetUpdate,
   tilesetDelete,
@@ -181,6 +191,8 @@ const documentCommands: readonly CommandDef[] = [
   mapLayerReorder,
   mapLayerDuplicate,
   mapLayerMerge,
+  mapLayerGroup,
+  mapLayerUngroup,
   mapPaint,
   mapErase,
   mapFill,

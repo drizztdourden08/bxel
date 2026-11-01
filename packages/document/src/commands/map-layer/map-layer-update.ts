@@ -4,6 +4,8 @@ import { mapLayerUpdateSchema } from '../../schema/map-layer-update-schema';
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
 import { chooseLayerName } from '../layer/choose-layer-name';
+import { FULL_VIEW_OPACITY } from '../../model/layer-lock.constants';
+import { withField } from '../layer/with-field';
 import { withLayerColour } from '../layer/with-layer-colour';
 import { pickMapLayer } from '../tilemap/pick-map-layer';
 import { pickTilemap } from '../tilemap/pick-tilemap';
@@ -20,8 +22,9 @@ const mapLayerUpdate = defineCommand({
     const name = chooseLayerName(options.name, others, layer.name);
     const visible = options.visible ?? layer.visible;
     const locked = options.locked ?? layer.locked;
-    const next = withLayerColour({ ...layer, name, visible, locked }, options.colour);
-    if (name === layer.name && visible === layer.visible && locked === layer.locked && next.colour === layer.colour) return;
+    const next = withField(withLayerColour({ ...layer, name, visible, locked }, options.colour), 'opacity', options.opacity, FULL_VIEW_OPACITY);
+    const keys = ['name', 'visible', 'locked', 'colour', 'opacity'] as const;
+    if (keys.every((key) => next[key] === layer[key])) return;
     updateTilemap(draft, tilemap.id, (current) => ({
       ...current,
       layers: current.layers.map((item) => (item.id === layer.id ? next : item)),

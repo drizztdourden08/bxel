@@ -1,12 +1,12 @@
 /* @layer core @kind types */
-import type { Cel, CelId, Frame, FrameId, IdSource, LayerId, Pivot2, Sprite, Tag } from '@bxel/document';
+import type { Cel, CelId, Frame, FrameId, IdSource, LayerId, LayerLock, Pivot2, Sprite, Tag } from '@bxel/document';
 import type { Rect, Size } from '../../geometry.type';
 
 type LayerBuild = {
   readonly id: LayerId;
   readonly name: string;
   readonly visible: boolean;
-  readonly locked: boolean;
+  readonly lock: LayerLock;
   readonly cels: Record<FrameId, CelId>;
 };
 

@@ -13,6 +13,7 @@ type CelMerge = {
   readonly sourceLayer: LayerId;
   readonly from: CelId;
   readonly into: CelId | undefined;
+  readonly mask?: Uint8Array | undefined;
 };
 
 export type { CelMerge, PickedLayer };

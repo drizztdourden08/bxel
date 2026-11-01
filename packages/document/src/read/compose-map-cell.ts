@@ -1,4 +1,6 @@
 /* @layer core @kind logic */
+import { isGroupItem } from '../layer-tree/is-group-item';
+import { shownInTree } from '../layer-tree/shown-in-tree';
 import type { Artwork } from '../model/artwork.type';
 import type { Tilemap } from '../model/tilemap.type';
 import { cellKey } from '../tilemap/cell-key';
@@ -12,7 +14,7 @@ const composeMapCell = (artwork: Artwork, tilemap: Tilemap, index: number, frame
   const tile = { width: tileset.tileWidth, height: tileset.tileHeight };
   const target = new Uint8Array(tile.width * tile.height);
   const sourceOf = tileSources(artwork, tileset);
-  for (const layer of tilemap.layers.filter((item) => item.visible)) {
+  for (const layer of tilemap.layers.filter((item) => !isGroupItem(item) && shownInTree(tilemap.layers, item))) {
     const cell = layer.cells[index] ?? 0;
     const key = cellKey(cell);
     const source = key === 0 ? null : (frameOf?.(layer.id, index, key) ?? sourceOf(key));

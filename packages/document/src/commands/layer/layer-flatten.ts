@@ -1,4 +1,5 @@
 /* @layer core @kind logic */
+import { NO_LOCK } from '../../model/layer-lock.constants';
 import { addCel } from '../../draft/add-cel';
 import type { Draft } from '../../draft/draft.type';
 import type { CelId, FrameId, LayerId, SpriteId } from '../../model/ids.type';
@@ -32,7 +33,7 @@ const flattenSprite = (draft: Draft, spriteId: SpriteId, requested: string | und
     id: draft.ids.next('lay') as LayerId,
     name: chooseLayerName(requested, names, freeName(names, FLATTEN_NAME)),
     visible: true,
-    locked: false,
+    lock: NO_LOCK,
     cels: flatCels(draft, sprite),
   };
   insertLayer(draft, spriteId, layer, sprite.layers.length);

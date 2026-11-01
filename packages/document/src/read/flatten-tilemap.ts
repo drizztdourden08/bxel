@@ -1,4 +1,6 @@
 /* @layer core @kind logic */
+import { isGroupItem } from '../layer-tree/is-group-item';
+import { shownInTree } from '../layer-tree/shown-in-tree';
 import type { Artwork } from '../model/artwork.type';
 import type { TilemapId } from '../model/ids.type';
 import { mapGeometry } from '../tilemap/geometry/map-geometry';
@@ -17,7 +19,7 @@ const flattenTilemap = (artwork: Artwork, tilemapId: TilemapId, frameOf?: TileFr
   const geometry = mapGeometry({ columns: tilemap.columns, rows: tilemap.rows, tile, orientation: tilemap.orientation });
   const target = new Uint8Array(geometry.width * geometry.height);
   const sourceOf = tileSources(artwork, tileset);
-  for (const layer of tilemap.layers.filter((item) => item.visible)) {
+  for (const layer of tilemap.layers.filter((item) => !isGroupItem(item) && shownInTree(tilemap.layers, item))) {
     for (const [index, cell] of layer.cells.entries()) {
       const key = cellKey(cell);
       const source = key === 0 ? null : (frameOf?.(layer.id, index, key) ?? sourceOf(key));

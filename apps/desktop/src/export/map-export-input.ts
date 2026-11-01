@@ -44,7 +44,16 @@ const mapExportInput = ({ tilemap, tileset }: MapPick, held: TileHeld): TilemapE
     ...(held.animations.length > 0 ? { animations: held.animations } : {}),
     tiles: held.sheet.tiles.map((placement) => entryOf(placement, tileset.tiles.find((tile) => tile.key === placement.key))),
   },
-  layers: tilemap.layers.map((layer) => ({ name: layer.name, visible: layer.visible, locked: layer.locked, cells: layer.cells })),
+  layers: tilemap.layers.map((layer) => ({
+    id: layer.id,
+    name: layer.name,
+    visible: layer.visible,
+    locked: layer.locked,
+    ...(layer.opacity === undefined ? {} : { opacity: layer.opacity }),
+    ...(layer.kind === 'group' ? { group: true } : {}),
+    ...(layer.parentId ? { parentId: layer.parentId } : {}),
+    cells: layer.cells,
+  })),
 });
 
 export { mapExportInput };

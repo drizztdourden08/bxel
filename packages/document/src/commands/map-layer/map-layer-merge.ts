@@ -1,5 +1,7 @@
 /* @layer core @kind logic */
 import { updateTilemap } from '../../draft/update-tilemap';
+import { isGroupItem } from '../../layer-tree/is-group-item';
+import { siblingItemBelow } from '../../layer-tree/sibling-item-below';
 import { mapLayerMergeSchema } from '../../schema/map-layer-merge-schema';
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
@@ -16,8 +18,10 @@ const mapLayerMerge = defineCommand({
     const { options } = input;
     const tilemap = pickTilemap(draft, options.tilemap);
     const { layer, index } = pickMapLayer(tilemap, options.layer);
-    const below = tilemap.layers[index - 1];
-    if (!below) throw fail(ERROR_CODE.NO_LAYER_BELOW, `Map layer "${layer.name}" is the bottom layer, so there is nothing to merge into.`);
+    const below = siblingItemBelow(tilemap.layers, index);
+    if (!below || isGroupItem(below) || isGroupItem(layer)) {
+      throw fail(ERROR_CODE.NO_LAYER_BELOW, `Map layer "${layer.name}" has no tile layer below it in its group to merge into.`);
+    }
     if ((layer.locked || below.locked) && options.allowLocked !== true) {
       const locked = layer.locked ? layer : below;
       throw fail(ERROR_CODE.LAYER_LOCKED, `Map layer "${locked.name}" is locked. Pass allowLocked to merge it.`);

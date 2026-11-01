@@ -7,13 +7,24 @@ type TagDirection = 'forward' | 'reverse' | 'pingpong';
 
 type Cel = { readonly id: CelId; readonly pixels: Uint8Array };
 
+type LayerKind = 'pixel' | 'group' | 'reference';
+
+type LayerLock = { readonly pixels: boolean; readonly transparency: boolean; readonly position: boolean };
+
+type LayerReference = { readonly path: string; readonly x: number; readonly y: number };
+
 type Layer = {
   readonly id: LayerId;
   readonly name: string;
   readonly visible: boolean;
-  readonly locked: boolean;
-  readonly lockTransparency?: boolean;
+  readonly lock: LayerLock;
+  readonly kind?: LayerKind;
+  readonly parentId?: LayerId;
+  readonly viewOpacity?: number;
+  readonly clip?: boolean;
   readonly colour?: string;
+  readonly exported?: boolean;
+  readonly reference?: LayerReference;
   readonly cels: Readonly<Record<FrameId, CelId>>;
 };
 
@@ -76,4 +87,4 @@ type Sprite = {
 
 type SpriteShell = Omit<Sprite, 'cels'>;
 
-export type { Cel, Frame, Guides, Layer, SavedRun, SavedSelection, Slice, Sprite, SpriteRole, SpriteShell, SpriteSymmetry, Tag, TagDirection };
+export type { Cel, Frame, Guides, Layer, LayerKind, LayerLock, LayerReference, SavedRun, SavedSelection, Slice, Sprite, SpriteRole, SpriteShell, SpriteSymmetry, Tag, TagDirection };
