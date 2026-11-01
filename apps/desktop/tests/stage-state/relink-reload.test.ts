@@ -2,6 +2,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { applyLinkFixes } from '../../src/project-health/apply-link-fixes';
 import { refreshHealth } from '../../src/project-health/refresh-health';
+import { useHealthStore } from '../../src/stores/useHealthStore';
 import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
 import { focusTab } from '../../src/workspace/focus-tab';
 import { keyId } from '../../src/workspace/key-id';
@@ -24,13 +25,19 @@ const movePalette = (palettePath: string): void => {
   files.delete(palettePath);
 };
 
+const indexed = (path: string): boolean => {
+  const { state } = useHealthStore.getState();
+  return state.status === 'ready' && state.index.files.some((file) => file.path === path);
+};
+
 const openWithMovedPalette = async () => {
   const { documentId, artwork, paths } = await openSampleProject(held.rig);
   const spriteId = artwork.sprites[0]?.id ?? '';
   const bankId = artwork.banks.find((each) => each.id === artwork.sprites[0]?.bankId)?.id ?? '';
   const pathOf = (id: string): string => paths.get(id) ?? '';
   movePalette(pathOf(bankId));
-  await refreshHealth();
+  void refreshHealth();
+  await vi.waitFor(() => expect(indexed(MOVED_TO)).toBe(true));
   return { documentId, bankId, spriteId, spritePath: pathOf(spriteId), palettePath: pathOf(bankId) };
 };
 
