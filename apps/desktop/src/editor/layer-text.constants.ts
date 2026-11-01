@@ -11,6 +11,13 @@ const LAYER_TEXT = {
   nameInvalid: 'A name has 1 to 64 characters you can print.',
   nameTaken: 'That name is already used. Choose another name.',
   inFrames: (have: number, total: number): string => `in ${have} of ${total} frames`,
+  noSelection: 'Select some pixels first. Selection to new layer copies the selected pixels.',
+  noPixelBelow: 'There is no pixel layer below in this group.',
+  oneToMerge: 'Pick two or more pixel layers to merge them.',
+  notGroup: 'Pick a group to take it apart.',
+  pickImage: 'Reference image',
+  referenceMissing: (path: string): string => `The image ${path} is missing. Relink it or remove the layer.`,
+  partName: (name: string): string => `${name} part`,
 } as const;
 
 const LAYER_LABEL = {
@@ -26,6 +33,16 @@ const LAYER_LABEL = {
   solo: 'Show only one layer',
   colour: 'Set layer colour',
   deleteMany: 'Delete layers',
+  group: 'Group layers',
+  ungroup: 'Ungroup layers',
+  mergeSelected: 'Merge selected layers',
+  toLayer: 'Selection to new layer',
+  cutToLayer: 'Cut selection to new layer',
+  reference: 'Add reference image',
+  relink: 'Relink reference image',
+  opacity: 'Set layer opacity',
+  clip: 'Clip layer to the layer below',
+  exported: 'Include layer in export',
 } as const;
 
 const LAYER_REF = 'layer';
