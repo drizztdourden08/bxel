@@ -20,7 +20,7 @@ const named = (artwork: Artwork, name: string) => {
 const ownedBy = (artwork: Artwork, animation: ReturnType<typeof named>) =>
   artwork.sprites.filter((sprite) => sprite.role === 'frame' && animation.frames.some((frame) => frame.spriteId === sprite.id));
 
-describe('splitAnimatedSprites', () => {
+describe('K1 splitAnimatedSprites', { tags: ['critical'] }, () => {
   it('turns every multi frame sprite and multi frame tile into an animation', () => {
     const { before, after } = migrate();
     expect(before.sprites.filter((sprite) => sprite.frames.length > 1)).toHaveLength(3);
@@ -47,7 +47,7 @@ describe('splitAnimatedSprites', () => {
 
 });
 
-describe('splitAnimatedSprites links and notice', () => {
+describe('K1 splitAnimatedSprites links and notice', { tags: ['critical'] }, () => {
   it('retargets the sheet, the preset, the paths and the tile', () => {
     const { before, after } = migrate();
     const hero = named(after.artwork, 'Hero');

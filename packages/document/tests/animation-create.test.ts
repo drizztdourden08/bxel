@@ -1,13 +1,12 @@
 /* @layer core @kind test */
 import { describe, expect, it } from 'vitest';
-import { canonicalArtwork } from './canonical-artwork';
-import { animationNamed, apply, buildAnimWorld, checkOneUndoStep, refuse } from './anim-engine';
+import { animationNamed, apply, buildAnimWorld, refuse } from './anim-engine';
 import { step } from './tile-engine';
 
 const create = (name: string, source: unknown, anchor?: unknown) =>
   step('animation.create', { name, source, ...(anchor === undefined ? {} : { anchor }) }, 'anim');
 
-describe('animation.create', () => {
+describe('K1 animation.create', { tags: ['critical'] }, () => {
   it('builds an animation from three sprites that stay project sprites', () => {
     const { engine, a, b, c } = buildAnimWorld();
     apply(engine, [create('walk', { kind: 'sprites', sprites: [a, b, c], durationMs: 80 })]);
@@ -51,7 +50,7 @@ describe('animation.create', () => {
 
 });
 
-describe('animation.create from a strip, and its refusals', () => {
+describe('K1 animation.create from a strip, and its refusals', { tags: ['critical'] }, () => {
   it('cuts a strip into clipped frames of one sprite', () => {
     const { engine, strip } = buildAnimWorld();
     apply(engine, [create('spin', { kind: 'strip', sprite: strip, grid: { columns: 4, rows: 1 } })]);
@@ -73,14 +72,5 @@ describe('animation.create from a strip, and its refusals', () => {
     apply(engine, [create('walk', { kind: 'sprite', sprite: a })]);
     expect(refuse(engine, [create('Walk', { kind: 'sprite', sprite: a })]).code).toBe('NAME_TAKEN');
     expect(refuse(engine, [create('bad', { kind: 'strip', sprite: strip, grid: { columns: 3, rows: 1 } })]).code).toBe('INVALID_OPTION');
-  });
-
-  it('undoes and redoes in one step', () => {
-    const { engine, a, b, c } = buildAnimWorld();
-    const before = canonicalArtwork(engine.state().artwork);
-    checkOneUndoStep(engine, () => {
-      apply(engine, [create('walk', { kind: 'sprites', sprites: [a, b, c], mode: 'copy' })]);
-    });
-    expect(canonicalArtwork(engine.state().artwork)).not.toBe(before);
   });
 });

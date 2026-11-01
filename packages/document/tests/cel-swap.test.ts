@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { CEL_A, CEL_B, PIXELS_A, PIXELS_B, swapEngine, TURNED_A, TURNED_B } from './cel-swap-engine';
 import { pixelsOf, redo, run, spriteOf, undo } from './cel-swap-checks';
 
-describe('a cel replaced by a buffer of the same length', () => {
+describe('K1 a cel replaced by a buffer of the same length', { tags: ['critical'] }, () => {
   it('undoes and redoes a same-size buffer swap exactly', () => {
     const engine = swapEngine();
     const original = engine.state().artwork;

@@ -24,7 +24,7 @@ const okOf = (result: TransactionResult) => {
   return result;
 };
 
-describe('preview', () => {
+describe('K1 preview', { tags: ['critical'] }, () => {
   it('equals commit, including ids from the counter source', () => {
     const previewed = heartEngine();
     const preview = okOf(previewed.engine.execute(request(createAndPaint, { mode: 'preview', previewPixels: 64 })));

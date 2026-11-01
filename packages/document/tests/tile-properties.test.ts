@@ -11,7 +11,7 @@ const BOX = { kind: 'rect', x: 0, y: 0, width: 1, height: 1 } as const;
 
 const tileOf = (world: World, key: number) => tilesetOf(world.engine).tiles.find((tile) => tile.key === key);
 
-describe('tile.shapes', () => {
+describe('K1 tile.shapes', { tags: ['critical'] }, () => {
   it('keeps several shapes on named layers and registers the layers', () => {
     const world = buildWorld();
     const shapes = [
@@ -41,7 +41,7 @@ describe('tile.shapes', () => {
   });
 });
 
-describe('tile.data and tileset.fields', () => {
+describe('K1 tile.data and tileset.fields', { tags: ['critical'] }, () => {
   const withFields = (): World => {
     const world = buildWorld();
     const fields = [
@@ -92,7 +92,7 @@ describe('tile.data and tileset.fields', () => {
   });
 });
 
-describe('tileset.layout', () => {
+describe('K1 tileset.layout', { tags: ['critical'] }, () => {
   it('lays old tilesets out in list order over the default columns', () => {
     const world = buildWorld();
     const layout = tileLayout(tilesetOf(world.engine));

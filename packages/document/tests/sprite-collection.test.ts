@@ -4,7 +4,7 @@ import { heartEngine } from './heart-engine';
 import { heartPairFixture } from './heart-pair-fixture';
 import { HEART, HEART_B, SHEET, apply, engineAltered, expectUndoRedo, onSprites, plain, rejection, sheetOf, spotsOf, spriteNames, worldWithExtras } from './sheet-engine';
 
-describe('sprite.delete', () => {
+describe('K1 sprite.delete', { tags: ['critical'] }, () => {
   it('removes the sprite, its sheet entry and its preset reference as one undo step', () => {
     const { engine } = heartEngine();
     expectUndoRedo(engine, onSprites('sprite.delete', {}, [HEART_B]));
@@ -44,7 +44,7 @@ describe('sprite.delete', () => {
   });
 });
 
-describe('sprite.duplicate', () => {
+describe('K1 sprite.duplicate', { tags: ['critical'] }, () => {
   it('inserts a copy after the original and puts it on the same sheet', () => {
     const { engine } = heartEngine();
     const done = expectUndoRedo(engine, onSprites('sprite.duplicate', {}, [HEART], 'copy'));
@@ -92,7 +92,7 @@ describe('sprite.duplicate', () => {
   });
 });
 
-describe('sprite.reorder', () => {
+describe('K1 sprite.reorder', { tags: ['critical'] }, () => {
   it('moves a sprite to a position and the sheet follows the new order', () => {
     const { engine, tiny } = worldWithExtras();
     apply(engine, onSprites('sheet.add', { sheet: SHEET }, [tiny]));

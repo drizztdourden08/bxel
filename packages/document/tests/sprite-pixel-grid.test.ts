@@ -9,7 +9,7 @@ const sprite = (engine: Engine) => engine.state().artwork.sprites.find((each) =>
 
 const update = (options: unknown) => onSprites('sprite.update', options, [HEART]);
 
-describe('the pixel grid of one sprite', () => {
+describe('K1 the pixel grid of one sprite', { tags: ['critical'] }, () => {
   it('is unset until a sprite takes one, and sprite.update sets, keeps and clears it in one undo step each', () => {
     const { engine } = heartEngine();
     expect(sprite(engine)?.pixelGrid).toBeUndefined();

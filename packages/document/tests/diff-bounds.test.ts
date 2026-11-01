@@ -43,7 +43,7 @@ const SHAPES = [
   [100, 37],
 ] as const;
 
-describe('diffBounds', () => {
+describe('K1 diffBounds', { tags: ['critical'] }, () => {
   test('matches a byte by byte scan for random edits on odd and even sizes', () => {
     const next = seeded(7);
     for (const [width, height] of SHAPES) {
@@ -77,7 +77,7 @@ describe('diffBounds', () => {
   });
 });
 
-describe('hasIndexAtLeast', () => {
+describe('K1 hasIndexAtLeast', { tags: ['critical'] }, () => {
   test('agrees with maxIndex for every limit', () => {
     const next = seeded(3);
     for (let round = 0; round < 80; round += 1) {
@@ -91,7 +91,7 @@ describe('hasIndexAtLeast', () => {
   });
 });
 
-describe('remapCel', () => {
+describe('K1 remapCel', { tags: ['critical'] }, () => {
   test('maps every value through the table and sends unknown values to zero', () => {
     const table = Uint8Array.from([0, 3, 2, 1]);
     const pixels = Uint8Array.from([0, 1, 2, 3, 4, 200, 255, 1]);

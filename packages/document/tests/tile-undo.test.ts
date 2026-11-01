@@ -36,7 +36,7 @@ const commands = (world: World): Record<string, CommandStep> => ({
   'map.replace': step('map.replace', onGround(world, { from: 2, to: 1 })),
 });
 
-describe('tile and map commands are one undo step each', () => {
+describe('K1 tile and map commands are one undo step each', { tags: ['critical'] }, () => {
   const names = Object.keys(commands(populated()));
 
   it.each(names)('%s undoes and redoes as one step', (name) => {

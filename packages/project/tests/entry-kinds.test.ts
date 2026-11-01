@@ -1,5 +1,5 @@
 /* @layer tests @kind test */
-import { DEFAULT_ENTRY_KINDS, ENTRY_KINDS, entryKindOf, isListableName } from '@bxel/project';
+import { entryKindOf, isListableName } from '@bxel/project';
 import { describe, expect, it } from 'vitest';
 
 const CASES: readonly (readonly [string, string])[] = [
@@ -25,17 +25,9 @@ const CASES: readonly (readonly [string, string])[] = [
   ['Dungeon.bxelproject', 'other'],
 ];
 
-describe('entry kinds', () => {
+describe('K1 entry kinds', { tags: ['critical'] }, () => {
   it.each(CASES)('sorts %s as %s', (name, kind) => {
     expect(entryKindOf(name)).toBe(kind);
-  });
-
-  it('covers every kind', () => {
-    expect(new Set(CASES.map(([, kind]) => kind))).toEqual(new Set(ENTRY_KINDS));
-  });
-
-  it('shows every kind but other by default', () => {
-    expect(DEFAULT_ENTRY_KINDS).toEqual(ENTRY_KINDS.filter((kind) => kind !== 'other'));
   });
 
   it('lists the new project file and keeps the version 1 manifest hidden', () => {

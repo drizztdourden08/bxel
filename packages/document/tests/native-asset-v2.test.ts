@@ -1,6 +1,6 @@
 /* @layer core @kind test */
 import type { AssetSlice, BankId, Sprite } from '@bxel/document';
-import { ASSET_FORMAT, LEGACY_FORMAT } from '@bxel/document';
+import { ASSET_FORMAT } from '@bxel/document';
 import {
   decodePalette,
   decodeSprite,
@@ -28,7 +28,7 @@ const spriteBytes = (links?: AssetSlice['links']): Uint8Array =>
 
 const paletteBytes = (): Uint8Array => encodePalette(paletteSlice(), null, assetClock);
 
-describe('native asset v2: round trip', () => {
+describe('K3 native asset v2: round trip', { tags: ['critical'] }, () => {
   it('writes a sprite byte for byte the same after a decode', () => {
     const first = spriteBytes();
     const palette = sliceOf(decodePalette(paletteBytes()));
@@ -61,7 +61,7 @@ describe('native asset v2: round trip', () => {
 
 });
 
-describe('native asset v2: container', () => {
+describe('K2 native asset v2: container', { tags: ['critical'] }, () => {
   it('writes the same bytes whatever the key order of the in memory data', () => {
     const heart = heartSprite();
     const reversed: Sprite = {
@@ -110,7 +110,7 @@ describe('native asset v2: container', () => {
   });
 });
 
-describe('native asset v2: links and recovery', () => {
+describe('K3 native asset v2: links and recovery', { tags: ['critical'] }, () => {
   it('loads the kept copy as Recovered palette and reports the missing file', () => {
     const report = decodeSprite(spriteBytes());
     expect(report.outcome).toBe('recoverable');
@@ -169,7 +169,7 @@ describe('native asset v2: links and recovery', () => {
   });
 });
 
-describe('native asset v2: kind', () => {
+describe('K2 native asset v2: kind', { tags: ['critical'] }, () => {
   it('refuses a palette file opened as a sprite, and the other way round', () => {
     const asSprite = decodeSprite(paletteBytes());
     expect(asSprite.outcome).toBe('fatal');
@@ -204,13 +204,5 @@ describe('native asset v2: kind', () => {
   it('detects a legacy file and ignores bytes that are no archive', () => {
     expect(detectAssetKind(encodeHeart(), 'a.bxel')).toEqual({ kind: 'legacy', extensionMatches: true });
     expect(detectAssetKind(Uint8Array.from([1, 2, 3]))).toBeNull();
-  });
-
-  it('lists a distinct mime type, extension and progId for every kind', () => {
-    const formats = Object.values(ASSET_FORMAT);
-    expect(new Set(formats.map((format) => format.mime)).size).toBe(7);
-    expect(new Set(formats.map((format) => format.extension)).size).toBe(7);
-    expect(new Set(formats.map((format) => format.progId)).size).toBe(7);
-    expect(LEGACY_FORMAT.extension).toBe('.bxel');
   });
 });

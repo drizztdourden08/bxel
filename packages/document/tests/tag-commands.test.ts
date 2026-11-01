@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { FRAME, SINGLE, WALKER, byId, byIndex, frameEngine, named, tagSpans } from './frame-engine';
 import { apply, expectUndoRedo, layerStep, rejection, sprite } from './layer-engine';
 
-describe('tag.add', () => {
+describe('K1 tag.add', { tags: ['critical'] }, () => {
   it('adds a tag over two frames as one undo step and reports its id by ref', () => {
     const engine = frameEngine();
     const step = layerStep('tag.add', { name: 'jump', from: byIndex(1), to: byId(FRAME[3]), direction: 'pingpong', repeat: 3 }, [WALKER], 'made');
@@ -44,7 +44,7 @@ describe('tag.add', () => {
   });
 });
 
-describe('tag.update', () => {
+describe('K1 tag.update', { tags: ['critical'] }, () => {
   it('changes name, span, direction and repeat as one undo step', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, layerStep('tag.update', { tag: named('RUN'), name: 'sprint', from: byIndex(1), to: byIndex(3), direction: 'forward', repeat: 0 }));
@@ -75,7 +75,7 @@ describe('tag.update', () => {
   });
 });
 
-describe('tag.delete', () => {
+describe('K1 tag.delete', { tags: ['critical'] }, () => {
   it('removes a tag by name or id as one undo step', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, layerStep('tag.delete', { tag: named('idle') }));

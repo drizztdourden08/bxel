@@ -25,7 +25,7 @@ const eightWays = () => {
   return { world, id };
 };
 
-describe('animation.facing.draw', () => {
+describe('K1 animation.facing.draw', { tags: ['critical'] }, () => {
   it('turns a mirrored facing into frames of its own that look the same', () => {
     const { world, id } = eightWays();
     const before = animationNamed(world.engine, 'walk');

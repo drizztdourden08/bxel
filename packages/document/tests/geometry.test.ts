@@ -22,7 +22,7 @@ const allPoints = (box: Size): Point[] =>
 const turned = (box: Size, direction: TurnDirection): Size =>
   direction === 'half' ? box : { width: box.height, height: box.width };
 
-describe('geometry tables on a 3 x 2 sprite', () => {
+describe('K1 geometry tables on a 3 x 2 sprite', { tags: ['critical'] }, () => {
   it('flips', () => {
     expect(flipPoint(origin, size, 'horizontal')).toEqual({ x: 2, y: 0 });
     expect(flipPivot(pivot, size, 'horizontal')).toEqual({ x2: 5, y2: 3 });
@@ -68,7 +68,7 @@ describe('geometry tables on a 3 x 2 sprite', () => {
   });
 });
 
-describe('geometry buffers and rectangles', () => {
+describe('K1 geometry buffers and rectangles', { tags: ['critical'] }, () => {
   it('moves a buffer to the turned layout without losing a pixel', () => {
     const source = Uint8Array.from([1, 2, 3, 4, 5, 6]);
     const target = new Uint8Array(6);

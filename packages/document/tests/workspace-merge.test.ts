@@ -18,7 +18,7 @@ const sliceAt = (split: SplitPlan, name: string): AssetSlice => {
 
 const COPY_PATH = 'sprites/Tree - Copy.bxsprite';
 
-describe('mergeSlices: copied files', () => {
+describe('K3 mergeSlices: copied files', { tags: ['critical'] }, () => {
   it('re-keys a file copied in Explorer, reports it, and keeps the original ids', () => {
     const split = plan();
     const tree = sliceAt(split, 'Tree');
@@ -78,7 +78,7 @@ describe('mergeSlices: copied files', () => {
   });
 });
 
-describe('mergeSlices: links and banks', () => {
+describe('K3 mergeSlices: links and banks', { tags: ['critical'] }, () => {
   it('drops a placeholder sprite when the real sprite file is there, keeps it when it is not', () => {
     const split = plan();
     const sheet = sliceAt(split, 'Characters');
