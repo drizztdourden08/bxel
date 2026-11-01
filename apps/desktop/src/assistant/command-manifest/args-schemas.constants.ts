@@ -46,6 +46,7 @@ const ARGS_KINDS = {
   mergeSwatch: z.strictObject({ index: z.number().int().min(1).max(255), into: index }),
   optionValue: z.strictObject({ value: optionValue.optional() }),
   optionTarget: z.strictObject({ tool: z.string().min(1).optional(), option: z.string().min(1).describe('An option id from list_commands or the option model, such as fill.area.').optional(), value: optionValue.optional() }),
+  tileKey: z.strictObject({ key: z.number().int().min(1).describe('A tile key from get_document. Without it the picked tile is used.').optional() }),
   preset: z.strictObject({ id: z.string().min(1).describe('A preset id, such as builtin.pencil-2.') }),
   colourLimit: z.strictObject({ cap: z.number().int().min(2).max(256) }),
 } as const;

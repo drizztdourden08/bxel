@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
+import { hasCollisionToPaste, hasDataToPaste } from '../../tilemap/tile-data-clipboard';
 import { always, any, canRedo, canUndo, file, hasDocument, hasFile, isolated, never, not, projectOpen } from '../predicates.constants';
 import { ONLY, REASON } from '../reasons.constants';
 import { rule } from '../rule';
@@ -131,6 +132,10 @@ const SHEETS: RuleTable = {
 const TILES: RuleTable = {
   ...family(['tilemap.new_tileset', 'tilemap.new_tilemap', 'collision.toggle_overlay'], TILE_FILES, [], ONLY.tiles),
   ...family(['tilemap.add_tile', 'tilemap.duplicate_tile', 'tilemap.delete_tile', 'tileset.animation_from_tiles'], TILE_FILES, [WRITE], ONLY.tiles),
+  ...family(['tileset.copy_collision', 'tileset.copy_data'], TILE_FILES, [], ONLY.tiles),
+  ...family(['tileset.paste_collision'], TILE_FILES, [WRITE, [() => hasCollisionToPaste(), REASON.emptyClipboard]], ONLY.tiles),
+  ...family(['tileset.paste_data'], TILE_FILES, [WRITE, [() => hasDataToPaste(), REASON.emptyClipboard]], ONLY.tiles),
+  ...family(['tileset.find_on_map'], file('tilemap'), [], ONLY.maps),
   ...family(
     ['tileset.mode_tiles', 'tileset.mode_terrain', 'tileset.mode_collision', 'tileset.mode_data', 'tileset.mode_animation', 'tileset.focus_search'],
     TILE_FILES,

@@ -158,6 +158,8 @@ const TILEMAP_ROWS = [
   one('collision.toggle_overlay', 'tilemaps', 'show'),
   ...rows('tilemaps', 'app', ['tileset.mode_tiles', 'tileset.mode_terrain', 'tileset.mode_collision', 'tileset.mode_data', 'tileset.mode_animation', 'tileset.focus_search']),
   one('tileset.animation_from_tiles', 'tilemaps', 'edit'),
+  ...rows('tilemaps', 'app', ['tileset.find_on_map', 'tileset.copy_collision', 'tileset.copy_data'], { args: 'tileKey' }),
+  ...rows('tilemaps', 'edit', ['tileset.paste_collision', 'tileset.paste_data'], { args: 'tileKey' }),
   one('animation.toggle_tiles', 'tilemaps', 'show'),
   one('tilemap.use_tile', 'tilemaps', 'app', { args: 'tile' }),
   one('tilemap.pick_tile_here', 'tilemaps', 'app', { args: 'pixel' }),

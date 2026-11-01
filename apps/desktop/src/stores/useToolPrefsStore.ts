@@ -10,7 +10,12 @@ const useToolPrefsStore = create<ToolPrefsState>()((set) => ({
     set((state) => ({
       hiddenMembers: state.hiddenMembers.includes(memberId) ? state.hiddenMembers.filter((each) => each !== memberId) : [...state.hiddenMembers, memberId],
     })),
-  resetLayout: () => set({ hiddenMembers: [] }),
+  resetLayout: () => set({ hiddenMembers: [], optionTiers: {} }),
+  setOptionTier: (optionId, tier) =>
+    set((state) => {
+      const { [optionId]: _dropped, ...rest } = state.optionTiers;
+      return { optionTiers: tier === null ? rest : { ...rest, [optionId]: tier } };
+    }),
 }));
 
 export { useToolPrefsStore };

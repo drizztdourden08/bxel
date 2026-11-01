@@ -5,6 +5,7 @@ import { slotOfTool } from '../../../editor/tool-catalogue/slot-of-tool';
 import { optionsOf } from '../../../editor/tool-options/options-of';
 import { surfaceOfContext } from '../../../editor/tool-catalogue/surface-of-context';
 import { useKeysOf } from '../../../hooks/useKeysOf';
+import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { useToolStore } from '../../../stores/useToolStore';
@@ -44,6 +45,7 @@ const useOptionsItems = (): ToolbarItem[] => {
   useSelectionStore((state) => state.variant);
   useToolPresetStore((state) => state.user);
   useOptionsVersion();
+  useToolPrefsStore((state) => state.optionTiers);
   const keysOf = useKeysOf();
   if (surface === 'none' || evaluate('toolbar.options', context).state === 'hidden') return [];
   if (surface === 'sheet') return [noteItem('sheet-note', `${OPTIONS_TEXT.sheetName}: ${OPTIONS_TEXT.sheetHint}`)];

@@ -47,6 +47,17 @@ describe('the projects the manager lists', () => {
     expect(listed.map((each) => each.open)).toEqual([false, true]);
   });
 
+  it('puts the pinned projects first and keeps the rest in order', async () => {
+    await openSampleProject(held);
+    const open = useProjectStore.getState().project;
+    const plain = knownProjects([recent('Cave', CAVE), recent('Dungeon', ROOT)], [], open);
+    const dungeon = plain.find((each) => each.name === open?.manifest.name);
+    const pinned = knownProjects([recent('Cave', CAVE), recent('Dungeon', ROOT)], [], open, dungeon ? [dungeon.key] : []);
+    expect(pinned[0]?.key).toBe(dungeon?.key);
+    expect(pinned[0]?.pinned).toBe(true);
+    expect(pinned.slice(1).every((each) => !each.pinned)).toBe(true);
+  });
+
   it('lists a held project once even when it is also a recent one', async () => {
     await openSampleProject(held);
     const open = useProjectStore.getState().project;

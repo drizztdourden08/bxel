@@ -4,6 +4,7 @@ import { slotOfTool } from '../../editor/tool-catalogue/slot-of-tool';
 import { optionsOf } from '../../editor/tool-options/options-of';
 import type { OptionSpec } from '../../editor/tool-options/tool-options.type';
 import { useCatalogueSurface } from '../../hooks/useCatalogueSurface';
+import { useToolPrefsStore } from '../../stores/useToolPrefsStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { useOptionsVersion } from '../OptionControls';
 import { OPTIONS_PANEL_TEXT } from './OptionsPanel.constants';
@@ -23,6 +24,7 @@ const OptionsPanel = () => {
   const surface = useCatalogueSurface();
   const tool = useToolStore((state) => state.tool);
   useOptionsVersion();
+  useToolPrefsStore((state) => state.optionTiers);
   const slot = slotOfTool(surface, tool);
   if (surface === 'none' || !slot) {
     return (

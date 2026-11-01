@@ -16,7 +16,11 @@ const gated = (def: CommandDef): CommandDef => {
     ...def,
     ...(only === undefined ? {} : { only }),
     visible: () => uiState(def.id).state !== 'hidden' && (ownVisible?.() ?? true),
-    when: () => uiState(def.id).state !== 'disabled' && (own?.() ?? true),
+    when: () => {
+      const { state } = uiState(def.id);
+      if (state === 'hidden') return true;
+      return state === 'shown' && (own?.() ?? true);
+    },
     reason: () => uiReason(def.id) ?? ownReason?.() ?? null,
   };
 };

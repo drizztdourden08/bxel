@@ -9,12 +9,16 @@ const holdOf = (raw: unknown): number =>
 const springOf = (raw: unknown): number =>
   typeof raw === 'number' ? Math.min(SPRING_RANGE.max, Math.max(SPRING_RANGE.min, Math.round(raw))) : TOOL_PREFS_DEFAULTS.springMs;
 
+const tiersOf = (raw: unknown): Record<string, 1 | 2> =>
+  isRecord(raw) ? Object.fromEntries(Object.entries(raw).flatMap(([id, tier]) => (tier === 1 || tier === 2 ? [[id, tier] as const] : []))) : {};
+
 const parsePrefs = (raw: unknown): StoredPrefs => {
   const source = isRecord(raw) ? raw : {};
   return {
     openOnHover: source.openOnHover === true,
     holdMs: holdOf(source.holdMs),
     springMs: springOf(source.springMs),
+    optionTiers: tiersOf(source.optionTiers),
     hiddenMembers: Array.isArray(source.hiddenMembers) ? source.hiddenMembers.filter((each): each is string => typeof each === 'string') : [],
     shareBrush: source.shareBrush === true,
   };
