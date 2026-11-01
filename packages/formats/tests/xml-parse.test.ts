@@ -2,7 +2,7 @@
 import { parseXml } from '@bxel/formats';
 import { describe, expect, it } from 'vitest';
 
-describe('parseXml', () => {
+describe('K1 parseXml', { tags: ['critical'] }, () => {
   it('reads elements, attributes and text', () => {
     const result = parseXml('<?xml version="1.0"?><!-- note --><map width="2" name="a &amp; b"><data>1,2</data><tile gid=\'5\'/></map>');
     if (!result.ok) throw new Error(result.message);

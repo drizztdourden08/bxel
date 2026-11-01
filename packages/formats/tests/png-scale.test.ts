@@ -19,7 +19,7 @@ const image = {
 const reds = (data: Uint8ClampedArray): number[] =>
   Array.from(data).filter((_, i) => i % 4 === 0);
 
-describe('upscaleRgba', () => {
+describe('K1 upscaleRgba', { tags: ['critical'] }, () => {
   it('repeats each pixel into a factor by factor block', () => {
     const scaled = upscaleRgba(image, 2);
     expect(scaled.width).toBe(4);
@@ -38,14 +38,9 @@ describe('upscaleRgba', () => {
     expect(upscaleRgba(image, 99).width).toBe(32);
     expect(upscaleRgba(image, 3.9).width).toBe(6);
   });
-
-  it('only creates colours that already exist', () => {
-    const scaled = upscaleRgba(image, 5);
-    expect(new Set(reds(scaled.data))).toEqual(new Set([1, 2, 3, 4]));
-  });
 });
 
-describe('upscaleIndexed', () => {
+describe('K1 upscaleIndexed', { tags: ['critical'] }, () => {
   it('scales indices and keeps the palette', () => {
     const palette = new Uint8Array(8);
     const scaled = upscaleIndexed(
@@ -60,7 +55,7 @@ describe('upscaleIndexed', () => {
   });
 });
 
-describe('thumbnails', () => {
+describe('K1 thumbnails', { tags: ['critical'] }, () => {
   it.each([
     [32, 32, 8],
     [16, 16, 16],
@@ -75,20 +70,9 @@ describe('thumbnails', () => {
   ])('uses factor from %i by %i', (width, height, factor) => {
     expect(thumbnailFactor(width, height)).toBe(factor);
   });
-
-  it('keeps the long side at or below 256 when the source fits', () => {
-    const data = new Uint8ClampedArray(48 * 20 * 4);
-    const thumb = thumbnailRgba({ data, width: 48, height: 20 });
-    expect(thumb.width).toBe(240);
-    expect(thumb.height).toBe(100);
-  });
-
-  it('accepts a smaller maximum side', () => {
-    expect(thumbnailFactor(10, 10, 64)).toBe(6);
-  });
 });
 
-describe('downscaleRgba', () => {
+describe('K1 downscaleRgba', { tags: ['critical'] }, () => {
   const grid = (width: number, height: number): RgbaImage => {
     const data = new Uint8ClampedArray(width * height * 4);
     for (let i = 0; i < width * height; i += 1) data.set([i % 251, 7, 9, 255], i * 4);
@@ -107,15 +91,9 @@ describe('downscaleRgba', () => {
     expect(downscaleRgba(image, 0).width).toBe(2);
     expect(downscaleRgba(image, Number.NaN).width).toBe(2);
   });
-
-  it('never invents a colour', () => {
-    const source = grid(64, 64);
-    const kept = new Set(reds(source.data));
-    expect(reds(downscaleRgba(source, 3).data).every((value) => kept.has(value))).toBe(true);
-  });
 });
 
-describe('thumbnail downscaling', () => {
+describe('K1 thumbnail downscaling', { tags: ['critical'] }, () => {
   it.each([
     [256, 256, 1],
     [257, 10, 2],

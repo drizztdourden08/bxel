@@ -11,7 +11,7 @@ const settingsRows = (grant: Grant) => bundleRows(grant, '').find((each) => each
 
 const set = (grant: Grant, scope: string) => checkGrant('set_setting', { scope, key: 'x', value: 1 }, grant);
 
-describe('the Settings group on the permissions page', () => {
+describe('K1 the Settings group on the permissions page', { tags: ['critical'] }, () => {
   it('shows get_settings and one set_setting row for each scope', () => {
     expect(settingsRows(full).map((each) => each.id)).toEqual(['get_settings', 'set_setting:app', 'set_setting:project', 'set_setting:asset']);
     expect(Object.values(SETTING_ROWS)).toEqual(['set_setting:app', 'set_setting:project', 'set_setting:asset']);

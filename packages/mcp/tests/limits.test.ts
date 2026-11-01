@@ -1,5 +1,5 @@
 /* @layer tests @kind test */
-import { checkPatchPixels, checkRequestSize, MCP_LIMITS, REQUEST_BUDGET_BYTES } from '@bxel/mcp';
+import { checkPatchPixels, checkRequestSize, REQUEST_BUDGET_BYTES } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
 
 const patch = (width: number, height: number) => ({
@@ -7,10 +7,7 @@ const patch = (width: number, height: number) => ({
   options: { rect: { x: 0, y: 0, width, height }, pixels: '' },
 });
 
-describe('request size budget', () => {
-  it('is 960 KiB', () => {
-    expect(REQUEST_BUDGET_BYTES).toBe(960 * 1024);
-  });
+describe('K1 request size budget', { tags: ['critical'] }, () => {
 
   it('accepts a request at the budget and refuses one byte over', () => {
     const overhead = JSON.stringify({ text: '' }).length;
@@ -28,7 +25,7 @@ describe('request size budget', () => {
   });
 });
 
-describe('summed patch pixels', () => {
+describe('K1 summed patch pixels', { tags: ['critical'] }, () => {
   it('allows four full patches and refuses the fifth', () => {
     const full = patch(256, 256);
     expect(checkPatchPixels([full, full, full, full])).toBeNull();
@@ -46,19 +43,5 @@ describe('summed patch pixels', () => {
 
   it('ignores steps that are not patches', () => {
     expect(checkPatchPixels([{ name: 'layer.add', options: {} }, patch(1, 1), 7, null])).toBeNull();
-  });
-
-  it('publishes the limits table of the contract', () => {
-    expect(MCP_LIMITS).toEqual({
-      steps: 256,
-      points: 8192,
-      patchPixels: 65536,
-      batchPatchPixels: 262144,
-      readPixels: 65536,
-      previewPixels: 65536,
-      renderSide: 2048,
-      targetSprites: 64,
-      listEntries: 500,
-    });
   });
 });

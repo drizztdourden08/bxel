@@ -10,7 +10,7 @@ import { firstSprite, liveArtwork, openedProject, revisionOf, undoOnce } from '.
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
-describe('the value source over the open asset', () => {
+describe('S2 the value source over the open asset', { tags: ['standard'] }, () => {
   it('reads the fields of the sprite in focus', async () => {
     const { documentId } = await openedProject();
     const sprite = firstSprite(documentId);
@@ -45,7 +45,7 @@ describe('the value source over the open asset', () => {
 
 });
 
-describe('the value source over pivot, grid and platform', () => {
+describe('S2 the value source over pivot, grid and platform', { tags: ['standard'] }, () => {
   it('moves the pivot in half pixels', async () => {
     const { documentId } = await openedProject();
     await ASSET_SOURCE.set('sprite.pivotX', 2.5);
@@ -102,7 +102,7 @@ describe('the value source over pivot, grid and platform', () => {
   });
 });
 
-describe('the value source over an animation', () => {
+describe('S2 the value source over an animation', { tags: ['standard'] }, () => {
   it('reads and changes the canvas, the anchor and the loop of the animation in focus', async () => {
     const { documentId } = await openedProject();
     const made = runSteps(useDocumentStore.getState().host, documentId, 'Animation', [

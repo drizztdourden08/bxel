@@ -29,7 +29,7 @@ const roundTrip = (animation: GifAnimation): AnimationDecoded => {
 
 const SMALL: Spec = { entries: 4, width: 3, height: 3 };
 
-describe('GIF round trips', () => {
+describe('K3 GIF round trips', { tags: ['critical'] }, () => {
   it.each([
     [2, 1, 1],
     [3, 5, 4],
@@ -65,7 +65,7 @@ describe('GIF round trips', () => {
   });
 });
 
-describe('GIF timing and looping', () => {
+describe('K3 GIF timing and looping', { tags: ['critical'] }, () => {
   it('rounds delays to centiseconds half up with a one centisecond floor', () => {
     const cases: readonly [number, number][] = [
       [1, 1],
@@ -102,7 +102,7 @@ describe('GIF timing and looping', () => {
   });
 });
 
-describe('GIF errors', () => {
+describe('K3 GIF errors', { tags: ['critical'] }, () => {
   it('rejects bad input without throwing', () => {
     const good = build({ entries: 4, width: 2, height: 2 }, 1);
     const frame = (indices: Uint8Array, delayMs: number): GifAnimation['frames'] => [{ indices, delayMs }];

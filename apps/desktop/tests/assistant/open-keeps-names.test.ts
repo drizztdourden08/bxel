@@ -13,7 +13,7 @@ beforeEach(async () => {
   current = await toolRig();
 });
 
-describe('open_file on a palette whose stored name differs from its file name', () => {
+describe('K3 open_file on a palette whose stored name differs from its file name', { tags: ['standard'] }, () => {
   it('keeps the stored name', async () => {
     const artwork = sampleArtwork();
     const bank = artwork.banks[0];

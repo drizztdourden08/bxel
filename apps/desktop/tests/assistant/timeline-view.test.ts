@@ -32,7 +32,7 @@ beforeEach(() => {
   withFrames(4);
 });
 
-describe('get_view timeline', () => {
+describe('S2 get_view timeline', { tags: ['standard'] }, () => {
   it('reports the animation, the playhead, the pick, the range and the defaults', async () => {
     const seen = await timelineNow();
     expect(seen).toMatchObject({
@@ -63,7 +63,7 @@ describe('get_view timeline', () => {
   });
 });
 
-describe('set_view timeline', () => {
+describe('S2 set_view timeline', { tags: ['standard'] }, () => {
   it('sets the onion to two before and two after with wrap, and reads it back', async () => {
     const done = await ok('set_view', { timeline: { onion: { on: true, before: 2, after: 2, wrap: true, tint: 'grey', style: 'outline' } } });
     expect(done.applied).toEqual(['timeline']);

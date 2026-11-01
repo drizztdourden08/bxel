@@ -15,7 +15,7 @@ const storeOf = (...programs: unknown[]) => normalizeTrustStore({ level: 'ask_on
 
 const entryOf = (store: ReturnType<typeof storeOf>, key: string) => store.programs.find((program) => program.key === key);
 
-describe('migrating the stored modes', () => {
+describe('K3 migrating the stored modes', { tags: ['critical'] }, () => {
   const store = storeOf(old('reader', 'read'), old('editor', 'edit'), old('shut-out', 'blocked'));
 
   it('turns mode read into Read only', () => {
@@ -74,7 +74,7 @@ describe('migrating the stored modes', () => {
   });
 });
 
-describe('reading a store written with a grant', () => {
+describe('K3 reading a store written with a grant', { tags: ['critical'] }, () => {
   it('keeps a custom grant and derives the mode beside it', () => {
     const grant = { ...PRESETS.edit_documents.grant, bundles: { ...PRESETS.edit_documents.grant.bundles, tilemaps: 'read' }, tools: { save_document: 'disabled' } };
     const store = storeOf({ ...old('custom', 'edit'), grant });

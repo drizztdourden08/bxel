@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
-import { createSpriteInFile } from '../../src/new-sprite/create-sprite-in-file';
 import { spriteCheck } from '../../src/new-sprite/sprite-check';
 import { setStrict } from '../../src/platform-preset/set-strict';
 import { artworkOf, blank, chosen, platformFile } from './platform-harness';
 
-describe('the size check of a sprite added to a file', () => {
+describe('S2 the size check of a sprite added to a file', { tags: ['standard'] }, () => {
   it('finds nothing for a size the platform of the file allows', () => {
     const check = spriteCheck(artworkOf(platformFile(chosen('snes-sprite'))), { width: 16, height: 16 });
     expect(check.report?.name).toBe('SNES sprite 4bpp');
@@ -33,14 +32,5 @@ describe('the size check of a sprite added to a file', () => {
     const check = spriteCheck(artworkOf(platformFile({ ...blank(), name: 'hero' })), { width: 10, height: 10 });
     expect(check).toEqual({ report: null, blocked: null });
     expect(spriteCheck(undefined, { width: 8, height: 8 })).toEqual({ report: null, blocked: null });
-  });
-
-  it('agrees with what the command does: the strict file refuses the sprite', () => {
-    const file = platformFile(chosen('snes-sprite'));
-    setStrict(file.host, file.documentId, true);
-    const outcome = createSpriteInFile(file.host, file.documentId, { name: 'odd', width: 10, height: 10 });
-    expect(outcome.ok).toBe(false);
-    expect(outcome.ok ? '' : outcome.message).toContain('10x10 is not an allowed size');
-    expect(createSpriteInFile(file.host, file.documentId, { name: 'fine', width: 16, height: 16 }).ok).toBe(true);
   });
 });

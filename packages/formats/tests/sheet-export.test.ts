@@ -9,7 +9,7 @@ import { mustExport, request, SPRITES } from './sheet-fixture';
 import { spriteEntry } from './sprite-entry';
 import { uncoveredPixels } from './uncovered-pixels';
 
-describe('exportSheet pixels and rectangles', () => {
+describe('K2 exportSheet pixels and rectangles', { tags: ['critical'] }, () => {
   it('writes a PNG that decodes to the rendered sheet', () => {
     const sheet = mustExport(request());
     const png = decodePng(sheet.png);
@@ -42,7 +42,7 @@ describe('exportSheet pixels and rectangles', () => {
   });
 });
 
-describe('exportSheet trim, scale and grid', () => {
+describe('K2 exportSheet trim, scale and grid', { tags: ['critical'] }, () => {
   it('keeps whole frames when trim is off and scales by an integer', () => {
     const plain = mustExport(request({ trim: false }));
     const hero = spriteEntry(plain.metadata, 0);

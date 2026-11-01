@@ -6,7 +6,7 @@ import { looseSeed } from '../../src/workspace/loose-seed';
 import { workspaceOf } from '../../src/workspace/workspace-of';
 import { createArtwork, harness, paintPixels } from '../files/file-harness';
 
-describe('close prompt', () => {
+describe('S2 close prompt', { tags: ['standard'] }, () => {
   it('names the dirty assets of each document, by file name once saved', () => {
     const { host } = harness();
     const saved = createArtwork(host);

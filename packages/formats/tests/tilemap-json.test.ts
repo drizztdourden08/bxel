@@ -9,7 +9,7 @@ const DIAGONAL = 0x20000000;
 
 const cells = [5, (FLIP_X | 9) >>> 0, 0, (FLIP_Y | DIAGONAL | 12) >>> 0];
 
-describe('writeTilemapJson', () => {
+describe('K2 writeTilemapJson', { tags: ['critical'] }, () => {
   it('writes the grid, the tile size and the tileset', () => {
     const json = parseMap(writeTilemapJson(makeMapInput(cells)));
     expect(json).toMatchObject({
@@ -41,7 +41,7 @@ describe('writeTilemapJson', () => {
   });
 });
 
-describe('writeTilemapJson refusals', () => {
+describe('K2 writeTilemapJson refusals', { tags: ['critical'] }, () => {
   it('blocks a cell whose key has no tile', () => {
     const result = writeTilemapJson(makeMapInput([5, 7, 0, 0]));
     expect(result).toMatchObject({ ok: false, code: FORMAT_ERROR_CODE.TILEMAP_BROKEN_REFERENCE });
