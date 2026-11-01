@@ -5,7 +5,7 @@ import { previewMatchesCommit, roundTrip } from './palette-rig';
 
 const mapStep = (bankId: Parameters<typeof step>[1], colors: readonly string[]) => step('palette.import', { bankId, colors, mode: 'map' });
 
-describe('palette.import map', () => {
+describe('K1 palette.import map', { tags: ['critical'] }, () => {
   it('moves every pixel to the nearest imported colour and replaces the bank colours', () => {
     const rig = makeRig();
     const before = Array.from(celBytes(currentSprite(rig)));

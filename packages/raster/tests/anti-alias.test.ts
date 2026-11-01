@@ -8,7 +8,7 @@ const grid = (rows: readonly string[]) => ({
   height: rows.length,
 });
 
-describe('antiAlias', () => {
+describe('K1 antiAlias', { tags: ['critical'] }, () => {
   test('puts the in between colour at the two corners of a stair step on empty pixels', () => {
     const found = antiAlias({ ...grid(['111..', '...11', '.....']), edge: 1, mid: 2, inside: false });
     expect(found).toEqual([{ x: 3, y: 0, index: 2 }, { x: 2, y: 1, index: 2 }]);

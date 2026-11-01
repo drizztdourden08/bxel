@@ -20,7 +20,7 @@ const bank: PaletteBank = {
   ramps: [],
 };
 
-describe('paletteFileOf', () => {
+describe('K3 paletteFileOf', { tags: ['critical'] }, () => {
   it('leaves out the transparent swatch and the colour-named labels', () => {
     const file = paletteFileOf(bank);
     expect(file.name).toBe('Dusk');
@@ -32,13 +32,13 @@ describe('paletteFileOf', () => {
   });
 });
 
-describe('hexListOf', () => {
+describe('K3 hexListOf', { tags: ['critical'] }, () => {
   it('lists one upper-case colour per line', () => {
     expect(hexListOf(bank, [1, 2])).toBe('#112233\n#FF8800');
   });
 });
 
-describe('paletteExportBytes', () => {
+describe('K3 paletteExportBytes', { tags: ['critical'] }, () => {
   const file = paletteFileOf(bank);
 
   it.each(PALETTE_EXPORT_FORMATS.filter((format) => format.extension !== 'png'))('writes $label so it reads back with the same colours', (format) => {
@@ -57,7 +57,7 @@ describe('paletteExportBytes', () => {
   });
 });
 
-describe('importPlan', () => {
+describe('K1 importPlan', { tags: ['critical'] }, () => {
   const colors = [
     { rgb: '#112233', name: 'Navy' },
     { rgb: '#abcdef', name: 'Sky' },
@@ -89,7 +89,7 @@ describe('importPlan', () => {
   });
 });
 
-describe('sourceFromText', () => {
+describe('K1 sourceFromText', { tags: ['critical'] }, () => {
   it('reads a pasted hex list', () => {
     const source = sourceFromText('#112233\n#ff8800\n');
     expect(source?.colors).toHaveLength(2);

@@ -8,7 +8,7 @@ const grid = (rows: readonly string[]) => {
   return { pixels, width, height: rows.length };
 };
 
-describe('lintPixels', () => {
+describe('K1 lintPixels', { tags: ['critical'] }, () => {
   test('reports a lone pixel as an orphan and leaves a pair alone', () => {
     const { findings } = lintPixels({ ...grid(['1....', '.....', '..22.', '.....']), rules: ['orphan'] });
     expect(findings).toEqual([{ rule: 'orphan', x: 0, y: 0, width: 1, height: 1, index: 1 }]);

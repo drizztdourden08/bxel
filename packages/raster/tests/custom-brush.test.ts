@@ -17,7 +17,7 @@ const withBrush = (rows: readonly string[], width: number, height: number, pixel
   brushes: [{ id: brushId, name: 'Tip', width, height, pixels: encodeBrushPixels(Uint8Array.from(pixels)) }],
 });
 
-describe('brush spacing', () => {
+describe('K1 brush spacing', { tags: ['critical'] }, () => {
   test('lays a stamp every spacing pixels along the stroke', () => {
     const target = blankBuffer(9, 1);
     paintStroke({ target, points: [at(0, 0), at(8, 0)], index: 2, brush: { shape: 'square', size: 1, spacing: 4 } });
@@ -31,7 +31,7 @@ describe('brush spacing', () => {
   });
 });
 
-describe('the custom brush tip', () => {
+describe('K1 the custom brush tip', { tags: ['critical'] }, () => {
   const art = withBrush(['.......', '.......', '.......'], 3, 3, [0, 5, 0, 5, 5, 5, 0, 5, 0]);
 
   test('pixels.paint stamps the shape of the saved brush in the ink colour', () => {

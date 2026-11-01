@@ -39,7 +39,7 @@ const mustBytes = (result: ReturnType<typeof writeAse>): Uint8Array => {
 
 const hexes = (palette: PaletteFile): string[] => palette.colors.map((color) => color.hex);
 
-describe('Lospec .hex', () => {
+describe('K3 Lospec .hex', { tags: ['critical'] }, () => {
   it('round trips colours and drops names', () => {
     const text = mustText(writeHex(NAMED));
     expect(text).toBe('000000\nff0000\n10a0ff\nffffff\n7f7f7f\n');
@@ -59,7 +59,7 @@ describe('Lospec .hex', () => {
   });
 });
 
-describe('Paint.net .txt', () => {
+describe('K3 Paint.net .txt', { tags: ['critical'] }, () => {
   it('round trips the palette name and colours', () => {
     const text = mustText(writePaintNet(NAMED));
     expect(text.split('\r\n').slice(0, 4)).toEqual([
@@ -100,7 +100,7 @@ const aseEntry = (model: string, values: number[]): number[] => {
   return [...block];
 };
 
-describe('Adobe .ase', () => {
+describe('K3 Adobe .ase', { tags: ['critical'] }, () => {
   it('round trips names and colours inside a named group', () => {
     const bytes = mustBytes(writeAse(NAMED));
     expect(String.fromCharCode(...bytes.subarray(0, 4))).toBe('ASEF');

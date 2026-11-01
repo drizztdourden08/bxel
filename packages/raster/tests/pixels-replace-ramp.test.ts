@@ -20,7 +20,7 @@ const withShort = (rows: readonly string[]) => {
   return { ...artwork, banks: [{ ...bank, ramps: [...bank.ramps, { id: brand<RampId>('rmp_000092'), name: 'Short', swatches: ids }] }] };
 };
 
-describe('pixels.replace_ramp', () => {
+describe('K1 pixels.replace_ramp', { tags: ['critical'] }, () => {
   test('maps each step to the step at the same place and leaves other indices alone', () => {
     const engine = pixelEngine(withShort(ROWS));
     const original = engine.state().artwork;
