@@ -1,14 +1,16 @@
 /* @layer renderer-app @kind hook */
-import { useDropTarget } from '@drizztdourden08/brock-react';
+import { dnd, useDropTarget } from '@drizztdourden08/brock-react';
 import type { DndElement } from '@drizztdourden08/brock-react';
 import type { RefObject } from 'react';
 import { ASSET_DRAG } from '../../../asset-drag/asset-drag.constants';
-import type { DragAsset } from '../../../asset-drag/asset-drag.type';
+import { dropImage } from '../../../image-import/drop-image';
+import { isImageFile } from '../../../image-import/is-image-file';
 import { assetEntries } from '../../../sheet-manager/asset-entries';
 import { DRAG_WHY } from '../../../sheet-manager/drag-payload.constants';
 import { dropOnCanvas } from '../../../sheet-manager/drop-on-canvas';
 import { useNoticeStore } from '../../../stores/useNoticeStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
+import type { SheetAssetPayload } from './useCanvasAssetDrop.type';
 
 const useCanvasAssetDrop = (
   ref: RefObject<DndElement | null>,
@@ -16,10 +18,15 @@ const useCanvasAssetDrop = (
   sheetId: string | null,
   readOnly: boolean,
 ): void => {
-  useDropTarget<readonly DragAsset[]>(ref, {
-    accepts: ASSET_DRAG,
-    canDrop: (payload) => sheetId !== null && assetEntries(payload).length > 0,
+  useDropTarget<SheetAssetPayload>(ref, {
+    accepts: [dnd.files, ASSET_DRAG],
+    canDrop: (payload) => ('files' in payload ? payload.files.some((each) => isImageFile(each.file)) : sheetId !== null && assetEntries(payload).length > 0),
     onDrop: (payload, info) => {
+      if ('files' in payload) {
+        const file = payload.files.map((each) => each.file).find(isImageFile);
+        if (file) void dropImage(file);
+        return;
+      }
       if (sheetId === null) return;
       if (readOnly) {
         useNoticeStore.getState().post(DRAG_WHY.exportShown);
