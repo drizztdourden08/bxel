@@ -9,6 +9,8 @@ import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
 import { TOOL_NAME } from './tool-name.constants';
 
+const ASSET_STATE_VALUES = ['unsaved', 'open', 'missing', 'unused'] as const;
+
 const assetEntry = z.strictObject({
   kind: ASSET_KIND_SCHEMA,
   id: z.string().nullable().describe('Null while the file is not opened yet. open_file loads it.'),
@@ -23,6 +25,9 @@ const assetEntry = z.strictObject({
   tags: z.array(z.string()).describe('The tags the project keeps for the asset.'),
   collections: z.array(z.string()).describe('The names of the collections that hold the asset.'),
   pinned: z.boolean(),
+  states: z.array(z.enum(ASSET_STATE_VALUES)).describe('unsaved: changed and not written. open: has a tab. unused: a loaded sprite, animation, palette or tileset nothing uses. missing: a link of the file does not resolve; only listed when the links were read.'),
+  uses: z.array(z.string()).nullable().describe('The ids of the assets this asset links to. Null unless withLinks is true or states asks for missing.'),
+  missingLinks: z.array(z.strictObject({ linkId: z.string(), targetName: z.string(), state: z.string() })).nullable().describe('The links of this asset whose target cannot be found. Null unless the links were read.'),
 });
 
 const listAssetsTool = defineTool(TOOL_NAME.listAssets, {
@@ -41,6 +46,8 @@ const listAssetsTool = defineTool(TOOL_NAME.listAssets, {
       .max(300)
       .optional()
       .describe('The search box of the Project window: words match names and folders; kind:sprite, tag:hero, collection:name, in:folder, uses:name, usedby:name, is:unused, is:unsaved, is:open, is:pinned, size>64, colours<16. Kinds add up, other tokens narrow.'),
+    states: z.array(z.enum(ASSET_STATE_VALUES)).optional().describe('Only assets that are in all of these states, as the chips of the Project widget: unsaved, open, missing (a link cannot be resolved; reads the links of every file), unused.'),
+    withLinks: z.boolean().default(false).describe('Read the links of every file, so each asset lists uses and missingLinks. It reads every asset file of the project, so it is slower.'),
     ...PAGING_SHAPE,
   }),
   output: withFailure({

@@ -40,6 +40,12 @@ const spriteSummary = (detailedTags: boolean) => (sprite: Sprite) => ({
   tags: sprite.tags.map((tag) => tagSummary(sprite, tag, detailedTags)),
   slices: sprite.slices.map((slice) => ({ sliceId: slice.id, name: slice.name, rect: slice.rect, pivot: slice.pivot, center: slice.center })),
   guides: guidesOf(sprite.guides),
+  selections: (sprite.selections ?? []).map((saved) => ({
+    name: saved.name,
+    width: saved.width,
+    height: saved.height,
+    pixels: saved.runs.reduce((sum, run) => sum + (run[2] - run[1] + 1), 0),
+  })),
   symmetry: sprite.symmetry ?? null,
 });
 

@@ -5,6 +5,7 @@ import { rotateSpec } from '../../editor/transform/rotate-spec';
 import { scaleSpec } from '../../editor/transform/scale-spec';
 import type { ResizeSpec } from '../../sheet-manager/manager.type';
 import type { Args, Direct } from './direct-commands.type';
+import { cutStripDirect, duplicateNamedDirect, moveToFolder, renameMany, setPalette, sliceDirect } from './manager-direct';
 import { paletteDirect } from './palette-direct';
 
 const NO_SPRITE = 'No sprite is open to change.';
@@ -20,6 +21,12 @@ const DIRECT: Readonly<Record<string, Direct>> = {
     resizeActiveSprite({ width: num(args, 'width'), height: num(args, 'height'), anchor: args.anchor as ResizeSpec['anchor'] }) ? null : 'The canvas size did not change.',
   'palette.delete_swatch': (args) => paletteDirect('delete', num(args, 'index'), null, null),
   'palette.merge_swatch': (args) => paletteDirect('merge', num(args, 'index'), num(args, 'into'), null),
+  'sprite.rename_many': renameMany,
+  'sprite.duplicate_named': duplicateNamedDirect,
+  'sprite.move_to_folder': moveToFolder,
+  'sprite.set_palette': setPalette,
+  'sprite.slice': sliceDirect,
+  'sprite.cut_strip': cutStripDirect,
   'palette.change_limit': (args) => paletteDirect('limit', 0, null, num(args, 'cap')),
 };
 

@@ -26,7 +26,7 @@ describe('K2 the tool catalogue', { tags: ['critical'] }, () => {
   it('tests the writing inputs of the mixed tools', () => {
     expect(TOOL_CATALOGUE.set_view.writes?.({ zoom: 'fit', toggles: { grid: true } })).toBe(false);
     expect(TOOL_CATALOGUE.set_view.writes?.({ zoom: 'fit', selection: { shape: { kind: 'all' } } })).toBe(true);
-    for (const field of ['select', 'tool', 'colours', 'symmetry', 'dialog']) expect(TOOL_CATALOGUE.set_view.writes?.({ [field]: {} }), field).toBe(true);
+    for (const field of ['select', 'tool', 'colours', 'symmetry', 'dialog', 'mapSelection', 'tileset']) expect(TOOL_CATALOGUE.set_view.writes?.({ [field]: {} }), field).toBe(true);
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: true })).toBe(true);
     expect(TOOL_CATALOGUE.close_document.writes?.({ discard: false })).toBe(false);
     expect(TOOL_CATALOGUE.stop_bxel.writes?.({ unsaved: 'discard' })).toBe(true);
@@ -36,7 +36,7 @@ describe('K2 the tool catalogue', { tags: ['critical'] }, () => {
 
   it('keeps the writing tools to those that edit documents, files, layout and settings, and the restart', () => {
     const writing = Object.entries(TOOL_CATALOGUE).filter(([, entry]) => entry.kind === 'write');
-    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'create_folder', 'duplicate_file', 'export_document', 'export_palette', 'import_files', 'import_palette', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo']);
+    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'apply_preset', 'create_document', 'create_folder', 'delete_preset', 'duplicate_file', 'export_document', 'export_palette', 'import_files', 'import_palette', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'save_preset', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo', 'update_preset']);
   });
 });
 

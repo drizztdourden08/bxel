@@ -22,6 +22,13 @@ import { mapSelectionReply } from './map-selection-reply';
 import { currentMap } from '../../tilemap/current-map';
 import { FILLED_TOOL_IDS } from './view-snapshot.constants';
 import { timelineOf } from './timeline-view-of';
+import { currentContext } from '../../ui-context/current-context';
+import { browseView } from './browse-view';
+import { projectPanelView } from './project-panel-view';
+import { propertiesView } from './properties-view';
+import { tilesetView } from './tileset-view';
+import { toolView } from './tool-view';
+import { uiView } from './ui-view';
 import type { Sees } from './view-snapshot.type';
 
 const tabsOf = (sees: Sees) => {
@@ -77,6 +84,7 @@ const toolOf = () => {
     connectivity: tool.connectivity,
     filled: FILLED_TOOL_IDS.includes(tool.tool) ? useDrawingStore.getState().filled[tool.tool as FilledTool] : false,
     ink: inkFor(useDrawingStore.getState(), tool.tool),
+    ...toolView(),
   };
 };
 
@@ -141,9 +149,12 @@ const spritesOf = () => {
 };
 
 const viewSnapshot = (sees: Sees = () => true) => {
+  const context = currentContext();
   const tool = useToolStore.getState();
   return {
     page: nav.active(),
+    context,
+    ui: uiView(context),
     dialog: dialogs.current(),
     tabs: tabsOf(sees),
     active: activeOf(sees),
@@ -158,6 +169,10 @@ const viewSnapshot = (sees: Sees = () => true) => {
     mapSelection: mapSelectionOf(sees),
     clipboard: clipboardOf(),
     sprites: spritesOf(),
+    properties: propertiesView(),
+    browse: browseView(),
+    projectPanel: projectPanelView(),
+    tileset: tilesetView(),
   };
 };
 

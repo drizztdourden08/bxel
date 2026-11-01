@@ -23,6 +23,12 @@ const TIMELINE_COMMANDS: readonly CommandDef[] = [
     run: deleteFrames,
   },
   {
+    id: 'timeline.toggle_play',
+    label: 'Play or pause the animation',
+    group: COMMAND_GROUP.timeline,
+    run: () => togglePlayback(),
+  },
+  {
     id: 'timeline.toggle_play_paint',
     label: 'Play or pause the animation while painting',
     group: COMMAND_GROUP.timeline,

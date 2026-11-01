@@ -11,7 +11,7 @@ const setSettingTool = defineTool(TOOL_NAME.setSetting, {
     'Changes one setting of the app, the open project or the open asset, as the page would. The value is checked against the control of the page and the stored value comes back. Keys that start with assistant or keymap are refused: a program cannot widen its own access. Use get_settings for the keys. With show the page opens at that section so the owner sees the change.',
   input: z.strictObject({
     scope: SETTING_SCOPE_SCHEMA,
-    target: z.string().min(1).max(200).optional().describe('asset: a tab id from get_view. project: the project id.'),
+    target: z.string().min(1).max(200).optional().describe('asset: a tab id from get_view, or the path of an open project file such as sprites/hero.bxel. project: the project id.'),
     key: z.string().min(1).max(200),
     value: z.unknown().describe('The new value, in the shape get_settings shows for the key.'),
     show: z.boolean().default(false),

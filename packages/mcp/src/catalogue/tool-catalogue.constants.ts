@@ -6,7 +6,7 @@ import { fieldIs } from './field-is';
 const read = (bundle: ToolEntry['bundle']): ToolEntry => ({ bundle, kind: 'read' });
 const write = (bundle: ToolEntry['bundle']): ToolEntry => ({ bundle, kind: 'write' });
 
-const STATE_FIELDS = ['select', 'tool', 'colours', 'symmetry', 'selection', 'mapSelection', 'dialog'] as const;
+const STATE_FIELDS = ['select', 'tool', 'colours', 'symmetry', 'selection', 'mapSelection', 'dialog', 'tileset'] as const;
 
 const setsState = (input: unknown): boolean =>
   typeof input === 'object' && input !== null && STATE_FIELDS.some((field) => Reflect.get(input, field) !== undefined);
@@ -60,6 +60,12 @@ const TOOL_CATALOGUE: Readonly<Record<ToolName, ToolEntry>> = {
   import_files: write('project_files'),
   export_palette: write('files_saving'),
   import_palette: write('edit_pixels'),
+  list_tools: read('app_control'),
+  list_presets: read('app_control'),
+  apply_preset: write('app_control'),
+  save_preset: write('app_control'),
+  update_preset: write('app_control'),
+  delete_preset: write('app_control'),
 };
 
 export { TOOL_CATALOGUE };

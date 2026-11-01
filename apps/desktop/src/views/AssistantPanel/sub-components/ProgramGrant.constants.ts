@@ -52,6 +52,12 @@ const TOOL_TEXT: Readonly<Record<ToolRowId, string>> = {
   import_files: 'Turns image and palette files of a project into assets.',
   export_palette: 'Writes a palette as a palette file or a PNG strip.',
   import_palette: 'Puts the colours of a palette file into a palette of a document.',
+  list_tools: 'Lists the drawing tools, their options with ranges and choices, and the presets.',
+  list_presets: 'Lists the tool presets.',
+  apply_preset: 'Picks a tool preset, as the owner does in the tool flyout.',
+  save_preset: 'Saves a new tool preset of the owner.',
+  update_preset: 'Renames a tool preset of the owner or replaces its options.',
+  delete_preset: 'Deletes a tool preset of the owner.',
 };
 
 const LEVEL_NAME: Readonly<Record<Level, string>> = { disabled: 'Disabled', read: 'Read', edit: 'Edit' };

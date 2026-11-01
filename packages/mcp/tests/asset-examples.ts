@@ -14,7 +14,7 @@ const PLACE = { folderId: FOLDER, path: 'sprites/hero.bxsprite' };
 const LOCATION = { projectId: PROJECT, folderId: FOLDER, path: 'sprites/hero.bxsprite' };
 
 const ASSET_INPUT_EXAMPLES: Record<string, unknown> = {
-  list_assets: { projectId: PROJECT, kinds: ['sprite', 'sheet'], folderId: FOLDER, usedBy: SPRITE, query: 'tag:hero is:unsaved' },
+  list_assets: { projectId: PROJECT, kinds: ['sprite', 'sheet'], folderId: FOLDER, usedBy: SPRITE, query: 'tag:hero is:unsaved', states: ['open'], withLinks: true },
   find_references: { projectId: PROJECT, file: PLACE, direction: 'both' },
   project_health: { projectId: PROJECT, checks: ['broken', 'moved'] },
   repair_links: { projectId: PROJECT, fixes: [{ file: PLACE, linkId: BANK, by: 'id' }] },
@@ -36,7 +36,7 @@ const ASSET_OUTPUT_EXAMPLES: Record<string, unknown> = {
     ok: true,
     projectId: PROJECT,
     assets: [
-      { kind: 'sprite', id: SPRITE, name: 'idle', fileName: 'idle.bxsprite', location: LOCATION, dirty: false, opened: true, usedBy: [], documentId: DOC, modifiedAt: '2026-10-23T19:42:10Z', tags: ['hero'], collections: ['Players'], pinned: false },
+      { kind: 'sprite', id: SPRITE, name: 'idle', fileName: 'idle.bxsprite', location: LOCATION, dirty: false, opened: true, usedBy: [], documentId: DOC, modifiedAt: '2026-10-23T19:42:10Z', tags: ['hero'], collections: ['Players'], pinned: false, states: ['open'], uses: [], missingLinks: [] },
     ],
     total: 1,
     notOpened: 0,

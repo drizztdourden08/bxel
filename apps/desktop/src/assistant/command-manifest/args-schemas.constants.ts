@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind constants */
+import { BANK_FIELDS, FOLDER_FIELDS, RENAME_FIELDS, SLICE_FIELDS, STRIP_FIELDS } from '@bxel/mcp';
 import { z } from 'zod';
 
 const index = z.number().int().min(0).max(255);
@@ -53,6 +54,12 @@ const ARGS_KINDS = {
   replaceRamp: z.strictObject({ from: z.string().min(1).describe('The name of the ramp to replace.'), to: z.string().min(1).describe('The name of the ramp that takes its place, step by step.'), scope: z.enum(['frame', 'sprite', 'animation', 'selection']).default('sprite') }),
   listSelection: z.strictObject({ selection: z.boolean().default(false).describe('True uses only the selected swatches.') }),
   bank: z.strictObject({ bankId: z.string().min(1).describe('A palette id from get_document.') }),
+  renameMany: z.strictObject(RENAME_FIELDS),
+  duplicateNamed: z.strictObject(RENAME_FIELDS),
+  moveToFolder: z.strictObject(FOLDER_FIELDS),
+  setPalette: z.strictObject(BANK_FIELDS),
+  spriteSlice: z.strictObject(SLICE_FIELDS),
+  cutStrip: z.strictObject(STRIP_FIELDS),
   colourLimit: z.strictObject({ cap: z.number().int().min(2).max(256) }),
 } as const;
 

@@ -2,6 +2,7 @@
 import type { AssetKey, AssetKind, CellMaskDescriptor, DocumentId, FrameId, PaletteBank, Sprite } from '@bxel/document';
 import type { RgbaImage } from '@bxel/formats';
 import type { FileKind } from '@bxel/project';
+import type { PlanInput } from '@bxel/mcp';
 
 type SpriteFrame = { readonly sprite: Sprite; readonly bank: PaletteBank; readonly frameId: FrameId };
 
@@ -17,7 +18,11 @@ type SheetSource = { readonly sheetId: string };
 
 type PngMeta = { readonly revision: number; readonly scale: number; readonly uri: string };
 
-type TilesetSource = { readonly tilesetId: string; readonly overlay?: 'none' | 'collision' };
+type TilemapSource = { readonly tilemapId: string; readonly layerId?: string };
+
+type TilesetOverlay = 'none' | 'collision' | 'terrain' | 'keys';
+
+type TilesetSource = { readonly tilesetId: string; readonly overlay?: TilesetOverlay };
 
 type AnimationSource = {
   readonly animationId: string;
@@ -71,14 +76,18 @@ type ReadPixelsInput = DocumentInput & {
   readonly rect: WireRect;
 };
 
+type FileRenderInput = { readonly file: ProjectLocation };
+
 type RenderInput = DocumentInput & {
-  readonly target: SpriteSource | AnimationSource | SheetSource | TilesetSource;
+  readonly target: SpriteSource | AnimationSource | SheetSource | TilesetSource | TilemapSource;
   readonly scale: number;
   readonly exported?: boolean;
   readonly onion?: boolean;
   readonly bankId?: string;
   readonly animated?: 'gif' | 'apng';
 };
+
+type RenderRequest = Omit<RenderInput, 'documentId' | 'target'> & Partial<Pick<RenderInput, 'documentId' | 'target'>> & Partial<FileRenderInput>;
 
 type WireStep = {
   readonly name: string;
@@ -95,7 +104,8 @@ type EditInput = DocumentInput & {
   readonly clientRequestId?: string;
 };
 
-type PreviewInput = EditInput & { readonly render?: { readonly scale: number } };
+type PreviewInput = DocumentInput &
+  Partial<Omit<EditInput, 'documentId'>> & { readonly render?: { readonly scale: number }; readonly plan?: PlanInput };
 
 type UndoInput = DocumentInput & { readonly expectedRevision: number };
 
@@ -162,6 +172,8 @@ type ListAssetsInput = {
   readonly usedBy?: string;
   readonly search?: string;
   readonly query?: string;
+  readonly states?: readonly ('unsaved' | 'open' | 'missing' | 'unused')[];
+  readonly withLinks?: boolean;
   readonly offset: number;
   readonly limit: number;
 };
@@ -186,6 +198,7 @@ type ListFilesInput = {
   readonly folderId: string;
   readonly path?: string;
   readonly kinds: readonly WireFileKind[];
+  readonly depth: number;
   readonly offset: number;
   readonly limit: number;
 };
@@ -209,6 +222,7 @@ export type {
   EditInput,
   ExportInput,
   ExportTarget,
+  FileRenderInput,
   FramePng,
   DocumentInclude,
   GetDocumentInput,
@@ -223,10 +237,13 @@ export type {
   ReadPaletteInput,
   ReadPixelsInput,
   RenderInput,
+  RenderRequest,
   PreviewInput,
   SaveInput,
   PngMeta,
   SheetSource,
+  TilemapSource,
+  TilesetOverlay,
   TilesetSource,
   SavedAt,
   SpriteFrame,

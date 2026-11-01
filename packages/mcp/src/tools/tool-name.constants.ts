@@ -48,6 +48,12 @@ const TOOL_NAME = {
   importFiles: 'import_files',
   exportPalette: 'export_palette',
   importPalette: 'import_palette',
+  listTools: 'list_tools',
+  listPresets: 'list_presets',
+  applyPreset: 'apply_preset',
+  savePreset: 'save_preset',
+  updatePreset: 'update_preset',
+  deletePreset: 'delete_preset',
 } as const;
 
 const TOOLS_WITHOUT_SESSION: readonly string[] = [TOOL_NAME.startBxel];

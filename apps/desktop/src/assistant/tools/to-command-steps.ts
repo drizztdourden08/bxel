@@ -3,6 +3,7 @@ import { COMMAND_NAME } from '@bxel/document';
 import type { Artwork, CommandStep, TargetScope } from '@bxel/document';
 import { decodePixelBlock, PIXELS_PATCH_WIRE_SCHEMA, WIRE_MASK_SCHEMA } from '@bxel/mcp';
 import type { McpResult } from '@bxel/mcp';
+import { currentToolOptions } from './current-tool-options';
 import { resolveMaskDescriptor } from './resolve-mask-descriptor';
 import type { WireStep } from './tool-input.type';
 
@@ -30,7 +31,7 @@ const maskOptions = (step: WireStep, index: number, artwork: Artwork): McpResult
 const splitOptions = (options: unknown): McpResult<unknown> => ({ ok: true, value: { strict: true, ...(typeof options === 'object' && options !== null ? options : {}) } });
 
 const plainOptions = (step: WireStep, index: number, artwork: Artwork): McpResult<unknown> =>
-  step.name === COMMAND_NAME.pixelsPatch ? patchOptions(step, index) : maskOptions(step, index, artwork);
+  step.name === COMMAND_NAME.pixelsPatch ? patchOptions(step, index) : maskOptions({ ...step, options: currentToolOptions(step.options) }, index, artwork);
 
 const optionsOf = (step: WireStep, index: number, artwork: Artwork): McpResult<unknown> =>
   step.name === COMMAND_NAME.animationSplit ? splitOptions(step.options) : plainOptions(step, index, artwork);

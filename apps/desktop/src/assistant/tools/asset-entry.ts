@@ -4,9 +4,11 @@ import { fileName } from '../../files/file-name';
 import { projectWorkspaceId } from '../../workspace/project-workspace-id';
 import type { OpenProject } from '../../project/project.type';
 import { organiseOf } from '../../organise/organise-of';
+import type { AssetLinks } from './asset-states';
+import { statesOf } from './asset-states';
 import { locateInProject } from './locate-in-project';
 
-const assetEntry = (project: OpenProject, row: AssetRow) => ({
+const assetEntry = (project: OpenProject, row: AssetRow, links: AssetLinks | null) => ({
   kind: row.kind,
   id: row.assetId,
   name: row.name,
@@ -20,6 +22,9 @@ const assetEntry = (project: OpenProject, row: AssetRow) => ({
   tags: row.assetId === null ? [] : [...(organiseOf(project.manifest).tags[row.assetId] ?? [])],
   collections: organiseOf(project.manifest).collections.filter((each) => row.assetId !== null && each.assets.includes(row.assetId)).map((each) => each.name),
   pinned: row.assetId !== null && organiseOf(project.manifest).pinned.includes(row.assetId),
+  states: [...statesOf(row, links)],
+  uses: links === null ? null : [...links.uses],
+  missingLinks: links === null ? null : links.missing.map((each) => ({ ...each })),
 });
 
 export { assetEntry };

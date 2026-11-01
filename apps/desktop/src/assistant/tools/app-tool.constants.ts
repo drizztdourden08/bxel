@@ -4,6 +4,8 @@ const APP_TOOL_TEXT = {
   offHere: 'It does not apply to what is shown now. Call get_view, then focus the tab or select the kind of item it works on.',
   unknown: (id: string) => `No command has the id "${id}". Call list_commands.`,
   off: (id: string, reason: string) => `${id} is off right now. ${reason}`,
+  notInContext: (id: string, only: string | null) =>
+    only === null ? `${id} does not apply to what is open. Call get_view, then focus a tab it works on.` : `${id} only works on: ${only}. Open or focus one first (open_file, or set_view focus), then call list_commands.`,
   needsArgs: (id: string, why: string) => `${id} needs args. ${why} Call list_commands for the shape.`,
   noArgs: (id: string) => `${id} takes no args.`,
   dialog: (id: string) =>
@@ -16,7 +18,10 @@ const APP_TOOL_TEXT = {
   hidden: 'The owner has not allowed this program to work on the document that is on screen.',
   pendingFailed: 'The change was started but could not be applied. The owner sees it as a preview they can apply or cancel.',
   failed: (id: string) => `${id} did not run.`,
-  noTab: 'No open tab has that id. Call get_view for the tabs.',
+  noTab: 'No open tab has that id or path. Call get_view for the tabs, or give the path of a file in the open project.',
+  notOpen: 'That file is not open. Open it with open_file first.',
+  panelOff: 'The Project panel is not on screen. Show it in the workspace first.',
+  stampSize: (columns: number, rows: number) => `The stamp needs ${columns * rows} keys for ${columns} columns and ${rows} rows.`,
   noViewport: 'No canvas is on screen to zoom. Focus a document tab first.',
   badRoute: (route: string) => `No page has the route "${route}". Call get_settings with a scope for the pages.`,
   noSprite: 'The sprite is not in the active document. Call get_document.',
@@ -37,6 +42,14 @@ const APP_TOOL_TEXT = {
   notTaken: 'The setting did not take the value. Nothing may be open, or the item may be read only.',
   noSetting: (key: string) => `No setting has the key "${key}". Call get_settings for the keys.`,
   noProject: 'No project with that id is open.',
+  toolStroke: 'The owner is drawing right now. Try again when the stroke is done.',
+  toolBorrowed: 'The owner holds a borrowed tool (a held key such as Space for the hand). Try again when it is let go.',
+  noMember: (id: string) => `No tool member has the id "${id}". Call list_tools for the members.`,
+  noToolId: (id: string) => `No tool has the id "${id}". Call list_tools for the tools.`,
+  memberHere: (id: string, surface: string) => `The member "${id}" is not on the ${surface} surface of the open tab. Call list_tools with that surface to see where it is.`,
+  noPreset: (id: string) => `No preset has the id "${id}". Call list_presets.`,
+  builtinPreset: 'Built in presets cannot be changed or deleted. Save a copy with save_preset.',
+  optionOff: (key: string, why: string) => `${key} does not apply right now. ${why}`,
 } as const;
 
 export { APP_TOOL_TEXT };

@@ -71,6 +71,7 @@ import { animationFrameAdd } from './animation/animation-frame-add';
 import { animationFrameUpdate } from './animation/animation-frame-update';
 import { animationFrameDelete } from './animation/animation-frame-delete';
 import { animationFrameReorder } from './animation/animation-frame-reorder';
+import { animationFrameReverse } from './animation/animation-frame-reverse';
 import { animationFrameOwn } from './animation/animation-frame-own';
 import { animationFrameRelease } from './animation/animation-frame-release';
 import { animationTagAdd } from './animation/animation-tag-add';
@@ -166,6 +167,7 @@ const documentCommands: readonly CommandDef[] = [
   animationFrameUpdate,
   animationFrameDelete,
   animationFrameReorder,
+  animationFrameReverse,
   animationFrameOwn,
   animationFrameRelease,
   animationTagAdd,

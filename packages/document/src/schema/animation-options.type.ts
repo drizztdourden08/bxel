@@ -13,6 +13,7 @@ import type { animationFrameAddSchema } from './animation-frame-add-schema';
 import type { animationFrameUpdateSchema } from './animation-frame-update-schema';
 import type { animationFrameDeleteSchema } from './animation-frame-delete-schema';
 import type { animationFrameReorderSchema } from './animation-frame-reorder-schema';
+import type { animationFrameReverseSchema } from './animation-frame-reverse-schema';
 import type { animationFramePickSchema } from './animation-frame-pick-schema';
 import type { animationTagAddSchema } from './animation-tag-add-schema';
 import type { animationTagUpdateSchema } from './animation-tag-update-schema';
@@ -34,6 +35,7 @@ type AnimationFrameAddOptions = z.output<typeof animationFrameAddSchema>;
 type AnimationFrameUpdateOptions = z.output<typeof animationFrameUpdateSchema>;
 type AnimationFrameDeleteOptions = z.output<typeof animationFrameDeleteSchema>;
 type AnimationFrameReorderOptions = z.output<typeof animationFrameReorderSchema>;
+type AnimationFrameReverseOptions = z.output<typeof animationFrameReverseSchema>;
 type AnimationFramePickOptions = z.output<typeof animationFramePickSchema>;
 type AnimationTagAddOptions = z.output<typeof animationTagAddSchema>;
 type AnimationTagUpdateOptions = z.output<typeof animationTagUpdateSchema>;
@@ -56,6 +58,7 @@ export type {
   AnimationFrameUpdateOptions,
   AnimationFrameDeleteOptions,
   AnimationFrameReorderOptions,
+  AnimationFrameReverseOptions,
   AnimationFramePickOptions,
   AnimationTagAddOptions,
   AnimationTagUpdateOptions,

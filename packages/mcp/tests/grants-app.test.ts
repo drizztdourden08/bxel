@@ -3,7 +3,7 @@ import { checkCommand, checkGrant, describeTools, MCP_ERROR_CODE, PRESETS, tools
 import type { BundleId, Grant } from '@bxel/mcp';
 import { documentCommands } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { withBundles } from './grant-builders';
+import { withBundles, withTools } from './grant-builders';
 
 const item = (area: BundleId, changes: boolean) => ({ what: 'run_command thing', area, changes });
 
@@ -65,5 +65,29 @@ describe('K4 the restart permission', { tags: ['critical'] }, () => {
   it('lets the settings write tool through for Full control and not for Edit documents', () => {
     expect(checkGrant('set_setting', { scope: 'app', key: 'theme', value: 'dark' }, PRESETS.edit_documents.grant)?.error.code).toBe(MCP_ERROR_CODE.READ_LEVEL);
     expect(checkGrant('set_setting', { scope: 'app', key: 'theme', value: 'dark' }, PRESETS.full_control.grant)).toBeNull();
+  });
+});
+
+describe('K4 the tool and preset tools', { tags: ['critical'] }, () => {
+  const writing = ['apply_preset', 'save_preset', 'update_preset', 'delete_preset'] as const;
+
+  it('reads tools and presets at Read and refuses the four preset writes there, naming App control', () => {
+    const grant = PRESETS.edit_documents.grant;
+    for (const tool of ['list_tools', 'list_presets'] as const) expect(checkGrant(tool, {}, grant), tool).toBeNull();
+    for (const tool of writing) {
+      const refused = checkGrant(tool, {}, grant);
+      expect(refused?.error.code, tool).toBe(MCP_ERROR_CODE.READ_LEVEL);
+      expect(refused?.error.message, tool).toContain('App control is set to Read');
+    }
+  });
+
+  it('lets Full control write presets and turns each tool off by name', () => {
+    for (const tool of writing) expect(checkGrant(tool, {}, PRESETS.full_control.grant), tool).toBeNull();
+    expect(checkGrant('save_preset', {}, withTools({ save_preset: 'disabled' }))?.error.code).toBe(MCP_ERROR_CODE.TOOL_DISABLED);
+  });
+
+  it('hides the tool and preset tools with a Disabled App control', () => {
+    const names = toolsForGrant(describeTools(documentCommands), withBundles({ app_control: 'disabled' })).map((tool) => tool.name);
+    for (const gone of ['list_tools', 'list_presets', ...writing]) expect(names).not.toContain(gone);
   });
 });

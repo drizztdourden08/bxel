@@ -23,6 +23,7 @@ import { useProjectStore } from '../../../stores/useProjectStore';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
 import { normalRoot } from './normal-root';
 import { roleKindsOf } from './role-kinds-of';
+import { useProjectPanelLink } from './useProjectPanelLink';
 import { useRowBulk } from './useRowBulk';
 import { useRowCreate } from './useRowCreate';
 import { useRowDrag } from './useRowDrag';
@@ -40,6 +41,7 @@ const useProjectPanel = (): ProjectPanelModel => {
   const browser = useBrowserRows({ model: data, view, search, create, facts: source.facts, keys: source.keys });
   const selection = useBrowserSelection(browser);
   const edit = useBrowserEdit({ state, itemOf: browser.itemOf, selection, view, refresh: source.refresh });
+  useProjectPanelLink({ view, search, selection, data });
   const parts = { project, source, data, view, search, browser, selection, edit };
   const pick = useRowPick(parts);
   const rowActions = { ...pick, ...useRowCreate(parts), ...useRowBulk(parts) };

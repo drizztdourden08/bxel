@@ -56,6 +56,12 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   import_files: saveExport,
   export_palette: saveExport,
   import_palette: edit,
+  list_tools: read,
+  list_presets: read,
+  apply_preset: edit,
+  save_preset: edit,
+  update_preset: edit,
+  delete_preset: edit,
 };
 
 const NATIVE_PAIR_TEXT = {

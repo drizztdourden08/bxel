@@ -10,6 +10,8 @@ const COMMAND_ROW_SCHEMA = z.strictObject({
   area: z.string().describe('The bundle the command belongs to, such as edit_pixels or app_control.'),
   chord: z.string().nullable(),
   enabled: z.boolean(),
+  state: z.enum(['shown', 'disabled', 'hidden']).describe('shown: runs now. disabled: applies here but is off, see reason. hidden: does not apply to what is open, see only.'),
+  only: z.string().nullable().describe('The file kinds a command works on, such as Animations, or null when it works anywhere.'),
   reason: z.string().nullable().describe('Why the command is off right now, or null.'),
   checkable: z.boolean(),
   checked: z.boolean().nullable(),

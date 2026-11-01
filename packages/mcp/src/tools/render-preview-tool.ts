@@ -10,8 +10,11 @@ import {
   SHEET_ID_SCHEMA,
   SPRITE_ID_SCHEMA,
   TAG_ID_SCHEMA,
+  MAP_LAYER_ID_SCHEMA,
+  TILEMAP_ID_SCHEMA,
   TILESET_ID_SCHEMA,
 } from '../schema/ids.constants';
+import { LOCATION_SCHEMA } from '../schema/place.constants';
 import { COUNT_SCHEMA, SHA256_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
@@ -22,7 +25,14 @@ const spriteTarget = z.strictObject({ spriteId: SPRITE_ID_SCHEMA, frameId: FRAME
 const sheetTarget = z.strictObject({ sheetId: SHEET_ID_SCHEMA });
 const tilesetTarget = z.strictObject({
   tilesetId: TILESET_ID_SCHEMA,
-  overlay: z.enum(['none', 'collision']).default('none').describe('collision tints the shapes of every tile by layer.'),
+  overlay: z
+    .enum(['none', 'collision', 'terrain', 'keys'])
+    .default('none')
+    .describe('collision tints the shapes of every tile by layer. terrain tints the tiles of each terrain set in its own colour. keys writes the key number of every tile in its corner.'),
+});
+const tilemapTarget = z.strictObject({
+  tilemapId: TILEMAP_ID_SCHEMA,
+  layerId: MAP_LAYER_ID_SCHEMA.optional().describe('Draw this one layer, shown even when hidden. Absent draws every visible layer.'),
 });
 const animationTarget = z
   .strictObject({
@@ -39,10 +49,12 @@ const animationTarget = z
 const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
   title: 'Render a preview',
   description:
-    'A PNG of one sprite frame, one tileset laid out in its columns (holes shown dim, optional collision overlay), one animation frame (with onion true, with its onion skin ghosts), a strip of an animation (the whole animation, the frames of one tag or one facing, in play order, mirrors flipped), a grid with one row per facing (allFacings) or one sheet, drawn by the same code as the canvas and the export (a sheet with exported true is drawn as the exporter packs it). With animated gif or apng an animation play comes back as an animated image to judge the timing. Nearest-neighbour scale only. The image is returned as an image block and a resource link.',
-  input: z.strictObject({
-    documentId: DOCUMENT_ID_SCHEMA,
-    target: z.union([spriteTarget, animationTarget, sheetTarget, tilesetTarget]),
+    'A PNG of one sprite frame, one tileset laid out in its columns (holes shown dim, optional collision, terrain or tile key overlay), one tilemap (every visible layer, or one layer), one animation frame (with onion true, with its onion skin ghosts), a strip of an animation (the whole animation, the frames of one tag or one facing, in play order, mirrors flipped), a grid with one row per facing (allFacings) or one sheet, drawn by the same code as the canvas and the export (a sheet with exported true is drawn as the exporter packs it). With animated gif or apng an animation play comes back as an animated image to judge the timing. Nearest-neighbour scale only. The image is returned as an image block and a resource link.',
+  input: z
+    .strictObject({
+    documentId: DOCUMENT_ID_SCHEMA.optional(),
+    target: z.union([spriteTarget, animationTarget, sheetTarget, tilesetTarget, tilemapTarget]).optional(),
+    file: LOCATION_SCHEMA.optional().describe('A file that is not open: its place (projectId, folderId, path). Gives the thumbnail the browser shows, an image or a native file, without opening it. Give this or a documentId with a target.'),
     scale: z.number().int().min(1).max(16).default(4),
     background: z.enum(['transparent', 'checker']).default('transparent'),
     grid: z.boolean().default(false),
@@ -53,7 +65,10 @@ const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
     onion: z.boolean().default(false).describe('Animation frame only: draw the frame with its onion skin ghosts as the canvas draws them, using the timeline onion settings from get_view with the onion switched on.'),
     bankId: BANK_ID_SCHEMA.optional().describe('Sprite frame only: draw the frame through this other palette, as the Preview with command does. Nothing is saved. The palette needs at least as many swatches as the sprite palette.'),
     animated: z.enum(['gif', 'apng']).optional().describe('Animation tag, facing or whole animation: return the play as a GIF or an APNG, with the frame times, instead of a still strip.'),
-  }),
+    })
+    .refine((input) => (input.file !== undefined) !== (input.documentId !== undefined && input.target !== undefined), {
+      message: 'Give a file, or a documentId with a target.',
+    }),
   output: withFailure({
     revision: REVISION_SCHEMA,
     width: COUNT_SCHEMA,

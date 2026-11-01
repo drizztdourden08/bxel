@@ -14,6 +14,7 @@ export { animationFrameAddSchema } from './animation-frame-add-schema';
 export { animationFrameUpdateSchema } from './animation-frame-update-schema';
 export { animationFrameDeleteSchema } from './animation-frame-delete-schema';
 export { animationFrameReorderSchema } from './animation-frame-reorder-schema';
+export { animationFrameReverseSchema } from './animation-frame-reverse-schema';
 export { animationFramePickSchema } from './animation-frame-pick-schema';
 export { animationTagAddSchema } from './animation-tag-add-schema';
 export { animationTagUpdateSchema } from './animation-tag-update-schema';

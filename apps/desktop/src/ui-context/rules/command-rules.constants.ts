@@ -166,7 +166,7 @@ const WRITING = [
 const WATCHING = [
   'timeline.make_spritesheet', 'timeline.export_frames', 'timeline.select_all_frames', 'timeline.go_to_frame', 'timeline.play_from',
   'tag.play', 'tag.select_frames', 'timeline.copy_frames', 'timeline.cut_frames', 'timeline.select_same_sprite', 'timeline.invert_selection',
-  'timeline.open_sprite', 'timeline.show_in_project', 'timeline.toggle_play_paint', 'tag.play_once',
+  'timeline.open_sprite', 'timeline.show_in_project', 'timeline.toggle_play_paint', 'timeline.toggle_play', 'tag.play_once',
 ];
 
 const ANIMATION_VIEW = [

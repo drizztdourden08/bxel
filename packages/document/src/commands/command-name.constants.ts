@@ -79,6 +79,7 @@ const COMMAND_NAME = {
   animationFrameUpdate: 'animation.frame.update',
   animationFrameDelete: 'animation.frame.delete',
   animationFrameReorder: 'animation.frame.reorder',
+  animationFrameReverse: 'animation.frame.reverse',
   animationFrameOwn: 'animation.frame.own',
   animationFrameRelease: 'animation.frame.release',
   animationTagAdd: 'animation.tag.add',

@@ -6,6 +6,7 @@ type ListCommandsInput = {
   readonly area?: string;
   readonly query?: string;
   readonly includeDisabled: boolean;
+  readonly includeHidden: boolean;
 };
 
 type RunCommandInput = {

@@ -20,7 +20,7 @@ const executeCommand = async (def: CommandDef, entry: ManifestEntry, input: RunC
   const direct = directOf(def.id);
   if (entry.dialog !== null && direct === null) return commandFail(MCP_ERROR_CODE.COMMAND_ARGS, APP_TOOL_TEXT.dialog(def.id));
   if (direct !== null) {
-    const problem = direct(args);
+    const problem = await direct(args);
     return problem === null ? null : commandFail(MCP_ERROR_CODE.COMMAND_OFF, problem);
   }
   const before = usePendingStore.getState().pending;

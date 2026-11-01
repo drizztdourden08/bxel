@@ -12,6 +12,7 @@ export { animationFrameAdd } from '../commands/animation/animation-frame-add';
 export { animationFrameUpdate } from '../commands/animation/animation-frame-update';
 export { animationFrameDelete } from '../commands/animation/animation-frame-delete';
 export { animationFrameReorder } from '../commands/animation/animation-frame-reorder';
+export { animationFrameReverse } from '../commands/animation/animation-frame-reverse';
 export { animationFrameOwn } from '../commands/animation/animation-frame-own';
 export { animationFrameRelease } from '../commands/animation/animation-frame-release';
 export { animationTagAdd } from '../commands/animation/animation-tag-add';
