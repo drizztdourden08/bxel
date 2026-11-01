@@ -19,7 +19,7 @@ const strictSprite = (): PlatformFile => {
   return file;
 };
 
-describe('the effective platform of a sprite', () => {
+describe('S2 the effective platform of a sprite', { tags: ['standard'] }, () => {
   it('is the sprite platform when it has one, and the project platform otherwise', () => {
     const file = platformFile({ ...blank(), name: 'hero' });
     expect(effectivePlatform(artworkOf(file), spriteOf(file))).toEqual({ platformId: undefined, strict: false, inherited: true });
@@ -37,7 +37,7 @@ describe('the effective platform of a sprite', () => {
   });
 });
 
-describe('a sprite with strict rules of its own', () => {
+describe('S2 a sprite with strict rules of its own', { tags: ['standard'] }, () => {
   it('blocks a palette change that breaks its platform, and changes nothing', () => {
     const file = strictSprite();
     const before = revisionOf(file);

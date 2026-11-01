@@ -3,7 +3,7 @@ import { checkPlatform, presetDefaults } from '@bxel/presets';
 import { describe, expect, it } from 'vitest';
 import { preset, size, startBank } from './preset-fixtures';
 
-describe('checkPlatform', () => {
+describe('K1 checkPlatform', { tags: ['critical'] }, () => {
   it('finds nothing wrong in the start state of each preset', () => {
     for (const id of ['snes-sprite', 'nes-sprite', 'gb-dmg', 'pico-8', 'generic-16']) {
       const defaults = presetDefaults(preset(id));

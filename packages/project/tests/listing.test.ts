@@ -9,7 +9,7 @@ const folder = (name: string): RawEntry => ({ name, kind: 'folder', size: 0, mod
 
 const options = { kinds: DEFAULT_ENTRY_KINDS, offset: 0, limit: 200 };
 
-describe('file kinds', () => {
+describe('K1 file kinds', { tags: ['critical'] }, () => {
   it('lists each file with its entry kind', () => {
     const names = ['a.bxsprite', 'a.bxel', 'a.PNG', 'a.gpl', 'a.json'];
     expect(listEntries(names.map((name) => file(name)), options).entries.map((entry) => [entry.name, entry.kind])).toEqual([
@@ -22,7 +22,7 @@ describe('file kinds', () => {
   });
 });
 
-describe('a folder listing', () => {
+describe('K1 a folder listing', { tags: ['critical'] }, () => {
   it('puts folders first, then files by name, ignoring case', () => {
     const listed = listEntries([file('b.bxel'), folder('old'), file('A.bxel'), folder('Art')], options);
     expect(listed.entries.map((entry) => entry.name)).toEqual(['Art', 'old', 'A.bxel', 'b.bxel']);

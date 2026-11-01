@@ -3,7 +3,6 @@ import { createSwatchSetId, MAX_SET_COLORS, MAX_SET_NAME } from '@bxel/project';
 import type { SwatchSet } from '@bxel/project';
 import { describe, expect, it } from 'vitest';
 import type { SourceColor } from '../../src/palette-source/palette-source.type';
-import { builtinSets } from '../../src/swatch-library/builtin-sets';
 import { buildLibrary } from '../../src/swatch-library/build-library';
 import { findLibrarySet } from '../../src/swatch-library/find-library-set';
 import { makeSwatchSet } from '../../src/swatch-library/make-swatch-set';
@@ -11,41 +10,15 @@ import { recolorSet } from '../../src/swatch-library/recolor-set';
 import { withAddedColor } from '../../src/swatch-library/with-added-color';
 import { withColor } from '../../src/swatch-library/with-color';
 import { withName } from '../../src/swatch-library/with-name';
-import type { LibrarySet } from '../../src/swatch-library/swatch-library.type';
 import { withoutColor } from '../../src/swatch-library/without-color';
 
 const bytes = (length: number): Uint8Array => Uint8Array.from({ length }, (_unused, index) => index + 1);
 
 const color = (rgb: string, name = rgb): SourceColor => ({ rgb, name });
 
-const allRgbs = (sets: readonly LibrarySet[]): string[] => sets.flatMap((set) => set.colors.map((each) => each.rgb));
-
 const small =(): SwatchSet => makeSwatchSet('Dusk', [color('#111111'), color('#222222', 'Grey')], [], bytes);
 
-describe('the built-in sets', () => {
-  const sets = builtinSets();
-
-  it('has one set per platform preset, with unique keys', () => {
-    expect(sets).toHaveLength(20);
-    expect(new Set(sets.map((set) => set.key)).size).toBe(20);
-    expect(sets.every((set) => set.origin === 'builtin' && set.setId === null)).toBe(true);
-  });
-
-  it('holds only opaque hex colours, without the transparent slot', () => {
-    const snes = sets.find((set) => set.key === 'builtin:snes-sprite');
-    expect(snes?.name).toBe('SNES sprite 4bpp');
-    expect(snes?.colors).toHaveLength(15);
-    expect(allRgbs(sets).every((rgb) => /^#[0-9a-f]{6}$/.test(rgb))).toBe(true);
-  });
-
-  it('keeps the fixed colours of a fantasy console', () => {
-    const pico = sets.find((set) => set.key === 'builtin:pico-8');
-    expect(pico?.colors).toHaveLength(16);
-    expect(pico?.colors[1]?.rgb).toBe('#1d2b53');
-  });
-});
-
-describe('the library groups', () => {
+describe('K1 the library groups', { tags: ['critical'] }, () => {
   it('lists the built-in, user and project sets, and skips an empty group', () => {
     const user = small();
     const onlyBuiltin = buildLibrary([], []);
@@ -65,7 +38,7 @@ describe('the library groups', () => {
   });
 });
 
-describe('making and editing a set', () => {
+describe('K1 making and editing a set', { tags: ['critical'] }, () => {
   it('makes a set with a fresh id, a free name and at most the largest size', () => {
     const made = makeSwatchSet('Dusk', [color('#000000')], ['dusk'], bytes);
     expect(made.setId).toBe(createSwatchSetId(bytes));

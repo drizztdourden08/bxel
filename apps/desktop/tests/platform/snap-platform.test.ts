@@ -39,7 +39,7 @@ const planOf = (file: PlatformFile) => {
   return snapPlan(artworkOf(file), preset);
 };
 
-describe('the snap plan', () => {
+describe('S2 the snap plan', { tags: ['standard'] }, () => {
   it('lists the before and after colour of every swatch that moves, in every palette', () => {
     const { changes, skipped } = planOf(offGrid());
     expect(skipped).toEqual([]);
@@ -58,7 +58,7 @@ describe('the snap plan', () => {
   });
 });
 
-describe('Snap palette to platform', () => {
+describe('S2 Snap palette to platform', { tags: ['standard'] }, () => {
   it('moves every colour onto the grid as one undo step', () => {
     const file = offGrid();
     const before = revisionOf(file);

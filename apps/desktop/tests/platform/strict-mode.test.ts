@@ -12,7 +12,7 @@ const failure = (file: PlatformFile, name: string, options: object) => {
   return done.error;
 };
 
-describe('the strict switch of a file', () => {
+describe('K4 the strict switch of a file', { tags: ['standard'] }, () => {
   it('is off by default and turns on and off as one undo step each', () => {
     const file = platformFile(chosen('snes-sprite'));
     expect(artworkOf(file).platformStrict).toBeUndefined();
@@ -39,7 +39,7 @@ describe('the strict switch of a file', () => {
   });
 });
 
-describe('a strict file', () => {
+describe('K4 a strict file', { tags: ['standard'] }, () => {
   it('blocks a palette size the platform does not have, with a plain notice, and changes nothing', () => {
     const file = strictSnes();
     const before = revisionOf(file);
@@ -70,7 +70,7 @@ describe('a strict file', () => {
 
 });
 
-describe('a strict file and the other rules', () => {
+describe('K4 a strict file and the other rules', { tags: ['standard'] }, () => {
   it('blocks a sprite of a size the platform cannot draw', () => {
     const file = strictSnes();
     const error = failure(file, COMMAND_NAME.spriteCreate, { name: 'odd', width: 10, height: 10 });

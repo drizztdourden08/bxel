@@ -38,7 +38,7 @@ const rig = (documents: readonly DirtyDocument[], answers: readonly CloseAnswer[
   return { deps, log, saves };
 };
 
-describe('quit decision', () => {
+describe('K1 quit decision', { tags: ['critical'] }, () => {
   it('quits at once, with no prompt and no flush, when nothing is dirty', async () => {
     const { deps, log } = rig([], []);
     expect(await decideQuit(deps)).toBe('quit');

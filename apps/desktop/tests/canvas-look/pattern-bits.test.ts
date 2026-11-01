@@ -10,7 +10,7 @@ import { stepCell } from '../../src/canvas-look/step-cell';
 
 const row = (bits: string, y: number): string => bits.slice(y * PATTERN_SIZE, (y + 1) * PATTERN_SIZE);
 
-describe('surround pattern presets', () => {
+describe('K1 surround pattern presets', { tags: ['critical'] }, () => {
   it('gives every kind exactly 256 cells of zero and one', () => {
     SURROUND_KINDS.forEach((kind) => {
       const bits = patternBits(kind, '');
@@ -46,7 +46,7 @@ describe('surround pattern presets', () => {
   });
 });
 
-describe('custom pattern bits', () => {
+describe('K1 custom pattern bits', { tags: ['critical'] }, () => {
   it('uses the stored bits and ignores them for presets', () => {
     const custom = `1${'0'.repeat(PATTERN_CELLS - 1)}`;
     expect(patternBits('custom', custom)).toBe(custom);
@@ -73,7 +73,7 @@ describe('custom pattern bits', () => {
   });
 });
 
-describe('pattern editor cells', () => {
+describe('K1 pattern editor cells', { tags: ['critical'] }, () => {
   it('finds the cell under a point of a square canvas', () => {
     expect(cellAt(0, 0, 320)).toBe(0);
     expect(cellAt(319, 319, 320)).toBe(PATTERN_CELLS - 1);

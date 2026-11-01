@@ -8,7 +8,7 @@ import { usePendingStore } from '../../src/stores/usePendingStore';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { BLOCK, openRig } from './selection-harness';
 
-describe('the apply and cancel keys', () => {
+describe('S2 the apply and cancel keys', { tags: ['standard'] }, () => {
   it('close an open polygon first, then apply or cancel the pending edit', () => {
     const rig = openRig();
     rig.paint(BLOCK, 6);

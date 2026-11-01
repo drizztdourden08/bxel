@@ -8,7 +8,7 @@ import { addFrame, bytesOf, frozenOf, harness, memorySink, paint, settingsOf, st
 
 const FOLDER = 'C:\\art';
 
-describe('revision freeze', () => {
+describe('S2 revision freeze', { tags: ['standard'] }, () => {
   it('writes the revision that was captured when Export was pressed', () => {
     const h = harness();
     paint(h, 0, 0, 2);
@@ -24,7 +24,7 @@ describe('revision freeze', () => {
   });
 });
 
-describe('export run', () => {
+describe('S2 export run', { tags: ['standard'] }, () => {
   it('writes every file into the folder and counts them', async () => {
     const h = harness();
     const plan = planExport({ frozen: frozenOf(h), settings: settingsOf({ kind: 'sheet' }), selectedIds: [] });
@@ -59,7 +59,7 @@ describe('export run', () => {
   });
 });
 
-describe('animation export', () => {
+describe('S2 animation export', { tags: ['standard'] }, () => {
   const animated = () => {
     const h = harness();
     addFrame(h, 25);

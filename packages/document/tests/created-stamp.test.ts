@@ -34,7 +34,7 @@ const stamped = (artwork: Artwork): Artwork => {
   };
 };
 
-describe('the created time of a new asset', () => {
+describe('K1 the created time of a new asset', { tags: ['critical'] }, () => {
   it('is taken from the injected clock when a sprite, a sheet, a tileset and a tilemap are created', () => {
     const engine = timedEngine(() => NOW);
     apply(
@@ -74,7 +74,7 @@ describe('the created time of a new asset', () => {
   });
 });
 
-describe('the created time in the asset files', () => {
+describe('K3 the created time in the asset files', { tags: ['critical'] }, () => {
   it('is saved in every kind of asset file and read back', () => {
     const artwork = stamped(legacyArtwork());
     const files = splitIntoAssets(artwork).files.map((file) => ({ path: file.name, bytes: encodeSlice(file.slice) }));

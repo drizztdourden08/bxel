@@ -73,6 +73,6 @@ A polite live region says changes that have no focus move:
 
 - The marching ants of a selection and the app's own transitions stop when the system asks for
   reduced motion. Animation playback only runs when you press Play and stops with Pause.
-- Text meets WCAG AA contrast on the Bxel theme. The automated check (`pnpm e2e accessibility`)
+- Text meets WCAG AA contrast on the Bxel theme. The automated check (`pnpm test:e2e`)
   runs axe on the editor, the settings hubs, the dialogs and the panels and fails on a new
   serious or critical finding.

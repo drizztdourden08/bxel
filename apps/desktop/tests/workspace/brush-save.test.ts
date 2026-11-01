@@ -46,7 +46,7 @@ beforeEach(() => {
   held.disk.dirs.add(PARENT);
 });
 
-describe('a saved brush in a project', () => {
+describe('K3 a saved brush in a project', { tags: ['standard'] }, () => {
   it('marks the project file, writes it with the brush and returns when the project opens again', async () => {
     const { documentId } = await openSampleProject(held);
     addBrush(documentId);
@@ -63,7 +63,7 @@ describe('a saved brush in a project', () => {
   });
 });
 
-describe('a saved brush in an older single file', () => {
+describe('K3 a saved brush in an older single file', { tags: ['standard'] }, () => {
   it('goes with the file into the project when the file is split beside', async () => {
     const base = sampleArtwork();
     const brush = { id: 'brs_0a1b2c3d4e5f' as never, name: 'Dots', width: 2, height: 2, pixels: PIXELS };

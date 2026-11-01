@@ -11,7 +11,7 @@ const tile = (extra: Partial<Tile>): Tile => ({ id: 'til_1' as Tile['id'], key: 
 
 const base = (extra: Partial<Tile> = {}, uses = 0) => ({ tile: tile(extra), name: 'grass', uses, terrainSlot: null });
 
-describe('searching and filtering tiles', () => {
+describe('K1 searching and filtering tiles', { tags: ['critical'] }, () => {
   it('matches key, name, type and field values', () => {
     const wall = base({ key: 12, type: 'wall', data: { surface: 'stone' } });
     expect(tileMatches(wall, { search: '12', filters: [] })).toBe(true);
@@ -30,7 +30,7 @@ describe('searching and filtering tiles', () => {
   });
 });
 
-describe('moving through the grid by keys', () => {
+describe('K1 moving through the grid by keys', { tags: ['critical'] }, () => {
   it('moves by cell and row, stops at the row edges and clamps to the grid', () => {
     expect(gridStep('ArrowRight', 0, 3, 9)).toBe(1);
     expect(gridStep('ArrowRight', 2, 3, 9)).toBeNull();
@@ -43,7 +43,7 @@ describe('moving through the grid by keys', () => {
   });
 });
 
-describe('data chips', () => {
+describe('K1 data chips', { tags: ['critical'] }, () => {
   it('shows the first letter of a choice and cycles the colour by its position', () => {
     const set = { ...tilesetOf(1), fields: [{ name: 'surface', kind: 'choice' as const, default: 'stone', choices: ['stone', 'water'] }] };
     expect(chipOf(set, tile({ data: { surface: 'water' } }))).toEqual({ letter: 'W', tone: 1 });
@@ -51,7 +51,7 @@ describe('data chips', () => {
   });
 });
 
-describe('covering pixels with a collision shape', () => {
+describe('K1 covering pixels with a collision shape', { tags: ['critical'] }, () => {
   const size = { width: 4, height: 4 };
 
   it('covers a box and a whole tile', () => {

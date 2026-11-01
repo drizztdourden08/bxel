@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { FRAME, SINGLE, WALKER, byId, byIndex, celAt, frameEngine, frameIds, patchOptions, scopedStep, tagSpans } from './frame-engine';
 import { apply, celPixels, expectUndoRedo, layerStep, rejection, sprite } from './layer-engine';
 
-describe('frame.reorder', () => {
+describe('K1 frame.reorder', { tags: ['critical'] }, () => {
   it('moves a frame to a position as one undo step', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, layerStep('frame.reorder', { frame: byId(FRAME[3]), to: 0 }));
@@ -36,7 +36,7 @@ describe('frame.reorder', () => {
   });
 });
 
-describe('frame.update', () => {
+describe('K1 frame.update', { tags: ['critical'] }, () => {
   it('sets the duration as one undo step', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, layerStep('frame.update', { frame: byIndex(2), durationMs: 65535 }));
@@ -67,7 +67,7 @@ describe('frame.update', () => {
   });
 });
 
-describe('frame scopes after frame edits', () => {
+describe('K1 frame scopes after frame edits', { tags: ['critical'] }, () => {
   const patchedFrames = (engine: ReturnType<typeof frameEngine>): string[] =>
     sprite(engine)
       .frames.filter((frame) => {

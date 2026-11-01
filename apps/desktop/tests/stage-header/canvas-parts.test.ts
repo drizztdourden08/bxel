@@ -13,7 +13,7 @@ import { placeBar } from '../../src/views/ApplyBar/behavior/place-bar';
 const look = lookOf(CANVAS_DEFAULTS);
 const all = { pixel: true, major: true, tile: true };
 
-describe('the quiet "grid hidden" state', () => {
+describe('K1 the quiet "grid hidden" state', { tags: ['critical'] }, () => {
   it('stays quiet while every grid that is on can be drawn', () => {
     expect(gridsHidden(look, all, 16, 'sprite')).toBe(false);
   });
@@ -33,7 +33,7 @@ describe('the quiet "grid hidden" state', () => {
   });
 });
 
-describe('the floating Apply bar placement', () => {
+describe('K1 the floating Apply bar placement', { tags: ['critical'] }, () => {
   const bounds = { left: 0, top: 0, right: 800, bottom: 600 };
   const size = { width: 300, height: 90 };
 
@@ -61,7 +61,7 @@ describe('the floating Apply bar placement', () => {
   });
 });
 
-describe('snap', () => {
+describe('K1 snap', { tags: ['critical'] }, () => {
   const items: SheetItem[] = [{ sprite: { id: 'a', width: 16, height: 16 }, at: { x: 10, y: 20 }, onSheet: true }] as never;
   const ids = ['a'] as never;
 
@@ -84,7 +84,7 @@ describe('snap', () => {
   });
 });
 
-describe('the status items', () => {
+describe('K1 the status items', { tags: ['critical'] }, () => {
   const none = { surface: 'sprite' as const, pointer: null, target: null, slots: [], mask: null, move: null, focus: null, cell: null };
 
   it('adds nothing without a pointer, a selection or a frame', () => {

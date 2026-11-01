@@ -52,7 +52,7 @@ const shownColours = (session: StrokeSession): Uint8ClampedArray => {
   return out;
 };
 
-describe('an incremental pixel perfect stroke', () => {
+describe('S2 an incremental pixel perfect stroke', { tags: ['standard'] }, () => {
   for (const spec of CASES) {
     it(`matches painting the whole stroke again after every move, for ${spec.name}`, () => {
       const { target } = openEditor();

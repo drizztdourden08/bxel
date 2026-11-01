@@ -23,7 +23,7 @@ const warm: SwatchSet = {
   ],
 };
 
-describe('a swatch set as a palette source', () => {
+describe('K1 a swatch set as a palette source', { tags: ['critical'] }, () => {
   const library = buildLibrary([warm], []);
 
   it('offers the sets after the palettes, grouped by where they come from', () => {
@@ -56,7 +56,7 @@ describe('a swatch set as a palette source', () => {
   });
 });
 
-describe('the project swatch sets', () => {
+describe('K1 the project swatch sets', { tags: ['critical'] }, () => {
   beforeEach(() => useProjectSetsStore.getState().close());
 
   it('holds no project at first, and refuses a set while none is open', () => {

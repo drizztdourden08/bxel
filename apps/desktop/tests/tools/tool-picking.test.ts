@@ -33,7 +33,7 @@ beforeEach(() => {
   useToolPresetStore.setState({ user: [], draft: null });
 });
 
-describe('the tool keys', () => {
+describe('S2 the tool keys', { tags: ['standard'] }, () => {
   it('cycles the six selection shapes with M and back with Shift+M', async () => {
     await findCommand(COMMAND_ID.tool('select')).run();
     expect(tools().tool).toBe('select');
@@ -78,7 +78,7 @@ describe('the tool keys', () => {
   });
 });
 
-describe('the tool of each surface', () => {
+describe('S2 the tool of each surface', { tags: ['standard'] }, () => {
   it('restores the tool of a sprite after a visit to a map and the sheet', () => {
     tools().setTool('move');
     tools().enterSurface('map');
@@ -100,7 +100,7 @@ describe('the tool of each surface', () => {
   });
 });
 
-describe('the presets', () => {
+describe('S2 the presets', { tags: ['standard'] }, () => {
   it('ships the built ins and applies one with its member and fields', () => {
     expect(BUILTIN_PRESETS.map((preset) => preset.name)).toHaveLength(6);
     const three = BUILTIN_PRESETS.find((preset) => preset.id === 'builtin.pencil-3');
@@ -144,7 +144,7 @@ describe('the presets', () => {
   });
 });
 
-describe('the saved values', () => {
+describe('S2 the saved values', { tags: ['standard'] }, () => {
   it('survive a restart through the snapshot', () => {
     tools().setBrushSize(4);
     tools().setTool('eraser');

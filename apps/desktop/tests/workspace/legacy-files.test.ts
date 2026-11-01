@@ -56,7 +56,7 @@ beforeEach(() => {
   held.disk.dirs.add(PARENT);
 });
 
-describe('an older .bxel file', () => {
+describe('K3 an older .bxel file', { tags: ['standard'] }, () => {
   it('with one sprite and nothing else opens as an unsaved sprite', async () => {
     const path = writeOlderFile(singleSprite(sampleArtwork()));
     expect((await openPath(held.kit, path)).kind).toBe('done');
@@ -94,7 +94,7 @@ describe('an older .bxel file', () => {
   });
 });
 
-describe('splitting an older file keeps its project settings', () => {
+describe('K3 splitting an older file keeps its project settings', { tags: ['standard'] }, () => {
   it('writes the cover, the default palette and the platform to the project file and loads them again', async () => {
     const base = sampleArtwork();
     const hero = base.sprites[0];
@@ -114,7 +114,7 @@ describe('splitting an older file keeps its project settings', () => {
   });
 });
 
-describe('a single asset outside a project', () => {
+describe('K3 a single asset outside a project', { tags: ['standard'] }, () => {
   it('opens as a loose workspace with the files it links', async () => {
     const artwork = sampleArtwork();
     const paths = writeProjectAssets(held.disk, PARENT, artwork);

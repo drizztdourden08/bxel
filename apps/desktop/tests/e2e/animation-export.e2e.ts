@@ -24,7 +24,7 @@ const rgbaOf = (artwork: Artwork, animation: Animation) => (frameAt: number): Ui
   return out;
 };
 
-describe('check 6: an animation exports its frames and durations', () => {
+describe('E1 export an animation', { tags: ['e2e'] }, () => {
   const state: { session?: Session; animation?: Animation; rgba?: (frameAt: number) => Uint8Array } = {};
   const live = () => {
     if (!state.session || !state.animation || !state.rgba) throw new Error('no session');

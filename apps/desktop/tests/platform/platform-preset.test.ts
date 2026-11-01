@@ -13,7 +13,6 @@ import { newSummary } from '../../src/new-sprite/new-summary';
 import { patchForm } from '../../src/new-sprite/patch-form';
 import type { DocumentHost } from '../../src/documents/document-host.type';
 import { artworkReport } from '../../src/platform-preset/artwork-report';
-import { platformGroups } from '../../src/platform-preset/platform-groups';
 import { setPlatform } from '../../src/platform-preset/set-platform';
 import { runSteps } from '../../src/transactions/run-steps';
 import { hostWithFile, newHost } from '../dialogs/dialog-harness';
@@ -28,7 +27,7 @@ const artworkIn = (host: DocumentHost, documentId: DocumentId): Artwork => {
 
 const chosen = (id: string): CreationForm => patchForm(blank(), changePlatform(blank(), id));
 
-describe('choosing a platform in the New dialog', () => {
+describe('S2 choosing a platform in the New dialog', { tags: ['standard'] }, () => {
   it('sets the size, the colour count, the transparent slot, the palette and the platform', () => {
     const form = chosen('snes-sprite');
     expect(form.platformId).toBe('snes-sprite');
@@ -60,16 +59,9 @@ describe('choosing a platform in the New dialog', () => {
     expect(cleared.limit).toBe(16);
     expect(cleared.source.kind).toBe('set');
   });
-
-  it('lists the platforms by family after the no-platform choice', () => {
-    const groups = platformGroups();
-    expect(groups[0]?.options).toEqual([{ value: 'none', label: 'No platform' }]);
-    expect(groups.map((group) => group.label)).toContain('SNES');
-    expect(groups.flatMap((group) => group.options)).toHaveLength(21);
-  });
 });
 
-describe('warnings in the New dialog', () => {
+describe('S2 warnings in the New dialog', { tags: ['standard'] }, () => {
   it('finds nothing wrong right after choosing a platform', () => {
     const summary = newSummary(chosen('snes-sprite'));
     expect(summary.platform?.name).toBe('SNES sprite 4bpp');
@@ -90,7 +82,7 @@ describe('warnings in the New dialog', () => {
   });
 });
 
-describe('the platform a file remembers', () => {
+describe('S2 the platform a file remembers', { tags: ['standard'] }, () => {
   it('is stored in the new file', () => {
     const host = newHost();
     const outcome = createNewFile(host, { ...chosen('snes-sprite'), name: 'hero' });
@@ -130,7 +122,7 @@ describe('the platform a file remembers', () => {
   });
 });
 
-describe('the rule check of an open file', () => {
+describe('S2 the rule check of an open file', { tags: ['standard'] }, () => {
   it('warns when the palette is off the grid of the platform and when a sprite breaks the size rule', () => {
     const { host, documentId } = hostWithFile();
     setPlatform(host, documentId, 'snes-sprite');

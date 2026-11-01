@@ -9,7 +9,7 @@ const DIAGONAL = 0x20000000;
 
 const cells = [5, (FLIP_X | 9) >>> 0, 0, (FLIP_Y | DIAGONAL | 12) >>> 0];
 
-describe('writeTiledJson map and tileset', () => {
+describe('K2 writeTiledJson map and tileset', { tags: ['critical'] }, () => {
   it('writes an orthogonal Tiled map', () => {
     const map = parseTiled(writeTiledJson(makeMapInput(cells)));
     expect(map).toMatchObject({
@@ -45,7 +45,7 @@ describe('writeTiledJson map and tileset', () => {
   });
 });
 
-describe('writeTiledJson layers and gids', () => {
+describe('K2 writeTiledJson layers and gids', { tags: ['critical'] }, () => {
   it('sets the Tiled flip bits on the gid', () => {
     const [ground, top] = parseTiled(writeTiledJson(makeMapInput(cells))).layers;
     expect(ground).toMatchObject({ id: 1, name: 'Ground', type: 'tilelayer', visible: true, width: 2, height: 2, opacity: 1 });

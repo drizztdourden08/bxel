@@ -30,7 +30,7 @@ const READING: readonly [ToolName, unknown][] = [
   ['project_health', { projectId: PROJECT }],
 ];
 
-describe('the project files tools', () => {
+describe('K2 the project files tools', { tags: ['critical'] }, () => {
   it('sit in the Project files bundle, the reading ones as read and the others as write', () => {
     for (const [name] of WRITING) expect(TOOL_CATALOGUE[name], name).toMatchObject({ bundle: 'project_files', kind: 'write' });
     for (const [name] of READING) expect(TOOL_CATALOGUE[name], name).toMatchObject({ bundle: 'project_files', kind: 'read' });
@@ -73,7 +73,7 @@ describe('the project files tools', () => {
   });
 });
 
-describe('the project files inputs', () => {
+describe('K2 the project files inputs', { tags: ['critical'] }, () => {
   it('asks find_references for a file or an asset id, not both and not neither', () => {
     expect(parseToolInput(tool('find_references'), { projectId: PROJECT }).ok).toBe(false);
     expect(parseToolInput(tool('find_references'), { projectId: PROJECT, file: PLACE, assetId: 'spr_x' }).ok).toBe(false);

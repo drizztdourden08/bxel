@@ -20,7 +20,7 @@ const paint = (extra: Record<string, unknown> = {}) =>
     ...extra,
   });
 
-describe('pixels.paint on a linked cel', () => {
+describe('K2 pixels.paint on a linked cel', { tags: ['critical'] }, () => {
   test('fails CEL_LINKED when only one use is targeted and changes nothing', () => {
     const engine = pixelEngine(transformArtwork());
     const before = engine.state().artwork;

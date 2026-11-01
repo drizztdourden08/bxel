@@ -19,7 +19,7 @@ beforeEach(() => {
   useExportStore.setState({ open: false, request: null });
 });
 
-describe('the preset list on the Asset pages', () => {
+describe('K1 the preset list on the Asset pages', { tags: ['critical'] }, () => {
   it('splits the presets by the kind of asset they export', () => {
     const forSprites = PRESETS.filter((preset) => PRESET_KINDS.sprite.includes(preset.settings.kind)).map((preset) => preset.name);
     const forSheets = PRESETS.filter((preset) => PRESET_KINDS.sheet.includes(preset.settings.kind)).map((preset) => preset.name);

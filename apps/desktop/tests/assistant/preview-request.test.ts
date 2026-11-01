@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { previewRequest } from '../../src/helper/preview-request';
 
-describe('previewRequest', () => {
+describe('K1 previewRequest', { tags: ['critical'] }, () => {
   it('reads a sheet preview resource', () => {
     expect(previewRequest('bxel://doc_4k9m2q7x1v8c/sheet/sht_4k9m2q7x1v8c/preview.png?scale=3&rev=7')).toEqual({
       documentId: 'doc_4k9m2q7x1v8c',

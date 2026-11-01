@@ -28,7 +28,7 @@ const spots = (): Record<string, string> => {
 
 beforeEach(() => openFile(['b', 'c'], 8));
 
-describe('the sheet model', () => {
+describe('S2 the sheet model', { tags: ['standard'] }, () => {
   it('lays loose sprites below an empty sheet without writing anything', () => {
     const before = revision();
     const model = currentModel()?.model;
@@ -45,7 +45,7 @@ describe('the sheet model', () => {
   });
 });
 
-describe('moving sprites on the sheet', () => {
+describe('S2 moving sprites on the sheet', { tags: ['standard'] }, () => {
   it('creates the sheet for loose sprites and moves the picked ones in one undo step', () => {
     pickSpriteById(idOf('b'), 'replace');
     const start = currentModel()?.model.items.find((item) => item.sprite.name === 'b')?.at ?? { x: -1, y: -1 };
@@ -97,7 +97,7 @@ describe('moving sprites on the sheet', () => {
   });
 });
 
-describe('the sprite list', () => {
+describe('S2 the sprite list', { tags: ['standard'] }, () => {
   it('renames a sprite and refuses a name that is taken', () => {
     expect(renameSprite(idOf('b'), 'bee')).toBe(true);
     expect(namesOf()).toEqual(['sprite', 'bee', 'c']);
@@ -149,7 +149,7 @@ describe('the sprite list', () => {
   });
 });
 
-describe('the scope chips', () => {
+describe('S2 the scope chips', { tags: ['standard'] }, () => {
   it('say how many sprites are picked and what the layer scope is', () => {
     pickSpriteById(idOf('sprite'), 'replace');
     pickSpriteById(idOf('b'), 'toggle');

@@ -18,7 +18,7 @@ beforeEach(resetEditor);
 
 const drawing = () => useDrawingStore.getState();
 
-describe('the stabiliser leash', () => {
+describe('K1 the stabiliser leash', { tags: ['critical'] }, () => {
   it('stays put while the pointer is inside the leash and follows when it pulls tight', () => {
     expect(leash(null, { x: 5, y: 5 }, 8)).toEqual({ x: 5, y: 5 });
     expect(leash({ x: 0, y: 0 }, { x: 6, y: 0 }, 8)).toEqual({ x: 0, y: 0 });
@@ -32,7 +32,7 @@ describe('the stabiliser leash', () => {
   });
 });
 
-describe('an ink for each tool', () => {
+describe('S2 an ink for each tool', { tags: ['standard'] }, () => {
   it('remembers the ink of every tool on its own', () => {
     drawing().setInk('pencil', 'behind');
     drawing().setInk('line', 'dither');
@@ -50,7 +50,7 @@ describe('an ink for each tool', () => {
   });
 });
 
-describe('the line brush', () => {
+describe('S2 the line brush', { tags: ['standard'] }, () => {
   it('carries its angle only when the tip is the line', () => {
     tools().setBrushSize(5);
     tools().setBrushAngle(45);
@@ -75,7 +75,7 @@ const commitSessionAt = (at: { x: number; y: number }): void => {
   expect(commitSession(startSession({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live(), at))?.ok).toBe(true);
 };
 
-describe('a cubic curve', () => {
+describe('S2 a cubic curve', { tags: ['standard'] }, () => {
   const begin = () => {
     const spec = pathSpec({ tools: tools(), drawing: drawing(), target: live(), size: live().sprite, tool: 'curve', slot: 'foreground' });
     return beginPath({ target: live(), tool: 'curve', spec, at: { x: 2, y: 20 } });

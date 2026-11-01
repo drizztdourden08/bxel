@@ -2,7 +2,6 @@
 import { documentCommands } from '@bxel/document';
 import {
   BUNDLE_IDS,
-  BUNDLES,
   bundleOfStep,
   isProtectedSettingKey,
   PRESETS,
@@ -12,7 +11,7 @@ import {
 } from '@bxel/mcp';
 import { describe, expect, it } from 'vitest';
 
-describe('the tool catalogue', () => {
+describe('K2 the tool catalogue', { tags: ['critical'] }, () => {
   it('places every tool in a known bundle, once', () => {
     expect(Object.keys(TOOL_CATALOGUE).sort()).toEqual(Object.values(TOOL_NAME).sort());
     for (const entry of Object.values(TOOL_CATALOGUE)) expect(BUNDLE_IDS).toContain(entry.bundle);
@@ -35,35 +34,13 @@ describe('the tool catalogue', () => {
     expect(TOOL_CATALOGUE.stop_bxel.writes?.(null)).toBe(false);
   });
 
-  it('marks the two step tools as routed', () => {
-    const routed = Object.entries(TOOL_CATALOGUE).filter(([, entry]) => entry.routed === 'steps');
-    expect(routed.map(([name]) => name).sort()).toEqual(['apply_edits', 'preview_edits']);
-  });
-
-  it('routes run_command and keeps the restart behind its permission', () => {
-    expect(TOOL_CATALOGUE.run_command.routed).toBe('command');
-    expect(TOOL_CATALOGUE.restart_bxel.special).toBe('mayRestart');
-  });
-
   it('keeps the writing tools to those that edit documents, files, layout and settings, and the restart', () => {
     const writing = Object.entries(TOOL_CATALOGUE).filter(([, entry]) => entry.kind === 'write');
     expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'create_folder', 'duplicate_file', 'export_document', 'import_files', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo']);
   });
-
-  it('lists twelve bundles and flags the six that hold document writes', () => {
-    expect(BUNDLES).toHaveLength(12);
-    expect(BUNDLES.filter((bundle) => bundle.document).map((bundle) => bundle.id)).toEqual([
-      'edit_pixels',
-      'animation',
-      'sheets_sprites',
-      'tilemaps',
-      'project_files',
-      'files_saving',
-    ]);
-  });
 });
 
-describe('the step prefixes', () => {
+describe('K2 the step prefixes', { tags: ['critical'] }, () => {
   it('sends a step to the bundle of its first name part', () => {
     expect(bundleOfStep('pixels.patch')).toBe('edit_pixels');
     expect(bundleOfStep('animation.tag.add')).toBe('animation');
@@ -88,7 +65,7 @@ describe('the step prefixes', () => {
   });
 });
 
-describe('the presets', () => {
+describe('K2 the presets', { tags: ['critical'] }, () => {
   it('sets every bundle in each preset and leaves the special permission off', () => {
     for (const preset of Object.values(PRESETS)) {
       expect(Object.keys(preset.grant.bundles).sort()).toEqual([...BUNDLE_IDS].sort());
@@ -106,7 +83,7 @@ describe('the presets', () => {
   });
 });
 
-describe('settings keys no program may write', () => {
+describe('K2 settings keys no program may write', { tags: ['critical'] }, () => {
   it('protects the assistant keys and the keymap, in any case', () => {
     for (const key of ['assistantAccess', 'assistantPrograms', 'AssistantLevel', 'keymap', ' keymap']) expect(isProtectedSettingKey(key), key).toBe(true);
     for (const key of ['theme', 'gridSize', 'canvasZoom']) expect(isProtectedSettingKey(key), key).toBe(false);

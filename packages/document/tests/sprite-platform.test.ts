@@ -10,7 +10,7 @@ const sprite = (engine: ReturnType<typeof heartEngine>['engine']) => engine.stat
 
 const update = (options: unknown) => onSprites('sprite.update', options, [HEART]);
 
-describe('the platform of one sprite', () => {
+describe('K1 the platform of one sprite', { tags: ['critical'] }, () => {
   it('is set and cleared by sprite.update as one undo step each', () => {
     const { engine } = heartEngine();
     expect(sprite(engine)?.platformId).toBeUndefined();
@@ -49,7 +49,7 @@ describe('the platform of one sprite', () => {
   });
 });
 
-describe('the default palette of the artwork', () => {
+describe('K1 the default palette of the artwork', { tags: ['critical'] }, () => {
   it('accepts a palette that exists', () => {
     const { engine } = heartEngine();
     const current = engine.state().artwork.defaultBankId;

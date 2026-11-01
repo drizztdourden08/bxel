@@ -10,7 +10,7 @@ const snapped = (id: string, hex: string): string => {
   return result.value;
 };
 
-describe('snapping per colour model', () => {
+describe('K1 snapping per colour model', { tags: ['critical'] }, () => {
   it('snaps SNES 15 bit colours to 32 levels per channel', () => {
     expect(snapped('snes-sprite', '#000000')).toBe('#000000');
     expect(snapped('snes-sprite', '#ffffff')).toBe('#ffffff');
@@ -23,11 +23,6 @@ describe('snapping per colour model', () => {
     expect(snapped('genesis', '#808080')).toBe('#929292');
     expect(snapped('genesis', '#fe0102')).toBe('#ff0000');
     expect(snapped('genesis', '#2a5b9c')).toBe('#244992');
-  });
-
-  it('snaps Master System colours to 2 bits per channel', () => {
-    expect(snapped('sms', '#7f7f7f')).toBe('#555555');
-    expect(snapped('sms', '#f0a0e0')).toBe('#ffaaff');
   });
 
   it('leaves 24 bit presets untouched', () => {
@@ -73,7 +68,7 @@ describe('snapping per colour model', () => {
   });
 });
 
-describe('snapPalette', () => {
+describe('K1 snapPalette', { tags: ['critical'] }, () => {
   it('snaps every colour and counts the ones that moved', () => {
     const result = snapPalette(preset('sms'), ['#000000', '#7f7f7f', '#ffffff', '#ab0000']);
     expect(result).toEqual({

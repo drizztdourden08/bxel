@@ -32,7 +32,7 @@ const props = (): ResolvedTileset => {
   return { firstGid: 5, tileset: embedded, image: sheetImage(2, 1, 4), tileImages: new Map() };
 };
 
-describe('planTiledImport', () => {
+describe('K3 planTiledImport', { tags: ['critical'] }, () => {
   it('cuts the tileset images into tiles keyed in gid order and maps the layer cells', () => {
     const plan = planOf(TMX, [props(), ground()]);
     expect(plan.tiles.map((tile) => tile.gid)).toEqual([1, 2, 3, 4, 5, 6]);
@@ -61,7 +61,7 @@ describe('planTiledImport', () => {
 
 });
 
-describe('planTiledImport tile details', () => {
+describe('K3 planTiledImport tile details', { tags: ['critical'] }, () => {
   it('keeps the first collision shape source on the tile and warns about extras', () => {
     const plan = planOf(TMX, [props(), ground()]);
     expect(plan.tiles[1]?.shapes).toEqual([{ kind: 'rect', x: 0, y: 0, width: 4, height: 2 }]);

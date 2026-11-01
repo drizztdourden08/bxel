@@ -28,7 +28,7 @@ const request = (rig: Rig, mode: 'preview' | 'commit', baseRevision: number) => 
   previewPixels: 1_000_000,
 });
 
-describe('extract the best colours, then import', () => {
+describe('K3 extract the best colours, then import', { tags: ['critical'] }, () => {
   it('is one transaction: a new bank and a sprite mapped only to it', () => {
     const rig = makeRig();
     const revision = rig.engine.state().revision;
@@ -79,7 +79,7 @@ describe('extract the best colours, then import', () => {
   });
 });
 
-describe('preview and revisions', () => {
+describe('K3 preview and revisions', { tags: ['critical'] }, () => {
   it('preview shows the committed pixels and changes nothing', () => {
     const rig = makeRig();
     const revision = rig.engine.state().revision;

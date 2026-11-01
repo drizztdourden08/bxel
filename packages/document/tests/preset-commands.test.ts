@@ -19,7 +19,7 @@ const presetNamed = (artwork: Artwork, name: string): ExportPreset => {
 
 const keysOf = (keys: readonly AssetKey[]): string[] => keys.map((key) => `${key.kind}:${key.id}`);
 
-describe('preset.add', () => {
+describe('K1 preset.add', { tags: ['critical'] }, () => {
   it('writes a sprite preset with the sprite as its owner, as one undo step', () => {
     const { engine } = heartEngine();
     const done = expectUndoRedo(engine, add('Web', { sprite: HEART }, { scale: 3, settings: SETTINGS }));
@@ -63,7 +63,7 @@ describe('preset.add', () => {
   });
 });
 
-describe('preset.update, preset.rename and preset.delete', () => {
+describe('K1 preset.update, preset.rename and preset.delete', { tags: ['critical'] }, () => {
   it('replaces the settings and the scale and keeps the owner', () => {
     const { engine } = heartEngine();
     apply(engine, add('Web', { sprite: HEART }, { settings: SETTINGS }));
@@ -105,7 +105,7 @@ describe('preset.update, preset.rename and preset.delete', () => {
   });
 });
 
-describe('where a preset is saved', () => {
+describe('K1 where a preset is saved', { tags: ['critical'] }, () => {
   it('routes a change to the sprite, the sheet or the project that owns the preset', () => {
     const { engine } = heartEngine();
     const before = engine.state().artwork;
@@ -142,7 +142,7 @@ describe('where a preset is saved', () => {
   });
 });
 
-describe('saving the presets with the assets', () => {
+describe('K3 saving the presets with the assets', { tags: ['critical'] }, () => {
   const paths = (artwork: Artwork): Map<string, string> =>
     new Map<string, string>([
       ...artwork.banks.map((bank): [string, string] => [bank.id, 'palettes/palette.bxpalette']),

@@ -7,7 +7,7 @@ import { applySteps, buildWorld, cellsOf, failure, onGround, step, tilesetOf } f
 const undo = (engine: ReturnType<typeof buildWorld>['engine']) =>
   engine.undo({ documentId: engine.documentId, expectedRevision: engine.state().revision });
 
-describe('tileset.create and tileset.update', () => {
+describe('K1 tileset.create and tileset.update', { tags: ['critical'] }, () => {
   it('creates a tileset on the default bank as one undo step', () => {
     const { engine } = heartEngine();
     const before = canonicalArtwork(engine.state().artwork);
@@ -38,7 +38,7 @@ describe('tileset.create and tileset.update', () => {
   });
 });
 
-describe('tile.add', () => {
+describe('K1 tile.add', { tags: ['critical'] }, () => {
   it('adds a tile sprite of role tile in the tileset bank and size', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -76,7 +76,7 @@ describe('tile.add', () => {
   });
 });
 
-describe('tile.delete', () => {
+describe('K1 tile.delete', { tags: ['critical'] }, () => {
   it('refuses a placed tile unless a replacement key is given', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -121,7 +121,7 @@ describe('tile.delete', () => {
   });
 });
 
-describe('tileset.delete', () => {
+describe('K1 tileset.delete', { tags: ['critical'] }, () => {
   it('refuses while a tilemap uses the tileset', () => {
     const world = buildWorld();
     const error = failure(world.engine, [step('tileset.delete', { tileset: world.tileset })]);
@@ -141,7 +141,7 @@ describe('tileset.delete', () => {
   });
 });
 
-describe('tile.unique', () => {
+describe('K1 tile.unique', { tags: ['critical'] }, () => {
   it('copies a placed tile into a new key and points only the given cells at it', () => {
     const world = buildWorld();
     const { engine } = world;

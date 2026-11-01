@@ -16,7 +16,7 @@ const rejection = (rig: Rig, command: CommandStep) => {
 
 const orderOf = (rig: Rig, indices: readonly number[]): string[] => indices.map((index) => slotId(rig, index));
 
-describe('transparent slot', () => {
+describe('K4 transparent slot', { tags: ['critical'] }, () => {
   it('cannot be edited', () => {
     const rig = makeRig();
     const error = rejection(rig, step('swatch.update', { bankId: rig.bankId, swatchId: slotId(rig, 0), rgb: '#ffffff' }));
@@ -37,7 +37,7 @@ describe('transparent slot', () => {
   });
 });
 
-describe('palette.reorder rejections', () => {
+describe('K4 palette.reorder rejections', { tags: ['critical'] }, () => {
   it('rejects an order that misses a swatch', () => {
     const rig = makeRig();
     const order = orderOf(rig, [0, 1, 2, 3]);
@@ -63,7 +63,7 @@ describe('palette.reorder rejections', () => {
   });
 });
 
-describe('other rejections', () => {
+describe('K4 other rejections', { tags: ['critical'] }, () => {
   it('rejects a colour that is not #rrggbb on add and update', () => {
     const rig = makeRig();
     expect(rejection(rig, step('swatch.add', { bankId: rig.bankId, rgb: 'red' })).code).toBe('INVALID_COLOR');

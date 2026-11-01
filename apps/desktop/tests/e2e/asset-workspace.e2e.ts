@@ -102,7 +102,7 @@ const migratesProject = async (session: Session, place: string): Promise<void> =
   await expect(access(join(root, manifestFileName('Old')))).rejects.toThrow();
 };
 
-describe('check 9: one workspace per project, one file per asset', () => {
+describe('E1 open, edit and migrate a project', { tags: ['e2e'] }, () => {
   const rig = useRig(async () => ({ session: await openSession() }));
   test('opens every asset of a project, paints a sprite used by two sheets and Save all writes only its file', () =>
     inFreshPlace((place) => paintsAndSavesAll(rig().session, place)));

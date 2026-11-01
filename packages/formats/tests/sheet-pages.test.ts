@@ -9,7 +9,7 @@ const SHELF: PackSettings = { layout: { kind: 'packed', maxWidth: 32, padding: 0
 
 const square = (key: string, side: number) => ({ key, width: side, height: side });
 
-describe('power of two sheets', () => {
+describe('K1 power of two sheets', { tags: ['critical'] }, () => {
   it('rounds the width and the height up and keeps the places of the items', () => {
     const items = makePackItems(3, 1).map((item, at) => ({ ...item, key: `i${at}`, width: 10, height: 10 }));
     const loose = packSheet(items, { layout: { kind: 'packed', maxWidth: 64, padding: 0 }, margin: 0, extrude: 0 });
@@ -27,7 +27,7 @@ describe('power of two sheets', () => {
   });
 });
 
-describe('packPages', () => {
+describe('K1 packPages', { tags: ['critical'] }, () => {
   it('starts a new page when the next entry would not fit and keeps a group on one page', () => {
     const groups = [[square('a', 16)], [square('b', 16)], [square('c0', 16), square('c1', 16), square('c2', 16)], [square('d', 16)], [square('e', 16)]];
     const result = packPages(groups, SHELF, 32);
@@ -48,7 +48,7 @@ describe('packPages', () => {
   });
 });
 
-describe('exportSheetPages', () => {
+describe('K1 exportSheetPages', { tags: ['critical'] }, () => {
   const sprites = [
     makeExportSprite({ name: 'hero', width: 12, height: 10, frames: 2 }),
     makeExportSprite({ name: 'coin', width: 16, height: 16, frames: 1 }),

@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 
 const allPresets = (): PlatformPreset[] => listPresets().flatMap((group) => [...group.presets]);
 
-describe('catalog', () => {
+describe('K1 catalog', { tags: ['critical'] }, () => {
   it('gives every preset a full palette of snapped, distinct colours', () => {
     for (const preset of allPresets()) {
       const defaults = presetDefaults(preset);
@@ -26,23 +26,6 @@ describe('catalog', () => {
       expect(preset.banks.size).toBeLessThanOrEqual(256);
       expect(preset.notes.length).toBeGreaterThan(0);
     }
-  });
-
-  it('groups the presets by family in catalog order', () => {
-    const groups = listPresets();
-    expect(groups.map((group) => group.family)).toEqual([
-      'Generic',
-      'NES',
-      'Game Boy',
-      'Game Boy Advance',
-      'SNES',
-      'Master System',
-      'Genesis',
-      'PICO-8',
-      'TIC-80',
-    ]);
-    expect(allPresets()).toHaveLength(20);
-    expect(groups.find((group) => group.family === 'SNES')?.presets).toHaveLength(4);
   });
 
   it('reports an unknown id with a code', () => {

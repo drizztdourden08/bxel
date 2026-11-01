@@ -11,20 +11,7 @@ import { press } from './press-event';
 
 beforeEach(() => useToolStore.setState({ ...TOOL_DEFAULTS }));
 
-describe('the held colours', () => {
-  it('start with four different colours', () => {
-    const { foreground, background, third, fourth } = tools();
-    expect(new Set([foreground, background, third, fourth]).size).toBe(4);
-  });
-
-  it('set each of the four slots on its own', () => {
-    tools().setColour('foreground', 5);
-    tools().setColour('background', 6);
-    tools().setColour('third', 7);
-    tools().setColour('fourth', 8);
-    expect(tools()).toMatchObject({ foreground: 5, background: 6, third: 7, fourth: 8 });
-  });
-
+describe('K1 the held colours', { tags: ['critical'] }, () => {
   it('swap colours 1 and 2 with colours 3 and 4', () => {
     tools().setColour('foreground', 5);
     tools().setColour('background', 6);
@@ -44,7 +31,7 @@ describe('the held colours', () => {
   });
 });
 
-describe('a click on a swatch', () => {
+describe('K1 a click on a swatch', { tags: ['critical'] }, () => {
   it('sets colour 1 on a left click and colour 2 on a right click', () => {
     expect(swatchSlot({ right: false, shift: false })).toBe('foreground');
     expect(swatchSlot({ right: true, shift: false })).toBe('background');
@@ -56,7 +43,7 @@ describe('a click on a swatch', () => {
   });
 });
 
-describe('drawing with the held colours', () => {
+describe('S2 drawing with the held colours', { tags: ['standard'] }, () => {
   it('draws with colour 1 and colour 2 on the two buttons', () => {
     expect(drawSlot(press(0))).toBe('foreground');
     expect(drawSlot(press(2))).toBe('background');

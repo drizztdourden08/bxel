@@ -45,7 +45,7 @@ const sendOverMcp = (rig: SelectionRig, angle: number, mask: boolean): Uint8Arra
   return rig.pixels();
 };
 
-describe('the transform session', () => {
+describe('S2 the transform session', { tags: ['standard'] }, () => {
   it('rotating by the handle to 30 degrees and applying equals pixels.transform with angle 30', () => {
     const rig = openRig();
     rig.paint({ x: 8, y: 8, width: 12, height: 8 }, 4);
@@ -97,10 +97,9 @@ describe('the transform session', () => {
     rig.host.undo(rig.documentId);
     expect(rig.pixels()).toEqual(before);
   });
-
 });
 
-describe('the transform session boxes', () => {
+describe('S2 the transform session boxes', { tags: ['standard'] }, () => {
   it('dragging a corner scales to whole pixel sizes and keeps the opposite corner in place', () => {
     const rig = openRig();
     rig.paint(BLOCK, 4);
@@ -142,10 +141,9 @@ describe('the transform session boxes', () => {
     commitPending();
     expect(rig.pixels()[at(4, 4)]).toBe(3);
   });
-
 });
 
-describe('the transform session targets', () => {
+describe('S2 the transform session targets', { tags: ['standard'] }, () => {
   it('hit testing finds the pivot, a corner, the body and the rotate zone', () => {
     const quad = [{ x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }] as const;
     const base = { quad, pivot: { x: 5, y: 5 }, zoom: 4 };

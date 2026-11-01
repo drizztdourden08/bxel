@@ -20,7 +20,7 @@ const undoAll = (engine: Engine): number => {
 
 const engineWith = (limits: HistoryLimits): Engine => heartEngine(limits).engine;
 
-describe('history memory', () => {
+describe('K1 history memory', { tags: ['critical'] }, () => {
   it('drops the oldest entries by count and keeps the newest', () => {
     const engine = engineWith({ maxBytes: 1_000_000, maxEntries: 3 });
     for (const value of [1, 2, 3, 4, 5]) stroke(engine, value);

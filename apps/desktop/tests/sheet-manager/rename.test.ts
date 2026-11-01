@@ -15,7 +15,7 @@ const others = (...names: string[]): string[] => artwork().sprites.map((sprite) 
 
 beforeEach(() => openFile(['n1', 'n2', 'n3'], 8));
 
-describe('the rename pattern', () => {
+describe('S2 the rename pattern', { tags: ['standard'] }, () => {
   it('fills in the old name and a number with or without padding', () => {
     expect(expandPattern('{name}_{n}', 'walk', 7)).toBe('walk_7');
     expect(expandPattern('{n:3}-{name}', 'walk', 7)).toBe('007-walk');
@@ -51,7 +51,7 @@ describe('the rename pattern', () => {
   });
 });
 
-describe('renaming many sprites', () => {
+describe('S2 renaming many sprites', { tags: ['standard'] }, () => {
   it('renames them in one undo step named after the count', () => {
     const before = revision();
     const plan = planRenames(spec({ pattern: 'hero_{n:2}' }), targets('n1', 'n2', 'n3'), others('n1', 'n2', 'n3'));

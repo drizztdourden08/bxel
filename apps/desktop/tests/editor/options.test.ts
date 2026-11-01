@@ -10,7 +10,7 @@ import { flat, penStroke, resetEditor, tools } from './option-harness';
 
 beforeEach(resetEditor);
 
-describe('the tool keys', () => {
+describe('K1 the tool keys', { tags: ['critical'] }, () => {
   it('selects a tool, then toggles filled on a second press of the rectangle key', () => {
     pressToolKey('rect');
     expect(tools().tool).toBe('rect');
@@ -36,7 +36,7 @@ describe('the tool keys', () => {
   });
 });
 
-describe('the brush size', () => {
+describe('K1 the brush size', { tags: ['critical'] }, () => {
   it('steps by one and stays between 1 and 64', () => {
     tools().stepBrushSize(-1);
     expect(tools().brushSize).toBe(1);
@@ -54,7 +54,7 @@ describe('the brush size', () => {
   });
 });
 
-describe('symmetry', () => {
+describe('S2 symmetry', { tags: ['standard'] }, () => {
   it('puts the axes at the centre of the sprite until they are dragged', () => {
     const size = { width: 32, height: 24 };
     expect(symmetryOf(tools(), size)).toEqual({});
@@ -97,7 +97,7 @@ describe('symmetry', () => {
   });
 });
 
-describe('pixel perfect', () => {
+describe('S2 pixel perfect', { tags: ['standard'] }, () => {
   it('drops the corner pixel of an L step on the overlay and in the commit', () => {
     tools().setPixelPerfect(true);
     tools().setForeground(4);
@@ -115,7 +115,7 @@ describe('pixel perfect', () => {
   });
 });
 
-describe('the brush options', () => {
+describe('K1 the brush options', { tags: ['critical'] }, () => {
   it('collects the size, the shape, pixel perfect and symmetry for a stroke', () => {
     tools().setBrushSize(5);
     tools().setBrushShape('circle');

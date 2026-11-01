@@ -59,7 +59,7 @@ beforeEach(() => {
   takeRepaint();
 });
 
-describe('the committed image after a stroke', () => {
+describe('S2 the committed image after a stroke', { tags: ['standard'] }, () => {
   it('reuses the live image and leaves nothing to upload when the overlay was right', () => {
     const first = committedImage(live());
     const image = strokeWithHandoff(3, { x: 1, y: 1 }, { x: 6, y: 1 });

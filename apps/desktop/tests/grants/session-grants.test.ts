@@ -32,7 +32,7 @@ const tableWith = (session: LiveSession) => {
   return { table, pushed };
 };
 
-describe('changing the grant of a live session', () => {
+describe('K1 changing the grant of a live session', { tags: ['critical'] }, () => {
   it('replaces the grant, derives the mode and pushes it to the helper', () => {
     const { table, pushed } = tableWith(sessionOf(PRESETS.full_control.grant));
     expect(table.setGrant('s1', PRESETS.read_only.grant, true)).toBe(true);
@@ -61,7 +61,7 @@ describe('changing the grant of a live session', () => {
   });
 });
 
-describe('following the stored grants', () => {
+describe('K1 following the stored grants', { tags: ['critical'] }, () => {
   const stateWith = (session: LiveSession) => {
     const pushed: LiveSession[] = [];
     const sessions = createSessionTable(() => undefined, (live) => pushed.push(live));
@@ -97,7 +97,7 @@ describe('following the stored grants', () => {
   });
 });
 
-describe('who may stop Bxel', () => {
+describe('K1 who may stop Bxel', { tags: ['critical'] }, () => {
   const state = { ...assistantMain, instance: { window: 'visible' as const, started: false, launchToken: null } };
 
   it('refuses an owner launched Bxel unless the program may restart it', () => {

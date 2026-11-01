@@ -16,7 +16,7 @@ beforeEach(resetEditor);
 
 const drawing = () => useDrawingStore.getState();
 
-describe('the clean ratio snap', () => {
+describe('K1 the clean ratio snap', { tags: ['critical'] }, () => {
   it('snaps to the nearest of the clean ratios and names it', () => {
     const origin = { x: 0, y: 0 };
     expect(ratioSnap(origin, { x: 10, y: 5 })).toEqual({ to: { x: 10, y: 5 }, label: '2:1' });
@@ -31,7 +31,7 @@ describe('the clean ratio snap', () => {
   });
 });
 
-describe('the ink of a press', () => {
+describe('S2 the ink of a press', { tags: ['standard'] }, () => {
   it('swaps the roles of the two colours for the right button', () => {
     tools().setForeground(5);
     tools().setBackground(9);
@@ -52,7 +52,7 @@ describe('the ink of a press', () => {
   });
 });
 
-describe('the eraser right button', () => {
+describe('S2 the eraser right button', { tags: ['standard'] }, () => {
   it('paints the back colour over the front colour and leaves other pixels alone', () => {
     tools().setForeground(5);
     tools().setBackground(9);
@@ -75,7 +75,7 @@ describe('the eraser right button', () => {
   });
 });
 
-describe('an ink on a stroke', () => {
+describe('S2 an ink on a stroke', { tags: ['standard'] }, () => {
   it('lock alpha recolours only what is already painted, on the overlay and in the commit', () => {
     tools().setForeground(4);
     commitSession(startSession({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live(), { x: 5, y: 5 }));
@@ -90,7 +90,7 @@ describe('an ink on a stroke', () => {
   });
 });
 
-describe('the gradient tool', () => {
+describe('S2 the gradient tool', { tags: ['standard'] }, () => {
   it('shows on the overlay what the commit paints', () => {
     tools().setForeground(2);
     tools().setBackground(6);
@@ -124,7 +124,7 @@ describe('the gradient tool', () => {
   });
 });
 
-describe('the spray tool', () => {
+describe('S2 the spray tool', { tags: ['standard'] }, () => {
   it('replays the same dots after undo and redo', () => {
     drawing().patch({ spraySeed: 7, spraySize: 10, sprayDensity: 12 });
     tools().setForeground(3);

@@ -19,7 +19,7 @@ const places: { name: string; target: SeeTarget }[] = [
   { name: 'project', target: 'project_file' },
 ];
 
-describe('assistant can see', () => {
+describe('K4 assistant can see', { tags: ['critical'] }, () => {
   it('defaults to everything', () => {
     expect(DEFAULT_SCOPE_SETTINGS).toEqual({ see: 'everything', write: 'where_bxel_can' });
   });
@@ -46,7 +46,7 @@ describe('assistant can see', () => {
   });
 });
 
-describe('assistant can write', () => {
+describe('K4 assistant can write', { tags: ['critical'] }, () => {
   it('allows every place at the default choice', () => {
     for (const target of ['own_file', 'project_file', 'assistant_folder'] as const) {
       expect(checkWrite('where_bxel_can', target)).toBeNull();
@@ -73,7 +73,7 @@ describe('assistant can write', () => {
   });
 });
 
-describe('project grants and modes', () => {
+describe('K4 project grants and modes', { tags: ['critical'] }, () => {
   it('takes the lower of the session mode and the project grant', () => {
     expect(effectiveAccess('edit', 'edit')).toBe('edit');
     expect(effectiveAccess('edit', 'read')).toBe('read');
@@ -89,7 +89,7 @@ describe('project grants and modes', () => {
   });
 });
 
-describe('the folders the owner shows the assistant', () => {
+describe('K4 the folders the owner shows the assistant', { tags: ['critical'] }, () => {
   it('shows every folder when the project names none', () => {
     expect(canSeeFolder(undefined, 'fld_a')).toBe(true);
   });

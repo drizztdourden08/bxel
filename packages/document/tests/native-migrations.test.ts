@@ -12,7 +12,7 @@ const step = (from: number, to: number): Migration => ({
   up: (input) => ({ document: `${String(input.document)}>v${to}`, blobs: input.blobs }),
 });
 
-describe('native migrations', () => {
+describe('K3 native migrations', { tags: ['critical'] }, () => {
   it('returns the input untouched when the file is already current', () => {
     expect(migrate(start, 1, [], 1)).toBe(start);
     expect(migrate(start, 1)).toBe(start);

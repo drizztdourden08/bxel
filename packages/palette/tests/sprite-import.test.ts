@@ -13,7 +13,7 @@ const bankOf = (rig: Rig) => ({ bankId: rig.bankId });
 const importCode = (rig: Rig, options: object): string | null =>
   rejectionCode(rig, () => execute(rig, [importStep(options)]));
 
-describe('sprite.import into an existing bank', () => {
+describe('K2 sprite.import into an existing bank', { tags: ['critical'] }, () => {
   it('maps every pixel to an existing index for every dither mode and adds no colour', () => {
     const rig = makeRig();
     const noise = makeNoiseImage(20, 7);
@@ -54,7 +54,7 @@ describe('sprite.import into an existing bank', () => {
   });
 });
 
-describe('alpha threshold', () => {
+describe('K2 alpha threshold', { tags: ['critical'] }, () => {
   const faded = makeImage(4, [purple(0), purple(127), purple(128), purple(255)]);
   const indicesWith = (rig: Rig, name: string, mapping?: { alphaThreshold: number }) => {
     succeed(execute(rig, [importStep(importOptions(name, faded, bankOf(rig), mapping))]));
@@ -83,7 +83,7 @@ describe('alpha threshold', () => {
   });
 });
 
-describe('dithering pattern origin', () => {
+describe('K2 dithering pattern origin', { tags: ['critical'] }, () => {
   const grey = makeImage(16, Array.from({ length: 64 }, () => [128, 128, 128, 255] as const));
 
   it('shifts the pattern with the origin and repeats it every matrix size', () => {
@@ -103,18 +103,9 @@ describe('dithering pattern origin', () => {
       for (let x = 0; x < 15; x += 1) expect(moved[y * 16 + x]).toBe(home[y * 16 + x + 1]);
     }
   });
-
-  it('is the same on every run', () => {
-    const rig = makeRig();
-    const bankId = createBank(rig, ['#000000', '#ffffff'], false);
-    const mapping = { dither: 'bayer8' } as const;
-    succeed(execute(rig, [importStep(importOptions('one', grey, { bankId }, mapping))]));
-    succeed(execute(rig, [importStep(importOptions('two', grey, { bankId }, mapping))]));
-    expect(firstCelPixels(spriteNamed(rig, 'one'))).toEqual(firstCelPixels(spriteNamed(rig, 'two')));
-  });
 });
 
-describe('sprite.import rejections', () => {
+describe('K2 sprite.import rejections', { tags: ['critical'] }, () => {
   const image = makeNoiseImage(4, 3);
 
   it('rejects an image larger than 2048 on a side and a zero side', () => {

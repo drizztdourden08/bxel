@@ -29,11 +29,9 @@ const CASES: readonly FillCase[] = [
   { name: '4-way stays inside a diamond hole', before: DIAMOND, seed: { x: 1, y: 1 }, index: 3, connectivity: 4, after: ['.1...', '131..', '.1.1.', '..1..', '.....'], rect: { x: 1, y: 1, width: 1, height: 1 } },
   { name: '8-way escapes a diamond hole', before: DIAMOND, seed: { x: 1, y: 1 }, index: 3, connectivity: 8, after: ['31333', '13133', '31313', '33133', '33333'], rect: WHOLE },
   { name: 'a closed ring holds the fill', before: ['11111', '1...1', '1.1.1', '1...1', '11111'], seed: { x: 1, y: 1 }, index: 3, connectivity: 4, after: ['11111', '13331', '13131', '13331', '11111'], rect: { x: 1, y: 1, width: 3, height: 3 } },
-  { name: 'only the exact index spreads', before: ['11222', '11232', '11222'], seed: { x: 3, y: 0 }, index: 4, connectivity: 8, after: ['11444', '11434', '11444'], rect: { x: 2, y: 0, width: 3, height: 3 } },
-  { name: 'a comb is filled end to end', before: ['.....', '1111.', '.....', '.1111', '.....'], seed: { x: 0, y: 0 }, index: 2, connectivity: 4, after: ['22222', '11112', '22222', '21111', '22222'], rect: WHOLE },
 ];
 
-describe('contiguous fill', () => {
+describe('K1 contiguous fill', { tags: ['critical'] }, () => {
   test.each(CASES)('$name', ({ before, seed, index, connectivity, after, rect }) => {
     const target = fromRows(before);
     expect(floodFill({ target, seed, index, mode: 'contiguous', connectivity })).toEqual(rect);

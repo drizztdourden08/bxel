@@ -30,7 +30,7 @@ const lockedInk: CommandStep = {
   options: { rect: { x: 0, y: 0, width: 1, height: 1 }, pixels: new Uint8Array([1]) },
 };
 
-describe('rejection without mutation', () => {
+describe('S3 rejection without mutation', { tags: ['standard'] }, () => {
   it('rejects a stale base revision', () => {
     expect(rejects(patchStep(6), { baseRevision: 0 }).code).toBe('STALE_REVISION');
   });
@@ -61,7 +61,7 @@ describe('rejection without mutation', () => {
   });
 });
 
-describe('rejection of bad options and targets', () => {
+describe('S3 rejection of bad options and targets', { tags: ['standard'] }, () => {
   it('points at the bad option path', () => {
     const step: CommandStep = {
       ...patchStep(6),

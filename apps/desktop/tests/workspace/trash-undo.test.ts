@@ -27,7 +27,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('undo after a deleted asset went to the trash at Save all', () => {
+describe('K3 undo after a deleted asset went to the trash at Save all', { tags: ['standard'] }, () => {
   it('keeps the restored asset unsaved until it is written again, even back at its loaded content', async () => {
     const { documentId, paths } = await openSampleProject(held);
     const lone = artworkOf(documentId).sprites[1];

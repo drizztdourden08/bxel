@@ -15,7 +15,7 @@ const shape = z.discriminatedUnion('shape', [
 
 const wire = (side: number) => ({ width: side, height: side, bits: encodeBase64(new Uint8Array(side * side).fill(1)) });
 
-describe('withWireMask', () => {
+describe('K2 withWireMask', { tags: ['critical'] }, () => {
   it('takes a base64 mask where the command needs one, and refuses a missing one', () => {
     const schema = withWireMask(flip);
     expect(schema.safeParse({ axis: 'horizontal', mask: wire(4) }).success).toBe(true);

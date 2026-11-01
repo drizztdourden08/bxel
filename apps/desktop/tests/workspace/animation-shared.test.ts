@@ -27,7 +27,7 @@ const sharedArtwork = (): Artwork =>
     { name: COMMAND_NAME.animationCreate, targets: null, options: { name: 'blink', source: { kind: 'sprites', sprites: [{ ref: 'tree' }, { ref: 'gem' }], mode: 'reference' } } },
   ]);
 
-describe('drawing on a sprite an animation shares with a sheet', () => {
+describe('K3 drawing on a sprite an animation shares with a sheet', { tags: ['standard'] }, () => {
   it('redraws the sheet and dirties only the sprite', async () => {
     const { documentId } = await open(sharedArtwork());
     const loaded = artworkOf(documentId);

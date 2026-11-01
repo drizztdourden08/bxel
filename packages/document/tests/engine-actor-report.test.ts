@@ -31,7 +31,7 @@ const recorded = (engine: Engine): DocumentEvent[] => {
   return events;
 };
 
-describe('report', () => {
+describe('K1 report', { tags: ['critical'] }, () => {
   it('starts empty and merges the same key across steps by sum', () => {
     const engine = countingEngine();
     const plain = engine.execute(request([patchStep(5)]));
@@ -50,7 +50,7 @@ describe('report', () => {
   });
 });
 
-describe('actor', () => {
+describe('K1 actor', { tags: ['critical'] }, () => {
   it('defaults to ui and follows the entry through undo and redo', () => {
     const engine = countingEngine();
     const events = recorded(engine);

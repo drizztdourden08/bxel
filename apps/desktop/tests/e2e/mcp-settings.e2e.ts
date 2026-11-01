@@ -80,7 +80,7 @@ const changesAProjectSetting = async (rig: McpRig): Promise<void> => {
   await expect.poll(async () => (await projectOnDisk(projectDir, 'Dungeon')).name, { timeout: POLL_MS }).toBe('Crypt');
 };
 
-describe('settings: a program reads and changes app, asset and project settings', () => {
+describe('E1 settings', { tags: ['e2e'] }, () => {
   const rig = useRig(openFullRig);
   test('changes an app setting, shown on its page', () => changesAnAppSetting(rig()));
   test('refuses every assistant and keymap key and hides their values', () => refusesTheProtectedKeys(rig()));

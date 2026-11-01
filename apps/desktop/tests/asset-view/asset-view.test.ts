@@ -11,7 +11,7 @@ const base = lookOf(CANVAS_DEFAULTS);
 const tileset = { tileWidth: 12, tileHeight: 20 } as never;
 const sheet = (cell: number) => ({ layout: { kind: 'grid', columns: 4, cellWidth: cell, cellHeight: cell, order: 'rows' } }) as never;
 
-describe('the grid of each asset', () => {
+describe('K1 the grid of each asset', { tags: ['critical'] }, () => {
   it('follows the tile size of a tileset with no setting touched', () => {
     expect(gridDefaults({ surface: 'tile', tileset, sheet: null, setting: 16 })).toEqual({ tile: { width: 12, height: 20 }, source: 'tileset' });
     expect(assetLook(base, ASSET_VIEW_DEFAULTS, { width: 12, height: 20 }).tileLine).toMatchObject({ every: 12, everyY: 20 });
@@ -37,7 +37,7 @@ describe('the grid of each asset', () => {
   });
 });
 
-describe('the view state of an asset', () => {
+describe('K1 the view state of an asset', { tags: ['critical'] }, () => {
   beforeEach(() => useAssetViewStore.setState({ views: {} }));
 
   it('keeps a patch per asset and forgets it on reset', () => {

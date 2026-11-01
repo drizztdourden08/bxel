@@ -4,7 +4,7 @@ import { CANVAS_DEFAULTS } from '../../src/canvas-look/canvas-look.constants';
 import { lookOf } from '../../src/canvas-look/look-of';
 import { spriteLook } from '../../src/canvas-look/sprite-look';
 
-describe('the pixel grid of a sprite', () => {
+describe('K1 the pixel grid of a sprite', { tags: ['critical'] }, () => {
   const base = lookOf(CANVAS_DEFAULTS);
 
   it('keeps the app look for a sprite with no grid of its own', () => {

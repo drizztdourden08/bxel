@@ -5,7 +5,7 @@ import { preset, runs, size } from './preset-fixtures';
 
 const NES_BANK = { cap: 16 };
 
-describe('checkAreas refusals', () => {
+describe('K1 checkAreas refusals', { tags: ['critical'] }, () => {
   it('refuses a buffer of the wrong length', () => {
     const result = checkAreas(preset('nes-bg'), new Uint8Array(10), size(8, 8), NES_BANK);
     expect(result.ok).toBe(false);

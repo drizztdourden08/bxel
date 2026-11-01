@@ -17,7 +17,7 @@ beforeEach(openMapFile);
 
 const names = (): string[] => mapNow().layers.map((layer) => layer.name);
 
-describe('map layers', () => {
+describe('S2 map layers', { tags: ['standard'] }, () => {
   it('adds a layer above the current one and makes it the target', () => {
     const before = revision();
     expect(addMapLayer()).toBe(true);
@@ -66,10 +66,9 @@ describe('map layers', () => {
     stepHistory('undo');
     expect(names()[1]).not.toBe('Top');
   });
-
 });
 
-describe('map layer limits', () => {
+describe('S2 map layer limits', { tags: ['standard'] }, () => {
   it('keeps at least one layer and refuses a name that is taken', () => {
     expect(deleteMapLayer()).toBe(false);
     expect(lastNotice()).toContain('at least one');

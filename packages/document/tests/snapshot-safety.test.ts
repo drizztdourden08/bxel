@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { documentId, heartEngine, patchStep, request } from './heart-engine';
 import { snapshotArtwork } from './snapshot-artwork';
 
-describe('snapshot safety', () => {
+describe('K3 snapshot safety', { tags: ['critical'] }, () => {
   it('keeps a held state intact through 50 strokes, undo and redo', () => {
     const { engine } = heartEngine();
     const held = engine.state();

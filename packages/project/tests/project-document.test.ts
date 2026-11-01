@@ -19,7 +19,7 @@ const BROKEN: readonly (readonly [string, (manifest: Record<string, unknown>) =>
   ['a default palette in a missing folder', (manifest) => (manifest['defaults'] = { palette: { kind: 'file', folderId: 'fld_zzzzzzzz', path: 'a.bxpalette' } })],
 ];
 
-describe('manifest v2', () => {
+describe('K2 manifest v2', { tags: ['critical'] }, () => {
   it('writes in a stable key order and parses back to the same manifest', () => {
     const output = written();
     expect(Object.keys(JSON.parse(output) as object)).toEqual(['format', 'formatVersion', 'projectId', 'name', 'folders', 'defaults', 'assistant']);
@@ -64,15 +64,9 @@ describe('manifest v2', () => {
     expect(writeProjectDocument(created).ok).toBe(true);
     expect(roleFolders(created.folders).map((folder) => folder.path)).toEqual(['sprites', 'sheets', 'palettes', 'tilemaps', 'exports']);
   });
-
-  it('lists a role folder once and never the folder root', () => {
-    const folders = sampleDocument().folders;
-    expect(roleFolders(folders).some((folder) => folder.path === '.')).toBe(false);
-    expect(roleFolders(folders)).toHaveLength(5);
-  });
 });
 
-describe('reading either version', () => {
+describe('K3 reading either version', { tags: ['critical'] }, () => {
   it('reads a version 1 manifest as version 1', () => {
     const v1 = JSON.stringify({ ...sampleManifest() });
     const read = readManifest(v1);

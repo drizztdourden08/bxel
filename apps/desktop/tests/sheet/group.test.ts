@@ -34,7 +34,7 @@ beforeEach(() => {
   patch('c', { x: 1, y: 0, width: 1, height: 1 }, 3);
 });
 
-describe('a flip on picked sprites', () => {
+describe('S2 a flip on picked sprites', { tags: ['standard'] }, () => {
   it('shows every picked sprite in the preview and the Apply bar', () => {
     pickThree();
     expect(beginPending({ kind: 'flip', axis: 'horizontal' })).toBe(true);
@@ -92,7 +92,7 @@ describe('a flip on picked sprites', () => {
   });
 });
 
-describe('layer duplication on picked sprites', () => {
+describe('S2 layer duplication on picked sprites', { tags: ['standard'] }, () => {
   it('duplicates the layer of every picked sprite as one undo step', () => {
     pickThree();
     const before = revision();

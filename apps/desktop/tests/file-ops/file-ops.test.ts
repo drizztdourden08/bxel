@@ -60,7 +60,7 @@ const onlySprite = (documentId: DocumentId): string => {
   return sprite ? (workspaceOf(documentId).paths.get(sprite.id) ?? '') : '';
 };
 
-describe('moving a file the project links to', () => {
+describe('K3 moving a file the project links to', { tags: ['standard'] }, () => {
   it('rewrites the files that link to it, and the workspace follows the new path', async () => {
     const { documentId, spritePath, sheetPaths } = await open();
     expect(sheetPaths.length).toBeGreaterThan(0);
@@ -103,7 +103,7 @@ describe('moving a file the project links to', () => {
   });
 });
 
-describe('renaming a file the project links to', () => {
+describe('K3 renaming a file the project links to', { tags: ['standard'] }, () => {
   it('keeps the ending, renames the asset with the file and rewrites the files that link to it', async () => {
     const { documentId, spritePath, sheetPaths } = await open();
     const renamed = `${spritePath.slice(0, spritePath.lastIndexOf('/'))}/blob.bxsprite`;
@@ -133,7 +133,7 @@ describe('renaming a file the project links to', () => {
   });
 });
 
-describe('moving files to the trash', () => {
+describe('K3 moving files to the trash', { tags: ['standard'] }, () => {
   it('names the files that will lose a link, and trashes after a yes', async () => {
     const { spritePath, sheetPaths } = await open();
     expect(await trashEntries([spritePath])).toBe(true);

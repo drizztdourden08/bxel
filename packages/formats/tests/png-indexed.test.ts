@@ -33,7 +33,7 @@ const expected = (image: IndexedImage): number[] =>
     Array.from(image.palette.subarray(index * 4, index * 4 + 4)),
   );
 
-describe('encodePngIndexed round trips', () => {
+describe('K3 encodePngIndexed round trips', { tags: ['critical'] }, () => {
   it.each([
     [1, 1],
     [2, 1],
@@ -61,7 +61,7 @@ describe('encodePngIndexed round trips', () => {
 
 });
 
-describe('encodePngIndexed transparency and rejections', () => {
+describe('K3 encodePngIndexed transparency and rejections', { tags: ['critical'] }, () => {
   it('writes tRNS for a transparent entry 0 and decodes the alpha', () => {
     const image = makeIndexed(4, 6, 4, 0);
     const bytes = encodeOk(image);

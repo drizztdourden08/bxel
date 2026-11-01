@@ -21,7 +21,7 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/pr
 
 const { project } = presetRig();
 
-describe('turning settings into a document preset and back', () => {
+describe('K1 turning settings into a document preset and back', { tags: ['critical'] }, () => {
   it('names the format from the kind, the animation and the colour mode', () => {
     expect(presetFormat(settingsOf({ kind: 'sprite' }))).toBe('png');
     expect(presetFormat(settingsOf({ kind: 'frames', colour: 'indexed' }))).toBe('png-indexed');
@@ -61,7 +61,7 @@ describe('turning settings into a document preset and back', () => {
   });
 });
 
-describe('the presets an asset page and the Export window list', () => {
+describe('S2 the presets an asset page and the Export window list', { tags: ['standard'] }, () => {
   it('lists the asset presets first, then the project ones, then the app ones', async () => {
     const { documentId } = await project();
     const sprite = artworkOf(documentId).sprites[0];
@@ -93,7 +93,7 @@ describe('the presets an asset page and the Export window list', () => {
   });
 });
 
-describe('moving the app presets into the project', () => {
+describe('S2 moving the app presets into the project', { tags: ['standard'] }, () => {
   it('writes each one into the project in one undo step, keeping a name that is already taken', async () => {
     const { documentId } = await project();
     savePreset('Icons', settingsOf({ sprites: 'all' }));
@@ -118,7 +118,7 @@ describe('moving the app presets into the project', () => {
   });
 });
 
-describe('the file filter of Browse', () => {
+describe('S2 the file filter of Browse', { tags: ['critical'] }, () => {
   it('follows the animation format and stays PNG for a single image', () => {
     expect(browseFilters(settingsOf({ kind: 'animation', animation: 'gif' }))).toEqual([{ name: 'GIF image', extensions: ['gif'] }]);
     expect(browseFilters(settingsOf({ kind: 'animation', animation: 'apng' }))).toEqual([{ name: 'Animated PNG image', extensions: ['png'] }]);

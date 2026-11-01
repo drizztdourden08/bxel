@@ -78,7 +78,7 @@ const reopensAndSavesAgain = async (session: Session): Promise<void> => {
   }
 };
 
-describe('check 6: a tagged animation built in the editor', () => {
+describe('E1 build, save and reopen an animation', { tags: ['e2e'] }, () => {
   const rig = useRig(async () => ({ session: await openSession() }));
   test('three frames with distinct durations, pixels and one tag are saved', () => buildsAndSaves(rig().session));
   test('the tag shows in the lane over its frames', () => listsTheTag(rig().session));

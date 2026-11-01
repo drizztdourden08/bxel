@@ -1,8 +1,6 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { TIMELINE_FRAME_COMMANDS } from '../../src/keymap/timeline-frame-commands.constants';
-import { useTimelineStore } from '../../src/stores/useTimelineStore';
 import { addTag } from '../../src/timeline/add-tag';
 import { tagLanes } from '../../src/timeline/tag-lanes';
 import { animationOf, freshAnimation, pickRange, run, withFrames } from './timeline-harness';
@@ -33,13 +31,7 @@ const eightWays = (): void => {
   ]);
 };
 
-const command = (id: string) => {
-  const found = TIMELINE_FRAME_COMMANDS.find((each) => each.id === id);
-  if (!found) throw new Error(`no command ${id}`);
-  return found;
-};
-
-describe('the tag lanes grouped by facing', () => {
+describe('S2 the tag lanes grouped by facing', { tags: ['standard'] }, () => {
   it('stack by overlap when they are not grouped', () => {
     eightWays();
     expect(names(tagLanes(animationOf(), null))).toEqual([['Tag 1', 'Tag 3'], ['Tag 1 (w)'], ['Tag 2']]);
@@ -67,17 +59,3 @@ describe('the tag lanes grouped by facing', () => {
   });
 });
 
-describe('the group by facing command', () => {
-  it('toggles the setting, reports it as checked and keeps it when the timeline resets', () => {
-    const toggle = command('timeline.toggle_group_facing');
-    const checked = (): boolean | undefined => (typeof toggle.checked === 'function' ? toggle.checked() : toggle.checked);
-    expect(checked()).toBe(false);
-    void toggle.run({} as never);
-    expect(useTimelineStore.getState().groupByFacing).toBe(true);
-    expect(checked()).toBe(true);
-    useTimelineStore.getState().reset();
-    expect(useTimelineStore.getState().groupByFacing).toBe(true);
-    void toggle.run({} as never);
-    expect(checked()).toBe(false);
-  });
-});

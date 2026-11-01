@@ -16,7 +16,7 @@ const edit = async (documentId: string, steps: readonly object[]) => {
   expect(done.outcome).toMatchObject({ ok: true });
 };
 
-describe('get_document include', () => {
+describe('S2 get_document include', { tags: ['standard'] }, () => {
   it('takes the detail names and refuses any other', () => {
     const spec = TOOLS.find((tool) => tool.name === 'get_document');
     const input = { documentId: 'doc_aaaaaaaaaaaa', spriteOffset: 0, spriteLimit: 10 };

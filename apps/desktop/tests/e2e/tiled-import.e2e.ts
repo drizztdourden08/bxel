@@ -12,7 +12,7 @@ import { TILED_E2E } from './support/tiled.constants';
 import { waitText } from './support/wait-text';
 import { writeTiledFiles } from './support/write-tiled-files';
 
-describe('Tiled import: a map with its tileset and image becomes a tileset and a tilemap', () => {
+describe('E1 Tiled import', { tags: ['e2e'] }, () => {
   test('reads a TMX with an external TSX and PNG from a folder it is granted on the spot through the colour step and saves both files', async () => {
     await inFreshPlace(async (place) => {
       const mapPath = await writeTiledFiles(place);

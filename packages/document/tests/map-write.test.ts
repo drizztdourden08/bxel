@@ -7,7 +7,7 @@ type World = ReturnType<typeof buildWorld>;
 const write = (world: World, options: Record<string, unknown>) =>
   step('map.write', onGround(world, { rect: { x: 1, y: 1, width: 2, height: 2 }, keys: [1, 2, 0, 2], ...options }));
 
-describe('map.write', () => {
+describe('K1 map.write', { tags: ['critical'] }, () => {
   it('writes a rectangle of tile keys and flip bits row by row', () => {
     const world = buildWorld();
     applySteps(world.engine, [write(world, { flags: [0, 1, 0, 6] })]);

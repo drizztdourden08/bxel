@@ -50,7 +50,7 @@ const everything = (artwork: Artwork): ChangeSet => {
   };
 };
 
-describe('assetsTouched', () => {
+describe('K1 assetsTouched', { tags: ['critical'] }, () => {
   it('maps every ChangeSet field to the assets whose files change', () => {
     const artwork = legacyArtwork();
     const keys = keysOf(assetsTouched(everything(artwork), artwork, artwork));
@@ -91,7 +91,7 @@ describe('assetsTouched', () => {
   });
 });
 
-describe('link paths', () => {
+describe('K1 link paths', { tags: ['critical'] }, () => {
   it('builds paths relative to the file and resolves them back', () => {
     expect(relativeLinkPath('sprites/a.bxsprite', 'palettes/p.bxpalette')).toBe('../palettes/p.bxpalette');
     expect(relativeLinkPath('sprites/a.bxsprite', 'sprites/b.bxsprite')).toBe('b.bxsprite');

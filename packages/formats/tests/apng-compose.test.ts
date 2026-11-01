@@ -43,7 +43,7 @@ const decodeOk = (bytes: Uint8Array): AnimationDecoded => {
   return decoded;
 };
 
-describe('APNG decoder compositing', () => {
+describe('K1 APNG decoder compositing', { tags: ['critical'] }, () => {
   const decoded = decodeOk(buildApng(spec()));
 
   it('reads loops, frame count and every delay form', () => {
@@ -67,7 +67,7 @@ describe('APNG decoder compositing', () => {
   });
 });
 
-describe('APNG decoder errors', () => {
+describe('K1 APNG decoder errors', { tags: ['critical'] }, () => {
   it('reports a sequence gap', () => {
     expect(decodeApng(buildApng(spec({ sequenceSkew: 1 })))).toMatchObject({ code: FORMAT_ERROR_CODE.APNG_SEQUENCE });
   });

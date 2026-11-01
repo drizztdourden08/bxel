@@ -59,7 +59,7 @@ const imageOf = (rows: readonly string[]): IndexImage => ({
 
 const values = (pixels: Uint8Array): Set<number> => new Set(pixels);
 
-describe('MMPX against the published reference code', () => {
+describe('K1 MMPX against the published reference code', { tags: ['critical'] }, () => {
   test.each(golden.map((each, at) => [at, each] as const))('golden sprite %i matches the reference output', (_at, each) => {
     expect(rowsOf(mmpx(imageOf(each.input), CONFIG))).toEqual(each.expected);
   });
@@ -87,7 +87,7 @@ describe('MMPX against the published reference code', () => {
   });
 });
 
-describe('Scale2x and Scale3x', () => {
+describe('K1 Scale2x and Scale3x', { tags: ['critical'] }, () => {
   test('a lone diagonal corner is rounded the way the reference EPX rules say (golden)', () => {
     const image = imageOf(['.1.', '11.', '...']);
     expect(rowsOf(scale2x(image, CONFIG))).toEqual(['..11..', '.111..', '1111..', '111...', '......', '......']);
@@ -110,7 +110,7 @@ const sampleAll = (image: IndexImage, algorithm: ResampleAlgorithm): number[] =>
   return found;
 };
 
-describe('palette closure', () => {
+describe('K1 palette closure', { tags: ['critical'] }, () => {
   test.each(ALGORITHMS)('%s only returns indexes found in its input', (algorithm) => {
     for (let seed = 1; seed <= 25; seed++) {
       const image = seed % 2 === 0 ? randomImage(seed, 10, 10, 5) : blobImage(seed);

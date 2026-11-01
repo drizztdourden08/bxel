@@ -18,7 +18,7 @@ const started = (): AnimWorld & { readonly id: string } => {
 const addStrip = (world: ReturnType<typeof started>) =>
   step(FRAME_ADD, { animation: world.id, source: { kind: 'strip', sprite: world.strip, grid: { columns: 4, rows: 1 } } });
 
-describe('animation.frame.add', () => {
+describe('K1 animation.frame.add', { tags: ['critical'] }, () => {
   it('adds four strip frames with clips', () => {
     const world = started();
     const done = apply(world.engine, [addStrip(world)]);
@@ -59,7 +59,7 @@ describe('animation.frame.add', () => {
   });
 });
 
-describe('animation.frame.update, delete and reorder', () => {
+describe('K1 animation.frame.update, delete and reorder', { tags: ['critical'] }, () => {
   it('retargets a frame, clears its clip and drops the sprite it no longer uses', () => {
     const world = started();
     apply(world.engine, [step(FRAME_ADD, { animation: world.id, source: { kind: 'sprite', sprite: world.b, mode: 'copy' } })]);
@@ -112,7 +112,7 @@ describe('animation.frame.update, delete and reorder', () => {
   });
 });
 
-describe('animation.frame.own, release and animation.split', () => {
+describe('K1 animation.frame.own, release and animation.split', { tags: ['critical'] }, () => {
   it('owns a shared frame, then releases it as a project sprite', () => {
     const world = started();
     const frame = { by: 'index', index: 0 };

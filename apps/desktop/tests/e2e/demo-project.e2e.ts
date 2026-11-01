@@ -41,7 +41,7 @@ const keepsEditsOnSecondOpen = async (session: Session, place: string): Promise<
   await access(join(place, DEMO_FOLDER, `${DEMO_FOLDER}.bxproject`));
 };
 
-describe('the demo project in the Help menu', () => {
+describe('E1 open the demo project', { tags: ['e2e'] }, () => {
   const rig = useRig(async () => ({ session: await openSession() }));
   test('copies the bundled project into the chosen folder and opens every asset', () => inFreshPlace((place) => copiesAndOpens(rig().session, place)));
   test('opens the copy again without overwriting what the owner changed', () => inFreshPlace((place) => keepsEditsOnSecondOpen(rig().session, place)));
