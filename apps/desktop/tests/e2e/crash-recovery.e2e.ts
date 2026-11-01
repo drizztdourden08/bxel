@@ -3,6 +3,7 @@ import { spawnSync } from 'node:child_process';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { listRecoverySnapshots } from '@drizztdourden08/brock-electron/node';
 import { afterAll, describe, expect, test } from 'vitest';
 import { canvasMapper } from './support/canvas-mapper';
 import { createSprite } from './support/create-sprite';
@@ -17,7 +18,7 @@ import { readSwatches } from './support/read-swatches';
 
 const SIZE = { width: MARKS_SIDE, height: MARKS_SIDE };
 
-const SNAPSHOT_WAIT_MS = 9000;
+const SNAPSHOT_WAIT_MS = 15000;
 
 const held: { dir?: string } = {};
 
@@ -47,7 +48,7 @@ describe('E1 recovery after a crash', { tags: ['e2e'] }, () => {
     }
     const drawn = await shownNow(first);
     expect(drawn.some((index) => index !== 0)).toBe(true);
-    await first.page.waitForTimeout(SNAPSHOT_WAIT_MS);
+    await expect.poll(async () => (await listRecoverySnapshots(join(dir, 'profile'))).length, { timeout: SNAPSHOT_WAIT_MS, message: 'a recovery snapshot is written' }).toBeGreaterThan(0);
     const pid = first.app.process().pid ?? 0;
     spawnSync('taskkill', ['/F', '/T', '/PID', String(pid)]);
     await new Promise((done) => setTimeout(done, 1500));
