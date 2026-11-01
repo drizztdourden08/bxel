@@ -1,11 +1,9 @@
 /* @layer renderer-app @kind logic */
 import type { ToolReply } from '@bxel/mcp';
 import type { ToolContext } from '../assistant.type';
-import type { SetViewInput } from './app-tool-input.type';
+import type { BrowseFolder } from './browse-folder.type';
 import { locationPath } from './location-path';
 import { reply } from './reply';
-
-type BrowseFolder = NonNullable<SetViewInput['browse']>['folder'];
 
 const browseFolder = (goTo: (folder: string | null) => void, requested: BrowseFolder, context: ToolContext): ToolReply | null => {
   if (requested === undefined) return null;

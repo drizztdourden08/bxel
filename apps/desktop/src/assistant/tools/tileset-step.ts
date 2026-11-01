@@ -2,10 +2,9 @@
 import { useTilemapStore } from '../../stores/useTilemapStore';
 import { useTilesetViewStore } from '../../stores/useTilesetViewStore';
 import { APP_TOOL_TEXT } from './app-tool.constants';
+import type { TilesetPatch } from './tileset-step.type';
 import { viewFail } from './view-fail';
 import type { ViewStep } from './view-steps.type';
-
-type TilesetPatch = NonNullable<Parameters<ViewStep>[0]['tileset']>;
 
 const applyStamp = (tiles: ReturnType<typeof useTilemapStore.getState>, tileset: TilesetPatch): void => {
   const { stamp } = tileset;
