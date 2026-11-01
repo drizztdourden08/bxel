@@ -28,8 +28,8 @@ const CELL_ACTIONS: readonly CellAction[] = [
   { name: 'replace_all', label: OPTION_TEXT.replaceAll, description: OPTION_TEXT.replaceAllDescription, icon: 'layout-grid', command: TILEMAP_COMMAND.replaceEverywhere, priority: 60, run: () => replaceCells(true) },
   { name: 'unique', label: OPTION_TEXT.unique, description: OPTION_TEXT.uniqueDescription, icon: 'pixel-tile-unique', command: TILEMAP_COMMAND.makeUnique, priority: 70, run: makeUnique },
   { name: 'clear', label: OPTION_TEXT.clear, description: OPTION_TEXT.clearDescription, icon: 'pixel-map-erase', command: TILEMAP_COMMAND.clearCells, priority: 80, run: clearCells },
-  { name: 'same_tile', label: OPTION_TEXT.sameTile, description: OPTION_TEXT.sameTileDescription, icon: 'pixel-select-color', command: TILEMAP_COMMAND.selectSame, priority: 85, run: selectSameTile },
-  { name: 'stamp', label: OPTION_TEXT.stamp, description: OPTION_TEXT.stampDescription, icon: 'pixel-map-pick', command: TILEMAP_COMMAND.captureStamp, priority: 90, run: captureSelection },
+  { name: 'same_tile', label: OPTION_TEXT.sameTile, description: OPTION_TEXT.sameTileDescription, icon: 'pixel-map-same-tile', command: TILEMAP_COMMAND.selectSame, priority: 85, run: selectSameTile },
+  { name: 'stamp', label: OPTION_TEXT.stamp, description: OPTION_TEXT.stampDescription, icon: 'pixel-stamp-capture', command: TILEMAP_COMMAND.captureStamp, priority: 90, run: captureSelection },
 ];
 
 const asShape = (value: unknown): MapSelectVariant => (value === 'wand' || value === 'same' ? value : 'rect');
