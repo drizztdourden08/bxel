@@ -7,4 +7,4 @@ interface FileClipboardState {
   readonly clear: () => void;
 }
 
-export type { FileClip, FileClipboardState };
+export type { FileClipboardState };

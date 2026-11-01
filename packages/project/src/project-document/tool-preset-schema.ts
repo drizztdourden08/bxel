@@ -2,7 +2,7 @@
 import { z } from 'zod';
 import { TOOL_PRESET_LIMITS } from './project-document.constants';
 
-const fieldValueSchema = z.union([z.number().finite(), z.string().max(TOOL_PRESET_LIMITS.textMax), z.boolean()]);
+const fieldValueSchema = z.union([z.number(), z.string().max(TOOL_PRESET_LIMITS.textMax), z.boolean()]);
 
 const toolPresetSchema = z.strictObject({
   id: z.string().min(1).max(TOOL_PRESET_LIMITS.idMax),

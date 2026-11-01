@@ -18,4 +18,4 @@ interface ManyStoreState {
 
 type TagSplit = { readonly shared: readonly string[]; readonly partial: readonly string[] };
 
-export type { ManyItem, ManyStoreState, ManySubject, TagSplit };
+export type { ManyItem, ManyStoreState, TagSplit };

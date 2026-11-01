@@ -9,9 +9,7 @@ import { moveTargets } from '../../../project-browser/move-targets';
 import { pathOfEntry } from '../../../project-browser/path-of-entry';
 import type { BrowserEntry } from '../../../project-browser/project-browser.type';
 import { useMoveToStore } from '../../../stores/useMoveToStore';
-import type { BrowserActions } from '../ProjectBrowser.type';
-
-type FileMoveActions = Pick<BrowserActions, 'moveInto' | 'moveTo' | 'cut' | 'copy' | 'paste' | 'undoMove'>;
+import type { FileMoveActions } from '../ProjectBrowser.type';
 
 const pathsOf = (entries: readonly BrowserEntry[]): string[] => entries.map(pathOfEntry).filter((path) => path !== '');
 

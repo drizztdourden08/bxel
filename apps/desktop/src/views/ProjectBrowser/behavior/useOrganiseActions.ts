@@ -1,19 +1,11 @@
 /* @layer renderer-app @kind hook */
-import { toast } from '@drizztdourden08/brock-react';
 import { useMemo } from 'react';
-import { editOrganise } from '../../../organise/edit-organise';
-import type { OrganiseOp } from '../../../organise/organise.type';
+import { runOrganise as run } from '../../../organise/run-organise';
 import type { BrowserEntry } from '../../../project-browser/project-browser.type';
 import type { OrganiseActions } from '../ProjectBrowser.type';
 
 const assetsOf = (entries: readonly BrowserEntry[]): string[] =>
   entries.flatMap((entry) => (entry.kind === 'file' && entry.row.assetId !== null ? [entry.row.assetId] : []));
-
-const run = (op: OrganiseOp): void => {
-  void editOrganise(op).then((outcome) => {
-    if (!outcome.ok) toast(outcome.message, { variant: 'warning' });
-  });
-};
 
 const useOrganiseActions = (): OrganiseActions =>
   useMemo<OrganiseActions>(

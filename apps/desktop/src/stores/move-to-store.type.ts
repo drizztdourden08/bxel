@@ -9,4 +9,4 @@ interface MoveToState {
   readonly hide: () => void;
 }
 
-export type { MoveRequest, MoveTarget, MoveToState };
+export type { MoveTarget, MoveToState };

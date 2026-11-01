@@ -1,6 +1,4 @@
 /* @layer renderer-app @kind test */
-import { readAssetManifest } from '@bxel/document/native';
-import { resolveLinkPath } from '@bxel/document';
 import type { DocumentId } from '@bxel/document';
 import { describe, expect, it, vi } from 'vitest';
 import { moveEntries } from '../../src/file-ops/move-entries';
@@ -11,7 +9,9 @@ import { assetKeys } from '../../src/workspace/asset-keys';
 import { confirmAction, toast } from '../project/project-mocks';
 import { ROOT } from '../project/project-harness';
 import { heldRig } from '../workspace/held-rig';
-import { artworkOf, openSampleProject, workspaceOf } from '../workspace/open-sample-project';
+import { artworkOf, workspaceOf } from '../workspace/open-sample-project';
+import { linkTargetsOf, openLinked } from './linked-project';
+import type { Opened } from './linked-project';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
@@ -19,26 +19,9 @@ const held = heldRig();
 
 const NEW_FOLDER = `${ROOT}/hero-art`;
 
-type Opened = { readonly documentId: DocumentId; readonly spritePath: string; readonly sheetPaths: readonly string[] };
+const open = (): Promise<Opened> => openLinked(held, NEW_FOLDER);
 
-const open = async (): Promise<Opened> => {
-  const { documentId, paths } = await openSampleProject(held.rig);
-  const artwork = artworkOf(documentId);
-  const sprite = artwork.sprites[0];
-  if (!sprite) throw new Error('no sprite');
-  const spritePath = paths.get(sprite.id) ?? '';
-  const sheetPaths = artwork.sheets.map((sheet) => paths.get(sheet.id) ?? '');
-  held.rig.disk.dirs.add(NEW_FOLDER);
-  return { documentId, spritePath, sheetPaths };
-};
-
-const linkTargets = (path: string): readonly string[] => {
-  const bytes = held.rig.disk.files.get(path);
-  if (!(bytes instanceof Uint8Array)) throw new Error(`no file at ${path}`);
-  const manifest = readAssetManifest(bytes);
-  if (!manifest) throw new Error('the sheet did not decode');
-  return manifest.links.map((link) => resolveLinkPath(path, link.path));
-};
+const linkTargets = (path: string): readonly string[] => linkTargetsOf(held, path);
 
 const moved = (path: string, folder: string): string => `${folder}/${path.slice(path.lastIndexOf('/') + 1)}`;
 
