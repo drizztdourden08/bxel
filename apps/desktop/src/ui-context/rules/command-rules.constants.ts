@@ -73,7 +73,9 @@ const LAYERS: RuleTable = {
     [WRITE],
   ),
   ...family(['layer.duplicate', 'layer.merge', 'layer.move_up', 'layer.move_down', 'layer.move_top', 'layer.move_bottom', 'layer.solo'], EDIT_STAGE, [WRITE]),
-  ...family(['layer.flatten'], PIXEL, [WRITE], ONLY.pixels),
+  ...family(['layer.flatten', 'layer.group', 'layer.ungroup', 'layer.merge_selected', 'layer.reference_add', 'layer.reference_relink'], PIXEL, [WRITE], ONLY.pixels),
+  ...family(['layer.selection_to_layer', 'layer.cut_to_layer'], PIXEL, [WRITE, PIXELS_SELECTED], ONLY.pixels),
+  ...family(['view.highlight_layer'], PIXEL, [], ONLY.pixels),
 };
 
 const SELECTION: RuleTable = {

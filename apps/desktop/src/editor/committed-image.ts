@@ -1,10 +1,12 @@
 /* @layer renderer-app @kind logic */
 import { frameToRgba, patchFrameRgba } from '@bxel/document';
+import type { LayerId } from '@bxel/document';
 import { markDirty } from '../canvas-dirty/mark-dirty';
 import { commitHandoff } from './commit-handoff';
 import type { CommitHandoff } from './commit-handoff.type';
 import type { Adopted } from './committed-image.type';
 import type { EditorTarget } from './editor.type';
+import { useLayerViewStore } from '../stores/useLayerViewStore';
 import { useReferenceStore } from '../stores/useReferenceStore';
 import { frameView } from './frame-view';
 import { shownImage } from './shown-image';
@@ -24,11 +26,13 @@ const fits = (handoff: CommitHandoff, target: EditorTarget, prior: EditorTarget 
 
 const rebuilt = (target: EditorTarget): ImageData => {
   const { sprite, bank, frameId } = target;
-  const rgba = frameToRgba(sprite, bank, frameId, frameView(sprite));
+  const rgba = frameToRgba(sprite, bank, frameId, frameView(sprite, highlightOf(target)));
   return new ImageData(new Uint8ClampedArray(rgba.buffer, rgba.byteOffset, rgba.length), sprite.width, sprite.height);
 };
 
-const viewed = (target: EditorTarget): boolean => frameView(target.sprite) !== undefined;
+const highlightOf = (target: EditorTarget): LayerId | null => (useLayerViewStore.getState().highlight ? target.layerId : null);
+
+const viewed = (target: EditorTarget): boolean => frameView(target.sprite, highlightOf(target)) !== undefined;
 
 const adopted = (handoff: CommitHandoff, target: EditorTarget): Adopted => {
   const { sprite, bank, frameId } = target;
@@ -42,13 +46,15 @@ const adopted = (handoff: CommitHandoff, target: EditorTarget): Adopted => {
 const committedImage = (target: EditorTarget): ImageData => {
   const { target: prior, image } = shownImage;
   const { entries } = useReferenceStore.getState();
-  if (prior && image && shownImage.entries === entries && sameFrame(prior, target) && prior.revision === target.revision) {
+  const highlight = highlightOf(target);
+  if (prior && image && shownImage.entries === entries && shownImage.highlight === highlight && sameFrame(prior, target) && prior.revision === target.revision) {
     shownImage.target = target;
     return image;
   }
   const handoff = commitHandoff.current;
   const taken = handoff && !viewed(target) && fits(handoff, target, prior) ? adopted(handoff, target) : null;
   shownImage.entries = entries;
+  shownImage.highlight = highlight;
   shownImage.target = target;
   shownImage.image = taken ? taken.image : rebuilt(target);
   shownImage.repaint = taken?.changed ?? false;

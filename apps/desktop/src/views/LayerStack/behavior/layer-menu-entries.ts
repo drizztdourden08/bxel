@@ -3,6 +3,7 @@ import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { unless } from '../../../context-menu/unless';
 import { LAYER_TEXT } from '../../../editor/layer-text.constants';
 import { COMMAND_ID } from '../../../keymap/keymap.constants';
+import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import { TAG_COLOUR_CHOICES } from '../../../timeline/tag-colour.constants';
 import { LAYER_LOCK_TEXT, LAYER_MENU_TEXT, LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerRowModel, LayerStackModel } from '../LayerStack.type';
@@ -31,7 +32,18 @@ const colourItems = (row: LayerRowModel, args: { layerId: string }): ContextMenu
   })),
 ];
 
-const layerMenuEntries = (model: LayerStackModel, layerId: string | undefined): readonly ContextMenuEntry[] => {
+const treeItems = (row: LayerRowModel, args: { layerId: string }, picked: readonly string[]): ContextMenuEntry[] => [
+  { command: COMMAND_ID.layerGroup, label: LAYER_MENU_TEXT.group },
+  { command: COMMAND_ID.layerUngroup, label: LAYER_MENU_TEXT.ungroup, args, ...unless(row.kind === 'group', LAYER_TEXT.notGroup) },
+  { command: COMMAND_ID.layerMergeSelected, label: LAYER_MENU_TEXT.mergeSelected, ...unless(picked.length > 1, LAYER_TEXT.oneToMerge) },
+  { command: COMMAND_ID.layerToLayer, label: LAYER_MENU_TEXT.toLayer },
+  { command: COMMAND_ID.layerCutToLayer, label: LAYER_MENU_TEXT.cutToLayer },
+  { command: COMMAND_ID.layerReferenceAdd, label: LAYER_MENU_TEXT.reference },
+  ...(row.kind === 'reference' ? [{ command: COMMAND_ID.layerReferenceRelink, label: LAYER_MENU_TEXT.relink, args }] : []),
+  { command: COMMAND_ID.layerHighlight, label: LAYER_MENU_TEXT.highlight, checked: useLayerViewStore.getState().highlight },
+];
+
+const layerMenuEntries = (model: LayerStackModel, layerId: string | undefined, picked: readonly string[]): readonly ContextMenuEntry[] => {
   const { rows } = model;
   const at = rows.findIndex((row) => row.id === layerId);
   const row = rows[at];
@@ -45,6 +57,7 @@ const layerMenuEntries = (model: LayerStackModel, layerId: string | undefined): 
     { command: 'layer.solo', args, checked: isSolo(rows, row.id), ...unless(!only, LAYER_STACK_TEXT.oneLayer) },
     { command: 'layer.rename', label: LAYER_MENU_TEXT.rename },
     'separator',
+    ...(pixels ? [...treeItems(row, args, picked), 'separator' as const] : []),
     COMMAND_ID.layerAdd,
     COMMAND_ID.layerDuplicate,
     { command: COMMAND_ID.layerMerge, label: pixels ? LAYER_MENU_TEXT.mergeDown : LAYER_MENU_TEXT.mergeMapDown, ...unless(at < rows.length - 1, LAYER_TEXT.bottom) },

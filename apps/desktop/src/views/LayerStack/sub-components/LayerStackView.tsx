@@ -40,7 +40,7 @@ const LayerStackView = ({ model, thumbSize, onThumbSize }: LayerStackViewProps) 
           )}
         </Box>
       </ScrollArea>
-      {model.kind !== 'sheet' && <LayerBar model={model} />}
+      {model.kind !== 'sheet' && <LayerBar model={model} picked={picked} />}
     </Stack>
   );
 };

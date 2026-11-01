@@ -10,6 +10,8 @@ const rows = (area: BundleId, effect: CommandEffect, ids: readonly string[], ext
 
 const one = (id: string, area: BundleId, effect: CommandEffect, extra: ManifestExtra = {}): [string, ManifestEntry] => rows(area, effect, [id], extra)[0] as [string, ManifestEntry];
 
+const LAYER_TREE_REFUSE = 'Use apply_edits with the matching layer.* step: it names the layers and the image path.';
+
 const OWN_HISTORY = 'Use the undo tool: it undoes only what this program changed, and get_history lists the entries.';
 
 const VIEW_ROWS = [
@@ -71,6 +73,9 @@ const EDIT_ROWS = [
   ...rows('edit_pixels', 'app', ['layer.select_above', 'layer.select_below']),
   ...rows('edit_pixels', 'edit', ['layer.toggle_visible', 'layer.toggle_locked', 'layer.solo', 'layer.move_up', 'layer.move_down', 'layer.move_top', 'layer.move_bottom', 'layer.show_all', 'layer.hide_others', 'layer.lock_others', 'layer.unlock_all'], { args: 'layer' }),
   ...rows('edit_pixels', 'edit', ['layer.set_lock'], { args: 'layerLock' }),
+  ...rows('edit_pixels', 'edit', ['layer.group', 'layer.ungroup', 'layer.merge_selected', 'layer.reference_add', 'layer.reference_relink'], { refuse: LAYER_TREE_REFUSE }),
+  ...rows('edit_pixels', 'edit', ['layer.selection_to_layer', 'layer.cut_to_layer']),
+  one('view.highlight_layer', 'app_control', 'app'),
   ...rows('edit_pixels', 'edit', ['layer.set_colour'], { args: 'layerColour' }),
   one('palette.delete_swatch', 'edit_pixels', 'edit', { args: 'deleteSwatch', dialog: 'palette_delete' }),
   one('palette.merge_swatch', 'edit_pixels', 'edit', { args: 'mergeSwatch', dialog: 'palette_merge' }),

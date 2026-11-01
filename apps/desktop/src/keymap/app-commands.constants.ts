@@ -12,6 +12,7 @@ import { EDIT_COMMANDS } from './edit-commands.constants';
 import { GUIDE_MENU_COMMANDS } from './guide-menu-commands.constants';
 import { HELP_COMMANDS } from './help-commands.constants';
 import { LAYER_MENU_COMMANDS } from './layer-menu-commands.constants';
+import { LAYER_TREE_COMMANDS } from './layer-tree-commands.constants';
 import { OPTION_COMMANDS } from './option-commands.constants';
 import { PALETTE_MENU_COMMANDS } from './palette-menu-commands.constants';
 import { PALETTE_PANEL_COMMANDS } from './palette-panel-commands.constants';
@@ -54,6 +55,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...ANIMATION_COMMANDS,
   ...TIMELINE_COMMANDS,
   ...LAYER_MENU_COMMANDS,
+  ...LAYER_TREE_COMMANDS,
   ...PALETTE_MENU_COMMANDS,
   ...PALETTE_PANEL_COMMANDS,
   ...TILE_MENU_COMMANDS,

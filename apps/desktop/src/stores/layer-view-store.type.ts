@@ -12,6 +12,7 @@ interface LayerViewSettings {
   renamingId: string | null;
   thumbSize: LayerThumbSize;
   folded: readonly string[];
+  highlight: boolean;
 }
 
 interface LayerViewState extends LayerViewSettings {
@@ -23,6 +24,7 @@ interface LayerViewState extends LayerViewSettings {
   setRenaming: (id: string | null) => void;
   setThumbSize: (size: LayerThumbSize) => void;
   toggleFold: (id: string) => void;
+  toggleHighlight: () => void;
   setFolded: (id: string, folded: boolean) => void;
 }
 

@@ -173,6 +173,7 @@ interface LayerFilterProps {
 
 interface LayerBarProps {
   model: LayerStackModel;
+  picked: readonly string[];
 }
 
 interface LayerNoMatchProps {

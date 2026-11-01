@@ -7,7 +7,7 @@ import { LAYER_BAR_HINTS, LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerBarProps } from '../LayerStack.type';
 import './LayerBar.css';
 
-const LayerBar = ({ model }: LayerBarProps) => (
+const LayerBar = ({ model, picked }: LayerBarProps) => (
   <Flex align="center" gap="xs" wrap className="layer-bar">
     <ButtonGroup aria-label={LAYER_STACK_TEXT.newLayer} className="layer-bar__new">
       <ActionHint hint={LAYER_BAR_HINTS.add}>
@@ -20,7 +20,7 @@ const LayerBar = ({ model }: LayerBarProps) => (
         variant="secondary"
         size="sm"
         align="start"
-        groups={newGroups(model)}
+        groups={newGroups(model, picked)}
       />
     </ButtonGroup>
     <ButtonGroup aria-label={LAYER_STACK_TEXT.list}>

@@ -6,6 +6,7 @@ interface ShownImage {
   image: ImageData | null;
   repaint: boolean;
   entries: unknown;
+  highlight: string | null;
 }
 
 interface Adopted {

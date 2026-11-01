@@ -10,7 +10,7 @@ import { groupLayers } from './group-layers';
 import type { LayerActions, ViewFields } from './layer-actions.type';
 import { flagFields } from './flag-fields';
 import { LAYER_LABEL } from './layer-text.constants';
-import { mergeLayerDown } from './merge-layer-down';
+import { mergeLayers } from './merge-layers';
 import { mergeSelectedLayers } from './merge-selected-layers';
 import { moveLayer } from './move-layer';
 import { moveLayersTo } from './move-layers-to';
@@ -50,7 +50,7 @@ const spriteLayerActions: LayerActions = {
   relink: (id) => void relinkReference(id),
   add: addLayer,
   duplicate: duplicateLayer,
-  merge: mergeLayerDown,
+  merge: mergeLayers,
   flatten: flattenLayers,
   remove: deleteLayer,
 };

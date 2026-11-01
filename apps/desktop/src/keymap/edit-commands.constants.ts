@@ -5,7 +5,7 @@ import { deleteLayer } from '../editor/delete-layer';
 import { duplicateLayer } from '../editor/duplicate-layer';
 import { flattenLayers } from '../editor/flatten-layers';
 import { LAYER_LABEL } from '../editor/layer-text.constants';
-import { mergeLayerDown } from '../editor/merge-layer-down';
+import { mergeLayers } from '../editor/merge-layers';
 import { stepHistory } from '../editor/step-history';
 import { stepLayer } from '../editor/step-layer';
 import { addMapLayer } from '../tilemap/add-map-layer';
@@ -40,7 +40,7 @@ const HISTORY_COMMANDS: readonly CommandDef[] = [
 const LAYER_COMMANDS: readonly CommandDef[] = [
   { id: COMMAND_ID.layerAdd, label: LAYER_LABEL.add, group: COMMAND_GROUP.layers, chord: 'Shift+N', run: mapOr(addMapLayer, addLayer) },
   { id: COMMAND_ID.layerDuplicate, label: LAYER_LABEL.duplicate, group: COMMAND_GROUP.layers, run: mapOr(duplicateMapLayer, duplicateLayer) },
-  { id: COMMAND_ID.layerMerge, label: LAYER_LABEL.merge, group: COMMAND_GROUP.layers, chord: 'Mod+E', run: mapOr(mergeMapLayerDown, mergeLayerDown) },
+  { id: COMMAND_ID.layerMerge, label: LAYER_LABEL.merge, group: COMMAND_GROUP.layers, chord: 'Mod+E', run: mapOr(mergeMapLayerDown, mergeLayers) },
   { id: COMMAND_ID.layerFlatten, label: LAYER_LABEL.flatten, group: COMMAND_GROUP.layers, run: flattenLayers },
   {
     id: COMMAND_ID.layerDelete,
