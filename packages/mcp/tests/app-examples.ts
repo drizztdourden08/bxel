@@ -137,6 +137,7 @@ const APP_OUTPUT_EXAMPLES: Record<string, unknown> = {
     symmetry: { x: false },
     zoom: { percent: 800 },
     toggles: { grid: true },
+    pointer: { x: 4, y: 7 },
     playback: { playing: false },
     timeline: {
       animationId: 'anm_4k9m2q7x1v8c',

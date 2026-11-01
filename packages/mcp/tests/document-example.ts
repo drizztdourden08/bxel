@@ -23,7 +23,17 @@ const GET_DOCUMENT_OUTPUT = {
       height: 32,
       bankId: BANK,
       pivot: { x2: 32, y2: 64 },
-      layers: [{ layerId: 'lay_4k9m2q7x1v8c', name: 'Layer 1', visible: true, locked: false }],
+      layers: [
+        {
+          layerId: 'lay_4k9m2q7x1v8c',
+          name: 'Layer 1',
+          visible: true,
+          locked: false,
+          lock: { pixels: false, transparency: false, position: false },
+          kind: 'pixel',
+          linkedCels: [],
+        },
+      ],
       frames: [{ frameId: 'frm_4k9m2q7x1v8c', durationMs: 100 }],
       tags: [
         { name: 'walk', from: 0, to: 3, colour: '#3b82f6', tagId: 'tag_4k9m2q7x1v8c', direction: 'pingpong', repeat: 2 },

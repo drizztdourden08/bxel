@@ -77,9 +77,24 @@ describe('K1 the Edit menu', { tags: ['critical'] }, () => {
 
 describe('K1 the view menu', { tags: ['critical'] }, () => {
   it('lists only what the open file can use', () => {
-    expect(childLabels(editorMenu(stateOf('Sh')), 'View')).toEqual(['Zoom', 'Rulers', 'Guides', 'Snap']);
-    expect(childLabels(editorMenu(stateOf('Tm')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap']);
-    expect(childLabels(editorMenu(stateOf('Sp')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap', 'Slices', 'Symmetry', 'Tiled preview']);
+    expect(childLabels(editorMenu(stateOf('Sh')), 'View')).toEqual(['Zoom', 'Rulers', 'Guides', 'Snap', 'Lock guides', 'Hide overlays']);
+    expect(childLabels(editorMenu(stateOf('Tm')), 'View')).toEqual(['Zoom', 'Grid', 'Rulers', 'Guides', 'Snap', 'Lock guides', 'Hide overlays']);
+    expect(childLabels(editorMenu(stateOf('Sp')), 'View')).toEqual([
+      'Zoom',
+      'Grid',
+      'Rulers',
+      'Guides',
+      'Snap',
+      'Slices',
+      'Lock guides',
+      'Hide overlays',
+      'Mirror view',
+      'Loupe',
+      'Split view',
+      'Fullscreen preview',
+      'Symmetry',
+      'Tiled preview',
+    ]);
     expect(childLabels(editorMenu(stateOf('Im')), 'View')).toEqual(['Zoom', 'Grid']);
   });
 });
