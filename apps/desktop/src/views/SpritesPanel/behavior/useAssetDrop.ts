@@ -3,8 +3,7 @@ import { dnd, useDropTarget } from '@drizztdourden08/brock-react';
 import type { DndElement, DropFeedback } from '@drizztdourden08/brock-react';
 import type { RefObject } from 'react';
 import { ASSET_DRAG } from '../../../asset-drag/asset-drag.constants';
-import { dropImage } from '../../../image-import/drop-image';
-import { isImageFile } from '../../../image-import/is-image-file';
+import { dropFiles } from '../../../image-import/drop-files';
 import { assetEntries } from '../../../sheet-manager/asset-entries';
 import type { DropSide } from '../../../sheet-manager/drag-payload.type';
 import { dropEntries } from '../../../sheet-manager/drop-entries';
@@ -27,11 +26,7 @@ const useAssetDrop = (ref: RefObject<DndElement | null>, model: ManagerModel | n
     index: (point) => dropMarkIndex(point),
     feedback: (feedback) => onMark(markOf(feedback)),
     onDrop: (payload, info) => {
-      if ('files' in payload) {
-        const file = payload.files.map((each) => each.file).find(isImageFile);
-        if (file) void dropImage(file);
-        return;
-      }
+      if (dropFiles(payload)) return;
       dropEntries(assetEntries(payload), dropTargetAt(info.point), sheetId);
     },
   });

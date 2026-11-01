@@ -27,7 +27,7 @@ const event = (patch: Partial<DocumentEvent> = {}): DocumentEvent => ({
   documentId: 'doc-1' as DocumentId,
   revision: 2,
   previousRevision: 1,
-  label: 'Assistant (Claude Code): Flip horizontal',
+  label: 'Assistant (Helper App): Flip horizontal',
   origin: 'mcp',
   actor: 'session-1',
   changes,
@@ -46,14 +46,14 @@ describe('K1 assistant presence on the canvas', { tags: ['critical'] }, () => {
   });
 
   it('reads the client and the action out of an assistant label', () => {
-    expect(presenceTextOf('Assistant (Claude Code): Flip horizontal')).toBe('Claude Code: Flip horizontal');
+    expect(presenceTextOf('Assistant (Helper App): Flip horizontal')).toBe('Helper App: Flip horizontal');
     expect(presenceTextOf('Pencil stroke')).toBeNull();
   });
 
   it('shows the action for three seconds and flashes the changed rectangle once', () => {
     announceEdit(event());
     const state = useAssistantPresenceStore.getState();
-    expect(state.line?.text).toBe('Claude Code: Flip horizontal');
+    expect(state.line?.text).toBe('Helper App: Flip horizontal');
     expect(state.flashes).toHaveLength(1);
     expect(state.flashes[0]).toMatchObject({ spriteId: 'spr-1', frameId: 'frm-1', rect: { x: 2, y: 3, width: 4, height: 5 } });
     vi.advanceTimersByTime(FLASH_MS);
@@ -72,7 +72,7 @@ describe('K1 assistant presence on the canvas', { tags: ['critical'] }, () => {
     vi.stubGlobal('window', { matchMedia: () => ({ matches: true }) });
     announceEdit(event());
     const state = useAssistantPresenceStore.getState();
-    expect(state.line?.text).toBe('Claude Code: Flip horizontal');
+    expect(state.line?.text).toBe('Helper App: Flip horizontal');
     expect(state.flashes).toHaveLength(0);
   });
 });

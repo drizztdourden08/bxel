@@ -93,6 +93,9 @@ describe('K1 the stage header of a sprite', { tags: ['critical'] }, () => {
     expect(multi.crumbs.find((crumb) => crumb.id === 'layer')?.menu?.length).toBe(2);
   });
 
+});
+
+describe('K1 the stage header chips of a sprite', { tags: ['critical'] }, () => {
   it('shows a locked layer as a danger chip whose action unlocks it', () => {
     const given = actions();
     const model = built({ sprite: sprite({ layers: [layer('locked')] }) }, given);
@@ -122,7 +125,7 @@ describe('K1 the stage header of a sprite', { tags: ['critical'] }, () => {
   });
 
   it('names the assistant action while it is fresh', () => {
-    expect(built({ assistant: 'Claude Code: Flip horizontal' }).chips.map((chip) => chip.text)).toEqual(['Claude Code: Flip horizontal']);
+    expect(built({ assistant: 'Helper App: Flip horizontal' }).chips.map((chip) => chip.text)).toEqual(['Helper App: Flip horizontal']);
   });
 });
 

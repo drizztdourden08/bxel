@@ -23,4 +23,4 @@ interface PresenceState {
   endFlashes: (id: number) => void;
 }
 
-export type { PresenceFlash, PresenceLine, PresenceState };
+export type { PresenceFlash, PresenceState };

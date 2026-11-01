@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Box } from '@drizztdourden08/tessera';
+import { entryBoxProps } from '../behavior/entry-box-props';
 import { useEntryHandlers } from '../behavior/useEntryHandlers';
 import { useFolderDrop } from '../behavior/useFolderDrop';
 import type { TileProps } from '../ProjectBrowser.type';
@@ -20,13 +21,7 @@ const FileTile = ({ entry, cell }: TileProps) => {
         className={`${cell.className} browser-tile${handlers.selected ? ' browser-tile--selected' : ''}${drop.over ? ' browser-tile--drop' : ''}`}
         aria-label={label}
         aria-selected={handlers.selected}
-        draggable={!handlers.renaming}
-        onClick={handlers.onClick}
-        onDoubleClick={handlers.onDoubleClick}
-        onMouseDown={handlers.onMouseDown}
-        onAuxClick={handlers.onAuxClick}
-        onContextMenu={handlers.onContextMenu}
-        onDragStart={handlers.onDragStart}
+        {...entryBoxProps(handlers)}
       >
         <ThumbBox entry={entry} />
         <EntryBadges entry={entry} />

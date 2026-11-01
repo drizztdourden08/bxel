@@ -6,26 +6,13 @@ import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
 import { useAssistantChangedStore } from '../../src/stores/useAssistantChangedStore';
 import { markAssistantChanges } from '../../src/workspace/mark-assistant-changes';
-
-const OPTIONS = {
-  name: 'marks',
-  bank: {
-    name: 'Bank',
-    cap: 8,
-    transparent: true,
-    colors: [
-      { rgb: '#140b26', name: 'Night' },
-      { rgb: '#7b3fe4', name: 'Violet' },
-    ],
-  },
-  sprite: { name: 'hero', width: 4, height: 4 },
-};
+import { artworkOptions } from '../documents/artwork-options';
 
 type Painted = { readonly event: DocumentEvent; readonly spriteId: string; readonly host: DocumentHost; readonly documentId: DocumentId };
 
 const paint = (origin: TransactionRequest['origin']): Painted => {
   const host = createDocumentHost({ ids: counterIdSource() });
-  const created = host.create(OPTIONS);
+  const created = host.create(artworkOptions('marks'));
   if (!created.ok) throw new Error(created.error.message);
   const events: DocumentEvent[] = [];
   host.subscribe((event) => events.push(event));

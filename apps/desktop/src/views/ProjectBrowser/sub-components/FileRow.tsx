@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Box, Icon } from '@drizztdourden08/tessera';
 import { rowCells } from '../../../project-browser/row-cells';
+import { entryBoxProps } from '../behavior/entry-box-props';
 import { rowClass } from '../behavior/row-class';
 import { useEntryHandlers } from '../behavior/useEntryHandlers';
 import { useFolderDrop } from '../behavior/useFolderDrop';
@@ -22,13 +23,7 @@ const FileRow = ({ entry, column = false, open = false }: RowProps) => {
         {...drop.handlers}
         className={rowClass({ column, lit, over: drop.over })}
         data-selected={lit}
-        draggable={!handlers.renaming}
-        onClick={handlers.onClick}
-        onDoubleClick={handlers.onDoubleClick}
-        onMouseDown={handlers.onMouseDown}
-        onAuxClick={handlers.onAuxClick}
-        onContextMenu={handlers.onContextMenu}
-        onDragStart={handlers.onDragStart}
+        {...entryBoxProps(handlers)}
       >
         <Box className="browser-row__name">
           <ThumbBox entry={entry} />
