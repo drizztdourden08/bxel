@@ -12,7 +12,7 @@ import { useToolStore } from '../../src/stores/useToolStore';
 const release = (heldMs: number, cause: 'keyup' | 'blur' | 'run' | 'dispose' = 'keyup') =>
   endSpring({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, heldMs, tap: false, cause });
 
-describe('spring loaded tool keys', () => {
+describe('K1 spring loaded tool keys', { tags: ['critical'] }, () => {
   beforeEach(() => {
     useToolStore.setState({ tool: 'pencil' });
     useSpringStore.getState().borrow(null, null);

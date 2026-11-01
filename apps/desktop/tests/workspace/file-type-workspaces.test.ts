@@ -11,7 +11,7 @@ const show = (fileType: string, sheet = false) => ({ flags: { [CONTEXT_FLAGS.fil
 const chosen = (fileType: string, sheet = false): string[] =>
   FILE_TYPE_WORKSPACES.filter((workspace) => workspace.when?.when?.(show(fileType, sheet))).map((workspace) => workspace.id);
 
-describe('the workspaces, one per file type', () => {
+describe('S2 the workspaces, one per file type', { tags: ['standard'] }, () => {
   it('holds a workspace for sprites, animations, palettes, sheets, tilesets, tilemaps and images', () => {
     expect(FILE_TYPE_WORKSPACES.map((workspace) => workspace.id).sort()).toEqual(['animation', 'image', 'palette', 'sheet', 'sprite', 'tilemap', 'tileset']);
   });

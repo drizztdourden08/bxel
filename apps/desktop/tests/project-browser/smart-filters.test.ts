@@ -31,7 +31,7 @@ const entry = (base: AssetRow, facts: Partial<BrowserFacts> = {}): FileEntry => 
 
 const ready = (report: Partial<typeof EMPTY_REPORT>): HealthState => ({ status: 'ready', report: { ...EMPTY_REPORT, ...report }, index: { files: [], links: [], duplicates: [] } as never });
 
-describe('the smart filters of the Browse window', () => {
+describe('K1 the smart filters of the Browse window', { tags: ['critical'] }, () => {
   it('ships Recently changed, Broken links and Outside its role folder beside the older ones', () => {
     const names = BUILT_IN_FILTERS.map((filter) => filter.name);
     expect(names).toEqual(expect.arrayContaining(['Unsaved', 'Recently changed', 'Unused', 'Broken links', 'Outside its role folder']));
@@ -65,7 +65,7 @@ describe('the smart filters of the Browse window', () => {
   });
 });
 
-describe('the sort keys of the Browse window', () => {
+describe('K1 the sort keys of the Browse window', { tags: ['critical'] }, () => {
   it('offers Date created and Colours', () => {
     const values = SORT_OPTIONS.map((option) => option.value);
     expect(values).toEqual(expect.arrayContaining(['created', 'colours']));

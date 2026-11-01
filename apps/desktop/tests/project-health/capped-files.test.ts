@@ -12,7 +12,7 @@ const filesOf = (count: number): IndexedFile[] =>
 
 const indexOf = (count: number): LinkIndex => ({ files: filesOf(count), links: [], duplicates: [] });
 
-describe('the health check for a project larger than the opening limit', () => {
+describe('S3 the health check for a project larger than the opening limit', { tags: ['standard'] }, () => {
   it('lists nothing while every file opens with the project', () => {
     expect(buildHealth(indexOf(MAX_WORKSPACE_ASSETS), { project, unsaved: 0 }).capped).toEqual([]);
   });
