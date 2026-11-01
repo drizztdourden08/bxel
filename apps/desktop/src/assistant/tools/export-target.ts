@@ -1,20 +1,13 @@
 /* @layer renderer-app @kind logic */
 import { ERROR_CODE } from '@bxel/document';
-import { checkWrite, EXPORT_FORMAT_VALUES, hiddenFailure, MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
+import { EXPORT_FORMAT_VALUES, mcpFailure } from '@bxel/mcp';
 import type { Failure, McpResult } from '@bxel/mcp';
 import type { FileKind } from '@bxel/project';
 import type { ToolContext } from '../assistant.type';
+import { folderTarget } from './folder-target';
 import { projectWriteTarget } from './project-write-target';
 import type { ExportInput, ExportTarget } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
-
-const folderTarget = (input: ExportInput, context: ToolContext): McpResult<string> => {
-  if (input.fileName === undefined) return hiddenFailure('project');
-  const denied = checkWrite(context.settings.assistantWrite, 'assistant_folder');
-  if (denied) return denied;
-  const path = context.call.target;
-  return path === null ? mcpFailure(MCP_ERROR_CODE.PATH_NOT_ALLOWED, TOOL_TEXT.noTarget) : { ok: true, value: path };
-};
 
 const formatProblem = ({ source, format }: ExportInput): Failure | null => {
   if (!EXPORT_FORMAT_VALUES.some((each) => each === format)) return mcpFailure(ERROR_CODE.INVALID_OPTION, TOOL_TEXT.formatMissing, { path: 'format' });

@@ -12,7 +12,9 @@ import { getDocumentTool } from './get-document-tool';
 import { getHistoryTool } from './get-history-tool';
 import { getViewTool } from './get-view-tool';
 import { getSessionTool } from './get-session-tool';
+import { exportPaletteTool } from './export-palette-tool';
 import { importFilesTool } from './import-files-tool';
+import { importPaletteTool } from './import-palette-tool';
 import { listAssetsTool } from './list-assets-tool';
 import { listDocumentsTool } from './list-documents-tool';
 import { getSettingsTool } from './get-settings-tool';
@@ -95,6 +97,8 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   trashFilesTool,
   duplicateFileTool,
   importFilesTool,
+  exportPaletteTool,
+  importPaletteTool,
 ];
 
 export { buildTools };

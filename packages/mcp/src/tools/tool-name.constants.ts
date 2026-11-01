@@ -46,6 +46,8 @@ const TOOL_NAME = {
   trashFiles: 'trash_files',
   duplicateFile: 'duplicate_file',
   importFiles: 'import_files',
+  exportPalette: 'export_palette',
+  importPalette: 'import_palette',
 } as const;
 
 const TOOLS_WITHOUT_SESSION: readonly string[] = [TOOL_NAME.startBxel];

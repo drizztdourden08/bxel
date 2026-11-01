@@ -34,7 +34,9 @@ import { setView } from './tools/set-view';
 import { splitLegacyFile } from './tools/split-legacy-file';
 import { undo } from './tools/undo';
 import { duplicateFile } from './tools/duplicate-file';
+import { exportPalette } from './tools/export-palette';
 import { importFiles } from './tools/import-files';
+import { importPaletteBank } from './tools/import-palette-bank';
 import { createFolder } from './tools/create-folder';
 import { findReferences } from './tools/find-references';
 import { moveFiles } from './tools/move-files';
@@ -88,6 +90,8 @@ const RAW_HANDLERS: ToolHandlers = {
   trash_files: trashFiles,
   duplicate_file: duplicateFile,
   import_files: importFiles,
+  export_palette: exportPalette,
+  import_palette: importPaletteBank,
 };
 
 const TOOL_HANDLERS: ToolHandlers = guardHandlers(RAW_HANDLERS);

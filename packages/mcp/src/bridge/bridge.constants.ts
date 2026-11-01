@@ -51,6 +51,8 @@ const MCP_ROUTE = {
   trashFiles: 'bxel:mcp:trash_files',
   duplicateFile: 'bxel:mcp:duplicate_file',
   importFiles: 'bxel:mcp:import_files',
+  exportPalette: 'bxel:mcp:export_palette',
+  importPalette: 'bxel:mcp:import_palette',
 } as const;
 
 const MCP_EVENT = {
@@ -103,6 +105,8 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   trash_files: MCP_ROUTE.trashFiles,
   duplicate_file: MCP_ROUTE.duplicateFile,
   import_files: MCP_ROUTE.importFiles,
+  export_palette: MCP_ROUTE.exportPalette,
+  import_palette: MCP_ROUTE.importPalette,
 };
 
 const MCP_ASK = {

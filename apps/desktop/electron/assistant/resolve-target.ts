@@ -10,18 +10,19 @@ import { join } from 'path';
 import { fieldOf } from '../../src/assistant-bridge/field-of';
 import { saveKindOf } from '../../src/assistant-bridge/save-kind-of';
 import type { TargetCall, WantedFile } from './assistant.type';
-import { EXPORT_KIND } from './resolve-target.constants';
+import { EXPORT_KIND, PALETTE_KIND } from './resolve-target.constants';
 
-const exportKindOf = (input: unknown): FileKind => {
+const exportKindOf = (tool: ToolRouteName, input: unknown): FileKind => {
   const format = fieldOf(input, 'format');
-  return (typeof format === 'string' ? EXPORT_KIND[format] : undefined) ?? 'png';
+  const kinds = tool === 'export_palette' ? PALETTE_KIND : EXPORT_KIND;
+  return (typeof format === 'string' ? kinds[format] : undefined) ?? 'png';
 };
 
 const wantedFile = (tool: ToolRouteName, input: unknown): WantedFile | null => {
   const holder = tool === 'save_document' ? fieldOf(input, 'target') : input;
   const name = fieldOf(holder, 'fileName');
-  if (typeof name !== 'string' || (tool !== 'save_document' && tool !== 'export_document')) return null;
-  const kind: FileKind = tool === 'save_document' ? saveKindOf(name) : exportKindOf(input);
+  if (typeof name !== 'string' || (tool !== 'save_document' && tool !== 'export_document' && tool !== 'export_palette')) return null;
+  const kind: FileKind = tool === 'save_document' ? saveKindOf(name) : exportKindOf(tool, input);
   return { name, kind, overwrite: fieldOf(holder, 'overwrite') === true, path: tool === 'save_document' ? 'target.fileName' : 'fileName' };
 };
 

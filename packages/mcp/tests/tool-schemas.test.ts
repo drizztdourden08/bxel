@@ -21,9 +21,9 @@ const refsOf = (value: unknown): string[] => {
 };
 
 describe('K2 the tool set', { tags: ['standard'] }, () => {
-  it('has the 44 tools of the contract, each in a bundle', () => {
-    expect(tools).toHaveLength(44);
-    expect(new Set(tools.map((tool) => tool.name)).size).toBe(44);
+  it('has the 46 tools of the contract, each in a bundle', () => {
+    expect(tools).toHaveLength(46);
+    expect(new Set(tools.map((tool) => tool.name)).size).toBe(46);
     expect(Object.values(TOOL_NAME).sort()).toEqual(tools.map((tool) => tool.name).sort());
     for (const tool of tools) expect(tool).toMatchObject({ bundle: TOOL_CATALOGUE[tool.name].bundle, kind: TOOL_CATALOGUE[tool.name].kind });
   });

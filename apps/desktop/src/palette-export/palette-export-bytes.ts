@@ -22,7 +22,7 @@ const pngBytes = (file: PaletteFile, scale: number): PaletteExportBytes => {
 const textBytes = (written: PaletteTextResult): PaletteExportBytes =>
   written.ok ? { ok: true, bytes: new TextEncoder().encode(written.text) } : { ok: false, message: written.message };
 
-const paletteExportBytes = (file: PaletteFile, format: PaletteExportFormat): PaletteExportBytes => {
+const paletteExportBytes = (file: PaletteFile, format: Pick<PaletteExportFormat, 'extension' | 'scale'>): PaletteExportBytes => {
   if (format.extension === 'png') return pngBytes(file, format.scale);
   if (format.extension === 'ase') {
     const written = writeAse(file);

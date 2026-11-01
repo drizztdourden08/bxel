@@ -58,6 +58,8 @@ const TOOL_CATALOGUE: Readonly<Record<ToolName, ToolEntry>> = {
   trash_files: write('project_files'),
   duplicate_file: write('project_files'),
   import_files: write('project_files'),
+  export_palette: write('files_saving'),
+  import_palette: write('edit_pixels'),
 };
 
 export { TOOL_CATALOGUE };

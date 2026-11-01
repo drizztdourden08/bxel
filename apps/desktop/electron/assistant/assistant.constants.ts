@@ -54,6 +54,8 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   trash_files: saveExport,
   duplicate_file: saveExport,
   import_files: saveExport,
+  export_palette: saveExport,
+  import_palette: edit,
 };
 
 const NATIVE_PAIR_TEXT = {

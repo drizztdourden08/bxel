@@ -66,6 +66,8 @@ const INPUT_EXAMPLES: Record<string, unknown> = {
   undo: { documentId: DOC, expectedRevision: 13, direction: 'redo', steps: 2 },
   save_document: { documentId: DOC, asset: { kind: 'sprite', id: SPRITE }, target: { fileName: 'hero.bxsprite', moveAsset: true } },
   export_document: { documentId: DOC, format: 'png', source: { spriteId: SPRITE }, fileName: 'idle.png' },
+  export_palette: { documentId: DOC, format: 'gpl', bankId: BANK, indexes: [1, 2, 3], fileName: 'hero.gpl' },
+  import_palette: { documentId: DOC, bankId: BANK, file: { ...LOCATION, path: 'palettes/pico.gpl' }, mode: 'append' },
   create_document: { name: 'Hero', kind: 'sheet', bank: { name: 'Main', cap: 16, transparent: true, colors: [{ rgb: '#140B26' }] }, sprite: { name: 'idle', width: 16, height: 16 } },
 };
 
@@ -176,6 +178,8 @@ const OUTPUT_EXAMPLES: Record<string, unknown> = {
   undo: { ok: true, baseRevision: 13, revision: 14, direction: 'undo', count: 1, undone: { label: 'Agent (pixel-agent): outline', origin: 'mcp' }, changes: CHANGES },
   save_document: { ok: true, revision: 14, fileName: 'hero.bxsprite', place: LOCATION, bytes: 18234, savedAt: '2026-10-23T19:42:10Z' },
   export_document: { ok: true, revision: 14, files: [{ fileName: 'idle.png', bytes: 412, sha256: SHA }], indexHash: SHA },
+  export_palette: { ok: true, revision: 14, bankId: BANK, colors: 3, files: [{ fileName: 'hero.gpl', bytes: 96, sha256: SHA }] },
+  import_palette: { ok: true, revision: 15, bankId: BANK, mode: 'append', added: 12, present: 4, over: 0 },
   create_document: { ok: true, documentId: DOC, revision: 1, asset: { kind: 'sheet', id: 'sht_0123456789abcdef' } },
 };
 
