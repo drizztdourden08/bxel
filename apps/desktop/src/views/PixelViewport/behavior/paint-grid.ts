@@ -5,10 +5,12 @@ import type { GridAxis, ImageSize, PlacedImage } from './viewport.type';
 
 const linesOf = (axis: GridAxis): number[] => {
   const gap = axis.scale * axis.every;
-  const first = Math.max(0, Math.ceil(-axis.start / gap));
-  const last = Math.min(Math.floor(axis.count / axis.every), Math.floor((axis.room - axis.start) / gap));
+  const shift = axis.offset ?? 0;
+  const start = axis.start + shift * axis.scale;
+  const first = Math.max(Math.ceil(-shift / axis.every), Math.ceil(-start / gap));
+  const last = Math.min(Math.floor((axis.count - shift) / axis.every), Math.floor((axis.room - start) / gap));
   const lines: number[] = [];
-  for (let at = first; at <= last; at += 1) lines.push(Math.round(axis.start + at * gap) + 0.5);
+  for (let at = first; at <= last; at += 1) lines.push(Math.round(start + at * gap) + 0.5);
   return lines;
 };
 
@@ -23,11 +25,11 @@ const paintGrid = (ctx: CanvasRenderingContext2D, placed: PlacedImage, image: Im
   const left = Math.max(0, placed.x);
   const right = Math.min(canvas.width, placed.x + placed.width);
   ctx.beginPath();
-  linesOf({ start: placed.x, scale: placed.scale, every: line.every, count: image.width, room: canvas.width }).forEach((x) => {
+  linesOf({ start: placed.x, scale: placed.scale, every: line.every, count: image.width, room: canvas.width, offset: line.offsetX }).forEach((x) => {
     ctx.moveTo(x, top);
     ctx.lineTo(x, bottom);
   });
-  linesOf({ start: placed.y, scale: placed.scale, every: line.everyY ?? line.every, count: image.height, room: canvas.height }).forEach((y) => {
+  linesOf({ start: placed.y, scale: placed.scale, every: line.everyY ?? line.every, count: image.height, room: canvas.height, offset: line.offsetY }).forEach((y) => {
     ctx.moveTo(left, y);
     ctx.lineTo(right, y);
   });

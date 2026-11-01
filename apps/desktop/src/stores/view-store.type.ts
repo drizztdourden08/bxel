@@ -34,6 +34,7 @@ interface ViewToggleRow {
 interface ViewSettings extends ViewToggles {
   tiled: TileMode;
   guideColour: string;
+  guideColourY: string;
   viewport: PixelViewportHandle | null;
 }
 
@@ -41,7 +42,7 @@ interface ViewState extends ViewSettings {
   toggleView: (toggle: ViewToggle) => void;
   setToggles: (toggles: Partial<ViewToggles>) => void;
   setTiled: (tiled: TileMode) => void;
-  setGuideColour: (colour: string) => void;
+  setGuideColour: (colour: string, colourY?: string) => void;
   setViewport: (viewport: PixelViewportHandle | null) => void;
 }
 

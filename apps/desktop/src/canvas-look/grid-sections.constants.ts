@@ -35,6 +35,14 @@ const GRID_SECTIONS: Section[] = [
     ],
   },
   {
+    id: 'grid-offset',
+    title: 'Grid offset',
+    items: [
+      { key: 'gridOffsetX', label: 'Grid offset across', description: 'Shift every grid line right by this many pixels.', hint: 'Use it when the cells of a sheet start away from the top left corner. A negative value shifts left.', control: { kind: 'number', min: RANGES.offset.min, max: RANGES.offset.max, step: 1, unit: 'px' } },
+      { key: 'gridOffsetY', label: 'Grid offset down', description: 'Shift every grid line down by this many pixels.', hint: 'The pixel, major, tile and isometric grids all move together. Snap and the art do not move.', control: { kind: 'number', min: RANGES.offset.min, max: RANGES.offset.max, step: 1, unit: 'px' } },
+    ],
+  },
+  {
     id: 'guides',
     title: 'Guides',
     items: [
@@ -43,6 +51,18 @@ const GRID_SECTIONS: Section[] = [
         label: 'Guide colour',
         description: 'The colour of the guide lines pulled out of the rulers.',
         hint: 'Keep it apart from the grid colours so a guide stays easy to see. It applies to sprites, sheets and maps.',
+        control: { kind: 'color' },
+      },
+      {
+        key: 'guideColorSplit',
+        label: 'Colour horizontal guides apart',
+        description: 'Give the guides that run across their own colour.',
+        hint: 'The vertical guides keep the guide colour. Handy when many guides cross.',
+      },
+      {
+        key: 'guideColorY',
+        label: 'Horizontal guide colour',
+        description: 'The colour of the guides that run across, when they are coloured apart.',
         control: { kind: 'color' },
       },
     ],

@@ -29,7 +29,11 @@ interface CanvasSettings {
   gridTileSize: number;
   gridTileColor: string;
   gridTileOpacity: number;
+  gridOffsetX: number;
+  gridOffsetY: number;
   guideColor: string;
+  guideColorSplit: boolean;
+  guideColorY: string;
   rulers: boolean;
   rulerUnit: RulerUnit;
 }
@@ -39,6 +43,8 @@ interface GridLine {
   opacity: number;
   every: number;
   everyY?: number;
+  offsetX?: number;
+  offsetY?: number;
   iso?: boolean;
 }
 

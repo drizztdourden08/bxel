@@ -105,6 +105,7 @@ interface GridAxis {
   every: number;
   count: number;
   room: number;
+  offset?: number;
 }
 
 interface PanDrag {

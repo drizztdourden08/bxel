@@ -14,7 +14,7 @@ describe('K1 the canvas look', { tags: ['critical'] }, () => {
     const look = lookOf(CANVAS_DEFAULTS);
     expect(look.checkerSize).toBe(8);
     expect(look.surroundBits).toHaveLength(PATTERN_CELLS);
-    expect(look.pixelLine).toEqual({ colour: '#ffffff', opacity: 0.15, every: 1 });
+    expect(look.pixelLine).toEqual({ colour: '#ffffff', opacity: 0.15, every: 1, offsetX: 0, offsetY: 0 });
     expect(look.majorLine.every).toBe(8);
     expect(look.tileLine.every).toBe(16);
   });
