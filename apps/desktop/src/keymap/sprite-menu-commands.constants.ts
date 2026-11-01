@@ -34,6 +34,7 @@ import { revealInProjectWindow } from '../project-browser/reveal-in-project-wind
 import { assetPathOf } from '../sheet-manager/asset-path-of';
 import { isolateSprite } from '../sheet/isolate-sprite';
 import { pickTab } from '../workspace/pick-tab';
+import { ANIMATION_ENTRY_COMMANDS } from './animation-entry-commands.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { ruled } from './ruled';
 import { needs } from './needs';
@@ -199,6 +200,6 @@ const SPRITE_SELECT: readonly CommandDef[] = [
   },
 ];
 
-const SPRITE_MENU_COMMANDS: readonly CommandDef[] = [...SPRITE_ACTIONS, ...SPRITE_EDITS, ...SPRITE_ORDER, ...SPRITE_SHEET, ...SPRITE_SELECT].map(ruled);
+const SPRITE_MENU_COMMANDS: readonly CommandDef[] = [...SPRITE_ACTIONS, ...SPRITE_EDITS, ...ANIMATION_ENTRY_COMMANDS, ...SPRITE_ORDER, ...SPRITE_SHEET, ...SPRITE_SELECT].map(ruled);
 
 export { SPRITE_MENU_COMMANDS };

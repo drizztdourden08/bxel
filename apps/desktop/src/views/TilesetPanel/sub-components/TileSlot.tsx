@@ -1,5 +1,8 @@
 /* @layer renderer-app @kind component */
 import { Box, Canvas } from '@drizztdourden08/tessera';
+import { useRef } from 'react';
+import { useTileSlotDrop } from '../../../tile-drag/useTileSlotDrop';
+import { useTileSource } from '../../../tile-drag/useTileSource';
 import { cellEvents } from '../behavior/cell-events';
 import { tileLabel } from '../behavior/tile-label';
 import { TILESET_TEXT } from '../TilesetPanel.constants';
@@ -9,10 +12,13 @@ import { TileMarks } from './TileMarks';
 import { TileThumb } from './TileThumb';
 
 const TileSlot = ({ cell, index, view, handlers }: TileCellProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  useTileSource(ref, { key: cell?.tile.key ?? null, index, picked: cell?.picked ?? false, onStart: handlers.dragStart, onEnd: handlers.dragEnd });
+  useTileSlotDrop(ref, index);
   const events = cellEvents(index, view.focused, handlers);
   if (!cell) {
     return (
-      <Box role="gridcell" aria-label={TILESET_TEXT.emptySlot(index + 1)} className="tileset-panel__cell tileset-panel__cell--hole" {...events}>
+      <Box ref={ref} role="gridcell" aria-label={TILESET_TEXT.emptySlot(index + 1)} className="tileset-panel__cell tileset-panel__cell--hole" {...events}>
         <Canvas width={view.tileset.tileWidth * view.zoom} height={view.tileset.tileHeight * view.zoom} className="tileset-panel__hole" aria-hidden="true" />
       </Box>
     );
@@ -21,6 +27,7 @@ const TileSlot = ({ cell, index, view, handlers }: TileCellProps) => {
   const painting = view.painted.has(cell.tile.key);
   return (
     <Box
+      ref={ref}
       role="gridcell"
       aria-selected={cell.picked}
       aria-label={label}

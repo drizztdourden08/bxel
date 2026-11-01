@@ -13,7 +13,7 @@ import { rowEvents } from '../behavior/row-events';
 import { useListData } from '../behavior/useListData';
 import { useListScroll } from '../behavior/useListScroll';
 import { useSpriteMarquee } from '../behavior/useSpriteMarquee';
-import { LIST_COLUMNS, LIST_COUNT_LABEL, LIST_LABEL, LIST_ROW_HEIGHT, LIST_SCHEMA, LIST_VIEW_KEY, NAME_PATH, VIRTUAL_LIST_MIN } from '../SpritesPanel.constants';
+import { LIST_COLUMNS, LIST_COUNT_LABEL, LIST_LABEL, LIST_ROW_HEIGHT, LIST_SCHEMA, listViewKey, NAME_PATH, VIRTUAL_LIST_MIN } from '../SpritesPanel.constants';
 import type { ListRow, SpriteViewProps } from '../SpritesPanel.type';
 import { SpriteNameCell } from './SpriteNameCell';
 
@@ -23,6 +23,7 @@ const SpriteList = ({ model, table, affected, handlersFor }: SpriteViewProps) =>
   const closed = new Set(useManagerStore((state) => state.collapsed));
   const flat = useManagerStore((state) => state.sortKey === 'manual');
   const data = useListData(model);
+  const viewKey = listViewKey(model.sheet?.id ?? null);
   const cellOf = (row: ListRow, path: string): ReactNode => {
     const fact = data.facts.get(row.id);
     return path === NAME_PATH && fact ? <SpriteNameCell artwork={model.artwork} fact={fact} loose={row.loose} /> : undefined;
@@ -33,12 +34,12 @@ const SpriteList = ({ model, table, affected, handlersFor }: SpriteViewProps) =>
   return (
     <Box role="region" aria-label={LIST_LABEL} className="sprites-panel__table" onClick={marquee.onClick} {...rowEvents(handlersFor, data.facts)}>
       <DataTable
-        key={`${grouped}:${data.folders.join('\n')}`}
+        key={`${viewKey}:${grouped}:${data.folders.join('\n')}`}
         ref={table}
         rows={data.rows}
         schema={LIST_SCHEMA}
         getRowId={rowId}
-        viewKey={LIST_VIEW_KEY}
+        viewKey={viewKey}
         fallbackColumns={LIST_COLUMNS}
         {...(grouped ? { fallbackGroupBy: ['folder'] } : {})}
         defaultExpanded={(key) => !closed.has(key === FOLDER_TEXT.root ? '' : key)}

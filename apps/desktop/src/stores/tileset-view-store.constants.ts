@@ -18,6 +18,7 @@ const TILESET_VIEW_DEFAULTS: TilesetViewSettings = {
   terrainSetId: null,
   terrainSlot: null,
   markDrafts: {},
+  hoverKey: null,
 };
 
 export { TILESET_VIEW_DEFAULTS };

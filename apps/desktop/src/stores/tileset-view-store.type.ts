@@ -31,6 +31,7 @@ interface TilesetViewSettings {
   terrainSetId: string | null;
   terrainSlot: number | null;
   markDrafts: Readonly<Record<number, number>>;
+  hoverKey: number | null;
 }
 
 interface TilesetViewState extends TilesetViewSettings {
@@ -50,6 +51,7 @@ interface TilesetViewState extends TilesetViewSettings {
   setShapeClipboard: (shapes: readonly TileShape[]) => void;
   setTerrainSetId: (id: string | null) => void;
   setTerrainSlot: (slot: number | null) => void;
+  setHoverKey: (key: number | null) => void;
   setMarkDraft: (key: number, mask: number | null) => void;
 }
 

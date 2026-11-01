@@ -74,14 +74,22 @@ const LIST_FIELDS: readonly { readonly path: keyof ListRow; readonly label: stri
   { path: 'frames', label: MANAGER_TEXT.columns.frames, kind: 'string', width: 96 },
 ];
 
+const LIST_EXTRA_FIELDS: readonly { readonly path: keyof ListRow; readonly label: string; readonly kind: 'string' | 'number'; readonly width: number }[] = [
+  { path: 'entry', label: MANAGER_TEXT.columns.entry, kind: 'string', width: 96 },
+  { path: 'page', label: MANAGER_TEXT.columns.page, kind: 'string', width: 72 },
+  { path: 'usedBy', label: MANAGER_TEXT.columns.usedBy, kind: 'string', width: 168 },
+];
+
 const LIST_FOLDER_FIELD: FieldDescriptor = { path: 'folder', label: FOLDER_TEXT.field, kind: 'string', optional: false, hidden: true };
 
 const LIST_SCHEMA: readonly FieldDescriptor[] = [
-  ...LIST_FIELDS.map(({ path, label, kind }): FieldDescriptor => ({ path, label, kind, optional: false })),
+  ...[...LIST_FIELDS, ...LIST_EXTRA_FIELDS].map(({ path, label, kind }): FieldDescriptor => ({ path, label, kind, optional: false })),
   LIST_FOLDER_FIELD,
 ];
 
 const LIST_COLUMNS: readonly TableColumn[] = LIST_FIELDS.map(({ path, width }) => ({ path, width }));
+
+const listViewKey = (sheetId: string | null): string => `${LIST_VIEW_KEY}:${sheetId ?? 'none'}`;
 
 const IN_LIST = 'In the list';
 
@@ -139,4 +147,4 @@ const SPRITE_HINTS = {
   },
 } as const satisfies Record<string, HintSpec>;
 
-export { ANIMATION_SECTION, ANY_SIZE, ARROW_STEP, CHECKBOX, END_INDEX, ENTRY_KINDS, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_COUNT_LABEL, LIST_HEAD_ROOM, LIST_LABEL, LIST_ROW_HEIGHT, LIST_SCHEMA, LIST_THUMB, LIST_VIEW_KEY, MARQUEE_ITEM, MARQUEE_SKIP, NAME_PATH, NO_SPRITES, SPRITE_HINTS, SHEET_VIEWS_KEY, SPRITE_MENU, SPRITES_WIDGET_ID, TEXT_ENTRY, VIRTUAL_LIST_MIN, WIDE_SHAPE };
+export { ANIMATION_SECTION, ANY_SIZE, ARROW_STEP, CHECKBOX, END_INDEX, ENTRY_KINDS, FOLDER_DEPTH_LIMIT, GRID_CELL, LIST_COLUMNS, LIST_COUNT_LABEL, LIST_EXTRA_FIELDS, LIST_HEAD_ROOM, LIST_LABEL, LIST_ROW_HEIGHT, LIST_SCHEMA, LIST_THUMB, LIST_VIEW_KEY, listViewKey, MARQUEE_ITEM, MARQUEE_SKIP, NAME_PATH, NO_SPRITES, SPRITE_HINTS, SHEET_VIEWS_KEY, SPRITE_MENU, SPRITES_WIDGET_ID, TEXT_ENTRY, VIRTUAL_LIST_MIN, WIDE_SHAPE };

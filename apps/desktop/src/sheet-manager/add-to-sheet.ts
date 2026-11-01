@@ -4,8 +4,10 @@ import type { CommandStep, SheetId, SpriteId } from '@bxel/document';
 import { currentArtwork } from '../sheet/current-artwork';
 import { freeName } from '../sheet/free-name';
 import { runDocument } from '../sheet/run-document';
+import { useNoticeStore } from '../stores/useNoticeStore';
 import { LABEL } from './manager-text.constants';
 import { MEMBER_REF, NEW_SHEET_NAME } from './sheet-membership.constants';
+import { SHEET_TEXT } from './sheet-text.constants';
 import { spriteSteps } from './sprite-steps';
 
 const addToSheet = (ids: readonly SpriteId[], sheetId: SheetId | null): boolean => {
@@ -26,7 +28,9 @@ const addToSheet = (ids: readonly SpriteId[], sheetId: SheetId | null): boolean 
         },
       ];
   const add = spriteSteps(COMMAND_NAME.sheetAdd, loose, { sheet: sheet ? sheet.id : { ref: MEMBER_REF } });
-  return runDocument(LABEL.addToSheet(loose.length), [...create, ...add]) !== null;
+  const done = runDocument(LABEL.addToSheet(loose.length), [...create, ...add]) !== null;
+  if (done) useNoticeStore.getState().post(SHEET_TEXT.live.added(loose.length));
+  return done;
 };
 
 export { addToSheet };

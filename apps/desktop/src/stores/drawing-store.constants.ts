@@ -28,6 +28,7 @@ const DRAWING_DEFAULTS: DrawingSettings = {
   outlineRing: 8,
   outlineSelOut: false,
   outlineFrames: 'frame',
+  cels: 'frame',
   spraySize: 8,
   spraySeed: null,
   gradientKind: 'linear',

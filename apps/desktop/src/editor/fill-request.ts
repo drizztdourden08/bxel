@@ -2,7 +2,7 @@
 import { COMMAND_NAME } from '@bxel/document';
 import type { TransactionRequest } from '@bxel/document';
 import type { MaskView, Point } from '@bxel/raster';
-import { paintScope } from '../sheet/paint-scope';
+import { celsPaintScope } from './cels-paint-scope';
 import { commitRequest } from './commit-request';
 import type { EditorTarget, FillChoice } from './editor.type';
 import { editMask } from './edit-mask';
@@ -37,7 +37,7 @@ const fillRequest = (target: EditorTarget, at: Point, choice: FillChoice): Trans
         ...maskPart(target),
       },
     },
-    paintScope(target),
+    celsPaintScope(target),
   );
 
 export { fillRequest };

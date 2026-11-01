@@ -13,7 +13,7 @@ const TileGrid = ({ model, view, handlers }: TileGridProps) => {
     if (event.ctrlKey) useTilesetViewStore.getState().setZoom(wheelZoom(view.zoom, event.deltaY));
   };
   return (
-    <Box role="grid" aria-label={TILESET_TEXT.grid} aria-multiselectable="true" className="tileset-panel__grid" onPointerLeave={handlers.up} onWheel={onWheel}>
+    <Box role="grid" aria-label={TILESET_TEXT.grid} aria-multiselectable="true" className="tileset-panel__grid" onPointerLeave={handlers.leave} onWheel={onWheel}>
       {Array.from({ length: rows }, (_row, row) => (
         <Box role="row" key={row} className="tileset-panel__row">
           {Array.from({ length: columns }, (_column, column) => {
