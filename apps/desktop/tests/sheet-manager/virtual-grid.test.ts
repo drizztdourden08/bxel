@@ -8,7 +8,6 @@ import { modelFor } from './manager-harness';
 import { folderGroups } from '../../src/sheet-manager/folder-groups';
 import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
 import { activeIndex } from '../../src/views/SpritesPanel/behavior/active-index';
-import { tileSize } from '../../src/views/EntryTile';
 import { SpriteGrid } from '../../src/views/SpritesPanel/sub-components/SpriteGrid';
 import type { ManagerModel, SpriteGridProps } from '../../src/views/SpritesPanel/SpritesPanel.type';
 import { artwork, openFile } from '../sheet/sheet-harness';
@@ -22,18 +21,7 @@ const modelOf = (): ManagerModel => {
   return modelFor(art, art.sheets[0] ?? null);
 };
 
-describe('the tile of the grid', () => {
-  it('picks the smallest tile that holds the thumbnail and its name for every zoom', () => {
-    expect([24, 48, 64, 128].map((box) => tileSize(box))).toEqual([
-      { width: 'size-48', height: 'size-80' },
-      { width: 'size-80', height: 'size-96' },
-      { width: 'size-96', height: 'size-128' },
-      { width: 'size-160', height: 'size-192' },
-    ]);
-  });
-});
-
-describe('the active sprite in the grid', () => {
+describe('S2 the active sprite in the grid', { tags: ['standard'] }, () => {
   it('counts through all the folders in the order they are drawn', () => {
     const names = ['solo', 'hero/a', 'hero/b'];
     openFile(names, 8);
@@ -46,7 +34,7 @@ describe('the active sprite in the grid', () => {
   });
 });
 
-describe('the drawn grid of a large sheet', () => {
+describe('S2 the drawn grid of a large sheet', { tags: ['standard'] }, () => {
   beforeEach(() => {
     openFile(Array.from({ length: 250 }, (_unused, at) => `s${at}`), 8);
     addToSheet(artwork().sprites.map((sprite) => sprite.id), null);

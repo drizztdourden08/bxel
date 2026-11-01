@@ -4,7 +4,7 @@ import { zoneHandlesKey } from '../../src/views/TimelinePanel/behavior/zone-hand
 
 const press = (key: string, mods: { ctrlKey?: boolean; metaKey?: boolean } = {}) => ({ key, ctrlKey: false, metaKey: false, ...mods });
 
-describe('the frame track keys that the timeline zone already binds', () => {
+describe('K1 the frame track keys that the timeline zone already binds', { tags: ['critical'] }, () => {
   it('leaves Ctrl and A and Escape to the zone commands so they run once', () => {
     expect(zoneHandlesKey(press('a', { ctrlKey: true }))).toBe(true);
     expect(zoneHandlesKey(press('A', { metaKey: true }))).toBe(true);

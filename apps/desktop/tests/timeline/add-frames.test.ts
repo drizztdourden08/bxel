@@ -31,7 +31,7 @@ const spriteIds = (): (string | null)[] => animationOf().frames.map((frame) => f
 
 const request = (extra: Omit<Extract<AddRequest, { kind: 'sprites' }>, 'at' | 'durationMs'>): AddRequest => ({ ...extra, at: insertAt(live()), durationMs: 80 });
 
-describe('adding frames from sprites', () => {
+describe('S2 adding frames from sprites', { tags: ['standard'] }, () => {
   it('lists only still sprites of the same palette and adds them by reference after the current frame', () => {
     withFrames(2);
     const [a, b] = make(['a', 'b']);
@@ -57,7 +57,7 @@ describe('adding frames from sprites', () => {
   });
 });
 
-describe('adding frames from a strip', () => {
+describe('S2 adding frames from a strip', { tags: ['standard'] }, () => {
   const spec = { ...STRIP_START, columns: 4, rows: 4 };
 
   it('plans the cells and says why a strip cannot be cut', () => {
@@ -90,7 +90,7 @@ describe('adding frames from a strip', () => {
   });
 });
 
-describe('adding frames from a sheet and by dropping', () => {
+describe('S2 adding frames from a sheet and by dropping', { tags: ['standard'] }, () => {
   it('adds the sprites of a sheet in the order of the sheet', () => {
     const [a, b] = make(['a', 'b']);
     const done = run('Sheet', [

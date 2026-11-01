@@ -15,7 +15,7 @@ beforeEach(openMapFile);
 
 const stamp = (columns: number, rows: number, keys: number[]): void => useTilemapStore.getState().setStamp({ columns, rows, keys });
 
-describe('placing tiles on the map', () => {
+describe('S2 placing tiles on the map', { tags: ['standard'] }, () => {
   it('paints a stroke of one tile as a single undo step', () => {
     const before = revision();
     expect(strokePlace([{ x: 0, y: 0 }, { x: 3, y: 0 }])).toBe(true);
@@ -57,10 +57,9 @@ describe('placing tiles on the map', () => {
     expect(rectPlace({ x: 0, y: 0, width: 4, height: 1 })).toBe(true);
     expect(cellsNow().slice(0, 4)).toEqual([1, 2, 1, 2]);
   });
-
 });
 
-describe('picking, turning and keeping tiles', () => {
+describe('S2 picking, turning and keeping tiles', { tags: ['standard'] }, () => {
   it('picks the tile and its turn from a cell', () => {
     useTilemapStore.getState().setFlags({ flipX: true, flipY: false, diagonal: true });
     expect(placeStampAt([{ x: 1, y: 1 }])).toBe(true);

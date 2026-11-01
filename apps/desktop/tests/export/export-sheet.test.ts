@@ -39,7 +39,7 @@ const checkFrames = (sheet: ReturnType<typeof sheetOf>, scale: number): void => 
   });
 };
 
-describe('sheet export', () => {
+describe('K3 sheet export', { tags: ['standard'] }, () => {
   it('places every frame of a grid at the rectangle its JSON names', () => {
     const sheet = sheetOf(threeFrames(), { layout: 'grid', columns: 2, padding: 1 });
     expect([sheet.decoded.width, sheet.decoded.height]).toEqual([65, 65]);

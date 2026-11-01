@@ -43,7 +43,7 @@ const painted = (name: string, x: number, y: number): number => pixelsOf(name)[y
 
 beforeEach(() => openFile(['b', 'c'], 32));
 
-describe('the compatibility check', () => {
+describe('S2 the compatibility check', { tags: ['standard'] }, () => {
   it('accepts sprites of one size, one palette and the same layer name', () => {
     const scene = currentScene();
     if (!scene?.active) throw new Error('no scene');
@@ -73,7 +73,7 @@ describe('the compatibility check', () => {
   });
 });
 
-describe('a shared stroke', () => {
+describe('S2 a shared stroke', { tags: ['standard'] }, () => {
   it('paints one stroke at the same local coordinates on every picked sprite as one undo step', () => {
     pickAll(['sprite', 'b', 'c']);
     toggleBroadcast();

@@ -35,7 +35,7 @@ beforeEach(() => {
   useManagerStore.getState().reset();
 });
 
-describe('name paths', () => {
+describe('S2 name paths', { tags: ['standard'] }, () => {
   it('splits a name into a folder and a base', () => {
     expect(folderPath('hero/walk_1')).toBe('hero');
     expect(folderPath('a/b/x')).toBe('a/b');
@@ -66,7 +66,7 @@ describe('name paths', () => {
   });
 });
 
-describe('moving sprites to a folder', () => {
+describe('S2 moving sprites to a folder', { tags: ['standard'] }, () => {
   it('plans the new names, takes sprites out of a folder and flags a clash', () => {
     const moved = planFolder('crew/', sprites('solo', 'hero/idle'), namesOf());
     expect(moved.entries.map((entry) => entry.to)).toEqual(['crew/idle', 'crew/solo']);
@@ -87,7 +87,7 @@ describe('moving sprites to a folder', () => {
   });
 });
 
-describe('saved selections', () => {
+describe('S2 saved selections', { tags: ['standard'] }, () => {
   it('saves a selection under a name and replaces one with the same name', () => {
     const { saveSelection } = useManagerStore.getState();
     saveSelection({ name: 'walkers', ids: idsOf('hero/walk_1') });
@@ -106,7 +106,7 @@ describe('saved selections', () => {
   });
 });
 
-describe('view settings kept for each file', () => {
+describe('S2 view settings kept for each file', { tags: ['standard'] }, () => {
   it('gives a new file the defaults and brings back the settings of the first one', () => {
     const first = useDocumentStore.getState().activeId;
     useManagerStore.getState().patch({ view: 'list', zoom: 80, sortKey: 'name' });

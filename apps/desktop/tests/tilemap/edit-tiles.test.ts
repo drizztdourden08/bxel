@@ -25,7 +25,7 @@ const rockAt = (...cells: number[][]): void => {
 
 const select = (rect: Rect, from: number): void => useTilemapStore.getState().setSelection({ rect, from, mask: null });
 
-describe('editing a tile', () => {
+describe('S2 editing a tile', { tags: ['standard'] }, () => {
   it('changes every placement when the pixels of the tile change', () => {
     rockAt([0, 0], [2, 1], [3, 2]);
     paintTile(2, [6, 6, 6, 6]);
@@ -52,7 +52,7 @@ describe('editing a tile', () => {
   });
 });
 
-describe('making a tile unique', () => {
+describe('S2 making a tile unique', { tags: ['standard'] }, () => {
   it('gives the selected cells their own copy and leaves the other cells on the original', () => {
     rockAt([0, 0], [2, 1]);
     select({ x: 0, y: 0, width: 1, height: 1 }, 2);
@@ -77,7 +77,7 @@ describe('making a tile unique', () => {
   });
 });
 
-describe('adding, copying and deleting tiles', () => {
+describe('S2 adding, copying and deleting tiles', { tags: ['standard'] }, () => {
   it('adds an empty tile and picks it', () => {
     expect(addTile()).toBe(3);
     expect(tilePixels(3).every((pixel) => pixel === 0)).toBe(true);
@@ -114,7 +114,7 @@ describe('adding, copying and deleting tiles', () => {
   });
 });
 
-describe('replacing and clearing cells', () => {
+describe('S2 replacing and clearing cells', { tags: ['standard'] }, () => {
   it('replaces a tile inside the selection and then on the whole layer', () => {
     rockAt([0, 0], [1, 0], [3, 2]);
     select({ x: 0, y: 0, width: 2, height: 1 }, 2);

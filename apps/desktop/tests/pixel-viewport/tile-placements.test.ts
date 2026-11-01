@@ -6,7 +6,7 @@ import type { PlacedImage } from '../../src/views/PixelViewport/behavior/viewpor
 const placed: PlacedImage = { x: 100, y: 60, scale: 4, width: 64, height: 48 };
 const room = { width: 300, height: 200 };
 
-describe('tile placements', () => {
+describe('K1 tile placements', { tags: ['critical'] }, () => {
   it('places the sprite alone when the tiling is off', () => {
     expect(tilePlacements(placed, { x: false, y: false }, room)).toEqual([placed]);
   });

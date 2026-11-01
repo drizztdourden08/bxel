@@ -22,7 +22,7 @@ const layout = (): void => {
   stampAt({ columns: 1, rows: 1, keys: [2] }, { x: 0, y: 1 });
 };
 
-describe('selecting cells by wand and same tile', () => {
+describe('S2 selecting cells by wand and same tile', { tags: ['standard'] }, () => {
   it('takes the connected cells of the same tile with the wand', () => {
     layout();
     store().setSelectVariant('wand');
@@ -70,7 +70,7 @@ describe('selecting cells by wand and same tile', () => {
   });
 });
 
-describe('cell selection in step history', () => {
+describe('S2 cell selection in step history', { tags: ['standard'] }, () => {
   it('undoes and redoes selection changes one at a time, before any document step', () => {
     layout();
     selectCells({ by: 'rect', rect: { x: 0, y: 0, width: 2, height: 1 } }, 'replace');
@@ -99,7 +99,7 @@ describe('cell selection in step history', () => {
   });
 });
 
-describe('selecting cells for the assistant', () => {
+describe('S2 selecting cells for the assistant', { tags: ['standard'] }, () => {
   const step = (mapSelection: unknown) => mapSelectionStep({ mapSelection } as never, undefined as never);
 
   it('selects described cells with the combine rules and replies with row runs', () => {

@@ -14,7 +14,7 @@ const handle = (zoom: number): GuideFrame => ({
 
 const sprite: Pick<Sprite, 'width' | 'height' | 'guides'> = { width: 16, height: 8, guides: { x: [4], y: [2.5] } };
 
-describe('guide snapping', () => {
+describe('K1 guide snapping', { tags: ['critical'] }, () => {
   it('snaps to the half pixel, or to the whole pixel on request, inside the sprite', () => {
     expect(snapGuide(3.2, 16, false)).toBe(3);
     expect(snapGuide(3.3, 16, false)).toBe(3.5);
@@ -31,7 +31,7 @@ describe('guide snapping', () => {
   });
 });
 
-describe('guides on the canvas', () => {
+describe('K1 guides on the canvas', { tags: ['critical'] }, () => {
   it('finds the guide under the pointer, within a few screen pixels and inside the sprite span', () => {
     expect(guideNear(handle(8), sprite, { clientX: 100 + 32 + 2, clientY: 60 })).toEqual({ axis: 'x', position: 4 });
     expect(guideNear(handle(8), sprite, { clientX: 140, clientY: 60 })).toBeNull();

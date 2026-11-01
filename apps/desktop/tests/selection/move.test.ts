@@ -10,7 +10,7 @@ import { usePendingStore } from '../../src/stores/usePendingStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { at, BLOCK, countOn, openRig } from './selection-harness';
 
-describe('moving a selection', () => {
+describe('S2 moving a selection', { tags: ['standard'] }, () => {
   it('floats with arrows of 1 and 8 pixels, previews through the engine and applies one pixels.move', () => {
     const rig = openRig();
     rig.paint(BLOCK, 6);

@@ -33,7 +33,7 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-describe('reading the saved views', () => {
+describe('K1 reading the saved views', { tags: ['critical'] }, () => {
   it('fills every missing field with its default and drops what is not a view', () => {
     const views = readViews({ sht_a: { zoom: 64, sortKey: 'name' }, sht_b: 'broken', sht_c: null });
     expect(Object.keys(views)).toEqual(['sht_a']);
@@ -60,7 +60,7 @@ describe('reading the saved views', () => {
   });
 });
 
-describe('the view of each sheet', () => {
+describe('K1 the view of each sheet', { tags: ['critical'] }, () => {
   it('keeps the view, zoom, sort, filters and saved selections apart for each sheet', () => {
     viewBook.attach('sht_a', undefined);
     store().patch({ view: 'list', zoom: 80, sortKey: 'area', sortDown: true });
@@ -76,10 +76,9 @@ describe('the view of each sheet', () => {
     viewBook.attach('sht_b', undefined);
     expect(store().zoom).toBe(32);
   });
-
 });
 
-describe('the saving of the views', () => {
+describe('K1 the saving of the views', { tags: ['critical'] }, () => {
   it('writes the views to the app storage after a short while, and only when something changed', () => {
     viewBook.attach('sht_a', undefined);
     vi.advanceTimersByTime(SAVE_DELAY_MS * 2);

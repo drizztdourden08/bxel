@@ -26,7 +26,7 @@ const surface = () => {
   return { canvas, ctx, puts, draw: (source: PixelImage) => uploadImage(canvas, ctx, source) };
 };
 
-describe('uploadImage', () => {
+describe('K1 uploadImage', { tags: ['critical'] }, () => {
   it('sends the whole image the first time and nothing when nothing changed', () => {
     const { draw, puts } = surface();
     const source = image(true);

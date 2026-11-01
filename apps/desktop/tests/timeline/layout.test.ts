@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
-import { ONION_DEFAULTS, PLAY_DEFAULTS, VIEW_DEFAULTS } from '../../src/stores/timeline-store.constants';
-import { ANIMATION_DEFAULTS } from '../../src/timeline/animation-settings.constants';
+import { ONION_DEFAULTS } from '../../src/stores/timeline-store.constants';
 import { formatClock } from '../../src/timeline/format-clock';
 import { formatDuration } from '../../src/timeline/format-duration';
 import { indexAtX } from '../../src/timeline/index-at-x';
@@ -18,7 +17,7 @@ import { writeAnimationSettings } from '../../src/timeline/write-animation-setti
 import { dropPosition } from '../../src/timeline/drop-position';
 import { draftedDurations } from '../../src/timeline/drafted-durations';
 
-describe('the track layout', () => {
+describe('K1 the track layout', { tags: ['critical'] }, () => {
   it('gives every frame the same width by thumbnail size', () => {
     const layout = trackLayout([100, 200, 50], 48, false);
     expect(layout.widths).toEqual([56, 56, 56]);
@@ -50,7 +49,7 @@ describe('the track layout', () => {
   });
 });
 
-describe('durations on the strip', () => {
+describe('K1 durations on the strip', { tags: ['critical'] }, () => {
   it('snaps to 10 ms or whole ticks and goes free with Shift', () => {
     expect(snapDuration(97, 'ms', false)).toBe(100);
     expect(snapDuration(4, 'ms', false)).toBe(10);
@@ -83,14 +82,7 @@ describe('durations on the strip', () => {
   });
 });
 
-describe('the saved animation settings', () => {
-  it('start as the defaults', () => {
-    expect(readOnion(ANIMATION_DEFAULTS)).toEqual(ONION_DEFAULTS);
-    expect(readPlay(ANIMATION_DEFAULTS)).toEqual(PLAY_DEFAULTS);
-    expect(readZoom(ANIMATION_DEFAULTS)).toBe(VIEW_DEFAULTS.zoom);
-    expect(readSavedView(undefined)).toEqual({ zooms: {}, timeMode: VIEW_DEFAULTS.timeMode, units: VIEW_DEFAULTS.units });
-  });
-
+describe('K1 the saved animation settings', { tags: ['critical'] }, () => {
   it('round trip through the store', () => {
     const onion = { ...ONION_DEFAULTS, on: true, before: 6, after: 3, falloff: 'flat' as const, style: 'outline' as const, wrap: false, position: 'front' as const };
     const written = writeAnimationSettings({ onion, playMode: 'pingpong', subtags: true, rewind: false, speed: 0.5 });

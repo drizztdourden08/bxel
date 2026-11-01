@@ -12,7 +12,7 @@ const key = (name: string, held: Partial<TimelineKeyInfo> = {}): TimelineKeyInfo
   ...held,
 });
 
-describe('the keys of the timeline', () => {
+describe('K1 the keys of the timeline', { tags: ['critical'] }, () => {
   it('step with comma and period and pick the neighbour with the arrows', () => {
     expect(timelineKeyAction(key(','))).toEqual({ kind: 'step', delta: -1, extend: false });
     expect(timelineKeyAction(key('.'))).toEqual({ kind: 'step', delta: 1, extend: false });

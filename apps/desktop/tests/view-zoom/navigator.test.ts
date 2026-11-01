@@ -11,7 +11,7 @@ const view = (zoom: number, pan: { x: number; y: number }): PixelView => ({
   zoom, pan, originX: 0, originY: 0, width: 400, height: 200, dpr: 1, imageWidth: 64, imageHeight: 32,
 });
 
-describe('the navigator geometry', () => {
+describe('K1 the navigator geometry', { tags: ['critical'] }, () => {
   it('fits the whole image in the box and keeps its shape', () => {
     const thumb = fitThumb({ width: 64, height: 32 }, { width: 200, height: 152 });
     expect(thumb).toEqual({ width: 200, height: 100, scale: 3.125 });

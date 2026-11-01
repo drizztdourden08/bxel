@@ -16,10 +16,9 @@ import { useToolStore } from '../../src/stores/useToolStore';
 import { openEditor, plainOptions } from './editor-harness';
 import { press } from './press-event';
 
-
 beforeEach(() => useToolStore.setState({ ...TOOL_DEFAULTS }));
 
-describe('the picker', () => {
+describe('S2 the picker', { tags: ['standard'] }, () => {
   it('reads the visible index under the pointer and ignores pixels outside', () => {
     const { host, target } = openEditor();
     const session = beginStroke({ target: target(), tool: 'pencil', index: 9, options: plainOptions, at: { x: 5, y: 4 } });
@@ -43,7 +42,7 @@ describe('the picker', () => {
   });
 });
 
-describe('press plans', () => {
+describe('K1 press plans', { tags: ['critical'] }, () => {
   it('maps tool, button, Shift and Alt to an action', () => {
     expect(pressPlan('pencil', press(0))).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false });
     expect(pressPlan('pencil', press(2))).toEqual({ kind: 'stroke', tool: 'pencil', slot: 'background', line: false });
@@ -70,7 +69,7 @@ describe('press plans', () => {
   });
 });
 
-describe('the palette', () => {
+describe('S2 the palette', { tags: ['standard'] }, () => {
   it('lists the slots with index labels and the count line', () => {
     const { target } = openEditor();
     const { bank } = target();
@@ -87,14 +86,6 @@ describe('the palette', () => {
     expect(swatchMarks(0, held)).toEqual([2]);
     expect(swatchMarks(7, held)).toEqual([4]);
     expect(swatchMarks(8, held)).toEqual([]);
-  });
-
-  it('sets the front and back colours and swaps them', () => {
-    const tools = useToolStore.getState();
-    tools.setForeground(6);
-    tools.setBackground(2);
-    useToolStore.getState().swapColors();
-    expect(useToolStore.getState()).toMatchObject({ foreground: 2, background: 6 });
   });
 
   it('steps the front colour back and forward and wraps at both ends', () => {

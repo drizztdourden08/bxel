@@ -18,7 +18,7 @@ beforeEach(() => {
   reconcileSymmetry();
 });
 
-describe('symmetry kept in the sprite', () => {
+describe('S2 symmetry kept in the sprite', { tags: ['standard'] }, () => {
   it('writes a toggle and an axis to the sprite as one undo step each, and undo brings the store back', () => {
     const start = revision();
     useToolStore.getState().toggleSymmetry('x');

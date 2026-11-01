@@ -24,7 +24,7 @@ const held = (name: string): string[] => {
 
 beforeEach(() => openFile(['a', 'b', 'c'], 8));
 
-describe('adding sprites to a sheet', () => {
+describe('S2 adding sprites to a sheet', { tags: ['standard'] }, () => {
   it('makes the first sheet when there is none, in one undo step', () => {
     const before = revision();
     expect(addToSheet(idsOf('a', 'b'), null)).toBe(true);
@@ -43,7 +43,7 @@ describe('adding sprites to a sheet', () => {
   });
 });
 
-describe('removing sprites from a sheet', () => {
+describe('S2 removing sprites from a sheet', { tags: ['standard'] }, () => {
   it('keeps the sprites in the file', () => {
     addToSheet(idsOf('a', 'b', 'c'), null);
     const id = sheetNamed('Sheet').id;
@@ -55,7 +55,7 @@ describe('removing sprites from a sheet', () => {
   });
 });
 
-describe('moving sprites to another sheet', () => {
+describe('S2 moving sprites to another sheet', { tags: ['standard'] }, () => {
   it('takes them off the old sheet and puts them on the new one in one step', () => {
     addToSheet(idsOf('a', 'b'), null);
     const second = createSheet();
@@ -76,7 +76,7 @@ describe('moving sprites to another sheet', () => {
   });
 });
 
-describe('the layout of a sheet', () => {
+describe('S2 the layout of a sheet', { tags: ['standard'] }, () => {
   it('turns a style into one update with only the asked fields', () => {
     addToSheet(idsOf('a', 'b', 'c'), null);
     const sheet = sheetNamed('Sheet');
@@ -98,7 +98,7 @@ describe('the layout of a sheet', () => {
   });
 });
 
-describe('the atlas preview', () => {
+describe('S2 the atlas preview', { tags: ['standard'] }, () => {
   it('packs the sheet with the export packer and counts the empty space', () => {
     addToSheet(idsOf('a', 'b', 'c'), null);
     styleSheet(sheetNamed('Sheet').id, { layout: 'grid', columns: 2 });
@@ -136,5 +136,4 @@ describe('the atlas preview', () => {
     expect(atlas.failure).toBeNull();
     expect(atlas.width).toBe(8);
   });
-
 });

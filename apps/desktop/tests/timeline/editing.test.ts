@@ -28,7 +28,7 @@ const order = (ids: readonly string[]): number[] => {
   return frameIds().map((id) => original.indexOf(id));
 };
 
-describe('moving a block of frames', () => {
+describe('S2 moving a block of frames', { tags: ['standard'] }, () => {
   it('moves four picked frames in one undo step', () => {
     withFrames(8);
     const before = frameIds();
@@ -59,7 +59,7 @@ describe('moving a block of frames', () => {
   });
 });
 
-describe('copies', () => {
+describe('S2 copies', { tags: ['standard'] }, () => {
   it('copies, pastes after the current frame and picks the new frames', () => {
     withFrames(3);
     pickRange(0, 1);
@@ -111,7 +111,7 @@ describe('copies', () => {
   });
 });
 
-describe('durations', () => {
+describe('S2 durations', { tags: ['standard'] }, () => {
   it('scales the picked durations', () => {
     withFrames(3);
     pickRange(0, 2);
@@ -131,7 +131,7 @@ describe('durations', () => {
   });
 });
 
-describe('selecting', () => {
+describe('S2 selecting', { tags: ['standard'] }, () => {
   it('inverts the picked frames', () => {
     withFrames(4);
     pickRange(1, 2);
@@ -140,7 +140,7 @@ describe('selecting', () => {
   });
 });
 
-describe('tags by hand', () => {
+describe('S2 tags by hand', { tags: ['standard'] }, () => {
   it('resizes by the edge and by the keys to the same range', () => {
     withFrames(6);
     pickRange(1, 2);

@@ -14,7 +14,7 @@ import { openMapFile, tilesetNow } from './map-harness';
 
 const TILE = { width: 2, height: 2 };
 
-describe('collision editing helpers', () => {
+describe('K1 collision editing helpers', { tags: ['critical'] }, () => {
   it('snaps a pointer offset to the nearest tile corner inside the tile', () => {
     expect(collisionCorner({ x: 13, y: -5 }, 8, { width: 4, height: 4 })).toEqual({ x: 2, y: 0 });
     expect(collisionCorner({ x: 400, y: 20 }, 8, { width: 4, height: 4 })).toEqual({ x: 4, y: 3 });
@@ -62,7 +62,7 @@ describe('collision editing helpers', () => {
   });
 });
 
-describe('setting a tile collision from the tileset panel', () => {
+describe('S2 setting a tile collision from the tileset panel', { tags: ['standard'] }, () => {
   beforeEach(() => openMapFile());
 
   it('sets a shape on the picked tile, as one document edit, and clears it again', () => {

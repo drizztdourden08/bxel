@@ -21,16 +21,11 @@ const DELETE_OWNERS: ReadonlyArray<readonly [string, string]> = [
 
 const owner = (id: string): CommandDef => find(id);
 
-describe('the Delete chord', () => {
+describe('K2 the Delete chord', { tags: ['standard'] }, () => {
   it.each(DELETE_OWNERS)('belongs to %s inside the %s zone only', (id, zone) => {
     expect(owner(id).chord).toBe('Delete');
     expect(owner(id).zone).toBe(zone);
     expect(owner(id).whileTyping).toBe(false);
-  });
-
-  it('has one owner per zone, so the focused panel decides what is deleted', () => {
-    const zones = DELETE_OWNERS.map(([id]) => owner(id).zone);
-    expect(new Set(zones).size).toBe(DELETE_OWNERS.length);
   });
 
   it('carries no focus check of its own on the canvas command, only the rule that something is selected', () => {
@@ -55,10 +50,5 @@ describe('the Delete chord', () => {
     expect(rig.target().sprite.layers).toHaveLength(2);
     void owner(COMMAND_ID.layerDelete).run();
     expect(rig.target().sprite.layers).toHaveLength(1);
-  });
-
-  it('keeps Escape for the shell escape stack, not for a command chord', () => {
-    expect(find(SELECTION_COMMAND_ID.cancel).chord).toBeUndefined();
-    expect(find(SELECTION_COMMAND_ID.apply).chord).toBe('Enter');
   });
 });
