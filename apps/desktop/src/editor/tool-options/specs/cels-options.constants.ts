@@ -39,4 +39,4 @@ const CELS_OPTIONS: readonly OptionSpec[] = (['pencil', 'eraser', 'fill'] as con
   }),
 );
 
-export { CELS_CHOICES, CELS_OPTIONS, CELS_TEXT };
+export { CELS_OPTIONS };

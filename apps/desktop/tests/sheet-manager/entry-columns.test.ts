@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import type { Artwork } from '@bxel/document';
+import type { SheetId, SpriteId } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { MANIFEST } from '../../src/assistant/command-manifest/manifest.constants';
 import { ANIMATION_ENTRY_COMMANDS } from '../../src/keymap/animation-entry-commands.constants';
@@ -7,19 +7,22 @@ import { addToSheet } from '../../src/sheet-manager/add-to-sheet';
 import { entryUsedBy } from '../../src/sheet-manager/entry-used-by';
 import { removeEntries } from '../../src/sheet-manager/remove-entries';
 import { SHEET_TEXT } from '../../src/sheet-manager/sheet-text.constants';
+import type { UsageSource } from '../../src/sheet-manager/usage-source.type';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
 import { artwork, openFile } from '../sheet/sheet-harness';
 
 describe('K1 the sheet entry columns', { tags: ['critical'] }, () => {
   it('names the animations, tilesets and other sheets that use an asset', () => {
-    const art = {
-      animations: [{ name: 'Walk', frames: [{ spriteId: 's1' }, { spriteId: null }] }],
-      tilesets: [{ name: 'Ground', tiles: [{ spriteId: 's1' }] }],
+    const s1 = 's1' as SpriteId;
+    const s2 = 's2' as SpriteId;
+    const art: UsageSource = {
+      animations: [{ name: 'Walk', frames: [{ spriteId: s1 }, { spriteId: null }] }],
+      tilesets: [{ name: 'Ground', tiles: [{ spriteId: s1 }] }],
       sheets: [
-        { id: 'a', name: 'Main', entries: [{ spriteId: 's1' }] },
-        { id: 'b', name: 'Other', entries: [{ spriteId: 's1' }, { spriteId: 's2' }] },
+        { id: 'a' as SheetId, name: 'Main', entries: [{ spriteId: s1 }] },
+        { id: 'b' as SheetId, name: 'Other', entries: [{ spriteId: s1 }, { spriteId: s2 }] },
       ],
-    } as unknown as Artwork;
+    };
     const used = entryUsedBy(art, 'a');
     expect(used.get('s1')).toBe('Walk, Ground, Other');
     expect(used.get('s2')).toBe('Other');

@@ -3,6 +3,7 @@ import { Box, Canvas } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
 import { useTileSlotDrop } from '../../../tile-drag/useTileSlotDrop';
 import { useTileSource } from '../../../tile-drag/useTileSource';
+import { cellData } from '../behavior/cell-data';
 import { cellEvents } from '../behavior/cell-events';
 import { tileLabel } from '../behavior/tile-label';
 import { TILESET_TEXT } from '../TilesetPanel.constants';
@@ -33,12 +34,7 @@ const TileSlot = ({ cell, index, view, handlers }: TileCellProps) => {
       aria-label={label}
       title={cell.editing ? TILESET_TEXT.editing : label}
       className="tileset-panel__cell"
-      data-picked={cell.picked ? '' : undefined}
-      data-editing={cell.editing ? '' : undefined}
-      data-dim={cell.matches ? undefined : ''}
-      data-painting={painting ? '' : undefined}
-      data-tile-key={cell.tile.key}
-      data-tile-animated={cell.tile.animation ? '' : undefined}
+      {...cellData(cell, painting)}
       {...events}
     >
       <TileThumb view={view} cell={cell} />

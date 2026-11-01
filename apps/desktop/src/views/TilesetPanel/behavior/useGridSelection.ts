@@ -5,6 +5,8 @@ import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import { pickTile } from '../../../tilemap/pick-tile';
 import { setLayout } from '../../../tilemap/set-layout';
 import type { GridSelection, TilePaint, TilesetModel } from '../TilesetPanel.type';
+import { gridPress } from './grid-press';
+import type { PressKeys } from './grid-press.type';
 import { layoutStamp } from './layout-stamp';
 import { toggleScatter } from './toggle-scatter';
 import { useGridKeys } from './useGridKeys';
@@ -28,21 +30,7 @@ const useGridSelection = (model: TilesetModel, paint: TilePaint): GridSelection 
     anchor.current = index;
     if (key !== null) useTilemapStore.getState().setStamp(toggleScatter(model.stamp, key));
   };
-  const press = (index: number, event: { altKey: boolean; ctrlKey: boolean; metaKey: boolean; shiftKey: boolean }): void => {
-    const slot = model.slots[index];
-    if (paint.active) paint.add(keyOf(index));
-    else if (event.altKey && keyOf(index) !== null) moving.current = keyOf(index);
-    else if (slot?.picked && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
-      anchor.current = index;
-      held.current = index;
-    } else if (event.ctrlKey || event.metaKey) toggle(index);
-    else if (event.shiftKey && anchor.current !== null) span(index);
-    else {
-      anchor.current = index;
-      const key = keyOf(index);
-      if (key !== null) pickTile(key);
-    }
-  };
+  const press = (index: number, event: PressKeys): void => gridPress(index, event, { model, paint, anchor, held, moving, keyOf, span, toggle });
   const release = (): void => {
     pressed.current = false;
     if (paint.active) paint.commit();

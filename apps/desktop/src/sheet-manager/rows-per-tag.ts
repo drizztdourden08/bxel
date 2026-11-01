@@ -6,7 +6,7 @@ import { useNoticeStore } from '../stores/useNoticeStore';
 import { ANIMATION_ENTRY_TEXT } from './animation-entry-text.constants';
 import { animationKey } from './animation-key';
 import type { AnimationFacts, CurrentManager } from './manager.type';
-import { pickedAnimations } from './picked-animations';
+import { pickedOnSheet } from './picked-on-sheet';
 
 const tagSteps = (sheet: Sheet, fact: AnimationFacts): CommandStep[] => {
   const placed = new Set((sheet.animationEntries ?? []).map((entry) => animationKey(entry.animationId, entry.tagId)));
@@ -18,12 +18,9 @@ const tagSteps = (sheet: Sheet, fact: AnimationFacts): CommandStep[] => {
 };
 
 const rowsPerTag = (manager: Pick<CurrentManager, 'animations' | 'picked' | 'sheet'>): boolean => {
-  const { sheet } = manager;
-  const facts = pickedAnimations(manager);
-  if (!sheet || facts.length === 0) {
-    useNoticeStore.getState().post(sheet ? ANIMATION_ENTRY_TEXT.needAnimation : ANIMATION_ENTRY_TEXT.needSheet);
-    return false;
-  }
+  const picked = pickedOnSheet(manager);
+  if (!picked) return false;
+  const { sheet, facts } = picked;
   const steps = facts.flatMap((fact) => tagSteps(sheet, fact));
   if (steps.length === 0) {
     useNoticeStore.getState().post(ANIMATION_ENTRY_TEXT.needTags);

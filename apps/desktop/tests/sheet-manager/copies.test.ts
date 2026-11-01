@@ -11,6 +11,7 @@ import { DELETE_TEXT } from '../../src/sheet-manager/delete-text.constants';
 import { duplicateNamed } from '../../src/sheet-manager/duplicate-named';
 import type { RenameSpec } from '../../src/sheet-manager/manager.type';
 import { planRenames } from '../../src/sheet-manager/plan-renames';
+import { useNoticeStore } from '../../src/stores/useNoticeStore';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
 import { artwork, idOf, lastNotice, namesOf, openFile, revision, spriteOf } from '../sheet/sheet-harness';
 import { idsOf } from './manager-harness';
@@ -71,6 +72,7 @@ describe('S2 what a delete takes with it', { tags: ['standard'] }, () => {
 
   it('plans how many of the picked sprites are used and refuses to take the last one', () => {
     addToSheet(idsOf('walk'), null);
+    useNoticeStore.setState({ notice: null });
     const plan = deletePlan(artwork(), sprites('walk', 'jump'));
     expect(plan.used).toBe(1);
     expect(plan.blocker).toBeNull();

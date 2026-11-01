@@ -33,7 +33,7 @@ beforeEach(() => {
 describe('S2 the list rows', { tags: ['standard'] }, () => {
   it('has one row for every sprite with its size, pivot, palette and folder', () => {
     const art = artwork();
-    const rows = listRows(art, folderGroups(allFacts(art, art.sheets[0] ?? null), new Set()), [], art.sheets[0] ?? null);
+    const rows = listRows(art, folderGroups(allFacts(art, art.sheets[0] ?? null), new Set()), [], { sheet: art.sheets[0] ?? null });
     const walk = rows.find((row) => row.name === 'walk_1');
     expect(rows).toHaveLength(art.sprites.length);
     expect(rows.every((row) => row.kind === 'sprite')).toBe(true);
@@ -42,7 +42,7 @@ describe('S2 the list rows', { tags: ['standard'] }, () => {
 
   it('marks the pending sprite, the active sprite and a sprite that is not on the sheet', () => {
     const model = modelOf();
-    const walk = listRows(model.artwork, model.groups, [], model.sheet).find((row) => row.name === 'walk_1');
+    const walk = listRows(model.artwork, model.groups, [], { sheet: model.sheet }).find((row) => row.name === 'walk_1');
     if (!walk) throw new Error('no row');
     const other = { ...walk, id: String(idOf('walk_2')), loose: false };
     expect(rowStateOf(model, [idOf('walk_1')])(walk)).toBe('pending');

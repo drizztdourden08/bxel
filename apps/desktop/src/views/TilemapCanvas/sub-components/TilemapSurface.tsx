@@ -4,20 +4,14 @@ import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Box } from '@drizztdourden08/tessera';
 import { useAssetLook } from '../../../asset-view/useAssetLook';
 import { useCanvasLook } from '../../../canvas-look/useCanvasLook';
-import { useEditorTarget } from '../../../hooks/useEditorTarget';
 import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { useViewStore } from '../../../stores/useViewStore';
 import { MAP_TOOL_OF, TILEMAP_TEXT } from '../../../tilemap/tilemap.constants';
-import { useEscapeCancel } from '../../EditorCanvas/behavior/useEscapeCancel';
-import { useSyncPending } from '../../EditorCanvas/behavior/useSyncPending';
 import { useViewportBridge } from '../../EditorCanvas/behavior/useViewportBridge';
 import { PixelViewport } from '../../PixelViewport';
 import { RulerFrame } from '../../RulerFrame';
-import { useGuideRedraw } from '../../EditorCanvas/behavior/useGuideRedraw';
-import { useRulerUnits } from '../../EditorCanvas/behavior/useRulerUnits';
-import { useViewDefaults } from '../../EditorCanvas/behavior/useViewDefaults';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import { MAP_CANVAS_CLASS, MAP_MENU } from '../TilemapCanvas.constants';
 import type { MapLive, TilemapSurfaceProps } from '../TilemapCanvas.type';
@@ -25,8 +19,8 @@ import { useMapGestures } from '../behavior/useMapGestures';
 import { useMapKeys } from '../behavior/useMapKeys';
 import { useMapMenu } from '../behavior/useMapMenu';
 import { useMapPaint } from '../behavior/useMapPaint';
+import { useMapSurfaceSetup } from '../behavior/useMapSurfaceSetup';
 import { useMapTileDrop } from '../../../tile-drag/useMapTileDrop';
-import { useSelectionReset } from '../behavior/useSelectionReset';
 import { useTileAnimation } from '../behavior/useTileAnimation';
 import { viewportClass } from '../behavior/viewport-class';
 import { feedView } from '../../../view-feed/feed-view';
@@ -58,12 +52,7 @@ const TilemapSurface = ({ view }: TilemapSurfaceProps) => {
   useMapMenu(viewport, target, live);
   useMapTileDrop(surface, viewport, target);
   useViewportBridge(viewport, true);
-  useViewDefaults();
-  useRulerUnits();
-  useGuideRedraw(viewport, null);
-  useSyncPending(useEditorTarget());
-  useEscapeCancel();
-  useSelectionReset();
+  useMapSurfaceSetup(viewport);
   return (
     <Box ref={surface} className={MAP_CANVAS_CLASS.surface} onBlur={keys.onBlur} {...contextMenuZone(MAP_MENU.zone)}>
       <RulerFrame>
