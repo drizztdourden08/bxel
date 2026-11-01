@@ -183,7 +183,7 @@ const PALETTES: RuleTable = {
 };
 
 const PANEL_COMMAND_IDS = [
-  'asset.open', 'asset.duplicate', 'asset.copy_for_sheet', 'asset.export', 'asset.show_users', 'asset.copy_relative_path', 'project.open_entry', 'project.new_asset',
+  'asset.open', 'asset.duplicate', 'asset.copy_for_sheet', 'asset.export', 'asset.show_users', 'asset.copy_relative_path', 'asset.locate', 'asset.remove_link', 'project.open_entry', 'project.new_asset',
   'project.new_folder', 'project.refresh', 'project.collapse_all', 'project.reveal_root', 'project.open_hub', 'project.unlink_folder', 'project.rename_entry',
   'project.trash_entry', 'project.duplicate_entry', 'project.select_all', 'project.new_folder_here', 'project.new_menu', 'project.find',
 ];

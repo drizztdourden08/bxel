@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { AnimDirection } from '@bxel/document';
+import type { PreviewTag } from '../asset-overview/asset-overview.type';
 import type { PlaybackLoop, PlaybackSpeed } from './asset-preview.type';
 
 const SPEEDS: readonly PlaybackSpeed[] = ['0.5', '1', '2'];
@@ -11,6 +12,10 @@ const FRAME_PADDING = 16;
 const NO_SIZE = { width: 0, height: 0 } as const;
 
 const MIN_FRAME_MS = 20;
+
+const NO_TAGS: readonly PreviewTag[] = [];
+
+const ALL_FRAMES = 'all';
 
 const DEFAULT_LOOP: PlaybackLoop = { direction: 'forward', repeat: 0 };
 
@@ -33,10 +38,12 @@ const PREVIEW_TEXT = {
   loop: (loop: PlaybackLoop): string => `${LOOP_LABEL[loop.direction]}, ${loop.repeat === 0 ? 'repeats forever' : `plays ${loop.repeat} ${loop.repeat === 1 ? 'time' : 'times'}`}`,
   none: 'Nothing to show yet.',
   controls: 'Animation controls',
+  tag: 'Tag',
+  allFrames: 'All frames',
   swatches: (count: number): string => `${count} colours`,
   slot: (at: number, name: string, rgb: string): string => `Slot ${at}, ${name}, ${rgb}`,
   transparentSlot: (at: number): string => `Slot ${at}, transparent`,
   zoom: (zoom: number): string => `${zoom}x`,
 } as const;
 
-export { DEFAULT_LOOP, FRAME_PADDING, MIN_FRAME_MS, NO_SIZE, PREVIEW_TEXT, SPEED_OPTIONS, };
+export { ALL_FRAMES, DEFAULT_LOOP, FRAME_PADDING, MIN_FRAME_MS, NO_SIZE, NO_TAGS, PREVIEW_TEXT, SPEED_OPTIONS, };

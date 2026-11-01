@@ -36,6 +36,11 @@ const FILE_OPS_TEXT = {
   folderExists: (name: string): string => `A folder named ${name} is already there.`,
   newFolder: 'New folder',
   trashLabel: 'Move to the trash',
+  locateTitle: 'Locate the missing file',
+  located: (name: string): string => `Linked to ${name}.`,
+  locatedLinks: (name: string, links: number): string => `Linked to ${name} and updated ${links} ${links === 1 ? 'link' : 'links'}.`,
+  locateWrongKind: (extension: string): string => `Pick a ${extension} file.`,
+  locateUnavailable: 'File access is not available here.',
 } as const;
 
 export { DROP_PALETTE_EXTENSIONS, FILE_OPS_TEXT, JOURNAL_LIMIT };

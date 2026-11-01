@@ -4,6 +4,7 @@ import { useDocumentStore } from '../stores/useDocumentStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { changedKeys } from './changed-keys';
 import { focusTab } from './focus-tab';
+import { markAssistantChanges } from './mark-assistant-changes';
 import { settleEngine } from './settle-engine';
 import { tabOf } from './tab-of';
 import { touchedName } from './touched-name';
@@ -31,6 +32,7 @@ const onWorkspaceEvent = (event: DocumentEvent): void => {
   const view = useDocumentStore.getState().host.view(event.documentId);
   const store = useWorkspaceStore.getState();
   if (!view || !store.workspaces[event.documentId]) return;
+  markAssistantChanges(event, view.state.artwork);
   store.patch(event.documentId, (workspace) => {
     const name = event.kind === 'commit' ? touchedName(workspace, event.changes, view.state.artwork) : '';
     return { ...trackChange(workspace, event.changes, view.state.artwork), steps: trackSteps(workspace.steps, event.kind, name) };

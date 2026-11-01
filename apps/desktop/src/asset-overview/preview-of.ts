@@ -9,13 +9,13 @@ import { spritePreviewImage } from './sprite-preview-image';
 import { tilemapPreviewImage } from './tilemap-preview-image';
 import { tilesetPreviewImage } from './tileset-preview-image';
 
-const previewOf = (artwork: Artwork, key: AssetKey): OverviewPreview => {
+const previewOf = (artwork: Artwork, key: AssetKey, flipped?: ReadonlySet<string>): OverviewPreview => {
   if (key.kind === 'sprite') return spritePreviewImage(artwork, key.id);
   if (key.kind === 'animation') return animationPreviewFrames(artwork, key.id);
   if (key.kind === 'sheet') return sheetPreviewImage(artwork, key.id);
   if (key.kind === 'palette') return palettePreviewColours(artwork, key.id);
   if (key.kind === 'tileset') return tilesetPreviewImage(artwork, key.id);
-  return key.kind === 'tilemap' ? tilemapPreviewImage(artwork, key.id) : NO_PREVIEW;
+  return key.kind === 'tilemap' ? tilemapPreviewImage(artwork, key.id, flipped) : NO_PREVIEW;
 };
 
 export { previewOf };

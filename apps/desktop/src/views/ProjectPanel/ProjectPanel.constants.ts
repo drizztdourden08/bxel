@@ -15,6 +15,10 @@ const ITEM_ATTRIBUTE = 'data-tree-key';
 
 const ITEM_SELECTOR = '[data-tree-key]';
 
+const MIDDLE_BUTTON = 1;
+
+const SPRING_OPEN_MS = 600;
+
 const TILE_CHOICES: readonly { readonly size: TileSize; readonly label: string }[] = [
   { size: 48, label: 'Tiles, small' },
   { size: 64, label: 'Tiles, medium' },
@@ -51,6 +55,8 @@ const PROJECT_MENU = {
   export: 'Export...',
   showUsers: 'Show what uses it',
   copyRelative: 'Copy path inside the project',
+  locate: 'Locate file...',
+  removeLink: 'Remove link',
   unlink: 'Unlink folder',
   trash: 'Move to trash',
   trashMany: (count: number): string => `Move ${count} items to trash`,
@@ -103,13 +109,15 @@ const PANEL_UI = {
   removeRecent: 'Remove from list',
   switchProject: 'Switch project',
   noRecents: 'No recent projects',
+  assistantChanged: 'Changed by the assistant. Open it to clear this mark.',
 } as const;
 
-const BADGE_ICON: Readonly<Record<'missing' | 'readOnly' | 'open' | 'link', IconName>> = {
+const BADGE_ICON: Readonly<Record<'missing' | 'readOnly' | 'open' | 'link' | 'assistant', IconName>> = {
   missing: 'triangle-alert',
   readOnly: 'lock',
   open: 'circle-dot',
   link: 'link',
+  assistant: 'sparkles',
 };
 
 export {
@@ -118,11 +126,13 @@ export {
   GROUP_CHOICES,
   ITEM_ATTRIBUTE,
   ITEM_SELECTOR,
+  MIDDLE_BUTTON,
   NEW_ASSET_KINDS,
   NEW_BUTTON_SELECTOR,
   PANEL_UI,
   PROJECT_MENU,
   SEARCH_SELECTOR,
+  SPRING_OPEN_MS,
   TILE_BOX,
   TILE_CHOICES,
 };

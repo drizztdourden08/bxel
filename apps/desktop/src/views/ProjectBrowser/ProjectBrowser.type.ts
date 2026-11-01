@@ -7,11 +7,13 @@ import type { ContextMenuPoint, MenuGroup, VirtualGridCellBind } from '@drizztdo
 import type { DragEvent, ReactNode } from 'react';
 import type { RgbaImage } from '@bxel/formats';
 import type { OrganiseCollection } from '@bxel/project';
+import type { PreviewLayer } from '../../asset-overview/asset-overview.type';
 import type { BrowserEntry, FolderNode, SortKey } from '../../project-browser/project-browser.type';
 
 type BrowserActions = {
   readonly open: (entry: BrowserEntry) => void;
   readonly openAll: (entries: readonly BrowserEntry[]) => void;
+  readonly openBackground: (entry: BrowserEntry) => void;
   readonly properties: (entries: readonly BrowserEntry[]) => void;
   readonly startRename: (id: string) => void;
   readonly commitRename: (entry: BrowserEntry, typed: string) => void;
@@ -116,4 +118,12 @@ type SourceTreeProps = {
 
 type FileMoveActions = Pick<BrowserActions, 'moveInto' | 'moveTo' | 'cut' | 'copy' | 'paste' | 'undoMove'>;
 
-export type { FileMoveActions, OrganiseActions, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };
+type ReferenceListProps = { readonly title: string; readonly names: readonly string[] };
+
+type PreviewLayersProps = {
+  readonly layers: readonly PreviewLayer[];
+  readonly flipped: ReadonlySet<string>;
+  readonly onToggle: (id: string) => void;
+};
+
+export type { PreviewLayersProps, ReferenceListProps, FileMoveActions, OrganiseActions, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };

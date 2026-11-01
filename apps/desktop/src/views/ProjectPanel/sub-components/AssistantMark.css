@@ -1,0 +1,4 @@
+/* @layer renderer-app @kind style */
+.project-badges__assistant {
+  color: var(--c-primary-text);
+}

@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { copyPath } from '../../../asset-list/copy-path';
 import { duplicateRow } from '../../../asset-list/duplicate-row';
 import { openRow } from '../../../asset-list/open-row';
+import { openRowBackground } from '../../../asset-list/open-row-background';
 import { revealRow } from '../../../asset-list/reveal-row';
 import type { BrowserModel } from '../../../project-browser/browser-model.type';
 import { pathOfEntry } from '../../../project-browser/path-of-entry';
@@ -40,6 +41,9 @@ const useBrowserActions = (model: BrowserModel): BrowserActionState => {
   const actions = useMemo<BrowserActions>(
     () => ({
       open: openEntry,
+      openBackground: (entry) => {
+        if (entry.kind === 'file') openRowBackground(entry.row);
+      },
       openAll: (picked) => {
         for (const entry of filesOf(picked)) openRow(entry.row);
         if (filesOf(picked).length > 0) nav.close();

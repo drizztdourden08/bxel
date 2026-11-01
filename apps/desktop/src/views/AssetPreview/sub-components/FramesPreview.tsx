@@ -1,19 +1,15 @@
 /* @layer renderer-app @kind component */
-import { usePlayback } from '../../../asset-preview/usePlayback';
+import { useState } from 'react';
+import { tagFrames } from '../../../asset-overview/tag-frames';
 import type { FramesPreviewProps } from '../AssetPreview.type';
-import { PixelStage } from './PixelStage';
-import { PlaybackBar } from './PlaybackBar';
+import { FramesPlayer } from './FramesPlayer';
 
-const FramesPreview = ({ frames, name, loop, mode }: FramesPreviewProps) => {
-  const playback = usePlayback({ frames, loop });
-  const shown = frames[playback.index] ?? frames[0];
-  if (!shown) return null;
-  return (
-    <>
-      <PixelStage image={shown.image} label={name} mode={mode} />
-      {frames.length > 1 && <PlaybackBar playback={playback} total={frames.length} loop={loop} />}
-    </>
-  );
+const FramesPreview = ({ frames, name, loop, mode, tags }: FramesPreviewProps) => {
+  const [tagId, setTagId] = useState<string | null>(null);
+  const active = tags.find((tag) => tag.id === tagId);
+  const shown = tagFrames(frames, active);
+  const shownLoop = active ? { direction: active.direction, repeat: active.repeat } : loop;
+  return <FramesPlayer key={active?.id ?? ''} frames={shown} name={name} loop={shownLoop} mode={mode} tags={tags} tagId={active?.id ?? null} onTag={setTagId} />;
 };
 
 export { FramesPreview };

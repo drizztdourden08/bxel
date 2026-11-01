@@ -7,6 +7,7 @@ import { EMPTY_STATUS, ITEM_ICON } from '../../../../../panel-browser/project-br
 import { rowLabel } from '../../../../../panel-browser/row-label';
 import { ITEM_ATTRIBUTE } from '../../../ProjectPanel.constants';
 import { useAssetDragOut } from '../../../behavior/useAssetDragOut';
+import { AssistantMark } from '../../AssistantMark';
 import type { GridTileProps } from '../ProjectGrid.type';
 import './GridTile.css';
 
@@ -37,6 +38,7 @@ const GridTile = ({ model, item, cell }: GridTileProps) => {
         {item.name}
       </Text>
       <Box className="project-tile__marks">
+        <AssistantMark item={item} />
         {status.unsaved ? <Badge variant="dot" color="warning" label="Unsaved changes" /> : null}
         {status.missing.length > 0 ? <Icon name="triangle-alert" size={12} label={`Missing: ${status.missing.join(', ')}`} className="project-tile__missing" /> : null}
       </Box>

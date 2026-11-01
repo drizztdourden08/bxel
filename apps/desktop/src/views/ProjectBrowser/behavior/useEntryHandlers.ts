@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { pickEntry } from '../../../project-browser/pick-entry';
 import type { BrowserEntry } from '../../../project-browser/project-browser.type';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
+import { MIDDLE_BUTTON } from '../ProjectBrowser.constants';
 import { entryMenuGroups } from './entry-menu-groups';
 import { writeDrag } from './write-drag';
 import { useBrowserContext } from './useBrowserContext';
@@ -27,6 +28,14 @@ const useEntryHandlers = (entry: BrowserEntry) => {
       select(pickEntry(current, entry.id, model.order, { ctrl: event.ctrlKey || event.metaKey, shift: event.shiftKey }));
     },
     onDoubleClick: (): void => actions.open(entry),
+    onMouseDown: (event: MouseEvent): void => {
+      if (event.button === MIDDLE_BUTTON) event.preventDefault();
+    },
+    onAuxClick: (event: MouseEvent): void => {
+      if (event.button !== MIDDLE_BUTTON) return;
+      event.preventDefault();
+      actions.openBackground(entry);
+    },
     onContextMenu: (event: MouseEvent): void => {
       event.preventDefault();
       if (!selected) useBrowserStore.getState().select({ ids: [entry.id], anchor: entry.id });

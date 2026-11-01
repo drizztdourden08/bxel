@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { BROWSER_TEXT, TILE_OF } from '../../../project-browser/project-browser.constants';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
 import { useBrowserContext } from '../behavior/useBrowserContext';
+import { useScrollToSelected } from '../behavior/useScrollToSelected';
 import { FileTile } from './FileTile';
 
 const GridView = () => {
@@ -18,6 +19,7 @@ const GridView = () => {
     getRects: () => grid.current?.getRects() ?? [],
     canStart: (event) => !(event.target instanceof Element && event.target.closest('[data-marquee-key]')),
   });
+  useScrollToSelected(grid);
   const tile = TILE_OF[thumb] ?? TILE_OF[96];
   return (
     <VirtualGrid

@@ -8,7 +8,7 @@ import { ASSET_LIST_TEXT } from './asset-list-text.constants';
 import { deleteStep } from './delete-step';
 import { rowTab } from './row-tab';
 
-const removeLoadedRows = (rows: readonly AssetRow[]): void => {
+const removeLoadedRows = (rows: readonly AssetRow[], notice?: string): void => {
   const tabs = rows.flatMap((row) => {
     const tab = rowTab(row);
     return tab ? [tab] : [];
@@ -17,7 +17,7 @@ const removeLoadedRows = (rows: readonly AssetRow[]): void => {
   const steps = tabs.flatMap((tab) => deleteStep(tab.key) ?? []) as readonly CommandStep[];
   if (documentId === undefined || steps.length === 0) return;
   const done = runSteps(useDocumentStore.getState().host, documentId, ASSET_LIST_TEXT.trashLabel, steps);
-  if (done.ok) toast(rows.length === 1 ? ASSET_LIST_TEXT.removed(rows[0]?.name ?? '') : ASSET_LIST_TEXT.removedMany(rows.length), { variant: 'info' });
+  if (done.ok) toast(notice ?? (rows.length === 1 ? ASSET_LIST_TEXT.removed(rows[0]?.name ?? '') : ASSET_LIST_TEXT.removedMany(rows.length)), { variant: 'info' });
   else toast(ASSET_LIST_TEXT.removeFailed(done.error.message), { variant: 'danger' });
 };
 

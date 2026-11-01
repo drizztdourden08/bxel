@@ -23,6 +23,8 @@ const FileTile = ({ entry, cell }: TileProps) => {
         draggable={!handlers.renaming}
         onClick={handlers.onClick}
         onDoubleClick={handlers.onDoubleClick}
+        onMouseDown={handlers.onMouseDown}
+        onAuxClick={handlers.onAuxClick}
         onContextMenu={handlers.onContextMenu}
         onDragStart={handlers.onDragStart}
       >
