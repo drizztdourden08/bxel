@@ -26,6 +26,8 @@ const TOOL_CATALOGUE: Readonly<Record<ToolName, ToolEntry>> = {
   get_animation: read('read_documents'),
   read_palette: read('read_documents'),
   read_pixels: read('read_documents'),
+  lint_pixels: read('read_documents'),
+  build_ramp: read('read_documents'),
   list_map_layers: read('read_documents'),
   read_map_cells: read('read_documents'),
   render_preview: read('read_documents'),
@@ -56,6 +58,8 @@ const TOOL_CATALOGUE: Readonly<Record<ToolName, ToolEntry>> = {
   trash_files: write('project_files'),
   duplicate_file: write('project_files'),
   import_files: write('project_files'),
+  export_palette: write('files_saving'),
+  import_palette: write('edit_pixels'),
 };
 
 export { TOOL_CATALOGUE };

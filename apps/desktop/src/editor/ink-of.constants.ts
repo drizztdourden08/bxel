@@ -15,7 +15,15 @@ const INK_BUILDERS: Readonly<Record<InkKind, InkBuilder>> = {
   behind: () => ({ kind: 'behind' }),
   lockAlpha: () => ({ kind: 'lockAlpha' }),
   onlyColour: ({ drawing, other }) => ({ kind: 'onlyColour', index: drawing.onlyColour ?? other }),
-  dither: ({ drawing, other }) => ({ kind: 'dither', pattern: drawing.ditherPattern, level: drawing.ditherLevel, second: other }),
+  dither: ({ drawing, other, origin }) => ({
+    kind: 'dither',
+    pattern: drawing.ditherPattern,
+    level: drawing.ditherLevel,
+    second: other,
+    ...(drawing.ditherCustom && drawing.brushId !== null
+      ? { brushId: drawing.brushId, originX: drawing.patternAlign === 'start' ? origin.x : 0, originY: drawing.patternAlign === 'start' ? origin.y : 0 }
+      : {}),
+  }),
   shade: ({ drawing, reversed }) => ({
     kind: 'shade',
     ...(drawing.shadeRamp === null ? {} : { ramp: drawing.shadeRamp }),

@@ -34,6 +34,7 @@ const ONLY = {
   tiles: 'Tilesets and tilemaps',
   sheets: 'Sheets',
   palettes: 'Palettes',
+  swatches: 'Sprites, animations, tiles and palettes',
   drawing: 'Sprites, animations, tiles and maps',
 } as const;
 

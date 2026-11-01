@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
-import type { EditorTarget } from '../editor/editor.type';
+import type { PaletteTarget } from '../editor/editor.type';
 import { PANEL_LABEL, PANEL_TEXT } from './palette-panel.constants';
 import type { PanelOutcome } from './palette-panel.type';
 import { runPanelSteps } from './run-panel-steps';
 
-const renameSwatch = (target: EditorTarget, index: number, name: string): PanelOutcome => {
+const renameSwatch = (target: PaletteTarget, index: number, name: string): PanelOutcome => {
   const slot = target.bank.slots[index];
   const trimmed = name.trim();
   if (slot?.kind !== 'color' || trimmed === '' || trimmed === slot.name) return { ok: true, message: '' };

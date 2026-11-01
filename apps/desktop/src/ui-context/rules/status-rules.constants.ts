@@ -2,13 +2,13 @@
 import { always, any, hasDocument } from '../predicates.constants';
 import { rule } from '../rule';
 import type { UiRule } from '../ui-rule.type';
-import { EDIT_STAGE, MAP, PIXEL, SHEET } from './groups.constants';
+import { EDIT_STAGE, MAP, PALETTE_STAGE, PIXEL, SHEET } from './groups.constants';
 
 const STATUS_RULES: Record<string, UiRule> = {
   'status.cursor': rule({ applies: any(EDIT_STAGE, SHEET) }),
   'status.zoom': rule({ applies: any(EDIT_STAGE, SHEET) }),
-  'status.colour-1': rule({ applies: PIXEL }),
-  'status.colour-2': rule({ applies: PIXEL }),
+  'status.colour-1': rule({ applies: PALETTE_STAGE }),
+  'status.colour-2': rule({ applies: PALETTE_STAGE }),
   'status.tile': rule({ applies: MAP }),
   'status.index': rule({ applies: PIXEL }),
   'status.selection': rule({ applies: PIXEL }),

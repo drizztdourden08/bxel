@@ -20,6 +20,8 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   get_document: read,
   read_palette: read,
   read_pixels: read,
+  lint_pixels: read,
+  build_ramp: read,
   render_preview: read,
   preview_edits: edit,
   apply_edits: edit,
@@ -52,6 +54,8 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   trash_files: saveExport,
   duplicate_file: saveExport,
   import_files: saveExport,
+  export_palette: saveExport,
+  import_palette: edit,
 };
 
 const NATIVE_PAIR_TEXT = {

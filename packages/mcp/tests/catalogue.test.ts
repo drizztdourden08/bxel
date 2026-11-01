@@ -36,7 +36,7 @@ describe('K2 the tool catalogue', { tags: ['critical'] }, () => {
 
   it('keeps the writing tools to those that edit documents, files, layout and settings, and the restart', () => {
     const writing = Object.entries(TOOL_CATALOGUE).filter(([, entry]) => entry.kind === 'write');
-    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'create_folder', 'duplicate_file', 'export_document', 'import_files', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo']);
+    expect(writing.map(([name]) => name).sort()).toEqual(['apply_edits', 'create_document', 'create_folder', 'duplicate_file', 'export_document', 'export_palette', 'import_files', 'import_palette', 'move_files', 'organise', 'rename_file', 'repair_links', 'restart_bxel', 'save_document', 'set_layout', 'set_setting', 'split_legacy_file', 'trash_files', 'undo']);
   });
 });
 

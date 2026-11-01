@@ -23,6 +23,8 @@ import { previewEdits } from './tools/preview-edits';
 import { readMapCells } from './tools/read-map-cells';
 import { readPalette } from './tools/read-palette';
 import { readPixels } from './tools/read-pixels';
+import { lintPixels } from './tools/lint-pixels';
+import { buildRamp } from './tools/build-ramp';
 import { renderPreview } from './tools/render-preview';
 import { runCommand } from './tools/run-command';
 import { saveDocument } from './tools/save-document';
@@ -32,7 +34,9 @@ import { setView } from './tools/set-view';
 import { splitLegacyFile } from './tools/split-legacy-file';
 import { undo } from './tools/undo';
 import { duplicateFile } from './tools/duplicate-file';
+import { exportPalette } from './tools/export-palette';
 import { importFiles } from './tools/import-files';
+import { importPaletteBank } from './tools/import-palette-bank';
 import { createFolder } from './tools/create-folder';
 import { findReferences } from './tools/find-references';
 import { moveFiles } from './tools/move-files';
@@ -55,6 +59,8 @@ const RAW_HANDLERS: ToolHandlers = {
   get_animation: getAnimation,
   read_palette: readPalette,
   read_pixels: readPixels,
+  lint_pixels: lintPixels,
+  build_ramp: buildRamp,
   render_preview: renderPreview,
   preview_edits: previewEdits,
   apply_edits: applyEdits,
@@ -84,6 +90,8 @@ const RAW_HANDLERS: ToolHandlers = {
   trash_files: trashFiles,
   duplicate_file: duplicateFile,
   import_files: importFiles,
+  export_palette: exportPalette,
+  import_palette: importPaletteBank,
 };
 
 const TOOL_HANDLERS: ToolHandlers = guardHandlers(RAW_HANDLERS);

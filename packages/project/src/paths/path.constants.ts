@@ -27,7 +27,7 @@ const FILE_EXTENSIONS = {
   apng: ['png', 'apng'],
   gif: ['gif'],
   sheet: ['json'],
-  palette: ['gpl', 'pal', 'hex'],
+  palette: ['gpl', 'pal', 'hex', 'txt', 'ase'],
 } as const satisfies Record<string, readonly string[]>;
 
 const MANIFEST_SUFFIX = '.bxelproject';

@@ -83,7 +83,7 @@ const FALLBACK_BACKGROUND: SourceColor = { rgb: '#000000', name: 'Black' };
 const SOURCE_DEFAULT: PaletteSource = { kind: 'preset', presetId: PRESET_DEFAULT, file: null };
 
 const PALETTE_FILE_FILTERS: NonNullable<DocumentDialogOptions['filters']> = [
-  { name: 'Palette file', extensions: ['gpl', 'pal', 'png'] },
+  { name: 'Palette file', extensions: ['gpl', 'pal', 'hex', 'txt', 'ase', 'png'] },
 ];
 
 const FILE_CHOICE = 'file';
@@ -98,7 +98,7 @@ const CUSTOM_CHOICE = 'custom';
 
 const HEX_COLOR = /^#[0-9a-f]{6}/i;
 
-const PALETTE_FILE_KIND = { gpl: 'gpl', pal: 'pal', png: 'png' } as const;
+const PALETTE_FILE_KIND = { gpl: 'gpl', pal: 'pal', hex: 'hex', txt: 'txt', ase: 'ase', png: 'png' } as const;
 
 const SOURCE_TEXT = {
   label: 'Source',
@@ -109,7 +109,7 @@ const SOURCE_TEXT = {
   setLabel: (name: string): string => `Set: ${name}`,
   missingSet: 'That swatch set is no longer available.',
   choose: 'Choose a palette file.',
-  unreadable: 'Cannot read that palette file. Bxel opens GPL, PAL and palette PNG files.',
+  unreadable: 'Cannot read that palette file. Bxel opens GPL, PAL, HEX, TXT, ASE and palette PNG files.',
   title: 'Choose a palette file',
   fits: (kept: number, total: number): string => `Uses the first ${kept} of ${total} colours. Raise the limit to keep all of them.`,
 } as const;

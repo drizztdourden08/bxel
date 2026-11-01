@@ -8,6 +8,8 @@ const FILE_KIND_VALUES = ['bxel', 'image', 'palette', 'sheet_json', 'other'] as 
 const FILE_KIND_SCHEMA = z.enum(FILE_KIND_VALUES);
 const DEFAULT_FILE_KINDS = ['bxel', 'image', 'palette', 'sheet_json'] as const;
 const EXPORT_FORMAT_VALUES = ['png', 'png-indexed', 'gif', 'atlas-json'] as const;
+const PALETTE_EXPORT_FORMAT_VALUES = ['gpl', 'pal', 'hex', 'txt', 'ase', 'png'] as const;
+const PALETTE_IMPORT_MODE_VALUES = ['append', 'replace', 'map'] as const;
 const NO_INPUT_SCHEMA = z.strictObject({});
 
 export {
@@ -16,6 +18,8 @@ export {
   FILE_KIND_SCHEMA,
   LAUNCHED_BY_SCHEMA,
   NO_INPUT_SCHEMA,
+  PALETTE_EXPORT_FORMAT_VALUES,
+  PALETTE_IMPORT_MODE_VALUES,
   SESSION_MODE_SCHEMA,
   WINDOW_SCHEMA,
 };

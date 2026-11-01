@@ -20,6 +20,7 @@ const paintGradient = (session: GradientSession): void => {
       kind: spec.kind,
       reflect: spec.reflect,
       pattern: spec.pattern,
+      ...(spec.stencil ? { stencil: spec.stencil } : {}),
       wrap: spec.wrap,
     });
   }

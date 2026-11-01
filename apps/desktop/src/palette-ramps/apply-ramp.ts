@@ -1,14 +1,14 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
 import type { RampStep } from '@bxel/palette';
-import type { EditorTarget } from '../editor/editor.type';
+import type { PaletteTarget } from '../editor/editor.type';
 import { PANEL_LABEL, PANEL_TEXT } from '../palette-panel/palette-panel.constants';
 import type { PanelOutcome } from '../palette-panel/palette-panel.type';
 import { runPanelSteps } from '../palette-panel/run-panel-steps';
 import { RAMP_TEXT } from './palette-ramps.constants';
 import { rampSteps } from './ramp-steps';
 
-const applyRamp = (target: EditorTarget, steps: readonly RampStep[], name: string, raise: number | null = null): PanelOutcome => {
+const applyRamp = (target: PaletteTarget, steps: readonly RampStep[], name: string, raise: number | null = null): PanelOutcome => {
   const { bank } = target;
   const added = steps.filter((step) => step.reuses === null).length;
   const free = (raise ?? bank.cap) - bank.slots.length;

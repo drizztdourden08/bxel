@@ -58,12 +58,16 @@ const INPUT_EXAMPLES: Record<string, unknown> = {
   get_document: { documentId: DOC, include: ['tags', 'guides', 'presets', 'entries', 'tileset'] },
   read_palette: { documentId: DOC },
   read_pixels: { documentId: DOC, spriteId: SPRITE, frameId: FRAME, layer: 'flattened', rect: RECT },
+  lint_pixels: { documentId: DOC, spriteId: SPRITE, frameId: FRAME },
+  build_ramp: { documentId: DOC, base: '#6B3FA0', dark: 2, light: 2 },
   render_preview: { documentId: DOC, target: { spriteId: SPRITE } },
   preview_edits: { documentId: DOC, baseRevision: 12, label: 'Outline', steps: EDIT_STEPS },
   apply_edits: { documentId: DOC, baseRevision: 12, label: 'Outline', steps: EDIT_STEPS, clientRequestId: 'try-1' },
   undo: { documentId: DOC, expectedRevision: 13, direction: 'redo', steps: 2 },
   save_document: { documentId: DOC, asset: { kind: 'sprite', id: SPRITE }, target: { fileName: 'hero.bxsprite', moveAsset: true } },
   export_document: { documentId: DOC, format: 'png', source: { spriteId: SPRITE }, fileName: 'idle.png' },
+  export_palette: { documentId: DOC, format: 'gpl', bankId: BANK, indexes: [1, 2, 3], fileName: 'hero.gpl' },
+  import_palette: { documentId: DOC, bankId: BANK, file: { ...LOCATION, path: 'palettes/pico.gpl' }, mode: 'append' },
   create_document: { name: 'Hero', kind: 'sheet', bank: { name: 'Main', cap: 16, transparent: true, colors: [{ rgb: '#140B26' }] }, sprite: { name: 'idle', width: 16, height: 16 } },
 };
 
@@ -166,12 +170,16 @@ const OUTPUT_EXAMPLES: Record<string, unknown> = {
     indexHash: SHA,
     colorUse: [[0, 1], [1, 3]],
   },
+  lint_pixels: { ok: true, revision: 12, spriteId: SPRITE, frameId: FRAME, total: 1, findings: [{ rule: 'orphan', x: 3, y: 4, width: 1, height: 1, index: 2 }] },
+  build_ramp: { ok: true, revision: 12, bankId: BANK, steps: [{ offset: -1, hex: '#4A2B73', reuses: null }, { offset: 0, hex: '#6B3FA0', reuses: 4 }, { offset: 1, hex: '#9566C8', reuses: null }], added: 2, free: 5 },
   render_preview: { ok: true, revision: 12, width: 128, height: 128, scale: 4, indexHash: SHA, uri: 'bxel://doc/preview.png' },
   preview_edits: { ...TRANSACTION, mode: 'preview', preview: { cels: [], colorUse: { [BANK]: [0, 4] }, truncated: false } },
   apply_edits: TRANSACTION,
   undo: { ok: true, baseRevision: 13, revision: 14, direction: 'undo', count: 1, undone: { label: 'Agent (pixel-agent): outline', origin: 'mcp' }, changes: CHANGES },
   save_document: { ok: true, revision: 14, fileName: 'hero.bxsprite', place: LOCATION, bytes: 18234, savedAt: '2026-10-23T19:42:10Z' },
   export_document: { ok: true, revision: 14, files: [{ fileName: 'idle.png', bytes: 412, sha256: SHA }], indexHash: SHA },
+  export_palette: { ok: true, revision: 14, bankId: BANK, colors: 3, files: [{ fileName: 'hero.gpl', bytes: 96, sha256: SHA }] },
+  import_palette: { ok: true, revision: 15, bankId: BANK, mode: 'append', added: 12, present: 4, over: 0 },
   create_document: { ok: true, documentId: DOC, revision: 1, asset: { kind: 'sheet', id: 'sht_0123456789abcdef' } },
 };
 

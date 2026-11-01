@@ -9,6 +9,7 @@ const PANEL_LABEL = {
   removeUnused: 'Remove unused colours',
   unite: 'Unite duplicate colours',
   detach: 'Detach palette',
+  import: 'Import colours',
   rename: 'Rename swatch',
   ramp: 'New ramp',
   rampEdit: 'Edit ramp',
@@ -45,6 +46,7 @@ const PANEL_TEXT = {
   nothingUnused: 'Every colour is in use.',
   noDuplicates: 'No two swatches have the same colour.',
   fixedSlot: 'The first swatch stays in place.',
+  noSprite: 'Only a sprite can have its own palette.',
 } as const;
 
 const SHEET_TEXT = {
@@ -62,6 +64,31 @@ const SHEET_TEXT = {
   unite: (count: number): string => (count === 1 ? 'Unite 1 colour' : `Unite ${count} colours`),
   recolour: (count: number): string => (count === 1 ? 'Recolour 1 swatch' : `Recolour ${count} swatches`),
   cancel: 'Cancel',
+} as const;
+
+const RECOLOUR_TEXT = {
+  copyTitle: 'Copy a colour over a swatch',
+  copyNote: (from: number, to: number): string => `Swatch ${to} takes the colour of swatch ${from}. Pixels that use swatch ${to} change colour.`,
+  copyNone: 'Pick two different colour swatches.',
+  copyLabel: 'Copy colour over',
+  copyDone: (to: number): string => `Swatch ${to} recoloured.`,
+  moveTitle: 'Move a colour only',
+  moveNote: (from: number, to: number): string => `The colour of swatch ${from} moves to swatch ${to} and the ones between shift by one. The pixels keep their index, so the drawing changes.`,
+  moveNone: 'Choose a different colour swatch to move to.',
+  moveLabel: 'Move colour only',
+  moveDone: (from: number, to: number): string => `Colour moved from swatch ${from} to ${to}.`,
+  destination: 'Move to swatch',
+} as const;
+
+const REPLACE_TEXT = {
+  front: 'Replace with front colour',
+  ramp: 'Replace ramp',
+  frame: 'In this layer and frame',
+  sprite: 'In every layer and frame of the sprite',
+  animation: 'In every sprite of this animation',
+  selection: 'In the selection',
+  noRamp: 'No other ramp to replace it with.',
+  notInRamp: 'This swatch is in no ramp.',
 } as const;
 
 const PANEL_COMMAND = {
@@ -88,4 +115,4 @@ const PANEL_COMMAND_LABEL = {
 
 const NUDGE_LIGHTNESS = 0.06;
 
-export { NUDGE_LIGHTNESS, PANEL_COMMAND, PANEL_COMMAND_LABEL, PANEL_LABEL, PANEL_TEXT, SHEET_TEXT };
+export { NUDGE_LIGHTNESS, PANEL_COMMAND, PANEL_COMMAND_LABEL, PANEL_LABEL, PANEL_TEXT, RECOLOUR_TEXT, REPLACE_TEXT, SHEET_TEXT };

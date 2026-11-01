@@ -12,6 +12,8 @@ const TOOL_NAME = {
   getDocument: 'get_document',
   readPalette: 'read_palette',
   readPixels: 'read_pixels',
+  lintPixels: 'lint_pixels',
+  buildRamp: 'build_ramp',
   renderPreview: 'render_preview',
   previewEdits: 'preview_edits',
   applyEdits: 'apply_edits',
@@ -44,6 +46,8 @@ const TOOL_NAME = {
   trashFiles: 'trash_files',
   duplicateFile: 'duplicate_file',
   importFiles: 'import_files',
+  exportPalette: 'export_palette',
+  importPalette: 'import_palette',
 } as const;
 
 const TOOLS_WITHOUT_SESSION: readonly string[] = [TOOL_NAME.startBxel];

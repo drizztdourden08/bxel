@@ -27,6 +27,19 @@ interface SwatchDraftState {
   hide: () => void;
 }
 
+interface BankPreview {
+  documentId: DocumentId;
+  revision: number;
+  bankId: BankId;
+  withBankId: BankId;
+}
+
+interface BankPreviewState {
+  preview: BankPreview | null;
+  show: (preview: BankPreview) => void;
+  end: () => void;
+}
+
 interface RampBuilderRequest {
   documentId: DocumentId;
   bankId: BankId;
@@ -39,7 +52,18 @@ interface RampBuilderState {
   close: () => void;
 }
 
-type SheetKind = CleanUpKind | 'gradient';
+interface PaletteImportRequest {
+  documentId: DocumentId;
+  bankId: BankId;
+}
+
+interface PaletteImportState {
+  request: PaletteImportRequest | null;
+  open: (request: PaletteImportRequest) => void;
+  close: () => void;
+}
+
+type SheetKind = CleanUpKind | 'gradient' | 'copy' | 'move';
 
 interface PaletteSheetRequest {
   kind: SheetKind;
@@ -56,5 +80,5 @@ interface PaletteSheetState {
 }
 
 export type {
-  PaletteSelectionState, PaletteSheetRequest, PaletteSheetState, RampBuilderRequest, RampBuilderState, SheetKind, SwatchDraftPreview, SwatchDraftState,
+  BankPreview, BankPreviewState, PaletteImportRequest, PaletteImportState, PaletteSelectionState, PaletteSheetRequest, PaletteSheetState, RampBuilderRequest, RampBuilderState, SheetKind, SwatchDraftPreview, SwatchDraftState,
 };

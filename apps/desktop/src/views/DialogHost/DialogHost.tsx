@@ -11,6 +11,7 @@ import { CreateDialog } from '../CreateDialog';
 import { ProjectCreateDialog } from '../ProjectCreateDialog';
 import { PaletteChangeDialog } from '../PaletteChangeDialog';
 import { PresetDialog } from '../PresetDialog';
+import { PaletteImportDialog } from '../PaletteImportDialog';
 import { PaletteSheetDialog } from '../PaletteSheetDialog';
 import { RampBuilderDialog } from '../RampBuilderDialog';
 import { useWindowDrop } from './behavior/useWindowDrop';
@@ -32,6 +33,7 @@ const DialogHost = () => {
       <PresetDialog />
       <RampBuilderDialog />
       <PaletteSheetDialog />
+      <PaletteImportDialog />
       <LinkedCelDialog />
     </>
   );

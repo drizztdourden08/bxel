@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind constants */
+import { PALETTE_TRANSFER_COMMAND } from '../../keymap/palette-transfer-command-id.constants';
 import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
 import { always, any, canRedo, canUndo, file, hasDocument, hasFile, isolated, never, not, projectOpen } from '../predicates.constants';
 import { ONLY, REASON } from '../reasons.constants';
@@ -7,7 +8,7 @@ import { family } from './family';
 import type { RuleTable } from './rule-table.type';
 import {
   ANY_SELECTED, CELLS_SELECTED, CLIPBOARD, DOC, DRAW, DRAW_STAGE, EDIT_STAGE, FILE, GRID_STAGE, MAP, NONE_OR_PIXEL, NOT_TILE_FILE, SELECTED_HERE,
-  ONION, PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, TIMELINE, WRITE, ZOOM_STAGE,
+  ONION, PALETTE_STAGE, PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, TIMELINE, WRITE, ZOOM_STAGE,
 } from './groups.constants';
 
 const TOOLS: RuleTable = {
@@ -34,7 +35,7 @@ const OPTIONS: RuleTable = {
     [DOC],
     ONLY.pixels,
   ),
-  ...family(['brush.size_down_by_four', 'brush.size_up_by_four'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
+  ...family(['brush.size_down_by_four', 'brush.size_up_by_four', 'brush.tip_previous', 'brush.tip_next'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
   ...family(['options.focus', 'options.open'], EDIT_STAGE),
   ...family([...DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection && !OUTLINE_ACTIONS.includes(id)), ...DRAWING_OPTION_COMMAND_IDS], PIXEL, [DOC], ONLY.pixels),
   ...family(OUTLINE_ACTIONS, PIXEL, [DOC, WRITE], ONLY.pixels),
@@ -181,11 +182,15 @@ const TIMELINES: RuleTable = {
 };
 
 const PALETTES: RuleTable = {
-  ...family(['palette.delete_swatch', 'palette.merge_swatch', 'palette.change_limit'], PIXEL, [DOC, WRITE], ONLY.pixels),
-  ...family(['palette.copy_hex', 'palette.reveal_swatch', 'palette.use_as'], PIXEL, [], ONLY.pixels),
+  ...family(['palette.delete_swatch', 'palette.merge_swatch', 'palette.change_limit'], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
+  ...family(['palette.copy_hex', 'palette.reveal_swatch', 'palette.use_as'], PALETTE_STAGE, [], ONLY.swatches),
   ...family(['palette.pick_here'], PIXEL, [], ONLY.pixels),
-  ...family(['palette.add_colour', 'palette.new_ramp', 'palette.make_ramp', 'palette.make_ramp_by_lightness', 'palette.gradient_between'], PIXEL, [DOC, WRITE], ONLY.pixels),
-  ...family(['palette.remove_unused', 'palette.unite_duplicates', 'palette.sort_selection'], PIXEL, [DOC, WRITE], ONLY.pixels),
+  ...family(['palette.add_colour', 'palette.new_ramp', 'palette.make_ramp', 'palette.make_ramp_by_lightness', 'palette.gradient_between'], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
+  ...family(['palette.remove_unused', 'palette.unite_duplicates', 'palette.sort_selection'], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
+  ...family([PALETTE_TRANSFER_COMMAND.import, PALETTE_TRANSFER_COMMAND.moveColour], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
+  ...family([PALETTE_TRANSFER_COMMAND.export, PALETTE_TRANSFER_COMMAND.copyList, PALETTE_TRANSFER_COMMAND.saveProject], PALETTE_STAGE, [DOC], ONLY.swatches),
+  ...family([PALETTE_TRANSFER_COMMAND.replaceFront, PALETTE_TRANSFER_COMMAND.replaceRamp], PIXEL, [DOC, WRITE], ONLY.pixels),
+  ...family([PALETTE_TRANSFER_COMMAND.previewWith, PALETTE_TRANSFER_COMMAND.previewEnd], PIXEL, [DOC], ONLY.pixels),
 };
 
 const PANEL_COMMAND_IDS = [

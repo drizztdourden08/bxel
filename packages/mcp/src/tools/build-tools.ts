@@ -12,7 +12,9 @@ import { getDocumentTool } from './get-document-tool';
 import { getHistoryTool } from './get-history-tool';
 import { getViewTool } from './get-view-tool';
 import { getSessionTool } from './get-session-tool';
+import { exportPaletteTool } from './export-palette-tool';
 import { importFilesTool } from './import-files-tool';
+import { importPaletteTool } from './import-palette-tool';
 import { listAssetsTool } from './list-assets-tool';
 import { listDocumentsTool } from './list-documents-tool';
 import { getSettingsTool } from './get-settings-tool';
@@ -29,6 +31,8 @@ import { buildPreviewEditsTool } from './preview-edits-tool';
 import { readMapCellsTool } from './read-map-cells-tool';
 import { readPaletteTool } from './read-palette-tool';
 import { readPixelsTool } from './read-pixels-tool';
+import { lintPixelsTool } from './lint-pixels-tool';
+import { buildRampTool } from './build-ramp-tool';
 import { renameFileTool } from './rename-file-tool';
 import { renderPreviewTool } from './render-preview-tool';
 import { repairLinksTool } from './repair-links-tool';
@@ -61,6 +65,8 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   getAnimationTool,
   readPaletteTool,
   readPixelsTool,
+  lintPixelsTool,
+  buildRampTool,
   listMapLayersTool,
   readMapCellsTool,
   renderPreviewTool,
@@ -91,6 +97,8 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   trashFilesTool,
   duplicateFileTool,
   importFilesTool,
+  exportPaletteTool,
+  importPaletteTool,
 ];
 
 export { buildTools };

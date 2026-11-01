@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { rampsOfSlot } from '@bxel/palette';
 import type { Point } from '@bxel/raster';
 import { useDocumentStore } from '../stores/useDocumentStore';
 import { useDrawingStore } from '../stores/useDrawingStore';
@@ -11,16 +12,19 @@ import { samplePixel } from './sample-pixel';
 import { symmetryOf } from './symmetry-of';
 import { wrapOf } from './wrap-of';
 
-const pickColour = (target: EditorTarget, at: Point, slot: ColourSlot): void => {
+const pickColour = (target: EditorTarget, at: Point, slot: ColourSlot, ramp: boolean): void => {
   const index = samplePixel(target, at);
   if (index === null) return;
   const tools = useToolStore.getState();
   tools.setColour(slot, index);
+  const found = ramp ? rampsOfSlot(target.bank, index)[0] : undefined;
+  if (found) useDrawingStore.getState().patch({ shadeRamp: found.name });
 };
 
-const runInstant = (kind: 'pick' | 'fill', target: EditorTarget, at: Point, slot: ColourSlot): void => {
+/** Shift with the picker picks the colour and also the ramp it belongs to, into the Shade ramp field. */
+const runInstant = (kind: 'pick' | 'fill', target: EditorTarget, at: Point, slot: ColourSlot, ramp = false): void => {
   if (kind === 'pick') {
-    pickColour(target, at, slot);
+    pickColour(target, at, slot, ramp);
     return;
   }
   const tools = useToolStore.getState();

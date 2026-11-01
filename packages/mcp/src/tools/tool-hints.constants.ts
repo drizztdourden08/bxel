@@ -19,6 +19,8 @@ const TOOL_HINTS = {
   get_document: SAFE_READ,
   read_palette: SAFE_READ,
   read_pixels: SAFE_READ,
+  lint_pixels: SAFE_READ,
+  build_ramp: SAFE_READ,
   render_preview: SAFE_READ,
   preview_edits: SAFE_READ,
   apply_edits: ACTION,
@@ -51,6 +53,8 @@ const TOOL_HINTS = {
   trash_files: DESTRUCTIVE,
   duplicate_file: ACTION,
   import_files: ACTION,
+  export_palette: DESTRUCTIVE,
+  import_palette: ACTION,
 } as const satisfies Record<string, ToolHints>;
 
 export { TOOL_HINTS };

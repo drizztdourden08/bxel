@@ -62,7 +62,7 @@ const ASSET_OUTPUT_EXAMPLES: Record<string, unknown> = {
   rename_file: { ok: true, projectId: PROJECT, from: LOCATION, to: { ...LOCATION, path: 'sprites/knight.bxsprite' }, linksRewritten: 2 },
   create_folder: { ok: true, projectId: PROJECT, folder: { ...LOCATION, path: 'heroes' } },
   duplicate_file: { ok: true, projectId: PROJECT, created: [{ from: LOCATION, to: { ...LOCATION, path: 'sprites/hero copy.bxsprite' } }] },
-  import_files: { ok: true, projectId: PROJECT, imported: [{ source: { ...LOCATION, path: 'art/hero.png' }, created: [{ ...LOCATION, path: 'heroes/hero.bxsprite' }] }], skipped: [{ path: 'art/notes.txt', reason: 'Only PNG and GIF images and GPL and PAL palette files can be imported.' }] },
+  import_files: { ok: true, projectId: PROJECT, imported: [{ source: { ...LOCATION, path: 'art/hero.png' }, created: [{ ...LOCATION, path: 'heroes/hero.bxsprite' }] }], skipped: [{ path: 'art/notes.md', reason: 'Only PNG and GIF images and GPL, PAL, HEX, TXT and ASE palette files can be imported.' }] },
   trash_files: { ok: true, projectId: PROJECT, trashed: [LOCATION], brokenLinksIn: [{ ...LOCATION, path: 'sheets/walk.bxsheet' }] },
   list_map_layers: {
     ok: true,

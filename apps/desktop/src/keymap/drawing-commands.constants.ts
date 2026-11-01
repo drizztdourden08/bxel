@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { CommandDef } from '@drizztdourden08/brock-react';
+import { antiAliasLayer } from '../editor/anti-alias-layer';
 import { gesture } from '../editor/gesture-state';
 import { brushFromSelection } from '../editor/brush-from-selection';
 import { outlineLayer } from '../editor/outline-layer';
@@ -67,6 +68,22 @@ const DRAWING_COMMANDS: readonly CommandDef[] = [
     group: COMMAND_GROUP.edit,
     checked: () => useDrawingStore.getState().outlineSelOut,
     run: () => useDrawingStore.getState().patch({ outlineSelOut: !useDrawingStore.getState().outlineSelOut }),
+  },
+  {
+    id: DRAWING_COMMAND.outlineFrames,
+    label: 'Outline this frame, its tag or all frames',
+    group: COMMAND_GROUP.edit,
+    checked: () => useDrawingStore.getState().outlineFrames !== 'frame',
+    run: () => {
+      const now = useDrawingStore.getState().outlineFrames;
+      useDrawingStore.getState().patch({ outlineFrames: now === 'frame' ? 'tag' : now === 'tag' ? 'all' : 'frame' });
+    },
+  },
+  {
+    id: DRAWING_COMMAND.antiAlias,
+    label: 'Anti alias the front colour',
+    group: COMMAND_GROUP.edit,
+    run: () => void antiAliasLayer(),
   },
   {
     id: DRAWING_COMMAND.brushFromSelection,

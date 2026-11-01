@@ -4,6 +4,7 @@ import { useDrawingStore } from '../stores/useDrawingStore';
 import { useToolStore } from '../stores/useToolStore';
 import { currentTarget } from './current-target';
 import { OUTLINE_TEXT } from './outline-layer.constants';
+import { outlineScope } from './outline-scope';
 import { runSelectionStep } from './selection/run-selection-step';
 import { selectionMask } from './selection/selection-mask';
 import { wrapOf } from './wrap-of';
@@ -11,7 +12,7 @@ import { wrapOf } from './wrap-of';
 const outlineLayer = (side: 'outside' | 'inside'): boolean => {
   const target = currentTarget();
   if (!target) return false;
-  const { outlineRing, outlineSelOut } = useDrawingStore.getState();
+  const { outlineRing, outlineSelOut, outlineFrames } = useDrawingStore.getState();
   const mask = selectionMask(target);
   const options = {
     side,
@@ -22,7 +23,7 @@ const outlineLayer = (side: 'outside' | 'inside'): boolean => {
     ...(mask ? { mask } : {}),
   };
   const label = side === 'outside' ? OUTLINE_TEXT.outside : OUTLINE_TEXT.inside;
-  return runSelectionStep(label, { name: ADVANCED_COMMAND.pixelsOutline, options });
+  return runSelectionStep(label, { name: ADVANCED_COMMAND.pixelsOutline, options }, (found) => outlineScope(found, outlineFrames));
 };
 
 export { outlineLayer };

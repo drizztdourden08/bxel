@@ -8,6 +8,7 @@ import { paintAxes } from './paint-axes';
 import { paintCanvasPreview } from './paint-canvas-preview';
 import { paintCursor } from './paint-cursor';
 import { paintGuides } from './paint-guides';
+import { paintLint } from './paint-lint';
 import { paintSelection } from './paint-selection';
 import { paintSlices } from './paint-slices';
 import { paintTransform } from './paint-transform';
@@ -17,6 +18,7 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   const look = overlayLook(ctx.canvas);
   const symmetry = symmetryOf(useToolStore.getState(), { width: view.imageWidth, height: view.imageHeight });
   paintAreas(ctx, view, look);
+  paintLint(ctx, view);
   paintSelection(ctx, view, look);
   paintGuides(ctx, view);
   paintAxes(ctx, view, symmetry, look);

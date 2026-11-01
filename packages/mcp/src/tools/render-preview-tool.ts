@@ -3,6 +3,7 @@ import { z } from 'zod';
 import {
   ANIM_FRAME_ID_SCHEMA,
   ANIMATION_ID_SCHEMA,
+  BANK_ID_SCHEMA,
   DOCUMENT_ID_SCHEMA,
   FRAME_ID_SCHEMA,
   REVISION_SCHEMA,
@@ -50,6 +51,7 @@ const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
       .default(false)
       .describe('A sheet target only: draw the sheet as the exporter packs it (grid or packed layout, spacing, margin; the first page when there are several) instead of the default sheet image.'),
     onion: z.boolean().default(false).describe('Animation frame only: draw the frame with its onion skin ghosts as the canvas draws them, using the timeline onion settings from get_view with the onion switched on.'),
+    bankId: BANK_ID_SCHEMA.optional().describe('Sprite frame only: draw the frame through this other palette, as the Preview with command does. Nothing is saved. The palette needs at least as many swatches as the sprite palette.'),
     animated: z.enum(['gif', 'apng']).optional().describe('Animation tag, facing or whole animation: return the play as a GIF or an APNG, with the frame times, instead of a still strip.'),
   }),
   output: withFailure({

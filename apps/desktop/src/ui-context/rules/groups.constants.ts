@@ -7,6 +7,8 @@ const PIXEL: Pred = surface('pixel');
 
 const MAP: Pred = surface('map');
 
+const PALETTE_STAGE: Pred = any(PIXEL, surface('palette'));
+
 const SHEET: Pred = surface('sheet');
 
 const TILE_FILES: Pred = file('tileset', 'tilemap');
@@ -51,5 +53,5 @@ const CLIPBOARD: Need = [any(clip('pixels'), clip('cells')), REASON.emptyClipboa
 
 export {
   ANY_SELECTED, CELLS_SELECTED, CLIPBOARD, DOC, DRAW, DRAW_STAGE, EDIT_STAGE, FILE, GRID_STAGE, MAP, NONE_OR_PIXEL, NOT_TILE_FILE, ONION,
-  PIXEL, PIXELS_SELECTED, RULER_STAGE, SELECTED_HERE, SHEET, TILE_FILES, TIMELINE, VIEW_STAGE, WRITE, ZOOM_STAGE,
+  PALETTE_STAGE, PIXEL, PIXELS_SELECTED, RULER_STAGE, SELECTED_HERE, SHEET, TILE_FILES, TIMELINE, VIEW_STAGE, WRITE, ZOOM_STAGE,
 };

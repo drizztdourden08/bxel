@@ -16,6 +16,8 @@ const TOOL_TEXT: Readonly<Record<ToolRowId, string>> = {
   get_animation: 'Reads an animation and its frames.',
   read_palette: 'Reads a palette.',
   read_pixels: 'Reads pixels of a cel.',
+  lint_pixels: 'Finds orphan pixels, doubles and banding in a frame.',
+  build_ramp: 'Proposes the colours of a ramp.',
   list_map_layers: 'Lists the layers of a tilemap.',
   read_map_cells: 'Reads the cells of a tilemap layer.',
   render_preview: 'Renders a picture of a document.',
@@ -48,6 +50,8 @@ const TOOL_TEXT: Readonly<Record<ToolRowId, string>> = {
   trash_files: 'Moves files of a project to the system trash.',
   duplicate_file: 'Copies files of a project beside the originals.',
   import_files: 'Turns image and palette files of a project into assets.',
+  export_palette: 'Writes a palette as a palette file or a PNG strip.',
+  import_palette: 'Puts the colours of a palette file into a palette of a document.',
 };
 
 const LEVEL_NAME: Readonly<Record<Level, string>> = { disabled: 'Disabled', read: 'Read', edit: 'Edit' };

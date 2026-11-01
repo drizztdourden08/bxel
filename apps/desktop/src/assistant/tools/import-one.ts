@@ -8,7 +8,7 @@ import { importPlain } from '../../image-import/import-plain';
 import type { ToolContext } from '../assistant.type';
 import { assetIdsIn } from './asset-ids-in';
 import { importPalette } from './import-palette';
-import { IMPORT_EXTENSIONS } from './import-extensions.constants';
+import { IMPORT_EXTENSIONS, PALETTE_EXTENSIONS } from './import-extensions.constants';
 import type { Entry } from './project-files-input.type';
 import { saveNewAssets } from './save-new-assets';
 import { toolKit } from './tool-kit';
@@ -25,7 +25,7 @@ const importOne = async (context: ToolContext, documentId: DocumentId, defaults:
   const extension = fileExtension(entry.path).toLowerCase();
   if (entry.folder || !IMPORT_EXTENSIONS.includes(extension)) return TOOL_TEXT.notImportable;
   const bytes = await toolKit(context).documents.read(entry.path);
-  if (extension === 'gpl' || extension === 'pal') {
+  if (PALETTE_EXTENSIONS.includes(extension)) {
     return importedBy(context, documentId, () => importPalette(context.host, documentId, { bytes, fileName: fileName(entry.path) }, defaults));
   }
   const read = readImage(bytes, fileName(entry.path));

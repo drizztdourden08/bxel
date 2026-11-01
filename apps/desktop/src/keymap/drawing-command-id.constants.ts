@@ -3,7 +3,7 @@ const DRAWING_TOOL_IDS = ['spray', 'shade', 'gradient', 'line', 'curve', 'rect',
 
 const INK_TOOLS = ['pencil', 'spray', 'fill', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon'] as const;
 
-const INK_NAMES = ['ink', 'dither_pattern', 'dither_level', 'shade_steps', 'shade_ramp', 'pattern_align'] as const;
+const INK_NAMES = ['ink', 'dither_pattern', 'dither_level', 'dither_custom', 'shade_steps', 'shade_ramp', 'pattern_align'] as const;
 
 const BRUSH_ANGLE_TOOLS = ['pencil', 'eraser', 'shade', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon'] as const;
 
@@ -16,6 +16,8 @@ const DRAWING_OPTION_IDS: readonly string[] = [
   ...FILLED_TOOLS.flatMap((tool) => [`${tool}.filled`, `${tool}.fill_colour`]),
   'rect.radius',
   ...BRUSH_ANGLE_TOOLS.map((tool) => `${tool}.angle`),
+  ...BRUSH_ANGLE_TOOLS.filter((tool) => tool !== 'pencil').map((tool) => `${tool}.custom_brush`),
+  ...BRUSH_ANGLE_TOOLS.map((tool) => `${tool}.brush_spacing`),
   'line.even_steps',
   'curve.perfect',
   'curve.cubic',
@@ -36,6 +38,7 @@ const DRAWING_OPTION_IDS: readonly string[] = [
   'gradient.kind',
   'gradient.mode',
   'gradient.pattern',
+  'gradient.custom',
   'gradient.size',
   'gradient.reflect',
   'gradient.ramp',
@@ -63,10 +66,12 @@ const DRAWING_COMMAND = {
   outlineInside: 'edit.outline_inside',
   outlineRing: 'edit.outline_ring',
   outlineSelOut: 'edit.outline_sel_out',
+  outlineFrames: 'edit.outline_frames',
+  antiAlias: 'edit.anti_alias',
 } as const;
 
-const OUTLINE_ACTIONS: readonly string[] = [DRAWING_COMMAND.outline, DRAWING_COMMAND.outlineInside];
+const OUTLINE_ACTIONS: readonly string[] = [DRAWING_COMMAND.outline, DRAWING_COMMAND.outlineInside, DRAWING_COMMAND.antiAlias];
 
 const DRAWING_COMMAND_IDS: readonly string[] = Object.values(DRAWING_COMMAND);
 
-export { INK_COMMAND, DRAWING_COMMAND, OUTLINE_ACTIONS, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS, DRAWING_TOOL_IDS, FILLED_TOOLS, INK_TOOLS, LOCK_TOOLS };
+export { BRUSH_ANGLE_TOOLS, INK_COMMAND, DRAWING_COMMAND, OUTLINE_ACTIONS, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS, DRAWING_TOOL_IDS, FILLED_TOOLS, INK_TOOLS, LOCK_TOOLS };

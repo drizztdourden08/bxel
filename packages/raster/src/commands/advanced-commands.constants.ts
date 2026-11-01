@@ -1,6 +1,7 @@
 /* @layer core @kind config */
 const ADVANCED_COMMAND = {
   pixelsReplace: 'pixels.replace',
+  pixelsReplaceRamp: 'pixels.replace_ramp',
   pixelsShade: 'pixels.shade',
   pixelsGradient: 'pixels.gradient',
   pixelsStamp: 'pixels.stamp',

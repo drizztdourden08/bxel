@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { announce, toast } from '@drizztdourden08/brock-react';
-import { currentTarget } from '../editor/current-target';
+import { currentPaletteTarget } from './current-palette-target';
 import { makeRamp } from '../palette-ramps/make-ramp';
 import { usePaletteSheetStore } from '../stores/usePaletteSheetStore';
 import { useRampBuilderStore } from '../stores/useRampBuilderStore';
@@ -37,7 +37,7 @@ const runners: Readonly<Record<PanelCommand, (scene: CommandScene) => void>> = {
 };
 
 const runPanelCommand = (command: PanelCommand, index?: number): void => {
-  const target = currentTarget();
+  const target = currentPaletteTarget();
   if (!target) return;
   const selection = selectedIndices(target.bank);
   runners[command]({ target, selection, base: index ?? selection[0] ?? useToolStore.getState().foreground });

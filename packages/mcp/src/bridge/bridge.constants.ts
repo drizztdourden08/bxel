@@ -17,6 +17,8 @@ const MCP_ROUTE = {
   getDocument: 'bxel:mcp:get_document',
   readPalette: 'bxel:mcp:read_palette',
   readPixels: 'bxel:mcp:read_pixels',
+  lintPixels: 'bxel:mcp:lint_pixels',
+  buildRamp: 'bxel:mcp:build_ramp',
   renderPreview: 'bxel:mcp:render_preview',
   previewEdits: 'bxel:mcp:preview_edits',
   applyEdits: 'bxel:mcp:apply_edits',
@@ -49,6 +51,8 @@ const MCP_ROUTE = {
   trashFiles: 'bxel:mcp:trash_files',
   duplicateFile: 'bxel:mcp:duplicate_file',
   importFiles: 'bxel:mcp:import_files',
+  exportPalette: 'bxel:mcp:export_palette',
+  importPalette: 'bxel:mcp:import_palette',
 } as const;
 
 const MCP_EVENT = {
@@ -67,6 +71,8 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   get_document: MCP_ROUTE.getDocument,
   read_palette: MCP_ROUTE.readPalette,
   read_pixels: MCP_ROUTE.readPixels,
+  lint_pixels: MCP_ROUTE.lintPixels,
+  build_ramp: MCP_ROUTE.buildRamp,
   render_preview: MCP_ROUTE.renderPreview,
   preview_edits: MCP_ROUTE.previewEdits,
   apply_edits: MCP_ROUTE.applyEdits,
@@ -99,6 +105,8 @@ const TOOL_ROUTE: Readonly<Record<ToolRouteName, string>> = {
   trash_files: MCP_ROUTE.trashFiles,
   duplicate_file: MCP_ROUTE.duplicateFile,
   import_files: MCP_ROUTE.importFiles,
+  export_palette: MCP_ROUTE.exportPalette,
+  import_palette: MCP_ROUTE.importPalette,
 };
 
 const MCP_ASK = {

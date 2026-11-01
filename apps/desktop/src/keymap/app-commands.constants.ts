@@ -16,6 +16,7 @@ import { LAYER_TREE_COMMANDS } from './layer-tree-commands.constants';
 import { OPTION_COMMANDS } from './option-commands.constants';
 import { PALETTE_MENU_COMMANDS } from './palette-menu-commands.constants';
 import { PALETTE_PANEL_COMMANDS } from './palette-panel-commands.constants';
+import { PALETTE_TRANSFER_COMMANDS } from './palette-transfer-commands.constants';
 import { PROJECT_COMMANDS } from './project-commands.constants';
 import { PROJECT_FILE_COMMANDS } from './project-file-commands.constants';
 import { RULER_UNIT_COMMANDS } from './ruler-unit-commands.constants';
@@ -58,6 +59,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...LAYER_TREE_COMMANDS,
   ...PALETTE_MENU_COMMANDS,
   ...PALETTE_PANEL_COMMANDS,
+  ...PALETTE_TRANSFER_COMMANDS,
   ...TILE_MENU_COMMANDS,
   ...STATUS_MENU_COMMANDS,
   ...SPRITE_MENU_COMMANDS,

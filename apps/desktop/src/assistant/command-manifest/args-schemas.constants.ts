@@ -47,6 +47,12 @@ const ARGS_KINDS = {
   optionValue: z.strictObject({ value: optionValue.optional() }),
   optionTarget: z.strictObject({ tool: z.string().min(1).optional(), option: z.string().min(1).describe('An option id from list_commands or the option model, such as fill.area.').optional(), value: optionValue.optional() }),
   preset: z.strictObject({ id: z.string().min(1).describe('A preset id, such as builtin.pencil-2.') }),
+  paletteExport: z.strictObject({ format: z.enum(['gpl', 'pal', 'hex', 'txt', 'ase', 'png-1', 'png-8', 'png-32']).describe('The file format. The png formats are a one row strip scaled 1x, 8x or 32x.'), selection: z.boolean().default(false).describe('True exports only the selected swatches.') }),
+  moveColour: z.strictObject({ index: z.number().int().min(1).max(255).optional().describe('The swatch whose colour moves. Default: the first selected swatch.') }),
+  replaceColour: z.strictObject({ index: z.number().int().min(1).max(255).describe('The swatch whose pixels are replaced with the front colour.'), scope: z.enum(['frame', 'sprite', 'animation', 'selection']).default('sprite') }),
+  replaceRamp: z.strictObject({ from: z.string().min(1).describe('The name of the ramp to replace.'), to: z.string().min(1).describe('The name of the ramp that takes its place, step by step.'), scope: z.enum(['frame', 'sprite', 'animation', 'selection']).default('sprite') }),
+  listSelection: z.strictObject({ selection: z.boolean().default(false).describe('True uses only the selected swatches.') }),
+  bank: z.strictObject({ bankId: z.string().min(1).describe('A palette id from get_document.') }),
   colourLimit: z.strictObject({ cap: z.number().int().min(2).max(256) }),
 } as const;
 

@@ -16,9 +16,9 @@ const PaletteSwitcher = ({ panel }: PanelProps) => {
     icon: <SwatchStrip colours={stripColours(each)} />,
     kind: 'radio',
     checked: each.id === bank.id,
-    disabled: panel.lock.locked && each.id !== bank.id,
+    disabled: (panel.lock.locked || !sprite) && each.id !== bank.id,
     onSelect: () => {
-      if (each.id !== bank.id) startSwitch(sprite.id, each.id);
+      if (sprite && each.id !== bank.id) startSwitch(sprite.id, each.id);
     },
   }));
   return (

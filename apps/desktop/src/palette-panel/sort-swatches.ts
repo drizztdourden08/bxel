@@ -1,14 +1,14 @@
 /* @layer renderer-app @kind logic */
 import { PALETTE_COMMAND_NAME } from '@bxel/palette';
 import type { PaletteSortDirection, PaletteSortKey } from '@bxel/palette';
-import type { EditorTarget } from '../editor/editor.type';
+import type { PaletteTarget } from '../editor/editor.type';
 import { useDocumentStore } from '../stores/useDocumentStore';
 import { PANEL_LABEL, PANEL_TEXT } from './palette-panel.constants';
 import type { PanelOutcome } from './palette-panel.type';
 import { paletteSharing } from './palette-sharing';
 import { reorderSwatches } from './reorder-swatches';
 
-const sortSwatches = (target: EditorTarget, key: PaletteSortKey, direction: PaletteSortDirection, among: readonly number[] = []): PanelOutcome => {
+const sortSwatches = (target: PaletteTarget, key: PaletteSortKey, direction: PaletteSortDirection, among: readonly number[] = []): PanelOutcome => {
   const { bank } = target;
   const swatches = among.length > 1 ? among.flatMap((index) => (bank.slots[index] ? [bank.slots[index].id] : [])) : undefined;
   const count = swatches?.length ?? bank.slots.filter((slot, index) => index > 0 && slot.kind === 'color').length;

@@ -1,12 +1,12 @@
 /* @layer renderer-app @kind logic */
-import type { EditorTarget } from '../editor/editor.type';
+import type { PaletteTarget } from '../editor/editor.type';
 import { movedOrder } from './moved-order';
 import { PANEL_LABEL, PANEL_TEXT } from './palette-panel.constants';
 import type { PanelOutcome } from './palette-panel.type';
 import { reorderStep } from './reorder-step';
 import { reorderSwatches } from './reorder-swatches';
 
-const moveSwatches = (target: EditorTarget, moving: readonly number[], gap: number): PanelOutcome => {
+const moveSwatches = (target: PaletteTarget, moving: readonly number[], gap: number): PanelOutcome => {
   const { bank } = target;
   const valid = moving.filter((index) => index > 0 && index < bank.slots.length);
   const first = valid[0];

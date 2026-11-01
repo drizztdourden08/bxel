@@ -3,6 +3,7 @@ import { Button, DialogShell, Stack, Text } from '@drizztdourden08/tessera';
 import { SHEET_TEXT } from '../../../palette-panel/palette-panel.constants';
 import { usePaletteSheet } from '../behavior/usePaletteSheet';
 import type { SheetDialogProps } from '../PaletteSheetDialog.type';
+import { MoveField } from './MoveField';
 import { SheetProblem } from './SheetProblem';
 import { StripRow } from './StripRow';
 
@@ -24,6 +25,7 @@ const SheetDialog = ({ request, target }: SheetDialogProps) => {
     <DialogShell open title={plan.title} onClose={cancel} actions={actions} className="palette-sheet">
       <Stack gap="md">
         <Text variant="body">{plan.note}</Text>
+        {request.kind === 'move' && <MoveField request={request} count={target.bank.slots.length} />}
         {plan.gone.length > 0 && <StripRow label={SHEET_TEXT.gone} colours={plan.gone} />}
         {!empty && <StripRow label={SHEET_TEXT.before} colours={plan.before} />}
         {!empty && <StripRow label={SHEET_TEXT.after} colours={plan.after} />}

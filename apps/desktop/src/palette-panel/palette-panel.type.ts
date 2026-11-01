@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { CommandStep, Sprite } from '@bxel/document';
-import type { EditorTarget } from '../editor/editor.type';
+import type { PaletteTarget } from '../editor/editor.type';
 
 interface SlotUse {
   pixels: number;
@@ -24,6 +24,8 @@ interface PaletteSharing {
 }
 
 type CleanUpKind = 'unused' | 'duplicates';
+
+type ReplaceScope = 'frame' | 'sprite' | 'animation' | 'selection';
 
 type PanelOutcome = { ok: true; message: string } | { ok: false; message: string };
 
@@ -51,16 +53,16 @@ interface RemovalWords {
 type PanelCommand = 'add' | 'ramp' | 'make' | 'make-light' | 'gradient' | 'unused' | 'duplicates' | 'sort';
 
 interface CommandScene {
-  target: EditorTarget;
+  target: PaletteTarget;
   selection: readonly number[];
   base: number;
 }
 
 interface PanelRun {
-  target: EditorTarget;
+  target: PaletteTarget;
   label: string;
   steps: readonly CommandStep[];
   done: string;
 }
 
-export type { CleanUpKind, CommandScene, PanelCommand, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, RemovalWords, SheetPlan, SlotUse };
+export type { CleanUpKind, CommandScene, PanelCommand, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, RemovalWords, ReplaceScope, SheetPlan, SlotUse };

@@ -57,6 +57,15 @@ const groupCommand = ([id, specs]: [string, OptionSpec[]]): CommandDef => {
 
 const GENERATED_COMMANDS: readonly CommandDef[] = optionGroups(OPTION_SPECS.filter(generated)).map(groupCommand);
 
+const TIP_ORDER = ['square', 'circle', 'line'] as const;
+
+/** Steps the brush shape through square, circle and line, wrapping at both ends. */
+const cycleTip = (step: 1 | -1): void => {
+  const { brushShape, setBrushShape } = useToolStore.getState();
+  const at = TIP_ORDER.findIndex((shape) => shape === brushShape);
+  setBrushShape(TIP_ORDER[(Math.max(at, 0) + step + TIP_ORDER.length) % TIP_ORDER.length] ?? 'square');
+};
+
 const FIXED_DEFS: CommandDef[] = [
   {
     id: OPTION_COMMAND.set,
@@ -80,8 +89,10 @@ const FIXED_DEFS: CommandDef[] = [
   { id: OPTION_COMMAND.focus, label: 'Focus the tool options', group: COMMAND_GROUP.tools, run: () => void focusOptionsBar() },
   { id: OPTION_COMMAND.open, label: 'Open the Tool options panel', group: COMMAND_GROUP.tools, run: () => useWidgetLayoutStore.getState().open(OPTIONS_WIDGET_ID) },
   { id: OPTION_COMMAND.resetAll, label: 'Reset all tool options', group: COMMAND_GROUP.tools, run: resetAllTools },
-  { id: OPTION_COMMAND.sizeDownBy, label: 'Much smaller brush', group: COMMAND_GROUP.brush, chord: 'Shift+[', run: () => useToolStore.getState().stepBrushSize(-4) },
-  { id: OPTION_COMMAND.sizeUpBy, label: 'Much larger brush', group: COMMAND_GROUP.brush, chord: 'Shift+]', run: () => useToolStore.getState().stepBrushSize(4) },
+  { id: OPTION_COMMAND.tipPrevious, label: 'Previous brush shape', group: COMMAND_GROUP.brush, chord: 'Shift+[', run: () => cycleTip(-1) },
+  { id: OPTION_COMMAND.tipNext, label: 'Next brush shape', group: COMMAND_GROUP.brush, chord: 'Shift+]', run: () => cycleTip(1) },
+  { id: OPTION_COMMAND.sizeDownBy, label: 'Much smaller brush', group: COMMAND_GROUP.brush, chord: 'Alt+[', run: () => useToolStore.getState().stepBrushSize(-4) },
+  { id: OPTION_COMMAND.sizeUpBy, label: 'Much larger brush', group: COMMAND_GROUP.brush, chord: 'Alt+]', run: () => useToolStore.getState().stepBrushSize(4) },
 ];
 
 const OPTION_COMMANDS: readonly CommandDef[] = [...GENERATED_COMMANDS, ...FIXED_DEFS.map(ruled)];

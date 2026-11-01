@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind logic */
-import type { MenuGroup } from '@drizztdourden08/tessera';
+import type { MenuGroup, MenuItem } from '@drizztdourden08/tessera';
 import { openAssetSettings } from '../../../config-entry/open-asset-settings';
 import { SWATCH_SIZES } from '../../../palette-view/palette-view.constants';
+import type { UserSets } from '../../../swatch-library/swatch-library.type';
 import { OVERFLOW_TEXT, PALETTE_MENU } from '../PalettePanel.constants';
 import type { PanelModel } from '../PalettePanel.type';
 import { PANEL_COMMAND } from '../../../palette-panel/palette-panel.constants';
@@ -11,8 +12,19 @@ import { openRampBuilder } from './open-ramp-builder';
 import { openSheet } from './open-sheet';
 import { selectUnused } from './select-unused';
 import { sortItems } from './sort-items';
+import { transferGroups } from './transfer-groups';
 
-const overflowGroups = (panel: PanelModel): MenuGroup[] => {
+const scopeItems = (panel: PanelModel): MenuItem[] => {
+  const { view, target } = panel;
+  const animation = target.animation ? [{ id: 'scope-animation', label: OVERFLOW_TEXT.scopeAnimation, kind: 'radio' as const, checked: view.scope === 'animation', onSelect: () => view.change({ scope: 'animation', showUse: true }) }] : [];
+  return [
+    { id: 'scope-sprite', label: OVERFLOW_TEXT.scopeSprite, kind: 'radio', checked: view.scope === 'sprite', onSelect: () => view.change({ scope: 'sprite', showUse: true }) },
+    ...animation,
+    { id: 'scope-palette', label: OVERFLOW_TEXT.scopePalette, kind: 'radio', checked: view.scope === 'palette', onSelect: () => view.change({ scope: 'palette', showUse: true }) },
+  ];
+};
+
+const overflowGroups = (panel: PanelModel, sets: UserSets): MenuGroup[] => {
   const { view, lock, target } = panel;
   const full = target.bank.slots.length >= target.bank.cap;
   return [
@@ -33,6 +45,7 @@ const overflowGroups = (panel: PanelModel): MenuGroup[] => {
         { id: 'unite', label: PALETTE_MENU.unite, disabled: lock.locked || panel.duplicates.length === 0 || ruledOff(PANEL_COMMAND.duplicates), onSelect: () => openSheet(panel, 'duplicates') },
       ],
     },
+    ...transferGroups(panel, sets),
     {
       id: 'show',
       items: [
@@ -40,10 +53,7 @@ const overflowGroups = (panel: PanelModel): MenuGroup[] => {
         {
           id: 'scope',
           label: OVERFLOW_TEXT.scope,
-          children: [
-            { id: 'scope-sprite', label: OVERFLOW_TEXT.scopeSprite, kind: 'radio', checked: view.scope === 'sprite', onSelect: () => view.change({ scope: 'sprite', showUse: true }) },
-            { id: 'scope-palette', label: OVERFLOW_TEXT.scopePalette, kind: 'radio', checked: view.scope === 'palette', onSelect: () => view.change({ scope: 'palette', showUse: true }) },
-          ],
+          children: scopeItems(panel),
         },
         {
           id: 'size',

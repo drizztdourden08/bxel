@@ -1,0 +1,20 @@
+/* @layer core @kind constants */
+
+const ASE = {
+  MAGIC: 'ASEF',
+  VERSION_MAJOR: 1,
+  VERSION_MINOR: 0,
+  HEADER_BYTES: 12,
+  BLOCK_HEAD_BYTES: 6,
+  BLOCK_COLOR: 0x0001,
+  BLOCK_GROUP_START: 0xc001,
+  BLOCK_GROUP_END: 0xc002,
+  COLOR_TYPE_NORMAL: 2,
+  MODEL_BYTES: 4,
+  MODEL_RGB: 'RGB ',
+  MODEL_GRAY: 'Gray',
+  MODEL_CMYK: 'CMYK',
+  CHANNEL_MAX: 255,
+} as const;
+
+export { ASE };

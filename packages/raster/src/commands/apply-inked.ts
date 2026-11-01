@@ -21,10 +21,12 @@ const tableOf = (artwork: Artwork, cel: ResolvedCel, ink: Ink): Uint8Array => {
   return table;
 };
 
+const brushOf = (ink: Ink | undefined): string | undefined => (ink?.kind === 'pattern' || ink?.kind === 'dither' ? ink.brushId : undefined);
+
 const applyInked = ({ draft, cels, ink }: InkedRun, operate: InkedOperate): void => {
   const shading = ink !== undefined && SHADING_KINDS.has(ink.kind);
   for (const cel of uniqueCels(cels)) {
-    const patch = ink?.kind === 'pattern' ? savedBrushPatch(draft.artwork, ink.brushId) : null;
+    const patch = brushOf(ink) === undefined ? null : savedBrushPatch(draft.artwork, brushOf(ink) ?? '');
     const rule = inkRule(ink, shading ? tableOf(draft.artwork, cel, ink) : null, patch);
     applyToCels(draft, [cel], (target) => operate(target, rule, cel));
   }

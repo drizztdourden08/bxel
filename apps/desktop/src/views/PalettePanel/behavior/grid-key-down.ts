@@ -3,6 +3,7 @@ import { reorderStep } from '@drizztdourden08/tessera';
 import type { KeyboardEvent } from 'react';
 import { copySwatchHex } from '../../../editor/copy-swatch-hex';
 import { setHeldColour } from '../../../editor/set-held-colour';
+import { copyHexList } from '../../../palette-export/copy-hex-list';
 import { startChange } from '../../../palette-change/start-change';
 import { DIGIT_SLOTS } from '../PalettePanel.constants';
 import type { GridKeyAction, GridKeyContext } from '../PalettePanel.type';
@@ -10,7 +11,11 @@ import { focusStep } from './focus-step';
 
 const withCtrl: Readonly<Record<string, GridKeyAction>> = {
   a: ({ panel }) => panel.selection.all(),
-  c: ({ index }) => void copySwatchHex({ index }),
+  c: ({ panel, index }) => {
+    const chosen = [...panel.selection.selected].sort((a, b) => a - b);
+    if (chosen.length > 1 && chosen.includes(index)) void copyHexList(panel.target, chosen);
+    else void copySwatchHex({ index });
+  },
 };
 
 const plain: Readonly<Record<string, GridKeyAction>> = {

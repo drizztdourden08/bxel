@@ -3,6 +3,7 @@ import { columnsOf, REORDER_ITEM_SELECTOR, useMoveFocus, useReorderDrag } from '
 import { useRef } from 'react';
 import type { KeyboardEvent, PointerEvent, RefObject } from 'react';
 import type { GridControl, PanelModel } from '../PalettePanel.type';
+import { copyDrop } from './copy-drop';
 import { focusSwatch } from './focus-swatch';
 import { gridKeyDown } from './grid-key-down';
 import { heldDrop } from './held-drop';
@@ -22,7 +23,7 @@ const useGridControl = (panel: PanelModel, listRef: RefObject<HTMLElement | null
       ...handlers,
       onPointerUp: (event: PointerEvent<HTMLElement>) => {
         alt.current = event.altKey;
-        if (drag.dragging !== null && heldDrop(event, index)) drag.cancel();
+        if (drag.dragging !== null && (heldDrop(event, index) || copyDrop(panel, event, index))) drag.cancel();
         else handlers.onPointerUp();
       },
     };

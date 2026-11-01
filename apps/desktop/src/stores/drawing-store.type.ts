@@ -28,6 +28,7 @@ interface DrawingSettings {
   onlyColour: number | null;
   ditherPattern: DitherPattern;
   ditherLevel: number;
+  ditherCustom: boolean;
   shadeMode: 'shade' | 'lighten' | 'darken';
   shadeSteps: number;
   shadeRamp: string | null;
@@ -47,11 +48,13 @@ interface DrawingSettings {
   stabiliser: number;
   outlineRing: 4 | 8;
   outlineSelOut: boolean;
+  outlineFrames: 'frame' | 'tag' | 'all';
   spraySize: number;
   spraySeed: number | null;
   gradientKind: GradientKind;
   gradientMode: GradientMode;
   gradientPattern: GradientPattern;
+  gradientCustom: boolean;
   gradientSize: DitherSize;
   gradientReflect: boolean;
   gradientRamp: string | null;
@@ -60,6 +63,7 @@ interface DrawingSettings {
   lockToTile: boolean;
   linkedChoice: LinkedChoice;
   brushId: string | null;
+  brushSpacing: number;
   brushMode: BrushMode;
   brushFlipX: boolean;
   brushFlipY: boolean;

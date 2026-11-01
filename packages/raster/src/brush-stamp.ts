@@ -22,6 +22,7 @@ const fillCircle = (cells: Uint8Array, size: number): void => {
 };
 
 const brushStamp = (brush: Brush): BrushStamp => {
+  if (brush.shape === 'custom' && brush.stencil) return brush.stencil;
   const size = clampSize(brush.size);
   const cells = new Uint8Array(size * size);
   if (brush.shape === 'circle') {
