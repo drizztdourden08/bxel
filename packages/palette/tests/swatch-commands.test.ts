@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { celBytes, currentBank, currentSprite, execute, makeRig, slotId, step, succeed } from './palette-engine';
 
-describe('swatch.update', () => {
+describe('K2 swatch.update', { tags: ['critical'] }, () => {
   it('recolours a swatch without touching a pixel', () => {
     const rig = makeRig();
     const cels = Object.values(currentSprite(rig).cels).map((cel) => cel.pixels);
@@ -33,7 +33,7 @@ describe('swatch.update', () => {
   });
 });
 
-describe('swatch.add', () => {
+describe('K2 swatch.add', { tags: ['critical'] }, () => {
   it('appends a swatch at the next index and lowercases the colour', () => {
     const rig = makeRig();
     const result = succeed(execute(rig, [{ ...step('swatch.add', { bankId: rig.bankId, rgb: '#FF7A8A', name: 'Coral' }), ref: 'coral' }]));

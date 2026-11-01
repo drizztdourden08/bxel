@@ -7,7 +7,7 @@ import { heroRgba } from './palette-rig';
 const lightness = (rig: ReturnType<typeof makeRig>): number[] =>
   currentBank(rig).slots.flatMap((slot, index) => (index > 0 && slot.kind === 'color' ? [hexToOklch(slot.rgb)?.l ?? 0] : []));
 
-describe('palette.sort', () => {
+describe('K2 palette.sort', { tags: ['critical'] }, () => {
   it('sorts by lightness and keeps every rendered pixel', () => {
     const rig = makeRig();
     const before = heroRgba(rig);
@@ -29,7 +29,7 @@ describe('palette.sort', () => {
   });
 });
 
-describe('palette.remove_unused and palette.unite_duplicates', () => {
+describe('K2 palette.remove_unused and palette.unite_duplicates', { tags: ['critical'] }, () => {
   it('removes the unused swatches in one undo step and keeps the pixels', () => {
     const rig = makeRig();
     const add = (rgb: string) => step('swatch.add', { bankId: rig.bankId, rgb });
@@ -53,7 +53,7 @@ describe('palette.remove_unused and palette.unite_duplicates', () => {
   });
 });
 
-describe('ramps from new swatches in one transaction', () => {
+describe('K2 ramps from new swatches in one transaction', { tags: ['critical'] }, () => {
   it('adds swatches and a ramp that names them by ref, with one undo', () => {
     const rig = makeRig();
     const revision = rig.engine.state().revision;

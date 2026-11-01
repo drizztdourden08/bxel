@@ -13,7 +13,7 @@ const sharedRig = () => {
   return { rig, second };
 };
 
-describe('palette.delete', () => {
+describe('K2 palette.delete', { tags: ['critical'] }, () => {
   it('removes a bank no sprite uses and undoes exactly', () => {
     const rig = makeRig();
     const bankId = createBank(rig, ['#112233', '#445566'], true);
@@ -43,7 +43,7 @@ describe('palette.delete', () => {
   });
 });
 
-describe('palette.detach', () => {
+describe('K2 palette.detach', { tags: ['critical'] }, () => {
   it('gives one sprite its own copy with the same indices and colours', () => {
     const { rig, second } = sharedRig();
     succeed(execute(rig, [step('ramp.add', { bankId: rig.bankId, name: 'Violets', swatches: [slotId(rig, 1), slotId(rig, 3)] })]));

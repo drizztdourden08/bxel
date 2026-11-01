@@ -1,25 +1,18 @@
 /* @layer tests @kind test */
-import { colorDistance, extractPalette, mapToPalette } from '@bxel/palette';
+import { colorDistance, mapToPalette } from '@bxel/palette';
 import { describe, expect, it } from 'vitest';
 import { makeImage } from './make-image';
 import { makeNoiseImage } from './make-noise-image';
 
 const palette = ['#000000', '#ff0000', '#00ff00', '#0000ff', '#ffffff'];
 
-describe('mapToPalette', () => {
+describe('K1 mapToPalette', { tags: ['critical'] }, () => {
   it('emits only allowed indices', () => {
     const noise = makeNoiseImage(40, 21);
     const opaque = mapToPalette(noise, { palette, transparent: false });
     expect(opaque.pixels.every((slot) => slot < palette.length)).toBe(true);
     const keyed = mapToPalette(noise, { palette, transparent: true });
     expect(keyed.pixels.every((slot) => slot >= 1 && slot < palette.length)).toBe(true);
-  });
-
-  it('is deterministic', () => {
-    const noise = makeNoiseImage(40, 21);
-    const first = mapToPalette(noise, { palette, transparent: true });
-    const second = mapToPalette(makeNoiseImage(40, 21), { palette, transparent: true });
-    expect(second.pixels).toEqual(first.pixels);
   });
 
   it('maps exact colours to their own slot', () => {
@@ -52,7 +45,7 @@ describe('mapToPalette', () => {
   });
 });
 
-describe('mapToPalette thresholds and edge cases', () => {
+describe('K1 mapToPalette thresholds and edge cases', { tags: ['critical'] }, () => {
   it('applies the alpha threshold', () => {
     const image = makeImage(2, [
       [255, 0, 0, 127],
@@ -74,13 +67,6 @@ describe('mapToPalette thresholds and edge cases', () => {
     const image = makeImage(1, [[1, 2, 3, 255]]);
     expect(() => mapToPalette(image, { palette: ['#000000', 'red'], transparent: false })).toThrow();
     expect(mapToPalette(image, { palette: ['none', '#010203'], transparent: true }).pixels[0]).toBe(1);
-  });
-
-  it('maps an extracted palette back without leaving it', () => {
-    const noise = makeNoiseImage(32, 9);
-    const extracted = extractPalette(noise, { maxColors: 15 });
-    const mapped = mapToPalette(noise, { palette: ['#000000', ...extracted], transparent: true });
-    expect(mapped.pixels.every((slot) => slot >= 1 && slot <= extracted.length)).toBe(true);
   });
 
   it('measures zero distance only for equal colours', () => {

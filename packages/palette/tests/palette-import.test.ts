@@ -9,7 +9,7 @@ const importStep = (rig: Rig, colors: readonly string[], mode?: 'replace' | 'app
 
 const rgbs = (rig: Rig): (string | null)[] => currentBank(rig).slots.map((slot) => (slot.kind === 'color' ? slot.rgb : null));
 
-describe('palette.import append', () => {
+describe('K2 palette.import append', { tags: ['critical'] }, () => {
   it('appends colours as new swatches named after their colour and warns about a duplicate', () => {
     const rig = makeRig();
     const result = roundTrip(rig, [importStep(rig, ['#FF0000', '#00ff00', '#4b1fa0'])]);
@@ -37,7 +37,7 @@ describe('palette.import append', () => {
   });
 });
 
-describe('palette.import replace', () => {
+describe('K2 palette.import replace', { tags: ['critical'] }, () => {
   it('recolours positionally, keeps swatch ids and every pixel index', () => {
     const rig = makeRig();
     const ids = currentBank(rig).slots.map((slot) => slot.id);

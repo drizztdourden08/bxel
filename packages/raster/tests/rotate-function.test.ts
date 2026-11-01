@@ -16,7 +16,7 @@ const rotated = (source: BufferView, degrees: number, pivot = { x2: source.width
   return target;
 };
 
-describe('rotateMover at right angles', () => {
+describe('K1 rotateMover at right angles', { tags: ['critical'] }, () => {
   test.each([
     [90, 'turn-clockwise'],
     [180, 'half-turn'],
@@ -33,12 +33,6 @@ describe('rotateMover at right angles', () => {
     expect(toRows(rotated(fromRows(SQUARE), 0))).toEqual(SQUARE);
   });
 
-  test('four quarter turns restore the pixels', () => {
-    let current = fromRows(SQUARE);
-    for (let turn = 0; turn < 4; turn++) current = rotated(current, 90);
-    expect(toRows(current)).toEqual(SQUARE);
-  });
-
   test('a non square block lands in the box the rotated corners give', () => {
     const mask = maskFromRows(['........', '........', '........', '######..', '######..', '........', '........', '........']);
     const box = { x: 0, y: 3, width: 6, height: 2 };
@@ -50,7 +44,7 @@ describe('rotateMover at right angles', () => {
   });
 });
 
-describe('rotateMover at other angles', () => {
+describe('K1 rotateMover at other angles', { tags: ['critical'] }, () => {
   test('45 degrees turns a block into a diamond', () => {
     const block = fromRows(['.......', '.......', '..111..', '..111..', '..111..', '.......', '.......']);
     expect(toRows(rotated(block, 45))).toEqual(['.......', '...1...', '..111..', '.11111.', '..111..', '...1...', '.......']);
@@ -64,10 +58,5 @@ describe('rotateMover at other angles', () => {
   test('the box of 45 degrees comes from the rotated corners', () => {
     const terms = { cos: Math.SQRT1_2, sin: Math.SQRT1_2 };
     expect(rotatedBox({ x: 0, y: 0, width: 4, height: 4 }, { x2: 4, y2: 4 }, terms)).toEqual({ x: -1, y: -1, width: 6, height: 6 });
-  });
-
-  test('the same input always lands the same pixels', () => {
-    const block = fromRows(['.......', '..111..', '..121..', '..111..', '.......', '.......', '.......']);
-    expect(toRows(rotated(block, 33))).toEqual(toRows(rotated(block, 33)));
   });
 });

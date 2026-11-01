@@ -13,7 +13,7 @@ const framed = (): Artwork => {
   return { ...base, sprites: base.sprites.map((sprite) => ({ ...sprite, role: 'frame' as const })) };
 };
 
-describe('frame sprites of an animation', () => {
+describe('K1 frame sprites of an animation', { tags: ['critical'] }, () => {
   test('keep their size: resize and crop are refused', () => {
     const engine = pixelEngine(framed());
     const resize = refusalOf(engine, stepOf('sprite.resize', scopeOf([frame]), { width: 5, height: 4 }));

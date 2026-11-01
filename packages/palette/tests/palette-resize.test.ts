@@ -7,7 +7,7 @@ const resize = (rig: Rig, cap: number) => execute(rig, [step('palette.resize', {
 
 const codeOf = (rig: Rig, cap: number): string | null => rejectionCode(rig, () => resize(rig, cap));
 
-describe('palette.resize', () => {
+describe('K2 palette.resize', { tags: ['critical'] }, () => {
   it('grows the cap to 256', () => {
     const rig = makeRig();
     succeed(resize(rig, 256));

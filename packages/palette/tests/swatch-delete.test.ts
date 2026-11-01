@@ -16,7 +16,7 @@ const expectedAfterDelete = (before: number[], removed: number, replacement: num
   return mapped.map((value) => (value > removed ? value - 1 : value));
 };
 
-describe('swatch.delete', () => {
+describe('K2 swatch.delete', { tags: ['critical'] }, () => {
   it('replaces a used swatch, shifts higher slots down and keeps every other colour', () => {
     const rig = makeRig();
     const flatBefore = celBytes(currentSprite(rig));
@@ -50,7 +50,7 @@ describe('swatch.delete', () => {
   });
 });
 
-describe('swatch.delete rules', () => {
+describe('K2 swatch.delete rules', { tags: ['critical'] }, () => {
   it('refuses a used swatch without a replacement and changes nothing', () => {
     const rig = makeRig();
     expect(rejectionCode(rig, () => execute(rig, [del(rig, 2)]))).toBe('SWATCH_IN_USE');

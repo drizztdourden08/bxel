@@ -18,7 +18,7 @@ const stroke = (mode: 'commit' | 'preview' = 'commit') =>
     { mode, previewPixels: 4096 },
   );
 
-describe('pixels.paint history', () => {
+describe('K3 pixels.paint history', { tags: ['critical'] }, () => {
   test('one stroke is one undo step and redo restores the same bytes', () => {
     const engine = pixelEngine(heartArtwork());
     const original = artworkBytes(engine.state().artwork);

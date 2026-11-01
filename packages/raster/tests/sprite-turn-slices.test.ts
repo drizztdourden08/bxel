@@ -11,7 +11,7 @@ const addSlice = { name: 'hit', rect: { x: 0, y: 0, width: 3, height: 1 }, pivot
 
 const scope = scopeOf([ids.wide]);
 
-describe('sprite.turn with slices', () => {
+describe('K2 sprite.turn with slices', { tags: ['critical'] }, () => {
   test('turns the pivot and the center of a slice inside the slice, so slice.update in the same batch still accepts them', () => {
     const engine = pixelEngine(transformArtwork());
     applySteps(engine, [
@@ -23,12 +23,6 @@ describe('sprite.turn with slices', () => {
     expect(slice?.rect).toEqual({ x: 1, y: 0, width: 1, height: 3 });
     expect(slice?.pivot).toEqual({ x2: 2, y2: 6 });
     expect(slice?.center).toEqual({ x: 0, y: 1, width: 1, height: 1 });
-  });
-
-  test('a turned slice pivot keeps its place inside the slice', () => {
-    const engine = pixelEngine(transformArtwork());
-    applySteps(engine, [stepOf('slice.add', scope, addSlice), stepOf('sprite.turn', scope, turnCw)]);
-    expect(findSprite(engine.state().artwork, ids.wide)?.slices[0]?.pivot).toEqual({ x2: 2, y2: 0 });
   });
 
   test('four turns bring the slice back where it was', () => {

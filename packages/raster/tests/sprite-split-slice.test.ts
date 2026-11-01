@@ -2,7 +2,7 @@
 import { describe, expect, test } from 'vitest';
 import { applyTo, frameRows, fresh, heldNames, idle, named, names, onSheet, refusal, run, undoLast, walk } from './compose-world';
 
-describe('sprite.split', () => {
+describe('K2 sprite.split', { tags: ['critical'] }, () => {
   test('makes one sprite for each frame, numbered from the first number', () => {
     const engine = fresh();
     applyTo(engine, 'sprite.split', [walk], { pattern: '{name}_{n:2}', start: 3 });
@@ -36,7 +36,7 @@ describe('sprite.split', () => {
   });
 });
 
-describe('sprite.slice', () => {
+describe('K2 sprite.slice', { tags: ['critical'] }, () => {
   test('cuts a grid by counts and names the sprites by their place in the grid', () => {
     const engine = fresh();
     applyTo(engine, 'sprite.slice', [run], { columns: 2, rows: 2, skipEmpty: false });

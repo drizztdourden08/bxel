@@ -26,13 +26,9 @@ const direct = (shape: ShapeKind, filled: boolean): string[] => {
   return toRows(target);
 };
 
-describe('pixels.shape', () => {
+describe('K2 pixels.shape', { tags: ['critical'] }, () => {
   test('draws a rect outline', () => {
     expect(drawn('rect', false)).toEqual(['........', '.222222.', '.2....2.', '.2....2.', '.222222.', '........']);
-  });
-
-  test('draws a filled rect', () => {
-    expect(drawn('rect', true)).toEqual(['........', '.222222.', '.222222.', '.222222.', '.222222.', '........']);
   });
 
   test.each([

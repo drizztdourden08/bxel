@@ -17,7 +17,7 @@ const coverTargets = (rig: Rig) => ({
   targets: { sprites: [rig.spriteId], layers: { by: 'all' as const }, frames: { by: 'all' as const } },
 });
 
-describe('palette.update name', () => {
+describe('K2 palette.update name', { tags: ['critical'] }, () => {
   it('renames the bank and undoes exactly', () => {
     const rig = makeRig();
     roundTrip(rig, [update(rig, { name: '  Night shift ' })]);
@@ -38,7 +38,7 @@ describe('palette.update name', () => {
   });
 });
 
-describe('palette.update transparent on', () => {
+describe('K2 palette.update transparent on', { tags: ['critical'] }, () => {
   it('inserts the transparent swatch, shifts colours up and keeps every painted colour', () => {
     const rig = makeRig({ transparent: false });
     succeed(execute(rig, [step('swatch.update', { bankId: rig.bankId, swatchId: slotId(rig, 0), name: 'Background' })]));
@@ -72,7 +72,7 @@ describe('palette.update transparent on', () => {
   });
 });
 
-describe('palette.update transparent off', () => {
+describe('K2 palette.update transparent off', { tags: ['critical'] }, () => {
   it('needs a replacement while slot 0 is in use', () => {
     const rig = makeRig();
     expect(rejectionCode(rig, () => execute(rig, [update(rig, { transparent: false })]))).toBe('SWATCH_IN_USE');

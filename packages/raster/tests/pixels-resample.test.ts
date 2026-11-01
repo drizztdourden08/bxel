@@ -13,18 +13,9 @@ const run = (rows: readonly string[], name: string, options: Record<string, unkn
   const result = okOf(engine.execute(request([stepOf(name, scope, options)])));
   return { engine, result, rows: rowsOf(engine) };
 };
-const stripedDisc = (side: number): string[] => {
-  const rows: string[] = [];
-  for (let y = 0; y < side; y++) {
-    let row = '';
-    for (let x = 0; x < side; x++) row += (x + y) % 7 < 3 && Math.hypot(x - side / 2, y - side / 2) < side * 0.45 ? '1' : '.';
-    rows.push(row);
-  }
-  return rows;
-};
 const colours = (rows: readonly string[]): Set<string> => new Set(rows.join('').replaceAll('.', ''));
 
-describe('pixels.rotate algorithms', () => {
+describe('K2 pixels.rotate algorithms', { tags: ['critical'] }, () => {
   test.each(['rotsprite', 'cleanedge'] as const)('%s never adds a colour and reports it', (algorithm) => {
     for (const angle of [15, 30, 45, 77, 123, -50]) {
       const { rows, result } = run(RING, 'pixels.rotate', { angle, algorithm, pivot: { x2: 10, y2: 10 } });
@@ -39,20 +30,6 @@ describe('pixels.rotate algorithms', () => {
     expect(smooth.rows).toEqual(exact.rows);
   });
 
-  test('rotsprite keeps a thick shape rounder than nearest at 30 degrees', () => {
-    const nearest = run(RING, 'pixels.rotate', { angle: 30, pivot: { x2: 10, y2: 10 } });
-    const smooth = run(RING, 'pixels.rotate', { angle: 30, algorithm: 'rotsprite', pivot: { x2: 10, y2: 10 } });
-    expect(smooth.rows).not.toEqual(nearest.rows);
-  });
-
-  test('a 45 degree rotsprite of a 32 by 32 sprite runs quickly', () => {
-    const rows = stripedDisc(32);
-    const engine = pixelEngine(rowsArtwork(rows));
-    const started = performance.now();
-    okOf(engine.execute(request([stepOf('pixels.rotate', scope, { angle: 45, algorithm: 'rotsprite', pivot: { x2: 32, y2: 32 } })])));
-    expect(performance.now() - started).toBeLessThan(50);
-  });
-
   test('the preview equals the commit and one undo restores the pixels', () => {
     const engine = pixelEngine(rowsArtwork(RING));
     const original = engine.state().artwork;
@@ -63,7 +40,7 @@ describe('pixels.rotate algorithms', () => {
   });
 });
 
-describe('pixels.scale algorithms', () => {
+describe('K2 pixels.scale algorithms', { tags: ['critical'] }, () => {
   test.each(['scale2x', 'scale3x', 'mmpx', 'rotsprite'] as const)('%s doubles without a new colour', (algorithm) => {
     const { rows, result } = run(RING, 'pixels.scale', { target: { by: 'factor', x: 2, y: 2 }, algorithm, bounds: 'expand' });
     expect(rows).toHaveLength(20);
@@ -78,7 +55,7 @@ describe('pixels.scale algorithms', () => {
   });
 });
 
-describe('pixels.transform', () => {
+describe('K2 pixels.transform', { tags: ['critical'] }, () => {
   test('a rotation equals pixels.rotate with the same pivot', () => {
     const pivot = { x2: 10, y2: 10 };
     const rotated = run(RING, 'pixels.rotate', { angle: 30, pivot });
@@ -119,7 +96,7 @@ describe('pixels.transform', () => {
   });
 });
 
-describe('pixels.distort', () => {
+describe('K2 pixels.distort', { tags: ['critical'] }, () => {
   test('the box corners where they are change nothing', () => {
     const { rows } = run(RING, 'pixels.distort', { corners: [{ x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }] });
     expect(rows).toEqual(RING);

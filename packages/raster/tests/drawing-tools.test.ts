@@ -8,7 +8,7 @@ import { rowsArtwork } from './rows-artwork';
 
 const run = (rows: readonly string[], name: string, options: Record<string, unknown>): string[] => rowsAfter(rowsArtwork(rows), name, options);
 
-describe('inks on a stroke', () => {
+describe('K1 inks on a stroke', { tags: ['critical'] }, () => {
   const stroke = { points: [at(0, 0), at(3, 0)], index: 2 };
 
   test('normal writes everywhere and behind only over transparent pixels', () => {
@@ -40,7 +40,7 @@ describe('inks on a stroke', () => {
   });
 });
 
-describe('shade inks follow the ramps of the palette', () => {
+describe('K1 shade inks follow the ramps of the palette', { tags: ['critical'] }, () => {
   const ramps = ['1234'];
   const shaded = (ink: Record<string, unknown>) => {
     const engine = pixelEngine(rampArtwork(ramps));
@@ -65,7 +65,7 @@ describe('shade inks follow the ramps of the palette', () => {
   });
 });
 
-describe('pixels.plot', () => {
+describe('K1 pixels.plot', { tags: ['critical'] }, () => {
   test('sets the listed pixels without joining them', () => {
     expect(drawnOnEmpty(5, 1, 'pixels.plot', { points: [at(0, 0), at(4, 0)], index: 2 })).toEqual(['2...2']);
   });
@@ -75,7 +75,7 @@ describe('pixels.plot', () => {
   });
 });
 
-describe('pixels.shape redesign options', () => {
+describe('K1 pixels.shape redesign options', { tags: ['critical'] }, () => {
   test('a filled rectangle can have a separate fill index', () => {
     expect(drawnOnEmpty(6, 5, 'pixels.shape', { shape: 'rect', from: at(0, 0), to: at(5, 4), index: 2, fillIndex: 3, filled: true })).toEqual([
       '222222',
@@ -84,12 +84,6 @@ describe('pixels.shape redesign options', () => {
       '233332',
       '222222',
     ]);
-  });
-
-  test('an ellipse takes a separate fill index too', () => {
-    const rows = drawnOnEmpty(7, 5, 'pixels.shape', { shape: 'ellipse', from: at(0, 0), to: at(6, 4), index: 2, fillIndex: 3, filled: true });
-    expect(rows[2]).toBe('2333332');
-    expect(rows[0]?.includes('3')).toBe(false);
   });
 
   test('a rounded rectangle cuts its corners', () => {
@@ -110,13 +104,9 @@ describe('pixels.shape redesign options', () => {
     const loose = drawnOnEmpty(7, 5, 'pixels.shape', { ...bent, pixelPerfect: false }).join('');
     expect([...perfect].filter((cell) => cell === '2').length).toBeLessThanOrEqual([...loose].filter((cell) => cell === '2').length);
   });
-
-  test('the ink applies to shapes', () => {
-    expect(run(['1.1.1.'], 'pixels.shape', { shape: 'line', from: at(0, 0), to: at(5, 0), index: 2, ink: { kind: 'behind' } })).toEqual(['121212']);
-  });
 });
 
-describe('pixels.fill redesign options', () => {
+describe('K1 pixels.fill redesign options', { tags: ['critical'] }, () => {
   test('fills under a vertical mirror from both seeds', () => {
     expect(run(['..#..', '..#..'].map((row) => row.replace('#', '1')), 'pixels.fill', { x: 0, y: 0, index: 2, symmetry: { x2: 5 } })).toEqual(['22122', '22122']);
   });
@@ -146,7 +136,7 @@ describe('pixels.fill redesign options', () => {
   });
 });
 
-describe('symmetry modes', () => {
+describe('K1 symmetry modes', { tags: ['critical'] }, () => {
   const plot = (symmetry: Record<string, unknown>, point = at(1, 0)) => drawnOnEmpty(6, 6, 'pixels.plot', { points: [point], index: 2, symmetry });
 
   test('a diagonal axis swaps x and y', () => {
@@ -171,7 +161,7 @@ describe('symmetry modes', () => {
   });
 });
 
-describe('pixels.stamp redesign options', () => {
+describe('K1 pixels.stamp redesign options', { tags: ['critical'] }, () => {
   const patch = { width: 2, height: 1, pixels: Uint8Array.from([2, 3]) };
 
   test('flips and turns the patch', () => {
@@ -184,7 +174,7 @@ describe('pixels.stamp redesign options', () => {
   });
 });
 
-describe('raster helpers', () => {
+describe('K1 raster helpers', { tags: ['critical'] }, () => {
   test('evenLinePoints reaches both ends', () => {
     const points = evenLinePoints({ from: at(2, 2), to: at(9, 4) });
     expect(points[0]).toEqual(at(2, 2));

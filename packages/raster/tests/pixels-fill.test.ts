@@ -15,7 +15,7 @@ const filled = (rows: readonly string[], options: Record<string, unknown>): stri
   return celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
 };
 
-describe('pixels.fill', () => {
+describe('K2 pixels.fill', { tags: ['critical'] }, () => {
   test('crosses a diagonal gap with connectivity 8 only', () => {
     expect(filled(['.1', '1.'], { connectivity: 4 })).toEqual(['21', '1.']);
     expect(filled(['.1', '1.'], { connectivity: 8 })).toEqual(['21', '12']);
@@ -46,7 +46,7 @@ describe('pixels.fill', () => {
   });
 });
 
-describe('pixels.fill rejections', () => {
+describe('K2 pixels.fill rejections', { tags: ['critical'] }, () => {
   test('refuses a seed outside every target sprite', () => {
     const engine = pixelEngine(rowsArtwork(['..', '..']));
     const before = engine.state().artwork;

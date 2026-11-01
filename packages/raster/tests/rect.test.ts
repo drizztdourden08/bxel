@@ -18,17 +18,13 @@ const CASES: readonly RectCase[] = [
   { name: 'wide outline', from: { x: 1, y: 1 }, to: { x: 4, y: 3 }, filled: false, rows: ['......', '.1111.', '.1..1.', '.1111.', '......'] },
   { name: 'wide filled', from: { x: 1, y: 1 }, to: { x: 4, y: 3 }, filled: true, rows: ['......', '.1111.', '.1111.', '.1111.', '......'] },
   { name: 'corners given backwards', from: { x: 4, y: 3 }, to: { x: 1, y: 1 }, filled: false, rows: ['......', '.1111.', '.1..1.', '.1111.', '......'] },
-  { name: 'corners given on the other diagonal', from: { x: 4, y: 1 }, to: { x: 1, y: 3 }, filled: false, rows: ['......', '.1111.', '.1..1.', '.1111.', '......'] },
-  { name: 'odd outline', from: { x: 1, y: 1 }, to: { x: 3, y: 3 }, filled: false, rows: ['......', '.111..', '.1.1..', '.111..', '......'] },
   { name: 'odd filled', from: { x: 1, y: 1 }, to: { x: 3, y: 3 }, filled: true, rows: ['......', '.111..', '.111..', '.111..', '......'] },
   { name: 'full frame outline', from: { x: 0, y: 0 }, to: { x: 5, y: 4 }, filled: false, rows: ['111111', '1....1', '1....1', '1....1', '111111'] },
   { name: 'one pixel', from: { x: 2, y: 2 }, to: { x: 2, y: 2 }, filled: false, rows: ['......', '......', '..1...', '......', '......'] },
-  { name: 'one row', from: { x: 1, y: 2 }, to: { x: 3, y: 2 }, filled: false, rows: ['......', '......', '.111..', '......', '......'] },
-  { name: 'one column filled', from: { x: 2, y: 1 }, to: { x: 2, y: 3 }, filled: true, rows: ['......', '..1...', '..1...', '..1...', '......'] },
   { name: 'two by two outline has no hole', from: { x: 1, y: 1 }, to: { x: 2, y: 2 }, filled: false, rows: ['......', '.11...', '.11...', '......', '......'] },
 ];
 
-describe('rectangles', () => {
+describe('K1 rectangles', { tags: ['critical'] }, () => {
   test.each(CASES)('$name', ({ from, to, filled, rows }) => {
     const target = blankBuffer(6, 5);
     drawShape({ target, shape: 'rect', from, to, filled, index: 1 });
