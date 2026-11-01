@@ -2,13 +2,13 @@
 import { useEffect, useRef, useState } from 'react';
 import type { FocusEvent } from 'react';
 import { REORDER_ITEM_SELECTOR, useMoveFocus, useReorderDrag } from '@drizztdourden08/tessera';
+import { outdentWish } from '../../../editor/outdent-wish';
 import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import { layerKeys } from './layer-keys';
 import { tabbableLayer } from './tabbable-layer';
 import { dropWish } from './drop-wish';
 import { indentWish } from './indent-wish';
-import { outdentWish } from './outdent-wish';
 import type { LayerListInput } from './useLayerList.type';
 
 const useLayerList = ({ model, shown, movable, pick }: LayerListInput) => {
@@ -19,9 +19,8 @@ const useLayerList = ({ model, shown, movable, pick }: LayerListInput) => {
   const commit = (from: number, to: number): void => {
     const row = shown[from];
     if (row) focus.announce(LAYER_STACK_TEXT.moved(row.name, to + 1, shown.length));
-    const wish = model.kind === 'sprite' ? dropWish(shown, from, to) : null;
+    const wish = dropWish(shown, from, to);
     if (wish) model.actions.moveTo(wish);
-    else if (model.kind !== 'sprite') model.actions.move(from, to);
   };
   const drag = useReorderDrag({ listRef, selector: REORDER_ITEM_SELECTOR, onDrop: commit });
   const dragging = drag.dragging !== null;
@@ -39,7 +38,7 @@ const useLayerList = ({ model, shown, movable, pick }: LayerListInput) => {
     commit(from, to);
   };
   const indent = (id: string, direction: 'in' | 'out'): void => {
-    if (model.kind !== 'sprite') return;
+    if (model.kind === 'sheet') return;
     const wish = direction === 'in' ? indentWish(model.rows, id) : outdentWish(model.rows, id);
     if (!wish) return;
     focus.expect(id);

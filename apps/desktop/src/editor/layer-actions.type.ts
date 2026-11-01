@@ -18,6 +18,9 @@ interface LayerActions {
   setView: (ids: readonly string[], fields: ViewFields) => void;
   group: (ids: readonly string[]) => void;
   ungroup: (id: string) => void;
+  flattenGroup: (id: string) => void;
+  moveOut: (ids: readonly string[]) => void;
+  selectChildren: (id: string) => void;
   mergeSelected: (ids: readonly string[]) => void;
   toLayer: (cut: boolean) => void;
   addReference: () => void;

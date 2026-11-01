@@ -4,7 +4,7 @@ import type { LayerRowKind, LayerRowModel } from '../../src/views/LayerStack/Lay
 import { blockIds } from '../../src/views/LayerStack/behavior/block-ids';
 import { dropWish } from '../../src/views/LayerStack/behavior/drop-wish';
 import { indentWish } from '../../src/views/LayerStack/behavior/indent-wish';
-import { outdentWish } from '../../src/views/LayerStack/behavior/outdent-wish';
+import { outdentWish } from '../../src/editor/outdent-wish';
 import { visibleRows } from '../../src/views/LayerStack/behavior/visible-rows';
 
 const row = (id: string, kind: LayerRowKind, parentId: string | null): LayerRowModel => ({

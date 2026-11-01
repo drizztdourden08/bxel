@@ -22,6 +22,9 @@ const inList = (chord: string) => ({ chord, zone: COMMAND_ZONE.layers, whileTypi
 const LAYER_TREE_COMMANDS: readonly CommandDef[] = [
   { id: COMMAND_ID.layerGroup, label: LAYER_LABEL.group, group, ...inList('Mod+G'), run: onLayers((now) => now.actions.group(now.ids)) },
   { id: COMMAND_ID.layerUngroup, label: LAYER_LABEL.ungroup, group, ...inList('Mod+Shift+G'), run: onLayers((now) => now.actions.ungroup(now.id)) },
+  { id: COMMAND_ID.layerFlattenGroup, label: LAYER_LABEL.flattenGroup, group, run: onLayers((now) => now.actions.flattenGroup(now.id)) },
+  { id: COMMAND_ID.layerMoveOut, label: LAYER_LABEL.moveOut, group, run: onLayers((now) => now.actions.moveOut(now.ids)) },
+  { id: COMMAND_ID.layerSelectChildren, label: LAYER_LABEL.selectChildren, group, run: onLayers((now) => now.actions.selectChildren(now.id)) },
   { id: COMMAND_ID.layerMergeSelected, label: LAYER_LABEL.mergeSelected, group, run: onLayers((now) => now.actions.mergeSelected(now.ids)) },
   { id: COMMAND_ID.layerToLayer, label: LAYER_LABEL.toLayer, group, chord: 'Mod+J', run: onLayers((now) => now.actions.toLayer(false)) },
   { id: COMMAND_ID.layerCutToLayer, label: LAYER_LABEL.cutToLayer, group, chord: 'Mod+Shift+J', run: onLayers((now) => now.actions.toLayer(true)) },
