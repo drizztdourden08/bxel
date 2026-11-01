@@ -191,18 +191,6 @@ type CreateInput = {
   readonly animation?: { readonly width: number; readonly height: number; readonly frames: number };
 };
 
-type WireFileKind = 'bxel' | 'image' | 'palette' | 'sheet_json' | 'other';
-
-type ListFilesInput = {
-  readonly projectId: string;
-  readonly folderId: string;
-  readonly path?: string;
-  readonly kinds: readonly WireFileKind[];
-  readonly depth: number;
-  readonly offset: number;
-  readonly limit: number;
-};
-
 type PlatformOptions = { platformStrict?: unknown; platformId?: unknown };
 
 export type {
@@ -226,7 +214,6 @@ export type {
   FramePng,
   DocumentInclude,
   GetDocumentInput,
-  ListFilesInput,
   OpenedFile,
   OpenInput,
   OpenTarget,
@@ -248,7 +235,6 @@ export type {
   SavedAt,
   SpriteFrame,
   UndoInput,
-  WireFileKind,
   WireRect,
   WireStep,
 };

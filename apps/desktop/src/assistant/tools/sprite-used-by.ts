@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { Artwork } from '@bxel/document';
-
-type Use = { readonly kind: 'animation' | 'tileset' | 'sheet'; readonly id: string; readonly name: string };
+import type { Use } from './sprite-used-by.type';
 
 const spriteUsedBy = (artwork: Artwork, spriteId: string, ownSheetId: string): readonly Use[] => [
   ...artwork.animations.filter((animation) => animation.frames.some((frame) => frame.spriteId === spriteId)).map((animation) => ({ kind: 'animation' as const, id: animation.id, name: animation.name })),
@@ -9,5 +8,4 @@ const spriteUsedBy = (artwork: Artwork, spriteId: string, ownSheetId: string): r
   ...artwork.sheets.filter((sheet) => sheet.id !== ownSheetId && sheet.entries.some((entry) => entry.spriteId === spriteId)).map((sheet) => ({ kind: 'sheet' as const, id: sheet.id, name: sheet.name })),
 ];
 
-export type { Use };
 export { spriteUsedBy };

@@ -1,13 +1,15 @@
 /* @layer renderer-app @kind logic */
-import type { OptionSpec, OptionValue } from '../../editor/tool-options/tool-options.type';
+import type { OptionSpec } from '../../editor/tool-options/tool-options.type';
+import type { Checked } from './check-option-value.type';
 
-type Checked = { readonly value: OptionValue } | { readonly problem: string };
+const rangeText = (spec: OptionSpec): string => (spec.min === undefined || spec.max === undefined ? '' : ` from ${spec.min} to ${spec.max}`);
+
+const outOfRange = (spec: OptionSpec, value: number): boolean => (spec.min !== undefined && value < spec.min) || (spec.max !== undefined && value > spec.max);
 
 const numberOf = (spec: OptionSpec, value: unknown): Checked => {
-  const { min, max } = spec;
-  if (typeof value !== 'number' || !Number.isFinite(value)) return { problem: `must be a number${min === undefined || max === undefined ? '' : ` from ${min} to ${max}`}.` };
+  if (typeof value !== 'number' || !Number.isFinite(value)) return { problem: `must be a number${rangeText(spec)}.` };
   if (!Number.isInteger(value)) return { problem: 'must be a whole number.' };
-  if ((min !== undefined && value < min) || (max !== undefined && value > max)) return { problem: `must be from ${min ?? 'any'} to ${max ?? 'any'}, not ${value}.` };
+  if (outOfRange(spec, value)) return { problem: `must be from ${spec.min ?? 'any'} to ${spec.max ?? 'any'}, not ${value}.` };
   return { value };
 };
 
@@ -24,5 +26,4 @@ const checkOptionValue = (spec: OptionSpec, value: unknown): Checked => {
   return { problem: `is an action, not a value. Run ${spec.command ?? 'its command'} with run_command.` };
 };
 
-export type { Checked };
 export { checkOptionValue };

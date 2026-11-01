@@ -5,7 +5,7 @@ import { BANK_ID_SCHEMA, SPRITE_ID_SCHEMA } from './ids.constants';
 const SPRITES_FIELD = z.array(SPRITE_ID_SCHEMA).min(1).max(512).optional().describe('Sprite ids from get_document. Without them the sprites picked in the sheet manager are used.');
 
 const CELLS_FIELDS = {
-  by: z.enum(['count', 'size']).optional().describe('count cuts a number of columns and rows; size cuts cells of a width and height.'),
+  by: z.enum(['count', 'size']).optional().describe('count cuts by the number of columns and rows; size cuts cells of a width and height.'),
   columns: z.number().int().min(1).max(256).optional(),
   rows: z.number().int().min(1).max(256).optional(),
   cellWidth: z.number().int().min(1).max(4096).optional(),

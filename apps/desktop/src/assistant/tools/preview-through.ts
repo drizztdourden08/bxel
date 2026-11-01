@@ -6,7 +6,6 @@ import type { McpResult } from '@bxel/mcp';
 import type { SpriteFrame } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
 
-/** The frame drawn through another palette of the artwork, when render_preview names one. Nothing is changed. */
 const previewThrough = (artwork: Artwork, frame: SpriteFrame, bankId: string | undefined): McpResult<SpriteFrame> => {
   if (bankId === undefined || bankId === frame.bank.id) return { ok: true, value: frame };
   const other = findBank(artwork, bankId as BankId);

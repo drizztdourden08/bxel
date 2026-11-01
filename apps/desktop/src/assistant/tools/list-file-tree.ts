@@ -1,18 +1,11 @@
 /* @layer renderer-app @kind logic */
 import { joinInside } from '@bxel/project';
-import type { EntryKind, ListedEntry } from '@bxel/project';
-import type { DocumentsPort } from '@drizztdourden08/brock-core';
 import { listFolderEntries } from '../../project/list-folder-entries';
+import { TREE_CAP } from './list-file-tree.constants';
+import type { Found, FolderAt, Tree, Walk } from './list-file-tree.type';
 
-type TreeEntry = { readonly entry: ListedEntry; readonly dir: string; readonly path: string; readonly depth: number };
-
-type Tree = { readonly entries: readonly TreeEntry[]; readonly skipped: number; readonly cut: boolean };
-
-type Walk = { readonly documents: DocumentsPort; readonly kinds: readonly EntryKind[]; readonly depth: number };
-
-const TREE_CAP = 5000;
-
-const walkFolder = async (walk: Walk, dir: string, base: string, level: number, found: { entries: TreeEntry[]; skipped: number; cut: boolean }): Promise<void> => {
+const walkFolder = async (walk: Walk, at: FolderAt, found: Found): Promise<void> => {
+  const { dir, base, level } = at;
   const listing = await listFolderEntries(walk.documents, dir, { kinds: walk.kinds, offset: 0, limit: TREE_CAP });
   found.skipped += listing.skipped;
   found.cut ||= listing.cut || listing.truncated;
@@ -24,15 +17,14 @@ const walkFolder = async (walk: Walk, dir: string, base: string, level: number, 
     const path = base === '' ? entry.name : `${base}/${entry.name}`;
     found.entries.push({ entry, dir, path, depth: level });
     const inside = entry.kind === 'folder' && level < walk.depth ? joinInside(dir, entry.name) : null;
-    if (inside?.ok) await walkFolder(walk, inside.value, path, level + 1, found);
+    if (inside?.ok) await walkFolder(walk, { dir: inside.value, base: path, level: level + 1 }, found);
   }
 };
 
 const listFileTree = async (walk: Walk, dir: string): Promise<Tree> => {
-  const found = { entries: [] as TreeEntry[], skipped: 0, cut: false };
-  await walkFolder(walk, dir, '', 1, found);
+  const found: Found = { entries: [], skipped: 0, cut: false };
+  await walkFolder(walk, { dir, base: '', level: 1 }, found);
   return found;
 };
 
-export type { Tree, TreeEntry };
 export { listFileTree };

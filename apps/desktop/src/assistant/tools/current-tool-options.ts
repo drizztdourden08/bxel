@@ -3,8 +3,7 @@ import { brushOf } from '../../editor/brush-of';
 import { inkOf } from '../../editor/ink-of';
 import { useDrawingStore } from '../../stores/useDrawingStore';
 import { useToolStore } from '../../stores/useToolStore';
-
-const CURRENT = 'current';
+import { CURRENT } from './current-tool-options.constants';
 
 const currentToolOptions = (options: unknown): unknown => {
   if (typeof options !== 'object' || options === null) return options;

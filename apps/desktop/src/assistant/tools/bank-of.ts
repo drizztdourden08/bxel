@@ -8,7 +8,6 @@ import type { ToolContext } from '../assistant.type';
 import { hiddenAssets } from './hidden-assets';
 import { TOOL_TEXT } from './tools.constants';
 
-/** The bank a palette tool names, or the default one. A bank the owner hid from the assistant is not found. */
 const bankOf = (context: ToolContext, view: DocumentView, request: { readonly documentId: string; readonly bankId?: string }): McpResult<PaletteBank> => {
   const { artwork } = view.state;
   const bank = findBank(artwork, (request.bankId ?? artwork.defaultBankId) as BankId);

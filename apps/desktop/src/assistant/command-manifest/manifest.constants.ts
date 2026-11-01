@@ -1,15 +1,12 @@
 /* @layer renderer-app @kind constants */
-import type { BundleId } from '@bxel/mcp';
 import { OPTION_COMMAND, TOOL_COMMAND } from '../../keymap/option-command-id.constants';
 import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_TOOL_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
 import { OPTION_VALUE_COMMAND_IDS } from '../../keymap/option-commands.constants';
 import { PALETTE_TRANSFER_COMMAND } from '../../keymap/palette-transfer-command-id.constants';
-import type { CommandEffect, ManifestEntry, ManifestExtra } from './manifest.type';
-
-const rows = (area: BundleId, effect: CommandEffect, ids: readonly string[], extra: ManifestExtra = {}): [string, ManifestEntry][] =>
-  ids.map((id) => [id, { area, effect, args: extra.args ?? null, dialog: extra.dialog ?? null, refuse: extra.refuse ?? null }]);
-
-const one = (id: string, area: BundleId, effect: CommandEffect, extra: ManifestExtra = {}): [string, ManifestEntry] => rows(area, effect, [id], extra)[0] as [string, ManifestEntry];
+import type { ManifestEntry } from './manifest.type';
+import { FILE_ROWS } from './manifest-file.constants';
+import { one } from './manifest-one';
+import { rows } from './manifest-rows';
 
 const LAYER_TREE_REFUSE = 'Use apply_edits with the matching layer.* step: it names the layers and the image path.';
 
@@ -193,22 +190,6 @@ const TILEMAP_ROWS = [
   one('tilemap.pick_tile_here', 'tilemaps', 'app', { args: 'pixel' }),
   one('tilemap.edit_tile_here', 'tilemaps', 'app', { args: 'pixel' }),
   one('timeline.delete', 'animation', 'edit'),
-];
-
-const FILE_ROWS = [
-  ...rows('files_saving', 'file', ['file.save', 'file.save_all']),
-  one('file.save_as', 'files_saving', 'file', { dialog: 'save_as' }),
-  one('export.open', 'files_saving', 'file', { dialog: 'export' }),
-  one('image.import', 'files_saving', 'file', { dialog: 'image_import' }),
-  ...rows('files_saving', 'file', ['file.open', 'file.new', 'sprite.new', 'file.import_image', 'file.import_tiled'], { dialog: 'file' }),
-  ...rows('files_saving', 'file', ['project.new', 'project.open', 'project.close', 'project.pack'], { dialog: 'project' }),
-  ...rows('files_saving', 'file', ['tab.close', 'tab.close_others', 'tab.close_right'], { args: 'tab' }),
-  one('project.rename_file', 'files_saving', 'file', { args: 'renameFile' }),
-  one('project.make_folder', 'files_saving', 'file', { args: 'path' }),
-  one('project.move_files', 'files_saving', 'file', { args: 'moveFiles', dialog: 'confirm' }),
-  one('project.trash_files', 'files_saving', 'file', { args: 'paths', dialog: 'confirm' }),
-  ...rows('app_control', 'show', ['asset.reveal'], { args: 'path' }),
-  one('asset.copy_path', 'app_control', 'app', { args: 'path' }),
 ];
 
 const MANIFEST: Readonly<Record<string, ManifestEntry>> = Object.fromEntries([...VIEW_ROWS, ...EDIT_ROWS, ...SHEET_ROWS, ...TIMELINE_ROWS, ...TILEMAP_ROWS, ...FILE_ROWS]);

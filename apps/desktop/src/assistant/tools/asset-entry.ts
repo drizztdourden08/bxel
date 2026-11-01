@@ -4,7 +4,7 @@ import { fileName } from '../../files/file-name';
 import { projectWorkspaceId } from '../../workspace/project-workspace-id';
 import type { OpenProject } from '../../project/project.type';
 import { organiseOf } from '../../organise/organise-of';
-import type { AssetLinks } from './asset-states';
+import type { AssetLinks } from './asset-states.type';
 import { statesOf } from './asset-states';
 import { locateInProject } from './locate-in-project';
 
