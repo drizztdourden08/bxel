@@ -17,6 +17,7 @@ const SELECT_ENTRIES: readonly SelectEntry[] = [
   { id: ID.selectByFrame, label: 'Select by frame' },
   'separator',
   { id: ID.toGuides, label: 'Selection to guides' },
+  { id: ID.quickMask, label: 'Quick mask' },
   { id: ID.save, label: 'Saved selections...' },
 ];
 

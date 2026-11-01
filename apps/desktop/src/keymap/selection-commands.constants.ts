@@ -18,6 +18,7 @@ import { pasteNewSprite } from '../editor/selection/paste-new-sprite';
 import { selectByFrame } from '../editor/selection/select-by-frame';
 import { selectionToGuides } from '../editor/selection/selection-to-guides';
 import { usePasteChoiceStore } from '../stores/usePasteChoiceStore';
+import { useSelectionStore } from '../stores/useSelectionStore';
 import { pasteAndTransform } from '../editor/selection/paste-and-transform';
 import { selectOpaque } from '../editor/selection/select-opaque';
 import { smoothSelection } from '../editor/selection/smooth-selection';
@@ -87,6 +88,7 @@ const SELECTION_EDITS: readonly CommandDef[] = [
   { id: ID.pasteChoose, label: 'Paste with a choice...', group, run: () => usePasteChoiceStore.getState().show() },
   { id: ID.selectByFrame, label: 'Select by frame', group, run: () => void selectByFrame() },
   { id: ID.toGuides, label: 'Selection to guides', group, run: () => void selectionToGuides() },
+  { id: ID.quickMask, label: 'Quick mask', group, chord: 'Alt+Q', whileTyping: false, run: () => useSelectionStore.getState().setQuickMask(!useSelectionStore.getState().quickMask) },
   { id: ID.pasteExpand, label: 'Paste and expand the canvas', group, run: () => void pasteFromSystem('expand') },
   { id: ID.copy, label: 'Copy', group, chord: 'Mod+C', whileTyping: false, run: mapOr(copyCells, () => void copySelection()) },
   { id: ID.cut, label: 'Cut', group, chord: 'Mod+X', whileTyping: false, run: mapOr(cutCells, () => void cutSelection()) },

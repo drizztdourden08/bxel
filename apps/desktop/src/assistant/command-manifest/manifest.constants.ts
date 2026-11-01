@@ -56,7 +56,7 @@ const VIEW_ROWS = [
 const EDIT_ROWS = [
   one('history.undo', 'edit_pixels', 'edit', { refuse: OWN_HISTORY }),
   one('history.redo', 'edit_pixels', 'edit', { refuse: OWN_HISTORY }),
-  ...rows('edit_pixels', 'app', ['selection.select_all', 'selection.clear', 'selection.invert', 'selection.expand', 'selection.shrink', 'selection.reselect', 'selection.border', 'selection.smooth', 'selection.select_opaque', 'selection.select_by_frame', 'selection.to_guides']),
+  ...rows('edit_pixels', 'app', ['selection.select_all', 'selection.clear', 'selection.invert', 'selection.expand', 'selection.shrink', 'selection.reselect', 'selection.border', 'selection.smooth', 'selection.select_opaque', 'selection.select_by_frame', 'selection.to_guides', 'selection.quick_mask']),
   one('selection.save', 'edit_pixels', 'app', { dialog: 'saved_selections' }),
   one('slice.delete_selected', 'edit_pixels', 'edit'),
   one('slice.properties', 'edit_pixels', 'app', { dialog: 'slice_properties' }),

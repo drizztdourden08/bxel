@@ -8,15 +8,18 @@ import type { PixelView } from '../../PixelViewport';
 import type { OverlayLook } from './canvas-tools.type';
 import { paintPolygon } from './paint-polygon';
 import { strokeOutline } from './stroke-outline';
+import { tintMask } from './tint-mask';
 
 const landingOutline = (pending: PendingEdit): MaskView | null =>
   pending.spec.kind === 'transform' ? null : (usePendingStore.getState().outcome?.landing ?? null);
 
 const paintSelection = (ctx: CanvasRenderingContext2D, view: PixelView, look: OverlayLook): void => {
-  const { mask, draft, vertices } = useSelectionStore.getState();
+  const { mask, draft, vertices, quickMask } = useSelectionStore.getState();
   const { pending } = usePendingStore.getState();
   const shown = pending ? landingOutline(pending) : (draft ?? mask);
-  if (shown?.width === view.imageWidth && shown.height === view.imageHeight) strokeOutline(ctx, view, shown, look);
+  const fits = shown?.width === view.imageWidth && shown.height === view.imageHeight;
+  if (shown && fits && quickMask && !pending) tintMask(ctx, shown, look);
+  else if (shown && fits) strokeOutline(ctx, view, shown, look);
   const pointer = useReadoutStore.getState().pointer;
   if (vertices.length > 0) paintPolygon(ctx, view, pointer ? [...vertices, pointer] : vertices, look);
 };

@@ -20,6 +20,7 @@ const SELECTION_COMMAND_ID = {
   border: 'selection.border',
   selectByFrame: 'selection.select_by_frame',
   toGuides: 'selection.to_guides',
+  quickMask: 'selection.quick_mask',
   pasteNewSprite: 'selection.paste_new_sprite',
   pasteChoose: 'selection.paste_choose',
   smooth: 'selection.smooth',

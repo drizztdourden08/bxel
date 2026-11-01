@@ -14,6 +14,7 @@ interface SelectionSettings {
   sample: SampleSource;
   amount: number;
   nudge: number;
+  quickMask: boolean;
   owner: DocumentId | null;
   mask: MaskView | null;
   draft: MaskView | null;
@@ -33,6 +34,7 @@ interface SelectionState extends SelectionSettings {
   setSample: (sample: SampleSource) => void;
   setAmount: (amount: number) => void;
   setNudge: (nudge: number) => void;
+  setQuickMask: (on: boolean) => void;
   setMask: (mask: MaskView | null, owner: DocumentId | null) => void;
   setDraft: (draft: MaskView | null) => void;
   setVertices: (vertices: readonly Point[]) => void;

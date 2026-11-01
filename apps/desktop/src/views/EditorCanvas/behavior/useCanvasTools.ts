@@ -6,6 +6,7 @@ import { useAxisDrag } from './useAxisDrag';
 import { useGuideGrab } from './useGuideGrab';
 import { usePivotDrag } from './usePivotDrag';
 import { usePaintGesture } from './usePaintGesture';
+import { useQuickMaskGesture } from './useQuickMaskGesture';
 import { useSelectGesture } from './useSelectGesture';
 import { useSliceGesture } from './useSliceGesture';
 import { useZoomGesture } from './useZoomGesture';
@@ -16,6 +17,7 @@ const useCanvasTools = (viewport: RefObject<PixelViewportHandle | null>): Canvas
   const guide = useGuideGrab(viewport);
   const axis = useAxisDrag(viewport);
   const pivot = usePivotDrag(viewport);
+  const mask = useQuickMaskGesture(viewport);
   const select = useSelectGesture(viewport);
   const zoom = useZoomGesture(viewport);
   const slice = useSliceGesture(viewport);
@@ -23,13 +25,13 @@ const useCanvasTools = (viewport: RefObject<PixelViewportHandle | null>): Canvas
   return {
     live: paint.live,
     onPointerDown: (event) => {
-      if (!guide.down(event) && !pivot.down(event) && !axis.down(event) && !transform.down(event) && !zoom.down(event) && !slice.down(event) && !select.down(event)) paint.down(event);
+      if (!guide.down(event) && !pivot.down(event) && !axis.down(event) && !transform.down(event) && !zoom.down(event) && !slice.down(event) && !mask.down(event) && !select.down(event)) paint.down(event);
     },
     onPointerMove: (event) => {
-      if (!guide.move(event) && !pivot.move(event) && !axis.move(event) && !transform.move(event) && !zoom.move(event) && !slice.move(event) && !select.move(event)) paint.move(event);
+      if (!guide.move(event) && !pivot.move(event) && !axis.move(event) && !transform.move(event) && !zoom.move(event) && !slice.move(event) && !mask.move(event) && !select.move(event)) paint.move(event);
     },
     onPointerUp: () => {
-      if (!guide.up() && !pivot.up() && !axis.up() && !transform.up() && !zoom.up() && !slice.up() && !select.up()) paint.up();
+      if (!guide.up() && !pivot.up() && !axis.up() && !transform.up() && !zoom.up() && !slice.up() && !mask.up() && !select.up()) paint.up();
     },
   };
 };
