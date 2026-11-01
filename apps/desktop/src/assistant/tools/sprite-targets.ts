@@ -1,9 +1,7 @@
 /* @layer renderer-app @kind logic */
-import type { Artwork, Sprite } from '@bxel/document';
-
-type Targets = { readonly ok: true; readonly sprites: readonly Sprite[] } | { readonly ok: false; readonly problem: string };
-
-const NO_TARGETS = 'No sprite is picked. Give sprites, or pick them in the sheet manager.';
+import type { Artwork } from '@bxel/document';
+import { NO_TARGETS } from './sprite-targets.constants';
+import type { Targets } from './sprite-targets.type';
 
 const spriteTargets = (artwork: Artwork, wanted: readonly string[] | undefined, fallback: readonly string[]): Targets => {
   const ids = wanted ?? fallback;
@@ -14,10 +12,4 @@ const spriteTargets = (artwork: Artwork, wanted: readonly string[] | undefined, 
   return sprites.length === 0 ? { ok: false, problem: NO_TARGETS } : { ok: true, sprites };
 };
 
-const otherNames = (artwork: Artwork, targets: readonly Sprite[], copying: boolean): string[] => {
-  const picked = new Set(copying ? [] : targets.map((sprite) => sprite.id));
-  return artwork.sprites.filter((sprite) => !picked.has(sprite.id)).map((sprite) => sprite.name);
-};
-
-export type { Targets };
-export { otherNames, spriteTargets };
+export { spriteTargets };

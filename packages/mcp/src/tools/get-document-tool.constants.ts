@@ -12,4 +12,9 @@ const SYMMETRY_REPLY_SCHEMA = z.strictObject({
   turn: z.boolean(),
 });
 
-export { DOCUMENT_INCLUDE_VALUES, SYMMETRY_REPLY_SCHEMA };
+const GUIDES_SCHEMA = z.strictObject({
+  x: z.array(z.number().int()),
+  y: z.array(z.number().int()),
+});
+
+export { DOCUMENT_INCLUDE_VALUES, GUIDES_SCHEMA, SYMMETRY_REPLY_SCHEMA };

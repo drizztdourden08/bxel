@@ -10,7 +10,6 @@ import { projectPath } from './project-path';
 import type { ProjectLocation } from './tool-input.type';
 import { TOOL_TEXT } from './tools.constants';
 
-/** The disk path of a palette file in a granted project folder. */
 const paletteFilePath = async (context: ToolContext, location: ProjectLocation): Promise<McpResult<string>> => {
   const found = projectFolder(context, location.projectId, location.folderId);
   if (!found.ok) return found;

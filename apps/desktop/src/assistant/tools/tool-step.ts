@@ -7,20 +7,19 @@ import { memberById } from '../../editor/tool-catalogue/member-by-id';
 import { slotsOf } from '../../editor/tool-catalogue/slots-of';
 import { pickMember } from '../../editor/tool-pick/pick-member';
 import { writeOption } from '../../editor/tool-options/write-option';
-import type { ToolId } from '../../editor/tool.type';
 import { useToolPresetStore } from '../../stores/useToolPresetStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { APP_TOOL_TEXT } from './app-tool.constants';
 import { isReply } from './is-reply';
+import { optionOffReason } from './option-off-reason';
 import { resolveOptions } from './resolve-options';
-import type { Resolved } from './resolve-options';
+import type { Resolved } from './resolve-options.type';
 import { toolBusy } from './tool-busy';
+import type { ToolPick } from './tool-step.type';
 import { viewFail } from './view-fail';
 import type { ViewStep } from './view-steps.type';
 
-type Pick = { readonly tool: ToolId; readonly run: () => void };
-
-const pickOf = (tool: NonNullable<Parameters<ViewStep>[0]['tool']>): Pick | ToolReply => {
+const pickOf = (tool: NonNullable<Parameters<ViewStep>[0]['tool']>): ToolPick | ToolReply => {
   const { id, member, preset } = tool;
   const current = useToolStore.getState().tool;
   if (member !== undefined) {
@@ -42,8 +41,7 @@ const pickOf = (tool: NonNullable<Parameters<ViewStep>[0]['tool']>): Pick | Tool
 
 const writeAll = (writes: readonly Resolved[]): ToolReply | null => {
   for (const { key, spec, value } of writes) {
-    const live = spec.tool === useToolStore.getState().tool;
-    const why = live && spec.appliesWhen?.() === false ? 'Another option makes it irrelevant.' : live ? spec.disabledReason?.() : undefined;
+    const why = optionOffReason(spec);
     if (why !== undefined) return viewFail(APP_TOOL_TEXT.optionOff(key, why), `tool.options.${key}`);
     writeOption(spec, value);
   }

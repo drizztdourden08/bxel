@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { EntryKind } from '@bxel/project';
-import type { WireFileKind } from './tool-input.type';
+import type { WireFileKind } from './list-files-input.type';
 
 const RECENT_ID_LENGTH = 12;
 

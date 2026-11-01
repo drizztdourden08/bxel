@@ -15,8 +15,11 @@ import { selectionIds } from '../../sheet/selection-ids';
 import { currentScene } from '../../sheet/current-scene';
 import type { ToolContext } from '../assistant.type';
 import { reply } from './reply';
-import { renameSpec, sliceSpec, stripSpec } from './sprite-specs';
-import { otherNames, spriteTargets } from './sprite-targets';
+import { renameSpec } from './rename-spec';
+import { sliceSpec } from './slice-spec';
+import { stripSpec } from './strip-spec';
+import { otherNames } from './other-names';
+import { spriteTargets } from './sprite-targets';
 import { viewFor } from './view-for';
 
 

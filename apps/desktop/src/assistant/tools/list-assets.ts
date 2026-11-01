@@ -3,8 +3,10 @@ import { canSeeFolder, hiddenFailure, MCP_ERROR_CODE, mcpFailure } from '@bxel/m
 import { scanLinkIndex } from '../../workspace/scan-link-index';
 import type { ToolHandler } from '../assistant.type';
 import { assetEntry } from './asset-entry';
-import { linksByAsset, NO_LINKS, statesOf } from './asset-states';
-import type { AssetLinks } from './asset-states';
+import { NO_LINKS } from './asset-states.constants';
+import { statesOf } from './asset-states';
+import { linksByAsset } from './links-by-asset';
+import type { AssetLinks } from './asset-states.type';
 import { assistantRows } from './assistant-rows';
 import { grantedProjects } from './granted-projects';
 import { narrowAssets } from './narrow-assets';

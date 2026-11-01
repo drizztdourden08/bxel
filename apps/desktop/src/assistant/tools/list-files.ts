@@ -1,17 +1,17 @@
 /* @layer renderer-app @kind logic */
 import { MCP_ERROR_CODE, mcpFailure } from '@bxel/mcp';
 import { ENTRY_KINDS, joinInside } from '@bxel/project';
-import type { ListedEntry } from '@bxel/project';
 import type { ToolContext, ToolHandler } from '../assistant.type';
 import { documentAt } from './document-at';
 import { listFileTree } from './list-file-tree';
+import type { TreeEntry } from './list-file-tree.type';
 import { projectFolder } from './project-folder';
 import { projectPath } from './project-path';
 import { reply } from './reply';
-import type { ListFilesInput } from './tool-input.type';
+import type { ListFilesInput } from './list-files-input.type';
 import { TOOL_TEXT, WIRE_KIND_OF } from './tools.constants';
 
-const wireEntry = (context: ToolContext, dir: string, entry: ListedEntry, path: string, depth: number) => {
+const wireEntry = (context: ToolContext, { entry, dir, path, depth }: TreeEntry) => {
   if (entry.kind === 'folder') return { name: entry.name, kind: entry.kind, path, depth };
   const full = joinInside(dir, entry.name);
   return {
@@ -38,7 +38,7 @@ const listFiles: ToolHandler = async (input, context) => {
     return reply({
       ok: true,
       path: request.path ?? '',
-      entries: page.map(({ entry, dir: where, path, depth }) => wireEntry(context, where, entry, path, depth)),
+      entries: page.map((item) => wireEntry(context, item)),
       total: tree.entries.length,
       skipped: tree.skipped,
       truncated: tree.cut || request.offset + page.length < tree.entries.length,

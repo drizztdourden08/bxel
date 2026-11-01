@@ -2,7 +2,7 @@
 import type { McpResult } from '@bxel/mcp';
 import type { ToolContext } from '../assistant.type';
 import { locationPath } from './location-path';
-import type { LocationLike } from './location-path';
+import type { LocationLike } from './location-path.type';
 
 const locationPaths = (context: ToolContext, places: readonly LocationLike[], field: string): McpResult<readonly string[]> => {
   const paths: string[] = [];

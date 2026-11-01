@@ -5,8 +5,13 @@ import { rotateSpec } from '../../editor/transform/rotate-spec';
 import { scaleSpec } from '../../editor/transform/scale-spec';
 import type { ResizeSpec } from '../../sheet-manager/manager.type';
 import type { Args, Direct } from './direct-commands.type';
-import { cutStripDirect, duplicateNamedDirect, moveToFolder, renameMany, setPalette, sliceDirect } from './manager-direct';
+import { cutStripDirect } from './cut-strip-direct';
+import { duplicateNamedDirect } from './duplicate-named-direct';
+import { moveToFolder } from './move-to-folder';
 import { paletteDirect } from './palette-direct';
+import { renameMany } from './rename-many';
+import { setPalette } from './set-palette';
+import { sliceDirect } from './slice-direct';
 
 const NO_SPRITE = 'No sprite is open to change.';
 

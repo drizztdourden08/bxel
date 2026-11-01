@@ -5,6 +5,15 @@ import { APP_TOOL_TEXT } from './app-tool.constants';
 import { viewFail } from './view-fail';
 import type { ViewStep } from './view-steps.type';
 
+type TilesetPatch = NonNullable<Parameters<ViewStep>[0]['tileset']>;
+
+const applyStamp = (tiles: ReturnType<typeof useTilemapStore.getState>, tileset: TilesetPatch): void => {
+  const { stamp } = tileset;
+  if (stamp === undefined && tileset.scatter === undefined) return;
+  const now = tiles.stamp;
+  tiles.setStamp({ ...now, ...(stamp ?? {}), scatter: tileset.scatter ?? now.scatter });
+};
+
 const tilesetStep: ViewStep = (patch) => {
   const { tileset } = patch;
   if (!tileset) return null;
@@ -14,10 +23,7 @@ const tilesetStep: ViewStep = (patch) => {
   if (tileset.mode !== undefined) panel.setMode(tileset.mode);
   if (tileset.search !== undefined) panel.setSearch(tileset.search);
   const tiles = useTilemapStore.getState();
-  if (stamp !== undefined || tileset.scatter !== undefined) {
-    const now = tiles.stamp;
-    tiles.setStamp({ ...now, ...(stamp ?? {}), scatter: tileset.scatter ?? now.scatter });
-  }
+  applyStamp(tiles, tileset);
   if (tileset.terrainBrush !== undefined) tiles.setTerrainBrush(tileset.terrainBrush);
   if (tileset.collisionOverlay !== undefined) tiles.setShowCollision(tileset.collisionOverlay);
   return null;

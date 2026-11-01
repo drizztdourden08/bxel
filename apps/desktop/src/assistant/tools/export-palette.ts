@@ -2,7 +2,6 @@
 import { ERROR_CODE } from '@bxel/document';
 import { hiddenFailure, mcpFailure } from '@bxel/mcp';
 import { fileName } from '../../files/file-name';
-import { EXPORT_WRITE } from '../../files/files.constants';
 import { paletteExportBytes } from '../../palette-export/palette-export-bytes';
 import { paletteFileOf } from '../../palette-export/palette-file-of';
 import type { ToolHandler } from '../assistant.type';
@@ -12,9 +11,9 @@ import { indexHash } from './index-hash';
 import type { ExportPaletteInput } from './palette-file-input.type';
 import { paletteExportTarget } from './palette-export-target';
 import { reply } from './reply';
+import { storePaletteExport } from './store-palette-export';
 import { TOOL_TEXT } from './tools.constants';
 import { viewFor } from './view-for';
-import { writeProjectFile } from './write-project-file';
 
 const exportPalette: ToolHandler = async (input, context) => {
   const job = input as ExportPaletteInput;
@@ -30,12 +29,8 @@ const exportPalette: ToolHandler = async (input, context) => {
   if (!target.ok) return reply(target);
   const made = paletteExportBytes(file, { extension: job.format, scale: job.format === 'png' ? job.scale : 1 });
   if (!made.ok) return reply(mcpFailure(ERROR_CODE.INVALID_OPTION, made.message));
-  if (job.location) {
-    const refused = await writeProjectFile(context, target.value, made.bytes, EXPORT_WRITE);
-    if (refused) return reply(refused);
-  } else {
-    await context.documents.write(target.value, made.bytes, EXPORT_WRITE);
-  }
+  const refused = await storePaletteExport(context, job, target.value, made.bytes);
+  if (refused) return reply(refused);
   return reply({
     ok: true,
     revision: view.state.revision,

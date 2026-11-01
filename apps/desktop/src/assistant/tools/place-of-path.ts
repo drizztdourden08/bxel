@@ -2,8 +2,7 @@
 import { canSeeFolder } from '@bxel/mcp';
 import { checkRelPath, relativeInside } from '@bxel/project';
 import type { OpenProject } from '../../project/project.type';
-
-type PathPlace = { readonly projectId: string; readonly folderId: string; readonly path?: string };
+import type { PathPlace } from './place-of-path.type';
 
 const placeOfPath = (project: OpenProject | null, path: string): PathPlace | null => {
   if (project === null) return null;
@@ -17,5 +16,4 @@ const placeOfPath = (project: OpenProject | null, path: string): PathPlace | nul
   return null;
 };
 
-export type { PathPlace };
 export { placeOfPath };

@@ -3,6 +3,8 @@ import type { Artwork, Sheet } from '@bxel/document';
 import { atlasExportSettings } from '../../sheet-manager/atlas-export-settings';
 import { atlasModel } from '../../sheet-manager/atlas-model';
 import { useManagerStore } from '../../stores/useManagerStore';
+import { definedOnly } from './defined-only';
+import { SHEET_EXPORT_DEFAULTS } from './sheet-export-view.constants';
 
 const sheetExportView = (artwork: Artwork, sheet: Sheet) => {
   const { atlas } = useManagerStore.getState();
@@ -11,16 +13,19 @@ const sheetExportView = (artwork: Artwork, sheet: Sheet) => {
   return {
     page: { index: model.page, count: model.pageCount, width: model.width, height: model.height, empty: model.empty, failure: model.failure },
     export: {
-      layout: settings.layout ?? 'grid',
-      columns: settings.columns ?? 0,
-      maxWidth: settings.maxWidth ?? 0,
-      padding: settings.padding ?? 0,
-      margin: settings.margin ?? 0,
-      extrusion: settings.extrusion ?? 0,
-      trim: settings.trim ?? false,
-      powerOfTwo: settings.powerOfTwo ?? false,
-      rotate: settings.rotate ?? false,
-      pageSide: settings.pageSide ?? 0,
+      ...SHEET_EXPORT_DEFAULTS,
+      ...definedOnly({
+        layout: settings.layout,
+        columns: settings.columns,
+        maxWidth: settings.maxWidth,
+        padding: settings.padding,
+        margin: settings.margin,
+        extrusion: settings.extrusion,
+        trim: settings.trim,
+        powerOfTwo: settings.powerOfTwo,
+        rotate: settings.rotate,
+        pageSide: settings.pageSide,
+      }),
       presets: artwork.presets.filter((preset) => preset.sheetId === sheet.id).map((preset) => ({ presetId: preset.id, name: preset.name, format: preset.format })),
     },
   };

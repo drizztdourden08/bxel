@@ -1,10 +1,9 @@
 /* @layer renderer-app @kind logic */
 import type { McpResult } from '@bxel/mcp';
 import type { ToolContext } from '../assistant.type';
+import type { LocationLike } from './location-path.type';
 import { placePath } from './place-path';
 import { projectFolder } from './project-folder';
-
-type LocationLike = { readonly projectId: string; readonly folderId: string; readonly path?: string };
 
 const locationPath = (context: ToolContext, place: LocationLike, field: string): McpResult<string> => {
   const found = projectFolder(context, place.projectId, place.folderId);
@@ -12,5 +11,4 @@ const locationPath = (context: ToolContext, place: LocationLike, field: string):
   return placePath(found.value.project, place, field);
 };
 
-export type { LocationLike };
 export { locationPath };

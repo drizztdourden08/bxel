@@ -8,7 +8,7 @@ import { surfaceKind } from '../../editor/tool-catalogue/surface-kind';
 import { optionsOf } from '../../editor/tool-options/options-of';
 import { readOption } from '../../editor/tool-options/read-option';
 import { isSpringTool } from '../../editor/tool-pick/is-spring-tool';
-import { springFrom } from '../../editor/tool-pick/spring-from';
+import { useSpringStore } from '../../editor/tool-pick/use-spring-store';
 import { useToolPresetStore } from '../../stores/useToolPresetStore';
 import { useToolStore } from '../../stores/useToolStore';
 
@@ -17,7 +17,7 @@ const toolView = () => {
   const surface = currentSurface();
   const member = activeMember();
   const presets = allPresets(useToolPresetStore.getState().user);
-  const borrowedFrom = springFrom.tool;
+  const borrowedFrom = useSpringStore.getState().tool;
   return {
     surface,
     member: member?.id ?? null,

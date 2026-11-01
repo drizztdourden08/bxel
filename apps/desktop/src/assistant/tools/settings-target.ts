@@ -17,7 +17,7 @@ const settingsTarget = (scope: SettingScope, target: string | undefined): ToolRe
   }
   const byId = useWorkspaceStore.getState().tabs.find((tab) => tab.id === target);
   const tab = byId ?? openFileTab(target);
-  if (tab === null || tab === undefined) return reply(mcpFailure(MCP_ERROR_CODE.SETTING_INVALID, APP_TOOL_TEXT.noTab, { path: 'target' }));
+  if (tab === null) return reply(mcpFailure(MCP_ERROR_CODE.SETTING_INVALID, APP_TOOL_TEXT.noTab, { path: 'target' }));
   activateTab(tab.id);
   return null;
 };

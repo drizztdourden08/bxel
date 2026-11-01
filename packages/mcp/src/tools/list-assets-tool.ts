@@ -7,9 +7,8 @@ import { PAGING_SHAPE } from '../schema/paging.constants';
 import { REL_PATH_SCHEMA, TIMESTAMP_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
+import { ASSET_STATE_VALUES } from './list-assets-tool.constants';
 import { TOOL_NAME } from './tool-name.constants';
-
-const ASSET_STATE_VALUES = ['unsaved', 'open', 'missing', 'unused'] as const;
 
 const assetEntry = z.strictObject({
   kind: ASSET_KIND_SCHEMA,

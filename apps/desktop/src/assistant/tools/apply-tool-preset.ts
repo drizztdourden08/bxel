@@ -7,7 +7,7 @@ import { isReply } from './is-reply';
 import { presetRow } from './preset-row';
 import { reply } from './reply';
 import { toolBusy } from './tool-busy';
-import { presetById } from './user-preset';
+import { presetById } from './preset-by-id';
 import { viewFail } from './view-fail';
 
 const applyToolPreset: ToolHandler = (input, context) => {
