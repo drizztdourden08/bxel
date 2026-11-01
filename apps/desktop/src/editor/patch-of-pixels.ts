@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { AntiAliasPixel, Rect } from '@bxel/raster';
 
-/** A rectangle of indices holding the given pixels and zero elsewhere, or null when there are none. */
 const patchOfPixels = (found: readonly AntiAliasPixel[], width: number, height: number): { rect: Rect; pixels: Uint8Array } | null => {
   if (found.length === 0) return null;
   const left = Math.max(0, Math.min(...found.map((each) => each.x)));

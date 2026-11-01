@@ -9,11 +9,12 @@ import { pointMask } from './selection/point-mask';
 import { samplePixels } from './selection/sample-pixels';
 import { selectionMask } from './selection/selection-mask';
 
+const pointOf = ({ x, y }: Partial<ByColourArgs>): { x: number; y: number } | null => (x === undefined || y === undefined ? null : { x, y });
+
 const selectByColour = (args: Partial<ByColourArgs>): void => {
   const target = currentTarget();
   if (!target) return;
-  const { x, y } = args;
-  const at = x === undefined || y === undefined ? null : { x, y };
+  const at = pointOf(args);
   const { mode } = useSelectionStore.getState();
   const base = selectionMask(target);
   if (args.mode === 'region' && at) {

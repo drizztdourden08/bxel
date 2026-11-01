@@ -2,6 +2,7 @@
 import type { KeyboardEvent, RefObject } from 'react';
 import { REORDER_ITEM_SELECTOR, reorderStep } from '@drizztdourden08/tessera';
 import { LAYER_FOCUS_KEYS } from '../LayerStack.constants';
+import type { LayerRowModel } from '../LayerStack.type';
 import type { IndentDirection, LayerKeysInput } from './layer-keys.type';
 import { mainButton } from './main-button';
 
@@ -26,19 +27,19 @@ const indentOf = (event: KeyboardEvent<HTMLElement>): IndentDirection | null => 
   return event.key === 'ArrowRight' ? 'in' : null;
 };
 
-const foldKey = (event: KeyboardEvent<HTMLElement>, index: number, input: LayerKeysInput): number | null | undefined => {
-  if (!plainKeys(event) || event.shiftKey || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')) return undefined;
-  const row = input.rows[index];
-  if (!row) return undefined;
-  const open = row.kind === 'group' && !input.folded.includes(row.id);
-  if (event.key === 'ArrowLeft') {
-    if (open) {
-      input.setFolded(row.id, true);
-      return null;
-    }
-    const parent = input.rows.findIndex((each) => each.id === row.parentId);
-    return parent < 0 ? undefined : parent;
+const foldingKey = (event: KeyboardEvent<HTMLElement>): boolean =>
+  plainKeys(event) && !event.shiftKey && (event.key === 'ArrowLeft' || event.key === 'ArrowRight');
+
+const foldLeft = (row: LayerRowModel, open: boolean, input: LayerKeysInput): number | null | undefined => {
+  if (open) {
+    input.setFolded(row.id, true);
+    return null;
   }
+  const parent = input.rows.findIndex((each) => each.id === row.parentId);
+  return parent < 0 ? undefined : parent;
+};
+
+const foldRight = (row: LayerRowModel, open: boolean, index: number, input: LayerKeysInput): number | null | undefined => {
   if (row.kind !== 'group') return undefined;
   if (!open) {
     input.setFolded(row.id, false);
@@ -47,26 +48,36 @@ const foldKey = (event: KeyboardEvent<HTMLElement>, index: number, input: LayerK
   return input.rows[index + 1]?.parentId === row.id ? index + 1 : undefined;
 };
 
+const foldKey = (event: KeyboardEvent<HTMLElement>, index: number, input: LayerKeysInput): number | null | undefined => {
+  const row = input.rows[index];
+  if (!row || !foldingKey(event)) return undefined;
+  const open = row.kind === 'group' && !input.folded.includes(row.id);
+  return event.key === 'ArrowLeft' ? foldLeft(row, open, input) : foldRight(row, open, index, input);
+};
+
+const indentKey = (event: KeyboardEvent<HTMLElement>, index: number, input: LayerKeysInput): boolean => {
+  const indent = indentOf(event);
+  if (indent === null) return false;
+  event.preventDefault();
+  const id = input.rows[index]?.id;
+  if (input.movable && id !== undefined) input.indent(id, indent);
+  return true;
+};
+
+const moveKey = (event: KeyboardEvent<HTMLElement>, index: number, input: LayerKeysInput): boolean => {
+  const to = reorderStep(event, { axis: 'vertical', chord: 'alt', index, total: input.rows.length });
+  if (to === undefined) return false;
+  event.preventDefault();
+  if (input.movable) input.move(index, to);
+  return true;
+};
+
 const layerKeys = (listRef: RefObject<HTMLElement | null>, input: LayerKeysInput) =>
   (event: KeyboardEvent<HTMLElement>): void => {
     const row = rowOf(event.target);
     if (!row) return;
-    const { rows, movable, move, extend } = input;
-    const total = rows.length;
     const index = Number(row.dataset.reorderIndex);
-    const indent = indentOf(event);
-    if (indent !== null) {
-      event.preventDefault();
-      const id = rows[index]?.id;
-      if (movable && id !== undefined) input.indent(id, indent);
-      return;
-    }
-    const to = reorderStep(event, { axis: 'vertical', chord: 'alt', index, total });
-    if (to !== undefined) {
-      event.preventDefault();
-      if (movable) move(index, to);
-      return;
-    }
+    if (indentKey(event, index, input) || moveKey(event, index, input)) return;
     if (event.target !== mainButton(row)) return;
     const folding = foldKey(event, index, input);
     if (folding !== undefined) {
@@ -74,10 +85,10 @@ const layerKeys = (listRef: RefObject<HTMLElement | null>, input: LayerKeysInput
       if (folding !== null) focusRow(listRef, folding);
       return;
     }
-    const next = focusIndex(event, index, total);
+    const next = focusIndex(event, index, input.rows.length);
     if (next === undefined) return;
     event.preventDefault();
-    if (event.shiftKey) extend(next);
+    if (event.shiftKey) input.extend(next);
     focusRow(listRef, next);
   };
 

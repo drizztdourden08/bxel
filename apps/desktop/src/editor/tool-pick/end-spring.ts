@@ -2,7 +2,7 @@
 import type { HoldContext } from '@drizztdourden08/brock-react';
 import { useToolPrefsStore } from '../../stores/useToolPrefsStore';
 import { useToolStore } from '../../stores/useToolStore';
-import { useSpringStore } from './use-spring-store';
+import { useSpringStore } from './behavior/useSpringStore';
 
 const endSpring = (context: HoldContext): void => {
   const back = useSpringStore.getState().tool;

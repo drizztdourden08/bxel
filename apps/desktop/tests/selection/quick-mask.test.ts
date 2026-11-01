@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
-import { quickMaskResult, stampQuickMask } from '../../src/editor/selection/quick-mask';
+import { quickMaskResult } from '../../src/editor/selection/quick-mask';
+import { stampQuickMask } from '../../src/editor/selection/stamp-quick-mask';
 import { useToolStore } from '../../src/stores/useToolStore';
 
 const SIZE = { width: 4, height: 1 };

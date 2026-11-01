@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import type { LayerStackModel } from '../LayerStack.type';
 import { pickLayer } from './pick-layer';
-import { blockIds } from './tree-wishes';
+import { blockIds } from './block-ids';
 import type { PickHow } from './pick-layer.type';
 import type { LayerPick } from './useLayerPick.type';
 

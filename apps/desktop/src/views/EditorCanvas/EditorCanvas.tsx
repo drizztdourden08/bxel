@@ -3,38 +3,33 @@ import { useRef } from 'react';
 import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Box } from '@drizztdourden08/tessera';
 import { useSpriteLook } from '../../canvas-look/useSpriteLook';
-import { WRAP_OF } from '../../editor/wrap.constants';
 import { useEditorTarget } from '../../hooks/useEditorTarget';
 import { usePreviewBankImage } from '../../hooks/usePreviewBankImage';
 import { useSwatchDraftImage } from '../../hooks/useSwatchDraftImage';
 import { usePendingStore } from '../../stores/usePendingStore';
 import { useToolStore } from '../../stores/useToolStore';
-import { stepFrame } from '../../timeline/step-frame';
 import { CanvasOverlays } from '../CanvasOverlays';
 import { PixelViewport } from '../PixelViewport';
 import type { PixelViewportHandle } from '../PixelViewport';
-import { CANVAS_MENU, EDITOR_CANVAS_TEXT } from './EditorCanvas.constants';
+import { CANVAS_MENU } from './EditorCanvas.constants';
 import { canvasClass } from './behavior/canvas-class';
-import { useAreaRedraw } from './behavior/useAreaRedraw';
-import { useLintRedraw } from './behavior/useLintRedraw';
 import { canvasSize } from './behavior/canvas-size';
 import { canvasSource } from './behavior/canvas-source';
 import { paintPivotGrips } from './behavior/paint-pivot-grips';
 import { useCanvasFlags } from './behavior/useCanvasFlags';
 import { useCanvasMenu } from './behavior/useCanvasMenu';
+import { useCanvasRedraws } from './behavior/useCanvasRedraws';
 import { useCanvasReadout } from './behavior/useCanvasReadout';
 import { useCanvasKeys } from './behavior/useCanvasKeys';
 import { useSplitTools } from './behavior/useSplitTools';
 import { useCommittedImage } from './behavior/useCommittedImage';
-import { useGuideRedraw } from './behavior/useGuideRedraw';
 import { useEscapeCancel } from './behavior/useEscapeCancel';
-import { useMarchingAnts } from './behavior/useMarchingAnts';
 import { usePendingImage } from './behavior/usePendingImage';
 import { usePlaybackImage } from './behavior/usePlaybackImage';
 import { useSyncPending } from './behavior/useSyncPending';
 import { useViewSettings } from './behavior/useViewSettings';
 import { useViewportBridge } from './behavior/useViewportBridge';
-import { viewportClass } from './behavior/viewport-class';
+import { viewportProps } from './behavior/viewport-props';
 import { EmptyCanvas } from './sub-components/EmptyCanvas';
 import { RulerBars } from './sub-components/RulerBars';
 import { SplitCanvas } from './sub-components/SplitCanvas';
@@ -63,36 +58,13 @@ const EditorCanvas = () => {
   useCanvasMenu(viewport);
   useViewSettings();
   useViewportBridge(viewport, target !== null);
-  useMarchingAnts(viewport);
-  useAreaRedraw(viewport);
-  useGuideRedraw(viewport, target);
-  useLintRedraw(viewport, target);
-  useMarchingAnts(second);
-  useAreaRedraw(second);
-  useGuideRedraw(second, target);
+  useCanvasRedraws(viewport, second, target);
   useSyncPending(target);
   useEscapeCancel();
   if (!target && !preview) return <EmptyCanvas />;
   const size = canvasSize(preview, outcome, target);
   const shown = canvasSource(preview, floating, tools.live, recoloured, committed);
-  const common = {
-    className: viewportClass(tool),
-    label: EDITOR_CANVAS_TEXT.label,
-    hint: EDITOR_CANVAS_TEXT.hint,
-    width: size.width,
-    height: size.height,
-    source: shown,
-    look,
-    grid: flags.grid,
-    gridMajor: flags.gridMajor,
-    gridTile: flags.gridTile,
-    gridIso: flags.gridIso,
-    mirror: flags.mirror,
-    onAltWheel: stepFrame,
-    hand: tool === 'hand',
-    tiled: WRAP_OF[flags.tiled],
-    onKeyDown: keys.onKeyDown,
-  };
+  const common = viewportProps({ tool, size, source: shown, look, flags, onKeyDown: keys.onKeyDown });
   const primary = (
     <PixelViewport
       ref={viewport}

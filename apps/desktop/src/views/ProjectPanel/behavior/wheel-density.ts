@@ -1,15 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { ProjectViewSettings } from '../../../panel-browser/browser-state.type';
-
-type Look = Pick<ProjectViewSettings, 'density' | 'tile'>;
-
-const STEPS: readonly Partial<ProjectViewSettings>[] = [
-  { density: 'compact' },
-  { density: 'comfortable' },
-  { mode: 'list', density: 'grid', tile: 48 },
-  { mode: 'list', density: 'grid', tile: 64 },
-  { mode: 'list', density: 'grid', tile: 96 },
-];
+import { STEPS } from './wheel-density.constants';
+import type { Look } from './wheel-density.type';
 
 const stepOf = (look: Look): number => {
   if (look.density === 'compact') return 0;

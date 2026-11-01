@@ -44,7 +44,6 @@ const BRUSH_EXTRAS: readonly OptionSpec[] = [
 
 const SPACING_LIMITS = { min: BRUSH_SPACING_MIN, max: BRUSH_SPACING_MAX } as const;
 
-/** The saved brush as the tip of every brush tool but the pencil, which stamps it. */
 const TIP_OPTIONS: readonly OptionSpec[] = BRUSH_ANGLE_TOOLS.filter((tool) => tool !== 'pencil').map((tool) =>
   choiceSpec({
     tool, name: 'custom_brush', label: DRAWING_TEXT.customBrush, description: DRAWING_TEXT.customBrushDescription, priority: 45, group: 'brush', default: '',

@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { ThumbZoom } from '../../../stores/tileset-view-store.type';
-
-const STEPS: readonly ThumbZoom[] = [1, 2, 3, 4];
+import { STEPS } from './wheel-zoom.constants';
 
 const wheelZoom = (current: number, deltaY: number): ThumbZoom => {
   const at = Math.max(0, STEPS.findIndex((step) => step >= current));

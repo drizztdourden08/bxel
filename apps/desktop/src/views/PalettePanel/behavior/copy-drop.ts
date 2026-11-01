@@ -3,7 +3,6 @@ import type { PanelModel } from '../PalettePanel.type';
 import { SWATCH_SELECTOR } from '../PalettePanel.constants';
 import { usePaletteSheetStore } from '../../../stores/usePaletteSheetStore';
 
-/** Ctrl and a drop on another swatch: opens the previewed recolour that copies the dragged colour over it. */
 const copyDrop = (panel: PanelModel, point: { clientX: number; clientY: number; ctrlKey: boolean }, from: number): boolean => {
   if (!point.ctrlKey) return false;
   const over = document.elementsFromPoint(point.clientX, point.clientY).find((element): element is HTMLElement => element instanceof HTMLElement && element.matches(SWATCH_SELECTOR));

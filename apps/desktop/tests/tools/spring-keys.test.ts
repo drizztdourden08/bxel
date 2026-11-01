@@ -4,7 +4,7 @@ import { parsePrefs } from '../../src/editor/tool-options/parse-prefs';
 import { beginSpring } from '../../src/editor/tool-pick/begin-spring';
 import { endSpring } from '../../src/editor/tool-pick/end-spring';
 import { isSpringTool } from '../../src/editor/tool-pick/is-spring-tool';
-import { useSpringStore } from '../../src/editor/tool-pick/use-spring-store';
+import { useSpringStore } from '../../src/editor/tool-pick/behavior/useSpringStore';
 import { toolIds } from '../../src/editor/tool-catalogue/tool-ids';
 import { useToolPrefsStore } from '../../src/stores/useToolPrefsStore';
 import { useToolStore } from '../../src/stores/useToolStore';

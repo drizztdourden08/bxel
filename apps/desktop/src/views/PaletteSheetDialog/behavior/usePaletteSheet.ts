@@ -8,26 +8,21 @@ import { followHeld } from '../../../palette-panel/follow-held';
 import { sheetPlan } from '../../../palette-panel/sheet-plan';
 import { useDocumentStore } from '../../../stores/useDocumentStore';
 import { usePaletteSheetStore } from '../../../stores/usePaletteSheetStore';
-import { runSteps } from '../../../transactions/run-steps';
-import { stepRequest } from '../../../transactions/step-request';
+import { commitPlan } from '../../../transactions/commit-plan';
+import { previewError } from '../../../transactions/preview-error';
 import type { SheetState } from '../PaletteSheetDialog.type';
 
 const usePaletteSheet = (request: PaletteSheetRequest, target: PaletteTarget): SheetState => {
   const view = useDocumentStore((state) => state.views[request.documentId] ?? null);
   const [failure, setFailure] = useState<string | null>(null);
   const plan = useMemo(() => (view ? sheetPlan(view.state.artwork, target.bank, target.sprite, request) : null), [view, target, request]);
-  const error = useMemo(() => {
-    if (!plan || plan.steps.length === 0) return null;
-    const { host } = useDocumentStore.getState();
-    const check = host.execute({ ...stepRequest(host, request.documentId, plan.label, plan.steps), mode: 'preview' });
-    return check.ok ? null : check.error.message;
-  }, [plan, request.documentId]);
+  const error = useMemo(() => previewError(request.documentId, plan), [plan, request.documentId]);
   const cancel = useCallback(() => usePaletteSheetStore.getState().close(), []);
   const apply = useCallback(() => {
     if (!plan) return;
-    const done = runSteps(useDocumentStore.getState().host, request.documentId, plan.label, plan.steps);
-    if (!done.ok) {
-      setFailure(done.error.message);
+    const message = commitPlan(request.documentId, plan);
+    if (message !== null) {
+      setFailure(message);
       return;
     }
     const after = currentBank(target);

@@ -22,11 +22,9 @@ const useSpriteLayerModel = (): LayerStackModel => {
   const editing = useTilemapStore((state) => state.editMode === 'edit');
   const tileEdit = tiles && editing;
   const entries = useReferenceStore((state) => state.entries);
-  const paths = target?.sprite.layers.flatMap((layer) => (layer.reference ? [layer.reference.path] : [])).join('
-') ?? '';
+  const paths = target?.sprite.layers.flatMap((layer) => (layer.reference ? [layer.reference.path] : [])).join('\n') ?? '';
   useEffect(() => {
-    if (paths !== '') paths.split('
-').forEach(requestReference);
+    if (paths !== '') paths.split('\n').forEach(requestReference);
   }, [paths]);
   return useMemo(() => {
     const missing = new Set(Object.keys(entries).filter((path) => entries[path]?.state === 'missing'));

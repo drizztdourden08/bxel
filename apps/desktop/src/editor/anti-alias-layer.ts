@@ -10,7 +10,6 @@ import { currentTarget } from './current-target';
 import { layerBlock } from './layer-block';
 import { patchOfPixels } from './patch-of-pixels';
 
-/** Proposes in between pixels along the stair steps of the front colour as a pending preview, using the next step of its ramp. Apply or Cancel decides. */
 const antiAliasLayer = (): boolean => {
   const target = currentTarget();
   if (!target) return false;

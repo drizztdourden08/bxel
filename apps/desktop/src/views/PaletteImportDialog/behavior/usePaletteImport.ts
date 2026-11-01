@@ -7,10 +7,9 @@ import { IMPORT_TEXT } from '../../../palette-import/palette-import.constants';
 import type { ImportMode, ImportSource } from '../../../palette-import/palette-import.type';
 import { sourceFromText } from '../../../palette-import/source-from-text';
 import { pickPaletteFile } from '../../../palette-source/pick-palette-file';
-import { useDocumentStore } from '../../../stores/useDocumentStore';
 import { usePaletteImportStore } from '../../../stores/usePaletteImportStore';
-import { runSteps } from '../../../transactions/run-steps';
-import { stepRequest } from '../../../transactions/step-request';
+import { commitPlan } from '../../../transactions/commit-plan';
+import { previewError } from '../../../transactions/preview-error';
 import type { PaletteImportRequest } from '../../../stores/palette-panel-store.type';
 import type { ImportState } from '../PaletteImportDialog.type';
 
@@ -21,12 +20,7 @@ const usePaletteImport = (request: PaletteImportRequest, target: PaletteTarget):
   const [notice, setNotice] = useState<string | null>(null);
   const [failure, setFailure] = useState<string | null>(null);
   const plan = useMemo(() => (source ? importPlan(target.bank, source.colors, mode) : null), [source, target.bank, mode]);
-  const error = useMemo(() => {
-    if (!plan || plan.steps.length === 0) return notice;
-    const { host } = useDocumentStore.getState();
-    const check = host.execute({ ...stepRequest(host, request.documentId, plan.label, plan.steps), mode: 'preview' });
-    return check.ok ? notice : check.error.message;
-  }, [plan, request.documentId, notice]);
+  const error = useMemo(() => previewError(request.documentId, plan) ?? notice, [plan, request.documentId, notice]);
   const setText = useCallback((value: string) => {
     setTextValue(value);
     const read = value.trim() === '' ? null : sourceFromText(value);
@@ -46,9 +40,9 @@ const usePaletteImport = (request: PaletteImportRequest, target: PaletteTarget):
   const cancel = useCallback(() => usePaletteImportStore.getState().close(), []);
   const apply = useCallback(() => {
     if (!plan) return;
-    const done = runSteps(useDocumentStore.getState().host, request.documentId, plan.label, plan.steps);
-    if (!done.ok) {
-      setFailure(done.error.message);
+    const message = commitPlan(request.documentId, plan);
+    if (message !== null) {
+      setFailure(message);
       return;
     }
     toast(plan.done, { variant: 'success' });

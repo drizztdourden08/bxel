@@ -3,6 +3,7 @@ import type { Point } from '@bxel/raster';
 import { ANNOUNCE_TEXT } from '../announce/announce.constants';
 import { useToolStore } from '../stores/useToolStore';
 import { commitSession } from './commit-session';
+import { instantKind } from './instant-kind';
 import { pressGate } from './press-gate';
 import { pressPath } from './press-path';
 import type { PressEvent } from './press-plan.type';
@@ -17,7 +18,7 @@ const pressCell = (at: Point, press: PressEvent, anchor: ShapeAnchor, points: { 
   if (!gate) return ANNOUNCE_TEXT.blocked;
   const { target, plan } = gate;
   if (plan.kind === 'pick') {
-    runInstant('pick', target, at, plan.slot, plan.ramp === true);
+    runInstant(instantKind(plan), target, at, plan.slot);
     return ANNOUNCE_TEXT.picked(slotName(target, useToolStore.getState()[plan.slot]));
   }
   if (plan.kind === 'fill') {

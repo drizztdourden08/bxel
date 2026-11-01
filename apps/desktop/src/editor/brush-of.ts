@@ -4,7 +4,6 @@ import type { ToolSettings } from '../stores/tool-store.type';
 import { useDrawingStore } from '../stores/useDrawingStore';
 import { useToolStore } from '../stores/useToolStore';
 
-/** The tip of a stroke. The pencil stamps its saved brush itself; every other brush tool takes the saved brush as its tip. */
 const brushOf = (settings: Pick<ToolSettings, 'brushSize' | 'brushShape' | 'brushAngle'>): Brush => {
   const drawing = useDrawingStore.getState();
   const spacing = drawing.brushSpacing > 1 ? { spacing: drawing.brushSpacing } : {};

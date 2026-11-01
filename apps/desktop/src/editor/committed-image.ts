@@ -43,16 +43,23 @@ const adopted = (handoff: CommitHandoff, target: EditorTarget): Adopted => {
   return { image, changed: changed !== null };
 };
 
+const unchanged = (target: EditorTarget, prior: EditorTarget | null, entries: unknown, highlight: LayerId | null): boolean =>
+  prior !== null && shownImage.entries === entries && shownImage.highlight === highlight && sameFrame(prior, target) && prior.revision === target.revision;
+
+const takenHandoff = (target: EditorTarget, prior: EditorTarget | null): Adopted | null => {
+  const handoff = commitHandoff.current;
+  return handoff && !viewed(target) && fits(handoff, target, prior) ? adopted(handoff, target) : null;
+};
+
 const committedImage = (target: EditorTarget): ImageData => {
   const { target: prior, image } = shownImage;
   const { entries } = useReferenceStore.getState();
   const highlight = highlightOf(target);
-  if (prior && image && shownImage.entries === entries && shownImage.highlight === highlight && sameFrame(prior, target) && prior.revision === target.revision) {
+  if (image && unchanged(target, prior, entries, highlight)) {
     shownImage.target = target;
     return image;
   }
-  const handoff = commitHandoff.current;
-  const taken = handoff && !viewed(target) && fits(handoff, target, prior) ? adopted(handoff, target) : null;
+  const taken = takenHandoff(target, prior);
   shownImage.entries = entries;
   shownImage.highlight = highlight;
   shownImage.target = target;

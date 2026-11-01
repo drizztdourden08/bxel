@@ -1,12 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerRowModel } from '../LayerStack.type';
-
-interface LayerBadge {
-  id: 'missing' | 'opacity' | 'clip' | 'export';
-  text: string;
-  title: string;
-}
+import type { LayerBadge } from './layer-badges.type';
 
 const layerBadges = (row: LayerRowModel): LayerBadge[] => [
   ...(row.missing ? [{ id: 'missing' as const, text: LAYER_STACK_TEXT.missingBadge, title: LAYER_STACK_TEXT.missingBadge }] : []),
@@ -16,4 +11,3 @@ const layerBadges = (row: LayerRowModel): LayerBadge[] => [
 ];
 
 export { layerBadges };
-export type { LayerBadge };

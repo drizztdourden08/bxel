@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import type { Sprite } from '@bxel/document';
 import { flagFields } from '../../../editor/flag-fields';
 import { lockFields } from '../../../editor/lock-fields';
-import { NO_TREE_ACTIONS } from '../../../editor/no-tree-actions';
+import { NO_TREE_ACTIONS } from '../../../editor/no-tree-actions.constants';
 import { LAYER_LABEL } from '../../../editor/layer-text.constants';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
 import { listSprites } from '../../../sheet/list-sprites';
