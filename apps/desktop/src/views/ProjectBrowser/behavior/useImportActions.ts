@@ -2,6 +2,7 @@
 import { getPlatform, nav, toast } from '@drizztdourden08/brock-react';
 import { useCallback } from 'react';
 import { useEffectiveDefaults } from '../../../asset-defaults/useEffectiveDefaults';
+import { dropFiles as dropIntoProject } from '../../../file-ops/drop-files';
 import { readImage } from '../../../image-import/read-image';
 import { SOURCE_DEFAULT } from '../../../palette-source/palette-source.constants';
 import { pickPaletteFile } from '../../../palette-source/pick-palette-file';
@@ -43,7 +44,9 @@ const useImportActions = (): ImportActions => {
     });
   }, [defaults]);
 
-  return { importImage, importPalette };
+  const dropFiles = useCallback((files: readonly File[], folder: string): void => void dropIntoProject(files, folder, defaults), [defaults]);
+
+  return { importImage, importPalette, dropFiles };
 };
 
 export { useImportActions };

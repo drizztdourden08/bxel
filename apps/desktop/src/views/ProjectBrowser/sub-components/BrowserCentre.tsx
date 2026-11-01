@@ -2,6 +2,7 @@
 import { Box } from '@drizztdourden08/tessera';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
 import { useBrowserContext } from '../behavior/useBrowserContext';
+import { useFolderDrop } from '../behavior/useFolderDrop';
 import { ColumnsView } from './ColumnsView';
 import { EmptyCentre } from './EmptyCentre';
 import { GridView } from './GridView';
@@ -16,8 +17,9 @@ const BrowserCentre = () => {
   const { model } = useBrowserContext();
   const view = useBrowserStore((state) => state.view);
   const Shown = viewFor(view);
+  const drop = useFolderDrop(model.folder, false);
   return (
-    <Box className="browser-centre" data-view={view}>
+    <Box className={`browser-centre${drop.over ? ' browser-centre--drop' : ''}`} data-view={view} {...drop.handlers}>
       {model.entries.length === 0 && view !== 'columns' ? <EmptyCentre /> : <Shown />}
     </Box>
   );

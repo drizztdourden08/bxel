@@ -14,6 +14,8 @@ const FILE_ROWS = [
   one('project.make_folder', 'files_saving', 'file', { args: 'path' }),
   one('project.move_files', 'files_saving', 'file', { args: 'moveFiles', dialog: 'confirm' }),
   one('project.trash_files', 'files_saving', 'file', { args: 'paths', dialog: 'confirm' }),
+  one('project.undo_move', 'files_saving', 'file'),
+  ...rows('app_control', 'show', ['project.quick_open']),
   ...rows('app_control', 'show', ['asset.reveal'], { args: 'path' }),
   one('asset.copy_path', 'app_control', 'app', { args: 'path' }),
 ];
