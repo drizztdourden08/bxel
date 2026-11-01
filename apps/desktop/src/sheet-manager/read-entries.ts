@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind logic */
-import { SPRITE_DRAG_TYPE } from '../sheet/sprite-drag.constants';
 import { activeEntryDrag } from './active-entry-drag';
 import { ASSETS_DRAG_TYPE } from './drag-payload.constants';
 import type { DragEntry } from './drag-payload.type';
@@ -22,10 +21,7 @@ const parse = (raw: string): DragEntry[] => {
 const readEntries = (transfer: DataTransfer): DragEntry[] => {
   const active = activeEntryDrag();
   if (active) return [...active.entries];
-  const many = parse(transfer.getData(ASSETS_DRAG_TYPE));
-  if (many.length > 0) return many;
-  const id = transfer.getData(SPRITE_DRAG_TYPE);
-  return id === '' ? [] : [{ kind: 'sprite', assetId: id, path: '' }];
+  return parse(transfer.getData(ASSETS_DRAG_TYPE));
 };
 
 export { readEntries };

@@ -48,7 +48,7 @@ const SpriteList = ({ model, table, affected, handlersFor }: SpriteViewProps) =>
         onSelectionChange={pickIds(data.known, data.animationKeys)}
         groupActions={groupActions}
         onRowMove={(from, target) => moveRow(model, from, target)}
-        rowDragData={rowDrag}
+        rowRef={rowDrag}
         renderCell={cellOf}
         rowState={rowStateOf(model, affected)}
         rowHeight={LIST_ROW_HEIGHT}
