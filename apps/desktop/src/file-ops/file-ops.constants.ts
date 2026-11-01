@@ -1,6 +1,14 @@
 /* @layer renderer-app @kind constants */
+const JOURNAL_LIMIT = 50;
+
+const DROP_PALETTE_EXTENSIONS: readonly string[] = ['.gpl', '.pal', '.hex'];
+
 const FILE_OPS_TEXT = {
   undo: 'Undo',
+  undone: (label: string): string => `Undid the ${label}.`,
+  nothingToUndo: 'There is no file move to undo.',
+  moveLabel: (count: number): string => `move of ${count} ${count === 1 ? 'file' : 'files'}`,
+  renameLabel: (name: string): string => `rename of ${name}`,
   moveTitle: 'Update links?',
   moveMessage: (moved: number, others: number): string =>
     `Moving ${moved} ${moved === 1 ? 'file' : 'files'} updates links in ${others} other ${others === 1 ? 'file' : 'files'}.`,
@@ -8,6 +16,13 @@ const FILE_OPS_TEXT = {
   cancel: 'Cancel',
   moved: (count: number): string => `Moved ${count} ${count === 1 ? 'file' : 'files'}.`,
   movedLinks: (count: number, links: number): string => `Moved ${count} ${count === 1 ? 'file' : 'files'} and kept ${links} ${links === 1 ? 'link' : 'links'}.`,
+  held: (count: number, cut: boolean): string => `${cut ? 'Cut' : 'Copied'} ${count} ${count === 1 ? 'file' : 'files'} to the file clipboard.`,
+  nothingHeld: 'Cut or copy files first.',
+  dropped: (count: number): string => `Added ${count} ${count === 1 ? 'file' : 'files'} to the project.`,
+  dropFailed: (names: readonly string[]): string => `Could not add ${names.join(', ')}.`,
+  copied: (count: number): string => `Copied ${count} ${count === 1 ? 'file' : 'files'}.`,
+  missing: (name: string): string => `${name} is no longer there.`,
+  nothingToCopy: 'There is nothing to copy.',
   intoItself: 'A folder cannot move into itself.',
   nothingToMove: 'Those files are already in that folder.',
   renamed: (name: string): string => `Renamed to ${name}.`,
@@ -23,4 +38,4 @@ const FILE_OPS_TEXT = {
   trashLabel: 'Move to the trash',
 } as const;
 
-export { FILE_OPS_TEXT };
+export { DROP_PALETTE_EXTENSIONS, FILE_OPS_TEXT, JOURNAL_LIMIT };

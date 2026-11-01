@@ -4,9 +4,11 @@ import { ASSET_PAGES, PROPERTIES_HUB } from '../config-entry/config-entry.consta
 import { openProjectSettings } from '../config-entry/open-project-settings';
 import { findAssetTab } from '../workspace/find-asset-tab';
 import type { SubjectRef } from './properties-subject.type';
+import { useManyStore } from './useManyStore';
 import { useSubjectStore } from './useSubjectStore';
 
 const openProperties = (ref: SubjectRef | null): void => {
+  useManyStore.getState().clear();
   if (ref === null) {
     useSubjectStore.getState().unpin();
     nav.open(PROPERTIES_HUB);

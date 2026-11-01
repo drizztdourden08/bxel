@@ -3,6 +3,7 @@ import { AddFramesDialog } from '../AddFramesDialog';
 import { CanvasSizeDialog } from '../CanvasSizeDialog';
 import { CustomizeTools } from '../CustomizeTools';
 import { DirectionSetDialog } from '../DirectionSetDialog';
+import { MoveToDialog } from '../MoveToDialog';
 import { PasteChoiceDialog } from '../PasteChoiceDialog';
 import { SelectionNamesDialog } from '../SelectionNamesDialog';
 import { SliceDialog } from '../SliceDialog';
@@ -37,6 +38,7 @@ const DialogHost = () => {
       <PaletteSheetDialog />
       <PaletteImportDialog />
       <LinkedCelDialog />
+      <MoveToDialog />
     </>
   );
 };

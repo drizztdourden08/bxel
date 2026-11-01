@@ -6,6 +6,9 @@ import { makeFolder } from '../file-ops/make-folder';
 import { moveEntries } from '../file-ops/move-entries';
 import { renameEntryLinked } from '../file-ops/rename-entry-linked';
 import { trashEntries } from '../file-ops/trash-entries';
+import { undoMove } from '../file-ops/undo-move';
+import { QUICK_OPEN_TEXT } from '../quick-open/quick-open.constants';
+import { quickOpen } from '../quick-open/quick-open';
 import { PROJECT_FILE_COMMAND, PROJECT_GROUP } from '../project/project.constants';
 import type { FileOpArgs } from './project-file-args.type';
 
@@ -38,6 +41,20 @@ const PROJECT_FILE_COMMANDS: readonly CommandDef[] = [
       const { paths } = args(context);
       if (paths !== undefined) void trashEntries(paths);
     },
+  },
+  {
+    id: PROJECT_FILE_COMMAND.quickOpen,
+    label: QUICK_OPEN_TEXT.label,
+    icon: 'folder-open',
+    group: PROJECT_GROUP,
+    chord: 'Mod+P',
+    run: () => void quickOpen(),
+  },
+  {
+    id: PROJECT_FILE_COMMAND.undoMove,
+    label: 'Undo the last file move',
+    group: PROJECT_GROUP,
+    run: () => void undoMove(),
   },
   {
     id: PROJECT_FILE_COMMAND.makeFolder,

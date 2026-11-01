@@ -197,7 +197,7 @@ const FILES: RuleTable = {
   ...family(['project.new', 'project.open', 'project.panel', 'project.window'], always),
   ...family(['image.import'], file('image'), [], 'Images'),
   ...family(['project.close', 'project.settings', 'project.pack', 'project.health'], always, [[projectOpen, REASON.noProject]]),
-  ...family(['project.rename_file', 'project.move_files', 'project.trash_files', 'project.make_folder'], always, [[projectOpen, REASON.noProject]]),
+  ...family(['project.rename_file', 'project.move_files', 'project.trash_files', 'project.make_folder', 'project.quick_open', 'project.undo_move'], always, [[projectOpen, REASON.noProject]]),
   ...family(PANEL_COMMAND_IDS, always, [[projectOpen, REASON.noProject]]),
   ...family(['tab.close', 'tab.close_others', 'tab.close_right', 'tab.move_left', 'tab.move_right', 'asset.reveal', 'asset.copy_path'], always),
 };

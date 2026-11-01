@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { contextMenuHandler, contextMenuZone, focusRegion } from '@drizztdourden08/brock-react';
 import { Box, DocumentTabs, Flex } from '@drizztdourden08/tessera';
+import { useRef } from 'react';
 import { useFileTypePanelStore } from '../../stores/useFileTypePanelStore';
 import { useWorkspaceStore } from '../../stores/useWorkspaceStore';
 import { closeTab } from '../../workspace/close-tab';
@@ -8,6 +9,7 @@ import { activateTab } from '../../workspace/activate-tab';
 import { ASSET_TABS_TEXT, TAB_MENU } from './AssetTabs.constants';
 import { useAssetTabs } from './behavior/useAssetTabs';
 import { useTabsMenu } from './behavior/useTabsMenu';
+import { useTabStripDrop } from './behavior/useTabStripDrop';
 import './AssetTabs.css';
 
 const AssetTabs = () => {
@@ -16,8 +18,10 @@ const AssetTabs = () => {
   const moveTab = useWorkspaceStore((state) => state.moveTab);
   const adding = useFileTypePanelStore((state) => state.open);
   const show = useFileTypePanelStore((state) => state.show);
+  const ref = useRef<HTMLDivElement>(null);
+  const drop = useTabStripDrop(ref);
   return (
-    <Box {...focusRegion(ASSET_TABS_TEXT.label, ASSET_TABS_TEXT.label)}>
+    <Box ref={ref} {...focusRegion(ASSET_TABS_TEXT.label, ASSET_TABS_TEXT.label)} {...drop}>
       <Flex className="asset-tabs" {...contextMenuZone(TAB_MENU.zone)}>
         <DocumentTabs
           className="asset-tabs__tabs"

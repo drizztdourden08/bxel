@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { MenuGroup, MenuNode } from '@drizztdourden08/tessera';
 import { canDuplicate } from '../../../asset-list/can-duplicate';
+import { FILE_ACTION_TEXT } from '../../../project-browser/file-actions.constants';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import type { FileEntry } from '../../../project-browser/project-browser.type';
 import type { MenuInput } from '../ProjectBrowser.type';
@@ -13,7 +14,7 @@ const openGroup = ({ entry, picked, actions }: MenuInput): MenuGroup => {
     id: 'open',
     items: [
       { id: 'open', label: many ? `Open ${picked.length} files` : BROWSER_TEXT.open, icon: 'folder-open', onSelect: () => (many ? actions.openAll(picked) : actions.open(entry)) },
-      ...when(!many, { id: 'properties', label: BROWSER_TEXT.properties, icon: 'sliders-horizontal', shortcut: 'Alt+Enter', onSelect: () => actions.properties([entry]) }),
+      { id: 'properties', label: many ? FILE_ACTION_TEXT.propertiesMany(picked.length) : BROWSER_TEXT.properties, icon: 'sliders-horizontal', shortcut: 'Alt+Enter', onSelect: () => actions.properties(many ? picked : [entry]) },
     ],
   };
 };
@@ -37,6 +38,10 @@ const editGroup = ({ entry, picked, actions, editable }: MenuInput): MenuGroup =
     items: [
       ...when(editable && picked.length === 1, { id: 'rename', label: BROWSER_TEXT.rename, icon: 'pencil', shortcut: 'F2', onSelect: () => actions.startRename(entry.id) }),
       ...when(editable && duplicable, { id: 'duplicate', label: BROWSER_TEXT.duplicate, icon: 'copy', shortcut: 'Ctrl+D', onSelect: () => actions.duplicate(picked) }),
+      ...when(editable, { id: 'cut', label: FILE_ACTION_TEXT.cut, shortcut: 'Ctrl+X', onSelect: () => actions.cut(picked) }),
+      ...when(editable, { id: 'copy', label: FILE_ACTION_TEXT.copy, icon: 'copy', shortcut: 'Ctrl+C', onSelect: () => actions.copy(picked) }),
+      ...when(editable, { id: 'paste', label: FILE_ACTION_TEXT.paste, shortcut: 'Ctrl+V', onSelect: actions.paste }),
+      ...when(editable, { id: 'move-to', label: FILE_ACTION_TEXT.moveTo, icon: 'folder', onSelect: () => actions.moveTo(picked) }),
     ],
   };
 };

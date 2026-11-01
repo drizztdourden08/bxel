@@ -22,6 +22,8 @@ const PROJECT_FILE_COMMAND = {
   move: 'project.move_files',
   trash: 'project.trash_files',
   makeFolder: 'project.make_folder',
+  quickOpen: 'project.quick_open',
+  undoMove: 'project.undo_move',
 } as const;
 
 const PROJECT_FILE_EXTENSION = 'bxproject';

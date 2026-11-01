@@ -12,6 +12,12 @@ const confirmSave = vi.fn((_options: unknown): Promise<'save' | 'discard' | 'can
 
 const openWidget = vi.fn();
 
+const navClose = vi.fn();
+
+const navOpen = vi.fn();
+
+const palettePick = vi.fn();
+
 const held: { documents: DocumentsPort | undefined } = { documents: undefined };
 
 const brockReactMock = () => ({
@@ -21,6 +27,8 @@ const brockReactMock = () => ({
   confirmSave,
   getPlatform: () => ({ documents: held.documents }),
   useWidgetLayoutStore: { getState: () => ({ open: openWidget }) },
+  nav: { close: navClose, open: navOpen },
+  palette: { pick: palettePick },
 });
 
-export { brockReactMock, confirmAction, confirmSave, held, openWidget, toast };
+export { brockReactMock, confirmAction, confirmSave, held, navClose, navOpen, openWidget, palettePick, toast };
