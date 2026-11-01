@@ -25,9 +25,9 @@ const movePalette = (palettePath: string): void => {
   files.delete(palettePath);
 };
 
-const indexed = (path: string): boolean => {
+const indexed = (path: string, assetId: string): boolean => {
   const { state } = useHealthStore.getState();
-  return state.status === 'ready' && state.index.files.some((file) => file.path === path);
+  return state.status === 'ready' && state.index.files.some((file) => file.path === path && file.assetId === assetId);
 };
 
 const openWithMovedPalette = async () => {
@@ -37,7 +37,7 @@ const openWithMovedPalette = async () => {
   const pathOf = (id: string): string => paths.get(id) ?? '';
   movePalette(pathOf(bankId));
   void refreshHealth();
-  await vi.waitFor(() => expect(indexed(MOVED_TO)).toBe(true));
+  await vi.waitFor(() => expect(indexed(MOVED_TO, bankId)).toBe(true));
   return { documentId, bankId, spriteId, spritePath: pathOf(spriteId), palettePath: pathOf(bankId) };
 };
 
