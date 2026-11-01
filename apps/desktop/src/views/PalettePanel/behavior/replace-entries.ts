@@ -5,15 +5,12 @@ import { rampsOfSlot } from '@bxel/palette';
 import { unless } from '../../../context-menu/unless';
 import { PALETTE_TRANSFER_COMMAND } from '../../../keymap/palette-transfer-command-id.constants';
 import { REPLACE_TEXT } from '../../../palette-panel/palette-panel.constants';
-import type { ReplaceScope } from '../../../palette-panel/palette-panel.type';
 import { currentContext } from '../../../ui-context/current-context';
-
-const SCOPES: readonly ReplaceScope[] = ['frame', 'sprite', 'animation', 'selection'];
+import { SCOPES } from './replace-entries.constants';
 
 const scopeEntries = (command: string, args: object): ContextMenuEntry[] =>
   SCOPES.map((scope) => ({ command, label: REPLACE_TEXT[scope], args: { ...args, scope } }));
 
-/** Replace with front colour and Replace ramp, each with the scope it works in. Hidden away from the pixel canvas. */
 const replaceEntries = (bank: PaletteBank, index: number, transparent: boolean): readonly ContextMenuEntry[] => {
   if (currentContext().surface !== 'pixel') return [];
   const own = rampsOfSlot(bank, index)[0];

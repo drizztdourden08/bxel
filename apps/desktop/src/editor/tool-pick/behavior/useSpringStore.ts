@@ -1,12 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { create } from 'zustand';
-import type { ToolId } from '../tool.type';
-
-interface SpringState {
-  tool: ToolId | null;
-  borrowed: ToolId | null;
-  borrow: (home: ToolId | null, borrowed: ToolId | null) => void;
-}
+import type { SpringState } from './useSpringStore.type';
 
 const useSpringStore = create<SpringState>()((set) => ({
   tool: null,

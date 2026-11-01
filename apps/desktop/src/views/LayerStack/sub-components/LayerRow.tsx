@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { Box } from '@drizztdourden08/tessera';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import { layerRowStyle } from '../behavior/layer-tag-style';
+import { rowMarks } from '../behavior/row-marks';
 import type { LayerRowProps } from '../LayerStack.type';
 import { LayerFold } from './LayerFold';
 import { LayerGrip } from './LayerGrip';
@@ -30,13 +31,7 @@ const LayerRow = (props: LayerRowProps) => {
       data-reorder-index={index}
       data-reorder-key={row.id}
       data-layer-id={row.id}
-      data-active={active ? 'yes' : undefined}
-      data-picked={picked ? 'yes' : undefined}
-      data-hidden={row.visible || row.mixedVisible ? undefined : 'yes'}
-      data-tagged={row.colour ? 'yes' : undefined}
-      data-kind={row.kind}
-      data-depth={row.depth}
-      data-missing={row.missing ? 'yes' : undefined}
+      {...rowMarks(row, active, picked)}
       data-drop={drag.dropMark(index, total)}
       data-dragging={drag.dragging === index ? 'yes' : undefined}
     >

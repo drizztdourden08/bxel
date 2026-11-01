@@ -5,7 +5,6 @@ import { PREVIEW_TEXT } from '../../../palette-preview/palette-preview.constants
 import { useBankPreview } from '../behavior/useBankPreview';
 import type { PanelProps } from '../PalettePanel.type';
 
-/** Shown while the canvas is drawn through another palette. */
 const PreviewNotice = ({ panel }: PanelProps) => {
   const name = useBankPreview(panel);
   if (name === null) return null;

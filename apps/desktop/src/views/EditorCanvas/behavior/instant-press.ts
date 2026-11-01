@@ -2,6 +2,7 @@
 import type { PointerEvent } from 'react';
 import { allowPress } from '../../../editor/allow-press';
 import { foldToSprite } from '../../../editor/fold-to-sprite';
+import { instantKind } from '../../../editor/instant-kind';
 import { insidePaintArea } from '../../../editor/inside-paint-area';
 import { runInstant } from '../../../editor/run-instant';
 import type { PixelViewportHandle } from '../../PixelViewport';
@@ -15,7 +16,7 @@ const instantPress = (viewport: PixelViewportHandle | null, event: PointerEvent<
     return;
   }
   if (!insidePaintArea(target, at) || !allowPress(plan, target)) return;
-  if (plan.kind === 'pick' || plan.kind === 'fill') runInstant(plan.kind, target, foldToSprite(target, at), plan.slot, plan.kind === 'pick' && plan.ramp === true);
+  if (plan.kind === 'pick' || plan.kind === 'fill') runInstant(instantKind(plan), target, foldToSprite(target, at), plan.slot);
 };
 
 export { instantPress };

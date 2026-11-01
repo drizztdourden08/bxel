@@ -1,13 +1,14 @@
 /* @layer renderer-app @kind hook */
 import { useEffect, useEffectEvent, useRef } from 'react';
 import type { RefObject } from 'react';
-import type { PixelWheel } from '../PixelViewport.type';
 import type { ViewBox, ViewState } from './viewport.type';
 import { rootOrigin } from './root-origin';
 import { wheelDelta } from './wheel-delta';
 import { wheelSteps } from './wheel-steps';
+import type { WheelOptions } from './useWheel.type';
 
-const useWheel = (rootRef: RefObject<HTMLElement | null>, view: ViewState, box: ViewBox, mode: PixelWheel, altSteps?: (steps: number) => void): void => {
+const useWheel = (rootRef: RefObject<HTMLElement | null>, view: ViewState, box: ViewBox, options: WheelOptions): void => {
+  const { mode, altSteps } = options;
   const carried = useRef(0);
   const onWheel = useEffectEvent((event: WheelEvent) => {
     event.preventDefault();

@@ -30,7 +30,6 @@ const previewItems = (panel: PanelModel): MenuItem[] => {
   return banks.map((bank) => ({ id: `preview-${bank.id}`, label: bank.name, onSelect: () => startPreview(target, bank.id) }));
 };
 
-/** Import, export, copy, save and preview entries of the overflow menu. */
 const transferGroups = (panel: PanelModel, sets: UserSets): MenuGroup[] => {
   const { target, selection } = panel;
   const chosen = [...selection.selected].sort((a, b) => a - b);

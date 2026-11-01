@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
-import type { LayerThumbSource, ThumbDeps } from '../LayerStack.type';
+import type { LayerThumbSource } from '../LayerStack.type';
+import type { ThumbDeps } from './layer-thumb-deps.type';
 
 const layerThumbDeps = (source: LayerThumbSource): ThumbDeps => {
   if (source.kind === 'map') return { pixels: source.layer.cells, bank: null, width: source.columns, height: source.rows };

@@ -31,7 +31,7 @@ const usePixelViewport = (props: PixelViewportProps): ViewportModel => {
   const parts = { rootRef, canvasRef, view, box, image };
   const frame = { target: view.target, box, image, draw: props.draw, pivotGrips: props.pivotGrips, source: props.source, gridFrom, grids, look, tiled, onView: props.onView };
   const redraw = useFrame(rootRef, canvasRef, frame);
-  useWheel(rootRef, view, box, wheel, props.onAltWheel);
+  useWheel(rootRef, view, box, { mode: wheel, altSteps: props.onAltWheel });
   useViewportHandle(props.ref, parts, redraw);
   return {
     rootRef,

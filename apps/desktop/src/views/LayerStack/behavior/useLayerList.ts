@@ -6,7 +6,9 @@ import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import { layerKeys } from './layer-keys';
 import { tabbableLayer } from './tabbable-layer';
-import { dropWish, indentWish, outdentWish } from './tree-wishes';
+import { dropWish } from './drop-wish';
+import { indentWish } from './indent-wish';
+import { outdentWish } from './outdent-wish';
 import type { LayerListInput } from './useLayerList.type';
 
 const useLayerList = ({ model, shown, movable, pick }: LayerListInput) => {

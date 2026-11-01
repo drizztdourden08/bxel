@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind component */
-import { Box, Icon, Pressable, Text } from '@drizztdourden08/tessera';
+import { Box, Pressable, Text } from '@drizztdourden08/tessera';
 import { selectLayerPixels } from '../../../editor/selection/select-layer-pixels';
 import { pickHow } from '../../../sheet/pick-how';
 import { colourName } from '../behavior/colour-name';
 import { layerBadges } from '../behavior/layer-badges';
 import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerMainProps } from '../LayerStack.type';
+import { LayerKindMark } from './LayerKindMark';
 import { LayerThumb } from './LayerThumb';
 
 const nameOf = (row: LayerMainProps['row']): string => {
@@ -28,11 +29,7 @@ const LayerMain = ({ row, active, picked, tabbable, thumbSize, follow, folded, o
     onDoubleClick={onRename}
   >
     {row.thumb && thumbSize > 0 && <LayerThumb source={row.thumb} size={thumbSize} follow={follow} />}
-    {row.kind !== 'pixel' && (
-      <Box as="span" className="layer-row__kind" aria-hidden>
-        <Icon name={row.kind === 'reference' ? 'image' : folded ? 'folder' : 'folder-open'} size={16} />
-      </Box>
-    )}
+    {row.kind !== 'pixel' && <LayerKindMark kind={row.kind} folded={folded} />}
     <Box as="span" className="layer-row__text">
       <Text as="span" className="layer-row__name">{row.name}</Text>
       {row.note && <Text as="span" variant="caption" tone="muted" className="layer-row__note">{row.note}</Text>}

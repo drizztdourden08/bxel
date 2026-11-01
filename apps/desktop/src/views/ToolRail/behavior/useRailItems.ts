@@ -5,7 +5,7 @@ import { shownMember } from '../../../editor/tool-catalogue/shown-member';
 import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
 import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
-import { useSpringStore } from '../../../editor/tool-pick/use-spring-store';
+import { useSpringStore } from '../../../editor/tool-pick/behavior/useSpringStore';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { drawingVersion } from '../../../stores/drawing-version';

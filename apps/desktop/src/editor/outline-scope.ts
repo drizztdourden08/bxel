@@ -3,7 +3,6 @@ import type { TargetScope } from '@bxel/document';
 import { cellScope } from './cell-scope';
 import type { EditorTarget } from './editor.type';
 
-/** The frames an outline reaches: this one, the tag that holds it (this one when none does), or every frame of the sprite. */
 const outlineScope = (target: EditorTarget, frames: 'frame' | 'tag' | 'all'): TargetScope => {
   const own = cellScope(target);
   if (frames === 'all') return { ...own, frames: { by: 'all' } };

@@ -9,6 +9,7 @@ import { fillRequest } from './fill-request';
 import { returnAfterPick } from './return-after-pick';
 import { inkOf } from './ink-of';
 import type { ColourSlot } from './press-plan.type';
+import type { InstantKind } from './run-instant.type';
 import { samplePixel } from './sample-pixel';
 import { symmetryOf } from './symmetry-of';
 import { wrapOf } from './wrap-of';
@@ -22,10 +23,9 @@ const pickColour = (target: EditorTarget, at: Point, slot: ColourSlot, ramp: boo
   if (found) useDrawingStore.getState().patch({ shadeRamp: found.name });
 };
 
-/** Shift with the picker picks the colour and also the ramp it belongs to, into the Shade ramp field. */
-const runInstant = (kind: 'pick' | 'fill', target: EditorTarget, at: Point, slot: ColourSlot, ramp = false): void => {
-  if (kind === 'pick') {
-    pickColour(target, at, slot, ramp);
+const runInstant = (kind: InstantKind, target: EditorTarget, at: Point, slot: ColourSlot): void => {
+  if (kind !== 'fill') {
+    pickColour(target, at, slot, kind === 'pick-ramp');
     returnAfterPick();
     return;
   }

@@ -1,12 +1,7 @@
 /* @layer renderer-app @kind component */
-import type { ReactNode } from 'react';
 import { Box, SplitPane } from '@drizztdourden08/tessera';
 import { CANVAS_CLASS, EDITOR_CANVAS_TEXT } from '../EditorCanvas.constants';
-
-interface SplitCanvasProps {
-  first: ReactNode;
-  second: ReactNode;
-}
+import type { SplitCanvasProps } from './SplitCanvas.type';
 
 const SplitCanvas = ({ first, second }: SplitCanvasProps) => (
   <SplitPane

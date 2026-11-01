@@ -1,7 +1,10 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
 import type { LayerRowKind, LayerRowModel } from '../../src/views/LayerStack/LayerStack.type';
-import { blockIds, dropWish, indentWish, outdentWish } from '../../src/views/LayerStack/behavior/tree-wishes';
+import { blockIds } from '../../src/views/LayerStack/behavior/block-ids';
+import { dropWish } from '../../src/views/LayerStack/behavior/drop-wish';
+import { indentWish } from '../../src/views/LayerStack/behavior/indent-wish';
+import { outdentWish } from '../../src/views/LayerStack/behavior/outdent-wish';
 import { visibleRows } from '../../src/views/LayerStack/behavior/visible-rows';
 
 const row = (id: string, kind: LayerRowKind, parentId: string | null): LayerRowModel => ({

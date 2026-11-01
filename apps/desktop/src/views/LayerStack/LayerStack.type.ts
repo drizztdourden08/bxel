@@ -73,13 +73,6 @@ interface LayerStackModel {
   actions: LayerActions;
 }
 
-interface ThumbDeps {
-  pixels: Uint8Array | Uint32Array | null | undefined;
-  bank: object | null;
-  width: number;
-  height: number;
-}
-
 interface LayerBarAction {
   id: string;
   icon: IconName;
@@ -231,5 +224,5 @@ interface LayerMainProps {
 export type {
   LayerBarAction, LayerBarProps, LayerColoursProps, LayerFilterProps, LayerFilterState, LayerFoldProps, LayerViewControlsProps, LayerGripProps, LayerHeaderProps, LayerListProps, LayerMainProps,
   LayerNameProps, LayerNoMatchProps, LayerRowKind, LayerRowModel, LayerRowTree, LayerRowProps, LayerSourceProps, LayerStackModel, LayerStackViewProps, LayerStripProps,
-  LayerSweepView, LayerThumbProps, LayerThumbSource, LayerToggleProps, MapChoice, ThumbDeps,
+  LayerSweepView, LayerThumbProps, LayerThumbSource, LayerToggleProps, MapChoice,
 };

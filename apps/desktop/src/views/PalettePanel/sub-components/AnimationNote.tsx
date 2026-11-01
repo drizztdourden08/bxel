@@ -3,7 +3,6 @@ import { Text } from '@drizztdourden08/tessera';
 import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
 import type { PanelProps } from '../PalettePanel.type';
 
-/** Says which palette the frame being edited draws with, when the panel follows an animation. */
 const AnimationNote = ({ panel }: PanelProps) => {
   const { animation } = panel.target;
   if (!animation) return null;

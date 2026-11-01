@@ -5,7 +5,6 @@ import { lintOfFrame } from '../../../pixel-lint/lint-of-target';
 import { useLintStore } from '../../../stores/useLintStore';
 import type { PixelView } from '../../PixelViewport';
 
-/** Outlines the pixels the lint finds on the frame being edited. Drawn in image pixels. */
 const paintLint = (ctx: CanvasRenderingContext2D, view: PixelView): void => {
   const target = currentTarget();
   if (!target || !useLintStore.getState().shown) return;

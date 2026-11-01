@@ -22,7 +22,6 @@ interface EditorTarget {
   animation?: AnimationContext;
 }
 
-/** What the Palette panel works on: a bank, and the sprite using it when one is being edited (none on a palette file). */
 interface PaletteTarget {
   documentId: DocumentId;
   revision: number;

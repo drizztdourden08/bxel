@@ -1,10 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { useLayerViewStore } from '../stores/useLayerViewStore';
-
-interface TreeLayer<Id extends string> {
-  id: Id;
-  parentId?: string;
-}
+import type { TreeLayer } from './layer-selection.type';
 
 const sits = <Id extends string>(layers: readonly TreeLayer<Id>[], id: string, groupId: string): boolean => {
   const byId = new Map<string, TreeLayer<Id>>(layers.map((layer) => [layer.id, layer]));
