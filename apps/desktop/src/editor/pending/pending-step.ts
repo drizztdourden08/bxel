@@ -47,7 +47,7 @@ const pendingStep = (target: EditorTarget, pending: PendingEdit): CommitStep => 
     case 'transform':
       return transformStep(spec, mask);
     case 'move':
-      return { name: ADVANCED_COMMAND.pixelsMove, options: { offset: spec.offset, skipZero: false, ...maskPart(mask) } };
+      return { name: ADVANCED_COMMAND.pixelsMove, options: { offset: spec.offset, skipZero: false, copy: spec.copy === true, ...maskPart(mask) } };
     case 'paste':
       return pasteStep(target, spec);
   }

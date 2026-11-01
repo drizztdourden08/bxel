@@ -12,7 +12,7 @@ const pendingLabel = (spec: PendingSpec): string => {
     case 'transform':
       return transformLabel(spec);
     case 'move':
-      return PENDING_TEXT.move;
+      return spec.copy ? PENDING_TEXT.copy : PENDING_TEXT.move;
     case 'paste':
       return PENDING_TEXT.paste;
   }

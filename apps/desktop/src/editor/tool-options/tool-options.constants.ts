@@ -39,6 +39,8 @@ const OPTION_TEXT = {
   inSelectionDescription: 'Only take pixels inside the selection that exists now.',
   amount: 'Amount',
   amountDescription: 'How many pixels Expand, Shrink and Border change the selection by.',
+  nudge: 'Nudge amount',
+  nudgeDescription: 'How many pixels an arrow key moves the float, from 1 to 64. Shift moves 8.',
   expand: 'Expand',
   expandDescription: 'Grow the selection by one pixel on every side.',
   shrink: 'Shrink',

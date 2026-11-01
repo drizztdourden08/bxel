@@ -13,6 +13,7 @@ interface SelectionSettings {
   connectivity: Connectivity;
   sample: SampleSource;
   amount: number;
+  nudge: number;
   owner: DocumentId | null;
   mask: MaskView | null;
   draft: MaskView | null;
@@ -31,6 +32,7 @@ interface SelectionState extends SelectionSettings {
   setInSelection: (inSelection: boolean) => void;
   setSample: (sample: SampleSource) => void;
   setAmount: (amount: number) => void;
+  setNudge: (nudge: number) => void;
   setMask: (mask: MaskView | null, owner: DocumentId | null) => void;
   setDraft: (draft: MaskView | null) => void;
   setVertices: (vertices: readonly Point[]) => void;

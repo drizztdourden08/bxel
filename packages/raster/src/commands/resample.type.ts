@@ -10,6 +10,7 @@ type ResampleSpec = {
   readonly pivot: Pivot2 | undefined;
   readonly bounds: BoundsPolicy;
   readonly skipZero: boolean;
+  readonly keep?: boolean;
 };
 
 type SpritePlan = {

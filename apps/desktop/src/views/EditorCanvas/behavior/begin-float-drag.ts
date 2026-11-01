@@ -7,7 +7,7 @@ import type { ActiveDrag } from './canvas-tools.type';
 import { rawPixelAt } from './raw-pixel-at';
 
 const beginFloatDrag = (viewport: PixelViewportHandle | null, event: PointerEvent<HTMLElement>): ActiveDrag | null => {
-  if (floatOffset() === null && !startMove()) return null;
+  if (floatOffset() === null && !startMove(event.altKey)) return null;
   const origin = floatOffset();
   return origin ? { kind: 'float', start: rawPixelAt(viewport, event), origin } : null;
 };

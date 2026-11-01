@@ -6,6 +6,7 @@ import { useSelectionStore } from '../../../stores/useSelectionStore';
 import type { MatchKind, SampleSource } from '../../selection/selection.type';
 import { resizeSelection } from '../../selection/resize-selection';
 import { SELECT_MODES, SELECT_VARIANTS } from '../../selection/selection.constants';
+import { numberSpec } from './number-spec';
 import { MATCH_CHOICES, NEIGHBOUR_CHOICES, OPTION_TEXT, SAMPLE_CHOICES, SELECT_MODE_CHOICES, SELECT_SHAPE_CHOICES } from '../tool-options.constants';
 import type { OptionSpec } from '../tool-options.type';
 
@@ -41,6 +42,11 @@ const resizeOption = (name: 'expand' | 'shrink', delta: number, priority: number
   shortcuts: [{ command: name === 'expand' ? SELECTION_COMMAND_ID.expand : SELECTION_COMMAND_ID.shrink }],
   read: () => false,
   write: () => resizeSelection(delta * selection().amount),
+});
+
+const nudgeOption: OptionSpec = numberSpec({
+  tool: 'move', name: 'nudge', label: OPTION_TEXT.nudge, description: OPTION_TEXT.nudgeDescription, priority: 10, group: 'move', default: 1, min: 1, max: 64,
+  read: () => selection().nudge, write: (value) => selection().setNudge(value),
 });
 
 const SELECT_OPTIONS: readonly OptionSpec[] = [
@@ -195,6 +201,7 @@ const SELECT_OPTIONS: readonly OptionSpec[] = [
   },
   resizeOption('expand', 1, 60),
   resizeOption('shrink', -1, 70),
+  nudgeOption,
 ];
 
 export { SELECT_OPTIONS };

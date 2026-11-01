@@ -10,8 +10,8 @@ const pixelsMove = defineCommand({
   scope: 'cels',
   schema: pixelsMoveSchema,
   run: (draft, input) => {
-    const { offset, skipZero, mask } = input.options;
-    runResample(draft, input, { mover: moveMover(offset), mask, pivot: undefined, bounds: 'crop', skipZero });
+    const { offset, skipZero, mask, copy } = input.options;
+    runResample(draft, input, { mover: moveMover(offset), mask, pivot: undefined, bounds: 'crop', skipZero, keep: copy });
   },
 });
 

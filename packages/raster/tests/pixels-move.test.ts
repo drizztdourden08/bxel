@@ -21,6 +21,12 @@ describe('K2 pixels.move', { tags: ['critical'] }, () => {
     expectOneUndo(engine, original);
   });
 
+  test('leaves the source in place when it copies', () => {
+    const engine = pixelEngine(rowsArtwork(PIXELS));
+    okOf(engine.execute(request([move({ x: 0, y: 2 }, { copy: true })])));
+    expect(rowsOf(engine)).toEqual(['.....', '.612.', '.34..', '.612.', '.34..', '.....']);
+  });
+
   test('reports what falls off the sprite', () => {
     const engine = pixelEngine(rowsArtwork(PIXELS));
     const original = engine.state().artwork;

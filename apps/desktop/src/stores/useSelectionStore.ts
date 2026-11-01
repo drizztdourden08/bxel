@@ -14,6 +14,7 @@ const useSelectionStore = create<SelectionState>()((set) => ({
   setIgnoreTransparent: (ignoreTransparent) => set({ ignoreTransparent }),
   setInSelection: (inSelection) => set({ inSelection }),
   setAmount: (amount) => set({ amount: Math.max(1, Math.min(AMOUNT_LIMIT, Math.round(amount))) }),
+  setNudge: (nudge) => set({ nudge: Math.max(1, Math.min(AMOUNT_LIMIT, Math.round(nudge))) }),
   setMask: (mask, owner) => set({ mask, owner: mask ? owner : null, draft: null, vertices: [] }),
   setDraft: (draft) => set({ draft }),
   setVertices: (vertices) => set({ vertices }),

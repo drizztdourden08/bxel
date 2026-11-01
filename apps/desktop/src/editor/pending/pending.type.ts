@@ -8,7 +8,7 @@ type PendingSpec =
   | { kind: 'flip'; axis: FlipAxis }
   | { kind: 'turn'; direction: TurnDirection }
   | TransformSpec
-  | { kind: 'move'; offset: Point }
+  | { kind: 'move'; offset: Point; copy?: boolean }
   | { kind: 'paste'; clip: Clip; offset: Point };
 
 interface PendingEdit {

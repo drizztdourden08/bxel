@@ -38,11 +38,11 @@ const landRow = (lift: Lift, y: number): number => {
   return clipped;
 };
 
-const landRegion = ({ target, mask, resample, skipZero }: LandOptions): LandResult => {
+const landRegion = ({ target, mask, resample, skipZero, keep }: LandOptions): LandResult => {
   assertSameSize(target, mask);
   const before = target.pixels.slice();
   for (const [at, bit] of mask.bits.entries()) {
-    if (bit !== 0) {
+    if (bit !== 0 && !keep) {
       target.pixels[at] = 0;
     }
   }

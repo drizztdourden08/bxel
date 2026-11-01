@@ -11,6 +11,7 @@ const SELECTION_DEFAULTS: SelectionSettings = {
   inSelection: false,
   sample: 'layer',
   amount: 1,
+  nudge: 1,
   owner: null,
   mask: null,
   draft: null,
