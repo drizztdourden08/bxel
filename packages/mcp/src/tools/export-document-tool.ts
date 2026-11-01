@@ -1,5 +1,7 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
+import { EXPORT_FILES_SCHEMA } from '../schema/export-files.constants';
+import { exportInput } from '../schema/export-input';
 import {
   ANIM_FRAME_ID_SCHEMA,
   ANIMATION_ID_SCHEMA,
@@ -10,14 +12,13 @@ import {
   SPRITE_ID_SCHEMA,
   TAG_ID_SCHEMA,
 } from '../schema/ids.constants';
-import { LOCATION_SCHEMA } from '../schema/place.constants';
-import { COUNT_SCHEMA, FILE_NAME_SCHEMA, SHA256_SCHEMA } from '../schema/shapes.constants';
+import { SHA256_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
 import { EXPORT_FORMAT_VALUES } from './tool-enums.constants';
 import { TOOL_NAME } from './tool-name.constants';
 
-const base = z.strictObject({
+const base = {
   documentId: DOCUMENT_ID_SCHEMA,
   expectedRevision: REVISION_SCHEMA.optional(),
   format: z.enum(EXPORT_FORMAT_VALUES),
@@ -28,19 +29,16 @@ const base = z.strictObject({
   ]),
   scale: z.number().int().min(1).max(16).default(1),
   overwrite: z.boolean().default(false),
-});
+};
 
 const exportDocumentTool = defineTool(TOOL_NAME.exportDocument, {
   title: 'Export a document',
   description:
     'Exports one sprite frame, one animation (format gif plays the whole animation or one tag; png draws one frame or a strip) or one sheet at a frozen revision, into a project granted editing or the assistant folder. Formats: png (any source), png-indexed (a sprite frame or an animation, palette indexes kept), gif (an animation only), atlas-json (a sheet only: the atlas JSON the app writes next to the sheet image, with the sprite rectangles as the exporter packs them); a sheet exports as png or atlas-json. The file name must end in .gif for format gif, in .json for atlas-json and in .png for the others. Give exactly one of location and fileName. Exports stay off the recent files list.',
-  input: z.xor([
-    base.extend({ location: LOCATION_SCHEMA.describe('A project path granted editing.') }),
-    base.extend({ fileName: FILE_NAME_SCHEMA.describe('Lands in the assistant folder.') }),
-  ]),
+  input: exportInput(base),
   output: withFailure({
     revision: REVISION_SCHEMA,
-    files: z.array(z.strictObject({ fileName: z.string(), bytes: COUNT_SCHEMA, sha256: SHA256_SCHEMA })),
+    files: EXPORT_FILES_SCHEMA,
     indexHash: SHA256_SCHEMA,
   }),
 });

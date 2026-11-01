@@ -1,35 +1,27 @@
 /* @layer renderer-app @kind logic */
 import { flattenFrame } from '@bxel/document';
-import { hiddenFailure } from '@bxel/mcp';
-import type { Failure, ToolReply } from '@bxel/mcp';
+import type { ToolReply } from '@bxel/mcp';
 import { fileName } from '../../files/file-name';
-import { EXPORT_WRITE } from '../../files/files.constants';
 import type { DocumentView } from '../../documents/document-host.type';
 import type { ToolContext, ToolHandler } from '../assistant.type';
-import { checkRevision } from './check-revision';
+import { checkedView } from './checked-view';
 import { exportedAnimation } from './export-animation';
 import { exportTarget } from './export-target';
 import { framePng } from './frame-png';
 import { hiddenAssets } from './hidden-assets';
 import { indexHash } from './index-hash';
+import { isReply } from './is-reply';
 import { reply } from './reply';
 import { spriteFrame } from './sprite-frame';
 import { sheetJson } from './sheet-json';
 import { sheetPng } from './sheet-png';
+import { storeExportFile } from './store-export-file';
 import type { AnimationSource, ExportInput, SheetSource } from './tool-input.type';
-import { viewFor } from './view-for';
-import { writeProjectFile } from './write-project-file';
-
-const writeExport = async (context: ToolContext, job: ExportInput, path: string, bytes: Uint8Array): Promise<Failure | null> => {
-  if (job.location) return writeProjectFile(context, path, bytes, EXPORT_WRITE);
-  await context.documents.write(path, bytes, EXPORT_WRITE);
-  return null;
-};
 
 const exportAnimation = async (context: ToolContext, view: DocumentView, job: ExportInput, target: { readonly path: string; readonly source: AnimationSource }): Promise<ToolReply> => {
   const made = await exportedAnimation(context, view, job, target.source);
   if (!made.ok) return reply(made);
-  const refused = await writeExport(context, job, target.path, made.value.file.bytes);
+  const refused = await storeExportFile(context, job, target.path, made.value.file.bytes);
   if (refused) return reply(refused);
   return reply({
     ok: true,
@@ -49,7 +41,7 @@ const exportSheet = async (
   const made = job.format === 'atlas-json' ? sheetJson(picture) : sheetPng(picture);
   if (!made.ok) return reply(made);
   const bytes = 'bytes' in made.value ? made.value.bytes : made.value;
-  const refused = await writeExport(context, job, target.path, bytes);
+  const refused = await storeExportFile(context, job, target.path, bytes);
   if (refused) return reply(refused);
   const sha256 = await indexHash(bytes);
   return reply({
@@ -62,10 +54,8 @@ const exportSheet = async (
 
 const exportDocument: ToolHandler = async (input, context) => {
   const job = input as ExportInput;
-  const view = viewFor(context, job.documentId);
-  if (!view) return reply(hiddenFailure('document'));
-  const stale = checkRevision(view, job.expectedRevision);
-  if (stale) return reply(stale);
+  const view = checkedView(context, job.documentId, job.expectedRevision);
+  if (isReply(view)) return view;
   const target = await exportTarget(job, context);
   if (!target.ok) return reply(target);
   const { source } = target.value;
@@ -75,7 +65,7 @@ const exportDocument: ToolHandler = async (input, context) => {
   if (!found.ok) return reply(found);
   const png = framePng(found.value, job.scale, job.format === 'png-indexed');
   if (!png.ok) return reply(png);
-  const refused = await writeExport(context, job, target.value.path, png.value.bytes);
+  const refused = await storeExportFile(context, job, target.value.path, png.value.bytes);
   if (refused) return reply(refused);
   return reply({
     ok: true,
