@@ -31,7 +31,7 @@ const entry = (base: AssetRow, facts: Partial<BrowserFacts> = {}, pinned = false
   key: null,
 });
 
-describe('the search grammar of the project browser', () => {
+describe('K1 the search grammar of the project browser', { tags: ['critical'] }, () => {
   it('turns tokens into chips and leaves plain words as words', () => {
     const query = parseQuery('hero kind:sprite is:unsaved');
     expect(query.words).toEqual(['hero']);
@@ -93,7 +93,7 @@ describe('the search grammar of the project browser', () => {
   });
 });
 
-describe('the tag and collection tokens', () => {
+describe('K1 the tag and collection tokens', { tags: ['critical'] }, () => {
   it('finds files by tag and by collection, and reads a quoted tag as one token', () => {
     const tagged = entry(row('hero', 'sprite', 'sprites'), { tags: ['hero', 'big boss'], collections: ['Players'] });
     const plain = entry(row('spare', 'sprite', 'sprites'));

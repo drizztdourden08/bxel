@@ -53,7 +53,7 @@ const moveOnDisk = (from: string, to: string): void => {
   files.delete(from);
 };
 
-describe('the link index and the health checks', () => {
+describe('K3 the link index and the health checks', { tags: ['standard'] }, () => {
   it('finds nothing wrong in a project whose links all lead to their files', async () => {
     await open();
     const { report, index } = await scan();
@@ -98,10 +98,9 @@ describe('the link index and the health checks', () => {
     expect(linksOf(spritePath)).toEqual([]);
     expect((await scan()).report.broken.map((each) => each.file)).not.toContain(spritePath);
   });
-
 });
 
-describe('the repairs on the files and on the open project', () => {
+describe('K3 the repairs on the files and on the open project', { tags: ['standard'] }, () => {
   it('forgets the missing target in the open project, so a later save does not write the link back', async () => {
     const { spritePath, palettePath } = await open();
     const { documentId, key } = openedSprite();
@@ -151,10 +150,9 @@ describe('the repairs on the files and on the open project', () => {
       expect.stringContaining('Give the path'),
     ]);
   });
-
 });
 
-describe('the health checks on the files themselves', () => {
+describe('K3 the health checks on the files themselves', { tags: ['standard'] }, () => {
   it('lists two files with the same asset id', async () => {
     const { spritePath } = await open();
     held.rig.disk.files.set(`${ROOT}/sprites/slime copy.bxsprite`, held.rig.disk.files.get(spritePath) ?? new Uint8Array());

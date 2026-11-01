@@ -41,7 +41,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('the asset rows of a project', () => {
+describe('S2 the asset rows of a project', { tags: ['standard'] }, () => {
   it('lists every asset with its folder and the sheets that use each sprite', async () => {
     await opened();
     const rows = await rowsOf();
@@ -74,7 +74,7 @@ describe('the asset rows of a project', () => {
   });
 });
 
-describe('the row actions', () => {
+describe('S2 the row actions', { tags: ['standard'] }, () => {
   it('Duplicate makes a sprite copy that sits on the same sheets', async () => {
     const { documentId } = await opened();
     duplicateRow(rowNamed(await rowsOf(), 'sprite', artworkOf(documentId).sprites[0]?.name ?? ''));
@@ -132,7 +132,7 @@ describe('the row actions', () => {
   });
 });
 
-describe('a file renamed in Explorer', () => {
+describe('S2 a file renamed in Explorer', { tags: ['standard'] }, () => {
   it('gives its name to the asset when the project loads, and marks it unsaved', async () => {
     const artwork = sampleArtwork();
     const paths = writeProjectAssets(held.disk, ROOT, artwork);

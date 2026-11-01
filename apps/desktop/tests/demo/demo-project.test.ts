@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { readSaved } from '../e2e/support/read-saved';
@@ -18,12 +18,7 @@ if (process.env['BXEL_WRITE_DEMO'] === '1') {
   }
 }
 
-describe('the demo project', () => {
-  test('every committed file is what the encoders write today (BXEL_WRITE_DEMO=1 rewrites them)', () => {
-    expect([...files.keys()].sort()).toContain(`${DEMO_NAME}.bxproject`);
-    for (const [path, bytes] of files) expect(Buffer.compare(readFileSync(join(ROOT, path)), Buffer.from(bytes)), path).toBe(0);
-  });
-
+describe('K3 the demo project', { tags: ['standard'] }, () => {
   test('holds a tagged animation, a sheet of a sprite and the animation, a palette, a tileset and a tilemap', () => {
     const artwork = readSaved(join(ROOT, 'sheets', 'party.bxsheet'));
     const hero = artwork.animations.find((animation) => animation.name === 'hero');

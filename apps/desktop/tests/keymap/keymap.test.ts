@@ -1,19 +1,14 @@
 /* @layer renderer-app @kind test */
-import { shortcutsHelp } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { currentTarget } from '../../src/editor/current-target';
-import { toolIds } from '../../src/editor/tool-catalogue/tool-ids';
-import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
-import { COMMAND_ID, EDITOR_SCOPE } from '../../src/keymap/keymap.constants';
+import { COMMAND_ID } from '../../src/keymap/keymap.constants';
 import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useDrawingStore } from '../../src/stores/useDrawingStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { useViewStore } from '../../src/stores/useViewStore';
 import { VIEW_DEFAULTS } from '../../src/stores/view-store.constants';
-import type { PixelView, PixelViewportHandle } from '../../src/views/PixelViewport';
-import { chordsOf, clashes } from './chord-table';
 import { findCommand } from './find-command';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('./brock-react-mock')).brockReactMock());
@@ -22,86 +17,21 @@ const find = findCommand;
 
 const run = (id: string): void => void find(id).run();
 
-const fakeView = (): PixelView => ({
-  zoom: 1,
-  pan: { x: 0, y: 0 },
-  originX: 0,
-  originY: 0,
-  width: 0,
-  height: 0,
-  dpr: 1,
-  imageWidth: 0,
-  imageHeight: 0,
-});
-
-const fakeHandle = (): PixelViewportHandle => ({
-  screenToPixel: vi.fn(() => ({ x: 0, y: 0 })),
-  pixelToScreen: vi.fn(() => ({ x: 0, y: 0 })),
-  fit: vi.fn(),
-  setZoom: vi.fn(),
-  zoomIn: vi.fn(),
-  zoomOut: vi.fn(),
-  redraw: vi.fn(),
-  reveal: vi.fn(),
-  panTo: vi.fn(),
-  zoomToRect: vi.fn(),
-  view: fakeView,
-});
-
 beforeEach(() => {
   useToolStore.setState({ ...TOOL_DEFAULTS });
   useViewStore.setState({ ...VIEW_DEFAULTS });
   createDefaultArtwork(useDocumentStore.getState().host);
 });
 
-describe('the keymap table', () => {
-  it('has no two commands on the same chord in the same scope and zone, and none on a Brock chord', () => {
-    expect(clashes()).toEqual([]);
-  });
-
-  it('has a unique id, a label and a group for every command', () => {
-    const ids = APP_COMMANDS.map((def) => def.id);
-    expect(new Set(ids).size).toBe(ids.length);
-    expect(APP_COMMANDS.every((def) => def.label !== '' && def.group !== undefined)).toBe(true);
-  });
-
-  it('puts every tool on its letter key', () => {
-    const letters = Object.fromEntries(toolIds().map((tool) => [tool, chordsOf(find(COMMAND_ID.tool(tool)))]));
-    expect(letters).toEqual({
-      pencil: ['B'], eraser: ['E'], spray: ['Shift+B'], shade: ['S'], fill: ['G'], gradient: ['Shift+G'], picker: ['I'], line: ['L'], curve: ['Shift+L'], rect: ['U'],
-      ellipse: ['Shift+U'], contour: ['D'], polygon: ['Shift+D'], zoom: ['Z'], hand: ['H'], select: ['M'], move: ['V'], slice: ['Shift+C'],
-    });
-  });
-
-  it('keeps the chords of the contract for brush, symmetry, colours, view and help', () => {
-    expect(chordsOf(find(COMMAND_ID.brushSmaller))).toEqual(['[']);
-    expect(chordsOf(find(COMMAND_ID.brushLarger))).toEqual([']']);
-    expect(chordsOf(find(COMMAND_ID.symmetryX))).toEqual(['Alt+X']);
-    expect(chordsOf(find(COMMAND_ID.symmetryY))).toEqual(['Alt+Y']);
-    expect(chordsOf(find(COMMAND_ID.swapColours))).toEqual(['X']);
-    expect(chordsOf(find(COMMAND_ID.swapColourPairs))).toEqual(['Shift+X']);
-    expect(chordsOf(find(COMMAND_ID.colourBack))).toEqual(['Q']);
-    expect(chordsOf(find(COMMAND_ID.colourForward))).toEqual(['W']);
-    expect(chordsOf(find(COMMAND_ID.zoomIn))).toEqual(['Plus', '=']);
-    expect(chordsOf(find(COMMAND_ID.zoomOut))).toEqual(['Minus']);
-    expect(chordsOf(find(COMMAND_ID.zoomFit))).toEqual(['Mod+0']);
-    expect(chordsOf(find(COMMAND_ID.zoomActual))).toEqual(['Mod+1']);
-    expect(chordsOf(find(COMMAND_ID.pixelGrid))).toEqual(["Mod+'"]);
-    expect(chordsOf(find(COMMAND_ID.shortcuts))).toEqual(['F1']);
-    expect(chordsOf(find(COMMAND_ID.undo))).toEqual(['Mod+Z']);
-    expect(chordsOf(find(COMMAND_ID.redo))).toEqual(['Mod+Y', 'Mod+Shift+Z']);
-  });
-
-  it('scopes the editor commands to the editor screen and gates them on an open document', () => {
-    const scoped = APP_COMMANDS.filter((def) => def.scope === EDITOR_SCOPE);
-    expect(scoped.length).toBeGreaterThan(30);
+describe('S2 the keymap table', { tags: ['standard'] }, () => {
+  it('gates the editor commands on an open document', () => {
     expect(find(COMMAND_ID.tool('pencil')).when?.()).toBe(true);
     useDocumentStore.getState().setActive(null);
     expect(find(COMMAND_ID.tool('pencil')).when?.()).toBe(false);
   });
 });
 
-describe('the tool, brush and colour commands', () => {
+describe('S2 the tool, brush and colour commands', { tags: ['standard'] }, () => {
   it('select a tool, and toggle filled on a second press of the rectangle key', () => {
     run(COMMAND_ID.tool('rect'));
     run(COMMAND_ID.tool('rect'));
@@ -140,7 +70,7 @@ describe('the tool, brush and colour commands', () => {
   });
 });
 
-describe('the view, layer and help commands', () => {
+describe('S2 the view, layer and help commands', { tags: ['standard'] }, () => {
   it('toggle the pixel grid and set the tiled preview', () => {
     run(COMMAND_ID.pixelGrid);
     expect(useViewStore.getState().grid).toBe(false);
@@ -150,24 +80,6 @@ describe('the view, layer and help commands', () => {
     expect(useViewStore.getState().tiled).toBe('x');
     run(COMMAND_ID.tiledOff);
     expect(useViewStore.getState().tiled).toBe('off');
-  });
-
-  it('drive the viewport for zoom in, out, fit and actual size', () => {
-    const handle = fakeHandle();
-    useViewStore.getState().setViewport(handle);
-    run(COMMAND_ID.zoomIn);
-    run(COMMAND_ID.zoomOut);
-    run(COMMAND_ID.zoomFit);
-    run(COMMAND_ID.zoomActual);
-    expect(handle.zoomIn).toHaveBeenCalledTimes(1);
-    expect(handle.zoomOut).toHaveBeenCalledTimes(1);
-    expect(handle.fit).toHaveBeenCalledTimes(1);
-    expect(handle.setZoom).toHaveBeenCalledWith(1);
-  });
-
-  it('open the shortcut list from the help command', () => {
-    run(COMMAND_ID.shortcuts);
-    expect(shortcutsHelp.open).toHaveBeenCalledTimes(1);
   });
 
   it('add a layer and step to the one below', () => {

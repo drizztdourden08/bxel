@@ -37,7 +37,7 @@ const artworkOf = (host: ReturnType<typeof newHost>, id: DocumentId): Artwork =>
   return view.state.artwork;
 };
 
-describe('reading a Tiled map with its tileset and image', () => {
+describe('K3 reading a Tiled map with its tileset and image', { tags: ['critical'] }, () => {
   it('follows the relative paths and builds a tile atlas', async () => {
     const { image, tiled } = await readOk();
     expect(tiled.plan).toMatchObject({ columns: 3, rows: 2, tileWidth: 4, tileHeight: 4 });
@@ -54,12 +54,6 @@ describe('reading a Tiled map with its tileset and image', () => {
     expect(read).toMatchObject({ ok: false });
     expect(read.ok ? '' : read.message).toContain('ground.png');
   });
-
-  it('reads the orientation of an isometric map', async () => {
-    const text = files().get('C:/maps/level.tmx')?.toString().replace('orthogonal', 'isometric') ?? '';
-    const { tiled } = await readOk(files(text));
-    expect(tiled.plan.orientation).toBe('isometric');
-  });
 });
 
 const importedNew = async (): Promise<{ host: ReturnType<typeof newHost>; id: DocumentId; artwork: Artwork }> => {
@@ -70,7 +64,7 @@ const importedNew = async (): Promise<{ host: ReturnType<typeof newHost>; id: Do
   return { host, id: outcome.documentId, artwork: artworkOf(host, outcome.documentId) };
 };
 
-describe('importing the map', () => {
+describe('K3 importing the map', { tags: ['critical'] }, () => {
   it('creates the tileset with one keyed tile per Tiled tile', async () => {
     const { artwork } = await importedNew();
     expect(artwork.tilesets[0]).toMatchObject({ name: 'ground', tileWidth: 4, tileHeight: 4 });
@@ -102,10 +96,9 @@ describe('importing the map', () => {
     expect(artworkOf(host, id).tilesets).toHaveLength(0);
     expect(host.view(id)?.state.revision).toBe(before + 1);
   });
-
 });
 
-describe('importing the map as other grids and into a file', () => {
+describe('K3 importing the map as other grids and into a file', { tags: ['critical'] }, () => {
   it('keeps the isometric and hexagonal orientation of a map', async () => {
     const source = files().get('C:/maps/level.tmx')?.toString() ?? '';
     const iso = await readOk(files(source.replace('orthogonal', 'isometric')));

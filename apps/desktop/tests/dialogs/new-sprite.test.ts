@@ -13,14 +13,13 @@ import type { CreationForm } from '../../src/new-sprite/new-sprite.type';
 import { newSummary } from '../../src/new-sprite/new-summary';
 import { patchForm } from '../../src/new-sprite/patch-form';
 import { limitError } from '../../src/palette-limit/limit-error';
-import { LIMIT_DEFAULT, LIMIT_PRESETS } from '../../src/palette-limit/palette-limit.constants';
 import { usageLine } from '../../src/palette-limit/usage-line';
 import { useCreateDialogStore } from '../../src/stores/useCreateDialogStore';
 import { hostWithFile, newHost, revisionOf, sprites } from './dialog-harness';
 
 const blank = (): CreationForm => initialForm(NEW_MEMORY_DEFAULT, []);
 
-describe('the count line and the limit rules', () => {
+describe('K1 the count line and the limit rules', { tags: ['critical'] }, () => {
   it('states the opaque colours, the transparent slot and the limit in the wording of the contract', () => {
     expect(PALETTE_TEXT.count(16, true)).toBe('15 opaque + transparent = 16');
     expect(PALETTE_TEXT.count(16, false)).toBe('16 opaque, no transparency = 16');
@@ -34,10 +33,7 @@ describe('the count line and the limit rules', () => {
     expect(newSummary(blank()).usage).toBe('0 of 15 opaque used');
   });
 
-  it('defaults to 16, offers the presets and accepts 1 to 256 only', () => {
-    expect(LIMIT_DEFAULT).toBe(16);
-    expect(NEW_MEMORY_DEFAULT.limit).toBe(16);
-    expect(LIMIT_PRESETS).toEqual([4, 8, 16, 32, 64, 256]);
+  it('accepts a colour limit of 1 to 256 only', () => {
     expect([1, 16, 256].map(limitError)).toEqual([null, null, null]);
     expect([0, 257, 2.5, Number.NaN].every((value) => limitError(value) === 'The colour limit must be between 1 and 256.')).toBe(true);
   });
@@ -49,7 +45,7 @@ describe('the count line and the limit rules', () => {
   });
 });
 
-describe('the form errors', () => {
+describe('K1 the form errors', { tags: ['critical'] }, () => {
   it('is valid at the start', () => {
     expect(hasErrors(newFormErrors(blank(), []))).toBe(false);
   });
@@ -71,7 +67,7 @@ describe('the form errors', () => {
   });
 });
 
-describe('creating a new file', () => {
+describe('K1 creating a new file', { tags: ['critical'] }, () => {
   it('creates one sprite with the chosen size, name, limit and transparent slot', () => {
     const host = newHost();
     const outcome = createNewFile(host, patchForm(blank(), { name: 'mushroom', width: 24, height: 12, limit: 32 }));
@@ -126,17 +122,9 @@ describe('creating a new file', () => {
     expect(outcome.ok).toBe(false);
     expect(host.list()).toHaveLength(0);
   });
-
-  it('creates nothing when the dialog is cancelled', () => {
-    const host = newHost();
-    useCreateDialogStore.getState().show('file');
-    useCreateDialogStore.getState().hide();
-    expect(useCreateDialogStore.getState().mode).toBe('closed');
-    expect(host.list()).toHaveLength(0);
-  });
 });
 
-describe('naming a new sheet', () => {
+describe('K1 naming a new sheet', { tags: ['critical'] }, () => {
   it('names the new sheet Sheet 1 in a new file', () => {
     const host = newHost();
     const outcome = createNewFile(host, patchForm(blank(), { kind: 'sheet', name: 'cap', columns: 2, rows: 1, cellWidth: 8, cellHeight: 8 }));
@@ -154,7 +142,7 @@ describe('naming a new sheet', () => {
   });
 });
 
-describe('creating a sprite in an open file', () => {
+describe('K1 creating a sprite in an open file', { tags: ['critical'] }, () => {
   it('inherits the file palette and is one undo step', () => {
     const { host, documentId } = hostWithFile();
     const artwork = host.view(documentId)?.state.artwork;

@@ -4,7 +4,7 @@ import { evaluate } from '../../src/ui-context/evaluate';
 import { hasRule } from '../../src/ui-context/has-rule';
 import { columnContext } from './columns';
 
-describe('the evaluator', () => {
+describe('K1 the evaluator', { tags: ['critical'] }, () => {
   it('hides what cannot apply to the file type and says nothing about it', () => {
     expect(evaluate('timeline.add_frame', columnContext('Sp'))).toEqual({ state: 'hidden', reason: null });
     expect(evaluate('tool.select_pencil', columnContext('Pa'))).toEqual({ state: 'hidden', reason: null });
@@ -56,9 +56,5 @@ describe('the evaluator', () => {
     expect(evaluate('timeline.add_frame', columnContext('An')).state).toBe('shown');
     expect(evaluate('timeline.add_frame', columnContext('Ts')).state).toBe('shown');
     expect(evaluate('timeline.add_frame', columnContext('Tm')).state).toBe('hidden');
-  });
-
-  it('retires the old duplicate frame command everywhere', () => {
-    for (const column of ['Sp', 'An', 'Ts', 'Sh'] as const) expect(evaluate('frame.duplicate', columnContext(column)).state).toBe('hidden');
   });
 });

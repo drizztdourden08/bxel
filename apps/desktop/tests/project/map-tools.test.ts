@@ -47,7 +47,7 @@ beforeEach(async () => {
   current = await openSharedRig(seed);
 });
 
-describe('list_map_layers', () => {
+describe('S2 list_map_layers', { tags: ['standard'] }, () => {
   it('lists the maps the assistant may see with their layers, and leaves out a map whose tileset is hidden', async () => {
     const listed = await current.run('list_map_layers', { documentId: documentId(), includeTiles: true }, current.grants('read'));
     expect(rowsOf(listed, 'tilemaps').map((map) => map.name)).toEqual(['level']);
@@ -66,7 +66,7 @@ describe('list_map_layers', () => {
   });
 });
 
-describe('read_map_cells and map.write', () => {
+describe('S2 read_map_cells and map.write', { tags: ['standard'] }, () => {
   it('writes a rectangle through apply_edits and reads it back', async () => {
     const applied = await current.run('apply_edits', write(level(), [1, 2]), current.grants('edit'));
     expect(applied).toMatchObject({ ok: true });
@@ -89,7 +89,7 @@ describe('read_map_cells and map.write', () => {
   });
 });
 
-describe('map cell masks over the tools', () => {
+describe('S2 map cell masks over the tools', { tags: ['standard'] }, () => {
   const edit = (name: string, options: Record<string, unknown>, tilemap = level().id) => ({
     documentId: documentId(),
     baseRevision: current.rig.kit.host.view(documentId())?.state.revision ?? 1,

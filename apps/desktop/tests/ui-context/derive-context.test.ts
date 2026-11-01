@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { COLUMN_NAMES, columnContext } from './columns';
 
-describe('the context derived from the stores', () => {
+describe('K1 the context derived from the stores', { tags: ['critical'] }, () => {
   it('names the file type from the active tab, not from the sprite mode', () => {
     expect(columnContext('N').fileType).toBe('none');
     expect(columnContext('Sp').fileType).toBe('sprite');
@@ -47,7 +47,7 @@ describe('the context derived from the stores', () => {
   });
 });
 
-describe('the context derived from the stores, read only and frozen', () => {
+describe('K1 the context derived from the stores, read only and frozen', { tags: ['critical'] }, () => {
   it('treats an image preview as read only and with nothing to undo', () => {
     const image = columnContext('Im', { canUndo: true, pixelSelection: true, readOnly: false });
     expect(image.readOnly).toBe(true);

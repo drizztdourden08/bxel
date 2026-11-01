@@ -20,7 +20,6 @@ let held: Rig;
 
 const opened = () => openSampleProject(held);
 
-
 const paintedFirst = async () => {
   const { documentId } = await opened();
   const sprite = artworkOf(documentId).sprites[0];
@@ -33,7 +32,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('opening a project', () => {
+describe('S2 opening a project', { tags: ['standard'] }, () => {
   it('loads every asset of the project into one workspace, with nothing dirty', async () => {
     const { artwork, paths, documentId } = await opened();
     const loaded = artworkOf(documentId);
@@ -56,7 +55,7 @@ describe('opening a project', () => {
   });
 });
 
-describe('a sprite used by two sheets', () => {
+describe('S2 a sprite used by two sheets', { tags: ['standard'] }, () => {
   it('is one sprite in memory: painting it changes what both sheets show and dirties only the sprite', async () => {
     const { documentId, sprite } = await paintedFirst();
     const after = artworkOf(documentId);
@@ -73,7 +72,7 @@ describe('a sprite used by two sheets', () => {
   });
 });
 
-describe('saving a project workspace', () => {
+describe('S2 saving a project workspace', { tags: ['standard'] }, () => {
   it('Save all writes only the dirty files, and the file reads back with the paint', async () => {
     const { paths, documentId } = await opened();
     const sprite = artworkOf(documentId).sprites[1];
@@ -118,7 +117,7 @@ describe('saving a project workspace', () => {
   });
 });
 
-describe('undo in a project', () => {
+describe('S2 undo in a project', { tags: ['standard'] }, () => {
   it('names the asset and switches to its tab', async () => {
     const { documentId } = await opened();
     const [first, second] = artworkOf(documentId).sprites;

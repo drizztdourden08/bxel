@@ -25,7 +25,7 @@ beforeEach(() => {
   held.disk.files.set(`${ROOT}/hero.bxel`, new Uint8Array(4));
 });
 
-describe('moving an entry to the trash', () => {
+describe('K3 moving an entry to the trash', { tags: ['standard'] }, () => {
   it('asks first, then sends the file to the trash and forgets the path of an open document', async () => {
     useFileStore.getState().remember('doc_a' as never, `${ROOT}/hero.bxel`);
     expect(await trashEntry(file('hero.bxel'))).toEqual({ ok: true });
@@ -56,7 +56,7 @@ describe('moving an entry to the trash', () => {
   });
 });
 
-describe('renaming an entry', () => {
+describe('K3 renaming an entry', { tags: ['standard'] }, () => {
   it('renames a file and moves the path of an open document with it', async () => {
     useFileStore.getState().remember('doc_a' as never, `${ROOT}/hero.bxel`);
     expect(await renameEntry(file('hero.bxel'), 'knight.bxel')).toEqual({ ok: true });
@@ -101,7 +101,7 @@ describe('renaming an entry', () => {
   });
 });
 
-describe('a new folder in the project', () => {
+describe('K3 a new folder in the project', { tags: ['standard'] }, () => {
   it('is made with mkdir inside the folder', async () => {
     expect(await newProjectFolder(ROOT, 'sprites')).toEqual({ ok: true });
     expect(held.disk.made).toEqual([`${ROOT}/sprites`]);
@@ -117,7 +117,7 @@ describe('a new folder in the project', () => {
   });
 });
 
-describe('watching a folder', () => {
+describe('K3 watching a folder', { tags: ['standard'] }, () => {
   const settle = async (): Promise<void> => {
     await Promise.resolve();
     await Promise.resolve();
