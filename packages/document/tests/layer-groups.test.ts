@@ -53,6 +53,9 @@ describe('K1 layer.group, layer.ungroup, reorder, delete and duplicate with grou
     expect(rejection(engine, layerStep('layer.ungroup', { layer: named('Paint') })).code).toBe('LAYER_KIND');
   });
 
+});
+
+describe('K1 hiding, painting, moving and deleting with groups', { tags: ['critical'] }, () => {
   it('hides the children with the group and restores each child as it was', () => {
     const engine = grouped();
     const shown = firstRow(engine);

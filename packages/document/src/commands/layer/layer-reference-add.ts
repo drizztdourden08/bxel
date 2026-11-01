@@ -13,7 +13,10 @@ import { REFERENCE_NAME } from './layer.constants';
 import { pickLayers } from './pick-layers';
 import { registerLayerRef } from './register-layer-ref';
 
-const stemOf = (path: string): string => path.split(/[\\/]/).at(-1)?.replace(/\.[^.]+$/, '') || REFERENCE_NAME;
+const stemOf = (path: string): string => {
+  const stem = path.split(/[\\/]/).at(-1)?.replace(/\.[^.]+$/, '');
+  return stem === undefined || stem === '' ? REFERENCE_NAME : stem;
+};
 
 const layerReferenceAdd = defineCommand({
   name: COMMAND_NAME.layerReferenceAdd,

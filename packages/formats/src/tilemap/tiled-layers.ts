@@ -1,9 +1,8 @@
 /* @layer core @kind logic */
 import { layerOpacity } from './layer-opacity';
 import { tiledGids } from './tiled-gids';
+import type { TiledLayer } from './tiled-layers.type';
 import type { TilemapExportInput, TilemapLayerInput } from './tilemap.type';
-
-type TiledLayer = Record<string, unknown>;
 
 const tiledLayers = (input: TilemapExportInput): { layers: TiledLayer[]; count: number } => {
   let count = 0;

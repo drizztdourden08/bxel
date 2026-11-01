@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
+import { EDIT_KEYS } from './layer-update-schema.constants';
 import { layerRefSchema } from './layer-ref-schema';
 import { opacitySchema } from './opacity-schema';
 import { tagColourOptionSchema } from './tag-colour-option-schema';
@@ -7,8 +8,6 @@ import { tagColourOptionSchema } from './tag-colour-option-schema';
 const lockPatchSchema = z
   .strictObject({ pixels: z.boolean().optional(), transparency: z.boolean().optional(), position: z.boolean().optional() })
   .describe('The lock kinds to set. pixels refuses every change, transparency paints only on pixels already painted, position refuses Move and Transform.');
-
-const EDIT_KEYS = ['name', 'visible', 'locked', 'lockTransparency', 'lock', 'viewOpacity', 'clip', 'colour', 'exported'] as const;
 
 const layerUpdateSchema = z
   .strictObject({

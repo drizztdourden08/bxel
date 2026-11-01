@@ -1,11 +1,8 @@
 /* @layer core @kind logic */
 import type { MaskView } from '../buffer.type';
 import { emptyMask } from './empty-mask';
+import { EIGHT } from './match-mask.constants';
 import type { MatchOptions } from './selection.type';
-
-const EIGHT: readonly (readonly [number, number])[] = [
-  [-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [1, -1], [-1, 1], [1, 1],
-];
 
 const allowed = (options: MatchOptions, at: number, index: number): boolean => {
   if (options.ignore?.(index) === true) return false;
@@ -19,8 +16,18 @@ const everywhere = (options: MatchOptions, seedIndex: number, mask: MaskView): M
   return mask;
 };
 
+const neighbours = (at: number, room: { readonly width: number; readonly height: number }, steps: readonly (readonly [number, number])[]): number[] => {
+  const x = at % room.width;
+  const y = Math.floor(at / room.width);
+  return steps.flatMap(([dx, dy]) => {
+    const nx = x + dx;
+    const ny = y + dy;
+    return nx >= 0 && ny >= 0 && nx < room.width && ny < room.height ? [ny * room.width + nx] : [];
+  });
+};
+
 const region = (options: MatchOptions, seedIndex: number, mask: MaskView): MaskView => {
-  const { width, height, pixels } = options.target;
+  const { width, pixels } = options.target;
   const steps = options.connectivity === 8 ? EIGHT : EIGHT.slice(0, 4);
   const queue: number[] = [options.seed.y * width + options.seed.x];
   const take = (at: number): boolean => {
@@ -30,14 +37,9 @@ const region = (options: MatchOptions, seedIndex: number, mask: MaskView): MaskV
     return true;
   };
   if (!take(queue[0] ?? 0)) return mask;
-  for (let head = 0; head < queue.length; head += 1) {
-    const at = queue[head] ?? 0;
-    const x = at % width;
-    const y = Math.floor(at / width);
-    for (const [dx, dy] of steps) {
-      const nx = x + dx;
-      const ny = y + dy;
-      if (nx >= 0 && ny >= 0 && nx < width && ny < height && take(ny * width + nx)) queue.push(ny * width + nx);
+  for (const at of queue) {
+    for (const next of neighbours(at, options.target, steps)) {
+      if (take(next)) queue.push(next);
     }
   }
   return mask;

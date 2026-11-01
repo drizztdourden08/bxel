@@ -67,6 +67,9 @@ describe('K2 pixels.move', { tags: ['critical'] }, () => {
     expect(celRows(engine.state().artwork, transformIds.linked, transformIds.linkedBody)).toEqual(['.12']);
   });
 
+});
+
+describe('K2 pixels.move refusals and previews', { tags: ['critical'] }, () => {
   test('refuses a locked layer named by id, a bad mask and a missing offset', () => {
     expectLockedInk('pixels.move', { offset: { x: 1, y: 0 } });
     const engine = pixelEngine(rowsArtwork(PIXELS));

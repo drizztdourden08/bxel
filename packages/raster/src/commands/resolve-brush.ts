@@ -4,7 +4,6 @@ import type { Brush } from '../brush.type';
 import { stampOffset } from '../stamp-offset';
 import { savedBrushPatch } from './saved-brush-patch';
 
-/** Turns a custom tip into a stencil of the pixels its saved brush draws, so every brush tool can use it. Other tips pass through. */
 const resolveBrush = (artwork: Artwork, brush: Brush): Brush => {
   if (brush.shape !== 'custom') return brush;
   const patch = savedBrushPatch(artwork, brush.brushId ?? '');

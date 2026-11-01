@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import type { CommandDef } from './command-def.type';
+import { mapCommands } from './map-commands';
 import { layerAdd } from './layer/layer-add';
 import { layerDelete } from './layer/layer-delete';
 import { layerDuplicate } from './layer/layer-duplicate';
@@ -45,24 +46,6 @@ import { spriteDelete } from './sprite/sprite-delete';
 import { spriteDuplicate } from './sprite/sprite-duplicate';
 import { spriteReorder } from './sprite/sprite-reorder';
 import { spriteUpdate } from './sprite/sprite-update';
-import { mapErase } from './map/map-erase';
-import { mapFill } from './map/map-fill';
-import { mapPaint } from './map/map-paint';
-import { mapLine } from './map/map-line';
-import { mapRect } from './map/map-rect';
-import { mapReplace } from './map/map-replace';
-import { mapTerrain } from './map/map-terrain';
-import { mapCopy } from './map/map-copy';
-import { mapMove } from './map/map-move';
-import { mapWrite } from './map/map-write';
-import { mapLayerAdd } from './map-layer/map-layer-add';
-import { mapLayerDelete } from './map-layer/map-layer-delete';
-import { mapLayerDuplicate } from './map-layer/map-layer-duplicate';
-import { mapLayerMerge } from './map-layer/map-layer-merge';
-import { mapLayerReorder } from './map-layer/map-layer-reorder';
-import { mapLayerUpdate } from './map-layer/map-layer-update';
-import { mapLayerGroup } from './map-layer/map-layer-group';
-import { mapLayerUngroup } from './map-layer/map-layer-ungroup';
 import { animationCreate } from './animation/animation-create';
 import { animationUpdate } from './animation/animation-update';
 import { animationDelete } from './animation/animation-delete';
@@ -187,24 +170,7 @@ const documentCommands: readonly CommandDef[] = [
   tilemapImport,
   tilemapOrient,
   tilemapGuides,
-  mapLayerAdd,
-  mapLayerUpdate,
-  mapLayerDelete,
-  mapLayerReorder,
-  mapLayerDuplicate,
-  mapLayerMerge,
-  mapLayerGroup,
-  mapLayerUngroup,
-  mapPaint,
-  mapErase,
-  mapFill,
-  mapRect,
-  mapLine,
-  mapReplace,
-  mapTerrain,
-  mapWrite,
-  mapCopy,
-  mapMove,
+  ...mapCommands,
   brushAdd,
   brushUpdate,
   brushDelete,

@@ -29,6 +29,8 @@ const palette = () => {
   return slice;
 };
 
+const firstSprite = (report: ReturnType<typeof decodeSprite>) => report.slice?.artwork.sprites?.[0];
+
 describe('K3 a sprite file from before the layer model', { tags: ['critical'] }, () => {
   it('opens with the old locks as lock kinds and the same pixels', () => {
     const now = encodeSprite(spriteSlice(), assetPreview, assetClock);
@@ -36,10 +38,10 @@ describe('K3 a sprite file from before the layer model', { tags: ['critical'] },
     const old = decodeSprite(asVersion3(now, true), palette());
     expect(old.outcome).toBe('ok');
     expect(old.readOnly).toBe(false);
-    const [layer] = old.slice?.artwork.sprites?.[0]?.layers ?? [];
+    const layer = firstSprite(old)?.layers[0];
     expect(layer?.lock).toEqual({ pixels: true, transparency: true, position: false });
     expect(Object.keys(layer ?? {})).not.toContain('locked');
-    expect(old.slice?.artwork.sprites?.[0]?.cels).toEqual(current.slice?.artwork.sprites?.[0]?.cels);
+    expect(firstSprite(old)?.cels).toEqual(firstSprite(current)?.cels);
   });
 
   it('writes the new format, which a reader before version 4 refuses', () => {

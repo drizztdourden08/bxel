@@ -23,7 +23,6 @@ const nearestSlot = (rgb: number, colors: readonly SwatchColorValue[]): number =
   return best;
 };
 
-/** Every used colour of the bank moves to the nearest colour of the new list, then the list replaces the bank colours. */
 const importMap = (draft: Draft, bank: PaletteBank, colors: readonly SwatchColorValue[]): void => {
   const floor = bank.transparent ? 1 : 0;
   if (colors.length === 0 || floor + colors.length > bank.cap) {

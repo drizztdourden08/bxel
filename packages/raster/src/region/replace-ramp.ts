@@ -3,23 +3,8 @@ import { boundsToRect } from '../bounds-to-rect';
 import { createBounds } from '../create-bounds';
 import { growBounds } from '../grow-bounds';
 import { maskAllows } from '../mask-allows';
+import { rampTable } from './ramp-table';
 import type { ReplaceRampOptions, ReplaceResult } from './replace.type';
-
-/** The slot of the target ramp for a step of the source ramp: the same place along it, so ramps of unequal length line up end to end. */
-const stepTarget = (position: number, from: number, to: readonly number[]): number | undefined => {
-  if (to.length === 1 || from === 1) return to[0];
-  return to[Math.round((position * (to.length - 1)) / (from - 1))];
-};
-
-/** Maps each step of the source ramp to the step at the same place on the target ramp. Other indices stay. */
-const rampTable = (from: readonly number[], to: readonly number[]): Map<number, number> => {
-  const table = new Map<number, number>();
-  from.forEach((slot, position) => {
-    const target = stepTarget(position, from.length, to);
-    if (target !== undefined && target !== slot) table.set(slot, target);
-  });
-  return table;
-};
 
 const replaceRamp = ({ target, from, to, mask }: ReplaceRampOptions): ReplaceResult => {
   const bounds = createBounds();
@@ -39,4 +24,4 @@ const replaceRamp = ({ target, from, to, mask }: ReplaceRampOptions): ReplaceRes
   return { rect: boundsToRect(bounds), count };
 };
 
-export { rampTable, replaceRamp };
+export { replaceRamp };

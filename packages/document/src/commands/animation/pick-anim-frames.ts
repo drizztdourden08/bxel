@@ -1,9 +1,7 @@
 /* @layer core @kind logic */
 import type { AnimFrame, Animation } from '../../model/animation.type';
-import type { AnimFrameRef } from '../../schema/animation-options.type';
 import { pickAnimFrame } from './pick-anim-frame';
-
-type FrameChoice = { readonly frame?: AnimFrameRef | undefined; readonly frames?: readonly AnimFrameRef[] | undefined };
+import type { FrameChoice } from './pick-anim-frames.type';
 
 const pickAnimFrames = (animation: Animation, choice: FrameChoice): AnimFrame[] => {
   const refs = choice.frames ?? (choice.frame === undefined ? [] : [choice.frame]);

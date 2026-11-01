@@ -10,16 +10,19 @@ import { ERROR_CODE } from '../error-code.constants';
 import { chooseLayerName } from './choose-layer-name';
 import { failIfAny } from './fail-if-any';
 import { layerIssue } from './layer-issue';
+import { FIELDS } from './layer-update.constants';
 import { pickLayers } from './pick-layers';
 import { replaceLayer } from './replace-layer';
 import { withField } from './with-field';
 import { withLayerColour } from './with-layer-colour';
 
+const lockValue = (nested: boolean | undefined, flat: boolean | undefined, current: boolean): boolean => nested ?? flat ?? current;
+
 const lockOf = (layer: Layer, options: LayerUpdateOptions): LayerLock => {
   const lock = {
-    pixels: options.lock?.pixels ?? options.locked ?? layer.lock.pixels,
-    transparency: options.lock?.transparency ?? options.lockTransparency ?? layer.lock.transparency,
-    position: options.lock?.position ?? layer.lock.position,
+    pixels: lockValue(options.lock?.pixels, options.locked, layer.lock.pixels),
+    transparency: lockValue(options.lock?.transparency, options.lockTransparency, layer.lock.transparency),
+    position: lockValue(options.lock?.position, undefined, layer.lock.position),
   };
   const same = lock.pixels === layer.lock.pixels && lock.transparency === layer.lock.transparency && lock.position === layer.lock.position;
   return same ? layer.lock : lock;
@@ -31,8 +34,6 @@ const patched = (layer: Layer, options: LayerUpdateOptions, name: string): Layer
   const clipped = withField(viewed, 'clip', options.clip, false);
   return withLayerColour(withField(clipped, 'exported', options.exported, true), options.colour);
 };
-
-const FIELDS = ['name', 'visible', 'lock', 'viewOpacity', 'clip', 'colour', 'exported'] as const;
 
 const same = (before: Layer, after: Layer): boolean => FIELDS.every((key) => before[key] === after[key]);
 

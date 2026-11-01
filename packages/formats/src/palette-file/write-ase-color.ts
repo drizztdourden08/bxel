@@ -1,11 +1,9 @@
 /* @layer core @kind logic */
 import { ASE } from './ase.constants';
 import { writeAseBlock } from './write-ase-block';
+import { COLOR_TAIL } from './write-ase-color.constants';
 import { writeAseName } from './write-ase-name';
 
-const COLOR_TAIL = ASE.MODEL_BYTES + 12 + 2;
-
-/** One RGB colour block; alpha does not exist in the format and is dropped. */
 const writeAseColor = (name: string, rgba: readonly number[]): Uint8Array => {
   const label = writeAseName(name);
   const body = new Uint8Array(label.length + COLOR_TAIL);

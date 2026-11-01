@@ -21,7 +21,7 @@ const layerMerge = defineCommand({
       const below = siblingBelow(sprite.layers, index);
       const base = sprite.layers[clipBaseIndex(sprite.layers, index)];
       const maskOf = base ? (frameId: FrameId) => layerPixels(sprite, base, frameId) ?? new Uint8Array(0) : undefined;
-      if (below) mergeLayer(draft, sprite.id, layer, below, maskOf);
+      if (below) mergeLayer(draft, sprite.id, { source: layer, target: below }, maskOf);
     }
   },
 });

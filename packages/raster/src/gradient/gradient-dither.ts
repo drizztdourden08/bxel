@@ -3,11 +3,10 @@ import { PATTERN_TILES } from '../pattern/pattern-tiles.constants';
 import type { TilePatternId } from '../pattern/pattern.type';
 import type { Wrap } from '../wrap.type';
 import { bayerMatrix } from './bayer-matrix';
+import { TILE_MATRIX } from './gradient-dither.constants';
 import type { GradientDither } from './gradient-dither.type';
 import type { GradientOptions } from './gradient.type';
 import { seamlessSide } from './seamless-side';
-
-const TILE_MATRIX = new Uint8Array(1);
 
 const tileSeams = (id: TilePatternId, room: { readonly width: number; readonly height: number }, wrap: Wrap): boolean => {
   const tile = PATTERN_TILES[id];

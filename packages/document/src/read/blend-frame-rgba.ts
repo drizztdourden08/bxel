@@ -4,15 +4,13 @@ import type { FrameId } from '../model/ids.type';
 import type { PaletteBank } from '../model/palette.type';
 import type { Layer, Sprite } from '../model/sprite.type';
 import { paletteRgba } from '../color/palette-rgba';
+import { CHANNEL_MAX } from './blend-frame-rgba.constants';
+import type { Source } from './blend-frame-rgba.type';
 import { drawnLayers } from './drawn-layers';
 import type { FrameView, RgbaPicture } from './drawn-layers.type';
 import { RGBA_BYTES } from './frame-to-rgba.constants';
 import { layerKindOf } from './layer-kind-of';
 import { viewAlpha } from './view-alpha';
-
-const CHANNEL_MAX = 255;
-
-type Source = (position: number, rgba: Float32Array) => boolean;
 
 const over = (out: Float32Array, at: number, source: Float32Array, alpha: number): void => {
   const sa = ((source[3] ?? 0) / CHANNEL_MAX) * alpha;
