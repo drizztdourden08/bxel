@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { RecentProject } from '@bxel/project';
-import type { DragEvent } from 'react';
+import type { DragEvent, MouseEvent } from 'react';
 import type { RowKind } from '../../asset-list/asset-list.type';
 import type { BrowserItem, FilterCounts, ViewDensity } from '../../panel-browser/project-browser.type';
 import type { BrowserEdit, BrowserModel, BrowserRows, BrowserView, ProjectViewSettings, SearchModel, SelectionModel } from '../../panel-browser/browser-state.type';
@@ -31,6 +31,7 @@ type RowActions = {
   readonly pick: (item: BrowserItem, mods: PickMods) => void;
   readonly picked: (keys: ReadonlySet<string>) => void;
   readonly open: (item: BrowserItem) => void;
+  readonly openBackground: (item: BrowserItem) => void;
   readonly toggle: (key: string) => void;
   readonly collapseAll: () => void;
   readonly newAsset: (kind: CreatableKind, parentKey?: string) => void;
@@ -43,7 +44,7 @@ type RowActions = {
   readonly focusSearch: () => void;
 };
 
-type PickActions = Pick<RowActions, 'pick' | 'picked' | 'open' | 'toggle' | 'collapseAll'>;
+type PickActions = Pick<RowActions, 'pick' | 'picked' | 'open' | 'openBackground' | 'toggle' | 'collapseAll'>;
 
 type CreateActions = Pick<RowActions, 'newAsset' | 'newFolder' | 'newHere'>;
 
@@ -57,6 +58,11 @@ type DragActions = {
 };
 
 type DropEvent = DragEvent<HTMLElement>;
+
+type MiddleOpen = {
+  readonly onMouseDown: (event: MouseEvent<HTMLElement>) => void;
+  readonly onAuxClick: (event: MouseEvent<HTMLElement>) => void;
+};
 
 type StartActions = {
   readonly newProject: () => void;
@@ -97,12 +103,16 @@ type ProjectPanelModel = StartActions &
 
 type PanelPartProps = { readonly model: ProjectPanelModel };
 
+type AssistantMarkProps = { readonly item: BrowserItem };
+
 export type {
+  AssistantMarkProps,
   BulkActions,
   CreateActions,
   DragActions,
   DropEvent,
   FilterChip,
+  MiddleOpen,
   PanelParts,
   PanelPartProps,
   PickActions,

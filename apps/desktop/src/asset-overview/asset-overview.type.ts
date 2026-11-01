@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind types */
-import type { AssetKey } from '@bxel/document';
+import type { AnimDirection, AssetKey } from '@bxel/document';
 import type { RgbaImage } from '@bxel/formats';
 import type { AssetFocus } from '../asset-config/asset-config.type';
 
@@ -8,6 +8,17 @@ type PreviewFrame = {
   readonly image: RgbaImage;
   readonly durationMs: number;
 };
+
+type PreviewTag = {
+  readonly id: string;
+  readonly name: string;
+  readonly from: number;
+  readonly to: number;
+  readonly direction: AnimDirection;
+  readonly repeat: number;
+};
+
+type PreviewLayer = { readonly id: string; readonly name: string; readonly visible: boolean };
 
 type PreviewColour = {
   readonly id: string;
@@ -53,4 +64,4 @@ type OverviewModel = {
   readonly rename: (name: string) => string | null;
 };
 
-export type { FileFacts, FileFound, FileStat, LinkRelation, OverviewFact, OverviewLink, OverviewModel, OverviewPreview, PreviewColour, PreviewFrame };
+export type { FileFacts, FileFound, FileStat, LinkRelation, OverviewFact, OverviewLink, OverviewModel, OverviewPreview, PreviewColour, PreviewFrame, PreviewLayer, PreviewTag };

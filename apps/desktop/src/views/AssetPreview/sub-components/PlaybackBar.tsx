@@ -3,13 +3,14 @@ import { Box, Icon, IconButton, SegmentedControl, Text } from '@drizztdourden08/
 import { PREVIEW_TEXT, SPEED_OPTIONS } from '../../../asset-preview/asset-preview.constants';
 import type { PlaybackModel, PlaybackSpeed } from '../../../asset-preview/asset-preview.type';
 import type { PlaybackBarProps } from '../AssetPreview.type';
+import { TagPicker } from './TagPicker';
 
 const playLabel = (playback: PlaybackModel): string => {
   if (playback.playing) return PREVIEW_TEXT.pause;
   return playback.finished ? PREVIEW_TEXT.replay : PREVIEW_TEXT.play;
 };
 
-const PlaybackBar = ({ playback, total, loop }: PlaybackBarProps) => (
+const PlaybackBar = ({ playback, total, loop, tags, tagId, onTag }: PlaybackBarProps) => (
   <Box className="asset-preview__bar" role="group" aria-label={PREVIEW_TEXT.controls}>
     <IconButton label={PREVIEW_TEXT.stepBack} size="sm" variant="tertiary" onClick={() => playback.step(-1)}>
       <Icon name="pixel-frame-prev" />
@@ -26,6 +27,7 @@ const PlaybackBar = ({ playback, total, loop }: PlaybackBarProps) => (
       <Icon name="pixel-frame-next" />
     </IconButton>
     <SegmentedControl<PlaybackSpeed> size="sm" label={PREVIEW_TEXT.speed} value={playback.speed} options={SPEED_OPTIONS} onChange={playback.setSpeed} />
+    {tags.length > 0 && <TagPicker tags={tags} tagId={tagId} onTag={onTag} />}
     <Text as="span" variant="caption" tone="muted" className="asset-preview__counter" role="status" title={PREVIEW_TEXT.loop(loop)}>
       {PREVIEW_TEXT.frame(playback.shown, total)}
     </Text>

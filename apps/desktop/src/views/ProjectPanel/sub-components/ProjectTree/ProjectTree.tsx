@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { isExpandable } from '../../../../panel-browser/is-expandable';
 import { EMPTY_STATUS } from '../../../../panel-browser/project-browser.constants';
 import type { BrowserItem } from '../../../../panel-browser/project-browser.type';
-import { PANEL_UI } from '../../ProjectPanel.constants';
+import { PANEL_UI, SPRING_OPEN_MS } from '../../ProjectPanel.constants';
 import type { PanelPartProps } from '../../ProjectPanel.type';
 import { useRevealRow } from './behavior/useRevealRow';
 import { useScrollOnSearch } from './behavior/useScrollOnSearch';
@@ -50,6 +50,7 @@ const ProjectTree = ({ model }: PanelPartProps) => {
           ? {
               onMove: (move) => move.parentKey !== null && drag.moveKeys(move.keys, move.parentKey),
               canDrop: (move) => drag.canMoveInto(move.keys, move.parentKey),
+              springDelay: SPRING_OPEN_MS,
             }
           : undefined
       }

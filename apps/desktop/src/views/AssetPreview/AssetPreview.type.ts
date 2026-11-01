@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { RgbaImage } from '@bxel/formats';
-import type { OverviewPreview, PreviewColour, PreviewFrame } from '../../asset-overview/asset-overview.type';
+import type { OverviewPreview, PreviewColour, PreviewFrame, PreviewTag } from '../../asset-overview/asset-overview.type';
 import type { PlaybackLoop, PlaybackModel, PreviewMode } from '../../asset-preview/asset-preview.type';
 
 type AssetPreviewProps = {
@@ -8,6 +8,7 @@ type AssetPreviewProps = {
   readonly name: string;
   readonly loop?: PlaybackLoop;
   readonly mode?: PreviewMode;
+  readonly tags?: readonly PreviewTag[];
 };
 
 type PixelStageProps = {
@@ -21,13 +22,22 @@ type FramesPreviewProps = {
   readonly name: string;
   readonly loop: PlaybackLoop;
   readonly mode: PreviewMode;
+  readonly tags: readonly PreviewTag[];
 };
+
+type TagPickerProps = {
+  readonly tags: readonly PreviewTag[];
+  readonly tagId: string | null;
+  readonly onTag: (id: string | null) => void;
+};
+
+type FramesPlayerProps = FramesPreviewProps & Omit<TagPickerProps, 'tags'>;
 
 type PlaybackBarProps = {
   readonly playback: PlaybackModel;
   readonly total: number;
   readonly loop: PlaybackLoop;
-};
+} & TagPickerProps;
 
 type SwatchGridProps = {
   readonly colours: readonly PreviewColour[];
@@ -37,4 +47,4 @@ type SwatchGridProps = {
 
 type StageSize = { readonly width: number; readonly height: number };
 
-export type { AssetPreviewProps, FramesPreviewProps, PixelStageProps, PlaybackBarProps, StageSize, SwatchGridProps };
+export type { AssetPreviewProps, FramesPlayerProps, FramesPreviewProps, PixelStageProps, PlaybackBarProps, StageSize, SwatchGridProps, TagPickerProps };

@@ -20,4 +20,8 @@ const LIST_COLUMNS: readonly Column[] = [
   { key: 'usedBy', label: BROWSER_TEXT.columnUsedBy, className: 'browser-row__cell browser-row__cell--users' },
 ];
 
-export { ASSET_DRAG_TYPE, IMAGE_FILTERS, LIST_COLUMNS, NEW_KINDS };
+const MIDDLE_BUTTON = 1;
+const TYPE_AHEAD_RESET_MS = 800;
+const SPRING_OPEN_MS = 600;
+
+export { ASSET_DRAG_TYPE, IMAGE_FILTERS, LIST_COLUMNS, MIDDLE_BUTTON, NEW_KINDS, SPRING_OPEN_MS, TYPE_AHEAD_RESET_MS };

@@ -3,12 +3,15 @@ import { findBank, findTilemap, flattenTilemap } from '@bxel/document';
 import type { Artwork, TilemapId } from '@bxel/document';
 import { bankRgba } from '../export/bank-rgba';
 import { CHANNELS } from '../sheet/sheet.constants';
+import { flipLayers } from './flip-layers';
 import type { OverviewPreview } from './asset-overview.type';
 
-const tilemapPreviewImage = (artwork: Artwork, id: string): OverviewPreview => {
+const NONE_FLIPPED: ReadonlySet<string> = new Set();
+
+const tilemapPreviewImage = (artwork: Artwork, id: string, flipped: ReadonlySet<string> = NONE_FLIPPED): OverviewPreview => {
   const tilemap = findTilemap(artwork, id as TilemapId);
   if (!tilemap) return { kind: 'none' };
-  const flat = flattenTilemap(artwork, tilemap.id);
+  const flat = flattenTilemap(flipLayers(artwork, id, flipped), tilemap.id);
   const bank = findBank(artwork, flat.bankId);
   if (!bank || flat.width < 1 || flat.height < 1) return { kind: 'none' };
   const table = bankRgba(bank);

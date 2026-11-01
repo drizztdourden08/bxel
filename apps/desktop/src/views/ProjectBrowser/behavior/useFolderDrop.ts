@@ -5,11 +5,13 @@ import { hasAssetDrag } from './has-asset-drag';
 import { hasFileDrag } from './has-file-drag';
 import { readDragIds } from './read-drag-ids';
 import { useBrowserContext } from './useBrowserContext';
+import { useSpringFolder } from './useSpringFolder';
 
 const useFolderDrop = (folder: string | null, assets = true): FolderDrop => {
   const { actions, model } = useBrowserContext();
   const [over, setOver] = useState(false);
   const target = folder !== null && model.editable ? folder : null;
+  useSpringFolder(target === model.folder ? null : target, over);
   const accepts = (event: Parameters<FolderDrop['handlers']['onDragOver']>[0]): boolean => (assets && hasAssetDrag(event)) || hasFileDrag(event);
   return {
     over: over && target !== null,

@@ -4,6 +4,7 @@ import { ASSET_LIST_TEXT } from '../../../../../asset-list/asset-list-text.const
 import { quoted } from '../../../../../panel-browser/quoted';
 import { BADGE_ICON, PANEL_UI } from '../../../ProjectPanel.constants';
 import { badgeMarks } from '../behavior/badge-marks';
+import { AssistantMark } from '../../AssistantMark';
 import type { RowPartProps } from '../ProjectTree.type';
 import './RowBadges.css';
 
@@ -26,6 +27,7 @@ const RowBadges = ({ item, status, model }: RowPartProps) => {
           <Icon name={BADGE_ICON.missing} label={marks.missing} size={12} className="project-badges__missing" />
         </Tooltip>
       )}
+      <AssistantMark item={item} />
       {marks.unsaved ? <Badge variant="dot" color="warning" label={ASSET_LIST_TEXT.unsaved} /> : null}
       {marks.open ? (
         <Tooltip content="Open in a tab">

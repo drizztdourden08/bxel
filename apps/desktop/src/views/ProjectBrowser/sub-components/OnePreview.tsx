@@ -6,16 +6,20 @@ import type { FileEntry } from '../../../project-browser/project-browser.type';
 import { AssetPreview } from '../../AssetPreview';
 import { useBrowserContext } from '../behavior/useBrowserContext';
 import { useEntryPreview } from '../behavior/useEntryPreview';
+import { useLayerToggles } from '../behavior/useLayerToggles';
 import { PreviewFacts } from './PreviewFacts';
+import { PreviewLayers } from './PreviewLayers';
+import { PreviewReferences } from './PreviewReferences';
 import { PreviewTags } from './PreviewTags';
 
 const OnePreview = ({ entry }: { readonly entry: FileEntry }) => {
   const { actions } = useBrowserContext();
-  const { preview, loop } = useEntryPreview(entry);
+  const toggles = useLayerToggles(entry);
+  const { preview, loop, tags } = useEntryPreview(entry, toggles.flipped);
   return (
     <Box className="browser-preview__one">
       {preview ? (
-        <AssetPreview key={entry.id} preview={preview} name={entry.row.name} loop={loop} mode="large" />
+        <AssetPreview key={entry.id} preview={preview} name={entry.row.name} loop={loop} tags={tags} mode="large" />
       ) : (
         <Box className="browser-preview__still pixel-checker">
           {entry.row.preview ? <Image src={entry.row.preview} alt={entry.row.name} pixelated /> : <Icon name={KIND_ICON[entry.row.kind]} size={64} />}
@@ -35,7 +39,9 @@ const OnePreview = ({ entry }: { readonly entry: FileEntry }) => {
           {BROWSER_TEXT.properties}
         </Button>
       </Box>
+      <PreviewLayers layers={toggles.layers} flipped={toggles.flipped} onToggle={toggles.toggle} />
       <PreviewFacts entry={entry} />
+      <PreviewReferences entry={entry} />
       <PreviewTags entries={[entry]} />
     </Box>
   );

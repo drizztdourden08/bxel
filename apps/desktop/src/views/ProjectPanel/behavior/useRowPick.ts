@@ -2,6 +2,7 @@
 import { useCallback, useRef } from 'react';
 import { isExpandable } from '../../../panel-browser/is-expandable';
 import { openItem } from '../../../panel-browser/open-item';
+import { openItemBackground } from '../../../panel-browser/open-item-background';
 import type { BrowserItem } from '../../../panel-browser/project-browser.type';
 import type { PanelParts, PickActions, PickMods } from '../ProjectPanel.type';
 import { focusRow } from './focus-row';
@@ -44,7 +45,7 @@ const useRowPick = ({ view, browser, selection }: PanelParts): PickActions => {
     [browser, selection, view.openOnClick],
   );
 
-  return { pick, picked, open, toggle, collapseAll };
+  return { pick, picked, open, openBackground: openItemBackground, toggle, collapseAll };
 };
 
 export { useRowPick };
