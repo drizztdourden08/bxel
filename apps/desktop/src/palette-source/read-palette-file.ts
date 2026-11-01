@@ -1,18 +1,12 @@
 /* @layer renderer-app @kind logic */
 import { formatSwatchColor, MIN_ALPHA, parseSwatchColor, swatchFields } from '@bxel/document';
-import { readAse, readGpl, readHex, readJascPal, readPaintNet, readPalettePng } from '@bxel/formats';
+import { readAse, readPalettePng } from '@bxel/formats';
 import type { PaletteFile, PaletteReadResult } from '@bxel/formats';
 import { baseName } from '../files/base-name';
 import { fileExtension } from '../files/file-extension';
 import { HEX_COLOR, PALETTE_FILE_KIND, SOURCE_TEXT } from './palette-source.constants';
 import type { LoadedPalette, PaletteRead, SourceColor } from './palette-source.type';
-
-const TEXT_READERS: Readonly<Record<string, (text: string) => PaletteReadResult>> = {
-  [PALETTE_FILE_KIND.gpl]: readGpl,
-  [PALETTE_FILE_KIND.pal]: readJascPal,
-  [PALETTE_FILE_KIND.hex]: readHex,
-  [PALETTE_FILE_KIND.txt]: readPaintNet,
-};
+import { TEXT_READERS } from './read-palette-file.constants';
 
 const parseBytes = (bytes: Uint8Array, extension: string): PaletteReadResult | null => {
   if (extension === PALETTE_FILE_KIND.png) return readPalettePng(bytes);

@@ -6,7 +6,6 @@ import { focusedProject } from '../project-config/focused-project';
 import { paletteFileOf } from './palette-file-of';
 import { PALETTE_EXPORT_TEXT } from './palette-export.constants';
 
-/** Makes a palette file of these colours in the open project, so any sprite of the project can use it. */
 const saveProjectPalette = async (target: PaletteTarget, indices: readonly number[] | null): Promise<void> => {
   if (!focusedProject()) {
     toast(PALETTE_EXPORT_TEXT.noProject, { variant: 'info' });

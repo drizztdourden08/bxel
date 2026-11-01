@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
-import type { CommandStep, Sprite } from '@bxel/document';
+import type { Animation, CommandStep, Sprite } from '@bxel/document';
 import type { PaletteTarget } from '../editor/editor.type';
+import type { UsageScope } from '../palette-view/palette-view.type';
 
 interface SlotUse {
   pixels: number;
@@ -26,6 +27,8 @@ interface PaletteSharing {
 type CleanUpKind = 'unused' | 'duplicates';
 
 type ReplaceScope = 'frame' | 'sprite' | 'animation' | 'selection';
+
+type UsageReach = [scope: UsageScope, animation?: Animation];
 
 type PanelOutcome = { ok: true; message: string } | { ok: false; message: string };
 
@@ -65,4 +68,4 @@ interface PanelRun {
   done: string;
 }
 
-export type { CleanUpKind, CommandScene, PanelCommand, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, RemovalWords, ReplaceScope, SheetPlan, SlotUse };
+export type { CleanUpKind, CommandScene, PanelCommand, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, RemovalWords, ReplaceScope, SheetPlan, SlotUse, UsageReach };

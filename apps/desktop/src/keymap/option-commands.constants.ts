@@ -59,7 +59,6 @@ const GENERATED_COMMANDS: readonly CommandDef[] = optionGroups(OPTION_SPECS.filt
 
 const TIP_ORDER = ['square', 'circle', 'line'] as const;
 
-/** Steps the brush shape through square, circle and line, wrapping at both ends. */
 const cycleTip = (step: 1 | -1): void => {
   const { brushShape, setBrushShape } = useToolStore.getState();
   const at = TIP_ORDER.findIndex((shape) => shape === brushShape);

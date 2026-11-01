@@ -1,10 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { create } from 'zustand';
-
-interface LintState {
-  shown: boolean;
-  setShown: (shown: boolean) => void;
-}
+import type { LintState } from './useLintStore.type';
 
 const useLintStore = create<LintState>()((set) => ({
   shown: false,
@@ -12,4 +8,3 @@ const useLintStore = create<LintState>()((set) => ({
 }));
 
 export { useLintStore };
-export type { LintState };

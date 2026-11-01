@@ -5,11 +5,11 @@ import { commandArgs } from '../context-menu/command-args';
 import { copyHexList } from '../palette-export/copy-hex-list';
 import { exportPaletteFile } from '../palette-export/export-palette-file';
 import { PALETTE_EXPORT_TEXT } from '../palette-export/palette-export.constants';
-import type { PaletteExportId } from '../palette-export/palette-export.type';
 import { saveProjectPalette } from '../palette-export/save-project-palette';
 import { currentPaletteTarget } from '../palette-panel/current-palette-target';
 import type { ReplaceScope } from '../palette-panel/palette-panel.type';
-import { replaceRampSteps, replaceWithFront } from '../palette-panel/replace-colours';
+import { replaceRampSteps } from '../palette-panel/replace-ramp-steps';
+import { replaceWithFront } from '../palette-panel/replace-with-front';
 import { selectedIndices } from '../palette-panel/selected-indices';
 import { startPreview } from '../palette-preview/start-preview';
 import { endPreview } from '../palette-preview/end-preview';
@@ -18,12 +18,7 @@ import { usePaletteSheetStore } from '../stores/usePaletteSheetStore';
 import { COMMAND_GROUP } from './keymap.constants';
 import { PALETTE_TRANSFER_COMMAND } from './palette-transfer-command-id.constants';
 import { ruled } from './ruled';
-
-interface TransferArgs {
-  format: PaletteExportId;
-  selection: boolean;
-  bankId: string;
-}
+import type { TransferArgs } from './transfer-args.type';
 
 const group = COMMAND_GROUP.colours;
 
@@ -116,4 +111,3 @@ const PALETTE_TRANSFER_COMMANDS: readonly CommandDef[] = [
 ].map(ruled);
 
 export { PALETTE_TRANSFER_COMMANDS };
-export type { TransferArgs };

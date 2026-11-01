@@ -13,7 +13,6 @@ const textOf = (color: SourceColor): string => formatSwatchColor(color.rgb as Rg
 const colorsOf = (bank: PaletteBank): Set<string> =>
   new Set(bank.slots.flatMap((slot) => (slot.kind === 'color' ? [formatSwatchColor(slot.rgb, slot.alpha)] : [])));
 
-/** What an import would do to this bank: the colours that go in, those already there, those that do not fit. */
 const importPlan = (bank: PaletteBank, colors: readonly SourceColor[], mode: ImportMode): ImportPlan => {
   const have = colorsOf(bank);
   const present = colors.filter((color) => have.has(textOf(color)));

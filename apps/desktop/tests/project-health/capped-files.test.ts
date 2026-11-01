@@ -1,11 +1,22 @@
 /* @layer renderer-app @kind test */
+import { createFolderId, createProjectDocument, createProjectId } from '@bxel/project';
 import { describe, expect, it } from 'vitest';
 import { buildHealth } from '../../src/project-health/build-health';
 import type { IndexedFile, LinkIndex } from '../../src/workspace/link-index.type';
 import { MAX_WORKSPACE_ASSETS } from '../../src/workspace/workspace.constants';
 import type { OpenProject } from '../../src/project/project.type';
 
-const project = { folders: [], manifest: { folders: [], defaults: {}, organise: { tags: {}, collections: [], smart: [], pinned: [] } } } as unknown as OpenProject;
+const idBytes = (length: number): Uint8Array => Uint8Array.from({ length }, (_unused, index) => index + 1);
+
+const seed = createProjectDocument({ projectId: createProjectId(idBytes), folderId: createFolderId(idBytes), name: 'P' });
+
+const project: OpenProject = {
+  manifest: { ...seed, folders: [], organise: { tags: {}, collections: [], smart: [], pinned: [] } },
+  rootRealPath: '/p',
+  projectFile: '/p/p.bxproject',
+  preview: null,
+  folders: [],
+};
 
 const filesOf = (count: number): IndexedFile[] =>
   Array.from({ length: count }, (_unused, at) => ({ path: `/p/sprites/s${at}.bxsprite`, assetId: `id${at}`, kind: 'sprite', name: `s${at}` }));

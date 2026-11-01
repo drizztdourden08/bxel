@@ -23,7 +23,7 @@ describe('K1 spring loaded tool keys', { tags: ['critical'] }, () => {
     expect(toolIds().every(isSpringTool)).toBe(true);
   });
 
-  it('goes back to the tool before when the key is held past the delay', () => {
+  it('goes back to the tool before when a key stays held past the delay', () => {
     beginSpring('rect');
     useToolStore.setState({ tool: 'rect' });
     expect(useSpringStore.getState().borrowed).toBe('rect');
