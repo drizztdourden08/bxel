@@ -7,21 +7,24 @@
     "@drizztdourden08/brock-build": "^0.116.0",
     "@drizztdourden08/brock-lint-config": "^0.116.0",
     "@drizztdourden08/brock-thread": "^0.116.0",
+    "@drizztdourden08/standards": "^0.13.0",
     "jscpd": "catalog:",
     "knip": "^5.65.0",
     "vitest": "^4.1.11"
   },
   "scripts": {
-    "lint": "eslint . && stylelint \"**/*.css\" --ignore-path .gitignore --allow-empty-input && brock prose && brock knip && jscpd .",
+    "lint": "brock lint && stylelint \"**/*.css\" --ignore-path .gitignore --allow-empty-input",
+    "lint:all": "brock lint --all && stylelint \"**/*.css\" --ignore-path .gitignore --allow-empty-input && brock prose && brock knip && jscpd . && pnpm run structure:check",
     "lint:packages": "pnpm -r --filter \"./packages/*\" run lint && brock knip",
     "lint:md": "markdownlint-cli2",
-    "structure": "brock structure --check",
+    "structure:check": "brock structure --check",
     "prose": "brock prose",
     "deadcode": "brock knip",
     "duplicates": "jscpd .",
-    "test": "vitest run",
+    "test": "standards test",
+    "test:pr": "standards test pr",
+    "test:e2e": "standards test e2e --config vitest.e2e.config.ts",
     "bench": "vitest bench --run",
-    "e2e": "vitest run --config vitest.e2e.config.ts",
     "postinstall": "node bin/bxel.mjs --link"
   },
   "brock": {
