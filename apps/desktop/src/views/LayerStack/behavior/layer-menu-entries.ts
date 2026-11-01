@@ -40,6 +40,9 @@ const treeItems = (row: LayerRowModel, args: { layerId: string }, picked: readon
   { command: COMMAND_ID.layerCutToLayer, label: LAYER_MENU_TEXT.cutToLayer },
   { command: COMMAND_ID.layerReferenceAdd, label: LAYER_MENU_TEXT.reference },
   ...(row.kind === 'reference' ? [{ command: COMMAND_ID.layerReferenceRelink, label: LAYER_MENU_TEXT.relink, args }] : []),
+  ...(row.kind === 'group' ? [{ command: COMMAND_ID.layerToggleFold, label: LAYER_MENU_TEXT.fold, args }] : []),
+  ...(row.kind === 'pixel' ? [{ command: COMMAND_ID.layerToggleClip, label: LAYER_MENU_TEXT.clip, args, checked: row.clip }] : []),
+  ...(row.kind === 'reference' ? [] : [{ command: COMMAND_ID.layerToggleExported, label: LAYER_MENU_TEXT.exported, args, checked: row.exported }]),
   { command: COMMAND_ID.layerHighlight, label: LAYER_MENU_TEXT.highlight, checked: useLayerViewStore.getState().highlight },
 ];
 

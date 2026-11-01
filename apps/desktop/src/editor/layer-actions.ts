@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { LayerId } from '@bxel/document';
-import { useToolStore } from '../stores/useToolStore';
+import { activateLayer } from './activate-layer';
 import { addLayer } from './add-layer';
 import { deleteLayer } from './delete-layer';
 import { chooseReferenceLayer } from './choose-reference-layer';
@@ -32,7 +32,7 @@ const viewLabel = (fields: ViewFields): string => {
 };
 
 const spriteLayerActions: LayerActions = {
-  activate: (id) => useToolStore.getState().setLayer(id as LayerId),
+  activate: activateLayer,
   setFlag: (ids, flag, value) => void updateLayers(asIds(ids), flagFields(flag, value), LAYER_LABEL[flag]),
   setLock: (ids, kind) => void setLayerLock(asIds(ids), kind),
   setColour: (ids, colour) => void setLayerColour(asIds(ids), colour),

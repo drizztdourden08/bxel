@@ -24,7 +24,7 @@ const LayerBar = ({ model, picked }: LayerBarProps) => (
       />
     </ButtonGroup>
     <ButtonGroup aria-label={LAYER_STACK_TEXT.list}>
-      {barActions(model).map((action) => (
+      {barActions(model, picked).map((action) => (
         <ActionHint key={action.id} hint={action.reason ? { ...action.hint, description: action.reason } : action.hint}>
           <IconButton label={action.hint.name} size="sm" disabled={action.reason !== null} onClick={action.run}>
             <Icon name={action.icon} size={16} />

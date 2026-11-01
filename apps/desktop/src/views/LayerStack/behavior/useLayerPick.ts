@@ -3,6 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import type { LayerStackModel } from '../LayerStack.type';
 import { pickLayer } from './pick-layer';
+import { blockIds } from './tree-wishes';
 import type { PickHow } from './pick-layer.type';
 import type { LayerPick } from './useLayerPick.type';
 
@@ -11,7 +12,8 @@ const useLayerPick = (model: LayerStackModel): LayerPick => {
   const { rows, activeId, actions } = model;
   const picked = useMemo(() => {
     const present = rows.map((row) => row.id).filter((id) => stored.includes(id));
-    return activeId === null || present.includes(activeId) ? present : [activeId];
+    const holds = (id: string): boolean => id === activeId || blockIds(rows, id).has(activeId ?? '');
+    return activeId === null || present.some(holds) ? present : [activeId];
   }, [rows, stored, activeId]);
   const pick = useCallback(
     (id: string, how: PickHow) => {

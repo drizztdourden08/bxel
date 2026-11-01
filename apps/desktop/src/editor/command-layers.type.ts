@@ -10,11 +10,13 @@ interface CommandLayers {
   all: readonly string[];
   visible: boolean;
   lock: LockKind;
+  clip: boolean;
+  exported: boolean;
   count: number;
 }
 
 interface LayerSource {
-  layers: readonly (LockSource & { id: string; visible: boolean; kind?: string; parentId?: string })[];
+  layers: readonly (LockSource & { id: string; visible: boolean; kind?: string; parentId?: string; clip?: boolean; exported?: boolean })[];
   active: string;
   actions: LayerActions;
 }

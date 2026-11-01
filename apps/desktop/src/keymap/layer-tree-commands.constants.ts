@@ -27,6 +27,9 @@ const LAYER_TREE_COMMANDS: readonly CommandDef[] = [
   { id: COMMAND_ID.layerCutToLayer, label: LAYER_LABEL.cutToLayer, group, chord: 'Mod+Shift+J', run: onLayers((now) => now.actions.toLayer(true)) },
   { id: COMMAND_ID.layerReferenceAdd, label: LAYER_LABEL.reference, group, run: onLayers((now) => now.actions.addReference()) },
   { id: COMMAND_ID.layerReferenceRelink, label: LAYER_LABEL.relink, group, run: onLayers((now) => now.actions.relink(now.id)) },
+  { id: COMMAND_ID.layerToggleClip, label: LAYER_LABEL.clip, group, run: onLayers((now) => now.actions.setView(now.ids, { clip: !now.clip })) },
+  { id: COMMAND_ID.layerToggleExported, label: LAYER_LABEL.exported, group, run: onLayers((now) => now.actions.setView(now.ids, { exported: !now.exported })) },
+  { id: COMMAND_ID.layerToggleFold, label: 'Fold or unfold group', group, run: onLayers((now) => useLayerViewStore.getState().toggleFold(now.id)) },
   { id: COMMAND_ID.layerHighlight, label: 'Highlight current layer', group, chord: 'Alt+H', run: () => useLayerViewStore.getState().toggleHighlight() },
 ].map(ruled);
 

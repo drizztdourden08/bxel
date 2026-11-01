@@ -8,7 +8,7 @@ import { LayerViewControls } from './LayerViewControls';
 import './LayerStrip.css';
 
 const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
-  const lead = model.rows.find((row) => row.id === (model.activeId ?? picked[0]));
+  const lead = model.rows.find((row) => row.id === model.activeId && picked.includes(row.id)) ?? model.rows.find((row) => row.id === picked[0]);
   if (!lead || picked.length === 0) return null;
   const { actions } = model;
   return (

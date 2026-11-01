@@ -17,6 +17,8 @@ const commandLayers = (layerId?: string): CommandLayers | null => {
     all: layers.map((layer) => layer.id),
     visible: lead?.visible ?? true,
     lock: layerLockKindOf(lead),
+    clip: lead?.clip === true,
+    exported: lead?.exported !== false,
     count: layers.length,
   };
 };

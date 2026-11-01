@@ -75,6 +75,8 @@ const EDIT_ROWS = [
   ...rows('edit_pixels', 'edit', ['layer.set_lock'], { args: 'layerLock' }),
   ...rows('edit_pixels', 'edit', ['layer.group', 'layer.ungroup', 'layer.merge_selected', 'layer.reference_add', 'layer.reference_relink'], { refuse: LAYER_TREE_REFUSE }),
   ...rows('edit_pixels', 'edit', ['layer.selection_to_layer', 'layer.cut_to_layer']),
+  ...rows('edit_pixels', 'edit', ['layer.toggle_clip', 'layer.toggle_exported'], { args: 'layer' }),
+  one('layer.toggle_fold', 'app_control', 'app', { args: 'layer' }),
   one('view.highlight_layer', 'app_control', 'app'),
   ...rows('edit_pixels', 'edit', ['layer.set_colour'], { args: 'layerColour' }),
   one('palette.delete_swatch', 'edit_pixels', 'edit', { args: 'deleteSwatch', dialog: 'palette_delete' }),

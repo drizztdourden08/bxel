@@ -89,8 +89,9 @@ const LAYER_MENU_TEXT = {
   reference: 'Reference image from file',
   relink: 'Relink image',
   highlight: 'Highlight current layer',
-  fold: 'Fold',
-  unfold: 'Unfold',
+  fold: 'Fold or unfold group',
+  clip: 'Clip to layer below',
+  exported: 'Include in export',
 } as const;
 
 const LAYER_SCOPES = [
@@ -159,6 +160,7 @@ const LAYER_BAR_HINTS = {
   more: { name: 'More ways to add a layer', description: 'Add a layer that joins all visible layers.' },
   duplicate: { name: 'Duplicate layer', description: 'Make a copy of the current layer.', shortcuts: [{ command: COMMAND_ID.layerDuplicate }] },
   merge: { name: 'Merge down', description: 'Join the current layer into the layer below it.', shortcuts: [{ command: COMMAND_ID.layerMerge }] },
+  group: { name: 'Group', description: 'Put the picked layers into a new group.', shortcuts: [{ command: COMMAND_ID.layerGroup }] },
   remove: {
     name: 'Delete layer',
     description: 'Remove the picked layers. A list keeps at least one layer.',
