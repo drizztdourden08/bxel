@@ -8,7 +8,7 @@ import { surfaceKind } from '../../editor/tool-catalogue/surface-kind';
 import { optionsOf } from '../../editor/tool-options/options-of';
 import { readOption } from '../../editor/tool-options/read-option';
 import { isSpringTool } from '../../editor/tool-pick/is-spring-tool';
-import { useSpringStore } from '../../editor/tool-pick/use-spring-store';
+import { useSpringStore } from '../../editor/tool-pick/behavior/useSpringStore';
 import { useToolPresetStore } from '../../stores/useToolPresetStore';
 import { useToolStore } from '../../stores/useToolStore';
 
