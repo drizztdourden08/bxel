@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { descendantIds } from '@bxel/document';
+import { GROUP } from './flatten-group-plan.constants';
 import type { FlattenPlan, FlattenStep, PlanItem } from './flatten-group-plan.type';
-
-const GROUP = 'group';
 
 const flattenInside = (items: readonly PlanItem[], groupId: string, steps: FlattenStep[]): string | null => {
   const heads = items

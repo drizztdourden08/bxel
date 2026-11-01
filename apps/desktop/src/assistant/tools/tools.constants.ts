@@ -22,6 +22,8 @@ const WIRE_KIND_OF: Readonly<Record<EntryKind, WireFileKind>> = {
   other: 'other',
 };
 
+const TILEMAP_PATH = 'target.tilemapId';
+
 const TOOL_TEXT = {
   notHere: 'This tool is answered by the helper or by Bxel main, not by the editor.',
   busy: 'The owner is in the middle of an edit on this document. Reads still work; try the edit again shortly.',
@@ -94,4 +96,4 @@ const TOOL_TEXT = {
   redoNotOwn: 'The next change to redo was made by the owner or another program. Ask the owner to redo in Bxel.',
 } as const;
 
-export { ASSISTANT_FOLDER_NAME, RECENT_ID_LENGTH, REQUEST_MEMORY_MAX, TOOL_TEXT, WIRE_KIND_OF };
+export { ASSISTANT_FOLDER_NAME, RECENT_ID_LENGTH, REQUEST_MEMORY_MAX, TILEMAP_PATH, TOOL_TEXT, WIRE_KIND_OF };

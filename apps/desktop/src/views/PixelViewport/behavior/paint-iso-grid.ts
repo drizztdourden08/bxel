@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { GridLine } from '../../../canvas-look/canvas-look.type';
+import type { GridContext } from './paint-grid.type';
 import type { ImageSize, PlacedImage } from './viewport.type';
 
 const isoOffsets = (image: ImageSize, rise: number): number[] => {
@@ -12,7 +13,7 @@ const isoOffsets = (image: ImageSize, rise: number): number[] => {
 
 const isoShift = (slide: number, rise: number): number => ((slide % rise) + rise) % rise;
 
-const paintIsoGrid = (ctx: CanvasRenderingContext2D, placed: PlacedImage, image: ImageSize, line: GridLine): void => {
+const paintIsoGrid = (ctx: GridContext, placed: PlacedImage, image: ImageSize, line: GridLine): void => {
   const cell = Math.max(2, line.every);
   const rise = cell / 2;
   const across = (line.offsetX ?? 0) / 2;

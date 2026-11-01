@@ -17,10 +17,8 @@ import type { SelectGesture } from './canvas-tools.type';
 import { gestureMods } from './gesture-mods';
 import { pixelAtEvent } from './pixel-at-event';
 import { quickMaskCorners } from './quick-mask-corners';
-import { MASK_SHAPES, MASK_TOOLS } from './useQuickMaskGesture.constants';
+import { MASK_SHAPES, MASK_TOOLS, NO_MODS } from './useQuickMaskGesture.constants';
 import type { QuickMaskMods, QuickMaskPress } from './useQuickMaskGesture.type';
-
-const NO_MODS: QuickMaskMods = { constrain: false, centre: false };
 
 const maskButton = (button: number): boolean => button === PRIMARY_BUTTON || button === SECONDARY_BUTTON;
 
@@ -30,7 +28,7 @@ const useQuickMaskGesture = (viewport: RefObject<PixelViewportHandle | null>): S
     const tools = useToolStore.getState();
     if (held.shape) {
       held.scratch.fill(0);
-      stampQuickShape(held.scratch, held.size, held.shape, quickMaskCorners(held.shape, held.anchor, to, mods), tools);
+      stampQuickShape(held.scratch, held.size, { shape: held.shape, corners: quickMaskCorners(held.shape, held.anchor, to, mods) }, tools);
     } else {
       stampQuickMask(held.scratch, held.size, [held.last, to], tools);
     }

@@ -1,16 +1,9 @@
 /* @layer renderer-app @kind logic */
 import { depthOf } from '@bxel/document';
 import type { Tilemap } from '@bxel/document';
-import { lockKindOf } from '../editor/layer-lock-kind';
+import { childCounts } from '../editor/child-counts';
+import { layerRowHead } from '../editor/layer-row-head';
 import type { LayerRowModel } from '../views/LayerStack/LayerStack.type';
-
-const childCounts = (layers: Tilemap['layers']): Map<string, number> => {
-  const counts = new Map<string, number>();
-  layers.forEach((layer) => {
-    if (layer.parentId !== undefined) counts.set(layer.parentId, (counts.get(layer.parentId) ?? 0) + 1);
-  });
-  return counts;
-};
 
 const mapLayerRows = (tilemap: Tilemap): LayerRowModel[] => {
   const counts = childCounts(tilemap.layers);
@@ -18,13 +11,7 @@ const mapLayerRows = (tilemap: Tilemap): LayerRowModel[] => {
     .map((each) => {
       const group = each.kind === 'group';
       return {
-        id: each.id,
-        name: each.name,
-        visible: each.visible,
-        mixedVisible: false,
-        lock: lockKindOf(each),
-        mixedLock: false,
-        colour: each.colour ?? null,
+        ...layerRowHead(each),
         note: null,
         kind: group ? ('group' as const) : ('pixel' as const),
         depth: depthOf(tilemap.layers, each),
