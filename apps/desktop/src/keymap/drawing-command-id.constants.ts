@@ -3,7 +3,7 @@ const DRAWING_TOOL_IDS = ['spray', 'shade', 'gradient', 'line', 'curve', 'rect',
 
 const INK_TOOLS = ['pencil', 'spray', 'fill', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon'] as const;
 
-const INK_NAMES = ['ink', 'dither_pattern', 'dither_level', 'shade_steps', 'shade_ramp', 'pattern_align'] as const;
+const INK_NAMES = ['ink', 'dither_pattern', 'dither_level', 'dither_custom', 'shade_steps', 'shade_ramp', 'pattern_align'] as const;
 
 const BRUSH_ANGLE_TOOLS = ['pencil', 'eraser', 'shade', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon'] as const;
 
@@ -38,6 +38,7 @@ const DRAWING_OPTION_IDS: readonly string[] = [
   'gradient.kind',
   'gradient.mode',
   'gradient.pattern',
+  'gradient.custom',
   'gradient.size',
   'gradient.reflect',
   'gradient.ramp',

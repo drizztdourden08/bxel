@@ -127,6 +127,8 @@ interface GradientSpec {
   reflect: boolean;
   bayer: 2 | 4 | 8 | null;
   pattern: GradientPattern;
+  brushId?: string;
+  stencil?: BufferView;
   wrap?: Wrap;
 }
 

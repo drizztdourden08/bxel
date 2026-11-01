@@ -8,6 +8,8 @@ const DRAWING_TEXT = {
   inkDescription: 'How the paint lands on the pixels under it. Every ink writes only colours of the palette.',
   ditherPattern: 'Dither pattern',
   ditherPatternDescription: 'The pattern the front and back colour follow. It stays fixed to the canvas.',
+  ditherCustom: 'Custom brush as pattern',
+  ditherCustomDescription: 'Use the custom brush as the dither pattern. Wherever the brush has a pixel the front colour lands, elsewhere the back colour. Pick a custom brush first.',
   ditherLevel: 'Dither level',
   ditherLevelDescription: 'How much of the front colour the Bayer pattern keeps, 1 to 15 of 16.',
   shadeMode: 'Shade mode',
@@ -55,6 +57,8 @@ const DRAWING_TEXT = {
   gradientModeDescription: 'Hard bands, or a dither between neighbouring colours.',
   gradientPattern: 'Gradient pattern',
   gradientPatternDescription: 'The pattern the dither follows. It wraps with the tiled preview, so the pattern has no seam.',
+  gradientCustom: 'Custom brush as pattern',
+  gradientCustomDescription: 'Dither the gradient through the custom brush. Wherever the brush has a pixel the next colour comes in first. Pick a custom brush first.',
   gradientSize: 'Bayer size',
   gradientSizeDescription: 'The size of the Bayer matrix, 2, 4 or 8.',
   gradientReflect: 'Reflect',
@@ -133,6 +137,8 @@ const DITHER_PATTERN_LABELS: Readonly<Record<DitherPattern, string>> = {
   rows: 'Lines across',
   columns: 'Lines down',
   dots: 'Dots, 25 percent',
+  diagonal: 'Diagonal lines, 33 percent',
+  sparse: 'Sparse dots, 12 percent',
 };
 
 const DITHER_PATTERN_CHOICES: readonly OptionChoice[] = (Object.keys(DITHER_PATTERN_LABELS) as DitherPattern[]).map((value) => ({
@@ -147,6 +153,9 @@ const GRADIENT_PATTERN_LABELS: Readonly<Record<GradientPattern, string>> = {
   checker: 'Checker',
   rows: 'Lines across',
   columns: 'Lines down',
+  dots: 'Dots',
+  diagonal: 'Diagonal lines',
+  sparse: 'Sparse dots',
 };
 
 const GRADIENT_PATTERN_CHOICES: readonly OptionChoice[] = (Object.keys(GRADIENT_PATTERN_LABELS) as GradientPattern[]).map((value) => ({

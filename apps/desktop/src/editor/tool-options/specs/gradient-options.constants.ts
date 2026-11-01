@@ -31,10 +31,14 @@ const GRADIENT_OPTIONS: readonly OptionSpec[] = [
     default: 'bayer', choices: GRADIENT_PATTERN_CHOICES, read: () => d().gradientPattern, write: (value) => d().patch({ gradientPattern: value as GradientPattern }),
     appliesWhen: dithering,
   }),
+  toggleSpec({
+    tool: 'gradient', name: 'custom', label: DRAWING_TEXT.gradientCustom, description: DRAWING_TEXT.gradientCustomDescription, priority: 12.5, group: 'gradient', tier: 2,
+    icon: 'pixel-brush-custom', read: () => d().gradientCustom, write: (on) => d().patch({ gradientCustom: on }), appliesWhen: dithering,
+  }),
   choiceSpec({
     tool: 'gradient', name: 'size', label: DRAWING_TEXT.gradientSize, description: DRAWING_TEXT.gradientSizeDescription, priority: 13, group: 'gradient', tier: 2,
     default: '4', choices: BAYER_SIZE_CHOICES, read: () => String(d().gradientSize), write: (value) => d().patch({ gradientSize: asSize(value) }),
-    appliesWhen: () => dithering() && d().gradientPattern === 'bayer',
+    appliesWhen: () => dithering() && d().gradientPattern === 'bayer' && !d().gradientCustom,
   }),
   toggleSpec({
     tool: 'gradient', name: 'reflect', label: DRAWING_TEXT.gradientReflect, description: DRAWING_TEXT.gradientReflectDescription, priority: 14, group: 'gradient',

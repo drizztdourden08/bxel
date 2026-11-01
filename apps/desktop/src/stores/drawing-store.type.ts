@@ -28,6 +28,7 @@ interface DrawingSettings {
   onlyColour: number | null;
   ditherPattern: DitherPattern;
   ditherLevel: number;
+  ditherCustom: boolean;
   shadeMode: 'shade' | 'lighten' | 'darken';
   shadeSteps: number;
   shadeRamp: string | null;
@@ -53,6 +54,7 @@ interface DrawingSettings {
   gradientKind: GradientKind;
   gradientMode: GradientMode;
   gradientPattern: GradientPattern;
+  gradientCustom: boolean;
   gradientSize: DitherSize;
   gradientReflect: boolean;
   gradientRamp: string | null;
