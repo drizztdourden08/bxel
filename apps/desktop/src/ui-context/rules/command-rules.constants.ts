@@ -97,7 +97,7 @@ const SELECTION: RuleTable = {
   ...family(['selection.reselect', 'selection.save', 'selection.select_opaque', 'selection.select_by_frame', 'selection.quick_mask'], PIXEL, [DOC], ONLY.pixels),
   ...family(['selection.border', 'selection.smooth', 'selection.to_guides'], PIXEL, [PIXELS_SELECTED], ONLY.pixels),
   ...family(
-    ['selection.stroke_inside', 'selection.stroke_outside', 'selection.fill_front', 'selection.fill_back', 'selection.align_left', 'selection.align_centre', 'selection.align_right', 'selection.align_top', 'selection.align_middle', 'selection.align_bottom'],
+    ['selection.stroke_inside', 'selection.stroke_outside', 'selection.fill_front', 'selection.fill_back', 'selection.align_left', 'selection.align_centre', 'selection.align_right', 'selection.align_top', 'selection.align_middle', 'selection.align_bottom', 'selection.distribute_horizontal', 'selection.distribute_vertical'],
     PIXEL,
     [WRITE, PIXELS_SELECTED],
     ONLY.pixels,
@@ -110,7 +110,7 @@ const SELECTION: RuleTable = {
   ...family(['selection.paste', 'selection.paste_in_place'], DRAW_STAGE, [DOC, WRITE, CLIPBOARD], ONLY.drawing),
   ...family(['selection.delete'], DRAW_STAGE, [DOC, WRITE, ANY_SELECTED]),
   ...family(['selection.by_colour', 'view.toggle_slices'], PIXEL, [], ONLY.pixels),
-  ...family(['slice.delete_selected', 'slice.properties'], PIXEL, [WRITE], ONLY.pixels),
+  ...family(['slice.delete_selected', 'slice.properties', 'slice.distribute_horizontal', 'slice.distribute_vertical'], PIXEL, [WRITE], ONLY.pixels),
   ...family(['preview.apply', 'preview.cancel'], always),
 };
 

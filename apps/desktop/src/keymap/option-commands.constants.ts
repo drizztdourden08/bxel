@@ -3,6 +3,7 @@ import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
 import { focusOptionsBar } from '../tool-menu/focus-options-bar';
 import { OPTIONS_WIDGET_ID } from '../tool-menu/tool-menu.constants';
+import { stepBrushSizeBy } from '../editor/step-brush-size';
 import { labelOfTool } from '../editor/tool-catalogue/label-of-tool';
 import { isRecord } from '../editor/tool-options/is-record';
 import { nextValue } from '../editor/tool-options/next-value';
@@ -90,8 +91,8 @@ const FIXED_DEFS: CommandDef[] = [
   { id: OPTION_COMMAND.resetAll, label: 'Reset all tool options', group: COMMAND_GROUP.tools, run: resetAllTools },
   { id: OPTION_COMMAND.tipPrevious, label: 'Previous brush shape', group: COMMAND_GROUP.brush, chord: 'Shift+[', run: () => cycleTip(-1) },
   { id: OPTION_COMMAND.tipNext, label: 'Next brush shape', group: COMMAND_GROUP.brush, chord: 'Shift+]', run: () => cycleTip(1) },
-  { id: OPTION_COMMAND.sizeDownBy, label: 'Much smaller brush', group: COMMAND_GROUP.brush, chord: 'Alt+[', run: () => useToolStore.getState().stepBrushSize(-4) },
-  { id: OPTION_COMMAND.sizeUpBy, label: 'Much larger brush', group: COMMAND_GROUP.brush, chord: 'Alt+]', run: () => useToolStore.getState().stepBrushSize(4) },
+  { id: OPTION_COMMAND.sizeDownBy, label: 'Much smaller brush', group: COMMAND_GROUP.brush, chord: 'Alt+[', run: () => stepBrushSizeBy(-4) },
+  { id: OPTION_COMMAND.sizeUpBy, label: 'Much larger brush', group: COMMAND_GROUP.brush, chord: 'Alt+]', run: () => stepBrushSizeBy(4) },
 ];
 
 const OPTION_COMMANDS: readonly CommandDef[] = [...GENERATED_COMMANDS, ...FIXED_DEFS.map(ruled)];

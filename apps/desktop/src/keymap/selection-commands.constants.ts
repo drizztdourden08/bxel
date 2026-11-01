@@ -11,6 +11,7 @@ import { invertSelection } from '../editor/selection/invert-selection';
 import { pasteFromSystem } from '../editor/selection/paste-from-system';
 import { reselect } from '../editor/selection/reselect';
 import { alignSelection } from '../editor/selection/align-selection';
+import { distributeSelection } from '../editor/selection/distribute-selection';
 import { borderSelection } from '../editor/selection/border-selection';
 import { fillSelection } from '../editor/selection/fill-selection';
 import { resizeByAmount } from '../editor/selection/resize-by-amount';
@@ -80,6 +81,8 @@ const SELECTION_EDITS: readonly CommandDef[] = [
   { id: ID.alignTop, label: 'Align top', group, run: () => void alignSelection('top') },
   { id: ID.alignMiddle, label: 'Align middle', group, run: () => void alignSelection('middle') },
   { id: ID.alignBottom, label: 'Align bottom', group, run: () => void alignSelection('bottom') },
+  { id: ID.distributeHorizontal, label: 'Distribute horizontally', group, run: () => void distributeSelection('horizontal') },
+  { id: ID.distributeVertical, label: 'Distribute vertically', group, run: () => void distributeSelection('vertical') },
   { id: ID.pasteAsLayer, label: 'Paste as new layer', group, run: () => void pasteFromSystem('layer') },
   { id: ID.pasteIntoSelection, label: 'Paste into selection', group, run: () => void pasteFromSystem('selection') },
   { id: ID.pasteTransform, label: 'Paste and transform', group, run: () => void pasteAndTransform() },

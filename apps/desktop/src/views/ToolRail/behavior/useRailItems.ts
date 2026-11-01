@@ -1,9 +1,11 @@
 /* @layer renderer-app @kind hook */
 import type { ToolbarItem } from '@drizztdourden08/tessera';
+import { noteToolPick } from '../../../editor/tool-pick/note-tool-pick';
 import { surfaceOfContext } from '../../../editor/tool-catalogue/surface-of-context';
 import { shownMember } from '../../../editor/tool-catalogue/shown-member';
 import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
 import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
+import { useAssistantMarkStore } from '../../../stores/useAssistantMarkStore';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { useSpringStore } from '../../../editor/tool-pick/behavior/useSpringStore';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
@@ -29,6 +31,7 @@ const useRailItems = (): ToolbarItem[] => {
   const context = useBxelContext((current) => current);
   const surface = surfaceOfContext(context);
   const active = useToolStore((state) => state.tool);
+  const marked = useAssistantMarkStore((state) => state.tool);
   const borrowed = useSpringStore((state) => state.borrowed);
   const filledTools = useDrawingStore((state) => state.filled);
   useDrawingStore(drawingVersion);
@@ -55,7 +58,11 @@ const useRailItems = (): ToolbarItem[] => {
       ui: evaluate(COMMAND_ID.tool(slot.tool), context),
       groups: hover && model.hasContent ? flyoutGroups(flyoutSections(model, true)) : undefined,
       hasFlyout: model.hasContent,
-      pick: (picked: ToolSlot) => useToolStore.getState().setTool(picked.tool),
+      assistant: slot.members.some((member) => member.tool === marked),
+      pick: (picked: ToolSlot) => {
+        useToolStore.getState().setTool(picked.tool);
+        noteToolPick(picked.tool);
+      },
     };
   };
   return tidyItems([...ruledItems(tileMode, context), ...railItems(slots, contextOf)]);

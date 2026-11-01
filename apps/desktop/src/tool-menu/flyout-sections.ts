@@ -5,6 +5,7 @@ import { openSaveDraft } from '../editor/presets/open-save-draft';
 import { resetTool } from '../editor/tool-options/reset-tool';
 import { announcePreset } from '../editor/tool-pick/announce-preset';
 import { pickMember } from '../editor/tool-pick/pick-member';
+import { pointerPick } from '../editor/tool-pick/pointer-pick';
 import { useToolPrefsStore } from '../stores/useToolPrefsStore';
 import { focusOptionsBar } from './focus-options-bar';
 import { optionSections } from './option-sections';
@@ -23,7 +24,7 @@ const memberRows = (model: FlyoutModel): FlyoutRow[] =>
         kind: 'radio',
         checked: member.id === model.shown.id,
         disabled: false,
-        run: () => pickMember(member),
+        run: () => pointerPick(member),
       }));
 
 const presetRows = (model: FlyoutModel): FlyoutRow[] => [

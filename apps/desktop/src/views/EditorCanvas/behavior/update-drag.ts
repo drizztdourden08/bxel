@@ -5,6 +5,7 @@ import { setFloatOffset } from '../../../editor/pending/set-float-offset';
 import { shiftMask } from '../../../editor/pending/shift-mask';
 import { incomingMask } from '../../../editor/selection/incoming-mask';
 import { mergeMask } from '../../../editor/selection/merge-mask';
+import { nextShape } from '../../../editor/selection/next-shape';
 import { heldKeys } from '../../../editor/selection/held-keys';
 import { shapeHold } from '../../../editor/selection/shape-hold';
 import { lockAxis } from '../../../editor/transform/lock-axis';
@@ -32,8 +33,8 @@ const updateDrag = (active: ActiveDrag, viewport: PixelViewportHandle | null, ev
   if (!target) return;
   const { shape } = active;
   const at = snapMarquee(viewport, event, { at: pixelAtEvent(viewport, event), from: shape.from, variant: shape.variant });
-  active.shape = { ...shape, to: at, path: shape.variant === 'lasso' ? [...shape.path, at] : shape.path };
   active.hold = shapeHold(active.keys, heldKeys(event));
+  active.shape = nextShape(shape, at, active.hold);
   useSelectionStore.getState().setDraft(mergeMask(active.base, incomingMask(active.shape, target.sprite, active.hold), active.mode));
 };
 

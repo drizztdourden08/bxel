@@ -7,6 +7,7 @@ import { memberById } from '../../editor/tool-catalogue/member-by-id';
 import { slotsOf } from '../../editor/tool-catalogue/slots-of';
 import { pickMember } from '../../editor/tool-pick/pick-member';
 import { writeOption } from '../../editor/tool-options/write-option';
+import { useAssistantMarkStore } from '../../stores/useAssistantMarkStore';
 import { useToolPresetStore } from '../../stores/useToolPresetStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { APP_TOOL_TEXT } from './app-tool.constants';
@@ -57,7 +58,9 @@ const toolStep: ViewStep = (patch) => {
   if (isReply(picked)) return picked;
   const writes = resolveOptions(tool.options ?? {}, picked.tool, 'tool.options');
   if (isReply(writes)) return writes;
+  const before = useToolStore.getState().tool;
   picked.run();
+  if (useToolStore.getState().tool !== before) useAssistantMarkStore.getState().flash(useToolStore.getState().tool);
   return writeAll(writes);
 };
 

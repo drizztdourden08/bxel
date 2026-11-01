@@ -3,7 +3,7 @@ import type { Point } from '@bxel/document';
 import type { AlignBounds, AlignBox, AlignEdge, AlignMode } from './align.type';
 import { middleOf } from './middle-of';
 
-const ALIGN_AT: Readonly<Record<AlignEdge, (box: AlignBox, bounds: AlignBounds) => Point>> = {
+const ALIGN_AT: Readonly<Record<AlignEdge, (box: AlignBox<string>, bounds: AlignBounds) => Point>> = {
   left: (box, bounds) => ({ x: bounds.left, y: box.y }),
   center: (box, bounds) => ({ x: middleOf(bounds.left, bounds.right, box.width), y: box.y }),
   right: (box, bounds) => ({ x: bounds.right - box.width, y: box.y }),
