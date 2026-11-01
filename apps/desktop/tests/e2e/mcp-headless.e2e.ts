@@ -1,14 +1,12 @@
 /* @layer renderer-app @kind test */
-import { access, mkdtemp, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { access, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { afterAll, describe, expect, test } from 'vitest';
 import { callMcp } from './support/call-mcp';
 import { connectMcp } from './support/connect-mcp';
-import { createMcpSprite } from './support/create-mcp-sprite';
-import { POLL_MS, TEMP_PREFIX } from './support/e2e.constants';
-import { MCP_DRAWN } from './support/mcp.constants';
-import { patchStep } from './support/patch-step';
+import { drawMcpSprite } from './support/draw-mcp-sprite';
+import { POLL_MS } from './support/e2e.constants';
+import { makeTempDir } from './support/make-temp-dir';
 import { rememberProgram } from './support/remember-program';
 import { readOrphanPid } from './support/read-orphan-pid';
 import { stopOrphan } from './support/stop-orphan';
@@ -25,7 +23,7 @@ afterAll(async () => {
 
 describe('E1 headless helper', { tags: ['e2e'] }, () => {
   test('a helper starts a headless Bxel, edits through it and stops it with the work kept for recovery', async () => {
-    const dir = await mkdtemp(join(tmpdir(), TEMP_PREFIX));
+    const dir = await makeTempDir();
     held.dir = dir;
     const userData = join(dir, 'profile');
     const config = await rememberProgram(userData, dir);
@@ -40,8 +38,7 @@ describe('E1 headless helper', { tags: ['e2e'] }, () => {
     const session = await callMcp(link.client, 'get_session');
     expect(session.data).toMatchObject({ ok: true, mode: 'edit', trust: 'remembered', instance: { window: 'headless', launchedBy: 'this_helper', canStop: true } });
     expect((await callMcp(link.client, 'start_bxel', { window: 'headless' })).data).toMatchObject({ ok: true, started: false });
-    const sprite = await createMcpSprite(link.client);
-    const applied = await callMcp(link.client, 'apply_edits', { documentId: sprite.documentId, baseRevision: sprite.revision, label: 'draw', steps: [patchStep(sprite, MCP_DRAWN)] });
+    const { applied } = await drawMcpSprite(link.client);
     expect(applied.ok).toBe(true);
     expect((await callMcp(link.client, 'stop_bxel')).code).toBe('UNSAVED_CHANGES');
     const stopped = await callMcp(link.client, 'stop_bxel', { unsaved: 'recover' });

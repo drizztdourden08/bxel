@@ -22,10 +22,9 @@ import { useToolPresetStore } from '../../src/stores/useToolPresetStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { resetEditor } from '../editor/option-harness';
 import { findCommand } from '../keymap/find-command';
+import { tools } from './tools-state';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('./tools-harness')).toolsBrockMock());
-
-const tools = () => useToolStore.getState();
 
 beforeEach(() => {
   resetEditor();

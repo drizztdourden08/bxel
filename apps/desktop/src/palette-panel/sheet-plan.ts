@@ -1,27 +1,22 @@
 /* @layer renderer-app @kind logic */
 import type { Artwork, PaletteBank, Sprite } from '@bxel/document';
 import { PALETTE_COMMAND_NAME } from '@bxel/palette';
-import { paletteSlots } from '../editor/palette-slots';
 import { gradientSteps } from '../palette-ramps/gradient-steps';
 import { RAMP_TEXT } from '../palette-ramps/palette-ramps.constants';
 import type { PaletteSheetRequest } from '../stores/palette-panel-store.type';
 import { duplicateGroups } from './duplicate-groups';
+import { hexesOf } from './hexes-of';
 import { PANEL_LABEL, PANEL_TEXT, SHEET_TEXT } from './palette-panel.constants';
 import type { RemovalWords, SheetPlan } from './palette-panel.type';
 import { paletteUsage } from './palette-usage';
 import { copyOverPlan } from './copy-over-plan';
 import { moveColourPlan } from './move-colour-plan';
 
-const hexes = (bank: PaletteBank, indices: readonly number[]): string[] => {
-  const slots = paletteSlots(bank);
-  return indices.map((index) => slots[index]?.hex ?? '');
-};
-
 const removalPlan = (bank: PaletteBank, gone: readonly number[], words: RemovalWords): SheetPlan => {
   const kept = bank.slots.flatMap((_, index) => (gone.includes(index) ? [] : [index]));
   const steps = gone.length === 0 ? [] : [{ name: words.command, targets: null, options: { bankId: bank.id } }];
-  const all = hexes(bank, bank.slots.map((_, at) => at));
-  return { title: words.title, note: words.note(gone.length), gone: hexes(bank, gone), before: all, after: hexes(bank, kept), steps, label: words.label, done: words.done(gone.length), apply: words.apply(gone.length) };
+  const all = hexesOf(bank, bank.slots.map((_, at) => at));
+  return { title: words.title, note: words.note(gone.length), gone: hexesOf(bank, gone), before: all, after: hexesOf(bank, kept), steps, label: words.label, done: words.done(gone.length), apply: words.apply(gone.length) };
 };
 
 const unusedPlan = (artwork: Artwork, bank: PaletteBank, sprite: Sprite | null): SheetPlan =>
@@ -50,8 +45,8 @@ const gradientPlan = (bank: PaletteBank, first: number, last: number): SheetPlan
   const range = Array.from({ length: high - low + 1 }, (_, at) => low + at);
   const steps = gradientSteps(bank, first, last);
   const middle = steps.map((step) => String((step.options as { rgb: string }).rgb).toUpperCase());
-  const after = [...hexes(bank, [low]), ...middle, ...hexes(bank, [high])];
-  return { title: RAMP_TEXT.gradientLabel, note: steps.length === 0 ? RAMP_TEXT.gradientShort : SHEET_TEXT.gradientNote(low, high), gone: [], before: hexes(bank, range), after, steps, label: RAMP_TEXT.gradientLabel, done: RAMP_TEXT.gradient(steps.length), apply: SHEET_TEXT.recolour(steps.length) };
+  const after = [...hexesOf(bank, [low]), ...middle, ...hexesOf(bank, [high])];
+  return { title: RAMP_TEXT.gradientLabel, note: steps.length === 0 ? RAMP_TEXT.gradientShort : SHEET_TEXT.gradientNote(low, high), gone: [], before: hexesOf(bank, range), after, steps, label: RAMP_TEXT.gradientLabel, done: RAMP_TEXT.gradient(steps.length), apply: SHEET_TEXT.recolour(steps.length) };
 };
 
 const sheetPlan = (artwork: Artwork, bank: PaletteBank, sprite: Sprite | null, request: PaletteSheetRequest): SheetPlan => {

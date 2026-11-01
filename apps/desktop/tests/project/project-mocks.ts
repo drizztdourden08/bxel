@@ -4,6 +4,8 @@ import { vi } from 'vitest';
 
 const toast = vi.fn();
 
+const announce = vi.fn();
+
 const confirmAction = vi.fn((_options: unknown) => Promise.resolve(true));
 
 const confirmSave = vi.fn((_options: unknown): Promise<'save' | 'discard' | 'cancel'> => Promise.resolve('save'));
@@ -13,6 +15,7 @@ const openWidget = vi.fn();
 const held: { documents: DocumentsPort | undefined } = { documents: undefined };
 
 const brockReactMock = () => ({
+  announce,
   toast,
   confirmAction,
   confirmSave,

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { IconName, VirtualSize } from '@drizztdourden08/tessera';
 import type { AssetKey } from '@bxel/document';
+import { SORT_OPTIONS as ASSET_SORT_OPTIONS } from '../asset-list/asset-list.constants';
 import type { RowKind } from '../asset-list/asset-list.type';
 import type { BrowserFacts, BrowserQuery, BrowserSort, BrowserView, QueryFlag, RowCells, SavedBrowserView, SavedFilter, Selection, SortKey } from './project-browser.type';
 
@@ -33,11 +34,7 @@ const VIEW_OPTIONS: readonly { readonly value: BrowserView; readonly label: stri
 ];
 
 const SORT_OPTIONS: readonly { readonly value: SortKey; readonly label: string }[] = [
-  { value: 'name', label: 'Name' },
-  { value: 'kind', label: 'Kind' },
-  { value: 'modified', label: 'Modified' },
-  { value: 'created', label: 'Date created' },
-  { value: 'folder', label: 'Folder' },
+  ...ASSET_SORT_OPTIONS,
   { value: 'size', label: 'Size in pixels' },
   { value: 'colours', label: 'Colours' },
   { value: 'frames', label: 'Frames' },

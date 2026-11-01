@@ -43,4 +43,4 @@ interface ViewState extends ViewSettings {
   setViewport: (viewport: PixelViewportHandle | null) => void;
 }
 
-export type { TileMode, ViewSettings, ViewState, ViewToggle, ViewToggleRow };
+export type { TileMode, ViewSettings, ViewState, ViewToggle, ViewToggleRow, ViewToggles };
