@@ -11,7 +11,8 @@ import { paintSliceBox } from './paint-slice-box';
 
 const shapeOf = (slice: Slice): Slice => {
   const drag = sliceDraft.current;
-  return drag && drag.kind !== 'new' && drag.id === slice.id ? { ...slice, rect: drag.rect } : slice;
+  if (!drag || drag.kind === 'new' || drag.id !== slice.id) return slice;
+  return drag.kind === 'centre' ? { ...slice, center: drag.centre } : { ...slice, rect: drag.rect };
 };
 
 const paintSlices = (ctx: CanvasRenderingContext2D, view: PixelView, look: OverlayLook): void => {
