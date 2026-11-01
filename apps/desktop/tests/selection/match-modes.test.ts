@@ -17,7 +17,7 @@ const BANK: PaletteBank = {
   ramps: [{ id: 'warm' as RampId, name: 'Warm', swatches: ['red' as SwatchId, 'green' as SwatchId] }],
 };
 
-describe('colour match rules', () => {
+describe('K1 colour match rules', { tags: ['critical'] }, () => {
   it('exact takes only the same index', () => {
     const rule = matchRule('exact', BANK, 0);
     expect(rule(1, 1)).toBe(true);
@@ -38,7 +38,7 @@ describe('colour match rules', () => {
   });
 });
 
-describe('the wand and Select by colour with the match options', () => {
+describe('S2 the wand and Select by colour with the match options', { tags: ['standard'] }, () => {
   it('exact stays the default and matches one colour', () => {
     const rig = openRig();
     rig.paint({ x: 2, y: 2, width: 2, height: 1 }, 1);

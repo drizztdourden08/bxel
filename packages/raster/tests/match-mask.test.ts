@@ -10,7 +10,7 @@ const NEAR = (seed: number, index: number): boolean => Math.abs(seed - index) <=
 
 const PICTURE = fromRows(['11.2', '1..2', '.1.2', '..22']);
 
-describe('matchMask', () => {
+describe('K1 matchMask', { tags: ['critical'] }, () => {
   test('with an exact rule it equals the wand', () => {
     const wand = wandMask({ target: PICTURE, seed: { x: 2, y: 0 }, connectivity: 4 });
     const match = matchMask({ target: PICTURE, seed: { x: 2, y: 0 }, contiguous: true, connectivity: 4, matches: SAME });
