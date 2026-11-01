@@ -14,7 +14,7 @@ const ORIGINAL = ['hero', 'slime', 'tiny', 'fx/glow', 'fx/spark'];
 
 const grid = (rig: TileRig) => rig.session.page.getByRole('grid', { name: 'Sprites', exact: true });
 
-const tile = (rig: TileRig, name: string) => grid(rig).getByRole('gridcell', { name: new RegExp(`^${name}$`) });
+const tile = (rig: TileRig, name: string) => grid(rig).getByRole('gridcell', { name: new RegExp(`^${name}(,|$)`) });
 
 const shown = async (rig: TileRig): Promise<string[]> => {
   const labels = await grid(rig).getByRole('gridcell').evaluateAll((cells) => cells.map((cell) => cell.getAttribute('aria-label') ?? ''));

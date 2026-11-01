@@ -1,16 +1,21 @@
 /* @layer renderer-app @kind logic */
-import { ASSETS_DRAG_TYPE } from '../../../sheet-manager/drag-payload.constants';
-import { SPRITE_DRAG_TYPE } from '../../../sheet/sprite-drag.constants';
+import { dnd } from '@drizztdourden08/brock-react';
+import type { RefCallback } from 'react';
+import { entryDragOptions } from '../../../asset-drag/entry-drag-options';
 import { assetPathOf } from '../../../sheet-manager/asset-path-of';
-import type { ListRow } from '../SpritesPanel.type';
+import type { DragEntry } from '../../../sheet-manager/drag-payload.type';
 import { parseAnimationKey } from '../../../sheet-manager/parse-animation-key';
+import type { ListRow } from '../SpritesPanel.type';
 
-const rowDrag = (row: ListRow): Record<string, string> => {
+const entryOf = (row: ListRow): DragEntry => {
   const strip = parseAnimationKey(row.id);
-  const entry = strip
+  return strip
     ? { kind: 'animation', assetId: strip.animationId, tagId: strip.tagId, path: assetPathOf(strip.animationId) }
     : { kind: 'sprite', assetId: row.id, path: assetPathOf(row.id) };
-  return { [ASSETS_DRAG_TYPE]: JSON.stringify([entry]), ...(strip ? {} : { [SPRITE_DRAG_TYPE]: row.id }) };
 };
+
+const rowDrag =
+  (row: ListRow): RefCallback<HTMLElement> =>
+  (element) => (element === null ? undefined : dnd.source(element, entryDragOptions({ entries: () => [entryOf(row)], source: 'sheet' })));
 
 export { rowDrag };

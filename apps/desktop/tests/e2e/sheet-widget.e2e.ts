@@ -13,7 +13,7 @@ import { writeSampleProject } from './support/write-sample-project';
 
 const grid = (session: Session) => session.page.getByRole('grid', { name: 'Sprites', exact: true });
 
-const tile = (session: Session, name: string) => grid(session).getByRole('gridcell', { name: new RegExp(`^${name}$`) });
+const tile = (session: Session, name: string) => grid(session).getByRole('gridcell', { name: new RegExp(`^${name}(,|$)`) });
 
 const scrollTo = (session: Session, end: boolean): Promise<void> =>
   grid(session).evaluate((element, toEnd) => {
