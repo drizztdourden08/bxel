@@ -17,7 +17,7 @@ const view = (world: World) => ({ columns: 4, rows: 3, cells: Uint32Array.from(c
 
 const count = (mask: Uint8Array): number => mask.reduce((total, bit) => total + bit, 0);
 
-describe('cell mask descriptors', () => {
+describe('K1 cell mask descriptors', { tags: ['critical'] }, () => {
   it('resolves a rect, a list and the tile and same descriptors', () => {
     const world = buildWorld();
     seed(world);
@@ -49,7 +49,7 @@ describe('cell mask descriptors', () => {
   });
 });
 
-describe('map.copy', () => {
+describe('K1 map.copy', { tags: ['critical'] }, () => {
   it('copies a 3 x 2 block with its keys and turn bits and leaves the source', () => {
     const world = buildWorld();
     seed(world);
@@ -89,7 +89,7 @@ describe('map.copy', () => {
   });
 });
 
-describe('map.move', () => {
+describe('K1 map.move', { tags: ['critical'] }, () => {
   it('moves the described cells and clears where they were, in one undo step', () => {
     const world = buildWorld();
     seed(world);

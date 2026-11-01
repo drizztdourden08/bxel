@@ -9,7 +9,7 @@ import { artworkOf, fixedClock, heartPreview } from './native-fixture';
 
 const reopen = (engine: Engine) => artworkOf(decodeArtwork(encodeArtwork(engine.state(), heartPreview, fixedClock)));
 
-describe('frames, tags and cels survive a save and reopen', () => {
+describe('K3 frames, tags and cels survive a save and reopen', { tags: ['critical'] }, () => {
   it('keeps durations after frame.update, frame.add and frame.reorder', () => {
     const engine = frameEngine();
     apply(engine, layerStep('frame.update', { frame: byIndex(0), durationMs: 1 }));

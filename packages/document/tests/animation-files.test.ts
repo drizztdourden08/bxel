@@ -17,7 +17,7 @@ const animatedSheet = (files: readonly SplitFile[]): SplitFile | undefined =>
 
 const bytesOf = (file: SplitFile): Uint8Array => encodeSlice(file.slice);
 
-describe('animation files', () => {
+describe('K3 animation files', { tags: ['critical'] }, () => {
   it('are split out of the artwork, one per animation, beside the sprites', () => {
     const plan = splitIntoAssets(migrated());
     const animations = ofKind(plan.files, 'animation');
@@ -68,7 +68,7 @@ describe('animation files', () => {
   });
 });
 
-describe('animation links', () => {
+describe('S3 animation links', { tags: ['standard'] }, () => {
   it('open a sheet with a placeholder when the animation file is missing', () => {
     const sheet = animatedSheet(splitIntoAssets(migrated()).files);
     if (!sheet) throw new Error('The fixture has an animated sheet.');

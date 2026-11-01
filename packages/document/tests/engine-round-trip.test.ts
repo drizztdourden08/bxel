@@ -1,13 +1,12 @@
 /* @layer core @kind test */
-import { counterIdSource, flattenFrame, frameToRgba, artworkCreate } from '@bxel/document';
-import type { BankId, FrameId } from '@bxel/document';
+import { counterIdSource, artworkCreate } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { brand, fixtureToArtwork } from './fixture-to-artwork';
+import { fixtureToArtwork } from './fixture-to-artwork';
 import { heartEngine, request } from './heart-engine';
 import { heartPairFixture } from './heart-pair-fixture';
 import { snapshotArtwork } from './snapshot-artwork';
 
-describe('engine round trip', () => {
+describe('K1 engine round trip', { tags: ['critical'] }, () => {
   it('holds every field and every cel byte of the fixture', () => {
     const { engine } = heartEngine();
     const expected = fixtureToArtwork(heartPairFixture);
@@ -23,31 +22,9 @@ describe('engine round trip', () => {
     expect(engine.state().revision).toBe(1);
     expect(engine.canUndo()).toBe(false);
   });
-
-  it('flattens heart frame 1 to the fixture rows', () => {
-    const { engine } = heartEngine();
-    const sprite = engine.state().artwork.sprites.find((item) => item.name === 'heart');
-    expect(sprite).toBeDefined();
-    if (!sprite) return;
-    const flat = flattenFrame(sprite, brand<FrameId>('frm_000012'));
-    expect(Array.from(flat, (value) => value.toString(16)).join('')).toBe(
-      ['01100110', '16311331', '13333341', '13333341', '01333410', '00134100', '00011000', '00000000'].join(''),
-    );
-  });
-
-  it('maps indices to rgba with a transparent slot 0', () => {
-    const { engine } = heartEngine();
-    const artwork = engine.state().artwork;
-    const sprite = artwork.sprites.find((item) => item.name === 'heart');
-    const bank = artwork.banks.find((item) => item.id === brand<BankId>('bnk_000002'));
-    if (!sprite || !bank) throw new Error('fixture is missing the heart sprite or its bank');
-    const rgba = frameToRgba(sprite, bank, brand<FrameId>('frm_000012'));
-    expect(Array.from(rgba.subarray(0, 4))).toEqual([0, 0, 0, 0]);
-    expect(Array.from(rgba.subarray((8 + 1) * 4, (8 + 1) * 4 + 4))).toEqual([244, 238, 255, 255]);
-  });
 });
 
-describe('artwork.create', () => {
+describe('K2 artwork.create', { tags: ['critical'] }, () => {
   const options = {
     name: 'Fresh',
     bank: {

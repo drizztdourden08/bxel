@@ -35,7 +35,7 @@ const bumpAll = (pixels: Uint8Array): void => {
 
 const whole: Rect = { x: 0, y: 0, width: SIDE, height: SIDE };
 
-describe('patching a rendered frame', () => {
+describe('K1 patching a rendered frame', { tags: ['critical'] }, () => {
   it('equals a full render after a cel changed inside the rectangle', () => {
     const { sprite, bank, frameId } = fixture();
     const before = frameToRgba(sprite, bank, frameId);

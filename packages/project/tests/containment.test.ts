@@ -2,7 +2,7 @@
 import { isInside, isSamePath, normalizeAbsolute, relativeInside } from '@bxel/project';
 import { describe, expect, it } from 'vitest';
 
-describe('containment', () => {
+describe('K4 containment', { tags: ['critical'] }, () => {
   it.each([
     ['C:/Games/Dungeon/sprites/a.bxel', 'C:/Games/Dungeon'],
     ['c:\\games\\DUNGEON\\a.bxel', 'C:/Games/Dungeon/'],

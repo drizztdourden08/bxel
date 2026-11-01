@@ -33,7 +33,7 @@ const touchEngine = (): Engine =>
 const lastPixel = (engine: ReturnType<typeof frameEngine>, celId: string | undefined): number | undefined =>
   celPixels(engine, celId)?.[15];
 
-describe('cel.link', () => {
+describe('K1 cel.link', { tags: ['critical'] }, () => {
   it('points two slots at one cel as one undo step', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, layerStep('cel.link', { from: slot('Body', 2), to: slot('Fx', 2) }));
@@ -66,7 +66,7 @@ describe('cel.link', () => {
   });
 });
 
-describe('painting a linked cel', () => {
+describe('K1 painting a linked cel', { tags: ['critical'] }, () => {
   it('refuses one frame of a linked cel and changes nothing', () => {
     const error = rejection(frameEngine(), scopedStep('pixels.patch', patchOptions(3), bodyFrame(FRAME[0])));
     expect(error.code).toBe('CEL_LINKED');
@@ -109,7 +109,7 @@ describe('painting a linked cel', () => {
   });
 });
 
-describe('cel.unlink', () => {
+describe('K1 cel.unlink', { tags: ['critical'] }, () => {
   it('gives the slot its own copy of the pixels as one undo step', () => {
     const engine = frameEngine();
     expectUndoRedo(engine, scopedStep('cel.unlink', {}, bodyFrame(FRAME[1])));

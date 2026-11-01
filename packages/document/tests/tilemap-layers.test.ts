@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { canonicalArtwork } from './canonical-artwork';
 import { applySteps, buildWorld, cellsOf, failure, layerOf, mapOf, onGround, step, undoLast } from './tile-engine';
 
-describe('tilemap.create, update and delete', () => {
+describe('K1 tilemap.create, update and delete', { tags: ['critical'] }, () => {
   it('creates a map with one empty layer in one undo step', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -42,7 +42,7 @@ describe('tilemap.create, update and delete', () => {
   });
 });
 
-describe('tilemap.resize', () => {
+describe('K1 tilemap.resize', { tags: ['critical'] }, () => {
   it('keeps the cells that stay and clears the new ones', () => {
     const world = buildWorld();
     const { engine, map } = world;
@@ -70,7 +70,7 @@ describe('tilemap.resize', () => {
   });
 });
 
-describe('map layers', () => {
+describe('K1 map layers', { tags: ['critical'] }, () => {
   it('adds a layer above a named layer and reports its id by ref', () => {
     const world = buildWorld();
     const { engine, map } = world;

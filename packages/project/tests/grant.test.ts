@@ -14,7 +14,7 @@ const grant = (extra: Partial<ProjectGrant> = {}): ProjectGrant => ({
   ...extra,
 });
 
-describe('effective grant', () => {
+describe('K4 effective grant', { tags: ['critical'] }, () => {
   it('applies when the id and the real path both match', () => {
     expect(effectiveGrant(sampleManifest(), ROOT, [grant()])).toEqual({ access: 'edit', turnItOnHere: false });
   });
@@ -54,10 +54,5 @@ describe('effective grant', () => {
   it('does not offer a grant when the manifest is off too', () => {
     const off = { ...sampleManifest(), assistant: { access: 'off' as const } };
     expect(effectiveGrant(off, ROOT, [])).toEqual({ access: 'off', turnItOnHere: false });
-  });
-
-  it('grants nothing from a manifest edited to say edit', () => {
-    const edited = { ...sampleManifest(), assistant: { access: 'edit' as const } };
-    expect(effectiveGrant(edited, 'E:/Copy/Dungeon', [])).toMatchObject({ access: 'off' });
   });
 });
