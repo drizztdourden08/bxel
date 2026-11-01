@@ -1,12 +1,10 @@
 /* @layer core @kind logic */
-import { FORMAT_ERROR_CODE } from '../failure/format-error.constants';
-import { formatFail } from '../failure/format-fail';
+import { finishPalette } from './finish-palette';
 import { formatHexColor } from './format-hex-color';
-import { LINE_BREAK_PATTERN } from './line-break-pattern.constants';
 import { PAINT_NET } from './paint-net.constants';
 import type { PaletteColor, PaletteReadResult } from './palette-file.type';
 import { paletteInvalid } from './palette-invalid';
-import { PALETTE_LIMITS } from './palette-limits.constants';
+import { readPaletteLines } from './read-palette-lines';
 
 const nameOf = (comment: string): string | undefined => {
   const body = comment.slice(PAINT_NET.COMMENT.length).trim();
@@ -19,14 +17,9 @@ const colorOf = (line: string): PaletteColor => {
 };
 
 const readPaintNet = (text: string): PaletteReadResult => {
-  const lines = text
-    .replace(PALETTE_LIMITS.BOM, '')
-    .split(LINE_BREAK_PATTERN)
-    .map((line) => line.trim())
-    .filter((line) => line !== '');
   let name = '';
   const colors: PaletteColor[] = [];
-  for (const line of lines) {
+  for (const line of readPaletteLines(text)) {
     if (line.startsWith(PAINT_NET.COMMENT)) {
       name = nameOf(line) ?? name;
     } else if (PAINT_NET.LINE.test(line)) {
@@ -35,11 +28,7 @@ const readPaintNet = (text: string): PaletteReadResult => {
       return paletteInvalid(`Unreadable palette line: ${line}`);
     }
   }
-  if (colors.length === 0) return paletteInvalid('The file holds no colours');
-  if (colors.length > PALETTE_LIMITS.MAX_COLORS) {
-    return formatFail(FORMAT_ERROR_CODE.PALETTE_TOO_LARGE, `The palette holds more than ${PALETTE_LIMITS.MAX_COLORS} colours`);
-  }
-  return { ok: true, palette: { name, colors } };
+  return finishPalette(name, colors);
 };
 
 export { readPaintNet };

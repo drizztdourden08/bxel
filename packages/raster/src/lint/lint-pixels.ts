@@ -1,8 +1,11 @@
 /* @layer core @kind logic */
+import type { Grid } from '../grid/grid.type';
+import { transposeGrid } from '../grid/transpose-grid';
 import { BAND_MIN, LINT_LIMIT, LINT_RULES } from './lint.constants';
 import type { LintFinding, LintInput, LintResult, LintRule } from './lint.type';
 import { RING, SIDES } from './lint-pixels.constants';
-import type { Grid, Run, Spot } from './lint-pixels.type';
+import type { Run, Spot } from './lint-pixels.type';
+import { scanCells } from './scan-cells';
 
 const at = ({ pixels, width, height }: Grid, x: number, y: number): number => (x < 0 || y < 0 || x >= width || y >= height ? 0 : (pixels[y * width + x] ?? 0));
 
@@ -11,31 +14,21 @@ const cell = (rule: LintRule, x: number, y: number, index: number): LintFinding 
 const sameAround = (grid: Grid, spot: Spot, offsets: readonly (readonly [number, number])[]): number =>
   offsets.filter(([dx, dy]) => at(grid, spot.x + dx, spot.y + dy) === spot.index).length;
 
-const orphans = (grid: Grid): LintFinding[] => {
-  const found: LintFinding[] = [];
-  for (let y = 0; y < grid.height; y += 1) {
-    for (let x = 0; x < grid.width; x += 1) {
-      const index = at(grid, x, y);
-      if (index !== 0 && sameAround(grid, { x, y, index }, RING) === 0) found.push(cell('orphan', x, y, index));
-    }
-  }
-  return found;
-};
+const orphans = (grid: Grid): LintFinding[] =>
+  scanCells(grid, (x, y) => {
+    const index = at(grid, x, y);
+    return index !== 0 && sameAround(grid, { x, y, index }, RING) === 0 ? cell('orphan', x, y, index) : undefined;
+  });
 
-const doubles = (grid: Grid): LintFinding[] => {
-  const found: LintFinding[] = [];
-  for (let y = 0; y < grid.height; y += 1) {
-    for (let x = 0; x < grid.width; x += 1) {
-      const index = at(grid, x, y);
-      if (index === 0 || sameAround(grid, { x, y, index }, RING) !== 2) continue;
-      const sides = SIDES.filter(([dx, dy]) => at(grid, x + dx, y + dy) === index);
-      const first = sides[0];
-      const second = sides[1];
-      if (sides.length === 2 && first && second && first[0] !== second[0] && first[1] !== second[1]) found.push(cell('double', x, y, index));
-    }
-  }
-  return found;
-};
+const doubles = (grid: Grid): LintFinding[] =>
+  scanCells(grid, (x, y) => {
+    const index = at(grid, x, y);
+    if (index === 0 || sameAround(grid, { x, y, index }, RING) !== 2) return undefined;
+    const sides = SIDES.filter(([dx, dy]) => at(grid, x + dx, y + dy) === index);
+    const first = sides[0];
+    const second = sides[1];
+    return sides.length === 2 && first && second && first[0] !== second[0] && first[1] !== second[1] ? cell('double', x, y, index) : undefined;
+  });
 
 const runsOfRow = (grid: Grid, y: number): Run[] => {
   const runs: Run[] = [];
@@ -83,15 +76,9 @@ const horizontalBands = (grid: Grid): LintFinding[] => {
   return found;
 };
 
-const turned = (grid: Grid): Grid => {
-  const pixels = new Uint8Array(grid.pixels.length);
-  for (let y = 0; y < grid.height; y += 1) for (let x = 0; x < grid.width; x += 1) pixels[x * grid.height + y] = at(grid, x, y);
-  return { pixels, width: grid.height, height: grid.width };
-};
-
 const bands = (grid: Grid): LintFinding[] => [
   ...horizontalBands(grid),
-  ...horizontalBands(turned(grid)).map((finding) => ({ ...finding, x: finding.y, y: finding.x, width: finding.height, height: finding.width })),
+  ...horizontalBands(transposeGrid(grid)).map((finding) => ({ ...finding, x: finding.y, y: finding.x, width: finding.height, height: finding.width })),
 ];
 
 const checkFor = (rule: LintRule): ((grid: Grid) => LintFinding[]) => {

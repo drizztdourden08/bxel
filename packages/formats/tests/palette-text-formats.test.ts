@@ -8,29 +8,11 @@ import {
   writeHex,
   writePaintNet,
 } from '@bxel/formats';
-import type { PaletteFile, PaletteReadResult } from '@bxel/formats';
+import type { PaletteFile } from '@bxel/formats';
 import { describe, expect, it } from 'vitest';
-
-const NAMED: PaletteFile = {
-  name: 'Sunset 16',
-  colors: [
-    { hex: '#000000', name: 'Black' },
-    { hex: '#ff0000', name: 'Red' },
-    { hex: '#10a0ff', name: 'Sky blue' },
-    { hex: '#ffffff', name: '' },
-    { hex: '#7f7f7f', name: 'Grey 50' },
-  ],
-};
-
-const mustRead = (result: PaletteReadResult): PaletteFile => {
-  if (!result.ok) throw new Error(result.message);
-  return result.palette;
-};
-
-const mustText = (result: ReturnType<typeof writeHex>): string => {
-  if (!result.ok) throw new Error(result.message);
-  return result.text;
-};
+import { mustText } from './must-palette-text';
+import { mustRead } from './must-read-palette';
+import { NAMED } from './named-palette';
 
 const mustBytes = (result: ReturnType<typeof writeAse>): Uint8Array => {
   if (!result.ok) throw new Error(result.message);

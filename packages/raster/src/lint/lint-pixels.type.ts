@@ -1,10 +1,4 @@
 /* @layer core @kind types */
-interface Grid {
-  readonly pixels: Uint8Array;
-  readonly width: number;
-  readonly height: number;
-}
-
 interface Run {
   readonly start: number;
   readonly end: number;
@@ -17,4 +11,4 @@ interface Spot {
   readonly index: number;
 }
 
-export type { Grid, Run, Spot };
+export type { Run, Spot };

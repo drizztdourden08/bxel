@@ -1,9 +1,8 @@
 /* @layer core @kind logic */
-import { orderAnimTags } from '../../draft/order-anim-tags';
-import { updateAnimation } from '../../draft/update-animation';
 import { animationFrameReverseSchema } from '../../schema/animation-frame-reverse-schema';
 import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
+import { applyFrameOrder } from './apply-frame-order';
 import { pickAnimFrames } from './pick-anim-frames';
 import { pickAnimation } from './pick-animation';
 
@@ -18,9 +17,11 @@ const animationFrameReverse = defineCommand({
     const places = animation.frames.filter((frame) => ids.has(frame.id));
     const flipped = [...places].reverse();
     let next = 0;
-    const frames = animation.frames.map((frame) => (ids.has(frame.id) ? (flipped[next++] ?? frame) : frame));
-    if (frames.every((frame, index) => frame.id === animation.frames[index]?.id)) return;
-    updateAnimation(draft, animation.id, (current) => ({ ...current, frames, tags: orderAnimTags(current.tags, frames) }));
+    applyFrameOrder(
+      draft,
+      animation,
+      animation.frames.map((frame) => (ids.has(frame.id) ? (flipped[next++] ?? frame) : frame)),
+    );
   },
 });
 
