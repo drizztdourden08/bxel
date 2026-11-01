@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind component */
-import { Button, Callout, DialogShell, SegmentedControl, Stack, Text, Textarea } from '@drizztdourden08/tessera';
+import { Button, SegmentedControl, Text, Textarea } from '@drizztdourden08/tessera';
 import { IMPORT_MODE_OPTIONS, IMPORT_TEXT } from '../../../palette-import/palette-import.constants';
 import { opaqueSlots } from '../../../palette-limit/opaque-slots';
 import { usePaletteImport } from '../behavior/usePaletteImport';
 import type { ImportDialogProps } from '../PaletteImportDialog.type';
 import { ImportSummary } from './ImportSummary';
 import { PlanActions } from './PlanActions';
+import { PlanDialog } from './PlanDialog';
 
 const ImportDialog = ({ request, target }: ImportDialogProps) => {
   const state = usePaletteImport(request, target);
@@ -15,21 +16,17 @@ const ImportDialog = ({ request, target }: ImportDialogProps) => {
   const empty = !plan || plan.steps.length === 0;
   const actions = <PlanActions cancelLabel={IMPORT_TEXT.cancel} applyLabel={plan?.apply ?? IMPORT_TEXT.title} disabled={empty || error !== null} onCancel={cancel} onApply={apply} />;
   return (
-    <DialogShell open title={IMPORT_TEXT.title} onClose={cancel} actions={actions} className="palette-import">
-      <Stack gap="md">
-        <Button variant="secondary" onClick={state.chooseFile}>
-          {IMPORT_TEXT.file}
-        </Button>
-        <Textarea aria-label={IMPORT_TEXT.paste} placeholder={IMPORT_TEXT.pastePlaceholder} rows={3} value={text} onChange={(event) => state.setText(event.target.value)} />
-        <SegmentedControl size="sm" aria-label={IMPORT_TEXT.modes} value={mode} options={IMPORT_MODE_OPTIONS} onChange={state.setMode} />
-        <Text variant="caption" tone="muted">
-          {IMPORT_TEXT.modeNote[mode]}
-        </Text>
-        <ImportSummary state={state} free={free} />
-        {error !== null && <Callout tone="warning">{error}</Callout>}
-        {failure !== null && <Callout tone="danger">{failure}</Callout>}
-      </Stack>
-    </DialogShell>
+    <PlanDialog title={IMPORT_TEXT.title} className="palette-import" actions={actions} error={error} failure={failure} onClose={cancel}>
+      <Button variant="secondary" onClick={state.chooseFile}>
+        {IMPORT_TEXT.file}
+      </Button>
+      <Textarea aria-label={IMPORT_TEXT.paste} placeholder={IMPORT_TEXT.pastePlaceholder} rows={3} value={text} onChange={(event) => state.setText(event.target.value)} />
+      <SegmentedControl size="sm" aria-label={IMPORT_TEXT.modes} value={mode} options={IMPORT_MODE_OPTIONS} onChange={state.setMode} />
+      <Text variant="caption" tone="muted">
+        {IMPORT_TEXT.modeNote[mode]}
+      </Text>
+      <ImportSummary state={state} free={free} />
+    </PlanDialog>
   );
 };
 

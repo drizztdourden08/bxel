@@ -36,7 +36,7 @@ describe('S1 the permissions detail of one program', { tags: ['standard'] }, () 
     expect(html).toContain('aria-label="create_document permission, overrides Files and saving"');
     expect(html).toContain('Follow bundle for create_document');
     expect(html).toContain('aria-label="1 override"');
-    expect(html).toContain('4 tools in Files and saving, 1 overridden');
+    expect(html).toContain('5 tools in Files and saving, 1 overridden');
   });
 
   it('shows the special permission off with its warning', () => {
