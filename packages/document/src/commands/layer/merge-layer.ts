@@ -6,7 +6,8 @@ import type { Layer } from '../../model/sprite.type';
 import { dropOrphans } from './drop-orphans';
 import { mergeCel } from './merge-cel';
 
-const mergeLayer = (draft: Draft, spriteId: SpriteId, source: Layer, target: Layer, maskOf?: (frameId: FrameId) => Uint8Array | undefined): void => {
+const mergeLayer = (draft: Draft, spriteId: SpriteId, layers: { readonly source: Layer; readonly target: Layer }, maskOf?: (frameId: FrameId) => Uint8Array | undefined): void => {
+  const { source, target } = layers;
   const cels: Record<FrameId, CelId> = { ...target.cels };
   for (const [frameId, from] of Object.entries(source.cels)) {
     const merged = mergeCel(draft, { spriteId, sourceLayer: source.id, from, into: target.cels[frameId as FrameId], mask: maskOf?.(frameId as FrameId) });

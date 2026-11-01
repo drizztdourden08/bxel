@@ -5,7 +5,7 @@ const reparentItem = <T extends TreeItem>(item: T, parentId: string | undefined)
   if (item.parentId === parentId) return item;
   const next: { -readonly [Key in keyof T]: T[Key] } = { ...item };
   if (parentId === undefined) delete next.parentId;
-  else next.parentId = parentId as T['parentId'];
+  else next.parentId = parentId;
   return next;
 };
 

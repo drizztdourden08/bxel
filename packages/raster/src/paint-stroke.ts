@@ -9,7 +9,6 @@ import { pixelPerfect } from './pixel-perfect';
 import { stampAt } from './stamp-at';
 import { strokePoints } from './stroke-points';
 
-/** Keeps every spacing-th stamp of the path, so a tip is laid down once per spacing pixels. */
 const spaced = (path: readonly Point[], spacing: number): readonly Point[] => (spacing > 1 ? path.filter((_, at) => at % spacing === 0) : path);
 
 const paintStroke = (options: StrokeOptions): Rect | null => {

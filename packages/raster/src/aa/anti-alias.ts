@@ -1,11 +1,5 @@
 /* @layer core @kind logic */
-import type { AntiAliasInput, AntiAliasPixel } from './anti-alias.type';
-
-interface Grid {
-  readonly pixels: Uint8Array;
-  readonly width: number;
-  readonly height: number;
-}
+import type { AntiAliasInput, AntiAliasPixel, Grid, Run } from './anti-alias.type';
 
 const at = ({ pixels, width, height }: Grid, x: number, y: number): number => (x < 0 || y < 0 || x >= width || y >= height ? -1 : (pixels[y * width + x] ?? 0));
 
@@ -15,45 +9,52 @@ const turned = (grid: Grid): Grid => {
   return { pixels, width: grid.height, height: grid.width };
 };
 
-/** The end of the run of edge pixels that starts at x, or x - 1 when there is none. */
 const runEnd = (grid: Grid, edge: number, x: number, y: number): number => {
   let end = x - 1;
   while (at(grid, end + 1, y) === edge) end += 1;
   return end;
 };
 
-const eligible = (grid: Grid, edge: number, inside: boolean, x: number, y: number): boolean => {
+const eligible = (grid: Grid, input: AntiAliasInput, x: number, y: number): boolean => {
   const here = at(grid, x, y);
-  if (here < 0 || here === edge) return false;
-  return inside ? here !== 0 : here === 0;
+  if (here < 0 || here === input.edge) return false;
+  return input.inside ? here !== 0 : here === 0;
 };
 
-/** The two cells at the corner of every step where a horizontal run of the edge colour hands over to the next row. */
-const stepCorners = (grid: Grid, input: AntiAliasInput): AntiAliasPixel[] => {
+const cornersBeside = (grid: Grid, edge: number, run: Run, next: number): (readonly [number, number])[] => {
+  const { x, end, y } = run;
+  const right = at(grid, end + 1, next) === edge && at(grid, end, next) !== edge;
+  const left = at(grid, x - 1, next) === edge && at(grid, x, next) !== edge;
+  return [...(right ? ([[end + 1, y], [end, next]] as const) : []), ...(left ? ([[x - 1, y], [x, next]] as const) : [])];
+};
+
+const runCorners = (grid: Grid, input: AntiAliasInput, run: Run): AntiAliasPixel[] => {
+  if (run.end - run.x < 1) return [];
+  return [run.y - 1, run.y + 1].flatMap((next) =>
+    cornersBeside(grid, input.edge, run, next)
+      .filter(([cx, cy]) => eligible(grid, input, cx, cy))
+      .map(([cx, cy]) => ({ x: cx, y: cy, index: input.mid })),
+  );
+};
+
+const rowCorners = (grid: Grid, input: AntiAliasInput, y: number): AntiAliasPixel[] => {
   const found: AntiAliasPixel[] = [];
-  const { edge, mid, inside } = input;
-  for (let y = 0; y < grid.height; y += 1) {
-    let x = 0;
-    while (x < grid.width) {
-      if (at(grid, x, y) !== edge) {
-        x += 1;
-        continue;
-      }
-      const end = runEnd(grid, edge, x, y);
-      for (const next of [y - 1, y + 1]) {
-        const right = at(grid, end + 1, next) === edge && at(grid, end, next) !== edge;
-        const left = at(grid, x - 1, next) === edge && at(grid, x, next) !== edge;
-        const corners: (readonly [number, number])[] = [...(right ? [[end + 1, y], [end, next]] as const : []), ...(left ? [[x - 1, y], [x, next]] as const : [])];
-        if (end - x < 1) continue;
-        for (const [cx, cy] of corners) if (eligible(grid, edge, inside, cx, cy)) found.push({ x: cx, y: cy, index: mid });
-      }
-      x = end + 1;
+  let x = 0;
+  while (x < grid.width) {
+    if (at(grid, x, y) !== input.edge) {
+      x += 1;
+      continue;
     }
+    const end = runEnd(grid, input.edge, x, y);
+    found.push(...runCorners(grid, input, { x, end, y }));
+    x = end + 1;
   }
   return found;
 };
 
-/** Proposes in between pixels that soften the stair steps along lines of one colour. Uses only the colour it is given and changes nothing itself. */
+const stepCorners = (grid: Grid, input: AntiAliasInput): AntiAliasPixel[] =>
+  Array.from({ length: grid.height }, (_, y) => rowCorners(grid, input, y)).flat();
+
 const antiAlias = (input: AntiAliasInput): AntiAliasPixel[] => {
   const grid = { pixels: input.pixels, width: input.width, height: input.height };
   const across = stepCorners(grid, input);

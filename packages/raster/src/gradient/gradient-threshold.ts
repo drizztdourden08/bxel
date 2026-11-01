@@ -4,10 +4,8 @@ import type { Point } from '../geometry.type';
 import { maskCell } from '../pattern/mask-cell';
 import { tileCell } from '../pattern/tile-cell';
 import type { DitherGrid } from './gradient-dither.type';
-import { HIGH, LOW } from './gradient-threshold.constants';
+import { HIGH, LOW, ORIGIN } from './gradient-threshold.constants';
 import type { GradientPattern } from './gradient.type';
-
-const ORIGIN = { x: 0, y: 0 } as const;
 
 const wrapped = (value: number, side: number): number => ((value % side) + side) % side;
 

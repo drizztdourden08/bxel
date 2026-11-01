@@ -1,42 +1,33 @@
 /* @layer core @kind logic */
 import { BAND_MIN, LINT_LIMIT, LINT_RULES } from './lint.constants';
 import type { LintFinding, LintInput, LintResult, LintRule } from './lint.type';
-
-const SIDES: readonly (readonly [number, number])[] = [[0, -1], [1, 0], [0, 1], [-1, 0]];
-const RING: readonly (readonly [number, number])[] = [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]];
-
-interface Grid {
-  readonly pixels: Uint8Array;
-  readonly width: number;
-  readonly height: number;
-}
+import { RING, SIDES } from './lint-pixels.constants';
+import type { Grid, Run, Spot } from './lint-pixels.type';
 
 const at = ({ pixels, width, height }: Grid, x: number, y: number): number => (x < 0 || y < 0 || x >= width || y >= height ? 0 : (pixels[y * width + x] ?? 0));
 
 const cell = (rule: LintRule, x: number, y: number, index: number): LintFinding => ({ rule, x, y, width: 1, height: 1, index });
 
-const sameAround = (grid: Grid, x: number, y: number, index: number, offsets: readonly (readonly [number, number])[]): number =>
-  offsets.filter(([dx, dy]) => at(grid, x + dx, y + dy) === index).length;
+const sameAround = (grid: Grid, spot: Spot, offsets: readonly (readonly [number, number])[]): number =>
+  offsets.filter(([dx, dy]) => at(grid, spot.x + dx, spot.y + dy) === spot.index).length;
 
-/** A pixel with no neighbour of its own index in the ring of eight. */
 const orphans = (grid: Grid): LintFinding[] => {
   const found: LintFinding[] = [];
   for (let y = 0; y < grid.height; y += 1) {
     for (let x = 0; x < grid.width; x += 1) {
       const index = at(grid, x, y);
-      if (index !== 0 && sameAround(grid, x, y, index, RING) === 0) found.push(cell('orphan', x, y, index));
+      if (index !== 0 && sameAround(grid, { x, y, index }, RING) === 0) found.push(cell('orphan', x, y, index));
     }
   }
   return found;
 };
 
-/** The corner pixel of a one pixel line: it touches the line on one horizontal and one vertical side and nowhere else, so pixel perfect drawing would drop it. */
 const doubles = (grid: Grid): LintFinding[] => {
   const found: LintFinding[] = [];
   for (let y = 0; y < grid.height; y += 1) {
     for (let x = 0; x < grid.width; x += 1) {
       const index = at(grid, x, y);
-      if (index === 0 || sameAround(grid, x, y, index, RING) !== 2) continue;
+      if (index === 0 || sameAround(grid, { x, y, index }, RING) !== 2) continue;
       const sides = SIDES.filter(([dx, dy]) => at(grid, x + dx, y + dy) === index);
       const first = sides[0];
       const second = sides[1];
@@ -45,12 +36,6 @@ const doubles = (grid: Grid): LintFinding[] => {
   }
   return found;
 };
-
-interface Run {
-  readonly start: number;
-  readonly end: number;
-  readonly index: number;
-}
 
 const runsOfRow = (grid: Grid, y: number): Run[] => {
   const runs: Run[] = [];
@@ -67,22 +52,32 @@ const runsOfRow = (grid: Grid, y: number): Run[] => {
 
 const sameSpan = (a: Run, b: Run): boolean => a.start === b.start && a.end === b.end && a.index !== b.index;
 
-/** Rows of runs of different colours that stack with the same extent: parallel stripes that read as banding. Columns are found by turning the grid. */
+const stackDepth = (rows: readonly Run[][], y: number, run: Run): number => {
+  let depth = 1;
+  let last = run;
+  for (let next = y + 1; next < rows.length; next += 1) {
+    const stacked = (rows[next] ?? []).find((candidate) => sameSpan(last, candidate));
+    if (!stacked) break;
+    depth += 1;
+    last = stacked;
+  }
+  return depth;
+};
+
+const bandAt = (rows: readonly Run[][], y: number, run: Run): LintFinding | undefined => {
+  const depth = stackDepth(rows, y, run);
+  const previous = (rows[y - 1] ?? []).some((candidate) => sameSpan(candidate, run));
+  if (depth < BAND_MIN.rows || previous) return undefined;
+  return { rule: 'banding', x: run.start, y, width: run.end - run.start + 1, height: depth, index: run.index };
+};
+
 const horizontalBands = (grid: Grid): LintFinding[] => {
   const found: LintFinding[] = [];
   const rows = Array.from({ length: grid.height }, (_, y) => runsOfRow(grid, y));
   for (let y = 0; y + BAND_MIN.rows <= grid.height; y += 1) {
     for (const run of rows[y] ?? []) {
-      let depth = 1;
-      let last = run;
-      for (let next = y + 1; next < grid.height; next += 1) {
-        const stacked = (rows[next] ?? []).find((candidate) => sameSpan(last, candidate));
-        if (!stacked) break;
-        depth += 1;
-        last = stacked;
-      }
-      const previous = (rows[y - 1] ?? []).some((candidate) => sameSpan(candidate, run));
-      if (depth >= BAND_MIN.rows && !previous) found.push({ rule: 'banding', x: run.start, y, width: run.end - run.start + 1, height: depth, index: run.index });
+      const band = bandAt(rows, y, run);
+      if (band) found.push(band);
     }
   }
   return found;
@@ -99,12 +94,15 @@ const bands = (grid: Grid): LintFinding[] => [
   ...horizontalBands(turned(grid)).map((finding) => ({ ...finding, x: finding.y, y: finding.x, width: finding.height, height: finding.width })),
 ];
 
-const CHECKS: Readonly<Record<LintRule, (grid: Grid) => LintFinding[]>> = { orphan: orphans, double: doubles, banding: bands };
+const checkFor = (rule: LintRule): ((grid: Grid) => LintFinding[]) => {
+  if (rule === 'orphan') return orphans;
+  if (rule === 'double') return doubles;
+  return bands;
+};
 
-/** Finds orphan pixels, doubles on one pixel lines and banding stripes in an index buffer. Read only. */
 const lintPixels = ({ pixels, width, height, rules = LINT_RULES, limit = LINT_LIMIT }: LintInput): LintResult => {
   const grid = { pixels, width, height };
-  const all = LINT_RULES.filter((rule) => rules.includes(rule)).flatMap((rule) => CHECKS[rule](grid));
+  const all = LINT_RULES.filter((rule) => rules.includes(rule)).flatMap((rule) => checkFor(rule)(grid));
   return { findings: all.slice(0, limit), total: all.length };
 };
 

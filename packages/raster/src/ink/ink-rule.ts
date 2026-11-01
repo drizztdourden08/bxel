@@ -36,12 +36,16 @@ const ditherRule = (ink: Extract<Ink, { kind: 'dither' }>, mask: BufferView | nu
   };
 };
 
+const otherRule = (ink: Ink, table: Uint8Array | null): InkRule | null => {
+  if (isPlacement(ink)) return placementRule(ink);
+  return SHADING_KINDS.has(ink.kind) ? shadingRule(table) : null;
+};
+
 const inkRule = (ink: Ink | undefined, table: Uint8Array | null = null, patch: BufferView | null = null): InkRule | null => {
   if (!ink || ink.kind === 'normal') return null;
   if (ink.kind === 'dither') return ditherRule(ink, ink.brushId === undefined ? null : patch);
   if (ink.kind === 'pattern') return patch ? patternRule(patch, ink) : null;
-  if (isPlacement(ink)) return placementRule(ink);
-  return SHADING_KINDS.has(ink.kind) ? shadingRule(table) : null;
+  return otherRule(ink, table);
 };
 
 export { inkRule };

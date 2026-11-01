@@ -1,7 +1,8 @@
 /* @layer tests @kind test */
 import { encodeBrushPixels } from '@bxel/document';
 import type { Artwork, BrushId } from '@bxel/document';
-import { ditherOn, PATTERN_IDS } from '@bxel/raster';
+import { ditherOn } from '@bxel/raster';
+import type { PATTERN_IDS } from '@bxel/raster';
 import { describe, expect, test } from 'vitest';
 import { errorOf, pixelEngine, request, stepOf } from './advanced-kit';
 import { brand } from './brand';

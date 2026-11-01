@@ -1,6 +1,5 @@
 /* @layer core @kind logic */
-
-type AseName = { readonly name: string; readonly next: number };
+import type { AseName } from './read-ase-name.type';
 
 const readAseName = (view: DataView, at: number): AseName | undefined => {
   if (at + 2 > view.byteLength) return undefined;
@@ -16,4 +15,3 @@ const readAseName = (view: DataView, at: number): AseName | undefined => {
 };
 
 export { readAseName };
-export type { AseName };

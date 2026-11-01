@@ -1,6 +1,5 @@
 /* @layer core @kind logic */
 
-/** Length (in 16 bit units, null included) then the UTF-16BE name and its null. */
 const writeAseName = (name: string): Uint8Array => {
   const units = name.length + 1;
   const out = new Uint8Array(2 + units * 2);

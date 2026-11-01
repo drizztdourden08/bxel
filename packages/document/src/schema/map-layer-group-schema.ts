@@ -1,9 +1,8 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
+import { MAX_GROUPED } from './map-layer-group-schema.constants';
 import { mapLayerRefSchema } from './map-layer-ref-schema';
 import { tilemapRefSchema } from './tilemap-ref-schema';
-
-const MAX_GROUPED = 256;
 
 const mapLayerGroupSchema = z.strictObject({
   tilemap: tilemapRefSchema,
