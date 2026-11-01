@@ -16,6 +16,7 @@ import { meta as optionsPresetsCustomMeta } from '../src/screens/options/presets
 import { meta as optionsStoragePageMeta } from '../src/screens/options/storage.page';
 import { meta as optionsSurroundCustomMeta } from '../src/screens/options/surround.custom';
 import { meta as optionsSwatchesCustomMeta } from '../src/screens/options/swatches.custom';
+import OptionsToolsSettings, { meta as optionsToolsSettingsMeta } from '../src/screens/options/tools.settings';
 import { meta as projectBrowseCustomMeta } from '../src/screens/project/browse.custom';
 import { meta as projectHealthCustomMeta } from '../src/screens/project/health.custom';
 import ProjectProjectSettingsDefaultsSettings, { meta as projectProjectSettingsDefaultsSettingsMeta } from '../src/screens/project/project-settings/defaults.settings';
@@ -24,6 +25,7 @@ import ProjectProjectSettingsFoldersSettings, { meta as projectProjectSettingsFo
 import ProjectProjectSettingsGeneralSettings, { meta as projectProjectSettingsGeneralSettingsMeta } from '../src/screens/project/project-settings/general.settings';
 import { meta as projectProjectsCustomMeta } from '../src/screens/project/projects.custom';
 import PropertiesAnimationSettings, { meta as propertiesAnimationSettingsMeta } from '../src/screens/properties/animation.settings';
+import { meta as propertiesManyCustomMeta } from '../src/screens/properties/many.custom';
 import { meta as propertiesNoneCustomMeta } from '../src/screens/properties/none.custom';
 import { meta as propertiesOverviewCustomMeta } from '../src/screens/properties/overview.custom';
 import PropertiesPaletteSettings, { meta as propertiesPaletteSettingsMeta } from '../src/screens/properties/palette.settings';
@@ -49,6 +51,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'page', bucket: 'options', id: 'storage', component: lazyComponent(() => import('../src/screens/options/storage.page')), meta: optionsStoragePageMeta },
   { kind: 'custom', bucket: 'options', id: 'surround', component: lazyComponent(() => import('../src/screens/options/surround.custom')), meta: optionsSurroundCustomMeta },
   { kind: 'custom', bucket: 'options', id: 'swatches', component: lazyComponent(() => import('../src/screens/options/swatches.custom')), meta: optionsSwatchesCustomMeta },
+  { kind: 'settings', bucket: 'options', id: 'tools', sections: OptionsToolsSettings, meta: optionsToolsSettingsMeta },
   { kind: 'custom', bucket: 'project', id: 'browse', component: lazyComponent(() => import('../src/screens/project/browse.custom')), meta: projectBrowseCustomMeta },
   { kind: 'custom', bucket: 'project', id: 'health', component: lazyComponent(() => import('../src/screens/project/health.custom')), meta: projectHealthCustomMeta },
   { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'defaults', sections: ProjectProjectSettingsDefaultsSettings, meta: projectProjectSettingsDefaultsSettingsMeta },
@@ -57,6 +60,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'settings', bucket: 'project', group: 'project-settings', id: 'general', sections: ProjectProjectSettingsGeneralSettings, meta: projectProjectSettingsGeneralSettingsMeta },
   { kind: 'custom', bucket: 'project', id: 'projects', component: lazyComponent(() => import('../src/screens/project/projects.custom')), meta: projectProjectsCustomMeta },
   { kind: 'settings', bucket: 'properties', id: 'animation', sections: PropertiesAnimationSettings, meta: propertiesAnimationSettingsMeta },
+  { kind: 'custom', bucket: 'properties', id: 'many', component: lazyComponent(() => import('../src/screens/properties/many.custom')), meta: propertiesManyCustomMeta },
   { kind: 'custom', bucket: 'properties', id: 'none', component: lazyComponent(() => import('../src/screens/properties/none.custom')), meta: propertiesNoneCustomMeta },
   { kind: 'custom', bucket: 'properties', id: 'overview', component: lazyComponent(() => import('../src/screens/properties/overview.custom')), meta: propertiesOverviewCustomMeta },
   { kind: 'settings', bucket: 'properties', id: 'palette', sections: PropertiesPaletteSettings, meta: propertiesPaletteSettingsMeta },
