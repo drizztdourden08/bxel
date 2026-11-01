@@ -2,7 +2,7 @@
 import { DEFAULT_PROJECT_VIEW } from '../panel-browser/project-browser.constants';
 import type { ProjectSettings } from './project.type';
 
-const PROJECT_DEFAULTS: ProjectSettings = { projectRecents: [], projectTabs: {}, projectOpenOnClick: false, projectView: DEFAULT_PROJECT_VIEW };
+const PROJECT_DEFAULTS: ProjectSettings = { projectRecents: [], projectTabs: {}, projectOpenOnClick: false, workspacePerFileType: true, pinnedProjects: [], projectView: DEFAULT_PROJECT_VIEW };
 
 const PROJECT_WIDGET_ID = 'project';
 

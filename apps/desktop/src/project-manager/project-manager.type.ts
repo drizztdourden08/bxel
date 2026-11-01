@@ -8,6 +8,7 @@ type KnownProject = {
   readonly name: string;
   readonly rootRealPath: string;
   readonly open: boolean;
+  readonly pinned: boolean;
   readonly openedAt: string;
 };
 

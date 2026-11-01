@@ -16,6 +16,11 @@ const RowBadges = ({ item, status, model }: RowPartProps) => {
           <Icon name={BADGE_ICON.readOnly} label={PANEL_UI.readOnly} size={12} />
         </Tooltip>
       ) : null}
+      {marks.legacy ? (
+        <Tooltip content={PANEL_UI.legacySplit}>
+          <Badge variant="inline" color="info" value={PANEL_UI.legacySplitMark} label={PANEL_UI.legacySplit} />
+        </Tooltip>
+      ) : null}
       {marks.missing === null ? null : (
         <Tooltip content={marks.missing}>
           <Icon name={BADGE_ICON.missing} label={marks.missing} size={12} className="project-badges__missing" />

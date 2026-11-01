@@ -12,6 +12,8 @@ const PROJECTS_TEXT = {
   openProject: 'Open project...',
   listEmpty: 'No projects yet. Make one or open one.',
   openBadge: 'Open',
+  pinLabel: (name: string): string => `Pin ${name} to the top`,
+  unpinLabel: (name: string): string => `Unpin ${name}`,
   removeLabel: (name: string): string => `Remove ${name} from the list`,
   emptyTitle: 'Pick a project',
   emptyMessage: 'Pick a project on the left to look inside it, or start a new one. A project keeps your sprites, sheets and palettes together.',

@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Button, Disclosure, FormRow, Slider, Stack, Toggle } from '@drizztdourden08/tessera';
-import { HOLD_RANGE, TOOL_PREFS_DEFAULTS } from '../../../stores/tool-prefs-store.constants';
+import { HOLD_RANGE, SPRING_RANGE, TOOL_PREFS_DEFAULTS } from '../../../stores/tool-prefs-store.constants';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { TOOLS_PANEL_TEXT } from '../ToolsPanel.constants';
@@ -23,6 +23,15 @@ const ToolPreferences = () => {
           onReset={() => prefs.patch({ holdMs: TOOL_PREFS_DEFAULTS.holdMs })}
         >
           <Slider aria-label={TOOLS_PANEL_TEXT.holdDelay} min={HOLD_RANGE.min} max={HOLD_RANGE.max} step={HOLD_RANGE.step} value={prefs.holdMs} input onChange={(holdMs) => prefs.patch({ holdMs })} />
+        </FormRow>
+        <FormRow
+          label={TOOLS_PANEL_TEXT.springDelay}
+          description={TOOLS_PANEL_TEXT.springDelayHint}
+          descriptionOverflow="hint"
+          changed={prefs.springMs !== TOOL_PREFS_DEFAULTS.springMs}
+          onReset={() => prefs.patch({ springMs: TOOL_PREFS_DEFAULTS.springMs })}
+        >
+          <Slider aria-label={TOOLS_PANEL_TEXT.springDelay} min={SPRING_RANGE.min} max={SPRING_RANGE.max} step={SPRING_RANGE.step} value={prefs.springMs} input onChange={(springMs) => prefs.patch({ springMs })} />
         </FormRow>
         <FormRow label={TOOLS_PANEL_TEXT.shareBrush} description={TOOLS_PANEL_TEXT.shareBrushHint} descriptionOverflow="hint">
           <Toggle aria-label={TOOLS_PANEL_TEXT.shareBrush} checked={share} onChange={(on) => useToolStore.getState().setShareBrush(on)} />

@@ -29,6 +29,12 @@ const sections: Section[] = [
         hint: 'On, the app opens fullscreen the next time it starts. The window you have now stays as it is.',
       },
       {
+        key: 'workspacePerFileType',
+        label: 'Remember the layout for each file type',
+        description: 'Each kind of file keeps the widget layout you arranged for it.',
+        hint: 'On, an animation you arranged once returns on the next animation tab, and a sprite keeps its own. Off, every file shares one layout. Window, Widgets, Workspace lists them and resets one.',
+      },
+      {
         key: 'widgetLayout',
         label: 'Widget layout',
         description: 'Put the widgets back where they start.',

@@ -15,6 +15,7 @@ type RowEditorProps = RowPartProps & { readonly creating: boolean };
 
 type BadgeMarks = {
   readonly readOnly: boolean;
+  readonly legacy: boolean;
   readonly missing: string | null;
   readonly unsaved: boolean;
   readonly open: boolean;

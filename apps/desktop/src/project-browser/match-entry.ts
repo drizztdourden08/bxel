@@ -1,7 +1,9 @@
 /* @layer renderer-app @kind logic */
 import { KIND_LABEL } from '../asset-list/asset-list.constants';
-import { LEAF_KINDS } from './project-browser.constants';
+import { LEAF_KINDS, RECENT_DAYS } from './project-browser.constants';
 import type { BrowserQuery, FileEntry, NumberTest } from './project-browser.type';
+
+const DAY_MS = 86_400_000;
 
 const compared = (value: number, test: NumberTest): boolean => {
   if (test.op === 'lt') return value < test.value;
@@ -16,6 +18,9 @@ const flagHolds = (entry: FileEntry, flag: BrowserQuery['is'][number]): boolean 
   if (flag === 'unsaved') return entry.row.dirty;
   if (flag === 'open') return entry.facts.open;
   if (flag === 'pinned') return entry.pinned;
+  if (flag === 'broken') return entry.facts.broken;
+  if (flag === 'misplaced') return entry.facts.misplaced;
+  if (flag === 'recent') return entry.row.modified > Date.now() - RECENT_DAYS * DAY_MS;
   return LEAF_KINDS.has(entry.row.kind) && entry.facts.usedBy.length === 0;
 };
 

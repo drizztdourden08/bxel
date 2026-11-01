@@ -2,6 +2,7 @@
 import { EmptyState } from '@drizztdourden08/tessera';
 import { HEALTH_TEXT } from '../../../project-health/project-health.constants';
 import type { ReportProps } from '../ProjectHealth.type';
+import { CappedSection } from './CappedSection';
 import { DuplicatesSection } from './DuplicatesSection';
 import { LinkSection } from './LinkSection';
 import { MisplacedSection } from './MisplacedSection';
@@ -16,6 +17,7 @@ const HealthBody = ({ report, actions }: ReportProps) => (
     {report.unused.length > 0 && <UnusedSection report={report} actions={actions} />}
     {report.misplaced.length > 0 && <MisplacedSection report={report} actions={actions} />}
     {report.duplicates.length > 0 && <DuplicatesSection report={report} actions={actions} />}
+    {report.capped.length > 0 && <CappedSection report={report} actions={actions} />}
     <StateSections report={report} actions={actions} />
   </>
 );

@@ -2,6 +2,8 @@
 import { Box, MarqueeBox, VirtualGrid } from '@drizztdourden08/tessera';
 import type { VirtualGridCellBind, VirtualGridHandle } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
+import type { WheelEvent } from 'react';
+import { wheelBox } from '../../../sheet-manager/wheel-box';
 import { entryId } from '../../../sheet-manager/entry-id';
 import type { EntryFacts } from '../../../sheet-manager/manager.type';
 import { useManagerStore } from '../../../stores/useManagerStore';
@@ -37,9 +39,12 @@ const SpriteGrid = (props: SpriteGridProps) => {
     tileWidth: size.width,
     tileHeight: size.height,
   };
+  const onWheel = (event: WheelEvent<HTMLElement>) => {
+    if (event.ctrlKey) useManagerStore.getState().patch({ zoom: wheelBox(box, event.deltaY) });
+  };
   const onlyRoot = groups.length === 1 && groups[0]?.path === '';
   return (
-    <Box className="sprites-panel__virtual" onClick={marquee.onClick}>
+    <Box className="sprites-panel__virtual" onClick={marquee.onClick} onWheel={onWheel}>
       {onlyRoot ? (
         <VirtualGrid {...common} items={[...groups.flatMap((group): EntryFacts[] => [...group.facts]), ...model.animations]} />
       ) : (

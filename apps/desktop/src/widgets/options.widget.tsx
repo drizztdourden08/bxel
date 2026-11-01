@@ -9,7 +9,7 @@ const meta: WidgetMeta = {
   defaultSide: 'right',
   defaultDockedSize: 288,
   dockWeight: 2,
-  popOut: false,
+  popOut: true,
   defaultVisibility: 'context-only',
   context: WIDGET_CONTEXT.options,
 };

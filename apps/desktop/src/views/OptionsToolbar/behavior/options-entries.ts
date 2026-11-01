@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
+import { shortcutsHelp, toast, useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { allPresets } from '../../../editor/presets/all-presets';
 import { applyPreset } from '../../../editor/presets/apply-preset';
@@ -10,6 +10,7 @@ import { resetAllTools } from '../../../editor/tool-options/reset-all-tools';
 import { resetOption } from '../../../editor/tool-options/reset-option';
 import { resetTool } from '../../../editor/tool-options/reset-tool';
 import { announcePreset } from '../../../editor/tool-pick/announce-preset';
+import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { currentSurface } from '../../../editor/tool-catalogue/current-surface';
@@ -34,8 +35,18 @@ const optionsEntries = (context: ContextMenuContext): ContextMenuEntry[] => {
   const tool = useToolStore.getState().tool;
   const painting = currentSurface() === 'sprite' || currentSurface() === 'tile';
   const own: ContextMenuEntry[] = spec && spec.kind !== 'action' && painting ? [{ label: OPTIONS_TEXT.resetOption, icon: 'rotate-ccw', run: () => resetOption(spec) }] : [];
+  const inBar = spec?.tier === 1;
+  const placing: ContextMenuEntry[] = spec
+    ? [
+        { label: inBar ? OPTIONS_TEXT.hideFromBar : OPTIONS_TEXT.showInBar, icon: inBar ? 'eye-off' : 'eye', run: () => useToolPrefsStore.getState().setOptionTier(spec.id, inBar ? 2 : 1) },
+        { label: OPTIONS_TEXT.assignKey, icon: 'keyboard', run: () => shortcutsHelp.open() },
+        { label: OPTIONS_TEXT.help, icon: 'info', run: () => toast(`${spec.label}. ${spec.description}`, { variant: 'info' }) },
+        'separator',
+      ]
+    : [];
   return [
     ...own,
+    ...placing,
     ...presetEntries(),
     { label: TOOL_MENU_TEXT.savePreset, icon: 'save', run: () => void openSaveDraft() },
     { label: TOOL_MENU_TEXT.resetOptions, icon: 'rotate-ccw', run: () => resetTool(tool) },

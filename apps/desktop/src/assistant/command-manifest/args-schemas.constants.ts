@@ -47,6 +47,7 @@ const ARGS_KINDS = {
   mergeSwatch: z.strictObject({ index: z.number().int().min(1).max(255), into: index }),
   optionValue: z.strictObject({ value: optionValue.optional() }),
   optionTarget: z.strictObject({ tool: z.string().min(1).optional(), option: z.string().min(1).describe('An option id from list_commands or the option model, such as fill.area.').optional(), value: optionValue.optional() }),
+  tileKey: z.strictObject({ key: z.number().int().min(1).describe('A tile key from get_document. Without it the picked tile is used.').optional() }),
   preset: z.strictObject({ id: z.string().min(1).describe('A preset id, such as builtin.pencil-2.') }),
   paletteExport: z.strictObject({ format: z.enum(['gpl', 'pal', 'hex', 'txt', 'ase', 'png-1', 'png-8', 'png-32']).describe('The file format. The png formats are a one row strip scaled 1x, 8x or 32x.'), selection: z.boolean().default(false).describe('True exports only the selected swatches.') }),
   moveColour: z.strictObject({ index: z.number().int().min(1).max(255).optional().describe('The swatch whose colour moves. Default: the first selected swatch.') }),

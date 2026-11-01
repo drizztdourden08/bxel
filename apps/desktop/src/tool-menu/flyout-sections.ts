@@ -6,6 +6,7 @@ import { resetTool } from '../editor/tool-options/reset-tool';
 import { announcePreset } from '../editor/tool-pick/announce-preset';
 import { pickMember } from '../editor/tool-pick/pick-member';
 import { useToolPrefsStore } from '../stores/useToolPrefsStore';
+import { focusOptionsBar } from './focus-options-bar';
 import { optionSections } from './option-sections';
 import { TOOL_MENU_TEXT, TOOLS_WIDGET_ID } from './tool-menu.constants';
 import type { FlyoutModel, FlyoutRow, FlyoutSection } from './tool-menu.type';
@@ -43,6 +44,7 @@ const presetRows = (model: FlyoutModel): FlyoutRow[] => [
 ];
 
 const footerRows = (model: FlyoutModel): FlyoutRow[] => [
+  action('options', TOOL_MENU_TEXT.focusOptions, undefined, () => void focusOptionsBar()),
   action('reset', TOOL_MENU_TEXT.resetOptions, 'rotate-ccw', () => resetTool(model.slot.tool)),
   action('hide', model.hidden ? TOOL_MENU_TEXT.show : TOOL_MENU_TEXT.hide, model.hidden ? 'eye' : 'eye-off', () =>
     model.slot.members.forEach((member) => useToolPrefsStore.getState().toggleHidden(member.id)),

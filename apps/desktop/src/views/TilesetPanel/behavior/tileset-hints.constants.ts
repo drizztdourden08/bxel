@@ -35,6 +35,9 @@ const TILE_MENU = {
   place: 'Place with this tile',
   remove: 'Delete tile...',
   needCells: 'Select some cells on the map first.',
+  find: 'Find on map',
+  collisionMenu: 'Collision',
+  dataMenu: 'Data',
 } as const;
 
 const BRUSH_ACTIONS: readonly { op: StampTransform; icon: IconName; hint: HintSpec }[] = [

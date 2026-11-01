@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { confirmAction, toast } from '@drizztdourden08/brock-react';
+import { announce, confirmAction, toast } from '@drizztdourden08/brock-react';
 import { fileKit } from '../files/file-kit';
 import { fileName } from '../files/file-name';
 import { reasonOf } from '../files/reason-of';
@@ -26,7 +26,9 @@ const trashEntries = async (paths: readonly string[]): Promise<boolean> => {
       await kit.documents.trash(path);
       useFileStore.getState().retarget(path, null);
     }
-    toast(FILE_OPS_TEXT.trashed(wanted.length, fileName(wanted[0] ?? '')), { variant: 'success' });
+    const said = FILE_OPS_TEXT.trashed(wanted.length, fileName(wanted[0] ?? ''));
+    toast(said, { variant: 'success' });
+    announce(said);
     return true;
   } catch (error) {
     toast(reasonOf(error), { variant: 'danger' });

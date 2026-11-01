@@ -1,13 +1,15 @@
 /* @layer renderer-app @kind logic */
 import type { HoldContext } from '@drizztdourden08/brock-react';
+import { useToolPrefsStore } from '../../stores/useToolPrefsStore';
 import { useToolStore } from '../../stores/useToolStore';
-import { springFrom } from './spring-from';
+import { useSpringStore } from './use-spring-store';
 
 const endSpring = (context: HoldContext): void => {
-  const back = springFrom.tool;
-  springFrom.tool = null;
+  const back = useSpringStore.getState().tool;
+  useSpringStore.getState().borrow(null, null);
   const leaving = context.cause === 'keyup' || context.cause === 'blur';
-  if (back && leaving && !context.tap) useToolStore.getState().setTool(back);
+  const tap = context.heldMs < useToolPrefsStore.getState().springMs;
+  if (back && leaving && !tap) useToolStore.getState().setTool(back);
 };
 
 export { endSpring };

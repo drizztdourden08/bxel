@@ -5,7 +5,7 @@ import type { AssetRow, ListedFile, RowKind } from '../asset-list/asset-list.typ
 
 type BrowserView = 'grid' | 'list' | 'columns';
 
-type SortKey = 'name' | 'kind' | 'modified' | 'folder' | 'size' | 'frames' | 'usedBy';
+type SortKey = 'name' | 'kind' | 'modified' | 'created' | 'folder' | 'size' | 'colours' | 'frames' | 'usedBy';
 
 type BrowserSort = { readonly key: SortKey; readonly descending: boolean };
 
@@ -20,6 +20,8 @@ type BrowserFacts = {
   readonly open: boolean;
   readonly tags: readonly string[];
   readonly collections: readonly string[];
+  readonly broken: boolean;
+  readonly misplaced: boolean;
 };
 
 type FileEntry = {
@@ -61,7 +63,7 @@ type BrowserQuery = {
   readonly chips: readonly QueryChip[];
 };
 
-type QueryFlag = 'unused' | 'unsaved' | 'open' | 'pinned';
+type QueryFlag = 'unused' | 'unsaved' | 'open' | 'pinned' | 'broken' | 'misplaced' | 'recent';
 
 type QueryChip = { readonly text: string; readonly label: string };
 

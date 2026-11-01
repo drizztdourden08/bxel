@@ -4,6 +4,7 @@ import type { IndexedLink, LinkIndex } from '../workspace/link-index.type';
 import { linkFixId } from './link-fix-id';
 import { misplacedFiles } from './misplaced-files';
 import { EMPTY_REPORT, LEAF_KINDS } from './project-health.constants';
+import { MAX_WORKSPACE_ASSETS } from '../workspace/workspace.constants';
 import type { FileFinding, HealthContext, HealthReport, LinkFinding } from './project-health.type';
 import { protectedIds } from './protected-ids';
 
@@ -29,6 +30,9 @@ const unusedFiles = (index: LinkIndex, context: HealthContext): readonly FileFin
     .map((file) => ({ fix: `unused:${file.path}`, path: file.path, name: file.name, kind: file.kind }));
 };
 
+const cappedFiles = (index: LinkIndex): readonly FileFinding[] =>
+  index.files.slice(MAX_WORKSPACE_ASSETS).map((file) => ({ fix: `capped:${file.path}`, path: file.path, name: file.name, kind: file.kind }));
+
 const buildHealth = (index: LinkIndex, context: HealthContext): HealthReport => {
   const broken = index.links.filter((link) => link.state === 'missing' || link.state === 'ambiguous').map((link) => findingOf(link, index));
   const moved = index.links.filter((link) => link.state === 'moved').map((link) => findingOf(link, index));
@@ -44,9 +48,10 @@ const buildHealth = (index: LinkIndex, context: HealthContext): HealthReport => 
     duplicates: index.duplicates,
     unsaved: context.unsaved,
     access,
+    capped: cappedFiles(index),
     files: index.files.length,
   };
-  return { ...report, total: report.broken.length + report.moved.length + report.unused.length + report.misplaced.length + report.duplicates.length + (report.unsaved > 0 ? 1 : 0) + report.access.length };
+  return { ...report, total: report.broken.length + report.moved.length + report.unused.length + report.misplaced.length + report.duplicates.length + (report.unsaved > 0 ? 1 : 0) + report.access.length + (report.capped.length > 0 ? 1 : 0) };
 };
 
 export { buildHealth };

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { ToolbarItem, ToolbarToggle } from '@drizztdourden08/tessera';
 import { createElement } from 'react';
+import { CATALOGUE_TEXT, SLOT_GROUPS } from '../../../editor/tool-catalogue/tool-catalogue.constants';
 import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.type';
 import { SlotIcon } from '../../SlotIcon';
 import type { SlotIconProps } from '../../SlotIcon/SlotIcon.type';
@@ -32,9 +33,15 @@ const slotItem = (slot: ToolSlot, context: SlotItemContext): ToolbarToggle => {
     icon: createElement(SlotIcon, { member: context.shown, filled: context.filled, mark: slotMark(slot, context), badge: context.badge }),
     options: off ? undefined : context.groups,
     pressed: context.active === slot.tool && !off,
+    borrowed: context.borrowed === slot.tool,
     disabled: off,
     onChange: () => context.pick(slot),
   };
+};
+
+const groupName = (slot: ToolSlot): string | undefined => {
+  const group = SLOT_GROUPS.find((entry) => entry.id === slot.group);
+  return group ? CATALOGUE_TEXT.group(group.label) : undefined;
 };
 
 const railItems = (slots: readonly ToolSlot[], contextOf: (slot: ToolSlot) => SlotItemContext): ToolbarItem[] => {
@@ -44,7 +51,7 @@ const railItems = (slots: readonly ToolSlot[], contextOf: (slot: ToolSlot) => Sl
   });
   return shown.flatMap(({ slot, context }, at): ToolbarItem[] => {
     const split = at > 0 && shown[at - 1]?.slot.group !== slot.group;
-    return [...(split ? [{ kind: 'separator' as const, id: `before-${slot.group}` }] : []), slotItem(slot, context)];
+    return [...(split ? [{ kind: 'separator' as const, id: `before-${slot.group}`, label: groupName(slot) }] : []), slotItem(slot, context)];
   });
 };
 

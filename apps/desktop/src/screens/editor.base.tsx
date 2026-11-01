@@ -10,6 +10,7 @@ import { useArtworkTitle } from '../hooks/useArtworkTitle';
 import { useAssistantHost } from '../hooks/useAssistantHost';
 import { useProjectHost } from '../hooks/useProjectHost';
 import { useToolHost } from '../hooks/useToolHost';
+import { useFileTypeWorkspaces } from '../stage-layout/useFileTypeWorkspaces';
 import { useWidgetRules } from '../ui-context/useWidgetRules';
 import { useWorkspaceHost } from '../hooks/useWorkspaceHost';
 import { EditorScreen } from '../views/EditorScreen';
@@ -28,6 +29,7 @@ const EditorBase = () => {
   useEditorNotices();
   useEditorAnnouncements();
   useWidgetRules();
+  useFileTypeWorkspaces();
   useToolHost();
   return <EditorScreen />;
 };

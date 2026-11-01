@@ -3,7 +3,7 @@ import type { AssetKind } from '@bxel/document';
 import type { OpenProject } from '../project/project.type';
 import type { DuplicateId, LinkIndex, LinkState } from '../workspace/link-index.type';
 
-type HealthCheck = 'broken' | 'moved' | 'unused' | 'misplaced' | 'duplicates' | 'unsaved' | 'access';
+type HealthCheck = 'broken' | 'moved' | 'unused' | 'misplaced' | 'duplicates' | 'unsaved' | 'access' | 'capped';
 
 type LinkFinding = {
   readonly fix: string;
@@ -33,6 +33,7 @@ type HealthReport = {
   readonly duplicates: readonly DuplicateId[];
   readonly unsaved: number;
   readonly access: readonly AccessFinding[];
+  readonly capped: readonly FileFinding[];
   readonly total: number;
   readonly files: number;
 };

@@ -8,7 +8,7 @@ const WIDGET_RULES: Record<string, UiRule> = {
   'widget.layers': rule({ applies: any(EDIT_STAGE, SHEET) }),
   'widget.palette': rule({ applies: PALETTE_STAGE }),
   'widget.timeline': rule({ applies: all(PIXEL, any(not(file('tileset')), animatedTile)) }),
-  'widget.options': rule({ applies: EDIT_STAGE }),
+  'widget.options': rule({ applies: any(EDIT_STAGE, SHEET) }),
   'widget.tools': rule({ applies: any(EDIT_STAGE, SHEET) }),
   'widget.view': rule({ applies: VIEW_STAGE }),
   'viewpanel.navigator': rule({ applies: VIEW_STAGE }),
@@ -23,7 +23,7 @@ const WIDGET_RULES: Record<string, UiRule> = {
   'widget.project': rule({ applies: always }),
   'toolbar.tools': rule({ applies: not(surface('palette')) }),
   'toolbar.canvas': rule({ applies: VIEW_STAGE }),
-  'toolbar.options': rule({ applies: EDIT_STAGE }),
+  'toolbar.options': rule({ applies: any(EDIT_STAGE, SHEET) }),
 };
 
 export { WIDGET_RULES };

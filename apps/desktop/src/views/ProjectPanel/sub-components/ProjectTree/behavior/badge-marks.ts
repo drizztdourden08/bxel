@@ -13,6 +13,7 @@ const badgeMarks = (item: BrowserItem, status: ItemStatus): BadgeMarks => {
   const folderLike = item.kind === 'folder' || item.role === 'group';
   return {
     readOnly: item.readOnly,
+    legacy: item.kind === 'legacy',
     missing: missingText(status, folderLike),
     unsaved: folderLike ? status.unsavedBelow > 0 : status.unsaved,
     open: status.open && !folderLike,

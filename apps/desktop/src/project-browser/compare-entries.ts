@@ -12,6 +12,8 @@ const compareEntries = (key: SortKey): Compare => {
     name: byName,
     kind: (left, right) => KIND_ORDER.indexOf(left.row.kind) - KIND_ORDER.indexOf(right.row.kind) || byName(left, right),
     modified: (left, right) => left.row.modified - right.row.modified || byName(left, right),
+    created: (left, right) => (left.row.created ?? 0) - (right.row.created ?? 0) || byName(left, right),
+    colours: (left, right) => (left.facts.colours ?? 0) - (right.facts.colours ?? 0) || byName(left, right),
     folder: (left, right) => natural(left.row.folder, right.row.folder) || byName(left, right),
     size: (left, right) => pixels(left) - pixels(right) || byName(left, right),
     frames: (left, right) => (left.facts.frames ?? 0) - (right.facts.frames ?? 0) || byName(left, right),
