@@ -3,8 +3,10 @@ import { COMMAND_NAME } from '@bxel/document';
 import type { CommandStep, SheetId, SpriteId } from '@bxel/document';
 import { currentArtwork } from '../sheet/current-artwork';
 import { runDocument } from '../sheet/run-document';
+import { useNoticeStore } from '../stores/useNoticeStore';
 import { animationKey } from './animation-key';
 import { LABEL } from './manager-text.constants';
+import { SHEET_TEXT } from './sheet-text.constants';
 import { spriteSteps } from './sprite-steps';
 
 const removeEntries = (ids: readonly SpriteId[], keys: readonly string[], sheetId: SheetId | null): boolean => {
@@ -22,7 +24,10 @@ const removeEntries = (ids: readonly SpriteId[], keys: readonly string[], sheetI
     })),
   ];
   if (steps.length === 0) return false;
-  return runDocument(LABEL.removeEntries(held.length + strips.length), steps) !== null;
+  const count = held.length + strips.length;
+  const done = runDocument(LABEL.removeEntries(count), steps) !== null;
+  if (done) useNoticeStore.getState().post(SHEET_TEXT.live.removed(count));
+  return done;
 };
 
 export { removeEntries };

@@ -31,6 +31,7 @@ interface MapPaintBase {
   filled: boolean;
   cells: boolean;
   collision: boolean;
+  hoverKey: number | null;
   look: CanvasLook;
 }
 

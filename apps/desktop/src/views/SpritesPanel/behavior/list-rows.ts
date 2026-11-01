@@ -7,11 +7,18 @@ import type { FolderGroup } from '../../../sheet-manager/folders.type';
 import type { AnimationFacts } from '../../../sheet-manager/manager.type';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { pivotLabel } from '../../../sheet-manager/pivot-label';
-import type { ListRow } from '../SpritesPanel.type';
+import type { ListExtra, ListRow } from '../SpritesPanel.type';
 
 const placeOf = (sheet: Sheet | null, at: Point | undefined): string => (sheet && at ? `${at.x}, ${at.y}` : '');
 
-const animationRow = (fact: AnimationFacts, sheet: Sheet | null): ListRow => ({
+const NO_EXTRA: ListExtra = { pages: new Map(), usedBy: new Map() };
+
+const pageOf = (extra: ListExtra, id: string, placed: boolean): string => {
+  const page = extra.pages.get(id);
+  return placed && page !== undefined ? String(page) : '';
+};
+
+const animationRow = (fact: AnimationFacts, sheet: Sheet | null, extra: ListExtra): ListRow => ({
   id: fact.key,
   kind: 'animation',
   name: fact.name,
@@ -22,10 +29,13 @@ const animationRow = (fact: AnimationFacts, sheet: Sheet | null): ListRow => ({
   bank: fact.bank,
   at: placeOf(sheet, fact.at),
   frames: MANAGER_TEXT.frameCount(fact.frames),
+  entry: MANAGER_TEXT.entryKind.animation,
+  page: pageOf(extra, fact.key, fact.onSheet),
+  usedBy: extra.usedBy.get(fact.animation.id) ?? '',
   loose: false,
 });
 
-const listRows = (artwork: Artwork, groups: readonly FolderGroup[], animations: readonly AnimationFacts[], sheet: Sheet | null): ListRow[] => [
+const listRows = (artwork: Artwork, groups: readonly FolderGroup[], animations: readonly AnimationFacts[], sheet: Sheet | null, extra: ListExtra = NO_EXTRA): ListRow[] => [
   ...groups.flatMap((group) =>
     group.facts.map(({ sprite, onSheet }): ListRow => {
       const folder = folderPath(sprite.name);
@@ -40,11 +50,14 @@ const listRows = (artwork: Artwork, groups: readonly FolderGroup[], animations: 
         bank: findBank(artwork, sprite.bankId)?.name ?? '',
         at: placeOf(sheet, sheet?.entries.find((entry) => entry.spriteId === sprite.id)?.at),
         frames: '',
+        entry: MANAGER_TEXT.entryKind.sprite,
+        page: pageOf(extra, sprite.id, onSheet),
+        usedBy: extra.usedBy.get(sprite.id) ?? '',
         loose: sheet !== null && !onSheet,
       };
     }),
   ),
-  ...animations.map((fact) => animationRow(fact, sheet)),
+  ...animations.map((fact) => animationRow(fact, sheet, extra)),
 ];
 
 export { listRows };

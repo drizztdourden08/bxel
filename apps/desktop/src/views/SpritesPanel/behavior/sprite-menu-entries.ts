@@ -6,6 +6,7 @@ import { SHEET_COMMAND as ID } from '../../../keymap/sheet-command-id.constants'
 import { currentManager } from '../../../sheet-manager/current-manager';
 import { MANAGER_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { MARQUEE_ITEM, SPRITE_MENU } from '../SpritesPanel.constants';
+import { animationEntries } from './animation-entries';
 import { folderEntries } from './folder-entries';
 import { makeEntries } from './make-entries';
 import { orderEntries } from './order-entries';
@@ -40,6 +41,7 @@ const spriteMenuEntries = (context: ContextMenuContext): readonly ContextMenuEnt
     transformEntries(manager),
     orderEntries(manager),
     sheetEntries(manager),
+    animationEntries(manager),
     makeEntries(manager),
     selectEntries(manager),
     { command: 'sprite.show_in_project', label: MANAGER_TEXT.showInProject },

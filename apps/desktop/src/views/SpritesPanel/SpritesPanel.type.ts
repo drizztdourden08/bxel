@@ -64,7 +64,15 @@ interface ListRow {
   bank: string;
   at: string;
   frames: string;
+  entry: string;
+  page: string;
+  usedBy: string;
   loose: boolean;
+}
+
+interface ListExtra {
+  pages: ReadonlyMap<string, number>;
+  usedBy: ReadonlyMap<string, string>;
 }
 
 interface ListData {
@@ -172,6 +180,7 @@ export type {
   KeyAction,
   KeyShape,
   ListData,
+  ListExtra,
   ListRow,
   ManagerModel,
   ManagerModelProps,

@@ -23,6 +23,7 @@ const useTilesetViewStore = create<TilesetViewState>()((set) => ({
   setShapeClipboard: (shapeClipboard) => set({ shapeClipboard }),
   setTerrainSetId: (terrainSetId) => set({ terrainSetId, terrainSlot: null, markDrafts: {} }),
   setTerrainSlot: (terrainSlot) => set({ terrainSlot }),
+  setHoverKey: (hoverKey) => set((state) => (state.hoverKey === hoverKey ? state : { hoverKey })),
   setMarkDraft: (key, mask) =>
     set((state) => {
       const { [key]: _gone, ...rest } = state.markDrafts;
@@ -32,7 +33,7 @@ const useTilesetViewStore = create<TilesetViewState>()((set) => ({
 
 useDocumentStore.subscribe((state, previous) => {
   if (state.activeId !== previous.activeId) {
-    useTilesetViewStore.setState({ search: '', filters: [], dataPaint: null, shapeIndex: 0, terrainSetId: null, terrainSlot: null, markDrafts: {} });
+    useTilesetViewStore.setState({ search: '', filters: [], dataPaint: null, shapeIndex: 0, terrainSetId: null, terrainSlot: null, markDrafts: {}, hoverKey: null });
   }
 });
 

@@ -129,6 +129,8 @@ const SHEET_ROWS = [
   one('sprite.folder_from_selection', 'sheets_sprites', 'edit', { dialog: 'manager' }),
   one('sprite.make_tileset', 'sheets_sprites', 'edit'),
   one('sprite.open_entry', 'sheets_sprites', 'app'),
+  one('sprite.open_in_timeline', 'sheets_sprites', 'app'),
+  ...rows('sheets_sprites', 'edit', ['sprite.copy_animation_for_sheet', 'sprite.place_animation_frames', 'sprite.rows_per_tag']),
   one('sprite.show_in_project', 'sheets_sprites', 'app'),
   one('sprite.add_from_project', 'sheets_sprites', 'app'),
   one('sheet.align', 'sheets_sprites', 'edit', { args: 'align' }),

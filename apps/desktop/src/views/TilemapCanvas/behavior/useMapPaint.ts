@@ -12,6 +12,7 @@ import { paintCollision } from './paint-collision';
 import { paintDrag } from './paint-drag';
 import { paintHover } from './paint-hover';
 import { paintSelection } from './paint-selection';
+import { paintUses } from './paint-uses';
 import { syncZoom } from './sync-zoom';
 
 const useMapPaint = (base: MapPaintBase, live: RefObject<MapLive>, viewport: RefObject<PixelViewportHandle | null>): PixelDraw => {
@@ -29,6 +30,7 @@ const useMapPaint = (base: MapPaintBase, live: RefObject<MapLive>, viewport: Ref
       const look = mapLook(ctx.canvas);
       paintCellGrid(ctx, view, state);
       paintCollision(ctx, state, look);
+      paintUses(ctx, view, state, look);
       paintSelection(ctx, view, state, look);
       paintDrag(ctx, view, state, look);
       paintHover(ctx, view, state, look);

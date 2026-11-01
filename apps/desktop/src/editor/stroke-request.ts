@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
 import type { TransactionRequest } from '@bxel/document';
-import { paintScope } from '../sheet/paint-scope';
+import { celsPaintScope } from './cels-paint-scope';
 import { commitRequest } from './commit-request';
 import { customPoints } from './custom-points';
 import type { EditorTarget, StrokeSession } from './editor.type';
@@ -34,7 +34,7 @@ const strokeRequest = (target: EditorTarget, session: StrokeSession): Transactio
   const plain = painting
     ? { name: COMMAND_NAME.pixelsPaint, options: { ...stroke, index: session.index } }
     : { name: COMMAND_NAME.pixelsErase, options: stroke };
-  return commitRequest(target, STROKE_LABELS[session.tool], stampStep(session) ?? plain, paintScope(target));
+  return commitRequest(target, STROKE_LABELS[session.tool], stampStep(session) ?? plain, celsPaintScope(target));
 };
 
 export { strokeRequest };

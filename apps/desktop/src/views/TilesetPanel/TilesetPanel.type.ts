@@ -51,6 +51,9 @@ interface GridHandlers {
   down: (index: number, event: PointerEvent<HTMLElement>) => void;
   enter: (index: number, event: PointerEvent<HTMLElement>) => void;
   up: () => void;
+  leave: () => void;
+  dragStart: () => void;
+  dragEnd: () => void;
   focus: (index: number) => void;
   keyDown: (index: number, event: KeyboardEvent<HTMLElement>) => void;
 }

@@ -21,6 +21,8 @@ type DitherSize = 2 | 4 | 8;
 
 type LinkedChoice = 'ask' | 'unlink' | 'all';
 
+type CelsChoice = 'frame' | 'selected';
+
 type BrushMode = 'colour' | 'stencil';
 
 interface DrawingSettings {
@@ -50,6 +52,7 @@ interface DrawingSettings {
   outlineRing: 4 | 8;
   outlineSelOut: boolean;
   outlineFrames: 'frame' | 'tag' | 'all';
+  cels: CelsChoice;
   spraySize: number;
   spraySeed: number | null;
   gradientKind: GradientKind;
@@ -79,6 +82,7 @@ interface DrawingState extends DrawingSettings {
 }
 
 export type {
+  CelsChoice,
   DrawingSettings,
   DrawingState,
   FillColour,

@@ -2,6 +2,7 @@
 import { commandZone } from '@drizztdourden08/brock-react';
 import { Box, SplitPane, Stack, Text } from '@drizztdourden08/tessera';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
+import { useTilesetDrop } from '../../../tile-drag/useTilesetDrop';
 import { pickedLine } from '../behavior/picked-line';
 import { useDockShape } from '../behavior/useDockShape';
 import { SPLIT_RATIO, TILESET_TEXT } from '../TilesetPanel.constants';
@@ -12,6 +13,7 @@ import { Inspector } from './Inspector';
 
 const TilesetBody = ({ model }: TilesetModelProps) => {
   const { ref, wide } = useDockShape();
+  useTilesetDrop(ref);
   const collapsed = model.hasMap ? 'end' : 'none';
   return (
     <Box ref={ref} className="tileset-panel" {...commandZone(COMMAND_ZONE.tileset)}>
