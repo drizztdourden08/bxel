@@ -3,7 +3,7 @@ import { dnd, useDropTarget } from '@drizztdourden08/brock-react';
 import type { DndElement } from '@drizztdourden08/brock-react';
 import type { RefObject } from 'react';
 import { ASSET_DRAG } from '../../../asset-drag/asset-drag.constants';
-import { dropImage } from '../../../image-import/drop-image';
+import { dropFiles } from '../../../image-import/drop-files';
 import { isImageFile } from '../../../image-import/is-image-file';
 import { assetEntries } from '../../../sheet-manager/asset-entries';
 import { DRAG_WHY } from '../../../sheet-manager/drag-payload.constants';
@@ -22,11 +22,7 @@ const useCanvasAssetDrop = (
     accepts: [dnd.files, ASSET_DRAG],
     canDrop: (payload) => ('files' in payload ? payload.files.some((each) => isImageFile(each.file)) : sheetId !== null && assetEntries(payload).length > 0),
     onDrop: (payload, info) => {
-      if ('files' in payload) {
-        const file = payload.files.map((each) => each.file).find(isImageFile);
-        if (file) void dropImage(file);
-        return;
-      }
+      if (dropFiles(payload)) return;
       if (sheetId === null) return;
       if (readOnly) {
         useNoticeStore.getState().post(DRAG_WHY.exportShown);

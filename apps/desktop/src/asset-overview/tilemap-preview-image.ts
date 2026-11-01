@@ -4,9 +4,8 @@ import type { Artwork, TilemapId } from '@bxel/document';
 import { bankRgba } from '../export/bank-rgba';
 import { CHANNELS } from '../sheet/sheet.constants';
 import { flipLayers } from './flip-layers';
+import { NONE_FLIPPED } from './tilemap-preview-image.constants';
 import type { OverviewPreview } from './asset-overview.type';
-
-const NONE_FLIPPED: ReadonlySet<string> = new Set();
 
 const tilemapPreviewImage = (artwork: Artwork, id: string, flipped: ReadonlySet<string> = NONE_FLIPPED): OverviewPreview => {
   const tilemap = findTilemap(artwork, id as TilemapId);

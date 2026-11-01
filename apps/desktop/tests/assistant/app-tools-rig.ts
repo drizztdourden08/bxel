@@ -13,24 +13,13 @@ import { useSpriteStore } from '../../src/stores/useSpriteStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { useViewStore } from '../../src/stores/useViewStore';
 import { toolContext } from '../project/tool-context';
+import { viewportStub } from '../tools/viewport-stub';
 import { fake } from './app-tools-fake';
 
 const panTo = vi.fn();
 const setZoom = vi.fn();
 
-const viewport = {
-  screenToPixel: vi.fn(),
-  pixelToScreen: vi.fn(),
-  fit: vi.fn(),
-  setZoom,
-  zoomIn: vi.fn(),
-  zoomOut: vi.fn(),
-  redraw: vi.fn(),
-  reveal: vi.fn(),
-  panTo,
-  zoomToRect: vi.fn(),
-  view: () => ({ zoom: 4, pan: { x: 8, y: 8 }, originX: 0, originY: 0, width: 128, height: 128, dpr: 1, imageWidth: 16, imageHeight: 16 }),
-};
+const viewport = viewportStub(setZoom, panTo);
 
 const reset = (): void => {
   fake.commands = [];

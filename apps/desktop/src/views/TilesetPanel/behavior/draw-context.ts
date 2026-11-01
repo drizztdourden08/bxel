@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-const COLUMNS = 3;
+import { COLUMNS } from './draw-context.constants';
 
 const drawContext = (canvas: HTMLCanvasElement, sources: readonly (HTMLCanvasElement | null)[], size: { width: number; height: number }): void => {
   const ctx = canvas.getContext('2d');

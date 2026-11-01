@@ -1,9 +1,10 @@
 /* @layer renderer-app @kind logic */
 import type { Corners, Point } from '@bxel/raster';
 import { constrainCorner } from '../constrain-corner';
-import { ratioEnd, sizeCorners } from './marquee-corners';
+import { ratioEnd } from './marquee-corners';
 import { FREE_MARQUEE } from './marquee-rule.constants';
 import type { MarqueeRule, ShapeHold } from './selection.type';
+import { sizeCorners } from './size-corners';
 
 const endOf = (from: Point, to: Point, hold: ShapeHold, rule: MarqueeRule): Point => {
   if (hold.square) return constrainCorner('rect', from, to);

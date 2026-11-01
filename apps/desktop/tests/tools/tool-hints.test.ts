@@ -14,20 +14,9 @@ import { useViewStore } from '../../src/stores/useViewStore';
 import { railDoubleClick } from '../../src/views/ToolRail/behavior/rail-double-click';
 import { resetEditor } from '../editor/option-harness';
 import { findCommand } from '../keymap/find-command';
+import { viewportStub } from './viewport-stub';
 
-const viewport = {
-  screenToPixel: vi.fn(),
-  pixelToScreen: vi.fn(),
-  fit: vi.fn(),
-  setZoom: vi.fn(),
-  zoomIn: vi.fn(),
-  zoomOut: vi.fn(),
-  redraw: vi.fn(),
-  reveal: vi.fn(),
-  panTo: vi.fn(),
-  zoomToRect: vi.fn(),
-  view: () => ({ zoom: 4, pan: { x: 8, y: 8 }, originX: 0, originY: 0, width: 128, height: 128, dpr: 1, imageWidth: 16, imageHeight: 16 }),
-};
+const viewport = viewportStub();
 
 vi.mock('@drizztdourden08/brock-react', async () => ({
   ...(await import('./tools-harness')).toolsBrockMock(),

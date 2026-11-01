@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { CHANNELS } from '../../../sheet/sheet.constants';
-
-const OPAQUE = 255;
+import { OPAQUE } from './blend-over.constants';
 
 const blendOver = (target: Uint8ClampedArray, source: Uint8ClampedArray, strength: number): void => {
   for (let at = 0; at < source.length; at += CHANNELS) {

@@ -4,9 +4,8 @@ import { useEffect } from 'react';
 import type { RefObject } from 'react';
 import { edgeScrollStep } from './edge-scroll-step';
 import type { Pointer } from './edge-scroll-step.type';
+import { POINTER_EVENTS } from './useEdgeScroll.constants';
 import { useFileDrag } from './useFileDrag';
-
-const POINTER_EVENTS = ['pointermove', 'mousemove', 'dragover'] as const;
 
 const useEdgeScroll = (scroller: RefObject<HTMLElement | null>): void => {
   const session = useDragSession();

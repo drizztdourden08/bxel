@@ -4,20 +4,7 @@ import type { DocumentEvent, DocumentId, TransactionRequest, TransactionResult }
 import { describe, expect, it } from 'vitest';
 import { createDocumentHost } from '../../src/documents/create-document-host';
 import type { DocumentHost } from '../../src/documents/document-host.type';
-
-const artworkOptions = (name: string) => ({
-  name,
-  bank: {
-    name: 'Bank',
-    cap: 8,
-    transparent: true,
-    colors: [
-      { rgb: '#140b26', name: 'Night' },
-      { rgb: '#7b3fe4', name: 'Violet' },
-    ],
-  },
-  sprite: { name: 'hero', width: 4, height: 4 },
-});
+import { artworkOptions } from './artwork-options';
 
 const openOne = (host: DocumentHost, name: string): DocumentId => {
   const created = host.create(artworkOptions(name));

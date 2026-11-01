@@ -3,7 +3,7 @@ import { ADVANCED_COMMAND, emptyMask } from '@bxel/raster';
 import type { MaskView } from '@bxel/raster';
 import { useDocumentStore } from '../../stores/useDocumentStore';
 import { useNoticeStore } from '../../stores/useNoticeStore';
-import { commitSteps } from '../commit-request';
+import { commitSteps } from '../commit-steps';
 import type { CommitStep } from '../commit-request.type';
 import { currentTarget } from '../current-target';
 import { shiftMask } from '../pending/shift-mask';

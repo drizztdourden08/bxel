@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 import type { RefObject } from 'react';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
 import { useBrowserContext } from './useBrowserContext';
-
-type Scrollable = { readonly scrollToIndex: (index: number) => void };
+import type { Scrollable } from './useScrollToSelected.type';
 
 const useScrollToSelected = (handle: RefObject<Scrollable | null>): void => {
   const { model } = useBrowserContext();
