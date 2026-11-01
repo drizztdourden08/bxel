@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
-import { Button, DialogShell, Stack, Text } from '@drizztdourden08/tessera';
+import { DialogShell, Stack, Text } from '@drizztdourden08/tessera';
 import { SHEET_TEXT } from '../../../palette-panel/palette-panel.constants';
+import { PlanActions } from '../../PaletteImportDialog/sub-components/PlanActions';
 import { usePaletteSheet } from '../behavior/usePaletteSheet';
 import type { SheetDialogProps } from '../PaletteSheetDialog.type';
 import { MoveField } from './MoveField';
@@ -11,16 +12,7 @@ const SheetDialog = ({ request, target }: SheetDialogProps) => {
   const { plan, error, failure, apply, cancel } = usePaletteSheet(request, target);
   if (!plan) return null;
   const empty = plan.steps.length === 0;
-  const actions = (
-    <>
-      <Button variant="tertiary" onClick={cancel}>
-        {SHEET_TEXT.cancel}
-      </Button>
-      <Button variant="primary" disabled={empty || error !== null} onClick={apply}>
-        {plan.apply}
-      </Button>
-    </>
-  );
+  const actions = <PlanActions cancelLabel={SHEET_TEXT.cancel} applyLabel={plan.apply} disabled={empty || error !== null} onCancel={cancel} onApply={apply} />;
   return (
     <DialogShell open title={plan.title} onClose={cancel} actions={actions} className="palette-sheet">
       <Stack gap="md">

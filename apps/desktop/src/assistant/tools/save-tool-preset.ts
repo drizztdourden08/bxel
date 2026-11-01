@@ -6,7 +6,7 @@ const presetId = (name: string): string => `user.${Date.now().toString(36)}.${na
 
 const saveToolPreset: ToolHandler = (input, context) => {
   const { member, name, fields } = input as { member: string; name: string; fields: Record<string, unknown> };
-  return writeToolPreset(context, { id: presetId(name), name: name.trim(), member, fields: {} }, fields, 'member', 'saved');
+  return writeToolPreset(context, { base: { id: presetId(name), name: name.trim(), member, fields: {} }, fields, memberPath: 'member', verb: 'saved' });
 };
 
 export { saveToolPreset };

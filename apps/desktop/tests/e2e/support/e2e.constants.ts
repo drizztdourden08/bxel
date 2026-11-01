@@ -23,6 +23,8 @@ const GRANT_FOLDERS = ['--answer-folder-grants=grant'] as const;
 
 const POLL_MS = 15000;
 
+const RM_OPTIONS = { recursive: true, force: true, maxRetries: 20, retryDelay: 500 } as const;
+
 const EXPORT_DONE_MS = 60000;
 
 const LAYOUT_SETTLE = { attempts: 40, steady: 4, gapMs: 100 } as const;
@@ -48,6 +50,7 @@ export {
   LAYOUT_SETTLE,
   POLL_MS,
   PROJECT_PARENT,
+  RM_OPTIONS,
   SHORTCUT,
   STATUS_LABEL,
   SWATCH_PATTERN,

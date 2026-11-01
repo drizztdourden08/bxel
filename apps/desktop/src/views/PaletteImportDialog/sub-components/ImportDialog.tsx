@@ -5,6 +5,7 @@ import { opaqueSlots } from '../../../palette-limit/opaque-slots';
 import { usePaletteImport } from '../behavior/usePaletteImport';
 import type { ImportDialogProps } from '../PaletteImportDialog.type';
 import { ImportSummary } from './ImportSummary';
+import { PlanActions } from './PlanActions';
 
 const ImportDialog = ({ request, target }: ImportDialogProps) => {
   const state = usePaletteImport(request, target);
@@ -12,16 +13,7 @@ const ImportDialog = ({ request, target }: ImportDialogProps) => {
   const { bank } = target;
   const free = state.mode === 'append' ? Math.max(0, bank.cap - bank.slots.length) : opaqueSlots(bank.cap, bank.transparent);
   const empty = !plan || plan.steps.length === 0;
-  const actions = (
-    <>
-      <Button variant="tertiary" onClick={cancel}>
-        {IMPORT_TEXT.cancel}
-      </Button>
-      <Button variant="primary" disabled={empty || error !== null} onClick={apply}>
-        {plan?.apply ?? IMPORT_TEXT.title}
-      </Button>
-    </>
-  );
+  const actions = <PlanActions cancelLabel={IMPORT_TEXT.cancel} applyLabel={plan?.apply ?? IMPORT_TEXT.title} disabled={empty || error !== null} onCancel={cancel} onApply={apply} />;
   return (
     <DialogShell open title={IMPORT_TEXT.title} onClose={cancel} actions={actions} className="palette-import">
       <Stack gap="md">

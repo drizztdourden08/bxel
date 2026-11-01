@@ -3,8 +3,6 @@ import type { LayerLock } from '@bxel/document';
 
 type LockKind = 'none' | 'transparency' | 'pixels' | 'position';
 
-type LockPart = keyof LayerLock;
-
 interface LockSource {
   lock?: LayerLock;
   locked?: boolean;

@@ -8,7 +8,7 @@ const updateToolPreset: ToolHandler = (input, context) => {
   const { id, name, fields } = input as { id: string; name?: string; fields?: Record<string, unknown> };
   const preset = userPreset(id);
   if (isReply(preset)) return preset;
-  return writeToolPreset(context, { ...preset, name: name === undefined ? preset.name : name.trim() }, fields, 'id', 'changed');
+  return writeToolPreset(context, { base: { ...preset, name: name === undefined ? preset.name : name.trim() }, fields, memberPath: 'id', verb: 'changed' });
 };
 
 export { updateToolPreset };
