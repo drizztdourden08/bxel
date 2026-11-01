@@ -29,7 +29,7 @@ const tileOf = (world: ReturnType<typeof water>): Tile => {
   return found;
 };
 
-describe('tile.animation', () => {
+describe('K1 tile.animation', { tags: ['critical'] }, () => {
   it('sets and clears the animation a tile plays', () => {
     const world = water();
     apply(world.engine, [step(SET, { tileset: world.tileset, key: 1, change: { kind: 'set', animation: world.id, tag: world.flow, start: 'random' } })]);

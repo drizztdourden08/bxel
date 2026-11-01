@@ -6,7 +6,7 @@ import { HEART, HEART_B, apply, expectUndoRedo, onSprites, rejection } from './s
 const slicesOf = (engine: ReturnType<typeof heartEngine>['engine'], id = HEART) =>
   engine.state().artwork.sprites.find((sprite) => sprite.id === id)?.slices ?? [];
 
-describe('slice.add', () => {
+describe('K1 slice.add', { tags: ['critical'] }, () => {
   it('adds a named slice with a pivot and a 9-slice center as one undo step', () => {
     const { engine } = heartEngine();
     const rect = { x: 1, y: 1, width: 6, height: 6 };
@@ -42,7 +42,7 @@ describe('slice.add', () => {
   });
 });
 
-describe('slice.update and slice.delete', () => {
+describe('K1 slice.update and slice.delete', { tags: ['critical'] }, () => {
   const rect = { x: 0, y: 0, width: 4, height: 4 };
 
   it('changes the fields it is given and keeps the rest', () => {

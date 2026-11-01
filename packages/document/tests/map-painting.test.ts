@@ -16,7 +16,7 @@ const grid = (engine: ReturnType<typeof buildWorld>['engine']): string[] => {
   return [0, 1, 2].map((row) => cells.slice(row * 4, row * 4 + 4).join(','));
 };
 
-describe('map.paint', () => {
+describe('K1 map.paint', { tags: ['critical'] }, () => {
   it('places a key with flip flags on exact cells', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -61,7 +61,7 @@ describe('map.paint', () => {
 
 });
 
-describe('map.paint guards', () => {
+describe('S3 map.paint guards', { tags: ['standard'] }, () => {
   it('refuses a tile key the tileset lacks and a diagonal flip on a non square tileset', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -106,7 +106,7 @@ describe('map.paint guards', () => {
   });
 });
 
-describe('map.erase and map.fill', () => {
+describe('K1 map.erase and map.fill', { tags: ['critical'] }, () => {
   it('erases cells and leaves the rest', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -142,7 +142,7 @@ describe('map.erase and map.fill', () => {
 
 });
 
-describe('map.rect and map.replace', () => {
+describe('K1 map.rect and map.replace', { tags: ['critical'] }, () => {
   it('draws filled and outline rectangles and clips them to the map', () => {
     const world = buildWorld();
     const { engine } = world;
@@ -180,7 +180,7 @@ describe('map.rect and map.replace', () => {
   });
 });
 
-describe('map.pick', () => {
+describe('K1 map.pick', { tags: ['critical'] }, () => {
   it('reads the key, flags and tile of a cell', () => {
     const world = buildWorld();
     const { engine } = world;

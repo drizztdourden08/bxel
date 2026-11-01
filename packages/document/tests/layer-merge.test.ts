@@ -9,7 +9,7 @@ const FIRST = brand<FrameId>('frm_000110');
 const SECOND = brand<FrameId>('frm_000111');
 const ONLY = brand<FrameId>('frm_000210');
 
-describe('layer.merge', () => {
+describe('K1 layer.merge', { tags: ['critical'] }, () => {
   it('merges into the layer below, which keeps its name and id', () => {
     const engine = layerEngine();
     const below = layerOf(engine, 'Shadow');
@@ -39,7 +39,7 @@ describe('layer.merge', () => {
 
 });
 
-describe('layer.merge rules', () => {
+describe('S3 layer.merge rules', { tags: ['standard'] }, () => {
   it('refuses to merge onto a hidden layer', () => {
     const engine = layerEngine();
     const below = layerOf(engine, 'Ghost');

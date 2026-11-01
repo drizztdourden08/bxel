@@ -35,7 +35,7 @@ const edgeSet = (): TerrainSet => {
   return fillFromLayout(newTerrainSet('blob16', []), tileLayout(tilesetNow()), packing('blob16-4'), 0);
 };
 
-describe('terrain set helpers', () => {
+describe('S2 terrain set helpers', { tags: ['standard'] }, () => {
   it('starts a set with empty slots for each kind', () => {
     expect(newTerrainSet('blob16', []).slots).toHaveLength(16);
     expect(newTerrainSet('corner16', []).slots).toHaveLength(16);
@@ -93,7 +93,7 @@ describe('terrain set helpers', () => {
   });
 });
 
-describe('painting with the terrain brush', () => {
+describe('S2 painting with the terrain brush', { tags: ['standard'] }, () => {
   beforeEach(() => {
     withSixteenTiles();
     setTerrainSets([edgeSet()]);

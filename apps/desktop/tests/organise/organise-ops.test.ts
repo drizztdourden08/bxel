@@ -21,7 +21,7 @@ const refused = (start: ProjectOrganise, op: OrganiseOp): string => {
   return change.ok ? '' : change.message;
 };
 
-describe('organise changes', () => {
+describe('K1 organise changes', { tags: ['critical'] }, () => {
   it('tags files with clean, lower case, single tags and removes them again', () => {
     const tagged = run(EMPTY_ORGANISE, { op: 'tag', assets: ['a', 'b'], tags: ['  Hero ', 'hero', 'Big  Boss'] });
     expect(tagged.tags).toEqual({ a: ['hero', 'big boss'], b: ['hero', 'big boss'] });
@@ -72,7 +72,7 @@ describe('organise changes', () => {
   });
 });
 
-describe('moving pins and smart filters out of the settings', () => {
+describe('K1 moving pins and smart filters out of the settings', { tags: ['critical'] }, () => {
   it('turns pinned paths into pinned asset ids and keeps the smart filters', () => {
     const paths = new Map([
       ['spr_1', 'D:/Art/sprites/hero.bxsprite'],

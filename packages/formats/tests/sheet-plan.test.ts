@@ -34,7 +34,7 @@ const plannedBoxes = (items: readonly PackedItem[]): unknown[] =>
 
 const boxesOf = (page: ExportedSheet): unknown[] => page.metadata.sprites.flatMap((sprite) => sprite.frames.map((frame) => [frame.box, frame.rotated]));
 
-describe('one plan for the preview and the export', () => {
+describe('K2 one plan for the preview and the export', { tags: ['critical'] }, () => {
   it('keeps one page and the same layout as exportSheet when the page side is 0', () => {
     const pages = must(exportSheetPages(input(0)));
     expect(pages).toHaveLength(1);

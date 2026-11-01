@@ -27,7 +27,7 @@ beforeEach(() => {
   placeStampAt([{ x: 1, y: 1 }]);
 });
 
-describe('exporting a map as Bxel map JSON', () => {
+describe('K3 exporting a map as Bxel map JSON', { tags: ['standard'] }, () => {
   it('writes a tileset image and a map file named after the map', () => {
     const plan = planMapExport(artworkNow(), {});
     expect(plan.problem).toBeNull();
@@ -73,7 +73,7 @@ describe('exporting a map as Bxel map JSON', () => {
   });
 });
 
-describe('exporting a map as Tiled JSON', () => {
+describe('K3 exporting a map as Tiled JSON', { tags: ['standard'] }, () => {
   it('writes global tile ids with the flip bits in the top bits', () => {
     const plan = planMapExport(artworkNow(), { mapFormat: 'tiled' });
     expect(plan.files.map((file) => file.name)).toEqual(['level-tiles.png', 'level.tmj']);

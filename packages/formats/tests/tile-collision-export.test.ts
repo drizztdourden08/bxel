@@ -29,7 +29,7 @@ const tiledTiles = (): TiledTile[] => {
   return map.tilesets[0]?.tiles ?? [];
 };
 
-describe('collision in the Bxel map JSON', () => {
+describe('K2 collision in the Bxel map JSON', { tags: ['critical'] }, () => {
   it('lists the shape of each tile beside its key and position', () => {
     const result = writeTilemapJson(shaped());
     const json = parseMap(result);
@@ -46,7 +46,7 @@ describe('collision in the Bxel map JSON', () => {
   });
 });
 
-describe('collision in the Tiled JSON', () => {
+describe('K2 collision in the Tiled JSON', { tags: ['critical'] }, () => {
   it('writes a tile object group with the grid id of each tile', () => {
     const tiles = tiledTiles();
     expect(tiles.map((tile) => tile.id)).toEqual([0, 1, 2]);

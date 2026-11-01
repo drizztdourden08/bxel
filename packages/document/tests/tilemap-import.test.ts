@@ -17,7 +17,7 @@ const importStep = (world: ReturnType<typeof buildWorld>, options: Record<string
     ...options,
   });
 
-describe('tilemap.import', () => {
+describe('K1 tilemap.import', { tags: ['critical'] }, () => {
   it('creates a map with the given layers, flags and visibility in one step', () => {
     const world = buildWorld();
     const revision = world.engine.state().revision;

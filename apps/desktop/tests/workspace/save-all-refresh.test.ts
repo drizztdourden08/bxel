@@ -30,7 +30,7 @@ const renamedFirst = async () => {
   return { ...opened, sprite };
 };
 
-describe('Save all after a rename', () => {
+describe('K3 Save all after a rename', { tags: ['standard'] }, () => {
   it('writes the sheets that link the renamed sprite in the same Save all', async () => {
     const { documentId, paths } = await renamedFirst();
     await saveWorkspace(held.rig.kit, documentId);
@@ -39,7 +39,7 @@ describe('Save all after a rename', () => {
   });
 });
 
-describe('Save all after a shared palette changes', () => {
+describe('K3 Save all after a shared palette changes', { tags: ['standard'] }, () => {
   it('refreshes the palette copy kept in each sprite file that uses it', async () => {
     const { documentId, paths } = await openSampleProject(held.rig);
     const { sprite, bank } = spriteAndBank(documentId);
@@ -51,7 +51,7 @@ describe('Save all after a shared palette changes', () => {
   });
 });
 
-describe('an asset made while Save all is writing', () => {
+describe('K3 an asset made while Save all is writing', { tags: ['standard'] }, () => {
   it('keeps the path planned for it', async () => {
     const { documentId, sprite } = await renamedFirst();
     const write = held.rig.disk.port.write;

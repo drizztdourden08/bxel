@@ -14,7 +14,7 @@ import { documentCommands } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { withBundles, withTools } from './grant-builders';
 
-describe('the tool list a program sees', () => {
+describe('K4 the tool list a program sees', { tags: ['critical'] }, () => {
   const descriptors = describeTools(documentCommands);
   const namesFor = (grant: Grant): string[] => toolsForGrant(descriptors, grant).map((tool) => tool.name);
 
@@ -58,7 +58,7 @@ describe('the tool list a program sees', () => {
   });
 });
 
-describe('the mode derived from a grant', () => {
+describe('K4 the mode derived from a grant', { tags: ['critical'] }, () => {
   it('is edit when a document bundle can write and read otherwise', () => {
     expect(modeOfGrant(PRESETS.read_only.grant)).toBe('read');
     expect(modeOfGrant(PRESETS.edit_documents.grant)).toBe('edit');
@@ -77,7 +77,7 @@ describe('the mode derived from a grant', () => {
   });
 });
 
-describe('reading a stored grant', () => {
+describe('K4 reading a stored grant', { tags: ['critical'] }, () => {
   it('accepts a good grant unchanged', () => {
     expect(readGrant(PRESETS.edit_documents.grant)).toEqual(PRESETS.edit_documents.grant);
   });

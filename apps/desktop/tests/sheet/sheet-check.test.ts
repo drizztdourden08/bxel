@@ -96,7 +96,7 @@ const expectReopened = (state: DocumentState): void => {
 let base: number[] = [];
 let stroked: number[][] = [];
 
-describe('release check 5 at the model level', () => {
+describe('K3 release check 5 at the model level', { tags: ['standard'] }, () => {
   beforeAll(() => {
     const { host, setActive } = useDocumentStore.getState();
     const outcome = runImport(host, runOf(sourceImage(16, 11, cellColor, 'hero_sheet.png')));

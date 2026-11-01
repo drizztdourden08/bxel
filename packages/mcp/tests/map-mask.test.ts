@@ -14,7 +14,7 @@ const copy = (from: unknown, extra: Record<string, unknown> = {}) => ({
   steps: [{ name: 'map.copy', targets: null, options: { tilemap: TILEMAP, layer: { by: 'name', name: 'Ground' }, from, to: { x: 2, y: 1 }, ...extra } }],
 });
 
-describe('map cell mask descriptors', () => {
+describe('K2 map cell mask descriptors', { tags: ['critical'] }, () => {
   it('map.copy and map.move take every descriptor of the pixel masks, for cells', () => {
     const descriptors = [
       { by: 'rect', rect: { x: 0, y: 0, width: 3, height: 2 } },

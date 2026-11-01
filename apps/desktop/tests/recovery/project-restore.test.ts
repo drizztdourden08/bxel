@@ -45,7 +45,7 @@ const crashed = async () => {
   return { bytes, paths, sprite, bank };
 };
 
-describe('restoring a recovered copy of a project', () => {
+describe('K3 restoring a recovered copy of a project', { tags: ['standard'] }, () => {
   it('restores into the project workspace with the asset paths and the unsaved assets, shared palettes included', async () => {
     const { bytes, paths, sprite, bank } = await crashed();
     const documentId: DocumentId = await restoreRecovered(kitOf(), { path: PROJECT_FILE, bytes });
@@ -59,7 +59,7 @@ describe('restoring a recovered copy of a project', () => {
   });
 });
 
-describe('restoring a recovered project copy over unsaved work', () => {
+describe('K3 restoring a recovered project copy over unsaved work', { tags: ['standard'] }, () => {
   it('refuses and keeps the open project as it is', async () => {
     const { bytes, sprite } = await crashed();
     await openProject(ROOT, true);

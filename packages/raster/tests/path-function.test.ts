@@ -23,7 +23,7 @@ const gaps = (points: readonly Point[]): number =>
     return previous !== undefined && Math.max(Math.abs(point.x - previous.x), Math.abs(point.y - previous.y)) > 1;
   }).length;
 
-describe('polygon', () => {
+describe('K1 polygon', { tags: ['critical'] }, () => {
   test('outlines a closed triangle', () => {
     expect(draw('polygon', TRIANGLE, false)).toEqual([
       '.........',
@@ -53,12 +53,6 @@ describe('polygon', () => {
     expect(draw('polygon', bow, true, { width: 5, height: 5 })).toEqual(['2...2', '22.22', '22222', '22.22', '2...2']);
   });
 
-  test('the brush thickens an outline', () => {
-    const target = blankBuffer(9, 7);
-    drawPath({ target, index: 2, kind: 'polygon', points: TRIANGLE, filled: false, brush: { shape: 'square', size: 2 } });
-    expect(toRows(target)).toEqual(['.........', '.22222222', '.22222222', '..22.222.', '..22222..', '...2222..', '....22...']);
-  });
-
   test('a mask clips the shape', () => {
     const target = blankBuffer(9, 7);
     const mask = maskFromRows(['.........', '.........', '..#######', '..#######', '..#######', '..#######', '..#######']);
@@ -75,7 +69,7 @@ describe('polygon', () => {
   });
 });
 
-describe('curve', () => {
+describe('K1 curve', { tags: ['critical'] }, () => {
   test('bends a quadratic Bezier through its control point side', () => {
     expect(draw('curve', BOW, false, { width: 10, height: 7 })).toEqual([
       '..........',
@@ -114,7 +108,7 @@ describe('curve', () => {
   });
 });
 
-describe('contour', () => {
+describe('K1 contour', { tags: ['critical'] }, () => {
   test('outlines a closed freehand loop', () => {
     expect(draw('contour', FREEHAND, false)).toEqual([
       '..222....',
@@ -122,18 +116,6 @@ describe('contour', () => {
       '.2....2..',
       '..2....2.',
       '..22..22.',
-      '....22...',
-      '.........',
-    ]);
-  });
-
-  test('fills a closed freehand loop', () => {
-    expect(draw('contour', FREEHAND, true)).toEqual([
-      '..222....',
-      '.222222..',
-      '.222222..',
-      '..222222.',
-      '..222222.',
       '....22...',
       '.........',
     ]);

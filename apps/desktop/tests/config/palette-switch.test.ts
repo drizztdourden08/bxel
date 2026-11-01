@@ -12,7 +12,7 @@ import { firstSprite, openedProject, revisionOf, undoOnce } from './config-harne
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
-describe('changing the palette of a sprite', () => {
+describe('S2 changing the palette of a sprite', { tags: ['standard'] }, () => {
   const withSecondBank = async (): Promise<{ documentId: DocumentId; first: BankId; second: BankId }> => {
     const { documentId } = await openedProject();
     const host = useDocumentStore.getState().host;

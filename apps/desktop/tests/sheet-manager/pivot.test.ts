@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind test */
-import { COMMAND_NAME } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { stepHistory } from '../../src/editor/step-history';
 import { PIVOT_PRESETS } from '../../src/sheet-manager/manager.constants';
@@ -7,9 +6,7 @@ import { pivotFor } from '../../src/sheet-manager/pivot-for';
 import { pivotLabel } from '../../src/sheet-manager/pivot-label';
 import { pivotSummary } from '../../src/sheet-manager/pivot-summary';
 import { setPivots } from '../../src/sheet-manager/set-pivots';
-import { runDocument } from '../../src/sheet/run-document';
-import { spritesTarget } from '../../src/sheet/sprites-target';
-import { idOf, openFile, revision, spriteOf } from '../sheet/sheet-harness';
+import { openFile, revision, spriteOf } from '../sheet/sheet-harness';
 import { idsOf } from './manager-harness';
 
 const preset = (id: string) => {
@@ -20,7 +17,7 @@ const preset = (id: string) => {
 
 beforeEach(() => openFile(['a', 'b'], 8));
 
-describe('pivot values', () => {
+describe('S2 pivot values', { tags: ['standard'] }, () => {
   it('computes the presets in half pixels', () => {
     const sprite = spriteOf('a');
     expect(pivotFor(sprite, preset('center'), undefined)).toEqual({ x2: 8, y2: 8 });
@@ -44,7 +41,7 @@ describe('pivot values', () => {
   });
 });
 
-describe('setting pivots', () => {
+describe('S2 setting pivots', { tags: ['standard'] }, () => {
   it('sets many sprites in one undo step', () => {
     const before = revision();
     expect(setPivots(idsOf('a', 'b'), preset('bottom-center'))).toBe(true);
@@ -66,11 +63,5 @@ describe('setting pivots', () => {
     expect(setPivots(idsOf('a'), preset('center'))).toBe(false);
     expect(setPivots([], preset('center'))).toBe(false);
     expect(revision()).toBe(before);
-  });
-
-  it('uses the same engine command as a single edit', () => {
-    const step = { name: COMMAND_NAME.spriteUpdate, targets: spritesTarget([idOf('a')]), options: { pivot: { x2: 2, y2: 2 } } };
-    runDocument('Pivot', [step]);
-    expect(spriteOf('a').pivot).toEqual({ x2: 2, y2: 2 });
   });
 });

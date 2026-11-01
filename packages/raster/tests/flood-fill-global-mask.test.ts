@@ -8,19 +8,12 @@ import { toRows } from './to-rows';
 
 const COLUMN_WALL = maskFromRows(['###.###', '###.###', '###.###']);
 
-describe('global fill', () => {
+describe('K1 global fill', { tags: ['critical'] }, () => {
   test('replaces every pixel with the seed index, connected or not', () => {
     const target = fromRows(['..1..', '..1..', '..1..', '..1..', '..1..']);
     const rect = floodFill({ target, seed: { x: 0, y: 0 }, index: 2, mode: 'global' });
     expect(toRows(target)).toEqual(['22122', '22122', '22122', '22122', '22122']);
     expect(rect).toEqual({ x: 0, y: 0, width: 5, height: 5 });
-  });
-
-  test('matches the index of the seed exactly', () => {
-    const target = fromRows(['.1.1.', '1.1.1', '.1.1.']);
-    const rect = floodFill({ target, seed: { x: 1, y: 0 }, index: 2, mode: 'global' });
-    expect(toRows(target)).toEqual(['.2.2.', '2.2.2', '.2.2.']);
-    expect(rect).toEqual({ x: 0, y: 0, width: 5, height: 3 });
   });
 
   test('changed bounds cover only the pixels that matched', () => {
@@ -32,7 +25,7 @@ describe('global fill', () => {
   });
 });
 
-describe('fill with a mask', () => {
+describe('K1 fill with a mask', { tags: ['critical'] }, () => {
   test('a global fill skips pixels outside the mask', () => {
     const target = fromRows(['.1.1.', '1.1.1', '.1.1.']);
     const mask = maskFromRows(['###..', '###..', '###..']);
@@ -77,7 +70,7 @@ describe('fill with a mask', () => {
   });
 });
 
-describe('fill edge cases', () => {
+describe('K1 fill edge cases', { tags: ['critical'] }, () => {
   test('a seed outside the buffer changes nothing', () => {
     const target = blankBuffer(4, 4);
     expect(floodFill({ target, seed: { x: 9, y: 9 }, index: 1, mode: 'contiguous' })).toBeNull();

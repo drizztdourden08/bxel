@@ -33,7 +33,7 @@ beforeEach(async () => {
   current = await toolRig();
 });
 
-describe('save_document into a project', () => {
+describe('K4 save_document into a project', { tags: ['standard'] }, () => {
   it('writes the file when the project is granted Read and edit, and remembers the new place', async () => {
     const id = await documentOf();
     const saved = await current.run('save_document', saveInput(id, 'copy.bxsprite'), grantsAs('edit'));
@@ -80,10 +80,9 @@ describe('save_document into a project', () => {
     const allowed = await current.runWith('save_document', saveInput(id, 'copy.bxsprite'), { grants: grantsAs('edit'), settings: { assistantWrite: 'projects_and_assistant_folder' } });
     expect(allowed).toMatchObject({ ok: true });
   });
-
 });
 
-describe('save_document paths and places', () => {
+describe('K4 save_document paths and places', { tags: ['standard'] }, () => {
   it('keeps an existing file unless overwrite is true', async () => {
     const id = await documentOf();
     current.rig.disk.files.set(`${ROOT}/taken.bxsprite`, new Uint8Array(3));
@@ -120,7 +119,7 @@ describe('save_document paths and places', () => {
   });
 });
 
-describe('export_document into a project', () => {
+describe('K4 export_document into a project', { tags: ['standard'] }, () => {
   it('writes the picture when the project is granted Read and edit', async () => {
     const id = await documentOf();
     const done = await current.run('export_document', await exportInput(id, 'exports/hero.png'), grantsAs('edit'));

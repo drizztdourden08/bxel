@@ -42,7 +42,7 @@ const slimeOf = (held: Rig): Sprite => {
 
 const spriteKey = (held: Rig): AssetKey => ({ kind: 'sprite', id: slimeOf(held).id });
 
-describe('the overview of an asset', () => {
+describe('S2 the overview of an asset', { tags: ['standard'] }, () => {
   it('previews a sprite as one image and counts the colours it uses', () => {
     const held = rig();
     const key = spriteKey(held);
@@ -77,7 +77,7 @@ describe('the overview of an asset', () => {
   });
 });
 
-describe('the rename of the overview', () => {
+describe('S2 the rename of the overview', { tags: ['standard'] }, () => {
   it('renames the asset, and refuses an empty name', () => {
     const held = rig();
     const key = spriteKey(held);
@@ -85,5 +85,4 @@ describe('the rename of the overview', () => {
     expect(slimeOf(held).name).toBe('hero');
     expect(renameFocused(held.focus(key), '   ')).toBe('Type a name.');
   });
-
 });

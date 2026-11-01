@@ -28,7 +28,7 @@ const bankWith = (slots: readonly Swatch[]): PaletteBank => ({ ...heartBank(), s
 
 const sliceWith = (bank: PaletteBank): AssetSlice => ({ ...paletteSlice(), artwork: { banks: [bank] } });
 
-describe('swatch alpha: reading colours', () => {
+describe('K1 swatch alpha: reading colours', { tags: ['critical'] }, () => {
   it('reads a missing alpha as opaque and a transparent swatch as clear', () => {
     expect(swatchAlpha(swatch('sw_000001', '#102030'))).toBe(255);
     expect(swatchAlpha(swatch('sw_000001', '#102030', HALF))).toBe(HALF);
@@ -48,7 +48,7 @@ describe('swatch alpha: reading colours', () => {
   });
 });
 
-describe('swatch alpha: rendering', () => {
+describe('K1 swatch alpha: rendering', { tags: ['critical'] }, () => {
   it('puts the alpha of each swatch in the colour table', () => {
     const bank = bankWith([
       { id: brand<SwatchId>('sw_000001'), kind: 'transparent' },
@@ -78,7 +78,7 @@ describe('swatch alpha: rendering', () => {
   });
 });
 
-describe('swatch alpha: files', () => {
+describe('K3 swatch alpha: files', { tags: ['critical'] }, () => {
   it('keeps the alpha of a swatch through a palette file', () => {
     const bank = bankWith([swatch('sw_000001', '#ff0000'), swatch('sw_000002', '#00ff00', HALF), swatch('sw_000003', '#0000ff', 0)]);
     const report = decodePalette(encodePalette(sliceWith(bank), null, assetClock));

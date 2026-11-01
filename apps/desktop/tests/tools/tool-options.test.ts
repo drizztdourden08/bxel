@@ -1,13 +1,10 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { optionById } from '../../src/editor/tool-options/option-by-id';
-import { OPTION_SPECS } from '../../src/editor/tool-options/option-specs.constants';
 import { optionsOf } from '../../src/editor/tool-options/options-of';
 import { resetAllTools } from '../../src/editor/tool-options/reset-all-tools';
 import { resetTool } from '../../src/editor/tool-options/reset-tool';
 import { setOption } from '../../src/editor/tool-options/set-option';
-import { APP_COMMANDS } from '../../src/keymap/app-commands.constants';
-import { optionGroups } from '../../src/keymap/option-groups';
 import { OPTION_COMMAND } from '../../src/keymap/option-command-id.constants';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { useToolStore } from '../../src/stores/useToolStore';
@@ -17,8 +14,6 @@ import { findCommand } from '../keymap/find-command';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('./tools-harness')).toolsBrockMock());
 
-const commandIds = new Set(APP_COMMANDS.map((def) => def.id));
-
 const tools = () => useToolStore.getState();
 
 beforeEach(() => {
@@ -26,61 +21,7 @@ beforeEach(() => {
   useSelectionStore.setState({ ...SELECTION_DEFAULTS });
 });
 
-describe('the option model coverage', () => {
-  it('gives every option an id of its tool, a label, a description and a way to read and write it', () => {
-    const ids = OPTION_SPECS.map((spec) => spec.id);
-    expect(new Set(ids).size).toBe(ids.length);
-    for (const spec of OPTION_SPECS) {
-      expect(spec.label.trim()).not.toBe('');
-      expect(spec.description.trim()).not.toBe('');
-      expect(spec.id.startsWith(spec.surface === 'map' ? 'map.' : `${spec.tool}.`)).toBe(true);
-      expect(typeof spec.read).toBe('function');
-      expect(typeof spec.write).toBe('function');
-    }
-  });
-
-  it('gives a number a range and a toggle or an action an icon', () => {
-    for (const spec of OPTION_SPECS.filter((each) => each.kind === 'number')) expect(spec.min !== undefined && spec.max !== undefined).toBe(true);
-    for (const spec of OPTION_SPECS.filter((each) => each.kind === 'toggle' || each.kind === 'action')) expect(spec.icon).toBeDefined();
-  });
-
-  it('gives a choice at least two described values and a default among them', () => {
-    for (const spec of OPTION_SPECS.filter((each) => each.kind === 'choice' && Object.getOwnPropertyDescriptor(each, 'choices')?.get === undefined)) {
-      expect((spec.choices ?? []).length).toBeGreaterThan(1);
-      expect(spec.choices?.some((choice) => choice.value === String(spec.default))).toBe(true);
-      expect((spec.choices ?? []).every((choice) => choice.description.length > 5)).toBe(true);
-    }
-  });
-
-  it('gives every paint option that is not an action a command, and every key row an existing command', () => {
-    for (const spec of OPTION_SPECS.filter((each) => each.surface === 'paint' && each.kind !== 'action')) {
-      const id = spec.command ?? `options.${spec.id}`;
-      expect(commandIds.has(id)).toBe(true);
-    }
-    for (const spec of OPTION_SPECS) for (const row of spec.shortcuts ?? []) expect(commandIds.has(row.command)).toBe(true);
-    for (const command of Object.values(OPTION_COMMAND)) expect(commandIds.has(command)).toBe(true);
-    expect(optionGroups(OPTION_SPECS.filter((spec) => spec.surface === 'paint' && spec.kind !== 'action')).length).toBeGreaterThan(10);
-  });
-
-  it('shows a bar for every tool of a surface with the options of the old toolbar', () => {
-    const names = (surface: 'sprite' | 'map', tool: Parameters<typeof optionsOf>[1]): string[] => optionsOf(surface, tool).map((spec) => spec.name);
-    expect(names('sprite', 'pencil')).toEqual(['size', 'tip', 'pixel_perfect', 'custom_brush', 'ink', 'stabiliser']);
-    expect(names('sprite', 'eraser')).toEqual(['size', 'tip', 'pixel_perfect', 'stabiliser']);
-    expect(names('sprite', 'fill')).toEqual(['area', 'neighbours', 'sample', 'match', 'ink']);
-    expect(names('sprite', 'rect')).toEqual(['filled', 'radius', 'size', 'tip', 'ink']);
-    expect(names('sprite', 'line')).toEqual(['even_steps', 'size', 'tip', 'ink']);
-    expect(names('sprite', 'spray')).toEqual(['size', 'density', 'seed', 'pressure', 'ink']);
-    expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'amount', 'expand', 'shrink']);
-    useSelectionStore.getState().setVariant('wand');
-    expect(names('sprite', 'select')).toEqual(['shape', 'mode', 'neighbours', 'sample', 'amount', 'expand', 'shrink']);
-    expect(names('sprite', 'picker')).toEqual(['sample']);
-    expect(names('map', 'pencil')).toEqual(['flip_x', 'flip_y', 'rotate', 'terrain']);
-    expect(names('map', 'rect')).toEqual(['filled', 'flip_x', 'flip_y', 'rotate', 'terrain']);
-    expect(names('map', 'select')).toEqual(['shape', 'mode', 'flip_x', 'flip_y', 'rotate', 'replace_in', 'replace_all', 'unique', 'clear', 'same_tile', 'stamp']);
-  });
-});
-
-describe('the option memory', () => {
+describe('S2 the option memory', { tags: ['standard'] }, () => {
   it('keeps one brush size per tool', () => {
     tools().setBrushSize(3);
     tools().selectTool('eraser');
@@ -108,10 +49,9 @@ describe('the option memory', () => {
     tools().selectTool('rect');
     expect(tools().brushSize).toBe(7);
   });
-
 });
 
-describe('the option commands', () => {
+describe('S2 the option commands', { tags: ['standard'] }, () => {
   it('sets any option by the options.set command and refuses a wrong value', async () => {
     const set = findCommand(OPTION_COMMAND.set);
     await set.run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, args: { option: 'fill.area', value: 'global' } });

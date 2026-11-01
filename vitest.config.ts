@@ -1,7 +1,7 @@
 /* @layer root-config @kind config */
-import { defineConfig } from 'vitest/config';
+import { defineStandardsVitest } from '@drizztdourden08/standards/vitest';
 
-export default defineConfig({
+export default defineStandardsVitest({
   esbuild: { jsx: 'automatic' },
   test: {
     include: ['packages/*/tests/**/*.test.ts', 'apps/*/tests/**/*.test.ts'],

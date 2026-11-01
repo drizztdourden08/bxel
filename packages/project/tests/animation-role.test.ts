@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 
 const folder = (roles: DocumentFolder['roles']): DocumentFolder => ({ folderId: 'fld_7r2k9m4q', name: 'Game', path: '.', roles });
 
-describe('the animations role', () => {
+describe('K1 the animations role', { tags: ['critical'] }, () => {
   it('falls back to the sprites folder until it is set', () => {
     expect(resolveRole({ sprites: 'art' }, 'animations')).toBe('art');
     expect(resolveRole({ sprites: 'art', animations: 'motion' }, 'animations')).toBe('motion');

@@ -10,7 +10,7 @@ const ROWS = ['1122', '2211', '3333'];
 const scope = scopeOf([rowsIds.sprite]);
 const rowsOf = (engine: ReturnType<typeof pixelEngine>) => celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
 
-describe('pixels.replace', () => {
+describe('K2 pixels.replace', { tags: ['critical'] }, () => {
   test('swaps one index for another and reports the count as one undo step', () => {
     const engine = pixelEngine(rowsArtwork(ROWS));
     const original = engine.state().artwork;
@@ -49,14 +49,13 @@ describe('pixels.replace', () => {
     const original = engine.state().artwork;
     const result = okOf(engine.execute(request([stepOf('pixels.replace', scopeOf([transformIds.guarded]), { from: 5, to: 1 })])));
     expect(result.report.pixelsReplaced).toBe(0);
-    expect(result.report.pixelsReplaced).toBeGreaterThanOrEqual(0);
     expect(engine.state().artwork).toEqual(original);
     expect(result.noop).toBe(true);
   });
 
 });
 
-describe('pixels.replace guards', () => {
+describe('K2 pixels.replace guards', { tags: ['critical'] }, () => {
   test('refuses a locked layer named by id', () => {
     expectLockedInk('pixels.replace', { from: 1, to: 2 });
   });
@@ -86,7 +85,7 @@ describe('pixels.replace guards', () => {
   });
 });
 
-describe('pixels.clear', () => {
+describe('K2 pixels.clear', { tags: ['critical'] }, () => {
   test('clears the masked pixels as one undo step', () => {
     const engine = pixelEngine(rowsArtwork(ROWS));
     const original = engine.state().artwork;

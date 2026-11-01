@@ -27,7 +27,7 @@ const roundTrip = (animation: ApngAnimation): AnimationDecoded => {
   return decoded;
 };
 
-describe('APNG round trips', () => {
+describe('K3 APNG round trips', { tags: ['critical'] }, () => {
   it.each([
     [1, 1, 1],
     [7, 5, 3],
@@ -76,7 +76,7 @@ describe('APNG round trips', () => {
   });
 });
 
-describe('APNG errors', () => {
+describe('K3 APNG errors', { tags: ['critical'] }, () => {
   it('rejects bad input without throwing', () => {
     const good = rgbaAnimation(2, 2, 1);
     const frame = good.frames[0];

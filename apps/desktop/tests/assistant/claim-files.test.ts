@@ -7,7 +7,7 @@ import { claimFiles } from '../../electron/assistant/claim-files';
 
 const stateOf = (folder: string, allow = vi.fn()) => ({ ctx: { documents: { allow } }, folder }) as never;
 
-describe('claimFiles', () => {
+describe('K4 claimFiles', { tags: ['critical'] }, () => {
   it('opens each file in the assistant folder for writing, once', () => {
     const folder = mkdtempSync(join(tmpdir(), 'bxel-claim-'));
     const allow = vi.fn();

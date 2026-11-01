@@ -23,7 +23,7 @@ beforeEach(async () => {
   rig = await grantRig();
 });
 
-describe('save_document onto a file another asset owns', () => {
+describe('K4 save_document onto a file another asset owns', { tags: ['standard'] }, () => {
   it.each([false, true])('refuses overwrite with FILE_IN_USE when moveAsset is %s, and leaves the file alone', async (moveAsset) => {
     const path = `${ROOT}/${relativePath(rig, spriteId(rig, 0))}`;
     const before = rig.current.rig.disk.files.get(path);
@@ -48,7 +48,7 @@ const otherPlace = () => {
   return { grant: grantOf(other.manifest.projectId, 'edit', OTHER), location };
 };
 
-describe('save_document to a new place with moveAsset', () => {
+describe('K4 save_document to a new place with moveAsset', { tags: ['standard'] }, () => {
   it('checks the grant of the project the asset comes from first', async () => {
     const place = otherPlace();
     const input = saveTo(sprite(1), place.location('moved.bxsprite'), { moveAsset: true });
@@ -81,7 +81,7 @@ const newestSpriteId = (): string => {
   return sprites.at(-1)?.id ?? '';
 };
 
-describe('the companion files of a save to a new place', () => {
+describe('K4 the companion files of a save to a new place', { tags: ['standard'] }, () => {
   it('writes a changed palette only where the grant allows editing', async () => {
     const edit = { documentId: rig.documentId, baseRevision: revisionOf(rig), label: 'Add', steps: recolourSteps() };
     expect(await rig.current.run('apply_edits', edit, rig.current.grants('edit'))).toMatchObject({ ok: true });

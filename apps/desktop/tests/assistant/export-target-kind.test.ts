@@ -14,7 +14,7 @@ const resolved = (format: string, fileName: string) => {
   return resolveTarget(ctx, folder(), { tool: 'export_document', input }).then((target) => ({ target, allow }));
 };
 
-describe('a save into the assistant folder', () => {
+describe('K4 a save into the assistant folder', { tags: ['critical'] }, () => {
   it('opens the whole folder, so the files a sheet or a map links to can be written beside it', async () => {
     const allowFolder = vi.fn();
     const ctx = { documents: { allow: vi.fn(), allowFolder }, log: vi.fn() } as never;
@@ -26,7 +26,7 @@ describe('a save into the assistant folder', () => {
   });
 });
 
-describe('the file name an export may take in the assistant folder', () => {
+describe('K4 the file name an export may take in the assistant folder', { tags: ['critical'] }, () => {
   it('ends in .gif for format gif', async () => {
     const { target, allow } = await resolved('gif', 'walk.gif');
     expect(target).toMatchObject({ ok: true });

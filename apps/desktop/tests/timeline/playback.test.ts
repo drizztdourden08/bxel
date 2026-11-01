@@ -21,7 +21,7 @@ const order = (tagId: TagId | null): number[] => {
   return playSteps(animationOf(), tagId).steps.map((step) => ids.indexOf(step.frameId));
 };
 
-describe('the play order', () => {
+describe('S2 the play order', { tags: ['standard'] }, () => {
   it('runs every frame forward when no tag is picked', () => {
     withFrames(3);
     expect(order(null)).toEqual([0, 1, 2]);
@@ -51,7 +51,7 @@ describe('the play order', () => {
   });
 });
 
-describe('the play plan', () => {
+describe('S2 the play plan', { tags: ['standard'] }, () => {
   const planOf = (extra: Partial<Parameters<typeof playPlan>[0]> = {}) =>
     playPlan({ animation: animationOf(), tagId: null, picked: [], rangePicked: false, loopRange: null, mode: 'loop', subtags: false, ...extra });
   const indices = (plan: ReturnType<typeof planOf>): number[] => plan.steps.map((step) => frameIds().indexOf(step.frameId));
@@ -81,7 +81,7 @@ describe('the play plan', () => {
   });
 });
 
-describe('timing', () => {
+describe('S2 timing', { tags: ['standard'] }, () => {
   it('reads the frame rate from the durations of the frames that play', () => {
     withFrames(2);
     expect(fpsOf(playSteps(animationOf(), null))).toBe(10);

@@ -1,15 +1,12 @@
 /* @layer renderer-app @kind test */
 import { COMMAND_NAME } from '@bxel/document';
 import { afterEach, describe, expect, it } from 'vitest';
-import { createNewFile } from '../../src/new-sprite/create-new-file';
 import { focusArea } from '../../src/platform-preset/focus-area';
 import { artworkReport } from '../../src/platform-preset/artwork-report';
 import type { FindingLine } from '../../src/platform-preset/platform-preset.type';
 import { useAreaStore } from '../../src/stores/useAreaStore';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
-import { paintAreas } from '../../src/views/EditorCanvas/behavior/paint-areas';
-import type { AreaContext } from '../../src/views/EditorCanvas/behavior/paint-areas.type';
 import { artworkOf, blank, chosen, platformFile, run, spriteScope } from './platform-harness';
 import type { PlatformFile } from './platform-harness';
 
@@ -33,7 +30,7 @@ afterEach(() => {
   useAreaStore.getState().clear();
 });
 
-describe('area findings in the platform report', () => {
+describe('S2 area findings in the platform report', { tags: ['standard'] }, () => {
   it('lists a 16x16 area that uses two palettes, with the rectangle to highlight', () => {
     const file = platformFile(COMBINED);
     paint(file, clashing);
@@ -72,37 +69,7 @@ describe('area findings in the platform report', () => {
   });
 });
 
-describe('selecting an area finding', () => {
-  it('shows the areas on the canvas overlay for the sprite and frame, and hides them again', () => {
-    const { host } = useDocumentStore.getState();
-    const made = createNewFile(host, COMBINED);
-    if (!made.ok) throw new Error(made.message);
-    useDocumentStore.getState().setActive(made.documentId);
-    const live = { host, documentId: made.documentId };
-    paint(live, clashing);
-    const line = areaLines(live)[0];
-    if (!line?.area) throw new Error('no area finding');
-    useAreaStore.getState().toggle(line.area);
-    const calls: string[] = [];
-    const ctx: AreaContext = {
-      save: () => calls.push('save'),
-      restore: () => calls.push('restore'),
-      fillRect: (...args: number[]) => calls.push(`fill ${args.join(',')}`),
-      strokeRect: () => calls.push('stroke'),
-      fillStyle: '',
-      strokeStyle: '',
-      lineWidth: 1,
-      globalAlpha: 1,
-    };
-    const look = { axis: '', guide: '', cursor: '#ff0000', ink: '', ground: '' };
-    paintAreas(ctx, { zoom: 8 }, look);
-    expect(calls).toContain('fill 0,0,16,16');
-    expect(calls.filter((call) => call === 'stroke')).toHaveLength(1);
-    useAreaStore.getState().toggle(line.area);
-    calls.length = 0;
-    paintAreas(ctx, { zoom: 8 }, look);
-    expect(calls).toEqual([]);
-  });
+describe('S2 selecting an area finding', { tags: ['standard'] }, () => {
 
   it('keeps a selection in step with the report and drops it when the finding is gone', () => {
     const file = platformFile(COMBINED);

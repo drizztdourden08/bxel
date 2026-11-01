@@ -11,7 +11,7 @@ import { withBundles, withTools } from './grant-builders';
 
 const steps = (...names: string[]) => ({ documentId: 'doc_1', baseRevision: 1, steps: names.map((name) => ({ name })) });
 
-describe('the effective level of a tool', () => {
+describe('K4 the effective level of a tool', { tags: ['critical'] }, () => {
   it('follows its bundle unless it has an override', () => {
     const grant = withBundles({ files_saving: 'read' });
     expect(toolLevel(grant, 'save_document')).toBe('read');
@@ -41,7 +41,7 @@ describe('the effective level of a tool', () => {
   });
 });
 
-describe('checking a call against a grant', () => {
+describe('K4 checking a call against a grant', { tags: ['critical'] }, () => {
   it('lets a full grant do everything', () => {
     for (const tool of ['save_document', 'stop_bxel', 'close_document'] as const) expect(checkGrant(tool, { discard: true, unsaved: 'discard' }, PRESETS.full_control.grant)).toBeNull();
     expect(checkGrant('apply_edits', steps('map.paint', 'pixels.patch'), PRESETS.full_control.grant)).toBeNull();
@@ -89,7 +89,7 @@ describe('checking a call against a grant', () => {
   });
 });
 
-describe('a batch of steps', () => {
+describe('K4 a batch of steps', { tags: ['critical'] }, () => {
   it('refuses the whole batch when one Tilemaps step is at Read, naming the step', () => {
     const grant = withBundles({ tilemaps: 'read' });
     const refused = checkGrant('apply_edits', steps('pixels.patch', 'map.paint', 'layer.add'), grant);

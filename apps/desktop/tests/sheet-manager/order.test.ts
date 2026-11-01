@@ -16,7 +16,7 @@ import { idsOf, openOnSheet } from './manager-harness';
 
 beforeEach(() => openOnSheet(['walk_10', 'walk_2', 'idle'], 8));
 
-describe('moves that make an order', () => {
+describe('S2 moves that make an order', { tags: ['standard'] }, () => {
   it('needs no move for an order that is already right', () => {
     expect(orderMoves(idsOf('idle'), idsOf('idle'))).toEqual([]);
   });
@@ -28,7 +28,7 @@ describe('moves that make an order', () => {
   });
 });
 
-describe('sorting the sheet order', () => {
+describe('S2 sorting the sheet order', { tags: ['standard'] }, () => {
   it('puts the sprites in natural name order as one undo step', () => {
     const sorted = sortFacts(allFacts(artwork(), artwork().sheets[0] ?? null), 'name', false).map((fact) => fact.sprite.id);
     const before = revision();
@@ -41,7 +41,7 @@ describe('sorting the sheet order', () => {
   });
 });
 
-describe('picking in the order shown', () => {
+describe('S2 picking in the order shown', { tags: ['standard'] }, () => {
   it('picks a range along the order given, not the sheet order', () => {
     const shown = idsOf('idle', 'walk_2', 'walk_10');
     pickVisible(shown, idOf('idle'), 'replace');

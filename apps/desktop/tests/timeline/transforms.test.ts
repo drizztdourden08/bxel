@@ -27,7 +27,7 @@ const roleOf = (sprites: readonly Sprite[], id: string | null): string | undefin
 
 const EIGHT = { ...DIRECTION_START, mode: 'eight' as const, framesPerFacing: 2, mirrored: ['nw', 'w', 'sw'] as const };
 
-describe('a new direction set', () => {
+describe('S2 a new direction set', { tags: ['standard'] }, () => {
   it('scaffolds a tag for each facing, three of them mirrors, and picks the first facing', () => {
     expect(runDirectionSet({ ...EIGHT, mirrored: [...EIGHT.mirrored] })).toBe(true);
     const animation = animationOf();
@@ -48,7 +48,7 @@ describe('a new direction set', () => {
   });
 });
 
-describe('splitting to sprites', () => {
+describe('S2 splitting to sprites', { tags: ['standard'] }, () => {
   it('cuts every clipped frame into a sprite of its own and promotes owned frames', () => {
     withFrames(3);
     const done = run('Strip', [
@@ -65,7 +65,7 @@ describe('splitting to sprites', () => {
   });
 });
 
-describe('making a spritesheet', () => {
+describe('S2 making a spritesheet', { tags: ['standard'] }, () => {
   it('places the whole animation as one live entry', async () => {
     withFrames(2);
     const { id } = animationOf();
@@ -83,7 +83,7 @@ describe('making a spritesheet', () => {
   });
 });
 
-describe('exporting the frames as images', () => {
+describe('S2 exporting the frames as images', { tags: ['standard'] }, () => {
   it('plans one numbered PNG for each frame of the animation', () => {
     withFrames(3);
     const { artwork, animation } = live();

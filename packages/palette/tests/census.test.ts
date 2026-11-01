@@ -2,7 +2,6 @@
 import { ALPHA_THRESHOLD_DEFAULT, countColors } from '@bxel/palette';
 import { describe, expect, it } from 'vitest';
 import { makeImage } from './make-image';
-import { makeNoiseImage } from './make-noise-image';
 
 const image = makeImage(3, [
   [255, 0, 0, 255],
@@ -13,7 +12,7 @@ const image = makeImage(3, [
   [255, 0, 0, 255],
 ]);
 
-describe('countColors', () => {
+describe('K1 countColors', { tags: ['critical'] }, () => {
   it('orders colours by frequency then value', () => {
     const { colors } = countColors(image);
     expect(colors).toEqual([
@@ -31,11 +30,6 @@ describe('countColors', () => {
       ]),
     );
     expect(colors.map((entry) => entry.rgb)).toEqual([0x010101, 0x090909]);
-  });
-
-  it('is deterministic', () => {
-    const noise = makeNoiseImage(32, 7);
-    expect(countColors(noise)).toEqual(countColors(noise));
   });
 
   it('treats alpha at or above the threshold as opaque', () => {

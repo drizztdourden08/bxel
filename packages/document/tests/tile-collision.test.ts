@@ -21,7 +21,7 @@ const solid = (shape: object) => ({ ...shape, layer: 'solid' });
 
 const collisionOf = (world: World, key: number) => tilesetOf(world.engine).tiles.find((tile) => tile.key === key)?.shapes?.[0];
 
-describe('tile.collision', () => {
+describe('K1 tile.collision', { tags: ['critical'] }, () => {
   it('sets a full, a rectangle and a polygon shape and clears it with none', () => {
     const world = buildWorld();
     applySteps(world.engine, [setShape(world, 1, { kind: 'full' }), setShape(world, 2, RECT)]);
@@ -64,7 +64,7 @@ describe('tile.collision', () => {
   });
 });
 
-describe('collision in saved files', () => {
+describe('K3 collision in saved files', { tags: ['critical'] }, () => {
   const shaped = (): World => {
     const world = buildWorld();
     applySteps(world.engine, [setShape(world, 1, { kind: 'full' }), setShape(world, 2, POLYGON)]);

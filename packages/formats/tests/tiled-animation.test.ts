@@ -28,7 +28,7 @@ const animated = (start: 'together' | 'random' = 'together'): TilemapExportInput
   };
 };
 
-describe('Tiled animated tiles', () => {
+describe('K2 Tiled animated tiles', { tags: ['critical'] }, () => {
   it('keeps the gids of the normal tiles and appends the frames after them', () => {
     const plain = parseTiled(writeTiledJson(makeMapInput(CELLS)));
     const water = parseTiled(writeTiledJson(animated()));

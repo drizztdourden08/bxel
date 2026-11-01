@@ -24,7 +24,7 @@ const sets = (world: World, list: readonly object[] | null) => step('tileset.ter
 
 const paint = (world: World, cells: readonly { x: number; y: number }[], extra: object = {}) => step('map.terrain', onGround(world, { mode: 'paint', cells, ...extra }));
 
-describe('corner 16 sets', () => {
+describe('K1 corner 16 sets', { tags: ['critical'] }, () => {
   it('reads a corner only when both of its sides are filled and round trips the slot masks', () => {
     expect(terrainIndex('corner16', 2)).toBe(0);
     expect(terrainIndex('corner16', 1 | 4 | 2)).toBe(1);
@@ -33,7 +33,7 @@ describe('corner 16 sets', () => {
   });
 });
 
-describe('tileset.terrain_sets', () => {
+describe('K1 tileset.terrain_sets', { tags: ['critical'] }, () => {
   it('sets a list of sets as one undo step, drops the old single rule set and clears', () => {
     const world = withTiles();
     applySteps(world.engine, [step('tileset.terrain', { tileset: world.tileset, rules: { kind: 'blob16', keys: Array.from({ length: 16 }, (_unused, at) => at + 1) } })]);
@@ -62,7 +62,7 @@ describe('tileset.terrain_sets', () => {
   });
 });
 
-describe('map.terrain with sets', () => {
+describe('K1 map.terrain with sets', { tags: ['critical'] }, () => {
   it('picks the set by id or name and refuses an unknown one', () => {
     const world = withTiles();
     applySteps(world.engine, [sets(world, [edgeSet(), { ...edgeSet(), id: 'second', name: 'Second', slots: edgeSet().slots.map((slot, at) => (at === 0 ? [{ key: 9, weight: 1 }] : slot)) }])]);

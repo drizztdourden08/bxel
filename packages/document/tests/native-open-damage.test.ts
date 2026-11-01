@@ -8,7 +8,7 @@ import { firstCode } from './first-code';
 import { brand } from './fixture-to-artwork';
 import { encodeHeart, artworkOf } from './native-fixture';
 
-describe('native open damage: cels', () => {
+describe('S3 native open damage: cels', { tags: ['standard'] }, () => {
   it('opens read-only with a damage report when a cel byte is flipped', () => {
     const bytes = editCel(
       encodeHeart(),
@@ -52,7 +52,7 @@ describe('native open damage: cels', () => {
 
 });
 
-describe('native open damage: bad cel data', () => {
+describe('S3 native open damage: bad cel data', { tags: ['standard'] }, () => {
   it('empties a cel whose index is past the bank and keeps its checksum clean', () => {
     const bytes = editCel(
       encodeHeart(),
@@ -80,7 +80,7 @@ describe('native open damage: bad cel data', () => {
   });
 });
 
-describe('native open damage: preview', () => {
+describe('S3 native open damage: preview', { tags: ['standard'] }, () => {
   it('treats a damaged preview as recoverable and a missing preview as fine', () => {
     const damaged = editFiles(encodeHeart(), (files) => {
       files['preview.png'] = strToU8('not the thumbnail');

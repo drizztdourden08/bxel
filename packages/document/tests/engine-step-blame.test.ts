@@ -28,7 +28,7 @@ const engineWithTwin = () =>
 
 const quiet = (name: string): CommandStep => ({ name, targets: null, options: {} });
 
-describe('a failure found after the steps ran', () => {
+describe('K1 a failure found after the steps ran', { tags: ['critical'] }, () => {
   it('names the first step that caused it', () => {
     const engine = engineWithTwin();
     const result = engine.execute(request([quiet('test.twin'), quiet('test.twin')]));

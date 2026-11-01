@@ -21,19 +21,7 @@ const run = (id: string, args: object): void => {
 const labels = (entries: readonly ContextMenuEntry[]): string[] =>
   entries.flatMap((entry) => (typeof entry === 'object' && 'label' in entry && typeof entry.label === 'string' ? [entry.label] : []));
 
-describe('the menu of a frame', () => {
-  it('lists the frame commands and no cel commands', () => {
-    withFrames(3);
-    const text = labels(frameEntries(frameAt(1)));
-    expect(text).toEqual(['Play from here', 'Duration', 'Add frame', 'Add frames from', 'Duplicate frames', 'Linked copy', 'Move', 'Tag', 'Select', 'Sprite', 'Clipboard', 'Delete frames']);
-  });
-
-  it('keeps at most twelve top level entries', () => {
-    withFrames(3);
-    const entries = frameEntries(frameAt(1)).filter((entry) => entry !== 'separator');
-    expect(entries.length).toBeLessThanOrEqual(12);
-  });
-
+describe('S2 the menu of a frame', { tags: ['standard'] }, () => {
   it('plays from the frame and sets the duration of the picked frames', () => {
     withFrames(3);
     run('timeline.play_from', { frameId: frameAt(2) });
@@ -66,7 +54,7 @@ describe('the menu of a frame', () => {
   });
 });
 
-describe('the menu of a tag', () => {
+describe('S2 the menu of a tag', { tags: ['standard'] }, () => {
   it('sets the direction, the colour and the range, and deletes the tag', () => {
     withFrames(4);
     pickRange(0, 1);

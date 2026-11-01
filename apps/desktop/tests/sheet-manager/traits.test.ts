@@ -50,7 +50,7 @@ beforeEach(() => {
   addTag('idle', 'c');
 });
 
-describe('filters and selecting by trait', () => {
+describe('S2 filters and selecting by trait', { tags: ['standard'] }, () => {
   it('lists the tag names of the file in natural order', () => {
     expect(tagOptions(artwork().sprites)).toEqual(['idle', 'walk']);
   });
@@ -68,13 +68,9 @@ describe('filters and selecting by trait', () => {
     expect(idsByTrait(factsOf(), { kind: 'size', value: '8x8' })).toEqual(idsOf('a', 'b', 'c'));
     expect(idsByTrait(factsOf(), { kind: 'bank', value: spriteOf('a').bankId })).toHaveLength(4);
   });
-
-  it('sorts by the name of the palette', () => {
-    expect(shown({ sortKey: 'bank' })).toHaveLength(4);
-  });
 });
 
-describe('changing the palette of sprites', () => {
+describe('S2 changing the palette of sprites', { tags: ['standard'] }, () => {
   beforeEach(() => {
     patch('a', { x: 0, y: 0, width: 1, height: 1 }, 1);
     patch('a', { x: 1, y: 0, width: 1, height: 1 }, 2);

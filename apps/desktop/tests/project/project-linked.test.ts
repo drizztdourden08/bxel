@@ -22,7 +22,7 @@ beforeEach(() => {
   held = rig();
 });
 
-describe('linked folders', () => {
+describe('S2 linked folders', { tags: ['standard'] }, () => {
   beforeEach(() => openedProject(held));
 
   it('adds a folder to the project file with a path relative to the project', async () => {
@@ -69,7 +69,7 @@ describe('linked folders', () => {
   });
 });
 
-describe('removing a recent project from the list', () => {
+describe('S2 removing a recent project from the list', { tags: ['standard'] }, () => {
   it('drops it from the list, forgets the folder, ends its assistant grant and its restored folders', async () => {
     await openedProject(held);
     const entry = held.values.projectRecents[0];
@@ -87,7 +87,7 @@ describe('removing a recent project from the list', () => {
   });
 });
 
-describe('restoring the folders of granted projects at launch', () => {
+describe('S2 restoring the folders of granted projects at launch', { tags: ['standard'] }, () => {
   const grant = (access: 'read' | 'edit' = 'edit') => [grantOf(manifestOf().projectId, access)];
 
   beforeEach(() => {

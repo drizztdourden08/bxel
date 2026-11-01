@@ -7,7 +7,7 @@ const scope = (lines?: { x: number[]; y: number[] }) => {
   return { write, scope: persistedGuideScope({ lines, size: () => ({ width: 96, height: 64 }), step: () => 8, write }) };
 };
 
-describe('guides saved with a sheet or a map', () => {
+describe('K1 guides saved with a sheet or a map', { tags: ['critical'] }, () => {
   it('write the whole new set of guides, sorted and without doubles, for an add', () => {
     const { scope: guides, write } = scope({ x: [16, 40], y: [] });
     guides.add('x', 8);

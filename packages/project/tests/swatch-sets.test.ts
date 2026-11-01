@@ -37,7 +37,7 @@ const written = (manifest: object): string => {
   return result.value;
 };
 
-describe('swatch set ids', () => {
+describe('K1 swatch set ids', { tags: ['critical'] }, () => {
   it('creates and checks the sws prefix', () => {
     const id = createSwatchSetId(bytes(1));
     expect(id).toMatch(/^sws_[0-9a-hjkmnp-tv-z]{12}$/);
@@ -47,7 +47,7 @@ describe('swatch set ids', () => {
   });
 });
 
-describe('manifest swatch sets', () => {
+describe('K2 manifest swatch sets', { tags: ['critical'] }, () => {
   it('reads an old manifest without the field as an empty list', () => {
     const old: Record<string, unknown> = JSON.parse(written({})) as Record<string, unknown>;
     expect('swatchSets' in old).toBe(false);
@@ -110,7 +110,7 @@ describe('manifest swatch sets', () => {
   });
 });
 
-describe('parseSwatchSets', () => {
+describe('K1 parseSwatchSets', { tags: ['critical'] }, () => {
   it('keeps the valid sets and drops the rest', () => {
     const good = setOf(6);
     const parsed = parseSwatchSets([good, { setId: 'x' }, 7, null, { ...setOf(7), colors: [] }, good]);
@@ -128,7 +128,7 @@ describe('parseSwatchSets', () => {
   });
 });
 
-describe('upsertSwatchSet and removeSwatchSet', () => {
+describe('K1 upsertSwatchSet and removeSwatchSet', { tags: ['critical'] }, () => {
   it('adds a new set and replaces one with the same id', () => {
     const first = setOf(11);
     const added = upsertSwatchSet([], first);

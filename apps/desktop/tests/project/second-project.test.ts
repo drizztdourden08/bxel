@@ -39,7 +39,7 @@ beforeEach(() => {
   confirmSave.mockClear();
 });
 
-describe('opening a second project while one has unsaved work', () => {
+describe('K3 opening a second project while one has unsaved work', { tags: ['standard'] }, () => {
   it('saves the first project into its own files, with its grants, before the second one opens', async () => {
     const { path, caveFile, caveBytes } = await paintedDungeon();
     confirmSave.mockResolvedValueOnce('save');
@@ -61,7 +61,7 @@ describe('opening a second project while one has unsaved work', () => {
   });
 });
 
-describe('splitting an older file into a new project while one has unsaved work', () => {
+describe('K3 splitting an older file into a new project while one has unsaved work', { tags: ['standard'] }, () => {
   it('asks about the open project first and splits nothing when that is cancelled', async () => {
     const { documentId } = await paintedDungeon();
     const elder = 'C:/Elder';

@@ -16,7 +16,7 @@ const tilesetOf = (text: string): TiledTileset => {
   return result.tileset;
 };
 
-describe('readTiledMap TMX', () => {
+describe('K3 readTiledMap TMX', { tags: ['critical'] }, () => {
   it('reads the map header, tileset references and flattened layers', () => {
     const map = mapOf(TMX);
     expect(map).toMatchObject({ orientation: 'orthogonal', width: 3, height: 2, tileWidth: 4, tileHeight: 4, skippedLayers: 1 });
@@ -33,7 +33,7 @@ describe('readTiledMap TMX', () => {
   });
 });
 
-describe('readTiledTileset TSX', () => {
+describe('K3 readTiledTileset TSX', { tags: ['critical'] }, () => {
   it('reads the image, spacing, margin and the tile collision shapes', () => {
     const tileset = tilesetOf(TSX);
     expect(tileset).toMatchObject({ name: 'ground', tileWidth: 4, spacing: 1, margin: 1, columns: 2, tileCount: 4 });
@@ -43,7 +43,7 @@ describe('readTiledTileset TSX', () => {
   });
 });
 
-describe('readTiledMap JSON', () => {
+describe('K3 readTiledMap JSON', { tags: ['critical'] }, () => {
   it('reads plain, base64 and zlib layer data', () => {
     const gids = [1, 0, 0x40000002, 3];
     expect(Array.from(mapOf(tmjText(gids)).layers[0]?.gids ?? [])).toEqual([1, 0, 0x40000002, 3]);

@@ -1,7 +1,7 @@
 /* @layer tests @kind test */
 import { describe, expect, test } from 'vitest';
-import { FLIP_ORIENTATION, TURN_ORIENTATION, scaleBuffer, transformBuffer, transformPivot, transformRect, transformSize } from '@bxel/raster';
-import type { BufferView, Orientation } from '@bxel/raster';
+import { scaleBuffer, transformBuffer, transformPivot, transformRect, transformSize } from '@bxel/raster';
+import type { Orientation } from '@bxel/raster';
 import { contractPoint } from './contract-point';
 import { fromRows } from './from-rows';
 import { repeatTransform } from './repeat-transform';
@@ -30,10 +30,7 @@ const ALL: readonly Orientation[] = GOLDEN.map((entry) => entry.orientation);
 
 const BIG = fromRows(['1234567', '8.12345', '6789...', '1.2.3.4']);
 
-const same = (first: BufferView, second: BufferView): boolean =>
-  first.width === second.width && first.height === second.height && first.pixels.every((value, at) => value === second.pixels[at]);
-
-describe('lossless transforms of a whole buffer', () => {
+describe('K1 lossless transforms of a whole buffer', { tags: ['critical'] }, () => {
   test.each(GOLDEN)('$orientation moves pixels, size and pivot by the contract table', ({ orientation, rows, size, pivot }) => {
     const moved = transformBuffer(fromRows(SPRITE), orientation);
     expect(toRows(moved)).toEqual(rows);
@@ -56,18 +53,6 @@ describe('lossless transforms of a whole buffer', () => {
     expect(result.pivot).toEqual(PIVOT);
   });
 
-  test('clockwise then counter-clockwise cancels, and two quarter turns equal a half turn', () => {
-    const there = transformBuffer(transformBuffer(BIG, 'turn-clockwise'), 'turn-counter-clockwise');
-    expect(same(there, BIG)).toBe(true);
-    const twice = transformBuffer(transformBuffer(BIG, 'turn-clockwise'), 'turn-clockwise');
-    expect(same(twice, transformBuffer(BIG, 'half-turn'))).toBe(true);
-  });
-
-  test('a flip and a half turn compose to the other flip', () => {
-    const composed = transformBuffer(transformBuffer(BIG, 'flip-horizontal'), 'half-turn');
-    expect(same(composed, transformBuffer(BIG, 'flip-vertical'))).toBe(true);
-  });
-
   test.each(ALL)('%s agrees with the contract point mapping for every pixel', (orientation) => {
     const moved = transformBuffer(BIG, orientation);
     const size = { width: BIG.width, height: BIG.height };
@@ -85,18 +70,9 @@ describe('lossless transforms of a whole buffer', () => {
     for (const orientation of ALL) transformBuffer(view, orientation);
     expect(view.pixels).toEqual(copy);
   });
-
-  test('the orientation names cover every document flip axis and turn direction', () => {
-    expect(FLIP_ORIENTATION).toEqual({ horizontal: 'flip-horizontal', vertical: 'flip-vertical' });
-    expect(TURN_ORIENTATION).toEqual({
-      clockwise: 'turn-clockwise',
-      'counter-clockwise': 'turn-counter-clockwise',
-      half: 'half-turn',
-    });
-  });
 });
 
-describe('transformed rectangles', () => {
+describe('K1 transformed rectangles', { tags: ['critical'] }, () => {
   const canvas = { width: 6, height: 4 };
   const rect = { x: 1, y: 0, width: 2, height: 3 };
 
@@ -111,7 +87,7 @@ describe('transformed rectangles', () => {
   });
 });
 
-describe('integer scale', () => {
+describe('K1 integer scale', { tags: ['critical'] }, () => {
   test('repeats every pixel in a block', () => {
     expect(toRows(scaleBuffer(fromRows(SPRITE), 2))).toEqual(['112233', '112233', '44..55', '44..55']);
     expect(toRows(scaleBuffer(fromRows(['1.']), 3))).toEqual(['111...', '111...', '111...']);

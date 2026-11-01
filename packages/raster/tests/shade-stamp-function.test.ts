@@ -8,7 +8,7 @@ import { toRows } from './to-rows';
 
 const BRUSH = { shape: 'square', size: 1 } as const;
 
-describe('shadeTable', () => {
+describe('K1 shadeTable', { tags: ['critical'] }, () => {
   test('steps one place up the ramp and stops at its end', () => {
     const table = shadeTable({ slots: [1, 2, 3], direction: 'up', steps: 1 });
     expect([table[1], table[2], table[3]]).toEqual([2, 3, 3]);
@@ -25,7 +25,7 @@ describe('shadeTable', () => {
   });
 });
 
-describe('shadeStroke', () => {
+describe('K1 shadeStroke', { tags: ['critical'] }, () => {
   const table = shadeTable({ slots: [1, 2, 3], direction: 'up', steps: 1 });
 
   test('shades the painted pixels along the stroke and leaves empty ones', () => {
@@ -53,7 +53,7 @@ describe('shadeStroke', () => {
   });
 });
 
-describe('stampPatch', () => {
+describe('K1 stampPatch', { tags: ['critical'] }, () => {
   const patch = fromRows(['12', '.3']);
 
   test('stamps the patch at each point with its anchor on the point', () => {

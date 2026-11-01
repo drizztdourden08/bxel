@@ -27,7 +27,7 @@ beforeEach(() => {
   addToSheet(artwork().sprites.map((sprite) => sprite.id), null);
 });
 
-describe('name search', () => {
+describe('S2 name search', { tags: ['standard'] }, () => {
   it('matches a part of a name without caring for case', () => {
     expect(nameMatches('Walk_1', 'walk')).toBe(true);
     expect(nameMatches('idle', 'walk')).toBe(false);
@@ -43,7 +43,7 @@ describe('name search', () => {
   });
 });
 
-describe('the shown list', () => {
+describe('S2 the shown list', { tags: ['standard'] }, () => {
   it('keeps the sheet order by default and reverses it on request', () => {
     expect(shown({})).toEqual(['sprite', 'walk_10', 'walk_2', 'idle', 'Walk_1']);
     expect(shown({ sortDown: true })).toEqual(['Walk_1', 'idle', 'walk_2', 'walk_10', 'sprite']);

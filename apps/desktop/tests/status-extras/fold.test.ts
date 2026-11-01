@@ -8,7 +8,7 @@ const item = (id: string, priority?: number): StatusBarEntry => ({ id, label: id
 
 const bar = [item('cursor'), item('index', 3), item('cell', 2), item('zoom'), item('colour-1', 1), item('colour-2', 2), item('selection', 3), item('help', 3)];
 
-describe('folding the status bar', () => {
+describe('K1 folding the status bar', { tags: ['critical'] }, () => {
   it('names the items that may go, the lowest priority first and the later one first among equals', () => {
     expect(foldOrder(bar)).toEqual(['help', 'selection', 'index', 'colour-2', 'cell', 'colour-1']);
   });

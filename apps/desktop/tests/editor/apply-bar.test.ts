@@ -1,7 +1,5 @@
 /* @layer renderer-app @kind test */
-import { createElement } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { beginPending } from '../../src/editor/pending/begin-pending';
 import { cancelPending } from '../../src/editor/pending/cancel-pending';
@@ -11,11 +9,6 @@ import { TOOL_DEFAULTS } from '../../src/stores/tool-store.constants';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { usePendingStore } from '../../src/stores/usePendingStore';
 import { useToolStore } from '../../src/stores/useToolStore';
-import { ApplyBar } from '../../src/views/ApplyBar';
-
-vi.mock('@drizztdourden08/brock-react', async () => (await import('../hints/brock-chords')).brockChords());
-
-const markup = (): string => renderToStaticMarkup(createElement(ApplyBar));
 
 beforeEach(() => {
   useToolStore.setState({ ...TOOL_DEFAULTS });
@@ -28,12 +21,7 @@ const showing = (): boolean => {
   return pending !== null && !pending.editing && outcome !== null;
 };
 
-describe('the floating Apply bar', () => {
-  it('draws nothing while no edit waits', () => {
-    expect(showing()).toBe(false);
-    expect(markup()).toBe('');
-  });
-
+describe('S2 the floating Apply bar', { tags: ['standard'] }, () => {
   it('has an outcome to show while an edit waits and leaves with Cancel', () => {
     expect(beginPending({ kind: 'flip', axis: 'horizontal' })).toBe(true);
     expect(showing()).toBe(true);

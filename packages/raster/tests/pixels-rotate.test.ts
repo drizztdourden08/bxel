@@ -10,7 +10,7 @@ const scope = scopeOf([rowsIds.sprite]);
 const rotate = (angle: number, extra: Record<string, unknown> = {}) => stepOf('pixels.rotate', scope, { angle, ...extra });
 const rowsOf = (engine: ReturnType<typeof pixelEngine>) => celRows(engine.state().artwork, rowsIds.sprite, rowsIds.cel);
 
-describe('pixels.rotate at right angles', () => {
+describe('K2 pixels.rotate at right angles', { tags: ['critical'] }, () => {
   test.each([
     [90, 'clockwise'],
     [180, 'half'],
@@ -42,7 +42,7 @@ describe('pixels.rotate at right angles', () => {
   });
 });
 
-describe('pixels.rotate at other angles', () => {
+describe('K2 pixels.rotate at other angles', { tags: ['critical'] }, () => {
   test('45 degrees turns a block into a diamond as one undo step', () => {
     const engine = pixelEngine(rowsArtwork(['.......', '.......', '..111..', '..111..', '..111..', '.......', '.......']));
     const original = engine.state().artwork;
@@ -80,7 +80,7 @@ describe('pixels.rotate at other angles', () => {
 
 });
 
-describe('pixels.rotate bounds and guards', () => {
+describe('K2 pixels.rotate bounds and guards', { tags: ['critical'] }, () => {
   test('cancel refuses a rotation that leaves the sprite and writes nothing', () => {
     const engine = pixelEngine(rowsArtwork(SOLID));
     const before = engine.state().artwork;

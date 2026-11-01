@@ -36,7 +36,7 @@ const mustText = (result: ReturnType<typeof writeGpl>): string => {
   return result.text;
 };
 
-describe('hex colours', () => {
+describe('K3 hex colours', { tags: ['critical'] }, () => {
   it('parses and formats with optional alpha', () => {
     expect(parseHexColor('#10A0ff')).toEqual([16, 160, 255, 255]);
     expect(parseHexColor('10a0ff80')).toEqual([16, 160, 255, 128]);
@@ -46,7 +46,7 @@ describe('hex colours', () => {
   });
 });
 
-describe('GIMP .gpl', () => {
+describe('K3 GIMP .gpl', { tags: ['critical'] }, () => {
   it('round trips names and colours', () => {
     const text = mustText(writeGpl(NAMED));
     expect(text.startsWith('GIMP Palette\nName: Sunset 16\n')).toBe(true);
@@ -73,7 +73,7 @@ describe('GIMP .gpl', () => {
   });
 });
 
-describe('JASC .pal', () => {
+describe('K3 JASC .pal', { tags: ['critical'] }, () => {
   it('round trips colours and drops names', () => {
     const text = mustText(writeJascPal(NAMED));
     expect(text).toBe('JASC-PAL\r\n0100\r\n5\r\n0 0 0\r\n255 0 0\r\n16 160 255\r\n255 255 255\r\n127 127 127\r\n');
@@ -91,7 +91,7 @@ describe('JASC .pal', () => {
   });
 });
 
-describe('palette PNG', () => {
+describe('K3 palette PNG', { tags: ['critical'] }, () => {
   const withAlpha: PaletteFile = {
     name: '',
     colors: [...NAMED.colors.map((color) => ({ hex: color.hex, name: '' })), { hex: '#12345680', name: '' }, { hex: '#10a0ff', name: '' }],

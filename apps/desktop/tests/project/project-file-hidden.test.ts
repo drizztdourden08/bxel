@@ -12,7 +12,7 @@ beforeEach(async () => {
   rig = await openHiddenFileRig();
 });
 
-describe('the project file tools and a folder the assistant cannot see', () => {
+describe('K4 the project file tools and a folder the assistant cannot see', { tags: ['standard'] }, () => {
   it('refuses to move a file that a hidden file links to, and changes nothing', async () => {
     const { current } = rig;
     const input = { projectId: current.projectId, files: [rig.place(rig.spritePath())], into: { folderId: current.folderId, path: 'heroes' } };

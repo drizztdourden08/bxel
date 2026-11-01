@@ -36,7 +36,7 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-describe('the tabs of a project', () => {
+describe('S2 the tabs of a project', { tags: ['standard'] }, () => {
   it('reopens the tabs the project had open, in order, on the tab that was active', async () => {
     const paths = prepare();
     const files = [...paths.values()].filter((path) => path.endsWith('.bxsheet')).sort();

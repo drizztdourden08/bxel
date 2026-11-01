@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 const nodeEncode = (bytes: Uint8Array): string => Buffer.from(bytes).toString('base64');
 
-describe('base64 codecs', () => {
+describe('K1 base64 codecs', { tags: ['critical'] }, () => {
   it('matches the standard encoder for every length up to 40', () => {
     for (let length = 0; length <= 40; length += 1) {
       const bytes = Uint8Array.from({ length }, (_unused, index) => (index * 37 + 11) % 256);

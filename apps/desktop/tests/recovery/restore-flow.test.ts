@@ -61,7 +61,7 @@ const reopened = (): Reopened => {
   return { session, paths, recovered, ops, discarded };
 };
 
-describe('restoring a recovery snapshot', () => {
+describe('K3 restoring a recovery snapshot', { tags: ['standard'] }, () => {
   it('opens the snapshot as an unsaved document with the saved content', async () => {
     const found = await crashedSession(ORIGINAL);
     const { session, paths, recovered, ops } = reopened();
@@ -97,7 +97,7 @@ describe('restoring a recovery snapshot', () => {
 
 });
 
-describe('restoring after the first open', () => {
+describe('K3 restoring after the first open', { tags: ['standard'] }, () => {
   it('stays unsaved until it is saved, then drops its recovery state', async () => {
     const found = await crashedSession(ORIGINAL);
     const { session, ops } = reopened();

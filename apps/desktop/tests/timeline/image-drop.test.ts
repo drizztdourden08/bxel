@@ -26,7 +26,7 @@ const celPixels = (frameIndex: number): number[] => {
   return Array.from(Object.values(sprite?.cels ?? {})[0]?.pixels ?? []);
 };
 
-describe('what a dropped image becomes', () => {
+describe('K1 what a dropped image becomes', { tags: ['critical'] }, () => {
   it('is a frame when it is the size of the animation', () => {
     expect(planImageDrop({ width: 8, height: 8 }, FRAME)).toEqual({ kind: 'frame' });
   });
@@ -49,7 +49,7 @@ describe('what a dropped image becomes', () => {
   });
 });
 
-describe('mapping a dropped image to the palette', () => {
+describe('K1 mapping a dropped image to the palette', { tags: ['critical'] }, () => {
   const source = (colour: typeof NIGHT, count = SIDE * SIDE) => {
     const data = new Uint8ClampedArray(count * 4);
     for (let at = 0; at < count; at += 1) data.set(colour, at * 4);
@@ -77,7 +77,7 @@ describe('mapping a dropped image to the palette', () => {
   });
 });
 
-describe('dropping image files on the frame track', () => {
+describe('S2 dropping image files on the frame track', { tags: ['standard'] }, () => {
   it('adds an owned frame at the drop position with the pixels mapped to the palette', async () => {
     withFrames(2);
     const reasons = await dropImageFiles([imageFile('left.png', SIDE, SIDE, (x) => leftHalf(x))], 1);
@@ -140,7 +140,7 @@ describe('dropping image files on the frame track', () => {
   });
 });
 
-describe('adding the frames of a strip image', () => {
+describe('S2 adding the frames of a strip image', { tags: ['standard'] }, () => {
   it('imports the strip as a sprite and adds one clipped frame per cell in one undo step', async () => {
     withFrames(1);
     await dropImageFiles([imageFile('walk.png', SIDE * 3, SIDE, () => NIGHT)], 1);

@@ -10,7 +10,7 @@ import { BLOCK, countOn, openRig } from './selection-harness';
 
 const MARKS = [{ x: 2, y: 2, width: 3, height: 1 }, { x: 10, y: 10, width: 1, height: 1 }] as const;
 
-describe('mask descriptors over MCP', () => {
+describe('S2 mask descriptors over MCP', { tags: ['standard'] }, () => {
   it('resolves a wand exactly as the owner wand does', () => {
     const rig = openRig();
     for (const box of MARKS) rig.paint(box, 5);
@@ -43,10 +43,9 @@ describe('mask descriptors over MCP', () => {
     expect(count({ by: 'saved', name: 'block' })).toBe(BLOCK.width * BLOCK.height);
     expect(count({ by: 'saved', name: 'missing' })).toBe(-1);
   });
-
 });
 
-describe('mask descriptors in steps', () => {
+describe('S2 mask descriptors in steps', { tags: ['standard'] }, () => {
   it('combines a list of described shapes', () => {
     const rig = openRig();
     const artwork = rig.host.view(rig.documentId)?.state.artwork;

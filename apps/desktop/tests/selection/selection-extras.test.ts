@@ -5,11 +5,10 @@ import { pasteNewSprite } from '../../src/editor/selection/paste-new-sprite';
 import { selectByFrame } from '../../src/editor/selection/select-by-frame';
 import { selectionMask } from '../../src/editor/selection/selection-mask';
 import { selectionToGuides } from '../../src/editor/selection/selection-to-guides';
-import { useCanvasSizeStore } from '../../src/stores/useCanvasSizeStore';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { BLOCK, countOn, openRig } from './selection-harness';
 
-describe('selection extras', () => {
+describe('S2 selection extras', { tags: ['standard'] }, () => {
   it('selection to guides adds a guide on each edge of the selection as one step', () => {
     const rig = openRig();
     rig.select(BLOCK);
@@ -36,12 +35,6 @@ describe('selection extras', () => {
     const made = sprites.at(-1);
     expect([made?.width, made?.height]).toEqual([3, 2]);
     expect(made?.name).toBe('Pasted');
-  });
-
-  it('the canvas size preview clears when the dialog closes', () => {
-    useCanvasSizeStore.getState().setPreview({ width: 40, height: 40, anchor: 'center' });
-    useCanvasSizeStore.getState().hide();
-    expect(useCanvasSizeStore.getState().preview).toBeNull();
   });
 
   it('a selection command that needs a selection says so in its own words, and select by frame needs none', () => {

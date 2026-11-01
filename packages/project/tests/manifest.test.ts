@@ -29,7 +29,7 @@ const brokenFolders = (change: (folders: Record<string, unknown>[]) => void) => 
   change(folders);
 };
 
-describe('manifest round trip', () => {
+describe('K3 manifest round trip', { tags: ['critical'] }, () => {
   it('writes in a stable key order', () => {
     const output = written();
     expect(output.endsWith('}\n')).toBe(true);
@@ -64,7 +64,7 @@ describe('manifest round trip', () => {
   });
 });
 
-describe('manifest refusals', () => {
+describe('S3 manifest refusals', { tags: ['standard'] }, () => {
   it('refuses text that is not JSON', () => {
     expect(parseManifest('{ nope')).toMatchObject({ ok: false, code: PROJECT_ERROR_CODE.MANIFEST_INVALID });
     expect(parseManifest('')).toMatchObject({ ok: false, code: PROJECT_ERROR_CODE.MANIFEST_INVALID });

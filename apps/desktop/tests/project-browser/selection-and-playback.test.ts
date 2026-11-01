@@ -8,7 +8,7 @@ import { EMPTY_SELECTION } from '../../src/project-browser/project-browser.const
 
 const ORDER = ['a', 'b', 'c', 'd', 'e'];
 
-describe('selecting files in the browser', () => {
+describe('K1 selecting files in the browser', { tags: ['critical'] }, () => {
   it('selects one on a plain click and a range on shift click', () => {
     const first = pickEntry(EMPTY_SELECTION, 'b', ORDER, { ctrl: false, shift: false });
     expect(first.ids).toEqual(['b']);
@@ -32,7 +32,7 @@ describe('selecting files in the browser', () => {
   });
 });
 
-describe('the order an animation plays its frames in', () => {
+describe('K1 the order an animation plays its frames in', { tags: ['critical'] }, () => {
   it('plays forward, reverse and ping-pong without repeating the end frames', () => {
     expect(playOrder(4, 'forward')).toEqual([0, 1, 2, 3]);
     expect(playOrder(4, 'reverse')).toEqual([3, 2, 1, 0]);

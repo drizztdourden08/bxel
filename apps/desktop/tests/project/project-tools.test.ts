@@ -29,7 +29,7 @@ beforeEach(async () => {
   held = await toolRig();
 });
 
-describe('list_places', () => {
+describe('K4 list_places', { tags: ['standard'] }, () => {
   it('leaves an ungranted project out', async () => {
     const places = await held.run('list_places', {}, []);
     expect(places).toMatchObject({ ok: true, projects: [] });
@@ -54,7 +54,7 @@ describe('list_places', () => {
   });
 });
 
-describe('list_files', () => {
+describe('K4 list_files', { tags: ['standard'] }, () => {
   it('answers PROJECT_NOT_FOUND for an ungranted project, as for one that does not exist', async () => {
     const ungranted = await held.run('list_files', listInput(), []);
     const unknown = await held.run('list_files', listInput({ projectId: 'prj_zzzzzzzzzzzz' }), granted());
@@ -116,7 +116,7 @@ describe('list_files', () => {
   });
 });
 
-describe('open_file in a project', () => {
+describe('K4 open_file in a project', { tags: ['standard'] }, () => {
   it('opens a .bxel file as a new document and returns the same one the second time', async () => {
     putFile('hero.bxel', bxelBytes('hero'));
     const first = await held.run('open_file', { file: location('hero.bxel'), activate: false }, granted('read'));

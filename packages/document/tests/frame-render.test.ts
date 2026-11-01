@@ -30,7 +30,7 @@ const naiveFlatten = (sprite: Sprite, frameId: string): number[] => {
   return out;
 };
 
-describe('frame rendering', () => {
+describe('K1 frame rendering', { tags: ['critical'] }, () => {
   it('flattens visible layers bottom to top with zero as see through', () => {
     const { sprite, frameId } = fixture();
     expect(Array.from(flattenFrame(sprite, frameId))).toEqual(naiveFlatten(sprite, frameId));

@@ -50,7 +50,7 @@ const stepOf = (map: ReturnType<typeof waterMap>, index: number, key: number, no
   return tileStepAt(playback, now, { map: map.map.id, layer: map.layer, cell: index });
 };
 
-describe('animated tiles on a map', () => {
+describe('K1 animated tiles on a map', { tags: ['critical'] }, () => {
   it('plays terrain-placed water in step, whichever terrain tile each cell took', () => {
     const map = waterMap('together');
     const cells = placed(map);

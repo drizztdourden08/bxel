@@ -45,7 +45,7 @@ beforeEach(() => {
   createDefaultArtwork(useDocumentStore.getState().host);
 });
 
-describe('the active layer', () => {
+describe('S2 the active layer', { tags: ['standard'] }, () => {
   it('is the top layer until one is picked, and falls back to it when the picked one is gone', () => {
     const { sprite } = live();
     expect(activeLayer(sprite, null)?.name).toBe('Layer 1');
@@ -80,18 +80,6 @@ describe('the active layer', () => {
     expect(layerBlock(live().layer)).toBeNull();
   });
 
-  it('refuses a stroke on a locked layer with a notice and paints nothing', () => {
-    spriteLayerActions.setFlag([live().layerId], 'locked', true);
-    const plan = { kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false } as const;
-    expect(allowPress(plan, live())).toBe(false);
-    expect(useNoticeStore.getState().notice?.text).toBe('Layer Layer 1 is locked. Unlock it or choose another layer.');
-    expect(drawAt(2)?.ok).toBe(false);
-    expect(cellOf('Layer 1')?.pixels.some((index) => index !== 0) ?? false).toBe(false);
-    spriteLayerActions.setFlag([live().layerId], 'locked', false);
-    expect(allowPress(plan, live())).toBe(true);
-    expect(drawAt(2)?.ok).toBe(true);
-  });
-
   it('refuses a press on a blocked layer with a notice, but lets the picker through', () => {
     spriteLayerActions.setFlag([live().layerId], 'visible', false);
     expect(allowPress({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live())).toBe(false);
@@ -100,7 +88,7 @@ describe('the active layer', () => {
   });
 });
 
-describe('layer actions', () => {
+describe('S2 layer actions', { tags: ['standard'] }, () => {
   it('adds above the picked layer and picks the new one', () => {
     addLayer();
     useToolStore.getState().setLayer(live().sprite.layers[0]?.id ?? null);

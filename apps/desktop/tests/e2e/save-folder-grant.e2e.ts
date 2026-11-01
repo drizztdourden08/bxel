@@ -13,7 +13,7 @@ const ELSEWHERE = 'elsewhere';
 const savedKinds = async (dir: string): Promise<string[]> =>
   (await readdir(dir)).map((name) => extname(name)).filter((ending) => ending === '.bxmap' || ending === '.bxtiles').sort();
 
-describe('Save all: the folder of the first file is granted, so the next files go beside it', () => {
+describe('E1 save all writes the linked files beside the first', { tags: ['e2e'] }, () => {
   test('asks for one place and writes the tileset and the tilemap in that folder', async () => {
     await inFreshPlace(async (place) => {
       const { session } = await openTilemapRig(GRANT_FOLDERS);
