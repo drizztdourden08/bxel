@@ -10,6 +10,7 @@ import { TOOL_COMMAND } from '../../../keymap/option-command-id.constants';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { PRESET_TEXT } from '../PresetList.constants';
 import type { PresetRowProps } from '../PresetList.type';
+import { presetOrigin } from '../preset-origin';
 import { PresetMenu } from './PresetMenu';
 import { PresetPreview } from './PresetPreview';
 
@@ -37,7 +38,7 @@ const PresetRow = ({ preset, active, slot }: PresetRowProps) => {
         </Flex>
         <Flex align="center" justify="between" gap="sm">
           <Text variant="caption" tone="muted" className="preset-row__summary">
-            {preset.builtin === true ? `${PRESET_TEXT.builtIn}. ${presetSummary(preset)}` : preset.project === true ? `${PRESET_TEXT.inProject}. ${presetSummary(preset)}` : presetSummary(preset)}
+            {[presetOrigin(preset), presetSummary(preset)].filter((part) => part !== '').join('. ')}
           </Text>
           <Flex align="center" gap="xs">
             {active ? (

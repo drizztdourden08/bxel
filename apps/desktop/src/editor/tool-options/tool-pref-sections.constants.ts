@@ -24,7 +24,7 @@ const TOOL_PREF_SECTIONS: Section[] = [
         key: 'toolSpringMs',
         label: 'Hold time to spring back',
         description: 'A tool key held longer than this returns to the previous tool when released.',
-        hint: 'A quick tap keeps the new tool. A longer hold borrows it for as long as the key is down.',
+        hint: 'A quick tap keeps the new tool. A longer hold borrows it while you keep it pressed.',
         control: { kind: 'number', min: SPRING_RANGE.min, max: SPRING_RANGE.max, step: SPRING_RANGE.step, unit: 'ms' },
       },
     ],

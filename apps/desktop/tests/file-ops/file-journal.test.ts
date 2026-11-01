@@ -1,6 +1,4 @@
 /* @layer renderer-app @kind test */
-import { readAssetManifest } from '@bxel/document/native';
-import { resolveLinkPath } from '@bxel/document';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { copyEntries } from '../../src/file-ops/copy-entries';
 import { holdFiles } from '../../src/file-ops/hold-files';
@@ -13,7 +11,8 @@ import { useMoveJournalStore } from '../../src/stores/useMoveJournalStore';
 import { ROOT } from '../project/project-harness';
 import { toast } from '../project/project-mocks';
 import { heldRig } from '../workspace/held-rig';
-import { artworkOf, openSampleProject } from '../workspace/open-sample-project';
+import { linkTargetsOf, openLinked } from './linked-project';
+import type { Opened } from './linked-project';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
@@ -21,22 +20,9 @@ const held = heldRig();
 
 const FOLDER = `${ROOT}/journal-target`;
 
-const open = async (): Promise<{ readonly spritePath: string; readonly sheetPaths: readonly string[] }> => {
-  const { documentId, paths } = await openSampleProject(held.rig);
-  const artwork = artworkOf(documentId);
-  const sprite = artwork.sprites[0];
-  if (!sprite) throw new Error('no sprite');
-  held.rig.disk.dirs.add(FOLDER);
-  return { spritePath: paths.get(sprite.id) ?? '', sheetPaths: artwork.sheets.map((sheet) => paths.get(sheet.id) ?? '') };
-};
+const open = (): Promise<Opened> => openLinked(held, FOLDER);
 
-const linkTargets = (path: string): readonly string[] => {
-  const bytes = held.rig.disk.files.get(path);
-  if (!(bytes instanceof Uint8Array)) throw new Error(`no file at ${path}`);
-  const manifest = readAssetManifest(bytes);
-  if (!manifest) throw new Error('the file did not decode');
-  return manifest.links.map((link) => resolveLinkPath(path, link.path));
-};
+const linkTargets = (path: string): readonly string[] => linkTargetsOf(held, path);
 
 const nameOf = (path: string): string => path.slice(path.lastIndexOf('/') + 1);
 

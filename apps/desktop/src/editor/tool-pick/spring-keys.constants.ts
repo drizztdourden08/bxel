@@ -7,6 +7,6 @@ const ALT_PICK_TOOLS: readonly ToolId[] = ['pencil', 'eraser', 'spray', 'shade',
 
 const SPRING_PASSIVE_KEYS: readonly string[] = ['Control', 'Meta'];
 
-const SPRING_KEY_NOTICE = (label: string): string => `${label} while the key is held`;
+const SPRING_KEY_NOTICE = (label: string): string => `${label} while you hold the key`;
 
 export { ALT_PICK_TOOLS, SPRING_KEY_NOTICE, SPRING_KEYS, SPRING_PASSIVE_KEYS };

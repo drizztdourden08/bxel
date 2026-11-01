@@ -114,4 +114,6 @@ type SourceTreeProps = {
   readonly onSelect: (key: string) => void;
 };
 
-export type { OrganiseActions, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };
+type FileMoveActions = Pick<BrowserActions, 'moveInto' | 'moveTo' | 'cut' | 'copy' | 'paste' | 'undoMove'>;
+
+export type { FileMoveActions, OrganiseActions, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };

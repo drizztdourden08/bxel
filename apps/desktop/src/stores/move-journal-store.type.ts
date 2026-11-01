@@ -11,4 +11,4 @@ interface MoveJournalState {
   readonly clear: () => void;
 }
 
-export type { JournalEntry, MoveJournalState };
+export type { MoveJournalState };
