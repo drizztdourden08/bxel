@@ -7,19 +7,13 @@ import { resetTool } from '../../src/editor/tool-options/reset-tool';
 import { setOption } from '../../src/editor/tool-options/set-option';
 import { OPTION_COMMAND } from '../../src/keymap/option-command-id.constants';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
-import { useToolStore } from '../../src/stores/useToolStore';
-import { SELECTION_DEFAULTS } from '../../src/stores/selection-store.constants';
-import { resetEditor } from '../editor/option-harness';
 import { findCommand } from '../keymap/find-command';
+import { resetToolTests } from './reset-tool-tests';
+import { tools } from './tools-state';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('./tools-harness')).toolsBrockMock());
 
-const tools = () => useToolStore.getState();
-
-beforeEach(() => {
-  resetEditor();
-  useSelectionStore.setState({ ...SELECTION_DEFAULTS });
-});
+beforeEach(resetToolTests);
 
 describe('S2 the option memory', { tags: ['standard'] }, () => {
   it('keeps one brush size per tool', () => {

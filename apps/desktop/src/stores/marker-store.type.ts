@@ -10,4 +10,4 @@ interface MarkerState {
   setMarker: (marker: Marker | null) => void;
 }
 
-export type { Marker, MarkerState };
+export type { MarkerState };

@@ -1,15 +1,13 @@
 /* @layer renderer-app @kind test */
-import { access, mkdtemp, readFile, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { access, readFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { afterAll, describe, expect, test } from 'vitest';
 import { callMcp } from './support/call-mcp';
 import { connectMcp } from './support/connect-mcp';
-import { createMcpSprite } from './support/create-mcp-sprite';
-import { POLL_MS, TEMP_PREFIX } from './support/e2e.constants';
-import { MCP_DRAWN } from './support/mcp.constants';
+import { drawMcpSprite } from './support/draw-mcp-sprite';
+import { POLL_MS } from './support/e2e.constants';
+import { makeTempDir } from './support/make-temp-dir';
 import type { ClientConfig, McpLink } from './support/mcp.type';
-import { patchStep } from './support/patch-step';
 import { rememberProgram } from './support/remember-program';
 import { setProgramRestart } from './support/set-program-restart';
 import { stopOrphan } from './support/stop-orphan';
@@ -37,7 +35,7 @@ afterAll(async () => {
 });
 
 const startsWithTheRestartPermission = async (): Promise<void> => {
-  const dir = await mkdtemp(join(tmpdir(), TEMP_PREFIX));
+  const dir = await makeTempDir();
   held.dir = dir;
   held.userData = join(dir, 'profile');
   held.config = await rememberProgram(held.userData, dir);
@@ -49,10 +47,9 @@ const startsWithTheRestartPermission = async (): Promise<void> => {
 };
 
 const refusesWithUnsavedWorkThenRestarts = async (): Promise<void> => {
-  const sprite = await createMcpSprite(clientOf());
+  const { sprite, applied: drawn } = await drawMcpSprite(clientOf());
   held.documentId = sprite.documentId;
   held.pid = await pidNow();
-  const drawn = await callMcp(clientOf(), 'apply_edits', { documentId: sprite.documentId, baseRevision: sprite.revision, label: 'draw', steps: [patchStep(sprite, MCP_DRAWN)] });
   expect(drawn.ok).toBe(true);
   const before = await callMcp(clientOf(), 'get_session');
   expect(before.data).toMatchObject({ ok: true, instance: { window: 'headless' } });

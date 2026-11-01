@@ -11,6 +11,4 @@ const PALETTE_TRANSFER_COMMAND = {
   replaceRamp: 'palette.replace_ramp',
 } as const;
 
-const PALETTE_TRANSFER_IDS: readonly string[] = Object.values(PALETTE_TRANSFER_COMMAND);
-
-export { PALETTE_TRANSFER_COMMAND, PALETTE_TRANSFER_IDS };
+export { PALETTE_TRANSFER_COMMAND };

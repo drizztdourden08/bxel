@@ -9,4 +9,4 @@ interface ReferenceState {
   forget: (path: string) => void;
 }
 
-export type { ReferenceEntry, ReferenceState };
+export type { ReferenceState };

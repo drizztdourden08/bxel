@@ -23,4 +23,4 @@ interface ProjectPanelLinkState {
   take: () => PanelCommand | null;
 }
 
-export type { PanelCommand, PanelSnapshot, ProjectPanelLinkState };
+export type { ProjectPanelLinkState };

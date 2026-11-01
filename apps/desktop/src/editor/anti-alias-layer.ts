@@ -6,19 +6,13 @@ import { useNoticeStore } from '../stores/useNoticeStore';
 import { useToolStore } from '../stores/useToolStore';
 import { beginPending } from './pending/begin-pending';
 import { ANTI_ALIAS_TEXT } from './anti-alias-layer.constants';
-import { currentTarget } from './current-target';
-import { layerBlock } from './layer-block';
 import { patchOfPixels } from './patch-of-pixels';
+import { unlockedTarget } from './unlocked-target';
 
 const antiAliasLayer = (): boolean => {
-  const target = currentTarget();
+  const target = unlockedTarget();
   if (!target) return false;
   const notices = useNoticeStore.getState();
-  const blocked = layerBlock(target.layer);
-  if (blocked !== null) {
-    notices.post(blocked);
-    return false;
-  }
   const edge = useToolStore.getState().foreground;
   const mid = stepInRamp(target.bank, edge, 1) ?? stepInRamp(target.bank, edge, -1);
   if (mid === null || mid === edge) {

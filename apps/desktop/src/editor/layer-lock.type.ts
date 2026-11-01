@@ -22,4 +22,4 @@ interface LayerFields {
   colour?: string | null;
 }
 
-export type { LayerFields, LockKind, LockPart, LockSource };
+export type { LayerFields, LockKind, LockSource };
