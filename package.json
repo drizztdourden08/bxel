@@ -7,7 +7,7 @@
     "@drizztdourden08/brock-build": "^0.116.0",
     "@drizztdourden08/brock-lint-config": "^0.116.0",
     "@drizztdourden08/brock-thread": "^0.116.0",
-    "@drizztdourden08/standards": "^0.13.0",
+    "@drizztdourden08/standards": "^0.14.0",
     "jscpd": "catalog:",
     "knip": "^5.65.0",
     "vitest": "^4.1.11"
