@@ -21,7 +21,7 @@ const gradientFill = (options: GradientOptions): Rect | null => {
     if (!maskAllows(mask, x, y)) {
       continue;
     }
-    const threshold = dither ? gradientThreshold(dither.style, dither.grid, { x: x - origin.x, y: y - origin.y }) : null;
+    const threshold = dither ? gradientThreshold(dither.style, dither.grid, { x: x - origin.x, y: y - origin.y }, dither.stencil) : null;
     const index = gradientPick({ colors, position: gradientPosition(line, x, y, shape), threshold });
     if (index !== current) {
       target.pixels[at] = index;

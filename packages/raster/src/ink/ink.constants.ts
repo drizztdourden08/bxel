@@ -1,7 +1,7 @@
 /* @layer core @kind config */
-import type { DitherPattern } from './ink.type';
+import { PATTERN_IDS } from '../pattern/pattern-tiles.constants';
 
-const DITHER_PATTERNS = ['checker', 'bayer', 'rows', 'columns', 'dots'] as const satisfies readonly DitherPattern[];
+const DITHER_PATTERNS = PATTERN_IDS;
 const DITHER_LEVEL_MAX = 15;
 const DITHER_LEVEL_DEFAULT = 8;
 const DITHER_SIDE = 4;

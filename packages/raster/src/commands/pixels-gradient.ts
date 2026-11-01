@@ -6,6 +6,7 @@ import { applyToCels } from './apply-to-cels';
 import { checkTargets } from './check-targets';
 import { rampRun } from './ramp-run';
 import { resolveRamps } from './resolve-ramps';
+import { savedBrushPatch } from './saved-brush-patch';
 import { pixelsGradientSchema } from './schema/pixels-gradient-schema';
 import { spriteCels } from './sprite-cels';
 import { uniqueCels } from './unique-cels';
@@ -15,12 +16,13 @@ const pixelsGradient = defineCommand({
   scope: 'cels',
   schema: pixelsGradientSchema,
   run: (draft, input) => {
-    const { ramp, colors: listed, first, last, line, mode, dither, origin, mask, kind, reflect, pattern, wrap } = input.options;
+    const { ramp, colors: listed, first, last, line, mode, dither, origin, mask, kind, reflect, pattern, wrap, brushId } = input.options;
     if ((ramp === undefined) === (listed === undefined)) {
       throw fail(ERROR_CODE.INVALID_OPTION, 'Give either a ramp name or a list of colours.', { path: 'options.ramp' });
     }
     const bayer = mode === 'dither' ? dither : null;
-    const shape = { line, bayer, origin, mask, kind, reflect, pattern, wrap };
+    const stencil = brushId === undefined ? undefined : savedBrushPatch(draft.artwork, brushId);
+    const shape = { line, bayer, origin, mask, kind, reflect, pattern, wrap, ...(stencil ? { stencil } : {}) };
     if (listed) {
       checkTargets({ artwork: draft.artwork, sprites: input.sprites, index: Math.max(...listed), mask });
       applyToCels(draft, uniqueCels(input.cels), (target) => gradientFill({ target, colors: listed, ...shape }));

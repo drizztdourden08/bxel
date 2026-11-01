@@ -1,5 +1,6 @@
 /* @layer core @kind logic */
 import { z } from 'zod';
+import { PATTERN_IDS } from '../../pattern/pattern-tiles.constants';
 import { allUsesSchema } from './all-uses-schema';
 import { RAMP_POSITION_MAX } from '../advanced-commands.constants';
 import { indexSchema } from './index-schema';
@@ -21,7 +22,8 @@ const pixelsGradientSchema = z.strictObject({
   reflect: z.boolean().default(false),
   mode: z.enum(['bands', 'dither']).default('bands'),
   dither: z.union([z.literal(2), z.literal(4), z.literal(8)]).default(4),
-  pattern: z.enum(['bayer', 'checker', 'rows', 'columns']).default('bayer'),
+  pattern: z.enum(PATTERN_IDS).default('bayer'),
+  brushId: z.string().min(1).optional(),
   origin: pointSchema.default({ x: 0, y: 0 }),
   mask: maskSchema,
   wrap: wrapSchema,
