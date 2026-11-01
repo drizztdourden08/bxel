@@ -1,22 +1,34 @@
 /* @layer renderer-app @kind component */
-import { useBxelContext } from '../../../ui-context/useBxelContext';
-import { EditorCanvas } from '../../EditorCanvas';
+import { Button, ErrorBoundary } from '@drizztdourden08/tessera';
+import { revealRow } from '../../../asset-list/reveal-row';
+import { useActiveAsset } from '../../../hooks/useActiveAsset';
+import { STAGE_TEXT } from '../../../stage-state/stage-state.constants';
 import { FileTypePicker } from '../../FileTypePicker';
-import { ImageStage } from '../../ImageStage';
-import { PaletteCard } from '../../PaletteCard';
-import { SheetCanvas } from '../../SheetCanvas';
-import { StartStage } from '../../StartStage';
-import { TilemapCanvas } from '../../TilemapCanvas';
 import type { StageBodyProps } from '../EditorScreen.type';
+import { useStageState } from '../behavior/useStageState';
+import { StageFault } from './StageFault';
+import { StageLoading } from './StageLoading';
+import { StageMissing } from './StageMissing';
+import { StageSurface } from './StageSurface';
 
 const StageBody = ({ adding }: StageBodyProps) => {
-  const surface = useBxelContext((context) => context.surface);
+  const state = useStageState();
+  const asset = useActiveAsset();
+  const path = asset?.path;
   if (adding) return <FileTypePicker />;
-  if (surface === 'none') return <StartStage />;
-  if (surface === 'preview') return <ImageStage />;
-  if (surface === 'palette') return <PaletteCard />;
-  if (surface === 'sheet') return <SheetCanvas />;
-  return surface === 'map' ? <TilemapCanvas /> : <EditorCanvas />;
+  if (state.kind === 'loading') return <StageLoading progress={state.progress} done={state.done} total={state.total} />;
+  if (state.kind === 'error') return <StageFault fault={state.fault} />;
+  if (state.kind === 'missing') return <StageMissing links={state.links} />;
+  const reveal = path ? (
+    <Button size="sm" variant="secondary" onClick={() => revealRow({ path })}>
+      {STAGE_TEXT.reveal}
+    </Button>
+  ) : undefined;
+  return (
+    <ErrorBoundary label={STAGE_TEXT.boundaryLabel} resetKey={asset?.tab?.id ?? null} action={reveal}>
+      <StageSurface />
+    </ErrorBoundary>
+  );
 };
 
 export { StageBody };
