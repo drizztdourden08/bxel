@@ -29,6 +29,13 @@ const DRAWING_COMMANDS: readonly CommandDef[] = [
     run: () => useDrawingStore.getState().toggleSymmetryMode('turn'),
   },
   {
+    id: DRAWING_COMMAND.symmetryTile,
+    label: 'Symmetry inside each tile',
+    group: COMMAND_GROUP.brush,
+    checked: () => useDrawingStore.getState().symmetryTile,
+    run: () => useDrawingStore.getState().toggleSymmetryMode('tile'),
+  },
+  {
     id: DRAWING_COMMAND.moveShape,
     label: 'Move the shape while drawing',
     group: COMMAND_GROUP.brush,

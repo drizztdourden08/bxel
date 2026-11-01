@@ -25,7 +25,7 @@ const startStroke = (plan: StrokePlan, target: EditorTarget, at: Point): PaintSe
   const choice = strokeChoice(plan, tools, drawing, at);
   const custom = customOf(plan, drawing, choice);
   const options = {
-    ...brushOptions(tools, target.sprite),
+    ...brushOptions(tools, target.sprite, at),
     wrap: wrapOf(),
     ...(choice.ink ? { ink: choice.ink } : {}),
     rule: ruleOf(target, choice.ink),

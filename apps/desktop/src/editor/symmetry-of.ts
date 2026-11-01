@@ -1,17 +1,14 @@
 /* @layer renderer-app @kind logic */
-import type { Size, Symmetry } from '@bxel/raster';
-import { useDrawingStore } from '../stores/useDrawingStore';
-import { clampAxis } from './clamp-axis';
-import { crossingSymmetry } from './crossing-symmetry';
+import type { Point, Size, Symmetry } from '@bxel/raster';
+import { areaSymmetry } from './area-symmetry';
 import type { SymmetryFields } from './editor.type';
+import { shiftSymmetry } from './shift-symmetry';
+import { symmetryCell } from './symmetry-cell';
 
-const symmetryOf = (settings: SymmetryFields, size: Size): Symmetry => {
-  const { symmetryDiagonal, symmetryTurn } = useDrawingStore.getState();
-  if (symmetryDiagonal || symmetryTurn) return crossingSymmetry(settings, size, { diagonal: symmetryDiagonal, turn: symmetryTurn });
-  return {
-    ...(settings.symmetryX ? { x2: clampAxis(settings.axisX, size.width) } : {}),
-    ...(settings.symmetryY ? { y2: clampAxis(settings.axisY, size.height) } : {}),
-  };
+const symmetryOf = (settings: SymmetryFields, size: Size, at: Point | null = null): Symmetry => {
+  const cell = symmetryCell(size, at);
+  if (!cell) return areaSymmetry(settings, size);
+  return shiftSymmetry(areaSymmetry({ ...settings, axisX: null, axisY: null }, cell), cell);
 };
 
 export { symmetryOf };

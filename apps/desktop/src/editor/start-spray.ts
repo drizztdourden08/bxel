@@ -19,7 +19,7 @@ const spraySession = (plan: Extract<DrawPlan, { kind: 'spray' }>, target: Editor
   const options = {
     size: drawing.spraySize,
     density: drawing.sprayDensity,
-    symmetry: symmetryOf(tools, target.sprite),
+    symmetry: symmetryOf(tools, target.sprite, at),
     wrap: wrapOf(),
     ...(choice.ink ? { ink: choice.ink } : {}),
     rule: ruleOf(target, choice.ink),

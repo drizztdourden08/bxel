@@ -38,7 +38,7 @@ const runInstant = (kind: InstantKind, target: EditorTarget, at: Point, slot: Co
     connectivity: tools.connectivity,
     wrap: wrapOf(),
     ink: ink.ink,
-    symmetry: symmetryOf(tools, target.sprite),
+    symmetry: symmetryOf(tools, target.sprite, at),
     sample: drawing.fillSample,
     match: drawing.fillMatch,
   };

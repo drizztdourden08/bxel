@@ -21,7 +21,7 @@ const startSession = (plan: DrawPlan, target: EditorTarget, at: Point): PaintSes
     case 'shape':
       return beginShape({ target, spec: shapeSpec({ tools, drawing, target, size, shape: plan.shape, slot: plan.slot, at }) });
     case 'path':
-      return beginPath({ target, tool: plan.tool, spec: pathSpec({ tools, drawing, target, size, tool: plan.tool, slot: plan.slot }), at });
+      return beginPath({ target, tool: plan.tool, spec: pathSpec({ tools, drawing, target, size, tool: plan.tool, slot: plan.slot, at }), at });
     case 'gradient':
       return beginGradient(target, gradientSpec({ tools, drawing, target, slot: plan.slot, at }));
     case 'spray':

@@ -40,6 +40,7 @@ const DRAWING_DEFAULTS: DrawingSettings = {
   gradientRamp: null,
   symmetryDiagonal: false,
   symmetryTurn: false,
+  symmetryTile: false,
   lockToTile: false,
   linkedChoice: 'ask',
   brushId: null,

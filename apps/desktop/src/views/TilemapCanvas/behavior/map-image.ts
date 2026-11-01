@@ -1,19 +1,15 @@
 /* @layer renderer-app @kind logic */
-import { findBank, flattenTilemap } from '@bxel/document';
 import type { Artwork, Tilemap } from '@bxel/document';
 import { trackPixels } from '../../../canvas-dirty/track-pixels';
-import { bankRgba } from '../../../export/bank-rgba';
-import { CHANNELS } from '../../../sheet/sheet.constants';
+import { flatMapRgba } from './flat-map-rgba';
+import { highlightedMapRgba } from './highlighted-map-rgba';
 
-const mapImage = (artwork: Artwork, tilemap: Tilemap): ImageData | null => {
-  const flat = flattenTilemap(artwork, tilemap.id);
-  const bank = findBank(artwork, flat.bankId);
-  if (!bank) return null;
-  const table = bankRgba(bank);
-  const rgba = new Uint8ClampedArray(flat.pixels.length * CHANNELS);
-  flat.pixels.forEach((index, at) => rgba.set(table.subarray(index * CHANNELS, index * CHANNELS + CHANNELS), at * CHANNELS));
-  trackPixels(rgba);
-  return new ImageData(rgba, flat.width, flat.height);
+const mapImage = (artwork: Artwork, tilemap: Tilemap, highlight: string | null = null): ImageData | null => {
+  const at = highlight === null ? -1 : tilemap.layers.findIndex((layer) => layer.id === highlight);
+  const flat = at < 0 ? flatMapRgba(artwork, tilemap.id) : highlightedMapRgba(artwork, tilemap.id, at);
+  if (!flat) return null;
+  trackPixels(flat.rgba);
+  return new ImageData(flat.rgba, flat.width, flat.height);
 };
 
 export { mapImage };

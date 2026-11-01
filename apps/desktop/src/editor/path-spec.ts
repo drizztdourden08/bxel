@@ -12,14 +12,14 @@ const perfectOf = (tool: PathTool, drawing: DrawingSettings): boolean => {
   return tool === 'contour' && drawing.contourPerfect;
 };
 
-const pathSpec = ({ tools, drawing, target, size, tool, slot }: PathInput): PathSpec => {
+const pathSpec = ({ tools, drawing, target, size, tool, slot, at }: PathInput): PathSpec => {
   const choice = inkOf(slot, tools, drawing);
   const filled = drawing.filled[tool];
   return {
     filled,
     ...(filled && drawing.fillColour === 'back' ? { fillIndex: tools[PARTNER[slot]] } : {}),
     index: choice.index,
-    ...paintParts(tools, target, size, choice),
+    ...paintParts(tools, target, { size, at: at ?? null }, choice),
     pixelPerfect: perfectOf(tool, drawing),
     ...(tool === 'curve' && drawing.curveCubic ? { cubic: true } : {}),
   };

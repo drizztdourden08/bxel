@@ -5,6 +5,7 @@ import type { PixelArgs, TileArgs } from '../context-menu/menu-args.type';
 import { cellKeyAt } from '../tilemap/cell-key-at';
 import { editTile } from '../tilemap/edit-tile';
 import { pickAt } from '../tilemap/pick-at';
+import { pickMapLayer } from '../tilemap/pick-map-layer';
 import { placeWithTile } from '../tilemap/place-with-tile';
 import { COMMAND_GROUP } from './keymap.constants';
 import { ruled } from './ruled';
@@ -28,6 +29,15 @@ const TILE_MENU_COMMANDS: readonly CommandDef[] = [
     run: (context?: CommandContext) => {
       const { x, y } = commandArgs<PixelArgs>(context);
       if (x !== undefined && y !== undefined) pickAt({ x, y });
+    },
+  },
+  {
+    id: 'tilemap.pick_layer_here',
+    label: 'Select the map layer of the top tile under a cell',
+    group,
+    run: (context?: CommandContext) => {
+      const { x, y } = commandArgs<PixelArgs>(context);
+      if (x !== undefined && y !== undefined) pickMapLayer({ x, y });
     },
   },
   {

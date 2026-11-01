@@ -87,7 +87,7 @@ const LAYERS: RuleTable = {
   ...family(['layer.toggle_clip', 'layer.toggle_exported'], PIXEL, [WRITE], ONLY.pixels),
   ...family(['layer.group', 'layer.ungroup', 'layer.flatten_group', 'layer.move_out'], EDIT_STAGE, [WRITE], ONLY.drawing),
   ...family(['layer.toggle_fold', 'layer.select_children'], EDIT_STAGE, [], ONLY.drawing),
-  ...family(['view.highlight_layer'], PIXEL, [], ONLY.pixels),
+  ...family(['view.highlight_layer'], any(PIXEL, MAP), [], ONLY.drawing),
 };
 
 const SELECTION: RuleTable = {
@@ -163,7 +163,7 @@ const TILES: RuleTable = {
   ...family(STAMP_SLOT_COMMANDS, MAP, [], ONLY.maps),
   ...family(['tilemap.replace_everywhere', 'tilemap.layer_up', 'tilemap.layer_down'], MAP, [WRITE], ONLY.maps),
   ...family(
-    ['tilemap.flip_x', 'tilemap.flip_y', 'tilemap.turn', 'tilemap.pick_tile_here', 'tilemap.edit_tile_here', 'terrain.toggle_brush', 'animation.toggle_tiles'],
+    ['tilemap.flip_x', 'tilemap.flip_y', 'tilemap.turn', 'tilemap.pick_tile_here', 'tilemap.pick_layer_here', 'tilemap.edit_tile_here', 'terrain.toggle_brush', 'animation.toggle_tiles'],
     MAP,
     [],
     ONLY.maps,

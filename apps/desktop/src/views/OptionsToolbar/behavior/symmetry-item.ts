@@ -15,6 +15,7 @@ const symmetryNames = (): string[] => {
     ...(tools.symmetryY ? [OPTIONS_TEXT.symmetryNames.y] : []),
     ...(drawing.symmetryDiagonal ? [OPTIONS_TEXT.symmetryNames.diagonal] : []),
     ...(drawing.symmetryTurn ? [OPTIONS_TEXT.symmetryNames.turn] : []),
+    ...(drawing.symmetryTile ? [OPTIONS_TEXT.symmetryNames.tile] : []),
   ];
 };
 

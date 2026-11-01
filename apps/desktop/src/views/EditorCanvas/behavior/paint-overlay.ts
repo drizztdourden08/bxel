@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { symmetryOf } from '../../../editor/symmetry-of';
+import { useReadoutStore } from '../../../stores/useReadoutStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { useViewStore } from '../../../stores/useViewStore';
 import type { PixelDraw } from '../../PixelViewport';
@@ -19,7 +20,8 @@ import { paintZoomRect } from './paint-zoom-rect';
 
 const paintOverlay: PixelDraw = (ctx, view) => {
   const look = overlayLook(ctx.canvas);
-  const symmetry = symmetryOf(useToolStore.getState(), { width: view.imageWidth, height: view.imageHeight });
+  const size = { width: view.imageWidth, height: view.imageHeight };
+  const symmetry = symmetryOf(useToolStore.getState(), size, useReadoutStore.getState().pointer);
   const hidden = useViewStore.getState().hideOverlays;
   paintAreas(ctx, view, look);
   if (!hidden) {
