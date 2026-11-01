@@ -328,7 +328,7 @@
 }
 
 .palette-panel--drop {
-  outline: 2px dashed var(--c-primary);
-  outline-offset: -2px;
+  outline: var(--border-width-thick) dashed var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thick));
   background: var(--c-primary-soft);
 }
