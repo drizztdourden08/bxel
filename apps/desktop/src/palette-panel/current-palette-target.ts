@@ -6,7 +6,6 @@ import { useDocumentStore } from '../stores/useDocumentStore';
 import { currentTab } from '../workspace/current-tab';
 import { paletteFileTarget } from './palette-file-target';
 
-/** The palette the panel works on: the bank of the open palette file, else the bank of the sprite being edited. */
 const currentPaletteTarget = (): PaletteTarget | null => {
   const tab = currentTab();
   if (tab?.key.kind !== 'palette') return currentTarget();

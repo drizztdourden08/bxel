@@ -1,9 +1,8 @@
 /* @layer renderer-app @kind logic */
 import { KIND_LABEL } from '../asset-list/asset-list.constants';
+import { DAY_MS } from './match-entry.constants';
 import { LEAF_KINDS, RECENT_DAYS } from './project-browser.constants';
 import type { BrowserQuery, FileEntry, NumberTest } from './project-browser.type';
-
-const DAY_MS = 86_400_000;
 
 const compared = (value: number, test: NumberTest): boolean => {
   if (test.op === 'lt') return value < test.value;

@@ -5,10 +5,9 @@ import type { EditorTarget } from '../editor/editor.type';
 import { useDocumentStore } from '../stores/useDocumentStore';
 import { usePreviewBankStore } from '../stores/usePreviewBankStore';
 
-/** The canvas through the palette picked in Preview with, until the document changes. */
 const usePreviewBankImage = (target: EditorTarget | null): ImageData | null => {
   const preview = usePreviewBankStore((state) => state.preview);
-  const stale = preview !== null && (target === null || target.documentId !== preview.documentId || target.revision !== preview.revision);
+  const stale = preview !== null && (target?.documentId !== preview.documentId || target.revision !== preview.revision);
   useEffect(() => {
     if (stale) usePreviewBankStore.getState().end();
   }, [stale]);

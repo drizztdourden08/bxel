@@ -1,14 +1,8 @@
 /* @layer renderer-app @kind logic */
-import { decodePng, encodePngRgba, upscaleRgba, writeAse, writeGpl, writeHex, writeJascPal, writePaintNet, writePalettePng } from '@bxel/formats';
+import { decodePng, encodePngRgba, upscaleRgba, writeAse, writePalettePng } from '@bxel/formats';
 import type { PaletteFile, PaletteTextResult } from '@bxel/formats';
+import { TEXT_WRITERS } from './palette-export-bytes.constants';
 import type { PaletteExportBytes, PaletteExportFormat } from './palette-export.type';
-
-const TEXT_WRITERS: Readonly<Record<string, (palette: PaletteFile) => PaletteTextResult>> = {
-  gpl: writeGpl,
-  pal: writeJascPal,
-  hex: writeHex,
-  txt: writePaintNet,
-};
 
 const pngBytes = (file: PaletteFile, scale: number): PaletteExportBytes => {
   const strip = writePalettePng(file, 'row');

@@ -9,6 +9,8 @@ import { DRAWING_COMMAND } from './drawing-command-id.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { ruled } from './ruled';
 
+const NEXT_OUTLINE_FRAMES = { frame: 'tag', tag: 'all', all: 'frame' } as const;
+
 const DRAWING_COMMANDS: readonly CommandDef[] = [
   {
     id: DRAWING_COMMAND.symmetryDiagonal,
@@ -76,7 +78,7 @@ const DRAWING_COMMANDS: readonly CommandDef[] = [
     checked: () => useDrawingStore.getState().outlineFrames !== 'frame',
     run: () => {
       const now = useDrawingStore.getState().outlineFrames;
-      useDrawingStore.getState().patch({ outlineFrames: now === 'frame' ? 'tag' : now === 'tag' ? 'all' : 'frame' });
+      useDrawingStore.getState().patch({ outlineFrames: NEXT_OUTLINE_FRAMES[now] });
     },
   },
   {

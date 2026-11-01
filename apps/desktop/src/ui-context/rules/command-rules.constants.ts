@@ -1,15 +1,17 @@
 /* @layer renderer-app @kind constants */
 import { PALETTE_TRANSFER_COMMAND } from '../../keymap/palette-transfer-command-id.constants';
 import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
-import { hasCollisionToPaste, hasDataToPaste } from '../../tilemap/tile-data-clipboard';
+import { hasCollisionToPaste } from '../../tilemap/has-collision-to-paste';
+import { hasDataToPaste } from '../../tilemap/has-data-to-paste';
 import { always, any, canRedo, canUndo, file, hasDocument, hasFile, isolated, never, not, projectOpen } from '../predicates.constants';
 import { ONLY, REASON } from '../reasons.constants';
 import { rule } from '../rule';
 import { family } from './family';
 import type { RuleTable } from './rule-table.type';
+import { TIMELINES } from './timeline-rules.constants';
 import {
   ANY_SELECTED, CELLS_SELECTED, CLIPBOARD, DOC, DRAW, DRAW_STAGE, EDIT_STAGE, FILE, GRID_STAGE, MAP, NONE_OR_PIXEL, NOT_TILE_FILE, SELECTED_HERE,
-  ONION, PALETTE_STAGE, PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, TIMELINE, WRITE, ZOOM_STAGE,
+  PALETTE_STAGE, PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, WRITE, ZOOM_STAGE,
 } from './groups.constants';
 
 const TOOLS: RuleTable = {
@@ -164,33 +166,6 @@ const TILES: RuleTable = {
     [],
     ONLY.maps,
   ),
-};
-
-const WRITING = [
-  'timeline.delete', 'timeline.add_frame', 'timeline.duplicate_frames', 'timeline.add_from_sprites', 'timeline.add_from_strip', 'timeline.add_from_sheet', 'timeline.add_from_images',
-  'timeline.new_direction_set', 'timeline.split_to_sprites', 'timeline.delete_frames', 'timeline.move_frames_earlier', 'timeline.move_frames_later',
-  'timeline.add_tag', 'timeline.set_duration', 'tag.rename', 'tag.set_direction', 'tag.set_colour', 'tag.custom_colour', 'tag.set_range', 'tag.delete',
-  'timeline.paste_frames', 'timeline.paste_linked', 'timeline.open_duration', 'timeline.move_frames_start', 'timeline.move_frames_end', 'timeline.move_frames_to',
-  'timeline.reverse_frames', 'timeline.linked_copy', 'timeline.make_copy', 'timeline.move_to_own_file', 'timeline.scale_durations', 'tag.edit', 'tag.set_repeat', 'tag.set_facing',
-  'tag.include_frames', 'tag.exclude_frames', 'tag.make_mirror',
-];
-
-const WATCHING = [
-  'timeline.make_spritesheet', 'timeline.export_frames', 'timeline.select_all_frames', 'timeline.go_to_frame', 'timeline.play_from',
-  'tag.play', 'tag.select_frames', 'timeline.copy_frames', 'timeline.cut_frames', 'timeline.select_same_sprite', 'timeline.invert_selection',
-  'timeline.open_sprite', 'timeline.show_in_project', 'timeline.toggle_play_paint', 'timeline.toggle_play', 'tag.play_once',
-];
-
-const ANIMATION_VIEW = [
-  'timeline.set_loop_range', 'timeline.clear_loop_range', 'timeline.set_units', 'timeline.set_zoom', 'timeline.onion_settings', 'timeline.toggle_time_mode',
-  'timeline.toggle_group_facing',
-];
-
-const TIMELINES: RuleTable = {
-  ...family(WRITING, TIMELINE, [WRITE], ONLY.animations),
-  ...family(WATCHING, TIMELINE, [], ONLY.animations),
-  ...family(ANIMATION_VIEW, file('animation'), [], ONLY.animations),
-  ...family(['timeline.toggle_onion'], ONION, [], ONLY.animations),
 };
 
 const PALETTES: RuleTable = {

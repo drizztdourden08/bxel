@@ -9,7 +9,8 @@ import { duplicateGroups } from './duplicate-groups';
 import { PANEL_LABEL, PANEL_TEXT, SHEET_TEXT } from './palette-panel.constants';
 import type { RemovalWords, SheetPlan } from './palette-panel.type';
 import { paletteUsage } from './palette-usage';
-import { copyOverPlan, moveColourPlan } from './recolour-plan';
+import { copyOverPlan } from './copy-over-plan';
+import { moveColourPlan } from './move-colour-plan';
 
 const hexes = (bank: PaletteBank, indices: readonly number[]): string[] => {
   const slots = paletteSlots(bank);

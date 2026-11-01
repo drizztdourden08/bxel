@@ -15,7 +15,6 @@ const sourceColors = (target: PaletteTarget, indices: readonly number[] | null):
     return parsed ? [{ rgb: parsed.rgb, alpha: parsed.alpha, name: color.name }] : [];
   });
 
-/** Adds the colours to the person's own swatch sets, so any new sprite can start from them. */
 const addToSwatchSets = (target: PaletteTarget, indices: readonly number[] | null, sets: UserSets): void => {
   const made = makeSwatchSet(target.bank.name, sourceColors(target, indices), sets.sets.map((each) => each.name), randomBytes);
   const saved = sets.save(made);

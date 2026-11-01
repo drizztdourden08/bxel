@@ -3,7 +3,6 @@ import { formatSwatchColor } from '@bxel/document';
 import type { PaletteBank } from '@bxel/document';
 import type { PaletteFile } from '@bxel/formats';
 
-/** The colours of a bank as a palette file. The transparent swatch has no colour and is left out. */
 const paletteFileOf = (bank: PaletteBank, indices: readonly number[] | null = null): PaletteFile => {
   const wanted = indices === null ? null : new Set(indices);
   const colors = bank.slots.flatMap((slot, index) => {

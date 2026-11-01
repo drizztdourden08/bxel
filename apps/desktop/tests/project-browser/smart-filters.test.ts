@@ -29,7 +29,7 @@ const row = (name: string, modified: number, created: number | null = null): Ass
 
 const entry = (base: AssetRow, facts: Partial<BrowserFacts> = {}): FileEntry => ({ kind: 'file', id: base.id, row: base, facts: { ...NO_FACTS, ...facts }, pinned: false, key: null });
 
-const ready = (report: Partial<typeof EMPTY_REPORT>): HealthState => ({ status: 'ready', report: { ...EMPTY_REPORT, ...report }, index: { files: [], links: [], duplicates: [] } as never });
+const ready = (report: Partial<typeof EMPTY_REPORT>): HealthState => ({ status: 'ready', report: { ...EMPTY_REPORT, ...report }, index: { files: [], links: [], duplicates: [] } });
 
 describe('K1 the smart filters of the Browse window', { tags: ['critical'] }, () => {
   it('ships Recently changed, Broken links and Outside its role folder beside the older ones', () => {
