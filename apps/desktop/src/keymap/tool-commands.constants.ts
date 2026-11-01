@@ -17,6 +17,7 @@ import { SPRING_TAP_MS } from '../editor/tool-pick/spring-tool.constants';
 import { pressToolKey } from '../editor/tool-pick/press-tool-key';
 import type { ToolId } from '../editor/tool.type';
 import { QUICK_SLOTS } from '../editor/presets/builtin-presets.constants';
+import { useCustomizeStore } from '../stores/useCustomizeStore';
 import { useToolPresetStore } from '../stores/useToolPresetStore';
 import { useToolStore } from '../stores/useToolStore';
 import { REASON } from '../ui-context/reasons.constants';
@@ -85,6 +86,7 @@ const quickCommand = (slot: number): CommandDef =>
 const PRESET_COMMANDS: readonly CommandDef[] = [
   { id: TOOL_COMMAND.applyPreset, label: 'Apply a tool preset', group: COMMAND_GROUP.tools, run: applyById },
   { id: TOOL_COMMAND.savePreset, label: 'Save the tool as a preset', group: COMMAND_GROUP.tools, run: () => void openSaveDraft() },
+  { id: TOOL_COMMAND.customize, label: 'Customize tools', group: COMMAND_GROUP.tools, run: () => useCustomizeStore.getState().show(true) },
   { id: TOOL_COMMAND.resetOptions, label: 'Reset the options of the tool', group: COMMAND_GROUP.tools, run: () => resetTool(useToolStore.getState().tool) },
   {
     id: TOOL_COMMAND.previous,

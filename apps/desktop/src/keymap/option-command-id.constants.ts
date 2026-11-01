@@ -22,6 +22,7 @@ const TOOL_COMMAND = {
   savePreset: 'tool.save_preset',
   applyPreset: 'tool.apply_preset',
   resetOptions: 'tool.reset_options',
+  customize: 'tool.customize',
   cycleBack: (tool: string): string => `tool.cycle_back_${tool}`,
   quickPreset: (slot: number): string => `tool.apply_quick_preset_${slot}`,
   presetKey: (id: string): string => `tool.apply_preset_key.${id}`,
