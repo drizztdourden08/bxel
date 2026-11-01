@@ -4,6 +4,7 @@ import type {
 } from '@bxel/raster';
 import type { AnimFrame, Animation, DocumentId, FrameId, Layer, LayerId, PaletteBank, Sprite } from '@bxel/document';
 import type { ToolSettings } from '../stores/tool-store.type';
+import type { OverlayView } from './overlay-view.type';
 import type { PathTool, StrokeTool } from './tool.type';
 
 interface AnimationContext {
@@ -58,6 +59,7 @@ interface Overlay {
   dirty: Rect | null;
   revision: number;
   mask: MaskView | null;
+  view?: OverlayView;
 }
 
 interface StrokeSession extends Overlay {
