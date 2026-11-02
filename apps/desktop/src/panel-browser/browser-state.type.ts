@@ -37,6 +37,7 @@ type ProjectViewSettings = {
   readonly group: ListGroup;
   readonly sort: SortChoice;
   readonly follow: boolean;
+  readonly highlightOnly: boolean;
   readonly expanded: Readonly<Record<string, readonly string[]>>;
 };
 
@@ -75,6 +76,8 @@ type BrowserRows = {
   readonly filtered: boolean;
   readonly shown: number | null;
   readonly visible: ReadonlySet<string> | null;
+  readonly highlight: ReadonlySet<string> | null;
+  readonly opened: ReadonlySet<string> | null;
   readonly itemOf: (key: string) => BrowserItem | undefined;
 };
 

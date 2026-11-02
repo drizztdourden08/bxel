@@ -22,10 +22,13 @@ const useBrowserRows = ({ model, view, search, create, facts, keys }: RowsInput)
   const collapsed = view.density === 'grid' ? NO_COLLAPSED : view.collapsedGroups;
   const listed = useMemo(() => listRows({ tree, matches: filter?.matches ?? null, collapsed, view }), [tree, filter, collapsed, view]);
   const nested = useMemo(() => (mode === 'tree' ? treeNest(tree, create) : listNest(listed)), [mode, tree, create, listed]);
-  const visible = mode === 'tree' ? (filter?.visible ?? null) : null;
-  const rows = useMemo(() => (mode === 'tree' ? flattenView(nested, view.expandedSet, visible) : listed), [mode, nested, view.expandedSet, visible, listed]);
+  const dimming = mode === 'tree' && !view.highlightOnly;
+  const visible = dimming ? (filter?.visible ?? null) : null;
+  const opened = mode === 'tree' && view.highlightOnly && filter !== null ? filter.visible : null;
+  const open = useMemo(() => (opened === null ? view.expandedSet : new Set([...view.expandedSet, ...opened])), [view.expandedSet, opened]);
+  const rows = useMemo(() => (mode === 'tree' ? flattenView(nested, open, visible) : listed), [mode, nested, open, visible, listed]);
   const itemOf = useCallback((key: string) => tree.items.get(key) ?? nested.top.find((each) => each.key === key), [tree, nested]);
-  return { rows, nested, mode, filtered: filter !== null, shown: filter?.matches.size ?? null, visible, itemOf };
+  return { rows, nested, mode, filtered: filter !== null, shown: filter?.matches.size ?? null, visible, highlight: opened === null ? null : (filter?.matches ?? null), opened, itemOf };
 };
 
 export { useBrowserRows };

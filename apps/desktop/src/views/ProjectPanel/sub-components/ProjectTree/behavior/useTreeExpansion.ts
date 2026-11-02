@@ -8,9 +8,9 @@ const useTreeExpansion = ({ browser, view }: PanelPartProps['model']): TreeExpan
   const openGroups = useMemo(() => groups.filter((key) => !view.collapsedGroups.has(key)), [groups, view.collapsedGroups]);
   const expanded = useMemo(() => {
     if (browser.mode !== 'tree') return openGroups;
-    const folders = browser.visible === null ? [...view.expandedSet] : [...browser.visible];
+    const folders = browser.visible === null ? [...view.expandedSet, ...(browser.opened ?? [])] : [...browser.visible];
     return [...folders, ...openGroups];
-  }, [browser.mode, browser.visible, view.expandedSet, openGroups]);
+  }, [browser.mode, browser.visible, browser.opened, view.expandedSet, openGroups]);
   const change = useCallback(
     (keys: readonly string[]) => {
       if (browser.mode === 'tree' && browser.visible === null) view.replaceOpen(keys.filter((key) => !groups.includes(key)));

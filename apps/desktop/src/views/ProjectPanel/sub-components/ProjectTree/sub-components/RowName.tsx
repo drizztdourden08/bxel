@@ -14,7 +14,7 @@ const metaOf = ({ item, model }: Pick<RowNameProps, 'item' | 'model'>): string |
 const RowName = ({ item, model, count }: RowNameProps) => {
   const meta = metaOf({ item, model });
   return (
-    <Box className="project-name" data-ghost={item.role === 'ghost'} data-group={item.role === 'group'}>
+    <Box className="project-name" data-ghost={item.role === 'ghost'} data-group={item.role === 'group'} data-match={model.browser.highlight?.has(item.key) === true}>
       <Text variant="label" className="project-name__text">
         {item.name}
       </Text>
