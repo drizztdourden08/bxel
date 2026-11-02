@@ -15,6 +15,8 @@ import { distributeSelection } from '../editor/selection/distribute-selection';
 import { borderSelection } from '../editor/selection/border-selection';
 import { fillSelection } from '../editor/selection/fill-selection';
 import { resizeByAmount } from '../editor/selection/resize-by-amount';
+import { pasteAsFrame } from '../editor/selection/paste-as-frame';
+import { pasteAsTile } from '../editor/selection/paste-as-tile';
 import { pasteNewSprite } from '../editor/selection/paste-new-sprite';
 import { selectByFrame } from '../editor/selection/select-by-frame';
 import { selectionToGuides } from '../editor/selection/selection-to-guides';
@@ -87,6 +89,8 @@ const SELECTION_EDITS: readonly CommandDef[] = [
   { id: ID.pasteIntoSelection, label: 'Paste into selection', group, run: () => void pasteFromSystem('selection') },
   { id: ID.pasteTransform, label: 'Paste and transform', group, run: () => void pasteAndTransform() },
   { id: ID.pasteNewSprite, label: 'Paste as new sprite', group, run: () => void pasteFromSystem('place').then(() => pasteNewSprite()) },
+  { id: ID.pasteAsFrame, label: 'Paste as new frame', group, run: () => void pasteFromSystem('place').then(() => pasteAsFrame()) },
+  { id: ID.pasteAsTile, label: 'Paste as new tile', group, run: () => void pasteFromSystem('place').then(() => pasteAsTile()) },
   { id: ID.copyNewSprite, label: 'Copy as new sprite', group, run: () => void (copySelection() && pasteNewSprite()) },
   { id: ID.pasteChoose, label: 'Paste with a choice...', group, run: () => usePasteChoiceStore.getState().show() },
   { id: ID.selectByFrame, label: 'Select by frame', group, run: () => void selectByFrame() },

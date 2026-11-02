@@ -18,6 +18,8 @@ const editMenu = (state: EditorMenuState): MenuItem => {
     item(ID.pasteExpand, 'Expand the canvas to fit'),
     item(ID.pasteTransform, 'Paste and transform'),
     item(ID.pasteNewSprite, 'As new sprite'),
+    item(ID.pasteAsFrame, 'As new frame'),
+    item(ID.pasteAsTile, 'As new tile'),
     item(ID.pasteChoose, 'With a choice...'),
   ];
   const pasteSpecial: MenuItem = {

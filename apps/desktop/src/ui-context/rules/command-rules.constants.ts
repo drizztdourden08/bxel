@@ -104,7 +104,7 @@ const SELECTION: RuleTable = {
     [WRITE, PIXELS_SELECTED],
     ONLY.pixels,
   ),
-  ...family(['selection.paste_as_layer', 'selection.paste_into_selection', 'selection.paste_expand', 'selection.paste_transform', 'selection.paste_new_sprite', 'selection.paste_choose'], PIXEL, [DOC, WRITE, CLIPBOARD], ONLY.pixels),
+  ...family(['selection.paste_as_layer', 'selection.paste_into_selection', 'selection.paste_expand', 'selection.paste_transform', 'selection.paste_new_sprite', 'selection.paste_as_frame', 'selection.paste_as_tile', 'selection.paste_choose'], PIXEL, [DOC, WRITE, CLIPBOARD], ONLY.pixels),
   ...family(['selection.copy_new_sprite'], PIXEL, [DOC, WRITE, PIXELS_SELECTED], ONLY.pixels),
   ...family(['selection.copy_merged'], NONE_OR_PIXEL, [DOC, PIXELS_SELECTED], ONLY.pixels),
   ...family(['selection.copy'], DRAW_STAGE, [DOC, SELECTED_HERE], ONLY.drawing),

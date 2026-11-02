@@ -44,6 +44,8 @@ const SELECTION_LABELS = {
   guides: 'Selection to guides',
   pasteLayer: 'Paste as new layer',
   pasteSprite: 'Paste as new sprite',
+  pasteFrame: 'Paste as new frame',
+  pasteTile: 'Paste as new tile',
   pastedName: 'Pasted',
   save: (name: string): string => `Save selection ${name}`,
   forget: (name: string): string => `Delete saved selection ${name}`,
