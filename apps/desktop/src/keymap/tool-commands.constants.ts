@@ -7,8 +7,11 @@ import { quickPresets } from '../editor/presets/quick-presets';
 import { chordOfKey } from '../editor/tool-catalogue/chord-of-key';
 import { keyOfTool } from '../editor/tool-catalogue/key-of-tool';
 import { labelOfTool } from '../editor/tool-catalogue/label-of-tool';
+import { memberById } from '../editor/tool-catalogue/member-by-id';
 import { toolIds } from '../editor/tool-catalogue/tool-ids';
 import { resetTool } from '../editor/tool-options/reset-tool';
+import { activeMember } from '../editor/tool-pick/active-member';
+import { pointerPick } from '../editor/tool-pick/pointer-pick';
 import { announcePreset } from '../editor/tool-pick/announce-preset';
 import { beginSpring } from '../editor/tool-pick/begin-spring';
 import { endSpring } from '../editor/tool-pick/end-spring';
@@ -19,6 +22,7 @@ import type { ToolId } from '../editor/tool.type';
 import { turnStampKey } from '../tilemap/turn-stamp-key';
 import { QUICK_SLOTS } from '../editor/presets/builtin-presets.constants';
 import { useCustomizeStore } from '../stores/useCustomizeStore';
+import { useToolPrefsStore } from '../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../stores/useToolPresetStore';
 import { useToolStore } from '../stores/useToolStore';
 import { REASON } from '../ui-context/reasons.constants';
@@ -86,9 +90,27 @@ const quickCommand = (slot: number): CommandDef =>
     },
   });
 
+const memberOfArgs = (context?: CommandContext) => {
+  const args = context?.args;
+  const id = typeof args === 'object' && args !== null && 'id' in args ? String(args.id) : '';
+  return id === '' ? activeMember() : memberById(id)?.member;
+};
+
+const selectMemberById = (context?: CommandContext): void => {
+  const member = memberOfArgs(context);
+  if (member) pointerPick(member);
+};
+
+const hideMemberById = (context?: CommandContext): void => {
+  const member = memberOfArgs(context);
+  if (member) useToolPrefsStore.getState().toggleHidden(member.id);
+};
+
 const PRESET_COMMANDS: readonly CommandDef[] = [
   { id: TOOL_COMMAND.applyPreset, label: 'Apply a tool preset', group: COMMAND_GROUP.tools, run: applyById },
   { id: TOOL_COMMAND.savePreset, label: 'Save the tool as a preset', group: COMMAND_GROUP.tools, run: () => void openSaveDraft() },
+  { id: TOOL_COMMAND.selectMember, label: 'Pick a tool variant', group: COMMAND_GROUP.tools, run: selectMemberById },
+  { id: TOOL_COMMAND.hideMember, label: 'Hide or show a tool variant', group: COMMAND_GROUP.tools, run: hideMemberById },
   { id: TOOL_COMMAND.customize, label: 'Customize tools', group: COMMAND_GROUP.tools, run: () => useCustomizeStore.getState().show(true) },
   { id: TOOL_COMMAND.resetOptions, label: 'Reset the options of the tool', group: COMMAND_GROUP.tools, run: () => resetTool(useToolStore.getState().tool) },
   {

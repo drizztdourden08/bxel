@@ -26,7 +26,7 @@ const TOOLS: RuleTable = {
 
 const PRESETS: RuleTable = {
   ...family(['tool.previous', 'tool.cycle_back_select'], DRAW_STAGE, [DRAW], ONLY.drawing),
-  ...family(['tool.apply_preset', 'tool.save_preset', 'tool.reset_options', ...[1, 2, 3, 4, 5].map((slot) => `tool.apply_quick_preset_${slot}`)], PIXEL, [DOC], ONLY.pixels),
+  ...family(['tool.apply_preset', 'tool.save_preset', 'tool.reset_options', 'tool.select_member', 'tool.hide_member', ...[1, 2, 3, 4, 5].map((slot) => `tool.apply_quick_preset_${slot}`)], PIXEL, [DOC], ONLY.pixels),
 };
 
 const OPTIONS: RuleTable = {
@@ -41,6 +41,7 @@ const OPTIONS: RuleTable = {
     ONLY.pixels,
   ),
   ...family(['brush.size_down_by_four', 'brush.size_up_by_four', 'brush.tip_previous', 'brush.tip_next'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
+  ...family(['brush.size_step', 'ink.set', 'shape.toggle_filled'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
   ...family(['options.focus', 'options.open'], any(EDIT_STAGE, SHEET)),
   ...family([...DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection && !OUTLINE_ACTIONS.includes(id)), ...DRAWING_OPTION_COMMAND_IDS], PIXEL, [DOC], ONLY.pixels),
   ...family(OUTLINE_ACTIONS, PIXEL, [DOC, WRITE], ONLY.pixels),

@@ -8,6 +8,7 @@ import { usePaletteSlots } from '../../../hooks/usePaletteSlots';
 import { useCanvasSurface } from '../../../canvas-surface/useCanvasSurface';
 import { readExtras } from '../../../status-extras/read-extras';
 import type { StatusExtras } from '../../../status-extras/status-extras.type';
+import { useCycleNoteStore } from '../../../stores/useCycleNoteStore';
 import { useGestureStore } from '../../../stores/useGestureStore';
 import { usePendingStore } from '../../../stores/usePendingStore';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
@@ -25,12 +26,14 @@ const useStatusExtras = (): StatusExtras => {
   const selected = useSelectionStore((state) => state.mask);
   const pending = usePendingStore((state) => state.pending);
   const hint = useGestureStore((state) => state.hint);
+  const note = useCycleNoteStore((state) => state.text);
   return useMemo(
     () => ({
       ...readExtras({ surface, pointer, target, slots, mask: target && selected ? selectionMask(target) : null, move: moveOffset(pending), focus, cell: cellUnder(map, pointer) }),
       snap: hint === '' ? null : hint,
+      note,
     }),
-    [surface, pointer, target, slots, focus, map, selected, pending, hint],
+    [surface, pointer, target, slots, focus, map, selected, pending, hint, note],
   );
 };
 

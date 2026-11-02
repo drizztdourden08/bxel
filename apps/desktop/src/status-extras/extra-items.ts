@@ -13,6 +13,7 @@ const extraItems = (extras: StatusExtras): StatusBarEntry[] => [
   ...entry('selection', EXTRA_TEXT.selection, extras.selection, { priority: 3 }),
   ...entry('drag', EXTRA_TEXT.drag, extras.drag, { tone: 'info', priority: 3 }),
   ...entry('snap', EXTRA_TEXT.snap, extras.snap, { tone: 'info', priority: 3 }),
+  ...entry('note', EXTRA_TEXT.note, extras.note ?? null, { tone: 'info', priority: 4 }),
   ...entry('frame', EXTRA_TEXT.frame, extras.frame, { priority: 2 }),
 ];
 

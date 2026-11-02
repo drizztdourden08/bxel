@@ -7,6 +7,7 @@ interface StatusExtras {
   cell: string | null;
   tile: string | null;
   snap: string | null;
+  note?: string | null;
 }
 
 export type { StatusExtras };

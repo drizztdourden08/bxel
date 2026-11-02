@@ -5,6 +5,8 @@ const OPTIONS_PANEL_TEXT = {
   menuLabel: 'Tool options menu',
   focusBar: 'Go to the options bar',
   savePreset: 'Save as preset',
+  popOut: 'Pop out',
+  dock: 'Dock',
   none: 'No tool here',
   noneHint: 'Open or create an asset to see the options of a tool.',
   sheet: 'Pick a sprite to paint it',
