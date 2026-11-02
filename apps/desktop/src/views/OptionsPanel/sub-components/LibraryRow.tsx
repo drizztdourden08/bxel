@@ -5,7 +5,6 @@ import { runLibraryAction } from '../../../editor/brush-library-run';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
 import { OPTIONS_PANEL_TEXT } from '../OptionsPanel.constants';
 import type { LibraryItem, LibraryKind } from '../OptionsPanel.type';
-import '../../PresetList/PresetRow.css';
 import { LibraryPreview } from './LibraryPreview';
 
 const LibraryRow = ({ kind, item, active }: { kind: LibraryKind; item: LibraryItem; active: boolean }) => {

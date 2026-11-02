@@ -11,7 +11,6 @@ import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { PRESET_TEXT } from '../PresetList.constants';
 import type { PresetRowProps } from '../PresetList.type';
 import { presetOrigin } from '../preset-origin';
-import '../PresetRow.css';
 import { PresetMenu } from './PresetMenu';
 import { PresetPreview } from './PresetPreview';
 
