@@ -34,11 +34,12 @@ type HealthReport = {
   readonly unsaved: number;
   readonly access: readonly AccessFinding[];
   readonly capped: readonly FileFinding[];
+  readonly repaired: readonly LinkFinding[];
   readonly total: number;
   readonly files: number;
 };
 
-type HealthContext = { readonly project: OpenProject; readonly unsaved: number };
+type HealthContext = { readonly project: OpenProject; readonly unsaved: number; readonly repaired?: readonly LinkFinding[] };
 
 type HealthState =
   | { readonly status: 'idle' }

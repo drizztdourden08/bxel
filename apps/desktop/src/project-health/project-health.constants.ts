@@ -6,7 +6,7 @@ const HEALTH_CHECKS: readonly HealthCheck[] = ['broken', 'moved', 'unused', 'mis
 
 const LEAF_KINDS: ReadonlySet<AssetKind> = new Set(['sprite', 'animation', 'palette', 'tileset']);
 
-const EMPTY_REPORT: HealthReport = { broken: [], moved: [], unused: [], misplaced: [], duplicates: [], unsaved: 0, access: [], capped: [], total: 0, files: 0 };
+const EMPTY_REPORT: HealthReport = { broken: [], moved: [], unused: [], misplaced: [], duplicates: [], unsaved: 0, access: [], capped: [], repaired: [], total: 0, files: 0 };
 
 const META_MAX = 84;
 
@@ -25,6 +25,9 @@ const HEALTH_TEXT = {
   brokenHint: 'These links lead to a file that is not in the project. Remove the link, or put the file back and check again.',
   movedTitle: 'Links with an old path',
   movedHint: 'The file moved, so the path in the link is out of date. The file is still found by its id.',
+  repairedTitle: 'Repaired',
+  repairedHint: 'These links had an old path. Bxel followed the id of the file and wrote the new path when the project opened.',
+  repairedLine: (file: string, target: string): string => `${file} now links to ${target}`,
   unusedTitle: 'Unused files',
   unusedHint: 'Nothing links to these, and they are not pinned, collected or the cover. Maps and sheets are often leaves, so this is only a hint.',
   misplacedTitle: 'Outside the folder of their kind',
