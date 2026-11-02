@@ -1,4 +1,6 @@
 /* @layer renderer-app @kind test */
+import type * as BrockReact from '@drizztdourden08/brock-react';
+import { vi } from 'vitest';
 import { brockReactMock } from '../keymap/brock-react-mock';
 import { catalogMock } from './app-tools-catalog-mock';
 import { fake } from './app-tools-fake';
@@ -49,8 +51,9 @@ const settingsMock = () => ({
   },
 });
 
-const brockMock = () => ({
+const brockMock = async () => ({
   ...brockReactMock(),
+  useNavigationStore: (await vi.importActual<typeof BrockReact>('@drizztdourden08/brock-react')).useNavigationStore,
   ...layoutMock(),
   announce: (text: string) => fake.announced.push(text),
   commands: commandsMock(),
