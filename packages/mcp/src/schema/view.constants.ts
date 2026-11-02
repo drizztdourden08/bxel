@@ -71,7 +71,7 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
   browse: BROWSE_INPUT_SCHEMA.optional().describe('The Browse page of the project: folder, view, selection and search.'),
   reveal: LOCATION_SCHEMA.optional().describe('Opens the Browse page on the folder of this file and selects it.'),
   projectPanel: PROJECT_PANEL_INPUT_SCHEMA.optional().describe('The Project panel widget: mode, selection, search and chips. The panel must be on screen.'),
-  tileset: TILESET_INPUT_SCHEMA.optional().describe('The tileset and tilemap tool state: panel mode, search, stamp, scatter, terrain brush and the collision overlay.'),
+  tileset: TILESET_INPUT_SCHEMA.optional().describe('The tileset and tilemap tool state: panel mode, search, stamp, scatter, brush flags, terrain brush and set, the collision overlay, tile animation, thumbnail zoom and the key and use badges.'),
   page: z.strictObject({ route: z.string().min(1).max(200), section: z.string().min(1).max(200).optional() }).optional(),
   zoom: z
     .union([z.number().min(1).max(6400).describe('Percent.'), z.enum(['fit', 'actual']), z.strictObject({ rect: VIEW_RECT_SCHEMA })])

@@ -14,6 +14,12 @@ const tilesetView = () => {
     scatter: stamp.scatter === true,
     terrainBrush: tiles.terrainBrush,
     collisionOverlay: tiles.showCollision,
+    brushFlags: { ...tiles.flags },
+    animate: tiles.animateTiles,
+    zoom: panel.zoom,
+    showKeys: panel.showKeys,
+    showUses: panel.showUses,
+    terrainSet: panel.terrainSetId,
   };
 };
 

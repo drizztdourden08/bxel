@@ -40,7 +40,7 @@ const getViewTool = defineTool(TOOL_NAME.getView, {
     properties: block.describe('The Properties panel: status (none, missing, ready), whether it is pinned, how far back and forward the history goes, and the subject (kind, name, file, dirty).'),
     browse: block.describe('The Browse page: folder, view, search text, chips and the selection as locations.'),
     projectPanel: block.nullable().describe('The Project panel widget: mode, selection as locations, typed search and chips. Null when the panel is not on screen.'),
-    tileset: block.describe('The tileset and tilemap tool state: panel mode, search, filters, stamp, scatter, terrain brush and the collision overlay.'),
+    tileset: block.describe('The tileset and tilemap tool state: panel mode, search, filters, stamp, scatter, brush flags, terrain brush and set, the collision overlay, tile animation, thumbnail zoom and the key and use badges.'),
     sprites: block.describe('The sprite selection and filters of the sheet manager.'),
   }),
 });

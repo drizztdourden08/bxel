@@ -5,6 +5,7 @@ import { transformStamp } from '../../../tilemap/transform-stamp';
 import { ActionHint } from '../../ActionHint';
 import { BRUSH_ACTIONS, TILESET_TEXT } from '../TilesetPanel.constants';
 import type { TilesetModelProps } from '../TilesetPanel.type';
+import { BrushTerrainSet } from './BrushTerrainSet';
 import { StampPreview } from './StampPreview';
 
 const stampLine = (model: TilesetModelProps['model']): string => {
@@ -34,6 +35,7 @@ const BrushStrip = ({ model }: TilesetModelProps) => {
             </ActionHint>
           ))}
         </ButtonGroup>
+        <BrushTerrainSet model={model} />
       </Stack>
     </Flex>
   );
