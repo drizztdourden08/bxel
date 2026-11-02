@@ -8,4 +8,17 @@ type GridTileProps = PanelPartProps & {
   readonly cell: VirtualGridCellBind;
 };
 
-export type { GridTileProps };
+type FilesDrop = (folder: BrowserItem, files: readonly File[]) => void;
+
+type DropData = { readonly types: readonly string[]; readonly files: Iterable<File> };
+
+type GridSection = {
+  readonly key: string;
+  readonly label: string;
+  readonly items: BrowserItem[];
+  readonly count: number;
+  readonly onDropData?: (data: DropData) => void;
+  readonly accepts?: (data: DropData) => boolean;
+};
+
+export type { DropData, FilesDrop, GridSection, GridTileProps };
