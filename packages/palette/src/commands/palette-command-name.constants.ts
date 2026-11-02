@@ -10,6 +10,7 @@ const PALETTE_COMMAND_NAME = {
   rampAdd: 'ramp.add',
   rampUpdate: 'ramp.update',
   rampDelete: 'ramp.delete',
+  rampMove: 'ramp.move',
   paletteUpdate: 'palette.update',
   paletteDelete: 'palette.delete',
   paletteDetach: 'palette.detach',
