@@ -3,6 +3,8 @@ import type { CommandDef } from '@drizztdourden08/brock-react';
 import { deleteSelectedSlice } from '../slice/delete-selected-slice';
 import { distributeSlices } from '../slice/distribute-slices';
 import { selectedSlice } from '../slice/selected-slice';
+import { selectionToSlice } from '../slice/selection-to-slice';
+import { sliceToSelection } from '../slice/slice-to-selection';
 import { sliceSelectedByTool } from '../slice/slice-selected-by-tool';
 import { useSliceToolStore } from '../stores/useSliceToolStore';
 import { COMMAND_GROUP } from './keymap.constants';
@@ -28,6 +30,18 @@ const SLICE_COMMANDS: readonly CommandDef[] = [
     label: 'Distribute slices vertically',
     group: COMMAND_GROUP.edit,
     run: () => void distributeSlices('vertical'),
+  },
+  {
+    id: ID.fromSelection,
+    label: 'Selection to slice',
+    group: COMMAND_GROUP.edit,
+    run: () => void selectionToSlice(),
+  },
+  {
+    id: ID.toSelection,
+    label: 'Slice to selection',
+    group: COMMAND_GROUP.edit,
+    run: () => void sliceToSelection(),
   },
   {
     id: ID.properties,

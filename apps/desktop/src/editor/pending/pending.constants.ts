@@ -2,6 +2,8 @@
 import { MAX_SPRITE_SIZE } from '@bxel/document';
 import type { FlipAxis, TurnDirection } from '@bxel/document';
 
+const RIGHT_ANGLE = 90;
+
 const PREVIEW_PIXELS = MAX_SPRITE_SIZE * MAX_SPRITE_SIZE;
 
 const FLIP_LABELS: Readonly<Record<FlipAxis, string>> = {
@@ -28,7 +30,8 @@ const PENDING_TEXT = {
   noClipping: 'none',
   clipped: (pixels: number): string => (pixels === 1 ? '1 pixel falls outside the sprite' : `${pixels} pixels fall outside the sprite`),
   resized: (width: number, height: number): string => `none, the canvas becomes ${width} by ${height}`,
+  seams: 'Free rotation on a tile can break its edges, so it may stop tiling cleanly',
   noPreview: 'The preview is too large to draw.',
 } as const;
 
-export { FLIP_LABELS, PENDING_TEXT, PREVIEW_PIXELS, TURN_LABELS };
+export { FLIP_LABELS, PENDING_TEXT, PREVIEW_PIXELS, RIGHT_ANGLE, TURN_LABELS };

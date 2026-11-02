@@ -61,6 +61,22 @@ describe('S2 Tilemap mode', { tags: ['standard'] }, () => {
     expect(useTilemapStore.getState().flags.diagonal).toBe(true);
   });
 
+  it('flips and turns the stamp with Y, Z and Shift+Z while placing, and keeps X as swap colours', () => {
+    switchMode('tilemap');
+    expect(findCommand(TILEMAP_COMMAND.stampFlipY).chord).toBe('Y');
+    expect(findCommand(TILEMAP_COMMAND.stampTurnLeft).chord).toBe('Shift+Z');
+    expect(findCommand('palette.swap_colors').chord).toBe('X');
+    run(TILEMAP_COMMAND.stampFlipY);
+    expect(useTilemapStore.getState().flags.flipY).toBe(true);
+    run(TILEMAP_COMMAND.stampFlipY);
+    useToolStore.getState().selectTool('pencil');
+    run('tool.select_zoom');
+    expect(useToolStore.getState().tool).toBe('pencil');
+    expect(useTilemapStore.getState().flags.diagonal).toBe(true);
+    run(TILEMAP_COMMAND.stampTurnLeft);
+    expect(useTilemapStore.getState().flags).toEqual({ flipX: false, flipY: false, diagonal: false });
+  });
+
   it('clears the selected cells with Delete and drops the selection with Deselect', () => {
     switchMode('tilemap');
     placeStampAt([{ x: 0, y: 0 }, { x: 1, y: 0 }]);

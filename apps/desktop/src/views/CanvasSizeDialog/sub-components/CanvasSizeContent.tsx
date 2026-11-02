@@ -8,7 +8,7 @@ import { SizeFields } from './SizeFields';
 
 const CanvasSizeContent = () => {
   const hide = useCanvasSizeStore((state) => state.hide);
-  const { spec, clips, valid, update } = useCanvasSizeForm();
+  const { spec, clips, valid, update, tile, tileMultiple, setTileMultiple } = useCanvasSizeForm();
   const apply = (): void => {
     resizeActiveSprite(spec);
     hide();
@@ -26,7 +26,7 @@ const CanvasSizeContent = () => {
   return (
     <DialogShell open title={DIALOG_TEXT.resizeTitle(1)} onClose={hide} actions={actions}>
       <Stack gap="md">
-        <SizeFields spec={spec} update={update} />
+        <SizeFields spec={spec} update={update} tile={tile} tileMultiple={tileMultiple} setTileMultiple={setTileMultiple} />
         {clips > 0 ? <Callout tone="warning">{DIALOG_TEXT.clips(clips)}</Callout> : <Text tone="dim">{DIALOG_TEXT.noClips}</Text>}
       </Stack>
     </DialogShell>

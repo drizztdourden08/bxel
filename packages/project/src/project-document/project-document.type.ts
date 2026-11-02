@@ -1,5 +1,5 @@
 /* @layer core @kind types */
-import type { SavedBrush, ExportPreset } from '@bxel/document';
+import type { SavedBrush, SavedPattern, ExportPreset } from '@bxel/document';
 import type { ProjectDefaults } from '../defaults/asset-defaults.type';
 import type { FolderId, ProjectId } from '../ids/id.type';
 import type { MANIFEST_FORMAT } from '../manifest/manifest.constants';
@@ -40,6 +40,7 @@ type ProjectDocument = {
   readonly export?: ProjectExport;
   readonly organise?: ProjectOrganise;
   readonly brushes?: readonly SavedBrush[];
+  readonly patterns?: readonly SavedPattern[];
   readonly toolPresets?: readonly ProjectToolPreset[];
   readonly assistant: AssistantScope;
 };

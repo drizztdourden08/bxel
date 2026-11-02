@@ -154,6 +154,7 @@ const DIALOG_TEXT = {
   width: 'Width',
   height: 'Height',
   anchor: 'Anchor',
+  tileMultiple: (width: number, height: number): string => `Multiple of the tile size (${width} x ${height})`,
   keepSize: 'Keep each sprite size',
   clips: (pixels: number): string => `${pixels} pixels outside the new canvas are cut off.`,
   noClips: 'No pixel is cut off.',

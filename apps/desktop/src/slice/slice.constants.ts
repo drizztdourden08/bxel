@@ -5,6 +5,8 @@ const SLICE_LABEL = {
   remove: 'Delete slice',
   distribute: 'Distribute slices',
   needThree: 'Add three or more slices to space them out.',
+  needSelection: 'Select an area first, then make a slice from it.',
+  needSlice: 'Pick a slice first, then turn it into a selection.',
 } as const;
 
 const SLICE_HANDLE_REACH = 4;

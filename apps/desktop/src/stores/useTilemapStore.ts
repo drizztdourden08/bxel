@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { create } from 'zustand';
+import { swapTileTiled } from './swap-tile-tiled';
 import { TILEMAP_DEFAULTS } from './tilemap-store.constants';
 import type { TilemapState } from './tilemap-store.type';
 import { useDocumentStore } from './useDocumentStore';
@@ -31,6 +32,10 @@ const useTilemapStore = create<TilemapState>()((set, get) => ({
 
 useDocumentStore.subscribe((state, previous) => {
   if (state.activeId !== previous.activeId) useTilemapStore.getState().reset();
+});
+
+useTilemapStore.subscribe((state, previous) => {
+  if (state.editSpriteId !== previous.editSpriteId) swapTileTiled(previous.editSpriteId, state.editSpriteId);
 });
 
 export { useTilemapStore };

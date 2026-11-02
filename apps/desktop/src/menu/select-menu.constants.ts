@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind config */
 import { SELECTION_COMMAND_ID as ID } from '../keymap/selection-command-id.constants';
+import { SLICE_COMMAND as SLICE } from '../keymap/slice-command-id.constants';
 
 import type { SelectEntry } from './select-menu.type';
 
@@ -17,6 +18,8 @@ const SELECT_ENTRIES: readonly SelectEntry[] = [
   { id: ID.selectByFrame, label: 'Select by frame' },
   'separator',
   { id: ID.toGuides, label: 'Selection to guides' },
+  { id: SLICE.fromSelection, label: 'Selection to slice' },
+  { id: SLICE.toSelection, label: 'Slice to selection' },
   { id: ID.quickMask, label: 'Quick mask' },
   { id: ID.save, label: 'Saved selections...' },
 ];

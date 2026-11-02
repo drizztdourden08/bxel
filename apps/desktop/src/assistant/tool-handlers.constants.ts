@@ -23,6 +23,7 @@ import { previewEdits } from './tools/preview-edits';
 import { readMapCells } from './tools/read-map-cells';
 import { readPalette } from './tools/read-palette';
 import { readPixels } from './tools/read-pixels';
+import { antiAlias } from './tools/anti-alias';
 import { lintPixels } from './tools/lint-pixels';
 import { buildRamp } from './tools/build-ramp';
 import { renderPreview } from './tools/render-preview';
@@ -66,6 +67,7 @@ const RAW_HANDLERS: ToolHandlers = {
   read_palette: readPalette,
   read_pixels: readPixels,
   lint_pixels: lintPixels,
+  anti_alias: antiAlias,
   build_ramp: buildRamp,
   render_preview: renderPreview,
   preview_edits: previewEdits,

@@ -48,6 +48,8 @@ type ReadPaletteInput = DocumentInput & { readonly bankId?: string; readonly inc
 
 type LintInput = DocumentInput & { readonly spriteId: string; readonly frameId?: string; readonly rules?: readonly string[]; readonly limit: number };
 
+type AntiAliasInput = DocumentInput & { readonly spriteId: string; readonly frameId?: string; readonly layerId: string; readonly edge: number; readonly mid?: number; readonly inside: boolean };
+
 type BuildRampInput = DocumentInput & {
   readonly bankId?: string;
   readonly base: string;
@@ -222,6 +224,7 @@ export type {
   ProjectWrite,
   BuildRampInput,
   LintInput,
+  AntiAliasInput,
   ReadPaletteInput,
   ReadPixelsInput,
   RenderInput,

@@ -6,7 +6,7 @@ import { FLASH_MS, PRESENCE_MS } from '../../src/assistant-presence/assistant-pr
 import { presenceTextOf } from '../../src/assistant-presence/presence-text-of';
 import { useAssistantPresenceStore } from '../../src/stores/useAssistantPresenceStore';
 
-const empty: ChangeSet = { artwork: false, banks: [], sprites: [], sheets: [], presets: [], brushes: [], tilesets: [], tilemaps: [], animations: [] };
+const empty: ChangeSet = { artwork: false, banks: [], sprites: [], sheets: [], presets: [], brushes: [], patterns: [], tilesets: [], tilemaps: [], animations: [] };
 
 const changes: ChangeSet = {
   ...empty,

@@ -1,24 +1,39 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
 import { cropToSelection } from '../../src/canvas-size/crop-to-selection';
+import { snapToTiles } from '../../src/canvas-size/snap-to-tiles';
 import { resizeActiveSprite } from '../../src/canvas-size/resize-active-sprite';
 import { trimActiveSprite } from '../../src/canvas-size/trim-active-sprite';
+import { clearSelection } from '../../src/editor/selection/clear-selection';
+import { reselect } from '../../src/editor/selection/reselect';
 import { selectionMask } from '../../src/editor/selection/selection-mask';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
 import { BLOCK, openRig } from './selection-harness';
 
 describe('S2 the canvas size actions', { tags: ['standard'] }, () => {
-  it('crops the sprite to the box of the selection in one undo step and clears the selection', () => {
+  it('crops the sprite to the box of the selection in one undo step and keeps the selection at the new origin', () => {
     const rig = openRig();
     rig.paint(BLOCK, 3);
     rig.select({ x: 2, y: 2, width: 8, height: 6 });
     expect(cropToSelection()).toBe(true);
     expect(rig.target().sprite.width).toBe(8);
     expect(rig.target().sprite.height).toBe(6);
-    expect(selectionMask(rig.target())).toBeNull();
+    const kept = selectionMask(rig.target());
+    expect(kept?.width).toBe(8);
+    expect(kept?.bits.every((bit) => bit === 1)).toBe(true);
     expect(rig.host.view(rig.documentId)?.lastEvent.label).toBe('Crop sprite to selection');
     rig.host.undo(rig.documentId);
     expect(rig.target().sprite.width).toBe(32);
+  });
+
+  it('lets Reselect bring the cropped selection back after Deselect', () => {
+    const rig = openRig();
+    rig.select({ x: 2, y: 2, width: 8, height: 6 });
+    expect(cropToSelection()).toBe(true);
+    clearSelection();
+    expect(selectionMask(rig.target())).toBeNull();
+    expect(reselect()).toBe(true);
+    expect(selectionMask(rig.target())?.height).toBe(6);
   });
 
   it('asks for a selection before it crops', () => {
@@ -47,5 +62,12 @@ describe('S2 the canvas size actions', { tags: ['standard'] }, () => {
     expect(rig.target().sprite.height).toBe(20);
     rig.host.undo(rig.documentId);
     expect(rig.target().sprite.height).toBe(32);
+  });
+});
+
+describe('S2 canvas size as a multiple of the tile size', { tags: ['standard'] }, () => {
+  it('rounds each side up to the next multiple and never below one tile', () => {
+    expect(snapToTiles({ width: 20, height: 33, anchor: 'center' }, { width: 16, height: 16 })).toEqual({ width: 32, height: 48, anchor: 'center' });
+    expect(snapToTiles({ width: 1, height: 16, anchor: 'top-left' }, { width: 8, height: 16 })).toEqual({ width: 8, height: 16, anchor: 'top-left' });
   });
 });

@@ -2,7 +2,7 @@
 import { SELECT_VARIANT_ICONS } from '../../../icons/tool-icons.constants';
 import { SELECT_LABELS, SELECT_VARIANTS } from '../../selection/selection.constants';
 import { SELECT_DESCRIPTIONS } from '../../tool-descriptions.constants';
-import { PAINT_SURFACES } from '../surfaces.constants';
+import { PAINT_SURFACES, SLICE_SURFACES } from '../surfaces.constants';
 import type { ToolSlot } from '../tool-catalogue.type';
 
 const SELECT_SLOTS: readonly ToolSlot[] = [
@@ -28,13 +28,13 @@ const SELECT_SLOTS: readonly ToolSlot[] = [
     label: 'Slice',
     key: 'Shift+C',
     tool: 'slice',
-    surfaces: PAINT_SURFACES,
+    surfaces: SLICE_SURFACES,
     members: [
       {
         id: 'slice',
         tool: 'slice',
         label: 'Slice',
-        description: 'Drag to cut a named slice out of the sprite. Click a slice to select it, drag its edges to resize it and double click it for its pivot and 9-slice centre.',
+        description: 'Drag to cut a named slice out of the sprite, on the canvas or on the sheet. Click a slice to select it, drag its edges to resize it and double click it for its pivot and 9-slice centre.',
         icon: 'pixel-select-rect',
       },
     ],

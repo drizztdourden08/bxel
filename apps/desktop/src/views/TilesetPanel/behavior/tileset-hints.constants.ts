@@ -49,12 +49,12 @@ const BRUSH_ACTIONS: readonly { op: StampTransform; icon: IconName; hint: HintSp
   {
     op: 'flipY',
     icon: 'pixel-flip-tile-y',
-    hint: { name: 'Flip brush Y', description: 'Mirror the brush top to bottom.', shortcuts: [{ command: 'symmetry.toggle_y' }] },
+    hint: { name: 'Flip brush Y', description: 'Mirror the brush top to bottom.', shortcuts: [{ command: 'symmetry.toggle_y' }, { command: TILEMAP_COMMAND.stampFlipY }] },
   },
   {
     op: 'turnLeft',
     icon: 'pixel-turn-left',
-    hint: { name: 'Rotate brush left', description: 'Turn the brush a quarter turn left. Needs square tiles.', shortcuts: [{ command: 'brush.smaller' }] },
+    hint: { name: 'Rotate brush left', description: 'Turn the brush a quarter turn left. Needs square tiles.', shortcuts: [{ command: 'brush.smaller' }, { command: TILEMAP_COMMAND.stampTurnLeft }] },
   },
   {
     op: 'turnRight',

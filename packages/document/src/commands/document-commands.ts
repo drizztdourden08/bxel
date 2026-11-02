@@ -17,6 +17,9 @@ import { artworkUpdate } from './artwork/artwork-update';
 import { brushAdd } from './brush/brush-add';
 import { brushDelete } from './brush/brush-delete';
 import { brushUpdate } from './brush/brush-update';
+import { patternAdd } from './pattern/pattern-add';
+import { patternDelete } from './pattern/pattern-delete';
+import { patternUpdate } from './pattern/pattern-update';
 import { presetAdd } from './preset/preset-add';
 import { presetDelete } from './preset/preset-delete';
 import { presetRename } from './preset/preset-rename';
@@ -174,6 +177,9 @@ const documentCommands: readonly CommandDef[] = [
   brushAdd,
   brushUpdate,
   brushDelete,
+  patternAdd,
+  patternUpdate,
+  patternDelete,
 ];
 
 export { documentCommands };

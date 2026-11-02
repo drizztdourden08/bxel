@@ -4,6 +4,7 @@ import type { SavedBrush } from './brush.type';
 import type { ExportPreset } from './export-preset.type';
 import type { BankId, DocumentId, ArtworkId, SpriteId } from './ids.type';
 import type { PaletteBank } from './palette.type';
+import type { SavedPattern } from './pattern.type';
 import type { Sheet } from './sheet.type';
 import type { Sprite } from './sprite.type';
 import type { Tilemap, Tileset } from './tilemap.type';
@@ -20,6 +21,7 @@ type Artwork = {
   readonly sheets: readonly Sheet[];
   readonly presets: readonly ExportPreset[];
   readonly brushes?: readonly SavedBrush[];
+  readonly patterns?: readonly SavedPattern[];
   readonly tilesets: readonly Tileset[];
   readonly tilemaps: readonly Tilemap[];
   readonly animations: readonly Animation[];

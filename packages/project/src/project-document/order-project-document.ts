@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import type { SavedBrush } from '@bxel/document';
+import type { SavedBrush, SavedPattern } from '@bxel/document';
 import type { PaletteDefault, PixelSize, ProjectDefaults } from '../defaults/asset-defaults.type';
 import { isOrganiseEmpty } from './is-organise-empty';
 import { orderExportPreset } from './order-export-preset';
@@ -46,7 +46,9 @@ const keptOrganise = (manifest: ProjectDocument) =>
   manifest.organise === undefined || isOrganiseEmpty(manifest.organise) ? {} : { organise: orderOrganise(manifest.organise) };
 const orderBrush = (brush: SavedBrush) => ({ id: brush.id, name: brush.name, width: brush.width, height: brush.height, pixels: brush.pixels });
 
-const orderToolPreset = (preset: ProjectToolPreset) => ({
+const orderPattern = (pattern: SavedPattern) => ({ id: pattern.id, name: pattern.name, width: pattern.width, height: pattern.height, pixels: pattern.pixels });
+
+const orderToolPreset =(preset: ProjectToolPreset) => ({
   id: preset.id,
   name: preset.name,
   member: preset.member,
@@ -64,6 +66,7 @@ const orderProjectDocument =(manifest: ProjectDocument) => ({
   ...(manifest.export === undefined ? {} : { export: orderExport(manifest.export) }),
   ...keptOrganise(manifest),
   ...(manifest.brushes === undefined || manifest.brushes.length === 0 ? {} : { brushes: manifest.brushes.map(orderBrush) }),
+  ...(manifest.patterns === undefined || manifest.patterns.length === 0 ? {} : { patterns: manifest.patterns.map(orderPattern) }),
   ...(manifest.toolPresets === undefined || manifest.toolPresets.length === 0 ? {} : { toolPresets: manifest.toolPresets.map(orderToolPreset) }),
   assistant: {
     access: manifest.assistant.access,

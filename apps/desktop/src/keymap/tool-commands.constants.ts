@@ -16,6 +16,7 @@ import { isSpringTool } from '../editor/tool-pick/is-spring-tool';
 import { SPRING_TAP_MS } from '../editor/tool-pick/spring-tool.constants';
 import { pressToolKey } from '../editor/tool-pick/press-tool-key';
 import type { ToolId } from '../editor/tool.type';
+import { turnStampKey } from '../tilemap/turn-stamp-key';
 import { QUICK_SLOTS } from '../editor/presets/builtin-presets.constants';
 import { useCustomizeStore } from '../stores/useCustomizeStore';
 import { useToolPresetStore } from '../stores/useToolPresetStore';
@@ -44,6 +45,8 @@ const selectCommand = (tool: ToolId): CommandDef =>
     ...springHold(tool),
 
     run: () => {
+
+      if (tool === 'zoom' && turnStampKey('turnRight')) return;
 
       if (isSpringTool(tool)) beginSpring(tool);
 

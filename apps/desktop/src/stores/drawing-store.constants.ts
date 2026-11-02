@@ -4,6 +4,7 @@ import type { DrawingSettings } from './drawing-store.type';
 const DRAWING_DEFAULTS: DrawingSettings = {
   inks: {},
   onlyColour: null,
+  eraseMode: 'all',
   ditherPattern: 'checker',
   ditherLevel: 8,
   ditherCustom: false,

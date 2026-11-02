@@ -8,6 +8,7 @@ import { overlapNote } from './overlap-note';
 import { pendingLanding } from './pending-landing';
 import { pendingRequest } from './pending-request';
 import { resultOutcome } from './result-outcome';
+import { seamNote } from './seam-note';
 
 const pendingOutcome = (pending: PendingEdit): PendingOutcome | null => {
   const target = currentTarget();
@@ -20,7 +21,9 @@ const pendingOutcome = (pending: PendingEdit): PendingOutcome | null => {
     return { width, height, frame: null, others: [], clipping: PENDING_TEXT.noClipping, error: result.error.message, landing };
   }
   const base = { ...resultOutcome(target, result, landing), others: otherFrames(pending, target.sprite.id, result) };
-  return { ...base, clipping: overlapNote(target, base, base.others) };
+  const clipping = overlapNote(target, base, base.others);
+  const seams = seamNote(target.sprite, pending.spec);
+  return { ...base, clipping: seams ? `${clipping}, ${seams}` : clipping };
 };
 
 export { pendingOutcome };

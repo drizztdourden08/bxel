@@ -4,6 +4,7 @@ import type { SavedBrush } from '../model/brush.type';
 import type { ExportPreset } from '../model/export-preset.type';
 import type { CelId, SpriteId } from '../model/ids.type';
 import type { PaletteBank } from '../model/palette.type';
+import type { SavedPattern } from '../model/pattern.type';
 import type { Artwork } from '../model/artwork.type';
 import type { Sheet } from '../model/sheet.type';
 import type { Cel, Sprite, SpriteShell } from '../model/sprite.type';
@@ -18,7 +19,12 @@ const withBrushes = (artwork: Artwork, brushes: readonly SavedBrush[]): Artwork 
   return brushes.length > 0 ? { ...rest, brushes } : rest;
 };
 
-const setCollection = (artwork: Artwork, key: CollectionKey, value: unknown): Artwork => {
+const withPatterns = (artwork: Artwork, patterns: readonly SavedPattern[]): Artwork => {
+  const { patterns: _previous, ...rest } = artwork;
+  return patterns.length > 0 ? { ...rest, patterns } : rest;
+};
+
+const setCollection =(artwork: Artwork, key: CollectionKey, value: unknown): Artwork => {
   switch (key) {
     case 'banks':
       return { ...artwork, banks: value as readonly PaletteBank[] };
@@ -28,6 +34,8 @@ const setCollection = (artwork: Artwork, key: CollectionKey, value: unknown): Ar
       return { ...artwork, presets: value as readonly ExportPreset[] };
     case 'brushes':
       return withBrushes(artwork, value as readonly SavedBrush[]);
+    case 'patterns':
+      return withPatterns(artwork, value as readonly SavedPattern[]);
     case 'tilesets':
       return { ...artwork, tilesets: value as readonly Tileset[] };
     case 'tilemaps':

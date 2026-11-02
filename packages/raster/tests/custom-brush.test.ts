@@ -47,6 +47,13 @@ describe('K1 the custom brush tip', { tags: ['critical'] }, () => {
     expect(rows).toEqual(['.2.....2.', '222...222', '.2.....2.']);
   });
 
+  test('a saved pattern id resolves like a brush id', () => {
+    const base = withBrush(['.......', '.......', '.......'], 3, 3, [0, 5, 0, 5, 5, 5, 0, 5, 0]);
+    const patternId = 'pat_000001';
+    const art2 = { ...base, brushes: [], patterns: [{ id: patternId, name: 'Cross', width: 3, height: 3, pixels: encodeBrushPixels(Uint8Array.from([0, 5, 0, 5, 5, 5, 0, 5, 0])) }] } as unknown as Artwork;
+    expect(rowsAfter(art2, 'pixels.paint', { points: [at(3, 1)], index: 2, brush: { shape: 'custom', brushId: patternId } })).toEqual(['...2...', '..222..', '...2...']);
+  });
+
   test('refuses a saved brush that does not exist', () => {
     const failed = pixelEngine(rowsArtwork(['.....'])).execute(request([stepOf('pixels.paint', scope, { points: [at(1, 0)], index: 1, brush: { shape: 'custom', brushId: 'brs_000099' } })]));
     expect(errorOf(failed).code).toBe('TARGET_NOT_FOUND');

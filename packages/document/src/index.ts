@@ -13,6 +13,7 @@ export type * from './engine/event.type';
 export type * from './history/history.type';
 export type * from './ids/id-source.type';
 export type * from './model/brush.type';
+export type * from './model/pattern.type';
 export type * from './model/export-preset.type';
 export type * from './model/geometry.type';
 export type * from './model/ids.type';

@@ -121,6 +121,14 @@ const brush = z.strictObject({
   height: COUNT_SCHEMA,
 });
 
+const pattern = z.strictObject({
+  patternId: z.string(),
+  name: z.string(),
+  width: COUNT_SCHEMA,
+  height: COUNT_SCHEMA,
+  pixels: z.string().describe('Base64 of width * height bytes, row by row. A byte above 0 is a cell painted with the front colour, 0 a cell painted with the second colour.'),
+});
+
 const animation = z.strictObject({
   animationId: ANIMATION_ID_SCHEMA,
   name: z.string(),
@@ -159,6 +167,7 @@ const getDocumentTool = defineTool(TOOL_NAME.getDocument, {
     animations: z.array(animation).describe('The animations. Read one with get_animation. The frame sprites an animation owns are not in sprites.'),
     sheets: z.array(SHEET_SCHEMA),
     brushes: z.array(brush).describe('The custom brushes saved in the artwork. Add them with brush.add and stamp them with pixels.stamp.'),
+    patterns: z.array(pattern).describe('The dither patterns saved in the artwork. Add them with pattern.add and use one as the brushId of the dither ink.'),
     tilesets: z.array(tileset).describe('The tilesets. Read the tiles of one with list_map_layers.'),
     tilemaps: z.array(tilemap).describe('The tilemaps. Read the layers and cells of one with list_map_layers and read_map_cells.'),
     presets: z.array(preset).optional().describe('Only with include presets. The export presets saved in the document.'),

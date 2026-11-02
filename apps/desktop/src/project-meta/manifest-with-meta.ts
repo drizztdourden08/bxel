@@ -43,6 +43,7 @@ const manifestWithMeta = (manifest: ProjectDocument, source: MetaSource): Projec
   ...exportWithPresets(manifest, presetsOf(source.artwork, { kind: 'project', id: source.artwork.id })),
   ...(manifest.organise === undefined ? {} : { organise: manifest.organise }),
   ...((source.artwork.brushes ?? []).length > 0 ? { brushes: source.artwork.brushes } : {}),
+  ...((source.artwork.patterns ?? []).length > 0 ? { patterns: source.artwork.patterns } : {}),
   ...(manifest.toolPresets === undefined ? {} : { toolPresets: manifest.toolPresets }),
   assistant: manifest.assistant,
 });

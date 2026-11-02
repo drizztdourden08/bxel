@@ -27,6 +27,7 @@ const TOOL_CATALOGUE: Readonly<Record<ToolName, ToolEntry>> = {
   read_palette: read('read_documents'),
   read_pixels: read('read_documents'),
   lint_pixels: read('read_documents'),
+  anti_alias: read('read_documents'),
   build_ramp: read('read_documents'),
   list_map_layers: read('read_documents'),
   read_map_cells: read('read_documents'),

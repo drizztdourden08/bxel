@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { hiddenFailure } from '@bxel/mcp';
 import { sheetExtent, sheetSizes } from '@bxel/document';
-import type { Animation, Artwork, SavedBrush, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
+import type { Animation, Artwork, SavedBrush, SavedPattern, PaletteBank, Sheet, Tilemap, Tileset } from '@bxel/document';
 import type { ToolHandler } from '../assistant.type';
 import { guidesOf } from './guides-of';
 import { hiddenAssets } from './hidden-assets';
@@ -28,7 +28,15 @@ const brushSummary = (brush: SavedBrush) => ({
   height: brush.height,
 });
 
-const animationSummary = (animation: Animation) => ({
+const patternSummary = (pattern: SavedPattern) => ({
+  patternId: pattern.id,
+  name: pattern.name,
+  width: pattern.width,
+  height: pattern.height,
+  pixels: pattern.pixels,
+});
+
+const animationSummary =(animation: Animation) => ({
   animationId: animation.id,
   name: animation.name,
   width: animation.width,
@@ -88,6 +96,7 @@ const getDocument: ToolHandler = (input, context) => {
     animations: artwork.animations.filter((animation) => !hidden.has(animation.id)).map(animationSummary),
     sheets: artwork.sheets.filter((sheet) => !hidden.has(sheet.id)).map(sheetSummary(artwork, include, hidden)),
     brushes: (artwork.brushes ?? []).map(brushSummary),
+    patterns: (artwork.patterns ?? []).map(patternSummary),
     tilesets: artwork.tilesets.filter((tileset) => !hidden.has(tileset.id)).map(tilesetSummary),
     tilemaps: artwork.tilemaps.filter((tilemap) => !hidden.has(tilemap.id)).map(tilemapSummary(include.includes('guides'))),
     ...(include.includes('presets') ? { presets: artwork.presets.filter((preset) => preset.sheetId === null || !hidden.has(preset.sheetId)).map(presetSummary) } : {}),
