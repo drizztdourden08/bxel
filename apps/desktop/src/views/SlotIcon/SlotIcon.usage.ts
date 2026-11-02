@@ -14,7 +14,7 @@ const usage = {
   rules: [
     'It draws only the icon and its marks and holds no state; the rail and the chip give it the member and the badge.',
     'The corner mark and the dot sit at the bottom right, the badge at the top right. All three are hidden from screen readers, so the text of the badge also goes into the description of the button.',
-    'assistant is optional and false by default: when true the icon gets a ring around it, for the tool the AI assistant is using.',
+    'assistant is optional and false by default: when true the icon gets a ring around it, for the tool the assistant is using.',
     'A filled shape swaps to the filled icon of the member when it has one.',
   ],
   a11y: ['The marks carry no meaning alone: the button name and description say the variant and the state in words.'],
