@@ -79,6 +79,11 @@ const VIEW_HINTS: Readonly<Record<ViewToggle, HintSpec>> = {
     description: 'Show a round magnifier beside the pointer at four times the zoom.',
     shortcuts: [{ command: COMMAND_ID.loupe }],
   },
+  backgroundPreview: {
+    name: 'Background preview',
+    description: 'Show the art over the preview background to check how it sits on it. Hold the key to peek, tap it to toggle.',
+    shortcuts: [{ command: COMMAND_ID.backgroundPreview }],
+  },
   fullscreen: {
     name: 'Fullscreen preview',
     description: 'Show the art at a whole number scale on the background. Press any key to return.',
@@ -120,6 +125,7 @@ const VIEW_ICONS: Readonly<Record<ViewToggle, IconName>> = {
   hideOverlays: 'eye-off',
   mirror: 'pixel-mirror-x',
   loupe: 'search',
+  backgroundPreview: 'image',
   fullscreen: 'maximize-2',
   split: 'columns-3',
   splitLink: 'link',
