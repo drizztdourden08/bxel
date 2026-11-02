@@ -26,6 +26,7 @@ const tabMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[
     { command: FILE_COMMAND.saveAll, ...unless(Object.values(workspaces).some((each) => each.dirty.size > 0), TAB_MENU.allSaved) },
     'separator',
     { command: 'asset.reveal', label: TAB_MENU.reveal, args, hidden: !hasPath },
+    { command: 'asset.show_in_project', label: TAB_MENU.showInProject, args, hidden: !hasPath },
     { command: 'asset.copy_path', label: TAB_MENU.copyPath, args, hidden: !hasPath },
     FILE_COMMAND.export,
     {

@@ -1,0 +1,51 @@
+/* @layer renderer-app @kind style */
+.subject-header__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  min-inline-size: 0;
+}
+
+.subject-header__icon {
+  flex: none;
+  color: var(--c-text-muted);
+}
+
+.subject-header__titles {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-inline-size: 0;
+}
+
+.subject-header__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subject-header__path {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+}
+
+.subject-header__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.subject-header__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.subject-header__pin-note {
+  min-inline-size: var(--size-128);
+}

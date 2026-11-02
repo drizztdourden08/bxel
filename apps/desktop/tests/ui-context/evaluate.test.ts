@@ -44,10 +44,15 @@ describe('K1 the evaluator', { tags: ['critical'] }, () => {
     expect(evaluate('selection.cut', columnContext('Se')).state).toBe('shown');
   });
 
-  it('lets an unknown id through as shown and knows which ids have a rule', () => {
-    expect(hasRule('palette.edit_swatch')).toBe(false);
-    expect(evaluate('palette.edit_swatch', columnContext('Pa'))).toEqual({ state: 'shown', reason: null });
+  it('lets an id with no rule through as shown and knows which ids have a rule', () => {
+    expect(hasRule('no.such_command')).toBe(false);
+    expect(evaluate('no.such_command', columnContext('Pa'))).toEqual({ state: 'shown', reason: null });
     expect(hasRule('tool.select_pencil')).toBe(true);
+  });
+
+  it('has a rule for the menu commands that once ran without one', () => {
+    for (const id of ['palette.edit_swatch', 'layer.rename', 'sprite.select_visible', 'asset.rename']) expect(hasRule(id)).toBe(true);
+    expect(evaluate('asset.rename', columnContext('N')).state).toBe('shown');
   });
 
   it('keeps the image import to an image and the animation commands to animations', () => {

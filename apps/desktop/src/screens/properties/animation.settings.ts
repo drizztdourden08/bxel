@@ -11,7 +11,7 @@ const meta: ScreenMeta = {
   order: 1,
   source: ASSET_SOURCE,
   when: showForKind('animation'),
-  keywords: ['animation', 'name', 'canvas', 'size', 'width', 'height', 'anchor', 'loop', 'repeat', 'direction', 'frames', 'export'],
+  keywords: ['animation', 'name', 'canvas', 'size', 'width', 'height', 'anchor', 'loop', 'repeat', 'direction', 'frames', 'export', 'tags', 'tag'],
 };
 
 const directions = [
@@ -61,6 +61,18 @@ const sections: Section[] = [
         label: 'Repeat',
         description: 'How many times the animation plays. 0 plays it forever.',
         control: { kind: 'number', min: 0, max: 255, step: 1 },
+      },
+    ],
+  },
+  {
+    id: 'tags',
+    title: 'Tags',
+    items: [
+      {
+        key: 'animation.tags',
+        label: 'Tags',
+        description: 'The name, the direction and the repeat count of each tag.',
+        hint: 'Add, move and delete tags in the timeline.',
       },
     ],
   },

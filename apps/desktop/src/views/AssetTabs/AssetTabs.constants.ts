@@ -22,6 +22,7 @@ const TAB_MENU = {
   label: 'Tab actions',
   rename: 'Rename',
   reveal: 'Reveal in folder',
+  showInProject: 'Show in Project window',
   copyPath: 'Copy path',
   move: 'Move tab',
   close: 'Close',

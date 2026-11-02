@@ -1,4 +1,6 @@
 /* @layer renderer-app @kind constants */
+import type { AnimDirection } from '@bxel/document';
+import { TAG_DIRECTION_TEXT, TAG_DIRECTIONS } from '../../timeline/timeline.constants';
 import type { PresetOrigin } from '../../export/preset-entry.type';
 import { PRESET_TEXT } from '../../export/preset-list.constants';
 import type { SnapChange } from '../../platform-preset/snap-plan.type';
@@ -26,7 +28,11 @@ const PAIR_FIELDS: Readonly<Record<string, PairSpec>> = {
   'tilemap.size': { parts: [{ key: 'tilemap.columns', label: 'Columns' }, { key: 'tilemap.rows', label: 'Rows' }], joiner: 'by', unit: 'tiles', min: 1, max: 1024, step: 1 },
 };
 
-const ASSET_CONTROL_FIELDS: readonly string[] = [...Object.keys(PAIR_FIELDS), 'sprite.bank', 'palette.cap', 'sprite.platform', 'sprite.platformReport', 'sprite.exportPresets', 'sheet.exportPresets'];
+const ASSET_CONTROL_FIELDS: readonly string[] = [...Object.keys(PAIR_FIELDS), 'sprite.bank', 'palette.cap', 'sprite.platform', 'sprite.platformReport', 'sprite.exportPresets', 'sheet.exportPresets', 'animation.tags', 'tilemap.tileset', 'tileset.tileSize'];
+
+const TAG_REPEAT_LIMIT = 255;
+
+const TAG_DIRECTION_OPTIONS = TAG_DIRECTIONS.map((direction: AnimDirection) => ({ value: direction, label: TAG_DIRECTION_TEXT[direction] }));
 
 const PRESET_ORIGINS: readonly PresetOrigin[] = ['asset', 'project', 'app'];
 
@@ -34,4 +40,4 @@ const PRESET_HEADING: Readonly<Record<PresetOrigin, string | null>> = { asset: n
 
 const NO_CHANGES: readonly SnapChange[] = [];
 
-export { ASSET_CONTROL_FIELDS, ASSET_CONTROL_TEXT, NO_CHANGES, PAIR_FIELDS, PRESET_HEADING, PRESET_ORIGINS };
+export { ASSET_CONTROL_FIELDS, ASSET_CONTROL_TEXT, NO_CHANGES, PAIR_FIELDS, PRESET_HEADING, PRESET_ORIGINS, TAG_DIRECTION_OPTIONS, TAG_REPEAT_LIMIT };

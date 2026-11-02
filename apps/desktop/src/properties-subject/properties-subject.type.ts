@@ -33,14 +33,12 @@ type SubjectInputs = {
 };
 
 interface SubjectStoreState {
-  pin: SubjectRef | null;
   past: readonly SubjectRef[];
   future: readonly SubjectRef[];
-  pinTo: (ref: SubjectRef) => void;
+  pinTo: (ref: SubjectRef, route?: string) => void;
   unpin: () => void;
   back: () => void;
   forward: () => void;
-  restore: (ref: SubjectRef | null) => void;
 }
 
 export type { Subject, SubjectInputs, SubjectRef, SubjectState, SubjectStoreState };

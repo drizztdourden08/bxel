@@ -26,8 +26,6 @@ const PROPERTIES_HUB = 'properties';
 
 const PROJECT_HUB = 'project';
 
-const LEGACY_ROUTES: Readonly<Record<string, string>> = { asset: PROPERTIES_HUB, app: 'options' };
-
 const ASSET_SETTINGS_COMMAND = 'asset.settings';
 
 const CONFIG_ENTRY_TEXT = {
@@ -35,4 +33,4 @@ const CONFIG_ENTRY_TEXT = {
   title: (kind: AssetKind): string => `${KIND_TITLE[kind]} properties...`,
 } as const;
 
-export { ASSET_PAGES, ASSET_SETTINGS_COMMAND, CONFIG_ENTRY_TEXT, LEGACY_ROUTES, PROJECT_HUB, PROPERTIES_HUB };
+export { ASSET_PAGES, ASSET_SETTINGS_COMMAND, CONFIG_ENTRY_TEXT, PROJECT_HUB, PROPERTIES_HUB };

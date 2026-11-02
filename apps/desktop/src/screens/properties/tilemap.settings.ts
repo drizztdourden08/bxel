@@ -11,7 +11,7 @@ const meta: ScreenMeta = {
   order: 1,
   source: ASSET_SOURCE,
   when: showForKind('tilemap'),
-  keywords: ['tilemap', 'map', 'columns', 'rows', 'size', 'layers', 'orientation', 'isometric', 'hexagonal', 'staggered'],
+  keywords: ['tilemap', 'map', 'columns', 'rows', 'size', 'layers', 'tileset', 'orientation', 'isometric', 'hexagonal', 'staggered'],
 };
 
 const orientationOptions = [
@@ -33,6 +33,7 @@ const sections: Section[] = [
         description: 'Tiles across and down.',
         hint: 'A smaller map cuts the right and the bottom edges.',
       },
+      { key: 'tilemap.tileset', label: 'Tileset', description: 'The tileset this map draws its tiles from. Select it to show the tileset.' },
     ],
   },
   {

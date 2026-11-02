@@ -1,32 +1,38 @@
 /* @layer renderer-app @kind hook */
 import { create } from 'zustand';
 import { HISTORY_LIMIT } from './properties-subject.constants';
+import { readPin } from './read-pin';
 import { sameRef } from './same-ref';
+import { writePin } from './write-pin';
 import type { SubjectStoreState } from './properties-subject.type';
 
-const useSubjectStore = create<SubjectStoreState>()((set) => ({
-  pin: null,
+const useSubjectStore = create<SubjectStoreState>()((set, get) => ({
   past: [],
   future: [],
-  pinTo: (ref) =>
-    set((state) => {
-      if (state.pin !== null && sameRef(state.pin, ref)) return state;
-      return { pin: ref, past: state.pin === null ? state.past : [...state.past, state.pin].slice(-HISTORY_LIMIT), future: [] };
-    }),
-  unpin: () => set({ pin: null }),
-  back: () =>
-    set((state) => {
-      const previous = state.past.at(-1);
-      if (previous === undefined) return state;
-      return { pin: previous, past: state.past.slice(0, -1), future: state.pin === null ? state.future : [state.pin, ...state.future] };
-    }),
-  forward: () =>
-    set((state) => {
-      const next = state.future[0];
-      if (next === undefined) return state;
-      return { pin: next, future: state.future.slice(1), past: state.pin === null ? state.past : [...state.past, state.pin] };
-    }),
-  restore: (pin) => set({ pin, past: [], future: [] }),
+  pinTo: (ref, route) => {
+    const current = readPin();
+    if (current !== null && sameRef(current, ref)) {
+      if (route !== undefined) writePin(ref, route);
+      return;
+    }
+    set({ past: current === null ? get().past : [...get().past, current].slice(-HISTORY_LIMIT), future: [] });
+    writePin(ref, route);
+  },
+  unpin: () => writePin(null),
+  back: () => {
+    const previous = get().past.at(-1);
+    if (previous === undefined) return;
+    const current = readPin();
+    set({ past: get().past.slice(0, -1), future: current === null ? get().future : [current, ...get().future] });
+    writePin(previous);
+  },
+  forward: () => {
+    const next = get().future[0];
+    if (next === undefined) return;
+    const current = readPin();
+    set({ future: get().future.slice(1), past: current === null ? get().past : [...get().past, current] });
+    writePin(next);
+  },
 }));
 
 export { useSubjectStore };

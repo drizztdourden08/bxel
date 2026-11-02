@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import type { SplitFile } from '@bxel/document';
-import { Button, Callout, DialogShell, Paragraph, RadioGroup, Stack, Text } from '@drizztdourden08/tessera';
+import { Button, Callout, DialogShell, Paragraph, RadioGroup, ScrollArea, Stack, Text } from '@drizztdourden08/tessera';
 import { SPLIT_TEXT } from '../../workspace/workspace.constants';
 import { useSplitDialog } from './behavior/useSplitDialog';
 import { DESTINATIONS } from './SplitDialog.constants';
@@ -27,9 +27,11 @@ const SplitDialog = () => {
         <Paragraph tone="dim">{SPLIT_TEXT.intro}</Paragraph>
         {model.hasProject && <RadioGroup label={SPLIT_TEXT.destination} value={model.destination} options={DESTINATIONS} onChange={model.setDestination} />}
         <Text as="span" variant="label">{SPLIT_TEXT.files}</Text>
-        <Stack gap="xs" role="list" aria-label={SPLIT_TEXT.files} className="split-dialog__files">
-          {model.plan.files.map((file) => <Text key={file.key.id} role="listitem">{fileLine(file)}</Text>)}
-        </Stack>
+        <ScrollArea axis="y" scrollbar="slim" fade={false} className="split-dialog__files">
+          <Stack gap="xs" role="list" aria-label={SPLIT_TEXT.files}>
+            {model.plan.files.map((file) => <Text key={file.key.id} role="listitem">{fileLine(file)}</Text>)}
+          </Stack>
+        </ScrollArea>
         {(model.plan.conflicts.length > 0 || model.destination === 'project') && <Paragraph tone="dim">{SPLIT_TEXT.conflicts}</Paragraph>}
         {model.error !== null && <Callout tone="danger">{model.error}</Callout>}
       </Stack>

@@ -21,6 +21,7 @@ const ASSET_LABEL = {
   animationSize: 'Resize animation canvas',
   anchor: 'Move the anchor',
   loop: 'Set the loop',
+  tag: 'Edit animation tag',
   paletteName: 'Rename palette',
   paletteLimit: 'Change colour limit',
   transparent: 'Change the transparent slot',
