@@ -5,7 +5,7 @@ type SelectVariant = 'rect' | 'ellipse' | 'lasso' | 'polygon' | 'wand' | 'colour
 
 type MatchKind = 'exact' | 'ramp' | 'similar';
 
-type SampleSource = 'layer' | 'visible';
+type SampleSource = 'layer' | 'visible' | 'all';
 
 type FixedMarquee = 'free' | 'ratio' | 'size';
 

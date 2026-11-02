@@ -18,7 +18,7 @@ const asMode = (value: unknown): CombineMode => SELECT_MODES.find((mode) => mode
 
 const asVariant = (value: unknown) => SELECT_VARIANTS.find((variant) => variant === value) ?? 'rect';
 
-const asSample = (value: unknown): SampleSource => (value === 'visible' ? 'visible' : 'layer');
+const asSample = (value: unknown): SampleSource => (value === 'visible' || value === 'all' ? value : 'layer');
 
 const asMatch = (value: unknown): MatchKind => (value === 'ramp' || value === 'similar' ? value : 'exact');
 

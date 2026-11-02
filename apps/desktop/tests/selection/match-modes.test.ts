@@ -1,8 +1,10 @@
 /* @layer renderer-app @kind test */
 import type { PaletteBank, RampId, Swatch, SwatchId } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
+import { allPixels } from '../../src/editor/selection/all-pixels';
 import { matchRule } from '../../src/editor/selection/match-rule';
 import { pointMask } from '../../src/editor/selection/point-mask';
+import { samplePixels } from '../../src/editor/selection/sample-pixels';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { BLOCK, countOn, openRig } from './selection-harness';
 
@@ -67,5 +69,19 @@ describe('S2 the wand and Select by colour with the match options', { tags: ['st
     expect(useSelectionStore.getState().distance).toBe(255);
     useSelectionStore.getState().setDistance(-4);
     expect(useSelectionStore.getState().distance).toBe(0);
+  });
+});
+
+describe('S2 the wand and Select by colour Sample from', { tags: ['standard'] }, () => {
+  it('all layers sees a hidden layer that visible layers leaves out', () => {
+    const rig = openRig();
+    rig.paint({ x: 2, y: 2, width: 2, height: 1 }, 1);
+    const target = rig.target();
+    const hidden = { ...target, sprite: { ...target.sprite, layers: target.sprite.layers.map((layer) => ({ ...layer, visible: false })) } };
+    expect(allPixels(hidden).some((value) => value === 1)).toBe(true);
+    useSelectionStore.getState().setSample('visible');
+    expect(samplePixels(hidden).some((value) => value === 1)).toBe(false);
+    useSelectionStore.getState().setSample('all');
+    expect(samplePixels(hidden).some((value) => value === 1)).toBe(true);
   });
 });

@@ -104,7 +104,8 @@ const MATCH_CHOICES: readonly OptionChoice[] = [
 
 const SAMPLE_CHOICES: readonly OptionChoice[] = [
   { value: 'layer', label: 'Active layer', description: 'Look at the active layer only.', glyph: 'L' },
-  { value: 'visible', label: 'All visible layers', description: 'Look at the flattened picture, every visible layer.', glyph: 'V' },
+  { value: 'visible', label: 'Visible layers', description: 'Look at the flattened picture, every visible layer.', glyph: 'V' },
+  { value: 'all', label: 'All layers', description: 'Look at every layer, hidden ones too, as if they were all shown.', glyph: 'A' },
 ];
 
 const SELECT_SHAPE_CHOICES: readonly OptionChoice[] = SELECT_VARIANTS.map((variant) => ({
