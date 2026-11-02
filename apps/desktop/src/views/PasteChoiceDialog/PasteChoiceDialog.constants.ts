@@ -5,6 +5,8 @@ const PASTE_CHOICE_TEXT = {
   crop: 'Crop to the sprite',
   expand: 'Expand the canvas',
   sprite: 'Paste as new sprite',
+  frame: 'Paste as new frame',
+  tile: 'Paste as new tile',
   cancel: 'Cancel',
 } as const;
 
