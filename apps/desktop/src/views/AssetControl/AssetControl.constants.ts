@@ -19,6 +19,12 @@ const ASSET_CONTROL_TEXT = {
   presetSave: 'Save',
   presetCancel: 'Cancel',
   presetName: 'Preset name',
+  tagName: 'Tag name',
+  tagDirection: 'Tag loop mode',
+  tagRepeat: 'Tag repeats',
+  noTags: 'No tags yet.',
+  mirrors: (count: number): string => (count === 1 ? '1 mirrored tag.' : `${count} mirrored tags.`),
+  openTileset: (name: string): string => `Open tileset ${name}`,
 } as const;
 
 const PAIR_FIELDS: Readonly<Record<string, PairSpec>> = {

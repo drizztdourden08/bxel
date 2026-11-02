@@ -2,6 +2,7 @@
 import type { ReactNode } from 'react';
 import type { PaletteTarget } from '../../editor/editor.type';
 import type { ImportMode, ImportPlan, ImportSource } from '../../palette-import/palette-import.type';
+import type { SourceColor } from '../../palette-source/palette-source.type';
 import type { PaletteImportRequest } from '../../stores/palette-panel-store.type';
 
 interface ImportState {
@@ -28,6 +29,16 @@ interface ImportSummaryProps {
   free: number;
 }
 
+interface PresentRowsProps {
+  present: readonly SourceColor[];
+  mode: ImportMode;
+}
+
+interface OverRowsProps {
+  over: readonly SourceColor[];
+  free: number;
+}
+
 interface ColourRowProps {
   label: string;
   colours: readonly string[];
@@ -51,4 +62,4 @@ interface PlanDialogProps {
   children: ReactNode;
 }
 
-export type { ColourRowProps, ImportDialogProps, ImportState, ImportSummaryProps, PlanActionsProps, PlanDialogProps };
+export type { ColourRowProps, ImportDialogProps, ImportState, ImportSummaryProps, OverRowsProps, PlanActionsProps, PlanDialogProps, PresentRowsProps };

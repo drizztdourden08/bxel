@@ -16,24 +16,14 @@ import { useToolStore } from '../../../stores/useToolStore';
 import { evaluate } from '../../../ui-context/evaluate';
 import { useBxelContext } from '../../../ui-context/useBxelContext';
 import { useOptionsVersion } from '../../OptionControls';
-import { OPTIONS_TEXT, TOOL_HINTS } from '../OptionsToolbar.constants';
+import { OPTIONS_TEXT } from '../OptionsToolbar.constants';
+import { bodyItems } from './body-items';
 import { chipItem } from './chip-item';
+import { noteItem } from './note-item';
 import { moreItem } from './more-item';
 import { scopeChips } from './scope-chips';
 import { useChipMenuStore } from '../../../stores/useChipMenuStore';
 import { symmetryItem } from './symmetry-item';
-import { optionItems } from './option-items';
-
-const noteItem = (id: string, caption: string): ToolbarItem => ({
-  kind: 'button',
-  id,
-  label: caption,
-  description: OPTIONS_TEXT.noOptions,
-  icon: 'info',
-  caption,
-  disabled: true,
-  onSelect: () => undefined,
-});
 
 const useOptionsItems = (): ToolbarItem[] => {
   const context = useBxelContext((current) => current);
@@ -54,9 +44,8 @@ const useOptionsItems = (): ToolbarItem[] => {
   if (surface === 'sheet') return [noteItem('sheet-note', `${OPTIONS_TEXT.sheetName}: ${OPTIONS_TEXT.sheetHint}`)];
   const slot = slotOfTool(surface, tool);
   if (!slot) return [];
-  const specs = optionsOf(surface, tool).filter((spec) => spec.tier === 1);
   const more = optionsOf(surface, tool).filter((spec) => spec.tier === 2);
-  const body = specs.length > 0 ? optionItems(specs, keysOf) : [noteItem('tool-hint', TOOL_HINTS[tool] ?? slot.members[0]?.description ?? '')];
+  const body = bodyItems(surface, tool, slot, keysOf);
   const chips = scopeChips({ surface, tileUses, broadcast, selected });
   return [chipItem(slot, surface, { everyTool }), ...chips, { kind: 'separator', id: 'after-chip' }, ...body, ...symmetryItem(surface), { kind: 'separator', id: 'before-more' }, moreItem(more)];
 };
