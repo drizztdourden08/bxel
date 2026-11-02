@@ -2,8 +2,7 @@
 import { NEW_MENU_KEY } from '../../../panel-browser/project-browser.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
 import { menuKeyOf } from './menu-key-of';
-
-type MenuWhere = { readonly target: Element; readonly data: unknown };
+import type { MenuWhere } from './menu-selection.type';
 
 const menuSelection = (model: ProjectPanelModel, where: MenuWhere): readonly string[] => {
   const key = menuKeyOf(where);

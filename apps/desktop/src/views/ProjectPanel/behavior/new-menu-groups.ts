@@ -4,7 +4,8 @@ import { ASSET_LIST_TEXT } from '../../../asset-list/asset-list-text.constants';
 import { ITEM_ICON } from '../../../panel-browser/project-browser.constants';
 import { NEW_ASSET_KINDS, PROJECT_MENU } from '../ProjectPanel.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
-import { newAnimationFrom, newSheetFrom } from './sprites-to-assets';
+import { newAnimationFrom } from './new-animation-from';
+import { newSheetFrom } from './new-sheet-from';
 import { spriteIdsOf } from './sprite-ids-of';
 
 const fromSelection = (model: ProjectPanelModel): readonly MenuGroup[] => {

@@ -6,6 +6,7 @@ import { saveSubject } from '../../../properties-subject/save-subject';
 import { togglePin } from '../../../properties-subject/toggle-pin';
 import { useSubjectStore } from '../../../properties-subject/useSubjectStore';
 import type { SubjectHeaderPartProps } from '../SubjectHeader.type';
+import './SubjectBar.css';
 
 const SubjectBar = ({ subject }: SubjectHeaderPartProps) => {
   const canBack = useSubjectStore((state) => state.past.length > 0);

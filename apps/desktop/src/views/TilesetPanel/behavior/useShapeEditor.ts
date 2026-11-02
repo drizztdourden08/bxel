@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { KeyboardEvent, MouseEvent, PointerEvent } from 'react';
+import type { MouseEvent, PointerEvent } from 'react';
 import { tileShapes } from '@bxel/document';
 import type { Point, Size, TileShape } from '@bxel/document';
 import { nearestPoint } from '../../../tilemap/collision/nearest-point';
@@ -13,11 +13,8 @@ import { drawShapeEditor } from './draw-shape-editor';
 import { editorZoom } from './editor-zoom';
 import { finishShapeDrag } from './finish-shape-drag';
 import { EDITOR_LOOK } from './thumb.constants';
-import { deletePickedPoint } from './delete-picked-point';
-import { deletePickedShape } from './delete-picked-shape';
-import { nudgePicked } from './nudge-picked';
 import { replaceShape } from './replace-shape';
-import { NUDGE_KEYS } from './shape-editor.constants';
+import { shapeKeyDown } from './shape-key-down';
 
 const previewOf = (drag: ShapeDrag | null, layer: string): TileShape | null => {
   const rect = drag?.kind === 'rect' ? rectOfCorners(drag.from, drag.to) : null;
@@ -70,12 +67,7 @@ const useShapeEditor = ({ model, tile, sprite }: ShapeEditorProps): ShapeEditorH
       if (done) finishShapeDrag(done, tile, selected, size);
       paint();
     },
-    keyDown: (event: KeyboardEvent<HTMLCanvasElement>) => {
-      const step = NUDGE_KEYS[event.key];
-      const done = step ? nudgePicked(step[0], step[1], event.shiftKey) : false;
-      const removed = event.key === 'Delete' || event.key === 'Backspace' ? (point === null ? deletePickedShape() : deletePickedPoint()) : false;
-      if (step || done || removed) event.preventDefault();
-    },
+    keyDown: (event) => shapeKeyDown(event, point),
     doubleClick: (event) => {
       if (picked?.kind !== 'polygon') return;
       const corner = cornerOf(event);

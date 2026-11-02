@@ -1,0 +1,11 @@
+/* @layer renderer-app @kind style */
+.subject-header__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.subject-header__pin-note {
+  min-inline-size: var(--size-128);
+}

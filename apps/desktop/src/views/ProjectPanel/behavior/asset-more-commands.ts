@@ -10,7 +10,8 @@ import { descendantFolders } from './descendant-folders';
 import { moveToTargets } from './move-to-targets';
 import { openSideTargets } from './open-side-targets';
 import { spriteIdsOf } from './sprite-ids-of';
-import { newAnimationFrom, newSheetFrom } from './sprites-to-assets';
+import { newAnimationFrom } from './new-animation-from';
+import { newSheetFrom } from './new-sheet-from';
 
 const assetMoreCommands = (model: ProjectPanelModel): readonly CommandDef[] => [
   { id: 'asset.open_side', label: 'Open to the side', group: PROJECT_GROUP, run: (context?: CommandContext) => openSideTargets(model, context) },
