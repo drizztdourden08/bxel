@@ -75,6 +75,7 @@ const LAYER_MENU_TEXT = {
   visible: 'Visible',
   locked: 'Locked',
   rename: 'Rename',
+  properties: 'Properties...',
   colour: 'Colour tag',
   mergeDown: 'Merge down',
   mergeMapDown: 'Merge map layer down (top wins)',

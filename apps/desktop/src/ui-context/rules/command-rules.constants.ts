@@ -77,7 +77,7 @@ const HISTORY: RuleTable = {
 
 const LAYERS: RuleTable = {
   ...family(['layer.add', 'layer.delete', 'layer.rename'], EDIT_STAGE, [WRITE]),
-  ...family(['layer.select_above', 'layer.select_below'], EDIT_STAGE),
+  ...family(['layer.select_above', 'layer.select_below', 'layer.properties'], EDIT_STAGE),
   ...family(
     ['layer.toggle_visible', 'layer.toggle_locked', 'layer.set_lock', 'layer.set_colour', 'layer.show_all', 'layer.hide_others', 'layer.lock_others', 'layer.unlock_all'],
     EDIT_STAGE,

@@ -9,6 +9,7 @@ import { moveLayerToEdge } from '../editor/move-layer-to-edge';
 import { inMapPlace } from '../tilemap/in-map-place';
 import { moveMapLayer } from '../tilemap/move-map-layer';
 import { moveMapLayerToEdge } from '../tilemap/move-map-layer-to-edge';
+import { focusLayerStrip } from '../views/LayerStack/behavior/focus-layer-strip';
 import { COMMAND_ZONE } from './command-zone.constants';
 import { COMMAND_GROUP } from './keymap.constants';
 import { ruled } from './ruled';
@@ -56,6 +57,15 @@ const LAYER_MENU_COMMANDS: readonly CommandDef[] = [
     }),
   },
   { id: 'layer.solo', label: 'Show only this layer', group, ...inList('Alt+S'), run: onLayers((now) => now.actions.solo(now.id)) },
+  {
+    id: 'layer.properties',
+    label: 'Layer properties',
+    group,
+    run: onLayers((now) => {
+      now.actions.activate(now.id);
+      focusLayerStrip();
+    }),
+  },
   { id: 'layer.show_all', label: 'Show all layers', group, run: onLayers((now) => now.actions.setFlag(now.all, 'visible', true)) },
   { id: 'layer.hide_others', label: 'Hide other layers', group, run: onLayers((now) => now.actions.setFlag(now.others, 'visible', false)) },
   { id: 'layer.lock_others', label: 'Lock other layers', group, run: onLayers((now) => now.actions.setFlag(now.others, 'locked', true)) },
