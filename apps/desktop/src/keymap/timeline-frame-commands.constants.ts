@@ -3,7 +3,7 @@ import { nav } from '@drizztdourden08/brock-react';
 import type { CommandContext, CommandDef } from '@drizztdourden08/brock-react';
 import { addFromImages } from '../add-frames/add-from-images';
 import { commandArgs } from '../context-menu/command-args';
-import type { DurationArgs, FrameArgs } from '../context-menu/menu-args.type';
+import type { DurationArgs, DurationOfArgs, FrameArgs } from '../context-menu/menu-args.type';
 import type { TimeUnits } from '../stores/timeline-store.type';
 import { useAddFramesStore } from '../stores/useAddFramesStore';
 import { useDirectionSetStore } from '../stores/useDirectionSetStore';
@@ -29,6 +29,7 @@ import { scaleDurations } from '../timeline/scale-durations';
 import { selectAllFrames } from '../timeline/select-all-frames';
 import { selectFramesWhere } from '../timeline/select-frames-where';
 import { setDuration } from '../timeline/set-duration';
+import { setDurationOfIds } from '../timeline/set-duration-of-ids';
 import { showSpriteInProject } from '../timeline/show-sprite-in-project';
 import { splitToSprites } from '../timeline/split-to-sprites';
 import { TIMELINE_LABEL } from '../timeline/timeline.constants';
@@ -120,6 +121,15 @@ const TIMELINE_FRAME_COMMANDS: readonly CommandDef[] = [
     run: (context?: CommandContext) => {
       const { ms } = commandArgs<DurationArgs>(context);
       if (ms !== undefined) setDuration(ms);
+    },
+  },
+  {
+    id: 'timeline.set_duration_of',
+    label: 'Set the duration of chosen frames',
+    group,
+    run: (context?: CommandContext) => {
+      const { frameIds, ms } = commandArgs<DurationOfArgs>(context);
+      if (ms !== undefined && frameIds !== undefined) setDurationOfIds(frameIds, ms);
     },
   },
   {

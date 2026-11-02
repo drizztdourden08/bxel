@@ -15,6 +15,7 @@ import { playbackStep } from './playback-step';
 import { selectStep } from './select-step';
 import { mapSelectionStep } from './map-selection-step';
 import { selectionStep } from './selection-step';
+import { spritesStep } from './sprites-step';
 import { symmetryStep } from './symmetry-step';
 import { togglesStep } from './toggles-step';
 import { timelineStep } from './timeline-step';
@@ -30,6 +31,7 @@ const VIEW_STEPS: readonly (readonly [keyof SetViewInput, ViewStep])[] = [
   ['browse', browseStep],
   ['reveal', revealStep],
   ['projectPanel', projectPanelStep],
+  ['sprites', spritesStep],
   ['tileset', tilesetStep],
   ['zoom', zoomStep],
   ['pan', panStep],

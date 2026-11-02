@@ -7,6 +7,11 @@ interface TileDragPayload {
   readonly index: number;
 }
 
+interface TerrainSlotDropTarget {
+  slot: number;
+  set: string;
+}
+
 interface TileSourceInput {
   key: number | null;
   index: number;
@@ -33,4 +38,4 @@ type BlockSize = Pick<TileBlock, 'width' | 'height'>;
 
 type BlocksRead = { ok: true; blocks: TileBlock[] } | { ok: false; reason: string };
 
-export type { BlockSize, BlocksRead, MapDropPayload, TileBlock, TileDragPayload, TileDropPayload, TileSourceInput, TilesAdded, TilesetDropPayload };
+export type { BlockSize, BlocksRead, MapDropPayload, TerrainSlotDropTarget, TileBlock, TileDragPayload, TileDropPayload, TileSourceInput, TilesAdded, TilesetDropPayload };

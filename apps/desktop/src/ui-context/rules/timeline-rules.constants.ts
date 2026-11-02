@@ -8,7 +8,7 @@ import type { RuleTable } from './rule-table.type';
 const WRITING = [
   'timeline.delete', 'timeline.add_frame', 'timeline.duplicate_frames', 'timeline.add_from_sprites', 'timeline.add_from_strip', 'timeline.add_from_sheet', 'timeline.add_from_images',
   'timeline.new_direction_set', 'timeline.split_to_sprites', 'timeline.delete_frames', 'timeline.move_frames_earlier', 'timeline.move_frames_later',
-  'timeline.add_tag', 'timeline.set_duration', 'tag.rename', 'tag.set_direction', 'tag.set_colour', 'tag.custom_colour', 'tag.set_range', 'tag.delete',
+  'timeline.add_tag', 'timeline.set_duration', 'timeline.set_duration_of', 'tag.rename', 'tag.set_direction', 'tag.set_colour', 'tag.custom_colour', 'tag.set_range', 'tag.delete',
   'timeline.paste_frames', 'timeline.paste_linked', 'timeline.open_duration', 'timeline.move_frames_start', 'timeline.move_frames_end', 'timeline.move_frames_to',
   'timeline.reverse_frames', 'timeline.linked_copy', 'timeline.make_copy', 'timeline.move_to_own_file', 'timeline.scale_durations', 'tag.edit', 'tag.set_repeat', 'tag.set_facing',
   'tag.include_frames', 'tag.exclude_frames', 'tag.make_mirror',

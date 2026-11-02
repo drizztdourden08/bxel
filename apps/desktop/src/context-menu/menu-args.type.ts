@@ -119,6 +119,10 @@ interface FrameArgs {
   frameId: string;
 }
 
+interface DurationOfArgs extends DurationArgs {
+  frameIds: string[];
+}
+
 interface DurationArgs {
   ms: number;
 }
@@ -134,4 +138,4 @@ interface ByColourArgs extends Partial<PixelArgs> {
   mode: 'region' | 'everywhere';
 }
 
-export type { AlignArgs, AxisArgs, ByColourArgs, CollisionKindArgs, DurationArgs, FrameArgs, LayerArgs, LayerColourArgs, LayerLockArgs, NameArgs, PackingArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SetArgs, SheetArgs, SlotArgs, SnapArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TileIndexArgs, TileMoveArgs, TraitArgs, UnitArgs, ZoomArgs };
+export type { AlignArgs, AxisArgs, ByColourArgs, CollisionKindArgs, DurationArgs, DurationOfArgs, FrameArgs, LayerArgs, LayerColourArgs, LayerLockArgs, NameArgs, PackingArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SetArgs, SheetArgs, SlotArgs, SnapArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TileIndexArgs, TileMoveArgs, TraitArgs, UnitArgs, ZoomArgs };

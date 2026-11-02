@@ -39,6 +39,12 @@ describe('S2 the menu of a frame', { tags: ['standard'] }, () => {
     expect(animationOf().frames.map((frame) => frame.durationMs)).toEqual([200, 200, 100]);
   });
 
+  it('sets the duration of chosen frames without picking them first', () => {
+    withFrames(3);
+    run('timeline.set_duration_of', { frameIds: [frameAt(1), frameAt(2), 'unknown'], ms: 250 });
+    expect(animationOf().frames.map((frame) => frame.durationMs)).toEqual([100, 250, 250]);
+  });
+
   it('moves the picked frame later and selects every frame', () => {
     withFrames(3);
     const first = frameAt(0);

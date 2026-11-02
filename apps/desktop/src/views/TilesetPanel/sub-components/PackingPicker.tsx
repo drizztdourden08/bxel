@@ -2,7 +2,7 @@
 import { Box, Flex, Pressable, Text } from '@drizztdourden08/tessera';
 import { PACKINGS } from '@bxel/document';
 import { TERRAIN_COMMAND } from '../../../keymap/terrain-command-id.constants';
-import { TERRAIN_TEXT } from '../../../tilemap/terrain/terrain.constants';
+import { PACKING_ORIGIN, TERRAIN_TEXT } from '../../../tilemap/terrain/terrain.constants';
 import { runTerrainCommand } from '../behavior/run-terrain-command';
 import type { PackingPickerProps } from '../behavior/terrain-panel.type';
 
@@ -21,7 +21,7 @@ const PackingPicker = ({ set }: PackingPickerProps) => (
             <Box key={at} className={at < set.slots.length ? 'tileset-panel__packing-cell tileset-panel__packing-cell--on' : 'tileset-panel__packing-cell'} />
           ))}
         </Box>
-        <Text variant="caption">{`${packing.columns} x ${packing.rows}`}</Text>
+        <Text variant="caption">{`${PACKING_ORIGIN[packing.id] ?? packing.label} ${packing.columns} x ${packing.rows}`}</Text>
       </Pressable>
     ))}
   </Flex>

@@ -5,8 +5,6 @@ import type { FilledTool } from '../../stores/drawing-store.type';
 import { inkFor } from '../../stores/ink-for';
 import { useDocumentStore } from '../../stores/useDocumentStore';
 import { useDrawingStore } from '../../stores/useDrawingStore';
-import { useManagerStore } from '../../stores/useManagerStore';
-import { boundSheetId } from '../../sheet-manager/bound-sheet';
 import { useReadoutStore } from '../../stores/useReadoutStore';
 import { useSelectionStore } from '../../stores/useSelectionStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
@@ -29,6 +27,7 @@ import { highlightView } from './highlight-view';
 import { mapOverlaysView } from './map-overlays-view';
 import { projectPanelView } from './project-panel-view';
 import { propertiesView } from './properties-view';
+import { spritesView } from './sprites-view';
 import { tilesetView } from './tileset-view';
 import { togglesView } from './toggles-view';
 import { toolView } from './tool-view';
@@ -137,12 +136,6 @@ const playbackOf = () => {
   };
 };
 
-const spritesOf = () => {
-  const manager = useManagerStore.getState();
-  const sprites = useSpriteStore.getState();
-  return { selected: sprites.selected, scope: sprites.spritesScope, query: manager.query, filter: manager.filter, sheetId: boundSheetId() };
-};
-
 const viewSnapshot = (sees: Sees = () => true) => {
   const context = currentContext();
   const tool = useToolStore.getState();
@@ -164,7 +157,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     selection: selectionOf(sees),
     mapSelection: mapSelectionOf(sees),
     clipboard: clipboardOf(),
-    sprites: spritesOf(),
+    sprites: spritesView(),
     properties: propertiesView(),
     browse: browseView(),
     projectPanel: projectPanelView(),

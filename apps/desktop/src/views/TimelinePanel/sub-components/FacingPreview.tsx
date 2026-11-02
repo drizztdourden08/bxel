@@ -2,6 +2,7 @@
 import { FACING_SETS } from '@bxel/document';
 import { Box, Canvas, Text } from '@drizztdourden08/tessera';
 import { useEffect, useMemo, useRef } from 'react';
+import { prefersReducedMotion } from '../../../assistant-presence/prefers-reduced-motion';
 import { composedImage } from '../../../timeline/composed-image';
 import { facingTag } from '../../../timeline/facing-tag';
 import { playPlan } from '../../../timeline/play-plan';
@@ -15,6 +16,7 @@ const FacingPreview = ({ focus }: FocusProps) => {
   const canvases = useRef(new Map<string, HTMLCanvasElement>());
   useEffect(() => {
     let frame = 0;
+    const still = prefersReducedMotion();
     const plans = facings.flatMap((facing) => {
       const tag = facingTag(animation, facing);
       if (!tag) return [];
@@ -31,9 +33,10 @@ const FacingPreview = ({ focus }: FocusProps) => {
         context.clearRect(0, 0, canvas.width, canvas.height);
         if (image) context.putImageData(image, 0, 0);
       }
-      frame = window.requestAnimationFrame(draw);
+      if (!still) frame = window.requestAnimationFrame(draw);
     };
-    frame = window.requestAnimationFrame(draw);
+    if (still) draw(0);
+    else frame = window.requestAnimationFrame(draw);
     return () => window.cancelAnimationFrame(frame);
   }, [artwork, animation, facings]);
   return (

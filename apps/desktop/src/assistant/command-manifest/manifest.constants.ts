@@ -112,6 +112,7 @@ const TIMELINE_ROWS = [
   one('timeline.go_to_frame', 'animation', 'show', { args: 'frame' }),
   one('timeline.play_from', 'animation', 'show', { args: 'frame' }),
   one('timeline.set_duration', 'animation', 'edit', { args: 'duration' }),
+  one('timeline.set_duration_of', 'animation', 'edit', { args: 'durationOf' }),
   one('timeline.open_duration', 'animation', 'app'),
   ...rows('animation', 'edit', ['timeline.paste_frames', 'timeline.paste_linked', 'timeline.move_frames_start', 'timeline.move_frames_end', 'timeline.reverse_frames']),
   ...rows('animation', 'edit', ['timeline.linked_copy', 'timeline.make_copy', 'timeline.move_to_own_file']),

@@ -31,6 +31,7 @@ const ARGS_KINDS = {
   unit: z.strictObject({ unit: z.string().min(1) }),
   frame: z.strictObject({ frameId: z.string().min(1) }),
   duration: z.strictObject({ ms: z.number().int().min(10).max(60000) }),
+  durationOf: z.strictObject({ frameIds: z.array(z.string().min(1)).min(1).max(4096), ms: z.number().int().min(10).max(60000) }),
   tag: z.strictObject({ tagId: z.string().min(1), direction: z.enum(['forward', 'reverse', 'pingpong', 'pingpongReverse']).optional(), colour: z.string().nullable().optional() }),
   framePosition: z.strictObject({ position: z.number().int().min(1).max(4096).describe('The 1 based position the picked frames start at.').optional() }),
   durationScale: z.strictObject({ factor: z.number().min(0.1).max(10).describe('Multiplies the duration of the picked frames.') }),
