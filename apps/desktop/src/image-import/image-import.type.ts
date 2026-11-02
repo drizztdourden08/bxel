@@ -27,7 +27,7 @@ type ImageRead = { ok: true; image: SourceImage } | { ok: false; message: string
 
 type ImportTarget = 'new' | 'file';
 
-type ImportKind = 'sprite' | 'sheet' | 'tiled' | 'animation' | 'strip';
+type ImportKind = 'sprite' | 'sheet' | 'tiled' | 'animation' | 'strip' | 'tileset';
 
 type ReduceMode = 'map' | 'extract' | 'palette';
 

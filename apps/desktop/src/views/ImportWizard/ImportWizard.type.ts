@@ -4,6 +4,7 @@ import type {
   ImportContext,
   ImportErrors,
   ImportForm,
+  ImportKind,
   ImportStep,
   ImportTarget,
   SliceForm,
@@ -40,6 +41,7 @@ interface StepProps {
 interface ImportDialogProps {
   image: SourceImage;
   tiled: TiledImportData | null;
+  kind: ImportKind | null;
 }
 
 interface TiledSummaryProps {

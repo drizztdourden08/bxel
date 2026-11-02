@@ -11,6 +11,7 @@ import type { BankOption, ImportRun } from './image-import.type';
 import { sheetLayoutOf } from './sheet-layout-of';
 import { sheetNameOf } from './sheet-name-of';
 import { tiledSteps } from '../tiled-import/tiled-steps';
+import { tilesetImportSteps } from './tileset-import-steps';
 
 const bankStep = (run: ImportRun): CommandStep[] => {
   const draft = run.plan.bank;
@@ -37,6 +38,7 @@ const bankOption = (run: ImportRun, bankId: string | null): BankOption => {
 const importSteps = (run: ImportRun, bankId: string | null): CommandStep[] => {
   const bank = bankOption(run, bankId);
   if (run.form.kind === 'tiled') return [...bankStep(run), ...tiledSteps(run, bank)];
+  if (run.form.kind === 'tileset') return [...bankStep(run), ...tilesetImportSteps(run, bank)];
   if (run.form.kind === 'animation' || run.form.kind === 'strip') return [...bankStep(run), ...animationSteps(run, bank)];
   const cells = run.rects.flatMap((_, at) => cellOf(run, at) ?? []);
   if (run.form.kind === 'sheet') {

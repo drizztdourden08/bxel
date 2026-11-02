@@ -11,6 +11,7 @@ const KIND_OPTIONS: ChoiceOption<ImportKind>[] = [
   { value: 'sprite', label: IMPORT_TEXT.sprite },
   { value: 'sheet', label: IMPORT_TEXT.sheet },
   { value: 'strip', label: IMPORT_TEXT.animationKind },
+  { value: 'tileset', label: IMPORT_TEXT.tilesetKind },
 ];
 
 const ORDER_OPTIONS: ChoiceOption<SliceOrder>[] = [

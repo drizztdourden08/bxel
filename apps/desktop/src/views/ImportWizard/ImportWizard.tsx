@@ -6,7 +6,8 @@ import './ImportWizard.css';
 const ImportWizard = () => {
   const image = useImportStore((state) => state.image);
   const tiled = useImportStore((state) => state.tiled);
-  return image === null ? null : <ImportDialog key={image.fileName} image={image} tiled={tiled} />;
+  const kind = useImportStore((state) => state.kind);
+  return image === null ? null : <ImportDialog key={image.fileName} image={image} tiled={tiled} kind={kind} />;
 };
 
 export { ImportWizard };

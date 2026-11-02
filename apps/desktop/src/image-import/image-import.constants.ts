@@ -10,6 +10,8 @@ const BANK_REF = 'bank';
 
 const ANIMATION_REF = 'animation';
 
+const TILESET_REF = 'image-tileset';
+
 const ALPHA_PERCENT_DEFAULT = 50;
 
 const BYTE_MAX = 255;
@@ -61,6 +63,7 @@ const STEPS_BY_KIND: Readonly<Record<ImportKind, readonly ImportStep[]>> = {
   tiled: ['source', 'colors'],
   animation: ['source', 'colors'],
   strip: ['source', 'colors', 'slicing'],
+  tileset: ['source', 'colors', 'slicing'],
 };
 
 const IMAGE_MIMES: readonly string[] = ['image/png', 'image/apng', 'image/gif'];
@@ -83,6 +86,7 @@ const IMPORT_TEXT = {
   sprite: 'Sprite',
   sheet: 'Sheet',
   animationKind: 'Animation',
+  tilesetKind: 'Tileset',
   name: 'Name',
   imageLine: (width: number, height: number): string => `Image ${width} x ${height} pixels`,
   tooLarge: (width: number, height: number): string =>
@@ -113,6 +117,7 @@ const IMPORT_TEXT = {
   importSprite: 'Import sprite',
   importSprites: (count: number): string => `Import ${count} sprites`,
   importAnimation: 'Import animation',
+  importTileset: 'Import tileset',
   cell: 'Cell size',
   offset: 'Offset',
   spacing: 'Spacing',
@@ -135,6 +140,8 @@ const IMPORT_TEXT = {
   failed: (reason: string): string => `Could not import the image. ${reason}`,
   imported: (names: readonly string[]): string =>
     names.length === 1 ? `Imported sprite ${names[0] ?? ''}.` : `Imported ${names.length} sprites.`,
+  importedTileset: (name: string, tiles: number): string => `Imported tileset ${name} with ${tiles} tiles.`,
+  tilesetTiles: (tiles: number, width: number, height: number): string => `${tiles} tiles of ${width} by ${height} pixels will be made.`,
   importedAnimation: (name: string, frames: number): string => `Imported animation ${name} with ${frames} frames.`,
   stripFrames: (frames: number, width: number, height: number): string => `${frames} frames of ${width} by ${height} pixels will be made.`,
   pickTitle: 'Import image',
@@ -144,6 +151,7 @@ const IMPORT_TEXT = {
 
 const IMPORT_LABEL = {
   animation: 'Import animation',
+  tileset: 'Import tileset',
   sprite: 'Import sprite',
   sprites: (count: number): string => `Import ${count} sprites`,
 } as const;
@@ -167,4 +175,5 @@ export {
   RGBA_BYTES,
   SHIFT,
   STEPS_BY_KIND,
+  TILESET_REF,
 };

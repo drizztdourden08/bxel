@@ -33,7 +33,7 @@ const importErrors = (input: ErrorInput): ImportErrors => {
     size: sizeIssue(input),
     limit: makesBank(form) ? limitError(form.limit) : null,
     palette: form.reduce === 'palette' && form.source.kind === 'file' && form.source.file === null ? SOURCE_TEXT.choose : null,
-    slice: form.kind === 'sheet' || form.kind === 'strip' ? sliceError(form.slice, rects.length) : null,
+    slice: form.kind === 'sheet' || form.kind === 'strip' || form.kind === 'tileset' ? sliceError(form.slice, rects.length) : null,
     naming: namingIssue(input),
   };
 };
