@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { ancestorsOf } from '../../../panel-browser/ancestors-of';
 import type { PanelParts } from '../ProjectPanel.type';
+import { activeItemOf } from './active-item-of';
 
 const useFollowActive = ({ data, view, selection }: PanelParts): void => {
   const done = useRef<string | null>(null);
@@ -10,7 +11,7 @@ const useFollowActive = ({ data, view, selection }: PanelParts): void => {
 
   useEffect(() => {
     if (fresh || !follow || activeKey === null || done.current === activeKey) return;
-    const item = [...tree.items.values()].find((each) => each.role === 'file' && each.row?.loaded === true && each.row.assetId !== null && `${each.row.kind}:${each.row.assetId}` === activeKey);
+    const item = activeItemOf(tree, activeKey);
     if (item === undefined) return;
     done.current = activeKey;
     const closed = ancestorsOf(tree, item.key).filter((key) => !expandedSet.has(key));

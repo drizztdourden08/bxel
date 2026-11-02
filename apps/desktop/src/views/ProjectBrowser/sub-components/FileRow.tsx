@@ -25,7 +25,7 @@ const FileRow = ({ entry, column = false, open = false }: RowProps) => {
         ref={ref}
         className={rowClass({ column, lit, over })}
         data-selected={lit}
-        {...entryBoxProps(handlers)}
+        {...entryBoxProps(handlers, column)}
       >
         <Box className="browser-row__name">
           <ThumbBox entry={entry} />
@@ -33,7 +33,7 @@ const FileRow = ({ entry, column = false, open = false }: RowProps) => {
           {!column && <EntryBadges entry={entry} />}
         </Box>
         {!column && <RowCells cells={rowCells(entry)} />}
-        {entry.kind === 'folder' && <Icon className="browser-row__chevron" name="chevron-right" size={14} />}
+        {entry.kind === 'folder' && !column && <Icon className="browser-row__chevron" name="chevron-right" size={14} />}
       </Box>
       <EntryMenu point={handlers.point} groups={handlers.groups} label={label} onClose={handlers.closeMenu} />
     </>

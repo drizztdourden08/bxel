@@ -2,6 +2,7 @@
 import { Box, Icon, Image } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
 import type { IconName } from '@drizztdourden08/tessera';
+import { useHoverFrames } from '../../../../../asset-thumbs/useHoverFrames';
 import { useThumb } from '../../../../../asset-thumbs/useThumb';
 import { ITEM_ICON } from '../../../../../panel-browser/project-browser.constants';
 import { useAssetDragOut } from '../../../behavior/useAssetDragOut';
@@ -18,9 +19,10 @@ const iconOf = ({ item, model, expanded }: RowThumbProps): IconName => {
 
 const RowThumb = (props: RowThumbProps) => {
   const { item, status, model } = props;
-  const url = useThumb(item);
+  const thumb = useThumb(item);
   const ref = useRef<HTMLDivElement>(null);
   useAssetDragOut(ref, item, model.selection);
+  const url = useHoverFrames(ref, item) ?? thumb;
   const fallback = <Icon name={iconOf(props)} />;
   return (
     <Box

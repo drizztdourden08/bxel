@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
 import { useDefaultOpen } from './behavior/useDefaultOpen';
 import { useFollowActive } from './behavior/useFollowActive';
+import { useRevealActive } from './behavior/useRevealActive';
 import { useProjectKeys } from './behavior/useProjectKeys';
 import { useProjectMenu } from './behavior/useProjectMenu';
 import { useProjectPanel } from './behavior/useProjectPanel';
@@ -23,6 +24,7 @@ const ProjectPanel = () => {
   useProjectMenu(model);
   useProjectKeys(model);
   useFollowActive(model);
+  useRevealActive(model);
   useDefaultOpen(model);
   useWidthWatch(ref, model.setWidth);
   if (!model.project) return <ProjectStart model={model} />;

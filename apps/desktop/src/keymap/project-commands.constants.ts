@@ -9,6 +9,7 @@ import { openProject } from '../project/open-project';
 import { packCurrentProject } from '../project/pack-current-project';
 import { PROJECT_COMMAND, PROJECT_GROUP, PROJECT_TEXT, PROJECT_WIDGET_ID } from '../project/project.constants';
 import { useProjectStore } from '../stores/useProjectStore';
+import { useRevealActiveStore } from '../stores/useRevealActiveStore';
 import { needs } from './needs';
 import { REASON } from '../ui-context/reasons.constants';
 
@@ -79,6 +80,17 @@ const PROJECT_COMMANDS: readonly CommandDef[] = [
     label: PROJECT_TEXT.showPanel,
     group: PROJECT_GROUP,
     run: () => useWidgetLayoutStore.getState().open(PROJECT_WIDGET_ID),
+  },
+  {
+    id: PROJECT_COMMAND.revealActive,
+    label: PROJECT_TEXT.revealActive,
+    group: PROJECT_GROUP,
+    chord: 'Alt+Shift+L',
+    ...needs(hasProject, REASON.noProject),
+    run: () => {
+      useWidgetLayoutStore.getState().open(PROJECT_WIDGET_ID);
+      useRevealActiveStore.getState().ask();
+    },
   },
 ];
 

@@ -7,6 +7,7 @@ import { EMPTY_STATUS } from '../../../../panel-browser/project-browser.constant
 import type { BrowserItem } from '../../../../panel-browser/project-browser.type';
 import { PANEL_UI, SPRING_OPEN_MS } from '../../ProjectPanel.constants';
 import type { PanelPartProps } from '../../ProjectPanel.type';
+import { treeDragOut } from './behavior/tree-drag-out';
 import { useRevealRow } from './behavior/useRevealRow';
 import { useScrollOnSearch } from './behavior/useScrollOnSearch';
 import { useTreeExpansion } from './behavior/useTreeExpansion';
@@ -45,6 +46,8 @@ const ProjectTree = ({ model }: PanelPartProps) => {
       filter={visible === null ? undefined : (item) => visible.has(item.key)}
       rowSize={density === 'compact' ? 'compact' : 'normal'}
       emptyLabel={PANEL_UI.emptyFolder}
+      trail="hover"
+      onDragOut={treeDragOut(model)}
       reorder={
         browser.mode === 'tree' && !browser.filtered
           ? {

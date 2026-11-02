@@ -4,6 +4,22 @@ import { ASSET_LIST_TEXT } from '../../../asset-list/asset-list-text.constants';
 import { ITEM_ICON } from '../../../panel-browser/project-browser.constants';
 import { NEW_ASSET_KINDS, PROJECT_MENU } from '../ProjectPanel.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
+import { newAnimationFrom, newSheetFrom } from './sprites-to-assets';
+import { spriteIdsOf } from './sprite-ids-of';
+
+const fromSelection = (model: ProjectPanelModel): readonly MenuGroup[] => {
+  const { targets } = model.selection;
+  if (spriteIdsOf(targets).length === 0) return [];
+  return [
+    {
+      id: 'new-from',
+      items: [
+        { id: 'sheet-from', label: PROJECT_MENU.newSheetFrom, icon: ITEM_ICON.sheet, onSelect: () => newSheetFrom(targets) },
+        { id: 'animation-from', label: PROJECT_MENU.newAnimationFrom, icon: ITEM_ICON.animation, onSelect: () => newAnimationFrom(targets) },
+      ],
+    },
+  ];
+};
 
 const newMenuGroups = (model: ProjectPanelModel): readonly MenuGroup[] => [
   {
@@ -20,6 +36,7 @@ const newMenuGroups = (model: ProjectPanelModel): readonly MenuGroup[] => [
     id: 'new-folder',
     items: [{ id: 'folder', label: PROJECT_MENU.newFolder, icon: 'folder', shortcut: 'Ctrl+Shift+N', onSelect: () => model.rowActions.newFolder() }],
   },
+  ...fromSelection(model),
 ];
 
 export { newMenuGroups };

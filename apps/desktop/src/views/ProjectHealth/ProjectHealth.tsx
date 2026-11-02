@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Box, Button, EmptyState, Icon, Text } from '@drizztdourden08/tessera';
+import { Box, Button, EmptyState, Icon, ScrollArea, Text } from '@drizztdourden08/tessera';
 import { healthSummary } from '../../project-health/health-summary';
 import { HEALTH_TEXT } from '../../project-health/project-health.constants';
 import { useHealthWatch } from '../../project-health/useHealthWatch';
@@ -15,7 +15,7 @@ const ProjectHealth = () => {
   if (project === null) return <EmptyState size="sm" title={HEALTH_TEXT.noProjectTitle} message={HEALTH_TEXT.noProjectMessage} />;
   const report = state.status === 'ready' ? state.report : null;
   return (
-    <Box className="project-health">
+    <ScrollArea axis="y" scrollbar="slim" thumb="auto" fade={false} className="project-health">
       <Box className="project-health__head">
         <Icon name="heart" size={20} />
         <Box className="project-health__title">
@@ -31,7 +31,7 @@ const ProjectHealth = () => {
         </Button>
       </Box>
       {report !== null && <HealthBody report={report} actions={actions} />}
-    </Box>
+    </ScrollArea>
   );
 };
 

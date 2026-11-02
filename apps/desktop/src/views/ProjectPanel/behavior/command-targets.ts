@@ -12,10 +12,15 @@ const focusedItem = (model: ProjectPanelModel): BrowserItem | undefined => {
   return key === undefined ? undefined : model.browser.itemOf(key);
 };
 
+const menuTargets = (model: ProjectPanelModel, keys: ReadonlySet<string> | undefined): readonly BrowserItem[] =>
+  keys === undefined ? [] : [...keys].flatMap((key) => model.browser.itemOf(key) ?? []);
+
 const commandTargets = (model: ProjectPanelModel, context: CommandContext | undefined): readonly BrowserItem[] => {
+  const chosen = menuTargets(model, context?.selection);
+  if (chosen.length > 0) return chosen;
   const item = itemOfArgs(model, commandArgs<ProjectArgs>(context)) ?? (model.selection.targets.length === 0 ? focusedItem(model) : undefined);
   if (item === undefined) return model.selection.targets;
   return model.selection.keys.has(item.key) ? model.selection.targets : [item];
 };
 
-export { commandTargets };
+export { commandTargets, menuTargets };

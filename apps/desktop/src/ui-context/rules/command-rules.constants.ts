@@ -186,6 +186,8 @@ const PANEL_COMMAND_IDS = [
   'asset.open', 'asset.duplicate', 'asset.copy_for_sheet', 'asset.export', 'asset.show_users', 'asset.copy_relative_path', 'asset.locate', 'asset.remove_link', 'project.open_entry', 'project.new_asset',
   'project.new_folder', 'project.refresh', 'project.collapse_all', 'project.reveal_root', 'project.open_hub', 'project.unlink_folder', 'project.rename_entry',
   'project.trash_entry', 'project.duplicate_entry', 'project.select_all', 'project.new_folder_here', 'project.new_menu', 'project.find',
+  'project.cut_files', 'project.copy_files', 'project.paste_files', 'project.open_side', 'asset.open_side', 'asset.move_to', 'asset.show_uses', 'asset.add_to_sheet', 'asset.make_animation', 'project.collapse_below',
+  'project.new_sheet_from', 'project.new_animation_from',
 ];
 
 const FILES: RuleTable = {
@@ -197,7 +199,7 @@ const FILES: RuleTable = {
   ...family(['asset.settings'], hasDocument),
   ...family(['project.new', 'project.open', 'project.panel', 'project.window'], always),
   ...family(['image.import'], file('image'), [], 'Images'),
-  ...family(['project.close', 'project.settings', 'project.pack', 'project.health'], always, [[projectOpen, REASON.noProject]]),
+  ...family(['project.close', 'project.settings', 'project.pack', 'project.health', 'project.reveal_active'], always, [[projectOpen, REASON.noProject]]),
   ...family(['project.rename_file', 'project.move_files', 'project.trash_files', 'project.make_folder', 'project.quick_open', 'project.undo_move'], always, [[projectOpen, REASON.noProject]]),
   ...family(PANEL_COMMAND_IDS, always, [[projectOpen, REASON.noProject]]),
   ...family(['tab.close', 'tab.close_others', 'tab.close_right', 'tab.move_left', 'tab.move_right', 'asset.reveal', 'asset.copy_path', 'asset.show_in_project', 'asset.rename'], always),
