@@ -91,6 +91,18 @@
   padding-inline: var(--space-md);
 }
 
+.browser-sources__label {
+  flex: 1;
+  min-inline-size: 0;
+  border-radius: var(--radius-sm);
+}
+
+.browser-sources__label[data-over='true'] {
+  background: var(--c-primary-soft);
+  outline: var(--border-width-thin) dashed var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thin));
+}
+
 .browser-centre {
   display: flex;
   flex-direction: column;
