@@ -1,18 +1,13 @@
 /* @layer renderer-app @kind style */
 .layer-list {
-  position: relative;
-  overflow-x: clip;
   display: flex;
   flex-direction: column;
+  flex: 1;
   inline-size: 100%;
   min-inline-size: 0;
+  min-block-size: 0;
 }
 
-.layer-list__items {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.tree.layer-list__tree--large[data-row-size] {
+  --tree-row-h: var(--size-48);
 }

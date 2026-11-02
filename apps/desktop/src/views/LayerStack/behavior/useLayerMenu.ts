@@ -10,7 +10,7 @@ import type { LayerStackModel } from '../LayerStack.type';
 import type { PickHow } from './pick-layer.type';
 import { layerMenuEntries } from './layer-menu-entries';
 
-const rowIdOf = (context: ContextMenuContext): string | undefined => menuTarget(context, LAYER_MENU_TEXT.row)?.dataset.layerId;
+const rowIdOf = (context: Pick<ContextMenuContext, 'target'>): string | undefined => menuTarget(context, LAYER_MENU_TEXT.row)?.dataset.treeKey;
 
 const useLayerMenu = (model: LayerStackModel, picked: readonly string[], pick: (id: string, how: PickHow) => void): void => {
   const latest = useRef({ model, picked, pick });
@@ -25,7 +25,12 @@ const useLayerMenu = (model: LayerStackModel, picked: readonly string[], pick: (
       if (id !== undefined && !now.picked.includes(id)) now.pick(id, 'replace');
       else if (id !== undefined && id !== now.model.activeId) now.model.actions.activate(id);
     },
-    entries: ruledEntries((context) => layerMenuEntries(latest.current.model, rowIdOf(context), latest.current.picked)),
+    selection: ({ target }) => {
+      const id = rowIdOf({ target });
+      const { picked: now } = latest.current;
+      return id === undefined || now.includes(id) ? now : [id];
+    },
+    entries: ruledEntries((context) => layerMenuEntries(latest.current.model, rowIdOf(context), [...(context.selection ?? latest.current.picked)])),
   });
 };
 

@@ -41,10 +41,6 @@ const LAYER_STACK_TEXT = {
   tagColours: 'Colour tag',
   noTag: 'No colour',
   inSprites: (have: number, total: number): string => `in ${have} of ${total} ${total === 1 ? 'sprite' : 'sprites'}`,
-  moved: (name: string, position: number, total: number): string => `${name} moved to position ${position} of ${total}`,
-  moveHint: 'Alt and Up or Down moves the row. Alt and Left or Right takes it out of a group or into the group above. Shift and Up or Down extends the pick.',
-  fold: (name: string): string => `Fold ${name}`,
-  unfold: (name: string): string => `Unfold ${name}`,
   groupOf: (name: string, count: number): string => `${name}, group of ${count}`,
   referenceOf: (name: string): string => `${name}, reference image`,
   opacity: 'Opacity',
@@ -64,7 +60,6 @@ const LAYER_STACK_TEXT = {
   top: 'This is the top layer.',
   bottom: 'This is the bottom layer.',
   mixed: 'Mixed',
-  grip: 'Drag to reorder',
   picked: (count: number): string => `Settings for ${count} picked layers`,
   stripOf: (name: string): string => `Settings for ${name}`,
   newLayer: 'New layer',
@@ -73,7 +68,7 @@ const LAYER_STACK_TEXT = {
 } as const;
 
 const LAYER_MENU_TEXT = {
-  row: '[data-layer-id]',
+  row: '[data-tree-key]',
   label: 'Layer actions',
   visible: 'Visible',
   locked: 'Locked',
@@ -137,10 +132,6 @@ const LAYER_FLAG_HINTS: Readonly<Record<LayerFlag, HintSpec>> = {
   },
 };
 
-const LAYER_FOCUS_KEYS: Readonly<Record<string, 'first' | 'last'>> = { Home: 'first', End: 'last' };
-
-const LAYER_MOVE_KEYS = 'Alt+ArrowUp Alt+ArrowDown Alt+ArrowLeft Alt+ArrowRight Shift+ArrowUp Shift+ArrowDown';
-
 const LAYER_THUMB_TEXT: Readonly<Record<LayerThumbSize, string>> = {
   0: LAYER_STACK_TEXT.thumbOff,
   16: LAYER_STACK_TEXT.thumbPx(16),
@@ -149,6 +140,10 @@ const LAYER_THUMB_TEXT: Readonly<Record<LayerThumbSize, string>> = {
 };
 
 const FILTER_FROM_ROWS = 8;
+
+const STRIP_ROOT = '[data-layer-stack]';
+
+const STRIP_TARGET = '[data-layer-strip] button:not([disabled])';
 
 const NO_MAPS: readonly MapChoice[] = [];
 
@@ -177,6 +172,6 @@ const LAYER_BAR_HINTS = {
 } satisfies Record<string, HintSpec>;
 
 export {
-  CUSTOM_COLOUR, FILTER_FROM_ROWS, FLAT_ROW, LAYER_REASONS, NO_MAPS, LAYER_BAR_HINTS, LAYER_FLAG_HINTS, LAYER_FLAG_ICONS, LAYER_FOCUS_KEYS, LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_MENU_TEXT, LAYER_MOVE_KEYS, LAYER_SCOPES,
+  CUSTOM_COLOUR, FILTER_FROM_ROWS, STRIP_ROOT, STRIP_TARGET, FLAT_ROW, LAYER_REASONS, NO_MAPS, LAYER_BAR_HINTS, LAYER_FLAG_HINTS, LAYER_FLAG_ICONS, LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_MENU_TEXT, LAYER_SCOPES,
   LAYER_STACK_TEXT, LAYER_TILE_SCOPES, LAYER_THUMB_TEXT, THUMB_THROTTLE_MS,
 };

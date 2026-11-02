@@ -12,7 +12,7 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
   if (!lead || picked.length === 0) return null;
   const { actions } = model;
   return (
-    <Box className="layer-strip" role="group" aria-label={picked.length > 1 ? LAYER_STACK_TEXT.picked(picked.length) : LAYER_STACK_TEXT.stripOf(lead.name)}>
+    <Box className="layer-strip" data-layer-strip role="group" aria-label={picked.length > 1 ? LAYER_STACK_TEXT.picked(picked.length) : LAYER_STACK_TEXT.stripOf(lead.name)}>
       <Flex align="center" justify="between" gap="xs" wrap>
         <SegmentedControl<LockKind>
           aria-label={LAYER_STACK_TEXT.lockKinds}
