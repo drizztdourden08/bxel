@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import { terrainSetsOf, tileLayout } from '@bxel/document';
+import { PACKINGS, fillFromLayout, terrainSetsOf, tileLayout } from '@bxel/document';
 import type { TerrainSet, Tileset } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { useTilemapStore } from '../../src/stores/useTilemapStore';
@@ -10,11 +10,9 @@ import { setTerrainSets } from '../../src/tilemap/set-terrain-sets';
 import { strokeErase } from '../../src/tilemap/stroke-erase';
 import { strokePlace } from '../../src/tilemap/stroke-place';
 import { fillByTurning } from '../../src/tilemap/terrain/fill-by-turning';
-import { fillFromLayout } from '../../src/tilemap/terrain/fill-from-layout';
 import { markTile } from '../../src/tilemap/terrain/mark-tile';
 import { newTerrainSet } from '../../src/tilemap/terrain/new-terrain-set';
 import { missingSlots } from '../../src/tilemap/terrain/missing-slots';
-import { PACKINGS } from '../../src/tilemap/terrain/terrain-packing.constants';
 import { turnedMask } from '../../src/tilemap/terrain/turned-mask';
 import { slotGlyph } from '../../src/tilemap/terrain/slot-glyph';
 import { cellsNow, openMapFile, tilesetNow } from './map-harness';

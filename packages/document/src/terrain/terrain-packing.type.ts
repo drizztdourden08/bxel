@@ -1,5 +1,5 @@
-/* @layer renderer-app @kind types */
-import type { TerrainKind } from '@bxel/document';
+/* @layer core @kind types */
+import type { TerrainKind } from '../model/tilemap.type';
 
 interface TerrainPacking {
   id: string;
