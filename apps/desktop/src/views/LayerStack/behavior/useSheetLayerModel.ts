@@ -6,6 +6,8 @@ import { lockFields } from '../../../editor/lock-fields';
 import { NO_TREE_ACTIONS } from '../../../editor/no-tree-actions.constants';
 import { LAYER_LABEL } from '../../../editor/layer-text.constants';
 import { useActiveDocument } from '../../../hooks/useActiveDocument';
+import { activateSheetLayer } from '../../../sheet/activate-sheet-layer';
+import { addMissingForName } from '../../../sheet/add-missing-for-name';
 import { listSprites } from '../../../sheet/list-sprites';
 import { sheetLayerRows } from '../../../sheet/sheet-layer-rows';
 import { tryUpdateSheetLayers } from '../../../sheet/try-update-sheet-layers';
@@ -19,7 +21,8 @@ import type { LayerRowModel, LayerStackModel } from '../LayerStack.type';
 const noop = (): void => undefined;
 
 const actionsFor = (sprites: readonly Sprite[]): LayerActions => ({
-  activate: noop,
+  activate: activateSheetLayer,
+  addMissing: (name) => addMissingForName(sprites, name),
   setFlag: (names, flag, value) => updateSheetLayers(sprites, names, flagFields(flag, value), LAYER_LABEL[flag]),
   setLock: (names, kind) => updateSheetLayers(sprites, names, lockFields(kind), LAYER_LABEL.locked),
   setColour: (names, colour) => updateSheetLayers(sprites, names, { colour }, LAYER_LABEL.colour),

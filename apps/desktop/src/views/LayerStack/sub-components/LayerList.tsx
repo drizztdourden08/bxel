@@ -39,7 +39,13 @@ const LayerList = ({ model, rows, filtered, picked, pick, pickKeys, thumbSize }:
             onRename={(name) => model.actions.rename(node.row.id, name)}
           />
         )}
-        renderTrail={(node) => <LayerTrail row={node.row} sweep={sweep} />}
+        renderTrail={(node) => (
+          <LayerTrail
+            row={node.row}
+            sweep={sweep}
+            onAddMissing={node.row.note !== null && model.actions.addMissing ? () => model.actions.addMissing?.(node.row.id) : undefined}
+          />
+        )}
       />
     </Box>
   );

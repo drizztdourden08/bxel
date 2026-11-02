@@ -26,6 +26,7 @@ interface LayerActions {
   addReference: () => void;
   relink: (id: string) => void;
   add: () => void;
+  addMissing?: (id: string) => void;
   duplicate: () => void;
   merge: () => void;
   flatten: () => void;
