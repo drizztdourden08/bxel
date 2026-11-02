@@ -62,6 +62,17 @@ describe('K1 slice.update and slice.delete', { tags: ['critical'] }, () => {
     expect(rejection(engine, onSprites('slice.update', { slice: { by: 'name', name: 'zzz' }, name: 'q' }, [HEART])).code).toBe('TARGET_NOT_FOUND');
   });
 
+  it('sets, changes and clears an outline colour', () => {
+    const { engine } = heartEngine();
+    apply(engine, onSprites('slice.add', { name: 'a', rect }, [HEART]));
+    expect(slicesOf(engine)[0]?.colour).toBeUndefined();
+    expectUndoRedo(engine, onSprites('slice.update', { slice: { by: 'name', name: 'a' }, colour: '#FF8800' }, [HEART]));
+    expect(slicesOf(engine)[0]?.colour).toBe('#ff8800');
+    apply(engine, onSprites('slice.update', { slice: { by: 'name', name: 'a' }, colour: null }, [HEART]));
+    expect(slicesOf(engine)[0]?.colour).toBeUndefined();
+    expect(rejection(engine, onSprites('slice.update', { slice: { by: 'name', name: 'a' }, colour: 'red' }, [HEART])).code).toBe('INVALID_OPTION');
+  });
+
   it('deletes a slice by id and by name', () => {
     const { engine } = heartEngine();
     const done = apply(engine, onSprites('slice.add', { name: 'a', rect }, [HEART], 'a'));

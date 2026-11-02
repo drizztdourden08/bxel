@@ -24,6 +24,7 @@ const useSliceForm = (slice: Slice): SliceFormModel => {
         rect: form.rect,
         pivot: form.pivotOn ? form.pivot : null,
         center: form.centreOn ? form.centre : null,
+        colour: form.colourOn ? form.colour.toLowerCase() : null,
       });
       if (done) useSliceToolStore.getState().closeDialog();
     },

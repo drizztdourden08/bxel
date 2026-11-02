@@ -8,6 +8,8 @@ interface SliceForm {
   pivot: { x2: number; y2: number };
   centreOn: boolean;
   centre: Rect;
+  colourOn: boolean;
+  colour: string;
 }
 
 interface SliceFormModel {

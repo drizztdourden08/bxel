@@ -6,6 +6,7 @@ interface SliceChange {
   rect?: Rect;
   pivot?: Pivot2 | null;
   center?: Rect | null;
+  colour?: string | null;
 }
 
 export type { SliceChange };

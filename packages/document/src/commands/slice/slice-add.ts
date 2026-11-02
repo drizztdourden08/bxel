@@ -10,6 +10,7 @@ import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
 import { registerCreatedRef } from '../register-created-ref';
 import { checkSlice } from './check-slice';
+import { withSliceColour } from './with-slice-colour';
 
 const sliceAdd = defineCommand({
   name: COMMAND_NAME.sliceAdd,
@@ -27,7 +28,7 @@ const sliceAdd = defineCommand({
         sprite.slices.map((slice) => slice.name),
         name,
       );
-      const slice: Slice = { id: draft.ids.next('slc') as SliceId, name, ...shape };
+      const slice: Slice = withSliceColour({ id: draft.ids.next('slc') as SliceId, name, ...shape }, options.colour);
       updateSprite(draft, spriteId, (current) => ({ ...current, slices: [...current.slices, slice] }));
       created.push(slice.id);
     }
