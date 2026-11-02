@@ -4,6 +4,7 @@ const EDITOR_CANVAS_TEXT = {
   hint: 'Arrow keys move the drawing cursor. Space paints with the front colour and Enter with the back colour. Shift with Space draws a line from the last point. Control picks the third and fourth colours. With the shapes tool, press once to start and again to finish. Shift with an arrow pans the view.',
   empty: 'No sprite is open.',
   emptyFrame: 'This frame has no sprite yet.',
+  copyPrevious: 'Copy previous',
   splitLabel: 'Second view',
 } as const;
 
