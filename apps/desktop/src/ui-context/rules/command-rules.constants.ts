@@ -26,7 +26,7 @@ const TOOLS: RuleTable = {
 
 const PRESETS: RuleTable = {
   ...family(['tool.customize'], always),
-  ...family(['tool.previous', 'tool.cycle_back_select'], DRAW_STAGE, [DRAW], ONLY.drawing),
+  ...family(['tool.previous', 'tool.cycle_back_select', 'tool.quick_palette'], DRAW_STAGE, [DRAW], ONLY.drawing),
   ...family(['tool.apply_preset', 'tool.save_preset', 'tool.reset_options', 'tool.select_member', 'tool.hide_member', ...[1, 2, 3, 4, 5].map((slot) => `tool.apply_quick_preset_${slot}`)], PIXEL, [DOC], ONLY.pixels),
 };
 

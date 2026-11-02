@@ -8,6 +8,7 @@ import { DropLayerDialog } from '../DropLayerDialog';
 import { MoveToDialog } from '../MoveToDialog';
 import { PasteChoiceDialog } from '../PasteChoiceDialog';
 import { SelectionNamesDialog } from '../SelectionNamesDialog';
+import { QuickPalette } from '../QuickPalette';
 import { SliceDialog } from '../SliceDialog';
 import { ImportWizard } from '../ImportWizard';
 import { LinkedCelDialog } from '../LinkedCelDialog';
@@ -38,6 +39,7 @@ const DialogHost = () => {
       <PaletteChangeDialog />
       <PresetDialog />
       <CustomizeTools />
+      <QuickPalette />
       <RampBuilderDialog />
       <PaletteSheetDialog />
       <PaletteImportDialog />
