@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { useEffect } from 'react';
-import { notePointer } from '../../../editor/quick-palette/pointer-point';
+import { notePointer } from '../../../editor/quick-palette/note-pointer';
 
 const useLastPointer = (): void => {
   useEffect(() => {
