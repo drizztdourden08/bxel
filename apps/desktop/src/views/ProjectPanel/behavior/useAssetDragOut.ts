@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useDragSource } from '@drizztdourden08/brock-react';
 import type { RefObject } from 'react';
+import { assetDragPreview } from '../../../asset-drag/asset-drag-preview';
 import { ASSET_DRAG } from '../../../asset-drag/asset-drag.constants';
 import type { DragAsset } from '../../../asset-drag/asset-drag.type';
 import type { SelectionModel } from '../../../panel-browser/browser-state.type';
@@ -12,6 +13,7 @@ const assetOf = (item: BrowserItem): DragAsset => ({ id: item.row?.id ?? item.ke
 const useAssetDragOut = (ref: RefObject<HTMLElement | null>, item: BrowserItem, selection: Pick<SelectionModel, 'keys' | 'targets'>, held?: () => boolean): void =>
   useDragSource(ref, {
     type: ASSET_DRAG,
+    preview: assetDragPreview,
     disabled: () => !exportable(item) || (held?.() ?? false),
     payload: () => (selection.keys.has(item.key) ? selection.targets : [item]).filter(exportable).map(assetOf),
   });
