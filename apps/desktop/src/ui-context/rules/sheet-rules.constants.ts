@@ -16,7 +16,7 @@ const SHEET_EDITS = [
 
 const SHEET_VIEWS = [
   'sprite.isolate', 'sprite.compare', 'sprite.save_selection', 'sprite.sort_by_name', 'sprite.select_none', 'sprite.select_invert', 'sprite.select_same_size',
-  'sprite.select_same_folder', 'sprite.open_entry', 'sprite.open_in_timeline', 'sprite.copy_entries', 'sprite.cut_entries', 'sprite.export_selection_sheet', 'sprite.export_selection_files', 'sprite.show_in_project', 'sprite.add_from_project', 'sprite.select_visible', 'sprite.select_duplicates', 'sprite.load_selection', 'sprite.drop_selection', 'sprite.select_by_trait', 'manager.clear_filters',
+  'sprite.select_same_folder', 'sprite.open_entry', 'sprite.open_in_timeline', 'sprite.copy_entries', 'sprite.cut_entries', 'sprite.export_selection_sheet', 'sprite.export_selection_files', 'sprite.show_in_project', 'sprite.add_from_project', 'sprite.select_visible', 'sprite.select_duplicates', 'sprite.load_selection', 'sprite.drop_selection', 'sprite.select_by_trait', 'manager.clear_filters', 'sheet.toggle_pivots',
 ];
 
 const SHEETS: RuleTable = {

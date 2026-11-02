@@ -13,7 +13,7 @@ import type { RuleTable } from './rule-table.type';
 import { TIMELINES } from './timeline-rules.constants';
 import {
   ANY_SELECTED, CELLS_SELECTED, CLIPBOARD, DOC, DRAW, DRAW_STAGE, EDIT_STAGE, FILE, GRID_STAGE, MAP, NONE_OR_PIXEL, NOT_TILE_FILE, SELECTED_HERE,
-  PALETTE_STAGE, PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, WRITE, ZOOM_STAGE,
+  PALETTE_STAGE, PIXEL, PIXELS_SELECTED, RULER_STAGE, SHEET, TILE_FILES, VIEW_STAGE, WRITE, ZOOM_STAGE,
 } from './groups.constants';
 
 const TOOLS: RuleTable = {
@@ -25,23 +25,30 @@ const TOOLS: RuleTable = {
 };
 
 const PRESETS: RuleTable = {
+  ...family(['tool.customize'], always),
   ...family(['tool.previous', 'tool.cycle_back_select'], DRAW_STAGE, [DRAW], ONLY.drawing),
   ...family(['tool.apply_preset', 'tool.save_preset', 'tool.reset_options', 'tool.select_member', 'tool.hide_member', ...[1, 2, 3, 4, 5].map((slot) => `tool.apply_quick_preset_${slot}`)], PIXEL, [DOC], ONLY.pixels),
 };
+
+const SELECT_OPTION_NAMES = ['fixed', 'fixed_width', 'fixed_height', 'mirror', 'vertex_snap', 'match', 'distance', 'ignore_transparent', 'in_selection'];
+
+const EXTRA_OPTION_IDS = [
+  'options.picker.return', ...['pencil', 'eraser', 'fill'].map((tool) => `options.${tool}.cels`), ...SELECT_OPTION_NAMES.map((name) => `options.select.${name}`),
+];
 
 const OPTIONS: RuleTable = {
   ...family(
     [
       'brush.cycle_tip', 'brush.toggle_pixel_perfect', 'fill.toggle_area', 'fill.toggle_neighbours', 'select.set_shape',
       'select.set_mode', 'options.select.neighbours', 'options.select.sample', 'options.select.amount', 'options.pencil.size', 'options.eraser.size', ...['shade', 'line', 'curve', 'rect', 'ellipse', 'contour', 'polygon'].map((tool) => `options.${tool}.size`), 'options.set', 'options.reset',
-      'options.reset_all',
+      'options.reset_all', ...EXTRA_OPTION_IDS,
     ],
     PIXEL,
     [DOC],
     ONLY.pixels,
   ),
   ...family(['brush.size_down_by_four', 'brush.size_up_by_four', 'brush.tip_previous', 'brush.tip_next'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
-  ...family(['brush.size_step', 'ink.set', 'shape.toggle_filled'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
+  ...family(['brush.size_step', 'ink.set', 'shape.toggle_filled', 'options.move.nudge'], NONE_OR_PIXEL, [DOC], ONLY.pixels),
   ...family(['options.focus', 'options.open'], any(EDIT_STAGE, SHEET)),
   ...family([...DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection && !OUTLINE_ACTIONS.includes(id)), ...DRAWING_OPTION_COMMAND_IDS], PIXEL, [DOC], ONLY.pixels),
   ...family(OUTLINE_ACTIONS, PIXEL, [DOC, WRITE], ONLY.pixels),
@@ -63,7 +70,9 @@ const VIEW: RuleTable = {
   ...family(['view.zoom_in', 'view.zoom_out', 'view.zoom_fit', 'view.zoom_actual', 'view.zoom_to', 'view.zoom_selection', ...ZOOM_DIGITS], ZOOM_STAGE, [FILE]),
   ...family(['view.toggle_pixel_grid'], GRID_STAGE),
   ...family(['view.toggle_major_grid'], EDIT_STAGE),
-  ...family(['view.toggle_tile_grid', 'view.toggle_iso_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.edit', 'guide.clear'], RULER_STAGE),
+  ...family(['view.toggle_tile_grid', 'view.toggle_iso_grid', 'view.toggle_rulers', 'ruler.set_unit', 'view.toggle_snap', 'view.toggle_guides', 'guide.add_here', 'guide.edit', 'guide.colour', 'guide.around_selection', 'guide.clear'], RULER_STAGE),
+  ...family(['view.section_reset', 'view.section_toolbar'], VIEW_STAGE, [FILE]),
+  ...family(['view.section_settings'], ZOOM_STAGE),
   ...family(['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both'], PIXEL, [], ONLY.pixels),
   ...family(['view.hide_overlays', 'view.lock_guides'], RULER_STAGE),
   ...family(['view.toggle_mirror', 'view.toggle_loupe', 'view.background_preview', 'view.fullscreen_preview', 'view.toggle_split', 'view.toggle_split_link', 'view.toggle_split_actual', 'view.describe_canvas', 'view.read_row', 'view.centre_here'], PIXEL, [], ONLY.pixels),
