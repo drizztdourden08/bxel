@@ -3,6 +3,7 @@ import { Box, Icon, IconButton, SegmentedControl, Select, Slider } from '@drizzt
 import { BROWSER_TEXT, SORT_OPTIONS, THUMB_STOPS, VIEW_OPTIONS } from '../../../project-browser/project-browser.constants';
 import type { BrowserView, SortKey } from '../../../project-browser/project-browser.type';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
+import { ColumnsMenu } from './ColumnsMenu';
 
 const isSort = (value: string): value is SortKey => SORT_OPTIONS.some((option) => option.value === value);
 
@@ -35,6 +36,7 @@ const ViewControls = () => {
       >
         <Icon name={sort.descending ? 'chevron-down' : 'chevron-up'} />
       </IconButton>
+      {view === 'list' && <ColumnsMenu />}
       {view === 'grid' && (
         <Slider
           size="sm"

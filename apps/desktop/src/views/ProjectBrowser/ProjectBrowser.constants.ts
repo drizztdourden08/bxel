@@ -9,7 +9,7 @@ const NEW_KINDS: readonly CreatableKind[] = ['sprite', 'animation', 'sheet', 'pa
 
 const LIST_COLUMNS: readonly Column[] = [
   { key: 'name', label: BROWSER_TEXT.columnName, className: 'browser-row__name' },
-  { key: 'kind', label: BROWSER_TEXT.columnKind, className: 'browser-row__cell' },
+  { key: 'kind', label: BROWSER_TEXT.columnKind, className: 'browser-row__cell browser-row__cell--kind' },
   { key: 'size', label: BROWSER_TEXT.columnSize, className: 'browser-row__cell browser-row__cell--size' },
   { key: 'frames', label: BROWSER_TEXT.columnFrames, className: 'browser-row__cell browser-row__cell--frames' },
   { key: 'name', label: BROWSER_TEXT.columnPalette, className: 'browser-row__cell browser-row__cell--palette' },
@@ -18,8 +18,18 @@ const LIST_COLUMNS: readonly Column[] = [
   { key: 'usedBy', label: BROWSER_TEXT.columnUsedBy, className: 'browser-row__cell browser-row__cell--users' },
 ];
 
+const HIDEABLE_COLUMNS: readonly { readonly id: string; readonly label: string }[] = [
+  { id: 'kind', label: BROWSER_TEXT.columnKind },
+  { id: 'size', label: BROWSER_TEXT.columnSize },
+  { id: 'frames', label: BROWSER_TEXT.columnFrames },
+  { id: 'palette', label: BROWSER_TEXT.columnPalette },
+  { id: 'folder', label: BROWSER_TEXT.columnFolder },
+  { id: 'modified', label: BROWSER_TEXT.columnModified },
+  { id: 'users', label: BROWSER_TEXT.columnUsedBy },
+];
+
 const MIDDLE_BUTTON = 1;
 const TYPE_AHEAD_RESET_MS = 800;
 const SPRING_OPEN_MS = 600;
 
-export { IMAGE_FILTERS, LIST_COLUMNS, MIDDLE_BUTTON, NEW_KINDS, SPRING_OPEN_MS, TYPE_AHEAD_RESET_MS };
+export { HIDEABLE_COLUMNS, IMAGE_FILTERS, LIST_COLUMNS, MIDDLE_BUTTON, NEW_KINDS, SPRING_OPEN_MS, TYPE_AHEAD_RESET_MS };
