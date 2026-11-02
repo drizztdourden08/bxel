@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { OnionFalloff, OnionOrder, OnionPosition, OnionScope, OnionStyle, OnionTint } from '../stores/timeline-store.type';
-import type { Rgb } from './onion.type';
+import type { OnionPattern, Rgb } from './onion.type';
 
 const ONION_TEXT = {
   toggle: 'Onion skin',
@@ -24,6 +24,8 @@ const ONION_TEXT = {
   afterCaption: 'After',
   nowCaption: 'Current frame in the middle',
   more: 'More options',
+  pattern: 'Pattern',
+  patterns: { none: 'Colour only', dots: 'Dots', lines: 'Lines', split: 'Dots then lines' } as Readonly<Record<OnionPattern, string>>,
   tints: { none: 'Original', split: 'Tints', grey: 'Grey' } as Readonly<Record<OnionTint, string>>,
   falloffs: { linear: 'Linear', flat: 'Flat' } as Readonly<Record<OnionFalloff, string>>,
   styles: { filled: 'Filled', outline: 'Outline' } as Readonly<Record<OnionStyle, string>>,
@@ -44,6 +46,8 @@ const ONION_SCOPE_ORDER: readonly OnionScope[] = ['range', 'all'];
 
 const ONION_POSITION_ORDER: readonly OnionPosition[] = ['behind', 'front'];
 
+const ONION_PATTERN_ORDER: readonly OnionPattern[] = ['none', 'dots', 'lines', 'split'];
+
 const GREY_WEIGHTS: Rgb = [0.299, 0.587, 0.114];
 
-export { GREY_WEIGHTS, ONION_FALLOFF_ORDER, ONION_ORDER_ORDER, ONION_POSITION_ORDER, ONION_SCOPE_ORDER, ONION_STYLE_ORDER, ONION_TEXT, ONION_TINT_ORDER };
+export { GREY_WEIGHTS, ONION_FALLOFF_ORDER, ONION_ORDER_ORDER, ONION_PATTERN_ORDER, ONION_POSITION_ORDER, ONION_SCOPE_ORDER, ONION_STYLE_ORDER, ONION_TEXT, ONION_TINT_ORDER };

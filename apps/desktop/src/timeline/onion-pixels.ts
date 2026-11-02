@@ -6,6 +6,7 @@ import { GREY_WEIGHTS } from './onion.constants';
 import type { OnionGhost, OnionSource, Rgb } from './onion.type';
 import { edgeMask } from './edge-mask';
 import { hexRgb } from './hex-rgb';
+import { patternKeeps } from './pattern-keeps';
 
 const tinted = (rgba: Uint8Array, at: number, ghost: OnionGhost): Rgb => {
   const own: Rgb = [rgba[at] ?? 0, rgba[at + 1] ?? 0, rgba[at + 2] ?? 0];
@@ -25,6 +26,7 @@ const onionPixels = (source: OnionSource, shown: AnimFrameId, ghost: OnionGhost)
   for (const [position, index] of indices.entries()) {
     if (index === TRANSPARENT_INDEX || (ghost.behind && current[position] !== TRANSPARENT_INDEX)) continue;
     if (edges?.[position] === 0) continue;
+    if (!patternKeeps(ghost.pattern, ghost.side, { x: position % animation.width, y: Math.floor(position / animation.width) })) continue;
     out.set([...tinted(table, index * 4, ghost), 255], position * 4);
   }
   return out;

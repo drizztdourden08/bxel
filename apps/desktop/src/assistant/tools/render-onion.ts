@@ -4,6 +4,7 @@ import type { AnimFrameId } from '@bxel/document';
 import { mcpFailure } from '@bxel/mcp';
 import type { ToolReply } from '@bxel/mcp';
 import type { DocumentView } from '../../documents/document-host.type';
+import { useOnionPatternStore } from '../../stores/useOnionPatternStore';
 import { useTimelineStore } from '../../stores/useTimelineStore';
 import { composedRgba } from '../../timeline/composed-rgba';
 import { onionGhostOf } from '../../timeline/onion-ghost-of';
@@ -33,8 +34,9 @@ const renderOnion = async (context: ToolContext, view: DocumentView, input: Rend
   if (!animation.frames.some((frame) => frame.id === frameId) || !data) return reply(mcpFailure(ERROR_CODE.TARGET_NOT_FOUND, TOOL_TEXT.noAnimation));
   if (!bank) return reply(mcpFailure(ERROR_CODE.TARGET_NOT_FOUND, TOOL_TEXT.onionBank));
   const { onion } = useTimelineStore.getState();
+  const { pattern } = useOnionPatternStore.getState();
   for (const layer of onionPlanOf(animation, frameId)) {
-    blendGhost(data, onionPixels({ artwork, animation, bank }, frameId, onionGhostOf(layer, onion)), layer.alpha);
+    blendGhost(data, onionPixels({ artwork, animation, bank }, frameId, onionGhostOf(layer, onion, pattern)), layer.alpha);
   }
   const indices = composeAnimationFrame(artwork, animation, frameId);
   const png = animationPng({ image: { data, width: animation.width, height: animation.height }, indices }, scale);

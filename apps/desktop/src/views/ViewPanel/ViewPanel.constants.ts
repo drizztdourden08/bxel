@@ -44,6 +44,7 @@ const OVERLAY_TEXT = {
 const RULER_UNIT_NAMES: Readonly<Record<RulerUnit, string>> = { pixels: 'Pixels', tiles: 'Tiles', percent: 'Percent' };
 
 const ONION_TEXT = {
+  pattern: 'Pattern',
   show: 'Show onion skin',
   before: 'Frames before',
   after: 'Frames after',

@@ -10,7 +10,7 @@ const onionGhost = (canvas: HTMLCanvasElement, artwork: Artwork, target: EditorT
   const { animation, frame } = target.animation;
   const made = GHOSTS.get(artwork) ?? new Map<string, HTMLCanvasElement>();
   GHOSTS.set(artwork, made);
-  const key = `${animation.id}|${frame.id}|${ghost.frameId}|${ghost.flip ?? ''}|${ghost.side}|${ghost.tint}|${ghost.colour}|${ghost.style}|${ghost.behind}`;
+  const key = `${animation.id}|${frame.id}|${ghost.frameId}|${ghost.flip ?? ''}|${ghost.side}|${ghost.tint}|${ghost.colour}|${ghost.style}|${ghost.behind}|${ghost.pattern ?? 'none'}`;
   const hit = made.get(key);
   if (hit) return hit;
   const pixels = onionPixels({ artwork, animation, bank: target.bank }, frame.id, ghost);

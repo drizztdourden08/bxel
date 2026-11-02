@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { currentTarget } from '../../../editor/current-target';
+import { useOnionPatternStore } from '../../../stores/useOnionPatternStore';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { useViewStore } from '../../../stores/useViewStore';
 import { canvasOrigin } from '../../../timeline/canvas-origin';
@@ -20,11 +21,12 @@ const paintOnion = (ctx: CanvasRenderingContext2D): void => {
   const plan = onionPlan(animation, frame.id, currentPlan(focus), { onion, mode: playMode });
   if (plan.length === 0) return;
   const origin = canvasOrigin(artwork, animation, frame);
+  const { pattern } = useOnionPatternStore.getState();
   ctx.save();
   ctx.imageSmoothingEnabled = false;
   for (const layer of plan) {
     ctx.globalAlpha = layer.alpha;
-    ctx.drawImage(onionGhost(ctx.canvas, artwork, { ...target, animation: target.animation }, onionGhostOf(layer, onion)), origin.x, origin.y);
+    ctx.drawImage(onionGhost(ctx.canvas, artwork, { ...target, animation: target.animation }, onionGhostOf(layer, onion, pattern)), origin.x, origin.y);
   }
   ctx.restore();
 };

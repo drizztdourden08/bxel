@@ -4,6 +4,7 @@ import { ONION_LIMITS } from '../../../stores/timeline-store.constants';
 import type { OnionTint } from '../../../stores/timeline-store.type';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { ONION_TEXT, ONION_TINTS } from '../ViewPanel.constants';
+import { OnionPatternField } from './OnionPatternField';
 
 const tintOption = (tint: OnionTint) => ({
   value: tint,
@@ -52,6 +53,7 @@ const OnionSection = () => {
         options={(['none', 'split', 'grey'] as const).map(tintOption)}
         onChange={(tint) => setOnion({ tint })}
       />
+      <OnionPatternField />
     </Flex>
   );
 };
