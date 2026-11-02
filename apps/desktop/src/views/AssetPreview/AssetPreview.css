@@ -22,6 +22,18 @@
   block-size: var(--size-160);
 }
 
+.asset-preview__frame {
+  position: relative;
+  display: flex;
+}
+
+.asset-preview__cell {
+  position: absolute;
+  pointer-events: none;
+  outline: var(--border-width-thin) solid var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thin));
+}
+
 .asset-preview__canvas {
   display: block;
   image-rendering: pixelated;

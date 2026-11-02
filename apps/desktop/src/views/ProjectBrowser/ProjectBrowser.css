@@ -30,6 +30,17 @@
   overflow: hidden;
 }
 
+.browser-crumbs__end {
+  flex: 1;
+  align-self: stretch;
+  min-inline-size: var(--space-lg);
+  cursor: text;
+}
+
+.browser-crumbs__field {
+  flex: 1;
+}
+
 .browser-crumb {
   display: flex;
   align-items: center;
@@ -89,6 +100,18 @@
 
 .browser-sources__empty {
   padding-inline: var(--space-md);
+}
+
+.browser-sources__label {
+  flex: 1;
+  min-inline-size: 0;
+  border-radius: var(--radius-sm);
+}
+
+.browser-sources__label[data-over='true'] {
+  background: var(--c-primary-soft);
+  outline: var(--border-width-thin) dashed var(--c-primary);
+  outline-offset: calc(-1 * var(--border-width-thin));
 }
 
 .browser-centre {
@@ -315,6 +338,46 @@
   .browser-head,
   .browser-row {
     grid-template-columns: minmax(var(--size-96), 3fr) repeat(2, minmax(var(--size-48), 1fr));
+  }
+}
+
+.browser-list[data-hidden~='kind'] .browser-row__cell--kind,
+.browser-list[data-hidden~='size'] .browser-row__cell--size,
+.browser-list[data-hidden~='frames'] .browser-row__cell--frames,
+.browser-list[data-hidden~='palette'] .browser-row__cell--palette,
+.browser-list[data-hidden~='folder'] .browser-row__cell--folder,
+.browser-list[data-hidden~='modified'] .browser-row__cell--modified,
+.browser-list[data-hidden~='users'] .browser-row__cell--users {
+  display: none;
+}
+
+@container browser-list (width >= 48rem) {
+  .browser-list[data-columns='0'] :is(.browser-head, .browser-row) {
+    grid-template-columns: minmax(var(--size-224), 1fr);
+  }
+
+  .browser-list[data-columns='1'] :is(.browser-head, .browser-row) {
+    grid-template-columns: minmax(var(--size-224), 3fr) repeat(1, minmax(0, 1fr));
+  }
+
+  .browser-list[data-columns='2'] :is(.browser-head, .browser-row) {
+    grid-template-columns: minmax(var(--size-224), 3fr) repeat(2, minmax(0, 1fr));
+  }
+
+  .browser-list[data-columns='3'] :is(.browser-head, .browser-row) {
+    grid-template-columns: minmax(var(--size-224), 3fr) repeat(3, minmax(0, 1fr));
+  }
+
+  .browser-list[data-columns='4'] :is(.browser-head, .browser-row) {
+    grid-template-columns: minmax(var(--size-224), 3fr) repeat(4, minmax(0, 1fr));
+  }
+
+  .browser-list[data-columns='5'] :is(.browser-head, .browser-row) {
+    grid-template-columns: minmax(var(--size-224), 3fr) repeat(5, minmax(0, 1fr));
+  }
+
+  .browser-list[data-columns='6'] :is(.browser-head, .browser-row) {
+    grid-template-columns: minmax(var(--size-224), 3fr) repeat(6, minmax(0, 1fr));
   }
 }
 

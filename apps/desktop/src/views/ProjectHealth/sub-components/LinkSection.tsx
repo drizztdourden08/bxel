@@ -45,6 +45,9 @@ const LinkSection = ({ findings, actions, title, hint, moved }: LinkSectionProps
                 {HEALTH_TEXT.removeLink}
               </Button>
             )}
+            <Button size="sm" variant="secondary" onClick={() => actions.pickFile(finding)}>
+              {HEALTH_TEXT.pickFile}
+            </Button>
             <Button size="sm" variant="ghost" onClick={() => actions.show(finding.file)}>
               {HEALTH_TEXT.show}
             </Button>

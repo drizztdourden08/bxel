@@ -21,12 +21,14 @@ import { togglesStep } from './toggles-step';
 import { timelineStep } from './timeline-step';
 import { toolStep } from './tool-step';
 import type { ViewStep } from './view-steps.type';
+import { windowStep } from './window-step';
 import { zoomStep } from './zoom-step';
 
 const VIEW_STEPS: readonly (readonly [keyof SetViewInput, ViewStep])[] = [
   ['dialog', dialogStep],
   ['focus', focusStep],
   ['page', pageStep],
+  ['window', windowStep],
   ['properties', propertiesStep],
   ['browse', browseStep],
   ['reveal', revealStep],

@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { ANIM_FRAME_ID_SCHEMA, DOCUMENT_ID_SCHEMA, LAYER_ID_SCHEMA, MAP_LAYER_ID_SCHEMA, SPRITE_ID_SCHEMA, TAG_ID_SCHEMA } from './ids.constants';
 import { CELL_MASK_SCHEMA } from './cell-mask.constants';
 import { CELL_RECT_SCHEMA } from './cell-rect.constants';
-import { BROWSE_INPUT_SCHEMA, PROJECT_PANEL_INPUT_SCHEMA, PROPERTIES_INPUT_SCHEMA, TILESET_INPUT_SCHEMA } from './project-view.constants';
+import { BROWSE_INPUT_SCHEMA, PROJECT_PANEL_INPUT_SCHEMA, PROPERTIES_INPUT_SCHEMA, TILESET_INPUT_SCHEMA, WINDOW_INPUT_SCHEMA } from './project-view.constants';
 import { LOCATION_SCHEMA } from './place.constants';
 import { SPRITES_INPUT_SCHEMA } from './sprites-view.constants';
 import { TIMELINE_INPUT_SCHEMA } from './timeline-view.constants';
@@ -75,6 +75,7 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
   tileset: TILESET_INPUT_SCHEMA.optional().describe('The tileset and tilemap tool state: panel mode, search, stamp, scatter, brush flags, terrain brush and set, the collision overlay, tile animation, thumbnail zoom and the key and use badges.'),
   sprites: SPRITES_INPUT_SCHEMA.optional().describe('The Sprites panel: search text, chips, sort, grid or list, thumbnail size and closed folders. Use select.sprites to pick sprites.'),
   page: z.strictObject({ route: z.string().min(1).max(200), section: z.string().min(1).max(200).optional() }).optional(),
+  window: WINDOW_INPUT_SCHEMA.optional().describe('Opens the Project, Properties or Options window on a page, with the Properties subject pinned or the Browse selection set.'),
   zoom: z
     .union([z.number().min(1).max(6400).describe('Percent.'), z.enum(['fit', 'actual']), z.strictObject({ rect: VIEW_RECT_SCHEMA })])
     .optional(),

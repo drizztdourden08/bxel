@@ -17,7 +17,8 @@ const sheetPreviewImage = (artwork: Artwork, id: string): OverviewPreview => {
   const extent = sheetExtent(sheet, sheetSizes(artwork), artwork.animations);
   if ((items.length === 0 && animations.length === 0) || extent.width < 1 || extent.height < 1) return { kind: 'none' };
   const atlas = renderSheet(artwork, { sheet, items, animations, extent, overlaps: [] }, new Map());
-  return { kind: 'image', image: { data: atlas.rgba, width: atlas.width, height: atlas.height } };
+  const cells = items.map((item) => ({ x: item.at.x, y: item.at.y, width: item.sprite.width, height: item.sprite.height }));
+  return { kind: 'image', image: { data: atlas.rgba, width: atlas.width, height: atlas.height }, cells };
 };
 
 export { sheetPreviewImage };

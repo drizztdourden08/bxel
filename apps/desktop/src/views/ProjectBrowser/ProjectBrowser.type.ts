@@ -8,7 +8,8 @@ import type { ReactNode } from 'react';
 import type { RgbaImage } from '@bxel/formats';
 import type { OrganiseCollection } from '@bxel/project';
 import type { PreviewLayer } from '../../asset-overview/asset-overview.type';
-import type { BrowserEntry, FolderNode, SortKey } from '../../project-browser/project-browser.type';
+import type { BrowserEntry, FolderNode, SortKey, SourceItem } from '../../project-browser/project-browser.type';
+import type { FolderDropPayload } from './behavior/useFolderDrop.type';
 
 type BrowserActions = {
   readonly open: (entry: BrowserEntry) => void;
@@ -41,6 +42,7 @@ type BrowserActions = {
   readonly undoMove: () => void;
   readonly dropFiles: (files: readonly File[], folder: string) => void;
   readonly importImage: () => void;
+  readonly importAsSprite: (entry: BrowserEntry) => void;
   readonly importPalette: () => void;
   readonly importTiled: () => void;
   readonly filterBy: (token: string) => void;
@@ -81,7 +83,7 @@ type BrowserActionState = { readonly actions: BrowserActions; readonly renaming:
 
 type OrganiseActions = Pick<BrowserActions, 'pin' | 'tag' | 'untag' | 'collect' | 'collectInNew' | 'newCollection' | 'deleteCollection' | 'saveFilter' | 'removeFilter'>;
 
-type ImportActions = { readonly importImage: () => void; readonly importPalette: () => void; readonly importTiled: () => void; readonly dropFiles: (files: readonly File[], folder: string) => void };
+type ImportActions = { readonly importImage: () => void; readonly importAsSprite: (entry: BrowserEntry) => void; readonly importPalette: () => void; readonly importTiled: () => void; readonly dropFiles: (files: readonly File[], folder: string) => void };
 
 type RenameFlow = {
   readonly renaming: string | null;
@@ -98,13 +100,22 @@ type RowCellTextProps = { readonly value: string; readonly suffix?: string };
 
 type ThumbCanvasProps = { readonly image: RgbaImage; readonly label: string };
 
+type SourceDrop = {
+  readonly files?: boolean;
+  readonly canDrop: (key: string) => boolean;
+  readonly onDrop: (key: string, payload: FolderDropPayload) => void;
+};
+
 type SourceTreeProps = {
   readonly label: string;
   readonly root: FolderNode;
   readonly selectedKey: string | null;
   readonly expandToDepth?: number;
+  readonly drop?: SourceDrop | undefined;
   readonly onSelect: (key: string) => void;
 };
+
+type SourceLabelProps = { readonly item: SourceItem; readonly drop: SourceDrop | undefined };
 
 type FileMoveActions = Pick<BrowserActions, 'moveInto' | 'moveTo' | 'cut' | 'copy' | 'paste' | 'undoMove'>;
 
@@ -116,4 +127,4 @@ type PreviewLayersProps = {
   readonly onToggle: (id: string) => void;
 };
 
-export type { PreviewLayersProps, ReferenceListProps, FileMoveActions, OrganiseActions, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, EntryMenuProps, EntryProps, MenuInput, ProjectBrowserProps, TileProps };
+export type { PreviewLayersProps, ReferenceListProps, FileMoveActions, OrganiseActions, SourceDrop, SourceLabelProps, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, EntryMenuProps, EntryProps, MenuInput, ProjectBrowserProps, TileProps };

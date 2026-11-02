@@ -69,6 +69,7 @@ const APP_INPUT_EXAMPLES: Record<string, unknown> = {
     properties: { file: PLACE },
     browse: { folder: { projectId: PROJECT, folderId: FOLDER }, view: 'list', selection: [PLACE], search: 'kind:sprite' },
     reveal: PLACE,
+    window: { open: 'properties', page: 'sprite', subject: PLACE, pin: true },
     projectPanel: { mode: 'tree', chips: ['kind:sprite'] },
     sprites: { query: 'hero', filter: { kind: 'sprites', size: null }, sort: { key: 'name', descending: false }, view: 'list', size: 64, collapsed: ['props'] },
     tileset: { mode: 'collision', stamp: { columns: 2, rows: 1, keys: [1, 2] }, scatter: false, collisionOverlay: true, flags: { flipX: true }, animate: true, zoom: 2, showKeys: true, showUses: false, terrainSet: null },

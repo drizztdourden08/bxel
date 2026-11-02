@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { RgbaImage } from '@bxel/formats';
-import type { OverviewPreview, PreviewColour, PreviewFrame, PreviewTag } from '../../asset-overview/asset-overview.type';
+import type { OverviewPreview, PreviewCell, PreviewColour, PreviewFrame, PreviewTag } from '../../asset-overview/asset-overview.type';
 import type { PlaybackLoop, PlaybackModel, PreviewMode } from '../../asset-preview/asset-preview.type';
 
 type AssetPreviewProps = {
@@ -15,7 +15,10 @@ type PixelStageProps = {
   readonly image: RgbaImage;
   readonly label: string;
   readonly mode: PreviewMode;
+  readonly cells?: readonly PreviewCell[] | undefined;
 };
+
+type CellOutlineProps = { readonly cell: PreviewCell | null; readonly zoom: number };
 
 type FramesPreviewProps = {
   readonly frames: readonly PreviewFrame[];
@@ -47,4 +50,4 @@ type SwatchGridProps = {
 
 type StageSize = { readonly width: number; readonly height: number };
 
-export type { AssetPreviewProps, FramesPlayerProps, FramesPreviewProps, PixelStageProps, PlaybackBarProps, StageSize, SwatchGridProps, TagPickerProps };
+export type { AssetPreviewProps, CellOutlineProps, FramesPlayerProps, FramesPreviewProps, PixelStageProps, PlaybackBarProps, StageSize, SwatchGridProps, TagPickerProps };

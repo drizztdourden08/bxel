@@ -38,6 +38,11 @@ const OnePreview = ({ entry }: { readonly entry: FileEntry }) => {
         <Button size="sm" variant="secondary" onClick={() => actions.properties([entry])}>
           {BROWSER_TEXT.properties}
         </Button>
+        {entry.row.kind === 'image' && (
+          <Button size="sm" variant="secondary" onClick={() => actions.importAsSprite(entry)}>
+            {BROWSER_TEXT.importAsSprite}
+          </Button>
+        )}
       </Box>
       <PreviewLayers layers={toggles.layers} flipped={toggles.flipped} onToggle={toggles.toggle} />
       <PreviewFacts entry={entry} />

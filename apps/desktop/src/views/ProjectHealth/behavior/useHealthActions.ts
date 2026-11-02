@@ -5,6 +5,7 @@ import { PROJECT_HUB } from '../../../config-entry/config-entry.constants';
 import { moveEntries } from '../../../file-ops/move-entries';
 import { trashEntries } from '../../../file-ops/trash-entries';
 import { applyLinkFixes } from '../../../project-health/apply-link-fixes';
+import { pickLinkFile } from '../../../project-health/pick-link-file';
 import { refreshHealth } from '../../../project-health/refresh-health';
 import type { LinkFinding, LinkFix } from '../../../project-health/project-health.type';
 import { grantProjectFolder } from '../../../project/grant-project-folder';
@@ -29,6 +30,7 @@ const useHealthActions = (): HealthActions =>
         const state = useHealthStore.getState().state;
         if (state.status === 'ready') void applyLinkFixes(state.report.moved.map((finding) => fixOf(finding, 'id')));
       },
+      pickFile: (finding) => void pickLinkFile(finding),
       show: revealInProjectWindow,
       showUnsaved: () => showWith('is:unsaved'),
       showUnused: () => showWith('is:unused'),

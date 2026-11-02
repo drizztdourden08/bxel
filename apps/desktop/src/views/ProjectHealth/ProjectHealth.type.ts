@@ -4,6 +4,7 @@ import type { AccessFinding, FileFinding, HealthReport, LinkFinding, MisplacedFi
 type HealthActions = {
   readonly fixLink: (finding: LinkFinding, by: 'id' | 'remove') => void;
   readonly fixMoved: () => void;
+  readonly pickFile: (finding: LinkFinding) => void;
   readonly show: (path: string) => void;
   readonly showUnsaved: () => void;
   readonly showUnused: () => void;

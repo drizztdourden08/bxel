@@ -4,7 +4,7 @@ import { RowCellText } from './RowCellText';
 
 const RowCells = ({ cells }: { readonly cells: RowCellValues }) => (
   <>
-    <RowCellText value={cells.kind} />
+    <RowCellText value={cells.kind} suffix="kind" />
     <RowCellText value={cells.size} suffix="size" />
     <RowCellText value={cells.frames} suffix="frames" />
     <RowCellText value={cells.palette} suffix="palette" />
