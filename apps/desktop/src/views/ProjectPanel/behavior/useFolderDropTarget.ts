@@ -12,6 +12,9 @@ const useFolderDropTarget = (ref: RefObject<HTMLElement | null>, item: BrowserIt
   useDropTarget(ref, {
     accepts: ASSET_DRAG,
     canDrop: (assets) => folder !== undefined && model.drag.canMoveInto(assets.map((each) => each.path), folder.key),
+    feedback: (feedback) => {
+      if (folder !== undefined) model.drag.markDrop(folder.key, feedback.accepted && (feedback.phase === 'enter' || feedback.phase === 'over'));
+    },
     onDrop: (assets) => {
       if (folder !== undefined) model.drag.moveKeys(assets.flatMap((each) => tree.items.get(each.path)?.key ?? []), folder.key);
     },

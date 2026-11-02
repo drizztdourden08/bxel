@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind test */
 import { existsSync } from 'node:fs';
-import type { Page } from 'playwright-core';
+import type { Locator, Page } from 'playwright-core';
 import { describe, expect, test } from 'vitest';
 import { linkTargets, slash } from './support/link-targets';
 import { openProjectAtInUi } from './support/open-project-at-in-ui';
@@ -15,15 +15,23 @@ import { openHub } from './support/open-hub';
 
 const POLL = { timeout: POLL_MS } as const;
 
+const DRAG_STEPS = 12;
+
+const centreOf = async (locator: Locator): Promise<{ x: number; y: number }> => {
+  const box = await locator.boundingBox();
+  if (box === null) throw new Error('The drag end is not on screen');
+  return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
+};
+
 const dragCellToCrumb = async (page: Page, name: string, crumb: string): Promise<void> => {
-  const dataTransfer = await page.evaluateHandle(() => new DataTransfer());
   const cell = page.getByRole('gridcell', { name, exact: true }).first();
   const target = page.getByRole('navigation', { name: 'Folder path' }).getByRole('button', { name: crumb, exact: true });
-  await cell.dispatchEvent('dragstart', { dataTransfer });
-  await target.dispatchEvent('dragenter', { dataTransfer });
-  await target.dispatchEvent('dragover', { dataTransfer });
-  await target.dispatchEvent('drop', { dataTransfer });
-  await cell.dispatchEvent('dragend', { dataTransfer });
+  const from = await centreOf(cell);
+  const to = await centreOf(target);
+  await page.mouse.move(from.x, from.y);
+  await page.mouse.down();
+  await page.mouse.move(to.x, to.y, { steps: DRAG_STEPS });
+  await page.mouse.up();
 };
 
 const movesRenamesAndUndoes = async (session: Session, place: string): Promise<void> => {

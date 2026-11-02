@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { RecentProject } from '@bxel/project';
-import type { DragEvent, MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 import type { RowKind } from '../../asset-list/asset-list.type';
 import type { BrowserItem, FilterCounts, ViewDensity } from '../../panel-browser/project-browser.type';
 import type { BrowserEdit, BrowserModel, BrowserRows, BrowserView, ProjectViewSettings, SearchModel, SelectionModel } from '../../panel-browser/browser-state.type';
@@ -52,12 +52,10 @@ type BulkActions = Pick<RowActions, 'trash' | 'duplicate' | 'rename' | 'showMenu
 
 type DragActions = {
   readonly dropKey: string | null;
-  readonly dropOn: (target: BrowserItem | null) => Record<string, unknown>;
+  readonly markDrop: (key: string, over: boolean) => void;
   readonly moveKeys: (keys: readonly string[], folderKey: string) => void;
   readonly canMoveInto: (keys: readonly string[], folderKey: string | null) => boolean;
 };
-
-type DropEvent = DragEvent<HTMLElement>;
 
 type MiddleOpen = {
   readonly onMouseDown: (event: MouseEvent<HTMLElement>) => void;
@@ -110,7 +108,6 @@ export type {
   BulkActions,
   CreateActions,
   DragActions,
-  DropEvent,
   FilterChip,
   MiddleOpen,
   PanelParts,

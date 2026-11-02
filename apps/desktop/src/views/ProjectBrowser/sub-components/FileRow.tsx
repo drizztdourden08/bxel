@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Box, Icon } from '@drizztdourden08/tessera';
+import { useRef } from 'react';
 import { rowCells } from '../../../project-browser/row-cells';
 import { entryBoxProps } from '../behavior/entry-box-props';
 import { rowClass } from '../behavior/row-class';
@@ -13,15 +14,16 @@ import { RowCells } from './RowCells';
 import { ThumbBox } from './ThumbBox';
 
 const FileRow = ({ entry, column = false, open = false }: RowProps) => {
-  const handlers = useEntryHandlers(entry);
-  const drop = useFolderDrop(entry.kind === 'folder' ? entry.path : null);
+  const ref = useRef<HTMLElement>(null);
+  const handlers = useEntryHandlers(entry, ref);
+  const over = useFolderDrop(ref, entry.kind === 'folder' ? entry.path : null);
   const label = entry.kind === 'folder' ? entry.name : entry.row.name;
   const lit = handlers.selected || open;
   return (
     <>
       <Box
-        {...drop.handlers}
-        className={rowClass({ column, lit, over: drop.over })}
+        ref={ref}
+        className={rowClass({ column, lit, over })}
         data-selected={lit}
         {...entryBoxProps(handlers)}
       >
