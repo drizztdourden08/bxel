@@ -96,6 +96,7 @@ const RAMP_ROW_TEXT = {
   steps: (count: number): string => (count === 1 ? '1 step' : `${count} steps`),
   sphere: (name: string): string => `Shaded sphere test of ${name}`,
   name: (name: string): string => `Name of ramp ${name}`,
+  grip: (name: string): string => `Move ramp ${name}. Drag, or press Alt with the up or down arrow.`,
   newRamp: 'New ramp...',
   drop: 'Drop a swatch here to add it to the ramp. Hold Ctrl to keep it in its first ramp too.',
 } as const;

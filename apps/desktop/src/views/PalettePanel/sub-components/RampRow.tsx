@@ -4,13 +4,16 @@ import { useRef, useState } from 'react';
 import { editRamp } from '../../../palette-ramps/edit-ramp';
 import { SphereTest } from '../../SphereTest';
 import { dropMembership } from '../behavior/drop-membership';
+import { rampRowData } from '../behavior/ramp-row-data';
 import { rampRowGroups } from '../behavior/ramp-row-groups';
+import { rampRowKeyDown } from '../behavior/ramp-row-key-down';
 import { reportOutcome } from '../behavior/report-outcome';
 import { PALETTE_PANEL_TEXT, RAMP_ROW_TEXT } from '../PalettePanel.constants';
 import type { RampRowProps } from '../PalettePanel.type';
+import { RampGrip } from './RampGrip';
 import { RampSwatch } from './RampSwatch';
 
-const RampRow = ({ panel, ramp, indices }: RampRowProps) => {
+const RampRow = ({ panel, ramp, indices, reorder, position = 0 }: RampRowProps) => {
   const [over, setOver] = useState(false);
   const nameRef = useRef<HTMLElement>(null);
   const colours = indices.map((index) => panel.slots[index]?.hex ?? '');
@@ -22,6 +25,8 @@ const RampRow = ({ panel, ramp, indices }: RampRowProps) => {
       className={over ? 'ramp-row ramp-row--over' : 'ramp-row'}
       role="group"
       aria-label={name}
+      {...rampRowData(ramp, reorder, position)}
+      onKeyDown={reorder && ramp && !panel.lock.locked ? (event) => rampRowKeyDown(event, reorder, position) : undefined}
       onDragOver={(event) => {
         event.preventDefault();
         setOver(true);
@@ -33,6 +38,7 @@ const RampRow = ({ panel, ramp, indices }: RampRowProps) => {
       }}
     >
       <Flex align="center" gap="xs" className="ramp-row__head">
+        {ramp && reorder && !panel.lock.locked && <RampGrip reorder={reorder} position={position} ramp={ramp} />}
         {ramp && <SphereTest size="sm" colours={colours} label={RAMP_ROW_TEXT.sphere(ramp.name)} />}
         <Box ref={nameRef} className="ramp-row__name">
           {ramp && !panel.lock.locked ? (

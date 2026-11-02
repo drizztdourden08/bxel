@@ -14,6 +14,7 @@ const PANEL_LABEL = {
   ramp: 'New ramp',
   rampEdit: 'Edit ramp',
   rampDelete: 'Delete ramp',
+  rampMove: 'Move ramp',
 } as const;
 
 const SORT_WORDS: Readonly<Record<PaletteSortKey, string>> = {
@@ -45,6 +46,7 @@ const PANEL_TEXT = {
   rampChanged: (name: string): string => `Ramp ${name} changed.`,
   alreadyInRamp: (name: string): string => `That swatch is already in ramp ${name}.`,
   rampDeleted: (name: string): string => `Ramp ${name} deleted. Its swatches stay.`,
+  rampMoved: (name: string, to: number, total: number): string => `Ramp ${name} moved to ${to} of ${total}.`,
   nothingUnused: 'Every colour is in use.',
   noDuplicates: 'No two swatches have the same colour.',
   fixedSlot: 'The first swatch stays in place.',
