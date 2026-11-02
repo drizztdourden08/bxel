@@ -8,6 +8,7 @@ import { startSwitch } from '../palette-change/start-switch';
 import { useNoticeStore } from '../stores/useNoticeStore';
 import { CANVAS_DROP_TEXT } from './canvas-drop.constants';
 import type { CanvasDropPayload, CanvasDropTarget } from './canvas-drop.type';
+import { spriteLayerOffer } from './sprite-layer-offer';
 
 const dropFilesOnSprite = (files: readonly File[], defaults: AssetDefaults): void => {
   const image = files.find((file) => dropKind(file) === 'image');
@@ -18,6 +19,11 @@ const dropFilesOnSprite = (files: readonly File[], defaults: AssetDefaults): voi
 const dropOnSprite = (payload: CanvasDropPayload, target: CanvasDropTarget, defaults: AssetDefaults): void => {
   if ('files' in payload) {
     dropFilesOnSprite(payload.files.map((each) => each.file), defaults);
+    return;
+  }
+  const sprite = payload.find((asset) => asset.kind === 'sprite' && asset.assetId !== null);
+  if (sprite?.assetId) {
+    spriteLayerOffer(sprite.assetId, target);
     return;
   }
   const palette = payload.find((asset) => asset.kind === 'palette' && asset.assetId !== null);

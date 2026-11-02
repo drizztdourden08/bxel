@@ -19,6 +19,8 @@ type TileDropPayload = readonly DragAsset[];
 
 type TilesetDropPayload = DroppedFiles | readonly DragAsset[];
 
+type MapDropPayload = TileDragPayload | TilesetDropPayload;
+
 type TilesAdded = { ok: true; count: number } | { ok: false; reason: string };
 
 interface TileBlock {
@@ -31,4 +33,4 @@ type BlockSize = Pick<TileBlock, 'width' | 'height'>;
 
 type BlocksRead = { ok: true; blocks: TileBlock[] } | { ok: false; reason: string };
 
-export type { BlockSize, BlocksRead, TileBlock, TileDragPayload, TileDropPayload, TileSourceInput, TilesAdded, TilesetDropPayload };
+export type { BlockSize, BlocksRead, MapDropPayload, TileBlock, TileDragPayload, TileDropPayload, TileSourceInput, TilesAdded, TilesetDropPayload };

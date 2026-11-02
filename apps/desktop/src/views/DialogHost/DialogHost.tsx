@@ -4,6 +4,7 @@ import { CanvasSizeDialog } from '../CanvasSizeDialog';
 import { GuideDialog } from '../GuideDialog';
 import { CustomizeTools } from '../CustomizeTools';
 import { DirectionSetDialog } from '../DirectionSetDialog';
+import { DropLayerDialog } from '../DropLayerDialog';
 import { MoveToDialog } from '../MoveToDialog';
 import { PasteChoiceDialog } from '../PasteChoiceDialog';
 import { SelectionNamesDialog } from '../SelectionNamesDialog';
@@ -29,6 +30,7 @@ const DialogHost = () => {
       <SelectionNamesDialog />
       <SliceDialog />
       <PasteChoiceDialog />
+      <DropLayerDialog />
       <AddFramesDialog />
       <DirectionSetDialog />
       <ProjectCreateDialog />
