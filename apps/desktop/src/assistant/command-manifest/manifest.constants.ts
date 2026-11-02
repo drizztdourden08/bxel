@@ -145,7 +145,7 @@ const TILEMAP_ROWS = [
   ...rows('tilemaps', 'edit', ['tilemap.clear_cells', 'tilemap.flip_x', 'tilemap.flip_y', 'tilemap.turn', 'tilemap.layer_up', 'tilemap.layer_down']),
   one('tilemap.delete_tile', 'tilemaps', 'edit', { dialog: 'confirm' }),
   ...rows('tilemaps', 'app', ['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'terrain.toggle_brush', 'tilemap.select_same', 'tilemap.capture_stamp', 'tilemap.stamp_flip_y', 'tilemap.stamp_turn_left']),
-  ...rows('tilemaps', 'app', [1, 2, 3, 4, 5, 6, 7, 8, 9].flatMap((slot) => [`tilemap.store_stamp_${slot}`, `tilemap.recall_stamp_${slot}`])),
+  ...rows('tilemaps', 'app', ['tilemap.store_stamp', 'tilemap.recall_stamp'], { args: 'stampSlot' }),
   one('collision.toggle_overlay', 'tilemaps', 'show'),
   ...rows('tilemaps', 'app', ['tileset.mode_tiles', 'tileset.mode_terrain', 'tileset.mode_collision', 'tileset.mode_data', 'tileset.mode_animation', 'tileset.focus_search']),
   one('tileset.animation_from_tiles', 'tilemaps', 'edit'),

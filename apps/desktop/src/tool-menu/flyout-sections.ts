@@ -1,16 +1,17 @@
 /* @layer renderer-app @kind logic */
-import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
+import { openKeymapAt, useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import { applyPreset } from '../editor/presets/apply-preset';
 import { openSaveDraft } from '../editor/presets/open-save-draft';
 import { resetTool } from '../editor/tool-options/reset-tool';
 import { announcePreset } from '../editor/tool-pick/announce-preset';
 import { pickMember } from '../editor/tool-pick/pick-member';
 import { pointerPick } from '../editor/tool-pick/pointer-pick';
+import { COMMAND_ID } from '../keymap/keymap.constants';
 import { useCustomizeStore } from '../stores/useCustomizeStore';
 import { useToolPrefsStore } from '../stores/useToolPrefsStore';
 import { focusOptionsBar } from './focus-options-bar';
 import { optionSections } from './option-sections';
-import { TOOL_MENU_TEXT, TOOLS_WIDGET_ID } from './tool-menu.constants';
+import { KEYMAP_ROUTE, TOOL_MENU_TEXT, TOOLS_WIDGET_ID } from './tool-menu.constants';
 import type { FlyoutModel, FlyoutRow, FlyoutSection } from './tool-menu.type';
 
 const action = (id: string, label: string, icon: FlyoutRow['icon'], run: () => void): FlyoutRow => ({ id, label, icon, kind: 'action', checked: false, disabled: false, run });
@@ -48,6 +49,7 @@ const presetRows = (model: FlyoutModel): FlyoutRow[] => [
 const footerRows = (model: FlyoutModel): FlyoutRow[] => [
   action('options', TOOL_MENU_TEXT.focusOptions, undefined, () => void focusOptionsBar()),
   action('reset', TOOL_MENU_TEXT.resetOptions, 'rotate-ccw', () => resetTool(model.slot.tool)),
+  action('change-key', TOOL_MENU_TEXT.changeKey, undefined, () => openKeymapAt(KEYMAP_ROUTE, COMMAND_ID.tool(model.slot.tool))),
   action('hide', model.hidden ? TOOL_MENU_TEXT.show : TOOL_MENU_TEXT.hide, model.hidden ? 'eye' : 'eye-off', () =>
     model.slot.members.forEach((member) => useToolPrefsStore.getState().toggleHidden(member.id)),
   ),

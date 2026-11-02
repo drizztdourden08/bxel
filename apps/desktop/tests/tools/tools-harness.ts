@@ -6,6 +6,7 @@ const toolsBrockMock = () => ({
   ...brockReactMock(),
   announce: vi.fn(),
   openContextMenu: vi.fn(),
+  openKeymapAt: vi.fn(),
   contextMenuZone: () => ({}),
   useWidgetLayoutStore: { getState: () => ({ open: vi.fn() }) },
 });

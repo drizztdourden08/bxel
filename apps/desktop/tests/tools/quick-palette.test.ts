@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind test */
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { notePointer } from '../../src/editor/quick-palette/pointer-point';
 import { pickQuick } from '../../src/editor/quick-palette/pick-quick';
+import { QUICK_TAP_MS } from '../../src/editor/quick-palette/quick-palette.constants';
 import { quickId, parseQuickId } from '../../src/editor/quick-palette/quick-id';
 import { quickSections } from '../../src/editor/quick-palette/quick-sections';
 import { TOOL_COMMAND } from '../../src/keymap/option-command-id.constants';
@@ -61,5 +62,43 @@ describe('Q1 the quick palette', { tags: ['critical'] }, () => {
     expect(sections.length).toBeGreaterThan(1);
     const [first] = sections[0]?.items ?? [];
     expect(parseQuickId(first?.id ?? '')?.kind).toBe('tool');
+  });
+});
+
+const holdContext = (heldMs: number, tap: boolean, cause: 'keyup' | 'blur' = 'keyup') =>
+  ({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, heldMs, tap, cause }) as never;
+
+describe('Q2 hold and release of the quick palette key', { tags: ['critical'] }, () => {
+  const click = vi.fn();
+
+  beforeEach(() => {
+    click.mockClear();
+    notePointer({ x: 30, y: 40 });
+    vi.stubGlobal('document', { elementFromPoint: () => ({ closest: () => ({ click }) }) });
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('is a hold command on the same key', () => {
+    const def = findCommand(TOOL_COMMAND.quickPalette);
+    expect(def.chord).toBe('`');
+    expect(def.hold?.tapMs).toBe(QUICK_TAP_MS);
+  });
+
+  it('picks the cell under the pointer when the key goes up after a hold', () => {
+    findCommand(TOOL_COMMAND.quickPalette).hold?.release(holdContext(400, false));
+    expect(click).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the palette open for clicks after a tap', () => {
+    findCommand(TOOL_COMMAND.quickPalette).hold?.release(holdContext(80, true));
+    expect(click).not.toHaveBeenCalled();
+  });
+
+  it('picks nothing when the window loses focus', () => {
+    findCommand(TOOL_COMMAND.quickPalette).hold?.release(holdContext(400, false, 'blur'));
+    expect(click).not.toHaveBeenCalled();
   });
 });

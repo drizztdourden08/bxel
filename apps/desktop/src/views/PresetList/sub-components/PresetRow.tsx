@@ -5,7 +5,7 @@ import { applyPreset } from '../../../editor/presets/apply-preset';
 import { presetSummary } from '../../../editor/presets/preset-summary';
 import { renameProjectPreset } from '../../../editor/presets/rename-project-preset';
 import { announcePreset } from '../../../editor/tool-pick/announce-preset';
-import { useKeysOf } from '../../../hooks/useKeysOf';
+import { useSlotKeys } from '../../../hooks/useSlotKeys';
 import { TOOL_COMMAND } from '../../../keymap/option-command-id.constants';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { PRESET_TEXT } from '../PresetList.constants';
@@ -16,7 +16,7 @@ import { PresetPreview } from './PresetPreview';
 
 const PresetRow = ({ preset, active, slot }: PresetRowProps) => {
   const [name, setName] = useState<string | null>(null);
-  const keys = useKeysOf()(slot === null ? undefined : TOOL_COMMAND.quickPreset(slot));
+  const keys = useSlotKeys()(TOOL_COMMAND.quickPreset, slot);
   const commit = (): void => {
     if (name !== null && name.trim() !== '') {
       if (preset.project === true) void renameProjectPreset(preset.id, name.trim());

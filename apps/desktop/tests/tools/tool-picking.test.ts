@@ -132,9 +132,17 @@ describe('S2 the presets', { tags: ['standard'] }, () => {
   it('answers Alt+1 to Alt+5 with the first five presets of the active tool', async () => {
     tools().setTool('pencil');
     expect(quickPresets('pencil').map((preset) => preset.id)).toEqual(['builtin.pencil-1', 'builtin.pencil-2', 'builtin.pencil-3']);
-    await findCommand(TOOL_COMMAND.quickPreset(2)).run();
+    await findCommand(TOOL_COMMAND.quickPreset).run({ args: { slot: 2 } } as never);
     expect(tools().brushSize).toBe(2);
-    expect(findCommand(TOOL_COMMAND.quickPreset(5)).when?.()).toBe(false);
+    await findCommand(TOOL_COMMAND.quickPreset).run({ args: { slot: 5 } } as never);
+    expect(tools().brushSize).toBe(2);
+  });
+
+  it('binds Alt+1 to Alt+5 to the quick preset command with the slot as an argument', () => {
+    const def = findCommand(TOOL_COMMAND.quickPreset);
+    expect(def.args?.slot?.max).toBe(5);
+    expect(def.bindings?.map((each) => each.args.slot)).toEqual([1, 2, 3, 4, 5]);
+    expect(def.bindings?.map((each) => each.chord)).toEqual(['Alt+1', 'Alt+2', 'Alt+3', 'Alt+4', 'Alt+5']);
   });
 
   it('applies a preset by id with the apply preset command', async () => {

@@ -9,4 +9,8 @@ const QUICK_TEXT = {
   presets: 'Presets',
 } as const;
 
-export { QUICK_KINDS, QUICK_TEXT };
+const QUICK_TAP_MS = 250;
+
+const QUICK_CELL_SELECTOR = `[role="listbox"][aria-label="${QUICK_TEXT.region}"] [data-choice-index]`;
+
+export { QUICK_CELL_SELECTOR, QUICK_KINDS, QUICK_TAP_MS, QUICK_TEXT };

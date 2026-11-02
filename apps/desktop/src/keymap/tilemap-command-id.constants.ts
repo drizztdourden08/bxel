@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind constants */
 const TILEMAP_COMMAND = {
   newTileset: 'tilemap.new_tileset',
-  storeStamp: (slot: number): string => `tilemap.store_stamp_${slot}`,
-  recallStamp: (slot: number): string => `tilemap.recall_stamp_${slot}`,
+  storeStamp: 'tilemap.store_stamp',
+  recallStamp: 'tilemap.recall_stamp',
   newTilemap: 'tilemap.new_tilemap',
   addTile: 'tilemap.add_tile',
   duplicateTile: 'tilemap.duplicate_tile',

@@ -27,7 +27,7 @@ const TOOLS: RuleTable = {
 const PRESETS: RuleTable = {
   ...family(['tool.customize'], always),
   ...family(['tool.previous', 'tool.cycle_back_select', 'tool.quick_palette'], DRAW_STAGE, [DRAW], ONLY.drawing),
-  ...family(['tool.apply_preset', 'tool.save_preset', 'tool.reset_options', 'tool.select_member', 'tool.hide_member', ...[1, 2, 3, 4, 5].map((slot) => `tool.apply_quick_preset_${slot}`)], PIXEL, [DOC], ONLY.pixels),
+  ...family(['tool.apply_preset', 'tool.save_preset', 'tool.reset_options', 'tool.select_member', 'tool.hide_member', 'tool.apply_quick_preset'], PIXEL, [DOC], ONLY.pixels),
 };
 
 const SELECT_OPTION_NAMES = ['fixed', 'fixed_width', 'fixed_height', 'mirror', 'vertex_snap', 'match', 'distance', 'ignore_transparent', 'in_selection'];
@@ -62,7 +62,7 @@ const BRUSH: RuleTable = {
   ...family(['symmetry.axis_here', 'symmetry.axis_centre', 'symmetry.axis_remove'], PIXEL, [], ONLY.pixels),
 };
 
-const STAMP_SLOT_COMMANDS = [1, 2, 3, 4, 5, 6, 7, 8, 9].flatMap((slot) => [`tilemap.store_stamp_${slot}`, `tilemap.recall_stamp_${slot}`]);
+const STAMP_SLOT_COMMANDS = ['tilemap.store_stamp', 'tilemap.recall_stamp'];
 
 const ZOOM_DIGITS = [100, 200, 400, 800, 1600, 3200].map((percent) => `view.zoom_${percent}`);
 

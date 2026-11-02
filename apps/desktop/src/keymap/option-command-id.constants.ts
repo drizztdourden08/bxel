@@ -30,7 +30,7 @@ const TOOL_COMMAND = {
   selectMember: 'tool.select_member',
   hideMember: 'tool.hide_member',
   cycleBack: (tool: string): string => `tool.cycle_back_${tool}`,
-  quickPreset: (slot: number): string => `tool.apply_quick_preset_${slot}`,
+  quickPreset: 'tool.apply_quick_preset',
   presetKey: (id: string): string => `tool.apply_preset_key.${id}`,
 } as const;
 

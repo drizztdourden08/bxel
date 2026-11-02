@@ -5,6 +5,8 @@ import { applyPreset } from '../editor/presets/apply-preset';
 import { openSaveDraft } from '../editor/presets/open-save-draft';
 import { quickPresets } from '../editor/presets/quick-presets';
 import { openQuickPalette } from '../editor/quick-palette/open-quick-palette';
+import { QUICK_TAP_MS } from '../editor/quick-palette/quick-palette.constants';
+import { releaseQuickPalette } from '../editor/quick-palette/release-quick-palette';
 import { chordOfKey } from '../editor/tool-catalogue/chord-of-key';
 import { keyOfTool } from '../editor/tool-catalogue/key-of-tool';
 import { labelOfTool } from '../editor/tool-catalogue/label-of-tool';
@@ -31,6 +33,9 @@ import { COMMAND_GROUP, COMMAND_ID } from './keymap.constants';
 import { needs } from './needs';
 import { TOOL_COMMAND } from './option-command-id.constants';
 import { ruled } from './ruled';
+import { slotArgs } from './slot-args';
+import { slotBindings } from './slot-bindings';
+import { slotOfArgs } from './slot-of-args';
 
 const CYCLING: readonly ToolId[] = ['select'];
 
@@ -78,18 +83,19 @@ const applyById = (context?: CommandContext): void => {
   if (preset && applyPreset(preset)) announcePreset(preset);
 };
 
-const quickCommand = (slot: number): CommandDef =>
-  ruled({
-    id: TOOL_COMMAND.quickPreset(slot),
-    label: `Apply preset ${slot} of the tool`,
-    group: COMMAND_GROUP.tools,
-    chord: `Alt+${slot}`,
-    ...needs(() => quickPresets(useToolStore.getState().tool)[slot - 1] !== undefined, REASON.noQuickPreset),
-    run: () => {
-      const preset = quickPresets(useToolStore.getState().tool)[slot - 1];
-      if (preset && applyPreset(preset)) announcePreset(preset);
-    },
-  });
+const quickCommand: CommandDef = ruled({
+  id: TOOL_COMMAND.quickPreset,
+  label: 'Apply a preset of the tool',
+  group: COMMAND_GROUP.tools,
+  args: slotArgs(QUICK_SLOTS),
+  bindings: slotBindings(QUICK_SLOTS, (slot) => `Alt+${slot}`),
+  ...needs(() => quickPresets(useToolStore.getState().tool).length > 0, REASON.noQuickPreset),
+  run: (context) => {
+    const slot = slotOfArgs(context);
+    const preset = slot === null ? undefined : quickPresets(useToolStore.getState().tool)[slot - 1];
+    if (preset && applyPreset(preset)) announcePreset(preset);
+  },
+});
 
 const memberOfArgs = (context?: CommandContext) => {
   const args = context?.args;
@@ -113,7 +119,7 @@ const PRESET_COMMANDS: readonly CommandDef[] = [
   { id: TOOL_COMMAND.selectMember, label: 'Pick a tool variant', group: COMMAND_GROUP.tools, run: selectMemberById },
   { id: TOOL_COMMAND.hideMember, label: 'Hide or show a tool variant', group: COMMAND_GROUP.tools, run: hideMemberById },
   { id: TOOL_COMMAND.customize, label: 'Customize tools', group: COMMAND_GROUP.tools, run: () => useCustomizeStore.getState().show(true) },
-  { id: TOOL_COMMAND.quickPalette, label: 'Quick palette at the pointer', group: COMMAND_GROUP.tools, chord: '`', run: openQuickPalette },
+  { id: TOOL_COMMAND.quickPalette, label: 'Quick palette at the pointer', group: COMMAND_GROUP.tools, chord: '`', hold: { release: releaseQuickPalette, tapMs: QUICK_TAP_MS }, run: openQuickPalette },
   { id: TOOL_COMMAND.resetOptions, label: 'Reset the options of the tool', group: COMMAND_GROUP.tools, run: () => resetTool(useToolStore.getState().tool) },
   {
     id: TOOL_COMMAND.previous,
@@ -132,7 +138,7 @@ const TOOL_COMMANDS: readonly CommandDef[] = [
   ...toolIds().map(selectCommand),
   ...CYCLING.map(backCommand),
   ...PRESET_COMMANDS,
-  ...Array.from({ length: QUICK_SLOTS }, (_, at) => quickCommand(at + 1)),
+  quickCommand,
 ];
 
 export { TOOL_COMMANDS };

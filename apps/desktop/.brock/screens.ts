@@ -12,6 +12,7 @@ import { meta as optionsCanvasCustomMeta } from '../src/screens/options/canvas.c
 import OptionsDefaultsSettings, { meta as optionsDefaultsSettingsMeta } from '../src/screens/options/defaults.settings';
 import OptionsGeneralSettings, { meta as optionsGeneralSettingsMeta } from '../src/screens/options/general.settings';
 import { meta as optionsGridCustomMeta } from '../src/screens/options/grid.custom';
+import { meta as optionsKeyboardPageMeta } from '../src/screens/options/keyboard.page';
 import { meta as optionsPresetsCustomMeta } from '../src/screens/options/presets.custom';
 import { meta as optionsStoragePageMeta } from '../src/screens/options/storage.page';
 import { meta as optionsSurroundCustomMeta } from '../src/screens/options/surround.custom';
@@ -47,6 +48,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'settings', bucket: 'options', id: 'defaults', sections: OptionsDefaultsSettings, meta: optionsDefaultsSettingsMeta },
   { kind: 'settings', bucket: 'options', id: 'general', sections: OptionsGeneralSettings, meta: optionsGeneralSettingsMeta },
   { kind: 'custom', bucket: 'options', id: 'grid', component: lazyComponent(() => import('../src/screens/options/grid.custom')), meta: optionsGridCustomMeta },
+  { kind: 'page', bucket: 'options', id: 'keyboard', component: lazyComponent(() => import('../src/screens/options/keyboard.page')), meta: optionsKeyboardPageMeta },
   { kind: 'custom', bucket: 'options', id: 'presets', component: lazyComponent(() => import('../src/screens/options/presets.custom')), meta: optionsPresetsCustomMeta },
   { kind: 'page', bucket: 'options', id: 'storage', component: lazyComponent(() => import('../src/screens/options/storage.page')), meta: optionsStoragePageMeta },
   { kind: 'custom', bucket: 'options', id: 'surround', component: lazyComponent(() => import('../src/screens/options/surround.custom')), meta: optionsSurroundCustomMeta },

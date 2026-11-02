@@ -4,6 +4,7 @@ const TOOL_MENU_TEXT = {
   presets: 'Presets',
   savePreset: 'Save as preset...',
   resetOptions: 'Reset tool options',
+  changeKey: 'Change key...',
   hide: 'Move to More tools',
   show: 'Show on the rail',
   panel: 'Tools panel...',
@@ -19,4 +20,6 @@ const OPTIONS_WIDGET_ID = 'options';
 
 const VIEW_WIDGET_ID = 'view';
 
-export { OPTIONS_WIDGET_ID, TOOL_MENU_TEXT, TOOLS_WIDGET_ID, VIEW_WIDGET_ID };
+const KEYMAP_ROUTE = 'options/keyboard';
+
+export { KEYMAP_ROUTE, OPTIONS_WIDGET_ID, TOOL_MENU_TEXT, TOOLS_WIDGET_ID, VIEW_WIDGET_ID };

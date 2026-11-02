@@ -33,7 +33,7 @@ const VIEW_ROWS = [
   ...rows('app_control', 'app', [OPTION_COMMAND.set, OPTION_COMMAND.reset], { args: 'optionTarget' }),
   ...rows('app_control', 'app', [OPTION_COMMAND.resetAll, OPTION_COMMAND.focus, OPTION_COMMAND.open, OPTION_COMMAND.sizeDownBy, OPTION_COMMAND.sizeUpBy, OPTION_COMMAND.tipPrevious, OPTION_COMMAND.tipNext]),
   ...rows('app_control', 'app', ['select'].map(TOOL_COMMAND.cycleBack)),
-  ...rows('app_control', 'app', [1, 2, 3, 4, 5].map(TOOL_COMMAND.quickPreset)),
+  one(TOOL_COMMAND.quickPreset, 'app_control', 'app', { args: 'quickSlot' }),
   ...rows('app_control', 'app', [TOOL_COMMAND.previous, TOOL_COMMAND.resetOptions]),
   one(TOOL_COMMAND.applyPreset, 'app_control', 'app', { args: 'preset' }),
   ...rows('edit_pixels', 'edit', [OPTION_COMMAND.sizeStep], { args: 'sizeStep' }),

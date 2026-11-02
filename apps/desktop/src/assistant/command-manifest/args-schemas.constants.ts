@@ -65,6 +65,8 @@ const ARGS_KINDS = {
   inkChoice: z.strictObject({ ink: z.enum(['normal', 'behind', 'lockAlpha', 'onlyColour', 'dither', 'shade', 'lighten', 'darken', 'pattern']).describe('The ink to use on the current tool.') }),
   member: z.strictObject({ id: z.string().min(1).describe('A tool member id from list_tools, such as pencil or ellipse. Without it the shown member of the tool is used.').optional() }),
   preset: z.strictObject({ id: z.string().min(1).describe('A preset id, such as builtin.pencil-2.') }),
+  quickSlot: z.strictObject({ slot: z.number().int().min(1).max(5).describe('The quick slot, 1 to 5: the preset in that place of the active tool.') }),
+  stampSlot: z.strictObject({ slot: z.number().int().min(1).max(9).describe('The stamp slot, 1 to 9.') }),
   paletteExport: z.strictObject({ format: z.enum(['gpl', 'pal', 'hex', 'txt', 'ase', 'png-1', 'png-8', 'png-32']).describe('The file format. The png formats are a one row strip scaled 1x, 8x or 32x.'), selection: z.boolean().default(false).describe('True exports only the selected swatches.') }),
   moveColour: z.strictObject({ index: z.number().int().min(1).max(255).optional().describe('The swatch whose colour moves. Default: the first selected swatch.') }),
   replaceColour: z.strictObject({ index: z.number().int().min(1).max(255).describe('The swatch whose pixels are replaced with the front colour.'), scope: z.enum(['frame', 'sprite', 'animation', 'selection']).default('sprite') }),
