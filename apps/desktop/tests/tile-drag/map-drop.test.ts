@@ -2,7 +2,8 @@
 import type { DroppedFile } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { DragAsset } from '../../src/asset-drag/asset-drag.type';
-import { canDropOnMap, dropOnMap } from '../../src/tile-drag/map-drop';
+import { canDropOnMap } from '../../src/tile-drag/can-drop-on-map';
+import { dropOnMap } from '../../src/tile-drag/drop-on-map';
 
 const held = vi.hoisted(() => ({ files: vi.fn(), assets: vi.fn(), place: vi.fn(), pick: vi.fn() }));
 

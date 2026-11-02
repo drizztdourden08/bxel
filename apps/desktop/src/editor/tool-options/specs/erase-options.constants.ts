@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind constants */
-import type { EraseMode } from '../../../stores/drawing-store.type';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
 import type { OptionChoice, OptionSpec } from '../tool-options.type';
 import { choiceSpec } from './choice-spec';
@@ -20,7 +19,7 @@ const ERASE_OPTIONS: readonly OptionSpec[] = [
     default: 'all',
     choices: ERASE_CHOICES,
     read: () => useDrawingStore.getState().eraseMode,
-    write: (value) => useDrawingStore.getState().patch({ eraseMode: (value === 'colour' ? 'colour' : 'all') as EraseMode }),
+    write: (value) => useDrawingStore.getState().patch({ eraseMode: value === 'colour' ? 'colour' : 'all' }),
   }),
 ];
 

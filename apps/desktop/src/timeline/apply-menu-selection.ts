@@ -5,7 +5,7 @@ import { goToFrame } from './go-to-frame';
 
 const applyMenuSelection = (selection: ReadonlySet<string> | undefined): void => {
   const focus = currentFocus();
-  if (!focus || selection === undefined || selection.size !== 1) return;
+  if (!focus || selection?.size !== 1) return;
   const only = focus.animation.frames.find((frame) => selection.has(frame.id))?.id;
   if (only !== undefined && !currentSelection(focus).includes(only)) goToFrame(only);
 };

@@ -1,8 +1,6 @@
 /* @layer renderer-app @kind logic */
+import { MEMORY } from './swap-tile-tiled.constants';
 import { useViewStore } from './useViewStore';
-import type { TileMode } from './view-store.type';
-
-const MEMORY = new Map<string, TileMode>();
 
 const swapTileTiled = (previous: string | null, next: string | null): void => {
   const view = useViewStore.getState();

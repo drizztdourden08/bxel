@@ -1,13 +1,12 @@
 /* @layer renderer-app @kind logic */
 import type { TileField, TileFieldKind } from '@bxel/document';
+import { ENTRY } from './parse-field-list.constants';
 import { FIELD_DEFAULTS } from '../views/TilesetPanel/behavior/tileset-fields.constants';
-
-const ENTRY = /^([^:()|,]+):(bool|int|number|text|colour|choice(?:\(([^()]*)\))?)$/;
 
 const choicesOf = (raw: string | undefined): string[] => [...new Set((raw ?? '').split('|').map((choice) => choice.trim()).filter((choice) => choice !== ''))];
 
 const sameField = (old: TileField | undefined, name: string, kind: TileFieldKind, choices: readonly string[]): TileField | null => {
-  if (!old || old.kind !== kind) return null;
+  if (old?.kind !== kind) return null;
   const kept = old.choices ?? [];
   return kind !== 'choice' || (kept.length === choices.length && kept.every((choice, at) => choice === choices[at])) ? { ...old, name } : null;
 };

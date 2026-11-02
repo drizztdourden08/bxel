@@ -12,4 +12,4 @@ interface DropLayerState {
   hide: () => void;
 }
 
-export type { DropLayerOffer, DropLayerState };
+export type { DropLayerState };

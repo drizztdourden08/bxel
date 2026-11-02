@@ -6,6 +6,7 @@ import { currentFocus } from './current-focus';
 import { goToFrame } from './go-to-frame';
 import { playSteps } from './play-steps';
 import { selectTag } from './select-tag';
+import { spanTagOf } from './span-tag-of';
 import { tagById } from './tag-by-id';
 import { TIMELINE_SAY } from './timeline-say.constants';
 
@@ -18,7 +19,7 @@ const playTag = (tagId: TagId): void => {
   selectTag(tag.id);
   goToFrame(first.frameId);
   useTimelineStore.getState().play();
-  announce(TIMELINE_SAY.playingTag(tag.name));
+  announce(TIMELINE_SAY.playingTag(spanTagOf(focus.animation, tag)?.name ?? ''));
 };
 
 export { playTag };

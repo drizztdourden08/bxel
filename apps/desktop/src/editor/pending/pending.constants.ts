@@ -30,7 +30,7 @@ const PENDING_TEXT = {
   noClipping: 'none',
   clipped: (pixels: number): string => (pixels === 1 ? '1 pixel falls outside the sprite' : `${pixels} pixels fall outside the sprite`),
   resized: (width: number, height: number): string => `none, the canvas becomes ${width} by ${height}`,
-  seams: 'Free rotation on a tile can break its edges, so it may stop tiling cleanly',
+  seams: 'Free rotation on a tile can break its edges, so it may stop tiling',
   noPreview: 'The preview is too large to draw.',
 } as const;
 

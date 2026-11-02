@@ -35,4 +35,4 @@ interface LayerViewState extends LayerViewSettings {
   flashLayer: (id: string) => void;
 }
 
-export type { LayerFlash, LayerScopeChip, LayerThumbSize, LayerViewSettings, LayerViewState };
+export type { LayerScopeChip, LayerThumbSize, LayerViewSettings, LayerViewState };
