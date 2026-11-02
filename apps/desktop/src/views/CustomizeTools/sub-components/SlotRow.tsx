@@ -2,9 +2,8 @@
 import { useDragSource, useDropTarget } from '@drizztdourden08/brock-react';
 import { Box, Flex, FormRow, Icon, IconButton, Text, Toggle } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
-import { CUSTOMIZE_TEXT } from '../CustomizeTools.constants';
+import { CUSTOMIZE_TEXT, SLOT_DRAG } from '../CustomizeTools.constants';
 import type { SlotDragPayload, SlotRowProps } from '../CustomizeTools.type';
-import { SLOT_DRAG } from '../slot-drag.constants';
 
 const SlotRow = ({ slot, hidden, onToggle, onMove, onStep }: SlotRowProps) => {
   const ref = useRef<HTMLDivElement>(null);

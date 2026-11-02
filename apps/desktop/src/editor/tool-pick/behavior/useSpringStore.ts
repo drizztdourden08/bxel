@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { create } from 'zustand';
-import type { SpringState } from './useSpringStore.type';
+import type { SpringState } from './spring-store.type';
 
 const useSpringStore = create<SpringState>()((set) => ({
   tool: null,

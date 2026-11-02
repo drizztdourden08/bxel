@@ -2,7 +2,7 @@
 import type { DragEvent, PointerEvent, RefObject } from 'react';
 import { useCallback, useRef } from 'react';
 import { dragOutPaths } from './drag-out-paths';
-import type { OsDragOut, OsDragOutInput } from './useOsDragOut.type';
+import type { OsDragOut, OsDragOutInput } from './use-os-drag-out.type';
 
 const useOsDragOut = (ref: RefObject<HTMLElement | null>, { paths, disabled }: OsDragOutInput): OsDragOut => {
   const armed = useRef(false);

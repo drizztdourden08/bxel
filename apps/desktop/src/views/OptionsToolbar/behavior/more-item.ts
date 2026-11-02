@@ -1,6 +1,7 @@
-/* @layer renderer-app @kind component */
+/* @layer renderer-app @kind logic */
 import { useWidgetLayoutStore, widgets } from '@drizztdourden08/brock-react';
 import type { ToolbarItem } from '@drizztdourden08/tessera';
+import { createElement } from 'react';
 import type { OptionSpec } from '../../../editor/tool-options/tool-options.type';
 import { OPTIONS_WIDGET_ID } from '../../../tool-menu/tool-menu.constants';
 import { OPTIONS_TEXT } from '../OptionsToolbar.constants';
@@ -16,15 +17,14 @@ const moreItem = (specs: readonly OptionSpec[]): ToolbarItem => {
   return {
     ...base,
     kind: 'popover',
-    render: (close) => (
-      <MoreOptions
-        specs={specs}
-        onOpenPanel={() => {
+    render: (close) =>
+      createElement(MoreOptions, {
+        specs,
+        onOpenPanel: () => {
           close();
           openPanel();
-        }}
-      />
-    ),
+        },
+      }),
   };
 };
 

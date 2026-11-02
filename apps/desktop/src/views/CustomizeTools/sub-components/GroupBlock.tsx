@@ -2,9 +2,8 @@
 import { useDropTarget } from '@drizztdourden08/brock-react';
 import { Box, Stack, Text } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
-import { CUSTOMIZE_TEXT } from '../CustomizeTools.constants';
+import { CUSTOMIZE_TEXT, SLOT_DRAG } from '../CustomizeTools.constants';
 import type { GroupBlockProps, SlotDragPayload } from '../CustomizeTools.type';
-import { SLOT_DRAG } from '../slot-drag.constants';
 import { SlotRow } from './SlotRow';
 
 const GroupBlock = ({ group, slots, hidden, onToggle, onMove, onStep }: GroupBlockProps) => {

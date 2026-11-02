@@ -10,7 +10,7 @@ import { TOOL_COMMAND } from '../../../keymap/option-command-id.constants';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { PRESET_TEXT } from '../PresetList.constants';
 import type { PresetRowProps } from '../PresetList.type';
-import { presetOrigin } from '../preset-origin';
+import { presetOrigin } from '../behavior/preset-origin';
 import { PresetMenu } from './PresetMenu';
 import { PresetPreview } from './PresetPreview';
 

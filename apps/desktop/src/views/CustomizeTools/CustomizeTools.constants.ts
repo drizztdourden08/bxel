@@ -1,4 +1,7 @@
 /* @layer renderer-app @kind constants */
+import { defineDragType } from '@drizztdourden08/brock-react';
+import type { SlotDragPayload } from './CustomizeTools.type';
+
 const CUSTOMIZE_TEXT = {
   title: 'Customize tools',
   rail: 'On the rail',
@@ -22,4 +25,6 @@ const CUSTOMIZE_TEXT = {
   toggle: (label: string): string => `Show ${label} on the rail`,
 } as const;
 
-export { CUSTOMIZE_TEXT };
+const SLOT_DRAG = defineDragType<SlotDragPayload>('bxel.tool-slot');
+
+export { CUSTOMIZE_TEXT, SLOT_DRAG };

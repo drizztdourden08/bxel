@@ -1,6 +1,7 @@
-/* @layer renderer-app @kind component */
+/* @layer renderer-app @kind logic */
 import { ChoiceGrid, Text } from '@drizztdourden08/tessera';
 import type { ChoiceCell, ToolbarItem } from '@drizztdourden08/tessera';
+import { createElement } from 'react';
 import { readOption } from '../../../editor/tool-options/read-option';
 import { setOption } from '../../../editor/tool-options/set-option';
 import type { OptionChoice, OptionSpec } from '../../../editor/tool-options/tool-options.type';
@@ -12,7 +13,7 @@ const tipOf = (value: string): 'square' | 'circle' | 'line' => (value === 'circl
 const cellOf = (choice: OptionChoice): ChoiceCell => ({
   value: choice.value,
   label: choice.label,
-  content: <BrushPreview size={BRUSH_PICKER.previewSize} shape={tipOf(choice.value)} small />,
+  content: createElement(BrushPreview, { size: BRUSH_PICKER.previewSize, shape: tipOf(choice.value), small: true }),
 });
 
 const brushPickerItem = (spec: OptionSpec): ToolbarItem => {
@@ -24,21 +25,20 @@ const brushPickerItem = (spec: OptionSpec): ToolbarItem => {
     id: spec.id,
     label: spec.label,
     description: spec.description,
-    icon: shown?.icon ?? <Text as="span" variant="label" numeric>{shown?.glyph}</Text>,
+    icon: shown?.icon ?? createElement(Text, { as: 'span', variant: 'label', numeric: true }, shown?.glyph),
     caption: shown?.label,
-    render: (close) => (
-      <ChoiceGrid
-        label={spec.label}
-        value={value}
-        columns={BRUSH_PICKER.columns}
-        cells={choices.map(cellOf)}
-        pickOnRelease
-        onChange={(next) => {
+    render: (close) =>
+      createElement(ChoiceGrid, {
+        label: spec.label,
+        value,
+        columns: BRUSH_PICKER.columns,
+        cells: choices.map(cellOf),
+        pickOnRelease: true,
+        onChange: (next) => {
           setOption(spec, next);
           close();
-        }}
-      />
-    ),
+        },
+      }),
   };
 };
 
