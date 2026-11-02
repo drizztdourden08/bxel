@@ -78,6 +78,8 @@ type ReadPixelsInput = DocumentInput & {
 
 type FileRenderInput = { readonly file: ProjectLocation };
 
+type RenderOverlay = 'grid' | 'major' | 'tile' | 'guides' | 'selection' | 'onion' | 'collision';
+
 type RenderInput = DocumentInput & {
   readonly target: SpriteSource | AnimationSource | SheetSource | TilesetSource | TilemapSource;
   readonly scale: number;
@@ -86,6 +88,9 @@ type RenderInput = DocumentInput & {
   readonly bankId?: string;
   readonly layers?: readonly string[];
   readonly animated?: 'gif' | 'apng';
+  readonly overlays?: readonly RenderOverlay[];
+  readonly view?: boolean;
+  readonly mirror?: boolean;
 };
 
 type RenderRequest = Omit<RenderInput, 'documentId' | 'target'> & Partial<Pick<RenderInput, 'documentId' | 'target'>> & Partial<FileRenderInput>;
@@ -225,6 +230,7 @@ export type {
   ReadPaletteInput,
   ReadPixelsInput,
   RenderInput,
+  RenderOverlay,
   RenderRequest,
   PreviewInput,
   SaveInput,

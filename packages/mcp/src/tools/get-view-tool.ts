@@ -41,6 +41,8 @@ const getViewTool = defineTool(TOOL_NAME.getView, {
     browse: block.describe('The Browse page: folder, view, search text, chips and the selection as locations.'),
     projectPanel: block.nullable().describe('The Project panel widget: mode, selection as locations, typed search and chips. Null when the panel is not on screen.'),
     tileset: block.describe('The tileset and tilemap tool state: panel mode, search, filters, stamp, scatter, terrain brush and the collision overlay.'),
+    highlight: block.describe('Highlight current layer: on, and the layer kept lit (a sprite layer id, or a map layer id on a map), null when off.'),
+    mapOverlays: block.describe('The overlays of the open map: collision shapes, animated tiles, the tile grid, the highlighted layer and the mirrored view.'),
     sprites: block.describe('The sprite selection and filters of the sheet manager.'),
   }),
 });

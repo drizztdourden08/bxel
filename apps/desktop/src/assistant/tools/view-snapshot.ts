@@ -25,9 +25,12 @@ import { FILLED_TOOL_IDS } from './view-snapshot.constants';
 import { timelineOf } from './timeline-view-of';
 import { currentContext } from '../../ui-context/current-context';
 import { browseView } from './browse-view';
+import { highlightView } from './highlight-view';
+import { mapOverlaysView } from './map-overlays-view';
 import { projectPanelView } from './project-panel-view';
 import { propertiesView } from './properties-view';
 import { tilesetView } from './tileset-view';
+import { togglesView } from './toggles-view';
 import { toolView } from './tool-view';
 import { uiView } from './ui-view';
 import type { Sees } from './view-snapshot.type';
@@ -138,30 +141,6 @@ const playbackOf = () => {
   };
 };
 
-const togglesOf = () => {
-  const view = useViewStore.getState();
-  return {
-    grid: view.grid,
-    gridMajor: view.gridMajor,
-    gridTile: view.gridTile,
-    gridIso: view.gridIso,
-    guides: view.guides,
-    rulers: view.rulers,
-    snap: view.snap,
-    slices: view.slices,
-    hideOverlays: view.hideOverlays,
-    mirror: view.mirror,
-    loupe: view.loupe,
-    backgroundPreview: view.backgroundPreview,
-    split: view.split,
-    splitLink: view.splitLink,
-    splitActual: view.splitActual,
-    fullscreen: view.fullscreen,
-    lockGuides: view.lockGuides,
-    tiled: view.tiled,
-  };
-};
-
 const spritesOf = () => {
   const manager = useManagerStore.getState();
   const sprites = useSpriteStore.getState();
@@ -182,7 +161,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     colours: { foreground: tool.foreground, background: tool.background, third: tool.third, fourth: tool.fourth },
     symmetry: { x: tool.symmetryX, y: tool.symmetryY, axisX: tool.axisX, axisY: tool.axisY },
     zoom: zoomOf(),
-    toggles: togglesOf(),
+    toggles: togglesView(),
     pointer: useReadoutStore.getState().pointer,
     playback: playbackOf(),
     timeline: timelineOf(sees),
@@ -194,6 +173,8 @@ const viewSnapshot = (sees: Sees = () => true) => {
     browse: browseView(),
     projectPanel: projectPanelView(),
     tileset: tilesetView(),
+    highlight: highlightView(),
+    mapOverlays: mapOverlaysView(),
   };
 };
 
