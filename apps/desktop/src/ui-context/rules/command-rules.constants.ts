@@ -162,7 +162,7 @@ const TILES: RuleTable = {
   ...family(['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'tilemap.use_tile'], file('tilemap'), [], ONLY.maps),
   ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
   ...family(['tilemap.select_same', 'tilemap.capture_stamp'], MAP, [CELLS_SELECTED], ONLY.maps),
-  ...family(STAMP_SLOT_COMMANDS, MAP, [], ONLY.maps),
+  ...family([...STAMP_SLOT_COMMANDS, 'tilemap.stamp_flip_y', 'tilemap.stamp_turn_left'], MAP, [], ONLY.maps),
   ...family(['tilemap.replace_everywhere', 'tilemap.layer_up', 'tilemap.layer_down'], MAP, [WRITE], ONLY.maps),
   ...family(
     ['tilemap.flip_x', 'tilemap.flip_y', 'tilemap.turn', 'tilemap.pick_tile_here', 'tilemap.pick_layer_here', 'tilemap.edit_tile_here', 'terrain.toggle_brush', 'animation.toggle_tiles'],
