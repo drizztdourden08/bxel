@@ -19,7 +19,7 @@ beforeEach(() => {
 });
 
 describe('W7 the hold chords of the view', { tags: ['standard'] }, () => {
-  it('shows the loupe while the key is held and hides it on release', () => {
+  it('shows the loupe while the key stays down and hides it on release', () => {
     press(COMMAND_ID.loupe);
     expect(useViewStore.getState().loupe).toBe(true);
     letGo(COMMAND_ID.loupe, false);

@@ -56,7 +56,9 @@ describe('S2 list_layout and set_layout', { tags: ['standard'] }, () => {
     expect(fake.calls).toEqual(['dock timeline {"side":"left"}']);
     expect(JSON.stringify(outcome)).toContain('Known widgets: timeline');
   });
+});
 
+describe('S2 the toolbar and tool ops of set_layout', { tags: ['standard'] }, () => {
   it('sets the toolbar columns and hidden items', async () => {
     const done = await ok('set_layout', {
       ops: [

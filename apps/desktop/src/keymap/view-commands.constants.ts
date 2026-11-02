@@ -15,7 +15,8 @@ import { zoomAtPointer } from '../view-zoom/zoom-at-pointer';
 import { zoomSelection } from '../view-zoom/zoom-selection';
 import { COMMAND_GROUP, COMMAND_ID, TILED_COMMAND } from './keymap.constants';
 import { HOLD_TOGGLES } from './hold-toggle.constants';
-import { holdToggle, pressToggle } from './hold-toggle';
+import { holdToggle } from './hold-toggle';
+import { pressToggle } from './press-toggle';
 import { ruled } from './ruled';
 
 const TILED_COMMANDS: readonly CommandDef[] = TILE_MODES.map((mode) => ({

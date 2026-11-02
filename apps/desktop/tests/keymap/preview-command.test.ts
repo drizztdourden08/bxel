@@ -14,9 +14,9 @@ beforeEach(() => {
 describe('W7 the Preview section', { tags: ['standard'] }, () => {
   it('is shown at first and F7 hides and shows it', () => {
     expect(findCommand(COMMAND_ID.previewSection).chord).toBe('F7');
-    findCommand(COMMAND_ID.previewSection).run();
+    void findCommand(COMMAND_ID.previewSection).run();
     expect(usePreviewStore.getState().shown).toBe(false);
-    findCommand(COMMAND_ID.previewSection).run();
+    void findCommand(COMMAND_ID.previewSection).run();
     expect(usePreviewStore.getState().shown).toBe(true);
   });
 
