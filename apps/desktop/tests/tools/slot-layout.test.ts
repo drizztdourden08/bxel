@@ -51,6 +51,12 @@ describe('K3 slot layout', { tags: ['critical'] }, () => {
     expect(down).not.toBeNull();
     expect(stepSlot(slots, first.id, -1)).toBeNull();
   });
+});
+
+describe('K3 saved slot layout', { tags: ['critical'] }, () => {
+  beforeEach(() => {
+    useToolPrefsStore.getState().resetLayout();
+  });
 
   it('reads the saved layout from slotsOf and drops it on reset', () => {
     const before = idsOf('sprite');

@@ -24,4 +24,4 @@ interface SizeFieldsProps {
   setTileMultiple: CanvasSizeForm['setTileMultiple'];
 }
 
-export type { CanvasSizeForm, SizeFieldsProps, TileSize };
+export type { CanvasSizeForm, SizeFieldsProps };

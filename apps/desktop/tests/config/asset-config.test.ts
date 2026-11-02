@@ -3,14 +3,12 @@ import { describe, expect, it, vi } from 'vitest';
 import { ASSET_SOURCE } from '../../src/asset-config/asset-source.constants';
 import { editAnimationTag } from '../../src/asset-config/edit-animation-tag';
 import { focusedAsset } from '../../src/asset-config/focused-asset';
-import { COMMAND_NAME } from '@bxel/document';
-import { useDocumentStore } from '../../src/stores/useDocumentStore';
-import { runSteps } from '../../src/transactions/run-steps';
-import { focusTab } from '../../src/workspace/focus-tab';
-import { tabOf } from '../../src/workspace/tab-of';
-import { firstSprite, liveArtwork, openedProject, revisionOf, undoOnce } from './config-harness';
+import { addSpanTag, firstSprite, firstTagId, focusNewAnimation, liveArtwork, openedProject, revisionOf, undoOnce } from './config-harness';
 
-vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
+vi.mock('@drizztdourden08/brock-react', async () => {
+  const { useNavigationStore } = await vi.importActual<typeof import('@drizztdourden08/brock-react')>('@drizztdourden08/brock-react');
+  return { ...(await import('../project/project-mocks')).brockReactMock(), useNavigationStore };
+});
 
 describe('S2 the value source over the open asset', { tags: ['standard'] }, () => {
   it('reads the fields of the sprite in focus', async () => {
@@ -107,11 +105,7 @@ describe('S2 the value source over pivot, grid and platform', { tags: ['standard
 describe('S2 the value source over an animation', { tags: ['standard'] }, () => {
   it('reads and changes the canvas, the anchor and the loop of the animation in focus', async () => {
     const { documentId } = await openedProject();
-    const made = runSteps(useDocumentStore.getState().host, documentId, 'Animation', [
-      { name: COMMAND_NAME.animationCreate, targets: null, options: { name: 'walk', source: { kind: 'blank', width: 8, height: 8, frames: 1 } }, ref: 'anim' },
-    ]);
-    if (!made.ok) throw new Error(made.error.message);
-    focusTab(tabOf(documentId, { kind: 'animation', id: made.created['anim'] ?? '' }));
+    focusNewAnimation(documentId, 1);
     expect([ASSET_SOURCE.get('animation.name'), ASSET_SOURCE.get('animation.width'), ASSET_SOURCE.get('animation.anchorX')]).toEqual(['walk', 8, 4]);
     await ASSET_SOURCE.set('animation.width', 12);
     await ASSET_SOURCE.set('animation.anchorX', 2.5);
@@ -125,21 +119,10 @@ describe('S2 the value source over an animation', { tags: ['standard'] }, () => 
 describe('S2 the tags of an animation edited from Properties', { tags: ['standard'] }, () => {
   it('renames a tag and changes its direction and repeat as one step each', async () => {
     const { documentId } = await openedProject();
-    const made = runSteps(useDocumentStore.getState().host, documentId, 'Animation', [
-      { name: COMMAND_NAME.animationCreate, targets: null, options: { name: 'walk', source: { kind: 'blank', width: 8, height: 8, frames: 3 } }, ref: 'anim' },
-    ]);
-    if (!made.ok) throw new Error(made.error.message);
-    focusTab(tabOf(documentId, { kind: 'animation', id: made.created['anim'] ?? '' }));
-    const first = liveArtwork(documentId).animations[0]?.frames[0]?.id ?? '';
-    const added = runSteps(useDocumentStore.getState().host, documentId, 'Tag', [
-      { name: COMMAND_NAME.animationTagAdd, targets: null, options: { animation: made.created['anim'], kind: 'span', name: 'idle', from: { by: 'id', id: first }, to: { by: 'id', id: first } }, ref: 'tag' },
-    ]);
-    if (!added.ok) throw new Error(added.error.message);
+    addSpanTag(documentId, focusNewAnimation(documentId, 3));
     const focus = focusedAsset();
     if (!focus) throw new Error('No asset in focus.');
-    const tagId = liveArtwork(documentId).animations[0]?.tags[0]?.id;
-    if (tagId === undefined) throw new Error('No tag.');
-    expect(editAnimationTag(focus, tagId, { name: 'run', direction: 'pingpong', repeat: 2 })).toBeNull();
+    expect(editAnimationTag(focus, firstTagId(documentId), { name: 'run', direction: 'pingpong', repeat: 2 })).toBeNull();
     expect(liveArtwork(documentId).animations[0]?.tags[0]).toMatchObject({ name: 'run', direction: 'pingpong', repeat: 2 });
   });
 });

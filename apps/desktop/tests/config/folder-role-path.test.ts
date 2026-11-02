@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { folderRolePath } from '../../src/project-config/folder-role-path';
 
-describe('P1 the role folder path of a folder', () => {
+describe('P1 the role folder path of a folder', { tags: ['critical'] }, () => {
   it('is the path below the project folder, with forward slashes', () => {
     expect(folderRolePath('C:\\games\\hero', 'C:\\games\\hero\\art\\sprites')).toBe('art/sprites');
   });
