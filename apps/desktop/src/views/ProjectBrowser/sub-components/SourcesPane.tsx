@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Box } from '@drizztdourden08/tessera';
+import { ScrollArea } from '@drizztdourden08/tessera';
 import { useMemo } from 'react';
 import { buildFolderTree } from '../../../project-browser/folder-tree';
 import { pinnedTree } from '../../../project-browser/pinned-tree';
@@ -18,7 +18,7 @@ const SourcesPane = () => {
   const pinned = useMemo(() => model.everyFile.filter((entry) => entry.pinned), [model.everyFile]);
   const single = model.roots.length === 1 ? model.roots[0]?.path : undefined;
   return (
-    <Box as="aside" className="browser-sources" aria-label={BROWSER_TEXT.sources}>
+    <ScrollArea axis="y" scrollbar="slim" thumb="auto" fade={false} className="browser-sources" role="complementary" aria-label={BROWSER_TEXT.sources}>
       <SourceSection title={BROWSER_TEXT.folders}>
         <SourceTree label={BROWSER_TEXT.folders} root={tree} expandToDepth={2} selectedKey={model.folder ?? single ?? ''} onSelect={(key) => useBrowserStore.getState().goTo(key === '' ? null : key)} />
       </SourceSection>
@@ -28,7 +28,7 @@ const SourcesPane = () => {
       <CollectionsSection />
       <FiltersSection />
       <TagsSection />
-    </Box>
+    </ScrollArea>
   );
 };
 

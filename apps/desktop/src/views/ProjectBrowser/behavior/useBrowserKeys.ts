@@ -11,7 +11,7 @@ const typing = (event: KeyboardEvent): boolean => event.target instanceof HTMLEl
 const useBrowserKeys = (model: BrowserModel, actions: BrowserActions) => {
   const typeAhead = useTypeAhead(model);
   return (event: KeyboardEvent): void => {
-    if (typing(event)) return;
+    if (typing(event) || event.defaultPrevented) return;
     const run = Object.entries(browserCommands(model, actions)).find(([chord]) => chord === browserChord(event))?.[1];
     if (run) {
       event.preventDefault();

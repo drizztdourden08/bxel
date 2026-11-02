@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Box, EmptyState } from '@drizztdourden08/tessera';
+import { EmptyState, ScrollArea } from '@drizztdourden08/tessera';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
 import { useBrowserContext } from '../behavior/useBrowserContext';
 import { FolderPreview } from './FolderPreview';
@@ -11,12 +11,12 @@ const PreviewPane = () => {
   const [first] = model.selected;
   const single = model.selected.length === 1 ? first : undefined;
   return (
-    <Box as="aside" className="browser-preview" aria-label={BROWSER_TEXT.previewLabel}>
+    <ScrollArea axis="y" scrollbar="slim" thumb="auto" fade={false} className="browser-preview" role="complementary" aria-label={BROWSER_TEXT.previewLabel}>
       {model.selected.length === 0 && <EmptyState size="sm" title={BROWSER_TEXT.noFileTitle} message={BROWSER_TEXT.selectOne} />}
       {model.selected.length > 1 && <ManyPreview entries={model.selected} />}
       {single?.kind === 'file' && <OnePreview key={single.id} entry={single} />}
       {single?.kind === 'folder' && <FolderPreview entry={single} />}
-    </Box>
+    </ScrollArea>
   );
 };
 
