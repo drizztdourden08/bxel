@@ -140,7 +140,7 @@ const TIMELINE_ROWS = [
 
 const TILEMAP_ROWS = [
   ...rows('tilemaps', 'edit', ['tilemap.new_tileset', 'tilemap.new_tilemap'], { dialog: 'tilemap_new' }),
-  ...rows('tilemaps', 'edit', ['tilemap.add_tile', 'tilemap.duplicate_tile', 'tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.replace_everywhere']),
+  ...rows('tilemaps', 'edit', ['tilemap.add_tile', 'tilemap.duplicate_tile', 'tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.replace_everywhere', 'tilemap.fill_with_stamp']),
   ...rows('tilemaps', 'edit', ['tilemap.clear_cells', 'tilemap.flip_x', 'tilemap.flip_y', 'tilemap.turn', 'tilemap.layer_up', 'tilemap.layer_down']),
   one('tilemap.delete_tile', 'tilemaps', 'edit', { dialog: 'confirm' }),
   ...rows('tilemaps', 'app', ['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'terrain.toggle_brush', 'tilemap.select_same', 'tilemap.capture_stamp', 'tilemap.stamp_flip_y', 'tilemap.stamp_turn_left']),

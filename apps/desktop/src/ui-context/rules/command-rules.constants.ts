@@ -148,7 +148,7 @@ const TILES: RuleTable = {
     ONLY.tiles,
   ),
   ...family(['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'tilemap.use_tile'], file('tilemap'), [], ONLY.maps),
-  ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
+  ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.fill_with_stamp', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
   ...family(['tilemap.select_same', 'tilemap.capture_stamp'], MAP, [CELLS_SELECTED], ONLY.maps),
   ...family([...STAMP_SLOT_COMMANDS, 'tilemap.stamp_flip_y', 'tilemap.stamp_turn_left'], MAP, [], ONLY.maps),
   ...family(['tilemap.replace_everywhere', 'tilemap.layer_up', 'tilemap.layer_down'], MAP, [WRITE], ONLY.maps),

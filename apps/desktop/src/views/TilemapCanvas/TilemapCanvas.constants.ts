@@ -22,6 +22,7 @@ const MAP_MENU = {
   map: 'Map',
   addLayer: 'Add map layer',
   highlight: 'Highlight current layer',
+  fillStamp: 'Fill selection with stamp',
   emptyCell: 'This cell is empty.',
   needCells: 'Select some cells first.',
   needTile: 'Pick a tile first.',

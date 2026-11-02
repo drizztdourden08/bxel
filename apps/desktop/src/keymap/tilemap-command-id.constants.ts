@@ -21,6 +21,7 @@ const TILEMAP_COMMAND = {
   layerDown: 'tilemap.layer_down',
   selectSame: 'tilemap.select_same',
   captureStamp: 'tilemap.capture_stamp',
+  fillWithStamp: 'tilemap.fill_with_stamp',
   stampFlipY: 'tilemap.stamp_flip_y',
   stampTurnLeft: 'tilemap.stamp_turn_left',
 } as const;
