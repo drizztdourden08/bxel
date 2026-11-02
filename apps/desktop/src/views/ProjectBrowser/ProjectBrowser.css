@@ -30,6 +30,17 @@
   overflow: hidden;
 }
 
+.browser-crumbs__end {
+  flex: 1;
+  align-self: stretch;
+  min-inline-size: var(--space-lg);
+  cursor: text;
+}
+
+.browser-crumbs__field {
+  flex: 1;
+}
+
 .browser-crumb {
   display: flex;
   align-items: center;

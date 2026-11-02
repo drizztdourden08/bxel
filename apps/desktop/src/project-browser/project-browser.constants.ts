@@ -154,6 +154,8 @@ const BROWSER_TEXT = {
   pixels: (width: number, height: number): string => `${width} x ${height}`,
   frames: (count: number): string => `${count} ${count === 1 ? 'frame' : 'frames'}`,
   breadcrumbs: 'Folder path',
+  editPath: 'Type a folder path',
+  hiddenColumns: 'Columns',
   siblings: 'Folders here',
   gridLabel: 'Project files',
   listLabel: 'Project files, as a table',
