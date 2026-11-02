@@ -5,6 +5,8 @@ import { useDrawingStore } from '../../../stores/useDrawingStore';
 import type { OptionSpec } from '../tool-options.type';
 import { choiceSpec } from './choice-spec';
 import { BAYER_SIZE_CHOICES, DRAWING_TEXT, GRADIENT_KIND_CHOICES, GRADIENT_MODE_CHOICES, GRADIENT_PATTERN_CHOICES } from './drawing-text.constants';
+import { patternChoices } from './pattern-choices';
+import { PATTERN_TEXT } from './pattern-text.constants';
 import { rampChoices } from './ramp-choices';
 import { toggleSpec } from './toggle-spec';
 
@@ -36,9 +38,13 @@ const GRADIENT_OPTIONS: readonly OptionSpec[] = [
     icon: 'pixel-brush-custom', read: () => d().gradientCustom, write: (on) => d().patch({ gradientCustom: on }), appliesWhen: dithering,
   }),
   choiceSpec({
+    tool: 'gradient', name: 'saved', label: PATTERN_TEXT.saved, description: PATTERN_TEXT.savedGradientDescription, priority: 12.7, group: 'gradient', tier: 2,
+    default: '', choices: patternChoices, read: () => d().patternId ?? '', write: (value) => d().patch({ patternId: value === '' ? null : value }), appliesWhen: dithering,
+  }),
+  choiceSpec({
     tool: 'gradient', name: 'size', label: DRAWING_TEXT.gradientSize, description: DRAWING_TEXT.gradientSizeDescription, priority: 13, group: 'gradient', tier: 2,
     default: '4', choices: BAYER_SIZE_CHOICES, read: () => String(d().gradientSize), write: (value) => d().patch({ gradientSize: asSize(value) }),
-    appliesWhen: () => dithering() && d().gradientPattern === 'bayer' && !d().gradientCustom,
+    appliesWhen: () => dithering() && d().gradientPattern === 'bayer' && !d().gradientCustom && d().patternId === null,
   }),
   toggleSpec({
     tool: 'gradient', name: 'reflect', label: DRAWING_TEXT.gradientReflect, description: DRAWING_TEXT.gradientReflectDescription, priority: 14, group: 'gradient',

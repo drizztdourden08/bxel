@@ -3,6 +3,7 @@ import type { CommandDef } from '@drizztdourden08/brock-react';
 import { FILE_COMMANDS } from '../files/file-commands.constants';
 import { BRUSH_COMMANDS } from './brush-commands.constants';
 import { DRAWING_COMMANDS } from './drawing-commands.constants';
+import { PATTERN_COMMANDS } from './pattern-commands.constants';
 import { ANIMATION_COMMANDS } from './animation-commands.constants';
 import { COLLISION_COMMANDS } from './collision-commands.constants';
 import { CONFIG_COMMANDS } from './config-commands.constants';
@@ -44,6 +45,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TOOL_COMMANDS,
   ...BRUSH_COMMANDS,
   ...DRAWING_COMMANDS,
+  ...PATTERN_COMMANDS,
   ...OPTION_COMMANDS,
   ...VIEW_COMMANDS,
   ...PREVIEW_COMMANDS,

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import { OPTION_COMMAND, TOOL_COMMAND } from '../../keymap/option-command-id.constants';
 import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_TOOL_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
+import { PATTERN_COMMAND } from '../../keymap/pattern-command-id.constants';
 import { OPTION_VALUE_COMMAND_IDS } from '../../keymap/option-commands.constants';
 import { one } from './manifest-one';
 import { rows } from './manifest-rows';
@@ -26,6 +27,7 @@ const VIEW_ROWS = [
   ...rows('app_control', 'app', DRAWING_COMMAND_IDS.filter((id) => id !== DRAWING_COMMAND.brushFromSelection && !OUTLINE_ACTIONS.includes(id))),
   ...rows('edit_pixels', 'edit', OUTLINE_ACTIONS),
   one(DRAWING_COMMAND.brushFromSelection, 'edit_pixels', 'edit'),
+  one(PATTERN_COMMAND.fromSelection, 'edit_pixels', 'edit'),
   ...rows('app_control', 'app', ['tool.select_zoom', 'tool.select_hand', 'tool.select_select', 'tool.select_move', 'tool.select_slice', 'brush.smaller', 'brush.larger']),
   ...rows('app_control', 'app', OPTION_VALUE_COMMAND_IDS, { args: 'optionValue' }),
   ...rows('app_control', 'app', [OPTION_COMMAND.set, OPTION_COMMAND.reset], { args: 'optionTarget' }),

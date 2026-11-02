@@ -5,12 +5,15 @@ import type { GradientSpec } from './editor.type';
 import { gradientColours } from './gradient-colours';
 import type { GradientInput } from './gradient-spec.type';
 import { PARTNER } from './ink-of.constants';
+import { patternStencilId } from './pattern-stencil-id';
 import { savedBrush } from './saved-brush';
+import { savedPattern } from './saved-pattern';
 import { wrapOf } from './wrap-of';
 
 const stencilOf = (drawing: GradientInput['drawing']): { brushId?: string; stencil?: BufferView } => {
-  const brush = drawing.gradientCustom ? savedBrush(drawing.brushId) : null;
-  return brush ? { brushId: brush.id, stencil: { width: brush.width, height: brush.height, pixels: decodeBrushPixels(brush.pixels) } } : {};
+  const id = patternStencilId(drawing, drawing.gradientCustom);
+  const saved = savedPattern(id) ?? savedBrush(id);
+  return saved ? { brushId: saved.id, stencil: { width: saved.width, height: saved.height, pixels: decodeBrushPixels(saved.pixels) } } : {};
 };
 
 const gradientSpec = ({ tools, drawing, target, slot, at }: GradientInput): GradientSpec => {

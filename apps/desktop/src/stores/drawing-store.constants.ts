@@ -50,6 +50,7 @@ const DRAWING_DEFAULTS: DrawingSettings = {
   lockToTile: false,
   linkedChoice: 'ask',
   brushId: null,
+  patternId: null,
   brushSpacing: 1,
   brushMode: 'colour',
   brushFlipX: false,
