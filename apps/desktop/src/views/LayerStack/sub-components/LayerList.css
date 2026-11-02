@@ -7,7 +7,3 @@
   min-inline-size: 0;
   min-block-size: 0;
 }
-
-.layer-list .layer-list__tree--large[data-row-size] {
-  --tree-row-h: var(--size-48);
-}

@@ -44,7 +44,7 @@ const ProjectTree = ({ model }: PanelPartProps) => {
       openOnPick
       onActivate={(item) => !isExpandable(item) && rowActions.open(item)}
       filter={visible === null ? undefined : (item) => visible.has(item.key)}
-      rowSize={density === 'compact' ? 'compact' : 'normal'}
+      rowSize={density === 'compact' ? 'compact' : 'tall'}
       emptyLabel={PANEL_UI.emptyFolder}
       trail="hover"
       onDragOut={treeDragOut(model)}
