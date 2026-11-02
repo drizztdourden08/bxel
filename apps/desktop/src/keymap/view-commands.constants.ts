@@ -7,13 +7,15 @@ import { describeCanvas } from '../canvas-describe/describe-canvas';
 import { readRow } from '../canvas-describe/read-row';
 import { zoomView } from '../editor/zoom-view';
 import { useViewStore } from '../stores/useViewStore';
-import type { ViewToggle } from '../stores/view-store.type';
+import type { ViewToggle, ViewToggleRow } from '../stores/view-store.type';
 import { TILE_LABELS, TILE_MODES, VIEW_TOGGLE_ROWS } from '../stores/view-store.constants';
 import { centreViewHere } from '../view-zoom/centre-view-here';
 import { DIGIT_ZOOM } from '../view-zoom/view-zoom.constants';
 import { zoomAtPointer } from '../view-zoom/zoom-at-pointer';
 import { zoomSelection } from '../view-zoom/zoom-selection';
 import { COMMAND_GROUP, COMMAND_ID, TILED_COMMAND } from './keymap.constants';
+import { HOLD_TOGGLES } from './hold-toggle.constants';
+import { holdToggle, pressToggle } from './hold-toggle';
 import { ruled } from './ruled';
 
 const TILED_COMMANDS: readonly CommandDef[] = TILE_MODES.map((mode) => ({
@@ -24,7 +26,16 @@ const TILED_COMMANDS: readonly CommandDef[] = TILE_MODES.map((mode) => ({
   run: () => useViewStore.getState().setTiled(mode),
 }));
 
-const SPOKEN: readonly ViewToggle[] = ['snap', 'mirror', 'split', 'splitLink', 'splitActual', 'hideOverlays', 'loupe', 'fullscreen', 'lockGuides'];
+const SPOKEN: readonly ViewToggle[] = ['snap', 'mirror', 'split', 'splitLink', 'splitActual', 'hideOverlays', 'loupe', 'backgroundPreview', 'fullscreen', 'lockGuides'];
+
+const toggleRun = (row: ViewToggleRow): CommandDef['run'] => () => {
+  if (HOLD_TOGGLES.includes(row.toggle)) {
+    pressToggle(row.toggle, row.label);
+    return;
+  }
+  useViewStore.getState().toggleView(row.toggle);
+  if (SPOKEN.includes(row.toggle)) announce(`${row.label} ${useViewStore.getState()[row.toggle] ? 'on' : 'off'}`);
+};
 
 const TOGGLE_COMMANDS: readonly CommandDef[] = VIEW_TOGGLE_ROWS.map((row) => ({
   id: row.command,
@@ -32,10 +43,8 @@ const TOGGLE_COMMANDS: readonly CommandDef[] = VIEW_TOGGLE_ROWS.map((row) => ({
   group: COMMAND_GROUP.view,
   chord: row.chord,
   checked: () => useViewStore.getState()[row.toggle],
-  run: () => {
-    useViewStore.getState().toggleView(row.toggle);
-    if (SPOKEN.includes(row.toggle)) announce(`${row.label} ${useViewStore.getState()[row.toggle] ? 'on' : 'off'}`);
-  },
+  ...(HOLD_TOGGLES.includes(row.toggle) ? { hold: holdToggle(row.toggle, row.label) } : {}),
+  run: toggleRun(row),
 }));
 
 const ZOOM_COMMANDS: readonly CommandDef[] = [

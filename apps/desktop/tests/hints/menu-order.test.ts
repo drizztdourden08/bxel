@@ -16,6 +16,7 @@ const stateOf = (column: Column, given: Partial<EditorMenuState> = {}): EditorMe
   hideOverlays: false,
   mirror: false,
   loupe: false,
+  backgroundPreview: false,
   fullscreen: false,
   split: false,
   splitLink: false,

@@ -43,6 +43,7 @@ const COMMAND_ID = {
   hideOverlays: 'view.hide_overlays',
   mirrorView: 'view.toggle_mirror',
   loupe: 'view.toggle_loupe',
+  backgroundPreview: 'view.background_preview',
   fullscreenPreview: 'view.fullscreen_preview',
   splitView: 'view.toggle_split',
   splitLink: 'view.toggle_split_link',

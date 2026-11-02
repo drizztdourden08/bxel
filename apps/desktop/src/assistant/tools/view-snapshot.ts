@@ -152,6 +152,7 @@ const togglesOf = () => {
     hideOverlays: view.hideOverlays,
     mirror: view.mirror,
     loupe: view.loupe,
+    backgroundPreview: view.backgroundPreview,
     split: view.split,
     splitLink: view.splitLink,
     splitActual: view.splitActual,
