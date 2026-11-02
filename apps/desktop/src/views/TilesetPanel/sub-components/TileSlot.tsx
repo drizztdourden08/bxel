@@ -12,14 +12,14 @@ import { TileBadges } from './TileBadges';
 import { TileMarks } from './TileMarks';
 import { TileThumb } from './TileThumb';
 
-const TileSlot = ({ cell, index, view, handlers }: TileCellProps) => {
+const TileSlot = ({ cell, index, bind, view, handlers }: TileCellProps) => {
   const ref = useRef<HTMLDivElement>(null);
   useTileSource(ref, { key: cell?.tile.key ?? null, index, picked: cell?.picked ?? false, onStart: handlers.dragStart, onEnd: handlers.dragEnd });
   useTileSlotDrop(ref, index);
-  const events = cellEvents(index, view.focused, handlers);
+  const events = cellEvents(index, bind, handlers);
   if (!cell) {
     return (
-      <Box ref={ref} role="gridcell" aria-label={TILESET_TEXT.emptySlot(index + 1)} className="tileset-panel__cell tileset-panel__cell--hole" {...events}>
+      <Box ref={ref} role="gridcell" aria-label={TILESET_TEXT.emptySlot(index + 1)} {...events} className={`${events.className} tileset-panel__cell--hole`}>
         <Canvas width={view.tileset.tileWidth * view.zoom} height={view.tileset.tileHeight * view.zoom} className="tileset-panel__hole" aria-hidden="true" />
       </Box>
     );
@@ -33,7 +33,6 @@ const TileSlot = ({ cell, index, view, handlers }: TileCellProps) => {
       aria-selected={cell.picked}
       aria-label={label}
       title={cell.editing ? TILESET_TEXT.editing : label}
-      className="tileset-panel__cell"
       {...cellData(cell, painting)}
       {...events}
     >

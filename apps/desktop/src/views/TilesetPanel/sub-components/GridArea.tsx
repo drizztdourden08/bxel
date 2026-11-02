@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Box, Button, EmptyState, ScrollArea, Stack } from '@drizztdourden08/tessera';
+import { Box, Button, EmptyState, Stack } from '@drizztdourden08/tessera';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import { useGridSelection } from '../behavior/useGridSelection';
 import { useGridView } from '../behavior/useGridView';
@@ -14,32 +14,28 @@ import { TilesetHeader } from './TilesetHeader';
 const GridArea = ({ model }: TilesetModelProps) => {
   const paint = useTilePaint();
   const selection = useGridSelection(model, paint);
-  const { view, ref } = useGridView(model, selection.focused, paint.painted);
+  const { view, ref } = useGridView(model, paint.painted);
   const clear = useTilesetViewStore((state) => state.clearFilters);
   const empty = model.cells.length === 0;
   const none = !empty && model.filtering && model.matched === 0;
   return (
     <Stack gap="xs" className="tileset-panel__grid-area">
-      <ScrollArea axis="y" scrollbar="slim" fade={false} className="tileset-panel__scroll">
-        <Stack gap="xs">
-          <TilesetHeader model={model} />
-          <GridToolbar model={model} />
-          <Box ref={ref} className="tileset-panel__measure">
-            {empty ? <EmptyState size="sm" message={TILESET_TEXT.noTiles} /> : <TileGrid model={model} view={view} handlers={selection.handlers} />}
-          </Box>
-          {none ? (
-            <EmptyState
-              size="sm"
-              message={TILESET_TEXT.noMatch}
-              action={
-                <Button size="sm" variant="tertiary" onClick={clear}>
-                  {TILESET_TEXT.clearFilter}
-                </Button>
-              }
-            />
-          ) : null}
-        </Stack>
-      </ScrollArea>
+      <TilesetHeader model={model} />
+      <GridToolbar model={model} />
+      <Box ref={ref} className="tileset-panel__measure">
+        {empty ? <EmptyState size="sm" message={TILESET_TEXT.noTiles} /> : <TileGrid model={model} view={view} handlers={selection.handlers} />}
+      </Box>
+      {none ? (
+        <EmptyState
+          size="sm"
+          message={TILESET_TEXT.noMatch}
+          action={
+            <Button size="sm" variant="tertiary" onClick={clear}>
+              {TILESET_TEXT.clearFilter}
+            </Button>
+          }
+        />
+      ) : null}
       <TilesetActions model={model} />
     </Stack>
   );
