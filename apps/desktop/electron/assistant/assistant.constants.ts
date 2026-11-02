@@ -21,6 +21,7 @@ const TOOL_TIMEOUT: Readonly<Record<ToolRouteName, number>> = {
   read_palette: read,
   read_pixels: read,
   lint_pixels: read,
+  anti_alias: read,
   build_ramp: read,
   render_preview: read,
   preview_edits: edit,

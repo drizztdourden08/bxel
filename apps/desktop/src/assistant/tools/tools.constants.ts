@@ -83,6 +83,8 @@ const TOOL_TEXT = {
   labelOf: (client: string, label: string) => `Assistant (${client}): ${label}`.slice(0, 200),
   stale: (current: number) => `The document is at revision ${current}. Read it again and retry.`,
   rampBase: 'The base colour is not a valid hex colour.',
+  noMidColour: 'The edge colour has no ramp step to use as mid. Pass mid, or group the colour in a ramp first.',
+  layerMissing: 'No layer with that layerId exists in this sprite.',
   bankNotFound: 'No palette with that bankId exists in this document.',
   paletteEmpty: 'That palette has no colours to export. Check bankId and indexes with read_palette.',
   paletteFileMissing: 'The file is not a gpl, pal, hex, txt, ase or png palette file.',

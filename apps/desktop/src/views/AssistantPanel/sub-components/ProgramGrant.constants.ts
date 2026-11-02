@@ -17,6 +17,7 @@ const TOOL_TEXT: Readonly<Record<ToolRowId, string>> = {
   read_palette: 'Reads a palette.',
   read_pixels: 'Reads pixels of a cel.',
   lint_pixels: 'Finds orphan pixels, doubles and banding in a frame.',
+  anti_alias: 'Proposes anti aliasing as a patch to preview.',
   build_ramp: 'Proposes the colours of a ramp.',
   list_map_layers: 'Lists the layers of a tilemap.',
   read_map_cells: 'Reads the cells of a tilemap layer.',

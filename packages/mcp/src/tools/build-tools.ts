@@ -37,6 +37,7 @@ import { buildPreviewEditsTool } from './preview-edits-tool';
 import { readMapCellsTool } from './read-map-cells-tool';
 import { readPaletteTool } from './read-palette-tool';
 import { readPixelsTool } from './read-pixels-tool';
+import { antiAliasTool } from './anti-alias-tool';
 import { lintPixelsTool } from './lint-pixels-tool';
 import { buildRampTool } from './build-ramp-tool';
 import { renameFileTool } from './rename-file-tool';
@@ -72,6 +73,7 @@ const buildTools = (commands: readonly StepCommand[]): readonly ToolSpec[] => [
   readPaletteTool,
   readPixelsTool,
   lintPixelsTool,
+  antiAliasTool,
   buildRampTool,
   listMapLayersTool,
   readMapCellsTool,

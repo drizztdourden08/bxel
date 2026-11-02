@@ -20,6 +20,7 @@ const TOOL_HINTS = {
   read_palette: SAFE_READ,
   read_pixels: SAFE_READ,
   lint_pixels: SAFE_READ,
+  anti_alias: SAFE_READ,
   build_ramp: SAFE_READ,
   render_preview: SAFE_READ,
   preview_edits: SAFE_READ,

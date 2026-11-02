@@ -13,6 +13,7 @@ const TOOL_NAME = {
   readPalette: 'read_palette',
   readPixels: 'read_pixels',
   lintPixels: 'lint_pixels',
+  antiAlias: 'anti_alias',
   buildRamp: 'build_ramp',
   renderPreview: 'render_preview',
   previewEdits: 'preview_edits',
