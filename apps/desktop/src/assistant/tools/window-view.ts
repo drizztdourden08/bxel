@@ -1,11 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { useNavigationStore } from '@drizztdourden08/brock-react';
-import { OPTIONS_HUB, PROJECT_HUB, PROPERTIES_HUB } from '../../config-entry/config-entry.constants';
+import { PROPERTIES_HUB } from '../../config-entry/config-entry.constants';
 import { readSubject } from '../../properties-subject/read-subject';
 import { useProjectStore } from '../../stores/useProjectStore';
 import { placeOfPath } from './place-of-path';
-
-const HUBS: readonly string[] = [PROJECT_HUB, PROPERTIES_HUB, OPTIONS_HUB];
+import { HUBS } from './window-view.constants';
 
 const pageOf = (section: unknown): string | null => (typeof section === 'string' && section !== '' ? section : null);
 

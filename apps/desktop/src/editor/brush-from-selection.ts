@@ -4,22 +4,14 @@ import { useDocumentStore } from '../stores/useDocumentStore';
 import { useDrawingStore } from '../stores/useDrawingStore';
 import { useNoticeStore } from '../stores/useNoticeStore';
 import { useToolStore } from '../stores/useToolStore';
-import { currentTarget } from './current-target';
+import { selectedClip } from './selected-clip';
 import { BRUSH_REF, BRUSH_SIDE_MAX } from './brush-from-selection.constants';
-import { celPixels } from './selection/cel-pixels';
-import { clipOf } from './selection/clip-of';
-import { SELECTION_TEXT } from './selection/selection.constants';
-import { selectionMask } from './selection/selection-mask';
 import { savedBrushes } from './saved-brushes';
 
 const brushFromSelection = (): boolean => {
-  const target = currentTarget();
-  const mask = target ? selectionMask(target) : null;
-  const clip = target && mask ? clipOf(celPixels(target), mask) : null;
-  if (!target || !clip) {
-    useNoticeStore.getState().post(SELECTION_TEXT.nothingSelected);
-    return false;
-  }
+  const picked = selectedClip();
+  if (!picked) return false;
+  const { target, clip } = picked;
   if (clip.width > BRUSH_SIDE_MAX || clip.height > BRUSH_SIDE_MAX) {
     useNoticeStore.getState().post(`A brush is at most ${BRUSH_SIDE_MAX} by ${BRUSH_SIDE_MAX} pixels.`);
     return false;

@@ -35,7 +35,7 @@ const assetKindEntries = (item: BrowserItem, args: KindArgs): readonly ContextMe
 const fileKindEntries = (item: BrowserItem, args: KindArgs): readonly ContextMenuEntry[] => {
   const file = item.role === 'file';
   return [
-    { command: 'asset.split_legacy', label: KIND_MENU.splitLegacy, args, hidden: !file || item.kind !== 'legacy' },
+    { command: 'asset.split_legacy', label: KIND_MENU.splitIntoFiles, args, hidden: !file || item.kind !== 'legacy' },
     { command: 'asset.unpack_project', label: KIND_MENU.unpack, args, hidden: !file || item.kind !== 'project' },
     { command: 'asset.open_in_hub', label: KIND_MENU.openInHub, args, hidden: !file || item.kind !== 'project' },
     { command: 'asset.import_as_sprite', label: KIND_MENU.importSprite, args, hidden: !file || item.kind !== 'image' },

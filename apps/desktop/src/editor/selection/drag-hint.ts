@@ -3,14 +3,8 @@ import type { CombineMode, Point } from '@bxel/raster';
 import { marqueeRule } from './marquee-rule';
 import { MODE_LABELS, SELECTION_TEXT } from './selection.constants';
 import type { DragShape, ShapeHold } from './selection.type';
+import type { Extent } from './drag-hint.type';
 import { shapeCorners } from './shape-corners';
-
-interface Extent {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
 
 const extentOf = (points: readonly Point[]): Extent => {
   const xs = points.map((each) => each.x);

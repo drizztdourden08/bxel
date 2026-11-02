@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { DocumentEntry, DocumentsPort } from '@drizztdourden08/brock-core';
 import { WALK_LIMIT } from './asset-list.constants';
-
-const NONE = { entries: [] as DocumentEntry[], truncated: false };
+import { NONE } from './list-root-entries.constants';
 
 const walkFolders = async (documents: Pick<DocumentsPort, 'list'>, root: string): Promise<readonly DocumentEntry[]> => {
   const found: DocumentEntry[] = [];

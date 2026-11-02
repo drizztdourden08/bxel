@@ -28,4 +28,4 @@ const SPRITES_INPUT_SCHEMA = z.strictObject({
   collapsed: z.array(z.string().min(1).max(500)).max(512).optional().describe('The folder paths that are closed. This list replaces the old one.'),
 });
 
-export { SPRITES_FILTER_SCHEMA, SPRITES_INPUT_SCHEMA, SPRITES_SORT_VALUES };
+export { SPRITES_INPUT_SCHEMA };

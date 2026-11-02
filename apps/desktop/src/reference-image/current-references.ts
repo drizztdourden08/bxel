@@ -1,9 +1,8 @@
 /* @layer renderer-app @kind logic */
 import type { ReferenceImage } from '../asset-view/reference-image.type';
 import { useAssetViewStore } from '../stores/useAssetViewStore';
+import { NONE } from './current-references.constants';
 import { currentViewKey } from './current-view-key';
-
-const NONE: readonly ReferenceImage[] = [];
 
 const currentReferences = (): readonly ReferenceImage[] => {
   const key = currentViewKey();

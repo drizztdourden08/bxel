@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { currentViewKey } from '../reference-image/current-view-key';
 import { useAssetViewStore } from '../stores/useAssetViewStore';
-
-const NONE: Readonly<Record<string, string>> = {};
+import { NONE } from './current-guide-colours.constants';
 
 const currentGuideColours = (): Readonly<Record<string, string>> => {
   const key = currentViewKey();

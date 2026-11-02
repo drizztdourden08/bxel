@@ -1,21 +1,19 @@
 /* @layer renderer-app @kind logic */
+import type { AssetDefaults } from '@bxel/project';
 import { announce, toast } from '@drizztdourden08/brock-react';
 import { fileKit } from '../files/file-kit';
-import { dropImage } from '../image-import/drop-image';
-import { dropPalette } from './drop-palette';
+import { dropImageAndPalettes } from './drop-image-and-palettes';
 import { dropKind } from './drop-kind';
 import { FILE_OPS_TEXT } from './file-ops.constants';
 import { writeDropped } from './write-dropped';
 
-const dropFiles = async (files: readonly File[], folder: string, defaults: Parameters<typeof dropPalette>[1]): Promise<void> => {
+const dropFiles = async (files: readonly File[], folder: string, defaults: AssetDefaults): Promise<void> => {
   const kit = fileKit();
   if (kit === null) {
     toast(FILE_OPS_TEXT.unavailable, { variant: 'warning' });
     return;
   }
-  const image = files.find((file) => dropKind(file) === 'image');
-  if (image) void dropImage(image);
-  for (const file of files.filter((each) => dropKind(each) === 'palette')) await dropPalette(file, defaults);
+  await dropImageAndPalettes(files, defaults);
   const result = await writeDropped(kit.documents, folder, files.filter((each) => dropKind(each) === 'copy'));
   if (result.written.length > 0) {
     const said = FILE_OPS_TEXT.dropped(result.written.length);
