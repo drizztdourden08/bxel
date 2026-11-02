@@ -62,6 +62,27 @@ describe('K1 tileset.terrain_sets', { tags: ['critical'] }, () => {
   });
 });
 
+describe('K1 tileset.terrain_sets fill option', { tags: ['critical'] }, () => {
+  const empty = () => ({ ...edgeSet(), slots: Array.from({ length: 16 }, () => []) });
+  const fill = (world: World, extra: object) => step('tileset.terrain_sets', { tileset: world.tileset, fill: { set: 'edge', ...extra } });
+
+  it('fills the empty slots from the layout in one undo step', () => {
+    const world = withTiles();
+    applySteps(world.engine, [sets(world, [empty()])]);
+    checkOneUndoStep(world.engine, () => applySteps(world.engine, [fill(world, { packing: 'blob16-4', start: 1 })]));
+    expect(terrainSetsOf(tilesetOf(world.engine))[0]?.slots[0]).toEqual([{ key: 1, weight: 1 }]);
+  });
+
+  it('takes sets and a fill together and refuses a missing option, a wrong kind and an unknown set', () => {
+    const world = withTiles();
+    applySteps(world.engine, [step('tileset.terrain_sets', { tileset: world.tileset, sets: [empty()], fill: { set: 'edge', packing: 'blob16-4' } })]);
+    expect(terrainSetsOf(tilesetOf(world.engine))[0]?.slots[0]).toEqual([{ key: 1, weight: 1 }]);
+    expect(failure(world.engine, [step('tileset.terrain_sets', { tileset: world.tileset })]).code).toBe('INVALID_OPTION');
+    expect(failure(world.engine, [fill(world, { packing: 'blob47-7' })]).code).toBe('INVALID_OPTION');
+    expect(failure(world.engine, [fill(world, { packing: 'blob16-4', set: 'nothing' })]).code).toBe('INVALID_OPTION');
+  });
+});
+
 describe('K1 map.terrain with sets', { tags: ['critical'] }, () => {
   it('picks the set by id or name and refuses an unknown one', () => {
     const world = withTiles();

@@ -13,7 +13,7 @@ const outside = (point: Point, tile: Size): boolean => point.x < 0 || point.y < 
 
 const rectIssue = (rect: Extract<TileCollision, { kind: 'rect' }>, tile: Size): string | null => {
   const far = { x: rect.x + rect.width, y: rect.y + rect.height };
-  const fits = rect.width >= 1 && rect.height >= 1 && !outside(rect, tile) && !outside(far, tile);
+  const fits = rect.width >= 0.5 && rect.height >= 0.5 && !outside(rect, tile) && !outside(far, tile);
   return fits ? null : `A collision rectangle lies inside the ${tile.width} x ${tile.height} tile.`;
 };
 
