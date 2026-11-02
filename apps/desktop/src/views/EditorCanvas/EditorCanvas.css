@@ -94,3 +94,14 @@
 .pixel-viewport.editor-canvas__viewport[data-panning] {
   cursor: url('/cursors/hand-grabbing.svg') 15 15, grabbing;
 }
+
+@media (forced-colors: active) {
+  .editor-canvas__viewport:focus-visible {
+    outline: var(--border-width-thick) solid Highlight;
+    outline-offset: calc(-1 * var(--border-width-thick));
+  }
+
+  .editor-canvas__corner {
+    border-color: CanvasText;
+  }
+}

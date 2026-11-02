@@ -57,3 +57,16 @@
     transition: none;
   }
 }
+
+@media (forced-colors: active) {
+  .canvas-overlays__loupe,
+  .canvas-overlays__hud {
+    color: CanvasText;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+
+  .canvas-overlays__hud {
+    transition: none;
+  }
+}

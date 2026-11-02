@@ -15,3 +15,18 @@
 .pixel-checker {
   background: repeating-conic-gradient(var(--c-checker-a) 0% 25%, var(--c-checker-b) 0% 50%) 50% / var(--size-16) var(--size-16);
 }
+
+@media (forced-colors: active) {
+  :root {
+    --c-tertiary: LinkText;
+    --c-info: Highlight;
+    --c-danger: Mark;
+    --c-primary: Highlight;
+    --c-primary-bright: Highlight;
+    --c-warning: LinkText;
+    --c-text: CanvasText;
+    --c-text-muted: GrayText;
+    --c-sunken: Canvas;
+    --c-focus: Highlight;
+  }
+}
