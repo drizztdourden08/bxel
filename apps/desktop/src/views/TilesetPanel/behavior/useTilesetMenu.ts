@@ -7,6 +7,7 @@ import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { pickTile } from '../../../tilemap/pick-tile';
 import { TILE_MENU } from '../TilesetPanel.constants';
 import { tileMenuEntries } from './tile-menu-entries';
+import { tileMenuSelection } from './tile-menu-selection';
 import { ruledEntries } from '../../../context-menu/ruled-entries';
 
 const pickClicked = (context: ContextMenuContext): void => {
@@ -15,7 +16,7 @@ const pickClicked = (context: ContextMenuContext): void => {
 };
 
 const useTilesetMenu = (): void => {
-  useContextMenu(COMMAND_ZONE.tileset, { label: TILE_MENU.label, beforeOpen: pickClicked, entries: ruledEntries(tileMenuEntries) });
+  useContextMenu(COMMAND_ZONE.tileset, { label: TILE_MENU.label, selection: tileMenuSelection, beforeOpen: pickClicked, entries: ruledEntries(tileMenuEntries) });
 };
 
 export { useTilesetMenu };

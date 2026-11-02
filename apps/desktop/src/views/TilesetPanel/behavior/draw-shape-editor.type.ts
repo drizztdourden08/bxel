@@ -8,6 +8,7 @@ interface EditorPaint {
   selected: number;
   zoom: number;
   preview: TileShape | null;
+  point: number | null;
 }
 
 export type { EditorPaint };

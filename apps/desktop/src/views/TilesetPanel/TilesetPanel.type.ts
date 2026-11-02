@@ -160,6 +160,7 @@ interface ShapeEditorHandle {
   pointerDown: (event: PointerEvent<HTMLCanvasElement>) => void;
   pointerMove: (event: PointerEvent<HTMLCanvasElement>) => void;
   pointerUp: () => void;
+  keyDown: (event: KeyboardEvent<HTMLCanvasElement>) => void;
   doubleClick: (event: MouseEvent<HTMLCanvasElement>) => void;
 }
 

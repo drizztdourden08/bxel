@@ -18,6 +18,8 @@ const TerrainSlot = ({ index, set, cell, view, selected, onPick }: TerrainSlotPr
       aria-label={label}
       title={label}
       aria-pressed={selected}
+      data-terrain-slot={index}
+      data-terrain-set={set.id}
       data-missing={variants.length === 0 ? '' : undefined}
       onClick={() => onPick(index)}
     >

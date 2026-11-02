@@ -34,6 +34,37 @@ interface TileArgs {
   key: number;
 }
 
+interface TileMoveArgs extends TileArgs {
+  direction: 'left' | 'right' | 'up' | 'down';
+}
+
+interface TileIndexArgs {
+  index: number;
+}
+
+interface CollisionKindArgs {
+  kind: 'none' | 'full';
+}
+
+interface SlotArgs extends TileArgs {
+  slot: number;
+  action: 'use' | 'add' | 'clear';
+  set: string;
+}
+
+interface PackingArgs {
+  packing: string;
+  set: string;
+}
+
+interface SetArgs {
+  set: string;
+}
+
+interface SnapArgs {
+  snap: 'pixel' | 'half';
+}
+
 interface PathArgs {
   path: string;
   tabId: string;
@@ -103,4 +134,4 @@ interface ByColourArgs extends Partial<PixelArgs> {
   mode: 'region' | 'everywhere';
 }
 
-export type { AlignArgs, AxisArgs, ByColourArgs, DurationArgs, FrameArgs, LayerArgs, LayerColourArgs, LayerLockArgs, NameArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SheetArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TraitArgs, UnitArgs, ZoomArgs };
+export type { AlignArgs, AxisArgs, ByColourArgs, CollisionKindArgs, DurationArgs, FrameArgs, LayerArgs, LayerColourArgs, LayerLockArgs, NameArgs, PackingArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SetArgs, SheetArgs, SlotArgs, SnapArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TileIndexArgs, TileMoveArgs, TraitArgs, UnitArgs, ZoomArgs };

@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind component */
 import { Box, Flex, Pressable, Text } from '@drizztdourden08/tessera';
 import { PACKINGS } from '@bxel/document';
-import { fillPacking } from '../../../tilemap/terrain/fill-packing';
+import { TERRAIN_COMMAND } from '../../../keymap/terrain-command-id.constants';
 import { TERRAIN_TEXT } from '../../../tilemap/terrain/terrain.constants';
+import { runTerrainCommand } from '../behavior/run-terrain-command';
 import type { PackingPickerProps } from '../behavior/terrain-panel.type';
 
-const PackingPicker = ({ model, set }: PackingPickerProps) => (
+const PackingPicker = ({ set }: PackingPickerProps) => (
   <Flex gap="xs" wrap role="group" aria-label={TERRAIN_TEXT.fillFromLayout}>
     {PACKINGS.filter((packing) => packing.kind === set.kind).map((packing) => (
       <Pressable
@@ -13,7 +14,7 @@ const PackingPicker = ({ model, set }: PackingPickerProps) => (
         type="button"
         className="tileset-panel__packing"
         title={`${TERRAIN_TEXT.fillHint} ${packing.columns} x ${packing.rows}.`}
-        onClick={() => fillPacking({ set: set.id, packing: packing.id, start: model.pickedKey })}
+        onClick={() => runTerrainCommand(TERRAIN_COMMAND.fillFromLayout, { set: set.id, packing: packing.id })}
       >
         <Box className="tileset-panel__packing-grid" data-columns={packing.columns} aria-hidden="true">
           {Array.from({ length: packing.columns * packing.rows }, (_unused, at) => (

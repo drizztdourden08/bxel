@@ -7,7 +7,7 @@ import { useDocumentStore } from './useDocumentStore';
 
 const useTilesetViewStore = create<TilesetViewState>()((set) => ({
   ...TILESET_VIEW_DEFAULTS,
-  setMode: (mode) => set({ mode, shapeIndex: 0 }),
+  setMode: (mode) => set({ mode, shapeIndex: 0, pointIndex: null }),
   setSearch: (search) => set({ search }),
   toggleFilter: (filter) =>
     set((state) => ({ filters: state.filters.includes(filter) ? state.filters.filter((each) => each !== filter) : [...state.filters, filter] })),
@@ -23,7 +23,9 @@ const useTilesetViewStore = create<TilesetViewState>()((set) => ({
   setCollisionLayer: (collisionLayer) => set({ collisionLayer }),
   setDataPaint: (dataPaint) => set({ dataPaint }),
   setInspectorCollapsed: (inspectorCollapsed) => set({ inspectorCollapsed }),
-  setShapeIndex: (shapeIndex) => set({ shapeIndex }),
+  setShapeIndex: (shapeIndex) => set({ shapeIndex, pointIndex: null }),
+  setShapeSnap: (shapeSnap) => set({ shapeSnap }),
+  setPointIndex: (pointIndex) => set({ pointIndex }),
   setLastShape: (lastShape) => set({ lastShape }),
   setShapeClipboard: (shapeClipboard) => set({ shapeClipboard }),
   setTerrainSetId: (terrainSetId) => set({ terrainSetId, terrainSlot: null, markDrafts: {} }),
@@ -38,7 +40,7 @@ const useTilesetViewStore = create<TilesetViewState>()((set) => ({
 
 useDocumentStore.subscribe((state, previous) => {
   if (state.activeId !== previous.activeId) {
-    useTilesetViewStore.setState({ search: '', filters: [], choices: [], dataPaint: null, shapeIndex: 0, terrainSetId: null, terrainSlot: null, markDrafts: {}, hoverKey: null });
+    useTilesetViewStore.setState({ search: '', filters: [], choices: [], dataPaint: null, shapeIndex: 0, pointIndex: null, terrainSetId: null, terrainSlot: null, markDrafts: {}, hoverKey: null });
   }
 });
 
