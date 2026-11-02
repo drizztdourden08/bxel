@@ -10,6 +10,7 @@ const TOOL_MENU_TEXT = {
   focusOptions: 'Tool options',
   optionsPanel: 'Tool options panel...',
   resetLayout: 'Show every tool on the rail',
+  customize: 'Customize tools...',
 } as const;
 
 const TOOLS_WIDGET_ID = 'tools';
