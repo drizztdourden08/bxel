@@ -32,6 +32,7 @@ const usage = {
     'Pass tiled with x, y or both to repeat the image across the view for a tile preview; the app overlay stays on the first copy, and screenToPixel maps the pointer in every copy so a stroke can cross the edge.',
     'look carries the checkerboard colours and size and the grid lines, and the viewport paints them on its canvas with no CSS token; without it the defaults apply. The viewport draws the surround pattern (SurroundBackdrop) behind the image, inside its own box only.',
     'grid, gridMajor and gridTile switch the pixel grid, the major grid and the tile grid; the lines draw only where they are far enough apart to read. gridIso draws a 2 to 1 diamond grid as wide as one tile.',
+    'Pass zoomLocked to freeze the zoom at its current value: zoom changes from the wheel, the ref and the fit are ignored while pan stays free. gridFrom is the smallest zoom at which the pixel grid lines draw; it defaults to 8.',
     'The viewport takes no zoom keys of its own. The app binds zoom in, zoom out, fit and actual size to its keymap and calls the ref.',
   ],
   a11y: [
@@ -65,7 +66,7 @@ const SpriteCanvas = ({ layers }: { layers: readonly ImageBitmap[] }) => {
   );
 };
 `,
-  propsHash: '5f6e49347be49270',
+  propsHash: 'a6b32e962d84f121',
 } satisfies ComponentUsage;
 
 export { usage };

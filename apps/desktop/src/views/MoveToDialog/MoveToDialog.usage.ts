@@ -4,7 +4,7 @@ import type { ComponentUsage } from '@drizztdourden08/tessera';
 const usage = {
   job: 'Asks which project folder the picked files and folders should move into.',
   useWhen: ['The owner picks Move to on one or more entries in the project browser.'],
-  avoidWhen: [{ case: 'The owner drags the entries onto a folder.', use: 'The folder drop in the project browser' }],
+  avoidWhen: [{ case: 'The owner drags the entries onto a folder.', use: 'ProjectBrowser' }],
   rules: [
     'The dialog reads its own store, so it takes no props.',
     'Picking a folder closes the dialog and moves the entries as one undoable step.',

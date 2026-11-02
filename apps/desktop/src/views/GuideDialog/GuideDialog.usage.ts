@@ -9,7 +9,7 @@ const usage = {
   ],
   avoidWhen: [
     { case: 'A single yes or no question is enough.', use: 'Dialog' },
-    { case: 'A guide only needs a quick drag from the ruler.', use: 'the ruler' },
+    { case: 'A guide only needs a quick drag from the ruler.', use: 'CanvasRuler' },
   ],
   rules: [
     'The dialog reads its open state from the app and takes no props.',

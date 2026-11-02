@@ -15,7 +15,7 @@ const usage = {
   ],
   a11y: ['The grid is one Tab stop and a listbox. Arrows move, Enter picks, Escape closes and focus returns to where it was.'],
   tree: {
-    path: ['something over the page', 'a grid of tools at the pointer'],
+    path: ['something over the page', 'a grid of icons at the pointer, picked by hold and release'],
     rule: 'QuickPalette is the grid of tools that opens at the pointer.',
   },
   example: `import { QuickPalette } from '../QuickPalette';

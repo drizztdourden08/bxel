@@ -9,6 +9,7 @@ const usage = {
     'It takes the preview model of the file, never the file. The caller builds it from the artwork.',
     'An animation waits for Play, plays in the loop mode of the file, and stops when the page is hidden or the component goes away.',
     'The zoom is the largest whole number that fits the stage and shows in a corner label.',
+    'loop and mode are optional: loop defaults to the loop of the file and mode to large. tags is optional and lists the named frame ranges of an animation; with tags the player offers a tag picker that limits playback to one range, and without them it plays every frame.',
   ],
   a11y: [
     'The picture is an image named after the file. The playback controls are a group of labelled buttons and a frame counter that is read when it changes.',
@@ -22,7 +23,7 @@ const usage = {
 
 const Pane = () => <AssetPreview preview={{ kind: 'none' }} name="hero" mode="large" />;
 `,
-  propsHash: '7841a2b4e0108dd1',
+  propsHash: '63f83f18ee0875e5',
 } satisfies ComponentUsage;
 
 export { usage };

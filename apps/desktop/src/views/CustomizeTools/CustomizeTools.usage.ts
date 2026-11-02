@@ -5,7 +5,7 @@ const usage = {
   job: 'Lets the person choose which tools sit on the rail and shows the keys of the tools, the held keys and the saved presets.',
   useWhen: ['The person presses Customize in the Tools panel or runs the Customize tools command.'],
   avoidWhen: [
-    { case: 'The person changes one tool preference such as the hold delay.', use: 'Settings, Tools' },
+    { case: 'The person changes one tool preference such as the hold delay.', use: 'ControlMenu' },
     { case: 'A single yes or no question is enough.', use: 'Dialog' },
   ],
   rules: [

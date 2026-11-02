@@ -11,7 +11,7 @@ const usage = {
   ],
   a11y: ['Shared and partial tags are separate labelled groups, and Enter adds the typed tag.'],
   tree: {
-    path: ['a screen about several files', 'a summary with editable tags'],
+    path: ['a value the user sets', 'free text or a number', 'free words, as tags'],
     rule: 'ManyProperties summarises a multi selection and edits its tags together.',
   },
   example: `import { ManyProperties } from '../../views/ManyProperties';
