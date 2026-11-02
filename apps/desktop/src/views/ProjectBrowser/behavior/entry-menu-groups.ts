@@ -3,6 +3,7 @@ import type { MenuGroup, MenuNode } from '@drizztdourden08/tessera';
 import { canDuplicate } from '../../../asset-list/can-duplicate';
 import { FILE_ACTION_TEXT } from '../../../project-browser/file-actions.constants';
 import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
+import { roleFolderMenuNode } from '../../../project-config/role-folder-menu-node';
 import type { FileEntry } from '../../../project-browser/project-browser.type';
 import type { MenuInput } from '../ProjectBrowser.type';
 
@@ -57,6 +58,11 @@ const organiseGroup = (input: MenuInput, file: FileEntry | null): MenuGroup => {
   };
 };
 
+const roleGroup = ({ entry, picked, editable }: MenuInput): MenuGroup => ({
+  id: 'role',
+  items: entry.kind === 'folder' && editable && picked.length === 1 ? [roleFolderMenuNode(entry.path)] : [],
+});
+
 const findGroup = ({ actions }: MenuInput, file: FileEntry | null): MenuGroup => {
   const users = file?.facts.usedBy.length ?? 0;
   const uses = file?.facts.uses.length ?? 0;
@@ -82,7 +88,7 @@ const whereGroup = ({ entry, picked, actions, editable }: MenuInput): MenuGroup 
 
 const entryMenuGroups = (input: MenuInput): MenuGroup[] => {
   const file = input.entry.kind === 'file' ? input.entry : null;
-  return [openGroup(input), editGroup(input), organiseGroup(input, file), findGroup(input, file), whereGroup(input)].filter((group) => group.items.length > 0);
+  return [openGroup(input), editGroup(input), organiseGroup(input, file), roleGroup(input), findGroup(input, file), whereGroup(input)].filter((group) => group.items.length > 0);
 };
 
 export { entryMenuGroups };

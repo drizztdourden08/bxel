@@ -3,6 +3,7 @@ import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { ASSET_LIST_TEXT } from '../../../asset-list/asset-list-text.constants';
 import type { BrowserItem } from '../../../panel-browser/project-browser.type';
 import { PROJECT_MENU } from '../ProjectPanel.constants';
+import { roleFolderEntry } from '../../../project-config/role-folder-entry';
 import { newAssetEntry } from './new-asset-entry';
 
 const folderEntries = (item: BrowserItem): readonly ContextMenuEntry[] => {
@@ -15,6 +16,7 @@ const folderEntries = (item: BrowserItem): readonly ContextMenuEntry[] => {
     { command: 'project.new_folder', label: PROJECT_MENU.newFolderHere, args, hidden: !writable },
     { command: 'project.rename_entry', label: ASSET_LIST_TEXT.rename, args, hidden: linked },
     { command: 'project.collapse_below', label: PROJECT_MENU.collapseBelow, args },
+    roleFolderEntry(item.path, !writable),
     'separator',
     { command: 'asset.reveal', label: ASSET_LIST_TEXT.reveal, args: { path: item.path } },
     { command: 'asset.copy_path', label: ASSET_LIST_TEXT.copyPath, args: { path: item.path } },

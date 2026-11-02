@@ -6,6 +6,7 @@ import { dropFiles as dropIntoProject } from '../../../file-ops/drop-files';
 import { readImage } from '../../../image-import/read-image';
 import { pickPaletteFile } from '../../../palette-source/pick-palette-file';
 import { addPaletteFromRead } from '../../../project-config/add-palette-from-read';
+import { startTiledImport } from '../../../tiled-import/start-tiled-import';
 import { useImportStore } from '../../../stores/useImportStore';
 import { IMAGE_FILTERS } from '../ProjectBrowser.constants';
 import type { ImportActions } from '../ProjectBrowser.type';
@@ -36,9 +37,11 @@ const useImportActions = (): ImportActions => {
     });
   }, [defaults]);
 
+  const importTiled = useCallback((): void => void startTiledImport(), []);
+
   const dropFiles = useCallback((files: readonly File[], folder: string): void => void dropIntoProject(files, folder, defaults), [defaults]);
 
-  return { importImage, importPalette, dropFiles };
+  return { importImage, importPalette, importTiled, dropFiles };
 };
 
 export { useImportActions };

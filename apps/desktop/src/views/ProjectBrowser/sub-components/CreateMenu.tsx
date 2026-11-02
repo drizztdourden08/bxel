@@ -18,6 +18,7 @@ const CreateMenu = () => {
         { id: 'folder', label: BROWSER_TEXT.newFolder, icon: 'folder', shortcut: 'Ctrl+Shift+N', disabled: model.folder === null, onSelect: actions.newFolder },
         { id: 'image', label: 'Import an image...', icon: 'upload', onSelect: actions.importImage },
         { id: 'palette', label: 'Import a palette file...', icon: 'pixel-palette', onSelect: actions.importPalette },
+        { id: 'tiled', label: BROWSER_TEXT.importTiled, icon: 'pixel-tileset', onSelect: actions.importTiled },
       ],
     },
   ];
