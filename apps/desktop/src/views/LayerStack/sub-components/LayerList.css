@@ -8,6 +8,6 @@
   min-block-size: 0;
 }
 
-.tree.layer-list__tree--large[data-row-size] {
+.layer-list .layer-list__tree--large[data-row-size] {
   --tree-row-h: var(--size-48);
 }

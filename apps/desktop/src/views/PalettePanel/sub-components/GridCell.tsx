@@ -5,7 +5,7 @@ import { cellClass } from '../behavior/cell-class';
 import { cornerMarks } from '../behavior/corner-marks';
 import { swatchClick } from '../behavior/swatch-click';
 import { usageText } from '../behavior/usage-text';
-import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
+import { MARKLESS_SWATCH_SIZE, PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
 import type { GridCellProps } from '../PalettePanel.type';
 
 const GridCell = ({ slot, panel, control }: GridCellProps) => {
@@ -24,7 +24,7 @@ const GridCell = ({ slot, panel, control }: GridCellProps) => {
         tabIndex={panel.selection.focus === index ? 0 : -1}
         className="grid-cell__swatch"
         color={slot.hex}
-        marks={cornerMarks(marks)}
+        marks={panel.view.size === MARKLESS_SWATCH_SIZE ? undefined : cornerMarks(marks)}
         transparent={slot.transparent}
         data-swatch-index={index}
         aria-label={PALETTE_PANEL_TEXT.name(slot.label, marks, use)}
