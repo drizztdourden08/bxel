@@ -3,9 +3,11 @@ import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { describe, expect, it, vi } from 'vitest';
 import { exportLabel } from '../../src/asset-list/export-label';
 import { KIND_MENU } from '../../src/asset-list/kind-menu.constants';
+import { entryItem } from '../../src/panel-browser/entry-item';
 import type { BrowserItem, ItemKind } from '../../src/panel-browser/project-browser.type';
 import { kindGroupEntries } from '../../src/views/ProjectPanel/behavior/kind-group-entries';
-import { ROOT, row, treeOf } from './browser-fixture';
+import { parentOf } from '../../src/workspace/parent-of';
+import { ROOT, file, row } from './browser-fixture';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
@@ -13,8 +15,9 @@ const shownCommands = (item: BrowserItem): readonly string[] =>
   kindGroupEntries(item).flatMap((entry: ContextMenuEntry) => (typeof entry === 'object' && 'command' in entry && entry.hidden !== true ? [entry.command] : []));
 
 const itemOf = (path: string, rows: ReturnType<typeof row>[], kind?: ItemKind): BrowserItem => {
-  const found = treeOf(rows).items.get(path);
-  if (found === undefined) throw new Error(`no item at ${path}`);
+  const [only] = rows;
+  if (only === undefined) throw new Error(`no row for ${path}`);
+  const found = entryItem(file(path), parentOf(path), ROOT, only);
   return kind === undefined ? found : { ...found, kind };
 };
 
