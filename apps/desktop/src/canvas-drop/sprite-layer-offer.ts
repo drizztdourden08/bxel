@@ -1,10 +1,11 @@
 /* @layer renderer-app @kind logic */
-import { findSprite, flattenFrame } from '@bxel/document';
+import { findBank, findSprite, flattenFrame } from '@bxel/document';
 import type { SpriteId } from '@bxel/document';
 import type { Clip } from '../editor/selection/selection.type';
 import { currentArtwork } from '../sheet/current-artwork';
 import { useDropLayerStore } from '../stores/useDropLayerStore';
 import { useNoticeStore } from '../stores/useNoticeStore';
+import { clipPicture } from './clip-picture';
 import { CANVAS_DROP_TEXT } from './canvas-drop.constants';
 import type { CanvasDropTarget } from './canvas-drop.type';
 
@@ -31,7 +32,9 @@ const spriteLayerOffer = (assetId: string, target: CanvasDropTarget): boolean =>
     notices.post(CANVAS_DROP_TEXT.otherPalette);
     return false;
   }
-  useDropLayerStore.getState().show({ name: dropped.name, clip: clipOfSprite(dropped.width, dropped.height, flattenFrame(dropped, frame.id)) });
+  const clip = clipOfSprite(dropped.width, dropped.height, flattenFrame(dropped, frame.id));
+  const bank = findBank(artwork, dropped.bankId);
+  useDropLayerStore.getState().show({ name: dropped.name, clip, picture: bank ? clipPicture(clip, bank) : null });
   return true;
 };
 
