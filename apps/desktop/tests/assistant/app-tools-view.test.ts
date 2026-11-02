@@ -71,6 +71,15 @@ describe('S2 set_view state, selection and pages', { tags: ['standard'] }, () =>
     expect(seen.mapOverlays).toMatchObject({ collision: true, animatedTiles: false, highlightLayer: true });
   });
 
+  it('sets the Sprites panel search, sort, view, size and folders, and reads them back', async () => {
+    openDocument();
+    await ok('set_view', { sprites: { query: 'hero', filter: { kind: 'sprites' }, sort: { key: 'name', descending: true }, view: 'list', size: 64, collapsed: ['props'] } });
+    const seen = await ok('get_view', {});
+    expect(seen.sprites).toMatchObject({
+      query: 'hero', filter: { kind: 'sprites' }, sort: { key: 'name', descending: true }, view: 'list', size: 64, collapsed: ['props'], selections: [],
+    });
+  });
+
   it('refuses a colour outside the palette, and the state fields at Read', async () => {
     openDocument();
     expect(await code('set_view', { colours: { foreground: 200 } })).toBe('VIEW_INVALID');
