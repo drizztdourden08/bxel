@@ -26,6 +26,7 @@ const TOOL_COMMAND = {
   applyPreset: 'tool.apply_preset',
   resetOptions: 'tool.reset_options',
   customize: 'tool.customize',
+  quickPalette: 'tool.quick_palette',
   selectMember: 'tool.select_member',
   hideMember: 'tool.hide_member',
   cycleBack: (tool: string): string => `tool.cycle_back_${tool}`,
