@@ -9,4 +9,8 @@ const SPRING_PASSIVE_KEYS: readonly string[] = ['Control', 'Meta'];
 
 const SPRING_KEY_NOTICE = (label: string): string => `${label} while you hold the key`;
 
-export { ALT_PICK_TOOLS, SPRING_KEY_NOTICE, SPRING_KEYS, SPRING_PASSIVE_KEYS };
+const SPRING_END_NOTICE = 'Borrowed tool ended';
+
+const SPRING_DIALOG_SELECTOR = '[role="dialog"][aria-modal="true"], [role="alertdialog"], dialog[open]';
+
+export { ALT_PICK_TOOLS, SPRING_DIALOG_SELECTOR, SPRING_END_NOTICE, SPRING_KEY_NOTICE, SPRING_KEYS, SPRING_PASSIVE_KEYS };

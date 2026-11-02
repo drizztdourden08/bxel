@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind component */
 import { Button, DialogShell, ScrollArea, Stack } from '@drizztdourden08/tessera';
 import { useCustomizeStore } from '../../stores/useCustomizeStore';
-import { useToolPrefsStore } from '../../stores/useToolPrefsStore';
+import { useCatalogueSurface } from '../../hooks/useCatalogueSurface';
+import { resetSurfaceTools } from '../../editor/tool-catalogue/reset-surface-tools';
 import { CUSTOMIZE_TEXT } from './CustomizeTools.constants';
 import { KeysSection } from './sub-components/KeysSection';
 import { RailSection } from './sub-components/RailSection';
@@ -9,11 +10,11 @@ import { RailSection } from './sub-components/RailSection';
 const CustomizeTools = () => {
   const open = useCustomizeStore((state) => state.open);
   const show = useCustomizeStore((state) => state.show);
-  const reset = useToolPrefsStore((state) => state.resetLayout);
+  const surface = useCatalogueSurface();
   if (!open) return null;
   const actions = (
     <>
-      <Button variant="tertiary" onClick={reset}>
+      <Button variant="tertiary" onClick={() => resetSurfaceTools(surface)}>
         {CUSTOMIZE_TEXT.reset}
       </Button>
       <Button variant="primary" onClick={() => show(false)}>

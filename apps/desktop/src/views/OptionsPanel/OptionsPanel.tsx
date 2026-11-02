@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind component */
+import { contextMenuZone, useContextMenu } from '@drizztdourden08/brock-react';
 import { ScrollArea, Stack, Text } from '@drizztdourden08/tessera';
 import { slotOfTool } from '../../editor/tool-catalogue/slot-of-tool';
 import { optionsOf } from '../../editor/tool-options/options-of';
@@ -7,6 +8,7 @@ import { useCatalogueSurface } from '../../hooks/useCatalogueSurface';
 import { useToolPrefsStore } from '../../stores/useToolPrefsStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { useOptionsVersion } from '../OptionControls';
+import { optionsPanelEntries } from './behavior/options-panel-entries';
 import { OPTIONS_PANEL_TEXT } from './OptionsPanel.constants';
 import { OptionSection } from './sub-components/OptionSection';
 import { PanelFooter } from './sub-components/PanelFooter';
@@ -25,10 +27,11 @@ const OptionsPanel = () => {
   const tool = useToolStore((state) => state.tool);
   useOptionsVersion();
   useToolPrefsStore((state) => state.optionTiers);
+  useContextMenu(OPTIONS_PANEL_TEXT.zone, { entries: optionsPanelEntries, label: OPTIONS_PANEL_TEXT.menuLabel });
   const slot = slotOfTool(surface, tool);
   if (surface === 'none' || !slot) {
     return (
-      <Stack gap="xs" className="options-panel">
+      <Stack gap="xs" className="options-panel" {...contextMenuZone(OPTIONS_PANEL_TEXT.zone)}>
         <Text variant="title">{OPTIONS_PANEL_TEXT.none}</Text>
         <Text tone="muted">{OPTIONS_PANEL_TEXT.noneHint}</Text>
       </Stack>
@@ -40,7 +43,7 @@ const OptionsPanel = () => {
   const more = tiers.filter((spec) => spec.tier === 2);
   return (
     <ScrollArea axis="y" scrollbar="slim" aria-label={OPTIONS_PANEL_TEXT.region}>
-      <Stack gap="md" className="options-panel">
+      <Stack gap="md" className="options-panel" {...contextMenuZone(OPTIONS_PANEL_TEXT.zone)}>
         <ToolHead slot={slot} editable={editable} />
         <PanelNotes sheet={surface === 'sheet'} empty={main.length === 0} />
         {grouped(main).map(([group, specs]) => (

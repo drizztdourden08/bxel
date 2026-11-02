@@ -21,6 +21,8 @@ interface SlotItemContext {
   ui: UiState;
   groups: readonly MenuGroup[] | undefined;
   hasFlyout: boolean;
+  hover: boolean;
+  holdMs: number;
   assistant: boolean;
   pick: (slot: ToolSlot) => void;
 }

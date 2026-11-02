@@ -1,6 +1,10 @@
 /* @layer renderer-app @kind constants */
 const OPTIONS_PANEL_TEXT = {
   region: 'Tool options',
+  zone: 'bxel.options-panel',
+  menuLabel: 'Tool options menu',
+  focusBar: 'Go to the options bar',
+  savePreset: 'Save as preset',
   none: 'No tool here',
   noneHint: 'Open or create an asset to see the options of a tool.',
   sheet: 'Pick a sprite to paint it',

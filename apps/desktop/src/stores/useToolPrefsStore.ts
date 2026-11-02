@@ -10,7 +10,13 @@ const useToolPrefsStore = create<ToolPrefsState>()((set) => ({
     set((state) => ({
       hiddenMembers: state.hiddenMembers.includes(memberId) ? state.hiddenMembers.filter((each) => each !== memberId) : [...state.hiddenMembers, memberId],
     })),
-  resetLayout: () => set({ hiddenMembers: [], optionTiers: {} }),
+  resetLayout: () => set({ hiddenMembers: [], optionTiers: {}, layouts: {} }),
+  placeSlots: (surface, layout) => set((state) => ({ layouts: { ...state.layouts, [surface]: layout } })),
+  resetSurface: (surface, memberIds) =>
+    set((state) => {
+      const { [surface]: _dropped, ...rest } = state.layouts;
+      return { layouts: rest, hiddenMembers: state.hiddenMembers.filter((each) => !memberIds.includes(each)) };
+    }),
   setOptionTier: (optionId, tier) =>
     set((state) => {
       const { [optionId]: _dropped, ...rest } = state.optionTiers;

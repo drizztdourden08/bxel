@@ -43,7 +43,20 @@ const LAYOUT_OP_SCHEMA = z.discriminatedUnion('op', [
   z.strictObject({ op: z.literal('toolbarSide'), toolbar, side: SIDE_SCHEMA, row: z.number().int().min(0).max(8).optional() }),
   z.strictObject({ op: z.literal('toolbarLabels'), toolbar, on: z.boolean() }),
   z.strictObject({ op: z.literal('resetToolbars') }),
+  ...TOOL_LAYOUT_OPS,
 ]);
+
+const memberId = z.string().min(1).max(64).describe('A tool member id from list_tools.');
+
+const COLUMNS_SCHEMA = z.union([z.literal(1), z.literal(2), z.literal('auto'), z.null()]).describe('1 or 2 columns, auto for as many as fit, or null for the default.');
+
+const TOOL_LAYOUT_OPS = [
+  z.strictObject({ op: z.literal('toolbarColumns'), toolbar, columns: COLUMNS_SCHEMA }),
+  z.strictObject({ op: z.literal('toolbarItems'), toolbar, hidden: z.array(z.string().min(1).max(64)).max(64).describe('Item ids to hide in the toolbar. An empty list shows them all.') }),
+  z.strictObject({ op: z.literal('hideTool'), member: memberId }),
+  z.strictObject({ op: z.literal('showTool'), member: memberId }),
+  z.strictObject({ op: z.literal('resetTools'), surface: z.enum(['sprite', 'tile', 'map', 'sheet']).optional().describe('One surface. Without it every surface is reset.') }),
+] as const;
 
 const SETTING_SCOPE_VALUES = ['app', 'project', 'asset'] as const;
 

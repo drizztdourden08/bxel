@@ -2,6 +2,7 @@
 import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
+import { useCustomizeStore } from '../../../stores/useCustomizeStore';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { currentSurface } from '../../../editor/tool-catalogue/current-surface';
 import { flyoutEntries } from '../../../tool-menu/flyout-entries';
@@ -12,6 +13,7 @@ import { stopIdOf } from '../../../tool-menu/stop-id-of';
 
 const emptyEntries = (): ContextMenuEntry[] => [
   { label: TOOL_MENU_TEXT.panel, icon: 'panel-right', run: () => useWidgetLayoutStore.getState().open(TOOLS_WIDGET_ID) },
+  { label: TOOL_MENU_TEXT.customize, run: () => useCustomizeStore.getState().show(true) },
   { label: TOOL_MENU_TEXT.resetLayout, icon: 'eye', run: () => useToolPrefsStore.getState().resetLayout() },
 ];
 

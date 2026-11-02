@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind logic */
-import { useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { MenuGroup, ToolbarButton } from '@drizztdourden08/tessera';
 import { createElement } from 'react';
 import { shownMember } from '../../../editor/tool-catalogue/shown-member';
@@ -8,23 +7,19 @@ import { resetTool } from '../../../editor/tool-options/reset-tool';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
 import type { Surface } from '../../../editor/tool-catalogue/surface.type';
-import { flyoutGroups } from '../../../tool-menu/flyout-groups';
 import { flyoutModel } from '../../../tool-menu/flyout-model';
-import { flyoutSections } from '../../../tool-menu/flyout-sections';
-import { OPTIONS_WIDGET_ID, TOOL_MENU_TEXT } from '../../../tool-menu/tool-menu.constants';
+import { TOOL_MENU_TEXT } from '../../../tool-menu/tool-menu.constants';
 import { SlotIcon } from '../../SlotIcon';
 import { OPTIONS_TEXT } from '../OptionsToolbar.constants';
+import type { ChipOptions } from '../OptionsToolbar.type';
+import { chipMenu } from './chip-menu';
 
-const chipGroups = (slot: ToolSlot, surface: Surface): MenuGroup[] => {
-  const sections = flyoutSections(flyoutModel(slot, surface), false).filter((section) => section.id === 'presets');
-  const footer = [
-    { id: 'reset', label: TOOL_MENU_TEXT.resetOptions, icon: 'rotate-ccw' as const, onSelect: () => resetTool(slot.tool) },
-    { id: 'panel', label: TOOL_MENU_TEXT.optionsPanel, icon: 'panel-right' as const, onSelect: () => useWidgetLayoutStore.getState().open(OPTIONS_WIDGET_ID) },
-  ];
-  return [...flyoutGroups(sections), { id: 'chip-footer', items: footer }];
+const chipGroups = (slot: ToolSlot, surface: Surface, options: ChipOptions): MenuGroup[] => {
+  const footer = [{ id: 'reset', label: TOOL_MENU_TEXT.resetOptions, icon: 'rotate-ccw' as const, onSelect: () => resetTool(slot.tool) }];
+  return [...chipMenu(flyoutModel(slot, surface), options.everyTool), { id: 'chip-footer', items: footer }];
 };
 
-const chipItem = (slot: ToolSlot, surface: Surface): ToolbarButton => {
+const chipItem = (slot: ToolSlot, surface: Surface, options: ChipOptions): ToolbarButton => {
   const model = flyoutModel(slot, surface);
   const filled = slot.tool === 'rect' || slot.tool === 'ellipse' ? useDrawingStore.getState().filled[slot.tool] : false;
   const member = shownMember(slot, { variant: useSelectionStore.getState().variant });
@@ -37,7 +32,7 @@ const chipItem = (slot: ToolSlot, surface: Surface): ToolbarButton => {
     description: OPTIONS_TEXT.chipDescription,
     icon: createElement(SlotIcon, { member, filled, mark: null, badge: null }),
     caption: named,
-    options: chipGroups(slot, surface),
+    options: chipGroups(slot, surface, options),
     openOn: 'click',
     onSelect: () => undefined,
   };

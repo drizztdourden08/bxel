@@ -89,10 +89,10 @@ const FIXED_DEFS: CommandDef[] = [
   { id: OPTION_COMMAND.focus, label: 'Focus the tool options', group: COMMAND_GROUP.tools, run: () => void focusOptionsBar() },
   { id: OPTION_COMMAND.open, label: 'Open the Tool options panel', group: COMMAND_GROUP.tools, run: () => useWidgetLayoutStore.getState().open(OPTIONS_WIDGET_ID) },
   { id: OPTION_COMMAND.resetAll, label: 'Reset all tool options', group: COMMAND_GROUP.tools, run: resetAllTools },
-  { id: OPTION_COMMAND.tipPrevious, label: 'Previous brush shape', group: COMMAND_GROUP.brush, chord: 'Shift+[', run: () => cycleTip(-1) },
-  { id: OPTION_COMMAND.tipNext, label: 'Next brush shape', group: COMMAND_GROUP.brush, chord: 'Shift+]', run: () => cycleTip(1) },
-  { id: OPTION_COMMAND.sizeDownBy, label: 'Much smaller brush', group: COMMAND_GROUP.brush, chord: 'Alt+[', run: () => stepBrushSizeBy(-4) },
-  { id: OPTION_COMMAND.sizeUpBy, label: 'Much larger brush', group: COMMAND_GROUP.brush, chord: 'Alt+]', run: () => stepBrushSizeBy(4) },
+  { id: OPTION_COMMAND.tipPrevious, label: 'Previous brush shape', group: COMMAND_GROUP.brush, chord: 'Alt+[', run: () => cycleTip(-1) },
+  { id: OPTION_COMMAND.tipNext, label: 'Next brush shape', group: COMMAND_GROUP.brush, chord: 'Alt+]', run: () => cycleTip(1) },
+  { id: OPTION_COMMAND.sizeDownBy, label: 'Much smaller brush', group: COMMAND_GROUP.brush, chord: 'Shift+[', run: () => stepBrushSizeBy(-4) },
+  { id: OPTION_COMMAND.sizeUpBy, label: 'Much larger brush', group: COMMAND_GROUP.brush, chord: 'Shift+]', run: () => stepBrushSizeBy(4) },
 ];
 
 const OPTION_COMMANDS: readonly CommandDef[] = [...GENERATED_COMMANDS, ...FIXED_DEFS.map(ruled)];

@@ -26,6 +26,8 @@ const TOOLBAR_ROW_SCHEMA = z.strictObject({
   row: z.number().nullable(),
   index: z.number().nullable(),
   labels: z.boolean(),
+  columns: z.union([z.literal(1), z.literal(2), z.literal('auto')]).nullable().optional().describe('The columns set for a vertical toolbar, or null for the default.'),
+  hiddenItems: z.array(z.string()).optional().describe('Item ids the owner hid in this toolbar.'),
 });
 
 export { TOOLBAR_ROW_SCHEMA, WIDGET_ROW_SCHEMA };

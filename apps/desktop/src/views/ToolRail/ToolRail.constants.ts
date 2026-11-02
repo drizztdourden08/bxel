@@ -5,6 +5,7 @@ const TOOL_RAIL_TEXT = {
   menuLabel: 'Tool menu',
   filledBadge: 'Filled',
   globalBadge: 'Global fill',
+  tiledBadge: (tiled: string): string => (tiled === 'both' ? 'Tiled drawing on both axes' : `Tiled drawing on the ${tiled} axis`),
   modeBadge: (mode: string): string => `Selection mode ${mode}`,
 } as const;
 
@@ -17,6 +18,4 @@ const TILE_MODE_PRIORITY = 1000;
 
 const MODE_BADGES = { add: '+', subtract: '-', intersect: 'x' } as const;
 
-const RAIL_OPEN_KEYS = { vertical: { right: 'ArrowRight', left: 'ArrowLeft' }, horizontal: 'ArrowDown' } as const;
-
-export { MODE_BADGES, RAIL_OPEN_KEYS, RAIL_PRIORITY, TILE_MODE_PRIORITY, TOOL_RAIL_TEXT };
+export { MODE_BADGES, RAIL_PRIORITY, TILE_MODE_PRIORITY, TOOL_RAIL_TEXT };

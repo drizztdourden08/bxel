@@ -56,6 +56,14 @@ describe('K1 the toolbar items', { tags: ['critical'] }, () => {
     expect(optionItems(rect, () => undefined).map((item) => item.id)).toEqual(['rect.filled', 'rect.radius', 'before-brush', 'rect.size', 'rect.tip', 'rect.custom_brush', 'before-ink', 'rect.ink']);
   });
 
+  it('show the brush tip as a popover that holds a choice grid', () => {
+    const tip = OPTION_SPECS.find((spec) => spec.tool === 'pencil' && spec.name === 'tip');
+    if (!tip) throw new Error('no pencil tip option');
+    const item = optionItems([tip], () => undefined)[0];
+    expect(item?.kind).toBe('popover');
+    expect(item?.id).toBe('pencil.tip');
+  });
+
   it('list the four tiled preview modes and check the current one', () => {
     const [group] = tiledGroups('x', () => undefined);
     const checked = group?.items.flatMap((node) => ('separator' in node || !node.checked ? [] : [node.id]));

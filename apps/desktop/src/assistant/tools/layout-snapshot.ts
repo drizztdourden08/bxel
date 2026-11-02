@@ -15,7 +15,7 @@ const layoutSnapshot = () => ({
     popped: each.popped,
     available: each.available,
   })),
-  toolbars: toolbars.list().map((each) => ({ id: each.id, label: each.label, shown: each.shown, side: each.side, row: each.row, index: each.index, labels: each.labels })),
+  toolbars: toolbars.list().map((each) => ({ id: each.id, label: each.label, shown: each.shown, side: each.side, row: each.row, index: each.index, labels: each.labels, columns: each.columns, hiddenItems: each.hiddenItems })),
 });
 
 export { layoutSnapshot };

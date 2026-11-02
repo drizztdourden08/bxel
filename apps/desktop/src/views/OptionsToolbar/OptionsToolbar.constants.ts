@@ -18,6 +18,20 @@ const OPTIONS_TEXT = {
   resetAll: 'Reset all tools',
   more: 'More options',
   moreDescription: 'Open the Tool options panel with every option of the tool, presets and reset.',
+  editsEveryUse: (uses: number): string => `Edits every use (${uses})`,
+  editsEveryUseDescription: 'This tile is shared. Every place that uses it changes when you paint.',
+  paintingSprites: (count: number): string => `Painting ${count} sprites`,
+  paintingDescription: 'Strokes go to every selected sprite. Press to paint one sprite again.',
+  moreTitle: 'More options',
+  openPanel: 'Open the Tool options panel',
+  currentToolOnly: 'Current tool only',
+  updatePreset: 'Update preset',
+  renamePreset: 'Rename',
+  duplicatePreset: 'Duplicate',
+  deletePreset: 'Delete',
+  confirmDelete: 'Delete this preset?',
+  managePresets: 'Manage presets',
+  allToolsPreset: (tool: string, name: string): string => `${tool}: ${name}`,
   sheetName: 'Sheet',
   sheetHint: 'Pick a sprite to paint it',
   noOptions: 'Nothing to set',
@@ -36,4 +50,6 @@ const TOOL_HINTS: Readonly<Partial<Record<ToolId, string>>> = {
 
 const SYMMETRY_PRIORITY = 900;
 
-export { OPTIONS_TEXT, SIZE_LADDER, SYMMETRY_PRIORITY, TOOL_HINTS };
+const BRUSH_PICKER = { columns: 3, previewSize: 5 } as const;
+
+export { BRUSH_PICKER, OPTIONS_TEXT, SIZE_LADDER, SYMMETRY_PRIORITY, TOOL_HINTS };

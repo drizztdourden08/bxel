@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { usePresetKeyCommands } from './usePresetKeyCommands';
+import { useSpringGuards } from './useSpringGuards';
 import { useToolPersistence } from './useToolPersistence';
 import { useToolRecents } from './useToolRecents';
 import { useToolSurface } from './useToolSurface';
@@ -9,6 +10,7 @@ const useToolHost = (): void => {
   useToolRecents();
   useToolPersistence();
   usePresetKeyCommands();
+  useSpringGuards();
 };
 
 export { useToolHost };

@@ -83,6 +83,8 @@ const APP_INPUT_EXAMPLES: Record<string, unknown> = {
       { op: 'dock', widget: 'timeline', side: 'right', size: 300 },
       { op: 'toolbarSide', toolbar: 'tools', side: 'left' },
       { op: 'toolbarLabels', toolbar: 'tools', on: true },
+      { op: 'toolbarColumns', toolbar: 'tools', columns: 2 },
+      { op: 'hideTool', member: 'spray' },
     ],
   },
   get_settings: { scope: 'app', page: 'canvas', schema: true },
@@ -104,7 +106,7 @@ const WIDGET = {
   available: true,
 };
 
-const TOOLBAR = { id: 'tools', label: 'Tools', shown: true, side: 'left', row: 0, index: 0, labels: true };
+const TOOLBAR = { id: 'tools', label: 'Tools', shown: true, side: 'left', row: 0, index: 0, labels: true, columns: 2, hiddenItems: [] };
 
 const APP_OUTPUT_EXAMPLES: Record<string, unknown> = {
   list_commands: { ok: true, commands: [COMMAND_ROW], total: 1 },
@@ -113,7 +115,7 @@ const APP_OUTPUT_EXAMPLES: Record<string, unknown> = {
     surface: 'sprite',
     current: 'sprite',
     surfaces: ['sprite', 'tile', 'map', 'sheet'],
-    slots: [{ id: 'pencil', group: 'draw', label: 'Pencil', key: 'B', tool: 'pencil', surfaces: ['sprite'], active: true, members: [{ id: 'pencil', label: 'Pencil', description: 'Draws pixels.', variant: null }], options: [OPTION_ROW] }],
+    slots: [{ id: 'pencil', group: 'draw', label: 'Pencil', key: 'B', tool: 'pencil', surfaces: ['sprite'], active: true, members: [{ id: 'pencil', label: 'Pencil', description: 'Draws pixels.', variant: null, hidden: false }], options: [OPTION_ROW] }],
     presets: [PRESET_ROW],
   },
   list_presets: { ok: true, presets: [PRESET_ROW] },
@@ -162,7 +164,7 @@ const APP_OUTPUT_EXAMPLES: Record<string, unknown> = {
     tileset: { mode: 'tiles', search: '', filters: [], stamp: { columns: 1, rows: 1, keys: [1] }, scatter: false, terrainBrush: false, collisionOverlay: false },
   },
   list_layout: { ok: true, widgets: [WIDGET], toolbars: [TOOLBAR], presets: ['Default'] },
-  set_layout: { ok: true, applied: 3, widgets: [WIDGET], toolbars: [TOOLBAR] },
+  set_layout: { ok: true, applied: 5, widgets: [WIDGET], toolbars: [TOOLBAR] },
   get_settings: {
     ok: true,
     scope: 'app',

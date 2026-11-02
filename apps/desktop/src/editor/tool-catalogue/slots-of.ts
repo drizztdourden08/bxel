@@ -1,4 +1,6 @@
 /* @layer renderer-app @kind logic */
+import { useToolPrefsStore } from '../../stores/useToolPrefsStore';
+import { arrangeSlots } from './arrange-slots';
 import type { Surface } from './surface.type';
 import { drawSurface } from './draw-surface';
 import { SLOT_GROUPS, TOOL_SLOTS } from './tool-catalogue.constants';
@@ -8,7 +10,8 @@ const groupRank = (slot: ToolSlot): number => SLOT_GROUPS.findIndex((group) => g
 
 const slotsOf = (surface: Surface): ToolSlot[] => {
   const own = drawSurface(surface);
-  return TOOL_SLOTS.filter((slot) => slot.surfaces.includes(own)).sort((a, b) => groupRank(a) - groupRank(b));
+  const base = TOOL_SLOTS.filter((slot) => slot.surfaces.includes(own)).sort((a, b) => groupRank(a) - groupRank(b));
+  return arrangeSlots(base, useToolPrefsStore.getState().layouts[own]);
 };
 
 export { slotsOf };

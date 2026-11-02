@@ -25,7 +25,7 @@ const listToolsTool = defineTool(TOOL_NAME.listTools, {
         tool: z.string(),
         surfaces: z.array(z.string()),
         active: z.boolean().describe('The tool of this slot is the tool in use.'),
-        members: z.array(z.strictObject({ id: z.string(), label: z.string(), description: z.string(), variant: z.string().nullable() })),
+        members: z.array(z.strictObject({ id: z.string(), label: z.string(), description: z.string(), variant: z.string().nullable(), hidden: z.boolean().optional().describe('The member is off the rail. A hidden member is still listed and its key still picks it.') })),
         options: z.array(OPTION_ROW_SCHEMA),
       }),
     ),

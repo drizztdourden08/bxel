@@ -1,6 +1,9 @@
 /* @layer renderer-app @kind constants */
 import { toolbars, widgets } from '@drizztdourden08/brock-react';
+import { resetSurfaceTools } from '../../editor/tool-catalogue/reset-surface-tools';
+import { ALL_SURFACES } from '../../editor/tool-catalogue/surfaces.constants';
 import type { Runners } from './layout-op.type';
+import { setToolHidden } from './set-tool-hidden';
 
 const LAYOUT_RUNNERS: Runners = {
   show: (op) => widgets.open(op.widget),
@@ -22,6 +25,11 @@ const LAYOUT_RUNNERS: Runners = {
   toolbarSide: (op) => toolbars.moveToSide(op.toolbar, op.side, op.row),
   toolbarLabels: (op) => toolbars.labels(op.toolbar, op.on),
   resetToolbars: () => toolbars.reset(),
+  toolbarColumns: (op) => toolbars.columns(op.toolbar, op.columns),
+  toolbarItems: (op) => toolbars.items(op.toolbar, op.hidden),
+  hideTool: (op) => setToolHidden(op.member, true),
+  showTool: (op) => setToolHidden(op.member, false),
+  resetTools: (op) => (op.surface === undefined ? ALL_SURFACES.forEach(resetSurfaceTools) : resetSurfaceTools(op.surface)),
 };
 
 export { LAYOUT_RUNNERS };

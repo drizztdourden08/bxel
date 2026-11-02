@@ -6,6 +6,7 @@ import { resetTool } from '../editor/tool-options/reset-tool';
 import { announcePreset } from '../editor/tool-pick/announce-preset';
 import { pickMember } from '../editor/tool-pick/pick-member';
 import { pointerPick } from '../editor/tool-pick/pointer-pick';
+import { useCustomizeStore } from '../stores/useCustomizeStore';
 import { useToolPrefsStore } from '../stores/useToolPrefsStore';
 import { focusOptionsBar } from './focus-options-bar';
 import { optionSections } from './option-sections';
@@ -51,6 +52,7 @@ const footerRows = (model: FlyoutModel): FlyoutRow[] => [
     model.slot.members.forEach((member) => useToolPrefsStore.getState().toggleHidden(member.id)),
   ),
   action('panel', TOOL_MENU_TEXT.panel, 'panel-right', () => useWidgetLayoutStore.getState().open(TOOLS_WIDGET_ID)),
+  action('customize', TOOL_MENU_TEXT.customize, undefined, () => useCustomizeStore.getState().show(true)),
 ];
 
 const flyoutSections = (model: FlyoutModel, withFooter: boolean): FlyoutSection[] => {
