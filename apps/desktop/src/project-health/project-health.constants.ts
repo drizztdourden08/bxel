@@ -42,6 +42,8 @@ const HEALTH_TEXT = {
   cappedHint: (limit: number): string => `Bxel opens the first ${limit} assets of a project with the project. These files come after them and open when you pick them, so links to them and counts of their use are not shown until then.`,
   findById: 'Find by id',
   removeLink: 'Remove the link',
+  pickFile: 'Pick a file...',
+  pickTitle: (target: string): string => `Pick the file for ${target}`,
   fixAll: 'Fix all',
   show: 'Show',
   showFiles: 'Show in Browse',
