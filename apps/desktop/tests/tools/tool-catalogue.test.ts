@@ -9,8 +9,8 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('./tools-harne
 const groupRank = (slot: ToolSlot): number => SLOT_GROUPS.findIndex((group) => group.id === slot.group);
 
 describe('K1 the tool catalogue', { tags: ['critical'] }, () => {
-  it('shows only the view group on a sheet and lists groups in order', () => {
-    expect(slotsOf('sheet').map((slot) => slot.id)).toEqual(['zoom', 'hand']);
+  it('shows the slice tool and the view group on a sheet and lists groups in order', () => {
+    expect(slotsOf('sheet').map((slot) => slot.id)).toEqual(['slice', 'zoom', 'hand']);
     const order = slotsOf('sprite').map(groupRank);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
   });

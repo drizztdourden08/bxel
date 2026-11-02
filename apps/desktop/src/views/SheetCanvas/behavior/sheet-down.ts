@@ -2,6 +2,7 @@
 import { clearSpriteSelection } from '../../../sheet/clear-selection';
 import { isolateSprite } from '../../../sheet/isolate-sprite';
 import { useSpriteStore } from '../../../stores/useSpriteStore';
+import { useToolStore } from '../../../stores/useToolStore';
 import { DOUBLE_CLICK_MS } from '../SheetCanvas.constants';
 import type { DownInput } from '../SheetCanvas.type';
 import { hitSprite } from './hit-sprite';
@@ -11,7 +12,7 @@ import { startSlice } from './start-slice';
 const sheetDown = (input: DownInput): void => {
   const { event, at, items, drag, memo } = input;
   const hit = hitSprite(items, at);
-  if (useSpriteStore.getState().sliceDraw) {
+  if (useSpriteStore.getState().sliceDraw || useToolStore.getState().tool === 'slice') {
     drag.current = hit ? startSlice(hit, at) : null;
     return;
   }
