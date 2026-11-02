@@ -14,7 +14,7 @@ const STAGE_TEXT = {
   relinkTitle: 'Find the missing file',
   failedMessage: 'Bxel could not open that file.',
   retry: 'Try again',
-  reveal: 'Show in folder',
+  reveal: 'Reveal in folder',
   dismiss: 'Dismiss',
   boundaryLabel: 'This view could not be drawn.',
 } as const;

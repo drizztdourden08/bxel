@@ -69,3 +69,14 @@
   pointer-events: none;
   border: var(--border-width-thin) dashed var(--c-warning);
 }
+
+@media (forced-colors: active) {
+  .view-map__frame {
+    border-color: Highlight;
+    box-shadow: none;
+  }
+
+  .view-map__mark {
+    border-color: LinkText;
+  }
+}

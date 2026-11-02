@@ -18,4 +18,19 @@ const GUIDE_LABEL = {
   clear: 'Clear guides',
 } as const;
 
-export { DOUBLE_GUIDE_MS, GUIDE_AXES, GUIDE_GRAB, GUIDE_LABEL, GUIDE_SNAP_REACH, RULER_ZONE };
+const GUIDE_COLOURS: readonly { name: string; colour: string }[] = [
+  { name: 'Red', colour: '#ff4d6a' },
+  { name: 'Blue', colour: '#4da3ff' },
+  { name: 'Green', colour: '#4dd98a' },
+  { name: 'Yellow', colour: '#ffd24d' },
+  { name: 'Violet', colour: '#b57bff' },
+];
+
+const GUIDE_COLOUR_TEXT = {
+  menu: 'Guide colour',
+  reset: 'Default colour',
+  none: 'Point at a guide on the ruler to colour it.',
+  label: 'Colour guide',
+} as const;
+
+export { DOUBLE_GUIDE_MS, GUIDE_AXES, GUIDE_COLOUR_TEXT, GUIDE_COLOURS, GUIDE_GRAB, GUIDE_LABEL, GUIDE_SNAP_REACH, RULER_ZONE };

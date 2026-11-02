@@ -29,6 +29,7 @@ const SORT_WORDS: Readonly<Record<PaletteSortKey, string>> = {
 const PANEL_TEXT = {
   added: (index: number): string => `Added swatch ${index}.`,
   full: (cap: number): string => `The palette holds its ${cap} colours. Raise the limit to add one.`,
+  binaryAlpha: (preset: string): string => `${preset} allows only full colour or none, so alpha is a switch.`,
   locked: (preset: string): string => `Locked by the ${preset} palette rules.`,
   moved: (index: number, to: number, total: number): string => `Swatch ${index} moved to ${to} of ${total}.`,
   swapped: (first: number, second: number): string => `Swatches ${first} and ${second} swapped. The drawing looks the same.`,

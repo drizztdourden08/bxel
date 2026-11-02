@@ -12,6 +12,7 @@ const persistedGuideScope = ({ lines, size, step, write }: PersistedGuides): Gui
     size,
     step,
     add: (axis, position) => change(GUIDE_LABEL.add, axis, [...now[axis], position]),
+    addMany: (more) => write(GUIDE_LABEL.add, { x: sortedLine([...now.x, ...more.x]), y: sortedLine([...now.y, ...more.y]) }),
     move: (axis, from, to) => change(GUIDE_LABEL.move, axis, now[axis].map((at) => (at === from ? to : at))),
     remove: (axis, position) => change(GUIDE_LABEL.remove, axis, now[axis].filter((at) => at !== position)),
     clear: () => write(GUIDE_LABEL.clear, NO_LINES),

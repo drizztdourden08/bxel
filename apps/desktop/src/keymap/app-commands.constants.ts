@@ -42,6 +42,7 @@ import { TIMELINE_COMMANDS } from './timeline-commands.constants';
 import { TOOL_COMMANDS } from './tool-commands.constants';
 import { gated } from './gated';
 import { VIEW_COMMANDS } from './view-commands.constants';
+import { VIEW_SECTION_COMMANDS } from './view-section-commands.constants';
 
 const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TOOL_COMMANDS,
@@ -75,6 +76,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TIMELINE_MENU_COMMANDS,
   ...SYMMETRY_MENU_COMMANDS,
   ...GUIDE_MENU_COMMANDS,
+  ...VIEW_SECTION_COMMANDS,
   ...REFERENCE_COMMANDS,
   ...RULER_UNIT_COMMANDS,
   ...HELP_COMMANDS,

@@ -14,6 +14,11 @@ interface PaletteUsage {
   duplicates: readonly (readonly number[])[];
 }
 
+interface AlphaLimit {
+  binary: boolean;
+  reason: string;
+}
+
 interface PaletteLock {
   locked: boolean;
   reason: string;
@@ -72,4 +77,4 @@ interface PanelRun {
   done: string;
 }
 
-export type { CleanUpKind, CommandScene, PanelCommand, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, RemovalWords, ReplaceScope, SheetPlan, SlotUse, UsageReach };
+export type { AlphaLimit, CleanUpKind, CommandScene, PanelCommand, PaletteLock, PaletteSharing, PaletteUsage, PanelOutcome, PanelRun, RemovalWords, ReplaceScope, SheetPlan, SlotUse, UsageReach };

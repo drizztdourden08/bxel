@@ -6,7 +6,7 @@ import { EmptyFrame } from './EmptyFrame';
 
 const EmptyCanvas = () => {
   const focus = useAnimationFocus();
-  return focus ? <EmptyFrame readOnly={focus.readOnly} /> : <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;
+  return focus ? <EmptyFrame readOnly={focus.readOnly} hasPrevious={focus.animation.frames.findIndex((frame) => frame.id === focus.frame.id) > 0} /> : <EmptyState message={EDITOR_CANVAS_TEXT.empty} />;
 };
 
 export { EmptyCanvas };

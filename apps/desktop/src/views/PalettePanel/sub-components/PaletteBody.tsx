@@ -34,7 +34,7 @@ const PaletteBody = ({ target }: { target: PaletteTarget }) => {
       <AnimationNote panel={panel} />
       {panel.sharing.shared && <SharedNotice panel={panel} />}
       <PreviewNotice panel={panel} />
-      <HeldRow panel={panel} />
+      {target.sprite !== null && <HeldRow panel={panel} />}
       <SwatchView panel={panel} />
       <PaletteFooter panel={panel} />
       <SwatchEditor panel={panel} />

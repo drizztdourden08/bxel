@@ -16,6 +16,8 @@ const SHEET_COMMAND = {
   importSheet: 'sheet.import',
   sliceAdd: 'slice.add',
   sliceRemove: 'slice.remove',
+  togglePivots: 'sheet.toggle_pivots',
+  guideAround: 'guide.around_selection',
 } as const;
 
 export { SHEET_COMMAND };

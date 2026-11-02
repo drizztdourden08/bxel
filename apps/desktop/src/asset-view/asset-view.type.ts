@@ -12,6 +12,7 @@ interface AssetView {
   labels: boolean;
   overlaps: boolean;
   pivots: boolean;
+  guideColours: Readonly<Record<string, string>>;
   references: readonly ReferenceImage[];
 }
 

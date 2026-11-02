@@ -111,6 +111,10 @@ interface AxisArgs {
   position: number;
 }
 
+interface GuideColourArgs extends AxisArgs {
+  colour: string | null;
+}
+
 interface UnitArgs {
   unit: string;
 }
@@ -138,4 +142,4 @@ interface ByColourArgs extends Partial<PixelArgs> {
   mode: 'region' | 'everywhere';
 }
 
-export type { AlignArgs, AxisArgs, ByColourArgs, CollisionKindArgs, DurationArgs, DurationOfArgs, FrameArgs, LayerArgs, LayerColourArgs, LayerLockArgs, NameArgs, PackingArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SetArgs, SheetArgs, SlotArgs, SnapArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TileIndexArgs, TileMoveArgs, TraitArgs, UnitArgs, ZoomArgs };
+export type { AlignArgs, AxisArgs, ByColourArgs, CollisionKindArgs, DurationArgs, DurationOfArgs, FrameArgs, GuideColourArgs, LayerArgs, LayerColourArgs, LayerLockArgs, NameArgs, PackingArgs, PathArgs, PickHereArgs, PixelArgs, ProjectArgs, SetArgs, SheetArgs, SlotArgs, SnapArgs, StatusArgs, SwatchArgs, TabArgs, TagArgs, TileArgs, TileIndexArgs, TileMoveArgs, TraitArgs, UnitArgs, ZoomArgs };

@@ -89,6 +89,7 @@ const TIMELINE_LABEL = {
   pivot: 'Move the frame pivot',
   placement: 'Place the frame',
   own: 'Draw on this frame',
+  copyPrevious: 'Copy the previous frame',
   copy: 'Make a copy for this animation',
   make: 'Make an animation',
   split: 'Split to sprites',
