@@ -107,8 +107,6 @@ export type {
   FillSample,
   GradientMode,
   InkKind,
-  MoveTarget,
-  NudgeUnit,
   PatternAlign,
   PickSample,
   SymmetryMode,
