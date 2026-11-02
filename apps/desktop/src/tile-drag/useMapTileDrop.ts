@@ -7,7 +7,8 @@ import { inBounds } from '../tilemap/in-bounds';
 import type { MapTarget } from '../tilemap/tilemap.type';
 import type { PixelViewportHandle } from '../views/PixelViewport';
 import { cellOf } from '../views/TilemapCanvas/behavior/cell-of';
-import { canDropOnMap, dropOnMap } from './map-drop';
+import { canDropOnMap } from './can-drop-on-map';
+import { dropOnMap } from './drop-on-map';
 import { TILE_DRAG } from './tile-drag.constants';
 import type { MapDropPayload } from './tile-drag.type';
 

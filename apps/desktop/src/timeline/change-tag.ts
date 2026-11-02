@@ -6,6 +6,7 @@ import { runDocument } from '../sheet/run-document';
 import { animationStep } from './animation-step';
 import { currentFocus } from './current-focus';
 import { idRef } from './id-ref';
+import { spanTagOf } from './span-tag-of';
 import { tagById } from './tag-by-id';
 import { TIMELINE_SAY } from './timeline-say.constants';
 
@@ -14,7 +15,7 @@ const changeTag = (label: string, tagId: TagId, fields: Readonly<Record<string, 
   if (!focus) return false;
   const options = { tag: idRef(tagId), ...fields };
   if (runDocument(label, [animationStep(focus, COMMAND_NAME.animationTagUpdate, options)]) === null) return false;
-  const name = typeof fields.name === 'string' ? fields.name : tagById(focus.animation, tagId)?.name;
+  const name = typeof fields.name === 'string' ? fields.name : spanTagOf(focus.animation, tagById(focus.animation, tagId))?.name;
   announce(TIMELINE_SAY.tagChanged(name ?? ''));
   return true;
 };

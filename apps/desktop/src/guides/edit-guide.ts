@@ -5,7 +5,7 @@ import { guideScope } from './guide-scope';
 
 const editGuide = (args: Partial<AxisArgs>): void => {
   const scope = guideScope();
-  if (!scope || !scope.size()) return;
+  if (!scope?.size()) return;
   const axis = args.axis ?? 'x';
   const at = args.position;
   const existing = at !== undefined && (scope.lines()?.[axis] ?? []).includes(at);

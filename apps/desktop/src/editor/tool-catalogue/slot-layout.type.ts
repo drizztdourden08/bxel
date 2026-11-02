@@ -14,4 +14,4 @@ interface SlotMove {
   before: string | null;
 }
 
-export type { SlotMove, SlotPlace, SurfaceLayout };
+export type { SlotMove, SurfaceLayout };
