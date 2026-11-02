@@ -5,13 +5,13 @@ import { openSubject } from '../../../properties-subject/open-subject';
 import { saveSubject } from '../../../properties-subject/save-subject';
 import { togglePin } from '../../../properties-subject/toggle-pin';
 import { useSubjectStore } from '../../../properties-subject/useSubjectStore';
-import type { SubjectPartProps } from '../SubjectCard.type';
+import type { SubjectHeaderPartProps } from '../SubjectHeader.type';
 
-const SubjectBar = ({ subject }: SubjectPartProps) => {
+const SubjectBar = ({ subject }: SubjectHeaderPartProps) => {
   const canBack = useSubjectStore((state) => state.past.length > 0);
   const canForward = useSubjectStore((state) => state.future.length > 0);
   return (
-    <Box className="subject-card__bar" role="group" aria-label={subject.pinned ? SUBJECT_TEXT.pinnedTo : SUBJECT_TEXT.follows}>
+    <Box className="subject-header__bar" role="group" aria-label={subject.pinned ? SUBJECT_TEXT.pinnedTo : SUBJECT_TEXT.follows}>
       <IconButton
         label={subject.pinned ? SUBJECT_TEXT.unpin : SUBJECT_TEXT.pin}
         size="sm"
@@ -22,7 +22,7 @@ const SubjectBar = ({ subject }: SubjectPartProps) => {
       >
         <Icon name={subject.pinned ? 'pin' : 'pin-off'} />
       </IconButton>
-      <Text as="span" variant="caption" tone="muted" className="subject-card__pin-note">
+      <Text as="span" variant="caption" tone="muted" className="subject-header__pin-note">
         {subject.pinned ? SUBJECT_TEXT.pinnedTo : SUBJECT_TEXT.follows}
       </Text>
       <IconButton label={SUBJECT_TEXT.back} size="sm" variant="tertiary" disabled={!canBack} onClick={() => useSubjectStore.getState().back()}>

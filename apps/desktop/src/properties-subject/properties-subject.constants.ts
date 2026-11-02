@@ -5,6 +5,12 @@ const NO_SUBJECT: SubjectState = { status: 'none' };
 
 const HISTORY_LIMIT = 30;
 
+const SUBJECT_PARAM = { subject: 'subject', pin: 'pin' } as const;
+
+const PIN_ON = '1';
+
+const KEY_PREFIX = 'key:';
+
 const SUBJECT_TEXT = {
   follows: 'Follows the selected tab',
   pinnedTo: 'Pinned to this file',
@@ -30,4 +36,4 @@ const SUBJECT_TEXT = {
   openAsset: 'Open...',
 } as const;
 
-export { HISTORY_LIMIT, NO_SUBJECT, SUBJECT_TEXT };
+export { HISTORY_LIMIT, KEY_PREFIX, NO_SUBJECT, PIN_ON, SUBJECT_PARAM, SUBJECT_TEXT };

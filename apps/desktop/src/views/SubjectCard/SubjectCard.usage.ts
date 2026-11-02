@@ -2,7 +2,7 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'The subject of the Properties window: the file it is about, its kind and path, its badges, its preview, and the pin that holds it.',
+  job: 'The preview of the file the Properties window is about. The file name, kind, path and pin are in the window header.',
   useWhen: [
     'The Properties window opens beside the rows of one file.',
   ],

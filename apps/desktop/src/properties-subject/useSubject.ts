@@ -5,10 +5,10 @@ import { useDocumentStore } from '../stores/useDocumentStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { resolveSubject } from './resolve-subject';
 import type { SubjectState } from './properties-subject.type';
-import { useSubjectStore } from './useSubjectStore';
+import { usePin } from './usePin';
 
 const useSubject = (): SubjectState => {
-  const pin = useSubjectStore((state) => state.pin);
+  const pin = usePin();
   const follow = useActiveAsset()?.tab ?? null;
   const views = useDocumentStore((state) => state.views);
   const tabs = useWorkspaceStore((state) => state.tabs);

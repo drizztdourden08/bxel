@@ -1,12 +1,14 @@
 /* @layer renderer-app @kind logic */
 import { readSubject } from '../../properties-subject/read-subject';
+import { readPin } from '../../properties-subject/read-pin';
 import { useSubjectStore } from '../../properties-subject/useSubjectStore';
 import { useProjectStore } from '../../stores/useProjectStore';
 import { placeOfPath } from './place-of-path';
 
 const propertiesView = () => {
   const state = readSubject();
-  const { pin, past, future } = useSubjectStore.getState();
+  const { past, future } = useSubjectStore.getState();
+  const pin = readPin();
   const { project } = useProjectStore.getState();
   const base = { status: state.status, pinned: pin !== null, back: past.length, forward: future.length };
   if (state.status === 'ready') {

@@ -4,19 +4,19 @@ import { KIND_ICON } from '../../../asset-list/asset-list.constants';
 import { OVERVIEW_KIND_LABEL } from '../../../asset-overview/asset-overview.constants';
 import { SUBJECT_TEXT } from '../../../properties-subject/properties-subject.constants';
 import { revealInProjectWindow } from '../../../project-browser/reveal-in-project-window';
-import type { SubjectPartProps } from '../SubjectCard.type';
+import type { SubjectHeaderPartProps } from '../SubjectHeader.type';
 import { SubjectBadges } from './SubjectBadges';
 
-const SubjectHead = ({ subject }: SubjectPartProps) => {
+const SubjectHead = ({ subject }: SubjectHeaderPartProps) => {
   const kind = subject.kind === 'project' ? 'other' : subject.kind;
   return (
-    <Box className="subject-card__head">
-      <Icon className="subject-card__icon" name={KIND_ICON[kind]} size={24} />
-      <Box className="subject-card__titles">
-        <Text as="h2" variant="subtitle" className="subject-card__name" title={subject.name}>
+    <Box className="subject-header__head">
+      <Icon className="subject-header__icon" name={KIND_ICON[kind]} size={24} />
+      <Box className="subject-header__titles">
+        <Text as="h2" variant="subtitle" className="subject-header__name" title={subject.name}>
           {subject.name}
         </Text>
-        <Box className="subject-card__path">
+        <Box className="subject-header__path">
           <Text as="span" variant="caption" tone="muted">
             {OVERVIEW_KIND_LABEL[subject.kind]}
           </Text>

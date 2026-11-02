@@ -20,8 +20,7 @@ const openProperties = (ref: SubjectRef | null): void => {
     openProjectSettings();
     return;
   }
-  useSubjectStore.getState().pinTo(ref);
-  nav.open(key === null ? PROPERTIES_HUB : `${PROPERTIES_HUB}/${ASSET_PAGES[key.kind].overview}`);
+  useSubjectStore.getState().pinTo(ref, key === null ? PROPERTIES_HUB : `${PROPERTIES_HUB}/${ASSET_PAGES[key.kind].overview}`);
 };
 
 export { openProperties };
