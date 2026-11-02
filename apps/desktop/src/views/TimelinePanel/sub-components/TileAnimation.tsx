@@ -2,6 +2,7 @@
 import { animationSequence, findAnimation, tilePlayback, tileStepAt } from '@bxel/document';
 import { Box, Button, Flex, Stack, Text } from '@drizztdourden08/tessera';
 import { useEffect, useMemo, useState } from 'react';
+import { prefersReducedMotion } from '../../../assistant-presence/prefers-reduced-motion';
 import { animationFileName } from '../../../tile-animation/animation-file-name';
 import { subscribeTileClock } from '../../../tile-animation/tile-clock';
 import { openAnimationAt } from '../../../timeline/open-animation-at';
@@ -18,7 +19,7 @@ const TileAnimation = ({ artwork, tileset, tile }: TileAnimationProps) => {
   const [playing, setPlaying] = useState(0);
   useEffect(() => {
     const playback = tilePlayback(artwork, tileset, tile);
-    return playback ? subscribeTileClock((now) => setPlaying(tileStepAt(playback, now))) : undefined;
+    return playback && !prefersReducedMotion() ? subscribeTileClock((now) => setPlaying(tileStepAt(playback, now))) : undefined;
   }, [artwork, tileset, tile]);
   if (!animation || !link || !sequence) return <TileStill artwork={artwork} tileset={tileset} tile={tile} />;
   const lit = sequence.steps[playing]?.frameId;

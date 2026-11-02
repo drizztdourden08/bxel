@@ -12,6 +12,7 @@ const TILE_TEXT = {
   edit: 'Edit Tile',
   collisionCaption: 'Collision',
   animateCaption: 'Animate tiles',
+  clockSpeed: 'Tile speed',
   switchTo: (mode: string): string => `Switch to ${mode}`,
 } as const;
 
@@ -36,10 +37,20 @@ const COLLISION_OVERLAY_HINT: HintSpec = {
   shortcuts: [{ command: COLLISION_COMMAND.toggleOverlay }],
 };
 
+const TILE_CLOCK_PLAY_HINT: HintSpec = {
+  name: 'Play tiles',
+  description: 'Run the tile clock again.',
+};
+
+const TILE_CLOCK_PAUSE_HINT: HintSpec = {
+  name: 'Pause tiles',
+  description: 'Hold every animated tile on its current frame.',
+};
+
 const ANIMATE_TILES_HINT: HintSpec = {
   name: 'Animate tiles',
   description: 'Play the animated tiles on the map. It pauses while you drag, and starts off when the system asks for less motion.',
   shortcuts: [{ command: ANIMATION_COMMAND.toggleTiles }],
 };
 
-export { ANIMATE_TILES_HINT, COLLISION_OVERLAY_HINT, TILE_MODE_HINTS, TILE_MODE_ICONS, TILE_TEXT };
+export { ANIMATE_TILES_HINT, COLLISION_OVERLAY_HINT, TILE_CLOCK_PAUSE_HINT, TILE_CLOCK_PLAY_HINT, TILE_MODE_HINTS, TILE_MODE_ICONS, TILE_TEXT };
