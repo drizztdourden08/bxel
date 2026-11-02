@@ -9,6 +9,6 @@
 }
 
 .palette-import__strip {
+  min-width: 0;
   max-height: var(--size-96);
-  overflow-y: auto;
 }
