@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { editTile } from '../../src/tilemap/edit-tile';
 import { firstUse } from '../../src/tilemap/first-use';
 import { neighbourSource } from '../../src/tilemap/neighbour-source';
@@ -8,6 +8,14 @@ import { useTilemapStore } from '../../src/stores/useTilemapStore';
 import { mapNow, openMapFile } from './map-harness';
 
 beforeEach(openMapFile);
+
+beforeAll(() => {
+  vi.stubGlobal('document', { createElement: () => ({ width: 0, height: 0, getContext: () => null }) });
+});
+
+afterAll(() => {
+  vi.unstubAllGlobals();
+});
 
 describe('W7 Edit Tile shows the neighbours from the map', { tags: ['standard'] }, () => {
   it('finds the first place the tile is used', () => {
