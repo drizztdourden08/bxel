@@ -12,7 +12,6 @@ const slotView = (artwork: Artwork, tileset: Tileset): GridView => ({
   showUses: false,
   animate: false,
   painted: NONE,
-  focused: -1,
   order: NO_ORDER,
   terrain: null,
 });

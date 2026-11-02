@@ -19,7 +19,7 @@ const TileSlot = ({ cell, index, bind, view, handlers }: TileCellProps) => {
   const events = cellEvents(index, bind, handlers);
   if (!cell) {
     return (
-      <Box ref={ref} role="gridcell" aria-label={TILESET_TEXT.emptySlot(index + 1)} data-hole-index={index} {...events} className={`${events.className} tileset-panel__cell--hole`}>
+      <Box ref={ref} aria-label={TILESET_TEXT.emptySlot(index + 1)} data-hole-index={index} {...events} className={`${events.className} tileset-panel__cell--hole`}>
         <Canvas width={view.tileset.tileWidth * view.zoom} height={view.tileset.tileHeight * view.zoom} className="tileset-panel__hole" aria-hidden="true" />
       </Box>
     );
@@ -29,7 +29,6 @@ const TileSlot = ({ cell, index, bind, view, handlers }: TileCellProps) => {
   return (
     <Box
       ref={ref}
-      role="gridcell"
       aria-selected={cell.picked}
       aria-label={label}
       title={cell.editing ? TILESET_TEXT.editing : label}

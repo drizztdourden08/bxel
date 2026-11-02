@@ -16,7 +16,7 @@ const stopPlayback = (): void => {
     announce(TIMELINE_SAY.rewound(order.indexOf(start) + 1));
     return;
   }
-  const at = order.indexOf(state.frameId ?? '');
+  const at = state.frameId === null ? -1 : order.indexOf(state.frameId);
   if (at >= 0) announce(TIMELINE_SAY.paused(at + 1));
 };
 

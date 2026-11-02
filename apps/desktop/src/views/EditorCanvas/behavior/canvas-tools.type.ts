@@ -58,7 +58,7 @@ interface CanvasTools {
   live: ImageData | null;
   onPointerDown: PointerEventHandler<HTMLElement>;
   onPointerMove: PointerEventHandler<HTMLElement>;
-  onPointerUp: PointerEventHandler<HTMLElement>;
+  onPointerUp: () => void;
 }
 
 interface CanvasReadout {

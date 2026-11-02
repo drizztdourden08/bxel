@@ -24,6 +24,8 @@ const railOf = (column: Column): ToolbarItem[] => {
     groups: undefined,
     hasFlyout: false,
     assistant: false,
+    hover: false,
+    holdMs: 350,
     pick: () => undefined,
   }));
 };

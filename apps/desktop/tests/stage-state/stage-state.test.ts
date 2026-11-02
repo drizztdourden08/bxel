@@ -35,7 +35,7 @@ const fault: StageFault = { message: 'It is damaged.', action: { kind: 'openPath
 const index: LinkIndex = { files: [], links: [], duplicates: [] };
 
 const ready = (broken: readonly LinkFinding[]): HealthState => {
-  const report: HealthReport = { broken, moved: [], unused: [], misplaced: [], duplicates: [], unsaved: 0, access: [], capped: [], total: broken.length, files: 1 };
+  const report: HealthReport = { broken, moved: [], unused: [], misplaced: [], duplicates: [], unsaved: 0, access: [], capped: [], repaired: [], rekeyed: [], total: broken.length, files: 1 };
   return { status: 'ready', report, index };
 };
 

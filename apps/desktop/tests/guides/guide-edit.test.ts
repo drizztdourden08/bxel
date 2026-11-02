@@ -17,6 +17,7 @@ const make = (x: number[], y: number[]): GuideScope => ({
   size: () => ({ width: 32, height: 16 }),
   step: () => null,
   add: vi.fn(),
+  addMany: vi.fn(),
   move: vi.fn(),
   remove: vi.fn(),
   clear: vi.fn(),

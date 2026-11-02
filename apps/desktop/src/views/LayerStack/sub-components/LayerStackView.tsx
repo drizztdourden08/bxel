@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind component */
 import { useRef } from 'react';
 import { commandZone } from '@drizztdourden08/brock-react';
-import type { DndElement } from '@drizztdourden08/brock-react';
-import { Box, EmptyState, Stack } from '@drizztdourden08/tessera';
+import { Box, EmptyState } from '@drizztdourden08/tessera';
 import { useZoneKey } from '../../../hooks/useZoneKey';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { LAYER_RENAME_KEY } from '../../../keymap/zone-key.constants';
@@ -25,7 +24,7 @@ const LayerStackView = ({ model, thumbSize, onThumbSize }: LayerStackViewProps) 
   const filter = useLayerFilter(model.rows);
   const scope = useLayerViewStore((state) => state.scope);
   const setRenaming = useLayerViewStore((state) => state.setRenaming);
-  const dropRef = useRef<DndElement | null>(null);
+  const dropRef = useRef<HTMLElement>(null);
   useLayerMenu(model, picked, pick);
   useLayerFileDrop(dropRef, model);
   const renameId = model.activeId;
@@ -33,7 +32,7 @@ const LayerStackView = ({ model, thumbSize, onThumbSize }: LayerStackViewProps) 
   if (model.empty !== null) return <EmptyState size="sm" message={model.empty} />;
   const rows = filter.filtered ? filter.shown : model.rows;
   return (
-    <Stack gap="xs" className="layer-stack" data-layer-stack ref={dropRef}>
+    <Box className="layer-stack" data-layer-stack ref={dropRef}>
       <LayerHeader model={model} shown={filter.shown.length} thumbSize={thumbSize} onThumbSize={onThumbSize} />
       <LayerStrip model={model} picked={picked} scope={scope} onScope={useLayerViewStore.getState().setScope} />
       {filter.active && <LayerFilter text={filter.text} colour={filter.colour} onText={filter.setText} onColour={filter.setColour} />}
@@ -45,7 +44,7 @@ const LayerStackView = ({ model, thumbSize, onThumbSize }: LayerStackViewProps) 
         )}
       </Box>
       {model.kind !== 'sheet' && <LayerBar model={model} picked={picked} />}
-    </Stack>
+    </Box>
   );
 };
 
