@@ -53,7 +53,7 @@ describe('K1 the toolbar items', { tags: ['critical'] }, () => {
     expect(joined.map((item) => item.id)).toContain('before-ink');
     expect(optionItems([], () => undefined)).toEqual([]);
     const rect = optionsOf('sprite', 'rect');
-    expect(optionItems(rect, () => undefined).map((item) => item.id)).toEqual(['rect.filled', 'rect.radius', 'before-brush', 'rect.size', 'rect.tip', 'rect.custom_brush', 'before-ink', 'rect.ink']);
+    expect(optionItems(rect, () => undefined).map((item) => item.id)).toEqual(['rect.filled', 'rect.radius', 'rect.from_centre', 'before-brush', 'rect.size', 'rect.tip', 'rect.custom_brush', 'before-ink', 'rect.ink']);
   });
 
   it('show the brush tip as a popover that holds a choice grid', () => {
