@@ -68,9 +68,9 @@ describe('K1 the sprite canvas as a drop target', { tags: ['critical'] }, () => 
   });
 
   it('keeps a picture dropped with Alt held as a view-only reference image', () => {
-    const held_alt = vi.spyOn(commands, 'heldModifiers').mockReturnValue(['alt']);
+    const altHeld = vi.spyOn(commands, 'heldModifiers').mockReturnValue(['alt']);
     dropOnSprite(files(dropped('pose.png', 'image/png')), { spriteId: sprite, readOnly: false }, defaults);
-    held_alt.mockRestore();
+    altHeld.mockRestore();
     expect(held.reference).toHaveBeenCalledTimes(1);
     expect(held.image).not.toHaveBeenCalled();
   });
