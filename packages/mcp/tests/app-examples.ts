@@ -163,6 +163,7 @@ const APP_OUTPUT_EXAMPLES: Record<string, unknown> = {
     properties: { status: 'none', pinned: false, back: 0, forward: 0, subject: null },
     browse: { folder: null, view: 'grid', search: '', chips: [], selection: [] },
     projectPanel: null,
+    openWindow: { open: null, page: null, subject: null },
     tileset: { mode: 'tiles', search: '', filters: [], stamp: { columns: 1, rows: 1, keys: [1] }, scatter: false, terrainBrush: false, collisionOverlay: false, brushFlags: { flipX: false, flipY: false, diagonal: false }, animate: false, zoom: 'fit', showKeys: false, showUses: false, terrainSet: null },
     highlight: { on: false, layer: null, surface: 'sprite' },
     mapOverlays: { collision: false, animatedTiles: false, terrainBrush: false, tileGrid: false, highlightLayer: false, mirror: false, hideOverlays: false },

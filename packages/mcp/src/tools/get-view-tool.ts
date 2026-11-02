@@ -17,6 +17,9 @@ const getViewTool = defineTool(TOOL_NAME.getView, {
   input: NO_INPUT_SCHEMA,
   output: withFailure({
     window: WINDOW_SCHEMA,
+    openWindow: z
+      .strictObject({ open: z.string().nullable(), page: z.string().nullable(), subject: block.nullable() })
+      .describe('The Project, Properties or Options window on screen: which one, its page and the Properties subject as a location. All null when none is open.'),
     visible: z.boolean().describe('False on a headless instance: calls still apply but nobody sees them.'),
     page: z.string().nullable().describe('The settings page or screen on top of the editor, or null.'),
     dialog: block.nullable().describe('A confirm dialog the owner has open: id, title, message and choices.'),
