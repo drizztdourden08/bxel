@@ -17,12 +17,12 @@ import { isRecord } from '../editor/tool-options/is-record';
 import { LEGACY_KEYS, SAVE_DELAY_MS } from './use-tool-persistence.constants';
 
 const collect = () => {
-  const { openOnHover, holdMs, springMs, hiddenMembers, optionTiers } = useToolPrefsStore.getState();
+  const { openOnHover, holdMs, springMs, hiddenMembers, optionTiers, layouts } = useToolPrefsStore.getState();
   const shareBrush = useToolStore.getState().shareBrush;
   return {
     toolOptions: optionSnapshot(),
     toolPresets: useToolPresetStore.getState().user,
-    toolPrefs: { hiddenMembers, optionTiers },
+    toolPrefs: { hiddenMembers, optionTiers, layouts },
     ...settingsOfPrefs({ openOnHover, holdMs, springMs, shareBrush }),
   };
 };
@@ -39,7 +39,7 @@ const useToolPersistence = (): void => {
     if (!hydrated || loaded.current) return;
     const prefs = parsePrefs(first.current.toolPrefs);
     const flat = prefsOfSettings(first.current);
-    useToolPrefsStore.getState().patch({ openOnHover: flat.openOnHover, holdMs: flat.holdMs, springMs: flat.springMs, hiddenMembers: prefs.hiddenMembers, optionTiers: prefs.optionTiers });
+    useToolPrefsStore.getState().patch({ openOnHover: flat.openOnHover, holdMs: flat.holdMs, springMs: flat.springMs, hiddenMembers: prefs.hiddenMembers, optionTiers: prefs.optionTiers, layouts: prefs.layouts });
     useToolStore.getState().setShareBrush(flat.shareBrush);
     useToolPresetStore.getState().load(parsePresets(first.current.toolPresets));
     applyOptionSnapshot(parseOptionValues(first.current.toolOptions));

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { ToolPrefs } from './tool-prefs-store.type';
 
-const TOOL_PREFS_DEFAULTS: ToolPrefs = { openOnHover: false, holdMs: 350, springMs: 220, hiddenMembers: [], optionTiers: {} };
+const TOOL_PREFS_DEFAULTS: ToolPrefs = { openOnHover: false, holdMs: 350, springMs: 220, hiddenMembers: [], optionTiers: {}, layouts: {} };
 
 const HOLD_RANGE = { min: 120, max: 800, step: 10 } as const;
 

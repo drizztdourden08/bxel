@@ -1,6 +1,10 @@
 /* @layer renderer-app @kind logic */
 import { HOLD_RANGE, SPRING_RANGE, TOOL_PREFS_DEFAULTS } from '../../stores/tool-prefs-store.constants';
+import { SLOT_GROUPS } from '../tool-catalogue/tool-catalogue.constants';
 import { isRecord } from './is-record';
+import type { SurfaceLayouts } from '../../stores/tool-prefs-store.type';
+import type { SlotGroupId } from '../tool-catalogue/tool-catalogue.type';
+import { DRAW_SURFACES } from './parse-prefs.constants';
 import type { StoredPrefs } from './parse-prefs.type';
 
 const holdOf = (raw: unknown): number =>
@@ -12,6 +16,20 @@ const springOf = (raw: unknown): number =>
 const tiersOf = (raw: unknown): Record<string, 1 | 2> =>
   isRecord(raw) ? Object.fromEntries(Object.entries(raw).flatMap(([id, tier]) => (tier === 1 || tier === 2 ? [[id, tier] as const] : []))) : {};
 
+const placeOf = (raw: unknown): { id: string; group: SlotGroupId }[] => {
+  if (!isRecord(raw) || typeof raw.id !== 'string') return [];
+  const group = SLOT_GROUPS.find((each) => each.id === raw.group);
+  return group === undefined ? [] : [{ id: raw.id, group: group.id }];
+};
+
+const listOf = (raw: unknown): unknown[] => (Array.isArray(raw) ? raw : []);
+
+const layoutsOf = (raw: unknown): SurfaceLayouts => {
+  if (!isRecord(raw)) return {};
+  const entries = DRAW_SURFACES.filter((surface) => Array.isArray(raw[surface])).map((surface) => [surface, listOf(raw[surface]).flatMap(placeOf)] as const);
+  return Object.fromEntries(entries);
+};
+
 const parsePrefs = (raw: unknown): StoredPrefs => {
   const source = isRecord(raw) ? raw : {};
   return {
@@ -20,6 +38,7 @@ const parsePrefs = (raw: unknown): StoredPrefs => {
     springMs: springOf(source.springMs),
     optionTiers: tiersOf(source.optionTiers),
     hiddenMembers: Array.isArray(source.hiddenMembers) ? source.hiddenMembers.filter((each): each is string => typeof each === 'string') : [],
+    layouts: layoutsOf(source.layouts),
     shareBrush: source.shareBrush === true,
   };
 };

@@ -7,6 +7,7 @@ import { SLOT_GROUPS } from '../../editor/tool-catalogue/tool-catalogue.constant
 import { useCatalogueSurface } from '../../hooks/useCatalogueSurface';
 import { useSelectionStore } from '../../stores/useSelectionStore';
 import { useCustomizeStore } from '../../stores/useCustomizeStore';
+import { useToolPrefsStore } from '../../stores/useToolPrefsStore';
 import { useToolStore } from '../../stores/useToolStore';
 import { useOptionsVersion } from '../OptionControls';
 import { PresetList } from '../PresetList';
@@ -23,6 +24,7 @@ const ToolsPanel = () => {
   const active = useToolStore((state) => state.tool);
   const variant = useSelectionStore((state) => state.variant);
   const keysOf = useToolKeys();
+  useToolPrefsStore((state) => state.layouts);
   useOptionsVersion();
   useContextMenu(TOOLS_PANEL_TEXT.zone, { entries: toolsPanelEntries, label: TOOLS_PANEL_TEXT.menuLabel });
   const slots = slotsOf(surface);

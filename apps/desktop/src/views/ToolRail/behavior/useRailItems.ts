@@ -39,6 +39,7 @@ const useRailItems = (): ToolbarItem[] => {
   const mode = useSelectionStore((state) => state.mode);
   const variant = useSelectionStore((state) => state.variant);
   const hidden = useToolPrefsStore((state) => state.hiddenMembers);
+  useToolPrefsStore((state) => state.layouts);
   const hover = useToolPrefsStore((state) => state.openOnHover);
   const holdMs = useToolPrefsStore((state) => state.holdMs);
   useToolPresetStore((state) => state.user);
