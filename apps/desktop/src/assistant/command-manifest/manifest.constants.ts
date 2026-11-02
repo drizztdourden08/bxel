@@ -59,6 +59,8 @@ const EDIT_ROWS = [
   ...rows('edit_pixels', 'app', ['selection.select_all', 'selection.clear', 'selection.invert', 'selection.expand', 'selection.shrink', 'selection.reselect', 'selection.border', 'selection.smooth', 'selection.select_opaque', 'selection.select_by_frame', 'selection.to_guides', 'selection.quick_mask']),
   one('selection.save', 'edit_pixels', 'app', { dialog: 'saved_selections' }),
   ...rows('edit_pixels', 'edit', ['slice.delete_selected', 'slice.distribute_horizontal', 'slice.distribute_vertical']),
+  one('slice.from_selection', 'edit_pixels', 'edit'),
+  one('slice.to_selection', 'edit_pixels', 'app'),
   one('slice.properties', 'edit_pixels', 'app', { dialog: 'slice_properties' }),
   one('selection.by_colour', 'edit_pixels', 'app', { args: 'byColour' }),
   ...rows('edit_pixels', 'app', ['selection.copy', 'selection.copy_merged']),

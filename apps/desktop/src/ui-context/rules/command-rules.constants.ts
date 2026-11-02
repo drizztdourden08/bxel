@@ -110,6 +110,8 @@ const SELECTION: RuleTable = {
   ...family(['selection.paste', 'selection.paste_in_place'], DRAW_STAGE, [DOC, WRITE, CLIPBOARD], ONLY.drawing),
   ...family(['selection.delete'], DRAW_STAGE, [DOC, WRITE, ANY_SELECTED]),
   ...family(['selection.by_colour', 'view.toggle_slices'], PIXEL, [], ONLY.pixels),
+  ...family(['slice.from_selection'], PIXEL, [WRITE, PIXELS_SELECTED], ONLY.pixels),
+  ...family(['slice.to_selection'], PIXEL, [], ONLY.pixels),
   ...family(['slice.delete_selected', 'slice.properties', 'slice.distribute_horizontal', 'slice.distribute_vertical'], PIXEL, [WRITE], ONLY.pixels),
   ...family(['preview.apply', 'preview.cancel'], always),
 };
