@@ -114,6 +114,7 @@ const BROWSER_TEXT = {
   selectedMany: (count: number): string => `${count} files selected`,
   statusFiles: (count: number): string => `${count} ${count === 1 ? 'file' : 'files'}`,
   statusSelected: (count: number): string => `${count} selected`,
+  statusClearSelection: 'Clear the selection',
   statusUnsaved: (count: number): string => `${count} unsaved`,
   statusFolder: (count: number): string => `${count} ${count === 1 ? 'folder' : 'folders'}`,
   readOnly: 'This project is closed. You can look at it, but nothing in it can change.',
