@@ -7,6 +7,7 @@ import type { OptionSpec } from '../tool-options.type';
 import { choiceSpec } from './choice-spec';
 import { DRAWING_TEXT, FILL_COLOUR_CHOICES } from './drawing-text.constants';
 import { numberSpec } from './number-spec';
+import { TILE_CENTRE_TEXT } from './tile-centre-text.constants';
 import { toggleSpec } from './toggle-spec';
 
 const d = () => useDrawingStore.getState();
@@ -21,6 +22,12 @@ const filledSpecs = (tool: (typeof FILLED_TOOLS)[number]): OptionSpec[] => [
     choices: FILL_COLOUR_CHOICES, read: () => d().fillColour, write: (value) => d().patch({ fillColour: value as FillColour }), appliesWhen: () => d().filled[tool],
   }),
 ];
+
+const centreSpec = (tool: 'line' | 'rect' | 'ellipse'): OptionSpec =>
+  toggleSpec({
+    tool, name: 'from_centre', label: TILE_CENTRE_TEXT.fromCentre, description: TILE_CENTRE_TEXT.fromCentreDescription, priority: 27, group: 'shape', tier: 2,
+    icon: 'maximize-2', read: () => d().shapeFromCentre, write: (on) => d().patch({ shapeFromCentre: on }),
+  });
 
 const EXTRAS: readonly OptionSpec[] = [
   numberSpec({
@@ -45,6 +52,6 @@ const EXTRAS: readonly OptionSpec[] = [
   }),
 ];
 
-const SHAPE_EXTRA_OPTIONS: readonly OptionSpec[] = [...FILLED_TOOLS.flatMap(filledSpecs), ...EXTRAS];
+const SHAPE_EXTRA_OPTIONS: readonly OptionSpec[] = [...FILLED_TOOLS.flatMap(filledSpecs), ...EXTRAS, centreSpec('line'), centreSpec('rect'), centreSpec('ellipse')];
 
 export { SHAPE_EXTRA_OPTIONS };

@@ -3,15 +3,21 @@ import type { SpriteId } from '@bxel/document';
 import type { MaskView } from '@bxel/raster';
 import { currentScene } from '../../sheet/current-scene';
 import { groupSprites } from '../../sheet/group-sprites';
+import { useDrawingStore } from '../../stores/useDrawingStore';
 import { useSpriteStore } from '../../stores/useSpriteStore';
+import { clipMask } from '../clip-mask';
 import { currentTarget } from '../current-target';
 import { editMask } from '../edit-mask';
+import type { EditorTarget } from '../editor.type';
 import { layerBlock } from '../layer-block';
 import type { Built } from './begin-pending.type';
 import type { PendingEdit, PendingSpec } from './pending.type';
 import { wholeSprite } from './whole-sprite';
 
-const maskFor = (spec: PendingSpec, found: MaskView | null): MaskView | null => (spec.kind === 'paste' ? null : found);
+const maskFor = (spec: PendingSpec, target: EditorTarget): MaskView | null => {
+  if (spec.kind === 'paste') return null;
+  return spec.kind === 'move' && useDrawingStore.getState().moveTarget === 'layer' ? clipMask(target) : editMask(target);
+};
 
 const spritesFor = (pending: Omit<PendingEdit, 'sprites'>, active: SpriteId): readonly SpriteId[] => {
   const scene = currentScene();
@@ -23,7 +29,7 @@ const spritesFor = (pending: Omit<PendingEdit, 'sprites'>, active: SpriteId): re
 const buildPending = (spec: PendingSpec, editing: boolean): Built | null => {
   const target = currentTarget();
   if (!target) return null;
-  const base = { documentId: target.documentId, spec, mask: maskFor(spec, editMask(target)), editing };
+  const base = { documentId: target.documentId, spec, mask: maskFor(spec, target), editing };
   const pending: PendingEdit = { ...base, sprites: spritesFor(base, target.sprite.id) };
   return { target, pending, blocked: wholeSprite(pending) ? null : layerBlock(target.layer) };
 };

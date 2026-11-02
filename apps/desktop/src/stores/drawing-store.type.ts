@@ -25,6 +25,10 @@ type CelsChoice = 'frame' | 'selected';
 
 type EraseMode = 'all' | 'colour';
 
+type MoveTarget = 'selection' | 'layer';
+
+type NudgeUnit = 'pixel' | 'tile';
+
 type BrushMode = 'colour' | 'stencil';
 
 type SymmetryMode = 'diagonal' | 'turn' | 'tile';
@@ -33,6 +37,11 @@ interface DrawingSettings {
   inks: Readonly<Record<string, InkKind>>;
   onlyColour: number | null;
   eraseMode: EraseMode;
+  moveTarget: MoveTarget;
+  nudgeUnit: NudgeUnit;
+  moveAutoPick: boolean;
+  fillStopAtTiles: boolean;
+  shapeFromCentre: boolean;
   ditherPattern: DitherPattern;
   ditherLevel: number;
   ditherCustom: boolean;
@@ -98,6 +107,8 @@ export type {
   FillSample,
   GradientMode,
   InkKind,
+  MoveTarget,
+  NudgeUnit,
   PatternAlign,
   PickSample,
   SymmetryMode,

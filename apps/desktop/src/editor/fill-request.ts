@@ -5,11 +5,11 @@ import type { MaskView, Point } from '@bxel/raster';
 import { celsPaintScope } from './cels-paint-scope';
 import { commitRequest } from './commit-request';
 import type { EditorTarget, FillChoice } from './editor.type';
-import { editMask } from './edit-mask';
+import { fillMask } from './fill-mask';
 import { FILL_LABEL } from './stroke.constants';
 
-const maskPart = (target: EditorTarget): { mask?: MaskView } => {
-  const mask = editMask(target);
+const maskPart = (target: EditorTarget, at: Point, choice: FillChoice): { mask?: MaskView } => {
+  const mask = fillMask(target, at, choice);
   return mask ? { mask } : {};
 };
 
@@ -34,7 +34,7 @@ const fillRequest = (target: EditorTarget, at: Point, choice: FillChoice): Trans
         connectivity: choice.connectivity,
         wrap: choice.wrap,
         ...extras(choice),
-        ...maskPart(target),
+        ...maskPart(target, at, choice),
       },
     },
     celsPaintScope(target),

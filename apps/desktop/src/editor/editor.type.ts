@@ -184,6 +184,7 @@ interface FillChoice {
   symmetry?: Symmetry;
   sample?: 'layer' | 'visible';
   match?: 'index' | 'ramp';
+  tile?: { width: number; height: number };
 }
 
 type SymmetryFields = Pick<ToolSettings, 'symmetryX' | 'symmetryY' | 'axisX' | 'axisY'>;

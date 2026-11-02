@@ -12,6 +12,7 @@ import type { ColourSlot } from './press-plan.type';
 import type { InstantKind } from './run-instant.type';
 import { samplePixel } from './sample-pixel';
 import { symmetryOf } from './symmetry-of';
+import { tileSizeOfTarget } from './tile-size-of-target';
 import { wrapOf } from './wrap-of';
 
 const pickColour = (target: EditorTarget, at: Point, slot: ColourSlot, ramp: boolean): void => {
@@ -21,6 +22,11 @@ const pickColour = (target: EditorTarget, at: Point, slot: ColourSlot, ramp: boo
   tools.setColour(slot, index);
   const found = ramp ? rampsOfSlot(target.bank, index)[0] : undefined;
   if (found) useDrawingStore.getState().patch({ shadeRamp: found.name });
+};
+
+const tileLimit = (target: EditorTarget): { tile?: { width: number; height: number } } => {
+  const tile = useDrawingStore.getState().fillStopAtTiles && useToolStore.getState().fillMode === 'contiguous' ? tileSizeOfTarget(target) : null;
+  return tile === null ? {} : { tile };
 };
 
 const runInstant = (kind: InstantKind, target: EditorTarget, at: Point, slot: ColourSlot): void => {
@@ -41,6 +47,7 @@ const runInstant = (kind: InstantKind, target: EditorTarget, at: Point, slot: Co
     symmetry: symmetryOf(tools, target.sprite, at),
     sample: drawing.fillSample,
     match: drawing.fillMatch,
+    ...tileLimit(target),
   };
   useDocumentStore.getState().host.execute(fillRequest(target, at, choice));
 };
