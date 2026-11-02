@@ -58,6 +58,15 @@ const MAP_SELECTION_REPLY_SCHEMA = z.strictObject({
   runs: MAP_RUNS_SCHEMA.nullable().describe('Null when the selection has more runs than one reply may carry.'),
 });
 
+const REFERENCE_FIELDS = {
+  x: COORDINATE_SCHEMA.optional(),
+  y: COORDINATE_SCHEMA.optional(),
+  scale: z.number().int().min(1).max(3200).optional().describe('Percent of the picture size.'),
+  opacity: z.number().int().min(0).max(100).optional(),
+  above: z.boolean().optional().describe('Paint over the art (true) or under it (false).'),
+  locked: z.boolean().optional(),
+};
+
 const SET_VIEW_INPUT_SCHEMA = z.strictObject({
   dialog: z.strictObject({ answer: z.string().min(1).max(100).describe('A choice id from get_view dialog.choices.') }).optional(),
   focus: z
@@ -147,6 +156,14 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       fourth: z.number().int().min(0).max(255).optional(),
     })
     .optional(),
+  references: z
+    .strictObject({
+      add: z.array(z.strictObject({ file: LOCATION_SCHEMA, ...REFERENCE_FIELDS })).max(8).optional().describe('Picture files to show as view-only reference images.'),
+      update: z.array(z.strictObject({ id: z.string().min(1).max(100), ...REFERENCE_FIELDS })).max(8).optional().describe('Move, scale, fade, lock or reorder reference images listed in get_view references.'),
+      remove: z.array(z.string().min(1).max(100)).max(8).optional(),
+    })
+    .optional()
+    .describe('View-only reference images of the open asset. They are never painted into the art and never exported.'),
   symmetry: z
     .strictObject({
       x: z.boolean().optional(),

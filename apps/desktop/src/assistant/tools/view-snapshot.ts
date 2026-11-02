@@ -28,6 +28,7 @@ import { browseView } from './browse-view';
 import { highlightView } from './highlight-view';
 import { mapOverlaysView } from './map-overlays-view';
 import { projectPanelView } from './project-panel-view';
+import { referencesView } from './references-view';
 import { propertiesView } from './properties-view';
 import { tilesetView } from './tileset-view';
 import { togglesView } from './toggles-view';
@@ -170,6 +171,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     projectPanel: projectPanelView(),
     tileset: tilesetView(),
     highlight: highlightView(),
+    references: referencesView(),
     mapOverlays: mapOverlaysView(),
   };
 };
