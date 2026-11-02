@@ -2,7 +2,7 @@
 import { Button, DialogShell, ScrollArea, Stack } from '@drizztdourden08/tessera';
 import { useCustomizeStore } from '../../stores/useCustomizeStore';
 import { useCatalogueSurface } from '../../hooks/useCatalogueSurface';
-import { resetSurfaceTools } from './behavior/reset-surface-tools';
+import { resetSurfaceTools } from '../../editor/tool-catalogue/reset-surface-tools';
 import { CUSTOMIZE_TEXT } from './CustomizeTools.constants';
 import { KeysSection } from './sub-components/KeysSection';
 import { RailSection } from './sub-components/RailSection';

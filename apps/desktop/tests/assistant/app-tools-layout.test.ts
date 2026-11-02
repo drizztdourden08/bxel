@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { slotsOf } from '../../src/editor/tool-catalogue/slots-of';
+import { useToolPrefsStore } from '../../src/stores/useToolPrefsStore';
 import { check } from './app-tools-check';
 import { fake } from './app-tools-fake';
 import { LIMIT_REASON, LIMITED } from './app-tools-layout-mock';
@@ -53,6 +55,41 @@ describe('S2 list_layout and set_layout', { tags: ['standard'] }, () => {
     expect(JSON.stringify(outcome)).toContain('Op 2 (show) failed. Unknown widget');
     expect(fake.calls).toEqual(['dock timeline {"side":"left"}']);
     expect(JSON.stringify(outcome)).toContain('Known widgets: timeline');
+  });
+
+  it('sets the toolbar columns and hidden items', async () => {
+    const done = await ok('set_layout', {
+      ops: [
+        { op: 'toolbarColumns', toolbar: 'tools', columns: 2 },
+        { op: 'toolbarItems', toolbar: 'tools', hidden: ['pencil'] },
+      ],
+    });
+    expect(done.applied).toBe(2);
+    expect(fake.calls).toEqual(['toolbarColumns tools 2', 'toolbarItems tools pencil']);
+  });
+
+  it('hides a tool member, shows it again and resets a surface', async () => {
+    const member = slotsOf('sprite').flatMap((slot) => slot.members)[0];
+    if (!member) throw new Error('no member');
+    await ok('set_layout', { ops: [{ op: 'hideTool', member: member.id }] });
+    expect(useToolPrefsStore.getState().hiddenMembers).toEqual([member.id]);
+    await ok('set_layout', { ops: [{ op: 'showTool', member: member.id }, { op: 'hideTool', member: member.id }, { op: 'resetTools', surface: 'sprite' }] });
+    expect(useToolPrefsStore.getState().hiddenMembers).toEqual([]);
+  });
+
+  it('refuses a hide of a tool member that does not exist', async () => {
+    expect(await code('set_layout', { ops: [{ op: 'hideTool', member: 'nope' }] })).toBe('LAYOUT_INVALID');
+  });
+
+  it('lists a hidden member in list_tools with its hidden flag', async () => {
+    const member = slotsOf('sprite').flatMap((slot) => slot.members)[0];
+    if (!member) throw new Error('no member');
+    useToolPrefsStore.getState().resetLayout();
+    useToolPrefsStore.getState().toggleHidden(member.id);
+    const seen = await ok('list_tools', { surface: 'sprite' });
+    const found = (seen.slots as { members: { id: string; hidden: boolean }[] }[]).flatMap((slot) => slot.members).find((each) => each.id === member.id);
+    expect(found?.hidden).toBe(true);
+    useToolPrefsStore.getState().resetLayout();
   });
 
   it('refuses a resize with neither a size nor a rect', async () => {

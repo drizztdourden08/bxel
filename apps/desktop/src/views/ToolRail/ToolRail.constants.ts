@@ -5,6 +5,7 @@ const TOOL_RAIL_TEXT = {
   menuLabel: 'Tool menu',
   filledBadge: 'Filled',
   globalBadge: 'Global fill',
+  tiledBadge: (tiled: string): string => (tiled === 'both' ? 'Tiled drawing on both axes' : `Tiled drawing on the ${tiled} axis`),
   modeBadge: (mode: string): string => `Selection mode ${mode}`,
 } as const;
 

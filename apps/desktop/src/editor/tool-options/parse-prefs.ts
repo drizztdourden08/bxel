@@ -4,7 +4,7 @@ import { SLOT_GROUPS } from '../tool-catalogue/tool-catalogue.constants';
 import { isRecord } from './is-record';
 import type { SurfaceLayouts } from '../../stores/tool-prefs-store.type';
 import type { SlotGroupId } from '../tool-catalogue/tool-catalogue.type';
-import { DRAW_SURFACES } from './parse-prefs.constants';
+import { ALL_SURFACES } from '../tool-catalogue/surfaces.constants';
 import type { StoredPrefs } from './parse-prefs.type';
 
 const holdOf = (raw: unknown): number =>
@@ -26,7 +26,7 @@ const listOf = (raw: unknown): unknown[] => (Array.isArray(raw) ? raw : []);
 
 const layoutsOf = (raw: unknown): SurfaceLayouts => {
   if (!isRecord(raw)) return {};
-  const entries = DRAW_SURFACES.filter((surface) => Array.isArray(raw[surface])).map((surface) => [surface, listOf(raw[surface]).flatMap(placeOf)] as const);
+  const entries = ALL_SURFACES.filter((surface) => Array.isArray(raw[surface])).map((surface) => [surface, listOf(raw[surface]).flatMap(placeOf)] as const);
   return Object.fromEntries(entries);
 };
 

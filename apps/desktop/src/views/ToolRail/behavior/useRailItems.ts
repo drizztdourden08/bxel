@@ -8,6 +8,7 @@ import type { ToolSlot } from '../../../editor/tool-catalogue/tool-catalogue.typ
 import { useAssistantMarkStore } from '../../../stores/useAssistantMarkStore';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import { useSpringStore } from '../../../editor/tool-pick/behavior/useSpringStore';
+import { useViewStore } from '../../../stores/useViewStore';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { drawingVersion } from '../../../stores/drawing-version';
@@ -37,6 +38,7 @@ const useRailItems = (): ToolbarItem[] => {
   useDrawingStore(drawingVersion);
   const fillMode = useToolStore((state) => state.fillMode);
   const mode = useSelectionStore((state) => state.mode);
+  const tiled = useViewStore((state) => state.tiled);
   const variant = useSelectionStore((state) => state.variant);
   const hidden = useToolPrefsStore((state) => state.hiddenMembers);
   useToolPrefsStore((state) => state.layouts);
@@ -55,7 +57,7 @@ const useRailItems = (): ToolbarItem[] => {
       borrowed,
       shown: shownMember(slot, { variant }),
       filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false,
-      badge: slotBadge(slot, { fillMode, filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false, mode }),
+      badge: slotBadge(slot, { fillMode, filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false, mode, tiled }),
       keys: keysOf(slot.tool),
       ui: evaluate(COMMAND_ID.tool(slot.tool), context),
       groups: model.hasContent ? flyoutGroups(flyoutSections(model, true)) : undefined,

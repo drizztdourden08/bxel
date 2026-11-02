@@ -31,11 +31,13 @@ const widgetsMock = () => ({
 });
 
 const toolbarsMock = () => ({
-  list: () => [{ id: 'tools', label: 'Tools', shown: true, side: 'left', row: 0, index: 0, labels: false }],
+  list: () => [{ id: 'tools', label: 'Tools', shown: true, side: 'left', row: 0, index: 0, labels: false, columns: null, hiddenItems: [] }],
   show: (id: string) => note('showToolbar', id),
   hide: (id: string) => note('hideToolbar', id),
   moveToSide: (id: string, side: string, row?: number) => note('toolbarSide', id, side, String(row)),
   labels: (id: string, on: boolean) => note('toolbarLabels', id, String(on)),
+  columns: (id: string, count: unknown) => note('toolbarColumns', id, String(count)),
+  items: (id: string, hidden: readonly string[]) => note('toolbarItems', id, hidden.join(',')),
   reset: () => note('resetToolbars'),
 });
 
