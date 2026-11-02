@@ -49,6 +49,19 @@ const sections: Section[] = [
     ],
   },
   {
+    id: 'data',
+    title: 'Data',
+    items: [
+      {
+        key: 'tileset.dataFields',
+        label: 'Custom fields',
+        description: 'The custom values every tile can carry, as name:kind separated by commas. Kinds are bool, int, number, text, colour and choice(a|b|c).',
+        hint: 'A field you keep keeps its default and its tile values; a field you remove drops its values.',
+        control: { kind: 'text', placeholder: 'hp:int, tag:text, ground:choice(stone|water)' },
+      },
+    ],
+  },
+  {
     id: 'palette',
     title: 'Palette',
     items: [

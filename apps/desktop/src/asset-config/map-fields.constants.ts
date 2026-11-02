@@ -4,6 +4,8 @@ import type { OrientRequest, Tilemap } from '@bxel/document';
 import { ASSET_LABEL } from './asset-config.constants';
 import type { AssetFields, AssetFocus, AssetOutcome } from './asset-config.type';
 import { focusAssetOf } from './focus-asset-of';
+import { formatFieldList } from './format-field-list';
+import { parseFieldList } from './parse-field-list';
 import { runField } from './run-field';
 
 const mapOf = (focus: AssetFocus): Tilemap | undefined => focusAssetOf(focus, 'tilemap');
@@ -51,6 +53,11 @@ const setLayers = (focus: AssetFocus, value: unknown): AssetOutcome => {
   return layers.length === 0 ? null : runField(focus, ASSET_LABEL.layers, [{ name: COMMAND_NAME.tilesetFields, targets: null, options: { tileset: focus.key.id, collisionLayers: layers } }]);
 };
 
+const setDataFields = (focus: AssetFocus, value: unknown): AssetOutcome => {
+  const fields = typeof value === 'string' ? parseFieldList(value, focusAssetOf(focus, 'tileset')?.fields ?? []) : null;
+  return fields === null ? null : runField(focus, ASSET_LABEL.dataFields, [{ name: COMMAND_NAME.tilesetFields, targets: null, options: { tileset: focus.key.id, fields } }]);
+};
+
 const TILESET_FIELDS: AssetFields = {
   'tileset.name': { read: (focus) => focusAssetOf(focus, 'tileset')?.name ?? '', write: renameTileset, buffered: true },
   'tileset.columns': {
@@ -61,6 +68,7 @@ const TILESET_FIELDS: AssetFields = {
     write: setColumns,
     buffered: true,
   },
+  'tileset.dataFields': { read: (focus) => formatFieldList(focusAssetOf(focus, 'tileset')?.fields ?? []), write: setDataFields, buffered: true },
   'tileset.collisionLayers': { read: (focus) => (focusAssetOf(focus, 'tileset')?.collisionLayers ?? ['solid']).join(', '), write: setLayers, buffered: true },
 };
 

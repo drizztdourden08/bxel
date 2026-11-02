@@ -5,6 +5,8 @@ const TILESET_TEXT = {
   noTileset: 'This file has no tileset yet.',
   noTiles: 'This tileset has no tiles yet. Add one, then draw it with Edit tile.',
   noMatch: 'No tiles match.',
+  addTile: 'Add tile',
+  importTiled: 'Import Tiled map...',
   mixed: 'Mixed',
   gridPane: 'Tile grid',
   inspector: 'Tile inspector',
