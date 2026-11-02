@@ -7,12 +7,14 @@ import { useViewStore } from '../../../stores/useViewStore';
 import { CANVAS_OVERLAY_TEXT } from '../CanvasOverlays.constants';
 import { drawable } from '../behavior/drawable';
 import { useAnyKeyClose } from '../behavior/useAnyKeyClose';
+import { useFullscreenFocus } from '../behavior/useFullscreenFocus';
 import type { FullscreenPreviewProps } from '../CanvasOverlays.type';
 
 const FullscreenPreview = ({ source }: FullscreenPreviewProps) => {
   const open = useViewStore((state) => state.fullscreen);
   const canvas = useRef<HTMLCanvasElement>(null);
   useAnyKeyClose(open);
+  useFullscreenFocus(open);
   useEffect(() => {
     if (!open) return;
     announce(CANVAS_OVERLAY_TEXT.fullscreen);
