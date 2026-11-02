@@ -1,12 +1,14 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME } from '@bxel/document';
-import type { CommandStep, TargetScope } from '@bxel/document';
+import type { CommandStep } from '@bxel/document';
 import { runDocument } from '../../sheet/run-document';
 import { useNoticeStore } from '../../stores/useNoticeStore';
 import { useSelectionStore } from '../../stores/useSelectionStore';
+import { animationStep } from '../../timeline/animation-step';
+import { currentFocus } from '../../timeline/current-focus';
 import { currentTarget } from '../current-target';
 import { fitClip } from './fit-clip';
-import { SELECTION_LABELS, SELECTION_TEXT } from './selection.constants';
+import { FRAME_SPRITE_REF, SELECTION_LABELS, SELECTION_TEXT } from './selection.constants';
 
 const pasteAsFrame = (): boolean => {
   const clip = useSelectionStore.getState().clipboard;
@@ -15,19 +17,19 @@ const pasteAsFrame = (): boolean => {
     useNoticeStore.getState().post(SELECTION_TEXT.nothingToPaste);
     return false;
   }
-  const { sprite, layerId } = target;
-  const fitted = fitClip(clip, sprite);
-  const added = sprite.frames.length;
-  const scope: TargetScope = {
-    sprites: [sprite.id],
-    layers: { by: 'ids', ids: [layerId] },
-    frames: { by: 'range', from: added, to: added },
-  };
+  const focus = currentFocus();
+  if (!focus) {
+    useNoticeStore.getState().post(SELECTION_TEXT.noAnimation);
+    return false;
+  }
+  const fitted = fitClip(clip, target.sprite);
+  const at = focus.animation.frames.length;
   const steps: CommandStep[] = [
-    { name: COMMAND_NAME.frameAdd, targets: { sprites: [sprite.id], layers: { by: 'all' }, frames: { by: 'all' } }, options: {} },
+    animationStep(focus, COMMAND_NAME.animationFrameAdd, { source: { kind: 'empty', count: 1 }, at }),
+    animationStep(focus, COMMAND_NAME.animationFrameOwn, { frame: { by: 'index', index: at } }, FRAME_SPRITE_REF),
     {
       name: COMMAND_NAME.pixelsPatch,
-      targets: scope,
+      targets: { sprites: [{ ref: FRAME_SPRITE_REF }], layers: { by: 'all' }, frames: { by: 'all' } },
       options: { rect: { x: 0, y: 0, width: fitted.clip.width, height: fitted.clip.height }, pixels: fitted.clip.pixels, skipZero: true },
     },
   ];

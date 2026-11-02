@@ -23,6 +23,7 @@ const useViewItems = (): ToolbarItem[] => {
     hideOverlays: useHintKeys(VIEW_HINTS.hideOverlays),
     mirror: useHintKeys(VIEW_HINTS.mirror),
     loupe: useHintKeys(VIEW_HINTS.loupe),
+    backgroundPreview: useHintKeys(VIEW_HINTS.backgroundPreview),
     fullscreen: useHintKeys(VIEW_HINTS.fullscreen),
     split: useHintKeys(VIEW_HINTS.split),
     splitLink: useHintKeys(VIEW_HINTS.splitLink),
