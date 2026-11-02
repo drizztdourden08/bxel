@@ -9,7 +9,7 @@ const labelOf = (assets: readonly DragAsset[]): string => (assets.length === 1 ?
 
 const assetDragPreview: DragPreviewOptions<readonly DragAsset[]> = {
   label: labelOf,
-  count: (assets) => assets.length,
+  count: (assets) => (assets.length > 1 ? assets.length : undefined),
 };
 
 export { assetDragPreview, labelOf };

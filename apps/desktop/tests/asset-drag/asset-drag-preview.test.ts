@@ -17,5 +17,6 @@ describe('asset drag preview', () => {
   it('gives the ghost the count of dragged assets', () => {
     const count = assetDragPreview.count;
     expect(typeof count === 'function' ? count([asset('a.bxel'), asset('b.bxel')]) : count).toBe(2);
+    expect(typeof count === 'function' ? count([asset('a.bxel')]) : count).toBeUndefined();
   });
 });
