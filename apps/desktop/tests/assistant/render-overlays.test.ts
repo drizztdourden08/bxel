@@ -20,7 +20,7 @@ describe('W7 render_preview view options', { tags: ['critical'] }, () => {
   });
 
   it('cuts the visible art rectangle out of the scaled image', () => {
-    const wide: RgbaImage = { data: new Uint8ClampedArray(8 * 4 * 4).fill(9), width: 8, height: 4 };
+    const wide: RgbaImage = { data: new Uint8ClampedArray(8 * 8 * 4).fill(9), width: 8, height: 8 };
     const cut = cropRgba(wide, { x: 1, y: 1, width: 1, height: 2 }, 2);
     expect([cut.width, cut.height]).toEqual([2, 4]);
   });
