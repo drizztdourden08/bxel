@@ -11,6 +11,7 @@ import { paintCanvasPreview } from './paint-canvas-preview';
 import { paintCursor } from './paint-cursor';
 import { paintFlash } from './paint-flash';
 import { paintMarker } from './paint-marker';
+import { paintNeighbours } from './paint-neighbours';
 import { paintGuides } from './paint-guides';
 import { paintLint } from './paint-lint';
 import { paintSelection } from './paint-selection';
@@ -24,6 +25,7 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   const size = { width: view.imageWidth, height: view.imageHeight };
   const symmetry = symmetryOf(useToolStore.getState(), size, useReadoutStore.getState().pointer);
   const hidden = useViewStore.getState().hideOverlays;
+  paintNeighbours(ctx, look);
   paintAreas(ctx, view, look);
   if (!hidden) {
     paintLint(ctx, view);

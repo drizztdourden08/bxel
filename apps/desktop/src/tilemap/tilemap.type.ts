@@ -50,4 +50,13 @@ interface CellRead {
   flags: CellFlags;
 }
 
-export type { CellRead, FlagOp, MapContext, MapPicks, MapTarget, MapTool, Placement, PlacementGroup, SelectedMap, StampTransform };
+interface NeighbourSource {
+  canvas: HTMLCanvasElement;
+  at: Point;
+  columns: number;
+  rows: number;
+  tileWidth: number;
+  tileHeight: number;
+}
+
+export type { CellRead, FlagOp, MapContext, MapPicks, MapTarget, MapTool, NeighbourSource, Placement, PlacementGroup, SelectedMap, StampTransform };
