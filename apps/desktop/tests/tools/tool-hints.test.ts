@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind test */
-import { announce, toast } from '@drizztdourden08/brock-react';
+import { announce } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { BRUSH_SIZE_ANNOUNCE } from '../../src/editor/brush-resize.constants';
 import { memberById } from '../../src/editor/tool-catalogue/member-by-id';
@@ -8,6 +8,7 @@ import { pointerPick } from '../../src/editor/tool-pick/pointer-pick';
 import { SKILLOMETER_PICKS } from '../../src/editor/tool-pick/skillometer.constants';
 import { COMMAND_ID } from '../../src/keymap/keymap.constants';
 import { OPTION_COMMAND } from '../../src/keymap/option-command-id.constants';
+import { useCycleNoteStore } from '../../src/stores/useCycleNoteStore';
 import { useSkillometerStore } from '../../src/stores/useSkillometerStore';
 import { useToolStore } from '../../src/stores/useToolStore';
 import { useViewStore } from '../../src/stores/useViewStore';
@@ -17,6 +18,10 @@ import { findCommand } from '../keymap/find-command';
 import { viewportStub } from './viewport-stub';
 
 const viewport = viewportStub();
+const notices: string[] = [];
+useCycleNoteStore.subscribe((state) => {
+  if (state.text !== null) notices.push(state.text);
+});
 
 vi.mock('@drizztdourden08/brock-react', async () => ({
   ...(await import('./tools-harness')).toolsBrockMock(),
@@ -26,7 +31,7 @@ vi.mock('@drizztdourden08/brock-react', async () => ({
 beforeEach(() => {
   resetEditor();
   useSkillometerStore.getState().reset();
-  vi.mocked(toast).mockClear();
+  notices.length = 0;
   vi.mocked(announce).mockClear();
   viewport.fit.mockClear();
   viewport.setZoom.mockClear();
@@ -56,13 +61,12 @@ describe('S2 double click on the Hand and Zoom tool icons', { tags: ['standard']
 describe('S2 the skillometer hint', { tags: ['standard'] }, () => {
   it('stays quiet for the first picks of a tool', () => {
     for (let pick = 1; pick < SKILLOMETER_PICKS; pick += 1) noteToolPick('pencil');
-    expect(toast).not.toHaveBeenCalled();
+    expect(notices).toEqual([]);
   });
 
   it('names the key once, on the fifth pick of the same tool', () => {
     for (let pick = 1; pick <= SKILLOMETER_PICKS + 3; pick += 1) noteToolPick('pencil');
-    expect(toast).toHaveBeenCalledTimes(1);
-    expect(vi.mocked(toast).mock.calls[0]?.[0]).toBe('Pencil: press B');
+    expect(notices).toEqual(['Pencil: press B']);
   });
 
   it('counts each tool on its own and tells each one once', () => {
@@ -70,8 +74,7 @@ describe('S2 the skillometer hint', { tags: ['standard'] }, () => {
       noteToolPick('pencil');
       noteToolPick('eraser');
     }
-    expect(toast).toHaveBeenCalledTimes(2);
-    expect(vi.mocked(toast).mock.calls[1]?.[0]).toBe('Eraser: press E');
+    expect(notices).toEqual(['Pencil: press B', 'Eraser: press E']);
   });
 
   it('counts the picks made with the pointer from a flyout, a row or a recent button', () => {
@@ -80,12 +83,12 @@ describe('S2 the skillometer hint', { tags: ['standard'] }, () => {
     if (!found) return;
     for (let pick = 1; pick <= SKILLOMETER_PICKS; pick += 1) pointerPick(found.member);
     expect(useToolStore.getState().tool).toBe('pencil');
-    expect(toast).toHaveBeenCalledTimes(1);
+    expect(notices).toHaveLength(1);
   });
 
   it('does not count a pick made with the key', async () => {
     for (let pick = 1; pick <= SKILLOMETER_PICKS; pick += 1) await findCommand(COMMAND_ID.tool('pencil')).run();
-    expect(toast).not.toHaveBeenCalled();
+    expect(notices).toEqual([]);
   });
 });
 

@@ -5,6 +5,7 @@ import { dropSelectionVertex } from '../../src/editor/selection/drop-selection-v
 import { pasteAsFrame } from '../../src/editor/selection/paste-as-frame';
 import { selectionToGuides } from '../../src/editor/selection/selection-to-guides';
 import { snapSliceMove } from '../../src/slice/snap-slice-move';
+import { useNoticeStore } from '../../src/stores/useNoticeStore';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { useViewStore } from '../../src/stores/useViewStore';
 import { BLOCK, openRig } from './selection-harness';
@@ -52,7 +53,10 @@ describe('W8 selection extras', { tags: ['standard'] }, () => {
     const rig = openRig();
     useSelectionStore.setState({ clipboard: clip });
     const before = rig.target().sprite.frames.length;
-    expect(pasteAsFrame()).toBe(true);
+    useNoticeStore.setState({ notice: null });
+    const pasted = pasteAsFrame();
+    expect(useNoticeStore.getState().notice?.text ?? null).toBeNull();
+    expect(pasted).toBe(true);
     const sprite = rig.target().sprite;
     expect(sprite.frames).toHaveLength(before + 1);
     const added = sprite.frames[before];
