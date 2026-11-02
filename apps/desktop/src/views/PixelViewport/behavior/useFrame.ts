@@ -20,11 +20,11 @@ const useFrame = (rootRef: RefObject<HTMLElement | null>, canvasRef: RefObject<H
     });
   }, [rootRef, canvasRef]);
 
-  const { target, box, image, draw, pivotGrips, source, gridFrom, grids, look, tiled, onView } = frame;
+  const { target, box, image, draw, under, pivotGrips, source, gridFrom, grids, look, tiled, onView } = frame;
   useLayoutEffect(() => {
-    input.current = { target, box, image, draw, pivotGrips, source, gridFrom, grids, look, tiled, onView };
+    input.current = { target, box, image, draw, under, pivotGrips, source, gridFrom, grids, look, tiled, onView };
     schedule();
-  }, [target, box, image, draw, pivotGrips, source, gridFrom, grids, look, tiled, onView, schedule]);
+  }, [target, box, image, draw, under, pivotGrips, source, gridFrom, grids, look, tiled, onView, schedule]);
 
   useEffect(() => {
     const view = windowOf(rootRef.current);

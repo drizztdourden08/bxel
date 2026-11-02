@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { Size } from '@bxel/document';
+import type { ReferenceImage } from './reference-image.type';
 
 type BackgroundKind = 'checker' | 'solid';
 
@@ -11,6 +12,7 @@ interface AssetView {
   labels: boolean;
   overlaps: boolean;
   pivots: boolean;
+  references: readonly ReferenceImage[];
 }
 
 interface AssetGridDefaults {

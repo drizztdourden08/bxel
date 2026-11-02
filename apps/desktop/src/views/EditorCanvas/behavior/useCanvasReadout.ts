@@ -2,6 +2,8 @@
 import { useCallback, useEffect } from 'react';
 import type { RefObject } from 'react';
 import type { PixelDraw, PixelPoint, PixelViewportHandle } from '../../PixelViewport';
+import { useAssetViewStore } from '../../../stores/useAssetViewStore';
+import { useReferenceStore } from '../../../stores/useReferenceStore';
 import { useAssistantPresenceStore } from '../../../stores/useAssistantPresenceStore';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
@@ -26,6 +28,8 @@ const useCanvasReadout = (viewport: RefObject<PixelViewportHandle | null>): Canv
   );
   useEffect(() => useToolStore.subscribe(() => viewport.current?.redraw()), [viewport]);
   useEffect(() => useTimelineStore.subscribe(() => viewport.current?.redraw()), [viewport]);
+  useEffect(() => useAssetViewStore.subscribe(() => viewport.current?.redraw()), [viewport]);
+  useEffect(() => useReferenceStore.subscribe(() => viewport.current?.redraw()), [viewport]);
   useEffect(() => useMarkerStore.subscribe(() => viewport.current?.redraw()), [viewport]);
   useEffect(() => useAssistantPresenceStore.subscribe(() => viewport.current?.redraw()), [viewport]);
   useEffect(() => useViewStore.subscribe((state, before) => { if (state.hideOverlays !== before.hideOverlays) viewport.current?.redraw(); }), [viewport]);
