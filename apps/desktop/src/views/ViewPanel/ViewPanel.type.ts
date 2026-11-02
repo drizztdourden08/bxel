@@ -4,9 +4,11 @@ import type { ReactNode } from 'react';
 import type { ReferenceImage } from '../../asset-view/reference-image.type';
 import type { GuideRow } from '../../guides/guide.type';
 import type { PreviewScale } from '../../stores/preview-store.type';
+import type { ViewSectionId } from '../../view-section/view-section.type';
 import type { CanvasSurface } from '../../canvas-surface/canvas-surface.type';
 
 interface ViewSectionProps {
+  section: ViewSectionId;
   title: string;
   icon: IconName;
   children: ReactNode;
