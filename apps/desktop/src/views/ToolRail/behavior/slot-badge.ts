@@ -26,7 +26,19 @@ const slotBadge = (slot: ToolSlot, state: BadgeState): SlotBadge | null => {
       return filledBadge(state);
     case 'select':
       return selectBadge(state);
-    default:
+    case 'contour':
+    case 'curve':
+    case 'eraser':
+    case 'gradient':
+    case 'hand':
+    case 'line':
+    case 'move':
+    case 'picker':
+    case 'polygon':
+    case 'shade':
+    case 'slice':
+    case 'spray':
+    case 'zoom':
       return null;
   }
 };

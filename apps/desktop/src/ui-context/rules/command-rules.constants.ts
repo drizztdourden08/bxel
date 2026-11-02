@@ -3,7 +3,7 @@ import { PALETTE_TRANSFER_COMMAND } from '../../keymap/palette-transfer-command-
 import { DRAWING_COMMAND, DRAWING_COMMAND_IDS, DRAWING_OPTION_COMMAND_IDS, OUTLINE_ACTIONS } from '../../keymap/drawing-command-id.constants';
 import { hasCollisionToPaste } from '../../tilemap/has-collision-to-paste';
 import { hasDataToPaste } from '../../tilemap/has-data-to-paste';
-import { always, any, canRedo, canUndo, hasDocument, hasFile, not, projectOpen } from '../predicates.constants';
+import { always, any, canRedo, canUndo, file, hasDocument, hasFile, not, projectOpen } from '../predicates.constants';
 import { ONLY, REASON } from '../reasons.constants';
 import { rule } from '../rule';
 import { family } from './family';

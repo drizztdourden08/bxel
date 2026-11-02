@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind constants */
-import { any, file, isolated } from '../predicates.constants';
+import { any, file, isolated, never } from '../predicates.constants';
 import { ONLY } from '../reasons.constants';
 import { family } from './family';
-import { SHEET, WRITE } from './groups.constants';
+import { PIXEL, SHEET, WRITE } from './groups.constants';
 import type { RuleTable } from './rule-table.type';
 
 const SHEET_EDITS = [
