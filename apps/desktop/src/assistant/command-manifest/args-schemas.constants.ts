@@ -53,6 +53,7 @@ const ARGS_KINDS = {
   moveColour: z.strictObject({ index: z.number().int().min(1).max(255).optional().describe('The swatch whose colour moves. Default: the first selected swatch.') }),
   replaceColour: z.strictObject({ index: z.number().int().min(1).max(255).describe('The swatch whose pixels are replaced with the front colour.'), scope: z.enum(['frame', 'sprite', 'animation', 'selection']).default('sprite') }),
   replaceRamp: z.strictObject({ from: z.string().min(1).describe('The name of the ramp to replace.'), to: z.string().min(1).describe('The name of the ramp that takes its place, step by step.'), scope: z.enum(['frame', 'sprite', 'animation', 'selection']).default('sprite') }),
+  addToRamp: z.strictObject({ index: z.number().int().min(1).max(255).describe('The swatch to add.'), ramp: z.string().min(1).describe('The name of the ramp that takes the swatch. The swatch stays in its other ramps.') }),
   listSelection: z.strictObject({ selection: z.boolean().default(false).describe('True uses only the selected swatches.') }),
   bank: z.strictObject({ bankId: z.string().min(1).describe('A palette id from get_document.') }),
   renameMany: z.strictObject(RENAME_FIELDS),

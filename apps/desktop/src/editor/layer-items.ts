@@ -28,7 +28,7 @@ const layerItems = (target: EditorTarget, spread: FrameSpread | null, missing: R
       const tree = treeOf(sprite.layers, layer, counts, missing);
       return {
         ...layerRowHead(layer),
-        note: tree.kind === 'pixel' && spread && have < spread.total ? LAYER_TEXT.inFrames(have, spread.total) : null,
+        note: tree.kind === 'pixel' && spread && have < spread.total ? LAYER_TEXT.inCopies(have, spread.total, spread.unit) : null,
         thumb: tree.kind === 'pixel' ? { kind: 'sprite' as const, sprite, bank, layer, frameId } : null,
         ...tree,
       };

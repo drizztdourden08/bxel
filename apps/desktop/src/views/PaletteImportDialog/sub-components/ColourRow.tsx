@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Flex, Text } from '@drizztdourden08/tessera';
+import { Flex, ScrollArea, Text } from '@drizztdourden08/tessera';
 import { SwatchStrip } from '../../SwatchStrip';
 import type { ColourRowProps } from '../PaletteImportDialog.type';
 
@@ -8,7 +8,9 @@ const ColourRow = ({ label, colours }: ColourRowProps) => (
     <Text variant="label" className="palette-import__label">
       {label}
     </Text>
-    <SwatchStrip size="md" colours={colours} label={`${label}: ${colours.join(', ')}`} />
+    <ScrollArea axis="y" scrollbar="slim" fade={false} className="palette-import__strip">
+      <SwatchStrip size="md" colours={colours} label={`${label}: ${colours.join(', ')}`} />
+    </ScrollArea>
   </Flex>
 );
 

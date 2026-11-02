@@ -1,10 +1,13 @@
 /* @layer renderer-app @kind component */
+import { useRef } from 'react';
 import { commandZone } from '@drizztdourden08/brock-react';
-import { Box, EmptyState, ScrollArea, Stack } from '@drizztdourden08/tessera';
+import type { DndElement } from '@drizztdourden08/brock-react';
+import { Box, EmptyState, Stack } from '@drizztdourden08/tessera';
 import { useZoneKey } from '../../../hooks/useZoneKey';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { LAYER_RENAME_KEY } from '../../../keymap/zone-key.constants';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
+import { useLayerFileDrop } from '../behavior/useLayerFileDrop';
 import { useLayerFilter } from '../behavior/useLayerFilter';
 import { useLayerMenu } from '../behavior/useLayerMenu';
 import { useLayerPick } from '../behavior/useLayerPick';
@@ -18,28 +21,29 @@ import { LayerStrip } from './LayerStrip';
 import './LayerStackView.css';
 
 const LayerStackView = ({ model, thumbSize, onThumbSize }: LayerStackViewProps) => {
-  const { picked, pick } = useLayerPick(model);
+  const { picked, pick, pickKeys } = useLayerPick(model);
   const filter = useLayerFilter(model.rows);
   const scope = useLayerViewStore((state) => state.scope);
   const setRenaming = useLayerViewStore((state) => state.setRenaming);
+  const dropRef = useRef<DndElement | null>(null);
   useLayerMenu(model, picked, pick);
+  useLayerFileDrop(dropRef, model);
   const renameId = model.activeId;
   useZoneKey(LAYER_RENAME_KEY, renameId === null || model.kind === 'sheet' ? null : () => setRenaming(renameId));
   if (model.empty !== null) return <EmptyState size="sm" message={model.empty} />;
+  const rows = filter.filtered ? filter.shown : model.rows;
   return (
-    <Stack gap="xs" className="layer-stack">
+    <Stack gap="xs" className="layer-stack" data-layer-stack ref={dropRef}>
       <LayerHeader model={model} shown={filter.shown.length} thumbSize={thumbSize} onThumbSize={onThumbSize} />
       <LayerStrip model={model} picked={picked} scope={scope} onScope={useLayerViewStore.getState().setScope} />
       {filter.active && <LayerFilter text={filter.text} colour={filter.colour} onText={filter.setText} onColour={filter.setColour} />}
-      <ScrollArea axis="y" scrollbar="slim" fade={false} className="layer-stack__list">
-        <Box {...commandZone(COMMAND_ZONE.layers)}>
-          {filter.shown.length === 0 ? (
-            <LayerNoMatch onClear={filter.clear} />
-          ) : (
-            <LayerList model={model} shown={filter.shown} filtered={filter.filtered} picked={picked} pick={pick} thumbSize={thumbSize} />
-          )}
-        </Box>
-      </ScrollArea>
+      <Box className="layer-stack__list" {...commandZone(COMMAND_ZONE.layers)}>
+        {filter.shown.length === 0 ? (
+          <LayerNoMatch onClear={filter.clear} />
+        ) : (
+          <LayerList model={model} rows={rows} filtered={filter.filtered} picked={picked} pick={pick} pickKeys={pickKeys} thumbSize={thumbSize} />
+        )}
+      </Box>
       {model.kind !== 'sheet' && <LayerBar model={model} picked={picked} />}
     </Stack>
   );

@@ -5,7 +5,7 @@ import type { ImportMode } from './palette-import.type';
 const IMPORT_TEXT = {
   title: 'Import colours',
   file: 'Choose a palette file...',
-  paste: 'Or paste hex colours, one per line',
+  paste: 'Or paste hex colours, one per line, or a Lospec palette link',
   pastePlaceholder: '#4a7a3c\n#a7f070',
   modes: 'How to import',
   source: (name: string, count: number): string => `${name}: ${count} ${count === 1 ? 'colour' : 'colours'}`,

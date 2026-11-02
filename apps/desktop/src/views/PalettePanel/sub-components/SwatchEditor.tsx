@@ -1,16 +1,25 @@
 /* @layer renderer-app @kind component */
-import { Anchored, Box, Button, Flex, SegmentedControl, Stack, Text } from '@drizztdourden08/tessera';
+import { Anchored, Button, Stack, TextInput } from '@drizztdourden08/tessera';
+import { ColorPicker } from '@drizztdourden08/tessera/color-picker';
+import type { ColorMode } from '@drizztdourden08/tessera/color-picker';
 import { useState } from 'react';
-import { EDITOR_MODELS, EDITOR_TEXT } from '../PalettePanel.constants';
-import type { EditorModel, SwatchEditorProps } from '../PalettePanel.type';
-import { BeforeAfter } from './BeforeAfter';
-import { EditorFields } from './EditorFields';
+import { EDITOR_MODES, EDITOR_TEXT } from '../PalettePanel.constants';
+import type { SwatchEditorProps } from '../PalettePanel.type';
 import { SameNotice } from './SameNotice';
 
 const SwatchEditor = ({ panel }: SwatchEditorProps) => {
   const { editor } = panel;
-  const [model, setModel] = useState<EditorModel>('oklch');
+  const [mode, setMode] = useState<ColorMode>('oklch');
   if (editor.index === null) return null;
+  const name = <TextInput size="sm" aria-label={EDITOR_TEXT.name} placeholder={EDITOR_TEXT.name} value={editor.name} onChange={(event) => editor.rename(event.target.value)} />;
+  const footer = (
+    <Stack gap="xs">
+      <SameNotice panel={panel} />
+      <Button size="sm" variant="tertiary" onClick={editor.cancel}>
+        {EDITOR_TEXT.cancel}
+      </Button>
+    </Stack>
+  );
   return (
     <Anchored
       anchorRef={editor.anchor}
@@ -21,26 +30,21 @@ const SwatchEditor = ({ panel }: SwatchEditorProps) => {
       role="dialog"
       aria-label={EDITOR_TEXT.dialog(editor.index)}
     >
-      <Stack gap="sm" className="swatch-editor__body">
-        <Flex align="center" justify="between" gap="sm">
-          <Text variant="label">{EDITOR_TEXT.title(editor.index)}</Text>
-          <BeforeAfter before={editor.original} after={editor.value} alpha={editor.alpha} />
-        </Flex>
-        <SegmentedControl size="sm" label={EDITOR_TEXT.models} value={model} options={EDITOR_MODELS} onChange={setModel} />
-        <EditorFields model={model} editor={editor} />
-        <SameNotice panel={panel} />
-        <Box className="swatch-editor__actions">
-          <Button size="sm" variant="tertiary" onClick={editor.reset}>
-            {EDITOR_TEXT.reset}
-          </Button>
-          <Button size="sm" variant="secondary" onClick={editor.cancel}>
-            {EDITOR_TEXT.cancel}
-          </Button>
-          <Button size="sm" variant="primary" onClick={editor.done}>
-            {EDITOR_TEXT.done}
-          </Button>
-        </Box>
-      </Stack>
+      <ColorPicker
+        title={EDITOR_TEXT.title(editor.index)}
+        name={name}
+        value={editor.value || '#000000'}
+        onChange={editor.change}
+        alpha={editor.alpha}
+        onAlphaChange={editor.changeAlpha}
+        modes={EDITOR_MODES}
+        mode={mode}
+        onModeChange={setMode}
+        original={editor.original}
+        onReset={editor.reset}
+        onClose={editor.done}
+        footer={footer}
+      />
     </Anchored>
   );
 };

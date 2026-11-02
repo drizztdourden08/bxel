@@ -15,5 +15,4 @@
 
 .ramp-builder__bases {
   max-height: var(--size-96);
-  overflow-y: auto;
 }

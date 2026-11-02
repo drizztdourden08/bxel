@@ -27,6 +27,16 @@ const heldIndex = (position: number): number | undefined => {
   return slot === undefined ? undefined : useToolStore.getState()[slot];
 };
 
+const rampEntry = (bank: PaletteBank, slot: PaletteSlot): ContextMenuEntry => {
+  const id = bank.slots[slot.index]?.id;
+  const open = bank.ramps.filter((ramp) => id !== undefined && !ramp.swatches.includes(id));
+  if (slot.transparent) return { command: PALETTE_TRANSFER_COMMAND.addToRamp, label: PALETTE_MENU.addToRamp, ...unless(false, PALETTE_MENU.transparent) };
+  if (open.length === 0) {
+    return { command: PALETTE_TRANSFER_COMMAND.addToRamp, label: PALETTE_MENU.addToRamp, ...unless(false, bank.ramps.length === 0 ? PALETTE_MENU.noRampToAdd : PALETTE_MENU.inEveryRamp) };
+  }
+  return { label: PALETTE_MENU.addToRamp, items: open.map((ramp) => ({ command: PALETTE_TRANSFER_COMMAND.addToRamp, label: ramp.name, args: { index: slot.index, ramp: ramp.name } })) };
+};
+
 const swatchEntries = (slot: PaletteSlot, bank: PaletteBank): readonly ContextMenuEntry[] => {
   const args = { index: slot.index };
   const fixed = slot.transparent || slot.index === 0;
@@ -42,6 +52,7 @@ const swatchEntries = (slot: PaletteSlot, bank: PaletteBank): readonly ContextMe
     { command: 'selection.by_colour', label: PALETTE_MENU.select, args: { index: slot.index, mode: 'everywhere' }, hidden: !pixelSurface() },
     { command: 'palette.copy_hex', label: PALETTE_MENU.copy, args, ...unless(!slot.transparent, PALETTE_MENU.transparent) },
     { command: PANEL_COMMAND.ramp, label: PALETTE_MENU.newRampFrom, args, ...unless(!slot.transparent, PALETTE_MENU.transparent) },
+    rampEntry(bank, slot),
     ...replaceEntries(bank, slot.index, slot.transparent),
     { command: PALETTE_TRANSFER_COMMAND.moveColour, label: PALETTE_MENU.moveColour, args, ...unless(!fixed, PALETTE_MENU.fixed) },
     { command: DIALOG_COMMAND.mergeSwatch, label: PALETTE_MENU.merge, args, ...unless(!fixed, PALETTE_MENU.fixed) },

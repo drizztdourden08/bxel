@@ -14,6 +14,7 @@ const useLayerViewStore = create<LayerViewState>()((set) => ({
   setRenaming: (renamingId) => set({ renamingId }),
   setThumbSize: (thumbSize) => set({ thumbSize }),
   toggleHighlight: () => set((state) => ({ highlight: !state.highlight })),
+  flashLayer: (id) => set((state) => ({ flash: { id, tick: (state.flash?.tick ?? 0) + 1 } })),
   toggleFold: (id) => set((state) => ({ folded: state.folded.includes(id) ? state.folded.filter((each) => each !== id) : [...state.folded, id] })),
   setFolded: (id, folded) => set((state) => ({ folded: folded ? [...state.folded.filter((each) => each !== id), id] : state.folded.filter((each) => each !== id) })),
 }));

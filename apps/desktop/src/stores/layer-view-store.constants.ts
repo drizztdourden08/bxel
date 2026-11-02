@@ -13,6 +13,7 @@ const LAYER_VIEW_DEFAULTS: LayerViewSettings = {
   thumbSize: 24,
   folded: [],
   highlight: false,
+  flash: null,
 };
 
 export { LAYER_THUMB_SIZES, LAYER_VIEW_DEFAULTS };

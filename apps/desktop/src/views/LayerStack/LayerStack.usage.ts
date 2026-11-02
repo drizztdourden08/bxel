@@ -20,9 +20,9 @@ const usage = {
     'A thumbnail draws again only when the pixels of its own layer change, and no more than about twelve times a second.',
   ],
   a11y: [
-    'The list is named Layers and each row is one button that carries aria-pressed when picked and aria-current when active.',
-    'Alt and Up or Down moves the focused row, Shift and Up or Down extends the pick, F2 renames in the row.',
-    'Visible and Locked are icon buttons named by what they do, in a group named after the layer, and each has a key and a menu entry.',
+    'The list is a tree named Layers; each row is a tree item that carries aria-selected when picked, and the active row carries aria-current. A group carries aria-expanded.',
+    'Alt and Up or Down moves the focused row, Right and Left open and close a group, Shift and Up or Down extends the pick, F2 renames in the row.',
+    'Visible and Locked are icon buttons named by what they do, at the end of each row, and each has a key and a menu entry.',
     'A colour tag is never the only signal: the row says the colour name to a screen reader.',
   ],
   tree: {

@@ -149,53 +149,8 @@
   inset-inline-end: calc(-1 * var(--space-2xs));
 }
 
-.swatch-mark {
-  --mark: var(--size-10);
-  --mark-inset: var(--size-1);
-
-  position: absolute;
-  min-width: var(--mark);
-  height: var(--mark);
-  padding-inline: var(--size-1);
-  font-size: var(--text-xs);
-  line-height: var(--mark);
-  text-align: center;
-  color: var(--c-text);
-  background: var(--c-scrim);
-  border: var(--border-width-thin) solid var(--c-text);
-  border-radius: var(--radius-sm);
-  pointer-events: none;
-}
-
-.swatch-grid--size-32 .swatch-mark {
-  --mark: var(--size-12);
-  --mark-inset: var(--size-2);
-}
-
-.swatch-grid--size-16 .swatch-mark {
+.swatch-grid--size-16 .color-swatch__mark {
   display: none;
-}
-
-.swatch-mark--1 {
-  top: var(--mark-inset);
-  left: var(--mark-inset);
-}
-
-.swatch-mark--2 {
-  bottom: var(--mark-inset);
-  left: var(--mark-inset);
-}
-
-.swatch-mark--3 {
-  top: var(--mark-inset);
-  right: var(--mark-inset);
-  border-radius: var(--radius-round);
-}
-
-.swatch-mark--4 {
-  bottom: var(--mark-inset);
-  right: var(--mark-inset);
-  border-radius: var(--radius-round);
 }
 
 .swatch-grid__add {
@@ -276,35 +231,6 @@
   box-shadow: var(--shadow-dropdown);
 }
 
-.swatch-editor__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--space-xs);
-}
-
-.swatch-editor__hex {
-  font-family: var(--font-mono);
-}
-
-.channel-slider__lane {
-  position: relative;
-}
-
-.channel-slider__track {
-  position: absolute;
-  inset-inline: var(--size-6);
-  top: 50%;
-  height: var(--size-12);
-  transform: translateY(-50%);
-  border-radius: var(--radius-pill);
-  border: var(--border-width-thin) solid var(--c-border);
-  pointer-events: none;
-}
-
-.channel-slider__slider {
-  position: relative;
-}
-
 .swatch-readout {
   min-height: var(--size-32);
   padding: var(--space-2xs) var(--space-xs);
@@ -320,11 +246,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.marked-swatch {
-  position: relative;
-  display: inline-flex;
 }
 
 .palette-panel--drop {

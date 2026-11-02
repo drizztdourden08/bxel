@@ -44,6 +44,7 @@ const useSpriteLayerModel = (): LayerStackModel => {
       mapId: null,
       onMap: noop,
       frames: target.animation ? target.animation.animation.frames.length : 0,
+      tileScope: target.animation === undefined && target.sprite.role === 'tile',
       actions: spriteLayerActions,
     };
   }, [target, scope, tileEdit, entries]);

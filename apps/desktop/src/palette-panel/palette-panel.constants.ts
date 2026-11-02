@@ -42,6 +42,7 @@ const PANEL_TEXT = {
   renamed: (name: string): string => `Renamed the swatch to ${name}.`,
   ramp: (name: string, added: number): string => (added === 0 ? `Ramp ${name} made from existing swatches.` : `Ramp ${name} added with ${added} new colours.`),
   rampChanged: (name: string): string => `Ramp ${name} changed.`,
+  alreadyInRamp: (name: string): string => `That swatch is already in ramp ${name}.`,
   rampDeleted: (name: string): string => `Ramp ${name} deleted. Its swatches stay.`,
   nothingUnused: 'Every colour is in use.',
   noDuplicates: 'No two swatches have the same colour.',

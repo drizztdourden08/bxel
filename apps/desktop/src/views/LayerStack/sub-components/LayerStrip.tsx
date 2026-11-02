@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Box, Flex, SegmentedControl, Text } from '@drizztdourden08/tessera';
 import type { LockKind } from '../../../editor/layer-lock.type';
-import { LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_SCOPES, LAYER_STACK_TEXT } from '../LayerStack.constants';
+import { LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_SCOPES, LAYER_STACK_TEXT, LAYER_TILE_SCOPES } from '../LayerStack.constants';
 import type { LayerStripProps } from '../LayerStack.type';
 import { LayerColours } from './LayerColours';
 import { LayerViewControls } from './LayerViewControls';
@@ -12,7 +12,7 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
   if (!lead || picked.length === 0) return null;
   const { actions } = model;
   return (
-    <Box className="layer-strip" role="group" aria-label={picked.length > 1 ? LAYER_STACK_TEXT.picked(picked.length) : LAYER_STACK_TEXT.stripOf(lead.name)}>
+    <Box className="layer-strip" data-layer-strip role="group" aria-label={picked.length > 1 ? LAYER_STACK_TEXT.picked(picked.length) : LAYER_STACK_TEXT.stripOf(lead.name)}>
       <Flex align="center" justify="between" gap="xs" wrap>
         <SegmentedControl<LockKind>
           aria-label={LAYER_STACK_TEXT.lockKinds}
@@ -27,12 +27,12 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
           onChange={(kind) => actions.setLock(picked, kind)}
         />
         <Text as="span" variant="caption" tone="muted" className="layer-strip__lock-name">{LAYER_LOCK_TEXT[lead.lock].name}</Text>
-        {model.frames > 0 && (
+        {(model.frames > 0 || model.tileScope === true) && (
           <SegmentedControl
             aria-label={LAYER_STACK_TEXT.scope}
             size="sm"
             value={scope}
-            options={LAYER_SCOPES.map((each) => ({ value: each.value, label: each.label, title: each.title }))}
+            options={(model.frames > 0 ? LAYER_SCOPES : LAYER_TILE_SCOPES).map((each) => ({ value: each.value, label: each.label, title: each.title }))}
             onChange={onScope}
           />
         )}

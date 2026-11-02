@@ -6,6 +6,7 @@ import { movedOrder } from '../../src/palette-panel/moved-order';
 import { sheetPlan } from '../../src/palette-panel/sheet-plan';
 import { swappedOrder } from '../../src/palette-panel/swapped-order';
 import { applyRamp } from '../../src/palette-ramps/apply-ramp';
+import { membershipSteps } from '../../src/palette-ramps/membership-steps';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { openEditor } from '../editor/editor-harness';
 
@@ -54,5 +55,21 @@ describe('S2 palette panel actions', { tags: ['standard'] }, () => {
     host.undo(documentId);
     expect(target().bank.ramps).toHaveLength(0);
     expect(target().bank.slots).toHaveLength(bank.slots.length);
+  });
+
+  it('plans adding a swatch to a ramp as a copy and nothing when it is already there', () => {
+    const { target } = rig();
+    const bank = target().bank;
+    const base = bank.slots[3];
+    if (base?.kind !== 'color') throw new Error('slot 3 is not a colour');
+    const ramp = buildRamp({ base: base.rgb, baseIndex: 3, light: 1, dark: 1, hueShift: 15, hueMode: 'shift', chromaCurve: true, snap: 0, existing: [] });
+    if (!ramp || bank.cap - bank.slots.length < ramp.added || !applyRamp(target(), ramp.steps, 'Moss').ok) return;
+    const made = target().bank;
+    const moss = made.ramps.find((each) => each.name === 'Moss');
+    const outside = made.slots.findIndex((slot, index) => index > 0 && moss !== undefined && !moss.swatches.includes(slot.id));
+    if (!moss || outside < 0) return;
+    expect(membershipSteps(made, { index: outside, from: null, to: moss.id, copy: true })).toHaveLength(1);
+    const inside = made.slots.findIndex((slot) => moss.swatches.includes(slot.id));
+    expect(membershipSteps(made, { index: inside, from: null, to: moss.id, copy: true })).toHaveLength(0);
   });
 });

@@ -2,6 +2,7 @@
 import { useCallback, useMemo } from 'react';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import type { LayerStackModel } from '../LayerStack.type';
+import { pickFromSet } from './pick-from-set';
 import { pickLayer } from './pick-layer';
 import { blockIds } from './block-ids';
 import type { PickHow } from './pick-layer.type';
@@ -24,7 +25,17 @@ const useLayerPick = (model: LayerStackModel): LayerPick => {
     },
     [rows, picked, activeId, actions],
   );
-  return { picked, pick };
+  const pickKeys = useCallback(
+    (keys: ReadonlySet<string>) => {
+      const { anchor, select } = useLayerViewStore.getState();
+      const result = pickFromSet({ order: rows.map((row) => row.id), selected: picked, anchor, active: activeId }, keys);
+      if (!result) return;
+      select(result.selected, result.anchor);
+      if (result.active !== null && result.active !== activeId) actions.activate(result.active);
+    },
+    [rows, picked, activeId, actions],
+  );
+  return { picked, pick, pickKeys };
 };
 
 export { useLayerPick };

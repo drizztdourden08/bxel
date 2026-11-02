@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { MouseEvent, PointerEvent } from 'react';
 import type { FrameId, Layer, MapLayer, PaletteBank, Sprite } from '@bxel/document';
-import type { IconName, ReorderDrag } from '@drizztdourden08/tessera';
+import type { IconName } from '@drizztdourden08/tessera';
 import type { LayerActions } from '../../editor/layer-actions.type';
 import type { LayerFlag } from '../../editor/layer-flag.type';
 import type { LockKind } from '../../editor/layer-lock.type';
@@ -70,6 +70,7 @@ interface LayerStackModel {
   mapId: string | null;
   onMap: (id: string) => void;
   frames: number;
+  tileScope?: boolean;
   actions: LayerActions;
 }
 
@@ -79,24 +80,6 @@ interface LayerBarAction {
   hint: HintSpec;
   run: () => void;
   reason: string | null;
-}
-
-interface LayerRowProps {
-  row: LayerRowModel;
-  index: number;
-  total: number;
-  active: boolean;
-  picked: boolean;
-  tabbable: boolean;
-  movable: boolean;
-  tree: boolean;
-  folded: boolean;
-  thumbSize: LayerThumbSize;
-  drag: ReorderDrag;
-  sweep: LayerSweepView;
-  model: LayerStackModel;
-  onPick: (id: string, how: PickHow) => void;
-  onFold: (id: string) => void;
 }
 
 type LayerSweepHandlers = {
@@ -132,11 +115,17 @@ interface LayerStackViewProps extends LayerSourceProps {
 
 interface LayerListProps {
   model: LayerStackModel;
-  shown: readonly LayerRowModel[];
+  rows: readonly LayerRowModel[];
   filtered: boolean;
   picked: readonly string[];
   pick: (id: string, how: PickHow) => void;
+  pickKeys: (keys: ReadonlySet<string>) => void;
   thumbSize: LayerThumbSize;
+}
+
+interface LayerTrailProps {
+  row: LayerRowModel;
+  sweep: LayerSweepView;
 }
 
 interface LayerHeaderProps extends LayerSourceProps {
@@ -185,18 +174,6 @@ interface LayerToggleProps {
   sweep: LayerSweepView;
 }
 
-interface LayerGripProps {
-  index: number;
-  drag: ReorderDrag;
-  disabled: boolean;
-}
-
-interface LayerFoldProps {
-  row: LayerRowModel;
-  folded: boolean;
-  onFold: (id: string) => void;
-}
-
 interface LayerViewControlsProps {
   model: LayerStackModel;
   picked: readonly string[];
@@ -209,20 +186,8 @@ interface LayerNameProps {
   onDone: () => void;
 }
 
-interface LayerMainProps {
-  row: LayerRowModel;
-  active: boolean;
-  picked: boolean;
-  tabbable: boolean;
-  thumbSize: LayerThumbSize;
-  follow: boolean;
-  folded: boolean;
-  onPick: (how: PickHow) => void;
-  onRename: () => void;
-}
-
 export type {
-  LayerBarAction, LayerBarProps, LayerColoursProps, LayerFilterProps, LayerFilterState, LayerFoldProps, LayerViewControlsProps, LayerGripProps, LayerHeaderProps, LayerListProps, LayerMainProps,
-  LayerNameProps, LayerNoMatchProps, LayerRowKind, LayerRowModel, LayerRowTree, LayerRowProps, LayerSourceProps, LayerStackModel, LayerStackViewProps, LayerStripProps,
-  LayerSweepView, LayerThumbProps, LayerThumbSource, LayerToggleProps, MapChoice,
+  LayerBarAction, LayerBarProps, LayerColoursProps, LayerFilterProps, LayerFilterState, LayerViewControlsProps, LayerHeaderProps, LayerListProps,
+  LayerNameProps, LayerNoMatchProps, LayerRowKind, LayerRowModel, LayerRowTree, LayerSourceProps, LayerStackModel, LayerStackViewProps, LayerStripProps,
+  LayerSweepView, LayerThumbProps, LayerThumbSource, LayerToggleProps, LayerTrailProps, MapChoice,
 };

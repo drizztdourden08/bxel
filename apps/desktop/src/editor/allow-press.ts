@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { broadcastBlock } from '../sheet/broadcast-block';
 import { useDrawingStore } from '../stores/useDrawingStore';
+import { useLayerViewStore } from '../stores/useLayerViewStore';
 import { useLinkedPromptStore } from '../stores/useLinkedPromptStore';
 import { useNoticeStore } from '../stores/useNoticeStore';
 import { useTimelineStore } from '../stores/useTimelineStore';
@@ -12,8 +13,10 @@ import type { PressPlan } from './press-plan.type';
 const allowPress = (plan: PressPlan, target: EditorTarget): boolean => {
   if (plan.kind === 'pick' || plan.kind === 'zoom') return true;
   useTimelineStore.getState().pause();
-  const blocked = layerBlock(target.layer) ?? broadcastBlock(target);
+  const layerBlocked = layerBlock(target.layer);
+  const blocked = layerBlocked ?? broadcastBlock(target);
   if (blocked !== null) {
+    if (layerBlocked !== null) useLayerViewStore.getState().flashLayer(target.layerId);
     useNoticeStore.getState().post(blocked);
     return false;
   }

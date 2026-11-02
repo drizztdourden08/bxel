@@ -5,13 +5,13 @@ import { frameSprites } from './frame-sprites';
 import type { FrameSpread } from './layer-items.type';
 
 const frameSpread = (target: EditorTarget, scope: LayerScopeChip): FrameSpread | null => {
-  if (!target.animation || scope !== 'all') return null;
+  if ((!target.animation && target.sprite.role !== 'tile') || scope !== 'all') return null;
   const sprites = frameSprites(target);
   const have = new Map<string, number>();
   for (const sprite of sprites) {
     for (const key of new Set(sprite.layers.map((layer) => layer.name.toLowerCase()))) have.set(key, (have.get(key) ?? 0) + 1);
   }
-  return { total: sprites.length, have };
+  return { total: sprites.length, have, unit: target.animation ? 'frames' : 'tiles' };
 };
 
 export { frameSpread };

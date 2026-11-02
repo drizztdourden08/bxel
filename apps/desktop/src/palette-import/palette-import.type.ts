@@ -6,6 +6,7 @@ type ImportMode = 'append' | 'replace' | 'map';
 
 interface ImportSource {
   name: string;
+  author?: string;
   colors: readonly SourceColor[];
 }
 
@@ -20,4 +21,6 @@ interface ImportPlan {
   apply: string;
 }
 
-export type { ImportMode, ImportPlan, ImportSource };
+type LospecResult = { ok: true; source: ImportSource } | { ok: false; message: string };
+
+export type { ImportMode, ImportPlan, ImportSource, LospecResult };

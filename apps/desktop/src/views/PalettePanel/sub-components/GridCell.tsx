@@ -2,11 +2,11 @@
 import { Box, ColorSwatch } from '@drizztdourden08/tessera';
 import { swatchMarks } from '../../../editor/swatch-marks';
 import { cellClass } from '../behavior/cell-class';
+import { cornerMarks } from '../behavior/corner-marks';
 import { swatchClick } from '../behavior/swatch-click';
 import { usageText } from '../behavior/usage-text';
 import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
 import type { GridCellProps } from '../PalettePanel.type';
-import { CornerMarks } from './CornerMarks';
 
 const GridCell = ({ slot, panel, control }: GridCellProps) => {
   const { index } = slot;
@@ -24,6 +24,7 @@ const GridCell = ({ slot, panel, control }: GridCellProps) => {
         tabIndex={panel.selection.focus === index ? 0 : -1}
         className="grid-cell__swatch"
         color={slot.hex}
+        marks={cornerMarks(marks)}
         transparent={slot.transparent}
         data-swatch-index={index}
         aria-label={PALETTE_PANEL_TEXT.name(slot.label, marks, use)}
@@ -39,7 +40,6 @@ const GridCell = ({ slot, panel, control }: GridCellProps) => {
         onMouseLeave={() => panel.setHovered(null)}
         {...control.pointer(index)}
       />
-      <CornerMarks marks={marks} />
     </Box>
   );
 };

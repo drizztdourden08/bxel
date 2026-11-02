@@ -1,10 +1,11 @@
 /* @layer renderer-app @kind constants */
-import type { Oklch, PaletteSortKey } from '@bxel/palette';
-import type { SegmentOption, TableAlign } from '@drizztdourden08/tessera';
+import type { PaletteSortKey } from '@bxel/palette';
+import type { SegmentOption, SwatchCorner, TableAlign } from '@drizztdourden08/tessera';
+import type { ColorMode } from '@drizztdourden08/tessera/color-picker';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import type { PaletteViewKind } from '../../palette-view/palette-view.type';
 import type { HintSpec } from '../ActionHint';
-import type { EditorModel, HeldChipDef, ListColumn } from './PalettePanel.type';
+import type { HeldChipDef, ListColumn } from './PalettePanel.type';
 
 const PALETTE_PANEL_TEXT = {
   empty: 'No palette is open.',
@@ -71,6 +72,9 @@ const PALETTE_MENU = {
   emptyChip: 'This colour holds no swatch.',
   newRamp: 'New ramp...',
   newRampFrom: 'New ramp from this...',
+  addToRamp: 'Add to ramp',
+  noRampToAdd: 'The palette has no ramp yet.',
+  inEveryRamp: 'This swatch is in every ramp.',
   makeRamp: 'Make ramp',
   makeRampLight: 'Make ramp by lightness',
   gradient: 'Gradient between...',
@@ -159,32 +163,17 @@ const DIGIT_SLOTS: Readonly<Record<string, number>> = { '1': 0, '2': 1, '3': 2, 
 
 const PAGE_ROWS = 4;
 
+const MARK_CORNERS: Readonly<Partial<Record<number, SwatchCorner>>> = { 1: 'top-start', 2: 'bottom-start', 3: 'top-end', 4: 'bottom-end' };
+
 const RAMP_DRAG_TYPE = 'application/x-bxel-ramp-swatch';
 
 const STRIP_LENGTH = 8;
-
-const CHANNEL_STOPS = 9;
-
-const CHANNEL_TOP = 255;
-
-const PERCENT = 100;
 
 
 const EDITOR_TEXT = {
   title: (index: number): string => `Swatch ${index}`,
   dialog: (index: number): string => `Edit the colour of swatch ${index}`,
-  models: 'Colour model',
-  before: 'Before',
-  after: 'After',
-  hex: 'Hex',
   name: 'Name',
-  alpha: 'Alpha',
-  lightness: 'Lightness',
-  chroma: 'Chroma',
-  hue: 'Hue',
-  red: 'Red',
-  green: 'Green',
-  blue: 'Blue',
   same: (index: number): string => `Same as swatch ${index}.`,
   merge: (index: number): string => `Merge into ${index}`,
   reset: 'Reset',
@@ -192,20 +181,8 @@ const EDITOR_TEXT = {
   done: 'Done',
 } as const;
 
-const EDITOR_MODELS: SegmentOption<EditorModel>[] = [
-  { value: 'hsv', label: 'HSV' },
-  { value: 'oklch', label: 'OKLCH' },
-  { value: 'rgb', label: 'RGB' },
-];
-
-const OKLCH_CHANNELS: readonly { key: keyof Oklch; label: string; max: number; scale: number; step: number }[] = [
-  { key: 'l', label: EDITOR_TEXT.lightness, max: 1, scale: PERCENT, step: 0.5 },
-  { key: 'c', label: EDITOR_TEXT.chroma, max: 0.37, scale: PERCENT, step: 0.1 },
-  { key: 'h', label: EDITOR_TEXT.hue, max: 360, scale: 1, step: 1 },
-];
-
-const RGB_CHANNELS: readonly string[] = [EDITOR_TEXT.red, EDITOR_TEXT.green, EDITOR_TEXT.blue];
+const EDITOR_MODES: readonly ColorMode[] = ['hsv', 'oklch', 'rgb'];
 
 export {
-  CHANNEL_STOPS, CHANNEL_TOP, chipHint, CONFIG_HINT, EDITOR_MODELS, EDITOR_TEXT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OKLCH_CHANNELS, OVERFLOW_TEXT, PAGE_ROWS, PALETTE_MENU, PERCENT, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, RGB_CHANNELS, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, VIEW_OPTIONS,
+  chipHint, MARK_CORNERS, CONFIG_HINT, EDITOR_MODES, EDITOR_TEXT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OVERFLOW_TEXT, PAGE_ROWS, PALETTE_MENU, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, VIEW_OPTIONS,
 };

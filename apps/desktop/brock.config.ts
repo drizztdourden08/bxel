@@ -15,6 +15,7 @@ export default defineBrockConfig({
       wordmark: { src: './logos/bxel-wordmark.svg' },
     },
     singleProfile: true,
+    net: { hosts: ['lospec.com'], contentTypes: ['application/json'], maxBytes: 262144 },
     menu: { home: false, entries: { settings: { label: 'Options', group: 'end', before: 'about' } } },
     fileAssociations: [
       { ext: 'bxsprite', name: 'Bxel sprite', description: 'A Bxel sprite', progId: 'Bxel.Sprite', mimeType: 'application/vnd.bxel.sprite+zip', icon: 'filetypes/bxsprite' },

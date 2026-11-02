@@ -1,57 +1,46 @@
 /* @layer renderer-app @kind component */
-import { useId } from 'react';
-import { Box } from '@drizztdourden08/tessera';
+import { Box, Tree } from '@drizztdourden08/tessera';
 import { useLayerViewStore } from '../../../stores/useLayerViewStore';
-import { useLayerList } from '../behavior/useLayerList';
+import type { LayerNode } from '../behavior/layer-nodes.type';
 import { useLayerSweep } from '../behavior/useLayerSweep';
-import { LAYER_MOVE_KEYS, LAYER_STACK_TEXT } from '../LayerStack.constants';
+import { useLayerTree } from '../behavior/useLayerTree';
+import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerListProps } from '../LayerStack.type';
-import { LayerRow } from './LayerRow';
+import { LayerLabel } from './LayerLabel';
+import { LayerTrail } from './LayerTrail';
 import './LayerList.css';
 
-const LayerList = ({ model, shown, filtered, picked, pick, thumbSize }: LayerListProps) => {
+const LayerList = ({ model, rows, filtered, picked, pick, pickKeys, thumbSize }: LayerListProps) => {
   const folded = useLayerViewStore((state) => state.folded);
-  const toggleFold = useLayerViewStore((state) => state.toggleFold);
-  const hintId = useId();
   const sweep = useLayerSweep(model, picked);
-  const tree = model.rows.some((row) => row.kind === 'group');
   const movable = model.kind !== 'sheet' && !filtered;
-  const { listRef, drag, message, tabId, onKeyDown, onFocus } = useLayerList({ model, shown, movable, pick });
+  const tree = useLayerTree({ model, rows, picked, pick, pickKeys, movable });
   return (
     <Box className="layer-list">
-      <Box
-        as="ul"
-        ref={listRef}
-        className="layer-list__items"
-        aria-label={model.kind === 'map' ? LAYER_STACK_TEXT.mapList : LAYER_STACK_TEXT.list}
-        aria-describedby={hintId}
-        aria-keyshortcuts={LAYER_MOVE_KEYS}
-        onKeyDown={onKeyDown}
-        onFocus={onFocus}
-      >
-        {shown.map((row, index) => (
-          <LayerRow
-            key={row.id}
-            row={row}
-            index={index}
-            total={shown.length}
-            active={row.id === model.activeId}
-            picked={picked.includes(row.id)}
-            tabbable={row.id === tabId}
-            movable={movable}
-            tree={tree}
-            folded={folded.includes(row.id)}
+      <Tree<LayerNode>
+        key={thumbSize}
+        {...tree}
+        label={model.kind === 'map' ? LAYER_STACK_TEXT.mapList : LAYER_STACK_TEXT.list}
+        getKey={(node) => node.row.id}
+        getChildren={(node) => (node.row.kind === 'group' ? node.children : undefined)}
+        isBranch={(node) => node.row.kind === 'group'}
+        getLabel={(node) => node.row.name}
+        rowSize={thumbSize === 24 ? 'normal' : 'compact'}
+        trail="always"
+        className={thumbSize === 40 ? 'layer-list__tree layer-list__tree--large' : 'layer-list__tree'}
+        renderLabel={(node) => (
+          <LayerLabel
+            row={node.row}
+            active={node.row.id === model.activeId}
+            picked={picked.includes(node.row.id)}
+            folded={folded.includes(node.row.id)}
             thumbSize={thumbSize}
-            drag={drag}
-            sweep={sweep}
-            model={model}
-            onPick={pick}
-            onFold={toggleFold}
+            follow={node.row.id === model.activeId && model.kind === 'sprite'}
+            onRename={(name) => model.actions.rename(node.row.id, name)}
           />
-        ))}
-      </Box>
-      <Box id={hintId} className="visually-hidden">{LAYER_STACK_TEXT.moveHint}</Box>
-      <Box className="visually-hidden" aria-live="polite">{message}</Box>
+        )}
+        renderTrail={(node) => <LayerTrail row={node.row} sweep={sweep} />}
+      />
     </Box>
   );
 };

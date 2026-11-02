@@ -10,7 +10,7 @@ const LAYER_TEXT = {
   noVisible: 'Show a layer first. Flatten copy joins the visible layers.',
   nameInvalid: 'A name has 1 to 64 characters you can print.',
   nameTaken: 'That name is already used. Choose another name.',
-  inFrames: (have: number, total: number): string => `in ${have} of ${total} frames`,
+  inCopies: (have: number, total: number, unit: 'frames' | 'tiles'): string => `in ${have} of ${total} ${unit}`,
   noSelection: 'Select some pixels first. Selection to new layer copies the selected pixels.',
   noPixelBelow: 'There is no pixel layer below in this group.',
   oneToMerge: 'Pick two or more pixel layers to merge them.',

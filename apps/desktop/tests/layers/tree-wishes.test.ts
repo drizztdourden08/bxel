@@ -2,8 +2,9 @@
 import { describe, expect, it } from 'vitest';
 import type { LayerRowKind, LayerRowModel } from '../../src/views/LayerStack/LayerStack.type';
 import { blockIds } from '../../src/views/LayerStack/behavior/block-ids';
-import { dropWish } from '../../src/views/LayerStack/behavior/drop-wish';
-import { indentWish } from '../../src/views/LayerStack/behavior/indent-wish';
+import { dropFits } from '../../src/views/LayerStack/behavior/drop-fits';
+import { layerNodes } from '../../src/views/LayerStack/behavior/layer-nodes';
+import { pickFromSet } from '../../src/views/LayerStack/behavior/pick-from-set';
 import { outdentWish } from '../../src/editor/outdent-wish';
 import { visibleRows } from '../../src/views/LayerStack/behavior/visible-rows';
 
@@ -39,29 +40,37 @@ describe('K1 layer tree wishes from the list gestures', { tags: ['critical'] }, 
     expect([...blockIds(rows, 'loose')]).toEqual(['loose']);
   });
 
-  it('drops a row between two children into that group at the right place', () => {
-    expect(dropWish(rows, 3, 1)).toEqual({ keys: ['loose'], parentKey: 'outer', index: 0 });
-    expect(dropWish(rows, 3, 2)).toEqual({ keys: ['loose'], parentKey: 'outer', index: 1 });
+  it('nests the rows by their parent and keeps an orphan at the top', () => {
+    const nodes = layerNodes(rows);
+    expect(nodes.map((node) => node.row.id)).toEqual(['outer', 'loose']);
+    expect(nodes[0]?.children.map((node) => node.row.id)).toEqual(['first', 'second']);
+    expect(layerNodes([first]).map((node) => node.row.id)).toEqual(['first']);
   });
 
-  it('drops a group to the end of the top level and ignores a missing row', () => {
-    expect(dropWish(rows, 0, 99)).toEqual({ keys: ['outer'], parentKey: null, index: 1 });
-    expect(dropWish(rows, 9, 0)).toBeNull();
+  it('lets a row drop into a group and refuses a block that would sit too deep', () => {
+    expect(dropFits(rows, { keys: ['loose'], parentKey: 'outer' })).toBe(true);
+    expect(dropFits(rows, { keys: ['loose'], parentKey: null })).toBe(true);
+    const inner = { ...row('inner', 'group', 'outer'), depth: 1 };
+    const solo = row('solo', 'group', null);
+    const kid = row('kid', 'pixel', 'solo');
+    const nested = [outer, inner, loose, solo, kid];
+    expect(dropFits(nested, { keys: ['loose'], parentKey: 'inner' })).toBe(true);
+    expect(dropFits(nested, { keys: ['solo'], parentKey: 'inner' })).toBe(false);
+  });
+
+  it('turns a set of keys from the list into one pick', () => {
+    const order = ['outer', 'first', 'second', 'loose'];
+    const state = { order, selected: ['first'], anchor: 'first', active: 'first' };
+    expect(pickFromSet(state, new Set())).toBeNull();
+    expect(pickFromSet(state, new Set(['loose']))?.selected).toEqual(['loose']);
+    const added = pickFromSet(state, new Set(['first', 'loose']));
+    expect(added?.active).toBe('loose');
+    expect(added?.selected).toEqual(['first', 'loose']);
   });
 
   it('moves a child out of its group to just above the group', () => {
     expect(outdentWish(rows, 'first')).toEqual({ keys: ['first'], parentKey: null, index: 0 });
     expect(outdentWish(rows, 'loose')).toBeNull();
-  });
-
-  it('moves a row into the group right above it, as its last child', () => {
-    expect(indentWish(rows, 'loose')).toEqual({ keys: ['loose'], parentKey: 'outer', index: 2 });
-  });
-
-  it('refuses to move a row inward when nothing or no group sits above it', () => {
-    expect(indentWish(rows, 'outer')).toBeNull();
-    expect(indentWish(rows, 'second')).toBeNull();
-    expect(indentWish(rows, 'absent')).toBeNull();
   });
 
   it('hides the children of a folded group and keeps the rest', () => {

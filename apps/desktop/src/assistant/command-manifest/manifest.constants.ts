@@ -99,6 +99,7 @@ const EDIT_ROWS = [
   one(PALETTE_TRANSFER_COMMAND.moveColour, 'edit_pixels', 'edit', { args: 'moveColour', dialog: 'palette_recolour' }),
   one(PALETTE_TRANSFER_COMMAND.replaceFront, 'edit_pixels', 'edit', { args: 'replaceColour' }),
   one(PALETTE_TRANSFER_COMMAND.replaceRamp, 'edit_pixels', 'edit', { args: 'replaceRamp' }),
+  one(PALETTE_TRANSFER_COMMAND.addToRamp, 'edit_pixels', 'edit', { args: 'addToRamp' }),
   one('palette.remove_unused', 'edit_pixels', 'edit', { dialog: 'palette_remove_unused' }),
   one('palette.unite_duplicates', 'edit_pixels', 'edit', { dialog: 'palette_unite' }),
   one('guide.add_here', 'edit_pixels', 'edit', { args: 'axis' }),
