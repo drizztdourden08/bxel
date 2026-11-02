@@ -147,31 +147,11 @@ interface CellLook {
   drop: 'before' | 'after' | undefined;
 }
 
-interface CornerMarksProps {
-  marks: readonly number[];
-}
-
 interface ListRowProps {
   slot: PaletteSlot;
   panel: PanelModel;
   ramps: string;
   active: boolean;
-}
-
-interface ChannelSliderProps {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  step: number;
-  stops: readonly string[];
-  format: (value: number) => string;
-  onChange: (value: number) => void;
-}
-
-interface ModelPaneProps {
-  value: string;
-  onChange: (hex: string) => void;
 }
 
 interface GridKeyContext {
@@ -193,24 +173,11 @@ interface GridControl {
 
 type GridKeyAction = (context: GridKeyContext, event: KeyboardEvent<HTMLElement>) => void;
 
-type EditorModel = 'hsv' | 'oklch' | 'rgb';
-
-interface EditorFieldsProps {
-  model: EditorModel;
-  editor: SwatchEditModel;
-}
-
-interface BeforeAfterProps {
-  before: string;
-  after: string;
-  alpha: number;
-}
-
 interface SwatchEditorProps {
   panel: PanelModel;
 }
 
 export type {
-  BeforeAfterProps, CellLook, DraftFields, ChannelSliderProps, CornerMarksProps, EditorFieldsProps, EditorModel, EditSwatch, GridCellProps, GridControl, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, ModelPaneProps, PanelModel, PanelProps,
+  CellLook, DraftFields, EditSwatch, GridCellProps, GridControl, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, PanelModel, PanelProps,
   PaletteDrop, PaletteViewModel, PickMode, RampDrag, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps,
 };
