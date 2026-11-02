@@ -65,4 +65,14 @@ const KIND_BITS: Readonly<Record<TerrainKind, number>> = {
   blob47: 255,
 };
 
-export { BIT_WORDS, GLYPH_ORDER, KIND_BITS, TERRAIN_KIND_CHOICES, TERRAIN_TEXT };
+const PACKING_ORIGIN: Readonly<Record<string, string>> = {
+  'blob47-7': 'Bxel',
+  'blob47-6': 'cr31',
+  'blob47-12': 'Template strip',
+  'blob16-4': 'Square',
+  'blob16-8': 'Strip',
+  'corner16-4': 'Square',
+  'corner16-8': 'Strip',
+};
+
+export { BIT_WORDS, GLYPH_ORDER, KIND_BITS, PACKING_ORIGIN, TERRAIN_KIND_CHOICES, TERRAIN_TEXT };
