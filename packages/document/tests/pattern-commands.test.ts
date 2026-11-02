@@ -1,11 +1,12 @@
 /* @layer core @kind test */
-import { decodeBrushPixels, encodeBrushPixels } from '@bxel/document';
+import { decodeBrushPixels } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
+import { entryPixels } from './entry-pixels';
 import { heartEngine } from './heart-engine';
 import { reopenHeart } from './reopen-heart';
 import { apply, expectUndoRedo, plain, rejection } from './sheet-engine';
 
-const PIXELS = encodeBrushPixels(Uint8Array.from([1, 0, 0, 1]));
+const PIXELS = entryPixels([1, 0, 0, 1]);
 
 const addPattern = (name = 'Checker') => plain('pattern.add', { name, width: 2, height: 2, pixels: PIXELS });
 
@@ -27,7 +28,7 @@ describe('K1 pattern.add', { tags: ['critical'] }, () => {
 
   it('refuses a side above the pattern limit', () => {
     const { engine } = heartEngine();
-    const pixels = encodeBrushPixels(new Uint8Array(33));
+    const pixels = entryPixels(new Array<number>(33).fill(0));
     expect(rejection(engine, plain('pattern.add', { name: 'Wide', width: 33, height: 1, pixels })).code).toBeDefined();
   });
 });
@@ -39,7 +40,7 @@ describe('K1 pattern.update and pattern.delete', { tags: ['critical'] }, () => {
     const id = engine.state().artwork.patterns?.[0]?.id ?? '';
     apply(engine, plain('pattern.update', { pattern: id, name: 'Dots' }));
     expect(engine.state().artwork.patterns?.[0]?.name).toBe('Dots');
-    apply(engine, plain('pattern.update', { pattern: id, width: 4, height: 1, pixels: encodeBrushPixels(Uint8Array.from([1, 0, 1, 0])) }));
+    apply(engine, plain('pattern.update', { pattern: id, width: 4, height: 1, pixels: entryPixels([1, 0, 1, 0]) }));
     expect(engine.state().artwork.patterns?.[0]).toMatchObject({ width: 4, height: 1 });
     apply(engine, plain('pattern.delete', { pattern: id }));
     expect(engine.state().artwork.patterns ?? []).toHaveLength(0);

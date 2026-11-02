@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { rectMask } from '@bxel/raster';
 import type { MaskView, Point } from '@bxel/raster';
-
-type CellSpace = { readonly width: number; readonly height: number };
+import type { CellSpace } from './tile-cell-mask.type';
 
 const tileCellMask = (space: CellSpace, tile: CellSpace, at: Point): MaskView => {
   const left = Math.floor(at.x / tile.width) * tile.width;

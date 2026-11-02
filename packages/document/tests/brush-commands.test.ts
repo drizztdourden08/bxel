@@ -1,11 +1,12 @@
 /* @layer core @kind test */
-import { decodeBrushPixels, encodeBrushPixels } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
+import { entryPixels } from './entry-pixels';
+import { entryValues } from './entry-values';
 import { heartEngine } from './heart-engine';
 import { reopenHeart } from './reopen-heart';
 import { apply, expectUndoRedo, plain, rejection } from './sheet-engine';
 
-const PIXELS = encodeBrushPixels(Uint8Array.from([1, 2, 0, 3]));
+const PIXELS = entryPixels([1, 2, 0, 3]);
 
 const addBrush = (name = 'Corner') => plain('brush.add', { name, width: 2, height: 2, pixels: PIXELS });
 
@@ -15,7 +16,7 @@ describe('K1 brush.add', { tags: ['critical'] }, () => {
     const done = expectUndoRedo(engine, addBrush());
     const [brush] = engine.state().artwork.brushes ?? [];
     expect(brush).toMatchObject({ name: 'Corner', width: 2, height: 2 });
-    expect([...decodeBrushPixels(brush?.pixels ?? '')]).toEqual([1, 2, 0, 3]);
+    expect(entryValues(brush?.pixels)).toEqual([1, 2, 0, 3]);
     expect(done.changes.brushes).toHaveLength(1);
   });
 

@@ -1,12 +1,13 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it, vi } from 'vitest';
+import type * as BrockReact from '@drizztdourden08/brock-react';
 import { ASSET_SOURCE } from '../../src/asset-config/asset-source.constants';
 import { editAnimationTag } from '../../src/asset-config/edit-animation-tag';
 import { focusedAsset } from '../../src/asset-config/focused-asset';
 import { addSpanTag, firstSprite, firstTagId, focusNewAnimation, liveArtwork, openedProject, revisionOf, undoOnce } from './config-harness';
 
 vi.mock('@drizztdourden08/brock-react', async () => {
-  const { useNavigationStore } = await vi.importActual<typeof import('@drizztdourden08/brock-react')>('@drizztdourden08/brock-react');
+  const { useNavigationStore } = await vi.importActual<typeof BrockReact>('@drizztdourden08/brock-react');
   return { ...(await import('../project/project-mocks')).brockReactMock(), useNavigationStore };
 });
 
