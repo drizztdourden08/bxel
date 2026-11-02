@@ -34,6 +34,7 @@ const mapMenuEntries = (target: MapTarget, where: MapWhere): readonly ContextMen
     },
     { command: ID.replaceSelection, ...(cells ? needTile : needCells) },
     { command: ID.replaceEverywhere, ...needTile },
+    { command: ID.fillWithStamp, label: MAP_MENU.fillStamp, ...(cells ? needTile : needCells) },
     { command: ID.makeUnique, ...needCells },
     'separator',
     SELECTION_COMMAND_ID.selectAll,

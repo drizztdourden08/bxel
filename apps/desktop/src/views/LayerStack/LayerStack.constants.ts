@@ -65,6 +65,8 @@ const LAYER_STACK_TEXT = {
   newLayer: 'New layer',
   newShort: 'New',
   more: 'More ways to add a layer',
+  addMissing: 'Add missing layers',
+  addMissingHint: 'Add this layer to every sprite in the list that does not have it yet.',
 } as const;
 
 const LAYER_MENU_TEXT = {
@@ -73,6 +75,7 @@ const LAYER_MENU_TEXT = {
   visible: 'Visible',
   locked: 'Locked',
   rename: 'Rename',
+  properties: 'Properties...',
   colour: 'Colour tag',
   mergeDown: 'Merge down',
   mergeMapDown: 'Merge map layer down (top wins)',

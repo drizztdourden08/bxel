@@ -11,6 +11,7 @@ import { CANVAS_SIZE_COMMANDS } from './canvas-size-commands.constants';
 import { DIALOG_COMMANDS } from './dialog-commands.constants';
 import { EDIT_COMMANDS } from './edit-commands.constants';
 import { GUIDE_MENU_COMMANDS } from './guide-menu-commands.constants';
+import { REFERENCE_COMMANDS } from './reference-commands.constants';
 import { HELP_COMMANDS } from './help-commands.constants';
 import { LAYER_MENU_COMMANDS } from './layer-menu-commands.constants';
 import { LAYER_TREE_COMMANDS } from './layer-tree-commands.constants';
@@ -74,6 +75,7 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TIMELINE_MENU_COMMANDS,
   ...SYMMETRY_MENU_COMMANDS,
   ...GUIDE_MENU_COMMANDS,
+  ...REFERENCE_COMMANDS,
   ...RULER_UNIT_COMMANDS,
   ...HELP_COMMANDS,
 ];

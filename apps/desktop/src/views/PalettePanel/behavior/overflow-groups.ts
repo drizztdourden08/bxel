@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { MenuGroup, MenuItem } from '@drizztdourden08/tessera';
 import { openAssetSettings } from '../../../config-entry/open-asset-settings';
+import { openPaletteLibrary } from '../../../config-entry/open-palette-library';
 import { SWATCH_SIZES } from '../../../palette-view/palette-view.constants';
 import type { UserSets } from '../../../swatch-library/swatch-library.type';
 import { OVERFLOW_TEXT, PALETTE_MENU } from '../PalettePanel.constants';
@@ -61,6 +62,7 @@ const overflowGroups = (panel: PanelModel, sets: UserSets): MenuGroup[] => {
           children: SWATCH_SIZES.map((size) => ({ id: `size-${size}`, label: OVERFLOW_TEXT.sizeOf(size), kind: 'radio', checked: view.size === size, onSelect: () => view.change({ size }) })),
         },
         { id: 'settings', label: PALETTE_MENU.settings, icon: 'settings', onSelect: () => openAssetSettings('palette') },
+        { id: 'library', label: PALETTE_MENU.library, icon: 'palette', onSelect: openPaletteLibrary },
       ],
     },
   ];

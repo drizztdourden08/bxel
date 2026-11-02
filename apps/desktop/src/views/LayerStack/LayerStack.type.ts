@@ -126,6 +126,7 @@ interface LayerListProps {
 interface LayerTrailProps {
   row: LayerRowModel;
   sweep: LayerSweepView;
+  onAddMissing?: () => void;
 }
 
 interface LayerHeaderProps extends LayerSourceProps {

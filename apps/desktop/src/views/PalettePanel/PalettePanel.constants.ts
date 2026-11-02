@@ -65,6 +65,7 @@ const PALETTE_MENU = {
   remove: 'Delete swatch...',
   reveal: 'Show in the palette',
   settings: 'Palette settings',
+  library: 'Palette library',
   import: 'Import colours...',
   moveColour: 'Move colour only...',
   transparent: 'The transparent swatch has no colour value.',

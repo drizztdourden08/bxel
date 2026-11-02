@@ -11,6 +11,7 @@ import { BackgroundSection } from './sub-components/BackgroundSection';
 import { GuidesSection } from './sub-components/GuidesSection';
 import { OnionSection } from './sub-components/OnionSection';
 import { OverlaysSection } from './sub-components/OverlaysSection';
+import { ReferenceSection } from './sub-components/ReferenceSection';
 import { PreviewSection } from './sub-components/PreviewSection';
 import { SymmetrySection } from './sub-components/SymmetrySection';
 import { TiledSection } from './sub-components/TiledSection';
@@ -57,6 +58,11 @@ const ViewPanel = () => {
       {shown('symmetry') && (
         <ViewSection title={VIEW_PANEL_TEXT.symmetry} icon="pixel-mirror-x">
           <SymmetrySection />
+        </ViewSection>
+      )}
+      {shown('reference') && (
+        <ViewSection title={VIEW_PANEL_TEXT.reference} icon="image">
+          <ReferenceSection />
         </ViewSection>
       )}
       <ViewSection title={VIEW_PANEL_TEXT.background} icon="image">

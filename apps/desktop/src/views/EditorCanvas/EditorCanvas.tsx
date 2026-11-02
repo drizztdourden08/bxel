@@ -13,6 +13,7 @@ import { canvasClass } from './behavior/canvas-class';
 import { canvasSize } from './behavior/canvas-size';
 import { canvasSource } from './behavior/canvas-source';
 import { paintPivotGrips } from './behavior/paint-pivot-grips';
+import { paintReferencesUnder } from './behavior/paint-references-under';
 import { useCanvasFlags } from './behavior/useCanvasFlags';
 import { useCanvasMenu } from './behavior/useCanvasMenu';
 import { useCanvasRedraws } from './behavior/useCanvasRedraws';
@@ -72,6 +73,7 @@ const EditorCanvas = () => {
       {...tools.forView(viewport)}
       {...views.first}
       draw={readout.draw}
+      under={paintReferencesUnder}
       pivotGrips={preview ? undefined : paintPivotGrips}
       onView={feedView}
       onPointerPixel={(pixel) => {
@@ -82,7 +84,7 @@ const EditorCanvas = () => {
       <CanvasOverlays source={shown} viewport={viewport} />
     </PixelViewport>
   );
-  const other = <PixelViewport ref={second} {...common} {...tools.forView(second)} {...views.second} draw={paintOverlay} onPointerPixel={secondReadout.onPointerPixel} />;
+  const other = <PixelViewport ref={second} {...common} {...tools.forView(second)} {...views.second} draw={paintOverlay} under={paintReferencesUnder} onPointerPixel={secondReadout.onPointerPixel} />;
   return (
     <CanvasFrame className={canvasClass(flags.rulers)} spriteId={target?.sprite.id ?? null} onBlur={keys.onBlur} onKeyUp={keys.onKeyUp}>
       {flags.rulers && <RulerBars />}

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Button, DialogShell, Flex, Text } from '@drizztdourden08/tessera';
 import { pasteOfferAsLayer } from '../../canvas-drop/paste-offer-as-layer';
+import { placeOfferAsReference } from '../../canvas-drop/place-offer-as-reference';
 import { useDropLayerStore } from '../../stores/useDropLayerStore';
 import { DROP_LAYER_TEXT } from './DropLayerDialog.constants';
 
@@ -11,6 +12,7 @@ const DropLayerDialog = () => {
   const actions = (
     <Flex gap="sm" wrap>
       <Button variant="tertiary" onClick={hide}>{DROP_LAYER_TEXT.cancel}</Button>
+      {offer.picture && <Button variant="secondary" onClick={() => void placeOfferAsReference()}>{DROP_LAYER_TEXT.reference}</Button>}
       <Button variant="primary" onClick={() => void pasteOfferAsLayer()}>{DROP_LAYER_TEXT.layer}</Button>
     </Flex>
   );

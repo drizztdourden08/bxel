@@ -22,7 +22,7 @@ const ARGS_KINDS = {
   renameFile: z.strictObject({ path: z.string().min(1).describe('The path of a file or folder from list_files.'), name: z.string().min(1).max(200).describe('The new name. A file keeps its ending.') }),
   moveFiles: z.strictObject({ paths: z.array(z.string().min(1)).min(1).max(200), to: z.string().min(1).describe('The folder to move them into.') }),
   paths: z.strictObject({ paths: z.array(z.string().min(1)).min(1).max(200) }),
-  zoom: z.strictObject({ percent: z.number().min(1).max(6400) }),
+  zoom: z.strictObject({ percent: z.number().min(1).max(12800) }),
   align: z.strictObject({ mode: z.enum(['left', 'center', 'right', 'top', 'middle', 'bottom', 'horizontal', 'vertical']) }),
   sheet: z.strictObject({ sheetId: z.string().min(1) }),
   name: z.strictObject({ name: z.string().min(1).max(200) }),

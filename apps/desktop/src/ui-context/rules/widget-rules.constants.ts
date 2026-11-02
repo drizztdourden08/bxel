@@ -20,6 +20,7 @@ const WIDGET_RULES: Record<string, UiRule> = {
   'viewpanel.tiled': rule({ applies: PIXEL }),
   'viewpanel.symmetry': rule({ applies: PIXEL }),
   'viewpanel.background': rule({ applies: VIEW_STAGE }),
+  'viewpanel.reference': rule({ applies: PIXEL }),
   'widget.sheet': rule({ applies: SHEET }),
   'widget.tileset': rule({ applies: TILE_FILES }),
   'widget.project': rule({ applies: always }),

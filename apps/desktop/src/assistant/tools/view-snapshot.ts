@@ -26,6 +26,7 @@ import { browseView } from './browse-view';
 import { highlightView } from './highlight-view';
 import { mapOverlaysView } from './map-overlays-view';
 import { projectPanelView } from './project-panel-view';
+import { referencesView } from './references-view';
 import { propertiesView } from './properties-view';
 import { spritesView } from './sprites-view';
 import { tilesetView } from './tileset-view';
@@ -148,7 +149,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     active: activeOf(sees),
     tool: toolOf(),
     colours: { foreground: tool.foreground, background: tool.background, third: tool.third, fourth: tool.fourth },
-    symmetry: { x: tool.symmetryX, y: tool.symmetryY, axisX: tool.axisX, axisY: tool.axisY },
+    symmetry: { x: tool.symmetryX, y: tool.symmetryY, axisX: tool.axisX, axisY: tool.axisY, tile: useDrawingStore.getState().symmetryTile },
     zoom: zoomOf(),
     toggles: togglesView(),
     pointer: useReadoutStore.getState().pointer,
@@ -163,6 +164,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     projectPanel: projectPanelView(),
     tileset: tilesetView(),
     highlight: highlightView(),
+    references: referencesView(),
     mapOverlays: mapOverlaysView(),
   };
 };

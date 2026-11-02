@@ -57,6 +57,7 @@ interface PixelViewportProps {
   label: string;
   hint?: string;
   draw?: PixelDraw;
+  under?: PixelDraw;
   pivotGrips?: PixelDraw;
   source?: PixelSource;
   zoom?: number;

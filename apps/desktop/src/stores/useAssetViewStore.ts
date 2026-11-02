@@ -8,7 +8,9 @@ const useAssetViewStore = create<AssetViewState>()((set) => ({
   reset: (key) =>
     set((state) => {
       const { [key]: dropped, ...rest } = state.views;
-      return dropped === undefined ? state : { views: rest };
+      if (dropped === undefined) return state;
+      const references = dropped.references ?? [];
+      return { views: references.length === 0 ? rest : { ...rest, [key]: { references } } };
     }),
 }));
 

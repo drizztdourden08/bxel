@@ -9,6 +9,7 @@ import { browseStep } from './browse-step';
 import { pageStep } from './page-step';
 import { projectPanelStep } from './project-panel-step';
 import { propertiesStep } from './properties-step';
+import { referencesStep } from './references-step';
 import { revealStep } from './reveal-step';
 import { tilesetStep } from './tileset-step';
 import { playbackStep } from './playback-step';
@@ -44,6 +45,7 @@ const VIEW_STEPS: readonly (readonly [keyof SetViewInput, ViewStep])[] = [
   ['select', selectStep],
   ['tool', toolStep],
   ['colours', coloursStep],
+  ['references', referencesStep],
   ['symmetry', symmetryStep],
   ['selection', selectionStep],
   ['mapSelection', mapSelectionStep],

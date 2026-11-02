@@ -66,6 +66,7 @@ const layerMenuEntries = (model: LayerStackModel, layerId: string | undefined, p
     { label: LAYER_MENU_TEXT.locked, items: lockItems(model, row, args) },
     { command: 'layer.solo', args, checked: isSolo(rows, row.id), ...unless(!only, LAYER_STACK_TEXT.oneLayer) },
     { command: 'layer.rename', label: LAYER_MENU_TEXT.rename },
+    { command: 'layer.properties', label: LAYER_MENU_TEXT.properties, args },
     'separator',
     ...(pixels ? treeItems(row, args, picked) : groupItems(row, args)),
     'separator',

@@ -59,6 +59,15 @@ const MAP_SELECTION_REPLY_SCHEMA = z.strictObject({
   runs: MAP_RUNS_SCHEMA.nullable().describe('Null when the selection has more runs than one reply may carry.'),
 });
 
+const REFERENCE_FIELDS = {
+  x: COORDINATE_SCHEMA.optional(),
+  y: COORDINATE_SCHEMA.optional(),
+  scale: z.number().int().min(1).max(3200).optional().describe('Percent of the picture size.'),
+  opacity: z.number().int().min(0).max(100).optional(),
+  above: z.boolean().optional().describe('Paint over the art (true) or under it (false).'),
+  locked: z.boolean().optional(),
+};
+
 const SET_VIEW_INPUT_SCHEMA = z.strictObject({
   dialog: z.strictObject({ answer: z.string().min(1).max(100).describe('A choice id from get_view dialog.choices.') }).optional(),
   focus: z
@@ -77,7 +86,7 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
   page: z.strictObject({ route: z.string().min(1).max(200), section: z.string().min(1).max(200).optional() }).optional(),
   window: WINDOW_INPUT_SCHEMA.optional().describe('Opens the Project, Properties or Options window on a page, with the Properties subject pinned or the Browse selection set.'),
   zoom: z
-    .union([z.number().min(1).max(6400).describe('Percent.'), z.enum(['fit', 'actual']), z.strictObject({ rect: VIEW_RECT_SCHEMA })])
+    .union([z.number().min(1).max(12800).describe('Percent.'), z.enum(['fit', 'actual']), z.strictObject({ rect: VIEW_RECT_SCHEMA })])
     .optional(),
   pan: z.strictObject({ centreX: z.number(), centreY: z.number() }).optional(),
   marker: z
@@ -150,12 +159,21 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       fourth: z.number().int().min(0).max(255).optional(),
     })
     .optional(),
+  references: z
+    .strictObject({
+      add: z.array(z.strictObject({ file: LOCATION_SCHEMA, ...REFERENCE_FIELDS })).max(8).optional().describe('Picture files to show as view-only reference images.'),
+      update: z.array(z.strictObject({ id: z.string().min(1).max(100), ...REFERENCE_FIELDS })).max(8).optional().describe('Move, scale, fade, lock or reorder reference images listed in get_view references.'),
+      remove: z.array(z.string().min(1).max(100)).max(8).optional(),
+    })
+    .optional()
+    .describe('View-only reference images of the open asset. They are never painted into the art and never exported.'),
   symmetry: z
     .strictObject({
       x: z.boolean().optional(),
       y: z.boolean().optional(),
       axisX: z.number().nullable().optional().describe('Doubled pixel coordinate of the mirror axis, null to remove it.'),
       axisY: z.number().nullable().optional(),
+      tile: z.boolean().optional().describe('Mirror inside each tile cell of the tile grid instead of across the whole sprite. Needs a tile grid, in a tileset or Edit Tile.'),
     })
     .optional(),
   selection: z

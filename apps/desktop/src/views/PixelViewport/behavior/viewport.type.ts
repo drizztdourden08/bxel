@@ -48,6 +48,7 @@ interface FrameInput {
   box: ViewBox;
   image: ImageSize;
   draw?: PixelDraw;
+  under?: PixelDraw;
   pivotGrips?: PixelDraw;
   source?: PixelSource;
   gridFrom: number;

@@ -11,6 +11,7 @@ const paintImage = (args: PaintTools, frame: FrameInput): void => {
   ctx.rect(0, 0, frame.image.width, frame.image.height);
   ctx.clip();
   const drawable = frame.source ? drawableOf(frame.source, scratch) : null;
+  if (primary) frame.under?.(ctx, view);
   if (drawable) ctx.drawImage(drawable, 0, 0);
   if (primary) frame.draw?.(ctx, view);
   ctx.restore();

@@ -68,6 +68,7 @@ const VIEW: RuleTable = {
   ...family(['view.hide_overlays', 'view.lock_guides'], RULER_STAGE),
   ...family(['view.toggle_mirror', 'view.toggle_loupe', 'view.background_preview', 'view.fullscreen_preview', 'view.toggle_split', 'view.toggle_split_link', 'view.toggle_split_actual', 'view.describe_canvas', 'view.read_row', 'view.centre_here'], PIXEL, [], ONLY.pixels),
   ...family(['view.toggle_preview'], PIXEL),
+  ...family(['view.add_reference'], PIXEL, [], ONLY.pixels),
   ...family(['status.copy_cursor'], any(PIXEL, MAP, SHEET)),
   ...family(['status.copy_index'], PIXEL, [], ONLY.pixels),
 };
@@ -79,7 +80,7 @@ const HISTORY: RuleTable = {
 
 const LAYERS: RuleTable = {
   ...family(['layer.add', 'layer.delete', 'layer.rename'], EDIT_STAGE, [WRITE]),
-  ...family(['layer.select_above', 'layer.select_below'], EDIT_STAGE),
+  ...family(['layer.select_above', 'layer.select_below', 'layer.properties'], EDIT_STAGE),
   ...family(
     ['layer.toggle_visible', 'layer.toggle_locked', 'layer.set_lock', 'layer.set_colour', 'layer.show_all', 'layer.hide_others', 'layer.lock_others', 'layer.unlock_all'],
     EDIT_STAGE,
@@ -149,7 +150,7 @@ const TILES: RuleTable = {
     ONLY.tiles,
   ),
   ...family(['tilemap.toggle_edit', 'tilemap.place_tiles', 'tilemap.edit_tile', 'tilemap.use_tile'], file('tilemap'), [], ONLY.maps),
-  ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
+  ...family(['tilemap.make_unique', 'tilemap.replace_selection', 'tilemap.fill_with_stamp', 'tilemap.clear_cells'], MAP, [WRITE, CELLS_SELECTED], ONLY.maps),
   ...family(['tilemap.select_same', 'tilemap.capture_stamp'], MAP, [CELLS_SELECTED], ONLY.maps),
   ...family([...STAMP_SLOT_COMMANDS, 'tilemap.stamp_flip_y', 'tilemap.stamp_turn_left'], MAP, [], ONLY.maps),
   ...family(['tilemap.replace_everywhere', 'tilemap.layer_up', 'tilemap.layer_down'], MAP, [WRITE], ONLY.maps),

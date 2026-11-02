@@ -26,6 +26,10 @@ const PROPERTIES_HUB = 'properties';
 
 const PROJECT_HUB = 'project';
 
+const OPTIONS_HUB = 'options';
+
+const PALETTE_LIBRARY_PAGE = 'swatches';
+
 const ASSET_SETTINGS_COMMAND = 'asset.settings';
 
 const CONFIG_ENTRY_TEXT = {
@@ -33,4 +37,4 @@ const CONFIG_ENTRY_TEXT = {
   title: (kind: AssetKind): string => `${KIND_TITLE[kind]} properties...`,
 } as const;
 
-export { ASSET_PAGES, ASSET_SETTINGS_COMMAND, CONFIG_ENTRY_TEXT, PROJECT_HUB, PROPERTIES_HUB };
+export { ASSET_PAGES, ASSET_SETTINGS_COMMAND, CONFIG_ENTRY_TEXT, OPTIONS_HUB, PALETTE_LIBRARY_PAGE, PROJECT_HUB, PROPERTIES_HUB };

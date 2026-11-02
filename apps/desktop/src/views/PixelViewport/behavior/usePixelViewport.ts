@@ -29,7 +29,7 @@ const usePixelViewport = (props: PixelViewportProps): ViewportModel => {
   const look = useMemo(() => props.look ?? lookOf(CANVAS_DEFAULTS), [props.look]);
   const grids = useMemo(() => ({ pixel: grid, major: gridMajor, tile: gridTile, iso: gridIso }), [grid, gridMajor, gridTile, gridIso]);
   const parts = { rootRef, canvasRef, view, box, image };
-  const frame = { target: view.target, box, image, draw: props.draw, pivotGrips: props.pivotGrips, source: props.source, gridFrom, grids, look, tiled, onView: props.onView };
+  const frame = { target: view.target, box, image, draw: props.draw, under: props.under, pivotGrips: props.pivotGrips, source: props.source, gridFrom, grids, look, tiled, onView: props.onView };
   const redraw = useFrame(rootRef, canvasRef, frame);
   useWheel(rootRef, view, box, { mode: wheel, altSteps: props.onAltWheel });
   useViewportHandle(props.ref, parts, redraw);
