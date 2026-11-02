@@ -1,9 +1,11 @@
 /* @layer renderer-app @kind logic */
+import { announce } from '@drizztdourden08/brock-react';
 import type { AnimFrameId } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
 import { framePick } from './frame-pick';
 import { orderSteps } from './order-steps';
 import { TIMELINE_LABEL } from './timeline.constants';
+import { TIMELINE_SAY } from './timeline-say.constants';
 
 const moveFramesTo = (position: number, only?: readonly AnimFrameId[]): boolean => {
   const pick = framePick(only);
@@ -14,7 +16,9 @@ const moveFramesTo = (position: number, only?: readonly AnimFrameId[]): boolean 
   const at = Math.min(Math.max(Math.round(position), 0), rest.length);
   const desired = [...rest.slice(0, at), ...block, ...rest.slice(at)];
   const steps = orderSteps(focus, order, desired);
-  return steps.length > 0 && runDocument(TIMELINE_LABEL.moveFrame, steps) !== null;
+  if (steps.length === 0 || runDocument(TIMELINE_LABEL.moveFrame, steps) === null) return false;
+  announce(TIMELINE_SAY.moved(at + 1, order.length));
+  return true;
 };
 
 export { moveFramesTo };

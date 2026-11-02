@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { announce } from '@drizztdourden08/brock-react';
 import { COMMAND_NAME } from '@bxel/document';
 import type { AnimFacing, TagId } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
@@ -10,6 +11,7 @@ import { idRef } from './id-ref';
 import { newTagName } from './new-tag-name';
 import type { TagSpan } from './add-tag.type';
 import { TIMELINE_LABEL, TIMELINE_REF } from './timeline.constants';
+import { TIMELINE_SAY } from './timeline-say.constants';
 
 const addTag = (span?: TagSpan, facing?: AnimFacing): void => {
   const focus = currentFocus();
@@ -31,6 +33,7 @@ const addTag = (span?: TagSpan, facing?: AnimFacing): void => {
   if (created === undefined) return;
   const state = useTimelineStore.getState();
   state.selectTag(created as TagId);
+  announce(TIMELINE_SAY.tagAdded(options.name));
   state.setPopover({ kind: 'tag', tagId: created as TagId });
 };
 

@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { announce } from '@drizztdourden08/brock-react';
 import { COMMAND_NAME } from '@bxel/document';
 import type { AnimFrameId } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
@@ -6,6 +7,7 @@ import { animationStep } from './animation-step';
 import { currentFocus } from './current-focus';
 import { selectFrameIds } from './select-frame-ids';
 import { TIMELINE_LABEL, TIMELINE_REF } from './timeline.constants';
+import { TIMELINE_SAY } from './timeline-say.constants';
 
 const addFrame = (): void => {
   const focus = currentFocus();
@@ -17,7 +19,9 @@ const addFrame = (): void => {
   ];
   const done = runDocument(TIMELINE_LABEL.addFrame, steps);
   const created = done?.created[TIMELINE_REF.frame];
-  if (created !== undefined) selectFrameIds([created as AnimFrameId]);
+  if (created === undefined) return;
+  selectFrameIds([created as AnimFrameId]);
+  announce(TIMELINE_SAY.added(at + 1, focus.animation.frames.length + 1));
 };
 
 export { addFrame };

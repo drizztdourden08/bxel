@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { announce } from '@drizztdourden08/brock-react';
 import { COMMAND_NAME } from '@bxel/document';
 import type { AnimFrameId } from '@bxel/document';
 import { runDocument } from '../sheet/run-document';
@@ -6,6 +7,7 @@ import { animationStep } from './animation-step';
 import { framePick } from './frame-pick';
 import { idRef } from './id-ref';
 import { TIMELINE_LABEL } from './timeline.constants';
+import { TIMELINE_SAY } from './timeline-say.constants';
 
 const moveFrames = (delta: number, only?: readonly AnimFrameId[]): boolean => {
   const pick = framePick(only);
@@ -18,7 +20,9 @@ const moveFrames = (delta: number, only?: readonly AnimFrameId[]): boolean => {
   if (shift === 0) return false;
   const ordered = shift > 0 ? [...picked].reverse() : picked;
   const steps = ordered.map((id) => animationStep(focus, COMMAND_NAME.animationFrameReorder, { frame: idRef(id), to: all.indexOf(id) + shift }));
-  return runDocument(TIMELINE_LABEL.moveFrame, steps) !== null;
+  if (runDocument(TIMELINE_LABEL.moveFrame, steps) === null) return false;
+  announce(TIMELINE_SAY.moved(first + shift + 1, all.length));
+  return true;
 };
 
 export { moveFrames };
