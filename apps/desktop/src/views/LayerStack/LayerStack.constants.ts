@@ -102,6 +102,11 @@ const LAYER_SCOPES = [
   { value: 'all', label: 'All frames', title: 'Changes reach the layer of the same name in every frame of the animation.' },
 ] as const;
 
+const LAYER_TILE_SCOPES = [
+  { value: 'frame', label: 'This tile', title: 'Changes reach the layer of the tile you are editing.' },
+  { value: 'all', label: 'All tiles of this tileset', title: 'Changes reach the layer of the same name in every tile of the tileset.' },
+] as const;
+
 const LAYER_FLAG_ICONS: Readonly<Record<LayerFlag, { on: IconName; off: IconName }>> = {
   visible: { on: 'eye', off: 'eye-off' },
   locked: { on: 'lock', off: 'lock-open' },
@@ -173,5 +178,5 @@ const LAYER_BAR_HINTS = {
 
 export {
   CUSTOM_COLOUR, FILTER_FROM_ROWS, FLAT_ROW, LAYER_REASONS, NO_MAPS, LAYER_BAR_HINTS, LAYER_FLAG_HINTS, LAYER_FLAG_ICONS, LAYER_FOCUS_KEYS, LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_MENU_TEXT, LAYER_MOVE_KEYS, LAYER_SCOPES,
-  LAYER_STACK_TEXT, LAYER_THUMB_TEXT, THUMB_THROTTLE_MS,
+  LAYER_STACK_TEXT, LAYER_TILE_SCOPES, LAYER_THUMB_TEXT, THUMB_THROTTLE_MS,
 };

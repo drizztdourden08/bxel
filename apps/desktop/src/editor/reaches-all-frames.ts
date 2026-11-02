@@ -2,6 +2,6 @@
 import { useLayerViewStore } from '../stores/useLayerViewStore';
 import type { EditorTarget } from './editor.type';
 
-const reachesAllFrames = (target: EditorTarget): boolean => target.animation !== undefined && useLayerViewStore.getState().scope === 'all';
+const reachesAllFrames = (target: EditorTarget): boolean => (target.animation !== undefined || target.sprite.role === 'tile') && useLayerViewStore.getState().scope === 'all';
 
 export { reachesAllFrames };

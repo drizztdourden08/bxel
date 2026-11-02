@@ -70,6 +70,7 @@ interface LayerStackModel {
   mapId: string | null;
   onMap: (id: string) => void;
   frames: number;
+  tileScope?: boolean;
   actions: LayerActions;
 }
 
