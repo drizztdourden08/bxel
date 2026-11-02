@@ -68,6 +68,38 @@ const PROJECT_FIND_KEY: ZoneKey = {
   zone: COMMAND_ZONE.project,
 };
 
+const PROJECT_CUT_KEY: ZoneKey = {
+  id: 'project.cut_files',
+  label: 'Cut the selected files',
+  group: PROJECT_GROUP,
+  chord: 'Mod+X',
+  zone: COMMAND_ZONE.project,
+};
+
+const PROJECT_COPY_KEY: ZoneKey = {
+  id: 'project.copy_files',
+  label: 'Copy the selected files',
+  group: PROJECT_GROUP,
+  chord: 'Mod+C',
+  zone: COMMAND_ZONE.project,
+};
+
+const PROJECT_PASTE_KEY: ZoneKey = {
+  id: 'project.paste_files',
+  label: 'Paste files into the focused folder',
+  group: PROJECT_GROUP,
+  chord: 'Mod+V',
+  zone: COMMAND_ZONE.project,
+};
+
+const PROJECT_OPEN_SIDE_KEY: ZoneKey = {
+  id: 'project.open_side',
+  label: 'Open the selected assets to the side',
+  group: PROJECT_GROUP,
+  chord: 'Mod+Enter',
+  zone: COMMAND_ZONE.project,
+};
+
 const SPRITE_SELECT_ALL_KEY: ZoneKey = {
   id: 'sprite.select_visible',
   label: 'Select all shown sprites',
@@ -135,10 +167,14 @@ const PALETTE_PASTE_KEY: ZoneKey = {
 export {
   LAYER_RENAME_KEY,
   PALETTE_PASTE_KEY,
+  PROJECT_COPY_KEY,
+  PROJECT_CUT_KEY,
   PROJECT_DUPLICATE_KEY,
   PROJECT_FIND_KEY,
   PROJECT_NEW_FOLDER_KEY,
   PROJECT_NEW_MENU_KEY,
+  PROJECT_OPEN_SIDE_KEY,
+  PROJECT_PASTE_KEY,
   PROJECT_RENAME_KEY,
   PROJECT_SELECT_ALL_KEY,
   PROJECT_TRASH_KEY,

@@ -14,6 +14,7 @@ const folderEntries = (item: BrowserItem): readonly ContextMenuEntry[] => {
     newAssetEntry(PROJECT_MENU.newAssetHere, item.key, !writable),
     { command: 'project.new_folder', label: PROJECT_MENU.newFolderHere, args, hidden: !writable },
     { command: 'project.rename_entry', label: ASSET_LIST_TEXT.rename, args, hidden: linked },
+    { command: 'project.collapse_below', label: PROJECT_MENU.collapseBelow, args },
     'separator',
     { command: 'asset.reveal', label: ASSET_LIST_TEXT.reveal, args: { path: item.path } },
     { command: 'asset.copy_path', label: ASSET_LIST_TEXT.copyPath, args: { path: item.path } },

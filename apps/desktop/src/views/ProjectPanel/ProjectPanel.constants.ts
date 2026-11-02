@@ -11,6 +11,10 @@ const NEW_BUTTON_SELECTOR = '[data-project-new]';
 
 const NEW_ASSET_KINDS: readonly CreatableKind[] = ['sprite', 'animation', 'sheet', 'palette', 'tileset', 'tilemap'];
 
+const NEW_KIND_LETTERS: Readonly<Record<string, CreatableKind>> = { s: 'sprite', a: 'animation', h: 'sheet', p: 'palette', t: 'tileset', m: 'tilemap' };
+
+const OPEN_MENU_SELECTOR = '[role="menu"]';
+
 const ITEM_ATTRIBUTE = 'data-tree-key';
 
 const ITEM_SELECTOR = '[data-tree-key]';
@@ -52,6 +56,14 @@ const PROJECT_MENU = {
   pack: 'Pack project',
   close: 'Close project',
   openAll: 'Open all',
+  openSide: 'Open to the side',
+  moveTo: 'Move to folder...',
+  showUses: 'Show what it uses',
+  addToSheet: 'Add to the open sheet',
+  makeAnimation: 'Make animation',
+  collapseBelow: 'Collapse below',
+  newSheetFrom: 'New sheet from these',
+  newAnimationFrom: 'New animation from these',
   export: 'Export...',
   showUsers: 'Show what uses it',
   copyRelative: 'Copy path inside the project',
@@ -129,6 +141,8 @@ export {
   MIDDLE_BUTTON,
   NEW_ASSET_KINDS,
   NEW_BUTTON_SELECTOR,
+  NEW_KIND_LETTERS,
+  OPEN_MENU_SELECTOR,
   PANEL_UI,
   PROJECT_MENU,
   SEARCH_SELECTOR,
