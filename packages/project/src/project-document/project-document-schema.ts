@@ -1,5 +1,5 @@
 /* @layer core @kind logic */
-import { MAX_BRUSHES, customBrushSchema } from '@bxel/document';
+import { MAX_BRUSHES, MAX_PATTERNS, customBrushSchema, customPatternSchema } from '@bxel/document';
 import { z } from 'zod';
 import { defaultsSchema } from '../defaults/defaults-schema';
 import { folderIdSchema } from '../ids/folder-id-schema';
@@ -32,6 +32,7 @@ const projectDocumentSchema = z
     export: exportSchema.optional(),
     organise: organiseSchema.optional(),
     brushes: z.array(customBrushSchema).max(MAX_BRUSHES).optional(),
+    patterns: z.array(customPatternSchema).max(MAX_PATTERNS).optional(),
     toolPresets: z.array(toolPresetSchema).max(TOOL_PRESET_LIMITS.presetsMax).optional(),
     assistant: z.strictObject({
       access: z.enum(ACCESS_LEVELS),

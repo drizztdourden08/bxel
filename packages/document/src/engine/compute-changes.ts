@@ -16,6 +16,7 @@ const computeChanges = (before: Artwork, after: Artwork): ChangeSet => ({
   sheets: diffEntities(before.sheets, after.sheets),
   presets: diffEntities(before.presets, after.presets),
   brushes: diffEntities(before.brushes ?? [], after.brushes ?? []),
+  patterns: diffEntities(before.patterns ?? [], after.patterns ?? []),
   tilesets: diffEntities(before.tilesets, after.tilesets),
   tilemaps: diffEntities(before.tilemaps, after.tilemaps),
   animations: diffEntities(before.animations, after.animations),

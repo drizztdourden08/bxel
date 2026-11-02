@@ -24,7 +24,7 @@ const spriteKeys = (changes: ChangeSet, owners: ReadonlyMap<string, string>): re
 const assetsTouched = (changes: ChangeSet, before: Artwork, after: Artwork): readonly AssetKey[] => {
   const owners = new Map([...spriteOwners(before), ...spriteOwners(after)]);
   return dedupeKeys([
-    ...(changes.artwork || changes.brushes.length > 0 ? [{ kind: ASSET_KIND.project, id: after.id }] : []),
+    ...(changes.artwork || changes.brushes.length > 0 || changes.patterns.length > 0 ? [{ kind: ASSET_KIND.project, id: after.id }] : []),
     ...keysOf(ASSET_KIND.palette, changes.banks),
     ...spriteKeys(changes, owners),
     ...keysOf(ASSET_KIND.animation, changes.animations),

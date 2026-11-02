@@ -5,6 +5,7 @@ import type {
   AnimationId,
   BankId,
   BrushId,
+  PatternId,
   CelId,
   FrameId,
   LayerId,
@@ -40,6 +41,7 @@ type ChangeSet = {
   readonly sheets: readonly EntityChange<SheetId>[];
   readonly presets: readonly EntityChange<PresetId>[];
   readonly brushes: readonly EntityChange<BrushId>[];
+  readonly patterns: readonly EntityChange<PatternId>[];
   readonly tilesets: readonly EntityChange<TilesetId>[];
   readonly tilemaps: readonly EntityChange<TilemapId>[];
   readonly animations: readonly EntityChange<AnimationId>[];

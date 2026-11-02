@@ -63,6 +63,7 @@ const GET_DOCUMENT_OUTPUT = {
     },
   ],
   brushes: [{ brushId: 'brs_4k9m2q7x1v8c', name: 'Corner', width: 2, height: 2 }],
+  patterns: [{ patternId: 'pat_4k9m2q7x1v8c', name: 'Cross', width: 2, height: 2, pixels: 'AQEAAA==' }],
   tilesets: [{ tilesetId: TILESET, name: 'ground', bankId: BANK, tileWidth: 16, tileHeight: 16, tiles: 1 }],
   tilemaps: [{ tilemapId: 'tlm_4k9m2q7x1v8c', name: 'level', tilesetId: TILESET, columns: 20, rows: 10, layers: 2, guides: GUIDES }],
   tilesetDetails: [

@@ -25,7 +25,7 @@ const CHANGES = {
       cels: [{ celId: 'cel_4k9m2q7x1v8c', layerId: LAYER, frameId: FRAME, rect: RECT }],
     },
   ],
-  sheets: [], presets: [], brushes: [], tilesets: [], tilemaps: [], animations: [],
+  sheets: [], presets: [], brushes: [], patterns: [], tilesets: [], tilemaps: [], animations: [],
 };
 const TRANSACTION = {
   ok: true,

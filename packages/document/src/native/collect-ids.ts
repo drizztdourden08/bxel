@@ -24,6 +24,7 @@ const collectIds = (document: DocumentJson): readonly IdSite[] => [
   ...document.sheets.map((sheet, index) => at(sheet.id, `$.sheets[${index}]`)),
   ...document.presets.map((preset, index) => at(preset.id, `$.presets[${index}]`)),
   ...(document.brushes ?? []).map((brush, index) => at(brush.id, `$.brushes[${index}]`)),
+  ...(document.patterns ?? []).map((pattern, index) => at(pattern.id, `$.patterns[${index}]`)),
   ...document.tilesets.flatMap((tileset, index) => [
     at(tileset.id, `$.tilesets[${index}]`),
     ...tileset.tiles.map((tile, tileIndex) => at(tile.id, `$.tilesets[${index}].tiles[${tileIndex}]`)),

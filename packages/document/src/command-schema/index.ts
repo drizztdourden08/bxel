@@ -1,6 +1,7 @@
 /* @layer core @kind barrel */
 export { celClearSchema } from '../schema/cel-clear-schema';
 export { customBrushSchema } from '../schema/custom-brush-schema';
+export { customPatternSchema } from '../schema/custom-pattern-schema';
 export { celSlotSchema } from '../schema/cel-slot-schema';
 export { celTransferSchema } from '../schema/cel-transfer-schema';
 export { celUnlinkSchema } from '../schema/cel-unlink-schema';

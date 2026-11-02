@@ -11,6 +11,7 @@ const wireChanges = (changes: ChangeSet) => ({
   sheets: changes.sheets,
   presets: changes.presets,
   brushes: changes.brushes,
+  patterns: changes.patterns,
   tilesets: changes.tilesets,
   tilemaps: changes.tilemaps,
   animations: changes.animations,

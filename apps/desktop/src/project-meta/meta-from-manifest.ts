@@ -28,6 +28,7 @@ const metaFromManifest = (manifest: ProjectDocument, folders: readonly ResolvedF
     ...(platformStrict === true && typeof platformId === 'string' ? { platformStrict: true } : {}),
     presets: manifest.export?.presets ?? [],
     ...(manifest.brushes === undefined ? {} : { brushes: manifest.brushes }),
+    ...(manifest.patterns === undefined ? {} : { patterns: manifest.patterns }),
   };
 };
 

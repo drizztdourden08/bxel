@@ -39,6 +39,7 @@ const fromDocumentJson = (document: DocumentJson, source: EntryCheck): BuiltArtw
     sheets: document.sheets,
     presets: document.presets,
     ...(document.brushes ? { brushes: document.brushes } : {}),
+    ...(document.patterns ? { patterns: document.patterns } : {}),
     tilesets: document.tilesets,
     tilemaps,
     animations: [],

@@ -4,6 +4,7 @@ import { ID_PREFIX } from '../ids/id-prefix.constants';
 import type { BankId, ArtworkId, SpriteId } from '../model/ids.type';
 import { brandedIdSchema } from './branded-id-schema';
 import { customBrushSchema } from './custom-brush-schema';
+import { customPatternSchema } from './custom-pattern-schema';
 import { exportPresetSchema } from './export-preset-schema';
 import { nameSchema } from './name-schema';
 import { paletteBankSchema } from './palette-schema';
@@ -25,6 +26,7 @@ const artworkSchema = z.object({
   sheets: z.array(sheetSchema),
   presets: z.array(exportPresetSchema),
   brushes: z.array(customBrushSchema).optional(),
+  patterns: z.array(customPatternSchema).optional(),
   tilesets: z.array(tilesetSchema),
   tilemaps: z.array(tilemapShellSchema),
 });
