@@ -2,6 +2,7 @@
 import type { SpriteId } from '@bxel/document';
 import { currentArtwork } from '../sheet/current-artwork';
 import { runDocument } from '../sheet/run-document';
+import { announceMoved } from './announce-moved';
 import { animationStepsFor } from './animation-steps-for';
 import type { DragEntry, DropTarget } from './drag-payload.type';
 import { LABEL } from './manager-text.constants';
@@ -16,7 +17,9 @@ const dropEntries = (entries: readonly DragEntry[], target: DropTarget, sheetId:
   const animations = entries.filter((entry) => entry.kind === 'animation' && artwork.animations.some((each) => each.id === entry.assetId));
   const steps = [...(sprites.length > 0 ? spriteStepsFor(sheet, sprites, target) : []), ...(animations.length > 0 ? animationStepsFor(sheet, animations, target) : [])];
   if (steps.length === 0) return false;
-  return runDocument(LABEL.dropEntries(sprites.length + animations.length), steps) !== null;
+  if (runDocument(LABEL.dropEntries(sprites.length + animations.length), steps) === null) return false;
+  announceMoved(sheet, entries);
+  return true;
 };
 
 export { dropEntries };
