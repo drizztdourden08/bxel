@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
 import { cropToSelection } from '../../src/canvas-size/crop-to-selection';
+import { snapToTiles } from '../../src/canvas-size/snap-to-tiles';
 import { resizeActiveSprite } from '../../src/canvas-size/resize-active-sprite';
 import { trimActiveSprite } from '../../src/canvas-size/trim-active-sprite';
 import { clearSelection } from '../../src/editor/selection/clear-selection';
@@ -61,5 +62,12 @@ describe('S2 the canvas size actions', { tags: ['standard'] }, () => {
     expect(rig.target().sprite.height).toBe(20);
     rig.host.undo(rig.documentId);
     expect(rig.target().sprite.height).toBe(32);
+  });
+});
+
+describe('S2 canvas size as a multiple of the tile size', { tags: ['standard'] }, () => {
+  it('rounds each side up to the next multiple and never below one tile', () => {
+    expect(snapToTiles({ width: 20, height: 33, anchor: 'center' }, { width: 16, height: 16 })).toEqual({ width: 32, height: 48, anchor: 'center' });
+    expect(snapToTiles({ width: 1, height: 16, anchor: 'top-left' }, { width: 8, height: 16 })).toEqual({ width: 8, height: 16, anchor: 'top-left' });
   });
 });
