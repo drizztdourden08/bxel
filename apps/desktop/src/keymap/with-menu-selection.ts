@@ -4,7 +4,6 @@ import { applyMenuSelection } from '../timeline/apply-menu-selection';
 
 const withMenuSelection = (def: CommandDef): CommandDef => {
   const { run } = def;
-  if (run === undefined) return def;
   return {
     ...def,
     run: (context?: CommandContext) => {

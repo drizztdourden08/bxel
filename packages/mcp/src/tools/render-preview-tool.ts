@@ -20,6 +20,7 @@ import { COUNT_SCHEMA, SHA256_SCHEMA } from '../schema/shapes.constants';
 import { withFailure } from '../schema/with-failure';
 import { defineTool } from './define-tool';
 import { FACING_SCHEMA } from './get-animation-tool.constants';
+import { OVERLAY_VALUES } from './render-preview-tool.constants';
 import { TOOL_NAME } from './tool-name.constants';
 
 const spriteTarget = z.strictObject({ spriteId: SPRITE_ID_SCHEMA, frameId: FRAME_ID_SCHEMA.optional() });
@@ -46,8 +47,6 @@ const animationTarget = z
   .refine((target) => [target.frameId, target.tagId, target.facing, target.allFacings].filter((each) => each !== undefined).length <= 1, {
     message: 'Give one of a frame, a tag, a facing or allFacings.',
   });
-
-const OVERLAY_VALUES = ['grid', 'major', 'tile', 'guides', 'selection', 'onion', 'collision'] as const;
 
 const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
   title: 'Render a preview',

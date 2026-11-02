@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { RgbaImage } from '@bxel/formats';
+import { CHANNELS } from './crop-rgba.constants';
 import type { ArtRect } from './render-overlay.type';
-
-const CHANNELS = 4;
 
 const cropRgba = (image: RgbaImage, rect: ArtRect, scale: number): RgbaImage => {
   const left = Math.max(0, rect.x * scale);

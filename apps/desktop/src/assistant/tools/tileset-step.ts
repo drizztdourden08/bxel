@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind logic */
-import type { CellFlags } from '@bxel/document';
 import { useTilemapStore } from '../../stores/useTilemapStore';
 import { useTilesetViewStore } from '../../stores/useTilesetViewStore';
 import { APP_TOOL_TEXT } from './app-tool.constants';
@@ -13,9 +12,6 @@ const applyStamp = (tiles: ReturnType<typeof useTilemapStore.getState>, tileset:
   const now = tiles.stamp;
   tiles.setStamp({ ...now, ...(stamp ?? {}), scatter: tileset.scatter ?? now.scatter });
 };
-
-const definedFlags = (flags: NonNullable<TilesetPatch['flags']>): Partial<CellFlags> =>
-  Object.fromEntries(Object.entries(flags).filter(([, value]) => value !== undefined));
 
 const applyPanel = (tileset: TilesetPatch): void => {
   const panel = useTilesetViewStore.getState();
@@ -32,7 +28,7 @@ const applyBrush = (tileset: TilesetPatch): void => {
   applyStamp(tiles, tileset);
   if (tileset.terrainBrush !== undefined) tiles.setTerrainBrush(tileset.terrainBrush);
   if (tileset.collisionOverlay !== undefined) tiles.setShowCollision(tileset.collisionOverlay);
-  if (tileset.flags !== undefined) tiles.setFlags({ ...tiles.flags, ...definedFlags(tileset.flags) });
+  if (tileset.flags !== undefined) tiles.setFlags({ ...tiles.flags, ...tileset.flags });
   if (tileset.animate !== undefined) tiles.setAnimateTiles(tileset.animate);
 };
 
