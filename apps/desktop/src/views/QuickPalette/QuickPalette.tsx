@@ -11,6 +11,7 @@ import { useQuickSections } from './behavior/useQuickSections';
 const QuickPalette = () => {
   const open = useQuickPaletteStore((state) => state.open);
   const at = useQuickPaletteStore((state) => state.at);
+  const holding = useQuickPaletteStore((state) => state.holding);
   const sections = useQuickSections();
   useLastPointer();
   const active = activeMember();
@@ -19,6 +20,7 @@ const QuickPalette = () => {
       aria-label={QUICK_TEXT.region}
       open={open}
       at={at}
+      holding={holding}
       sections={sections}
       value={active ? quickId('tool', active.id) : null}
       onPick={pickQuick}

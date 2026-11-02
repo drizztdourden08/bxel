@@ -9,4 +9,6 @@ const QUICK_TEXT = {
   presets: 'Presets',
 } as const;
 
-export { QUICK_KINDS, QUICK_TEXT };
+const QUICK_TAP_MS = 120;
+
+export { QUICK_KINDS, QUICK_TAP_MS, QUICK_TEXT };

@@ -4,7 +4,9 @@ import type { QuickPoint } from '../editor/quick-palette/quick-palette.type';
 interface QuickPaletteState {
   open: boolean;
   at: QuickPoint;
-  show: (at: QuickPoint) => void;
+  holding: boolean;
+  show: (at: QuickPoint, holding?: boolean) => void;
+  release: () => void;
   close: () => void;
 }
 

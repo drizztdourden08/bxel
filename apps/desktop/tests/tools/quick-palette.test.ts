@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind test */
+import type { HoldContext } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { notePointer } from '../../src/editor/quick-palette/note-pointer';
 import { pickQuick } from '../../src/editor/quick-palette/pick-quick';
@@ -62,5 +63,47 @@ describe('Q1 the quick palette', { tags: ['critical'] }, () => {
     expect(sections.length).toBeGreaterThan(1);
     const [first] = sections[0]?.items ?? [];
     expect(parseQuickId(first?.id ?? '')?.kind).toBe('tool');
+  });
+});
+
+const press = () => {
+  notePointer({ x: 40, y: 72 });
+  void findCommand(TOOL_COMMAND.quickPalette).run({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined });
+};
+
+const release = (cause: HoldContext['cause'], heldMs: number) =>
+  findCommand(TOOL_COMMAND.quickPalette).hold?.release({ point: { x: 0, y: 0 }, target: null, trigger: 'keyboard', data: undefined, heldMs, tap: heldMs < 120, cause });
+
+describe('Q2 the quick palette hold and release', { tags: ['critical'] }, () => {
+  it('declares a hold on its command', () => {
+    expect(findCommand(TOOL_COMMAND.quickPalette).hold).toBeDefined();
+  });
+
+  it('opens holding when the key goes down', () => {
+    press();
+    expect(useQuickPaletteStore.getState()).toMatchObject({ open: true, holding: true });
+  });
+
+  it('does not hold when run from a menu or the assistant', () => {
+    void findCommand(TOOL_COMMAND.quickPalette).run({ point: { x: 0, y: 0 }, target: null, trigger: 'assistant', data: undefined });
+    expect(useQuickPaletteStore.getState()).toMatchObject({ open: true, holding: false });
+  });
+
+  it('clears holding on the key release so the palette picks', () => {
+    press();
+    release('keyup', 400);
+    expect(useQuickPaletteStore.getState()).toMatchObject({ open: true, holding: false });
+  });
+
+  it('keeps the palette open after a tap', () => {
+    press();
+    release('keyup', 60);
+    expect(useQuickPaletteStore.getState()).toMatchObject({ open: true, holding: false });
+  });
+
+  it('closes without picking when the window loses focus', () => {
+    press();
+    release('blur', 400);
+    expect(useQuickPaletteStore.getState()).toMatchObject({ open: false, holding: false });
   });
 });
