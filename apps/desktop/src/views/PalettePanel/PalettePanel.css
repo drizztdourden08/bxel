@@ -209,6 +209,29 @@
   background: var(--c-primary-soft);
 }
 
+.ramp-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.ramp-row[data-dragging='yes'] {
+  opacity: var(--opacity-muted);
+}
+
+.ramp-row[data-drop='before'] {
+  box-shadow: 0 calc(-1 * var(--size-2)) 0 0 var(--c-primary-bright);
+}
+
+.ramp-row[data-drop='after'] {
+  box-shadow: 0 var(--size-2) 0 0 var(--c-primary-bright);
+}
+
+.ramp-row__grip {
+  cursor: grab;
+  touch-action: none;
+}
+
 .ramp-row__name {
   flex: 1;
   min-width: 0;

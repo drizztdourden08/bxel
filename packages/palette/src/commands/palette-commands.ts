@@ -14,6 +14,7 @@ import { paletteUniteDuplicates } from './palette-unite-duplicates';
 import { paletteUpdate } from './palette-update';
 import { rampAdd } from './ramp-add';
 import { rampDelete } from './ramp-delete';
+import { rampMove } from './ramp-move';
 import { rampUpdate } from './ramp-update';
 import { animationImport } from './animation-import';
 import { spriteImport } from './sprite-import';
@@ -43,6 +44,7 @@ const paletteCommands: readonly CommandDef[] = [
   rampAdd,
   rampUpdate,
   rampDelete,
+  rampMove,
   spriteImport,
   animationImport,
   tilesetImport,

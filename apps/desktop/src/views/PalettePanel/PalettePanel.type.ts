@@ -127,10 +127,25 @@ interface RampDrag {
   from: RampId | null;
 }
 
+interface RampReorder {
+  listRef: RefObject<HTMLElement | null>;
+  drag: ReorderDrag;
+  move: (from: number, to: number) => void;
+  total: number;
+}
+
+interface RampGripProps {
+  reorder: RampReorder;
+  position: number;
+  ramp: Ramp;
+}
+
 interface RampRowProps {
   panel: PanelModel;
   ramp: Ramp | null;
   indices: readonly number[];
+  reorder?: RampReorder;
+  position?: number;
 }
 
 interface RampSwatchProps {
@@ -179,5 +194,5 @@ interface SwatchEditorProps {
 
 export type {
   CellLook, DraftFields, EditSwatch, GridCellProps, GridControl, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, PanelModel, PanelProps,
-  PaletteDrop, PaletteViewModel, PickMode, RampDrag, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps,
+  PaletteDrop, PaletteViewModel, PickMode, RampDrag, RampGripProps, RampReorder, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps,
 };

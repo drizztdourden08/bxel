@@ -89,3 +89,42 @@ describe('K2 ramp.delete', { tags: ['critical'] }, () => {
     expect(rejectionCode(rig, () => execute(rig, [missing]))).toBe('TARGET_NOT_FOUND');
   });
 });
+
+describe('K2 ramp.move', { tags: ['critical'] }, () => {
+  const names = (rig: Rig): string[] => rampsOf(rig).map((ramp) => ramp.name);
+  const three = (): Rig => {
+    const rig = makeRig();
+    succeed(execute(rig, [addRamp(rig, 'A', [1, 2]), addRamp(rig, 'B', [2, 3]), addRamp(rig, 'C', [3, 4])]));
+    return rig;
+  };
+
+  it('moves a ramp down and up and undoes exactly', () => {
+    const rig = three();
+    const first = rampsOf(rig)[0]?.id ?? '';
+    roundTrip(rig, [step('ramp.move', { bankId: rig.bankId, rampId: first, toIndex: 2 })]);
+    expect(names(rig)).toEqual(['B', 'C', 'A']);
+    const last = rampsOf(rig)[2]?.id ?? '';
+    roundTrip(rig, [step('ramp.move', { bankId: rig.bankId, rampId: last, toIndex: 0 })]);
+    expect(names(rig)).toEqual(['A', 'B', 'C']);
+  });
+
+  it('does nothing when the ramp is already there', () => {
+    const rig = three();
+    const second = rampsOf(rig)[1]?.id ?? '';
+    succeed(execute(rig, [step('ramp.move', { bankId: rig.bankId, rampId: second, toIndex: 1 })]));
+    expect(names(rig)).toEqual(['A', 'B', 'C']);
+  });
+
+  it('rejects an unknown ramp and an index past the end', () => {
+    const rig = three();
+    const missing = step('ramp.move', { bankId: rig.bankId, rampId: 'rmp_zzzzzz', toIndex: 0 });
+    expect(rejectionCode(rig, () => execute(rig, [missing]))).toBe('TARGET_NOT_FOUND');
+    const far = step('ramp.move', { bankId: rig.bankId, rampId: rampsOf(rig)[0]?.id, toIndex: 3 });
+    expect(rejectionCode(rig, () => execute(rig, [far]))).toBe('INVALID_OPTION');
+  });
+
+  it('previews exactly what it commits', () => {
+    const rig = three();
+    previewMatchesCommit(rig, [step('ramp.move', { bankId: rig.bankId, rampId: rampsOf(rig)[0]?.id, toIndex: 1 })]);
+  });
+});
