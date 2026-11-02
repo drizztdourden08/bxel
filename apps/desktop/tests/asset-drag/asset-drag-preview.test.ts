@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
-import { assetDragPreview, labelOf } from '../../src/asset-drag/asset-drag-preview';
+import { labelOf } from '../../src/asset-drag/asset-drag-label';
+import { assetDragPreview } from '../../src/asset-drag/asset-drag-preview';
 import type { DragAsset } from '../../src/asset-drag/asset-drag.type';
 
 const asset = (path: string): DragAsset => ({ id: path, kind: 'sprite', assetId: null, path });
 
-describe('asset drag preview', () => {
+describe('asset drag preview', { tags: ['critical'] }, () => {
   it('names a single asset by its file name', () => {
     expect(labelOf([asset('art/hero.bxel')])).toBe('hero.bxel');
   });
