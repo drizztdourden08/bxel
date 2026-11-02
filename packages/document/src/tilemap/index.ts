@@ -73,6 +73,11 @@ export { BLOB47_MASKS, NEIGHBOUR, NEIGHBOUR_STEPS, TERRAIN_KINDS, TERRAIN_SLOTS 
 export { applyTerrain } from '../terrain/apply-terrain';
 export { slotMask } from '../terrain/slot-mask';
 export { terrainIndex } from '../terrain/terrain-index';
+export { PACKINGS } from '../terrain/terrain-packing.constants';
+export type { TerrainPacking } from '../terrain/terrain-packing.type';
+export { fillFromLayout } from '../terrain/fill-from-layout';
+export { fillSetFromPacking } from '../terrain/fill-set-from-packing';
+export type { PackingFill } from '../terrain/packing-fill.type';
 export { terrainIssue } from '../read/terrain-issue';
 export { editLayerCells } from '../draft/edit-layer-cells';
 export { setTileCollision } from '../draft/set-tile-collision';

@@ -14,6 +14,8 @@ type ThumbZoom = 'fit' | 1 | 2 | 3 | 4;
 
 type CollisionPaint = 'select' | 'full' | 'last';
 
+type ShapeSnap = 'pixel' | 'half';
+
 interface DataPaint {
   readonly field: string;
   readonly value: FieldValue;
@@ -32,6 +34,8 @@ interface TilesetViewSettings {
   dataPaint: DataPaint | null;
   inspectorCollapsed: boolean;
   shapeIndex: number;
+  shapeSnap: ShapeSnap;
+  pointIndex: number | null;
   lastShape: TileCollision | null;
   shapeClipboard: readonly TileShape[];
   terrainSetId: string | null;
@@ -54,7 +58,8 @@ interface TilesetViewState extends TilesetViewSettings {
   setDataPaint: (paint: DataPaint | null) => void;
   setInspectorCollapsed: (collapsed: boolean) => void;
   setShapeIndex: (index: number) => void;
-  setLastShape: (shape: TileCollision | null) => void;
+  setShapeSnap: (snap: ShapeSnap) => void;
+  setPointIndex: (index: number | null) => void;  setLastShape: (shape: TileCollision | null) => void;
   setShapeClipboard: (shapes: readonly TileShape[]) => void;
   setTerrainSetId: (id: string | null) => void;
   setTerrainSlot: (slot: number | null) => void;
@@ -62,4 +67,4 @@ interface TilesetViewState extends TilesetViewSettings {
   setMarkDraft: (key: number, mask: number | null) => void;
 }
 
-export type { ChoiceFilter, ThumbZoom, TileFilter, TilesetMode, TilesetViewSettings, TilesetViewState };
+export type { ChoiceFilter, ShapeSnap, ThumbZoom, TileFilter, TilesetMode, TilesetViewSettings, TilesetViewState };

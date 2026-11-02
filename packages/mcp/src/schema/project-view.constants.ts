@@ -45,6 +45,15 @@ const TILESET_INPUT_SCHEMA = z.strictObject({
   scatter: z.boolean().optional().describe('Place the stamp tiles at random instead of as a block.'),
   terrainBrush: z.boolean().optional(),
   collisionOverlay: z.boolean().optional().describe('Show the collision shapes over the map.'),
+  flags: z
+    .strictObject({ flipX: z.boolean().optional(), flipY: z.boolean().optional(), diagonal: z.boolean().optional() })
+    .optional()
+    .describe('The flip and diagonal flags the brush places tiles with. A flag left out keeps its value.'),
+  animate: z.boolean().optional().describe('Animate the animated tiles in the tile grid and on the map.'),
+  zoom: z.union([z.literal('fit'), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]).optional().describe('The size of the tile thumbnails in the tile grid: fit, or 1 to 4 times.'),
+  showKeys: z.boolean().optional().describe('Show the tile key on each tile of the grid.'),
+  showUses: z.boolean().optional().describe('Show how many map cells use each tile.'),
+  terrainSet: z.string().min(1).max(100).nullable().optional().describe('The id of the terrain set the terrain brush and the terrain panel use. Null picks the first set.'),
 });
 
 export { BROWSE_INPUT_SCHEMA, PROJECT_PANEL_INPUT_SCHEMA, PROPERTIES_INPUT_SCHEMA, TILESET_INPUT_SCHEMA };

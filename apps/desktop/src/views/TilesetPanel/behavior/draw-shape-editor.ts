@@ -35,7 +35,10 @@ const drawShapeEditor = (canvas: HTMLCanvasElement, paint: EditorPaint): void =>
     ctx.setLineDash(shape.oneWay ? [EDITOR_LOOK.dash, EDITOR_LOOK.dash] : []);
     ctx.stroke();
     if (chosen && shape.kind === 'polygon') {
-      for (const point of points) ctx.fillRect(point.x * zoom - EDITOR_LOOK.handle, point.y * zoom - EDITOR_LOOK.handle, 2 * EDITOR_LOOK.handle, 2 * EDITOR_LOOK.handle);
+      points.forEach((point, index) => {
+        const grown = index === paint.point ? EDITOR_LOOK.handle * 1.5 : EDITOR_LOOK.handle;
+        ctx.fillRect(point.x * zoom - grown, point.y * zoom - grown, 2 * grown, 2 * grown);
+      });
     }
   });
   ctx.setLineDash([]);

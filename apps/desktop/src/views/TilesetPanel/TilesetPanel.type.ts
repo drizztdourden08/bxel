@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind types */
+import type { VirtualGridCellBind } from '@drizztdourden08/tessera';
 import type { KeyboardEvent, MouseEvent, PointerEvent, RefObject } from 'react';
 import type { TerrainContext } from './behavior/terrain-panel.type';
 import type { Artwork, FieldValue, Point, Sprite, Tile, TileField, TileLayout, TileShape, Tileset } from '@bxel/document';
@@ -42,7 +43,6 @@ interface GridView {
   showUses: boolean;
   animate: boolean;
   painted: ReadonlySet<number>;
-  focused: number;
   order: ReadonlyMap<number, number>;
   terrain: TerrainContext | null;
 }
@@ -54,7 +54,6 @@ interface GridHandlers {
   leave: () => void;
   dragStart: () => void;
   dragEnd: () => void;
-  focus: (index: number) => void;
   keyDown: (index: number, event: KeyboardEvent<HTMLElement>) => void;
 }
 
@@ -67,7 +66,6 @@ interface TilePaint {
 
 interface GridSelection {
   handlers: GridHandlers;
-  focused: number;
 }
 
 interface TileGridProps {
@@ -79,6 +77,7 @@ interface TileGridProps {
 interface TileCellProps {
   cell: TileCell | null;
   index: number;
+  bind: VirtualGridCellBind;
   view: GridView;
   handlers: GridHandlers;
 }
@@ -161,6 +160,7 @@ interface ShapeEditorHandle {
   pointerDown: (event: PointerEvent<HTMLCanvasElement>) => void;
   pointerMove: (event: PointerEvent<HTMLCanvasElement>) => void;
   pointerUp: () => void;
+  keyDown: (event: KeyboardEvent<HTMLCanvasElement>) => void;
   doubleClick: (event: MouseEvent<HTMLCanvasElement>) => void;
 }
 

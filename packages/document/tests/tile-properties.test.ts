@@ -34,6 +34,15 @@ describe('K1 tile.shapes', { tags: ['critical'] }, () => {
     ]);
   });
 
+  it('keeps half pixel points and boxes and refuses a finer step', () => {
+    const world = buildWorld();
+    const half = [{ kind: 'polygon', points: [{ x: 0.5, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1.5 }], layer: 'solid' }, { kind: 'rect', x: 0.5, y: 0, width: 0.5, height: 1, layer: 'solid' }];
+    applySteps(world.engine, [step('tile.shapes', { tileset: world.tileset, keys: [1], shapes: half })]);
+    expect(tileOf(world, 1)?.shapes).toEqual(half);
+    const fine = { kind: 'rect', x: 0.25, y: 0, width: 1, height: 1 };
+    expect(failure(world.engine, [step('tile.shapes', { tileset: world.tileset, keys: [1], shapes: [fine] })]).code).toBe('INVALID_OPTION');
+  });
+
   it('refuses a shape outside the tile', () => {
     const world = buildWorld();
     const wide = { kind: 'rect', x: 1, y: 0, width: 5, height: 1 };

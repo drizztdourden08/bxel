@@ -14,6 +14,8 @@ const TILESET_VIEW_DEFAULTS: TilesetViewSettings = {
   dataPaint: null,
   inspectorCollapsed: false,
   shapeIndex: 0,
+  shapeSnap: 'pixel',
+  pointIndex: null,
   lastShape: null,
   shapeClipboard: [],
   terrainSetId: null,

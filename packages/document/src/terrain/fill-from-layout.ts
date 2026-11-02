@@ -1,5 +1,6 @@
-/* @layer renderer-app @kind logic */
-import type { TerrainSet, TileLayout } from '@bxel/document';
+/* @layer core @kind logic */
+import type { TerrainSet } from '../model/tilemap.type';
+import type { TileLayout } from '../read/tile-layout.type';
 import { packingCell } from './packing-cell';
 import type { TerrainPacking } from './terrain-packing.type';
 

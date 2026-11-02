@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind component */
-import { commandZone } from '@drizztdourden08/brock-react';
-import { Button, Center, EmptyState } from '@drizztdourden08/tessera';
+import { commands, commandZone } from '@drizztdourden08/brock-react';
+import { Button, Center, EmptyState, Flex } from '@drizztdourden08/tessera';
 import { COMMAND_ZONE } from '../../keymap/command-zone.constants';
+import { TILED_COMMAND } from '../../keymap/tiled-command-id.constants';
 import { useTilemapDialogStore } from '../../stores/useTilemapDialogStore';
 import { useMapContext } from '../../hooks/useMapContext';
 import { TILESET_TEXT } from './TilesetPanel.constants';
@@ -22,9 +23,14 @@ const TilesetPanel = () => {
   }
   if (!model) {
     const action = (
-      <Button size="sm" variant="primary" onClick={() => show('tileset')}>
-        {TILESET_TEXT.newTileset}
-      </Button>
+      <Flex gap="xs" justify="center" wrap>
+        <Button size="sm" variant="primary" onClick={() => show('tileset')}>
+          {TILESET_TEXT.newTileset}
+        </Button>
+        <Button size="sm" variant="secondary" onClick={() => commands.run(TILED_COMMAND.importMap)}>
+          {TILESET_TEXT.importTiled}
+        </Button>
+      </Flex>
     );
     return (
       <Center direction="column" {...commandZone(COMMAND_ZONE.tileset)}>

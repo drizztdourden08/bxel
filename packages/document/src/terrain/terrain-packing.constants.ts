@@ -1,4 +1,4 @@
-/* @layer renderer-app @kind constants */
+/* @layer core @kind constants */
 import type { TerrainPacking } from './terrain-packing.type';
 
 const PACKINGS: readonly TerrainPacking[] = [

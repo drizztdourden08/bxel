@@ -10,11 +10,14 @@ const ShapeCanvas = (props: ShapeEditorProps) => {
     <Canvas
       ref={editor.canvas}
       className="tileset-panel__shape-canvas"
-      role="img"
+      role="application"
+      tabIndex={0}
+      data-shape-canvas=""
       aria-label={TILESET_TEXT.shapeCanvas}
       onPointerDown={editor.pointerDown}
       onPointerMove={editor.pointerMove}
       onPointerUp={editor.pointerUp}
+      onKeyDown={editor.keyDown}
       onDoubleClick={editor.doubleClick}
     />
   );

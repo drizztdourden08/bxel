@@ -153,6 +153,14 @@ const TILES: RuleTable = {
   ...family(['tileset.paste_collision'], TILE_FILES, [WRITE, [() => hasCollisionToPaste(), REASON.emptyClipboard]], ONLY.tiles),
   ...family(['tileset.paste_data'], TILE_FILES, [WRITE, [() => hasDataToPaste(), REASON.emptyClipboard]], ONLY.tiles),
   ...family(['tileset.find_on_map'], file('tilemap'), [], ONLY.maps),
+  ...family(['tileset.use_as_stamp', 'tileset.use_as_scatter', 'tileset.shape_snap'], TILE_FILES, [], ONLY.tiles),
+  ...family(
+    ['tileset.set_collision', 'tileset.delete_tiles', 'tileset.move_tile', 'tileset.add_tile_at', 'tileset.shape_add_box', 'tileset.shape_trace', 'tileset.shape_delete', 'tileset.shape_delete_point'],
+    TILE_FILES,
+    [WRITE],
+    ONLY.tiles,
+  ),
+  ...family(['terrain.fill_from_layout', 'terrain.fill_by_turning', 'terrain.edit_slot'], TILE_FILES, [WRITE], ONLY.tiles),
   ...family(
     ['tileset.mode_tiles', 'tileset.mode_terrain', 'tileset.mode_collision', 'tileset.mode_data', 'tileset.mode_animation', 'tileset.focus_search'],
     TILE_FILES,

@@ -10,6 +10,7 @@ import { ShapeActions } from './ShapeActions';
 import { ShapeCanvas } from './ShapeCanvas';
 import { ShapeFields } from './ShapeFields';
 import { ShapeRow } from './ShapeRow';
+import { ShapeSnapSelect } from './ShapeSnapSelect';
 
 const CollisionInspector = ({ model }: TilesetModelProps) => {
   const index = useTilesetViewStore((state) => state.shapeIndex);
@@ -42,6 +43,7 @@ const CollisionInspector = ({ model }: TilesetModelProps) => {
       {tools}
       <ShapeCanvas {...props} />
       <ShapeActions {...props} />
+      <ShapeSnapSelect />
       {shapes.length === 0 ? (
         <Text variant="caption" tone="muted">
           {TILESET_TEXT.noShapes}
