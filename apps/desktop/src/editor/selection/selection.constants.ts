@@ -25,6 +25,7 @@ const MODE_LABELS: Readonly<Record<CombineMode, string>> = {
 const SELECTION_TEXT = {
   nothingSelected: 'Select some pixels first.',
   nothingToPaste: 'Copy a selection first.',
+  noAnimation: 'Open an animation first, then paste the copy as a new frame.',
   nothingToAlign: 'Select some pixels first, then align them.',
   nothingToDistribute: 'Select three or more separate areas to space them out.',
   pastedCropped: 'The copied pixels were larger than this sprite, so the paste is cropped to fit.',
@@ -68,7 +69,9 @@ const ARROW_DELTAS: Readonly<Record<string, Point>> = {
 
 const NEW_SPRITE_REF = 'pasted';
 
+const FRAME_SPRITE_REF = 'pastedFrame';
+
 export {
-  ARROW_DELTAS, DOUBLE_CLICK, MODE_LABELS, NEW_SPRITE_REF, NUDGE_STEP, NUDGE_STEP_FAST, POLYGON_MIN_VERTICES, SELECT_LABELS, SELECT_MODES, SELECT_VARIANTS,
+  ARROW_DELTAS, DOUBLE_CLICK, FRAME_SPRITE_REF, MODE_LABELS, NEW_SPRITE_REF, NUDGE_STEP, NUDGE_STEP_FAST, POLYGON_MIN_VERTICES, SELECT_LABELS, SELECT_MODES, SELECT_VARIANTS,
   SELECTION_LABELS, SELECTION_TEXT,
 };

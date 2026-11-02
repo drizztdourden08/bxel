@@ -1,13 +1,18 @@
 /* @layer renderer-app @kind test */
+import { flattenFrame, findSprite } from '@bxel/document';
+import type { SpriteId } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { dragHint } from '../../src/editor/selection/drag-hint';
 import { dropSelectionVertex } from '../../src/editor/selection/drop-selection-vertex';
 import { pasteAsFrame } from '../../src/editor/selection/paste-as-frame';
 import { selectionToGuides } from '../../src/editor/selection/selection-to-guides';
 import { snapSliceMove } from '../../src/slice/snap-slice-move';
+import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
 import { useSelectionStore } from '../../src/stores/useSelectionStore';
 import { useViewStore } from '../../src/stores/useViewStore';
+import { useWorkspaceStore } from '../../src/stores/useWorkspaceStore';
+import { animationOf, freshAnimation, live } from '../timeline/timeline-harness';
 import { BLOCK, openRig } from './selection-harness';
 
 const clip = {
@@ -49,22 +54,30 @@ describe('W8 selection extras', { tags: ['standard'] }, () => {
     useViewStore.setState({ snap: false });
   });
 
-  it('paste as a new frame adds a frame at the end holding the clip, as one undo step', () => {
-    const rig = openRig();
+  it('paste as a new frame adds a frame at the end of the animation holding the clip, as one undo step', () => {
+    freshAnimation();
     useSelectionStore.setState({ clipboard: clip });
-    const before = rig.target().sprite.frames.length;
+    const before = animationOf().frames.length;
     useNoticeStore.setState({ notice: null });
     const pasted = pasteAsFrame();
     expect(useNoticeStore.getState().notice?.text ?? null).toBeNull();
     expect(pasted).toBe(true);
-    const sprite = rig.target().sprite;
-    expect(sprite.frames).toHaveLength(before + 1);
-    const added = sprite.frames[before];
-    const celId = added ? rig.target().layer.cels[added.id] : undefined;
-    const cel = celId === undefined ? undefined : sprite.cels[celId];
-    expect(cel?.pixels[0]).toBe(1);
-    expect(cel?.pixels[sprite.width + 2]).toBe(5);
-    rig.host.undo(rig.documentId);
-    expect(rig.target().sprite.frames).toHaveLength(before);
+    const frames = animationOf().frames;
+    expect(frames).toHaveLength(before + 1);
+    const sprite = findSprite(live().artwork, frames[before]?.spriteId as SpriteId);
+    const painted = sprite ? flattenFrame(sprite, sprite.frames[0]?.id as never) : new Uint8Array();
+    expect(painted[0]).toBe(1);
+    expect(painted[(sprite?.width ?? 0) + 2]).toBe(5);
+    useDocumentStore.getState().host.undo(live().documentId);
+    expect(animationOf().frames).toHaveLength(before);
+  });
+
+  it('paste as a new frame posts a notice and does nothing when no animation is open', () => {
+    openRig();
+    useWorkspaceStore.setState({ workspaces: {}, tabs: [], activeTab: null });
+    useSelectionStore.setState({ clipboard: clip });
+    useNoticeStore.setState({ notice: null });
+    expect(pasteAsFrame()).toBe(false);
+    expect(useNoticeStore.getState().notice?.text).toBeDefined();
   });
 });
