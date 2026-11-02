@@ -27,9 +27,11 @@ type PreviewColour = {
   readonly transparent: boolean;
 };
 
+type PreviewCell = { readonly x: number; readonly y: number; readonly width: number; readonly height: number };
+
 type OverviewPreview =
   | { readonly kind: 'frames'; readonly frames: readonly PreviewFrame[] }
-  | { readonly kind: 'image'; readonly image: RgbaImage }
+  | { readonly kind: 'image'; readonly image: RgbaImage; readonly cells?: readonly PreviewCell[] }
   | { readonly kind: 'swatches'; readonly colours: readonly PreviewColour[] }
   | { readonly kind: 'none' };
 
@@ -64,4 +66,4 @@ type OverviewModel = {
   readonly rename: (name: string) => string | null;
 };
 
-export type { FileFacts, FileFound, FileStat, LinkRelation, OverviewFact, OverviewLink, OverviewModel, OverviewPreview, PreviewColour, PreviewFrame, PreviewLayer, PreviewTag };
+export type { FileFacts, FileFound, FileStat, LinkRelation, OverviewFact, OverviewLink, OverviewModel, OverviewPreview, PreviewCell, PreviewColour, PreviewFrame, PreviewLayer, PreviewTag };

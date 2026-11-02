@@ -10,7 +10,7 @@ import './AssetPreview.css';
 const AssetPreview = ({ preview, name, loop = DEFAULT_LOOP, mode = 'large', tags = NO_TAGS }: AssetPreviewProps) => (
   <Box className={`asset-preview asset-preview--${mode}`}>
     {preview.kind === 'frames' && <FramesPreview frames={preview.frames} name={name} loop={loop} mode={mode} tags={tags} />}
-    {preview.kind === 'image' && <PixelStage image={preview.image} label={name} mode={mode} />}
+    {preview.kind === 'image' && <PixelStage image={preview.image} label={name} mode={mode} cells={preview.cells} />}
     {preview.kind === 'swatches' && <SwatchGrid colours={preview.colours} name={name} mode={mode} />}
     {preview.kind === 'none' && <EmptyState size="sm" title={name} message={PREVIEW_TEXT.none} />}
   </Box>
