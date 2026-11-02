@@ -6,7 +6,7 @@ import { noiseRig } from './noise-rig';
 import type { NoiseRig } from './noise-rig';
 
 const SIDE = 300;
-const WANT: readonly string[] = ['bf93cc4296fc', '7c11200dade7', '7a85238b7caa', 'd95b3afbe19c', '39c9c66bcc68', '1b3cbdbb2316', '211ce5987bcf', 'f458ac1fe501', '446d4815f129'];
+const WANT: readonly string[] = ['61bce33c6282', '52dd89cb37e7', '0991c953ddca', 'f4e26ee4fad9', '5a40ea789565', '3675d155bcdf', '52c2044852a1', '3c013b4414cd', '3339ff21d91f'];
 
 const hexBytes = (_key: string, item: unknown): unknown => (item instanceof Uint8Array ? Buffer.from(item).toString('hex') : item);
 
