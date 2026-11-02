@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind test */
 import type { BankId, SpriteId } from '@bxel/document';
 import type { AssetDefaults } from '@bxel/project';
+import { commands } from '@drizztdourden08/brock-react';
 import type { DroppedFile, DroppedFiles } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { DragAsset } from '../../src/asset-drag/asset-drag.type';
@@ -9,12 +10,13 @@ import { canDropOnCanvas } from '../../src/canvas-drop/can-drop-on-canvas';
 import { dropOnSprite } from '../../src/canvas-drop/drop-on-sprite';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
 
-const held = vi.hoisted(() => ({ image: vi.fn(), palette: vi.fn(), swap: vi.fn(), offer: vi.fn() }));
+const held = vi.hoisted(() => ({ image: vi.fn(), palette: vi.fn(), swap: vi.fn(), offer: vi.fn(), reference: vi.fn() }));
 
 vi.mock('../../src/image-import/drop-image', () => ({ dropImage: held.image }));
 vi.mock('../../src/file-ops/drop-palette', () => ({ dropPalette: held.palette }));
 vi.mock('../../src/palette-change/start-switch', () => ({ startSwitch: held.swap }));
 vi.mock('../../src/canvas-drop/sprite-layer-offer', () => ({ spriteLayerOffer: held.offer }));
+vi.mock('../../src/reference-image/add-reference-from-file', () => ({ addReferenceFromFile: held.reference }));
 
 const defaults: AssetDefaults = {
   size: { width: 16, height: 16 },
@@ -43,6 +45,7 @@ describe('K1 the sprite canvas as a drop target', { tags: ['critical'] }, () => 
     held.palette.mockClear();
     held.swap.mockClear();
     held.offer.mockClear();
+    held.reference.mockClear();
     useNoticeStore.setState({ notice: null });
   });
 
@@ -62,6 +65,14 @@ describe('K1 the sprite canvas as a drop target', { tags: ['critical'] }, () => 
     dropOnSprite(files(dropped('hero.png', 'image/png')), { spriteId: sprite, readOnly: false }, defaults);
     expect(held.image).toHaveBeenCalledTimes(1);
     expect(held.palette).not.toHaveBeenCalled();
+  });
+
+  it('keeps a picture dropped with Alt held as a view-only reference image', () => {
+    const held_alt = vi.spyOn(commands, 'heldModifiers').mockReturnValue(['alt']);
+    dropOnSprite(files(dropped('pose.png', 'image/png')), { spriteId: sprite, readOnly: false }, defaults);
+    held_alt.mockRestore();
+    expect(held.reference).toHaveBeenCalledTimes(1);
+    expect(held.image).not.toHaveBeenCalled();
   });
 
   it('adds a dropped palette file to the project', () => {
