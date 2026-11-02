@@ -6,7 +6,7 @@ import { noiseRig } from './noise-rig';
 import type { NoiseRig } from './noise-rig';
 
 const SIDE = 300;
-const WANT = 'bf93cc4296fc 7c11200dade7 7a85238b7caa d95b3afbe19c 39c9c66bcc68 1b3cbdbb2316 211ce5987bcf f458ac1fe501 446d4815f129';
+const WANT: readonly string[] = ['bf93cc4296fc', '7c11200dade7', '7a85238b7caa', 'd95b3afbe19c', '39c9c66bcc68', '1b3cbdbb2316', '211ce5987bcf', 'f458ac1fe501', '446d4815f129'];
 
 const hexBytes = (_key: string, item: unknown): unknown => (item instanceof Uint8Array ? Buffer.from(item).toString('hex') : item);
 
@@ -55,6 +55,6 @@ const run = (): string[] => {
 
 describe('S2 palette remap output on a 300 sprite', { tags: ['standard'] }, () => {
   test('reorder, merge, delete, undo and redo stay byte for byte the same', () => {
-    expect(run().join(' ')).toBe(WANT);
+    expect(run()).toEqual(WANT);
   });
 });

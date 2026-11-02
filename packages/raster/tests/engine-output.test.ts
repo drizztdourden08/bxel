@@ -6,7 +6,7 @@ import { benchEngine, benchState, requestOf, spriteOf, strokeStep } from './benc
 import { wanderPoints } from './bench-points';
 
 const SIDE = 320;
-const WANT = 'f4f1a89ddd21 fdfaa0cfbd95 ab7cc297cd26 736f91394ea6 d964b2698d3e 5a67509f4ba1 0f3dc4726521 709d2d2dabb6 b7753f8ff366';
+const WANT: readonly string[] = ['f4f1a89ddd21', 'fdfaa0cfbd95', 'ab7cc297cd26', '736f91394ea6', 'd964b2698d3e', '5a67509f4ba1', '0f3dc4726521', '709d2d2dabb6', 'b7753f8ff366'];
 
 const digest = (value: unknown): string =>
   createHash('sha1')
@@ -43,6 +43,6 @@ const run = (): string[] => {
 
 describe('S2 stroke output on a 320 sprite', { tags: ['standard'] }, () => {
   test('every commit, preview, undo and redo stays byte for byte the same', () => {
-    expect(run().join(' ')).toBe(WANT);
+    expect(run()).toEqual(WANT);
   });
 });
