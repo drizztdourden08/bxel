@@ -177,6 +177,7 @@ const EDITOR_TEXT = {
   name: 'Name',
   same: (index: number): string => `Same as swatch ${index}.`,
   merge: (index: number): string => `Merge into ${index}`,
+  opaque: 'Opaque',
   reset: 'Reset',
   cancel: 'Cancel',
   done: 'Done',
