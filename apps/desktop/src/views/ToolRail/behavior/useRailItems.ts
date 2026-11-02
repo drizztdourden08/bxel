@@ -40,6 +40,7 @@ const useRailItems = (): ToolbarItem[] => {
   const variant = useSelectionStore((state) => state.variant);
   const hidden = useToolPrefsStore((state) => state.hiddenMembers);
   const hover = useToolPrefsStore((state) => state.openOnHover);
+  const holdMs = useToolPrefsStore((state) => state.holdMs);
   useToolPresetStore((state) => state.user);
   useOptionsVersion();
   const keysOf = useToolKeys();
@@ -56,8 +57,10 @@ const useRailItems = (): ToolbarItem[] => {
       badge: slotBadge(slot, { fillMode, filled: slot.tool === 'rect' || slot.tool === 'ellipse' ? filledTools[slot.tool] : false, mode }),
       keys: keysOf(slot.tool),
       ui: evaluate(COMMAND_ID.tool(slot.tool), context),
-      groups: hover && model.hasContent ? flyoutGroups(flyoutSections(model, true)) : undefined,
+      groups: model.hasContent ? flyoutGroups(flyoutSections(model, true)) : undefined,
       hasFlyout: model.hasContent,
+      hover,
+      holdMs,
       assistant: slot.members.some((member) => member.tool === marked),
       pick: (picked: ToolSlot) => {
         useToolStore.getState().setTool(picked.tool);

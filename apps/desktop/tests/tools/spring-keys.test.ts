@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it } from 'vitest';
 import { parsePrefs } from '../../src/editor/tool-options/parse-prefs';
+import { cancelSpring } from '../../src/editor/tool-pick/cancel-spring';
+import { useLivePaintStore } from '../../src/stores/useLivePaintStore';
 import { beginSpring } from '../../src/editor/tool-pick/begin-spring';
 import { endSpring } from '../../src/editor/tool-pick/end-spring';
 import { isSpringTool } from '../../src/editor/tool-pick/is-spring-tool';
@@ -52,5 +54,34 @@ describe('K1 spring loaded tool keys', { tags: ['critical'] }, () => {
     expect(parsePrefs({ springMs: 5 }).springMs).toBe(120);
     expect(parsePrefs({ springMs: 5000 }).springMs).toBe(600);
     expect(parsePrefs({}).springMs).toBe(220);
+  });
+});
+
+describe('K2 spring guards', { tags: ['critical'] }, () => {
+  beforeEach(() => {
+    useToolStore.setState({ tool: 'pencil' });
+    useSpringStore.getState().borrow(null, null);
+    useLivePaintStore.getState().end();
+    useToolPrefsStore.getState().patch({ springMs: 220 });
+  });
+
+  it('lets a stroke in progress finish before the tool goes back', () => {
+    beginSpring('rect');
+    useToolStore.setState({ tool: 'rect' });
+    useLivePaintStore.setState({ session: {} as never });
+    release(400);
+    expect(useToolStore.getState().tool).toBe('rect');
+    expect(useSpringStore.getState().borrowed).toBe('rect');
+    useLivePaintStore.getState().end();
+    expect(useToolStore.getState().tool).toBe('pencil');
+    expect(useSpringStore.getState().borrowed).toBeNull();
+  });
+
+  it('ends a borrow at once when it is cancelled', () => {
+    beginSpring('rect');
+    useToolStore.setState({ tool: 'rect' });
+    cancelSpring();
+    expect(useToolStore.getState().tool).toBe('pencil');
+    expect(useSpringStore.getState().borrowed).toBeNull();
   });
 });

@@ -11,7 +11,7 @@ import './ToolRail.css';
 
 const ToolRail = ({ slot }: ToolRailProps) => {
   const items = useRailItems();
-  const hold = useRailHold(slot);
+  const hold = useRailHold();
   useRailMenu();
   return (
     <Box className="tool-rail" {...contextMenuZone(TOOL_RAIL_TEXT.zone)} {...hold}>
