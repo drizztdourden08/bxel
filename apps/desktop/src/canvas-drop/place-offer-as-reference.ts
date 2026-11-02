@@ -6,7 +6,7 @@ import { useReferenceStore } from '../stores/useReferenceStore';
 const placeOfferAsReference = (): boolean => {
   const { offer, hide } = useDropLayerStore.getState();
   hide();
-  if (!offer) return false;
+  if (!offer || !offer.picture) return false;
   const key = `sprite:${crypto.randomUUID()}`;
   useReferenceStore.getState().settle(key, { state: 'ready', picture: offer.picture });
   return addReferenceImage({ key, name: offer.name }) !== null;

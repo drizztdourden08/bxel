@@ -8,7 +8,7 @@ import { ROOT, row } from './browser-fixture';
 
 vi.mock('@drizztdourden08/brock-react', async () => (await import('../project/project-mocks')).brockReactMock());
 
-const commandOf = (entry: ContextMenuEntry): string | undefined => ('command' in entry ? entry.command : undefined);
+const commandOf = (entry: ContextMenuEntry): string | undefined => (typeof entry !== 'string' && 'command' in entry ? entry.command : undefined);
 
 describe('S2 the menu of a missing link', { tags: ['standard'] }, () => {
   const item = ghostItem(row('sprite', `${ROOT}/sprites/gone.bxsprite`), ROOT, ROOT);
@@ -20,6 +20,6 @@ describe('S2 the menu of a missing link', { tags: ['standard'] }, () => {
 
   it('targets the missing path for the commands', () => {
     const [locate] = ghostEntries(item, EMPTY_STATUS);
-    expect(locate && 'args' in locate ? locate.args : undefined).toEqual({ key: item.key, path: item.path });
+    expect(locate !== undefined && typeof locate !== 'string' && 'args' in locate ? locate.args : undefined).toEqual({ key: item.key, path: item.path });
   });
 });

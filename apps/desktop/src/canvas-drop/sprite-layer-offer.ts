@@ -18,7 +18,7 @@ const clipOfSprite = (width: number, height: number, pixels: Uint8Array): Clip =
   bits: Uint8Array.from(pixels, (value) => (value === 0 ? 0 : 1)),
 });
 
-const findPair = (artwork: Artwork | undefined, assetId: string, target: CanvasDropTarget): SpritePair | null => {
+const findPair = (artwork: Artwork | null, assetId: string, target: CanvasDropTarget): SpritePair | null => {
   const dropped = artwork ? findSprite(artwork, assetId as SpriteId) : undefined;
   const open = artwork && target.spriteId !== null ? findSprite(artwork, target.spriteId) : undefined;
   return dropped && open ? { dropped, open } : null;

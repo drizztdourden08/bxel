@@ -118,7 +118,7 @@ describe('S2 layer actions', { tags: ['standard'] }, () => {
   it('moves a row by its place in the list, which runs top first', () => {
     addLayer();
     addLayer();
-    expect(layerItems(live(), null).map((item) => item.name)).toEqual(['Layer 3', 'Layer 2', 'Layer 1']);
+    expect(layerItems(live(), null, new Set()).map((item) => item.name)).toEqual(['Layer 3', 'Layer 2', 'Layer 1']);
     moveLayer(0, 2);
     expect(layerNames()).toEqual(['Layer 3', 'Layer 1', 'Layer 2']);
     moveLayer(2, 0);

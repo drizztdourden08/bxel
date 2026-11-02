@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { useDragSource, useDropTarget } from '@drizztdourden08/brock-react';
-import { Box, FormRow, Icon, IconButton, Stack, Text, Toggle } from '@drizztdourden08/tessera';
+import { Box, Flex, FormRow, Icon, IconButton, Text, Toggle } from '@drizztdourden08/tessera';
 import { useRef } from 'react';
 import { CUSTOMIZE_TEXT } from '../CustomizeTools.constants';
 import type { SlotDragPayload, SlotRowProps } from '../CustomizeTools.type';
@@ -16,7 +16,7 @@ const SlotRow = ({ slot, hidden, onToggle, onMove, onStep }: SlotRowProps) => {
   });
   return (
     <Box ref={ref} role="group" aria-label={slot.label}>
-      <Stack direction="row" gap="xs" align="center">
+      <Flex direction="row" gap="xs" align="center">
         <Icon name="arrow-up-down" size={14} aria-hidden="true" />
         <Text variant="label">{slot.label}</Text>
         <IconButton label={CUSTOMIZE_TEXT.moveUp(slot.label)} size="sm" variant="tertiary" onClick={() => onStep(slot.id, -1)}>
@@ -25,7 +25,7 @@ const SlotRow = ({ slot, hidden, onToggle, onMove, onStep }: SlotRowProps) => {
         <IconButton label={CUSTOMIZE_TEXT.moveDown(slot.label)} size="sm" variant="tertiary" onClick={() => onStep(slot.id, 1)}>
           <Icon name="arrow-down" />
         </IconButton>
-      </Stack>
+      </Flex>
       {slot.members.map((member) => (
         <FormRow key={member.id} label={member.label} description={member.description} descriptionOverflow="hint">
           <Toggle aria-label={CUSTOMIZE_TEXT.toggle(member.label)} checked={!hidden.includes(member.id)} onChange={() => onToggle(member.id)} />

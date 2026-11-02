@@ -16,13 +16,13 @@ beforeEach(openManagedSheet);
 describe('S2 sprite grid columns', { tags: ['standard'] }, () => {
   it('uses the columns of a grid sheet in manual order', () => {
     const all = spriteFacts();
-    const sheet = sheetWith({ kind: 'grid', columns: 5, cellWidth: 8, cellHeight: 8, order: [] });
+    const sheet = sheetWith({ kind: 'grid', columns: 5, cellWidth: 8, cellHeight: 8, order: 'rows' });
     expect(gridColumns({ sheet, facts: all, shown: all }, 'manual')).toBe(5);
   });
 
   it('leaves the columns free for a sorted, filtered or non grid list', () => {
     const all = spriteFacts();
-    const grid = sheetWith({ kind: 'grid', columns: 5, cellWidth: 8, cellHeight: 8, order: [] });
+    const grid = sheetWith({ kind: 'grid', columns: 5, cellWidth: 8, cellHeight: 8, order: 'rows' });
     expect(gridColumns({ sheet: grid, facts: all, shown: all }, 'name')).toBeUndefined();
     expect(gridColumns({ sheet: grid, facts: all, shown: all.slice(1) }, 'manual')).toBeUndefined();
     expect(gridColumns({ sheet: sheetWith({ kind: 'manual' }), facts: all, shown: all }, 'manual')).toBeUndefined();

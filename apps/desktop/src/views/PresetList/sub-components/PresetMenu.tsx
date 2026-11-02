@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind component */
 import { DropdownMenu } from '@drizztdourden08/tessera';
-import type { MenuGroup } from '@drizztdourden08/tessera';
+import type { MenuGroup, MenuItem } from '@drizztdourden08/tessera';
 import { duplicatePreset } from '../../../editor/presets/duplicate-preset';
 import { movePresetScope } from '../../../editor/presets/move-preset-scope';
 import { removeProjectPreset } from '../../../editor/presets/remove-project-preset';
@@ -11,12 +11,12 @@ import { PRESET_TEXT } from '../PresetList.constants';
 import type { ToolPreset } from '../../../editor/presets/tool-preset.type';
 import type { PresetMenuProps } from './PresetMenu.type';
 
-const scopeItem = (preset: ToolPreset) =>
+const scopeItem = (preset: ToolPreset): MenuItem[] =>
   useProjectStore.getState().project === null
     ? []
     : [{ id: 'scope', label: preset.project === true ? PRESET_TEXT.toMine : PRESET_TEXT.toProject, icon: 'folder', onSelect: () => void movePresetScope(preset) }];
 
-const orderItems = (preset: ToolPreset) => {
+const orderItems = (preset: ToolPreset): MenuItem[] => {
   const store = useToolPresetStore.getState();
   return preset.project === true
     ? []

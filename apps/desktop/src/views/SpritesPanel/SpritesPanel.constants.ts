@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind constants */
 import type { SpriteId } from '@bxel/document';
-import type { FieldDescriptor, TableColumn, VirtualSize } from '@drizztdourden08/tessera';
+import type { FieldDescriptor, TableColumn, ViewKey, VirtualSize } from '@drizztdourden08/tessera';
 import { DIALOG_COMMAND } from '../../keymap/dialog-command-id.constants';
 import { SHEET_COMMAND } from '../../keymap/sheet-command-id.constants';
 import { FOLDER_TEXT } from '../../sheet-manager/folder-text.constants';
@@ -88,7 +88,7 @@ const LIST_SCHEMA: readonly FieldDescriptor[] = [
 
 const LIST_COLUMNS: readonly TableColumn[] = LIST_FIELDS.map(({ path, width }) => ({ path, width }));
 
-const listViewKey = (sheetId: string | null): string => `${LIST_VIEW_KEY}:${sheetId ?? 'none'}`;
+const listViewKey = (sheetId: string | null): ViewKey => `${LIST_VIEW_KEY}:${sheetId ?? 'none'}`;
 
 const IN_LIST = 'In the list';
 
