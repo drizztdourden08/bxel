@@ -1,12 +1,16 @@
 /* @layer renderer-app @kind logic */
 import type { PreviewScale } from '../../../stores/preview-store.type';
 
-const paintPreview = (canvas: HTMLCanvasElement, image: ImageData | null, scale: PreviewScale): void => {
+const paintPreview = (canvas: HTMLCanvasElement, image: ImageData | null, scale: PreviewScale, background: string | null = null): void => {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   canvas.width = (image?.width ?? 1) * scale;
   canvas.height = (image?.height ?? 1) * scale;
   if (!image) return;
+  if (background !== null) {
+    ctx.fillStyle = background;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
   const scratch = canvas.ownerDocument.createElement('canvas');
   scratch.width = image.width;
   scratch.height = image.height;
