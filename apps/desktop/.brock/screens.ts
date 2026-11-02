@@ -66,6 +66,7 @@ const screenTree = buildScreenTree(config, [
   { kind: 'custom', bucket: 'properties', id: 'none', component: lazyComponent(() => import('../src/screens/properties/none.custom')), meta: propertiesNoneCustomMeta },
   { kind: 'custom', bucket: 'properties', id: 'overview', component: lazyComponent(() => import('../src/screens/properties/overview.custom')), meta: propertiesOverviewCustomMeta },
   { kind: 'settings', bucket: 'properties', id: 'palette', sections: PropertiesPaletteSettings, meta: propertiesPaletteSettingsMeta },
+  { kind: 'header', bucket: 'properties', id: 'properties', component: lazyComponent(() => import('../src/screens/properties/properties.header')), actions: lazyComponent(() => import('../src/screens/properties/properties.header').then((module) => ({ default: module.actions }))) },
   { kind: 'settings', bucket: 'properties', id: 'sheet', sections: PropertiesSheetSettings, meta: propertiesSheetSettingsMeta },
   { kind: 'settings', bucket: 'properties', id: 'sprite-palette', sections: PropertiesSpritePaletteSettings, meta: propertiesSpritePaletteSettingsMeta },
   { kind: 'settings', bucket: 'properties', id: 'sprite-platform', sections: PropertiesSpritePlatformSettings, meta: propertiesSpritePlatformSettingsMeta },
