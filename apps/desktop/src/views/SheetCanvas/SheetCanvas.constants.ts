@@ -20,6 +20,8 @@ const SHEET_MENU = {
   toEnd: 'Move to end',
   selectAll: 'Select all sprites',
   zoomTo: 'Zoom to sprite',
+  showPivot: 'Show pivot',
+  addGuide: 'Add guide',
   removeFromSheet: 'Remove from sheet',
   notOnSheet: 'The sprite is not on this sheet.',
   importImage: 'Import image...',

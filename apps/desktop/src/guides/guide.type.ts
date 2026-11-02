@@ -46,6 +46,7 @@ interface GuideScope {
   size: () => { width: number; height: number } | null;
   step: (axis: GuideAxis) => number | null;
   add: (axis: GuideAxis, position: number) => void;
+  addMany: (lines: GuideLines) => void;
   move: (axis: GuideAxis, from: number, to: number) => void;
   remove: (axis: GuideAxis, position: number) => void;
   clear: () => void;

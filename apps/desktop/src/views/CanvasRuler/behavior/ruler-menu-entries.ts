@@ -14,6 +14,8 @@ import { useViewStore } from '../../../stores/useViewStore';
 import { RULER_MENU } from '../CanvasRuler.constants';
 import type { RulerArgs } from '../CanvasRuler.type';
 import { rulerAlong } from './ruler-along';
+import { guideColourEntries } from './guide-colour-entries';
+import { nearGuide } from './near-guide';
 import { unitEntries } from './unit-entries';
 import { rulerAxisState } from './ruler-axis-state';
 import { rulerSpan } from './ruler-span';
@@ -27,17 +29,19 @@ const rulerMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntr
   const along = spanAlong(rulerAlong(axis, context, span.length / 2), span);
   const { handle, centred } = rulerAxisState(axis, span);
   const onHandle = handle !== null && nearHandle(along, handlePosition(handle, span));
+  const position = (along - span.origin) / Math.max(span.zoom, 0.01);
   const mirrors = surface === 'sprite' || surface === 'tile';
   return [
     { command: 'symmetry.axis_remove', label: RULER_MENU.remove, args: { axis }, hidden: !onHandle },
-    { command: 'guide.add_here', label: RULER_MENU.guide, args: { axis, position: (along - span.origin) / Math.max(span.zoom, 0.01) } },
-    { command: 'symmetry.axis_here', label: RULER_MENU.here, args: { axis, position: (along - span.origin) / Math.max(span.zoom, 0.01) }, hidden: !mirrors },
+    { command: 'guide.add_here', label: RULER_MENU.guide, args: { axis, position } },
+    { command: 'symmetry.axis_here', label: RULER_MENU.here, args: { axis, position }, hidden: !mirrors },
     { command: axis === 'x' ? COMMAND_ID.symmetryX : COMMAND_ID.symmetryY, label: RULER_MENU.mirror, hidden: !mirrors },
     { command: 'symmetry.axis_centre', label: RULER_MENU.centre, args: { axis }, hidden: !mirrors, ...unless(!centred, RULER_MENU.centred) },
     'separator',
     unitEntries(),
     COMMAND_ID.rulers,
     COMMAND_ID.lockGuides,
+    guideColourEntries(axis, nearGuide({ axis, position, zoom: span.zoom })),
     'separator',
     { command: 'guide.clear', label: RULER_MENU.clearGuides, tone: 'danger', ...unless(hasGuides(), RULER_MENU.noGuides) },
   ];

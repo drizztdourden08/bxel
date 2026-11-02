@@ -10,10 +10,12 @@ import { duplicateSprites } from '../sheet/duplicate-sprites';
 import { isolateSprite } from '../sheet/isolate-sprite';
 import { leaveAction } from '../sheet/leave-action';
 import { leaveReady } from '../sheet/leave-ready';
+import { pivotsShown } from '../sheet/pivots-shown';
 import { removeSlices } from '../sheet/remove-slices';
 import { reorderSprites } from '../sheet/reorder-sprites';
 import { selectionIds } from '../sheet/selection-ids';
 import { toggleBroadcast } from '../sheet/toggle-broadcast';
+import { togglePivots } from '../sheet/toggle-pivots';
 import { useManagerStore } from '../stores/useManagerStore';
 import { useSpriteStore } from '../stores/useSpriteStore';
 import { COMMAND_ZONE } from './command-zone.constants';
@@ -81,6 +83,7 @@ const SHEET_COMMANDS: readonly CommandDef[] = [
     },
   },
   { id: ID.sliceAdd, label: 'Add slice', group, run: () => useSpriteStore.getState().setSliceDraw(true) },
+  { id: ID.togglePivots, label: 'Show pivot', group, checked: pivotsShown, run: togglePivots },
   { id: ID.sliceRemove, label: 'Remove slices', group, run: onSelection((ids) => void removeSlices(ids)) },
 ];
 

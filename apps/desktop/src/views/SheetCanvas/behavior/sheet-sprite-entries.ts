@@ -30,6 +30,8 @@ const sheetSpriteEntries = (): readonly ContextMenuEntry[] => {
     },
     { command: SELECTION_COMMAND_ID.selectAll, label: SHEET_MENU.selectAll },
     { command: COMMAND_ID.zoomSelection, label: SHEET_MENU.zoomTo },
+    { command: ID.togglePivots, label: SHEET_MENU.showPivot, kind: 'check' },
+    { command: ID.guideAround, label: SHEET_MENU.addGuide },
     'separator',
     { command: 'sprite.remove_from_sheet', label: SHEET_MENU.removeFromSheet, ...unless(onSheet > 0, SHEET_MENU.notOnSheet) },
     { command: ID.askDeleteSprite, tone: 'danger' },
