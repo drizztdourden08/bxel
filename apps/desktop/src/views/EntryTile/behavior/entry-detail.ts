@@ -19,6 +19,8 @@ const whereOf = (fact: EntryFacts, state: EntryTileState): string[] => {
   return fact.sheets.length > 1 ? [ENTRY_TILE_TEXT.onSheets(fact.sheets)] : [];
 };
 
-const entryDetail = (fact: EntryFacts, state: EntryTileState): string => [...baseOf(fact, state), ...whereOf(fact, state)].join(', ');
+const warningOf = (state: EntryTileState): string[] => (state.warning === undefined ? [] : [state.warning]);
+
+const entryDetail = (fact: EntryFacts, state: EntryTileState): string => [...baseOf(fact, state), ...whereOf(fact, state), ...warningOf(state)].join(', ');
 
 export { entryDetail };

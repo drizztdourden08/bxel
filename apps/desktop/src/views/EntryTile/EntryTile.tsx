@@ -3,7 +3,7 @@ import { Box, Icon, Tile } from '@drizztdourden08/tessera';
 import { useId, useRef, useState } from 'react';
 import { useEntryDragSource } from '../../asset-drag/useEntryDragSource';
 import { pickHow } from '../../sheet/pick-how';
-import { ENTRY_TILE_TEXT } from './EntryTile.constants';
+import { ENTRY_TILE_TEXT, MEDIA_ASPECT } from './EntryTile.constants';
 import type { EntryTileProps } from './EntryTile.type';
 import { entryDetail } from './behavior/entry-detail';
 import { entryLabel } from './behavior/entry-label';
@@ -48,6 +48,7 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
       </Box>
       <Tile
         selected={state.selected}
+        mediaAspect={MEDIA_ASPECT}
         media={<EntryThumb fact={fact} artwork={artwork} box={box} playing={hot} />}
         corners={{
           topStart: state.selected ? (
@@ -55,7 +56,7 @@ const EntryTile = ({ fact, artwork, box, state, drag, handlers, cell }: EntryTil
               <Icon name="check" size={12} />
             </Box>
           ) : undefined,
-          topEnd: <EntryBadges fact={fact} twin={state.twin} />,
+          topEnd: <EntryBadges fact={fact} twin={state.twin} {...(state.warning === undefined ? {} : { warning: state.warning })} />,
         }}
         name={<EntryName name={entryName(fact)} />}
       />

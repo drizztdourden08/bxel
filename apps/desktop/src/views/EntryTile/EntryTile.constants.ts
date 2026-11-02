@@ -11,6 +11,7 @@ const ENTRY_TILE_TEXT = {
   twin: 'Identical to another sprite',
   strip: (cells: number): string => `Looks like a strip of ${cells}`,
   elsewhere: (names: readonly string[]): string => `Also on ${names.join(', ')}`,
+  warning: '!',
   notOnSheet: 'Not on this sheet',
   onSheets: (names: readonly string[]): string => `On ${names.join(', ')}`,
 } as const;
@@ -30,8 +31,10 @@ const TILE_SIZES: readonly { readonly token: VirtualSize; readonly px: number }[
 
 const TILE_EXTRA = { width: 24, height: 48 } as const;
 
+const MEDIA_ASPECT = 1;
+
 const PLAY_MIN_MS = 40;
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
-export { ENTRY_TILE_TEXT, PLAY_MIN_MS, REDUCED_MOTION, TILE_EXTRA, TILE_SIZES };
+export { ENTRY_TILE_TEXT, MEDIA_ASPECT, PLAY_MIN_MS, REDUCED_MOTION, TILE_EXTRA, TILE_SIZES };
