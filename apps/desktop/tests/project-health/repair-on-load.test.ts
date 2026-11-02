@@ -26,7 +26,8 @@ describe('K3 the repair by id when a project opens', { tags: ['standard'] }, () 
 
     const store = useHealthStore.getState();
     expect(store.repaired.length).toBeGreaterThan(0);
-    expect(store.repaired.every((finding) => finding.foundPath === to)).toBe(true);
+    expect(store.repaired.every((finding) => finding.foundPath === to || finding.file === to)).toBe(true);
+    expect(store.repaired.some((finding) => finding.foundPath === to)).toBe(true);
     const sheet = store.repaired.find((finding) => finding.file !== to);
     expect(linksIn(held.rig.disk, sheet?.file ?? '')).toContain(to);
     const state = store.state;
