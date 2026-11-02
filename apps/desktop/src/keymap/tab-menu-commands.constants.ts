@@ -5,6 +5,7 @@ import { pathOfArgs } from '../asset-list/path-of-args';
 import { revealRow } from '../asset-list/reveal-row';
 import { commandArgs } from '../context-menu/command-args';
 import type { PathArgs, TabArgs } from '../context-menu/menu-args.type';
+import { revealInProjectWindow } from '../project-browser/reveal-in-project-window';
 import { closeTab } from '../workspace/close-tab';
 import { closeTabsBeside } from '../workspace/close-tabs-beside';
 import { moveTabBy } from '../workspace/move-tab-by';
@@ -24,6 +25,15 @@ const TAB_MENU_COMMANDS: readonly CommandDef[] = [
   { id: 'tab.move_left', label: 'Move tab left', group, run: withTab((tabId) => moveTabBy(tabId, -1)) },
   { id: 'tab.move_right', label: 'Move tab right', group, run: withTab((tabId) => moveTabBy(tabId, 1)) },
   { id: 'asset.reveal', label: 'Show the file in its folder', group, run: (context?: CommandContext) => revealRow({ path: pathOfArgs(commandArgs<PathArgs>(context)) }) },
+  {
+    id: 'asset.show_in_project',
+    label: 'Show the file in the Project window',
+    group,
+    run: (context?: CommandContext) => {
+      const path = pathOfArgs(commandArgs<PathArgs>(context));
+      if (path !== '') revealInProjectWindow(path);
+    },
+  },
   { id: 'asset.copy_path', label: 'Copy the path of the file', group, run: (context?: CommandContext) => void copyPath(pathOfArgs(commandArgs<PathArgs>(context))) },
 ];
 
