@@ -21,7 +21,9 @@ import { trashItems } from '../../../panel-browser/trash-items';
 import { NEW_BUTTON_SELECTOR } from '../ProjectPanel.constants';
 import type { ProjectPanelModel } from '../ProjectPanel.type';
 import { commandTargets } from './command-targets';
-import { copyTargets, cutTargets, pasteTargets } from './file-clipboard-commands';
+import { copyTargets } from './copy-targets';
+import { cutTargets } from './cut-targets';
+import { pasteTargets } from './paste-targets';
 import { openSideTargets } from './open-side-targets';
 import { useNewMenuLetters } from './useNewMenuLetters';
 

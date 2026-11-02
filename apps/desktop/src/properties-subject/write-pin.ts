@@ -3,7 +3,7 @@ import { nav, useNavigationStore } from '@drizztdourden08/brock-react';
 import { PROPERTIES_HUB } from '../config-entry/config-entry.constants';
 import { pinParamsOf } from './pin-params-of';
 import type { SubjectRef } from './properties-subject.type';
-import { refToParams } from './subject-params';
+import { refToParams } from './ref-to-params';
 
 const writePin = (ref: SubjectRef | null, route?: string): void => {
   const state = useNavigationStore.getState();

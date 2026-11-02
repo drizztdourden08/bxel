@@ -16,7 +16,7 @@ export default brockEslint({
     ],
     why: 'A tag colour is any hex colour the user or the MCP client saved in the document, and the position and width of a frame, a tag bar or a playhead follow the duration of its frames and the zoom, so no fixed token class can carry them.',
   }, {
-    files: ['apps/desktop/src/views/LayerStack/sub-components/LayerRow.tsx'],
+    files: ['apps/desktop/src/views/LayerStack/sub-components/LayerLabel.tsx'],
     why: 'A layer colour tag is any hex colour the user or the MCP client saved in the document, so no fixed token class can carry it.',
   }, {
     files: ['apps/desktop/src/views/SpritesPanel/sub-components/SpriteRows.tsx'],

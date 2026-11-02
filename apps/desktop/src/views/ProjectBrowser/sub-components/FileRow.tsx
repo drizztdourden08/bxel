@@ -1,11 +1,9 @@
 /* @layer renderer-app @kind component */
 import { Box, Icon } from '@drizztdourden08/tessera';
-import { useRef } from 'react';
 import { rowCells } from '../../../project-browser/row-cells';
 import { entryBoxProps } from '../behavior/entry-box-props';
+import { useEntryBox } from '../behavior/useEntryBox';
 import { rowClass } from '../behavior/row-class';
-import { useEntryHandlers } from '../behavior/useEntryHandlers';
-import { useFolderDrop } from '../behavior/useFolderDrop';
 import type { RowProps } from '../ProjectBrowser.type';
 import { EntryBadges } from './EntryBadges';
 import { EntryMenu } from './EntryMenu';
@@ -14,10 +12,7 @@ import { RowCells } from './RowCells';
 import { ThumbBox } from './ThumbBox';
 
 const FileRow = ({ entry, column = false, open = false }: RowProps) => {
-  const ref = useRef<HTMLElement>(null);
-  const handlers = useEntryHandlers(entry, ref);
-  const over = useFolderDrop(ref, entry.kind === 'folder' ? entry.path : null);
-  const label = entry.kind === 'folder' ? entry.name : entry.row.name;
+  const { ref, handlers, over, label } = useEntryBox(entry);
   const lit = handlers.selected || open;
   return (
     <>

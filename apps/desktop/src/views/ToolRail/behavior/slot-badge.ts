@@ -5,13 +5,30 @@ import type { SlotBadge } from '../../SlotIcon';
 import { MODE_BADGES, TOOL_RAIL_TEXT } from '../ToolRail.constants';
 import type { BadgeState } from './slot-badge.type';
 
+const pencilBadge = (state: BadgeState): SlotBadge | null => (state.tiled === 'off' ? null : { glyph: 'T', text: TOOL_RAIL_TEXT.tiledBadge(state.tiled) });
+
+const fillBadge = (state: BadgeState): SlotBadge | null => (state.fillMode === 'global' ? { glyph: 'G', text: TOOL_RAIL_TEXT.globalBadge } : null);
+
+const filledBadge = (state: BadgeState): SlotBadge | null => (state.filled ? { glyph: 'F', text: TOOL_RAIL_TEXT.filledBadge } : null);
+
+const selectBadge = (state: BadgeState): SlotBadge | null =>
+  state.mode === 'replace' ? null : { glyph: MODE_BADGES[state.mode], text: TOOL_RAIL_TEXT.modeBadge(MODE_LABELS[state.mode]) };
+
 const slotBadge = (slot: ToolSlot, state: BadgeState): SlotBadge | null => {
   if (slot.surfaces.includes('map')) return null;
-  if (slot.tool === 'pencil' && state.tiled !== 'off') return { glyph: 'T', text: TOOL_RAIL_TEXT.tiledBadge(state.tiled) };
-  if (slot.tool === 'fill' && state.fillMode === 'global') return { glyph: 'G', text: TOOL_RAIL_TEXT.globalBadge };
-  if ((slot.tool === 'rect' || slot.tool === 'ellipse') && state.filled) return { glyph: 'F', text: TOOL_RAIL_TEXT.filledBadge };
-  if (slot.tool === 'select' && state.mode !== 'replace') return { glyph: MODE_BADGES[state.mode], text: TOOL_RAIL_TEXT.modeBadge(MODE_LABELS[state.mode]) };
-  return null;
+  switch (slot.tool) {
+    case 'pencil':
+      return pencilBadge(state);
+    case 'fill':
+      return fillBadge(state);
+    case 'rect':
+    case 'ellipse':
+      return filledBadge(state);
+    case 'select':
+      return selectBadge(state);
+    default:
+      return null;
+  }
 };
 
 export { slotBadge };

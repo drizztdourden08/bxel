@@ -1,5 +1,4 @@
 /* @layer renderer-app @kind component */
-import type { AnimDirection } from '@bxel/document';
 import { Flex, NumberInput, Select, TextInput } from '@drizztdourden08/tessera';
 import { useState } from 'react';
 import { ASSET_CONTROL_TEXT, TAG_DIRECTION_OPTIONS, TAG_REPEAT_LIMIT } from '../AssetControl.constants';
@@ -28,7 +27,7 @@ const TagRow = ({ row, readOnly, edit }: TagRowProps) => {
         value={row.direction}
         disabled={readOnly}
         aria-label={ASSET_CONTROL_TEXT.tagDirection}
-        onChange={(direction) => edit(row.id, { direction: direction as AnimDirection })}
+        onChange={(direction) => edit(row.id, { direction })}
       />
       <NumberInput
         value={row.repeat}

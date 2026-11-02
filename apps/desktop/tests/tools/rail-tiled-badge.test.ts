@@ -7,7 +7,7 @@ vi.mock('@drizztdourden08/brock-react', async () => (await import('./tools-harne
 
 const state = { fillMode: 'contiguous', filled: false, mode: 'replace', tiled: 'off' } as const;
 
-describe('K4 tiled badge on the pencil', () => {
+describe('K4 tiled badge on the pencil', { tags: ['critical'] }, () => {
   const pencil = slotsOf('sprite').find((slot) => slot.tool === 'pencil');
 
   it('shows no badge while tiled drawing is off', () => {

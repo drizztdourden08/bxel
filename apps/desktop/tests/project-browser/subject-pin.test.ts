@@ -2,7 +2,8 @@
 import { useNavigationStore } from '@drizztdourden08/brock-react';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { readPin } from '../../src/properties-subject/read-pin';
-import { paramsToRef, refToParams } from '../../src/properties-subject/subject-params';
+import { refToParams } from '../../src/properties-subject/ref-to-params';
+import { paramsToRef } from '../../src/properties-subject/subject-params';
 import { useSubjectStore } from '../../src/properties-subject/useSubjectStore';
 
 const ref = (path: string) => ({ path, key: null });

@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { applyGuide } from '../../../guides/apply-guide';
 import { guideLimit } from '../../../guides/guide-limit';
 import { removeGuide } from '../../../guides/remove-guide';
-import { DIALOG_TEXT } from '../../../sheet-manager/manager-text.constants';
 import { useGuideDialogStore } from '../../../stores/useGuideDialogStore';
+import { CancelApply } from '../../CancelApply';
 import { GUIDE_DIALOG_TEXT } from '../GuideDialog.constants';
 
 const GuideDialogContent = () => {
@@ -29,12 +29,7 @@ const GuideDialogContent = () => {
           {GUIDE_DIALOG_TEXT.remove}
         </Button>
       )}
-      <Button variant="tertiary" onClick={hide}>
-        {DIALOG_TEXT.cancel}
-      </Button>
-      <Button variant="primary" disabled={!valid} onClick={apply}>
-        {DIALOG_TEXT.apply}
-      </Button>
+      <CancelApply valid={valid} onCancel={hide} onApply={apply} />
     </>
   );
   return (
