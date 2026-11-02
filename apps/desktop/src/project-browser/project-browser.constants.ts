@@ -71,6 +71,7 @@ const BROWSER_TEXT = {
   newFolder: 'New folder',
   import: 'Import',
   importImage: 'Import an image...',
+  importAsSprite: 'Import as sprite',
   importPalette: 'Import a palette file...',
   importTiled: 'Import a Tiled map...',
   more: 'More',

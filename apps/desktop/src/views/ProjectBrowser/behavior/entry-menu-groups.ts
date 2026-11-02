@@ -16,6 +16,7 @@ const openGroup = ({ entry, picked, actions }: MenuInput): MenuGroup => {
     items: [
       { id: 'open', label: many ? `Open ${picked.length} files` : BROWSER_TEXT.open, icon: 'folder-open', onSelect: () => (many ? actions.openAll(picked) : actions.open(entry)) },
       { id: 'properties', label: many ? FILE_ACTION_TEXT.propertiesMany(picked.length) : BROWSER_TEXT.properties, icon: 'sliders-horizontal', shortcut: 'Alt+Enter', onSelect: () => actions.properties(many ? picked : [entry]) },
+      ...when(!many && entry.kind === 'file' && entry.row.kind === 'image', { id: 'import-sprite', label: BROWSER_TEXT.importAsSprite, icon: 'upload', onSelect: () => actions.importAsSprite(entry) }),
     ],
   };
 };

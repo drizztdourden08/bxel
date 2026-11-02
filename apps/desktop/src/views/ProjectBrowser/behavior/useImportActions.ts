@@ -8,7 +8,9 @@ import { pickPaletteFile } from '../../../palette-source/pick-palette-file';
 import { addPaletteFromRead } from '../../../project-config/add-palette-from-read';
 import { startTiledImport } from '../../../tiled-import/start-tiled-import';
 import { useImportStore } from '../../../stores/useImportStore';
+import type { BrowserEntry } from '../../../project-browser/project-browser.type';
 import { IMAGE_FILTERS } from '../ProjectBrowser.constants';
+import { importEntryImage } from './import-entry-image';
 import type { ImportActions } from '../ProjectBrowser.type';
 
 const useImportActions = (): ImportActions => {
@@ -41,7 +43,9 @@ const useImportActions = (): ImportActions => {
 
   const dropFiles = useCallback((files: readonly File[], folder: string): void => void dropIntoProject(files, folder, defaults), [defaults]);
 
-  return { importImage, importPalette, importTiled, dropFiles };
+  const importAsSprite = useCallback((entry: BrowserEntry): void => void importEntryImage(entry), []);
+
+  return { importImage, importAsSprite, importPalette, importTiled, dropFiles };
 };
 
 export { useImportActions };

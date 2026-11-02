@@ -41,6 +41,7 @@ type BrowserActions = {
   readonly undoMove: () => void;
   readonly dropFiles: (files: readonly File[], folder: string) => void;
   readonly importImage: () => void;
+  readonly importAsSprite: (entry: BrowserEntry) => void;
   readonly importPalette: () => void;
   readonly importTiled: () => void;
   readonly filterBy: (token: string) => void;
@@ -81,7 +82,7 @@ type BrowserActionState = { readonly actions: BrowserActions; readonly renaming:
 
 type OrganiseActions = Pick<BrowserActions, 'pin' | 'tag' | 'untag' | 'collect' | 'collectInNew' | 'newCollection' | 'deleteCollection' | 'saveFilter' | 'removeFilter'>;
 
-type ImportActions = { readonly importImage: () => void; readonly importPalette: () => void; readonly importTiled: () => void; readonly dropFiles: (files: readonly File[], folder: string) => void };
+type ImportActions = { readonly importImage: () => void; readonly importAsSprite: (entry: BrowserEntry) => void; readonly importPalette: () => void; readonly importTiled: () => void; readonly dropFiles: (files: readonly File[], folder: string) => void };
 
 type RenameFlow = {
   readonly renaming: string | null;
