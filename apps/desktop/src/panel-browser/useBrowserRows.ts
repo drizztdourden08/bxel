@@ -15,6 +15,19 @@ const modeFor = ({ view, search }: Pick<RowsInput, 'view' | 'search'>): ViewMode
   return view.mode === 'tree' && listOnly ? 'list' : view.mode;
 };
 
+const visibleSets = (mode: ViewMode, view: RowsInput['view'], filter: ReturnType<typeof filterTree>) => {
+  const tree = mode === 'tree';
+  const visible = tree && !view.highlightOnly ? (filter?.visible ?? null) : null;
+  const opened = tree && view.highlightOnly && filter !== null ? filter.visible : null;
+  return { visible, opened };
+};
+
+const filterFacts = (filter: ReturnType<typeof filterTree>, opened: ReadonlySet<string> | null) => ({
+  filtered: filter !== null,
+  shown: filter?.matches.size ?? null,
+  highlight: opened === null ? null : (filter?.matches ?? null),
+});
+
 const useBrowserRows = ({ model, view, search, create, facts, keys }: RowsInput): BrowserRows => {
   const { tree, statuses } = model;
   const filter = useMemo(() => filterTree(tree, search, { statuses, facts, keys }), [tree, search, statuses, facts, keys]);
@@ -22,13 +35,11 @@ const useBrowserRows = ({ model, view, search, create, facts, keys }: RowsInput)
   const collapsed = view.density === 'grid' ? NO_COLLAPSED : view.collapsedGroups;
   const listed = useMemo(() => listRows({ tree, matches: filter?.matches ?? null, collapsed, view }), [tree, filter, collapsed, view]);
   const nested = useMemo(() => (mode === 'tree' ? treeNest(tree, create) : listNest(listed)), [mode, tree, create, listed]);
-  const dimming = mode === 'tree' && !view.highlightOnly;
-  const visible = dimming ? (filter?.visible ?? null) : null;
-  const opened = mode === 'tree' && view.highlightOnly && filter !== null ? filter.visible : null;
+  const { visible, opened } = visibleSets(mode, view, filter);
   const open = useMemo(() => (opened === null ? view.expandedSet : new Set([...view.expandedSet, ...opened])), [view.expandedSet, opened]);
   const rows = useMemo(() => (mode === 'tree' ? flattenView(nested, open, visible) : listed), [mode, nested, open, visible, listed]);
   const itemOf = useCallback((key: string) => tree.items.get(key) ?? nested.top.find((each) => each.key === key), [tree, nested]);
-  return { rows, nested, mode, filtered: filter !== null, shown: filter?.matches.size ?? null, visible, highlight: opened === null ? null : (filter?.matches ?? null), opened, itemOf };
+  return { rows, nested, mode, ...filterFacts(filter, opened), visible, opened, itemOf };
 };
 
 export { useBrowserRows };

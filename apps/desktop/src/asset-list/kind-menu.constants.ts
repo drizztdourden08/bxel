@@ -4,7 +4,7 @@ const KIND_MENU = {
   applyPalette: 'Apply to the open asset',
   duplicateVariant: 'Duplicate as variant',
   newTilemapFrom: 'New tilemap from it',
-  splitLegacy: 'Split into files',
+  splitIntoFiles: 'Split into files',
   exportFrames: 'Export frames...',
   exportSheet: 'Export packed image and atlas...',
   exportMap: 'Export map...',

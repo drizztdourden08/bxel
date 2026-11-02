@@ -4,8 +4,7 @@ import type { AssetDefaults } from '@bxel/project';
 import { commands } from '@drizztdourden08/brock-react';
 import type { DroppedFile } from '@drizztdourden08/brock-react';
 import { dropKind } from '../file-ops/drop-kind';
-import { dropPalette } from '../file-ops/drop-palette';
-import { dropImage } from '../image-import/drop-image';
+import { dropImageAndPalettes } from '../file-ops/drop-image-and-palettes';
 import { addReferenceFromFile } from '../reference-image/add-reference-from-file';
 import { startSwitch } from '../palette-change/start-switch';
 import { useNoticeStore } from '../stores/useNoticeStore';
@@ -20,9 +19,7 @@ const dropFilesOnSprite = (dropped: readonly DroppedFile[], defaults: AssetDefau
     void addReferenceFromFile(reference.file, reference.path);
     return;
   }
-  const image = files.find((file) => dropKind(file) === 'image');
-  if (image) void dropImage(image);
-  for (const file of files.filter((each) => dropKind(each) === 'palette')) void dropPalette(file, defaults);
+  void dropImageAndPalettes(files, defaults);
 };
 
 const dropOnSprite = (payload: CanvasDropPayload, target: CanvasDropTarget, defaults: AssetDefaults): void => {

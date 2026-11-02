@@ -2,10 +2,9 @@
 import type { Artwork, Sprite } from '@bxel/document';
 import { effectivePlatform } from '../platform-preset/effective-platform';
 import { presetById } from '../platform-preset/preset-by-id';
+import { GENERIC_FAMILY } from './alpha-limit.constants';
 import { PANEL_TEXT } from './palette-panel.constants';
 import type { AlphaLimit } from './palette-panel.type';
-
-const GENERIC_FAMILY = 'Generic';
 
 const alphaLimit = (artwork: Artwork, sprite: Sprite | null): AlphaLimit => {
   const platform = effectivePlatform(artwork, sprite ?? undefined);

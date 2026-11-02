@@ -3,6 +3,8 @@ import { nav } from '@drizztdourden08/brock-react';
 import { useBrowserStore } from '../../project-browser/useBrowserStore';
 import { useSubjectStore } from '../../properties-subject/useSubjectStore';
 import { findAssetTab } from '../../workspace/find-asset-tab';
+import type { ToolContext } from '../assistant.type';
+import type { WindowTarget } from './window-step.type';
 import { APP_TOOL_TEXT } from './app-tool.constants';
 import { locationPath } from './location-path';
 import { locationPaths } from './location-paths';
@@ -20,22 +22,30 @@ const pinSubject = (path: string, pin: boolean | undefined): ReturnType<ViewStep
   return null;
 };
 
+const subjectStep = (context: ToolContext, target: WindowTarget): ReturnType<ViewStep> => {
+  if (target.subject === undefined) {
+    if (target.pin === false) useSubjectStore.getState().unpin();
+    return null;
+  }
+  const path = locationPath(context, target.subject, 'window.subject');
+  return path.ok ? pinSubject(path.value, target.pin) : reply(path);
+};
+
+const selectStep = (context: ToolContext, target: WindowTarget): ReturnType<ViewStep> => {
+  if (target.select === undefined) return null;
+  const picked = locationPaths(context, target.select, 'window.select');
+  if (!picked.ok) return reply(picked);
+  useBrowserStore.getState().select({ ids: picked.value, anchor: picked.value[0] ?? null });
+  return null;
+};
+
 const windowStep: ViewStep = (patch, context) => {
   const { window: target } = patch;
   if (!target) return null;
   const route = target.page === undefined ? WINDOW_ROUTES[target.open] : `${target.open}/${target.page}`;
   if (target.page !== undefined && !nav.routes().some((each) => each.route === route)) return viewFail(APP_TOOL_TEXT.badRoute(route), 'window.page');
-  if (target.subject !== undefined) {
-    const path = locationPath(context, target.subject, 'window.subject');
-    if (!path.ok) return reply(path);
-    const failed = pinSubject(path.value, target.pin);
-    if (failed) return failed;
-  } else if (target.pin === false) useSubjectStore.getState().unpin();
-  if (target.select !== undefined) {
-    const picked = locationPaths(context, target.select, 'window.select');
-    if (!picked.ok) return reply(picked);
-    useBrowserStore.getState().select({ ids: picked.value, anchor: picked.value[0] ?? null });
-  }
+  const failed = subjectStep(context, target) ?? selectStep(context, target);
+  if (failed) return failed;
   nav.open(route);
   return null;
 };

@@ -3,22 +3,14 @@ import { encodeBrushPixels } from '@bxel/document';
 import { useDocumentStore } from '../stores/useDocumentStore';
 import { useDrawingStore } from '../stores/useDrawingStore';
 import { useNoticeStore } from '../stores/useNoticeStore';
-import { currentTarget } from './current-target';
+import { selectedClip } from './selected-clip';
 import { PATTERN_REF, PATTERN_SIDE_MAX } from './pattern-from-selection.constants';
 import { savedPatterns } from './saved-patterns';
-import { celPixels } from './selection/cel-pixels';
-import { clipOf } from './selection/clip-of';
-import { SELECTION_TEXT } from './selection/selection.constants';
-import { selectionMask } from './selection/selection-mask';
 
 const patternFromSelection = (): boolean => {
-  const target = currentTarget();
-  const mask = target ? selectionMask(target) : null;
-  const clip = target && mask ? clipOf(celPixels(target), mask) : null;
-  if (!target || !clip) {
-    useNoticeStore.getState().post(SELECTION_TEXT.nothingSelected);
-    return false;
-  }
+  const picked = selectedClip();
+  if (!picked) return false;
+  const { target, clip } = picked;
   if (clip.width > PATTERN_SIDE_MAX || clip.height > PATTERN_SIDE_MAX) {
     useNoticeStore.getState().post(`A pattern is at most ${PATTERN_SIDE_MAX} by ${PATTERN_SIDE_MAX} pixels.`);
     return false;

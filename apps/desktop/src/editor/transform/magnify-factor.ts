@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
+import { MIN_FACTOR } from './magnify-factor.constants';
 import { SIZE_EPSILON } from './transform.constants';
 import type { TransformSpec } from './transform.type';
-
-const MIN_FACTOR = 2;
 
 const isPlain = (spec: TransformSpec): boolean =>
   spec.corners === null && spec.pivot === null && spec.angle === 0 && spec.skew.x === 0 && spec.skew.y === 0 && spec.offset.x === 0 && spec.offset.y === 0;

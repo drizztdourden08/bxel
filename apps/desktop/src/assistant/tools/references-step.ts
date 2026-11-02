@@ -5,14 +5,12 @@ import { addReferenceFromPath } from '../../reference-image/add-reference-from-p
 import { currentViewKey } from '../../reference-image/current-view-key';
 import { removeReferenceImage } from '../../reference-image/remove-reference-image';
 import { updateReferenceImage } from '../../reference-image/update-reference-image';
-import type { SetViewInput } from './app-tool-input.type';
 import { locationPath } from './location-path';
 import { reply } from './reply';
 import { REFERENCES_STEP_TEXT } from './references-step.constants';
+import type { References } from './references-step.type';
 import { viewFail } from './view-fail';
 import type { ViewStep } from './view-steps.type';
-
-type References = NonNullable<SetViewInput['references']>;
 
 const addAll = (references: References, context: ToolContext): ToolReply | null => {
   for (const [index, entry] of (references.add ?? []).entries()) {
