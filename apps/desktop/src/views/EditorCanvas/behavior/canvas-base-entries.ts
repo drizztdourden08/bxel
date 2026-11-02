@@ -2,6 +2,7 @@
 import type { Point } from '@bxel/raster';
 import { nav } from '@drizztdourden08/brock-react';
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
+import { ASSET_SETTINGS_COMMAND } from '../../../config-entry/config-entry.constants';
 import { unless } from '../../../context-menu/unless';
 import { viewEntries } from '../../../context-menu/view-entries';
 import { CANVAS_SIZE_COMMAND_ID } from '../../../keymap/canvas-size-command-id.constants';
@@ -46,6 +47,7 @@ const canvasBaseEntries = (here: Point | null, tile: boolean): readonly ContextM
     ],
   },
   { command: FILE_COMMAND.export, hidden: tile },
+  { command: ASSET_SETTINGS_COMMAND, label: CANVAS_MENU.spriteProperties },
 ];
 
 export { canvasBaseEntries };
