@@ -15,6 +15,7 @@ const VIEW_PANEL_TEXT = {
   tiled: 'Tiled preview',
   symmetry: 'Symmetry',
   background: 'Background',
+  reference: 'Reference images',
 } as const;
 
 const OVERLAY_TEXT = {

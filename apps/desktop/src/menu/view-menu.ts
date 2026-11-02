@@ -35,6 +35,7 @@ const viewMenu = (state: EditorMenuState): MenuItem => {
       ]),
       item(COMMAND_ID.rulers, 'Rulers', state.rulers),
       item(COMMAND_ID.guides, 'Guides', state.guides),
+      item('view.add_reference', 'Add reference...'),
       item(COMMAND_ID.snap, 'Snap', state.snap),
       item(COMMAND_ID.slices, 'Slices', state.slices),
       item(COMMAND_ID.lockGuides, 'Lock guides', state.lockGuides),

@@ -66,6 +66,7 @@ const VIEW: RuleTable = {
   ...family(['view.hide_overlays', 'view.lock_guides'], RULER_STAGE),
   ...family(['view.toggle_mirror', 'view.toggle_loupe', 'view.background_preview', 'view.fullscreen_preview', 'view.toggle_split', 'view.toggle_split_link', 'view.toggle_split_actual', 'view.describe_canvas', 'view.read_row', 'view.centre_here'], PIXEL, [], ONLY.pixels),
   ...family(['view.toggle_preview'], PIXEL),
+  ...family(['view.add_reference'], PIXEL, [], ONLY.pixels),
   ...family(['status.copy_cursor'], any(PIXEL, MAP, SHEET)),
   ...family(['status.copy_index'], PIXEL, [], ONLY.pixels),
 };

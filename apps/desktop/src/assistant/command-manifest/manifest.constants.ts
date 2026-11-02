@@ -62,6 +62,7 @@ const EDIT_ROWS = [
   one('guide.add_here', 'edit_pixels', 'edit', { args: 'axis' }),
   one('guide.edit', 'app_control', 'show', { args: 'axis' }),
   one('guide.clear', 'edit_pixels', 'edit'),
+  one('view.add_reference', 'app_control', 'show'),
 ];
 
 const SHEET_ROWS = [

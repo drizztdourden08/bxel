@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { IconName } from '@drizztdourden08/tessera';
 import type { ReactNode } from 'react';
+import type { ReferenceImage } from '../../asset-view/reference-image.type';
 import type { GuideRow } from '../../guides/guide.type';
 import type { PreviewScale } from '../../stores/preview-store.type';
 import type { CanvasSurface } from '../../canvas-surface/canvas-surface.type';
@@ -39,6 +40,10 @@ interface PreviewCanvasProps {
   scale: PreviewScale;
 }
 
+interface ReferenceRowProps {
+  image: ReferenceImage;
+}
+
 interface GuideRowProps {
   row: GuideRow;
 }
@@ -47,4 +52,4 @@ interface TiledGlyphProps {
   mode: string;
 }
 
-export type { FixedProps, GuideRowProps, LineSwatchProps, PreviewCanvasProps, OverlayRowProps, SurfaceProps, TiledGlyphProps, ViewSectionProps };
+export type { FixedProps, GuideRowProps, LineSwatchProps, PreviewCanvasProps, OverlayRowProps, ReferenceRowProps, SurfaceProps, TiledGlyphProps, ViewSectionProps };
