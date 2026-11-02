@@ -75,6 +75,22 @@ describe('S2 the eraser right button', { tags: ['standard'] }, () => {
   });
 });
 
+describe('S2 the eraser Only colour mode', { tags: ['standard'] }, () => {
+  it('clears only pixels of the back colour with the left button', () => {
+    tools().setForeground(5);
+    tools().setBackground(9);
+    commitSession(startSession({ kind: 'stroke', tool: 'pencil', slot: 'foreground', line: false }, live(), { x: 3, y: 3 }));
+    commitSession(startSession({ kind: 'stroke', tool: 'pencil', slot: 'background', line: false }, live(), { x: 4, y: 3 }));
+    drawing().patch({ eraseMode: 'colour' });
+    const session = startSession({ kind: 'stroke', tool: 'eraser', slot: 'foreground', line: false }, live(), { x: 3, y: 3 });
+    if (session.kind !== 'stroke') throw new Error('expected a stroke');
+    session.points.push({ x: 4, y: 3 });
+    commitSession(session);
+    expect(flat()[3 * 32 + 3]).toBe(5);
+    expect(flat()[3 * 32 + 4]).toBe(0);
+  });
+});
+
 describe('S2 an ink on a stroke', { tags: ['standard'] }, () => {
   it('lock alpha recolours only what is already painted, on the overlay and in the commit', () => {
     tools().setForeground(4);

@@ -23,6 +23,8 @@ type LinkedChoice = 'ask' | 'unlink' | 'all';
 
 type CelsChoice = 'frame' | 'selected';
 
+type EraseMode = 'all' | 'colour';
+
 type BrushMode = 'colour' | 'stencil';
 
 type SymmetryMode = 'diagonal' | 'turn' | 'tile';
@@ -30,6 +32,7 @@ type SymmetryMode = 'diagonal' | 'turn' | 'tile';
 interface DrawingSettings {
   inks: Readonly<Record<string, InkKind>>;
   onlyColour: number | null;
+  eraseMode: EraseMode;
   ditherPattern: DitherPattern;
   ditherLevel: number;
   ditherCustom: boolean;
@@ -88,6 +91,7 @@ export type {
   CelsChoice,
   DrawingSettings,
   DrawingState,
+  EraseMode,
   FillColour,
   FilledTool,
   FillMatch,
