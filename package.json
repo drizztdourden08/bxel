@@ -25,7 +25,8 @@
     "test:pr": "standards test pr",
     "test:e2e": "standards test e2e --config vitest.e2e.config.ts",
     "bench": "vitest bench --run",
-    "postinstall": "node bin/bxel.mjs --link"
+    "postinstall": "node bin/bxel.mjs --link",
+    "structure": "brock structure --check"
   },
   "brock": {
     "version": "0.116.0"
