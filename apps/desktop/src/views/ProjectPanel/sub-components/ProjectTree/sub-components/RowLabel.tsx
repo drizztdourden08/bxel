@@ -16,7 +16,7 @@ const RowLabel = (props: RowNameProps) => {
   const creating = item.key === FILE_NEW_KEY;
   const editing = creating || (model.edit.editing?.kind === 'rename' && model.edit.editing.key === item.key);
   return (
-    <Box ref={ref} className="project-label" data-over={model.drag.dropKey === item.key} {...keepsWidgetFocus()} {...model.drag.dropOn(item)}>
+    <Box ref={ref} className="project-label" data-over={model.drag.dropKey === item.key} {...keepsWidgetFocus()}>
       {editing ? <RowEditor {...props} creating={creating} /> : <RowName {...props} />}
     </Box>
   );

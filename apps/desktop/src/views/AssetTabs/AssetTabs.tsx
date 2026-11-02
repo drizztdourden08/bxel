@@ -19,9 +19,9 @@ const AssetTabs = () => {
   const adding = useFileTypePanelStore((state) => state.open);
   const show = useFileTypePanelStore((state) => state.show);
   const ref = useRef<HTMLDivElement>(null);
-  const drop = useTabStripDrop(ref);
+  useTabStripDrop(ref);
   return (
-    <Box ref={ref} {...focusRegion(ASSET_TABS_TEXT.label, ASSET_TABS_TEXT.label)} {...drop}>
+    <Box ref={ref} {...focusRegion(ASSET_TABS_TEXT.label, ASSET_TABS_TEXT.label)}>
       <Flex className="asset-tabs" {...contextMenuZone(TAB_MENU.zone)}>
         <DocumentTabs
           className="asset-tabs__tabs"

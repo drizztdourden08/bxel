@@ -1,10 +1,11 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
-import { readNativeAssets } from '../../src/asset-drag/read-native-assets';
 import { dropKind } from '../../src/file-ops/drop-kind';
 import { moveTargets } from '../../src/project-browser/move-targets';
 import { splitTags } from '../../src/properties-subject/split-tags';
 import { quickOpenOptions } from '../../src/quick-open/quick-open-options';
+import type { BrowserEntry } from '../../src/project-browser/project-browser.type';
+import { browserAsset } from '../../src/views/ProjectBrowser/behavior/browser-asset';
 
 const ROOTS = [{ path: '/p/art', name: 'art', linked: false }];
 
@@ -42,11 +43,12 @@ describe('K1 files dropped from the operating system', { tags: ['critical'] }, (
   });
 });
 
-describe('K1 dragged project entries read back for the tab strip', { tags: ['critical'] }, () => {
-  it('reads the assets and ignores anything malformed', () => {
-    const text = JSON.stringify([{ id: 'a', kind: 'sprite', assetId: 'x', path: '/p/a.bxsprite' }, { id: 1 }, null]);
-    expect(readNativeAssets(text)).toEqual([{ id: 'a', kind: 'sprite', assetId: 'x', path: '/p/a.bxsprite' }]);
-    expect(readNativeAssets('not json')).toEqual([]);
+describe('K1 dragged project entries carried as the typed asset payload', { tags: ['critical'] }, () => {
+  it('describes a file and a folder with the fields the tab strip and folder drops read', () => {
+    const file = { kind: 'file', id: 'a', row: { kind: 'sprite', assetId: 'x', path: '/p/a.bxsprite' } } as BrowserEntry;
+    const folder = { kind: 'folder', id: 'art', path: '/p/art', name: 'art', count: 0, root: false, linked: false } as BrowserEntry;
+    expect(browserAsset(file)).toEqual({ id: 'a', kind: 'sprite', assetId: 'x', path: '/p/a.bxsprite' });
+    expect(browserAsset(folder)).toEqual({ id: 'art', kind: 'folder', assetId: null, path: '/p/art' });
   });
 });
 

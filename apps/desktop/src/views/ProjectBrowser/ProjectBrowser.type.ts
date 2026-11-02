@@ -4,7 +4,7 @@ import type { BrowserModel } from '../../project-browser/browser-model.type';
 import type { OpenProject } from '../../project/project.type';
 import type { DiskProject } from '../../project-manager/project-manager.type';
 import type { ContextMenuPoint, MenuGroup, VirtualGridCellBind } from '@drizztdourden08/tessera';
-import type { DragEvent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type { RgbaImage } from '@bxel/formats';
 import type { OrganiseCollection } from '@bxel/project';
 import type { PreviewLayer } from '../../asset-overview/asset-overview.type';
@@ -60,23 +60,12 @@ type EntryProps = { readonly entry: BrowserEntry };
 
 type ProjectBrowserProps = { readonly project: OpenProject | null; readonly disk: DiskProject | null };
 
-type DragItem = { readonly id: string; readonly kind: string; readonly assetId: string | null; readonly path: string };
-
 type MenuInput = {
   readonly entry: BrowserEntry;
   readonly picked: readonly BrowserEntry[];
   readonly actions: BrowserActions;
   readonly editable: boolean;
   readonly collections: readonly OrganiseCollection[];
-};
-
-type FolderDrop = {
-  readonly over: boolean;
-  readonly handlers: {
-    readonly onDragOver: (event: DragEvent) => void;
-    readonly onDragLeave: () => void;
-    readonly onDrop: (event: DragEvent) => void;
-  };
 };
 
 type EntryMenuProps = { readonly point: ContextMenuPoint | null; readonly groups: readonly MenuGroup[]; readonly label: string; readonly onClose: () => void };
@@ -126,4 +115,4 @@ type PreviewLayersProps = {
   readonly onToggle: (id: string) => void;
 };
 
-export type { PreviewLayersProps, ReferenceListProps, FileMoveActions, OrganiseActions, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, DragItem, EntryMenuProps, EntryProps, FolderDrop, MenuInput, ProjectBrowserProps, TileProps };
+export type { PreviewLayersProps, ReferenceListProps, FileMoveActions, OrganiseActions, SourceSectionProps, SourceTreeProps, BrowserActionState, Commands, ImportActions, RenameFlow, RowCellTextProps, RowProps, ThumbCanvasProps, BrowserActions, BrowserContextValue, Column, EntryMenuProps, EntryProps, MenuInput, ProjectBrowserProps, TileProps };
