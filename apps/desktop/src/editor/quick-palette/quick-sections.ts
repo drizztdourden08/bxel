@@ -5,7 +5,7 @@ import { memberById } from '../tool-catalogue/member-by-id';
 import { slotsOf } from '../tool-catalogue/slots-of';
 import { SLOT_GROUPS } from '../tool-catalogue/tool-catalogue.constants';
 import type { ToolMember } from '../tool-catalogue/tool-catalogue.type';
-import { quickId } from './quick-id';
+import { quickId } from './make-quick-id';
 import { QUICK_TEXT } from './quick-palette.constants';
 import type { QuickInput, QuickKind } from './quick-palette.type';
 

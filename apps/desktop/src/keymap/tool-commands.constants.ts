@@ -5,8 +5,6 @@ import { applyPreset } from '../editor/presets/apply-preset';
 import { openSaveDraft } from '../editor/presets/open-save-draft';
 import { quickPresets } from '../editor/presets/quick-presets';
 import { openQuickPalette } from '../editor/quick-palette/open-quick-palette';
-import { QUICK_TAP_MS } from '../editor/quick-palette/quick-palette.constants';
-import { releaseQuickPalette } from '../editor/quick-palette/release-quick-palette';
 import { chordOfKey } from '../editor/tool-catalogue/chord-of-key';
 import { keyOfTool } from '../editor/tool-catalogue/key-of-tool';
 import { labelOfTool } from '../editor/tool-catalogue/label-of-tool';
@@ -119,7 +117,7 @@ const PRESET_COMMANDS: readonly CommandDef[] = [
   { id: TOOL_COMMAND.selectMember, label: 'Pick a tool variant', group: COMMAND_GROUP.tools, run: selectMemberById },
   { id: TOOL_COMMAND.hideMember, label: 'Hide or show a tool variant', group: COMMAND_GROUP.tools, run: hideMemberById },
   { id: TOOL_COMMAND.customize, label: 'Customize tools', group: COMMAND_GROUP.tools, run: () => useCustomizeStore.getState().show(true) },
-  { id: TOOL_COMMAND.quickPalette, label: 'Quick palette at the pointer', group: COMMAND_GROUP.tools, chord: '`', hold: { release: releaseQuickPalette, tapMs: QUICK_TAP_MS }, run: openQuickPalette },
+  { id: TOOL_COMMAND.quickPalette, label: 'Quick palette at the pointer', group: COMMAND_GROUP.tools, chord: '`', run: openQuickPalette },
   { id: TOOL_COMMAND.resetOptions, label: 'Reset the options of the tool', group: COMMAND_GROUP.tools, run: () => resetTool(useToolStore.getState().tool) },
   {
     id: TOOL_COMMAND.previous,

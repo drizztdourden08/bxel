@@ -1,8 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { QUICK_KINDS } from './quick-palette.constants';
-import type { QuickChoice, QuickKind } from './quick-palette.type';
-
-const quickId = (kind: QuickKind, id: string): string => `${kind}:${id}`;
+import type { QuickChoice } from './quick-palette.type';
 
 const parseQuickId = (value: string): QuickChoice | null => {
   const at = value.indexOf(':');
@@ -10,4 +8,4 @@ const parseQuickId = (value: string): QuickChoice | null => {
   return at < 0 || kind === undefined ? null : { kind, id: value.slice(at + 1) };
 };
 
-export { parseQuickId, quickId };
+export { parseQuickId };
