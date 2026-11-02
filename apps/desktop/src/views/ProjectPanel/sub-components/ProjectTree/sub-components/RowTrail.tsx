@@ -4,7 +4,6 @@ import type { MouseEvent } from 'react';
 import { FILE_NEW_KEY } from '../../../../../panel-browser/project-browser.constants';
 import { PANEL_UI } from '../../../ProjectPanel.constants';
 import type { RowPartProps } from '../ProjectTree.type';
-import { RowBadges } from './RowBadges';
 import './RowTrail.css';
 
 const RowTrail = (props: RowPartProps) => {
@@ -18,7 +17,6 @@ const RowTrail = (props: RowPartProps) => {
   const grant = item.readOnly && item.role !== 'group';
   return (
     <Box className="project-trail">
-      <RowBadges {...props} />
       {grant ? (
         <Button variant="secondary" size="xs" onClick={() => model.grantFolder(item.key)}>
           {PANEL_UI.grant}

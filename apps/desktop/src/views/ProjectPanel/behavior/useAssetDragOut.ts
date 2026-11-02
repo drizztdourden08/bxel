@@ -9,10 +9,10 @@ import { exportable } from './exportable';
 
 const assetOf = (item: BrowserItem): DragAsset => ({ id: item.row?.id ?? item.key, kind: item.kind, assetId: item.row?.assetId ?? null, path: item.path });
 
-const useAssetDragOut = (ref: RefObject<HTMLElement | null>, item: BrowserItem, selection: Pick<SelectionModel, 'keys' | 'targets'>): void =>
+const useAssetDragOut = (ref: RefObject<HTMLElement | null>, item: BrowserItem, selection: Pick<SelectionModel, 'keys' | 'targets'>, held?: () => boolean): void =>
   useDragSource(ref, {
     type: ASSET_DRAG,
-    disabled: !exportable(item),
+    disabled: () => !exportable(item) || (held?.() ?? false),
     payload: () => (selection.keys.has(item.key) ? selection.targets : [item]).filter(exportable).map(assetOf),
   });
 

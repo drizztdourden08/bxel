@@ -6,6 +6,9 @@ import { useThumb } from '../../../../../asset-thumbs/useThumb';
 import { EMPTY_STATUS, ITEM_ICON } from '../../../../../panel-browser/project-browser.constants';
 import { rowLabel } from '../../../../../panel-browser/row-label';
 import { ITEM_ATTRIBUTE } from '../../../ProjectPanel.constants';
+import { useOsDragOut } from '../../../../../drag-out/useOsDragOut';
+import { exportable } from '../../../behavior/exportable';
+import { itemPaths } from '../../../behavior/item-paths';
 import { useAssetDragOut } from '../../../behavior/useAssetDragOut';
 import { AssistantMark } from '../../AssistantMark';
 import type { GridTileProps } from '../ProjectGrid.type';
@@ -14,7 +17,8 @@ import './GridTile.css';
 const GridTile = ({ model, item, cell }: GridTileProps) => {
   const { selection, rowActions, data } = model;
   const ref = useRef<HTMLDivElement>(null);
-  useAssetDragOut(ref, item, selection);
+  const osDrag = useOsDragOut(ref, { paths: () => itemPaths(selection.keys.has(item.key) ? selection.targets : [item]), disabled: !exportable(item) });
+  useAssetDragOut(ref, item, selection, osDrag.holding);
   const status = data.statuses.get(item.key) ?? EMPTY_STATUS;
   const url = useThumb(item);
   const icon = <Icon name={ITEM_ICON[item.kind]} />;
@@ -30,6 +34,7 @@ const GridTile = ({ model, item, cell }: GridTileProps) => {
       data-active={status.active}
       data-ghost={item.role === 'ghost'}
       {...{ [ITEM_ATTRIBUTE]: item.key }}
+      {...osDrag.handlers}
       onClick={click}
       onDoubleClick={() => rowActions.open(item)}
     >

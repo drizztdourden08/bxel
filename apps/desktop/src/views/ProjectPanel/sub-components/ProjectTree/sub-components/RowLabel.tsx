@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { FILE_NEW_KEY } from '../../../../../panel-browser/project-browser.constants';
 import { useFolderDropTarget } from '../../../behavior/useFolderDropTarget';
 import type { RowNameProps } from '../ProjectTree.type';
+import { RowBadges } from './RowBadges';
 import { RowEditor } from './RowEditor';
 import { RowName } from './RowName';
 import './RowLabel.css';
@@ -18,6 +19,7 @@ const RowLabel = (props: RowNameProps) => {
   return (
     <Box ref={ref} className="project-label" data-over={model.drag.dropKey === item.key} {...keepsWidgetFocus()}>
       {editing ? <RowEditor {...props} creating={creating} /> : <RowName {...props} />}
+      {editing ? null : <RowBadges {...props} />}
     </Box>
   );
 };
