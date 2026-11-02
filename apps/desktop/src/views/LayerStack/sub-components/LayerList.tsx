@@ -4,7 +4,7 @@ import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import type { LayerNode } from '../behavior/layer-nodes.type';
 import { useLayerSweep } from '../behavior/useLayerSweep';
 import { useLayerTree } from '../behavior/useLayerTree';
-import { LAYER_STACK_TEXT } from '../LayerStack.constants';
+import { LAYER_ROW_SIZE, LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerListProps } from '../LayerStack.type';
 import { LayerLabel } from './LayerLabel';
 import { LayerTrail } from './LayerTrail';
@@ -25,9 +25,8 @@ const LayerList = ({ model, rows, filtered, picked, pick, pickKeys, thumbSize }:
         getChildren={(node) => (node.row.kind === 'group' ? node.children : undefined)}
         isBranch={(node) => node.row.kind === 'group'}
         getLabel={(node) => node.row.name}
-        rowSize={thumbSize === 24 ? 'normal' : 'compact'}
+        rowSize={LAYER_ROW_SIZE[thumbSize]}
         trail="always"
-        className={thumbSize === 40 ? 'layer-list__tree layer-list__tree--large' : 'layer-list__tree'}
         renderLabel={(node) => (
           <LayerLabel
             row={node.row}

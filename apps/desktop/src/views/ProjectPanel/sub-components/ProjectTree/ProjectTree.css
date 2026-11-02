@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind style */
 .project-body > .project-tree {
-  --tree-row-h: var(--size-40);
   --tree-thumb: var(--size-28);
 
   flex: 1;
@@ -9,6 +8,5 @@
 }
 
 .project-body > .project-tree[data-row-size='compact'] {
-  --tree-row-h: var(--size-24);
   --tree-thumb: var(--size-16);
 }
