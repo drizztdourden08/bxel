@@ -7,6 +7,7 @@ import { choiceSpec } from './choice-spec';
 import { DRAWING_TEXT, FILL_MATCH_CHOICES, FILL_SAMPLE_CHOICES, PICK_SAMPLE_CHOICES, SHADE_MODE_CHOICES } from './drawing-text.constants';
 import { numberSpec } from './number-spec';
 import { rampChoices } from './ramp-choices';
+import { TILE_CENTRE_TEXT } from './tile-centre-text.constants';
 import { toggleSpec } from './toggle-spec';
 
 const d = () => useDrawingStore.getState();
@@ -27,6 +28,10 @@ const pickAndFill: OptionSpec[] = [
   choiceSpec({
     tool: 'fill', name: 'match', label: DRAWING_TEXT.fillMatch, description: DRAWING_TEXT.fillMatchDescription, priority: 31, group: 'area', tier: 2, default: 'index',
     choices: FILL_MATCH_CHOICES, read: () => d().fillMatch, write: (value) => d().patch({ fillMatch: value as FillMatch }),
+  }),
+  toggleSpec({
+    tool: 'fill', name: 'stop_at_tiles', label: TILE_CENTRE_TEXT.stopAtTiles, description: TILE_CENTRE_TEXT.stopAtTilesDescription, priority: 32, group: 'area', tier: 2,
+    icon: 'pixel-tileset', read: () => d().fillStopAtTiles, write: (on) => d().patch({ fillStopAtTiles: on }),
   }),
 ];
 

@@ -72,6 +72,7 @@ const BROWSER_TEXT = {
   import: 'Import',
   importImage: 'Import an image...',
   importPalette: 'Import a palette file...',
+  importTiled: 'Import a Tiled map...',
   more: 'More',
   pack: 'Pack project...',
   revealProject: 'Show the project folder in Explorer',

@@ -15,6 +15,7 @@ const MoreMenu = () => {
       items: [
         { id: 'image', label: BROWSER_TEXT.importImage, icon: 'upload', disabled: !model.editable, onSelect: actions.importImage },
         { id: 'palette', label: BROWSER_TEXT.importPalette, icon: 'pixel-palette', disabled: !model.editable, onSelect: actions.importPalette },
+        { id: 'tiled', label: BROWSER_TEXT.importTiled, icon: 'pixel-tileset', disabled: !model.editable, onSelect: actions.importTiled },
       ],
     },
     {

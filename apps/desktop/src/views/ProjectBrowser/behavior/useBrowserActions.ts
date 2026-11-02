@@ -71,10 +71,11 @@ const useBrowserActions = (model: BrowserModel): BrowserActionState => {
       ...moves,
       importImage: imports.importImage,
       importPalette: imports.importPalette,
+      importTiled: imports.importTiled,
       dropFiles: imports.dropFiles,
       filterBy: (text) => useBrowserStore.getState().setQuery(text),
     }),
-    [rename.startRename, rename.commitRename, rename.cancelRename, rename.newFolder, imports.importImage, imports.importPalette, imports.dropFiles, organise, moves, folder],
+    [rename.startRename, rename.commitRename, rename.cancelRename, rename.newFolder, imports.importImage, imports.importPalette, imports.importTiled, imports.dropFiles, organise, moves, folder],
   );
 
   return { actions, renaming: rename.renaming, renameError: rename.renameError };

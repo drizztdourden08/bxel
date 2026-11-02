@@ -9,7 +9,7 @@ import { updateGradient } from '../../../editor/update-gradient';
 import { updateShape } from '../../../editor/update-shape';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
 import { useGestureStore } from '../../../stores/useGestureStore';
-import { gestureMods } from './gesture-mods';
+import { shapeMods } from './shape-mods';
 import { penPressure } from './pen-pressure';
 
 const moveSession = (session: PaintSession, at: Point, event: PointerEvent<HTMLElement>): void => {
@@ -19,7 +19,7 @@ const moveSession = (session: PaintSession, at: Point, event: PointerEvent<HTMLE
       extendStroke(session, at);
       return;
     case 'shape':
-      updateShape(session, at, gestureMods(event));
+      updateShape(session, at, shapeMods(event));
       hint.setHint(session.label);
       return;
     case 'path':
