@@ -44,9 +44,9 @@ describe('K1 the evaluator', { tags: ['critical'] }, () => {
     expect(evaluate('selection.cut', columnContext('Se')).state).toBe('shown');
   });
 
-  it('hides an id that has no rule and knows which ids have a rule', () => {
+  it('lets an id with no rule through as shown and knows which ids have a rule', () => {
     expect(hasRule('no.such_command')).toBe(false);
-    expect(evaluate('no.such_command', columnContext('Pa'))).toEqual({ state: 'hidden', reason: null });
+    expect(evaluate('no.such_command', columnContext('Pa'))).toEqual({ state: 'shown', reason: null });
     expect(hasRule('tool.select_pencil')).toBe(true);
   });
 
