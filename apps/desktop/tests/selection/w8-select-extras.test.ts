@@ -42,9 +42,9 @@ describe('W8 selection extras', { tags: ['standard'] }, () => {
     const origin = { x: 0, y: 0, width: 2, height: 2 };
     const drag = { kind: 'move' as const, id: 'slc_1' as never, start: { x: 0, y: 0 }, origin, rect: { ...origin, x: BLOCK.x + 1 } };
     useViewStore.setState({ snap: false, guides: true });
-    expect(snapSliceMove(drag, 8).rect.x).toBe(BLOCK.x + 1);
+    expect(snapSliceMove(drag, 2).rect.x).toBe(BLOCK.x + 1);
     useViewStore.setState({ snap: true, guides: true });
-    expect(snapSliceMove(drag, 8).rect.x).toBe(BLOCK.x);
+    expect(snapSliceMove(drag, 2).rect.x).toBe(BLOCK.x);
     useViewStore.setState({ snap: false });
   });
 

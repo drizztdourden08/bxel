@@ -87,6 +87,7 @@ describe('K1 the view menu', { tags: ['critical'] }, () => {
       'Grid',
       'Rulers',
       'Guides',
+      'Add reference...',
       'Snap',
       'Slices',
       'Lock guides',
