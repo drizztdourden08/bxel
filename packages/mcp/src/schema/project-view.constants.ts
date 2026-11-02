@@ -56,4 +56,12 @@ const TILESET_INPUT_SCHEMA = z.strictObject({
   terrainSet: z.string().min(1).max(100).nullable().optional().describe('The id of the terrain set the terrain brush and the terrain panel use. Null picks the first set.'),
 });
 
-export { BROWSE_INPUT_SCHEMA, PROJECT_PANEL_INPUT_SCHEMA, PROPERTIES_INPUT_SCHEMA, TILESET_INPUT_SCHEMA };
+const WINDOW_INPUT_SCHEMA = z.strictObject({
+  open: z.enum(['project', 'properties', 'options']).describe('The window to open: Project (files), Properties (one file) or Options (the app).'),
+  page: z.string().min(1).max(100).optional().describe('The page inside the window, such as browse, health or projects in Project. Absent opens the first page.'),
+  subject: LOCATION_SCHEMA.optional().describe('For Properties: the project file it shows. The file stays pinned when pin is true.'),
+  pin: z.boolean().optional().describe('For Properties: true pins the subject, false unpins it so the window follows the active tab.'),
+  select: z.array(LOCATION_SCHEMA).max(500).optional().describe('For Project: the files and folders selected on the Browse page.'),
+});
+
+export { BROWSE_INPUT_SCHEMA, PROJECT_PANEL_INPUT_SCHEMA, PROPERTIES_INPUT_SCHEMA, TILESET_INPUT_SCHEMA, WINDOW_INPUT_SCHEMA };
