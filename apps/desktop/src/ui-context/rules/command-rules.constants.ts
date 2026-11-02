@@ -74,7 +74,7 @@ const HISTORY: RuleTable = {
 };
 
 const LAYERS: RuleTable = {
-  ...family(['layer.add', 'layer.delete'], EDIT_STAGE, [WRITE]),
+  ...family(['layer.add', 'layer.delete', 'layer.rename'], EDIT_STAGE, [WRITE]),
   ...family(['layer.select_above', 'layer.select_below'], EDIT_STAGE),
   ...family(
     ['layer.toggle_visible', 'layer.toggle_locked', 'layer.set_lock', 'layer.set_colour', 'layer.show_all', 'layer.hide_others', 'layer.lock_others', 'layer.unlock_all'],
@@ -132,7 +132,7 @@ const SHEET_EDITS = [
 
 const SHEET_VIEWS = [
   'sprite.isolate', 'sprite.compare', 'sprite.save_selection', 'sprite.sort_by_name', 'sprite.select_none', 'sprite.select_invert', 'sprite.select_same_size',
-  'sprite.select_same_folder', 'sprite.open_entry', 'sprite.open_in_timeline', 'sprite.copy_entries', 'sprite.cut_entries', 'sprite.export_selection_sheet', 'sprite.export_selection_files', 'sprite.show_in_project', 'sprite.add_from_project', 'sprite.select_duplicates', 'sprite.load_selection', 'sprite.drop_selection', 'sprite.select_by_trait', 'manager.clear_filters',
+  'sprite.select_same_folder', 'sprite.open_entry', 'sprite.open_in_timeline', 'sprite.copy_entries', 'sprite.cut_entries', 'sprite.export_selection_sheet', 'sprite.export_selection_files', 'sprite.show_in_project', 'sprite.add_from_project', 'sprite.select_visible', 'sprite.select_duplicates', 'sprite.load_selection', 'sprite.drop_selection', 'sprite.select_by_trait', 'manager.clear_filters',
 ];
 
 const SHEETS: RuleTable = {
@@ -171,7 +171,7 @@ const TILES: RuleTable = {
 };
 
 const PALETTES: RuleTable = {
-  ...family(['palette.delete_swatch', 'palette.merge_swatch', 'palette.change_limit'], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
+  ...family(['palette.delete_swatch', 'palette.merge_swatch', 'palette.change_limit', 'palette.edit_swatch'], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
   ...family(['palette.copy_hex', 'palette.reveal_swatch', 'palette.use_as'], PALETTE_STAGE, [], ONLY.swatches),
   ...family(['palette.pick_here'], PIXEL, [], ONLY.pixels),
   ...family(['palette.add_colour', 'palette.new_ramp', 'palette.make_ramp', 'palette.make_ramp_by_lightness', 'palette.gradient_between'], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
@@ -200,7 +200,7 @@ const FILES: RuleTable = {
   ...family(['project.close', 'project.settings', 'project.pack', 'project.health'], always, [[projectOpen, REASON.noProject]]),
   ...family(['project.rename_file', 'project.move_files', 'project.trash_files', 'project.make_folder', 'project.quick_open', 'project.undo_move'], always, [[projectOpen, REASON.noProject]]),
   ...family(PANEL_COMMAND_IDS, always, [[projectOpen, REASON.noProject]]),
-  ...family(['tab.close', 'tab.close_others', 'tab.close_right', 'tab.move_left', 'tab.move_right', 'asset.reveal', 'asset.copy_path', 'asset.show_in_project'], always),
+  ...family(['tab.close', 'tab.close_others', 'tab.close_right', 'tab.move_left', 'tab.move_right', 'asset.reveal', 'asset.copy_path', 'asset.show_in_project', 'asset.rename'], always),
 };
 
 const COMMAND_RULES: RuleTable = {
