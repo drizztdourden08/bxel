@@ -8,7 +8,11 @@ const paintLabel = (frame: RulerFrame, text: string, at: number): void => {
   const { ctx, axis } = frame;
   ctx.save();
   ctx.textBaseline = 'top';
-  if (axis === 'x') {
+  if (frame.reversed) {
+    ctx.translate(at, 0);
+    ctx.scale(-1, 1);
+    ctx.fillText(text, RULER_SIZES.labelInset, 1);
+  } else if (axis === 'x') {
     ctx.fillText(text, at + RULER_SIZES.labelInset, 1);
   } else {
     ctx.translate(RULER_SIZES.font + 1, at + RULER_SIZES.labelInset);

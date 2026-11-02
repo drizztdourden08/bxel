@@ -8,6 +8,7 @@ interface RulerSpan {
   length: number;
   count: number;
   unit?: UnitScale;
+  reversed?: boolean;
 }
 
 interface AlongRect {
@@ -46,6 +47,7 @@ interface RulerFrame {
   length: number;
   thickness: number;
   look: RulerLook;
+  reversed: boolean;
 }
 
 interface RulerView {

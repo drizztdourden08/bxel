@@ -124,6 +124,10 @@ describe('K1 the stage header chips of a sprite', { tags: ['critical'] }, () => 
     expect(built({ hiddenGrids: true }).chips.map((chip) => chip.text)).toEqual(['Grid hidden at this zoom']);
   });
 
+  it('says when the view is mirrored', () => {
+    expect(built({ mirrored: true }).chips.map((chip) => chip.text)).toEqual(['Mirrored view']);
+  });
+
   it('names the assistant action while it is fresh', () => {
     expect(built({ assistant: 'Helper App: Flip horizontal' }).chips.map((chip) => chip.text)).toEqual(['Helper App: Flip horizontal']);
   });

@@ -18,7 +18,12 @@ const paintRuler = (canvas: HTMLCanvasElement, plan: RulerPlan): void => {
     length: horizontal ? canvas.clientWidth : canvas.clientHeight,
     thickness: horizontal ? canvas.clientHeight : canvas.clientWidth,
     look: rulerLook(canvas),
+    reversed: horizontal && plan.span.reversed === true,
   };
+  if (frame.reversed) {
+    ctx.translate(frame.length, 0);
+    ctx.scale(-1, 1);
+  }
   paintRulerTicks(frame, plan.span);
   if (plan.cursor !== null) paintCursorMark(frame, plan.span, plan.cursor);
   if (plan.handle !== null) paintHandleMark(frame, plan.span, plan.handle);

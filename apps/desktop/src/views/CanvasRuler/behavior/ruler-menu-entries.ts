@@ -7,7 +7,10 @@ import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { handlePosition } from '../../../ruler/handle-position';
 import { nearHandle } from '../../../ruler/near-handle';
 import { currentCanvasSurface } from '../../../canvas-surface/current-canvas-surface';
+import { spanAlong } from '../../../ruler/span-along';
+import { spanReversed } from '../../../ruler/span-reversed';
 import { useRulerStore } from '../../../stores/useRulerStore';
+import { useViewStore } from '../../../stores/useViewStore';
 import { RULER_MENU } from '../CanvasRuler.constants';
 import type { RulerArgs } from '../CanvasRuler.type';
 import { rulerAlong } from './ruler-along';
@@ -18,11 +21,12 @@ import { rulerSpan } from './ruler-span';
 const rulerMenuEntries = (context: ContextMenuContext): readonly ContextMenuEntry[] => {
   const { axis } = menuData<RulerArgs>(context);
   if (axis === undefined) return [];
-  const span = rulerSpan(axis, useRulerStore.getState());
-  const along = rulerAlong(axis, context, span.length / 2);
+  const surface = currentCanvasSurface();
+  const base = rulerSpan(axis, useRulerStore.getState());
+  const span = { ...base, reversed: spanReversed(axis, useViewStore.getState().mirror, surface) };
+  const along = spanAlong(rulerAlong(axis, context, span.length / 2), span);
   const { handle, centred } = rulerAxisState(axis, span);
   const onHandle = handle !== null && nearHandle(along, handlePosition(handle, span));
-  const surface = currentCanvasSurface();
   const mirrors = surface === 'sprite' || surface === 'tile';
   return [
     { command: 'symmetry.axis_remove', label: RULER_MENU.remove, args: { axis }, hidden: !onHandle },

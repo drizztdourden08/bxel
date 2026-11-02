@@ -8,6 +8,7 @@ import { dropGuide } from '../../../guides/drop-guide';
 import { axisFromRuler } from '../../../ruler/axis-from-ruler';
 import { handlePosition } from '../../../ruler/handle-position';
 import { nearHandle } from '../../../ruler/near-handle';
+import { spanAlong } from '../../../ruler/span-along';
 import { useToolStore } from '../../../stores/useToolStore';
 import type { RulerDrag, RulerDragArgs } from '../CanvasRuler.type';
 
@@ -20,7 +21,7 @@ const useRulerDrag = ({ axis, span, handle }: RulerDragArgs): RulerDrag => {
   const held = useRef(false);
   const pulling = useRef(false);
   const [grab, setGrab] = useState(false);
-  const onHandle = (at: number): boolean => handle !== null && nearHandle(at, handlePosition(handle, span));
+  const onHandle = (at: number): boolean => handle !== null && nearHandle(spanAlong(at, span), handlePosition(handle, span));
   return {
     grab,
     onPointerDown: (event) => {
@@ -40,7 +41,7 @@ const useRulerDrag = ({ axis, span, handle }: RulerDragArgs): RulerDrag => {
         return;
       }
       const at = alongOf(event, axis === 'x');
-      if (held.current) useToolStore.getState().setAxis(axis, axisFromRuler(at, span, event.shiftKey));
+      if (held.current) useToolStore.getState().setAxis(axis, axisFromRuler(spanAlong(at, span), span, event.shiftKey));
       else setGrab(onHandle(at));
     },
     onPointerUp: () => {
