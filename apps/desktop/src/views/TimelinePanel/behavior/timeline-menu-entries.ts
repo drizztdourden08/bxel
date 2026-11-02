@@ -13,7 +13,7 @@ const timelineMenuEntries = (context: ContextMenuContext): readonly ContextMenuE
   const tag = menuTarget(context, TIMELINE_MENU.tag);
   const frame = menuTarget(context, TIMELINE_MENU.frame);
   if (tag) return tagEntries(tag.dataset.tagId);
-  if (frame) return frameEntries(frame.dataset.frameId ?? currentFocus()?.frame.id);
+  if (frame) return frameEntries(frame.dataset.frameId ?? currentFocus()?.frame.id, context.selection);
   if (menuTarget(context, TIMELINE_MENU.ruler)) return rulerEntries(rulerFrame(context));
   return emptyEntries(menuTarget(context, TIMELINE_MENU.lane) !== null);
 };

@@ -14,6 +14,7 @@ interface EntryTileState {
   affected: boolean;
   loose: boolean;
   twin: boolean;
+  warning?: string;
 }
 
 interface EntryTileHandlers {
@@ -73,6 +74,7 @@ interface BadgeMark {
 interface EntryBadgesProps {
   fact: EntryFacts;
   twin: boolean;
+  warning?: string;
 }
 
 export type { AnimationThumbProps, BadgeMark, EntryBadgesProps, EntryNameProps, EntryThumbProps, EntryTileHandlers, EntryTileProps, EntryTileState, SpriteThumbProps, TileSize };

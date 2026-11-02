@@ -18,6 +18,12 @@ const run = (id: string, args: object): void => {
   void command.run({ args } as never);
 };
 
+const runWith = (id: string, selection: readonly string[]): void => {
+  const command = TIMELINE_MENU_COMMANDS.find((each) => each.id === id);
+  if (!command) throw new Error(`no command ${id}`);
+  void command.run({ args: {}, selection: new Set(selection) } as never);
+};
+
 const labels = (entries: readonly ContextMenuEntry[]): string[] =>
   entries.flatMap((entry) => (typeof entry === 'object' && 'label' in entry && typeof entry.label === 'string' ? [entry.label] : []));
 
@@ -51,6 +57,21 @@ describe('S2 the menu of a frame', { tags: ['standard'] }, () => {
     run('timeline.select_all_frames', {});
     const entry = frameEntries(frameAt(0)).find((each) => typeof each === 'object' && 'command' in each && each.command === 'timeline.delete_frames');
     expect(entry).toMatchObject({ disabled: true });
+  });
+});
+
+describe('S2 the menu selection', { tags: ['standard'] }, () => {
+  it('acts on the clicked frame when it is not picked', () => {
+    withFrames(3);
+    runWith('timeline.move_frames_later', [frameAt(2)]);
+    expect(useTimelineStore.getState().selection.frames).toEqual([frameAt(2)]);
+  });
+
+  it('keeps the pick when the clicked frame is in it', () => {
+    withFrames(3);
+    pickRange(0, 1);
+    runWith('timeline.duplicate_frames', [frameAt(0), frameAt(1)]);
+    expect(animationOf().frames).toHaveLength(5);
   });
 });
 

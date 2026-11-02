@@ -129,6 +129,7 @@ interface GridTileProps {
   view: SpriteGridProps;
   fact: EntryFacts;
   cell: VirtualGridCellBind;
+  warning?: string | undefined;
 }
 
 interface ActionContext {
