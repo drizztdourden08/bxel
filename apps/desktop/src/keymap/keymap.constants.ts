@@ -45,6 +45,7 @@ const COMMAND_ID = {
   loupe: 'view.toggle_loupe',
   backgroundPreview: 'view.background_preview',
   fullscreenPreview: 'view.fullscreen_preview',
+  previewSection: 'view.toggle_preview',
   splitView: 'view.toggle_split',
   splitLink: 'view.toggle_split_link',
   splitActual: 'view.toggle_split_actual',

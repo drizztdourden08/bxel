@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { AddFramesDialog } from '../AddFramesDialog';
 import { CanvasSizeDialog } from '../CanvasSizeDialog';
+import { GuideDialog } from '../GuideDialog';
 import { CustomizeTools } from '../CustomizeTools';
 import { DirectionSetDialog } from '../DirectionSetDialog';
 import { MoveToDialog } from '../MoveToDialog';
@@ -24,6 +25,7 @@ const DialogHost = () => {
     <>
       <CreateDialog />
       <CanvasSizeDialog />
+      <GuideDialog />
       <SelectionNamesDialog />
       <SliceDialog />
       <PasteChoiceDialog />

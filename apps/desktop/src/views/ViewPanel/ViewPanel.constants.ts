@@ -9,6 +9,8 @@ const VIEW_PANEL_TEXT = {
   navigator: 'Navigator',
   zoom: 'Zoom',
   overlays: 'Overlays',
+  preview: 'Preview',
+  guides: 'Guides',
   onion: 'Onion skin',
   tiled: 'Tiled preview',
   symmetry: 'Symmetry',
@@ -55,6 +57,26 @@ const ONION_TINTS: Readonly<Record<OnionTint, { label: string; swatches: readonl
   grey: { label: 'Grey', swatches: ['muted'] },
 };
 
+const PREVIEW_TEXT = {
+  scale: 'Preview size',
+  onCanvas: 'Play on canvas',
+  onCanvasHint: 'Also show the playing frames on the canvas.',
+  play: 'Play',
+  pause: 'Pause',
+  empty: 'Open an animation to see it play here.',
+  image: 'Playing preview of the animation',
+} as const;
+
+const GUIDES_TEXT = {
+  none: 'No guides yet. Drag one out of a ruler or add one here.',
+  x: 'X',
+  y: 'Y',
+  position: (axis: string): string => `Position of the ${axis} guide`,
+  remove: (axis: string): string => `Remove the ${axis} guide`,
+  addX: 'Add vertical',
+  addY: 'Add horizontal',
+} as const;
+
 const TILED_TEXT = { mode: 'Repeat the canvas', hint: 'Check that a pattern joins without a seam.' } as const;
 
 const TILED_ORDER: readonly TileMode[] = ['off', 'x', 'y', 'both'];
@@ -79,4 +101,4 @@ const BACKGROUND_TEXT = {
   reset: 'Reset view',
 } as const;
 
-export { BACKGROUND_TEXT, ONION_TEXT, ONION_TINTS, OVERLAY_TEXT, RULER_UNIT_NAMES, SYMMETRY_TEXT, TILED_ORDER, TILED_TEXT, VIEW_PANEL_TEXT };
+export { BACKGROUND_TEXT, GUIDES_TEXT, ONION_TEXT, ONION_TINTS, OVERLAY_TEXT, PREVIEW_TEXT, RULER_UNIT_NAMES, SYMMETRY_TEXT, TILED_ORDER, TILED_TEXT, VIEW_PANEL_TEXT };
