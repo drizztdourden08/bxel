@@ -1,9 +1,8 @@
 /* @layer core @kind test */
 import { decodeBrushPixels, encodeBrushPixels } from '@bxel/document';
-import { decodeArtwork } from '@bxel/document/native';
 import { describe, expect, it } from 'vitest';
 import { heartEngine } from './heart-engine';
-import { artworkOf, encodeHeart } from './native-fixture';
+import { reopenHeart } from './reopen-heart';
 import { apply, expectUndoRedo, plain, rejection } from './sheet-engine';
 
 const PIXELS = encodeBrushPixels(Uint8Array.from([1, 2, 0, 3]));
@@ -43,11 +42,11 @@ describe('K3 a saved brush in a file', { tags: ['critical'] }, () => {
   it('survives save and reopen', () => {
     const { engine } = heartEngine();
     apply(engine, addBrush());
-    const read = artworkOf(decodeArtwork(encodeHeart(engine.state())));
+    const read = reopenHeart(engine.state());
     expect(read.brushes).toEqual(engine.state().artwork.brushes);
   });
 
   it('is absent from a file that never had one', () => {
-    expect(artworkOf(decodeArtwork(encodeHeart())).brushes).toBeUndefined();
+    expect(reopenHeart().brushes).toBeUndefined();
   });
 });

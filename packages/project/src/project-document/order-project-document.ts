@@ -55,6 +55,15 @@ const orderToolPreset =(preset: ProjectToolPreset) => ({
   fields: sortKeys(preset.fields),
 });
 
+const keptBrushes = (manifest: ProjectDocument) =>
+  manifest.brushes === undefined || manifest.brushes.length === 0 ? {} : { brushes: manifest.brushes.map(orderBrush) };
+
+const keptPatterns = (manifest: ProjectDocument) =>
+  manifest.patterns === undefined || manifest.patterns.length === 0 ? {} : { patterns: manifest.patterns.map(orderPattern) };
+
+const keptToolPresets = (manifest: ProjectDocument) =>
+  manifest.toolPresets === undefined || manifest.toolPresets.length === 0 ? {} : { toolPresets: manifest.toolPresets.map(orderToolPreset) };
+
 const orderProjectDocument =(manifest: ProjectDocument) => ({
   format: manifest.format,
   formatVersion: keptOrganise(manifest).organise === undefined ? PROJECT_DOCUMENT_VERSION : PROJECT_ORGANISE_VERSION,
@@ -65,9 +74,9 @@ const orderProjectDocument =(manifest: ProjectDocument) => ({
   defaults: orderDefaults(manifest.defaults),
   ...(manifest.export === undefined ? {} : { export: orderExport(manifest.export) }),
   ...keptOrganise(manifest),
-  ...(manifest.brushes === undefined || manifest.brushes.length === 0 ? {} : { brushes: manifest.brushes.map(orderBrush) }),
-  ...(manifest.patterns === undefined || manifest.patterns.length === 0 ? {} : { patterns: manifest.patterns.map(orderPattern) }),
-  ...(manifest.toolPresets === undefined || manifest.toolPresets.length === 0 ? {} : { toolPresets: manifest.toolPresets.map(orderToolPreset) }),
+  ...keptBrushes(manifest),
+  ...keptPatterns(manifest),
+  ...keptToolPresets(manifest),
   assistant: {
     access: manifest.assistant.access,
     ...(manifest.assistant.folders === undefined ? {} : { folders: [...manifest.assistant.folders] }),

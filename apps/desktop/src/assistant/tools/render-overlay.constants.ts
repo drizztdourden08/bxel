@@ -14,8 +14,6 @@ const GRID_INK: Readonly<Record<'grid' | 'major' | 'tile' | 'guides' | 'selectio
 
 const GRID_STEP: Readonly<Record<'grid' | 'major' | 'tile', number>> = { grid: 1, major: 8, tile: 16 };
 
-const PIXEL_OVERLAYS: readonly RenderOverlay[] = ['grid', 'major', 'tile'];
-
 const DRAW_ORDER: readonly RenderOverlay[] = ['grid', 'major', 'tile', 'guides', 'selection'];
 
 const OVERLAY_TEXT = {
@@ -23,4 +21,4 @@ const OVERLAY_TEXT = {
     `${overlays.length > 0 ? `&overlays=${overlays.join(',')}` : ''}${mirror ? '&mirror=1' : ''}${view ? '&view=1' : ''}`,
 } as const;
 
-export { DRAW_ORDER, GRID_INK, GRID_MIN_SCALE, GRID_STEP, OVERLAY_TEXT, PIXEL_OVERLAYS };
+export { DRAW_ORDER, GRID_INK, GRID_MIN_SCALE, GRID_STEP, OVERLAY_TEXT };
