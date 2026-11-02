@@ -9,6 +9,7 @@ const PALETTE_TRANSFER_COMMAND = {
   moveColour: 'palette.move_colour_only',
   replaceFront: 'palette.replace_with_front',
   replaceRamp: 'palette.replace_ramp',
+  addToRamp: 'palette.add_to_ramp',
 } as const;
 
 export { PALETTE_TRANSFER_COMMAND };

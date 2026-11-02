@@ -6,6 +6,7 @@ import { copyHexList } from '../palette-export/copy-hex-list';
 import { exportPaletteFile } from '../palette-export/export-palette-file';
 import { PALETTE_EXPORT_TEXT } from '../palette-export/palette-export.constants';
 import { saveProjectPalette } from '../palette-export/save-project-palette';
+import { addToRamp } from '../palette-panel/add-to-ramp';
 import { currentPaletteTarget } from '../palette-panel/current-palette-target';
 import type { ReplaceScope } from '../palette-panel/palette-panel.type';
 import { replaceRampSteps } from '../palette-panel/replace-ramp-steps';
@@ -93,6 +94,15 @@ const PALETTE_TRANSFER_COMMANDS: readonly CommandDef[] = [
     run: (context?: CommandContext) => {
       const { from, to, scope } = commandArgs<{ from: string; to: string; scope: ReplaceScope }>(context);
       if (from !== undefined && to !== undefined) replaceRampSteps(from, to, scope ?? 'sprite');
+    },
+  },
+  {
+    id: PALETTE_TRANSFER_COMMAND.addToRamp,
+    label: 'Add a swatch to a ramp',
+    group,
+    run: (context?: CommandContext) => {
+      const { index, ramp } = commandArgs<{ index: number; ramp: string }>(context);
+      if (index !== undefined && ramp !== undefined) addToRamp(index, ramp);
     },
   },
   {

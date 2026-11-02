@@ -176,7 +176,7 @@ const PALETTES: RuleTable = {
   ...family(['palette.pick_here'], PIXEL, [], ONLY.pixels),
   ...family(['palette.add_colour', 'palette.new_ramp', 'palette.make_ramp', 'palette.make_ramp_by_lightness', 'palette.gradient_between'], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
   ...family(['palette.remove_unused', 'palette.unite_duplicates', 'palette.sort_selection'], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
-  ...family([PALETTE_TRANSFER_COMMAND.import, PALETTE_TRANSFER_COMMAND.moveColour], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
+  ...family([PALETTE_TRANSFER_COMMAND.import, PALETTE_TRANSFER_COMMAND.moveColour, PALETTE_TRANSFER_COMMAND.addToRamp], PALETTE_STAGE, [DOC, WRITE], ONLY.swatches),
   ...family([PALETTE_TRANSFER_COMMAND.export, PALETTE_TRANSFER_COMMAND.copyList, PALETTE_TRANSFER_COMMAND.saveProject], PALETTE_STAGE, [DOC], ONLY.swatches),
   ...family([PALETTE_TRANSFER_COMMAND.replaceFront, PALETTE_TRANSFER_COMMAND.replaceRamp], PIXEL, [DOC, WRITE], ONLY.pixels),
   ...family([PALETTE_TRANSFER_COMMAND.previewWith, PALETTE_TRANSFER_COMMAND.previewEnd], PIXEL, [DOC], ONLY.pixels),
