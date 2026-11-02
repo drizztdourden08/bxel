@@ -6,6 +6,7 @@ import { currentTarget } from '../../src/editor/current-target';
 import { stepHistory } from '../../src/editor/step-history';
 import { useSpriteStore } from '../../src/stores/useSpriteStore';
 import { useTilemapStore } from '../../src/stores/useTilemapStore';
+import { useViewStore } from '../../src/stores/useViewStore';
 import { addTile } from '../../src/tilemap/add-tile';
 import { clearCells } from '../../src/tilemap/clear-cells';
 import { deleteTile } from '../../src/tilemap/delete-tile';
@@ -43,6 +44,22 @@ describe('S2 editing a tile', { tags: ['standard'] }, () => {
     expect(currentTarget()?.sprite.id).toBe(useTilemapStore.getState().editSpriteId);
     useTilemapStore.getState().placeTiles();
     expect(currentTarget()?.sprite.role).toBe('sprite');
+  });
+
+  it('opens a tile with both tiled axes on and remembers the mode each tile was left in', () => {
+    const tiles = tilesetNow().tiles;
+    const first = tiles[0]?.key ?? 1;
+    const second = tiles[1]?.key ?? 2;
+    expect(editTile(first)).toBe(true);
+    expect(useViewStore.getState().tiled).toBe('both');
+    useViewStore.getState().setTiled('x');
+    expect(editTile(second)).toBe(true);
+    expect(useViewStore.getState().tiled).toBe('both');
+    useViewStore.getState().setTiled('off');
+    expect(editTile(first)).toBe(true);
+    expect(useViewStore.getState().tiled).toBe('x');
+    expect(editTile(second)).toBe(true);
+    expect(useViewStore.getState().tiled).toBe('off');
   });
 
   it('refuses Edit Tile without a tile', () => {
