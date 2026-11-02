@@ -19,6 +19,16 @@ type Subject = {
   readonly inProject: boolean;
 };
 
+type FileSummaryData = {
+  readonly name: string;
+  readonly size: number;
+  readonly modified: number;
+  readonly isImage: boolean;
+  readonly width: number | null;
+  readonly height: number | null;
+  readonly frames: number | null;
+};
+
 type SubjectState =
   | { readonly status: 'none' }
   | { readonly status: 'missing'; readonly ref: SubjectRef }
@@ -41,4 +51,4 @@ interface SubjectStoreState {
   forward: () => void;
 }
 
-export type { Subject, SubjectInputs, SubjectRef, SubjectState, SubjectStoreState };
+export type { FileSummaryData, Subject, SubjectInputs, SubjectRef, SubjectState, SubjectStoreState };

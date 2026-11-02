@@ -10,7 +10,7 @@ import { memoryOf } from '../../../asset-defaults/memory-of';
 import { useEffectiveDefaults } from '../../../asset-defaults/useEffectiveDefaults';
 import { importKindOf } from '../../../image-import/import-kind-of';
 import { importNames } from '../../../image-import/import-names';
-import type { ImportForm, ImportStep, ImportTarget, SliceForm, SourceImage } from '../../../image-import/image-import.type';
+import type { ImportForm, ImportKind, ImportStep, ImportTarget, SliceForm, SourceImage } from '../../../image-import/image-import.type';
 import { initialImportForm } from '../../../image-import/initial-import-form';
 import { stepIssue } from '../../../image-import/step-issue';
 import { switchTarget } from '../../../image-import/switch-target';
@@ -19,12 +19,12 @@ import { useImportStore } from '../../../stores/useImportStore';
 import type { TiledImportData } from '../../../tiled-import/tiled-import.type';
 import type { ImportWizardState } from '../ImportWizard.type';
 
-const useImportWizard = (image: SourceImage, tiled: TiledImportData | null): ImportWizardState => {
+const useImportWizard = (image: SourceImage, tiled: TiledImportData | null, kind: ImportKind | null): ImportWizardState => {
   const view = useActiveDocument();
   const context = useMemo(() => importContext(view), [view]);
   const defaults = useEffectiveDefaults();
   const memory = useMemo(() => memoryOf(defaults), [defaults]);
-  const [form, setForm] = useState<ImportForm>(() => initialImportForm(image, context, memory, importKindOf(image, tiled)));
+  const [form, setForm] = useState<ImportForm>(() => initialImportForm(image, context, memory, importKindOf(image, tiled, kind)));
   const [step, setStep] = useState<ImportStep>('source');
   const [failure, setFailure] = useState<string | null>(null);
   const { target, reduce, dither, alphaPercent, limit, transparent, source } = form;

@@ -10,6 +10,8 @@ import { usePaletteSlots } from '../../hooks/usePaletteSlots';
 import { useReadoutStore } from '../../stores/useReadoutStore';
 import { useViewFeedStore } from '../../stores/useViewFeedStore';
 import { useFileStore } from '../../stores/useFileStore';
+import { useHealthStore } from '../../stores/useHealthStore';
+import { openProjectHealth } from '../../config-entry/open-project-health';
 import { useSpriteStore } from '../../stores/useSpriteStore';
 import { useTilemapStore } from '../../stores/useTilemapStore';
 import { useToolStore } from '../../stores/useToolStore';
@@ -40,8 +42,9 @@ const EditorStatus = () => {
   const extras = useStatusExtras();
   const asset = useActiveAsset();
   const clean = asset ? !asset.dirty : true;
+  const problems = useHealthStore((state) => (state.state.status === 'ready' ? state.state.report.total : 0));
   const zone = useRef<HTMLDivElement>(null);
-  const items = useFoldedItems(statusItems({ pointer, zoom, colours, clean, recovered, context, tile: stamp, extras }), zone);
+  const items = useFoldedItems(statusItems({ pointer, zoom, colours, clean, recovered, context, tile: stamp, extras, problems }), zone);
   useContextMenu(STATUS_MENU.zone, { label: STATUS_MENU.label, entries: ruledEntries(statusMenuEntries) });
   return (
     <ActionHint hint={canvasHelp(tool, mode, tileMode)} placement="top" className="editor-status">
@@ -50,6 +53,7 @@ const EditorStatus = () => {
           className="editor-status__bar"
           label={STATUS_TEXT.region}
           items={items}
+          actions={problems > 0 ? [{ id: 'health', label: STATUS_TEXT.healthOpen, icon: 'triangle-alert', onSelect: openProjectHealth }] : undefined}
           onItemContextMenu={(item, event) => contextMenuHandler(STATUS_MENU.zone, { item })(event)}
         />
       </Box>

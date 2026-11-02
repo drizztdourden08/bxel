@@ -34,6 +34,7 @@ import { togglesView } from './toggles-view';
 import { toolView } from './tool-view';
 import { uiView } from './ui-view';
 import { viewArtBounds } from './view-art-bounds';
+import { windowView } from './window-view';
 import type { Sees } from './view-snapshot.type';
 
 const tabsOf = (sees: Sees) => {
@@ -166,6 +167,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     highlight: highlightView(),
     references: referencesView(),
     mapOverlays: mapOverlaysView(),
+    openWindow: windowView(),
   };
 };
 

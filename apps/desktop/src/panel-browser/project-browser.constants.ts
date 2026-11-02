@@ -25,6 +25,7 @@ const DEFAULT_PROJECT_VIEW: ProjectViewSettings = {
   group: 'kind',
   sort: 'name',
   follow: true,
+  highlightOnly: false,
   expanded: {},
 };
 

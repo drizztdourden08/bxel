@@ -3,4 +3,6 @@ import type { Subject } from '../../properties-subject/properties-subject.type';
 
 type SubjectPartProps = { readonly subject: Subject };
 
-export type { SubjectPartProps };
+type FileSummaryProps = { readonly path: string };
+
+export type { FileSummaryProps, SubjectPartProps };

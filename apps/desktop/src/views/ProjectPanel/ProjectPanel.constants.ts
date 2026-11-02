@@ -51,6 +51,7 @@ const PROJECT_MENU = {
   refresh: 'Refresh',
   revealRoot: 'Reveal the project folder',
   collapseAll: 'Collapse all folders',
+  highlightOnly: 'Search only highlights',
   hub: 'Open the Project hub',
   settings: 'Project settings',
   pack: 'Pack project',

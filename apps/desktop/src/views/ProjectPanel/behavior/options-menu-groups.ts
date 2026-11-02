@@ -48,6 +48,7 @@ const optionsMenuGroups = (model: ProjectPanelModel): readonly MenuGroup[] => {
       id: 'more',
       items: [
         { id: 'follow', label: 'Follow the active tab', kind: 'check', checked: view.follow, onSelect: () => view.set({ follow: !view.follow }) },
+        { id: 'highlight', label: PROJECT_MENU.highlightOnly, kind: 'check', checked: view.highlightOnly, onSelect: () => view.set({ highlightOnly: !view.highlightOnly }) },
         { id: 'collapse', label: PROJECT_MENU.collapseAll, icon: 'chevrons-up-down', onSelect: model.rowActions.collapseAll },
         { id: 'refresh', label: PROJECT_MENU.refresh, icon: 'refresh-cw', onSelect: model.refresh },
       ],

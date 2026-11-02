@@ -18,6 +18,11 @@
   text-decoration: line-through;
 }
 
+.project-name[data-match='true'] .project-name__text {
+  background: var(--c-primary-soft);
+  color: var(--c-primary-text);
+}
+
 .project-name__text,
 .project-name__meta {
   min-inline-size: 0;

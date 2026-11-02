@@ -1,5 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Button, DialogShell, Flex, Text } from '@drizztdourden08/tessera';
+import { pasteAsFrame } from '../../editor/selection/paste-as-frame';
+import { pasteAsTile } from '../../editor/selection/paste-as-tile';
 import { pasteCropped } from '../../editor/selection/paste-cropped';
 import { pasteExpanded } from '../../editor/selection/paste-expanded';
 import { pasteNewSprite } from '../../editor/selection/paste-new-sprite';
@@ -18,6 +20,8 @@ const PasteChoiceDialog = () => {
     <Flex gap="sm" wrap>
       <Button variant="tertiary" onClick={hide}>{PASTE_CHOICE_TEXT.cancel}</Button>
       <Button variant="secondary" onClick={choose(pasteNewSprite)}>{PASTE_CHOICE_TEXT.sprite}</Button>
+      <Button variant="secondary" onClick={choose(pasteAsFrame)}>{PASTE_CHOICE_TEXT.frame}</Button>
+      <Button variant="secondary" onClick={choose(pasteAsTile)}>{PASTE_CHOICE_TEXT.tile}</Button>
       <Button variant="secondary" onClick={choose(pasteExpanded)}>{PASTE_CHOICE_TEXT.expand}</Button>
       <Button variant="primary" onClick={choose(pasteCropped)}>{PASTE_CHOICE_TEXT.crop}</Button>
     </Flex>

@@ -3,6 +3,7 @@ import { toast } from '@drizztdourden08/brock-react';
 import type { DocumentId } from '@bxel/document';
 import type { FileKit } from '../files/files.type';
 import type { OpenProject } from '../project/project.type';
+import { useHealthStore } from '../stores/useHealthStore';
 import { useProjectStore } from '../stores/useProjectStore';
 import { useWorkspaceStore } from '../stores/useWorkspaceStore';
 import { isSamePath } from '@bxel/project';
@@ -13,6 +14,7 @@ import { parseStoredTabs } from './parse-stored-tabs';
 import { projectWorkspaceId } from './project-workspace-id';
 import { projectSeed } from './project-seed';
 import { readAssetFiles } from './read-asset-files';
+import { rekeyedFindings } from './rekeyed-findings';
 import { restoreTabs } from './restore-tabs';
 import { scanProjectFiles } from './scan-project-files';
 import { MAX_WORKSPACE_ASSETS, WORKSPACE_TEXT } from './workspace.constants';
@@ -49,6 +51,7 @@ const loadProjectWorkspace = async (kit: FileKit, project: OpenProject): Promise
     const documentId = attachWorkspace(kit.host, seed);
     kit.paths.remember(documentId, seed.projectFile ?? project.projectFile);
     restoreTabs(documentId, stored);
+    useHealthStore.getState().setRekeyed(rekeyedFindings(merged.rekeyed));
     tellLoaded(found.length, paths.length - merged.loaded, merged.dirty.size);
     return documentId;
   } finally {

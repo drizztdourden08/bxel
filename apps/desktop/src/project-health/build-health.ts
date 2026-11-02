@@ -50,9 +50,10 @@ const buildHealth = (index: LinkIndex, context: HealthContext): HealthReport => 
     access,
     capped: cappedFiles(index),
     repaired: context.repaired ?? [],
+    rekeyed: context.rekeyed ?? [],
     files: index.files.length,
   };
-  return { ...report, total: report.broken.length + report.moved.length + report.unused.length + report.misplaced.length + report.duplicates.length + (report.unsaved > 0 ? 1 : 0) + report.access.length + (report.capped.length > 0 ? 1 : 0) };
+  return { ...report, total: report.broken.length + report.moved.length + report.unused.length + report.misplaced.length + report.duplicates.length + (report.unsaved > 0 ? 1 : 0) + report.access.length + (report.capped.length > 0 ? 1 : 0) + report.rekeyed.length };
 };
 
 export { buildHealth };

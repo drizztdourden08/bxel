@@ -22,7 +22,8 @@ const mergeWorkspace = (decoded: DecodedFiles, ids: IdSource, meta?: WorkspaceMe
   keepMissingLinks(paths, decoded.reports, merged.artwork);
   const failed = decoded.reports.filter((each) => each.report.slice === null).map((each) => each.report.issues[0]?.message ?? each.path);
   const issues = [...failed, ...merged.issues.map((issue) => issue.message)];
-  return { artwork: merged.artwork, paths, dirty, issues, loaded: decoded.sources.length };
+  const rekeyed = [...new Map(merged.rekeyed.map((record) => [record.path, { path: record.path, kind: record.kind }])).values()];
+  return { artwork: merged.artwork, paths, dirty, issues, loaded: decoded.sources.length, rekeyed };
 };
 
 export { mergeWorkspace };

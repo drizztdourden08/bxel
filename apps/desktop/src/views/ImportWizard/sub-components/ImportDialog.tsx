@@ -10,8 +10,8 @@ import { SourceStep } from './SourceStep';
 import { StepHeader } from './StepHeader';
 import { WizardActions } from './WizardActions';
 
-const ImportDialog = ({ image, tiled }: ImportDialogProps) => {
-  const wizard = useImportWizard(image, tiled);
+const ImportDialog = ({ image, tiled, kind }: ImportDialogProps) => {
+  const wizard = useImportWizard(image, tiled, kind);
   const { step, failure, cancel } = wizard;
   return (
     <DialogShell

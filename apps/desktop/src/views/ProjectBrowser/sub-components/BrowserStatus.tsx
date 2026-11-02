@@ -5,7 +5,7 @@ import { PROJECT_HUB } from '../../../config-entry/config-entry.constants';
 import { HEALTH_TEXT } from '../../../project-health/project-health.constants';
 import { useHealthWatch } from '../../../project-health/useHealthWatch';
 import { useProjectStore } from '../../../stores/useProjectStore';
-import { BROWSER_TEXT } from '../../../project-browser/project-browser.constants';
+import { BROWSER_TEXT, EMPTY_SELECTION } from '../../../project-browser/project-browser.constants';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
 import { useBrowserContext } from '../behavior/useBrowserContext';
 
@@ -20,9 +20,9 @@ const BrowserStatus = () => {
         {BROWSER_TEXT.statusFiles(model.searching ? model.files.length : model.total)}
       </Button>
       {model.selected.length > 0 && (
-        <Text as="span" variant="caption" tone="muted">
+        <Button size="sm" variant="ghost" title={BROWSER_TEXT.statusClearSelection} onClick={() => useBrowserStore.getState().select(EMPTY_SELECTION)}>
           {BROWSER_TEXT.statusSelected(model.selected.length)}
-        </Text>
+        </Button>
       )}
       {model.unsaved > 0 && (
         <Button size="sm" variant="ghost" onClick={() => useBrowserStore.getState().setQuery('is:unsaved')}>

@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind types */
-import type { SourceImage } from '../image-import/image-import.type';
+import type { ImportKind, SourceImage } from '../image-import/image-import.type';
 import type { TiledImportData } from '../tiled-import/tiled-import.type';
 
 interface ImportState {
   image: SourceImage | null;
   tiled: TiledImportData | null;
-  show: (image: SourceImage, tiled?: TiledImportData) => void;
+  kind: ImportKind | null;
+  show: (image: SourceImage, tiled?: TiledImportData, kind?: ImportKind) => void;
   hide: () => void;
 }
 
