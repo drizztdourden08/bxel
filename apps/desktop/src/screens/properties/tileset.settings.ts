@@ -11,7 +11,7 @@ const meta: ScreenMeta = {
   order: 1,
   source: ASSET_SOURCE,
   when: showForKind('tileset'),
-  keywords: ['tileset', 'tiles', 'name', 'palette', 'columns', 'grid', 'collision', 'layers', 'data', 'fields'],
+  keywords: ['tileset', 'tiles', 'name', 'palette', 'tile size', 'columns', 'grid', 'collision', 'layers', 'data', 'fields'],
 };
 
 const sections: Section[] = [
@@ -26,6 +26,7 @@ const sections: Section[] = [
     id: 'grid',
     title: 'Tile grid',
     items: [
+      { key: 'tileset.tileSize', label: 'Tile size', description: 'The width and height of every tile, in pixels.', hint: 'The size is set when the tileset is made.' },
       {
         key: 'tileset.columns',
         label: 'Grid columns',

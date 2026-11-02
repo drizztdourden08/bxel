@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind types */
+import type { AnimDirection, TagId } from '@bxel/document';
 import type { PresetOrigin } from '../../export/preset-entry.type';
 import type { BankOption } from '../../palette-bank/palette-bank.type';
 import type { PlatformGroup, PlatformReport } from '../../platform-preset/platform-preset.type';
@@ -85,4 +86,30 @@ interface PresetListModel {
   run: (name: string) => void;
 }
 
-export type { AssetControlProps, BankControlModel, PairControlProps, PairInputProps, PairSpec, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowProps, ReportControlModel, SnapRowModel };
+interface TagRowModel {
+  id: TagId;
+  name: string;
+  direction: AnimDirection;
+  repeat: number;
+}
+
+interface TagsControlModel {
+  rows: readonly TagRowModel[];
+  mirrors: number;
+  readOnly: boolean;
+  problem: string | null;
+  edit: (tagId: TagId, fields: Readonly<Record<string, unknown>>) => void;
+}
+
+interface TagRowProps {
+  row: TagRowModel;
+  readOnly: boolean;
+  edit: TagsControlModel['edit'];
+}
+
+interface TilesetLinkModel {
+  name: string;
+  open: () => void;
+}
+
+export type { TagRowModel, TagRowProps, TagsControlModel, TilesetLinkModel, AssetControlProps, BankControlModel, PairControlProps, PairInputProps, PairSpec, LimitControlModel, PlatformControlModel, PresetListModel, PresetRowProps, ReportControlModel, SnapRowModel };

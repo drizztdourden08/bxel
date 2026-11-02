@@ -1,6 +1,8 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it, vi } from 'vitest';
 import { ASSET_SOURCE } from '../../src/asset-config/asset-source.constants';
+import { editAnimationTag } from '../../src/asset-config/edit-animation-tag';
+import { focusedAsset } from '../../src/asset-config/focused-asset';
 import { COMMAND_NAME } from '@bxel/document';
 import { useDocumentStore } from '../../src/stores/useDocumentStore';
 import { runSteps } from '../../src/transactions/run-steps';
@@ -117,5 +119,27 @@ describe('S2 the value source over an animation', { tags: ['standard'] }, () => 
     await ASSET_SOURCE.flush();
     const animation = liveArtwork(documentId).animations[0];
     expect(animation).toMatchObject({ width: 12, anchor: { x2: 5, y2: 8 }, loop: { direction: 'pingpong' } });
+  });
+});
+
+describe('S2 the tags of an animation edited from Properties', { tags: ['standard'] }, () => {
+  it('renames a tag and changes its direction and repeat as one step each', async () => {
+    const { documentId } = await openedProject();
+    const made = runSteps(useDocumentStore.getState().host, documentId, 'Animation', [
+      { name: COMMAND_NAME.animationCreate, targets: null, options: { name: 'walk', source: { kind: 'blank', width: 8, height: 8, frames: 3 } }, ref: 'anim' },
+    ]);
+    if (!made.ok) throw new Error(made.error.message);
+    focusTab(tabOf(documentId, { kind: 'animation', id: made.created['anim'] ?? '' }));
+    const first = liveArtwork(documentId).animations[0]?.frames[0]?.id ?? '';
+    const added = runSteps(useDocumentStore.getState().host, documentId, 'Tag', [
+      { name: COMMAND_NAME.animationTagAdd, targets: null, options: { animation: made.created['anim'], kind: 'span', name: 'idle', from: { by: 'id', id: first }, to: { by: 'id', id: first } }, ref: 'tag' },
+    ]);
+    if (!added.ok) throw new Error(added.error.message);
+    const focus = focusedAsset();
+    if (!focus) throw new Error('No asset in focus.');
+    const tagId = liveArtwork(documentId).animations[0]?.tags[0]?.id;
+    if (tagId === undefined) throw new Error('No tag.');
+    expect(editAnimationTag(focus, tagId, { name: 'run', direction: 'pingpong', repeat: 2 })).toBeNull();
+    expect(liveArtwork(documentId).animations[0]?.tags[0]).toMatchObject({ name: 'run', direction: 'pingpong', repeat: 2 });
   });
 });
