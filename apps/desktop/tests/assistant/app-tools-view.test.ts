@@ -71,6 +71,12 @@ describe('S2 set_view state, selection and pages', { tags: ['standard'] }, () =>
     expect(seen.mapOverlays).toMatchObject({ collision: true, animatedTiles: false, highlightLayer: true });
   });
 
+  it('reports no open window while a hub is closed', async () => {
+    openDocument();
+    const seen = await ok('get_view', {});
+    expect(seen.openWindow).toEqual({ open: null, page: null, subject: null });
+  });
+
   it('sets the Sprites panel search, sort, view, size and folders, and reads them back', async () => {
     openDocument();
     await ok('set_view', { sprites: { query: 'hero', filter: { kind: 'sprites' }, sort: { key: 'name', descending: true }, view: 'list', size: 64, collapsed: ['props'] } });
