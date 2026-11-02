@@ -3,7 +3,7 @@ import { findSprite } from '@bxel/document';
 import type { ContextMenuEntry } from '@drizztdourden08/brock-react';
 import { unless } from '../../../context-menu/unless';
 import { currentFocus } from '../../../timeline/current-focus';
-import { currentSelection } from '../../../timeline/current-selection';
+import { menuFrames } from '../../../timeline/menu-frames';
 import { TIMELINE_TEXT } from '../../../timeline/timeline.constants';
 import { DURATION_CHOICES, SCALE_CHOICES } from '../TimelinePanel.constants';
 import { TIMELINE_MENU } from './timeline-menu.constants';
@@ -32,12 +32,12 @@ const moveEntries = (atStart: boolean, atEnd: boolean, many: boolean): ContextMe
   ],
 });
 
-const frameEntries = (frameId: string | undefined): readonly ContextMenuEntry[] => {
+const frameEntries = (frameId: string | undefined, selection?: ReadonlySet<string>): readonly ContextMenuEntry[] => {
   const focus = currentFocus();
   if (!focus) return [];
   const { frames, tags } = focus.animation;
   const all = frames.map((frame) => frame.id);
-  const picked = currentSelection(focus);
+  const picked = menuFrames(focus, selection);
   const durations = new Set(frames.filter((frame) => picked.includes(frame.id)).map((frame) => frame.durationMs));
   const shared = durations.size === 1 ? [...durations][0] : undefined;
   const sprite = frames.find((frame) => frame.id === frameId)?.spriteId;
