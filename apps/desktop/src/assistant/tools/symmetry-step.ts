@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { useDrawingStore } from '../../stores/useDrawingStore';
 import { useToolStore } from '../../stores/useToolStore';
 import type { ViewStep } from './view-steps.type';
 
@@ -10,6 +11,8 @@ const symmetryStep: ViewStep = (patch) => {
   if (symmetry.y !== undefined && symmetry.y !== useToolStore.getState().symmetryY) store.toggleSymmetry('y');
   if (symmetry.axisX !== undefined) store.setAxis('x', symmetry.axisX);
   if (symmetry.axisY !== undefined) store.setAxis('y', symmetry.axisY);
+  const drawing = useDrawingStore.getState();
+  if (symmetry.tile !== undefined && symmetry.tile !== drawing.symmetryTile) drawing.toggleSymmetryMode('tile');
   return null;
 };
 

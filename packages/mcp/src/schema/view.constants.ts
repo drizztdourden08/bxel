@@ -153,6 +153,7 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       y: z.boolean().optional(),
       axisX: z.number().nullable().optional().describe('Doubled pixel coordinate of the mirror axis, null to remove it.'),
       axisY: z.number().nullable().optional(),
+      tile: z.boolean().optional().describe('Mirror inside each tile cell of the tile grid instead of across the whole sprite. Needs a tile grid, in a tileset or Edit Tile.'),
     })
     .optional(),
   selection: z
