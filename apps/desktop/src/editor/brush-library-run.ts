@@ -15,8 +15,7 @@ const forgetRemoved = ({ kind, id }: LibraryAction): void => {
 const runLibraryAction = (action: LibraryAction): boolean => {
   const { host, activeId } = useDocumentStore.getState();
   if (activeId === null) return false;
-  const ref = { by: 'id', id: action.id };
-  const options = action.action === 'rename' ? { [action.kind]: ref, name: action.name } : { [action.kind]: ref };
+  const options = action.action === 'rename' ? { [action.kind]: action.id, name: action.name } : { [action.kind]: action.id };
   const step = { name: COMMAND_OF[action.kind][action.action], targets: null, options };
   const result = host.execute(stepRequest(host, activeId, LABEL_OF[action.kind][action.action], [step]));
   if (!result.ok) useNoticeStore.getState().post(result.error.message);
