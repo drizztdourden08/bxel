@@ -3,12 +3,14 @@ import type { PointerEvent } from 'react';
 import { currentTarget } from '../../../editor/current-target';
 import { setFloatOffset } from '../../../editor/pending/set-float-offset';
 import { shiftMask } from '../../../editor/pending/shift-mask';
+import { dragHint } from '../../../editor/selection/drag-hint';
 import { incomingMask } from '../../../editor/selection/incoming-mask';
 import { mergeMask } from '../../../editor/selection/merge-mask';
 import { nextShape } from '../../../editor/selection/next-shape';
 import { heldKeys } from '../../../editor/selection/held-keys';
 import { shapeHold } from '../../../editor/selection/shape-hold';
 import { lockAxis } from '../../../editor/transform/lock-axis';
+import { useGestureStore } from '../../../stores/useGestureStore';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import type { ActiveDrag } from './canvas-tools.type';
@@ -36,6 +38,7 @@ const updateDrag = (active: ActiveDrag, viewport: PixelViewportHandle | null, ev
   active.hold = shapeHold(active.keys, heldKeys(event));
   active.shape = nextShape(shape, at, active.hold);
   useSelectionStore.getState().setDraft(mergeMask(active.base, incomingMask(active.shape, target.sprite, active.hold), active.mode));
+  useGestureStore.getState().setHint(dragHint(active.shape, active.mode, active.hold));
 };
 
 export { updateDrag };

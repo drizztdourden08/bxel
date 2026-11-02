@@ -13,9 +13,10 @@ import { incomingMask } from '../../../editor/selection/incoming-mask';
 import { mergeMask } from '../../../editor/selection/merge-mask';
 import { modeOf } from '../../../editor/selection/mode-of';
 import { pointMask } from '../../../editor/selection/point-mask';
-import { DOUBLE_CLICK, POLYGON_MIN_VERTICES } from '../../../editor/selection/selection.constants';
+import { DOUBLE_CLICK, POLYGON_MIN_VERTICES, SELECTION_TEXT } from '../../../editor/selection/selection.constants';
 import { selectionMask } from '../../../editor/selection/selection-mask';
 import type { SelectionSettings } from '../../../stores/selection-store.type';
+import { useGestureStore } from '../../../stores/useGestureStore';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import { beginFloatDrag } from './begin-float-drag';
@@ -47,6 +48,7 @@ const beginShape = (target: EditorTarget, base: MaskView | null, request: { at: 
   const store = useSelectionStore.getState();
   const shape = { variant: store.variant, from: request.at, to: request.at, path: [request.at] };
   store.setDraft(mergeMask(base, incomingMask(shape, target.sprite), request.mode));
+  useGestureStore.getState().setHint(SELECTION_TEXT.modeKeys);
   return { kind: 'shape', shape, base, mode: request.mode, keys: freshKeys(heldKeys(request.event)), hold: { square: false, centre: false } };
 };
 

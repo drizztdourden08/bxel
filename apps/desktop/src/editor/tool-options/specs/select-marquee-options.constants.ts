@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind constants */
 import { FIXED_LIMIT } from '../../../stores/selection-store.constants';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
-import type { FixedMarquee } from '../../selection/selection.type';
+import type { FixedMarquee, VertexSnap } from '../../selection/selection.type';
 import type { OptionSpec } from '../tool-options.type';
 import { choiceSpec } from './choice-spec';
 import { numberSpec } from './number-spec';
-import { FIXED_CHOICES, MARQUEE_TEXT } from './select-marquee-text.constants';
+import { FIXED_CHOICES, MARQUEE_TEXT, VERTEX_SNAP_CHOICES } from './select-marquee-text.constants';
 import { toggleSpec } from './toggle-spec';
 
 const selection = () => useSelectionStore.getState();
@@ -17,6 +17,10 @@ const isFixed = (): boolean => isMarquee() && selection().fixed !== 'free';
 const mirrors = (): boolean => selection().variant !== 'wand' && selection().variant !== 'colour';
 
 const asFixed = (value: string): FixedMarquee => (value === 'ratio' || value === 'size' ? value : 'free');
+
+const asVertexSnap = (value: string): VertexSnap => (value === 'corner' ? 'corner' : 'centre');
+
+const isFreehand = (): boolean => selection().variant === 'lasso' || selection().variant === 'polygon';
 
 const SELECT_MARQUEE_OPTIONS: readonly OptionSpec[] = [
   choiceSpec({
@@ -72,6 +76,19 @@ const SELECT_MARQUEE_OPTIONS: readonly OptionSpec[] = [
     read: () => selection().mirror,
     write: (on) => selection().setMirror(on),
     appliesWhen: mirrors,
+  }),
+  choiceSpec({
+    tool: 'select',
+    name: 'vertex_snap',
+    label: MARQUEE_TEXT.vertexSnap,
+    description: MARQUEE_TEXT.vertexSnapDescription,
+    priority: 19,
+    group: 'select',
+    default: 'centre',
+    choices: VERTEX_SNAP_CHOICES,
+    read: () => selection().vertexSnap,
+    write: (value) => selection().setVertexSnap(asVertexSnap(value)),
+    appliesWhen: isFreehand,
   }),
 ];
 

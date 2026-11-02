@@ -43,4 +43,6 @@ interface ShapeHold {
   centre: boolean;
 }
 
-export type { Clip, DragKeys, DragShape, FixedMarquee, MarqueeRule, MatchKind, SampleSource, SelectVariant, ShapeHold };
+type VertexSnap = 'centre' | 'corner';
+
+export type { Clip, DragKeys, DragShape, FixedMarquee, MarqueeRule, MatchKind, SampleSource, SelectVariant, ShapeHold, VertexSnap };
