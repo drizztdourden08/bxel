@@ -33,6 +33,7 @@ import { tilesetView } from './tileset-view';
 import { togglesView } from './toggles-view';
 import { toolView } from './tool-view';
 import { uiView } from './ui-view';
+import { viewArtBounds } from './view-art-bounds';
 import type { Sees } from './view-snapshot.type';
 
 const tabsOf = (sees: Sees) => {
@@ -96,12 +97,7 @@ const zoomOf = () => {
   const { viewport } = useViewStore.getState();
   if (!viewport) return null;
   const view = viewport.view();
-  const halfWidth = view.width / 2 / view.zoom;
-  const halfHeight = view.height / 2 / view.zoom;
-  const x = Math.max(0, Math.floor(view.pan.x - halfWidth));
-  const y = Math.max(0, Math.floor(view.pan.y - halfHeight));
-  const right = Math.min(view.imageWidth, Math.ceil(view.pan.x + halfWidth));
-  const bottom = Math.min(view.imageHeight, Math.ceil(view.pan.y + halfHeight));
+  const { x, y, right, bottom } = viewArtBounds(view);
   return {
     percent: Math.round(view.zoom * 100),
     centre: { x: view.pan.x, y: view.pan.y },

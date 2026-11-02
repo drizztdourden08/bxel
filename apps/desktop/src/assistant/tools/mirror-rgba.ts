@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind logic */
 import type { RgbaImage } from '@bxel/formats';
-
-const CHANNELS = 4;
+import { CHANNELS } from './mirror-rgba.constants';
 
 const mirrorRgba = (image: RgbaImage): RgbaImage => {
   const data = new Uint8ClampedArray(image.data.length);

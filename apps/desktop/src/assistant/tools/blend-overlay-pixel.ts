@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { RgbaImage } from '@bxel/formats';
+import { CHANNELS } from './blend-overlay-pixel.constants';
 import type { OverlayInk } from './render-overlay.type';
-
-const CHANNELS = 4;
 
 const blendOverlayPixel = (image: RgbaImage, at: { readonly x: number; readonly y: number }, ink: OverlayInk): void => {
   if (at.x < 0 || at.y < 0 || at.x >= image.width || at.y >= image.height) return;
