@@ -17,6 +17,8 @@ const slotMark = (slot: ToolSlot, context: SlotItemContext): SlotIconProps['mark
 };
 
 const slotDescription = (context: SlotItemContext): string => {
+  if (context.ui.state === 'disabled' && context.surface === 'none') return CATALOGUE_TEXT.disabled;
+  if (context.ui.state === 'disabled' && context.surface === 'sheet') return CATALOGUE_TEXT.sheetNote;
   if (context.ui.state === 'disabled' && context.ui.reason !== null) return context.ui.reason;
   return [context.shown.description, context.badge?.text].filter(Boolean).join(' ');
 };

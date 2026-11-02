@@ -3,6 +3,7 @@ import type { CommandDef } from '@drizztdourden08/brock-react';
 import { FILE_COMMANDS } from '../files/file-commands.constants';
 import { BRUSH_COMMANDS } from './brush-commands.constants';
 import { DRAWING_COMMANDS } from './drawing-commands.constants';
+import { PATTERN_COMMANDS } from './pattern-commands.constants';
 import { ANIMATION_COMMANDS } from './animation-commands.constants';
 import { COLLISION_COMMANDS } from './collision-commands.constants';
 import { CONFIG_COMMANDS } from './config-commands.constants';
@@ -14,6 +15,7 @@ import { HELP_COMMANDS } from './help-commands.constants';
 import { LAYER_MENU_COMMANDS } from './layer-menu-commands.constants';
 import { LAYER_TREE_COMMANDS } from './layer-tree-commands.constants';
 import { OPTION_COMMANDS } from './option-commands.constants';
+import { OPTION_EXTRA_COMMANDS } from './option-extra-commands.constants';
 import { PALETTE_MENU_COMMANDS } from './palette-menu-commands.constants';
 import { PALETTE_PANEL_COMMANDS } from './palette-panel-commands.constants';
 import { PALETTE_TRANSFER_COMMANDS } from './palette-transfer-commands.constants';
@@ -44,7 +46,9 @@ const EDITOR_COMMANDS: readonly CommandDef[] = [
   ...TOOL_COMMANDS,
   ...BRUSH_COMMANDS,
   ...DRAWING_COMMANDS,
+  ...PATTERN_COMMANDS,
   ...OPTION_COMMANDS,
+  ...OPTION_EXTRA_COMMANDS,
   ...VIEW_COMMANDS,
   ...PREVIEW_COMMANDS,
   ...EDIT_COMMANDS,

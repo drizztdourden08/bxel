@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind constants */
 import type { InkKind } from '../stores/drawing-store.type';
 import type { InkBuilder } from './ink-of.type';
+import { patternStencilId } from './pattern-stencil-id';
 import type { ColourSlot } from './press-plan.type';
 
 const PARTNER: Readonly<Record<ColourSlot, ColourSlot>> = {
@@ -15,15 +16,16 @@ const INK_BUILDERS: Readonly<Record<InkKind, InkBuilder>> = {
   behind: () => ({ kind: 'behind' }),
   lockAlpha: () => ({ kind: 'lockAlpha' }),
   onlyColour: ({ drawing, other }) => ({ kind: 'onlyColour', index: drawing.onlyColour ?? other }),
-  dither: ({ drawing, other, origin }) => ({
-    kind: 'dither',
-    pattern: drawing.ditherPattern,
-    level: drawing.ditherLevel,
-    second: other,
-    ...(drawing.ditherCustom && drawing.brushId !== null
-      ? { brushId: drawing.brushId, originX: drawing.patternAlign === 'start' ? origin.x : 0, originY: drawing.patternAlign === 'start' ? origin.y : 0 }
-      : {}),
-  }),
+  dither: ({ drawing, other, origin }) => {
+    const stencil = patternStencilId(drawing, drawing.ditherCustom);
+    return {
+      kind: 'dither',
+      pattern: drawing.ditherPattern,
+      level: drawing.ditherLevel,
+      second: other,
+      ...(stencil !== null ? { brushId: stencil, originX: drawing.patternAlign === 'start' ? origin.x : 0, originY: drawing.patternAlign === 'start' ? origin.y : 0 } : {}),
+    };
+  },
   shade: ({ drawing, reversed }) => ({
     kind: 'shade',
     ...(drawing.shadeRamp === null ? {} : { ramp: drawing.shadeRamp }),

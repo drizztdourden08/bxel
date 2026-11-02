@@ -8,6 +8,8 @@ import type { OptionSpec } from '../tool-options.type';
 import { choiceSpec } from './choice-spec';
 import { DITHER_PATTERN_CHOICES, DRAWING_TEXT, INK_CHOICES, PATTERN_ALIGN_CHOICES } from './drawing-text.constants';
 import { numberSpec } from './number-spec';
+import { patternChoices } from './pattern-choices';
+import { PATTERN_TEXT } from './pattern-text.constants';
 import { rampChoices } from './ramp-choices';
 import { toggleSpec } from './toggle-spec';
 
@@ -33,10 +35,15 @@ const ditherSpecs = (tool: (typeof INK_TOOLS)[number]): OptionSpec[] => [
     tool, name: 'dither_custom', label: DRAWING_TEXT.ditherCustom, description: DRAWING_TEXT.ditherCustomDescription, priority: 52.5, group: 'ink', tier: 2,
     icon: 'pixel-brush-custom', read: () => d().ditherCustom, write: (on) => d().patch({ ditherCustom: on }), appliesWhen: () => inkFor(d(), tool) === 'dither',
   }),
+  choiceSpec({
+    tool, name: 'dither_saved', label: PATTERN_TEXT.saved, description: PATTERN_TEXT.savedDescription, priority: 52.2, group: 'ink', tier: 2,
+    default: '', choices: patternChoices, read: () => d().patternId ?? '', write: (value) => d().patch({ patternId: value === '' ? null : value }),
+    appliesWhen: () => inkFor(d(), tool) === 'dither',
+  }),
   numberSpec({
     tool, name: 'dither_level', label: DRAWING_TEXT.ditherLevel, description: DRAWING_TEXT.ditherLevelDescription, priority: 53, group: 'ink', tier: 2,
     default: 8, min: 1, max: 15, read: () => d().ditherLevel, write: (value) => d().patch({ ditherLevel: value }),
-    appliesWhen: () => inkFor(d(), tool) === 'dither' && d().ditherPattern === 'bayer' && !d().ditherCustom,
+    appliesWhen: () => inkFor(d(), tool) === 'dither' && d().ditherPattern === 'bayer' && !d().ditherCustom && d().patternId === null,
   }),
 ];
 
@@ -57,7 +64,7 @@ const patternSpec = (tool: (typeof INK_TOOLS)[number]): OptionSpec =>
   choiceSpec({
     tool, name: 'pattern_align', label: DRAWING_TEXT.patternAlign, description: DRAWING_TEXT.patternAlignDescription, priority: 56, group: 'ink', tier: 2,
     default: 'canvas', choices: PATTERN_ALIGN_CHOICES, read: () => d().patternAlign, write: (value) => d().patch({ patternAlign: value === 'start' ? 'start' : ('canvas' satisfies PatternAlign) }),
-    appliesWhen: () => inkFor(d(), tool) === 'pattern' || (inkFor(d(), tool) === 'dither' && d().ditherCustom),
+    appliesWhen: () => inkFor(d(), tool) === 'pattern' || (inkFor(d(), tool) === 'dither' && (d().ditherCustom || d().patternId !== null)),
   });
 
 const INK_OPTIONS: readonly OptionSpec[] = INK_TOOLS.flatMap((tool) => [inkChoice(tool), ...ditherSpecs(tool), ...shadeSpecs(tool), patternSpec(tool)]);

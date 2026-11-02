@@ -82,6 +82,7 @@ interface DrawingSettings {
   lockToTile: boolean;
   linkedChoice: LinkedChoice;
   brushId: string | null;
+  patternId: string | null;
   brushSpacing: number;
   brushMode: BrushMode;
   brushFlipX: boolean;
