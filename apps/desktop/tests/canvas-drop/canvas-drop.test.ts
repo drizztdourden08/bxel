@@ -9,11 +9,12 @@ import { canDropOnCanvas } from '../../src/canvas-drop/can-drop-on-canvas';
 import { dropOnSprite } from '../../src/canvas-drop/drop-on-sprite';
 import { useNoticeStore } from '../../src/stores/useNoticeStore';
 
-const held = vi.hoisted(() => ({ image: vi.fn(), palette: vi.fn(), swap: vi.fn() }));
+const held = vi.hoisted(() => ({ image: vi.fn(), palette: vi.fn(), swap: vi.fn(), offer: vi.fn() }));
 
 vi.mock('../../src/image-import/drop-image', () => ({ dropImage: held.image }));
 vi.mock('../../src/file-ops/drop-palette', () => ({ dropPalette: held.palette }));
 vi.mock('../../src/palette-change/start-switch', () => ({ startSwitch: held.swap }));
+vi.mock('../../src/canvas-drop/sprite-layer-offer', () => ({ spriteLayerOffer: held.offer }));
 
 const defaults: AssetDefaults = {
   size: { width: 16, height: 16 },
@@ -32,6 +33,8 @@ const files = (...each: DroppedFile[]): DroppedFiles => ({ files: each, rejected
 
 const palette = (assetId: string | null): DragAsset => ({ id: 'a', kind: 'palette', assetId, path: 'p.bxpalette' });
 
+const spriteAsset = (assetId: string | null): DragAsset => ({ id: 's', kind: 'sprite', assetId, path: 'hero.bxel' });
+
 const sprite = 'spr-1' as SpriteId;
 
 describe('K1 the sprite canvas as a drop target', { tags: ['critical'] }, () => {
@@ -39,6 +42,7 @@ describe('K1 the sprite canvas as a drop target', { tags: ['critical'] }, () => 
     held.image.mockClear();
     held.palette.mockClear();
     held.swap.mockClear();
+    held.offer.mockClear();
     useNoticeStore.setState({ notice: null });
   });
 
@@ -69,6 +73,18 @@ describe('K1 the sprite canvas as a drop target', { tags: ['critical'] }, () => 
   it('starts the palette change for a palette dragged from the project browser', () => {
     dropOnSprite([palette('bank-1')], { spriteId: sprite, readOnly: false }, defaults);
     expect(held.swap).toHaveBeenCalledWith(sprite, 'bank-1' as BankId);
+  });
+
+  it('accepts a sprite dragged from the project browser', () => {
+    expect(canDropOnCanvas([spriteAsset('spr-2')], () => false)).toBe(true);
+    expect(canDropOnCanvas([spriteAsset(null)], () => false)).toBe(false);
+  });
+
+  it('offers a dropped sprite as a new layer', () => {
+    const target = { spriteId: sprite, readOnly: false };
+    dropOnSprite([spriteAsset('spr-2')], target, defaults);
+    expect(held.offer).toHaveBeenCalledWith('spr-2', target);
+    expect(held.swap).not.toHaveBeenCalled();
   });
 
   it('says why a palette cannot change a file that is open for viewing', () => {

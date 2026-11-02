@@ -10,6 +10,7 @@ import { readAnimationHeader } from '../../../stage-header/read-animation-header
 import { readSpriteHeader } from '../../../stage-header/read-sprite-header';
 import type { HeaderInput } from '../../../stage-header/stage-header.type';
 import { useSpriteStore } from '../../../stores/useSpriteStore';
+import { useViewStore } from '../../../stores/useViewStore';
 import { useAssetName } from './useAssetName';
 import { useHiddenGrids } from './useHiddenGrids';
 import { useMapHeader } from './useMapHeader';
@@ -24,6 +25,8 @@ const useHeaderInput = (): HeaderInput => {
   const selected = useSpriteScene()?.scene.selected.length ?? 0;
   const assetName = useAssetName();
   const hiddenGrids = useHiddenGrids();
+  const mirror = useViewStore((state) => state.mirror);
+  const mirrored = mirror && (surface === 'sprite' || surface === 'tile');
   const assistant = useAssistantLine();
   const tile = useTileHeader();
   const map = useMapHeader();
@@ -33,6 +36,7 @@ const useHeaderInput = (): HeaderInput => {
       assetName,
       readOnly,
       hiddenGrids,
+      mirrored,
       assistant,
       sprite: target ? readSpriteHeader(target, { ...sprites, selected }) : null,
       animation: focus ? readAnimationHeader(focus) : null,
@@ -40,7 +44,7 @@ const useHeaderInput = (): HeaderInput => {
       tile,
       map,
     }),
-    [surface, assetName, readOnly, hiddenGrids, assistant, target, sprites, selected, focus, tile, map],
+    [surface, assetName, readOnly, hiddenGrids, mirrored, assistant, target, sprites, selected, focus, tile, map],
   );
 };
 

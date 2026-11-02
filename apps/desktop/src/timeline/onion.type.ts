@@ -4,6 +4,8 @@ import type { OnionStyle, OnionTint } from '../stores/timeline-store.type';
 
 type OnionSide = 'before' | 'after';
 
+type OnionPattern = 'none' | 'dots' | 'lines' | 'split';
+
 interface OnionLayer {
   frameId: AnimFrameId;
   flip: AnimFlip | null;
@@ -21,6 +23,7 @@ interface OnionGhost {
   colour: string;
   style: OnionStyle;
   behind: boolean;
+  pattern?: OnionPattern;
 }
 
 type OnionSource = { readonly artwork: Artwork; readonly animation: Animation; readonly bank: PaletteBank };
@@ -30,4 +33,4 @@ interface OnionStep {
   flip: AnimFlip | null;
 }
 
-export type { OnionGhost, OnionLayer, OnionSide, OnionSource, OnionStep, Rgb };
+export type { OnionGhost, OnionLayer, OnionPattern, OnionSide, OnionSource, OnionStep, Rgb };

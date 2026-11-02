@@ -66,3 +66,14 @@
 .view-panel__glyph-copy {
   fill: var(--c-text-muted);
 }
+
+.view-panel__preview {
+  overflow: auto;
+  border: var(--border-width-thin) solid var(--c-border);
+  background: var(--c-checker-b);
+}
+
+.view-panel__preview-art {
+  display: block;
+  image-rendering: pixelated;
+}

@@ -106,6 +106,8 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
       lockGuides: z.boolean().optional(),
       tiled: z.enum(TILED_VALUES).optional(),
       onionSkin: z.boolean().optional(),
+      highlightLayer: z.boolean().optional().describe('Dim every layer but the current one, on a sprite and on a map. get_view highlight says which layer stays lit.'),
+      animatedTiles: z.boolean().optional().describe('Play the tile animations on the map. The collision overlay is set in tileset.collisionOverlay.'),
     })
     .optional(),
   playback: z

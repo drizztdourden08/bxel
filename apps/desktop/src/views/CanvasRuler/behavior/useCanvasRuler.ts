@@ -5,11 +5,13 @@ import { useResizeRedraw } from '../../../hooks/useResizeRedraw';
 import { paintRuler } from '../../../ruler/paint-ruler';
 import type { RulerSpan } from '../../../ruler/ruler.type';
 import { clampAxis } from '../../../editor/clamp-axis';
+import { spanReversed } from '../../../ruler/span-reversed';
 import { unitScale } from '../../../ruler/unit-scale';
 import { useRulerUnitStore } from '../../../stores/useRulerUnitStore';
 import { useReadoutStore } from '../../../stores/useReadoutStore';
 import { useRulerStore } from '../../../stores/useRulerStore';
 import { useToolStore } from '../../../stores/useToolStore';
+import { useViewStore } from '../../../stores/useViewStore';
 import type { CanvasRulerModel, CanvasRulerProps } from '../CanvasRuler.type';
 import { useRulerDrag } from './useRulerDrag';
 
@@ -26,8 +28,10 @@ const useCanvasRuler = ({ axis }: CanvasRulerProps): CanvasRulerModel => {
   const placed = useToolStore((state) => (horizontal ? state.axisX : state.axisY));
   const unit = useRulerUnitStore((state) => state.unit);
   const tile = useRulerUnitStore((state) => state.tile);
-  const span = useMemo<RulerSpan>(() => ({ origin, zoom, length, count, unit: unitScale(unit, count, tile) }), [origin, zoom, length, count, unit, tile]);
   const surface = useCanvasSurface();
+  const mirror = useViewStore((state) => state.mirror);
+  const reversed = spanReversed(axis, mirror, surface);
+  const span = useMemo<RulerSpan>(() => ({ origin, zoom, length, count, unit: unitScale(unit, count, tile), reversed }), [origin, zoom, length, count, unit, tile, reversed]);
   const handle = on && (surface === 'sprite' || surface === 'tile') ? clampAxis(placed, count) : null;
   const paint = useCallback(() => {
     if (canvasRef.current) paintRuler(canvasRef.current, { axis, span, cursor, handle });

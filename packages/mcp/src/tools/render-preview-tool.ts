@@ -47,6 +47,8 @@ const animationTarget = z
     message: 'Give one of a frame, a tag, a facing or allFacings.',
   });
 
+const OVERLAY_VALUES = ['grid', 'major', 'tile', 'guides', 'selection', 'onion', 'collision'] as const;
+
 const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
   title: 'Render a preview',
   description:
@@ -71,6 +73,13 @@ const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
       .max(64)
       .optional()
       .describe('Sprite frame or tilemap target only: draw only these layers, shown even when hidden. A group names every layer inside it. Sprite layer ids for a sprite, map layer ids for a tilemap. Absent draws every visible layer.'),
+    overlays: z
+      .array(z.enum(OVERLAY_VALUES))
+      .max(OVERLAY_VALUES.length)
+      .optional()
+      .describe('Draw these view overlays as the canvas does. grid is the pixel grid (scale 4 or more), major every 8th line, tile the 16 pixel tile grid, guides the guides of the sprite, selection the outline of the selection of the open sprite, onion the onion skin ghosts of an animation frame, collision the collision shapes of a tileset. An overlay that does not fit the target comes back in overlays.ignored.'),
+    view: z.boolean().default(false).describe('Crop the image to the rectangle the owner sees at the current zoom and pan (get_view zoom.visible), when the document is the active one.'),
+    mirror: z.boolean().default(false).describe('Flip the image left to right, as the Mirrored view does. The pixels never change.'),
     animated: z.enum(['gif', 'apng']).optional().describe('Animation tag, facing or whole animation: return the play as a GIF or an APNG, with the frame times, instead of a still strip.'),
     })
     .refine((input) => (input.file !== undefined) !== (input.documentId !== undefined && input.target !== undefined), {
@@ -90,6 +99,12 @@ const renderPreviewTool = defineTool(TOOL_NAME.renderPreview, {
     mimeType: z.enum(['image/png', 'image/gif', 'image/apng']).optional().describe('The type of the image block. Absent means image/png.'),
     frames: COUNT_SCHEMA.optional().describe('Animated: the number of frames in the file.'),
     totalMs: COUNT_SCHEMA.optional().describe('Animated: the duration of one pass.'),
+    overlays: z
+      .strictObject({ applied: z.array(z.enum(OVERLAY_VALUES)), ignored: z.array(z.enum(OVERLAY_VALUES)) })
+      .optional()
+      .describe('Present when overlays were asked: the ones drawn and the ones that do not fit the target.'),
+    mirrored: z.boolean().optional().describe('True when the image was flipped left to right.'),
+    cropped: z.strictObject({ x: z.number().int(), y: z.number().int(), width: COUNT_SCHEMA, height: COUNT_SCHEMA }).optional().describe('The rectangle of the art that view cut out, in art pixels.'),
     rows: z.array(z.strictObject({ facing: FACING_SCHEMA, tagId: TAG_ID_SCHEMA })).optional().describe('allFacings: the facing of each row from the top, with its tag.'),
   }),
 });

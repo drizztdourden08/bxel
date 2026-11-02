@@ -62,6 +62,15 @@ describe('S2 set_view state, selection and pages', { tags: ['standard'] }, () =>
     expect(fake.announced.at(-1)).toContain('changed the view');
   });
 
+  it('sets the highlight layer and the animated tiles, and reads them back with the map overlays', async () => {
+    openDocument();
+    await ok('set_view', { toggles: { highlightLayer: true, animatedTiles: false }, tileset: { collisionOverlay: true } });
+    const seen = await ok('get_view', {});
+    expect(seen.highlight).toMatchObject({ on: true });
+    expect(seen.toggles).toMatchObject({ highlightLayer: true, animatedTiles: false });
+    expect(seen.mapOverlays).toMatchObject({ collision: true, animatedTiles: false, highlightLayer: true });
+  });
+
   it('refuses a colour outside the palette, and the state fields at Read', async () => {
     openDocument();
     expect(await code('set_view', { colours: { foreground: 200 } })).toBe('VIEW_INVALID');

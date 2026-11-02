@@ -51,4 +51,25 @@ interface GuideScope {
   clear: () => void;
 }
 
-export type { GuideAxis, GuideDrag, GuideFrame, GuideHit, GuideLines, GuidePoint, GuideRequest, GuideScope, PersistedGuides };
+interface GuideEdit {
+  axis: GuideAxis;
+  from: number | null;
+  to: number;
+}
+
+interface GuideRow {
+  axis: GuideAxis;
+  position: number;
+}
+
+interface GuideDialogRequest {
+  axis: GuideAxis;
+  from: number | null;
+  position: number;
+}
+
+interface LastGuideHit extends GuideHit {
+  at: number;
+}
+
+export type { GuideAxis, GuideDialogRequest, GuideDrag, GuideEdit, GuideFrame, GuideHit, GuideLines, GuidePoint, GuideRequest, GuideRow, GuideScope, LastGuideHit, PersistedGuides };

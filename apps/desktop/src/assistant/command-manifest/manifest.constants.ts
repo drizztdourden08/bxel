@@ -18,7 +18,7 @@ const VIEW_ROWS = [
   one('view.toggle_snap', 'app_control', 'app'),
   one('view.toggle_slices', 'app_control', 'app'),
   ...rows('app_control', 'show', ['view.toggle_pixel_grid', 'view.toggle_major_grid', 'view.toggle_tile_grid', 'view.toggle_iso_grid', 'view.toggle_guides', 'view.toggle_rulers']),
-  ...rows('app_control', 'show', ['view.hide_overlays', 'view.toggle_mirror', 'view.toggle_loupe', 'view.fullscreen_preview', 'view.toggle_split', 'view.toggle_split_link', 'view.toggle_split_actual', 'view.lock_guides', 'view.describe_canvas', 'view.read_row']),
+  ...rows('app_control', 'show', ['view.hide_overlays', 'view.toggle_mirror', 'view.toggle_loupe', 'view.background_preview', 'view.fullscreen_preview', 'view.toggle_preview', 'view.toggle_split', 'view.toggle_split_link', 'view.toggle_split_actual', 'view.lock_guides', 'view.describe_canvas', 'view.read_row']),
   one('view.centre_here', 'app_control', 'show', { args: 'pickHere' }),
   ...rows('app_control', 'show', ['view.tiled_off', 'view.tiled_x', 'view.tiled_y', 'view.tiled_both']),
   one('view.zoom_to', 'app_control', 'show', { args: 'zoom' }),
@@ -103,6 +103,7 @@ const EDIT_ROWS = [
   one('palette.remove_unused', 'edit_pixels', 'edit', { dialog: 'palette_remove_unused' }),
   one('palette.unite_duplicates', 'edit_pixels', 'edit', { dialog: 'palette_unite' }),
   one('guide.add_here', 'edit_pixels', 'edit', { args: 'axis' }),
+  one('guide.edit', 'app_control', 'show', { args: 'axis' }),
   one('guide.clear', 'edit_pixels', 'edit'),
 ];
 

@@ -6,6 +6,7 @@ import { useAreaRedraw } from './useAreaRedraw';
 import { useGuideRedraw } from './useGuideRedraw';
 import { useLintRedraw } from './useLintRedraw';
 import { useMarchingAnts } from './useMarchingAnts';
+import { useOnionPatternRedraw } from './useOnionPatternRedraw';
 
 const useCanvasRedraws = (
   viewport: RefObject<PixelViewportHandle | null>,
@@ -16,6 +17,7 @@ const useCanvasRedraws = (
   useAreaRedraw(viewport);
   useGuideRedraw(viewport, target);
   useLintRedraw(viewport, target);
+  useOnionPatternRedraw(viewport);
   useMarchingAnts(second);
   useAreaRedraw(second);
   useGuideRedraw(second, target);

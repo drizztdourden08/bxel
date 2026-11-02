@@ -33,6 +33,7 @@ const CANVAS_MENU = {
   axisCentre: 'Centre the mirror axes',
   symmetryOff: 'Both symmetries are off.',
   canvas: 'Canvas',
+  spriteProperties: 'Sprite properties',
   frameSize: 'Frame sprite size',
   animationSettings: 'Animation settings...',
   transform: 'Transform',

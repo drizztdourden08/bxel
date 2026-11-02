@@ -29,6 +29,8 @@ const HEADER_TEXT = {
   hiddenTitle: 'A hidden layer is not drawn, and strokes on it cannot be seen.',
   show: 'Show layer',
   assistantTitle: 'The assistant just changed this file.',
+  mirrored: 'Mirrored view',
+  mirroredTitle: 'The canvas is flipped for a check. Only the display changes, the pixels stay as they are.',
   gridHidden: 'Grid hidden at this zoom',
   gridHiddenTitle: 'Zoom in to see the grid lines.',
   sharedHint: 'Drawing here changes the sprite file.',

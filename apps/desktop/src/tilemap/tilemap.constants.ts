@@ -115,4 +115,6 @@ const MAP_TOOL_OF: Readonly<Record<ToolId, MapTool>> = {
 
 const TILE_CANVASES = new WeakMap<FrameImage, HTMLCanvasElement>();
 
-export { CELL_CLIP_TEXT, MAP_TOOL_OF, STAMP_SLOT_TEXT, TILE_CANVASES, TILE_LABEL, TILE_REF, TILEMAP_TEXT };
+const MAP_CANVASES = new WeakMap<object, Map<string, HTMLCanvasElement>>();
+
+export { CELL_CLIP_TEXT, MAP_CANVASES, MAP_TOOL_OF, STAMP_SLOT_TEXT, TILE_CANVASES, TILE_LABEL, TILE_REF, TILEMAP_TEXT };

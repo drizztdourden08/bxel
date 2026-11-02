@@ -2,7 +2,7 @@
 import { all, always, animatedTile, any, file, not, surface } from '../predicates.constants';
 import { rule } from '../rule';
 import type { UiRule } from '../ui-rule.type';
-import { EDIT_STAGE, ONION, PALETTE_STAGE, PIXEL, SHEET, TILE_FILES, VIEW_STAGE } from './groups.constants';
+import { EDIT_STAGE, ONION, PALETTE_STAGE, PIXEL, RULER_STAGE, SHEET, TILE_FILES, VIEW_STAGE } from './groups.constants';
 
 const WIDGET_RULES: Record<string, UiRule> = {
   'widget.layers': rule({ applies: any(EDIT_STAGE, SHEET) }),
@@ -14,6 +14,8 @@ const WIDGET_RULES: Record<string, UiRule> = {
   'viewpanel.navigator': rule({ applies: VIEW_STAGE }),
   'viewpanel.zoom': rule({ applies: VIEW_STAGE }),
   'viewpanel.overlays': rule({ applies: VIEW_STAGE }),
+  'viewpanel.preview': rule({ applies: ONION }),
+  'viewpanel.guides': rule({ applies: RULER_STAGE }),
   'viewpanel.onion': rule({ applies: ONION }),
   'viewpanel.tiled': rule({ applies: PIXEL }),
   'viewpanel.symmetry': rule({ applies: PIXEL }),

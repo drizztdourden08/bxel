@@ -3,7 +3,7 @@ import { CANVAS_DEFAULTS } from '../canvas-look/canvas-look.constants';
 import { COMMAND_ID } from '../keymap/keymap.constants';
 import type { TileMode, ViewSettings, ViewToggleRow } from './view-store.type';
 
-const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, gridIso: false, guides: true, rulers: true, snap: false, slices: false, hideOverlays: false, mirror: false, loupe: false, fullscreen: false, split: false, splitLink: false, splitActual: false, lockGuides: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, guideColourY: CANVAS_DEFAULTS.guideColor, viewport: null };
+const VIEW_DEFAULTS: ViewSettings = { grid: true, gridMajor: false, gridTile: false, gridIso: false, guides: true, rulers: true, snap: false, slices: false, hideOverlays: false, mirror: false, loupe: false, backgroundPreview: false, fullscreen: false, split: false, splitLink: false, splitActual: false, lockGuides: false, tiled: 'off', guideColour: CANVAS_DEFAULTS.guideColor, guideColourY: CANVAS_DEFAULTS.guideColor, viewport: null };
 
 const TILE_MODES: readonly TileMode[] = ['off', 'x', 'y', 'both'];
 
@@ -24,8 +24,9 @@ const VIEW_TOGGLE_ROWS: readonly ViewToggleRow[] = [
   { toggle: 'snap', command: COMMAND_ID.snap, label: 'Snap', chord: 'Mod+Shift+;' },
   { toggle: 'slices', command: COMMAND_ID.slices, label: 'Slices' },
   { toggle: 'hideOverlays', command: COMMAND_ID.hideOverlays, label: 'Hide overlays', chord: 'Mod+H' },
-  { toggle: 'mirror', command: COMMAND_ID.mirrorView, label: 'Mirror view' },
-  { toggle: 'loupe', command: COMMAND_ID.loupe, label: 'Loupe' },
+  { toggle: 'mirror', command: COMMAND_ID.mirrorView, label: 'Mirror view', chord: 'Shift+M' },
+  { toggle: 'loupe', command: COMMAND_ID.loupe, label: 'Loupe', chord: 'Alt+Shift+L' },
+  { toggle: 'backgroundPreview', command: COMMAND_ID.backgroundPreview, label: 'Background preview', chord: 'Alt+Shift+B' },
   { toggle: 'fullscreen', command: COMMAND_ID.fullscreenPreview, label: 'Fullscreen preview', chord: 'F8' },
   { toggle: 'split', command: COMMAND_ID.splitView, label: 'Split view', chord: 'Mod+Alt+\\' },
   { toggle: 'splitLink', command: COMMAND_ID.splitLink, label: 'Link views' },
