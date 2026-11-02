@@ -10,7 +10,7 @@ const paintSliceBox = (ctx: CanvasRenderingContext2D, view: PixelView, shown: Sl
   const { rect } = slice;
   const line = 1 / view.zoom;
   ctx.save();
-  ctx.strokeStyle = selected ? look.cursor : look.ink;
+  ctx.strokeStyle = slice.colour ?? (selected ? look.cursor : look.ink);
   ctx.fillStyle = ctx.strokeStyle;
   ctx.lineWidth = selected ? 2 * line : line;
   ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);

@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { AngleField, NumberField as ScrubField } from '@drizztdourden08/tessera';
 import { applyField } from '../../../editor/transform/apply-field';
-import { ANGLE_SNAP } from '../../../editor/transform/transform.constants';
+import { useTransformUiStore } from '../../../stores/useTransformUiStore';
 import { fieldValue } from '../../../editor/transform/field-value';
 import { reviseTransform } from '../../../editor/transform/revise-transform';
 import { FIELD_LABELS, FIELD_RANGES, FIELD_STEPS } from '../TransformBar.constants';
@@ -10,6 +10,7 @@ import { ANGLE_FIELDS } from './NumberField.constants';
 import { fieldId } from '../behavior/field-id';
 
 const NumberField = ({ field, model }: NumberFieldProps) => {
+  const angleSnap = useTransformUiStore((state) => state.angleSnap);
   const value = fieldValue(model.box, model.spec, field);
   const change = (next: number): void => {
     reviseTransform((spec) => applyField(model.box, spec, field, next));
@@ -22,7 +23,7 @@ const NumberField = ({ field, model }: NumberFieldProps) => {
         size="sm"
         label={FIELD_LABELS[field]}
         aria-label={FIELD_LABELS[field]}
-        snap={ANGLE_SNAP}
+        snap={angleSnap}
         dial={field === 'angle'}
         value={value}
         onChange={change}

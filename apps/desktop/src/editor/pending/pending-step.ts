@@ -6,10 +6,14 @@ import type { CommitStep } from '../commit-request.type';
 import type { EditorTarget } from '../editor.type';
 import type { PendingEdit } from './pending.type';
 import type { SpecOf } from './pending-step.type';
+import { settleAlgorithm } from '../transform/settle-algorithm';
 import { clipRect } from './clip-rect';
+import { magnifyStep } from './magnify-step';
 import { lockPastePixels } from './lock-paste-pixels';
 
 const maskPart = (mask: MaskView | null): { mask?: MaskView } => (mask ? { mask } : {});
+
+const similarPart = (similar: number | undefined): { similar?: number } => (similar ? { similar } : {});
 
 const flipStep = (spec: SpecOf<'flip'>, mask: MaskView | null): CommitStep =>
   mask
@@ -21,8 +25,11 @@ const turnStep = (spec: SpecOf<'turn'>, mask: MaskView | null): CommitStep =>
     ? { name: TRANSFORM_COMMAND.pixelsTurn, options: { direction: spec.direction, mask } }
     : { name: TRANSFORM_COMMAND.spriteTurn, options: { direction: spec.direction } };
 
-const transformStep = (spec: SpecOf<'transform'>, mask: MaskView | null): CommitStep => {
-  const shared = { algorithm: spec.algorithm, bounds: spec.bounds, skipZero: false, ...maskPart(mask) };
+const transformStep = (raw: SpecOf<'transform'>, mask: MaskView | null): CommitStep => {
+  const spec = settleAlgorithm(raw);
+  const magnified = magnifyStep(spec, mask);
+  if (magnified) return magnified;
+  const shared = { algorithm: spec.algorithm, ...similarPart(spec.similar), bounds: spec.bounds, skipZero: false, ...maskPart(mask) };
   if (spec.corners) return { name: ADVANCED_COMMAND.pixelsDistort, options: { corners: spec.corners, ...shared } };
   const pivot = spec.pivot ? { pivot: spec.pivot } : {};
   return {

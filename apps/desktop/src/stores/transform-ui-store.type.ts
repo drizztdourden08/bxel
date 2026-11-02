@@ -13,6 +13,8 @@ interface TransformUiState {
   setLast: (last: LastTransform | null) => void;
   focus: TransformField | null;
   grab: Handle | null;
+  angleSnap: number;
+  setAngleSnap: (angleSnap: number) => void;
   setFocus: (focus: TransformField | null) => void;
   setGrab: (grab: Handle | null) => void;
 }

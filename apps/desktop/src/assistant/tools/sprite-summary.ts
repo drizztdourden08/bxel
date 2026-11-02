@@ -38,7 +38,7 @@ const spriteSummary = (detailedTags: boolean) => (sprite: Sprite) => ({
   })),
   frames: sprite.frames.map((frame) => ({ frameId: frame.id, durationMs: frame.durationMs })),
   tags: sprite.tags.map((tag) => tagSummary(sprite, tag, detailedTags)),
-  slices: sprite.slices.map((slice) => ({ sliceId: slice.id, name: slice.name, rect: slice.rect, pivot: slice.pivot, center: slice.center })),
+  slices: sprite.slices.map((slice) => ({ sliceId: slice.id, name: slice.name, rect: slice.rect, pivot: slice.pivot, center: slice.center, ...(slice.colour ? { colour: slice.colour } : {}) })),
   guides: guidesOf(sprite.guides),
   selections: (sprite.selections ?? []).map((saved) => ({
     name: saved.name,

@@ -71,6 +71,7 @@ const sliceSchema = z.object({
   rect: rectSchema,
   pivot: pivotSchema.nullable(),
   center: rectSchema.nullable(),
+  colour: tagColourSchema.optional(),
 });
 
 const spriteShellSchema = z.object({

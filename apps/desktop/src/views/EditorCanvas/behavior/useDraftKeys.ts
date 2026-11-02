@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { pathDraft } from '../../../editor/path-draft';
 import { dropVertex } from '../../../editor/drop-vertex';
+import { dropSelectionVertex } from '../../../editor/selection/drop-selection-vertex';
 import type { DraftKeys } from './useDraftKeys.type';
 
 const typing = (event: KeyboardEvent): boolean => {
@@ -18,6 +19,11 @@ const useDraftKeys = ({ finish, cancel, redraw }: DraftKeys): void => {
   useEffect(() => {
     const down = (event: KeyboardEvent): void => {
       if (typing(event)) return;
+      if (event.key === 'Backspace' && dropSelectionVertex()) {
+        claim(event);
+        redraw();
+        return;
+      }
       const draft = pathDraft.current;
       if (!draft) return;
       if (event.key === 'Escape') {

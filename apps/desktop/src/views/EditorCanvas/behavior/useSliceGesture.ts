@@ -10,6 +10,7 @@ import { finishSliceDrag } from '../../../slice/finish-slice-drag';
 import { sliceAt } from '../../../slice/slice-at';
 import { sliceDoubleClick } from '../../../slice/slice-double-click';
 import { sliceDraft } from '../../../slice/slice-draft';
+import { snapSliceMove } from '../../../slice/snap-slice-move';
 import { useSliceToolStore } from '../../../stores/useSliceToolStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
@@ -40,7 +41,8 @@ const useSliceGesture = (viewport: RefObject<PixelViewportHandle | null>): Selec
       const handle = viewport.current;
       const target = currentTarget();
       if (!held.current || !handle || !target || !sliceDraft.current) return false;
-      sliceDraft.current = extendSliceDrag(sliceDraft.current, snapEdge(rawAt(event), handle.view().zoom), target.sprite);
+      const { zoom } = handle.view();
+      sliceDraft.current = snapSliceMove(extendSliceDrag(sliceDraft.current, snapEdge(rawAt(event), zoom), target.sprite), zoom);
       handle.redraw();
       return true;
     },

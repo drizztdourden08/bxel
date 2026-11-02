@@ -6,6 +6,8 @@ const ROTATE_START = 0;
 
 const ANGLE_SNAP = 15;
 
+const ANGLE_SNAPS: readonly number[] = [15, 22.5, 45];
+
 const ANGLE_LIMIT = 360;
 
 const SKEW_LIMIT = 80;
@@ -28,6 +30,8 @@ const ROTATE_REACH = 22;
 
 const DEFAULT_ALGORITHM: ResampleAlgorithm = 'rotsprite';
 
+const MAGNIFY_ALGORITHMS: readonly ResampleAlgorithm[] = ['scale2x', 'mmpx', 'scale3x'];
+
 const DEFAULT_BOUNDS: BoundsPolicy = 'crop';
 
 const IDENTITY: TransformSpec = {
@@ -42,4 +46,4 @@ const IDENTITY: TransformSpec = {
   corners: null,
 };
 
-export { ANGLE_LIMIT, ANGLE_SNAP, HALF_TURN_DEGREES, TENTH, HANDLE_REACH, IDENTITY, NO_INDEX, PIVOT_STEP, ROTATE_REACH, SCALE_LIMIT, SIZE_EPSILON, SKEW_LIMIT };
+export { ANGLE_LIMIT, ANGLE_SNAP, ANGLE_SNAPS, DEFAULT_ALGORITHM, MAGNIFY_ALGORITHMS, HALF_TURN_DEGREES, TENTH, HANDLE_REACH, IDENTITY, NO_INDEX, PIVOT_STEP, ROTATE_REACH, SCALE_LIMIT, SIZE_EPSILON, SKEW_LIMIT };

@@ -13,6 +13,7 @@ import { useTransformBar } from './behavior/useTransformBar';
 import { ChoiceFields } from './sub-components/ChoiceFields';
 import { NumberField } from './sub-components/NumberField';
 import { PivotField } from './sub-components/PivotField';
+import { SnapField } from './sub-components/SnapField';
 import './TransformBar.css';
 
 const TransformBar = () => {
@@ -30,6 +31,7 @@ const TransformBar = () => {
       <Toolbar label={TRANSFORM_BAR_TEXT.tools} items={actionItems()} />
       <Button size="xs" variant="tertiary" aria-expanded={more} title={TRANSFORM_BAR_TEXT.moreHint} onClick={() => setMore(!more)}>{TRANSFORM_BAR_TEXT.more}</Button>
       {more && MORE_FIELDS.map((field) => <NumberField key={field} field={field} model={model} />)}
+      {more && <SnapField />}
       {more && <PivotField model={model} />}
       {note !== null && <Text as="span" variant="caption" className="transform-bar__note">{note}</Text>}
       <Flex gap="xs" align="center" className="transform-bar__end">

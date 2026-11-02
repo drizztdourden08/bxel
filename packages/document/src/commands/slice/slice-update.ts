@@ -8,6 +8,7 @@ import { COMMAND_NAME } from '../command-name.constants';
 import { defineCommand } from '../define-command';
 import { checkSlice } from './check-slice';
 import { pickSlices } from './pick-slices';
+import { withSliceColour } from './with-slice-colour';
 
 const sliceUpdate = defineCommand({
   name: COMMAND_NAME.sliceUpdate,
@@ -21,13 +22,14 @@ const sliceUpdate = defineCommand({
         sprite.slices.filter((other) => other.id !== slice.id).map((other) => other.name),
         name,
       );
-      const next: Slice = {
+      const changed: Slice = {
         ...slice,
         name,
         rect: options.rect ?? slice.rect,
         pivot: options.pivot === undefined ? slice.pivot : options.pivot,
         center: options.center === undefined ? slice.center : options.center,
       };
+      const next = withSliceColour(changed, options.colour);
       checkSlice(next, sprite);
       updateSprite(draft, sprite.id, (current) => ({
         ...current,

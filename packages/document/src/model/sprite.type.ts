@@ -46,6 +46,7 @@ type Slice = {
   readonly rect: Rect;
   readonly pivot: Pivot2 | null;
   readonly center: Rect | null;
+  readonly colour?: string;
 };
 
 type SavedRun = readonly [y: number, x0: number, x1: number];

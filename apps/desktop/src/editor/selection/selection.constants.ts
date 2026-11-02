@@ -29,6 +29,8 @@ const SELECTION_TEXT = {
   nothingToDistribute: 'Select three or more separate areas to space them out.',
   pastedCropped: 'The copied pixels were larger than this sprite, so the paste is cropped to fit.',
   pastedRemapped: 'The colours were matched to the nearest ones in this palette.',
+  modeKeys: 'Shift adds, Alt subtracts, both together intersect.',
+  dragReadout: (mode: string, box: { x: number; y: number; width: number; height: number }): string => `${mode}: ${box.width} x ${box.height} at ${box.x}, ${box.y}`,
   savedSizeChanged: (name: string): string => `The saved selection "${name}" was made for another canvas size.`,
 } as const;
 
@@ -42,6 +44,8 @@ const SELECTION_LABELS = {
   guides: 'Selection to guides',
   pasteLayer: 'Paste as new layer',
   pasteSprite: 'Paste as new sprite',
+  pasteFrame: 'Paste as new frame',
+  pasteTile: 'Paste as new tile',
   pastedName: 'Pasted',
   save: (name: string): string => `Save selection ${name}`,
   forget: (name: string): string => `Delete saved selection ${name}`,

@@ -10,6 +10,8 @@ const MARQUEE_TEXT = {
   heightDescription: 'The height in pixels, or the height side of the ratio.',
   mirror: 'Mirror with symmetry',
   mirrorDescription: 'With symmetry on, a marquee or lasso also selects the mirrored area.',
+  vertexSnap: 'Vertex snap',
+  vertexSnapDescription: 'Where a lasso or polygon point lands. Pixel centre uses the pixel under the pointer. Pixel corner uses the nearest corner of the pixel grid.',
 } as const;
 
 const FIXED_CHOICES: readonly OptionChoice[] = [
@@ -18,4 +20,9 @@ const FIXED_CHOICES: readonly OptionChoice[] = [
   { value: 'size', label: 'Fixed size', description: 'Press to stamp a box of the width and height set here.', glyph: 'W' },
 ];
 
-export { FIXED_CHOICES, MARQUEE_TEXT };
+const VERTEX_SNAP_CHOICES: readonly OptionChoice[] = [
+  { value: 'centre', label: 'Pixel centre', description: 'Points land on the pixel under the pointer.', glyph: 'C' },
+  { value: 'corner', label: 'Pixel corner', description: 'Points land on the nearest corner of the pixel grid.', glyph: '+' },
+];
+
+export { FIXED_CHOICES, MARQUEE_TEXT, VERTEX_SNAP_CHOICES };

@@ -22,6 +22,8 @@ const SELECTION_COMMAND_ID = {
   toGuides: 'selection.to_guides',
   quickMask: 'selection.quick_mask',
   pasteNewSprite: 'selection.paste_new_sprite',
+  pasteAsFrame: 'selection.paste_as_frame',
+  pasteAsTile: 'selection.paste_as_tile',
   pasteChoose: 'selection.paste_choose',
   smooth: 'selection.smooth',
   selectOpaque: 'selection.select_opaque',

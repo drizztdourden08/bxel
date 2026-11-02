@@ -10,6 +10,7 @@ interface TransformSpec {
   offset: Point;
   pivot: Pivot2 | null;
   algorithm: ResampleAlgorithm;
+  similar?: number;
   bounds: BoundsPolicy;
   corners: Quad | null;
 }

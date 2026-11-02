@@ -6,10 +6,12 @@ import { incomingMask } from '../../../editor/selection/incoming-mask';
 import { isMarqueeClick } from '../../../editor/selection/is-marquee-click';
 import { marqueeRule } from '../../../editor/selection/marquee-rule';
 import { mergeMask } from '../../../editor/selection/merge-mask';
+import { useGestureStore } from '../../../stores/useGestureStore';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
 import type { ActiveDrag } from './canvas-tools.type';
 
 const finishDrag = (active: ActiveDrag): void => {
+  useGestureStore.getState().setHint('');
   if (active.kind === 'float') return;
   const target = currentTarget();
   const store = useSelectionStore.getState();

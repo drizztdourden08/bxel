@@ -53,7 +53,7 @@ const ZOOM_COMMANDS: readonly CommandDef[] = [
   { id: COMMAND_ID.zoomOut, label: 'Zoom out', group: COMMAND_GROUP.view, chord: 'Minus', run: () => zoomView('out') },
   { id: COMMAND_ID.zoomFit, label: 'Zoom to fit', group: COMMAND_GROUP.view, chord: 'Mod+0', run: () => zoomView('fit') },
   { id: COMMAND_ID.zoomActual, label: 'Actual size', group: COMMAND_GROUP.view, chord: 'Mod+1', run: () => zoomView('actual') },
-  { id: COMMAND_ID.zoomSelection, label: 'Zoom to selection', group: COMMAND_GROUP.view, chord: 'Mod+Shift+0', run: zoomSelection },
+  { id: COMMAND_ID.zoomSelection, label: 'Zoom to selection', group: COMMAND_GROUP.view, chord: 'Mod+Alt+0', run: zoomSelection },
 ];
 
 const READ_COMMANDS: readonly CommandDef[] = [

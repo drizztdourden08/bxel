@@ -4,6 +4,7 @@ import { SLICE_DIALOG_TEXT } from '../SliceDialog.constants';
 import type { SliceFieldsProps } from '../SliceDialog.type';
 import { PivotFields } from './PivotFields';
 import { RectFields } from './RectFields';
+import { SliceColour } from './SliceColour';
 
 const SliceFields = ({ model }: SliceFieldsProps) => {
   const { form, update } = model;
@@ -16,6 +17,7 @@ const SliceFields = ({ model }: SliceFieldsProps) => {
       <PivotFields model={model} />
       <Toggle size="sm" label={SLICE_DIALOG_TEXT.centreOn} description={SLICE_DIALOG_TEXT.centreHint} checked={form.centreOn} onChange={(centreOn) => update({ centreOn })} />
       {form.centreOn && <RectFields rect={form.centre} label={SLICE_DIALOG_TEXT.centre} onChange={(centre) => update({ centre })} />}
+      <SliceColour model={model} />
       {!model.valid && <Text tone="dim">{SLICE_DIALOG_TEXT.invalid}</Text>}
     </Stack>
   );

@@ -50,6 +50,7 @@ const slice = z.strictObject({
   rect: RECT_SCHEMA,
   pivot: pivot.nullable().describe('Half pixels from the slice corner, inside the slice. Null when the slice has none.'),
   center: z.strictObject({ x: z.number().int(), y: z.number().int(), width: COUNT_SCHEMA, height: COUNT_SCHEMA }).nullable().describe('The 9-slice center, inside the slice.'),
+  colour: z.string().optional().describe('The outline colour as a hex colour. Missing when the slice uses the default.'),
 });
 
 const spriteLayer = z.strictObject({
