@@ -12,7 +12,7 @@ const scanHealth = async (): Promise<Extract<HealthState, { status: 'ready' }> |
   const { project } = useProjectStore.getState();
   if (!kit || !project) return null;
   const index = await scanLinkIndex(kit.documents, project);
-  return { status: 'ready', index, report: buildHealth(index, { project, unsaved: unsavedFiles(), repaired: useHealthStore.getState().repaired }) };
+  return { status: 'ready', index, report: buildHealth(index, { project, unsaved: unsavedFiles(), repaired: useHealthStore.getState().repaired, rekeyed: useHealthStore.getState().rekeyed }) };
 };
 
 export { scanHealth };

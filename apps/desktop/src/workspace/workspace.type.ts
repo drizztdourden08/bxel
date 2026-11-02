@@ -65,6 +65,8 @@ type AnimatedMigration = {
   readonly keys: readonly AssetKey[];
 };
 
+type RekeyedFile = { readonly path: string; readonly kind: AssetKind };
+
 type MergedWorkspace = {
   readonly migration?: AnimatedMigration;
   readonly artwork: Artwork;
@@ -72,6 +74,7 @@ type MergedWorkspace = {
   readonly dirty: ReadonlySet<string>;
   readonly issues: readonly string[];
   readonly loaded: number;
+  readonly rekeyed: readonly RekeyedFile[];
 };
 
 type NameSync = { readonly paths: Map<string, string>; readonly referrers: readonly AssetKey[] };
@@ -151,6 +154,7 @@ export type {
   LooseLoad,
   MergedWorkspace,
   NamedAsset,
+  RekeyedFile,
   NameSync,
   OpenTab,
   PickedPath,

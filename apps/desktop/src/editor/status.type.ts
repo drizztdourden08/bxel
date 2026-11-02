@@ -13,6 +13,7 @@ interface StatusInput {
   context: BxelContext;
   tile: number | null;
   extras?: StatusExtras;
+  problems?: number;
 }
 
 export type { StatusInput };

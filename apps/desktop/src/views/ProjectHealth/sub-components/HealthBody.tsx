@@ -6,6 +6,7 @@ import { CappedSection } from './CappedSection';
 import { DuplicatesSection } from './DuplicatesSection';
 import { LinkSection } from './LinkSection';
 import { MisplacedSection } from './MisplacedSection';
+import { RekeyedSection } from './RekeyedSection';
 import { RepairedSection } from './RepairedSection';
 import { StateSections } from './StateSections';
 import { UnusedSection } from './UnusedSection';
@@ -19,6 +20,7 @@ const HealthBody = ({ report, actions }: ReportProps) => (
     {report.misplaced.length > 0 && <MisplacedSection report={report} actions={actions} />}
     {report.duplicates.length > 0 && <DuplicatesSection report={report} actions={actions} />}
     {report.capped.length > 0 && <CappedSection report={report} actions={actions} />}
+    {report.rekeyed.length > 0 && <RekeyedSection report={report} actions={actions} />}
     <StateSections report={report} actions={actions} />
     {report.repaired.length > 0 && <RepairedSection report={report} actions={actions} />}
   </>

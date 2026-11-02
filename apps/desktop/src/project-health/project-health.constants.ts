@@ -2,11 +2,11 @@
 import type { AssetKind } from '@bxel/document';
 import type { HealthCheck, HealthReport } from './project-health.type';
 
-const HEALTH_CHECKS: readonly HealthCheck[] = ['broken', 'moved', 'unused', 'misplaced', 'duplicates', 'unsaved', 'access', 'capped'];
+const HEALTH_CHECKS: readonly HealthCheck[] = ['broken', 'moved', 'unused', 'misplaced', 'duplicates', 'unsaved', 'access', 'capped', 'rekeyed'];
 
 const LEAF_KINDS: ReadonlySet<AssetKind> = new Set(['sprite', 'animation', 'palette', 'tileset']);
 
-const EMPTY_REPORT: HealthReport = { broken: [], moved: [], unused: [], misplaced: [], duplicates: [], unsaved: 0, access: [], capped: [], repaired: [], total: 0, files: 0 };
+const EMPTY_REPORT: HealthReport = { broken: [], moved: [], unused: [], misplaced: [], duplicates: [], unsaved: 0, access: [], capped: [], repaired: [], rekeyed: [], total: 0, files: 0 };
 
 const META_MAX = 84;
 
@@ -40,6 +40,8 @@ const HEALTH_TEXT = {
   accessHint: 'Bxel lost its permission for these linked folders, so their files are not checked.',
   cappedTitle: 'Files past the opening limit',
   cappedHint: (limit: number): string => `Bxel opens the first ${limit} assets of a project with the project. These files come after them and open when you pick them, so links to them and counts of their use are not shown until then.`,
+  rekeyedTitle: 'Ids changed on load',
+  rekeyedHint: 'These copied files had the same ids as other files, so Bxel gave them new ones when the project opened. Save them to keep the new ids.',
   findById: 'Find by id',
   removeLink: 'Remove the link',
   pickFile: 'Pick a file...',

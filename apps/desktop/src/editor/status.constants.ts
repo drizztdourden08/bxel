@@ -18,6 +18,9 @@ const STATUS_TEXT = {
   zoom: (zoom: number): string => `${Math.round(zoom * 100)}%`,
   colourLabel: (position: 1 | 2): string => `Colour ${position}`,
   colour: (index: number, name: string): string => `${index} ${name}`,
+  health: 'Health',
+  healthProblems: (count: number): string => `${count} ${count === 1 ? 'problem' : 'problems'}`,
+  healthOpen: 'Open project health',
   noTile: 'None picked',
   tile: (key: number): string => `Tile ${key}`,
 } as const;

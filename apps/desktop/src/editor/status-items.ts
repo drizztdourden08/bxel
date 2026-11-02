@@ -15,7 +15,8 @@ const colourEntry = (colour: PaletteSlot | null, position: 1 | 2): StatusBarEntr
 });
 
 const statusItems = (input: StatusInput): StatusBarEntry[] => {
-  const { pointer, zoom, colours, clean, recovered, context, tile, extras } = input;
+  const { pointer, zoom, colours, clean, recovered, context, tile, extras, problems = 0 } = input;
+  const health: StatusBarEntry[] = problems > 0 ? [{ id: 'health', label: STATUS_TEXT.health, value: STATUS_TEXT.healthProblems(problems), icon: 'triangle-alert', tone: 'warning', title: STATUS_TEXT.healthOpen, align: 'end', priority: 3 }] : [];
   const recovery: StatusBarEntry[] = recovered && !clean ? [{ id: 'recovered', label: 'Recovery', value: STATUS_TEXT.recovered, tone: 'warning', align: 'end' }] : [];
   const all: StatusBarEntry[] = [
     { id: 'cursor', label: 'Cursor', value: pointer ? STATUS_TEXT.cursor(pointer) : STATUS_TEXT.outside },
@@ -32,6 +33,7 @@ const statusItems = (input: StatusInput): StatusBarEntry[] => {
       align: 'end',
     },
     ...recovery,
+    ...health,
     { id: 'help', label: STATUS_TEXT.help, value: STATUS_TEXT.helpValue, icon: 'circle-help', align: 'end', priority: HELP_PRIORITY },
   ];
   const ruleId = (entry: StatusBarEntry): string => `status.${entry.id}`;

@@ -20,6 +20,7 @@ const STATUS_RULES: Record<string, UiRule> = {
   'status.saved': rule({ applies: hasDocument }),
   'status.recovered': rule({ applies: always }),
   'status.help': rule({ applies: always }),
+  'status.health': rule({ applies: always }),
 };
 
 export { STATUS_RULES };
