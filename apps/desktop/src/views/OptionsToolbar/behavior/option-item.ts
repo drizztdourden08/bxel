@@ -6,6 +6,7 @@ import { readOption } from '../../../editor/tool-options/read-option';
 import { setOption } from '../../../editor/tool-options/set-option';
 import type { OptionChoice, OptionSpec } from '../../../editor/tool-options/tool-options.type';
 import type { KeysOf } from '../../../hooks/use-keys-of.type';
+import { brushPickerItem } from './brush-picker-item';
 import { SIZE_LADDER } from '../OptionsToolbar.constants';
 
 const choiceOf = (choice: OptionChoice): ToolbarChoice => ({

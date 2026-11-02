@@ -36,4 +36,6 @@ const TOOL_HINTS: Readonly<Partial<Record<ToolId, string>>> = {
 
 const SYMMETRY_PRIORITY = 900;
 
-export { OPTIONS_TEXT, SIZE_LADDER, SYMMETRY_PRIORITY, TOOL_HINTS };
+const BRUSH_PICKER = { columns: 3, previewSize: 5 } as const;
+
+export { BRUSH_PICKER, OPTIONS_TEXT, SIZE_LADDER, SYMMETRY_PRIORITY, TOOL_HINTS };
