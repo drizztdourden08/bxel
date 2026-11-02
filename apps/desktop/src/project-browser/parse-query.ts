@@ -32,7 +32,7 @@ const folderQueryChange = (key: string, value: string): QueryChange => (key === 
 
 const linkQueryChange = (key: string, value: string, query: BrowserQuery): QueryChange => {
   if (value === '') return null;
-  if (key === 'uses') return { uses: [...query.uses, value.toLowerCase()] };
+  if (key === 'uses' || key === 'used') return { uses: [...query.uses, value.toLowerCase()] };
   return key === 'usedby' ? { usedBy: [...query.usedBy, value.toLowerCase()] } : null;
 };
 

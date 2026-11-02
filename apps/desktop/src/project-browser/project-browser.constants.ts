@@ -56,7 +56,7 @@ const BROWSER_TEXT = {
   searchLabel: 'Search the project',
   searchPlaceholder: 'Search or kind:sprite is:unsaved',
   searchHelp:
-    'Words match names and folders. Tokens: kind:sprite, tag:hero, collection:name, in:folder, uses:name (files that use it), usedby:name (files it uses), is:unused, is:unsaved, is:open, is:pinned, is:recent, is:broken, is:misplaced, size>64, colours<16. Kinds add up, other tokens narrow.',
+    'Words match names and folders. Tokens: kind:sprite, tag:hero, collection:name, in:folder, uses:name or used:name (files that use it), usedby:name (files it uses), is:unused, is:unsaved, is:open, is:pinned, is:recent, is:broken, is:misplaced, size>64, colours<16. Kinds add up, other tokens narrow.',
   clearSearch: 'Clear the search',
   back: 'Back',
   forward: 'Forward',

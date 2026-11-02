@@ -84,6 +84,10 @@ describe('K1 the search grammar of the project browser', { tags: ['critical'] },
     expect(query.uses).toEqual(['big hero']);
   });
 
+  it('reads used: as the same token as uses:', () => {
+    expect(parseQuery('used:hero').uses).toEqual(['hero']);
+  });
+
   it('keeps pinned and open as flags', () => {
     const pinned = entry(row('hero', 'sprite', 'sprites'), {}, true);
     const opened = entry(row('walk', 'sheet', 'sheets'), { open: true });
