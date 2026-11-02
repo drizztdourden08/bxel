@@ -1,19 +1,22 @@
 /* @layer renderer-app @kind component */
+import { contextMenuZone } from '@drizztdourden08/brock-react';
 import { Button, EmptyState, Flex, Icon, Spacer, Tag, Text } from '@drizztdourden08/tessera';
 import { useImageTabStore } from '../../stores/useImageTabStore';
 import { ImagePreview } from '../ImagePreview';
 import { useSharedView } from '../ImagePreview/behavior/useSharedView';
 import { importImageTab } from './behavior/import-image-tab';
-import { IMAGE_STAGE_TEXT } from './ImageStage.constants';
+import { useImageMenu } from './behavior/useImageMenu';
+import { IMAGE_MENU, IMAGE_STAGE_TEXT } from './ImageStage.constants';
 import './ImageStage.css';
 
 const ImageStage = () => {
   const tab = useImageTabStore((state) => state.tabs.find((each) => each.id === state.activeId));
   const view = useSharedView();
+  useImageMenu(tab, view);
   if (!tab) return <EmptyState message={IMAGE_STAGE_TEXT.missing} />;
   const { image, name, frames } = tab;
   return (
-    <Flex direction="column" className="image-stage" role="region" aria-label={IMAGE_STAGE_TEXT.region}>
+    <Flex direction="column" className="image-stage" role="region" aria-label={IMAGE_STAGE_TEXT.region} {...contextMenuZone(IMAGE_MENU.zone)}>
       <Flex align="center" gap="sm" className="image-stage__header">
         <Icon name="image" />
         <Text variant="label">{name}</Text>

@@ -179,6 +179,8 @@ const PANEL_COMMAND_IDS = [
   'project.trash_entry', 'project.duplicate_entry', 'project.select_all', 'project.new_folder_here', 'project.new_menu', 'project.find',
   'project.cut_files', 'project.copy_files', 'project.paste_files', 'project.open_side', 'asset.open_side', 'asset.move_to', 'asset.show_uses', 'asset.add_to_sheet', 'asset.make_animation', 'project.collapse_below',
   'project.new_sheet_from', 'project.new_animation_from',
+  'asset.add_to_animation', 'asset.apply_palette', 'asset.new_tilemap_from', 'asset.open_sprites', 'asset.open_tileset', 'asset.split_legacy',
+  'asset.unpack_project', 'asset.open_in_hub', 'asset.import_as_sprite', 'asset.import_as_tileset',
 ];
 
 const FILES: RuleTable = {

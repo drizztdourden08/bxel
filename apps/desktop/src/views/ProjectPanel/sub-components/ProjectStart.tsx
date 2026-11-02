@@ -5,7 +5,7 @@ import { PANEL_UI, PROJECT_MENU } from '../ProjectPanel.constants';
 import type { PanelPartProps } from '../ProjectPanel.type';
 
 const ProjectStart = ({ model }: PanelPartProps) => (
-  <ScrollArea axis="y" scrollbar="slim" fade={false}>
+  <ScrollArea axis="y" scrollbar="slim" thumb="auto" fade={false}>
     <Stack gap="md" {...contextMenuZone(PROJECT_MENU.zone)}>
       <EmptyState
         title={PANEL_UI.noProjectTitle}

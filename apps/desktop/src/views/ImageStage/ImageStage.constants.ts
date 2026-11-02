@@ -11,4 +11,17 @@ const IMAGE_STAGE_TEXT = {
   label: (name: string): string => `Preview of ${name}`,
 } as const;
 
-export { IMAGE_STAGE_TEXT };
+const IMAGE_MENU = {
+  zone: 'image.stage',
+  label: 'Image actions',
+  copy: 'Copy image',
+  zoomIn: 'Zoom in',
+  zoomOut: 'Zoom out',
+  actualSize: 'Actual size',
+  copied: 'Copied the image.',
+  copyFailed: 'The image could not be copied.',
+} as const;
+
+const IMAGE_ZOOM = { factor: 2, min: 0.25, max: 128, actual: 1 } as const;
+
+export { IMAGE_MENU, IMAGE_STAGE_TEXT, IMAGE_ZOOM };
