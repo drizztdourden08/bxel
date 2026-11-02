@@ -74,7 +74,7 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
   tileset: TILESET_INPUT_SCHEMA.optional().describe('The tileset and tilemap tool state: panel mode, search, stamp, scatter, brush flags, terrain brush and set, the collision overlay, tile animation, thumbnail zoom and the key and use badges.'),
   page: z.strictObject({ route: z.string().min(1).max(200), section: z.string().min(1).max(200).optional() }).optional(),
   zoom: z
-    .union([z.number().min(1).max(6400).describe('Percent.'), z.enum(['fit', 'actual']), z.strictObject({ rect: VIEW_RECT_SCHEMA })])
+    .union([z.number().min(1).max(12800).describe('Percent.'), z.enum(['fit', 'actual']), z.strictObject({ rect: VIEW_RECT_SCHEMA })])
     .optional(),
   pan: z.strictObject({ centreX: z.number(), centreY: z.number() }).optional(),
   marker: z
