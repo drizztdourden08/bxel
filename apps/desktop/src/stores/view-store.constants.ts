@@ -25,7 +25,7 @@ const VIEW_TOGGLE_ROWS: readonly ViewToggleRow[] = [
   { toggle: 'slices', command: COMMAND_ID.slices, label: 'Slices' },
   { toggle: 'hideOverlays', command: COMMAND_ID.hideOverlays, label: 'Hide overlays', chord: 'Mod+H' },
   { toggle: 'mirror', command: COMMAND_ID.mirrorView, label: 'Mirror view', chord: 'Shift+M' },
-  { toggle: 'loupe', command: COMMAND_ID.loupe, label: 'Loupe', chord: 'Alt+Shift+L' },
+  { toggle: 'loupe', command: COMMAND_ID.loupe, label: 'Loupe', chord: 'Alt+Shift+Z' },
   { toggle: 'backgroundPreview', command: COMMAND_ID.backgroundPreview, label: 'Background preview', chord: 'Alt+Shift+B' },
   { toggle: 'fullscreen', command: COMMAND_ID.fullscreenPreview, label: 'Fullscreen preview', chord: 'F8' },
   { toggle: 'split', command: COMMAND_ID.splitView, label: 'Split view', chord: 'Mod+Alt+\\' },
