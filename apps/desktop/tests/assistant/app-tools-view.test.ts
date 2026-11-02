@@ -43,7 +43,6 @@ describe('S2 get_view and zooming', { tags: ['standard'] }, () => {
   it('refuses a zoom with no canvas on screen', async () => {
     expect(await code('set_view', { zoom: 'fit' })).toBe('VIEW_INVALID');
   });
-
 });
 
 describe('S2 set_view state, selection and pages', { tags: ['standard'] }, () => {
@@ -77,6 +76,9 @@ describe('S2 set_view state, selection and pages', { tags: ['standard'] }, () =>
     expect(seen.openWindow).toEqual({ open: null, page: null, subject: null });
   });
 
+});
+
+describe('S2 set_view panels and state fields', { tags: ['standard'] }, () => {
   it('sets the Sprites panel search, sort, view, size and folders, and reads them back', async () => {
     openDocument();
     await ok('set_view', { sprites: { query: 'hero', filter: { kind: 'sprites' }, sort: { key: 'name', descending: true }, view: 'list', size: 64, collapsed: ['props'] } });
@@ -92,6 +94,9 @@ describe('S2 set_view state, selection and pages', { tags: ['standard'] }, () =>
     expect(await code('set_view', { colours: { foreground: 1 } }, PRESETS.read_only.grant)).toBe('OK');
   });
 
+});
+
+describe('S2 set_view selection and pages', { tags: ['standard'] }, () => {
   it('selects a rectangle, adds a wand region and returns the mask as row runs', async () => {
     openDocument();
     const first = await ok('set_view', { selection: { shape: { kind: 'rect', rect: { x: 1, y: 1, width: 3, height: 2 } } } });

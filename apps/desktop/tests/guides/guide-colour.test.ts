@@ -5,7 +5,7 @@ import { currentGuideColours } from '../../src/guides/current-guide-colours';
 import { moveGuideColour } from '../../src/guides/move-guide-colour';
 import { setGuideColour } from '../../src/guides/set-guide-colour';
 
-const state = vi.hoisted(() => ({ views: {} as Record<string, { guideColours: Record<string, string> }> }));
+const state = vi.hoisted((): { views: Record<string, { guideColours: Record<string, string> }> } => ({ views: {} }));
 
 vi.mock('../../src/reference-image/current-view-key', () => ({ currentViewKey: () => 'view' }));
 vi.mock('../../src/stores/useAssetViewStore', () => ({

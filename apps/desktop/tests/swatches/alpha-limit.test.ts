@@ -1,9 +1,23 @@
 /* @layer renderer-app @kind test */
-import type { Artwork } from '@bxel/document';
+import type { Artwork, ArtworkId, BankId } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
 import { alphaLimit } from '../../src/palette-panel/alpha-limit';
 
-const artwork = (platformId: string | undefined, strict: boolean): Artwork => ({ platformId, platformStrict: strict }) as unknown as Artwork;
+const artwork = (platformId: string | undefined, strict: boolean): Artwork => ({
+  id: 'art_000001' as ArtworkId,
+  name: 'Test',
+  defaultBankId: 'bnk_000001' as BankId,
+  coverSpriteId: null,
+  platformId,
+  platformStrict: strict,
+  banks: [],
+  sprites: [],
+  sheets: [],
+  presets: [],
+  tilesets: [],
+  tilemaps: [],
+  animations: [],
+});
 
 describe('W8b the Opaque switch', { tags: ['critical'] }, () => {
   it('limits alpha to a switch under a strict console preset', () => {

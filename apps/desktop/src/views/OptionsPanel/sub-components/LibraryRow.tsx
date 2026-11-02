@@ -5,6 +5,7 @@ import { runLibraryAction } from '../../../editor/brush-library-run';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
 import { OPTIONS_PANEL_TEXT } from '../OptionsPanel.constants';
 import type { LibraryItem, LibraryKind } from '../OptionsPanel.type';
+import '../../PresetList/PresetRow.css';
 import { LibraryPreview } from './LibraryPreview';
 
 const LibraryRow = ({ kind, item, active }: { kind: LibraryKind; item: LibraryItem; active: boolean }) => {
@@ -18,7 +19,7 @@ const LibraryRow = ({ kind, item, active }: { kind: LibraryKind; item: LibraryIt
   const use = (): void => useDrawingStore.getState().patch(kind === 'brush' ? { brushId: item.id } : { patternId: item.id });
   const remove = (): void => (confirm ? void runLibraryAction({ kind, action: 'remove', id: item.id }) : setConfirm(true));
   return (
-    <Box as="li" className="options-library__row" data-active={active}>
+    <Box as="li" className="preset-row" data-active={active}>
       <LibraryPreview item={item} />
       <Box className="options-library__body">
         {name === null ? (

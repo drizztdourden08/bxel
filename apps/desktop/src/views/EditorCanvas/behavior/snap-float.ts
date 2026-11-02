@@ -5,7 +5,7 @@ import { guideScope } from '../../../guides/guide-scope';
 import { snapOffset } from '../../../guides/snap-offset';
 import { useViewStore } from '../../../stores/useViewStore';
 import type { PixelViewportHandle } from '../../PixelViewport';
-import type { GridLines } from './tile-grid-lines';
+import type { GridLines } from './tile-grid-lines.type';
 import { tileGridLines } from './tile-grid-lines';
 
 const floatLines = (guided: boolean): GridLines | undefined => {

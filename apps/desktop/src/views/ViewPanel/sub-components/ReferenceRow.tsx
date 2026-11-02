@@ -5,11 +5,7 @@ import { REFERENCE_LIMITS, REFERENCE_TEXT } from '../../../reference-image/refer
 import { removeReferenceImage } from '../../../reference-image/remove-reference-image';
 import { updateReferenceImage } from '../../../reference-image/update-reference-image';
 import type { ReferenceRowProps } from '../ViewPanel.type';
-
-const PLACES = [
-  { value: 'above', label: REFERENCE_TEXT.above },
-  { value: 'below', label: REFERENCE_TEXT.below },
-] as const;
+import { PLACES } from './ReferenceRow.constants';
 
 const ReferenceRow = ({ image }: ReferenceRowProps) => {
   const change = (fields: ReferenceChange): void => {

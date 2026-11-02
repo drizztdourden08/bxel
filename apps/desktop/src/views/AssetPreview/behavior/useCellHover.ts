@@ -1,13 +1,7 @@
 /* @layer renderer-app @kind hook */
 import { useState } from 'react';
-import type { MouseEvent } from 'react';
 import type { PreviewCell } from '../../../asset-overview/asset-overview.type';
-
-type CellHover = {
-  readonly cell: PreviewCell | null;
-  readonly onMove: (event: MouseEvent<HTMLCanvasElement>) => void;
-  readonly onLeave: () => void;
-};
+import type { CellHover } from './useCellHover.type';
 
 const useCellHover = (cells: readonly PreviewCell[] | undefined, zoom: number): CellHover => {
   const [cell, setCell] = useState<PreviewCell | null>(null);

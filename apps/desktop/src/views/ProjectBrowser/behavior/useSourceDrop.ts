@@ -9,7 +9,7 @@ import type { FolderDropPayload } from './useFolderDrop.type';
 
 const useSourceDrop = (ref: RefObject<DndElement | null>, key: string, drop: SourceDrop | undefined): boolean => {
   const [over, setOver] = useState(false);
-  const allowed = drop !== undefined && drop.canDrop(key);
+  const allowed = drop?.canDrop(key) === true;
   useDropTarget<FolderDropPayload>(ref, {
     accepts: drop?.files === true ? [dnd.files, ASSET_DRAG] : [ASSET_DRAG],
     canDrop: (payload) => allowed && ('files' in payload || payload.every((asset) => asset.origin === undefined)),

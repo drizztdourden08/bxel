@@ -3,8 +3,7 @@ import { getPlatform } from '@drizztdourden08/brock-react';
 import { useEffect, useState } from 'react';
 import { readFileSummary } from '../../../properties-subject/read-file-summary';
 import type { FileSummaryData } from '../../../properties-subject/properties-subject.type';
-
-type SummaryLoad = { readonly path: string; readonly data: FileSummaryData | null };
+import type { SummaryLoad } from './useFileSummary.type';
 
 const useFileSummary = (path: string): { readonly loaded: boolean; readonly data: FileSummaryData | null } => {
   const [load, setLoad] = useState<SummaryLoad | null>(null);
