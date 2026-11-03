@@ -5,6 +5,7 @@ import { settleAlgorithm } from '../../../editor/transform/settle-algorithm';
 import { TRANSFORM_BAR_TEXT } from '../TransformBar.constants';
 import type { ChoiceFieldsProps } from '../TransformBar.type';
 import { BOUNDS_OPTIONS, methodChoices, methodOptions } from './ChoiceFields.constants';
+import { MethodOption } from './MethodOption';
 import { SimilarField } from './SimilarField';
 
 const boundsOf = (value: string): 'crop' | 'expand' | 'cancel' => (value === 'expand' || value === 'cancel' ? value : 'crop');
@@ -19,6 +20,7 @@ const ChoiceFields = ({ model }: ChoiceFieldsProps) => {
         className="transform-bar__method"
         aria-label={TRANSFORM_BAR_TEXT.methodName}
         options={methodOptions(spec)}
+        renderOption={(option) => <MethodOption value={option.value} label={option.label} />}
         value={spec.algorithm}
         onChange={(value) => {
           const choice = methodChoices(spec).find((each) => each === value);
