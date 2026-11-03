@@ -14,7 +14,7 @@ const batchActions = (model: ManagerModel, open: (dialog: ManagerDialog) => void
   return [
     act('pivot', BATCH_TEXT.pivot, 'pixel-pivot', () => open('pivot')),
     act('size', BATCH_TEXT.size, 'maximize-2', () => open('resize')),
-    act('trim', BATCH_TEXT.trim, 'minimize-2', () => trimSprites(model.ids)),
+    act('trim', BATCH_TEXT.trim, 'pixel-trim', () => trimSprites(model.ids)),
     act('flip', BATCH_TEXT.flip, 'pixel-flip-h', () => flipSprites(model.ids, 'horizontal')),
     act('turn', BATCH_TEXT.turn, 'pixel-turn-right', () => turnSprites(model.ids, 'clockwise')),
     act('palette', BATCH_TEXT.palette, 'palette', () => open('bank')),

@@ -89,8 +89,8 @@ const TRANSFORM_ACTIONS: readonly TransformAction[] = [
 ];
 
 const CANVAS_ACTIONS: readonly TransformAction[] = [
-  { id: 'crop', run: () => void cropToSelection(), hint: CROP_HINT, icon: 'pixel-select-rect', needsSelection: true },
-  { id: 'trim', run: () => void trimActiveSprite(), hint: TRIM_HINT, icon: 'minimize-2' },
+  { id: 'crop', run: () => void cropToSelection(), hint: CROP_HINT, icon: 'pixel-crop', needsSelection: true },
+  { id: 'trim', run: () => void trimActiveSprite(), hint: TRIM_HINT, icon: 'pixel-trim' },
   { id: 'canvas-size', run: () => useCanvasSizeStore.getState().show(), hint: CANVAS_SIZE_HINT, icon: 'maximize-2' },
 ];
 
