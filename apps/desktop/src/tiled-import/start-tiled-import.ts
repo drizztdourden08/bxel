@@ -12,7 +12,7 @@ const startTiledImport = async (): Promise<void> => {
   }
   const read = await pickTiledFile(documents);
   if (read === null) return;
-  if (read.ok) useImportStore.getState().show(read.image, read.tiled);
+  if (read.ok) useImportStore.getState().show(read.image, read.tiled ?? undefined, read.tiled === null ? 'tileset' : undefined);
   else toast(read.message, { variant: 'warning' });
 };
 

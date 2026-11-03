@@ -18,4 +18,8 @@ type TiledFiles = Pick<DocumentsPort, 'read' | 'readText'>;
 
 type TiledRead = { ok: true; image: SourceImage; tiled: TiledImportData } | { ok: false; message: string };
 
-export type { LoadedTileset, TiledFiles, TiledImportData, TiledRead };
+type TilesetRead = { ok: true; image: SourceImage; tiled: null };
+
+type TiledPick = TiledRead | TilesetRead;
+
+export type { LoadedTileset, TiledFiles, TiledImportData, TiledPick, TiledRead, TilesetRead };
