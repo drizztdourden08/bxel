@@ -84,20 +84,6 @@
   flex: none;
 }
 
-.virtual-grid[data-density='swatch'] .virtual-grid__cell.swatch-grid__tile,
-.virtual-grid[data-density='swatch'] .virtual-grid__cell.swatch-grid__add-button {
-  inline-size: var(--vg-tile-w);
-  block-size: var(--vg-tile-h);
-  min-inline-size: 0;
-  min-block-size: 0;
-  touch-action: none;
-}
-
-.virtual-grid[data-density='swatch'] .virtual-grid__cell.swatch-grid__add-button {
-  border-style: dashed;
-  border-color: var(--c-border);
-}
-
 .swatch-grid__tile--hinted {
   outline: var(--border-width-thick) solid var(--c-text);
   outline-offset: calc(-1 * var(--border-width-thick));
