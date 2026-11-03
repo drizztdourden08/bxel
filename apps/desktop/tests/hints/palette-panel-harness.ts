@@ -25,7 +25,7 @@ const fakePanel = (overrides: Partial<PanelModel> = {}): PanelModel => {
     lock: { locked: false, reason: '' },
     sharing: paletteSharing(artwork, target.bank.id),
     view: { ...PALETTE_VIEW_DEFAULTS, showUse: true, change: none },
-    selection: { selected: new Set([2]), focus: 2, setFocus: none, pick: none, all: none, clear: none },
+    selection: { selected: new Set([2]), focus: 2, setFocus: none, pick: none, replace: none, all: none, clear: none },
     editor: { index: null, value: '', original: '', alpha: 1, name: '', anchor: { current: null }, open: none, change: none, changeAlpha: none, rename: none, reset: none, cancel: none, done: none },
     hinted: null,
     setHinted: none,
