@@ -40,6 +40,8 @@ const Navigator = () => {
               surface={{ width, height }}
               viewport={facts}
               step={Math.max(1, facts.width * NAVIGATOR_KEY_SHARE)}
+              bigStep={Math.max(1, facts.width)}
+              unclamped
               overlays={overlays}
               describe={facts.said}
               onViewportChange={moveView}

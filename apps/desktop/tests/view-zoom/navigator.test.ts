@@ -43,16 +43,10 @@ describe('K1 the navigator geometry', { tags: ['critical'] }, () => {
 });
 
 describe('K1 the navigator on the Tessera map', { tags: ['critical'] }, () => {
-  it('moves the pan by the distance the frame was dragged, so the grab point stays under the pointer', () => {
-    const start = view(8, { x: 32, y: 16 });
-    const frame = visibleRect(start);
-    expect(panOfViewport(start, frame)).toEqual({ x: 32, y: 16 });
-    expect(panOfViewport(start, { ...frame, x: frame.x + 5, y: frame.y - 2 })).toEqual({ x: 37, y: 14 });
-  });
-
-  it('keeps the pan on an axis where the view shows the whole image', () => {
-    const wide = view(2, { x: 10, y: 10 });
-    expect(panOfViewport(wide, { x: 0, y: 0, width: 200, height: 100 })).toEqual({ x: 10, y: 10 });
+  it('centres the pan on the frame the map reports, also past the image edge', () => {
+    const frame = visibleRect(view(8, { x: 32, y: 16 }));
+    expect(panOfViewport(frame)).toEqual({ x: 32, y: 16 });
+    expect(panOfViewport({ x: -10, y: 40, width: 50, height: 25 })).toEqual({ x: 15, y: 52.5 });
   });
 
   it('draws the selection as a selection mark and the other view as a view mark, and nothing without them', () => {
@@ -63,13 +57,21 @@ describe('K1 the navigator on the Tessera map', { tags: ['critical'] }, () => {
     expect(marks.some((mark) => mark.interactive)).toBe(false);
   });
 
-  it('zooms at the point under the wheel and takes only Plus, Minus and Home as its own keys', () => {
+  it('zooms at the point under the wheel, one step per 40 units of wheel turn', () => {
     const viewport = { pixelToScreen: (x: number, y: number) => ({ x: x * 2, y: y * 2 }), zoomIn: vi.fn(), zoomOut: vi.fn(), fit: vi.fn() };
     useViewStore.setState({ viewport: viewport as never });
-    wheelZoom(1, { x: 4, y: 5 });
-    wheelZoom(-1, { x: 1, y: 1 });
+    wheelZoom(1, { x: 4, y: 5 }, -30);
+    expect(viewport.zoomIn).not.toHaveBeenCalled();
+    wheelZoom(1, { x: 4, y: 5 }, -30);
     expect(viewport.zoomIn).toHaveBeenCalledWith({ x: 8, y: 10 });
+    wheelZoom(-1, { x: 1, y: 1 }, 100);
     expect(viewport.zoomOut).toHaveBeenCalledWith({ x: 2, y: 2 });
+    expect(viewport.zoomOut).toHaveBeenCalledTimes(1);
+  });
+
+  it('takes only Plus, Minus and Home as its own keys', () => {
+    const viewport = { pixelToScreen: (x: number, y: number) => ({ x, y }), zoomIn: vi.fn(), zoomOut: vi.fn(), fit: vi.fn() };
+    useViewStore.setState({ viewport: viewport as never });
     expect(navigatorKey('+')).toBe(true);
     expect(navigatorKey('Home')).toBe(true);
     expect(viewport.fit).toHaveBeenCalledTimes(1);

@@ -18,7 +18,7 @@ const usage = {
   ],
   a11y: [
     'The frame is one Tab stop, a slider named Visible area, and a screen reader hears the visible range and the zoom with it.',
-    'Arrow keys move the frame by an eighth of its width, Shift by five times that. Plus and Minus zoom and Home fits.',
+    'Arrow keys move the frame by an eighth of its width, Shift by its whole width. Plus and Minus zoom and Home fits.',
     'The zoom and the share shown are written as text under the picture.',
   ],
   tree: {
