@@ -75,6 +75,8 @@ interface DrawingSettings {
   gradientCustom: boolean;
   gradientSize: DitherSize;
   gradientReflect: boolean;
+  gradientOriginX: number;
+  gradientOriginY: number;
   gradientRamp: string | null;
   symmetryDiagonal: boolean;
   symmetryTurn: boolean;

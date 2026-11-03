@@ -7,12 +7,17 @@ import { choiceSpec } from './choice-spec';
 import { BAYER_SIZE_CHOICES, DRAWING_TEXT, GRADIENT_KIND_CHOICES, GRADIENT_MODE_CHOICES, GRADIENT_PATTERN_CHOICES } from './drawing-text.constants';
 import { patternChoices } from './pattern-choices';
 import { PATTERN_TEXT } from './pattern-text.constants';
+import { numberSpec } from './number-spec';
 import { rampChoices } from './ramp-choices';
 import { toggleSpec } from './toggle-spec';
 
 const d = () => useDrawingStore.getState();
 
 const dithering = (): boolean => d().gradientMode === 'dither';
+
+const ORIGIN_MAX = 64;
+
+const clampOrigin = (value: number): number => Math.min(ORIGIN_MAX, Math.max(0, Math.round(value)));
 
 const asSize = (value: string): 2 | 4 | 8 => {
   if (value === '2') return 2;
@@ -45,6 +50,14 @@ const GRADIENT_OPTIONS: readonly OptionSpec[] = [
     tool: 'gradient', name: 'size', label: DRAWING_TEXT.gradientSize, description: DRAWING_TEXT.gradientSizeDescription, priority: 13, group: 'gradient', tier: 2,
     default: '4', choices: BAYER_SIZE_CHOICES, read: () => String(d().gradientSize), write: (value) => d().patch({ gradientSize: asSize(value) }),
     appliesWhen: () => dithering() && d().gradientPattern === 'bayer' && !d().gradientCustom && d().patternId === null,
+  }),
+  numberSpec({
+    tool: 'gradient', name: 'origin_x', label: DRAWING_TEXT.gradientOriginX, description: DRAWING_TEXT.gradientOriginDescription, priority: 13.5, group: 'gradient', tier: 2,
+    default: 0, min: 0, max: ORIGIN_MAX, read: () => d().gradientOriginX, write: (value) => d().patch({ gradientOriginX: clampOrigin(value) }), appliesWhen: dithering,
+  }),
+  numberSpec({
+    tool: 'gradient', name: 'origin_y', label: DRAWING_TEXT.gradientOriginY, description: DRAWING_TEXT.gradientOriginDescription, priority: 13.6, group: 'gradient', tier: 2,
+    default: 0, min: 0, max: ORIGIN_MAX, read: () => d().gradientOriginY, write: (value) => d().patch({ gradientOriginY: clampOrigin(value) }), appliesWhen: dithering,
   }),
   toggleSpec({
     tool: 'gradient', name: 'reflect', label: DRAWING_TEXT.gradientReflect, description: DRAWING_TEXT.gradientReflectDescription, priority: 14, group: 'gradient',
