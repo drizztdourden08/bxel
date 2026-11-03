@@ -13,6 +13,8 @@ const APPLY_BAR_TEXT = {
 
 const APPLY_BAR_FOCUS = 'button[data-apply]';
 
+const APPLY_BAR_BOUNDARY = '.editor-screen__stage';
+
 const TEXT_FIELDS = 'input, textarea, select, [contenteditable]';
 
-export { APPLY_BAR_FOCUS, APPLY_BAR_TEXT, TEXT_FIELDS };
+export { APPLY_BAR_BOUNDARY, APPLY_BAR_FOCUS, APPLY_BAR_TEXT, TEXT_FIELDS };
