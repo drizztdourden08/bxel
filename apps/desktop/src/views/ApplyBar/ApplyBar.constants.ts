@@ -11,10 +11,8 @@ const APPLY_BAR_TEXT = {
   details: (parts: readonly string[]): string => parts.join(' / '),
 } as const;
 
-const BAR_GAP = 10;
-
-const BAR_MARGIN = 12;
+const APPLY_BAR_FOCUS = 'button[data-apply]';
 
 const TEXT_FIELDS = 'input, textarea, select, [contenteditable]';
 
-export { APPLY_BAR_TEXT, BAR_GAP, BAR_MARGIN, TEXT_FIELDS };
+export { APPLY_BAR_FOCUS, APPLY_BAR_TEXT, TEXT_FIELDS };

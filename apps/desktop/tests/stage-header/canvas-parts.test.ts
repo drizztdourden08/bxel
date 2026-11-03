@@ -8,7 +8,8 @@ import { snapDelta } from '../../src/sheet/snap-delta';
 import type { SheetItem } from '../../src/sheet/sheet.type';
 import { extraItems } from '../../src/status-extras/extra-items';
 import { readExtras } from '../../src/status-extras/read-extras';
-import { placeBar } from '../../src/views/ApplyBar/behavior/place-bar';
+import { useViewStore } from '../../src/stores/useViewStore';
+import { anchorRect } from '../../src/views/ApplyBar/behavior/anchor-rect';
 
 const look = lookOf(CANVAS_DEFAULTS);
 const all = { pixel: true, major: true, tile: true };
@@ -33,31 +34,19 @@ describe('K1 the quiet "grid hidden" state', { tags: ['critical'] }, () => {
   });
 });
 
-describe('K1 the floating Apply bar placement', { tags: ['critical'] }, () => {
-  const bounds = { left: 0, top: 0, right: 800, bottom: 600 };
-  const size = { width: 300, height: 90 };
+describe('K1 the floating Apply bar anchor', { tags: ['critical'] }, () => {
+  const scale = (x: number, y: number) => ({ x: x * 4 + 100, y: y * 4 + 50 });
 
-  it('sits under the selection, centred on it', () => {
-    const place = placeBar({ left: 300, top: 100, right: 400, bottom: 200 }, bounds, size);
-    expect(place.docked).toBe(false);
-    expect(place.x).toBe(200);
-    expect(place.y).toBeGreaterThan(200);
+  it('turns the pending pixel box into a screen box for the Tessera bar', () => {
+    useViewStore.setState({ viewport: { pixelToScreen: scale } as never });
+    expect(anchorRect({ x: 10, y: 5, width: 8, height: 2 })).toEqual({ left: 140, top: 70, width: 32, height: 8 });
   });
 
-  it('moves above the selection when there is no room below', () => {
-    const place = placeBar({ left: 300, top: 480, right: 400, bottom: 580 }, bounds, size);
-    expect(place.y + size.height).toBeLessThanOrEqual(480);
-  });
-
-  it('stays inside the stage when the selection hugs an edge', () => {
-    const place = placeBar({ left: 0, top: 100, right: 20, bottom: 120 }, bounds, size);
-    expect(place.x).toBeGreaterThanOrEqual(0);
-    expect(place.x + size.width).toBeLessThanOrEqual(bounds.right);
-  });
-
-  it('drops to the top of the stage, marked docked, when the selection is off screen', () => {
-    expect(placeBar({ left: 2000, top: 100, right: 2100, bottom: 200 }, bounds, size)).toMatchObject({ docked: true, y: 12 });
-    expect(placeBar(null, bounds, size).docked).toBe(true);
+  it('gives no box without a selection or a viewport, so the bar docks', () => {
+    useViewStore.setState({ viewport: { pixelToScreen: scale } as never });
+    expect(anchorRect(null)).toBeNull();
+    useViewStore.setState({ viewport: null });
+    expect(anchorRect({ x: 0, y: 0, width: 1, height: 1 })).toBeNull();
   });
 });
 
