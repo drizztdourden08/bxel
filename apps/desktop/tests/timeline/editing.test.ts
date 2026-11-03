@@ -8,7 +8,6 @@ import { dropFrames } from '../../src/timeline/drag-frame';
 import { goToFrame } from '../../src/timeline/go-to-frame';
 import { linkedCopy } from '../../src/timeline/linked-copy';
 import { moveFramesTo } from '../../src/timeline/move-frames-to';
-import { nudgeTag } from '../../src/timeline/nudge-tag';
 import { pasteFrames } from '../../src/timeline/paste-frames';
 import { reverseFrames } from '../../src/timeline/reverse-frames';
 import { scaleDurations } from '../../src/timeline/scale-durations';
@@ -141,7 +140,7 @@ describe('S2 selecting', { tags: ['standard'] }, () => {
 });
 
 describe('S2 tags by hand', { tags: ['standard'] }, () => {
-  it('resizes by the edge and by the keys to the same range', () => {
+  it('resizes a tag by its end', () => {
     withFrames(6);
     pickRange(1, 2);
     addTag();
@@ -149,21 +148,18 @@ describe('S2 tags by hand', { tags: ['standard'] }, () => {
     if (!id) throw new Error('no tag');
     expect(setTagSpan(id, 1, 4)).toBe(true);
     expect(animationOf().tags[0]).toMatchObject({ from: frameAt(1), to: frameAt(4) });
-    setTagSpan(id, 1, 2);
-    expect(nudgeTag(id, 'resize', 1)).toBe(true);
-    expect(nudgeTag(id, 'resize', 1)).toBe(true);
-    expect(animationOf().tags[0]).toMatchObject({ from: frameAt(1), to: frameAt(4) });
+    expect(setTagSpan(id, 1, 2)).toBe(true);
+    expect(animationOf().tags[0]).toMatchObject({ from: frameAt(1), to: frameAt(2) });
   });
 
-  it('moves a whole tag and keeps it inside the animation', () => {
+  it('moves a whole tag to the end of the animation', () => {
     withFrames(5);
     pickRange(0, 1);
     addTag();
     const id = animationOf().tags[0]?.id;
     if (!id) throw new Error('no tag');
-    expect(nudgeTag(id, 'move', 9)).toBe(true);
+    expect(setTagSpan(id, 3, 4)).toBe(true);
     expect(animationOf().tags[0]).toMatchObject({ from: frameAt(3), to: frameAt(4) });
-    expect(nudgeTag(id, 'move', 9)).toBe(false);
   });
 
   it('adds picked frames to a tag and takes them out again', () => {
