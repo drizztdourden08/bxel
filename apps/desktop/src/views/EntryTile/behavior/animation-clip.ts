@@ -8,7 +8,10 @@ import { HELD } from './animation-clip.constants';
 const buildClip = (artwork: Artwork, animation: Animation, tagId: TagId | null): AnimationClip => {
   const durations = new Map(animation.frames.map((frame) => [frame.id, frame.durationMs] as const));
   const cells = animationCells(animation, tagId);
-  return animationCellImages(artwork, animation, tagId).map((image, index) => ({ image, durationMs: durations.get(cells[index]?.frameId ?? '') ?? 0 }));
+  return animationCellImages(artwork, animation, tagId).map((image, index) => {
+    const cell = cells[index];
+    return { image, durationMs: (cell && durations.get(cell.frameId)) ?? 0 };
+  });
 };
 
 const animationClip = (artwork: Artwork, animation: Animation, tagId: TagId | null): AnimationClip => {

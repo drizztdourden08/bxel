@@ -8,6 +8,7 @@ import { OVERFLOW_TEXT, PALETTE_MENU } from '../PalettePanel.constants';
 import type { PanelModel } from '../PalettePanel.type';
 import { PANEL_COMMAND } from '../../../palette-panel/palette-panel.constants';
 import { addColour } from './add-colour';
+import { revealFromStore } from './reveal-from-store';
 import { ruledOff } from './ruled-off';
 import { openRampBuilder } from './open-ramp-builder';
 import { openSheet } from './open-sheet';
@@ -32,7 +33,7 @@ const overflowGroups = (panel: PanelModel, sets: UserSets): MenuGroup[] => {
     {
       id: 'make',
       items: [
-        { id: 'add', label: PALETTE_MENU.addColour, icon: 'plus', disabled: lock.locked || full || ruledOff(PANEL_COMMAND.add), onSelect: () => addColour(panel) },
+        { id: 'add', label: PALETTE_MENU.addColour, icon: 'plus', disabled: lock.locked || full || ruledOff(PANEL_COMMAND.add), onSelect: () => addColour(panel, (index) => revealFromStore(panel, index)) },
         { id: 'ramp', label: PALETTE_MENU.newRamp, icon: 'pixel-shade', disabled: lock.locked || ruledOff(PANEL_COMMAND.ramp), onSelect: () => openRampBuilder(panel) },
         { id: 'sort', label: OVERFLOW_TEXT.sort, children: sortItems(panel, 'ascending') },
         { id: 'sort-down', label: OVERFLOW_TEXT.sortDown, children: sortItems(panel, 'descending') },

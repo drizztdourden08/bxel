@@ -3,7 +3,8 @@ import { describe, expect, it } from 'vitest';
 import type { PreviewFrame, PreviewTag } from '../../src/asset-overview/asset-overview.type';
 import { flipLayers } from '../../src/asset-overview/flip-layers';
 import { playerFrames } from '../../src/asset-preview/player-frames';
-import { playerTags, tagLoop } from '../../src/asset-preview/player-tags';
+import { playerTags } from '../../src/asset-preview/player-tags';
+import { tagLoop } from '../../src/asset-preview/tag-loop';
 import { tilemapLayers } from '../../src/asset-overview/tilemap-layers';
 import { mapArtwork } from '../project/map-artwork';
 

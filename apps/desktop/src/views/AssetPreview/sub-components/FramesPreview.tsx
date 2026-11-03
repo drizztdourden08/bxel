@@ -2,7 +2,8 @@
 import { PixelPlayer } from '@drizztdourden08/tessera';
 import { useMemo, useState } from 'react';
 import { playerFrames } from '../../../asset-preview/player-frames';
-import { playerTags, tagLoop } from '../../../asset-preview/player-tags';
+import { playerTags } from '../../../asset-preview/player-tags';
+import { tagLoop } from '../../../asset-preview/tag-loop';
 import type { FramesPreviewProps } from '../AssetPreview.type';
 
 const FramesPreview = ({ frames, name, loop, tags }: FramesPreviewProps) => {

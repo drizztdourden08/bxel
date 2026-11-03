@@ -10,7 +10,7 @@ const keptLayerImage = (source: LayerThumbSource, live: Overlay | null, stroke: 
   const { pixels, bank, width, height } = layerThumbDeps(source);
   const key: object = pixels ?? source.layer;
   const hit = KEPT_LAYER_IMAGES.get(key);
-  if (hit && hit.bank === bank && hit.width === width && hit.height === height && hit.stroke === stroke && hit.live === live) return hit.image;
+  if (hit?.bank === bank && hit.width === width && hit.height === height && hit.stroke === stroke && hit.live === live) return hit.image;
   const image = layerThumbImageOf(source, live);
   KEPT_LAYER_IMAGES.set(key, { bank, width, height, stroke, live, image });
   return image;

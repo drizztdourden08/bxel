@@ -35,7 +35,8 @@ import { RulerBars } from './sub-components/RulerBars';
 import { SplitCanvas } from './sub-components/SplitCanvas';
 import { paintOverlay } from './behavior/paint-overlay';
 import './EditorCanvas.css';
-import { feedOtherView, feedView } from '../../view-feed/feed-view';
+import { feedOtherView } from '../../view-feed/feed-other-view';
+import { feedView } from '../../view-feed/feed-view';
 
 const EditorCanvas = () => {
   const target = useEditorTarget();
