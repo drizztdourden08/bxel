@@ -19,7 +19,7 @@ import { useImportStore } from '../../../stores/useImportStore';
 import type { TiledImportData } from '../../../tiled-import/tiled-import.type';
 import type { ImportWizardState } from '../ImportWizard.type';
 
-const useImportWizard = (image: SourceImage, tiled: TiledImportData | null, kind: ImportKind | null): ImportWizardState => {
+const useImportWizard = (image: SourceImage, tiled: TiledImportData | null, kind: ImportKind | null, sheetId: string | null): ImportWizardState => {
   const view = useActiveDocument();
   const context = useMemo(() => importContext(view), [view]);
   const defaults = useEffectiveDefaults();
@@ -60,9 +60,9 @@ const useImportWizard = (image: SourceImage, tiled: TiledImportData | null, kind
       return;
     }
     if (!colors.plan) return;
-    const failed = finishImport({ form, image, plan: colors.plan, rects, names, context, tiled });
+    const failed = finishImport({ form, image, plan: colors.plan, rects, names, context, tiled, sheetId });
     if (failed !== null) setFailure(failed);
-  }, [steps, step, colors.plan, form, image, rects, names, context, tiled]);
+  }, [steps, step, colors.plan, form, image, rects, names, context, tiled, sheetId]);
 
   return { form, step, steps, colors, errors, rects, names, context, tiled, issue, failure, update, setSlice, setTarget, advance, back, cancel };
 };

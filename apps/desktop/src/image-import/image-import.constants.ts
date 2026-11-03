@@ -12,6 +12,8 @@ const ANIMATION_REF = 'animation';
 
 const TILESET_REF = 'image-tileset';
 
+const SPRITE_REF = 'image-sprite';
+
 const ALPHA_PERCENT_DEFAULT = 50;
 
 const BYTE_MAX = 255;
@@ -174,6 +176,7 @@ export {
   PERCENT,
   RGBA_BYTES,
   SHIFT,
+  SPRITE_REF,
   STEPS_BY_KIND,
   TILESET_REF,
 };

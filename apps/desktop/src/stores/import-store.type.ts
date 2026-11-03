@@ -6,7 +6,8 @@ interface ImportState {
   image: SourceImage | null;
   tiled: TiledImportData | null;
   kind: ImportKind | null;
-  show: (image: SourceImage, tiled?: TiledImportData, kind?: ImportKind) => void;
+  sheetId: string | null;
+  show: (image: SourceImage, tiled?: TiledImportData, kind?: ImportKind, sheetId?: string | null) => void;
   hide: () => void;
 }
 
