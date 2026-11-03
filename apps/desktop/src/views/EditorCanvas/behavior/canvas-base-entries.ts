@@ -6,6 +6,7 @@ import { ASSET_SETTINGS_COMMAND } from '../../../config-entry/config-entry.const
 import { unless } from '../../../context-menu/unless';
 import { viewEntries } from '../../../context-menu/view-entries';
 import { CANVAS_SIZE_COMMAND_ID } from '../../../keymap/canvas-size-command-id.constants';
+import { COMMAND_ID } from '../../../keymap/keymap.constants';
 import { FILE_COMMAND } from '../../../files/files.constants';
 import { SELECTION_COMMAND_ID } from '../../../keymap/selection-command-id.constants';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
@@ -33,6 +34,10 @@ const canvasBaseEntries = (here: Point | null, tile: boolean): readonly ContextM
     ],
   },
   ...viewHereEntries(here),
+  COMMAND_ID.snap,
+  { command: COMMAND_ID.mirrorView, hidden: tile },
+  { command: COMMAND_ID.splitView, hidden: tile },
+  { command: 'view.add_reference', label: CANVAS_MENU.addReference, hidden: tile },
   'separator',
   ...historyEntries(),
   'separator',
