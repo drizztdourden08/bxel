@@ -17,7 +17,7 @@ const TagPopover = ({ focus, container }: TagPopoverProps) => {
   const tagId = popover?.kind === 'tag' ? popover.tagId : null;
   const tag = spanTagOf(focus.animation, tagById(focus.animation, tagId));
   useLayoutEffect(() => {
-    anchor.current = tagId === null ? null : (container.current?.querySelector<HTMLElement>(`[data-tag-id="${tagId}"] > .tag-bar`) ?? null);
+    anchor.current = tagId === null ? null : (container.current?.querySelector<HTMLElement>(`[data-tag-id="${tagId}"]`) ?? null);
     setReady(anchor.current !== null);
   }, [tagId, container, focus.animation]);
   if (tagId === null || !tag || !ready) return null;

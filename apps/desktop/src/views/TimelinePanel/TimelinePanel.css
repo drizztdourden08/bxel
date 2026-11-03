@@ -98,15 +98,6 @@
   pointer-events: none;
 }
 
-.tag-bar-anchor {
-  display: contents;
-}
-
-.tag-bar-anchor[data-custom] .tag-bar {
-  --hue-ink: var(--tag-line);
-  --hue-fill: var(--tag-fill);
-}
-
 .tag-bar__name {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -153,10 +144,6 @@
 .frame-track .frame-list {
   flex: none;
   block-size: calc(var(--frame-thumb) + var(--size-48));
-  overflow: hidden;
-  border: none;
-  border-radius: 0;
-  background: transparent;
 }
 
 .frame-option {

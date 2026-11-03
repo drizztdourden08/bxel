@@ -7,7 +7,6 @@ import type { DurationDraft } from '../../../timeline/duration-draft.type';
 import { fitThumb } from '../../../timeline/fit-thumb';
 import { trackLayout } from '../../../timeline/track-layout';
 import { useEdgeScroll } from '../behavior/useEdgeScroll';
-import { useKeepCurrentVisible } from '../behavior/useKeepCurrentVisible';
 import { useWheelZoom } from '../behavior/useWheelZoom';
 import { END_GUTTER } from '../TimelinePanel.constants';
 import type { BodyProps } from '../TimelinePanel.type';
@@ -27,7 +26,6 @@ const TimelineBody = ({ focus, model, width }: BodyProps) => {
   const layout = useMemo(() => trackLayout(durations, thumb, timeMode), [durations, thumb, timeMode]);
   useWheelZoom(scroller);
   useEdgeScroll(scroller);
-  useKeepCurrentVisible(scroller, focus.frame.id, thumb);
   return (
     <ScrollArea ref={scroller} axis="both" scrollbar="slim" fade={false} className="timeline__body">
       <Box className="timeline__content" style={{ inlineSize: layout.total + END_GUTTER }}>

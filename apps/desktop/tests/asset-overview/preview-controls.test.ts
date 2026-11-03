@@ -24,9 +24,9 @@ describe('S2 preview controls', { tags: ['standard'] }, () => {
     expect(playerFrames(FRAMES)[0]?.image).toBe(playerFrames(FRAMES)[0]?.image);
   });
 
-  it('gives a tag its own loop and plays a reverse ping-pong as a ping-pong', () => {
+  it('gives a tag its own loop and passes every direction through, reverse ping-pong included', () => {
     expect(tagLoop(TAG)).toEqual({ direction: 'pingpong', repeat: 3 });
-    expect(tagLoop({ ...TAG, direction: 'pingpongReverse' }).direction).toBe('pingpong');
+    expect(tagLoop({ ...TAG, direction: 'pingpongReverse' }).direction).toBe('pingpongReverse');
     expect(tagLoop({ ...TAG, direction: 'reverse', repeat: 0 })).toEqual({ direction: 'reverse', repeat: 0 });
   });
 
