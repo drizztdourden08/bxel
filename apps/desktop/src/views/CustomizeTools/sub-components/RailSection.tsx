@@ -4,6 +4,7 @@ import { slotsOf } from '../../../editor/tool-catalogue/slots-of';
 import { SLOT_GROUPS } from '../../../editor/tool-catalogue/tool-catalogue.constants';
 import { useCatalogueSurface } from '../../../hooks/useCatalogueSurface';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
+import { placeMember } from '../../../editor/tool-catalogue/place-member';
 import { placeSlot } from '../behavior/place-slot';
 import { stepPlacedSlot } from '../behavior/step-placed-slot';
 import { CUSTOMIZE_TEXT } from '../CustomizeTools.constants';
@@ -29,6 +30,7 @@ const RailSection = () => {
           hidden={hidden}
           onToggle={toggle}
           onMove={(move) => placeSlot(surface, move)}
+          onMoveMember={(move) => placeMember(surface, move)}
           onStep={(id, step) => stepPlacedSlot(surface, id, step)}
         />
       ))}

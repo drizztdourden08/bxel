@@ -3,6 +3,7 @@ import { toolbars, widgets } from '@drizztdourden08/brock-react';
 import { resetSurfaceTools } from '../../editor/tool-catalogue/reset-surface-tools';
 import { ALL_SURFACES } from '../../editor/tool-catalogue/surfaces.constants';
 import type { Runners } from './layout-op.type';
+import { moveToolMember } from './move-tool-member';
 import { setToolHidden } from './set-tool-hidden';
 
 const LAYOUT_RUNNERS: Runners = {
@@ -29,6 +30,7 @@ const LAYOUT_RUNNERS: Runners = {
   toolbarItems: (op) => toolbars.items(op.toolbar, op.hidden),
   hideTool: (op) => setToolHidden(op.member, true),
   showTool: (op) => setToolHidden(op.member, false),
+  moveTool: moveToolMember,
   resetTools: (op) => (op.surface === undefined ? ALL_SURFACES.forEach(resetSurfaceTools) : resetSurfaceTools(op.surface)),
 };
 

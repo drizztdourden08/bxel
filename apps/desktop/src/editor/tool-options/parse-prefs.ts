@@ -16,10 +16,15 @@ const springOf = (raw: unknown): number =>
 const tiersOf = (raw: unknown): Record<string, 1 | 2> =>
   isRecord(raw) ? Object.fromEntries(Object.entries(raw).flatMap(([id, tier]) => (tier === 1 || tier === 2 ? [[id, tier] as const] : []))) : {};
 
-const placeOf = (raw: unknown): { id: string; group: SlotGroupId }[] => {
+const memberIdsOf = (raw: unknown): { members?: string[] } => {
+  const ids = Array.isArray(raw) ? raw.filter((each): each is string => typeof each === 'string') : [];
+  return ids.length === 0 ? {} : { members: ids };
+};
+
+const placeOf = (raw: unknown): { id: string; group: SlotGroupId; members?: string[] }[] => {
   if (!isRecord(raw) || typeof raw.id !== 'string') return [];
   const group = SLOT_GROUPS.find((each) => each.id === raw.group);
-  return group === undefined ? [] : [{ id: raw.id, group: group.id }];
+  return group === undefined ? [] : [{ id: raw.id, group: group.id, ...memberIdsOf(raw.members) }];
 };
 
 const listOf = (raw: unknown): unknown[] => (Array.isArray(raw) ? raw : []);
