@@ -43,6 +43,7 @@ const PALETTE_PANEL_TEXT = {
   views: 'Palette view',
   noRamps: 'No ramps yet. Select swatches and choose Make ramp, or build one with New ramp.',
   notInRamp: 'Not in a ramp',
+  rampSwatches: (name: string): string => `Swatches of ${name}`,
   rampActions: (name: string): string => `Actions for ramp ${name}`,
   filter: 'Filter by name or hex',
   applyOrder: 'Apply this order',

@@ -159,10 +159,6 @@
   padding-top: var(--space-2xs);
 }
 
-.ramp-row__swatch--selected {
-  outline: var(--border-width-thick) solid var(--c-primary);
-}
-
 .swatch-editor {
   width: var(--size-288);
   padding: var(--space-sm);

@@ -155,10 +155,11 @@ interface RampRowProps {
   position?: number;
 }
 
-interface RampSwatchProps {
+interface RampStepsProps {
   panel: PanelModel;
-  index: number;
+  indices: readonly number[];
   from: RampId | null;
+  label: string;
 }
 
 interface ListRowProps {
@@ -191,5 +192,5 @@ interface SwatchEditorProps {
 
 export type {
   AddTileProps, DraftFields, EditSwatch, GridCellProps, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, PanelModel, PanelProps,
-  PaletteDrop, PaletteViewModel, PickMode, RampDrag, RampGripProps, RampReorder, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps, SwatchGridModel, SwatchGridProps, TileSizes,
+  PaletteDrop, PaletteViewModel, PickMode, RampDrag, RampGripProps, RampReorder, RampRowProps, RampStepsProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps, SwatchGridModel, SwatchGridProps, TileSizes,
 };

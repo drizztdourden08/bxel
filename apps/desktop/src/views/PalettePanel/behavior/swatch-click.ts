@@ -1,10 +1,10 @@
 /* @layer renderer-app @kind logic */
-import type { MouseEvent } from 'react';
+import type { KeyboardEvent, MouseEvent } from 'react';
 import { swatchSlot } from '../../../editor/swatch-slot';
 import { useToolStore } from '../../../stores/useToolStore';
 import type { PanelModel } from '../PalettePanel.type';
 
-const swatchClick = (panel: PanelModel, index: number, event: MouseEvent<HTMLElement>, right: boolean): void => {
+const swatchClick = (panel: PanelModel, index: number, event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>, right: boolean): void => {
   const ctrl = event.ctrlKey || event.metaKey;
   if (!right && ctrl) {
     panel.selection.pick(index, event.shiftKey ? 'extend' : 'toggle');

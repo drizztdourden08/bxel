@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind component */
-import { Box, Flex } from '@drizztdourden08/tessera';
+import { Box } from '@drizztdourden08/tessera';
 import { useState } from 'react';
 import { dropMembership } from '../behavior/drop-membership';
 import { rampRowData } from '../behavior/ramp-row-data';
@@ -7,7 +7,7 @@ import { rampRowKeys } from '../behavior/ramp-row-keys';
 import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
 import type { RampRowProps } from '../PalettePanel.type';
 import { RampRowHead } from './RampRowHead';
-import { RampSwatch } from './RampSwatch';
+import { RampSteps } from './RampSteps';
 
 const RampRow = ({ panel, ramp, indices, reorder, position = 0 }: RampRowProps) => {
   const [over, setOver] = useState(false);
@@ -31,11 +31,7 @@ const RampRow = ({ panel, ramp, indices, reorder, position = 0 }: RampRowProps) 
       }}
     >
       <RampRowHead panel={panel} ramp={ramp} indices={indices} reorder={reorder} position={position} />
-      <Flex gap="2xs" wrap className="ramp-row__swatches">
-        {indices.map((index) => (
-          <RampSwatch key={index} panel={panel} index={index} from={rampId} />
-        ))}
-      </Flex>
+      <RampSteps panel={panel} indices={indices} from={rampId} label={ramp?.name ?? PALETTE_PANEL_TEXT.notInRamp} />
     </Box>
   );
 };
