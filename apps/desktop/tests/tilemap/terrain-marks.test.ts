@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind test */
-import { terrainSetsOf } from '@bxel/document';
+import { PACKINGS, terrainSetsOf } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { addTile } from '../../src/tilemap/add-tile';
 import { setTerrainSets } from '../../src/tilemap/set-terrain-sets';
 import { applyMark } from '../../src/tilemap/terrain/apply-mark';
 import { markEdit } from '../../src/tilemap/terrain/mark-edit';
 import { newTerrainSet } from '../../src/tilemap/terrain/new-terrain-set';
+import { PACKING_ORIGIN } from '../../src/tilemap/terrain/terrain.constants';
 import { openMapFile, tilesetNow } from './map-harness';
 
 const NORTH = 1;
@@ -36,9 +37,16 @@ describe('S2 marking terrain on tiles by dragging', { tags: ['standard'] }, () =
   it('clears a zone with the off value and moves the tile to the slot of what is left', () => {
     applyMark(3, NORTH, true);
     applyMark(3, EAST, true);
-    expect(keysOfSlot(5)).toEqual([3]);
+    expect(keysOfSlot(3)).toEqual([3]);
     applyMark(3, EAST, false);
-    expect(keysOfSlot(5)).toEqual([]);
+    expect(keysOfSlot(3)).toEqual([]);
     expect(keysOfSlot(1)).toEqual([3]);
+  });
+});
+
+describe('S2 the packing menu names where each layout comes from', { tags: ['standard'] }, () => {
+  it('names a source for every packing and says Tiled and Godot for the 47 template', () => {
+    expect(PACKINGS.every((packing) => PACKING_ORIGIN[packing.id] !== undefined)).toBe(true);
+    expect(PACKING_ORIGIN['blob47-12']).toBe('Tiled and Godot');
   });
 });

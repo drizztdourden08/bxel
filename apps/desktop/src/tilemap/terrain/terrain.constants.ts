@@ -68,7 +68,7 @@ const KIND_BITS: Readonly<Record<TerrainKind, number>> = {
 const PACKING_ORIGIN: Readonly<Record<string, string>> = {
   'blob47-7': 'Bxel',
   'blob47-6': 'cr31',
-  'blob47-12': 'Template strip',
+  'blob47-12': 'Tiled and Godot',
   'blob16-4': 'Square',
   'blob16-8': 'Strip',
   'corner16-4': 'Square',
