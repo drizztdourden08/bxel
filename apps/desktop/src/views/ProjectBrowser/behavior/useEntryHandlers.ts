@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useOsDragOut } from '../../../drag-out/useOsDragOut';
 import { pickEntry } from '../../../project-browser/pick-entry';
 import type { BrowserEntry } from '../../../project-browser/project-browser.type';
+import { tagsInUse } from '../../../project-browser/tags-in-use';
 import { useBrowserStore } from '../../../project-browser/useBrowserStore';
 import { MIDDLE_BUTTON } from '../ProjectBrowser.constants';
 import { filePaths } from './file-paths';
@@ -17,7 +18,8 @@ const useEntryHandlers = (entry: BrowserEntry, ref: RefObject<HTMLElement | null
   const [point, setPoint] = useState<ContextMenuPoint | null>(null);
   const selected = selection.includes(entry.id);
   const picked = useMemo(() => (selected ? model.selected : [entry]), [selected, model.selected, entry]);
-  const groups = useMemo(() => entryMenuGroups({ entry, picked, actions, editable: model.editable, collections: model.organise.collections }), [entry, picked, actions, model.editable, model.organise.collections]);
+  const tags = useMemo(() => tagsInUse(model.organise), [model.organise]);
+  const groups = useMemo(() => entryMenuGroups({ entry, picked, actions, editable: model.editable, collections: model.organise.collections, tags }), [entry, picked, actions, model.editable, model.organise.collections, tags]);
   const closeMenu = useCallback(() => setPoint(null), []);
   const osDrag = useOsDragOut(ref, { paths: () => filePaths(picked), disabled: renaming === entry.id });
   useEntryDragOut(ref, { picked, disabled: () => osDrag.holding() || !model.editable || renaming === entry.id });

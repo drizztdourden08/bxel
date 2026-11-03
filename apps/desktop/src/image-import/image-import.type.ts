@@ -14,6 +14,7 @@ interface SourceImage {
   height: number;
   data: Uint8ClampedArray;
   frames?: readonly SourceFrame[];
+  grid?: Partial<SliceForm>;
 }
 
 interface DecodedSource {
@@ -21,6 +22,7 @@ interface DecodedSource {
   height: number;
   data: Uint8ClampedArray;
   frames?: readonly SourceFrame[];
+  grid?: Partial<SliceForm>;
 }
 
 type ImageRead = { ok: true; image: SourceImage } | { ok: false; message: string };

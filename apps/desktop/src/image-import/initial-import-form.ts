@@ -14,7 +14,7 @@ const initialImportForm = (image: SourceImage, context: ImportContext, memory: C
     limit: memory.limit,
     transparent: memory.transparent,
     source: { kind: 'preset', presetId: memory.presetId, file: null },
-    slice: { ...FORM_BASE.slice, names: `${base}_{n}` },
+    slice: { ...FORM_BASE.slice, ...image.grid, names: `${base}_{n}` },
   };
   return switchTarget(form, context.documentId === null ? 'new' : 'file', image, context);
 };

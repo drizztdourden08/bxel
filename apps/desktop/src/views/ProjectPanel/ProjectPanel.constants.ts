@@ -85,7 +85,7 @@ const PANEL_UI = {
   gridLabel: 'Project assets as tiles',
   searchLabel: 'Search the project',
   searchPlaceholder: 'Search',
-  searchHelp: 'Words match names and folders. Tokens: kind:sprite, is:unsaved, is:open, is:unused, is:missing, uses:name, in:folder. Type a space after a token to make it a filter.',
+  searchHelp: 'Words match names and folders. Tokens: kind:sprite, is:unsaved, is:open, is:unused, is:missing, uses:name or used:name (files that use it), usedby:name (files it uses), in:folder. Type a space after a token to make it a filter.',
   filterLabel: 'Filter by kind or state',
   clearFilters: 'Clear filters',
   clearLabel: 'Clear',

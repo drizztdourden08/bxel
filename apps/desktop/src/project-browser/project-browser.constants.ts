@@ -97,6 +97,7 @@ const BROWSER_TEXT = {
   addTagHint: 'Tag, then Enter',
   removeTag: (tag: string): string => `Remove the tag ${tag}`,
   addToCollection: 'Add to collection',
+  tagsMenu: 'Tags',
   removeFromCollection: (name: string): string => `Take out of ${name}`,
   newCollectionItem: 'New collection...',
   manyTags: 'Tags of the picked files',
