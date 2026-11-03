@@ -2,6 +2,7 @@
 import type { SetViewInput } from './app-tool-input.type';
 import { coloursStep } from './colours-step';
 import { dialogStep } from './dialog-step';
+import { guideColoursStep } from './guide-colours-step';
 import { focusStep } from './focus-step';
 import { markerStep } from './marker-step';
 import { panStep } from './pan-step';
@@ -46,6 +47,7 @@ const VIEW_STEPS: readonly (readonly [keyof SetViewInput, ViewStep])[] = [
   ['tool', toolStep],
   ['colours', coloursStep],
   ['references', referencesStep],
+  ['guideColours', guideColoursStep],
   ['symmetry', symmetryStep],
   ['selection', selectionStep],
   ['mapSelection', mapSelectionStep],

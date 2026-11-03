@@ -23,6 +23,7 @@ import { FILLED_TOOL_IDS } from './view-snapshot.constants';
 import { timelineOf } from './timeline-view-of';
 import { currentContext } from '../../ui-context/current-context';
 import { browseView } from './browse-view';
+import { guideColoursView } from './guide-colours-view';
 import { highlightView } from './highlight-view';
 import { mapOverlaysView } from './map-overlays-view';
 import { projectPanelView } from './project-panel-view';
@@ -166,6 +167,7 @@ const viewSnapshot = (sees: Sees = () => true) => {
     tileset: tilesetView(),
     highlight: highlightView(),
     references: referencesView(),
+    guideColours: guideColoursView(),
     mapOverlays: mapOverlaysView(),
     openWindow: windowView(),
   };

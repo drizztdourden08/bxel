@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { ANIM_FRAME_ID_SCHEMA, DOCUMENT_ID_SCHEMA, LAYER_ID_SCHEMA, MAP_LAYER_ID_SCHEMA, SPRITE_ID_SCHEMA, TAG_ID_SCHEMA } from './ids.constants';
 import { CELL_MASK_SCHEMA } from './cell-mask.constants';
 import { CELL_RECT_SCHEMA } from './cell-rect.constants';
+import { GUIDE_COLOURS_INPUT_SCHEMA } from './guide-colours.constants';
 import { BROWSE_INPUT_SCHEMA, PROJECT_PANEL_INPUT_SCHEMA, PROPERTIES_INPUT_SCHEMA, TILESET_INPUT_SCHEMA, WINDOW_INPUT_SCHEMA } from './project-view.constants';
 import { LOCATION_SCHEMA } from './place.constants';
 import { SPRITES_INPUT_SCHEMA } from './sprites-view.constants';
@@ -167,6 +168,7 @@ const SET_VIEW_INPUT_SCHEMA = z.strictObject({
     })
     .optional()
     .describe('View-only reference images of the open asset. They are never painted into the art and never exported.'),
+  guideColours: GUIDE_COLOURS_INPUT_SCHEMA.optional(),
   symmetry: z
     .strictObject({
       x: z.boolean().optional(),
