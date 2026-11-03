@@ -22,33 +22,9 @@
   gap: var(--space-xs);
 }
 
-.browser-crumbs {
-  display: flex;
+.browser-path {
   flex: 1;
-  align-items: center;
   min-inline-size: 0;
-  overflow: hidden;
-}
-
-.browser-crumbs__end {
-  flex: 1;
-  align-self: stretch;
-  min-inline-size: var(--space-lg);
-  cursor: text;
-}
-
-.browser-crumbs__field {
-  flex: 1;
-}
-
-.browser-crumb {
-  display: flex;
-  align-items: center;
-  border-radius: var(--radius-md);
-}
-
-.browser-crumb--drop {
-  outline: var(--border-width-thick) solid var(--c-primary);
 }
 
 .browser-search {

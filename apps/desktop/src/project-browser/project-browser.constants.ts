@@ -157,6 +157,7 @@ const BROWSER_TEXT = {
   frames: (count: number): string => `${count} ${count === 1 ? 'frame' : 'frames'}`,
   breadcrumbs: 'Folder path',
   editPath: 'Type a folder path',
+  noSuchFolder: 'No such folder',
   columnsMenu: 'Columns',
   siblings: 'Folders here',
   gridLabel: 'Project files',
