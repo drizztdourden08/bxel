@@ -48,6 +48,7 @@ interface TilesetViewState extends TilesetViewSettings {
   setMode: (mode: TilesetMode) => void;
   setSearch: (search: string) => void;
   toggleFilter: (filter: TileFilter) => void;
+  setFilters: (filters: readonly TileFilter[]) => void;
   toggleChoice: (choice: ChoiceFilter) => void;
   clearFilters: () => void;
   setZoom: (zoom: ThumbZoom) => void;

@@ -32,9 +32,12 @@ const PROJECT_PANEL_INPUT_SCHEMA = z.strictObject({
 
 const TILESET_MODE_VALUES = ['tiles', 'terrain', 'collision', 'data', 'animation'] as const;
 
+const TILESET_FILTER_VALUES = ['used', 'unused', 'animated', 'collision', 'terrain'] as const;
+
 const TILESET_INPUT_SCHEMA = z.strictObject({
   mode: z.enum(TILESET_MODE_VALUES).optional().describe('The mode of the tileset panel.'),
   search: z.string().max(200).optional(),
+  filters: z.array(z.enum(TILESET_FILTER_VALUES)).max(5).optional().describe('The tile filters to hold: used, unused, animated, collision or terrain. The list replaces the filters now held; an empty list clears them.'),
   stamp: z
     .strictObject({
       columns: z.number().int().min(1).max(64),

@@ -1,7 +1,6 @@
 /* @layer renderer-app @kind hook */
 import { create } from 'zustand';
 import { NO_FILTER } from '../sheet-manager/manager.constants';
-import { managerMemory } from './manager-memory';
 import { MANAGER_DEFAULTS } from './manager-store.constants';
 import type { ManagerState } from './manager-store.type';
 import { useDocumentStore } from './useDocumentStore';
@@ -20,11 +19,7 @@ const useManagerStore = create<ManagerState>()((set) => ({
 }));
 
 useDocumentStore.subscribe((state, previous) => {
-  if (state.activeId !== previous.activeId) {
-    managerMemory.remember(previous.activeId, useManagerStore.getState());
-    useManagerStore.setState(managerMemory.recall(state.activeId));
-  }
-  for (const id of previous.order.filter((each) => !state.order.includes(each))) managerMemory.forget(id);
+  if (state.activeId !== previous.activeId) useManagerStore.setState({ ...MANAGER_DEFAULTS });
 });
 
 export { useManagerStore };

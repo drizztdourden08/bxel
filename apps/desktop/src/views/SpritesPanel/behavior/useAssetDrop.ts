@@ -26,7 +26,7 @@ const useAssetDrop = (ref: RefObject<DndElement | null>, model: ManagerModel | n
     index: (point) => dropMarkIndex(point),
     feedback: (feedback) => onMark(markOf(feedback)),
     onDrop: (payload, info) => {
-      if (dropFiles(payload)) return;
+      if (dropFiles(payload, sheetId)) return;
       dropEntries(assetEntries(payload), dropTargetAt(info.point), sheetId);
     },
   });

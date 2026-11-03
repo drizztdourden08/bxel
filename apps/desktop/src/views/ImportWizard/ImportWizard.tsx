@@ -7,7 +7,8 @@ const ImportWizard = () => {
   const image = useImportStore((state) => state.image);
   const tiled = useImportStore((state) => state.tiled);
   const kind = useImportStore((state) => state.kind);
-  return image === null ? null : <ImportDialog key={image.fileName} image={image} tiled={tiled} kind={kind} />;
+  const sheetId = useImportStore((state) => state.sheetId);
+  return image === null ? null : <ImportDialog key={image.fileName} image={image} tiled={tiled} kind={kind} sheetId={sheetId} />;
 };
 
 export { ImportWizard };

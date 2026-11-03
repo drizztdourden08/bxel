@@ -36,7 +36,7 @@ const TERRAIN_TEXT = {
   fillTurningHint: 'Fills empty slots with flipped or turned copies of tiles whose allowed turns permit it.',
   clearAll: 'Empty all slots',
   marks: 'Marks',
-  marksHint: 'Click the zones on a tile to mark which sides or corners it fills.',
+  marksHint: 'Click or drag across the zones of tiles to mark which sides or corners they fill. Right click clears.',
   badMask: 'This mix of marks is not a slot of the set.',
   mark: (where: string): string => `Mark ${where}`,
   noSets: 'No terrain set yet.',
@@ -68,7 +68,7 @@ const KIND_BITS: Readonly<Record<TerrainKind, number>> = {
 const PACKING_ORIGIN: Readonly<Record<string, string>> = {
   'blob47-7': 'Bxel',
   'blob47-6': 'cr31',
-  'blob47-12': 'Template strip',
+  'blob47-12': 'Tiled and Godot',
   'blob16-4': 'Square',
   'blob16-8': 'Strip',
   'corner16-4': 'Square',

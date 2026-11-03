@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind logic */
-import { findSprite, terrainSetsOf, tileLayout, tileShapes, tileUseCounts } from '@bxel/document';
+import { findSprite, slotMask, terrainSetsOf, tileLayout, tileShapes, tileUseCounts } from '@bxel/document';
 import type { Artwork, Tile, TileShape, Tileset } from '@bxel/document';
 
 const shapeDetail = (shape: TileShape) => ({
@@ -38,6 +38,7 @@ const tilesetDetail = (artwork: Artwork, tileset: Tileset) => {
       name: set.name,
       kind: set.kind,
       slots: set.slots.map((variants) => variants.map((variant) => ({ ...variant }))),
+      masks: set.slots.map((_variants, slot) => slotMask(set.kind, slot)),
       missing: set.slots.flatMap((variants, slot) => (variants.length === 0 ? [slot] : [])),
     })),
     tiles: tileset.tiles.map((tile) => tileDetail(artwork, tile, { index: layout.indexOf.get(tile.key) ?? 0, uses: uses.get(tile.key) ?? 0 })),

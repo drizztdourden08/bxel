@@ -2,7 +2,7 @@
 import type { VirtualGridCellBind } from '@drizztdourden08/tessera';
 import type { KeyboardEvent, MouseEvent, PointerEvent, RefObject } from 'react';
 import type { TerrainContext } from './behavior/terrain-panel.type';
-import type { Artwork, FieldValue, Point, Sprite, Tile, TileField, TileLayout, TileShape, Tileset } from '@bxel/document';
+import type { Artwork, FieldValue, Point, Rect, Sprite, Tile, TileField, TileLayout, TileShape, Tileset } from '@bxel/document';
 import type { TileEditMode, TileStamp } from '../../stores/tilemap-store.type';
 import type { ThumbZoom, TilesetMode } from '../../stores/tileset-view-store.type';
 
@@ -66,6 +66,12 @@ interface TilePaint {
 
 interface GridSelection {
   handlers: GridHandlers;
+}
+
+interface TileMarquee {
+  area: RefObject<HTMLElement | null>;
+  rect: Rect | null;
+  bind: { onPointerDown: (event: PointerEvent<HTMLElement>) => void };
 }
 
 interface TileGridProps {
@@ -193,6 +199,7 @@ export type {
   TileCell,
   TileCellProps,
   TileGridProps,
+  TileMarquee,
   TilePaint,
   TerrainContextProps,
   TileThumbProps,

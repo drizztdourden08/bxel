@@ -55,6 +55,7 @@ interface PlaySettings {
 }
 
 interface ViewSettings {
+  compact: boolean;
   zoom: number;
   timeMode: boolean;
   units: TimeUnits;
@@ -96,6 +97,7 @@ interface TimelineState extends TimelineSettings {
   setSpeed: (speed: number) => void;
   setCursor: (cursor: number) => void;
   setOnion: (patch: Partial<OnionSettings>) => void;
+  setCompact: (compact: boolean) => void;
   setZoom: (zoom: number) => void;
   setFit: (fit: boolean) => void;
   setTimeMode: (timeMode: boolean) => void;

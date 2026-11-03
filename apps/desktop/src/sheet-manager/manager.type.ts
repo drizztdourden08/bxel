@@ -46,6 +46,7 @@ interface SpriteFacts {
   bank: string;
   slices: number;
   strip: number | null;
+  at: Point | null;
   onSheet: boolean;
   sheets: readonly string[];
 }

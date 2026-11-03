@@ -13,7 +13,7 @@ const MoreMenu = ({ focus, compact }: CompactProps) => {
   useTimelineStore((state) => state.tagId);
   return (
     <DropdownMenu
-      size="sm"
+      size="xs"
       variant="secondary"
       align="end"
       label={TIMELINE_PANEL_TEXT.more}

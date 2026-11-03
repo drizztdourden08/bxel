@@ -42,6 +42,7 @@ interface ImportDialogProps {
   image: SourceImage;
   tiled: TiledImportData | null;
   kind: ImportKind | null;
+  sheetId: string | null;
 }
 
 interface TiledSummaryProps {

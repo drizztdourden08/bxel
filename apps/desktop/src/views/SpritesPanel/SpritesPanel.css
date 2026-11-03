@@ -183,3 +183,8 @@
   flex: 1;
   min-height: 0;
 }
+
+.sprites-panel__lock {
+  flex: none;
+  padding-inline: var(--space-xs);
+}

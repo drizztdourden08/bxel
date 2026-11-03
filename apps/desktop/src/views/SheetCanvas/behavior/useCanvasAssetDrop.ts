@@ -22,7 +22,7 @@ const useCanvasAssetDrop = (
     accepts: [dnd.files, ASSET_DRAG],
     canDrop: (payload) => ('files' in payload ? payload.files.some((each) => isImageFile(each.file)) : sheetId !== null && assetEntries(payload).length > 0),
     onDrop: (payload, info) => {
-      if (dropFiles(payload)) return;
+      if (dropFiles(payload, sheetId)) return;
       if (sheetId === null) return;
       if (readOnly) {
         useNoticeStore.getState().post(DRAG_WHY.exportShown);

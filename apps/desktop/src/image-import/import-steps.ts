@@ -8,6 +8,7 @@ import { alphaThreshold } from './alpha-threshold';
 import { cropRgba } from './crop-rgba';
 import { BANK_REF } from './image-import.constants';
 import type { BankOption, ImportRun } from './image-import.type';
+import { sheetAddSteps, spriteRef } from './sheet-add-steps';
 import { sheetLayoutOf } from './sheet-layout-of';
 import { sheetNameOf } from './sheet-name-of';
 import { tiledSteps } from '../tiled-import/tiled-steps';
@@ -45,12 +46,14 @@ const importSteps = (run: ImportRun, bankId: string | null): CommandStep[] => {
     const layout = sheetLayoutOf(run);
     return [...bankStep(run), ...sheetImportSteps({ sheetName: sheetNameOf(run), ...layout, bank, cells })];
   }
-  const sprites = cells.map((cell): CommandStep => ({
+  const sprites = cells.map((cell, at): CommandStep => ({
     name: PALETTE_COMMAND_NAME.spriteImport,
     targets: null,
     options: { name: cell.name, image: cell.image, bank, mapping: cell.mapping },
+    ref: spriteRef(at),
   }));
-  return [...bankStep(run), ...sprites];
+  const onSheet = run.sheetId && run.form.target === 'file' ? sheetAddSteps(run.sheetId, sprites.length) : [];
+  return [...bankStep(run), ...sprites, ...onSheet];
 };
 
 export { importSteps };

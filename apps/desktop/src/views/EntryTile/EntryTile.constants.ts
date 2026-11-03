@@ -11,9 +11,12 @@ const ENTRY_TILE_TEXT = {
   strip: (cells: number): string => `Looks like a strip of ${cells}`,
   elsewhere: (names: readonly string[]): string => `Also on ${names.join(', ')}`,
   warning: '!',
+  at: (x: number, y: number): string => `at ${x}, ${y}`,
   notOnSheet: 'Not on this sheet',
   onSheets: (names: readonly string[]): string => `On ${names.join(', ')}`,
 } as const;
+
+const THUMB_CACHE_LIMIT = 600;
 
 const TILE_EXTRA = { width: 24, height: 48 } as const;
 
@@ -23,4 +26,4 @@ const PLAY_MIN_MS = 40;
 
 const REDUCED_MOTION = '(prefers-reduced-motion: reduce)';
 
-export { ENTRY_TILE_TEXT, MEDIA_ASPECT, PLAY_MIN_MS, REDUCED_MOTION, TILE_EXTRA };
+export { ENTRY_TILE_TEXT, MEDIA_ASPECT, PLAY_MIN_MS, REDUCED_MOTION, THUMB_CACHE_LIMIT, TILE_EXTRA };

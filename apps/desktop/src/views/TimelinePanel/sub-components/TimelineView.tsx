@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind component */
 import { commandZone, useCommands } from '@drizztdourden08/brock-react';
 import { Box, Text } from '@drizztdourden08/tessera';
-import { useId, useMemo, useRef } from 'react';
+import { useEffect, useId, useMemo, useRef } from 'react';
 import { ADD_TEXT } from '../../../add-frames/add-frames.constants';
 import { COMMAND_ZONE } from '../../../keymap/command-zone.constants';
 import { TIMELINE_KEY_COMMANDS } from '../../../keymap/timeline-key-commands.constants';
@@ -32,6 +32,7 @@ const TimelineView = ({ focus }: FocusProps) => {
   useCommands(TIMELINE_KEY_COMMANDS);
   const model = useMemo(() => timelineModel(focus, selection, tagId, byFacing), [focus, selection, tagId, byFacing]);
   const compact = width < COMPACT_WIDTH;
+  useEffect(() => useTimelineStore.getState().setCompact(compact), [compact]);
   return (
     <Box
       ref={root}

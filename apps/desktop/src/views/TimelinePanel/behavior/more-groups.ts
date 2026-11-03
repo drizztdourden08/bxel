@@ -4,7 +4,6 @@ import { FACING_SETS } from '@bxel/document';
 import { nav } from '@drizztdourden08/brock-react';
 import { useAddFramesStore } from '../../../stores/useAddFramesStore';
 import { useDirectionSetStore } from '../../../stores/useDirectionSetStore';
-import { THUMB_SIZES } from '../../../stores/timeline-store.constants';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { addFrame } from '../../../timeline/add-frame';
 import { duplicateFrames } from '../../../timeline/duplicate-frames';
@@ -71,7 +70,7 @@ const viewGroup = (focus: AnimationFocus): MenuGroup => {
 
 const foldedGroup = (focus: AnimationFocus): MenuGroup => {
   const store = useTimelineStore.getState();
-  const { onion, zoom, fit, tagId } = store;
+  const { onion, tagId } = store;
   const facings = FACING_SETS[focus.animation.directions];
   return {
     id: 'folded',
@@ -89,14 +88,6 @@ const foldedGroup = (focus: AnimationFocus): MenuGroup => {
             },
           ]),
       { id: 'onion', label: 'Onion skin', kind: 'check' as const, checked: onion.on, shortcut: 'F3', onSelect: () => store.setOnion({ on: !onion.on }) },
-      {
-        id: 'zoom',
-        label: TIMELINE_PANEL_TEXT.zoom,
-        children: [
-          ...THUMB_SIZES.map((size) => ({ id: `zoom-${size}`, label: TIMELINE_PANEL_TEXT.zoomSize(size), kind: 'radio' as const, checked: !fit && zoom === size, onSelect: () => store.setZoom(size) })),
-          { id: 'zoom-fit', label: TIMELINE_PANEL_TEXT.fit, kind: 'radio' as const, checked: fit, onSelect: () => store.setFit(true) },
-        ],
-      },
     ],
   };
 };

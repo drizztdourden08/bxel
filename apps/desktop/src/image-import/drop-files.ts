@@ -4,10 +4,10 @@ import type { DragAsset } from '../asset-drag/asset-drag.type';
 import { dropImage } from './drop-image';
 import { isImageFile } from './is-image-file';
 
-const dropFiles = (payload: DroppedFiles | readonly DragAsset[]): payload is DroppedFiles => {
+const dropFiles = (payload: DroppedFiles | readonly DragAsset[], sheetId: string | null = null): payload is DroppedFiles => {
   if (!('files' in payload)) return false;
   const file = payload.files.map((each) => each.file).find(isImageFile);
-  if (file) void dropImage(file);
+  if (file) void dropImage(file, sheetId);
   return true;
 };
 

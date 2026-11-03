@@ -17,6 +17,7 @@ const applyPanel = (tileset: TilesetPatch): void => {
   const panel = useTilesetViewStore.getState();
   if (tileset.mode !== undefined) panel.setMode(tileset.mode);
   if (tileset.search !== undefined) panel.setSearch(tileset.search);
+  if (tileset.filters !== undefined) panel.setFilters(tileset.filters);
   if (tileset.zoom !== undefined) panel.setZoom(tileset.zoom);
   if (tileset.showKeys !== undefined) panel.setShowKeys(tileset.showKeys);
   if (tileset.showUses !== undefined) panel.setShowUses(tileset.showUses);

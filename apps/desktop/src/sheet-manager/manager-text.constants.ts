@@ -2,16 +2,12 @@
 import type { SortKey } from './manager.type';
 
 const MANAGER_TEXT = {
-  empty: 'No sprite is open.',
   selection: (selected: number): string => (selected > 1 ? `, ${selected} selected` : ''),
   shown: (shown: number, total: number): string => (shown === total ? `${total} sprites` : `${shown} of ${total} sprites`),
   findView: 'Search, view and filters',
   noMatch: 'No sprite matches. Change the search or the filters.',
-  sheetPicker: 'Sheet',
-  sheetChoice: (name: string, count: number): string => `${name} (${count})`,
   noSheet: 'No sheet yet',
   newSheet: 'New sheet',
-  tabs: { sprites: 'Sprites', atlas: 'Atlas' },
   views: 'View',
   grid: 'Grid view',
   list: 'List view',

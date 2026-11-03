@@ -158,6 +158,7 @@ interface ImportRun {
   names: readonly string[];
   context: ImportContext;
   tiled: TiledImportData | null;
+  sheetId?: string | null;
 }
 
 type ImportOutcome =

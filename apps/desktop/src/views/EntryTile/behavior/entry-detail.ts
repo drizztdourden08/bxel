@@ -14,9 +14,11 @@ const baseOf = (fact: EntryFacts, state: EntryTileState): string[] => {
   return [ENTRY_TILE_TEXT.sprite(fact.sprite.width, fact.sprite.height), ...spriteExtras(fact, state.twin)];
 };
 
+const placeOf = (fact: EntryFacts): string[] => (!fact.onSheet || fact.at === null ? [] : [ENTRY_TILE_TEXT.at(fact.at.x, fact.at.y)]);
+
 const whereOf = (fact: EntryFacts, state: EntryTileState): string[] => {
   if (state.loose) return [ENTRY_TILE_TEXT.notOnSheet];
-  return fact.sheets.length > 1 ? [ENTRY_TILE_TEXT.onSheets(fact.sheets)] : [];
+  return [...placeOf(fact), ...(fact.sheets.length > 1 ? [ENTRY_TILE_TEXT.onSheets(fact.sheets)] : [])];
 };
 
 const warningOf = (state: EntryTileState): string[] => (state.warning === undefined ? [] : [state.warning]);
