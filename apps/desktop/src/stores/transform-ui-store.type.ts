@@ -15,6 +15,8 @@ interface TransformUiState {
   grab: Handle | null;
   angleSnap: number;
   setAngleSnap: (angleSnap: number) => void;
+  mirror: boolean;
+  setMirror: (mirror: boolean) => void;
   setFocus: (focus: TransformField | null) => void;
   setGrab: (grab: Handle | null) => void;
 }

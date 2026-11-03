@@ -9,13 +9,14 @@ import { pendingLanding } from './pending-landing';
 import { pendingRequest } from './pending-request';
 import { resultOutcome } from './result-outcome';
 import { seamNote } from './seam-note';
+import { withMirroredLanding } from './with-mirrored-landing';
 
 const pendingOutcome = (pending: PendingEdit): PendingOutcome | null => {
   const target = currentTarget();
   if (!target) return null;
   if (target.documentId !== pending.documentId) return null;
   const { width, height } = target.sprite;
-  const landing = pendingLanding(target, pending);
+  const landing = withMirroredLanding(target, pending, pendingLanding(target, pending));
   const result = useDocumentStore.getState().host.execute(pendingRequest(target, pending, 'preview'));
   if (!result.ok) {
     return { width, height, frame: null, others: [], clipping: PENDING_TEXT.noClipping, error: result.error.message, landing };

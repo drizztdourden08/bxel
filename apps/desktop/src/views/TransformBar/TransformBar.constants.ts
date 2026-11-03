@@ -22,6 +22,8 @@ const TRANSFORM_BAR_TEXT = {
   reset: 'Reset',
   similar: 'Similar',
   similarHint: 'RotSprite treats colours closer than this palette distance as equal. 0 means exactly equal.',
+  mirror: 'Mirror with symmetry',
+  mirrorHint: 'With symmetry on, the mirrored area is transformed as a mirror image. It applies while the two sides stay apart.',
   snap: 'Snap',
   snapName: 'Angle snap step',
   distorting: 'Distort: drag a corner freely. Reset returns to a plain transform.',

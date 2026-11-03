@@ -10,6 +10,8 @@ const useTransformUiStore = create<TransformUiState>()((set) => ({
   grab: null,
   angleSnap: ANGLE_SNAP,
   setAngleSnap: (angleSnap) => set({ angleSnap }),
+  mirror: false,
+  setMirror: (mirror) => set({ mirror }),
   setFocus: (focus) => set({ focus }),
   setGrab: (grab) => set({ grab }),
 }));
