@@ -113,6 +113,16 @@ describe('S2 set_view selection and pages', { tags: ['standard'] }, () => {
     expect(cleared.selection).toMatchObject({ empty: true, pixels: 0, runs: null });
   });
 
+  it('selects an ellipse and the opaque pixels, and refuses a saved selection that does not exist', async () => {
+    openDocument();
+    const round = await ok('set_view', { selection: { shape: { kind: 'ellipse', rect: { x: 2, y: 2, width: 8, height: 6 } } } });
+    expect((round.selection as { pixels: number }).pixels).toBeGreaterThan(20);
+    expect((round.selection as { pixels: number }).pixels).toBeLessThan(48);
+    const opaque = await ok('set_view', { selection: { shape: { kind: 'opaque' } } });
+    expect(opaque.selection).toMatchObject({ pixels: 0 });
+    expect(await code('set_view', { selection: { shape: { kind: 'saved', name: 'nothing' } } })).toBe('VIEW_INVALID');
+  });
+
   it('refuses a wand outside the sprite and a focus on an unknown tab', async () => {
     openDocument();
     expect(await code('set_view', { selection: { shape: { kind: 'wand', x: 99, y: 0, connectivity: 4 } } })).toBe('VIEW_INVALID');
