@@ -1,10 +1,12 @@
 /* @layer renderer-app @kind component */
-import { Box, VirtualGrid } from '@drizztdourden08/tessera';
-import type { VirtualGridCellBind } from '@drizztdourden08/tessera';
+import { Box, MarqueeBox, VirtualGrid } from '@drizztdourden08/tessera';
+import type { VirtualGridCellBind, VirtualGridHandle } from '@drizztdourden08/tessera';
+import { useRef } from 'react';
 import type { WheelEvent } from 'react';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import { cellSize } from '../behavior/cell-size';
 import { slotKey } from '../behavior/slot-key';
+import { useTileMarquee } from '../behavior/useTileMarquee';
 import { wheelZoom } from '../behavior/wheel-zoom';
 import { TILESET_TEXT } from '../TilesetPanel.constants';
 import type { TileCell, TileGridProps } from '../TilesetPanel.type';
@@ -14,6 +16,8 @@ const isHole = (slot: TileCell | null): boolean => slot === null;
 
 const TileGrid = ({ model, view, handlers }: TileGridProps) => {
   const size = cellSize(view.tileset, view.zoom);
+  const grid = useRef<VirtualGridHandle>(null);
+  const marquee = useTileMarquee(model, grid);
   const onWheel = (event: WheelEvent<HTMLElement>) => {
     if (event.ctrlKey) useTilesetViewStore.getState().setZoom(wheelZoom(view.zoom, event.deltaY));
   };
@@ -27,6 +31,10 @@ const TileGrid = ({ model, view, handlers }: TileGridProps) => {
         tileWidth={size.width}
         tileHeight={size.height}
         holes={isHole}
+        ref={grid}
+        scrollRef={marquee.area}
+        bind={marquee.bind}
+        overlay={<MarqueeBox rect={marquee.rect} />}
         renderTile={(cell: TileCell | null, index: number, bind: VirtualGridCellBind) => <TileSlot cell={cell} index={index} bind={bind} view={view} handlers={handlers} />}
       />
     </Box>
