@@ -78,6 +78,13 @@ describe('S2 set_view state, selection and pages', { tags: ['standard'] }, () =>
     expect((await ok('get_view', {})).tileset).toMatchObject({ filters: [] });
   });
 
+  it('sets the saved selections of the Sprites panel and reads them back with their ids', async () => {
+    openDocument();
+    await ok('set_view', { sprites: { selections: [{ name: 'heroes', ids: ['spr_abcdef', 'spr_ghjkmn'] }, { name: 'heroes', ids: ['spr_pqrstv'] }] } });
+    const seen = await ok('get_view', {});
+    expect(seen.sprites).toMatchObject({ selections: [{ name: 'heroes', count: 1, ids: ['spr_pqrstv'] }] });
+  });
+
   it('reports no open window while a hub is closed', async () => {
     openDocument();
     const seen = await ok('get_view', {});

@@ -12,6 +12,7 @@ const spritesStep: ViewStep = (patch) => {
   if (sprites.view !== undefined) store.patch({ view: sprites.view });
   if (sprites.size !== undefined) store.patch({ zoom: sprites.size });
   if (sprites.collapsed !== undefined) store.patch({ collapsed: sprites.collapsed });
+  if (sprites.selections !== undefined) store.patch({ selections: [...new Map(sprites.selections.map((each) => [each.name, each])).values()] });
   return null;
 };
 

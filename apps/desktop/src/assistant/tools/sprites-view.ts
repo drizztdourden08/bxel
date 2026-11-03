@@ -15,7 +15,7 @@ const spritesView = () => {
     view: manager.view,
     size: manager.zoom,
     collapsed: [...manager.collapsed],
-    selections: manager.selections.map((each) => ({ name: each.name, count: each.ids.length })),
+    selections: manager.selections.map((each) => ({ name: each.name, count: each.ids.length, ids: [...each.ids] })),
     sheetId: boundSheetId(),
   };
 };

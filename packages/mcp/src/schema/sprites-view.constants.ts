@@ -1,5 +1,6 @@
 /* @layer core @kind constants */
 import { z } from 'zod';
+import { SPRITE_ID_SCHEMA } from './ids.constants';
 
 const SPRITES_SORT_VALUES = ['manual', 'name', 'size', 'area', 'bank', 'created'] as const;
 
@@ -26,6 +27,11 @@ const SPRITES_INPUT_SCHEMA = z.strictObject({
   view: z.enum(['grid', 'list']).optional(),
   size: z.number().int().min(24).max(128).optional().describe('The thumbnail size in pixels, 24 to 128.'),
   collapsed: z.array(z.string().min(1).max(500)).max(512).optional().describe('The folder paths that are closed. This list replaces the old one.'),
+  selections: z
+    .array(z.strictObject({ name: z.string().min(1).max(100), ids: z.array(SPRITE_ID_SCHEMA).max(4096) }))
+    .max(64)
+    .optional()
+    .describe('The saved selections, each a name and the sprite ids it holds. The list replaces the old one; a name used twice keeps the last.'),
 });
 
 export { SPRITES_INPUT_SCHEMA };
