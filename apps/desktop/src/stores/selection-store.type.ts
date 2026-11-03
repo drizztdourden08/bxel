@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { DocumentId } from '@bxel/document';
 import type { CombineMode, Connectivity, MaskView, Point } from '@bxel/raster';
-import type { Clip, FixedMarquee, MatchKind, SampleSource, SelectVariant, VertexSnap } from '../editor/selection/selection.type';
+import type { Clip, FixedMarquee, MatchKind, PasteColours, SampleSource, SelectVariant, VertexSnap } from '../editor/selection/selection.type';
 
 interface SelectionSettings {
   variant: SelectVariant;
@@ -19,6 +19,7 @@ interface SelectionSettings {
   fixedHeight: number;
   mirror: boolean;
   vertexSnap: VertexSnap;
+  pasteColours: PasteColours;
   quickMask: boolean;
   owner: DocumentId | null;
   mask: MaskView | null;
@@ -44,6 +45,7 @@ interface SelectionState extends SelectionSettings {
   setFixedHeight: (height: number) => void;
   setMirror: (mirror: boolean) => void;
   setVertexSnap: (snap: VertexSnap) => void;
+  setPasteColours: (colours: PasteColours) => void;
   setQuickMask: (on: boolean) => void;
   setMask: (mask: MaskView | null, owner: DocumentId | null) => void;
   setDraft: (draft: MaskView | null) => void;

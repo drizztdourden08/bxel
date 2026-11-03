@@ -20,6 +20,7 @@ const useSelectionStore = create<SelectionState>()((set) => ({
   setFixedHeight: (fixedHeight) => set({ fixedHeight: Math.max(1, Math.min(FIXED_LIMIT, Math.round(fixedHeight))) }),
   setMirror: (mirror) => set({ mirror }),
   setVertexSnap: (vertexSnap) => set({ vertexSnap }),
+  setPasteColours: (pasteColours) => set({ pasteColours }),
   setQuickMask: (quickMask) => set({ quickMask, draft: null }),
   setMask: (mask, owner) => set({ mask, owner: mask ? owner : null, draft: null, vertices: [] }),
   setDraft: (draft) => set({ draft }),

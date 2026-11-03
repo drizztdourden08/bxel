@@ -10,6 +10,8 @@ const MARQUEE_TEXT = {
   heightDescription: 'The height in pixels, or the height side of the ratio.',
   mirror: 'Mirror with symmetry',
   mirrorDescription: 'With symmetry on, a marquee or lasso also selects the mirrored area.',
+  pasteColours: 'Paste from another palette',
+  pasteColoursDescription: 'When a copy comes from a document with a different palette: match the nearest colours, or keep the palette slot numbers.',
   vertexSnap: 'Vertex snap',
   vertexSnapDescription: 'Where a lasso or polygon point lands. Pixel centre uses the pixel under the pointer. Pixel corner uses the nearest corner of the pixel grid.',
 } as const;
@@ -25,4 +27,9 @@ const VERTEX_SNAP_CHOICES: readonly OptionChoice[] = [
   { value: 'corner', label: 'Pixel corner', description: 'Points land on the nearest corner of the pixel grid.', glyph: '+' },
 ];
 
-export { FIXED_CHOICES, MARQUEE_TEXT, VERTEX_SNAP_CHOICES };
+const PASTE_COLOUR_CHOICES: readonly OptionChoice[] = [
+  { value: 'nearest', label: 'Nearest colours', description: 'Match each pasted colour to the closest one in this palette.', glyph: 'N' },
+  { value: 'keep', label: 'Keep indexes', description: 'Keep the palette slot numbers as they were copied, even if the colours differ.', glyph: 'K' },
+];
+
+export { FIXED_CHOICES, MARQUEE_TEXT, PASTE_COLOUR_CHOICES, VERTEX_SNAP_CHOICES };

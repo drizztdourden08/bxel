@@ -11,7 +11,7 @@ import { readSystemClip } from './read-system-clip';
 
 const pasteFromSystem = async (mode: PasteMode): Promise<boolean> => {
   const target = currentTarget();
-  const found = target ? await readSystemClip(target) : null;
+  const found = target ? await readSystemClip(target, useSelectionStore.getState().pasteColours === 'keep') : null;
   if (found) {
     useSelectionStore.getState().setClipboard(found.clip);
     if (found.changed) useNoticeStore.getState().post(SELECTION_TEXT.pastedRemapped);

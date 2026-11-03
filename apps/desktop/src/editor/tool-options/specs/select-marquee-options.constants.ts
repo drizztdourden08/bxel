@@ -1,11 +1,11 @@
 /* @layer renderer-app @kind constants */
 import { FIXED_LIMIT } from '../../../stores/selection-store.constants';
 import { useSelectionStore } from '../../../stores/useSelectionStore';
-import type { FixedMarquee, VertexSnap } from '../../selection/selection.type';
+import type { FixedMarquee, PasteColours, VertexSnap } from '../../selection/selection.type';
 import type { OptionSpec } from '../tool-options.type';
 import { choiceSpec } from './choice-spec';
 import { numberSpec } from './number-spec';
-import { FIXED_CHOICES, MARQUEE_TEXT, VERTEX_SNAP_CHOICES } from './select-marquee-text.constants';
+import { FIXED_CHOICES, MARQUEE_TEXT, PASTE_COLOUR_CHOICES, VERTEX_SNAP_CHOICES } from './select-marquee-text.constants';
 import { toggleSpec } from './toggle-spec';
 
 const selection = () => useSelectionStore.getState();
@@ -19,6 +19,8 @@ const mirrors = (): boolean => selection().variant !== 'wand' && selection().var
 const asFixed = (value: string): FixedMarquee => (value === 'ratio' || value === 'size' ? value : 'free');
 
 const asVertexSnap = (value: string): VertexSnap => (value === 'corner' ? 'corner' : 'centre');
+
+const asPasteColours = (value: string): PasteColours => (value === 'keep' ? 'keep' : 'nearest');
 
 const isFreehand = (): boolean => selection().variant === 'lasso' || selection().variant === 'polygon';
 
@@ -89,6 +91,18 @@ const SELECT_MARQUEE_OPTIONS: readonly OptionSpec[] = [
     read: () => selection().vertexSnap,
     write: (value) => selection().setVertexSnap(asVertexSnap(value)),
     appliesWhen: isFreehand,
+  }),
+  choiceSpec({
+    tool: 'select',
+    name: 'paste_colours',
+    label: MARQUEE_TEXT.pasteColours,
+    description: MARQUEE_TEXT.pasteColoursDescription,
+    priority: 21,
+    group: 'select',
+    default: 'nearest',
+    choices: PASTE_COLOUR_CHOICES,
+    read: () => selection().pasteColours,
+    write: (value) => selection().setPasteColours(asPasteColours(value)),
   }),
 ];
 
