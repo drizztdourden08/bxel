@@ -38,7 +38,7 @@ const ViewPanel = () => {
         <ZoomField />
       </ViewSection>
       {previewShown && shown('preview') && (
-        <ViewSection section="preview" title={VIEW_PANEL_TEXT.preview} icon="pixel-play">
+        <ViewSection section="preview" title={VIEW_PANEL_TEXT.preview} icon="pixel-view-preview">
           <PreviewSection />
         </ViewSection>
       )}
@@ -66,7 +66,7 @@ const ViewPanel = () => {
         </ViewSection>
       )}
       {shown('reference') && (
-        <ViewSection section="reference" title={VIEW_PANEL_TEXT.reference} icon="image">
+        <ViewSection section="reference" title={VIEW_PANEL_TEXT.reference} icon="pixel-view-reference">
           <ReferenceSection />
         </ViewSection>
       )}

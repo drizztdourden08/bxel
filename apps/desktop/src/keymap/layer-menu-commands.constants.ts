@@ -36,8 +36,8 @@ const moveToEdge = (edge: 'top' | 'bottom') => (context?: CommandContext): void 
 const inList = (chord: string) => ({ chord, zone: COMMAND_ZONE.layers, whileTyping: false });
 
 const LAYER_MENU_COMMANDS: readonly CommandDef[] = [
-  { id: 'layer.toggle_visible', label: 'Show or hide layer', group, ...inList('Alt+V'), run: onLayers((now) => now.actions.setFlag(now.ids, 'visible', !now.visible)) },
-  { id: 'layer.toggle_locked', label: 'Lock or unlock layer', group, ...inList('Alt+L'), run: onLayers((now) => now.actions.setLock(now.ids, now.lock === 'none' ? 'pixels' : 'none')) },
+  { id: 'layer.toggle_visible', label: 'Show or hide layer', group, ...inList('V'), run: onLayers((now) => now.actions.setFlag(now.ids, 'visible', !now.visible)) },
+  { id: 'layer.toggle_locked', label: 'Lock or unlock layer', group, ...inList('L'), run: onLayers((now) => now.actions.setLock(now.ids, now.lock === 'none' ? 'pixels' : 'none')) },
   {
     id: 'layer.set_lock',
     label: 'Set layer lock',
@@ -56,7 +56,7 @@ const LAYER_MENU_COMMANDS: readonly CommandDef[] = [
       if (colour !== undefined) now.actions.setColour(now.ids, colour);
     }),
   },
-  { id: 'layer.solo', label: 'Show only this layer', group, ...inList('Alt+S'), run: onLayers((now) => now.actions.solo(now.id)) },
+  { id: 'layer.solo', label: 'Show only this layer', group, ...inList('S'), run: onLayers((now) => now.actions.solo(now.id)) },
   {
     id: 'layer.properties',
     label: 'Layer properties',

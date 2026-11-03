@@ -24,6 +24,7 @@ const CANVAS_MENU = {
   pickHere: 'Pick colour here',
   selectHere: 'Select here',
   addGuide: 'Add guide here',
+  addReference: 'Add reference image',
   guideX: 'Vertical guide (X)',
   guideY: 'Horizontal guide (Y)',
   region: 'Region of this colour',
