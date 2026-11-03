@@ -11,6 +11,7 @@ const ENTRY_TILE_TEXT = {
   strip: (cells: number): string => `Looks like a strip of ${cells}`,
   elsewhere: (names: readonly string[]): string => `Also on ${names.join(', ')}`,
   warning: '!',
+  at: (x: number, y: number): string => `at ${x}, ${y}`,
   notOnSheet: 'Not on this sheet',
   onSheets: (names: readonly string[]): string => `On ${names.join(', ')}`,
 } as const;
