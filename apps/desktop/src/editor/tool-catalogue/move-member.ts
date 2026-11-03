@@ -1,9 +1,8 @@
 /* @layer renderer-app @kind logic */
+import type { Held } from './move-member.type';
 import { placeOf } from './place-of';
 import type { MemberMove, SurfaceLayout } from './slot-layout.type';
-import type { SlotGroupId, ToolMember, ToolSlot } from './tool-catalogue.type';
-
-type Held = { id: string; group: SlotGroupId; members: ToolMember[] };
+import type { ToolMember, ToolSlot } from './tool-catalogue.type';
 
 const ownId = (slots: readonly ToolSlot[], source: ToolSlot, member: ToolMember): string =>
   slots.some((slot) => slot.id === member.id && !(slot === source && slot.members.length === 1)) ? `${member.id}.alone` : member.id;

@@ -20,11 +20,11 @@ const arrangeSlots = (base: readonly ToolSlot[], layout: SurfaceLayout | undefin
   const found = new Map(base.flatMap((slot) => slot.members.map((member) => [member.id, member] as const)));
   const origin = new Map(base.flatMap((slot) => slot.members.map((member) => [member.id, slot] as const)));
   const baseIds = new Set(base.map((slot) => slot.id));
-  const own = base.map((slot) => withMembers(slot, slotMembers(slot.id, slot.members, places.get(slot.id)?.place, claims, found)));
+  const own = base.map((slot) => withMembers(slot, slotMembers({ placeId: slot.id, own: slot.members, place: places.get(slot.id)?.place, claims, found })));
   const made = (layout ?? [])
     .filter((place) => !baseIds.has(place.id))
     .flatMap((place): ToolSlot[] => {
-      const members = slotMembers(place.id, [], place, claims, found);
+      const members = slotMembers({ placeId: place.id, own: [], place, claims, found });
       const [first] = members;
       const from = first === undefined ? undefined : origin.get(first.id);
       return first === undefined || from === undefined ? [] : [{ id: place.id, group: place.group, label: first.label, key: from.key, tool: first.tool, surfaces: from.surfaces, members }];

@@ -1,15 +1,13 @@
 /* @layer renderer-app @kind logic */
-import { emptyMask } from '@bxel/raster';
 import type { CombineMode } from '@bxel/raster';
 import { currentTarget } from '../../editor/current-target';
 import { mergeMask } from '../../editor/selection/merge-mask';
 import { selectionMask } from '../../editor/selection/selection-mask';
 import { setSelection } from '../../editor/selection/set-selection';
 import { APP_TOOL_TEXT } from './app-tool.constants';
-import { incomingMask } from './incoming-mask';
+import { incomingFailure } from './incoming-failure';
 import { REPLACING } from './selection-step.constants';
-import { pointIncoming } from './point-incoming';
-import { savedIncoming } from './saved-incoming';
+import { shapeIncoming } from './shape-incoming';
 import { viewFail } from './view-fail';
 import type { ViewStep } from './view-steps.type';
 
@@ -23,12 +21,8 @@ const selectionStep: ViewStep = (patch) => {
     setSelection(target, null);
     return null;
   }
-  const incoming = incomingMask(shape, target) ?? pointIncoming(shape, target) ?? savedIncoming(shape, target) ?? emptyMask(target.sprite);
-  if (incoming === 'outside') return viewFail(APP_TOOL_TEXT.wandOutside, 'selection.shape');
-  if (incoming === 'missing' || incoming === 'resized') {
-    const name = shape.kind === 'saved' ? shape.name : '';
-    return viewFail(incoming === 'missing' ? APP_TOOL_TEXT.noSavedSelection(name) : APP_TOOL_TEXT.savedResized(name), 'selection.shape');
-  }
+  const incoming = shapeIncoming(shape, target);
+  if (typeof incoming === 'string') return incomingFailure(shape, incoming);
   const op: CombineMode = REPLACING.has(shape.kind) ? 'replace' : selection.op;
   setSelection(target, mergeMask(selectionMask(target), incoming, op));
   return null;

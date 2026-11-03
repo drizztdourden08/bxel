@@ -10,6 +10,7 @@ import { optionById } from '../../../editor/tool-options/option-by-id';
 import { resetAllTools } from '../../../editor/tool-options/reset-all-tools';
 import { resetOption } from '../../../editor/tool-options/reset-option';
 import { resetTool } from '../../../editor/tool-options/reset-tool';
+import type { OptionSpec } from '../../../editor/tool-options/tool-options.type';
 import { announcePreset } from '../../../editor/tool-pick/announce-preset';
 import { useToolPrefsStore } from '../../../stores/useToolPrefsStore';
 import { useToolPresetStore } from '../../../stores/useToolPresetStore';
@@ -31,22 +32,33 @@ const presetEntries = (): ContextMenuEntry[] => {
   return [{ label: TOOL_MENU_TEXT.presets, items }];
 };
 
+const ownEntries = (spec: OptionSpec | undefined): ContextMenuEntry[] => {
+  const painting = currentSurface() === 'sprite' || currentSurface() === 'tile';
+  if (!spec || spec.kind === 'action' || !painting) return [];
+  return [{ label: OPTIONS_TEXT.resetOption, icon: 'rotate-ccw', run: () => resetOption(spec) }];
+};
+
+const assignEntries = (spec: OptionSpec): ContextMenuEntry[] => {
+  const command = optionCommandOf(spec);
+  return command ? [{ label: OPTIONS_TEXT.assignKey, icon: 'keyboard', run: () => openKeymapAt(KEYMAP_ROUTE, command) }] : [];
+};
+
+const placingEntries = (spec: OptionSpec | undefined): ContextMenuEntry[] => {
+  if (!spec) return [];
+  const inBar = spec.tier === 1;
+  return [
+    { label: inBar ? OPTIONS_TEXT.hideFromBar : OPTIONS_TEXT.showInBar, icon: inBar ? 'eye-off' : 'eye', run: () => useToolPrefsStore.getState().setOptionTier(spec.id, inBar ? 2 : 1) },
+    ...assignEntries(spec),
+    { label: OPTIONS_TEXT.help, icon: 'info', run: () => toast(`${spec.label}. ${spec.description}`, { variant: 'info' }) },
+    'separator',
+  ];
+};
+
 const optionsEntries = (context: ContextMenuContext): ContextMenuEntry[] => {
   const spec = optionById(stopIdOf(context.target) ?? '');
   const tool = useToolStore.getState().tool;
-  const painting = currentSurface() === 'sprite' || currentSurface() === 'tile';
-  const own: ContextMenuEntry[] = spec && spec.kind !== 'action' && painting ? [{ label: OPTIONS_TEXT.resetOption, icon: 'rotate-ccw', run: () => resetOption(spec) }] : [];
-  const inBar = spec?.tier === 1;
-  const command = spec ? optionCommandOf(spec) : undefined;
-  const assign: ContextMenuEntry[] = command ? [{ label: OPTIONS_TEXT.assignKey, icon: 'keyboard', run: () => openKeymapAt(KEYMAP_ROUTE, command) }] : [];
-  const placing: ContextMenuEntry[] = spec
-    ? [
-        { label: inBar ? OPTIONS_TEXT.hideFromBar : OPTIONS_TEXT.showInBar, icon: inBar ? 'eye-off' : 'eye', run: () => useToolPrefsStore.getState().setOptionTier(spec.id, inBar ? 2 : 1) },
-        ...assign,
-        { label: OPTIONS_TEXT.help, icon: 'info', run: () => toast(`${spec.label}. ${spec.description}`, { variant: 'info' }) },
-        'separator',
-      ]
-    : [];
+  const own = ownEntries(spec);
+  const placing = placingEntries(spec);
   return [
     ...own,
     ...placing,

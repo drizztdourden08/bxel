@@ -8,6 +8,7 @@ import { neighbourSource } from '../../src/tilemap/neighbour-source';
 import { neighbourWrap } from '../../src/tilemap/neighbour-wrap';
 import { placeStampAt } from '../../src/tilemap/place-stamp-at';
 import { useTilemapStore } from '../../src/stores/useTilemapStore';
+import { useViewStore } from '../../src/stores/useViewStore';
 import { mapNow, openMapFile } from './map-harness';
 
 beforeEach(openMapFile);
@@ -56,6 +57,7 @@ describe('W7 Edit Tile shows the neighbours from the map', { tags: ['standard'] 
   it('wraps painting with the neighbour wrap in Edit Tile unless Lock to tile is on', () => {
     placeStampAt([{ x: 1, y: 1 }, { x: 2, y: 1 }]);
     expect(editTile(2)).toBe(true);
+    useViewStore.getState().setTiled('off');
     expect(wrapOf()).toEqual({ x: true, y: false });
     useDrawingStore.getState().patch({ lockToTile: true });
     expect(wrapOf()).toEqual({ x: false, y: false });

@@ -30,10 +30,10 @@ const PRESETS: RuleTable = {
   ...family(['tool.apply_preset', 'tool.save_preset', 'tool.reset_options', 'tool.select_member', 'tool.hide_member', 'tool.apply_quick_preset'], PIXEL, [DOC], ONLY.pixels),
 };
 
-const SELECT_OPTION_NAMES = ['fixed', 'fixed_width', 'fixed_height', 'mirror', 'vertex_snap', 'match', 'distance', 'ignore_transparent', 'in_selection'];
+const SELECT_OPTION_NAMES = ['fixed', 'fixed_width', 'fixed_height', 'mirror', 'vertex_snap', 'match', 'distance', 'ignore_transparent', 'in_selection', 'paste_colours'];
 
 const EXTRA_OPTION_IDS = [
-  'options.picker.return', ...['pencil', 'eraser', 'fill'].map((tool) => `options.${tool}.cels`), ...SELECT_OPTION_NAMES.map((name) => `options.select.${name}`),
+  'options.picker.return', 'options.gradient.origin_x', 'options.gradient.origin_y', ...['pencil', 'eraser', 'fill'].map((tool) => `options.${tool}.cels`), ...SELECT_OPTION_NAMES.map((name) => `options.select.${name}`),
 ];
 
 const OPTIONS: RuleTable = {

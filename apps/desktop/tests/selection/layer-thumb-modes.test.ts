@@ -1,8 +1,8 @@
 /* @layer renderer-app @kind test */
-import type { MouseEvent } from 'react';
 import { describe, expect, it } from 'vitest';
 import { selectionMask } from '../../src/editor/selection/selection-mask';
 import { thumbGestures } from '../../src/views/LayerStack/behavior/thumb-gestures';
+import type { ThumbClick } from '../../src/views/LayerStack/behavior/thumb-gestures.type';
 import { at, BLOCK, countOn, openRig } from './selection-harness';
 import type { SelectionRig } from './selection-harness';
 
@@ -10,7 +10,7 @@ const WIDE = { x: 0, y: 0, width: 10, height: 10 };
 
 const click = (rig: SelectionRig, keys: { shiftKey: boolean; altKey: boolean }): void => {
   const layerId = rig.target().sprite.layers[0]?.id ?? '';
-  const event = { ctrlKey: true, metaKey: false, ...keys, stopPropagation: () => undefined } as unknown as MouseEvent<HTMLElement>;
+  const event: ThumbClick = { ctrlKey: true, metaKey: false, ...keys, stopPropagation: () => undefined };
   thumbGestures(layerId, true).onClick(event);
 };
 
