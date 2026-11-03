@@ -36,4 +36,11 @@ interface KeySteps {
   bigStep: NavigatorAxisStep;
 }
 
-export type { ImageRect, KeySteps, NavigatorFacts, ThumbBox, ThumbSize, VisibleSize };
+interface NavigatorLayout {
+  width: number;
+  height: number;
+  thumb: ThumbSize | null;
+  steps: KeySteps;
+}
+
+export type { ImageRect, KeySteps, NavigatorFacts, NavigatorLayout, ThumbBox, ThumbSize, VisibleSize };

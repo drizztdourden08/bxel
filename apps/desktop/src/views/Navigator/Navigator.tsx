@@ -3,13 +3,12 @@ import { Box, Canvas, Navigator as TesseraNavigator, Text } from '@drizztdourden
 import { useMemo, useRef } from 'react';
 import { useElementStyle } from '../../hooks/useElementStyle';
 import { useSelectionRect } from '../../view-zoom/useSelectionRect';
-import { fitThumb } from './behavior/fit-thumb';
-import { keySteps } from './behavior/key-steps';
 import { moveView } from './behavior/move-view';
 import { navigatorKey } from './behavior/navigator-key';
 import { navigatorOverlays } from './behavior/navigator-overlays';
 import { useNavigatorDraw } from './behavior/useNavigatorDraw';
 import { useNavigatorFacts } from './behavior/useNavigatorFacts';
+import { useNavigatorLayout } from './behavior/useNavigatorLayout';
 import { useOtherViewRect } from './behavior/useOtherViewRect';
 import { useStageSize } from './behavior/useStageSize';
 import { wheelZoom } from './behavior/wheel-zoom';
@@ -24,11 +23,8 @@ const Navigator = () => {
   const facts = useNavigatorFacts();
   const selection = useSelectionRect();
   const other = useOtherViewRect();
-  const width = facts?.imageWidth ?? 0;
-  const height = facts?.imageHeight ?? 0;
-  const thumb = useMemo(() => (width > 0 && height > 0 && box.width > 0 ? fitThumb({ width, height }, box) : null), [width, height, box]);
+  const { width, height, thumb, steps } = useNavigatorLayout(facts, box);
   const overlays = useMemo(() => navigatorOverlays(selection, other), [selection, other]);
-  const steps = useMemo(() => keySteps({ width: facts?.width ?? 0, height: facts?.height ?? 0 }), [facts?.width, facts?.height]);
   useNavigatorDraw(canvas, thumb);
   useElementStyle(thumbBox, thumb ? { 'inline-size': `${thumb.width}px`, 'block-size': `${thumb.height}px` } : {});
   return (
