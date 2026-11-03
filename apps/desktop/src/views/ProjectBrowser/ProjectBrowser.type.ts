@@ -69,6 +69,7 @@ type MenuInput = {
   readonly actions: BrowserActions;
   readonly editable: boolean;
   readonly collections: readonly OrganiseCollection[];
+  readonly tags: readonly string[];
 };
 
 type EntryMenuProps = { readonly point: ContextMenuPoint | null; readonly groups: readonly MenuGroup[]; readonly label: string; readonly onClose: () => void };

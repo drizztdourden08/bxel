@@ -23,7 +23,7 @@ vi.mock('../../src/project-config/focused-project', () => ({
 
 const folderEntry = (path: string): FolderEntry => ({ kind: 'folder', id: path, path, name: path.split('/').at(-1) ?? path, count: 0, root: false, linked: false });
 
-const inputOf = (entry: FolderEntry, editable: boolean): MenuInput => ({ entry, picked: [entry], actions: {} as BrowserActions, editable, collections: [] });
+const inputOf = (entry: FolderEntry, editable: boolean): MenuInput => ({ entry, picked: [entry], actions: {} as BrowserActions, editable, collections: [], tags: [] });
 
 const checkedLabels = (entry: ContextMenuEntry): string[] => {
   if (typeof entry !== 'object' || !('items' in entry)) return [];

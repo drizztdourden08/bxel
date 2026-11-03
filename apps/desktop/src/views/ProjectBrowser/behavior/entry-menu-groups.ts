@@ -33,6 +33,18 @@ const collectItems = ({ picked, actions, collections }: MenuInput): MenuNode[] =
   }));
 };
 
+const tagItems = ({ picked, actions, tags }: MenuInput): MenuNode[] => {
+  const files = picked.filter((each): each is FileEntry => each.kind === 'file' && each.row.assetId !== null);
+  const held = (tag: string): boolean => files.every((each) => each.facts.tags.includes(tag));
+  return tags.map((tag) => ({
+    id: `tag:${tag}`,
+    label: tag,
+    kind: 'check',
+    checked: held(tag),
+    onSelect: () => (held(tag) ? actions.untag(files, tag) : actions.tag(files, tag)),
+  }));
+};
+
 const editGroup = ({ entry, picked, actions, editable }: MenuInput): MenuGroup => {
   const duplicable = picked.every((each) => each.kind === 'file' && canDuplicate(each.row));
   return {
@@ -54,6 +66,7 @@ const organiseGroup = (input: MenuInput, file: FileEntry | null): MenuGroup => {
     id: 'organise',
     items: [
       ...when(organisable && input.collections.length > 0, { id: 'collect', label: BROWSER_TEXT.addToCollection, icon: 'bookmark', children: collectItems(input) }),
+      ...when(organisable && input.tags.length > 0, { id: 'tags', label: BROWSER_TEXT.tagsMenu, icon: 'tag', children: tagItems(input) }),
       ...when(organisable, { id: 'pin', label: file?.pinned ? BROWSER_TEXT.unpin : BROWSER_TEXT.pin, icon: file?.pinned ? 'pin-off' : 'pin', onSelect: () => input.actions.pin(input.picked, !file?.pinned) }),
     ],
   };
