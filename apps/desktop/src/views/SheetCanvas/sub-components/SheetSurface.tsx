@@ -21,6 +21,7 @@ import type { PixelViewportHandle } from '../../PixelViewport';
 import { SHEET_CANVAS_TEXT, SHEET_MENU } from '../SheetCanvas.constants';
 import type { SheetDrag, SheetSurfaceProps } from '../SheetCanvas.type';
 import { sheetKeyDown } from '../behavior/sheet-key-down';
+import { useRevealActive } from '../behavior/useRevealActive';
 import { useCanvasAssetDrop } from '../behavior/useCanvasAssetDrop';
 import { useSheetMenu } from '../behavior/useSheetMenu';
 import { useSheetGestures } from '../behavior/useSheetGestures';
@@ -48,6 +49,7 @@ const SheetSurface = ({ sheet }: SheetSurfaceProps) => {
   const frame = useRef<HTMLElement>(null);
   useCanvasAssetDrop(frame, viewport, model.sheet?.id ?? null, exported !== null);
   useSheetMenu(viewport, model.items);
+  useRevealActive(viewport, model.items, data.scene.active?.id ?? null);
   useViewportBridge(viewport, true);
   useViewDefaults();
   useRulerUnits();
