@@ -11,7 +11,7 @@ const LibrarySection = ({ kind, items, activeId }: { kind: LibraryKind; items: r
   const make = kind === 'brush' ? brushFromSelection : patternFromSelection;
   return (
     <Box as="section" className="options-library" aria-label={text.heading}>
-      <Text variant="overline" tone="muted" className="options-panel__heading">
+      <Text variant="overline" tone="muted" className="tool-options__heading">
         {text.heading}
       </Text>
       {items.length === 0 && (

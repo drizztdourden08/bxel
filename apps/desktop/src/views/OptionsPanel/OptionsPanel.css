@@ -1,5 +1,5 @@
 /* @layer renderer-app @kind style */
-.options-panel {
+.tool-options {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -7,7 +7,7 @@
   min-inline-size: 0;
 }
 
-.options-panel__head {
+.tool-options__head {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
@@ -18,13 +18,13 @@
   background: var(--c-surface);
 }
 
-.options-panel__title {
+.tool-options__title {
   display: flex;
   flex-direction: column;
   min-inline-size: 0;
 }
 
-.options-panel__tool-icon {
+.tool-options__tool-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -32,20 +32,20 @@
   block-size: var(--size-48);
 }
 
-.options-panel__actions {
+.tool-options__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
   grid-column: 1 / -1;
 }
 
-.options-panel__section {
+.tool-options__section {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
 
-.options-panel__heading {
+.tool-options__heading {
   text-transform: uppercase;
   letter-spacing: var(--tracking-caps);
 }

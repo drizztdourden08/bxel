@@ -10,7 +10,7 @@ const PanelFooter = ({ tool }: { tool: ToolId }) => (
   <>
     {presetFields(tool).length > 0 && (
       <Stack gap="xs">
-        <Text variant="overline" tone="muted" className="options-panel__heading">
+        <Text variant="overline" tone="muted" className="tool-options__heading">
           {OPTIONS_PANEL_TEXT.presets}
         </Text>
         <PresetList tool={tool} />

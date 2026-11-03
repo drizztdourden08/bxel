@@ -34,7 +34,7 @@ const OptionsPanel = () => {
   const slot = slotOfTool(surface, tool);
   if (surface === 'none' || !slot) {
     return (
-      <Stack gap="xs" className="options-panel" {...contextMenuZone(OPTIONS_PANEL_TEXT.zone)}>
+      <Stack gap="xs" className="tool-options" {...contextMenuZone(OPTIONS_PANEL_TEXT.zone)}>
         <Text variant="title">{OPTIONS_PANEL_TEXT.none}</Text>
         <Text tone="muted">{OPTIONS_PANEL_TEXT.noneHint}</Text>
       </Stack>
@@ -46,7 +46,7 @@ const OptionsPanel = () => {
   const more = tiers.filter((spec) => spec.tier === 2);
   return (
     <ScrollArea axis="y" scrollbar="slim" aria-label={OPTIONS_PANEL_TEXT.region}>
-      <Stack gap="md" className="options-panel" {...contextMenuZone(OPTIONS_PANEL_TEXT.zone)}>
+      <Stack gap="md" className="tool-options" {...contextMenuZone(OPTIONS_PANEL_TEXT.zone)}>
         <ToolHead slot={slot} editable={editable} />
         <PanelNotes sheet={surface === 'sheet'} empty={main.length === 0} />
         {grouped(main).map(([group, specs]) => (

@@ -13,7 +13,7 @@ const OptionRow = ({ spec, compact = false }: OptionRowProps) => {
   const reason = spec.disabledReason?.();
   const changed = spec.kind !== 'action' && value !== spec.default;
   return (
-    <Box className="option-row" data-kind={spec.kind} data-changed={changed}>
+    <Box className="tool-option-row" data-kind={spec.kind} data-changed={changed}>
       <Flex align="center" justify="between" gap="sm">
         <Text variant="label">{spec.label}</Text>
         {changed && (
@@ -32,7 +32,7 @@ const OptionRow = ({ spec, compact = false }: OptionRowProps) => {
           {reason}
         </Text>
       )}
-      <Box className="option-row__control">
+      <Box className="tool-option-row__control">
         <OptionField spec={spec} value={value} disabledReason={reason} onChange={(next) => (spec.kind === 'action' ? spec.write(next) : setOption(spec, next))} />
       </Box>
     </Box>

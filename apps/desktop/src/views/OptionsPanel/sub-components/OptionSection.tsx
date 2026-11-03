@@ -7,8 +7,8 @@ import { OPTIONS_PANEL_TEXT } from '../OptionsPanel.constants';
 const groupLabel = (group: string): string => (group in OPTIONS_PANEL_TEXT.groups ? OPTIONS_PANEL_TEXT.groups[group as keyof typeof OPTIONS_PANEL_TEXT.groups] : group);
 
 const OptionSection = ({ group, specs }: { group: string; specs: readonly OptionSpec[] }) => (
-  <Box as="section" className="options-panel__section" aria-label={groupLabel(group)}>
-    <Text variant="overline" tone="muted" className="options-panel__heading">
+  <Box as="section" className="tool-options__section" aria-label={groupLabel(group)}>
+    <Text variant="overline" tone="muted" className="tool-options__heading">
       {groupLabel(group)}
     </Text>
     {specs.map((spec) => (

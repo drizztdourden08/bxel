@@ -23,15 +23,15 @@ const ToolHead = ({ slot, editable }: { slot: ToolSlot; editable: boolean }) => 
   const member = shownMember(slot, { variant });
   const matched = matchingPreset(presetsOfTool(allPresets(user), slot.tool), member.id);
   return (
-    <Box as="header" className="options-panel__head">
+    <Box as="header" className="tool-options__head">
       {BRUSH_TOOLS.includes(slot.tool) ? (
         <BrushPreview size={size} shape={tip} />
       ) : (
-        <Box as="span" className="options-panel__tool-icon">
+        <Box as="span" className="tool-options__tool-icon">
           <Icon name={member.icon} />
         </Box>
       )}
-      <Box className="options-panel__title">
+      <Box className="tool-options__title">
         <Text variant="title">{member.label}</Text>
         {editable && (
           <Flex>
@@ -43,7 +43,7 @@ const ToolHead = ({ slot, editable }: { slot: ToolSlot; editable: boolean }) => 
         </Text>
       </Box>
       {editable && (
-        <Box className="options-panel__actions">
+        <Box className="tool-options__actions">
           <Button size="sm" variant="secondary" icon={<Icon name="save" />} onClick={() => void openSaveDraft()}>
             Save as preset
           </Button>
