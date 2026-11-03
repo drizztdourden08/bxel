@@ -110,10 +110,13 @@ const SPLIT_RATIO = { start: 0.5, wide: 0.55, min: 0.25, max: 0.8 } as const;
 
 const WIDE_DOCK = { minWidth: 560, ratio: 2 } as const;
 
+const MARK_ATTR = { key: 'data-mark-key', bit: 'data-mark-bit' } as const;
+
 export {
   CELL_FRAME,
   COLOUR_PATTERN,
   GRID_PADDING,
+  MARK_ATTR,
   PAGE_ROWS,
   SPLIT_RATIO,
   STAMP_BOX,
