@@ -4,6 +4,7 @@ import type { PixelViewportHandle } from '../../PixelViewport';
 import type { CanvasTools } from './canvas-tools.type';
 import { useAxisDrag } from './useAxisDrag';
 import { useBrushResizeGesture } from './useBrushResizeGesture';
+import { useGradientOriginDrag } from './useGradientOriginDrag';
 import { useGuideGrab } from './useGuideGrab';
 import { usePivotDrag } from './usePivotDrag';
 import { usePaintGesture } from './usePaintGesture';
@@ -15,6 +16,7 @@ import { useTransformGesture } from './useTransformGesture';
 
 const useCanvasTools = (viewport: RefObject<PixelViewportHandle | null>): CanvasTools => {
   const paint = usePaintGesture(viewport);
+  const origin = useGradientOriginDrag(viewport);
   const guide = useGuideGrab(viewport);
   const axis = useAxisDrag(viewport);
   const pivot = usePivotDrag(viewport);
@@ -27,13 +29,13 @@ const useCanvasTools = (viewport: RefObject<PixelViewportHandle | null>): Canvas
   return {
     live: paint.live,
     onPointerDown: (event) => {
-      if (!guide.down(event) && !pivot.down(event) && !axis.down(event) && !transform.down(event) && !zoom.down(event) && !slice.down(event) && !mask.down(event) && !resize.down(event) && !select.down(event)) paint.down(event);
+      if (!origin.down(event) && !guide.down(event) && !pivot.down(event) && !axis.down(event) && !transform.down(event) && !zoom.down(event) && !slice.down(event) && !mask.down(event) && !resize.down(event) && !select.down(event)) paint.down(event);
     },
     onPointerMove: (event) => {
-      if (!guide.move(event) && !pivot.move(event) && !axis.move(event) && !transform.move(event) && !zoom.move(event) && !slice.move(event) && !mask.move(event) && !resize.move(event) && !select.move(event)) paint.move(event);
+      if (!origin.move(event) && !guide.move(event) && !pivot.move(event) && !axis.move(event) && !transform.move(event) && !zoom.move(event) && !slice.move(event) && !mask.move(event) && !resize.move(event) && !select.move(event)) paint.move(event);
     },
     onPointerUp: () => {
-      if (!guide.up() && !pivot.up() && !axis.up() && !transform.up() && !zoom.up() && !slice.up() && !mask.up() && !resize.up() && !select.up()) paint.up();
+      if (!origin.up() && !guide.up() && !pivot.up() && !axis.up() && !transform.up() && !zoom.up() && !slice.up() && !mask.up() && !resize.up() && !select.up()) paint.up();
     },
   };
 };

@@ -10,6 +10,7 @@ import { paintAxes } from './paint-axes';
 import { paintCanvasPreview } from './paint-canvas-preview';
 import { paintCursor } from './paint-cursor';
 import { paintFlash } from './paint-flash';
+import { paintGradientOrigin } from './paint-gradient-origin';
 import { paintMarker } from './paint-marker';
 import { paintNeighbours } from './paint-neighbours';
 import { paintReferences } from './paint-references';
@@ -41,6 +42,7 @@ const paintOverlay: PixelDraw = (ctx, view) => {
   paintSlices(ctx, view, look);
   paintZoomRect(ctx, view, look);
   paintBrushResize(ctx, view, look);
+  paintGradientOrigin(ctx, view, look);
   paintMarker(ctx, view, look);
   paintFlash(ctx, look);
 };

@@ -2,6 +2,8 @@
 import type { GradientPattern } from '@bxel/raster';
 import type { GradientMode } from '../../../stores/drawing-store.type';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
+import { clampOrigin } from '../../clamp-origin';
+import { ORIGIN_MAX } from '../../gradient-origin.constants';
 import type { OptionSpec } from '../tool-options.type';
 import { choiceSpec } from './choice-spec';
 import { BAYER_SIZE_CHOICES, DRAWING_TEXT, GRADIENT_KIND_CHOICES, GRADIENT_MODE_CHOICES, GRADIENT_PATTERN_CHOICES } from './drawing-text.constants';
@@ -14,10 +16,6 @@ import { toggleSpec } from './toggle-spec';
 const d = () => useDrawingStore.getState();
 
 const dithering = (): boolean => d().gradientMode === 'dither';
-
-const ORIGIN_MAX = 64;
-
-const clampOrigin = (value: number): number => Math.min(ORIGIN_MAX, Math.max(0, Math.round(value)));
 
 const asSize = (value: string): 2 | 4 | 8 => {
   if (value === '2') return 2;
