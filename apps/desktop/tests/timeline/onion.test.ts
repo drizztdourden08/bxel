@@ -3,13 +3,13 @@ import { findBank } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ONION_DEFAULTS } from '../../src/stores/timeline-store.constants';
 import type { OnionSettings } from '../../src/stores/timeline-store.type';
-import { onionBand } from '../../src/views/TimelinePanel/behavior/onion-band';
 import { addTag } from '../../src/timeline/add-tag';
 import { edgeMask } from '../../src/timeline/edge-mask';
 import { hexRgb } from '../../src/timeline/hex-rgb';
 import { onionPixels } from '../../src/timeline/onion-pixels';
 import { onionPlan } from '../../src/timeline/onion-plan';
 import { playPlan } from '../../src/timeline/play-plan';
+import { onionBand } from '../../src/views/TimelinePanel/behavior/onion-band';
 import { animationOf, frameAt, frameIds, freshAnimation, live, paintFrame, pickRange, withFrames } from './timeline-harness';
 
 beforeEach(() => {
