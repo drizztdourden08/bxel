@@ -7,17 +7,11 @@ const DIGIT_ZOOM: Readonly<Record<string, number>> = { '1': 100, '2': 200, '3': 
 
 const ZOOM_TEXT = {
   region: 'Zoom',
-  field: 'Zoom percent',
-  slider: 'Zoom level',
-  presets: 'Zoom presets',
-  zoomIn: 'Zoom in',
-  zoomOut: 'Zoom out',
   fit: 'Fit',
   actual: '1:1',
   selection: 'Selection',
   noSelection: 'Select something first.',
   announce: (percent: number): string => `Zoom ${percent}%`,
-  preset: (percent: number): string => `${percent}%`,
 } as const;
 
 export { DIGIT_ZOOM, ZOOM_PERCENT, ZOOM_PRESETS, ZOOM_TEXT };

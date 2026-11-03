@@ -2,7 +2,7 @@
 import type { ComponentUsage } from '@drizztdourden08/tessera';
 
 const usage = {
-  job: 'Sets the zoom of the canvas as a typed percent, a slider, presets and the Fit, 1:1 and Selection buttons.',
+  job: 'Sets the zoom of the canvas as a typed percent, step buttons, preset chips and the Fit, 1:1 and Selection buttons.',
   useWhen: [
     'The user wants an exact zoom, or a zoom below 100 percent for a sheet or a map.',
   ],
@@ -11,12 +11,11 @@ const usage = {
   ],
   rules: [
     'It takes no props. It follows the zoom of the canvas and writes it back through the viewport handle.',
-    'The percent runs from 25 to 12800. The field is a Tessera NumberField with step buttons and a ladder, so the buttons, the arrow keys and the wheel walk along the preset stops.',
-    'The slider uses the log scale so each doubling takes the same width.',
+    'The percent runs from 25 to 12800. It is a Tessera ZoomField, so the step buttons, the arrow keys and the wheel walk along the preset stops. Fit, 1:1 and Selection are passed to it as its actions.',
   ],
   a11y: [
-    'The field is named Zoom percent and its buttons are named Zoom out and Zoom in.',
-    'Presets are toggle buttons that report which one is on.',
+    'The field is named Zoom and its buttons are named Zoom out and Zoom in.',
+    'Presets are in a group named Zoom levels and the one that is on is pressed.',
   ],
   tree: {
     path: ['a value the user sets', 'a range'],

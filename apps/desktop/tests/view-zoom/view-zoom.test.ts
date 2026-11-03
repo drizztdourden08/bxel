@@ -14,7 +14,7 @@ describe('K1 the zoom field', { tags: ['critical'] }, () => {
     expect(clampPercent(12.4)).toBe(25);
   });
 
-  it('offers a ladder that doubles from the least to the greatest percent, for the field, the slider and the chips', () => {
+  it('offers a ladder that doubles from the least to the greatest percent, for the Tessera zoom field stops and chips', () => {
     expect(ZOOM_PRESETS[0]).toBe(ZOOM_PERCENT.min);
     expect(ZOOM_PRESETS[ZOOM_PRESETS.length - 1]).toBe(ZOOM_PERCENT.max);
     ZOOM_PRESETS.slice(1).forEach((stop, index) => expect(stop).toBe((ZOOM_PRESETS[index] ?? 0) * 2));

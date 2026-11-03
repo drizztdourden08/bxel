@@ -3,14 +3,6 @@
   min-inline-size: 0;
 }
 
-.zoom-field__number {
-  inline-size: 100%;
-}
-
-.zoom-field__presets {
-  min-inline-size: 0;
-}
-
 .zoom-field__actions {
   flex-wrap: wrap;
 }
