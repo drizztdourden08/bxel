@@ -1,8 +1,9 @@
 /* @layer renderer-app @kind component */
-import { Box, Button, Icon, IconButton } from '@drizztdourden08/tessera';
+import { Box, Button, Icon, IconButton, Tooltip } from '@drizztdourden08/tessera';
 import type { MouseEvent } from 'react';
 import { FILE_NEW_KEY } from '../../../../../panel-browser/project-browser.constants';
 import { PANEL_UI } from '../../../ProjectPanel.constants';
+import { trailParts } from '../behavior/trail-parts';
 import type { RowPartProps } from '../ProjectTree.type';
 import './RowTrail.css';
 
@@ -14,9 +15,16 @@ const RowTrail = (props: RowPartProps) => {
     const box = event.currentTarget.getBoundingClientRect();
     model.rowActions.showMenu(item.key, { x: box.left, y: box.bottom });
   };
-  const grant = item.readOnly && item.role !== 'group';
+  const { grant, unlink } = trailParts(item);
   return (
     <Box className="project-trail">
+      {unlink ? (
+        <Tooltip content={PANEL_UI.folderGone}>
+          <Button variant="ghost" size="xs" onClick={() => model.unlink(item.key)}>
+            {PANEL_UI.unlink}
+          </Button>
+        </Tooltip>
+      ) : null}
       {grant ? (
         <Button variant="secondary" size="xs" onClick={() => model.grantFolder(item.key)}>
           {PANEL_UI.grant}
