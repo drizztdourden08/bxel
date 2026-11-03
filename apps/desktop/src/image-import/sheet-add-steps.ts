@@ -1,9 +1,7 @@
 /* @layer renderer-app @kind logic */
 import { COMMAND_NAME, MAX_TARGET_SPRITES } from '@bxel/document';
 import type { CommandStep } from '@bxel/document';
-import { SPRITE_REF } from './image-import.constants';
-
-const spriteRef = (index: number): string => `${SPRITE_REF}-${index}`;
+import { spriteRef } from './sprite-ref';
 
 const sheetAddSteps = (sheetId: string, count: number): CommandStep[] =>
   Array.from({ length: Math.ceil(count / MAX_TARGET_SPRITES) }, (_unused, chunk) => {
@@ -20,4 +18,4 @@ const sheetAddSteps = (sheetId: string, count: number): CommandStep[] =>
     };
   });
 
-export { sheetAddSteps, spriteRef };
+export { sheetAddSteps };

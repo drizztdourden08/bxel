@@ -24,10 +24,10 @@ describe('S2 marking terrain on tiles by dragging', { tags: ['standard'] }, () =
 
   it('turns one zone on or off and reports no change when it already is', () => {
     const set = newTerrainSet('blob16', []);
-    expect(markEdit(set, 0, 3, NORTH, true).mask).toBe(NORTH);
-    expect(markEdit(set, NORTH, 3, NORTH, false).mask).toBe(0);
-    expect(markEdit(set, NORTH, 3, NORTH, true).changed).toBe(false);
-    expect(markEdit(set, 0, 3, NORTH, false).changed).toBe(false);
+    expect(markEdit({ set, mask: 0, key: 3, bit: NORTH, on: true }).mask).toBe(NORTH);
+    expect(markEdit({ set, mask: NORTH, key: 3, bit: NORTH, on: false }).mask).toBe(0);
+    expect(markEdit({ set, mask: NORTH, key: 3, bit: NORTH, on: true }).changed).toBe(false);
+    expect(markEdit({ set, mask: 0, key: 3, bit: NORTH, on: false }).changed).toBe(false);
   });
 
   it('marks the same zone on several tiles when one value is applied across them', () => {

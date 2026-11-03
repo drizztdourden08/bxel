@@ -35,8 +35,8 @@ describe('H1 an image dropped on the sheet puts its sprites on that sheet', { ta
     const steps = importSteps({ ...run, sheetId: 'sheet-1' }, null);
     expect(steps.map((step) => step.name)).toEqual(['sprite.import', 'sprite.import', COMMAND_NAME.sheetAdd]);
     expect(steps[2]?.options).toEqual({ sheet: 'sheet-1' });
-    const targets = steps[2]?.targets as { sprites: { ref: string }[] };
-    expect(targets.sprites.map((each) => each.ref)).toEqual([steps[0]?.ref, steps[1]?.ref]);
+    const sprites = steps[2]?.targets?.sprites ?? [];
+    expect(sprites.map((each) => (typeof each === 'string' ? each : each.ref))).toEqual([steps[0]?.ref, steps[1]?.ref]);
   });
 
   it('makes only the sprites when no sheet was named or a new file is made', () => {

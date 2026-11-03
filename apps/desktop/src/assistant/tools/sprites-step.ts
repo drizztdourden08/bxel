@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind logic */
 import { useManagerStore } from '../../stores/useManagerStore';
+import { savedSelections } from './sprites-selections';
 import type { ViewStep } from './view-steps.type';
 
 const spritesStep: ViewStep = (patch) => {
@@ -12,7 +13,7 @@ const spritesStep: ViewStep = (patch) => {
   if (sprites.view !== undefined) store.patch({ view: sprites.view });
   if (sprites.size !== undefined) store.patch({ zoom: sprites.size });
   if (sprites.collapsed !== undefined) store.patch({ collapsed: sprites.collapsed });
-  if (sprites.selections !== undefined) store.patch({ selections: [...new Map(sprites.selections.map((each) => [each.name, each])).values()] });
+  if (sprites.selections !== undefined) store.patch({ selections: savedSelections(sprites.selections) });
   return null;
 };
 

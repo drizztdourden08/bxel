@@ -7,4 +7,12 @@ interface MarkEdit {
   changed: boolean;
 }
 
-export type { MarkEdit };
+interface MarkEditInput {
+  set: TerrainSet;
+  mask: number;
+  key: number;
+  bit: number;
+  on: boolean;
+}
+
+export type { MarkEdit, MarkEditInput };

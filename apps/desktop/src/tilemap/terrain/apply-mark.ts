@@ -14,7 +14,7 @@ const applyMark = (key: number, bit: number, on: boolean): void => {
   if (!set || !tileset) return;
   const store = useTilesetViewStore.getState();
   const mask = store.markDrafts[key] ?? maskOfTile(set, key) ?? 0;
-  const edit = markEdit(set, mask, key, bit, on);
+  const edit = markEdit({ set, mask, key, bit, on });
   if (!edit.changed) return;
   const made = edit.set;
   if (!made) {
