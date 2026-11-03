@@ -1,55 +1,34 @@
 /* @layer renderer-app @kind test */
+import { findBank } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { keptCanvas } from '../../src/views/EntryTile/behavior/kept-canvas';
-import type { KeptCanvas } from '../../src/views/EntryTile/behavior/kept-canvas.type';
+import { thumbBox } from '../../src/pixel-thumb/thumb-box';
+import { bankSpriteImage } from '../../src/sheet/bank-sprite-image';
+import { artwork, openFile, spriteOf } from '../sheet/sheet-harness';
 
-type FakeCanvas = { readonly width: number };
-
-const cache = () => {
-  const kept = new Map<string, KeptCanvas<FakeCanvas>>();
-  const made: FakeCanvas[] = [];
-  const ask = (key: string, sprite: object, bank: object | undefined, limit = 600): FakeCanvas =>
-    keptCanvas({
-      kept,
-      key,
-      sprite,
-      bank,
-      limit,
-      make: () => {
-        const canvas = { width: made.length };
-        made.push(canvas);
-        return canvas;
-      },
-    });
-  return { ask, made, kept };
-};
-
-describe('S2 the entry thumbnails are kept by sprite and revision', { tags: ['standard'] }, () => {
-  it('draws a sprite once and gives the same picture while the sprite and bank are the same', () => {
-    const { ask, made } = cache();
-    const hero = {};
-    const bank = {};
-    const first = ask('hero:32', hero, bank);
-    expect(ask('hero:32', hero, bank)).toBe(first);
-    expect(made).toHaveLength(1);
+describe('S2 the entry thumbnails are kept by sprite and bank', { tags: ['standard'] }, () => {
+  it('builds one picture per sprite and bank and gives the same one again', () => {
+    openFile(['hero']);
+    const sprite = spriteOf('hero');
+    const bank = findBank(artwork(), sprite.bankId);
+    const first = bankSpriteImage(bank, sprite);
+    expect(first).not.toBeNull();
+    expect(bankSpriteImage(bank, sprite)).toBe(first);
   });
 
-  it('draws again when the sprite or bank changes or the size does', () => {
-    const { ask, made } = cache();
-    const bank = {};
-    const first = ask('mage:32', {}, bank);
-    expect(ask('mage:32', {}, bank)).not.toBe(first);
-    ask('mage:64', {}, bank);
-    ask('mage:64', {}, undefined);
-    expect(made).toHaveLength(4);
+  it('builds a new picture when the sprite is another object', () => {
+    openFile(['mage']);
+    const sprite = spriteOf('mage');
+    const bank = findBank(artwork(), sprite.bankId);
+    const first = bankSpriteImage(bank, sprite);
+    expect(bankSpriteImage(bank, { ...sprite })).not.toBe(first);
   });
 
-  it('forgets the oldest picture past the limit', () => {
-    const { ask, kept } = cache();
-    const sprite = {};
-    ask('a', sprite, undefined, 2);
-    ask('b', sprite, undefined, 2);
-    ask('c', sprite, undefined, 2);
-    expect([...kept.keys()]).toEqual(['b', 'c']);
+  it('gives no picture without a bank', () => {
+    openFile(['ghost']);
+    expect(bankSpriteImage(undefined, spriteOf('ghost'))).toBeNull();
+  });
+
+  it('snaps a thumbnail size down to the nearest box token', () => {
+    expect([8, 16, 28, 32, 44, 48, 100, 128].map(thumbBox)).toEqual([16, 16, 24, 32, 40, 48, 64, 64]);
   });
 });

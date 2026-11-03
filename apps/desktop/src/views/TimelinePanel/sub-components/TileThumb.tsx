@@ -1,17 +1,12 @@
 /* @layer renderer-app @kind component */
-import { Canvas } from '@drizztdourden08/tessera';
-import { useEffect, useRef } from 'react';
-import { composedImage } from '../../../timeline/composed-image';
+import type { AnimFrameId, Animation, Artwork } from '@bxel/document';
+import { PixelThumbnail } from '@drizztdourden08/tessera';
+import { useMemo } from 'react';
+import { composedFrame } from '../../../timeline/composed-frame';
 
-const TileThumb = ({ artwork, animation, frameId }: { artwork: Parameters<typeof composedImage>[0]; animation: Parameters<typeof composedImage>[1]; frameId: string }) => {
-  const canvas = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    const context = canvas.current?.getContext('2d');
-    const image = composedImage(artwork, animation, frameId as never);
-    context?.clearRect(0, 0, animation.width, animation.height);
-    if (image) context?.putImageData(image, 0, 0);
-  }, [artwork, animation, frameId]);
-  return <Canvas ref={canvas} className="tile-timeline__thumb" width={animation.width} height={animation.height} aria-hidden="true" />;
+const TileThumb = ({ artwork, animation, frameId }: { artwork: Artwork; animation: Animation; frameId: AnimFrameId }) => {
+  const image = useMemo(() => composedFrame(artwork, animation, frameId), [artwork, animation, frameId]);
+  return <PixelThumbnail image={image} box={40} />;
 };
 
 export { TileThumb };

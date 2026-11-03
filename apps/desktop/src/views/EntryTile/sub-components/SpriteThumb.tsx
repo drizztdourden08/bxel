@@ -1,11 +1,12 @@
 /* @layer renderer-app @kind component */
-import { Canvas } from '@drizztdourden08/tessera';
-import { useThumbnail } from '../behavior/useThumbnail';
+import { PixelThumbnail } from '@drizztdourden08/tessera';
+import { findBank } from '@bxel/document';
+import { thumbBox } from '../../../pixel-thumb/thumb-box';
+import { bankSpriteImage } from '../../../sheet/bank-sprite-image';
 import type { SpriteThumbProps } from '../EntryTile.type';
 
-const SpriteThumb = ({ artwork, sprite, box }: SpriteThumbProps) => {
-  const canvas = useThumbnail(artwork, sprite, box);
-  return <Canvas ref={canvas} className="entry-tile__thumb" aria-hidden="true" />;
-};
+const SpriteThumb = ({ artwork, sprite, box }: SpriteThumbProps) => (
+  <PixelThumbnail image={bankSpriteImage(findBank(artwork, sprite.bankId), sprite)} box={thumbBox(box)} lazy />
+);
 
 export { SpriteThumb };

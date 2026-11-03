@@ -89,10 +89,6 @@
   white-space: nowrap;
 }
 
-.sprites-panel__table .entry-tile__thumb {
-  flex: none;
-}
-
 .sprites-panel__virtual {
   flex: 1;
   min-height: var(--size-96);
