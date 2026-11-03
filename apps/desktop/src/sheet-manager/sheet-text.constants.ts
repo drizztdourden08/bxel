@@ -46,6 +46,10 @@ const SHEET_TEXT = {
     tag: (name: string): string => `Tag ${name}`,
     bank: (name: string): string => `Palette ${name}`,
   },
+  lock: {
+    readOnly: 'This file is open read only. You can look and export, but not change the sheet.',
+    assistant: (line: string): string => `The assistant is working on this file (${line}). Edits wait until it is done.`,
+  },
   empty: {
     noSheet: 'Open a sheet to see its sprites.',
     noSheetBody: 'This panel lists the sprites and animations of the sheet in the open tab.',

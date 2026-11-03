@@ -5,6 +5,7 @@ import { useSheetTitle } from './behavior/useSheetTitle';
 import { useSheetView } from './behavior/useSheetView';
 import { ManagerDialogs } from './sub-components/ManagerDialogs';
 import { SheetEmpty } from './sub-components/SheetEmpty';
+import { SheetLockBar } from './sub-components/SheetLockBar';
 import { SpriteBrowser } from './sub-components/SpriteBrowser';
 import './SpritesPanel.css';
 
@@ -15,6 +16,7 @@ const SpritesPanel = () => {
   if (!model?.sheet) return <SheetEmpty />;
   return (
     <Stack gap="xs" className="sprites-panel">
+      <SheetLockBar />
       <SpriteBrowser model={model} />
       <ManagerDialogs model={model} />
     </Stack>
