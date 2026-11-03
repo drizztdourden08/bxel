@@ -3,6 +3,7 @@ import type { RefObject } from 'react';
 import type { EditorTarget } from '../../../editor/editor.type';
 import type { PixelViewportHandle } from '../../PixelViewport';
 import { useAreaRedraw } from './useAreaRedraw';
+import { useGradientOriginRedraw } from './useGradientOriginRedraw';
 import { useGuideRedraw } from './useGuideRedraw';
 import { useLintRedraw } from './useLintRedraw';
 import { useMarchingAnts } from './useMarchingAnts';
@@ -18,6 +19,7 @@ const useCanvasRedraws = (
   useGuideRedraw(viewport, target);
   useLintRedraw(viewport, target);
   useOnionPatternRedraw(viewport);
+  useGradientOriginRedraw(viewport);
   useMarchingAnts(second);
   useAreaRedraw(second);
   useGuideRedraw(second, target);
