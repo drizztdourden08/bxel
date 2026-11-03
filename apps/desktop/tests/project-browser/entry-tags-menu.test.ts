@@ -25,7 +25,7 @@ const childrenOf = (node: MenuNode | undefined): readonly MenuNode[] => (node !=
 
 describe('W10 the Tags entry of the Browse entry menu', { tags: ['standard'] }, () => {
   it('lists the tags in use, sorted and once each', () => {
-    expect(tagsInUse({ tags: { a: ['hero', 'ui'], b: ['hero'] }, collections: [], pins: [], searches: [] } as never)).toEqual(['hero', 'ui']);
+    expect(tagsInUse({ tags: { a: ['hero', 'ui'], b: ['hero'] }, collections: [], smart: [], pinned: [] })).toEqual(['hero', 'ui']);
   });
 
   it('ticks a tag only when every picked file holds it, and adds or removes it on select', () => {
