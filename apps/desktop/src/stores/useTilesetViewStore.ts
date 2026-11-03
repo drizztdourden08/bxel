@@ -11,6 +11,7 @@ const useTilesetViewStore = create<TilesetViewState>()((set) => ({
   setSearch: (search) => set({ search }),
   toggleFilter: (filter) =>
     set((state) => ({ filters: state.filters.includes(filter) ? state.filters.filter((each) => each !== filter) : [...state.filters, filter] })),
+  setFilters: (filters) => set({ filters: [...new Set(filters)] }),
   toggleChoice: (choice) =>
     set((state) => ({
       choices: state.choices.some((each) => sameChoice(each, choice)) ? state.choices.filter((each) => !sameChoice(each, choice)) : [...state.choices, choice],

@@ -70,6 +70,14 @@ describe('S2 set_view state, selection and pages', { tags: ['standard'] }, () =>
     expect(seen.mapOverlays).toMatchObject({ collision: true, animatedTiles: false, highlightLayer: true });
   });
 
+  it('sets the tile filters of the Tileset panel and reads them back', async () => {
+    openDocument();
+    await ok('set_view', { tileset: { filters: ['used', 'collision', 'used'] } });
+    expect((await ok('get_view', {})).tileset).toMatchObject({ filters: ['used', 'collision'] });
+    await ok('set_view', { tileset: { filters: [] } });
+    expect((await ok('get_view', {})).tileset).toMatchObject({ filters: [] });
+  });
+
   it('reports no open window while a hub is closed', async () => {
     openDocument();
     const seen = await ok('get_view', {});
