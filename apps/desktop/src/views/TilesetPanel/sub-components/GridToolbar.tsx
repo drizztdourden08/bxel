@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind component */
 import { Flex, Icon, IconButton, SearchInput, Select, Stack, Tag } from '@drizztdourden08/tessera';
 import { sameChoice } from '../../../stores/same-choice';
+import { useTilemapStore } from '../../../stores/useTilemapStore';
 import { useTilesetViewStore } from '../../../stores/useTilesetViewStore';
 import type { ThumbZoom } from '../../../stores/tileset-view-store.type';
 import { choiceOptions } from '../behavior/choice-options';
@@ -11,6 +12,8 @@ const zoomValue = (zoom: ThumbZoom): string => String(zoom);
 
 const GridToolbar = ({ model }: TilesetModelProps) => {
   const view = useTilesetViewStore();
+  const animate = useTilemapStore((state) => state.animateTiles);
+  const setAnimate = useTilemapStore((state) => state.setAnimateTiles);
   return (
     <Stack gap="xs" role="search" aria-label={TILESET_TEXT.search}>
       <Flex gap="xs" align="center" wrap>
@@ -36,6 +39,9 @@ const GridToolbar = ({ model }: TilesetModelProps) => {
         </IconButton>
         <IconButton label={TILESET_TEXT.uses} size="sm" active={view.showUses} onClick={() => view.setShowUses(!view.showUses)}>
           <Icon name="eye" size={16} />
+        </IconButton>
+        <IconButton label={TILESET_TEXT.animate} size="sm" active={animate} onClick={() => setAnimate(!animate)}>
+          <Icon name="pixel-animation" size={16} />
         </IconButton>
       </Flex>
       <Flex gap="2xs" wrap role="group" aria-label={TILESET_TEXT.filters}>

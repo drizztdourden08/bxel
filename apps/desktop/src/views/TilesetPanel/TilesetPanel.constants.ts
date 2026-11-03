@@ -81,6 +81,7 @@ const TILESET_TEXT = {
   columnsId: 'tileset-columns',
   keys: 'Show keys',
   uses: 'Show use counts',
+  animate: 'Animate thumbnails',
   editing: 'Editing',
   summary: (name: string, width: number, height: number, count: number): string =>
     `${name}: ${count} ${count === 1 ? 'tile' : 'tiles'} of ${width} x ${height} px`,
