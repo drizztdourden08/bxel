@@ -1,12 +1,13 @@
 /* @layer renderer-app @kind logic */
 import type { SwatchArgs } from '../context-menu/menu-args.type';
+import { useSwatchGridStore } from '../stores/useSwatchGridStore';
+import { showSwatchCell } from './show-swatch-cell';
 import { swatchRef } from './swatch-ref';
 
 const revealSwatch = (args: Partial<SwatchArgs>): void => {
   const index = swatchRef(args);
-  const found = index === null ? null : document.querySelector<HTMLElement>(`[data-swatch-index="${index}"]`);
-  found?.scrollIntoView({ block: 'nearest' });
-  found?.focus();
+  if (index === null) return;
+  showSwatchCell(useSwatchGridStore.getState().handle, index, (cell) => cell.focus());
 };
 
 export { revealSwatch };

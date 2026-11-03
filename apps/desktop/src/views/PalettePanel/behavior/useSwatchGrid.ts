@@ -1,7 +1,8 @@
 /* @layer renderer-app @kind hook */
 import type { VirtualGridHandle, VirtualGridMove } from '@drizztdourden08/tessera';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import type { PaletteSlot } from '../../../editor/palette-slots.type';
+import { useSwatchGridStore } from '../../../stores/useSwatchGridStore';
 import { PALETTE_PANEL_TEXT, SWATCH_TILES } from '../PalettePanel.constants';
 import type { PanelModel, SwatchGridModel, SwatchGridProps } from '../PalettePanel.type';
 import { moveInGrid } from './move-in-grid';
@@ -13,7 +14,13 @@ const useSwatchGrid = (panel: PanelModel): SwatchGridModel => {
   const { target, selection, view, lock } = panel;
   const getKey = useCallback((slot: PaletteSlot) => String(target.bank.slots[slot.index]?.id ?? slot.index), [target.bank]);
   const selected = useMemo(() => new Set([...selection.selected].map((index) => String(target.bank.slots[index]?.id ?? index))), [selection.selected, target.bank]);
-  const reveal = useCallback((index: number) => revealNewSwatch(panel, handle, index), [panel]);
+  useEffect(() => {
+    const grid = handle.current;
+    if (!grid) return undefined;
+    useSwatchGridStore.getState().attach(grid);
+    return () => useSwatchGridStore.getState().detach(grid);
+  }, []);
+  const reveal =useCallback((index: number) => revealNewSwatch(panel, handle, index), [panel]);
   const props: SwatchGridProps = {
     label: PALETTE_PANEL_TEXT.grid,
     items: panel.slots,
