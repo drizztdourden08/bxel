@@ -1,6 +1,5 @@
 /* @layer renderer-app @kind test */
 import { describe, expect, it } from 'vitest';
-import { playOrder } from '../../src/asset-preview/play-order';
 import { keepShown } from '../../src/project-browser/keep-shown';
 import { pickAll } from '../../src/project-browser/pick-all';
 import { pickEntry } from '../../src/project-browser/pick-entry';
@@ -29,19 +28,5 @@ describe('K1 selecting files in the browser', { tags: ['critical'] }, () => {
     const kept = keepShown({ ids: ['a', 'z'], anchor: 'z' }, ORDER);
     expect(kept.ids).toEqual(['a']);
     expect(kept.anchor).toBe('a');
-  });
-});
-
-describe('K1 the order an animation plays its frames in', { tags: ['critical'] }, () => {
-  it('plays forward, reverse and ping-pong without repeating the end frames', () => {
-    expect(playOrder(4, 'forward')).toEqual([0, 1, 2, 3]);
-    expect(playOrder(4, 'reverse')).toEqual([3, 2, 1, 0]);
-    expect(playOrder(4, 'pingpong')).toEqual([0, 1, 2, 3, 2, 1]);
-    expect(playOrder(4, 'pingpongReverse')).toEqual([3, 2, 1, 0, 1, 2]);
-  });
-
-  it('has nothing to play with no frames and one frame with one', () => {
-    expect(playOrder(0, 'forward')).toEqual([]);
-    expect(playOrder(1, 'pingpong')).toEqual([0]);
   });
 });

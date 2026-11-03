@@ -1,11 +1,8 @@
 /* @layer renderer-app @kind types */
+import type { PixelThumbnailFrame } from '@drizztdourden08/tessera';
 import type { PaletteBank, Sprite } from '@bxel/document';
-import type { FrameImage } from '../../../sheet/sheet.type';
 
-interface AnimationClip {
-  images: readonly FrameImage[];
-  durations: readonly number[];
-}
+type AnimationClip = readonly PixelThumbnailFrame[];
 
 interface Held {
   sprites: readonly Sprite[];

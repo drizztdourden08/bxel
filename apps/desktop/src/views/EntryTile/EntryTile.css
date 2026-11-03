@@ -39,12 +39,6 @@
   inset-inline-end: calc(var(--size-4) * -1);
 }
 
-.entry-tile__thumb {
-  display: block;
-  image-rendering: pixelated;
-  background: repeating-conic-gradient(var(--c-checker-a) 0% 25%, var(--c-checker-b) 0% 50%) 0 0 / var(--size-8) var(--size-8);
-}
-
 .entry-tile__name {
   display: block;
   min-inline-size: 0;

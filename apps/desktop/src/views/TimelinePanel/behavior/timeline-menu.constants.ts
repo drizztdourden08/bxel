@@ -6,7 +6,6 @@ const TIMELINE_MENU = {
   frame: '[data-frame-id]',
   lane: '[data-tag-lane]',
   ruler: '[data-ruler]',
-  tick: '[data-tick-frame]',
   addTag: 'Add tag on the picked frames',
   onion: 'Onion skin',
   onionSettings: 'Onion settings...',

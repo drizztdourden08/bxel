@@ -1,12 +1,11 @@
 /* @layer renderer-app @kind types */
 import type { AnimFrameId, AnimSpanTag, TagId } from '@bxel/document';
-import type { ReorderDrag, SelectionModel } from '@drizztdourden08/tessera';
+import type { VirtualListCellBind } from '@drizztdourden08/tessera';
 import type { RefObject } from 'react';
 import type { PixelIconName } from '../../icons/pixel-icon.type';
 import type { AnimationFocus, FrameCell, TagBar, TimelineModel } from '../../timeline/timeline.type';
 import type { DurationDraft } from '../../timeline/duration-draft.type';
 import type { TrackLayout } from '../../timeline/track-layout.type';
-import type { TagDrag } from './behavior/useTagDrag.type';
 
 interface TimelineAction {
   id: string;
@@ -74,10 +73,7 @@ interface RulerProps extends LayoutProps {
 interface FrameOptionProps extends DraftProps {
   cell: FrameCell;
   index: number;
-  total: number;
-  drag: ReorderDrag;
-  selection: SelectionModel;
-  mode: 'move' | 'copy' | 'link';
+  bind: VirtualListCellBind;
 }
 
 interface FrameThumbProps extends FocusProps {
@@ -87,9 +83,7 @@ interface FrameThumbProps extends FocusProps {
 
 interface TagBarViewProps extends LayoutProps {
   bar: TagBar;
-  roving: boolean;
   readOnly: boolean;
-  drag: TagDrag;
 }
 
 interface TagEditorProps {
@@ -121,11 +115,6 @@ interface DurationEdgeProps {
   durationMs: number;
   pxPerMs: number;
   onDraft: (draft: DurationDraft | null) => void;
-}
-
-interface OnionHandlesProps extends FocusProps {
-  layout: TrackLayout;
-  current: number;
 }
 
 interface ActionBarProps {
@@ -179,7 +168,6 @@ export type {
   FrameThumbProps,
   LanesProps,
   NumberFieldProps,
-  OnionHandlesProps,
   RulerProps,
   TagBarViewProps,
   TagEditorProps,

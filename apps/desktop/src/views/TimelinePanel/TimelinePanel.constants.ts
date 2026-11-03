@@ -42,7 +42,6 @@ const TIMELINE_PANEL_TEXT = {
   tags: 'Tags',
   ruler: 'Playhead',
   rulerValue: (number: number, total: number): string => `Frame ${number} of ${total}`,
-  clearLoop: 'Clear the loop range',
   loopRange: (from: number, to: number): string => `Loop range, frames ${from} to ${to}`,
   onionBefore: (count: number): string => `Onion frames before, ${count}`,
   onionAfter: (count: number): string => `Onion frames after, ${count}`,

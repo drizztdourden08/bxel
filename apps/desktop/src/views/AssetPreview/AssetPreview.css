@@ -6,55 +6,8 @@
   min-inline-size: 0;
 }
 
-.asset-preview__stage {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: 100%;
-  block-size: var(--size-256);
-  overflow: hidden;
-  border: var(--border-width-thin) solid var(--c-border);
-  border-radius: var(--radius-md);
-}
-
-.asset-preview--compact .asset-preview__stage {
-  block-size: var(--size-160);
-}
-
-.asset-preview__frame {
-  position: relative;
-  display: flex;
-}
-
-.asset-preview__cell {
-  position: absolute;
-  pointer-events: none;
-  outline: var(--border-width-thin) solid var(--c-primary);
-  outline-offset: calc(-1 * var(--border-width-thin));
-}
-
-.asset-preview__canvas {
-  display: block;
-  image-rendering: pixelated;
-}
-
-.asset-preview__zoom {
-  position: absolute;
-  inset-block-end: var(--space-xs);
-  inset-inline-end: var(--space-xs);
-}
-
-.asset-preview__bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
-.asset-preview__counter {
-  flex: none;
-  white-space: nowrap;
+.asset-preview--compact .asset-preview__player {
+  --pixel-player-stage: var(--size-160);
 }
 
 .asset-preview__swatches {

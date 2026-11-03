@@ -1,16 +1,15 @@
 /* @layer renderer-app @kind logic */
 import type { ContextMenuContext } from '@drizztdourden08/brock-react';
 import { menuTarget } from '../../../context-menu/menu-target';
+import { currentFocus } from '../../../timeline/current-focus';
 import { TIMELINE_MENU } from './timeline-menu.constants';
 
 const rulerFrame = (context: Pick<ContextMenuContext, 'target' | 'point'>): string | undefined => {
   const ruler = menuTarget(context, TIMELINE_MENU.ruler);
-  const ticks = ruler ? Array.from(ruler.querySelectorAll<HTMLElement>(TIMELINE_MENU.tick)) : [];
-  const under = ticks.find((tick) => {
-    const box = tick.getBoundingClientRect();
-    return context.point.x >= box.left && context.point.x < box.right;
-  });
-  return under?.dataset.tickFrame;
+  if (!ruler) return undefined;
+  const x = context.point.x - ruler.getBoundingClientRect().left;
+  const index = (ruler.dataset.lefts ?? '').split(',').reduce((found, left, at) => (Number(left) <= x ? at : found), 0);
+  return currentFocus()?.animation.frames[index]?.id;
 };
 
 export { rulerFrame };

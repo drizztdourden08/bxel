@@ -1,15 +1,17 @@
 /* @layer renderer-app @kind component */
-import { useState } from 'react';
-import { tagFrames } from '../../../asset-overview/tag-frames';
+import { PixelPlayer } from '@drizztdourden08/tessera';
+import { useMemo, useState } from 'react';
+import { playerFrames } from '../../../asset-preview/player-frames';
+import { playerTags, tagLoop } from '../../../asset-preview/player-tags';
 import type { FramesPreviewProps } from '../AssetPreview.type';
-import { FramesPlayer } from './FramesPlayer';
 
-const FramesPreview = ({ frames, name, loop, mode, tags }: FramesPreviewProps) => {
+const FramesPreview = ({ frames, name, loop, tags }: FramesPreviewProps) => {
   const [tagId, setTagId] = useState<string | null>(null);
+  const shown = useMemo(() => playerFrames(frames), [frames]);
+  const ranges = useMemo(() => playerTags(tags), [tags]);
   const active = tags.find((tag) => tag.id === tagId);
-  const shown = tagFrames(frames, active);
-  const shownLoop = active ? { direction: active.direction, repeat: active.repeat } : loop;
-  return <FramesPlayer key={active?.id ?? ''} frames={shown} name={name} loop={shownLoop} mode={mode} tags={tags} tagId={active?.id ?? null} onTag={setTagId} />;
+  const playing = active ? tagLoop(active) : loop;
+  return <PixelPlayer className="asset-preview__player" label={name} frames={shown} loop={playing} tags={ranges} tagId={active?.id ?? null} onTagChange={setTagId} />;
 };
 
 export { FramesPreview };
