@@ -82,10 +82,6 @@
   color: var(--c-warning-bright);
 }
 
-.layer-row__toggles .layer-row__toggle[data-mixed='yes'] {
-  opacity: var(--opacity-muted);
-}
-
 .layer-row__toggles .layer-row__toggle[data-kind='transparency']::after {
   content: '';
   position: absolute;

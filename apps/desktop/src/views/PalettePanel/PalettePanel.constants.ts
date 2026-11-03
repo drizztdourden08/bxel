@@ -5,7 +5,7 @@ import type { ColorMode } from '@drizztdourden08/tessera/color-picker';
 import { COMMAND_ID } from '../../keymap/keymap.constants';
 import type { PaletteViewKind } from '../../palette-view/palette-view.type';
 import type { HintSpec } from '../ActionHint';
-import type { HeldChipDef, ListColumn } from './PalettePanel.type';
+import type { HeldChipDef, ListColumn, TileSizes } from './PalettePanel.type';
 
 const PALETTE_PANEL_TEXT = {
   empty: 'No palette is open.',
@@ -163,9 +163,9 @@ const chipHint = (chip: HeldChipDef): HintSpec => ({
 
 const DIGIT_SLOTS: Readonly<Record<string, number>> = { '1': 0, '2': 1, '3': 2, '4': 3, Enter: 0 };
 
-const PAGE_ROWS = 4;
-
 const MARKLESS_SWATCH_SIZE = 16;
+
+const SWATCH_TILES: TileSizes = { 16: 'size-16', 24: 'size-24', 32: 'size-32' };
 
 const MARK_CORNERS: Readonly<Partial<Record<number, SwatchCorner>>> = { 1: 'top-start', 2: 'bottom-start', 3: 'top-end', 4: 'bottom-end' };
 
@@ -189,5 +189,5 @@ const EDITOR_TEXT = {
 const EDITOR_MODES: readonly ColorMode[] = ['hsv', 'oklch', 'rgb'];
 
 export {
-  chipHint, MARK_CORNERS, MARKLESS_SWATCH_SIZE, CONFIG_HINT, EDITOR_MODES, EDITOR_TEXT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OVERFLOW_TEXT, PAGE_ROWS, PALETTE_MENU, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, VIEW_OPTIONS,
+  chipHint, MARK_CORNERS, MARKLESS_SWATCH_SIZE, CONFIG_HINT, EDITOR_MODES, EDITOR_TEXT, DIGIT_SLOTS, HELD_CHIPS, LIST_COLUMNS, OVERFLOW_TEXT, PALETTE_MENU, PALETTE_MENU_ZONE, PALETTE_PANEL_TEXT, RAMP_DRAG_TYPE, RAMP_ROW_TEXT, SORT_KEYS, STRIP_LENGTH, SWATCH_SELECTOR, SWATCH_TILES, VIEW_OPTIONS,
 };

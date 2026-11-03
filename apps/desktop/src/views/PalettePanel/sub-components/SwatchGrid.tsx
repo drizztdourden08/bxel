@@ -1,35 +1,26 @@
 /* @layer renderer-app @kind component */
-import { Box, ScrollArea } from '@drizztdourden08/tessera';
-import { useRef } from 'react';
-import type { WheelEvent } from 'react';
-import { useGridControl } from '../behavior/useGridControl';
-import { wheelSize } from '../behavior/wheel-size';
-import { PALETTE_PANEL_TEXT } from '../PalettePanel.constants';
+import { Box, VirtualGrid } from '@drizztdourden08/tessera';
+import type { VirtualGridCellBind } from '@drizztdourden08/tessera';
+import type { PaletteSlot } from '../../../editor/palette-slots.type';
+import { useSwatchGrid } from '../behavior/useSwatchGrid';
 import type { PanelProps } from '../PalettePanel.type';
 import { AddTile } from './AddTile';
 import { GridCell } from './GridCell';
 import { SwatchReadout } from './SwatchReadout';
 
 const SwatchGrid = ({ panel }: PanelProps) => {
-  const listRef = useRef<HTMLElement>(null);
-  const control = useGridControl(panel, listRef);
-  const onWheel = (event: WheelEvent<HTMLElement>) => {
-    if (!event.ctrlKey) return;
-    const size = wheelSize(panel.view.size, event.deltaY);
-    if (size !== panel.view.size) panel.view.change({ size });
-  };
+  const grid = useSwatchGrid(panel);
   return (
     <>
-      <ScrollArea axis="y" scrollbar="slim" fade={false} className="palette-panel__swatches">
-        <Box className={`swatch-grid swatch-grid--size-${panel.view.size}`} onWheel={onWheel}>
-          <Box ref={listRef} role="listbox" aria-label={PALETTE_PANEL_TEXT.grid} aria-multiselectable="true" className="swatch-grid__list">
-            {panel.slots.map((slot) => (
-              <GridCell key={panel.target.bank.slots[slot.index]?.id ?? slot.index} slot={slot} panel={panel} control={control} />
-            ))}
-          </Box>
-          <AddTile panel={panel} />
-        </Box>
-      </ScrollArea>
+      <Box className="palette-panel__swatches">
+        <VirtualGrid
+          {...grid.props}
+          ref={grid.handle}
+          className="palette-panel__grid"
+          trailing={(cell: VirtualGridCellBind) => <AddTile panel={panel} cell={cell} reveal={grid.reveal} />}
+          renderTile={(slot: PaletteSlot, _index: number, cell: VirtualGridCellBind) => <GridCell slot={slot} panel={panel} cell={cell} />}
+        />
+      </Box>
       <SwatchReadout panel={panel} />
     </>
   );

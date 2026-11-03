@@ -1,5 +1,6 @@
 /* @layer renderer-app @kind component */
 import { Box, Flex, SegmentedControl, Text } from '@drizztdourden08/tessera';
+import { stripMixed } from '../behavior/strip-mixed';
 import type { LockKind } from '../../../editor/layer-lock.type';
 import { LAYER_LOCK_ICONS, LAYER_LOCK_TEXT, LAYER_SCOPES, LAYER_STACK_TEXT, LAYER_TILE_SCOPES } from '../LayerStack.constants';
 import type { LayerStripProps } from '../LayerStack.type';
@@ -11,6 +12,7 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
   const lead = model.rows.find((row) => row.id === model.activeId && picked.includes(row.id)) ?? model.rows.find((row) => row.id === picked[0]);
   if (!lead || picked.length === 0) return null;
   const { actions } = model;
+  const mixed = stripMixed(model.rows.filter((row) => picked.includes(row.id)));
   return (
     <Box className="layer-strip" data-layer-strip role="group" aria-label={picked.length > 1 ? LAYER_STACK_TEXT.picked(picked.length) : LAYER_STACK_TEXT.stripOf(lead.name)}>
       <Flex align="center" justify="between" gap="xs" wrap>
@@ -18,6 +20,7 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
           aria-label={LAYER_STACK_TEXT.lockKinds}
           size="sm"
           value={lead.lock}
+          mixed={mixed.lock}
           options={model.locks.map((kind) => ({
             value: kind,
             icon: LAYER_LOCK_ICONS[kind],
@@ -26,7 +29,7 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
           }))}
           onChange={(kind) => actions.setLock(picked, kind)}
         />
-        <Text as="span" variant="caption" tone="muted" className="layer-strip__lock-name">{LAYER_LOCK_TEXT[lead.lock].name}</Text>
+        <Text as="span" variant="caption" tone="muted" className="layer-strip__lock-name">{mixed.lock ? LAYER_STACK_TEXT.mixed : LAYER_LOCK_TEXT[lead.lock].name}</Text>
         {(model.frames > 0 || model.tileScope === true) && (
           <SegmentedControl
             aria-label={LAYER_STACK_TEXT.scope}
@@ -38,7 +41,7 @@ const LayerStrip = ({ model, picked, scope, onScope }: LayerStripProps) => {
         )}
         <LayerColours value={lead.colour} label={LAYER_STACK_TEXT.tagColours} onPick={(colour) => actions.setColour(picked, colour)} />
       </Flex>
-      {model.kind !== 'sheet' && <LayerViewControls model={model} picked={picked} lead={lead} />}
+      {model.kind !== 'sheet' && <LayerViewControls model={model} picked={picked} lead={lead} mixed={mixed} />}
     </Box>
   );
 };

@@ -175,10 +175,18 @@ interface LayerToggleProps {
   sweep: LayerSweepView;
 }
 
+interface StripMixed {
+  lock: boolean;
+  opacity: boolean;
+  clip: boolean;
+  exported: boolean;
+}
+
 interface LayerViewControlsProps {
   model: LayerStackModel;
   picked: readonly string[];
   lead: LayerRowModel;
+  mixed: StripMixed;
 }
 
 interface LayerNameProps {
@@ -190,5 +198,5 @@ interface LayerNameProps {
 export type {
   LayerBarAction, LayerBarProps, LayerColoursProps, LayerFilterProps, LayerFilterState, LayerViewControlsProps, LayerHeaderProps, LayerListProps,
   LayerNameProps, LayerNoMatchProps, LayerRowKind, LayerRowModel, LayerRowTree, LayerSourceProps, LayerStackModel, LayerStackViewProps, LayerStripProps,
-  LayerSweepView, LayerThumbProps, LayerThumbSource, LayerToggleProps, LayerTrailProps, MapChoice,
+  LayerSweepView, StripMixed, LayerThumbProps, LayerThumbSource, LayerToggleProps, LayerTrailProps, MapChoice,
 };

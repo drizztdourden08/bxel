@@ -15,13 +15,13 @@ const LayerToggle = ({ row, flag, sweep }: LayerToggleProps) => {
         variant="ghost"
         size="sm"
         label={LAYER_FLAG_HINTS[flag].name}
-        aria-pressed={mixed ? 'mixed' : on}
+        active={on}
+        mixed={mixed}
         tabIndex={-1}
         className="layer-row__toggle"
         data-flag={flag}
         data-on={on ? 'yes' : 'no'}
         data-kind={flag === 'locked' ? row.lock : undefined}
-        data-mixed={mixed ? 'yes' : undefined}
         {...sweep.handlers(row, flag)}
       >
         <Icon name={on ? icons.on : icons.off} size={16} />

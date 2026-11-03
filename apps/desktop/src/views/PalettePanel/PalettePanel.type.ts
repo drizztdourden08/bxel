@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
 import type { Artwork, Ramp, RampId } from '@bxel/document';
-import type { MouseButton, ReorderDrag, ShortcutKey } from '@drizztdourden08/tessera';
-import type { DragEvent, HTMLAttributes, KeyboardEvent, RefObject } from 'react';
+import type { MouseButton, ReorderDrag, ShortcutKey, VirtualGridCellBind, VirtualGridHandle, VirtualGridProps, VirtualSize } from '@drizztdourden08/tessera';
+import type { DragEvent, KeyboardEvent, RefObject } from 'react';
 import type { PaletteTarget } from '../../editor/editor.type';
 import type { PaletteSlot } from '../../editor/palette-slots.type';
 import type { ColourSlot } from '../../editor/press-plan.type';
@@ -44,6 +44,7 @@ interface SelectionModel {
   focus: number;
   setFocus: (index: number) => void;
   pick: (index: number, mode: PickMode) => void;
+  replace: (keys: readonly string[]) => void;
   all: () => void;
   clear: () => void;
 }
@@ -106,7 +107,13 @@ interface HeldChipProps {
 interface GridCellProps {
   slot: PaletteSlot;
   panel: PanelModel;
-  control: GridControl;
+  cell: VirtualGridCellBind;
+}
+
+interface AddTileProps {
+  panel: PanelModel;
+  cell: VirtualGridCellBind;
+  reveal: (index: number) => void;
 }
 
 type ListColumn = 'index' | 'name' | 'hex' | 'alpha' | 'use' | 'ramp';
@@ -154,14 +161,6 @@ interface RampSwatchProps {
   from: RampId | null;
 }
 
-interface CellLook {
-  selected: boolean;
-  hinted: boolean;
-  unused: boolean;
-  dragging: boolean;
-  drop: 'before' | 'after' | undefined;
-}
-
 interface ListRowProps {
   slot: PaletteSlot;
   panel: PanelModel;
@@ -172,19 +171,17 @@ interface ListRowProps {
 interface GridKeyContext {
   panel: PanelModel;
   index: number;
-  total: number;
-  columns: number;
-  move: (from: number, to: number) => void;
-  focus: (index: number, extend: boolean) => void;
 }
 
-type PointerHandlers = Partial<Pick<HTMLAttributes<HTMLElement>, 'onPointerDown' | 'onPointerMove' | 'onPointerUp' | 'onPointerCancel'>>;
+type SwatchGridProps = Pick<VirtualGridProps<PaletteSlot>, 'label' | 'getKey' | 'density' | 'tileSize' | 'selection' | 'reorder' | 'onWheelSize' | 'onActiveChange'> & { items: readonly PaletteSlot[] };
 
-interface GridControl {
-  drag: ReorderDrag;
-  pointer: (index: number) => PointerHandlers;
-  keyDown: (index: number) => (event: KeyboardEvent<HTMLElement>) => void;
+interface SwatchGridModel {
+  handle: RefObject<VirtualGridHandle | null>;
+  props: SwatchGridProps;
+  reveal: (index: number) => void;
 }
+
+type TileSizes = Readonly<Record<PaletteViewState['size'], VirtualSize>>;
 
 type GridKeyAction = (context: GridKeyContext, event: KeyboardEvent<HTMLElement>) => void;
 
@@ -193,6 +190,6 @@ interface SwatchEditorProps {
 }
 
 export type {
-  CellLook, DraftFields, EditSwatch, GridCellProps, GridControl, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, PanelModel, PanelProps,
-  PaletteDrop, PaletteViewModel, PickMode, RampDrag, RampGripProps, RampReorder, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps,
+  AddTileProps, DraftFields, EditSwatch, GridCellProps, GridKeyAction, GridKeyContext, HeldChipDef, HeldChipProps, HeldColours, ListColumn, ListHeadProps, ListRowProps, ListSort, PanelModel, PanelProps,
+  PaletteDrop, PaletteViewModel, PickMode, RampDrag, RampGripProps, RampReorder, RampRowProps, RampSwatchProps, SelectionModel, SwatchDraft, SwatchEditModel, SwatchEditorProps, SwatchGridModel, SwatchGridProps, TileSizes,
 };

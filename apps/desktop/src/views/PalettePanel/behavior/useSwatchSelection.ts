@@ -30,9 +30,17 @@ const useSwatchSelection = (bank: PaletteBank): SelectionModel => {
     usePaletteSelectionStore.getState().select({ bankId: bank.id, selected: every, anchor: every[0] ?? null });
   }, [bank]);
 
+  const replace = useCallback(
+    (keys: readonly string[]) => {
+      const kept = store.anchor !== null && keys.includes(store.anchor) ? store.anchor : (keys[0] ?? null);
+      usePaletteSelectionStore.getState().select({ bankId: bank.id, selected: [...keys], anchor: kept });
+    },
+    [bank.id, store.anchor],
+  );
+
   const clear = useCallback(() => usePaletteSelectionStore.getState().clear(), []);
 
-  return { selected, focus: Math.min(focus, Math.max(0, bank.slots.length - 1)), setFocus, pick, all, clear };
+  return { selected, focus: Math.min(focus, Math.max(0, bank.slots.length - 1)), setFocus, pick, replace, all, clear };
 };
 
 export { useSwatchSelection };

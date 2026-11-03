@@ -5,14 +5,12 @@ import { ActionHint } from '../../ActionHint';
 import { LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerViewControlsProps } from '../LayerStack.type';
 
-const LayerViewControls = ({ model, picked, lead }: LayerViewControlsProps) => {
+const LayerViewControls = ({ model, picked, lead, mixed }: LayerViewControlsProps) => {
   const [draft, setDraft] = useState<number | null>(null);
   const { actions } = model;
-  const chosen = model.rows.filter((row) => picked.includes(row.id));
-  const mixed = chosen.some((row) => row.viewOpacity !== lead.viewOpacity);
   const sprite = model.kind === 'sprite';
   const commit = (): void => {
-    if (draft !== null && (draft !== lead.viewOpacity || mixed)) actions.setView(picked, { viewOpacity: draft });
+    if (draft !== null && (draft !== lead.viewOpacity || mixed.opacity)) actions.setView(picked, { viewOpacity: draft });
     setDraft(null);
   };
   return (
@@ -25,7 +23,7 @@ const LayerViewControls = ({ model, picked, lead }: LayerViewControlsProps) => {
           max={100}
           step={1}
           input
-          mixed={mixed && draft === null}
+          mixed={mixed.opacity && draft === null}
           value={draft ?? lead.viewOpacity}
           formatValue={LAYER_STACK_TEXT.opacityValue}
           onChange={setDraft}
@@ -33,12 +31,12 @@ const LayerViewControls = ({ model, picked, lead }: LayerViewControlsProps) => {
       </Box>
       {sprite && lead.kind === 'pixel' && (
         <ActionHint hint={{ name: LAYER_STACK_TEXT.clipLabel, description: LAYER_STACK_TEXT.clipHint }}>
-          <Toggle size="sm" label={LAYER_STACK_TEXT.clipLabel} checked={lead.clip} onChange={(clip) => actions.setView(picked, { clip })} />
+          <Toggle size="sm" label={LAYER_STACK_TEXT.clipLabel} checked={lead.clip} mixed={mixed.clip} onChange={(clip) => actions.setView(picked, { clip })} />
         </ActionHint>
       )}
       {sprite && lead.kind !== 'reference' && (
         <ActionHint hint={{ name: LAYER_STACK_TEXT.exportLabel, description: LAYER_STACK_TEXT.exportHint }}>
-          <Toggle size="sm" label={LAYER_STACK_TEXT.exportLabel} checked={lead.exported} onChange={(exported) => actions.setView(picked, { exported })} />
+          <Toggle size="sm" label={LAYER_STACK_TEXT.exportLabel} checked={lead.exported} mixed={mixed.exported} onChange={(exported) => actions.setView(picked, { exported })} />
         </ActionHint>
       )}
       {sprite && lead.kind === 'reference' && lead.missing && (
