@@ -34,8 +34,12 @@ describe('W10 the Tags entry of the Browse entry menu', { tags: ['standard'] }, 
     const hero = fileEntry('hero', ['boss', 'ui']);
     const coin = fileEntry('coin', ['ui']);
     const actions = {
-      tag: (entries: readonly FileEntry[], typed: string): void => tag(entries, typed),
-      untag: (entries: readonly FileEntry[], name: string): void => untag(entries, name),
+      tag: (entries: readonly FileEntry[], typed: string): void => {
+        tag(entries, typed);
+      },
+      untag: (entries: readonly FileEntry[], name: string): void => {
+        untag(entries, name);
+      },
     } as BrowserActions;
     const groups = entryMenuGroups({ entry: hero, picked: [hero, coin], actions, editable: true, collections: [], tags: ['boss', 'ui'] });
     const [boss, ui] = childrenOf(tagsNode(groups)) as readonly { checked: boolean; onSelect: () => void }[];

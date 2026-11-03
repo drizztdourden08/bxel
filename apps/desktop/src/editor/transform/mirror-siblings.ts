@@ -21,7 +21,7 @@ const mirrorSiblings = (target: EditorTarget, pending: PendingEdit): PendingEdit
   let busy: MaskView = combineMasks(mask, pendingLanding(target, pending) ?? mask, 'add');
   const siblings: PendingEdit[] = [];
   for (const map of maps) {
-    const next = siblingEdit(target, pending, mask, box, map);
+    const next = siblingEdit(target, pending, { mask, box, map });
     if (!next || touches(busy, next.moved) || touches(busy, next.landing)) continue;
     busy = combineMasks(combineMasks(busy, next.moved, 'add'), next.landing, 'add');
     siblings.push(next.edit);
