@@ -73,14 +73,14 @@ const angleOption = (tool: BrushTool, priority: number): OptionSpec => ({
   appliesWhen: () => tools().brushShape === 'line',
 });
 
-const pixelPerfectOption = (tool: BrushTool, priority: number): OptionSpec => ({
+const pixelPerfectOption = (tool: BrushTool, priority: number, tier: 1 | 2 = 1): OptionSpec => ({
   ...brushBase(tool),
   id: `${tool}.pixel_perfect`,
   name: 'pixel_perfect',
   kind: 'toggle',
   label: OPTION_TEXT.pixelPerfect,
   description: OPTION_TEXT.pixelPerfectDescription,
-  tier: 1,
+  tier,
   priority,
   group: 'brush',
   default: false,
@@ -106,6 +106,7 @@ const BRUSH_OPTIONS: readonly OptionSpec[] = [
   sizeOption('shade', 10),
   tipOption('shade', 20),
   angleOption('shade', 21),
+  pixelPerfectOption('shade', 30, 2),
   sizeOption('line', 30),
   tipOption('line', 40),
   angleOption('line', 41),

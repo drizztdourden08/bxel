@@ -16,6 +16,7 @@ const gradientRequest = (target: EditorTarget, session: GradientSession): Transa
       reflect: spec.reflect,
       mode: spec.bayer === null ? 'bands' : 'dither',
       ...(spec.bayer === null ? {} : { dither: spec.bayer, pattern: spec.pattern, ...(spec.brushId === undefined ? {} : { brushId: spec.brushId }) }),
+      ...(spec.origin.x === 0 && spec.origin.y === 0 ? {} : { origin: spec.origin }),
       wrap: spec.wrap,
       ...(session.mask ? { mask: session.mask } : {}),
     },

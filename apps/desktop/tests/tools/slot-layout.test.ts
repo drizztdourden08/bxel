@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind test */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { arrangeSlots } from '../../src/editor/tool-catalogue/arrange-slots';
+import { moveMember } from '../../src/editor/tool-catalogue/move-member';
 import { moveSlot } from '../../src/editor/tool-catalogue/move-slot';
 import { slotsOf } from '../../src/editor/tool-catalogue/slots-of';
 import { stepSlot } from '../../src/editor/tool-catalogue/step-slot';
@@ -90,5 +91,64 @@ describe('K3 saved slot layout', { tags: ['critical'] }, () => {
   it('keeps a saved layout through parsePrefs and drops bad entries', () => {
     const parsed = parsePrefs({ layouts: { sprite: [{ id: 'a', group: 'draw' }, { id: 'b', group: 'nope' }, 4], bogus: [] } });
     expect(parsed.layouts).toEqual({ sprite: [{ id: 'a', group: 'draw' }] });
+  });
+
+  it('keeps the member list of a slot through parsePrefs', () => {
+    const parsed = parsePrefs({ layouts: { sprite: [{ id: 'a', group: 'draw', members: ['x', 4, 'y'] }, { id: 'b', group: 'draw', members: [] }] } });
+    expect(parsed.layouts).toEqual({ sprite: [{ id: 'a', group: 'draw', members: ['x', 'y'] }, { id: 'b', group: 'draw' }] });
+  });
+});
+
+const crowded = () => {
+  const slots = slotsOf('sprite');
+  const from = slots.find((slot) => slot.members.length > 1);
+  const to = slots.find((slot) => slot !== from);
+  const member = from?.members[from.members.length - 1];
+  if (!from || !to || !member) throw new Error('need a slot with two members and another slot');
+  return { slots, from, to, member };
+};
+
+describe('K3 moving a member between slots', { tags: ['critical'] }, () => {
+  beforeEach(() => {
+    useToolPrefsStore.getState().resetLayout();
+  });
+
+  it('joins the member to another slot and takes it from its old one', () => {
+    const { slots, from, to, member } = crowded();
+    useToolPrefsStore.getState().placeSlots('sprite', moveMember(slots, { member: member.id, to: to.id }));
+    const after = slotsOf('sprite');
+    expect(after.find((slot) => slot.id === to.id)?.members.map((each) => each.id)).toEqual([...to.members.map((each) => each.id), member.id]);
+    expect(after.find((slot) => slot.id === from.id)?.members.some((each) => each.id === member.id)).toBe(false);
+  });
+
+  it('gives the member a slot of its own right after the old slot', () => {
+    const { slots, from, member } = crowded();
+    useToolPrefsStore.getState().placeSlots('sprite', moveMember(slots, { member: member.id, to: null }));
+    const after = slotsOf('sprite');
+    const alone = after.find((slot) => slot.members.length === 1 && slot.members[0]?.id === member.id);
+    expect(alone).toBeDefined();
+    expect(alone?.group).toBe(from.group);
+    expect(after.findIndex((slot) => slot.id === alone?.id)).toBe(after.findIndex((slot) => slot.id === from.id) + 1);
+    expect(after).toHaveLength(slots.length + 1);
+  });
+
+  it('drops a slot that lost its last member and saves nothing once the member is back', () => {
+    const slots = slotsOf('sprite');
+    const lonely = slots.find((slot) => slot.members.length === 1 && slot.members[0]?.id === slot.id);
+    const target = slots.find((slot) => slot.id !== lonely?.id && slot.group === lonely?.group);
+    if (!lonely || !target) throw new Error('need a one member slot and a neighbour');
+    useToolPrefsStore.getState().placeSlots('sprite', moveMember(slots, { member: lonely.id, to: target.id }));
+    expect(slotsOf('sprite').some((slot) => slot.id === lonely.id)).toBe(false);
+    const back = moveMember(slotsOf('sprite'), { member: lonely.id, to: null });
+    useToolPrefsStore.getState().placeSlots('sprite', back);
+    expect(slotsOf('sprite').map((slot) => slot.id).sort()).toEqual(slots.map((slot) => slot.id).sort());
+    expect(slotsOf('sprite').find((slot) => slot.id === lonely.id)?.members).toHaveLength(1);
+    expect(back.find((place) => place.id === target.id)?.members).toBeUndefined();
+  });
+
+  it('ignores a move to the slot that already holds the member and an unknown member', () => {
+    const { slots, from, member } = crowded();
+    expect(moveMember(slots, { member: member.id, to: from.id }).every((place) => place.members === undefined)).toBe(true);
+    expect(moveMember(slots, { member: 'nope', to: null }).map((place) => place.id)).toEqual(slots.map((slot) => slot.id));
   });
 });

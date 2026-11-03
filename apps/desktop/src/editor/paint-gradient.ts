@@ -16,7 +16,7 @@ const paintGradient = (session: GradientSession): void => {
       colors: spec.colors,
       line: spec.line,
       bayer: spec.bayer,
-      origin: { x: 0, y: 0 },
+      origin: spec.origin,
       kind: spec.kind,
       reflect: spec.reflect,
       pattern: spec.pattern,

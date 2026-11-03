@@ -24,6 +24,7 @@ const gradientSpec = ({ tools, drawing, target, slot, at }: GradientInput): Grad
     line: { from: at, to: at },
     kind: drawing.gradientKind,
     reflect: drawing.gradientReflect,
+    origin: { x: drawing.gradientOriginX, y: drawing.gradientOriginY },
     bayer: drawing.gradientMode === 'dither' ? drawing.gradientSize : null,
     pattern: drawing.gradientPattern,
     ...stencilOf(drawing),

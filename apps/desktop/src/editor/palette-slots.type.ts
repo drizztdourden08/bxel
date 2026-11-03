@@ -6,6 +6,7 @@ interface PaletteSlot {
   transparent: boolean;
   alpha: number;
   label: string;
+  ramp?: string;
 }
 
 export type { PaletteSlot };

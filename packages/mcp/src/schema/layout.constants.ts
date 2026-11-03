@@ -25,6 +25,12 @@ const TOOL_LAYOUT_OPS = [
   z.strictObject({ op: z.literal('toolbarItems'), toolbar, hidden: z.array(z.string().min(1).max(64)).max(64).describe('Item ids to hide in the toolbar. An empty list shows them all.') }),
   z.strictObject({ op: z.literal('hideTool'), member: memberId }),
   z.strictObject({ op: z.literal('showTool'), member: memberId }),
+  z.strictObject({
+    op: z.literal('moveTool'),
+    member: memberId,
+    slot: z.string().min(1).max(64).optional().describe('A slot id from list_tools to join. Without it the member gets a slot of its own.'),
+    surface: z.enum(['sprite', 'tile', 'map', 'sheet']).optional().describe('The surface whose rail changes. Without it the surface that is open.'),
+  }),
   z.strictObject({ op: z.literal('resetTools'), surface: z.enum(['sprite', 'tile', 'map', 'sheet']).optional().describe('One surface. Without it every surface is reset.') }),
 ] as const;
 

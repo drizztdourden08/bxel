@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { placeOf } from './place-of';
 import type { SlotMove, SurfaceLayout } from './slot-layout.type';
 import { SLOT_GROUPS } from './tool-catalogue.constants';
 import type { ToolSlot } from './tool-catalogue.type';
@@ -12,13 +13,13 @@ const endOfGroup = (places: SurfaceLayout, group: string): number => {
 };
 
 const moveSlot = (slots: readonly ToolSlot[], move: SlotMove): SurfaceLayout => {
-  const places = slots.map((slot) => ({ id: slot.id, group: slot.group }));
+  const places = slots.map(placeOf);
   const from = places.findIndex((place) => place.id === move.id);
   if (from < 0) return places;
-  places.splice(from, 1);
+  const [moved] = places.splice(from, 1);
   const target = move.before === null ? -1 : places.findIndex((place) => place.id === move.before);
   const at = target >= 0 ? target : endOfGroup(places, move.group);
-  places.splice(at, 0, { id: move.id, group: target >= 0 ? (places[target]?.group ?? move.group) : move.group });
+  places.splice(at, 0, { ...(moved ?? { id: move.id }), group: target >= 0 ? (places[target]?.group ?? move.group) : move.group });
   return places;
 };
 

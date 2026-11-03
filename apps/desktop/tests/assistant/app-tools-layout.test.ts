@@ -83,6 +83,19 @@ describe('S2 the toolbar and tool ops of set_layout', { tags: ['standard'] }, ()
     expect(await code('set_layout', { ops: [{ op: 'hideTool', member: 'nope' }] })).toBe('LAYOUT_INVALID');
   });
 
+  it('moves a tool member into another slot and refuses a slot that does not exist', async () => {
+    useToolPrefsStore.getState().resetLayout();
+    const [first, second] = slotsOf('sprite');
+    const member = first?.members[0];
+    if (!first || !second || !member) throw new Error('need two slots');
+    await ok('set_layout', { ops: [{ op: 'moveTool', member: member.id, slot: second.id, surface: 'sprite' }] });
+    expect(slotsOf('sprite').find((slot) => slot.id === second.id)?.members.map((each) => each.id)).toContain(member.id);
+    expect(await code('set_layout', { ops: [{ op: 'moveTool', member: member.id, slot: 'nope', surface: 'sprite' }] })).toBe('LAYOUT_INVALID');
+    await ok('set_layout', { ops: [{ op: 'resetTools', surface: 'sprite' }] });
+    expect(slotsOf('sprite').map((slot) => slot.id)).toContain(first.id);
+    useToolPrefsStore.getState().resetLayout();
+  });
+
   it('lists a hidden member in list_tools with its hidden flag', async () => {
     const member = slotsOf('sprite').flatMap((slot) => slot.members)[0];
     if (!member) throw new Error('no member');

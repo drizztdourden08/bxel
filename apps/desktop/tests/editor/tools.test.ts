@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind test */
+import type { RampId } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { createDefaultArtwork } from '../../src/documents/create-default-artwork';
 import { beginStroke } from '../../src/editor/begin-stroke';
@@ -7,6 +8,7 @@ import { PALETTE_TEXT } from '../../src/editor/palette-text.constants';
 import { pressPlan } from '../../src/editor/press-plan';
 import { runInstant } from '../../src/editor/run-instant';
 import { samplePixel } from '../../src/editor/sample-pixel';
+import { slotName } from '../../src/editor/slot-name';
 import { stepColour } from '../../src/editor/step-colour';
 import { strokeRequest } from '../../src/editor/stroke-request';
 import { swatchMarks } from '../../src/editor/swatch-marks';
@@ -78,6 +80,18 @@ describe('S2 the palette', { tags: ['standard'] }, () => {
     expect(slots[0]).toMatchObject({ index: 0, transparent: true, label: 'Swatch 0, transparent' });
     expect(slots[5]).toMatchObject({ index: 5, hex: '#E0245E', label: 'Swatch 5, crimson, #E0245E' });
     expect(PALETTE_TEXT.count(bank.cap, bank.transparent)).toBe('15 opaque + transparent = 16');
+  });
+
+  it('names the ramp of a swatch in the picker line when it sits on one', () => {
+    const { target } = openEditor();
+    const { bank } = target();
+    const swatch = bank.slots[5];
+    if (!swatch) throw new Error('no swatch 5');
+    const withRamp = { ...bank, ramps: [{ id: 'warm' as RampId, name: 'Warm', swatches: [swatch.id] }] };
+    expect(paletteSlots(withRamp)[5]?.ramp).toBe('Warm');
+    expect(paletteSlots(withRamp)[6]?.ramp).toBeUndefined();
+    expect(slotName({ ...target(), bank: withRamp }, 5)).toBe(`5 ${paletteSlots(bank)[5]?.name}, ramp Warm`);
+    expect(slotName(target(), 5)).toBe(`5 ${paletteSlots(bank)[5]?.name}`);
   });
 
   it('marks a swatch with the number of every held colour that uses it', () => {

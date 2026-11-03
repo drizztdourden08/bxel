@@ -43,6 +43,8 @@ const DRAWING_DEFAULTS: DrawingSettings = {
   gradientCustom: false,
   gradientSize: 4,
   gradientReflect: false,
+  gradientOriginX: 0,
+  gradientOriginY: 0,
   gradientRamp: null,
   symmetryDiagonal: false,
   symmetryTurn: false,

@@ -1,6 +1,7 @@
 /* @layer renderer-app @kind logic */
-import { shortcutsHelp, toast, useWidgetLayoutStore } from '@drizztdourden08/brock-react';
+import { openKeymapAt, toast, useWidgetLayoutStore } from '@drizztdourden08/brock-react';
 import type { ContextMenuContext, ContextMenuEntry } from '@drizztdourden08/brock-react';
+import { optionCommandOf } from '../../../keymap/option-command-of';
 import { allPresets } from '../../../editor/presets/all-presets';
 import { applyPreset } from '../../../editor/presets/apply-preset';
 import { openSaveDraft } from '../../../editor/presets/open-save-draft';
@@ -15,7 +16,7 @@ import { useToolPresetStore } from '../../../stores/useToolPresetStore';
 import { useToolStore } from '../../../stores/useToolStore';
 import { currentSurface } from '../../../editor/tool-catalogue/current-surface';
 import { stopIdOf } from '../../../tool-menu/stop-id-of';
-import { OPTIONS_WIDGET_ID, TOOL_MENU_TEXT } from '../../../tool-menu/tool-menu.constants';
+import { KEYMAP_ROUTE, OPTIONS_WIDGET_ID, TOOL_MENU_TEXT } from '../../../tool-menu/tool-menu.constants';
 import { OPTIONS_TEXT } from '../OptionsToolbar.constants';
 
 const presetEntries = (): ContextMenuEntry[] => {
@@ -36,10 +37,12 @@ const optionsEntries = (context: ContextMenuContext): ContextMenuEntry[] => {
   const painting = currentSurface() === 'sprite' || currentSurface() === 'tile';
   const own: ContextMenuEntry[] = spec && spec.kind !== 'action' && painting ? [{ label: OPTIONS_TEXT.resetOption, icon: 'rotate-ccw', run: () => resetOption(spec) }] : [];
   const inBar = spec?.tier === 1;
+  const command = spec ? optionCommandOf(spec) : undefined;
+  const assign: ContextMenuEntry[] = command ? [{ label: OPTIONS_TEXT.assignKey, icon: 'keyboard', run: () => openKeymapAt(KEYMAP_ROUTE, command) }] : [];
   const placing: ContextMenuEntry[] = spec
     ? [
         { label: inBar ? OPTIONS_TEXT.hideFromBar : OPTIONS_TEXT.showInBar, icon: inBar ? 'eye-off' : 'eye', run: () => useToolPrefsStore.getState().setOptionTier(spec.id, inBar ? 2 : 1) },
-        { label: OPTIONS_TEXT.assignKey, icon: 'keyboard', run: () => shortcutsHelp.open() },
+        ...assign,
         { label: OPTIONS_TEXT.help, icon: 'info', run: () => toast(`${spec.label}. ${spec.description}`, { variant: 'info' }) },
         'separator',
       ]

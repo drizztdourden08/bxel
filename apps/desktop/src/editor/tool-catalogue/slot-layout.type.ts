@@ -4,6 +4,7 @@ import type { SlotGroupId } from './tool-catalogue.type';
 interface SlotPlace {
   id: string;
   group: SlotGroupId;
+  members?: readonly string[];
 }
 
 type SurfaceLayout = readonly SlotPlace[];
@@ -14,4 +15,10 @@ interface SlotMove {
   before: string | null;
 }
 
-export type { SlotMove, SurfaceLayout };
+interface MemberMove {
+  member: string;
+  to: string | null;
+  group?: SlotGroupId;
+}
+
+export type { MemberMove, SlotMove, SlotPlace, SurfaceLayout };

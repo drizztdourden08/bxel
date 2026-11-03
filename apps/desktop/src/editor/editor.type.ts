@@ -126,6 +126,7 @@ interface GradientSpec {
   line: Corners;
   kind: GradientKind;
   reflect: boolean;
+  origin: Point;
   bayer: 2 | 4 | 8 | null;
   pattern: GradientPattern;
   brushId?: string;

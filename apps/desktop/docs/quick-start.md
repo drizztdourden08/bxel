@@ -25,13 +25,22 @@ an exported sprite sheet. The labels are the ones on screen.
   (Fit, 1:1) and opens Transform. A sheet shows only the zoom buttons.
 - The menu lists File, Edit, the menu of the open asset, View, Project and Help, then Settings,
   About and Quit. New, Open, Open recent, Save, Save as, Save all, Export and Import are in File.
-- The Tools toolbar groups Draw: Pencil (B), Eraser (E), Fill (G) and Picker (I); Shape: Shapes
+- The Tools toolbar groups Draw: Pencil (B), Spray (Shift+B), Shade (S), Fill (G), Gradient
+  (Shift+G) and Picker (I), with Eraser (E); Shape: Shapes
   (U); Select: Select (M) and Move (V); View: Zoom (Z) and Hand (H). A small corner mark on Shapes
   and Select says they hold variants: press the key again to cycle them (Shift with the key goes
   back). Hold a tool, right click it or press the arrow key that points away from the bar to open
   its menu of variants, options and presets. Shift+` returns to the previous tool. With no asset
   open the tools are dimmed. A map shows Place, Erase, Fill, Pick, Rectangle and Select, and each
   kind of asset remembers its own tool.
+- Spray scatters dots in a disc while the button is held. Gradient fills the selection, or the
+  whole cel, along a line you drag, with a ramp in bands or a dither pattern; Shift snaps the angle.
+  Dither is an ink you pick in the options of the drawing tools, not a tool. Outline is a command
+  of the Edit menu (Shift+O outside, Alt+Shift+O inside) that traces the edge of the drawing on
+  the layer.
+- The quick palette opens at the pointer on the backquote key: tap it to open it, or hold it,
+  move to a tool and release to pick. Hold Space to borrow the Hand and drag the view, and hold
+  Alt to borrow the Picker; the tool you were using comes back when you let go.
 - The Tool options toolbar above the canvas starts with a chip that names the tool and its preset
   (or Custom), then the common options of the tool, then its actions. Each tool remembers its own
   brush size, tip and pixel perfect, and the values come back after a restart. `[` and `]` change

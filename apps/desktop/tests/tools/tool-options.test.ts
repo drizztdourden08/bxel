@@ -85,4 +85,9 @@ describe('S2 the option commands', { tags: ['standard'] }, () => {
     tools().setBrushSize(3);
     expect(optionsOf('sprite', 'pencil').some((spec) => spec.name === 'pixel_perfect')).toBe(false);
   });
+
+  it('the shade tool offers pixel perfect in the panel tier only', () => {
+    expect(optionById('shade.pixel_perfect')).toMatchObject({ tool: 'shade', tier: 2, kind: 'toggle' });
+    expect(optionsOf('sprite', 'shade').some((spec) => spec.name === 'pixel_perfect')).toBe(true);
+  });
 });

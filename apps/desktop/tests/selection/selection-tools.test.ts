@@ -11,6 +11,7 @@ import { selectOpaque } from '../../src/editor/selection/select-opaque';
 import { selectionMask } from '../../src/editor/selection/selection-mask';
 import { smoothSelection } from '../../src/editor/selection/smooth-selection';
 import { strokeSelection } from '../../src/editor/selection/stroke-selection';
+import { optionById } from '../../src/editor/tool-options/option-by-id';
 import { commitPending } from '../../src/editor/pending/commit-pending';
 import { recallTransform } from '../../src/editor/transform/recall-transform';
 import { startTransform } from '../../src/editor/transform/start-transform';
@@ -28,6 +29,16 @@ describe('S2 selection commands', { tags: ['standard'] }, () => {
     expect(countOn(selectionMask(rig.target()))).toBe((BLOCK.width + 4) * (BLOCK.height + 4));
     resizeByAmount(-1);
     expect(countOn(selectionMask(rig.target()))).toBe(BLOCK.width * BLOCK.height);
+  });
+
+  it('the Invert and Deselect options act on the selection', () => {
+    const rig = openRig();
+    rig.select(BLOCK);
+    const total = rig.target().sprite.width * rig.target().sprite.height;
+    optionById('select.invert')?.write(true);
+    expect(countOn(selectionMask(rig.target()))).toBe(total - BLOCK.width * BLOCK.height);
+    optionById('select.deselect')?.write(true);
+    expect(selectionMask(rig.target())).toBeNull();
   });
 
   it('takes a ring of the amount around the edge', () => {

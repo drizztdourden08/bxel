@@ -131,6 +131,21 @@ describe('S2 the gradient tool', { tags: ['standard'] }, () => {
     expect(session.indices).toEqual(direct);
   });
 
+  it('starts the dither pattern at the pattern origin and commits it with the step', () => {
+    tools().setForeground(2);
+    tools().setBackground(6);
+    drawing().patch({ gradientMode: 'dither', gradientOriginX: 1, gradientOriginY: 1 });
+    const session = startSession({ kind: 'gradient', slot: 'foreground' }, live(), { x: 0, y: 0 });
+    if (session.kind !== 'gradient') throw new Error('expected a gradient');
+    updateGradient(session, { x: 31, y: 0 }, false);
+    expect(session.spec.origin).toEqual({ x: 1, y: 1 });
+    const direct = new Uint8Array(32 * 32);
+    gradientFill({ target: { pixels: direct, width: 32, height: 32 }, colors: [2, 6], line: session.spec.line, bayer: 4, origin: { x: 1, y: 1 }, kind: 'linear', reflect: false, pattern: 'bayer', wrap: { x: false, y: false } });
+    expect(session.indices).toEqual(direct);
+    expect(commitSession(session)?.ok).toBe(true);
+    expect(flat()).toEqual(direct);
+  });
+
   it('runs the other way with the right button', () => {
     tools().setForeground(2);
     tools().setBackground(6);

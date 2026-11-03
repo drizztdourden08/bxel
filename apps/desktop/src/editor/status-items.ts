@@ -9,7 +9,7 @@ import { HELP_PRIORITY, STATUS_TEXT } from './status.constants';
 const colourEntry = (colour: PaletteSlot | null, position: 1 | 2): StatusBarEntry => ({
   id: `colour-${position}`,
   label: STATUS_TEXT.colourLabel(position),
-  value: colour ? STATUS_TEXT.colour(colour.index, colour.name) : STATUS_TEXT.outside,
+  value: colour ? STATUS_TEXT.colour(colour.index, colour.name, colour.ramp) : STATUS_TEXT.outside,
   swatch: colour && !colour.transparent ? colour.hex : undefined,
   priority: position === 1 ? 1 : 2,
 });
