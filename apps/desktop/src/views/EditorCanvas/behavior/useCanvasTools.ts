@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind hook */
 import type { RefObject } from 'react';
 import type { PixelViewportHandle } from '../../PixelViewport';
-import type { CanvasTools } from './canvas-tools.type';
+import type { AxisDrag, CanvasTools } from './canvas-tools.type';
 import { useAxisDrag } from './useAxisDrag';
 import { useBrushResizeGesture } from './useBrushResizeGesture';
 import { useGradientOriginDrag } from './useGradientOriginDrag';
@@ -26,16 +26,17 @@ const useCanvasTools = (viewport: RefObject<PixelViewportHandle | null>): Canvas
   const slice = useSliceGesture(viewport);
   const transform = useTransformGesture(viewport);
   const resize = useBrushResizeGesture(viewport);
+  const chain: AxisDrag[] = [origin, guide, pivot, axis, transform, zoom, slice, mask, resize, select];
   return {
     live: paint.live,
     onPointerDown: (event) => {
-      if (!origin.down(event) && !guide.down(event) && !pivot.down(event) && !axis.down(event) && !transform.down(event) && !zoom.down(event) && !slice.down(event) && !mask.down(event) && !resize.down(event) && !select.down(event)) paint.down(event);
+      if (!chain.some((gesture) => gesture.down(event))) paint.down(event);
     },
     onPointerMove: (event) => {
-      if (!origin.move(event) && !guide.move(event) && !pivot.move(event) && !axis.move(event) && !transform.move(event) && !zoom.move(event) && !slice.move(event) && !mask.move(event) && !resize.move(event) && !select.move(event)) paint.move(event);
+      if (!chain.some((gesture) => gesture.move(event))) paint.move(event);
     },
     onPointerUp: () => {
-      if (!origin.up() && !guide.up() && !pivot.up() && !axis.up() && !transform.up() && !zoom.up() && !slice.up() && !mask.up() && !resize.up() && !select.up()) paint.up();
+      if (!chain.some((gesture) => gesture.up())) paint.up();
     },
   };
 };

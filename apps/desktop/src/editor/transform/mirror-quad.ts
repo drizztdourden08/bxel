@@ -1,8 +1,7 @@
 /* @layer renderer-app @kind logic */
 import type { Point, PointMap, Quad, Rect } from '@bxel/raster';
 import { boxCorners } from './box-corners';
-
-const HALF = 0.5;
+import { HALF } from './mirror-quad.constants';
 
 const edgeMap = (map: PointMap) => (point: Point): Point => {
   const to = map({ x: point.x - HALF, y: point.y - HALF });

@@ -29,6 +29,14 @@ const withSymmetry = (): SelectionRig => {
   return rig;
 };
 
+const previewIndices = (): Uint8Array | undefined => usePendingStore.getState().outcome?.frame?.indices;
+
+const reviseOffset = (): void => {
+  const spec = usePendingStore.getState().pending?.spec;
+  if (spec?.kind !== 'transform') throw new Error('no transform session');
+  usePendingStore.getState().revise({ ...spec, algorithm: 'nearest', offset: { x: 1, y: 0 } });
+};
+
 afterEach(() => {
   useTransformUiStore.getState().setMirror(false);
 });
@@ -53,15 +61,13 @@ describe('S2 the transform session with symmetry', { tags: ['standard'] }, () =>
   });
 
   it('moves the mirrored side the opposite way and previews the change at once', () => {
-    const rig = withSymmetry();
+    withSymmetry();
     startTransform();
-    const spec = usePendingStore.getState().pending?.spec;
-    if (spec?.kind !== 'transform') throw new Error('no transform session');
-    usePendingStore.getState().revise({ ...spec, algorithm: 'nearest', offset: { x: 1, y: 0 } });
-    expect(usePendingStore.getState().outcome?.frame?.indices[at(2, 4)]).toBe(0);
-    expect(usePendingStore.getState().outcome?.frame?.indices[at(29, 4)]).toBe(3);
+    reviseOffset();
+    expect(previewIndices()?.[at(2, 4)]).toBe(0);
+    expect(previewIndices()?.[at(29, 4)]).toBe(3);
     setMirror(true);
-    const preview = usePendingStore.getState().outcome?.frame?.indices;
+    const preview = previewIndices();
     expect(preview?.[at(6, 4)]).toBe(3);
     expect(preview?.[at(25, 4)]).toBe(3);
     expect(preview?.[at(29, 4)]).toBe(0);

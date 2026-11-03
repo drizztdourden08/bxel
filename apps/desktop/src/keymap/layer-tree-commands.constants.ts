@@ -33,7 +33,7 @@ const LAYER_TREE_COMMANDS: readonly CommandDef[] = [
   { id: COMMAND_ID.layerToggleClip, label: LAYER_LABEL.clip, group, run: onLayers((now) => now.actions.setView(now.ids, { clip: !now.clip })) },
   { id: COMMAND_ID.layerToggleExported, label: LAYER_LABEL.exported, group, run: onLayers((now) => now.actions.setView(now.ids, { exported: !now.exported })) },
   { id: COMMAND_ID.layerToggleFold, label: 'Fold or unfold group', group, run: onLayers((now) => useLayerViewStore.getState().toggleFold(now.id)) },
-  { id: COMMAND_ID.layerHighlight, label: 'Highlight current layer', group, icon: 'pixel-view-highlight', chord: 'Alt+H', checked: () => useLayerViewStore.getState().highlight, run: () => useLayerViewStore.getState().toggleHighlight() },
+  { id: COMMAND_ID.layerHighlight, label: 'Highlight current layer', group, icon: 'pixel-view-highlight' as const, chord: 'Alt+H', checked: () => useLayerViewStore.getState().highlight, run: () => useLayerViewStore.getState().toggleHighlight() },
 ].map(ruled);
 
 export { LAYER_TREE_COMMANDS };

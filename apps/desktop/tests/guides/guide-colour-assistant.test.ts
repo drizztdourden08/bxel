@@ -1,8 +1,13 @@
 /* @layer renderer-app @kind test */
+import { SET_VIEW_INPUT_SCHEMA } from '@bxel/mcp';
+import type { DocumentsPort } from '@drizztdourden08/brock-core';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { guideColoursStep } from '../../src/assistant/tools/guide-colours-step';
 import { guideColoursView } from '../../src/assistant/tools/guide-colours-view';
+import { storePathBook } from '../../src/files/store-path-book';
 import { currentGuideColours } from '../../src/guides/current-guide-colours';
+import { useDocumentStore } from '../../src/stores/useDocumentStore';
+import { toolContext } from '../project/tool-context';
 
 const state = vi.hoisted((): { key: string | null; views: Record<string, { guideColours: Record<string, string> }> } => ({ key: 'view', views: {} }));
 
@@ -18,7 +23,11 @@ vi.mock('../../src/stores/useAssetViewStore', () => ({
   },
 }));
 
-const run = (guideColours: { axis: 'x' | 'y'; position: number; colour: string | null }[]) => guideColoursStep({ guideColours } as never, {} as never);
+const run = (guideColours: { axis: 'x' | 'y'; position: number; colour: string | null }[]) => {
+  const { host } = useDocumentStore.getState();
+  const context = toolContext({ host, paths: storePathBook(host), documents: {} as DocumentsPort });
+  return guideColoursStep(SET_VIEW_INPUT_SCHEMA.parse({ guideColours }), context);
+};
 
 describe('W10 an assistant reads and sets guide colours', { tags: ['standard'] }, () => {
   beforeEach(() => {

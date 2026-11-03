@@ -66,7 +66,9 @@ describe('S2 selection commands', { tags: ['standard'] }, () => {
     selectOpaque();
     expect(countOn(selectionMask(rig.target()))).toBe(4);
   });
+});
 
+describe('S2 selection fill and align', { tags: ['standard'] }, () => {
   it('fills and strokes with the front colour as one undo step each', () => {
     const rig = openRig();
     useToolStore.getState().setColour('foreground', 7);
