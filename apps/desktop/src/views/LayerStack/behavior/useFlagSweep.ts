@@ -3,7 +3,8 @@ import { useToggleSweep } from '@drizztdourden08/tessera';
 import type { ToggleSweep } from '@drizztdourden08/tessera';
 import { useMemo } from 'react';
 import { layerFlagOn } from './layer-flag-on';
-import { sweepIdOf, sweepKey } from './layer-sweep-key';
+import { sweepIdOf } from './layer-sweep-id';
+import { sweepKey } from './layer-sweep-key';
 import type { FlagSweepInput } from './useFlagSweep.type';
 
 const useFlagSweep = ({ model, rows, picked, flag }: FlagSweepInput): ToggleSweep => {
