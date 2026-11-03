@@ -1,7 +1,7 @@
 /* @layer renderer-app @kind types */
-import type { MouseEvent, PointerEvent } from 'react';
+import type { MouseEvent } from 'react';
 import type { FrameId, Layer, MapLayer, PaletteBank, Sprite } from '@bxel/document';
-import type { IconName } from '@drizztdourden08/tessera';
+import type { IconName, ToggleSweepBind } from '@drizztdourden08/tessera';
 import type { LayerActions } from '../../editor/layer-actions.type';
 import type { LayerFlag } from '../../editor/layer-flag.type';
 import type { LockKind } from '../../editor/layer-lock.type';
@@ -82,9 +82,7 @@ interface LayerBarAction {
   reason: string | null;
 }
 
-type LayerSweepHandlers = {
-  onPointerDown: (event: PointerEvent<HTMLElement>) => void;
-  onPointerEnter: () => void;
+type LayerSweepHandlers = ToggleSweepBind & {
   onClick: (event: MouseEvent<HTMLElement>) => void;
 };
 

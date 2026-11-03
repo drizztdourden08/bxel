@@ -4,6 +4,7 @@ import { useLayerViewStore } from '../../../stores/useLayerViewStore';
 import type { LayerNode } from '../behavior/layer-nodes.type';
 import { useLayerSweep } from '../behavior/useLayerSweep';
 import { useLayerTree } from '../behavior/useLayerTree';
+import { visibleRows } from '../behavior/visible-rows';
 import { LAYER_ROW_SIZE, LAYER_STACK_TEXT } from '../LayerStack.constants';
 import type { LayerListProps } from '../LayerStack.type';
 import { LayerLabel } from './LayerLabel';
@@ -12,7 +13,7 @@ import './LayerList.css';
 
 const LayerList = ({ model, rows, filtered, picked, pick, pickKeys, thumbSize }: LayerListProps) => {
   const folded = useLayerViewStore((state) => state.folded);
-  const sweep = useLayerSweep(model, picked);
+  const sweep = useLayerSweep(model, visibleRows(rows, folded), picked);
   const movable = model.kind !== 'sheet' && !filtered;
   const tree = useLayerTree({ model, rows, picked, pick, pickKeys, movable });
   return (

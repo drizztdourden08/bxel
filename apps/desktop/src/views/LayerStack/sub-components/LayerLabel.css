@@ -71,6 +71,7 @@
 
 .layer-row__toggles .layer-row__toggle {
   position: relative;
+  touch-action: none;
   color: var(--c-text);
 }
 
