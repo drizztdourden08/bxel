@@ -2,7 +2,8 @@
 import { describe, expect, it } from 'vitest';
 import type { PreviewFrame, PreviewTag } from '../../src/asset-overview/asset-overview.type';
 import { flipLayers } from '../../src/asset-overview/flip-layers';
-import { tagFrames } from '../../src/asset-overview/tag-frames';
+import { playerFrames } from '../../src/asset-preview/player-frames';
+import { playerTags, tagLoop } from '../../src/asset-preview/player-tags';
 import { tilemapLayers } from '../../src/asset-overview/tilemap-layers';
 import { mapArtwork } from '../project/map-artwork';
 
@@ -13,12 +14,19 @@ const FRAMES: readonly PreviewFrame[] = ['a', 'b', 'c', 'd'].map(frame);
 const TAG: PreviewTag = { id: 'run', name: 'run', from: 1, to: 2, direction: 'pingpong', repeat: 3 };
 
 describe('S2 preview controls', { tags: ['standard'] }, () => {
-  it('slices the frames of an animation to the span of the picked tag', () => {
-    expect(tagFrames(FRAMES, TAG).map((each) => each.id)).toEqual(['b', 'c']);
+  it('hands the player every frame with its duration and the span of each tag', () => {
+    expect(playerFrames(FRAMES).map((each) => each.durationMs)).toEqual([100, 100, 100, 100]);
+    expect(playerTags([TAG])).toEqual([{ id: 'run', name: 'run', from: 1, to: 2 }]);
   });
 
-  it('keeps every frame when no tag is picked', () => {
-    expect(tagFrames(FRAMES, undefined)).toBe(FRAMES);
+  it('converts a source picture once and gives the same one again', () => {
+    expect(playerFrames(FRAMES)[0]?.image).toBe(playerFrames(FRAMES)[0]?.image);
+  });
+
+  it('gives a tag its own loop and plays a reverse ping-pong as a ping-pong', () => {
+    expect(tagLoop(TAG)).toEqual({ direction: 'pingpong', repeat: 3 });
+    expect(tagLoop({ ...TAG, direction: 'pingpongReverse' }).direction).toBe('pingpong');
+    expect(tagLoop({ ...TAG, direction: 'reverse', repeat: 0 })).toEqual({ direction: 'reverse', repeat: 0 });
   });
 
   it('lists the layers of a tilemap with their visibility', () => {
