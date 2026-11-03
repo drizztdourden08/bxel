@@ -1,8 +1,4 @@
 /* @layer renderer-app @kind style */
-.zoom-field {
+.view-zoom {
   min-inline-size: 0;
-}
-
-.zoom-field__actions {
-  flex-wrap: wrap;
 }

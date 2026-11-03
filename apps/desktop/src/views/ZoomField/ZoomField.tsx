@@ -11,7 +11,7 @@ const ZoomField = () => {
   const disabled = percent === null;
   return (
     <TesseraZoomField
-      className="zoom-field"
+      className="view-zoom"
       label={ZOOM_TEXT.region}
       value={percent ?? 100}
       onChange={zoomTo}
