@@ -8,28 +8,21 @@ import { TIMELINE_PANEL_TEXT } from '../../src/views/TimelinePanel/TimelinePanel
 import { TIMELINE_MENU } from '../../src/views/TimelinePanel/behavior/timeline-menu.constants';
 import { animationOf, frameAt, freshAnimation, pickRange, run, withFrames } from './timeline-harness';
 
-interface Tick {
-  dataset: { tickFrame: string };
-  getBoundingClientRect: () => { left: number; right: number };
-}
-
 class FakeElement {
   readonly selectors: readonly string[];
   readonly dataset: Record<string, string>;
-  readonly ticks: readonly Tick[];
 
-  constructor(selectors: readonly string[], dataset: Record<string, string> = {}, ticks: readonly Tick[] = []) {
+  constructor(selectors: readonly string[], dataset: Record<string, string> = {}) {
     this.selectors = selectors;
     this.dataset = dataset;
-    this.ticks = ticks;
   }
 
   closest(selector: string): FakeElement | null {
     return this.selectors.includes(selector) ? this : null;
   }
 
-  querySelectorAll(): readonly Tick[] {
-    return this.ticks;
+  getBoundingClientRect(): { left: number } {
+    return { left: 0 };
   }
 }
 
@@ -88,8 +81,7 @@ describe('S2 the menu of the ruler', { tags: ['standard'] }, () => {
 
   it('plays from the frame under the pointer', () => {
     withFrames(3);
-    const ticks: Tick[] = [10, 20, 30].map((left, at) => ({ dataset: { tickFrame: frameAt(at) }, getBoundingClientRect: () => ({ left, right: left + 10 }) }));
-    const entries = menuFor(new FakeElement([TIMELINE_MENU.ruler], {}, ticks), 25);
+    const entries = menuFor(new FakeElement([TIMELINE_MENU.ruler], { lefts: '10,20,30' }), 25);
     const play = entries.find((entry) => typeof entry === 'object' && 'command' in entry && entry.command === 'timeline.play_from');
     expect(play).toMatchObject({ args: { frameId: frameAt(1) } });
   });

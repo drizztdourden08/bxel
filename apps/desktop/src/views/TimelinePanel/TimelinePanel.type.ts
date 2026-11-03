@@ -120,11 +120,6 @@ interface DurationEdgeProps {
   onDraft: (draft: DurationDraft | null) => void;
 }
 
-interface OnionHandlesProps extends FocusProps {
-  layout: TrackLayout;
-  current: number;
-}
-
 interface ActionBarProps {
   label: string;
   actions: readonly TimelineAction[];
@@ -176,7 +171,6 @@ export type {
   FrameThumbProps,
   LanesProps,
   NumberFieldProps,
-  OnionHandlesProps,
   RulerProps,
   TagBarViewProps,
   TagEditorProps,
