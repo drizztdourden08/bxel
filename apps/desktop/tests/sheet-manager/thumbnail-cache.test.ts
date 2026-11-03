@@ -1,37 +1,55 @@
 /* @layer renderer-app @kind test */
-import type { PaletteBank, Sprite } from '@bxel/document';
 import { describe, expect, it } from 'vitest';
-import { cachedThumbnail } from '../../src/views/EntryTile/behavior/cached-thumbnail';
+import { keptCanvas } from '../../src/views/EntryTile/behavior/kept-canvas';
+import type { KeptCanvas } from '../../src/views/EntryTile/behavior/kept-canvas.type';
 
-const owner = () => {
-  const made: unknown[] = [];
-  const doc = {
-    createElement: () => {
-      const canvas = { width: 0, height: 0, getContext: () => ({ clearRect: () => undefined }) };
-      made.push(canvas);
-      return canvas;
-    },
-  };
-  return { doc: doc as unknown as Document, made };
+type FakeCanvas = { readonly width: number };
+
+const cache = () => {
+  const kept = new Map<string, KeptCanvas<FakeCanvas>>();
+  const made: FakeCanvas[] = [];
+  const ask = (key: string, sprite: object, bank: object | undefined, limit = 600): FakeCanvas =>
+    keptCanvas({
+      kept,
+      key,
+      sprite,
+      bank,
+      limit,
+      make: () => {
+        const canvas = { width: made.length };
+        made.push(canvas);
+        return canvas;
+      },
+    });
+  return { ask, made, kept };
 };
-
-const sprite = (id: string): Sprite => ({ id, frames: [], width: 8, height: 8 }) as unknown as Sprite;
-const bank = {} as PaletteBank;
 
 describe('S2 the entry thumbnails are kept by sprite and revision', { tags: ['standard'] }, () => {
   it('draws a sprite once and gives the same picture while the sprite and bank are the same', () => {
-    const { doc, made } = owner();
-    const hero = sprite('hero');
-    const first = cachedThumbnail(doc, bank, hero, 32);
-    expect(cachedThumbnail(doc, bank, hero, 32)).toBe(first);
+    const { ask, made } = cache();
+    const hero = {};
+    const bank = {};
+    const first = ask('hero:32', hero, bank);
+    expect(ask('hero:32', hero, bank)).toBe(first);
     expect(made).toHaveLength(1);
   });
 
-  it('draws again when the sprite changes or the size does', () => {
-    const { doc, made } = owner();
-    const first = cachedThumbnail(doc, bank, sprite('mage'), 32);
-    expect(cachedThumbnail(doc, bank, sprite('mage'), 32)).not.toBe(first);
-    cachedThumbnail(doc, bank, sprite('mage'), 64);
-    expect(made).toHaveLength(3);
+  it('draws again when the sprite or bank changes or the size does', () => {
+    const { ask, made } = cache();
+    const bank = {};
+    const first = ask('mage:32', {}, bank);
+    expect(ask('mage:32', {}, bank)).not.toBe(first);
+    ask('mage:64', {}, bank);
+    ask('mage:64', {}, undefined);
+    expect(made).toHaveLength(4);
+  });
+
+  it('forgets the oldest picture past the limit', () => {
+    const { ask, kept } = cache();
+    const sprite = {};
+    ask('a', sprite, undefined, 2);
+    ask('b', sprite, undefined, 2);
+    ask('c', sprite, undefined, 2);
+    expect([...kept.keys()]).toEqual(['b', 'c']);
   });
 });
