@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 import type { RefObject } from 'react';
 import { findBank } from '@bxel/document';
 import type { Artwork, Sprite } from '@bxel/document';
-import { bankSpriteImage } from '../../../sheet/bank-sprite-image';
-import { drawThumbnail } from './draw-thumbnail';
+import { cachedThumbnail } from './cached-thumbnail';
 import { useThumbCanvas } from './useThumbCanvas';
 
 const useThumbnail = (artwork: Artwork, sprite: Sprite, box: number): RefObject<HTMLCanvasElement | null> => {
@@ -13,7 +12,12 @@ const useThumbnail = (artwork: Artwork, sprite: Sprite, box: number): RefObject<
   useEffect(() => {
     const element = canvas.current;
     if (!element) return undefined;
-    const paint = (): void => drawThumbnail(element, bankSpriteImage(bank, sprite), box);
+    const paint = (): void => {
+      const ctx = element.getContext('2d');
+      if (!ctx) return;
+      ctx.clearRect(0, 0, box, box);
+      ctx.drawImage(cachedThumbnail(element.ownerDocument, bank, sprite, box), 0, 0);
+    };
     if (typeof IntersectionObserver === 'undefined') {
       paint();
       return undefined;

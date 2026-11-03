@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { IconName, VirtualGridCellBind, VirtualSize } from '@drizztdourden08/tessera';
-import type { Animation, Artwork, Sprite, TagId } from '@bxel/document';
+import type { Animation, Artwork, PaletteBank, Sprite, TagId } from '@bxel/document';
 import type { PickHow } from '../../sheet/sheet.type';
 import type { EntryDragSpec } from '../../sheet-manager/drag-payload.type';
 import type { EntryFacts } from '../../sheet-manager/manager.type';
@@ -77,4 +77,10 @@ interface EntryBadgesProps {
   warning?: string;
 }
 
-export type { AnimationThumbProps, BadgeMark, EntryBadgesProps, EntryNameProps, EntryThumbProps, EntryTileHandlers, EntryTileProps, EntryTileState, SpriteThumbProps, TileSize };
+interface ThumbEntry {
+  sprite: Sprite;
+  bank: PaletteBank | undefined;
+  canvas: HTMLCanvasElement;
+}
+
+export type { AnimationThumbProps, BadgeMark, EntryBadgesProps, EntryNameProps, EntryThumbProps, EntryTileHandlers, EntryTileProps, EntryTileState, SpriteThumbProps, ThumbEntry, TileSize };
