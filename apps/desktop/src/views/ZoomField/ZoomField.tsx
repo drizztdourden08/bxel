@@ -18,6 +18,7 @@ const ZoomField = () => {
       min={ZOOM_PERCENT.min}
       max={ZOOM_PERCENT.max}
       presets={ZOOM_PRESETS}
+      slider="below"
       disabled={disabled}
       actions={<ZoomActions disabled={disabled} />}
     />

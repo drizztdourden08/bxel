@@ -4,6 +4,7 @@ import { useViewStore } from '../../src/stores/useViewStore';
 import { clipRect } from '../../src/views/Navigator/behavior/clip-rect';
 import { fitThumb } from '../../src/views/Navigator/behavior/fit-thumb';
 import { describeView } from '../../src/views/Navigator/behavior/describe-view';
+import { keySteps } from '../../src/views/Navigator/behavior/key-steps';
 import { navigatorKey } from '../../src/views/Navigator/behavior/navigator-key';
 import { navigatorOverlays } from '../../src/views/Navigator/behavior/navigator-overlays';
 import { panOfViewport } from '../../src/views/Navigator/behavior/pan-of-viewport';
@@ -78,5 +79,15 @@ describe('K1 the navigator on the Tessera map', { tags: ['critical'] }, () => {
     expect(navigatorKey('ArrowLeft')).toBe(false);
     useViewStore.setState({ viewport: null });
     expect(navigatorKey('+')).toBe(false);
+  });
+});
+
+describe('K1b the navigator key steps', { tags: ['critical'] }, () => {
+  it('moves an eighth of the visible size per axis, and the whole visible size with Shift', () => {
+    expect(keySteps({ width: 80, height: 40 })).toEqual({ step: { x: 10, y: 5 }, bigStep: { x: 80, y: 40 } });
+  });
+
+  it('never steps less than one pixel', () => {
+    expect(keySteps({ width: 4, height: 0 })).toEqual({ step: { x: 1, y: 1 }, bigStep: { x: 4, y: 1 } });
   });
 });

@@ -11,10 +11,11 @@ const usage = {
   ],
   rules: [
     'It takes no props. It follows the zoom of the canvas and writes it back through the viewport handle.',
-    'The percent runs from 25 to 12800. It is a Tessera ZoomField, so the step buttons, the arrow keys and the wheel walk along the preset stops. Fit, 1:1 and Selection are passed to it as its actions.',
+    'The percent runs from 25 to 12800. It is a Tessera ZoomField, so the step buttons, the arrow keys and the wheel walk along the preset stops, and a log slider under the field covers the same range. Fit, 1:1 and Selection are passed to it as its actions.',
   ],
   a11y: [
     'The field is named Zoom and its buttons are named Zoom out and Zoom in.',
+    'The slider is named Zoom slider and moves along the same stops with the arrow keys.',
     'Presets are in a group named Zoom levels and the one that is on is pressed.',
   ],
   tree: {

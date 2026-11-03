@@ -4,6 +4,7 @@ import { useMemo, useRef } from 'react';
 import { useElementStyle } from '../../hooks/useElementStyle';
 import { useSelectionRect } from '../../view-zoom/useSelectionRect';
 import { fitThumb } from './behavior/fit-thumb';
+import { keySteps } from './behavior/key-steps';
 import { moveView } from './behavior/move-view';
 import { navigatorKey } from './behavior/navigator-key';
 import { navigatorOverlays } from './behavior/navigator-overlays';
@@ -12,7 +13,7 @@ import { useNavigatorFacts } from './behavior/useNavigatorFacts';
 import { useOtherViewRect } from './behavior/useOtherViewRect';
 import { useStageSize } from './behavior/useStageSize';
 import { wheelZoom } from './behavior/wheel-zoom';
-import { NAVIGATOR_KEY_SHARE, NAVIGATOR_TEXT } from './Navigator.constants';
+import { NAVIGATOR_TEXT } from './Navigator.constants';
 import './Navigator.css';
 
 const Navigator = () => {
@@ -27,6 +28,7 @@ const Navigator = () => {
   const height = facts?.imageHeight ?? 0;
   const thumb = useMemo(() => (width > 0 && height > 0 && box.width > 0 ? fitThumb({ width, height }, box) : null), [width, height, box]);
   const overlays = useMemo(() => navigatorOverlays(selection, other), [selection, other]);
+  const steps = useMemo(() => keySteps({ width: facts?.width ?? 0, height: facts?.height ?? 0 }), [facts?.width, facts?.height]);
   useNavigatorDraw(canvas, thumb);
   useElementStyle(thumbBox, thumb ? { 'inline-size': `${thumb.width}px`, 'block-size': `${thumb.height}px` } : {});
   return (
@@ -39,8 +41,8 @@ const Navigator = () => {
               label={NAVIGATOR_TEXT.area}
               surface={{ width, height }}
               viewport={facts}
-              step={Math.max(1, facts.width * NAVIGATOR_KEY_SHARE)}
-              bigStep={Math.max(1, facts.width)}
+              step={steps.step}
+              bigStep={steps.bigStep}
               unclamped
               overlays={overlays}
               describe={facts.said}
