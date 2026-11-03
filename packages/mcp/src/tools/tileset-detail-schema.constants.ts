@@ -49,6 +49,7 @@ const TILESET_DETAIL_SCHEMA = z.strictObject({
         slots: z
           .array(z.array(z.strictObject({ key: z.number().int(), weight: z.number(), flipX: z.boolean().optional(), flipY: z.boolean().optional(), diagonal: z.boolean().optional() })))
           .describe('One list of variants per slot, in slot order. An empty list is a missing slot. Set them with tileset.terrain_sets and paint with map.terrain (option set).'),
+        masks: z.array(z.number().int()).describe('The neighbour mask of each slot, in slot order. Edge bits: north 1, east 4, south 16, west 64; corner bits fill the rest. A tile on a slot shows that mask of neighbours.'),
         missing: z.array(z.number().int()).describe('The slot numbers, counted from 0, that hold no tile.'),
       }),
     )

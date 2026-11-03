@@ -7,7 +7,8 @@ import { applyMark } from '../../src/tilemap/terrain/apply-mark';
 import { markEdit } from '../../src/tilemap/terrain/mark-edit';
 import { newTerrainSet } from '../../src/tilemap/terrain/new-terrain-set';
 import { PACKING_ORIGIN } from '../../src/tilemap/terrain/terrain.constants';
-import { openMapFile, tilesetNow } from './map-harness';
+import { tilesetDetail } from '../../src/assistant/tools/tileset-detail';
+import { artworkNow, openMapFile, tilesetNow } from './map-harness';
 
 const NORTH = 1;
 const EAST = 4;
@@ -48,5 +49,16 @@ describe('S2 the packing menu names where each layout comes from', { tags: ['sta
   it('names a source for every packing and says Tiled and Godot for the 47 template', () => {
     expect(PACKINGS.every((packing) => PACKING_ORIGIN[packing.id] !== undefined)).toBe(true);
     expect(PACKING_ORIGIN['blob47-12']).toBe('Tiled and Godot');
+  });
+});
+
+describe('S2 the terrain sets an assistant reads', { tags: ['standard'] }, () => {
+  it('gives the neighbour mask of every slot beside the variants', () => {
+    openMapFile();
+    setTerrainSets([newTerrainSet('blob16', [])]);
+    const set = tilesetDetail(artworkNow(), tilesetNow()).terrainSets[0];
+    expect(set?.masks).toHaveLength(set?.slots.length ?? -1);
+    expect(set?.masks[0]).toBe(0);
+    expect(set?.masks[1]).toBe(NORTH);
   });
 });
