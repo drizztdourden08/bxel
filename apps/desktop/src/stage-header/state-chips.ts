@@ -5,7 +5,7 @@ import type { HeaderChip, HeaderInput } from './stage-header.type';
 const stateChips = (input: HeaderInput): HeaderChip[] => [
   ...(input.readOnly ? [{ id: 'read-only', text: HEADER_TEXT.readOnly, tone: 'warning' as const, icon: 'pixel-lock' as const, title: HEADER_TEXT.readOnlyTitle }] : []),
   ...(input.assistant === null ? [] : [{ id: 'assistant', text: input.assistant, tone: 'info' as const, title: HEADER_TEXT.assistantTitle }]),
-  ...(input.mirrored === true ? [{ id: 'mirrored', text: HEADER_TEXT.mirrored, tone: 'info' as const, icon: 'pixel-mirror-x' as const, title: HEADER_TEXT.mirroredTitle }] : []),
+  ...(input.mirrored === true ? [{ id: 'mirrored', text: HEADER_TEXT.mirrored, tone: 'info' as const, icon: 'pixel-view-mirror' as const, title: HEADER_TEXT.mirroredTitle }] : []),
   ...(input.hiddenGrids ? [{ id: 'grid-hidden', text: HEADER_TEXT.gridHidden, tone: 'neutral' as const, title: HEADER_TEXT.gridHiddenTitle }] : []),
 ];
 
