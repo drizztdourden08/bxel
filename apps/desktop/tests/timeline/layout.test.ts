@@ -14,7 +14,6 @@ import { cellWidth } from '../../src/timeline/cell-width';
 import { fitThumb } from '../../src/timeline/fit-thumb';
 import { trackLayout } from '../../src/timeline/track-layout';
 import { writeAnimationSettings } from '../../src/timeline/write-animation-settings';
-import { dropPosition } from '../../src/timeline/drop-position';
 import { draftedDurations } from '../../src/timeline/drafted-durations';
 
 describe('K1 the track layout', { tags: ['critical'] }, () => {
@@ -73,12 +72,6 @@ describe('K1 durations on the strip', { tags: ['critical'] }, () => {
     expect(draftedDurations(frames, { ids: ['a' as never], lead: 'a' as never, ms: 130, factor: 1 })).toEqual([130, 200]);
     expect(draftedDurations(frames, { ids: ['a' as never, 'b' as never], lead: 'a' as never, ms: 150, factor: 1.5 })).toEqual([150, 300]);
     expect(draftedDurations(frames, null)).toEqual([100, 200]);
-  });
-
-  it('names the drop position of a drag', () => {
-    expect(dropPosition(0, 3, 'after')).toBe(4);
-    expect(dropPosition(5, 1, 'before')).toBe(2);
-    expect(dropPosition(null, 2, 'before')).toBe(3);
   });
 });
 

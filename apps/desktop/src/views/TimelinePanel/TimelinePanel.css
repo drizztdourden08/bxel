@@ -150,6 +150,15 @@
   pointer-events: none;
 }
 
+.frame-track .frame-list {
+  flex: none;
+  block-size: calc(var(--frame-thumb) + var(--size-48));
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
 .frame-option {
   position: relative;
   display: flex;
@@ -234,38 +243,6 @@
 .frame-option[data-current='yes'] {
   color: var(--c-text);
   box-shadow: inset 0 var(--size-2) 0 var(--c-primary-bright);
-}
-
-.frame-option[data-dragging='yes'] {
-  opacity: var(--opacity-muted);
-}
-
-.frame-option[data-drop='before'] {
-  box-shadow: calc(-1 * var(--size-2)) 0 0 0 var(--c-primary-bright);
-}
-
-.frame-option[data-drop='after'] {
-  box-shadow: var(--size-2) 0 0 0 var(--c-primary-bright);
-}
-
-.frame-option__drop-label {
-  position: absolute;
-  inset-block-start: calc(-1 * var(--size-20));
-  z-index: var(--z-floating);
-  padding-inline: var(--space-xs);
-  border-radius: var(--radius-sm);
-  background: var(--c-primary);
-  color: var(--c-on-primary);
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-.frame-option__drop-label[data-side='before'] {
-  inset-inline-start: 0;
-}
-
-.frame-option__drop-label[data-side='after'] {
-  inset-inline-end: 0;
 }
 
 .frame-option__duration {

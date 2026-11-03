@@ -6,7 +6,7 @@ const useStripFocus = (strip: RefObject<HTMLElement | null>, current: string): v
   useEffect(() => {
     const root = strip.current;
     if (!root?.contains(root.ownerDocument.activeElement)) return;
-    root.querySelector<HTMLElement>('[data-roving="yes"]')?.focus();
+    root.querySelector<HTMLElement>('[aria-current="true"]')?.focus();
   }, [strip, current]);
 };
 

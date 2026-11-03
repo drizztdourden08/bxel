@@ -1,6 +1,6 @@
 /* @layer renderer-app @kind types */
 import type { AnimFrameId, AnimSpanTag, TagId } from '@bxel/document';
-import type { ReorderDrag, SelectionModel } from '@drizztdourden08/tessera';
+import type { VirtualListCellBind } from '@drizztdourden08/tessera';
 import type { RefObject } from 'react';
 import type { PixelIconName } from '../../icons/pixel-icon.type';
 import type { AnimationFocus, FrameCell, TagBar, TimelineModel } from '../../timeline/timeline.type';
@@ -73,10 +73,7 @@ interface RulerProps extends LayoutProps {
 interface FrameOptionProps extends DraftProps {
   cell: FrameCell;
   index: number;
-  total: number;
-  drag: ReorderDrag;
-  selection: SelectionModel;
-  mode: 'move' | 'copy' | 'link';
+  bind: VirtualListCellBind;
 }
 
 interface FrameThumbProps extends FocusProps {
