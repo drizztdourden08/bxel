@@ -11,11 +11,11 @@ const usage = {
   ],
   rules: [
     'It takes no props. It follows the zoom of the canvas and writes it back through the viewport handle.',
-    'The percent runs from 25 to 12800. Typing a value and pressing Enter or leaving the field applies it, Escape drops the draft.',
-    'The slider is logarithmic so each doubling takes the same width.',
+    'The percent runs from 25 to 12800. The field is a Tessera NumberField with step buttons and a ladder, so the buttons, the arrow keys and the wheel walk along the preset stops.',
+    'The slider uses the log scale so each doubling takes the same width.',
   ],
   a11y: [
-    'The field is named Zoom percent and marks a value it cannot read as invalid.',
+    'The field is named Zoom percent and its buttons are named Zoom out and Zoom in.',
     'Presets are toggle buttons that report which one is on.',
   ],
   tree: {
