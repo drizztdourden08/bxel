@@ -45,4 +45,6 @@ interface ShapeHold {
 
 type VertexSnap = 'centre' | 'corner';
 
-export type { Clip, DragKeys, DragShape, FixedMarquee, MarqueeRule, MatchKind, SampleSource, SelectVariant, ShapeHold, VertexSnap };
+type PasteColours = 'nearest' | 'keep';
+
+export type { Clip, DragKeys, DragShape, FixedMarquee, MarqueeRule, MatchKind, PasteColours, SampleSource, SelectVariant, ShapeHold, VertexSnap };

@@ -9,6 +9,7 @@ import { pasteClip } from '../../src/editor/selection/paste-clip';
 import { pasteCropped } from '../../src/editor/selection/paste-cropped';
 import { pasteInPlace } from '../../src/editor/selection/paste-in-place';
 import { usePasteChoiceStore } from '../../src/stores/usePasteChoiceStore';
+import { keepClip } from '../../src/editor/selection/keep-clip';
 import { remapClip } from '../../src/editor/selection/remap-clip';
 import { useReadoutStore } from '../../src/stores/useReadoutStore';
 import { usePendingStore } from '../../src/stores/usePendingStore';
@@ -87,5 +88,12 @@ describe('K3 the clip on the system clipboard', { tags: ['standard'] }, () => {
     expect(moved.changed).toBe(true);
     expect([...moved.clip.pixels]).toEqual([2, 1]);
     expect(remapClip(clip, TABLE, TABLE).changed).toBe(false);
+  });
+
+  it('keeps the indexes when asked, sending slots the palette lacks to transparent', () => {
+    const clip = { width: 3, height: 1, origin: { x: 0, y: 0 }, pixels: Uint8Array.from([1, 2, 5]), bits: Uint8Array.from([1, 1, 1]) };
+    const kept = keepClip(clip, TABLE);
+    expect(kept.changed).toBe(false);
+    expect([...kept.clip.pixels]).toEqual([1, 2, 0]);
   });
 });

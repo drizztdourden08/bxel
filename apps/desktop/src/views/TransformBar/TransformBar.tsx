@@ -11,6 +11,7 @@ import { actionItems } from './behavior/transform-items';
 import { useFocusRequest } from './behavior/useFocusRequest';
 import { useTransformBar } from './behavior/useTransformBar';
 import { ChoiceFields } from './sub-components/ChoiceFields';
+import { MirrorField } from './sub-components/MirrorField';
 import { NumberField } from './sub-components/NumberField';
 import { PivotField } from './sub-components/PivotField';
 import { SnapField } from './sub-components/SnapField';
@@ -32,6 +33,7 @@ const TransformBar = () => {
       <Button size="xs" variant="tertiary" aria-expanded={more} title={TRANSFORM_BAR_TEXT.moreHint} onClick={() => setMore(!more)}>{TRANSFORM_BAR_TEXT.more}</Button>
       {more && MORE_FIELDS.map((field) => <NumberField key={field} field={field} model={model} />)}
       {more && <SnapField />}
+      {more && <MirrorField />}
       {more && <PivotField model={model} />}
       {note !== null && <Text as="span" variant="caption" className="transform-bar__note">{note}</Text>}
       <Flex gap="xs" align="center" className="transform-bar__end">

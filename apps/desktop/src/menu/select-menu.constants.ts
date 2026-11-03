@@ -12,16 +12,16 @@ const SELECT_ENTRIES: readonly SelectEntry[] = [
   'separator',
   { id: ID.expand, label: 'Expand selection' },
   { id: ID.shrink, label: 'Shrink selection' },
-  { id: ID.border, label: 'Border selection' },
+  { id: ID.border, label: 'Border selection', icon: 'pixel-select-border' },
   { id: ID.smooth, label: 'Smooth selection' },
-  { id: ID.selectOpaque, label: 'Select opaque pixels' },
+  { id: ID.selectOpaque, label: 'Select opaque pixels', icon: 'pixel-select-opaque' },
   { id: ID.selectByFrame, label: 'Select by frame' },
   'separator',
   { id: ID.toGuides, label: 'Selection to guides' },
-  { id: SLICE.fromSelection, label: 'Selection to slice' },
-  { id: SLICE.toSelection, label: 'Slice to selection' },
-  { id: ID.quickMask, label: 'Quick mask' },
-  { id: ID.save, label: 'Saved selections...' },
+  { id: SLICE.fromSelection, label: 'Selection to slice', icon: 'pixel-slice' },
+  { id: SLICE.toSelection, label: 'Slice to selection', icon: 'pixel-slice' },
+  { id: ID.quickMask, label: 'Quick mask', icon: 'pixel-select-quick-mask' },
+  { id: ID.save, label: 'Saved selections...', icon: 'pixel-select-saved' },
 ];
 
 export { SELECT_ENTRIES };

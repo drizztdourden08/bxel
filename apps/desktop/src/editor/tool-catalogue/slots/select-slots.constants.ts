@@ -35,7 +35,7 @@ const SELECT_SLOTS: readonly ToolSlot[] = [
         tool: 'slice',
         label: 'Slice',
         description: 'Drag to cut a named slice out of the sprite, on the canvas or on the sheet. Click a slice to select it, drag its edges to resize it and double click it for its pivot and 9-slice centre.',
-        icon: 'pixel-select-rect',
+        icon: 'pixel-slice',
       },
     ],
   },

@@ -36,6 +36,7 @@ const editMenu = (state: EditorMenuState): MenuItem => {
   const stroke: MenuItem = {
     key: 'edit-stroke',
     label: 'Stroke selection',
+    icon: 'pixel-select-stroke',
     children: tidyMenu([item(ID.strokeInside, 'Inside the edge'), item(ID.strokeOutside, 'Outside the edge')]),
   };
   const transform = evaluate('menu.edit.transform', context).state === 'hidden' ? null : transformMenu(state);

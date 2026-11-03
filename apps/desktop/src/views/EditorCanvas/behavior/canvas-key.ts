@@ -2,6 +2,7 @@
 import type { KeyboardEvent } from 'react';
 import { gesture } from '../../../editor/gesture-state';
 import { ARROW_DELTAS } from '../../../editor/selection/selection.constants';
+import { nudgeOutlineKey } from '../../../editor/selection/nudge-outline-key';
 import { sliceKey } from '../../../slice/slice-key';
 import { nudgeOffset } from '../../../timeline/nudge-offset';
 import { nudgeStep } from '../../../editor/transform/nudge-step';
@@ -44,6 +45,7 @@ const canvasKey = (event: KeyboardEvent<HTMLElement>, context: KeyContext): void
     return;
   }
   nudgeKey(event);
+  nudgeOutlineKey(event);
   if (event.defaultPrevented || !plain(event)) return;
   if (handles(event, context)) event.preventDefault();
 };

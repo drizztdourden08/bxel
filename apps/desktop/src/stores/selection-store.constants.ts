@@ -17,6 +17,7 @@ const SELECTION_DEFAULTS: SelectionSettings = {
   fixedHeight: 16,
   mirror: true,
   vertexSnap: 'centre',
+  pasteColours: 'nearest',
   quickMask: false,
   owner: null,
   mask: null,

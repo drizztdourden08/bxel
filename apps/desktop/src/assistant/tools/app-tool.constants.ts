@@ -29,6 +29,8 @@ const APP_TOOL_TEXT = {
   noFrame: 'The frame is not in the active sprite. Call get_document.',
   noSelectionTarget: 'There is no sprite to select in. Focus a document tab first.',
   wandOutside: 'The point is outside the sprite.',
+  noSavedSelection: (name: string) => `No saved selection is called "${name}" on this sprite. Call get_document for the names.`,
+  savedResized: (name: string) => `The saved selection "${name}" was made for another canvas size.`,
   noMapSelectionTarget: 'There is no tilemap to select cells in. Focus a tilemap tab first.',
   noHistory: 'The document is not open.',
   playbackNeedsAnimation: 'Playback needs an animation tab.',
