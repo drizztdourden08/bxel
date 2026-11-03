@@ -2,8 +2,8 @@
 const NAVIGATOR_TEXT = {
   region: 'Navigator',
   area: 'Visible area',
-  roleDescription: 'visible area of the image',
-  hint: 'Drag the frame to pan. Click to centre. Arrow keys move it, Plus and Minus zoom, the wheel zooms.',
+  selection: 'Selection',
+  otherView: 'Other view',
   empty: 'Open an asset to see its overview.',
   caption: (width: number, height: number, percent: number): string => `${width} x ${height} px, ${percent}% shown`,
   describe: (view: { left: number; top: number; right: number; bottom: number; width: number; height: number; percent: number }): string =>

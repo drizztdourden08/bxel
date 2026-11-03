@@ -12,14 +12,14 @@ const usage = {
     { case: 'A picture that does not follow a canvas.', use: 'Image' },
   ],
   rules: [
-    'It takes no props. It reads the view the canvas last painted from the view feed store and moves the canvas through the viewport handle.',
-    'Drag the frame to pan, click outside it to centre there, turn the wheel over it to zoom.',
-    'The picture is the real image of the asset, scaled to fit, with the selection as a dashed box.',
+    'It takes no props. It reads the view the canvas last painted from the view feed store and moves the canvas through the viewport handle. The map is a Tessera Navigator.',
+    'Drag the frame to pan, click outside it to centre there, turn the wheel over it to zoom at that point.',
+    'The picture is the real image of the asset, scaled to fit. The selection is a dashed box and the other view of a split is a dotted box.',
   ],
   a11y: [
-    'The picture is one Tab stop, an application region named Visible area.',
-    'Arrow keys move the frame by an eighth of its size, Shift by a whole frame. Plus and Minus zoom and Home fits.',
-    'The visible range and the zoom are written as text under the picture.',
+    'The frame is one Tab stop, a slider named Visible area, and a screen reader hears the visible range and the zoom with it.',
+    'Arrow keys move the frame by an eighth of its width, Shift by five times that. Plus and Minus zoom and Home fits.',
+    'The zoom and the share shown are written as text under the picture.',
   ],
   tree: {
     path: ['data', 'a drawing', 'in pixels'],

@@ -17,4 +17,6 @@ const feedView = (view: PixelView | null, source: PixelSource | undefined): void
   });
 };
 
-export { feedView };
+const feedOtherView = (view: PixelView | null): void => useViewFeedStore.getState().publishOther(view);
+
+export { feedOtherView, feedView };

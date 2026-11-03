@@ -17,4 +17,11 @@ interface ImageRect {
   height: number;
 }
 
-export type { ImageRect, ThumbBox, ThumbSize };
+interface NavigatorFacts extends ImageRect {
+  imageWidth: number;
+  imageHeight: number;
+  said: string;
+  percent: number;
+}
+
+export type { ImageRect, NavigatorFacts, ThumbBox, ThumbSize };

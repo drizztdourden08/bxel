@@ -4,9 +4,11 @@ import type { ViewFeedState } from './view-feed-store.type';
 
 const useViewFeedStore = create<ViewFeedState>()((set) => ({
   view: null,
+  other: null,
   source: undefined,
   frame: 0,
   publish: (view, source) => set((state) => ({ view, source, frame: state.frame + 1 })),
+  publishOther: (other) => set({ other }),
 }));
 
 export { useViewFeedStore };

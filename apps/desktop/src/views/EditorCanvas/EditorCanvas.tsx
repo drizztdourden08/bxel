@@ -35,7 +35,7 @@ import { RulerBars } from './sub-components/RulerBars';
 import { SplitCanvas } from './sub-components/SplitCanvas';
 import { paintOverlay } from './behavior/paint-overlay';
 import './EditorCanvas.css';
-import { feedView } from '../../view-feed/feed-view';
+import { feedOtherView, feedView } from '../../view-feed/feed-view';
 
 const EditorCanvas = () => {
   const target = useEditorTarget();
@@ -84,7 +84,7 @@ const EditorCanvas = () => {
       <CanvasOverlays source={shown} viewport={viewport} />
     </PixelViewport>
   );
-  const other = <PixelViewport ref={second} {...common} {...tools.forView(second)} {...views.second} draw={paintOverlay} under={paintReferencesUnder} onPointerPixel={secondReadout.onPointerPixel} />;
+  const other = <PixelViewport ref={second} {...common} {...tools.forView(second)} {...views.second} draw={paintOverlay} under={paintReferencesUnder} onView={feedOtherView} onPointerPixel={secondReadout.onPointerPixel} />;
   return (
     <CanvasFrame className={canvasClass(flags.rulers)} spriteId={target?.sprite.id ?? null} onBlur={keys.onBlur} onKeyUp={keys.onKeyUp}>
       {flags.rulers && <RulerBars />}

@@ -1,65 +1,59 @@
 /* @layer renderer-app @kind component */
-import { Box, Canvas, Text } from '@drizztdourden08/tessera';
-import { useId, useMemo, useRef } from 'react';
+import { Box, Canvas, Navigator as TesseraNavigator, Text } from '@drizztdourden08/tessera';
+import { useMemo, useRef } from 'react';
 import { useElementStyle } from '../../hooks/useElementStyle';
-import { useViewFeedStore } from '../../stores/useViewFeedStore';
 import { useSelectionRect } from '../../view-zoom/useSelectionRect';
-import { navigatorKey } from './behavior/navigator-key';
 import { fitThumb } from './behavior/fit-thumb';
+import { moveView } from './behavior/move-view';
+import { navigatorKey } from './behavior/navigator-key';
+import { navigatorOverlays } from './behavior/navigator-overlays';
 import { useNavigatorDraw } from './behavior/useNavigatorDraw';
-import { useNavigatorPointer } from './behavior/useNavigatorPointer';
-import { useNavigatorWheel } from './behavior/useNavigatorWheel';
+import { useNavigatorFacts } from './behavior/useNavigatorFacts';
+import { useOtherViewRect } from './behavior/useOtherViewRect';
 import { useStageSize } from './behavior/useStageSize';
-import { describeView } from './behavior/describe-view';
-import { shownPercent } from './behavior/shown-percent';
-import { NAVIGATOR_TEXT } from './Navigator.constants';
+import { wheelZoom } from './behavior/wheel-zoom';
+import { NAVIGATOR_KEY_SHARE, NAVIGATOR_TEXT } from './Navigator.constants';
 import './Navigator.css';
 
 const Navigator = () => {
-  const hintId = useId();
   const stage = useRef<HTMLDivElement>(null);
   const thumbBox = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
-  const frame = useRef<HTMLDivElement>(null);
-  const mark = useRef<HTMLDivElement>(null);
   const box = useStageSize(stage);
-  const width = useViewFeedStore((state) => state.view?.imageWidth ?? 0);
-  const height = useViewFeedStore((state) => state.view?.imageHeight ?? 0);
-  const said = useViewFeedStore((state) => (state.view ? describeView(state.view) : ''));
-  const percent = useViewFeedStore((state) => (state.view ? shownPercent(state.view) : 100));
+  const facts = useNavigatorFacts();
+  const selection = useSelectionRect();
+  const other = useOtherViewRect();
+  const width = facts?.imageWidth ?? 0;
+  const height = facts?.imageHeight ?? 0;
   const thumb = useMemo(() => (width > 0 && height > 0 && box.width > 0 ? fitThumb({ width, height }, box) : null), [width, height, box]);
-  const parts = useMemo(() => ({ canvas, frame, mark }), []);
-  useNavigatorDraw(parts, thumb, useSelectionRect());
-  useNavigatorWheel(thumbBox);
-  const pointer = useNavigatorPointer(thumb?.scale ?? 1);
+  const overlays = useMemo(() => navigatorOverlays(selection, other), [selection, other]);
+  useNavigatorDraw(canvas, thumb);
   useElementStyle(thumbBox, thumb ? { 'inline-size': `${thumb.width}px`, 'block-size': `${thumb.height}px` } : {});
   return (
     <Box className="view-map" role="group" aria-label={NAVIGATOR_TEXT.region}>
       <Box ref={stage} className="view-map__stage">
-        {thumb ? (
-          <Box
-            ref={thumbBox}
-            className="view-map__thumb"
-            tabIndex={0}
-            role="application"
-            aria-roledescription={NAVIGATOR_TEXT.roleDescription}
-            aria-label={NAVIGATOR_TEXT.area}
-            aria-describedby={hintId}
-            onKeyDown={(event) => {
-              if (navigatorKey(event.key, event.shiftKey)) event.preventDefault();
-            }}
-            {...pointer}
-          >
-            <Canvas ref={canvas} className="view-map__canvas" aria-hidden="true" />
-            <Box ref={mark} className="view-map__mark" hidden aria-hidden="true" />
-            <Box ref={frame} className="view-map__frame" hidden aria-hidden="true" />
+        {thumb && facts ? (
+          <Box ref={thumbBox} className="view-map__thumb">
+            <TesseraNavigator
+              className="view-map__navigator"
+              label={NAVIGATOR_TEXT.area}
+              surface={{ width, height }}
+              viewport={facts}
+              step={Math.max(1, facts.width * NAVIGATOR_KEY_SHARE)}
+              overlays={overlays}
+              describe={facts.said}
+              onViewportChange={moveView}
+              onWheelZoom={wheelZoom}
+              onKey={(event) => navigatorKey(event.key)}
+            >
+              <Canvas ref={canvas} className="view-map__canvas" aria-hidden="true" />
+            </TesseraNavigator>
           </Box>
         ) : (
           <Text variant="caption" tone="muted">{NAVIGATOR_TEXT.empty}</Text>
         )}
       </Box>
-      <Text as="span" id={hintId} className="visually-hidden">{thumb ? said : NAVIGATOR_TEXT.hint}</Text>
-      {thumb && <Text as="span" variant="caption" tone="muted" className="view-map__caption" aria-hidden="true">{NAVIGATOR_TEXT.caption(width, height, percent)}</Text>}
+      {thumb && facts && <Text as="span" variant="caption" tone="muted" className="view-map__caption" aria-hidden="true">{NAVIGATOR_TEXT.caption(width, height, facts.percent)}</Text>}
     </Box>
   );
 };
