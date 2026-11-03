@@ -2,6 +2,7 @@
 import { Box, ScrubRuler } from '@drizztdourden08/tessera';
 import { useTimelineStore } from '../../../stores/useTimelineStore';
 import { changeOnion } from '../behavior/change-onion';
+import { onionBand } from '../behavior/onion-band';
 import { onionMarkers } from '../behavior/onion-markers';
 import { rulerBand } from '../behavior/ruler-band';
 import { scrubTo } from '../behavior/scrub-to';
@@ -27,6 +28,8 @@ const TimelineRuler = ({ focus, layout }: RulerProps) => {
         tickLabel={(index) => tickLabel(frames, index, timeMode, units)}
         markers={onionMarkers(onion, current, frames.length - 1)}
         band={rulerBand(frames, loopRange)}
+        secondBand={onionBand(onion, current, frames.length - 1)}
+        compact
         bandLabel={({ from, to }) => TIMELINE_PANEL_TEXT.loopRange(from + 1, to + 1)}
         onChange={(index) => scrubTo(frames, index)}
         onMarkerChange={(id, index) => changeOnion(id, index, current)}

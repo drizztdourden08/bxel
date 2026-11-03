@@ -3,6 +3,7 @@ import { findBank } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ONION_DEFAULTS } from '../../src/stores/timeline-store.constants';
 import type { OnionSettings } from '../../src/stores/timeline-store.type';
+import { onionBand } from '../../src/views/TimelinePanel/behavior/onion-band';
 import { addTag } from '../../src/timeline/add-tag';
 import { edgeMask } from '../../src/timeline/edge-mask';
 import { hexRgb } from '../../src/timeline/hex-rgb';
@@ -103,5 +104,17 @@ describe('S2 the ghost pixels', { tags: ['standard'] }, () => {
     expect(mask[0]).toBe(1);
     expect(hexRgb('#e04848')).toEqual([224, 72, 72]);
     expect(hexRgb('nonsense')).toEqual([128, 128, 128]);
+  });
+});
+
+describe('S2 the onion range on the ruler', { tags: ['standard'] }, () => {
+  it('spans the frames before and after the current one, kept inside the strip', () => {
+    expect(onionBand(settings({ before: 2, after: 1 }), 3, 9)).toEqual({ from: 1, to: 4 });
+    expect(onionBand(settings({ before: 3, after: 3 }), 1, 4)).toEqual({ from: 0, to: 4 });
+  });
+
+  it('shows no band while the onion skin is off or no frame is current', () => {
+    expect(onionBand({ ...settings(), on: false }, 2, 9)).toBeNull();
+    expect(onionBand(settings(), -1, 9)).toBeNull();
   });
 });

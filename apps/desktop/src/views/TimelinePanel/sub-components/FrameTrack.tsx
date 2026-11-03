@@ -11,6 +11,7 @@ import { dropLabel } from '../behavior/drop-label';
 import { keyOwner } from '../behavior/key-owner';
 import { trackRects } from '../behavior/track-rects';
 import { useFrameSelection } from '../behavior/useFrameSelection';
+import { useKeepCurrentVisible } from '../behavior/useKeepCurrentVisible';
 import { useStripFocus } from '../behavior/useStripFocus';
 import { useTrackDrop } from '../behavior/useTrackDrop';
 import { END_GUTTER } from '../TimelinePanel.constants';
@@ -37,7 +38,9 @@ const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackPro
       if (ids.length > 0) selectFrameIds(ids, ids.includes(focus.frame.id) ? focus.frame.id : undefined);
     },
   });
+  const currentIndex = model.cells.findIndex((cell) => cell.id === focus.frame.id);
   useStripFocus(rootRef, focus.frame.id);
+  useKeepCurrentVisible(list, currentIndex, layout.total);
   return (
     <Box
       ref={trackRef}
@@ -51,6 +54,8 @@ const FrameTrack = ({ focus, model, layout, thumb, onDraft, scroller }: TrackPro
         scrollRef={rootRef}
         className="frame-list"
         orientation="horizontal"
+        scrollParent={scroller}
+        initialFocusIndex={Math.max(0, currentIndex)}
         label={TIMELINE_TEXT.strip}
         items={model.cells}
         getKey={(cell) => cell.id}
