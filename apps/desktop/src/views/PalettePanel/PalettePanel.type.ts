@@ -173,7 +173,7 @@ interface GridKeyContext {
   index: number;
 }
 
-type SwatchGridProps = Pick<VirtualGridProps<PaletteSlot>, 'label' | 'getKey' | 'density' | 'tileSize' | 'selection' | 'reorder' | 'onWheelSize' | 'onActiveChange'> & { items: readonly PaletteSlot[] };
+type SwatchGridProps = Pick<VirtualGridProps<PaletteSlot>, 'label' | 'getKey' | 'density' | 'tileSize' | 'selection' | 'reorder' | 'onWheelSize' | 'onActiveChange' | 'tileProps'> & { items: readonly PaletteSlot[] };
 
 interface SwatchGridModel {
   handle: RefObject<VirtualGridHandle | null>;

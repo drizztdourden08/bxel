@@ -33,6 +33,7 @@ const useSwatchGrid = (panel: PanelModel): SwatchGridModel => {
       if (size !== view.size) view.change({ size });
     },
     onActiveChange: selection.setFocus,
+    tileProps: (slot: PaletteSlot) => (panel.hinted === slot.index ? { className: 'swatch-grid__tile--hinted' } : {}),
     ...(lock.locked ? {} : { reorder: { onMove: (move: VirtualGridMove) => moveInGrid(panel, move) } }),
   };
   return { handle, props, reveal };

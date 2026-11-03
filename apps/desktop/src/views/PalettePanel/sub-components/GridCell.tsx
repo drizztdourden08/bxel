@@ -16,7 +16,6 @@ const GridCell = ({ slot, panel, cell }: GridCellProps) => {
   const marks = swatchMarks(index, panel.held);
   const use = usageText(panel, index);
   const unused = panel.usage !== null && index > 0 && !slot.transparent && (panel.usage.slots[index]?.pixels ?? 0) === 0;
-  const hinted = panel.hinted === index ? ' swatch-grid__tile--hinted' : '';
   const onPointerUp = (event: PointerEvent<HTMLElement>) => {
     if (heldDrop(event, index) || copyDrop(panel, event, index)) cell.onPointerCancel?.();
     else cell.onPointerUp?.(event);
@@ -24,7 +23,6 @@ const GridCell = ({ slot, panel, cell }: GridCellProps) => {
   return (
     <ColorSwatch
       {...cell}
-      className={`${cell.className} swatch-grid__tile${hinted}`}
       color={slot.hex}
       marks={panel.view.size === MARKLESS_SWATCH_SIZE ? undefined : cornerMarks(marks)}
       transparent={slot.transparent}

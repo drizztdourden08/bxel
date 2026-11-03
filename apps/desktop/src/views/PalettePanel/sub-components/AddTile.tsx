@@ -11,7 +11,7 @@ const AddTile = ({ panel, cell, reveal }: AddTileProps) => {
   const label = reason === '' ? PALETTE_PANEL_TEXT.add : `${PALETTE_PANEL_TEXT.add}. ${reason}`;
   return (
     <ActionHint hint={{ name: PALETTE_PANEL_TEXT.add, description: reason === '' ? PALETTE_PANEL_TEXT.addHint : reason }} placement="top" className="swatch-grid__add">
-      <IconButton {...cell} label={label} size="xs" variant="secondary" className={`${cell.className} swatch-grid__add-button`} disabled={reason !== ''} onClick={() => addColour(panel, reveal)}>
+      <IconButton {...cell} data-tile-look="dashed" label={label} size="xs" variant="secondary" disabled={reason !== ''} onClick={() => addColour(panel, reveal)}>
         <Icon name="plus" size={12} />
       </IconButton>
     </ActionHint>
