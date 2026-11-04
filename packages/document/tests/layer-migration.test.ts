@@ -12,12 +12,13 @@ const SPRITE_ENTRY = 'sprite.json';
 
 const asVersion3 = (bytes: Uint8Array, lockFirst: boolean): Uint8Array => {
   const file = JSON.parse(strFromU8(unzipSync(bytes)[SPRITE_ENTRY] ?? new Uint8Array())) as SpriteFile;
-  file.sprite.layers = file.sprite.layers.map(({ lock, ...rest }, at) => ({
+  const layers = file.sprite.layers.map(({ lock, ...rest }, at) => ({
     ...rest,
     locked: lockFirst && at === 0 ? true : lock.pixels,
     ...(lockFirst && at === 0 ? { lockTransparency: true } : {}),
   }));
-  return editManifest(replaceEntry(bytes, SPRITE_ENTRY, strToU8(JSON.stringify(file))), (manifest) => {
+  const oldFile = { ...file, sprite: { ...file.sprite, layers } };
+  return editManifest(replaceEntry(bytes, SPRITE_ENTRY, strToU8(JSON.stringify(oldFile))), (manifest) => {
     manifest.formatVersion = 3;
     manifest.minReaderVersion = 2;
   });

@@ -4,7 +4,7 @@ For the Tessera lead. This is what Bxel still asks Tessera to build, checked aga
 
 Sources: the "Tessera asks" parts of the specs in `.claude/plans/redesign/*.md`, the 0.88 to 0.95 release notes, the guide pages and types in the package, and the stand-in code under `apps/desktop/src/views`. Names below follow Tessera style: arrow components, props typed, nothing app specific in a prop name.
 
-## Summary
+## Asked parts
 
 | # | Part | 0.95 has | Ask |
 |---|---|---|---|
