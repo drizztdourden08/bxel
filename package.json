@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@drizztdourden08/brock-build": "^0.117.0",
-    "@drizztdourden08/brock-lint-config": "^0.117.0",
-    "@drizztdourden08/brock-thread": "^0.117.0",
+    "@drizztdourden08/brock-build": "^0.118.2",
+    "@drizztdourden08/brock-lint-config": "^0.118.2",
+    "@drizztdourden08/brock-thread": "^0.118.2",
     "@drizztdourden08/standards": "^0.14.0",
     "jscpd": "catalog:",
     "knip": "^5.65.0",
@@ -29,7 +29,7 @@
     "structure": "brock structure --check"
   },
   "brock": {
-    "version": "0.117.0"
+    "version": "0.118.2"
   },
   "packageManager": "pnpm@10.17.0",
   "bin": {
