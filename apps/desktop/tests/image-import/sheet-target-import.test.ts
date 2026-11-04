@@ -2,24 +2,12 @@
 import { COMMAND_NAME } from '@bxel/document';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { FORM_BASE } from '../../src/image-import/image-import.constants';
-import type { ImportRun } from '../../src/image-import/image-import.type';
 import { importSteps } from '../../src/image-import/import-steps';
 import { useImportStore } from '../../src/stores/useImportStore';
+import { importRun } from './import-run';
 
-const image = { fileName: 'hero.png', width: 4, height: 2, data: new Uint8ClampedArray(4 * 2 * 4).fill(255) };
-
-const run: ImportRun = {
-  form: { ...FORM_BASE, kind: 'sprite', target: 'file', name: 'hero' },
-  image,
-  plan: { palette: [], transparent: true, limit: 16, bank: null, bankId: 'bank-1', dropped: 0 },
-  rects: [
-    { index: 0, x: 0, y: 0, width: 2, height: 2 },
-    { index: 1, x: 2, y: 0, width: 2, height: 2 },
-  ],
-  names: ['hero_1', 'hero_2'],
-  context: { documentId: null, bank: null, taken: [], animationNames: [], sheetNames: [], tilesetNames: [], tilemapNames: [], spriteCount: 0 },
-  tiled: null,
-};
+const run = importRun('hero.png', { ...FORM_BASE, kind: 'sprite', target: 'file', name: 'hero' }, 'bank-1', ['hero_1', 'hero_2']);
+const { image } = run;
 
 describe('H1 an image dropped on the sheet puts its sprites on that sheet', { tags: ['standard'] }, () => {
   beforeEach(() => useImportStore.getState().hide());

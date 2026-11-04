@@ -10,13 +10,9 @@ import { isTransparentSlot } from '../../editor/selection/is-transparent-slot';
 import { matchRule } from '../../editor/selection/match-rule';
 import { maskOfRuns } from './mask-of-runs';
 import type { BaseDescriptor, MaskDescriptor } from './mask-descriptor.type';
+import { rectCorners } from './rect-corners';
 import { opaqueMask } from './opaque-mask';
 import { DEFAULT_DISTANCE } from './resolve-mask-descriptor.constants';
-
-const corners = (rect: { x: number; y: number; width: number; height: number }) => ({
-  from: { x: rect.x, y: rect.y },
-  to: { x: rect.x + rect.width - 1, y: rect.y + rect.height - 1 },
-});
 
 const firstSprite = (artwork: Artwork, targets: unknown): Sprite | undefined => {
   const ids = typeof targets === 'object' && targets !== null && 'sprites' in targets && Array.isArray(targets.sprites) ? targets.sprites : [];
@@ -46,8 +42,8 @@ const byPicture = (descriptor: BaseDescriptor, sprite: Sprite, bank: PaletteBank
 };
 
 const byShape = (descriptor: BaseDescriptor, sprite: Sprite): MaskView | null => {
-  if (descriptor.by === 'rect') return rectMask(sprite, corners(descriptor.rect));
-  if (descriptor.by === 'ellipse') return ellipseMask(sprite, corners(descriptor.rect));
+  if (descriptor.by === 'rect') return rectMask(sprite, rectCorners(descriptor.rect));
+  if (descriptor.by === 'ellipse') return ellipseMask(sprite, rectCorners(descriptor.rect));
   if (descriptor.by === 'polygon') return polygonMask(sprite, descriptor.points);
   return descriptor.by === 'runs' ? maskOfRuns(descriptor.runs, sprite) : null;
 };

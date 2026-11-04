@@ -12,16 +12,7 @@ import { toolContext } from '../project/tool-context';
 const state = vi.hoisted((): { key: string | null; views: Record<string, { guideColours: Record<string, string> }> } => ({ key: 'view', views: {} }));
 
 vi.mock('../../src/reference-image/current-view-key', () => ({ currentViewKey: () => state.key }));
-vi.mock('../../src/stores/useAssetViewStore', () => ({
-  useAssetViewStore: {
-    getState: () => ({
-      views: state.views,
-      patch: (key: string, change: { guideColours: Record<string, string> }) => {
-        state.views[key] = { ...state.views[key], ...change };
-      },
-    }),
-  },
-}));
+vi.mock('../../src/stores/useAssetViewStore', async () => (await import('./guide-views-mock')).guideViewsMock(state));
 
 const run = (guideColours: { axis: 'x' | 'y'; position: number; colour: string | null }[]) => {
   const { host } = useDocumentStore.getState();

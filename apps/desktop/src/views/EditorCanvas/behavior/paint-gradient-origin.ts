@@ -1,4 +1,5 @@
 /* @layer renderer-app @kind logic */
+import { strokeCross } from '../../../canvas-look/stroke-cross';
 import { gradientOriginShown } from '../../../editor/gradient-origin-shown';
 import { ORIGIN_ARM } from '../../../editor/gradient-origin.constants';
 import { useDrawingStore } from '../../../stores/useDrawingStore';
@@ -12,12 +13,7 @@ const paintGradientOrigin = (ctx: CanvasRenderingContext2D, view: PixelView, loo
   ctx.save();
   ctx.strokeStyle = look.cursor;
   ctx.lineWidth = 2 / view.zoom;
-  ctx.beginPath();
-  ctx.moveTo(x - arm, y);
-  ctx.lineTo(x + arm, y);
-  ctx.moveTo(x, y - arm);
-  ctx.lineTo(x, y + arm);
-  ctx.stroke();
+  strokeCross(ctx, x, y, arm);
   ctx.beginPath();
   ctx.arc(x, y, arm / 2, 0, Math.PI * 2);
   ctx.stroke();

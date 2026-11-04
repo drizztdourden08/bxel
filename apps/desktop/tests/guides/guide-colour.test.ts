@@ -8,16 +8,7 @@ import { setGuideColour } from '../../src/guides/set-guide-colour';
 const state = vi.hoisted((): { views: Record<string, { guideColours: Record<string, string> }> } => ({ views: {} }));
 
 vi.mock('../../src/reference-image/current-view-key', () => ({ currentViewKey: () => 'view' }));
-vi.mock('../../src/stores/useAssetViewStore', () => ({
-  useAssetViewStore: {
-    getState: () => ({
-      views: state.views,
-      patch: (key: string, change: { guideColours: Record<string, string> }) => {
-        state.views[key] = { ...state.views[key], ...change };
-      },
-    }),
-  },
-}));
+vi.mock('../../src/stores/useAssetViewStore', async () => (await import('./guide-views-mock')).guideViewsMock(state));
 
 describe('W8b guide colours', { tags: ['critical'] }, () => {
   beforeEach(() => {
