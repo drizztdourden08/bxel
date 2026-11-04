@@ -50,7 +50,7 @@ describe('E1 recovery after a crash', { tags: ['e2e'] }, () => {
     expect(drawn.some((index) => index !== 0)).toBe(true);
     await expect.poll(async () => (await listRecoverySnapshots(join(dir, 'profile'))).length, { timeout: SNAPSHOT_WAIT_MS, message: 'a recovery snapshot is written' }).toBeGreaterThan(0);
     const pid = first.app.process().pid ?? 0;
-    spawnSync('taskkill', ['/F', '/T', '/PID', String(pid)]);
+    spawnSync('taskkill', ['/F', '/T', '/PID', String(pid)], { windowsHide: true });
     await new Promise((done) => setTimeout(done, 1500));
     const second = await launch(join(dir, 'profile'));
     try {

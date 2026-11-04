@@ -12,7 +12,7 @@ const signalled = (target: number): boolean => {
 
 const killTree = (pid: number): void => {
   if (process.platform === 'win32') {
-    spawnSync('taskkill', ['/F', '/T', '/PID', String(pid)]);
+    spawnSync('taskkill', ['/F', '/T', '/PID', String(pid)], { windowsHide: true });
     return;
   }
   if (!signalled(-pid)) signalled(pid);

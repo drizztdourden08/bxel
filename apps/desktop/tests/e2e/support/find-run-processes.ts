@@ -8,9 +8,9 @@ const powershellOf = (marker: string): string =>
 
 const listing = (marker: string): string => {
   if (process.platform === 'win32') {
-    return spawnSync('powershell', ['-NoProfile', '-NonInteractive', '-Command', powershellOf(marker)], { encoding: 'utf8' }).stdout;
+    return spawnSync('powershell', ['-NoProfile', '-NonInteractive', '-Command', powershellOf(marker)], { encoding: 'utf8', windowsHide: true }).stdout;
   }
-  const rows = spawnSync('ps', ['-eo', 'pid=,comm=,args='], { encoding: 'utf8' }).stdout.split('\n');
+  const rows = spawnSync('ps', ['-eo', 'pid=,comm=,args='], { encoding: 'utf8', windowsHide: true }).stdout.split('\n');
   return rows
     .filter((row) => row.includes(marker))
     .map((row) => row.trim().split(/\s+/).slice(0, 2).join('|'))
